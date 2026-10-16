@@ -10,6 +10,9 @@ enum AppInfo {
     static let name = "Greenshot for Mac (Community)"
     static let upstreamURL = URL(string: "https://getgreenshot.org/")!
     static let upstreamSourceURL = URL(string: "https://github.com/greenshot/greenshot")!
+    static let helpURL = URL(string: "https://getgreenshot.org/help/")!
+    static let repositoryURL = URL(string: "https://github.com/HengYpinn/greenshot-mac")!
+    static let issuesURL = URL(string: "https://github.com/HengYpinn/greenshot-mac/issues")!
 }
 
 /// A menu item that runs a closure.

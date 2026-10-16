@@ -146,7 +146,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             let window = NSApp.keyWindow ?? NSApp.mainWindow
             return window?.windowController is EditorWindowController
         }
+        if menuItem.action == #selector(openClipboard(_:)) {
+            return NSImage.canInit(with: .general)
+        }
         return true
+    }
+
+    @objc func openHelp(_ sender: Any?) {
+        NSWorkspace.shared.open(AppInfo.helpURL)
+    }
+
+    @objc func reportIssue(_ sender: Any?) {
+        NSWorkspace.shared.open(AppInfo.issuesURL)
     }
 
     @objc func openUpstreamWebsite(_ sender: Any?) {
