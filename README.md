@@ -24,11 +24,11 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Editor: speech bubble, emoji | ✅ | ✅ (any emoji through the macOS Character Viewer) |
 | Editor: highlight (text marker, area, grayscale, magnify) | ✅ | ✅ |
 | Editor: obfuscate (pixelate, blur), obfuscate text found by OCR | ✅ | ✅ |
-| Editor: image element (paste, drop, insert window), cut marks | ✅ | ✅ (cut marks horizontal only) |
+| Editor: image element (paste, drop, insert window), cut marks | ✅ | ✅ |
 | Editor: cut/copy/paste/duplicate, multi-select, arrange, save/load elements | ✅ | ✅ (element files are not compatible with Windows) |
 | Editor: font family, text alignment, counter start, crop, undo/redo, remembered styles | ✅ | ✅ |
-| Effects: torn edges, border, drop shadow, grayscale, invert, with settings dialogs | ✅ | ✅ (the torn edges' own shadow uses the default settings) |
-| Image: resize, rotate, enlarge/shrink canvas, clear background, remove transparency, auto crop, adjust | ✅ | ✅ (vertical/horizontal cut-out not yet) |
+| Effects: torn edges, border, drop shadow, grayscale, invert, with settings dialogs | ✅ | ✅ |
+| Image: resize, rotate, enlarge/shrink canvas, clear background, remove transparency, auto crop, cut-out, adjust | ✅ | ✅ |
 | Capture screen: info panel, selection preview, window details, mouse pointer | ✅ | ✅ |
 | Fixed-size and text (OCR) capture modes, QR codes on the capture screen | ✅ | ✅ (Vision instead of Windows OCR / Zxing) |
 | Print options (colours, footer, shrink/enlarge/rotate/center) | ✅ | ✅ |
@@ -131,17 +131,19 @@ A speech bubble is a text box with a tail: drag the handle at the tip of the tai
 the bubble to edit its text. An emoji is placed with a click; pick another one in the bar at the top or by
 double-clicking it, and resize it at its corners.
 
-Shift-click selects several elements; ⌘X/⌘C/⌘V/⌘D cut, copy, paste and duplicate them (⌘C copies the image when
-nothing is selected), ⌘A selects all. Paste an image, drop image files on the canvas or use Edit › Insert Window to
+Shift-click selects several elements, or drag a rubber band over them with the Select tool; ⌘X/⌘C/⌘V/⌘D cut,
+copy, paste and duplicate them (⌘C copies the image when nothing is selected), ⌘A selects all. Paste an image, drop image files on the canvas or use Edit › Insert Window to
 add pictures as elements. The Object menu lists the tools, Arrange moves elements up and down, and Save Elements… /
 Load Elements… keep the elements in a `.greenshot-elements` file. A cut mark (K) is a band across the picture with
-torn, wavy, zig-zag or straight edges.
+torn, wavy, zig-zag or straight edges; cutting columns out makes one down the picture.
 
 The Image menu (and the top bar) changes the whole screenshot: Effects (torn edges, border, drop shadow, grayscale,
 invert; Drop Shadow and Torn Edges ask for their settings), Adjust…, Resize… (⌥⌘R), Rotate (⌥⌘→ / ⌥⌘←), Enlarge
 and Shrink Canvas (⌥⌘= / ⌥⌘−), Clear Background (⌘⌫), Remove Transparency, Obfuscate Text… (finds text with
-text recognition and covers every match), Auto Crop (⌥⌘A) and crop to the selected rows or columns. Each is one
-undo step; the elements stay editable and move along.
+text recognition and covers every match; pixel size, blur radius, magnification and highlight colour are in the
+dialog), Auto Crop (⌥⌘A) and Cut Out the Selected Rows or Columns (the rows or columns of the crop selection are cut
+out and the sides joined, with an optional cut mark over the joint chosen in the crop bar). Each is one undo step;
+the elements stay editable and move along.
 
 ### Destinations
 
