@@ -25,7 +25,31 @@ final class EditorManager {
     }
 
     func open(_ capture: Capture) {
+        if settings.value.reuseEditor, let editor = frontEditor(), editor.confirmReplace() {
+            // Upstream `EditorDestination` reuses an open editor. A new capture is always unsaved here, so instead of
+            // skipping changed editors (upstream) the front one asks to save first; Cancel opens a new editor.
+            editor.show(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
+            guard let window = editor.window else { return }
+            window.makeKeyAndOrderFront(nil)
+            window.orderFrontRegardless()
+            NSApp.activate()
+            return
+        }
         open(EditorDocument(image: capture.image, scale: capture.scale, title: capture.title, captureDate: capture.date))
+    }
+
+    /// The front-most editor.
+    private func frontEditor() -> EditorWindowController? {
+        NSApp.orderedWindows.lazy.compactMap { window in self.controllers.first { $0.window === window } }.first
+            ?? controllers.last
+    }
+
+    /// Closes every editor, asking about each changed screenshot; stops when the user cancels.
+    func closeAll() {
+        for controller in controllers {
+            guard controller.confirmCloseBeforeQuit() else { return }
+            controller.window?.close()
+        }
     }
 
     func open(fileURL: URL) {
@@ -78,6 +102,7 @@ final class EditorManager {
             self?.controllers.removeAll { $0 === closed }
             self?.onWindowsChange?()
         }
+        controller.onCloseAll = { [weak self] in self?.closeAll() }
         controllers.append(controller)
         onWindowsChange?()
         guard let window = controller.window else { return }

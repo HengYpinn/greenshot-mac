@@ -6,11 +6,12 @@
 import AppKit
 import Carbon.HIToolbox
 import GreenshotCore
+import UniformTypeIdentifiers
 
 /// The drawing surface of the editor (upstream `Surface`). The view is sized in points; the document works in
 /// image pixels, so a Retina capture shows at its real size.
 @MainActor
-final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
+final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preconcurrency NSTextInputClient {
     let document: EditorDocument
     /// The style new elements of a kind get (the last used one).
     var styleProvider: (AnnotationKind) -> AnnotationStyle = { .defaults(for: $0) }
@@ -35,13 +36,19 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         }
     }
 
-    private(set) var selectedID: UUID? {
+    /// The selected elements, in the order they were selected; the last one is the primary one, whose properties
+    /// the property bar shows (upstream selects several with Shift-click or Select All).
+    private(set) var selectedIDs: [UUID] = [] {
         didSet {
-            guard oldValue != selectedID else { return }
+            guard oldValue != selectedIDs else { return }
             needsDisplay = true
             onSelectionChange?()
         }
     }
+
+    /// The primary selected element.
+    var selectedID: UUID? { selectedIDs.last }
+    private var selectedSet: Set<UUID> { Set(selectedIDs) }
 
     /// The crop rectangle being drawn, image pixels.
     private(set) var cropRect: CGRect? {
@@ -53,14 +60,14 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
 
     private enum Drag {
         case create(id: UUID, origin: CGPoint)
-        case move(original: Annotation, origin: CGPoint)
+        case move(originals: [Annotation], origin: CGPoint)
         case resize(original: Annotation, handle: Handle)
         case crop(origin: CGPoint)
     }
 
     private var drag: Drag?
     private var rendered: CGImage?
-    private var textView: NSTextView?
+    private var textView: AlignedTextView?
     private var editingID: UUID?
     /// The typing undo of one text editing session, thrown away when it ends (not left on the window's manager).
     private var textUndoManager: UndoManager?
@@ -69,6 +76,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         self.document = document
         super.init(frame: .zero)
         setFrameSize(pointSize)
+        // Image files dropped on the canvas become image elements.
+        registerForDraggedTypes([.fileURL])
     }
 
     required init?(coder: NSCoder) {
@@ -84,6 +93,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
     }
 
     var selectedAnnotation: Annotation? { selectedID.flatMap(document.annotation) }
+    /// All selected elements, back to front.
+    var selectedAnnotations: [Annotation] { document.annotations(selectedSet) }
     var isEditingText: Bool { textView != nil }
 
     private var magnification: CGFloat { enclosingScrollView?.magnification ?? 1 }
@@ -108,13 +119,18 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
     func documentChanged() {
         rendered = nil
         if frame.size != pointSize { setFrameSize(pointSize) }
-        if let id = selectedID, document.annotation(id) == nil { selectedID = nil }
+        let remaining = selectedIDs.filter { document.annotation($0) != nil }
+        if remaining != selectedIDs { selectedIDs = remaining }
         needsDisplay = true
         onDocumentChange?()
     }
 
     func select(_ id: UUID?) {
-        selectedID = id
+        selectedIDs = id.map { [$0] } ?? []
+    }
+
+    func select(_ ids: [UUID]) {
+        selectedIDs = ids
     }
 
     // MARK: Drawing
@@ -123,7 +139,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         if rendered == nil {
             rendered = AnnotationRenderer.flatten(base: document.baseImage, annotations: document.annotations,
-                                                  scale: document.scale, hiding: editingID)
+                                                  scale: document.scale, hiding: editingID, counterStart: document.counterStart)
         }
         if let rendered {
             context.saveGState()
@@ -138,9 +154,21 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
     }
 
     private func drawSelection(in context: CGContext) {
-        guard let a = selectedAnnotation, a.id != editingID else { return }
         let line = 1 / magnification
         let accent = NSColor.controlAccentColor.cgColor
+        if selectedIDs.count > 1 {
+            // Several selected: a frame around each, no handles (upstream shows the grippers of one element only).
+            context.saveGState()
+            context.setLineWidth(line)
+            context.setStrokeColor(accent)
+            context.setLineDash(phase: 0, lengths: [4 * line, 3 * line])
+            for a in selectedAnnotations {
+                context.stroke(viewRect(a.bounds).insetBy(dx: -3 * line, dy: -3 * line))
+            }
+            context.restoreGState()
+            return
+        }
+        guard let a = selectedAnnotation, a.id != editingID else { return }
         context.saveGState()
         if a.kind.isBoxShaped || a.kind == .freehand {
             context.setLineWidth(line)
@@ -225,7 +253,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         window?.makeFirstResponder(self)
 
         // The handles of the selected element work with every tool.
-        if let a = selectedAnnotation, tool != .crop, let handle = handle(at: p, of: a) {
+        if selectedIDs.count == 1, let a = selectedAnnotation, tool != .crop, let handle = handle(at: p, of: a) {
             document.beginChange()
             drag = .resize(original: a, handle: handle)
             return
@@ -233,21 +261,37 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
 
         switch tool {
         case .select:
+            let extend = !event.modifierFlags.intersection([.shift, .command]).isEmpty
             guard let a = document.topmostAnnotation(at: p, tolerance: tolerance) else {
-                selectedID = nil
+                if !extend { selectedIDs = [] }
                 return
             }
-            selectedID = a.id
+            if extend {
+                // Shift- or Command-click adds an element to the selection or takes it out.
+                if selectedIDs.contains(a.id) {
+                    selectedIDs.removeAll { $0 == a.id }
+                    return
+                }
+                selectedIDs.append(a.id)
+            } else if !selectedIDs.contains(a.id) {
+                selectedIDs = [a.id]
+            } else {
+                // A click on one of several selected elements keeps them selected (to move them together) and makes
+                // it the primary one.
+                selectedIDs.removeAll { $0 == a.id }
+                selectedIDs.append(a.id)
+            }
             if event.clickCount == 2 && a.kind.hasEditableText {
                 beginEditing(a, isNew: false)
                 return
             }
             if event.clickCount == 2 && a.kind == .emoji {
-                showEmojiMenu(for: a)
+                // Upstream opens its emoji picker on a double click; here it is the system's Character Viewer.
+                showEmojiPalette()
                 return
             }
             document.beginChange()
-            drag = .move(original: a, origin: p)
+            drag = .move(originals: selectedAnnotations, origin: p)
 
         case .crop:
             drag = .crop(origin: p)
@@ -264,8 +308,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
                                style: style)
             document.beginChange()
             document.add(a)
-            selectedID = a.id
-            drag = .move(original: a, origin: p)
+            select(a.id)
+            drag = .move(originals: [a], origin: p)
             documentChanged()
 
         default:
@@ -279,7 +323,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             if kind == .speechBubble { a.tail = drawnTail(origin: p, end: p) }
             document.beginChange()
             document.add(a)
-            selectedID = a.id
+            select(a.id)
             drag = .create(id: a.id, origin: p)
             documentChanged()
         }
@@ -306,20 +350,23 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
                 if a.kind == .speechBubble { a.tail = drawnTail(origin: origin, end: end) }
             }
             document.update(a)
-        case .move(let original, let origin):
+        case .move(let originals, let origin):
             var delta = CGVector(dx: p.x - origin.x, dy: p.y - origin.y)
             if shift {
                 if abs(delta.dx) > abs(delta.dy) { delta.dy = 0 } else { delta.dx = 0 }
             }
-            var moved = original
-            moved.move(by: delta)
-            document.update(moved)
+            for original in originals {
+                var moved = original
+                moved.move(by: delta)
+                document.update(moved)
+            }
         case .resize(let original, let handle):
             var target = p
             if shift && (original.kind == .line || original.kind == .arrow) {
                 target = Geometry.snap45(from: handle == .start ? original.end : original.start, to: p)
             }
-            document.update(handle.drag(original, to: target))
+            // Shift keeps the aspect ratio of an image element.
+            document.update(handle.drag(original, to: target, keepAspect: shift && original.kind == .image))
         case .crop(let origin):
             guard tool == .crop else { return }
             cropRect = Geometry.rect(from: origin, to: p).intersection(CGRect(origin: .zero, size: document.imageSize))
@@ -340,6 +387,23 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
                 return
             }
             let minimum = 3 * pixelsPerScreenPoint
+            if a.kind == .cutMark {
+                // A click makes a band with a small gap around the click (upstream `GetBandSize`); a drag at least
+                // two teeth high.
+                let teeth = CGFloat(a.style.toothHeight) * document.scale
+                var band = a
+                if a.bounds.height < minimum {
+                    let height = CutMark.bandSize(toothHeight: teeth, gap: 10 * document.scale)
+                    band.start = CGPoint(x: 0, y: a.start.y - height / 2)
+                    band.end = CGPoint(x: 0, y: a.start.y + height / 2)
+                } else if a.bounds.height < 2 * teeth {
+                    band.end = CGPoint(x: 0, y: a.bounds.minY + 2 * teeth)
+                }
+                document.update(band)
+                document.endChange()
+                documentChanged()
+                return
+            }
             let tiny = a.kind == .freehand ? a.points.count < 2 : (a.bounds.width < minimum && a.bounds.height < minimum)
             if a.kind.hasEditableText {
                 var box = a
@@ -360,7 +424,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             }
             if tiny {
                 document.remove(id)
-                selectedID = nil
+                select(nil)
             }
             document.endChange()
         case .move, .resize:
@@ -375,25 +439,36 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
     override func menu(for event: NSEvent) -> NSMenu? {
         let p = imagePoint(event)
         guard let a = document.topmostAnnotation(at: p, tolerance: 5 * pixelsPerScreenPoint) else { return nil }
-        selectedID = a.id
+        // The items without a target (Cut, Copy, Arrange) go through the responder chain from the canvas.
+        commitEditing()
+        window?.makeFirstResponder(self)
+        if !selectedIDs.contains(a.id) { select(a.id) }
         let menu = NSMenu()
-        if a.kind.hasEditableText {
+        if a.kind.hasEditableText && selectedIDs.count == 1 {
             menu.addItem(ClosureMenuItem(title: "Edit Text") { [weak self] in self?.beginEditing(a, isNew: false) })
         }
-        if a.kind == .emoji {
+        if a.kind == .cutMark && selectedIDs.count == 1 {
+            // Upstream `CutMarkContainer.AddContextMenuItems`: "new random edges".
+            menu.addItem(ClosureMenuItem(title: "New Random Edges") { [weak self] in
+                guard let self, var mark = self.document.annotation(a.id) else { return }
+                mark.seed = .random(in: .min ... .max)
+                self.document.change { self.document.update(mark) }
+                self.documentChanged()
+            })
+        }
+        if a.kind == .emoji && selectedIDs.count == 1 {
             let item = NSMenuItem(title: "Emoji", action: nil, keyEquivalent: "")
             item.submenu = emojiMenu()
             menu.addItem(item)
         }
-        menu.addItem(ClosureMenuItem(title: "Bring to Front") { [weak self] in
-            self?.document.change { self?.document.bringToFront(a.id) }
-            self?.documentChanged()
-        })
-        menu.addItem(ClosureMenuItem(title: "Send to Back") { [weak self] in
-            self?.document.change { self?.document.sendToBack(a.id) }
-            self?.documentChanged()
-        })
+        menu.addItem(withTitle: "Bring to Front", action: #selector(bringToFront(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Bring Forward", action: #selector(bringForward(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Send Backward", action: #selector(sendBackward(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Send to Back", action: #selector(sendToBack(_:)), keyEquivalent: "")
         menu.addItem(.separator())
+        menu.addItem(withTitle: "Cut", action: #selector(cut(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Copy", action: #selector(copy(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Duplicate", action: #selector(duplicate(_:)), keyEquivalent: "")
         menu.addItem(ClosureMenuItem(title: "Delete") { [weak self] in self?.deleteSelection() })
         return menu
     }
@@ -409,8 +484,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         case kVK_Escape:
             if cropRect != nil {
                 cropRect = nil
-            } else if selectedID != nil {
-                selectedID = nil
+            } else if !selectedIDs.isEmpty {
+                selectedIDs = []
             } else {
                 tool = .select
             }
@@ -425,6 +500,19 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         case kVK_LeftArrow, kVK_RightArrow, kVK_UpArrow, kVK_DownArrow:
             nudge(keyCode: Int(event.keyCode), far: flags.contains(.shift))
             return
+        // Upstream's arrange keys: Home and End to the top and bottom, Page Up and Down one level.
+        case kVK_Home where !selectedIDs.isEmpty:
+            bringToFront(nil)
+            return
+        case kVK_End where !selectedIDs.isEmpty:
+            sendToBack(nil)
+            return
+        case kVK_PageUp where !selectedIDs.isEmpty:
+            bringForward(nil)
+            return
+        case kVK_PageDown where !selectedIDs.isEmpty:
+            sendBackward(nil)
+            return
         default:
             break
         }
@@ -437,9 +525,9 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         super.keyDown(with: event)
     }
 
-    /// Moves the selected element one point (Shift: ten).
+    /// Moves the selected elements one point (Shift: ten).
     private func nudge(keyCode: Int, far: Bool) {
-        guard let a = selectedAnnotation else { return }
+        guard !selectedIDs.isEmpty else { return }
         let step = (far ? 10 : 1) * document.scale
         var delta = CGVector.zero
         switch keyCode {
@@ -448,16 +536,15 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         case kVK_UpArrow: delta.dy = -step
         default: delta.dy = step
         }
-        var moved = a
-        moved.move(by: delta)
-        document.change { document.update(moved) }
+        document.change { document.move(selectedSet, by: delta) }
         documentChanged()
     }
 
     func deleteSelection() {
-        guard let id = selectedID else { return }
-        document.change { document.remove(id) }
-        selectedID = nil
+        guard !selectedIDs.isEmpty else { return }
+        let ids = selectedSet
+        document.change { document.remove(ids) }
+        selectedIDs = []
         documentChanged()
     }
 
@@ -489,13 +576,50 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         for emoji in EmojiChoices.all {
             menu.addItem(ClosureMenuItem(title: emoji) { [weak self] in self?.onPickEmoji?(emoji) })
         }
+        menu.addItem(.separator())
+        menu.addItem(ClosureMenuItem(title: "More Emoji…") { [weak self] in self?.showEmojiPalette() })
         return menu
     }
 
-    /// Upstream opens its emoji picker on a double click of an emoji.
-    private func showEmojiMenu(for a: Annotation) {
-        let box = viewRect(a.bounds)
-        emojiMenu().popUp(positioning: nil, at: CGPoint(x: box.minX, y: box.maxY), in: self)
+    /// The full emoji picker (upstream `Greenshot.Editor/Controls/Emoji`): the system's Character Viewer, which types
+    /// the chosen emoji into the canvas (`insertText(_:replacementRange:)`).
+    func showEmojiPalette() {
+        commitEditing()
+        window?.makeFirstResponder(self)
+        NSApp.orderFrontCharacterPalette(nil)
+    }
+
+    // MARK: NSTextInputClient (only for the Character Viewer; keys are handled in keyDown)
+
+    func insertText(_ string: Any, replacementRange: NSRange) {
+        let text = (string as? NSAttributedString)?.string ?? (string as? String) ?? ""
+        guard let emoji = text.trimmingCharacters(in: .whitespacesAndNewlines).first.map(String.init) else { return }
+        // For the selected emoji elements, or the next ones while the emoji tool is chosen.
+        guard selectedAnnotations.contains(where: { $0.kind == .emoji }) || tool == .emoji else {
+            NSSound.beep()
+            return
+        }
+        onPickEmoji?(emoji)
+    }
+
+    override func doCommand(by selector: Selector) {}
+    func setMarkedText(_ string: Any, selectedRange: NSRange, replacementRange: NSRange) {}
+    func unmarkText() {}
+    func selectedRange() -> NSRange { NSRange(location: 0, length: 0) }
+    func markedRange() -> NSRange { NSRange(location: NSNotFound, length: 0) }
+    func hasMarkedText() -> Bool { false }
+    func validAttributesForMarkedText() -> [NSAttributedString.Key] { [] }
+    func characterIndex(for point: NSPoint) -> Int { NSNotFound }
+
+    func attributedSubstring(forProposedRange range: NSRange, actualRange: NSRangePointer?) -> NSAttributedString? {
+        nil
+    }
+
+    /// Where the Character Viewer appears: next to the selected element.
+    func firstRect(forCharacterRange range: NSRange, actualRange: NSRangePointer?) -> NSRect {
+        let rect = selectedAnnotation.map { viewRect($0.bounds) } ?? visibleRect
+        guard let window else { return .zero }
+        return window.convertToScreen(convert(rect, to: nil))
     }
 
     // MARK: Edit menu
@@ -522,15 +646,168 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         deleteSelection()
     }
 
+    /// Copies the selected elements (upstream `Surface.CutSelectedElements` / `CopySelectedElements`); with nothing
+    /// selected Copy copies the image, like before.
     @objc func copy(_ sender: Any?) {
-        onCopy?()
+        commitEditing()
+        guard !selectedIDs.isEmpty else {
+            onCopy?()
+            return
+        }
+        writeSelectionToPasteboard()
+    }
+
+    @objc func cut(_ sender: Any?) {
+        commitEditing()
+        guard !selectedIDs.isEmpty else { return }
+        writeSelectionToPasteboard()
+        deleteSelection()
+    }
+
+    @objc func paste(_ sender: Any?) {
+        commitEditing()
+        let pasteboard = NSPasteboard.general
+        if let data = pasteboard.data(forType: Self.elementsType), let transfer = ElementTransfer.decode(data) {
+            let pasted = transfer.placed(in: document.imageSize, scale: document.scale, documentID: document.id,
+                                         at: mouseImagePoint())
+            insert(pasted)
+            return
+        }
+        // An image on the clipboard becomes an image element (upstream pastes it as an `ImageContainer`).
+        if let pasted = Clipboard.image(), let a = pictureElement(pasted.image, scale: pasted.scale, at: mouseImagePoint()) {
+            insert([a])
+            return
+        }
+        NSSound.beep()
+    }
+
+    /// An image element for `picture`, its top left at `point`, else 10 points into the visible part of the image.
+    private func pictureElement(_ picture: CGImage, scale: CGFloat, at point: CGPoint?) -> Annotation? {
+        let visible = visibleRect.intersection(bounds)
+        let origin = point ?? CGPoint(x: (visible.minX + 10) * document.scale, y: (visible.minY + 10) * document.scale)
+        let room = CGSize(width: max(document.imageSize.width - origin.x, 1), height: max(document.imageSize.height - origin.y, 1))
+        return Annotation.picture(picture, pictureScale: scale, at: origin, documentScale: document.scale, fitting: room)
+    }
+
+    // MARK: Drop
+
+    private static let imageFileOptions: [NSPasteboard.ReadingOptionKey: Any] = [
+        .urlReadingFileURLsOnly: true,
+        .urlReadingContentsConformToTypes: [UTType.image.identifier],
+    ]
+
+    private func droppedImageURLs(_ info: NSDraggingInfo) -> [URL] {
+        info.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: Self.imageFileOptions) as? [URL] ?? []
+    }
+
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        droppedImageURLs(sender).isEmpty ? [] : .copy
+    }
+
+    override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
+        droppedImageURLs(sender).isEmpty ? [] : .copy
+    }
+
+    /// Dropped image files become image elements where they were dropped, each a little below the one before.
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        commitEditing()
+        let drop = convert(sender.draggingLocation, from: nil)
+        var origin = CGPoint(x: drop.x * document.scale, y: drop.y * document.scale)
+        var elements: [Annotation] = []
+        for url in droppedImageURLs(sender) {
+            guard let loaded = ImageLoader.load(url), let a = pictureElement(loaded.image, scale: loaded.scale, at: origin) else { continue }
+            elements.append(a)
+            origin = CGPoint(x: origin.x + 10 * document.scale, y: origin.y + 10 * document.scale)
+        }
+        insert(elements)
+        return !elements.isEmpty
+    }
+
+    /// Upstream `Surface.DuplicateSelectedElements`: copies moved by 10, 10, selected instead of the originals.
+    @objc func duplicate(_ sender: Any?) {
+        commitEditing()
+        guard !selectedIDs.isEmpty else { return }
+        let ids = selectedSet
+        var copies: [Annotation] = []
+        document.change { copies = document.duplicate(ids, offset: CGVector(dx: 10 * document.scale, dy: 10 * document.scale)) }
+        documentChanged()
+        selectedIDs = copies.map(\.id)
+    }
+
+    @objc override func selectAll(_ sender: Any?) {
+        commitEditing()
+        selectedIDs = document.annotations.map(\.id)
+    }
+
+    // MARK: Arrange (upstream `Surface.PullElementsToTop` / `PullElementsUp` / `PushElementsDown` / `PushElementsToBottom`)
+
+    private func arrange(_ body: (Set<UUID>) -> Void) {
+        commitEditing()
+        let ids = selectedSet
+        guard !ids.isEmpty else { return }
+        document.change { body(ids) }
+        documentChanged()
+    }
+
+    @objc func bringToFront(_ sender: Any?) { arrange(document.bringToFront) }
+    @objc func bringForward(_ sender: Any?) { arrange(document.bringForward) }
+    @objc func sendBackward(_ sender: Any?) { arrange(document.sendBackward) }
+    @objc func sendToBack(_ sender: Any?) { arrange(document.sendToBack) }
+
+    /// An item of the Object menu choosing a tool; its tag is the tool's index.
+    @objc func selectTool(_ sender: NSMenuItem) {
+        guard EditorTool.allCases.indices.contains(sender.tag) else { return }
+        tool = EditorTool.allCases[sender.tag]
+    }
+
+    /// Adds elements as one undo step and selects them.
+    func insert(_ elements: [Annotation]) {
+        guard !elements.isEmpty else { return }
+        document.change { document.add(elements) }
+        documentChanged()
+        selectedIDs = elements.map(\.id)
+    }
+
+    static let elementsType = NSPasteboard.PasteboardType(ElementTransfer.pasteboardType)
+
+    private func writeSelectionToPasteboard() {
+        let transfer = ElementTransfer(elements: selectedAnnotations, scale: document.scale, sourceDocument: document.id)
+        guard let data = try? transfer.encoded() else { return }
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setData(data, forType: Self.elementsType)
+    }
+
+    /// The mouse in image pixels when it is over the visible part of the canvas.
+    private func mouseImagePoint() -> CGPoint? {
+        guard let window else { return nil }
+        let p = convert(window.mouseLocationOutsideOfEventStream, from: nil)
+        guard visibleRect.contains(p), bounds.contains(p) else { return nil }
+        return CGPoint(x: p.x * document.scale, y: p.y * document.scale)
+    }
+
+    private var pasteboardHasElements: Bool {
+        NSPasteboard.general.availableType(from: [Self.elementsType]) != nil
+    }
+
+    private var canPaste: Bool {
+        pasteboardHasElements || NSImage.canInit(with: .general)
     }
 
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
         switch item.action {
         case #selector(undo(_:)): return textView?.undoManager?.canUndo ?? document.canUndo
         case #selector(redo(_:)): return textView?.undoManager?.canRedo ?? document.canRedo
-        case #selector(delete(_:)): return selectedID != nil
+        case #selector(delete(_:)), #selector(cut(_:)), #selector(duplicate(_:)): return !selectedIDs.isEmpty
+        case #selector(paste(_:)): return canPaste
+        case #selector(selectAll(_:)): return !document.annotations.isEmpty
+        case #selector(bringToFront(_:)), #selector(bringForward(_:)): return document.canBringForward(selectedSet)
+        case #selector(sendToBack(_:)), #selector(sendBackward(_:)): return document.canSendBackward(selectedSet)
+        case #selector(selectTool(_:)):
+            // The tools have single-letter shortcuts: only while the canvas has the keyboard, so that typing into a
+            // text element or a field of the property bar isn't taken by the menu.
+            item.state = EditorTool.allCases.firstIndex(of: tool) == item.tag ? .on : .off
+            return window?.firstResponder === self
         default: return true
         }
     }
@@ -541,17 +818,19 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         commitEditing()
         if !isNew { document.beginChange() }
         editingID = a.id
-        selectedID = a.id
+        select(a.id)
         textUndoManager = UndoManager()
         let style = a.style
         // A text element is replaced by the text field; a speech bubble stays drawn around it.
         let frame = a.kind == .speechBubble ? AnnotationRenderer.textRect(for: a, scale: document.scale) : a.bounds
-        let textView = NSTextView(frame: viewRect(frame))
+        let textView = AlignedTextView(frame: viewRect(frame))
         textView.string = a.text
+        // The same font and alignment as the renderer, so the text doesn't jump when editing ends.
         textView.font = AnnotationRenderer.font(for: style, size: CGFloat(style.fontSize))
         textView.textColor = NSColor(cgColor: style.lineColor.cgColor)
         textView.insertionPointColor = NSColor(cgColor: style.lineColor.cgColor) ?? .textColor
-        textView.alignment = .center
+        textView.alignment = AnnotationRenderer.alignment(of: style)
+        textView.verticalAlignment = style.verticalAlignment
         textView.isRichText = false
         textView.allowsUndo = true
         textView.drawsBackground = a.kind == .text && style.fillColor.isVisible
@@ -565,6 +844,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         self.textView = textView
         window?.makeFirstResponder(textView)
         textView.selectAll(nil)
+        textView.alignVertically()
         rendered = nil
         needsDisplay = true
     }
@@ -582,7 +862,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             // An empty text shows nothing; an empty speech bubble still shows its shape, so it stays.
             if a.kind == .text && text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 document.remove(id)
-                selectedID = nil
+                selectedIDs.removeAll { $0 == id }
             } else {
                 a.text = text
                 document.update(a)
@@ -612,14 +892,46 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         layout.ensureLayout(for: container)
         let needed = layout.usedRect(for: container).height + textView.textContainerInset.height * 2 + 4
         let growth = needed - textView.frame.height
+        textView.alignVertically()
         guard growth > 0 else { return }
         textView.setFrameSize(NSSize(width: textView.frame.width, height: needed))
+        textView.alignVertically()
         let box = a.bounds
         a.start = box.origin
         a.end = CGPoint(x: box.maxX, y: box.maxY + growth * document.scale)
         document.update(a)
         // A speech bubble is drawn below the text field and grows with it.
         rendered = nil
+        needsDisplay = true
+    }
+}
+
+/// The in-place text editor: places its text at the top, middle or bottom of the box like the renderer does
+/// (NSTextView itself always starts at the top).
+final class AlignedTextView: NSTextView {
+    var verticalAlignment: VerticalTextAlignment = .center
+    private var topOffset: CGFloat = 0
+
+    override var textContainerOrigin: NSPoint {
+        let origin = super.textContainerOrigin
+        return NSPoint(x: origin.x, y: origin.y + topOffset)
+    }
+
+    /// Call after the text or the frame changed.
+    func alignVertically() {
+        guard let container = textContainer, let layout = layoutManager else { return }
+        layout.ensureLayout(for: container)
+        let used = layout.usedRect(for: container).height
+        let room = max(0, bounds.height - used - textContainerInset.height * 2)
+        let offset: CGFloat
+        switch verticalAlignment {
+        case .top: offset = 0
+        case .center: offset = (room / 2).rounded(.down)
+        case .bottom: offset = room
+        }
+        guard offset != topOffset else { return }
+        topOffset = offset
+        invalidateTextContainerOrigin()
         needsDisplay = true
     }
 }

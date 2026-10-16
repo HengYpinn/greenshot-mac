@@ -9,6 +9,11 @@ import Foundation
 /// The drawable elements of the editor. Upstream calls them containers (`Greenshot.Editor/Drawing/*Container.cs`).
 public enum AnnotationKind: String, Codable, CaseIterable, Sendable {
     case rectangle, ellipse, line, arrow, freehand, text, highlight, obfuscate, counter, speechBubble, emoji
+    /// A pasted or dropped picture (upstream `ImageContainer`).
+    case image
+    /// Marks where a strip was cut out of the image: a band across the whole image between two edges
+    /// (upstream `CutMarkContainer`).
+    case cutMark
 
     /// Elements that are a box: they get resize handles. Lines and arrows get two end points, freehand none.
     public var isBoxShaped: Bool {
@@ -32,6 +37,21 @@ public enum HighlightMode: String, Codable, CaseIterable, Sendable {
 /// Upstream `PreparedFilter` values of the obfuscate container.
 public enum ObfuscateMode: String, Codable, CaseIterable, Sendable {
     case pixelate, blur
+}
+
+/// How the edges of a cut mark look (upstream `CutMarkStyle`).
+public enum CutMarkStyle: String, Codable, CaseIterable, Sendable {
+    case none, line, zigZag, wave, torn
+}
+
+/// Upstream `TEXT_HORIZONTAL_ALIGNMENT` (`StringAlignment` Near, Center, Far).
+public enum HorizontalTextAlignment: String, Codable, CaseIterable, Sendable {
+    case left, center, right
+}
+
+/// Upstream `TEXT_VERTICAL_ALIGNMENT`.
+public enum VerticalTextAlignment: String, Codable, CaseIterable, Sendable {
+    case top, center, bottom
 }
 
 /// Upstream `ArrowHeadCombination`.
@@ -59,6 +79,8 @@ public struct RGBAColor: Codable, Hashable, Sendable {
     public static let white = RGBAColor(red: 1, green: 1, blue: 1)
     public static let black = RGBAColor(red: 0, green: 0, blue: 0)
     public static let clear = RGBAColor(red: 0, green: 0, blue: 0, alpha: 0)
+    /// .NET `Color.DimGray`.
+    public static let dimGray = RGBAColor(red: 105 / 255, green: 105 / 255, blue: 105 / 255)
 
     public var isVisible: Bool { alpha > 0 }
 
@@ -85,11 +107,23 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
     public var pixelSize: Double
     public var blurRadius: Double
     public var magnification: Double
+    public var cutMarkStyle: CutMarkStyle
+    /// How deep the edges of a cut mark go into the image, points (upstream `TOOTH_HEIGHT`).
+    public var toothHeight: Double
+    /// How wide a tooth of a cut mark is, points (upstream `TOOTH_RANGE`).
+    public var toothRange: Double
+    /// The font family of text and speech bubbles; empty is the system font (upstream `FONT_FAMILY`).
+    public var fontFamily: String
+    public var horizontalAlignment: HorizontalTextAlignment
+    public var verticalAlignment: VerticalTextAlignment
 
     public init(lineColor: RGBAColor = .red, fillColor: RGBAColor = .clear, lineWidth: Double = 2, shadow: Bool = true,
                 fontSize: Double = 15, bold: Bool = false, italic: Bool = false, arrowHeads: ArrowHeads = .end,
                 highlightMode: HighlightMode = .text, obfuscateMode: ObfuscateMode = .pixelate,
-                pixelSize: Double = 5, blurRadius: Double = 6, magnification: Double = 2) {
+                pixelSize: Double = 5, blurRadius: Double = 6, magnification: Double = 2,
+                cutMarkStyle: CutMarkStyle = .torn, toothHeight: Double = 12, toothRange: Double = 20,
+                fontFamily: String = "", horizontalAlignment: HorizontalTextAlignment = .center,
+                verticalAlignment: VerticalTextAlignment = .center) {
         self.lineColor = lineColor
         self.fillColor = fillColor
         self.lineWidth = lineWidth
@@ -103,6 +137,41 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         self.pixelSize = pixelSize
         self.blurRadius = blurRadius
         self.magnification = magnification
+        self.cutMarkStyle = cutMarkStyle
+        self.toothHeight = toothHeight
+        self.toothRange = toothRange
+        self.fontFamily = fontFamily
+        self.horizontalAlignment = horizontalAlignment
+        self.verticalAlignment = verticalAlignment
+    }
+
+    /// Every property falls back to its default, so the styles remembered by an older version (without the newer
+    /// properties) still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = AnnotationStyle()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        lineColor = value(.lineColor, d.lineColor)
+        fillColor = value(.fillColor, d.fillColor)
+        lineWidth = value(.lineWidth, d.lineWidth)
+        shadow = value(.shadow, d.shadow)
+        fontSize = value(.fontSize, d.fontSize)
+        bold = value(.bold, d.bold)
+        italic = value(.italic, d.italic)
+        arrowHeads = value(.arrowHeads, d.arrowHeads)
+        highlightMode = value(.highlightMode, d.highlightMode)
+        obfuscateMode = value(.obfuscateMode, d.obfuscateMode)
+        pixelSize = value(.pixelSize, d.pixelSize)
+        blurRadius = value(.blurRadius, d.blurRadius)
+        magnification = value(.magnification, d.magnification)
+        cutMarkStyle = value(.cutMarkStyle, d.cutMarkStyle)
+        toothHeight = value(.toothHeight, d.toothHeight)
+        toothRange = value(.toothRange, d.toothRange)
+        fontFamily = value(.fontFamily, d.fontFamily)
+        horizontalAlignment = value(.horizontalAlignment, d.horizontalAlignment)
+        verticalAlignment = value(.verticalAlignment, d.verticalAlignment)
     }
 
     /// The defaults of upstream's `InitializeFields` per container. Font sizes are converted from Windows points
@@ -128,6 +197,13 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
             return AnnotationStyle(lineColor: .blue, fillColor: .white, lineWidth: 2, shadow: false, fontSize: 27, bold: true)
         case .emoji:
             return AnnotationStyle(shadow: false)
+        case .image:
+            // Upstream ImageContainer: only a shadow field, off.
+            return AnnotationStyle(lineWidth: 0, shadow: false)
+        case .cutMark:
+            // Upstream CutMarkContainer.InitializeFields.
+            return AnnotationStyle(lineColor: .dimGray, fillColor: .clear, lineWidth: 0, shadow: true,
+                                   cutMarkStyle: .torn, toothHeight: 12, toothRange: 20)
         }
     }
 }
@@ -146,10 +222,14 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     public var text: String
     /// Where the tail of a speech bubble points (upstream `TargetAdorner`). See `tailTip` for when it is nil.
     public var tail: CGPoint?
+    /// The picture of an image element, as PNG.
+    public var imageData: Data?
+    /// The random parts of a cut mark's edges; nil takes them from the id.
+    public var seed: UInt64?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
-                text: String = "", tail: CGPoint? = nil, style: AnnotationStyle? = nil) {
+                text: String = "", tail: CGPoint? = nil, imageData: Data? = nil, style: AnnotationStyle? = nil) {
         self.id = id
         self.kind = kind
         self.start = start
@@ -157,6 +237,7 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         self.points = points
         self.text = text
         self.tail = tail
+        self.imageData = imageData
         self.style = style ?? .defaults(for: kind)
     }
 
@@ -166,6 +247,26 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
             return points.dropFirst().reduce(CGRect(origin: first, size: .zero)) { $0.union(CGRect(origin: $1, size: .zero)) }
         }
         return Geometry.rect(from: start, to: end)
+    }
+
+    /// A copy that is a new element: pasted, duplicated or loaded elements must never share the id of another one.
+    public func withNewID() -> Annotation {
+        var copy = self
+        copy.id = UUID()
+        return copy
+    }
+
+    /// The element with its geometry multiplied by `factor` (style sizes are points and stay), for pasting into an
+    /// image with other pixels per point.
+    public func scaled(by factor: CGFloat) -> Annotation {
+        guard factor != 1 else { return self }
+        func scale(_ p: CGPoint) -> CGPoint { CGPoint(x: p.x * factor, y: p.y * factor) }
+        var copy = self
+        copy.start = scale(start)
+        copy.end = scale(end)
+        copy.points = points.map(scale)
+        copy.tail = tail.map(scale)
+        return copy
     }
 
     public mutating func move(by delta: CGVector) {
@@ -232,7 +333,11 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
             let tail = speechBubbleTail
             return tail.contains(point)
                 || tail.copy(strokingWithWidth: reach * 2, lineCap: .round, lineJoin: .round, miterLimit: 10).contains(point)
-        case .text, .highlight, .obfuscate, .counter, .emoji:
+        case .cutMark:
+            // The band spans the whole image (upstream `ClickableAt` of the band).
+            let band = bounds
+            return point.x >= 0 && point.y >= band.minY - tolerance / 2 && point.y <= band.maxY + tolerance / 2
+        case .text, .highlight, .obfuscate, .counter, .emoji, .image:
             return bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point)
         }
     }
@@ -256,6 +361,8 @@ public enum Handle: CaseIterable, Sendable {
         case .speechBubble: return boxHandles + [.tail]
         // An emoji keeps its aspect ratio (upstream `EmojiContainer` scales with `ScaleOptions.Rational`).
         case .emoji: return cornerHandles
+        // A cut mark is only sized across the cut (upstream's top and bottom center grippers).
+        case .cutMark: return [.top, .bottom]
         default: return boxHandles
         }
     }
@@ -277,8 +384,9 @@ public enum Handle: CaseIterable, Sendable {
         }
     }
 
-    /// `original` with this handle dragged to `point`.
-    public func drag(_ original: Annotation, to point: CGPoint) -> Annotation {
+    /// `original` with this handle dragged to `point`. With `keepAspect` a corner keeps the box's aspect ratio
+    /// (Shift while resizing an image element).
+    public func drag(_ original: Annotation, to point: CGPoint, keepAspect: Bool = false) -> Annotation {
         var result = original
         switch self {
         case .start:
@@ -301,6 +409,12 @@ public enum Handle: CaseIterable, Sendable {
             result.end = CGPoint(x: rect.maxX, y: rect.maxY)
             return result
         }
+        if keepAspect, r.width > 0, r.height > 0, let anchor = oppositeCorner(in: r) {
+            let rect = Geometry.rect(from: anchor, to: Self.aspectEnd(from: anchor, to: point, aspect: r.width / r.height))
+            result.start = rect.origin
+            result.end = CGPoint(x: rect.maxX, y: rect.maxY)
+            return result
+        }
         var minX = r.minX, minY = r.minY, maxX = r.maxX, maxY = r.maxY
         switch self {
         case .topLeft: minX = point.x; minY = point.y
@@ -319,6 +433,15 @@ public enum Handle: CaseIterable, Sendable {
         return result
     }
 
+    /// The corner of a box from `anchor` towards `point` with `aspect` (width / height), as big as covers `point`.
+    static func aspectEnd(from anchor: CGPoint, to point: CGPoint, aspect: CGFloat) -> CGPoint {
+        let dx = point.x - anchor.x
+        let dy = point.y - anchor.y
+        let width = max(abs(dx), abs(dy) * aspect)
+        let height = width / aspect
+        return CGPoint(x: anchor.x + (dx < 0 ? -width : width), y: anchor.y + (dy < 0 ? -height : height))
+    }
+
     /// The corner that stays put while this corner handle is dragged.
     private func oppositeCorner(in r: CGRect) -> CGPoint? {
         switch self {
@@ -328,5 +451,23 @@ public enum Handle: CaseIterable, Sendable {
         case .bottomLeft: return CGPoint(x: r.maxX, y: r.minY)
         default: return nil
         }
+    }
+}
+
+extension Annotation {
+    /// An image element showing `picture` (upstream `ImageContainer`), its top left at `origin`, at its point size
+    /// (`pictureScale` pixels per point) on an image with `documentScale` pixels per point, made smaller to fit in
+    /// `fitting` (image pixels) when it is bigger. Nil when the picture can't be stored as PNG.
+    public static func picture(_ picture: CGImage, pictureScale: CGFloat, at origin: CGPoint, documentScale: CGFloat,
+                               fitting limit: CGSize? = nil) -> Annotation? {
+        guard let data = try? ImageExporter.data(for: picture, format: .png, scale: pictureScale) else { return nil }
+        let factor = documentScale / max(pictureScale, 1)
+        var size = CGSize(width: CGFloat(picture.width) * factor, height: CGFloat(picture.height) * factor)
+        if let limit, limit.width > 0, limit.height > 0, size.width > limit.width || size.height > limit.height {
+            let shrink = min(limit.width / size.width, limit.height / size.height)
+            size = CGSize(width: size.width * shrink, height: size.height * shrink)
+        }
+        return Annotation(kind: .image, start: origin, end: CGPoint(x: origin.x + size.width, y: origin.y + size.height),
+                          imageData: data)
     }
 }
