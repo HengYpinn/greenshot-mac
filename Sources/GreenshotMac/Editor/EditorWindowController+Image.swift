@@ -173,6 +173,27 @@ extension EditorWindowController {
         canvas.tool = .select
     }
 
+    // MARK: Text obfuscation
+
+    /// Upstream "Obfuscate Text…": covers the text found in the image with obfuscate or highlight elements.
+    @objc func obfuscateText(_ sender: Any?) {
+        guard let window else { return }
+        canvas.commitEditing()
+        let sheet = TextObfuscationSheet(image: editorDocument.baseImage, settings: settings.value.textObfuscation,
+                                         language: settings.value.ocrLanguage)
+        sheet.onSaveSettings = { [weak self] options in self?.settings.update { $0.textObfuscation = options } }
+        sheet.onApply = { [weak self] boxes, effect in
+            guard let self else { return }
+            let style = self.settings.value
+            let elements = TextObfuscation.annotations(for: boxes, effect: effect) { style.style(for: $0) }
+            self.performImageOperation { document in
+                elements.forEach(document.add)
+                return true
+            }
+        }
+        sheet.begin(for: window)
+    }
+
     // MARK: Helpers
 
     /// A toolbar button with an SF Symbol, like the editor's other icon buttons.

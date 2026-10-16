@@ -30,6 +30,7 @@ extension MainMenu {
         image.addItem(withTitle: "Rotate Counter-Clockwise", action: #selector(EditorWindowController.rotateCounterClockwise(_:)),
                       keyEquivalent: arrow(NSLeftArrowFunctionKey)).keyEquivalentModifierMask = [.option, .command]
 
+        image.addItem(.separator())
         // Upstream Ctrl+Shift+Plus / Minus; ⌘+ and ⌘- zoom here, so with ⌥⌘ (which only clash with the
         // system's Zoom when its keyboard shortcuts are turned on in the Accessibility settings).
         image.addItem(withTitle: "Enlarge Canvas", action: #selector(EditorWindowController.enlargeCanvas(_:)),
@@ -41,6 +42,10 @@ extension MainMenu {
                       keyEquivalent: "\u{8}")
         image.addItem(withTitle: "Remove Transparency", action: #selector(EditorWindowController.removeTransparency(_:)),
                       keyEquivalent: "")
+
+        // Upstream's text obfuscation (Edit menu there).
+        image.addItem(.separator())
+        image.addItem(withTitle: "Obfuscate Text…", action: #selector(EditorWindowController.obfuscateText(_:)), keyEquivalent: "")
 
         // Upstream's crop modes. ⇧⌘A is taken, so Auto Crop is ⌥⌘A. The other two need a selection of the crop tool.
         image.addItem(.separator())
