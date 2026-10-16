@@ -9,11 +9,14 @@ import GreenshotCore
 /// The Image menu: upstream's Effects split button and the image operations (resize, rotate, canvas).
 extension MainMenu {
     static func addImageMenu(to main: NSMenu) {
-        // Upstream's Effects menu.
         let image = submenu(in: main, title: "Image")
-        for (index, effect) in ImageEffect.allCases.enumerated() {
-            image.addItem(withTitle: effect.title, action: #selector(EditorWindowController.applyEffect(_:)), keyEquivalent: "").tag = index
-        }
 
+        // Upstream's Effects menu.
+        for (index, effect) in ImageEffect.allCases.enumerated() {
+            let item = image.addItem(withTitle: effect.menuTitle, action: #selector(EditorWindowController.applyEffect(_:)),
+                                     keyEquivalent: effect.keyEquivalent)
+            item.keyEquivalentModifierMask = [.control, .command]
+            item.tag = index
+        }
     }
 }

@@ -33,25 +33,24 @@ public struct EffectResult {
 public enum ImageEffects {
     /// `BorderEffect`: 2 pt, black.
     static let borderWidth: CGFloat = 2
-    /// `DropShadowEffect`: darkness 0.6, size 7, offset -1, -1.
-    static let shadowDarkness: CGFloat = 0.6
-    static let shadowSize: CGFloat = 7
-    static let shadowOffset: CGFloat = -1
-    /// `TornEdgeEffect`: teeth up to 12 pt deep, one every 20 pt, on all four edges, with a drop shadow.
-    static let toothHeight: CGFloat = 12
-    static let toothRange: CGFloat = 20
 
-    /// `image` with `effect` applied, or nil when it could not be drawn. `seed` picks the torn edges: the same seed
-    /// gives the same edges (upstream `TornEdgeEffect.Seed`).
+    /// `image` with `effect` applied with upstream's default settings, or nil when it could not be drawn. `seed` picks
+    /// the torn edges: the same seed gives the same edges (upstream `TornEdgeEffect.Seed`).
     public static func apply(_ effect: ImageEffect, to image: CGImage, scale: CGFloat, seed: UInt64) -> EffectResult? {
+        apply(effect, to: image, scale: scale, seed: seed, dropShadow: DropShadowSettings(), tornEdge: TornEdgeSettings())
+    }
+
+    /// `image` with `effect` applied with the given settings of the drop shadow and torn edges (upstream
+    /// `EditorConfiguration.DropShadowEffectSettings` / `TornEdgeEffectSettings`).
+    public static func apply(_ effect: ImageEffect, to image: CGImage, scale: CGFloat, seed: UInt64,
+                             dropShadow shadowSettings: DropShadowSettings, tornEdge tornSettings: TornEdgeSettings) -> EffectResult? {
         switch effect {
         case .tornEdge:
-            guard let torn = tornEdge(image, scale: scale, seed: seed) else { return nil }
-            return dropShadow(torn, scale: scale)
+            return tornEdge(image, scale: scale, seed: seed, settings: tornSettings)
         case .border:
             return border(image, scale: scale)
         case .dropShadow:
-            return dropShadow(image, scale: scale)
+            return dropShadow(image, scale: scale, settings: shadowSettings)
         case .grayscale:
             return mapPixels(image) { r, g, b, _ in
                 let gray = grayValue(red: r, green: g, blue: b)
@@ -84,45 +83,98 @@ public enum ImageEffects {
         return result(context, offset: CGVector(dx: width, dy: width))
     }
 
-    /// Upstream `CreateShadow`: a bigger image with a soft shadow to the bottom right of the original.
-    static func dropShadow(_ image: CGImage, scale: CGFloat) -> EffectResult? {
-        let size = (shadowSize * scale).rounded()
-        // Upstream draws the image at the shadow offset plus size - 1 and the shadow at size, so it falls 2 pt down right.
-        let imageOrigin = ((shadowOffset + shadowSize - 1) * scale).rounded()
-        let canvas = CGSize(width: CGFloat(image.width) + size * 2, height: CGFloat(image.height) + size * 2)
-        guard let context = makeContext(canvas) else { return nil }
-        let frame = CGRect(x: imageOrigin, y: canvas.height - imageOrigin - CGFloat(image.height),
-                           width: CGFloat(image.width), height: CGFloat(image.height))
+    /// Upstream `CreateShadow` (`DropShadowEffect`): a bigger image with a soft shadow. The canvas grows by the shadow
+    /// size on every side; the image is drawn at the shadow offset plus size - 1 and the shadow at size, so with the
+    /// default offset of -1, -1 the shadow falls 2 pt down right.
+    ///
+    /// Unlike upstream, which clips the image when a large offset pushes it off that canvas, the canvas grows further
+    /// so the whole capture stays.
+    public static func dropShadow(_ image: CGImage, scale: CGFloat,
+                                  settings: DropShadowSettings = DropShadowSettings()) -> EffectResult? {
+        let points = CGFloat(max(settings.size, 0))
+        let size = (points * scale).rounded()
+        let imageSize = CGSize(width: image.width, height: image.height)
+        // Image pixels, origin top left, before the canvas is moved to contain everything.
+        let shadowArea = CGRect(origin: .zero, size: CGSize(width: imageSize.width + size * 2, height: imageSize.height + size * 2))
+        let imageX = ((CGFloat(settings.offsetX) + points - 1) * scale).rounded()
+        let imageY = ((CGFloat(settings.offsetY) + points - 1) * scale).rounded()
+        let imageRect = CGRect(origin: CGPoint(x: imageX, y: imageY), size: imageSize)
+        let canvas = shadowArea.union(imageRect)
+        guard let context = makeContext(canvas.size) else { return nil }
+        let origin = CGPoint(x: imageRect.minX - canvas.minX, y: imageRect.minY - canvas.minY)
+        let shadowOrigin = CGPoint(x: size - canvas.minX, y: size - canvas.minY)
+        let frame = CGRect(x: origin.x, y: canvas.height - origin.y - imageSize.height,
+                           width: imageSize.width, height: imageSize.height)
         // The bitmap's y axis points up, so down is negative.
-        context.setShadow(offset: CGSize(width: size - imageOrigin, height: imageOrigin - size), blur: size,
-                          color: CGColor(gray: 0, alpha: shadowDarkness))
+        let darkness = CGFloat(min(max(settings.darkness, 0), 1))
+        context.setShadow(offset: CGSize(width: shadowOrigin.x - origin.x, height: origin.y - shadowOrigin.y), blur: size,
+                          color: CGColor(gray: 0, alpha: darkness))
         context.draw(image, in: frame)
-        return result(context, offset: CGVector(dx: imageOrigin, dy: imageOrigin))
+        return result(context, offset: CGVector(dx: origin.x, dy: origin.y))
     }
 
-    /// Upstream `CreateTornEdge`: the image cut out along a zigzag line on every edge, the same size as the original.
-    static func tornEdge(_ image: CGImage, scale: CGFloat, seed: UInt64) -> CGImage? {
+    /// Upstream `TornEdgeEffect`: the image torn along the chosen edges, with upstream's default drop shadow when
+    /// `settings.shadow` is on (the shadow's own settings of upstream's torn edge dialog are not kept here).
+    public static func tornEdge(_ image: CGImage, scale: CGFloat, seed: UInt64,
+                                settings: TornEdgeSettings = TornEdgeSettings()) -> EffectResult? {
+        guard let torn = tornEdgeImage(image, scale: scale, seed: seed, settings: settings) else { return nil }
+        guard settings.shadow else { return EffectResult(image: torn, offset: .zero) }
+        return dropShadow(torn, scale: scale)
+    }
+
+    /// Upstream `CreateTornEdge`: the image cut out along a zigzag line on the chosen edges, the same size as the
+    /// original. Untorn edges stay straight.
+    static func tornEdgeImage(_ image: CGImage, scale: CGFloat, seed: UInt64, settings: TornEdgeSettings) -> CGImage? {
         let width = image.width
         let height = image.height
-        let tooth = max(Int((toothHeight * scale).rounded()), 2)
-        let range = max(Int((toothRange * scale).rounded()), 1)
+        // The dialog allows 0; upstream's `Random.Next(1, n)` needs n >= 1 and the regions a range of at least 1.
+        let tooth = max(Int((CGFloat(settings.toothHeight) * scale).rounded()), 2)
+        let horizontalRange = max(Int((CGFloat(settings.horizontalToothRange) * scale).rounded()), 1)
+        let verticalRange = max(Int((CGFloat(settings.verticalToothRange) * scale).rounded()), 1)
         var random = SeededRandom(seed: seed)
         func depth() -> Int { Int.random(in: 1..<tooth, using: &random) }
-        let horizontalRegions = Int((Double(width) / Double(range)).rounded())
-        let verticalRegions = Int((Double(height) / Double(range)).rounded())
+        let horizontalRegions = Int((Double(width) / Double(horizontalRange)).rounded())
+        let verticalRegions = Int((Double(height) / Double(verticalRange)).rounded())
 
-        // Clockwise from the top left, image pixels with the origin at the top left, like upstream. Upstream can leave
-        // edges straight; its default (and the only setting here) tears all four.
+        let topLeft = CGPoint(x: 0, y: 0)
+        let topRight = CGPoint(x: width, y: 0)
+        let bottomLeft = CGPoint(x: 0, y: height)
+        let bottomRight = CGPoint(x: width, y: height)
+
+        // Clockwise from the top left, image pixels with the origin at the top left, like upstream.
         var points: [CGPoint] = []
         func add(_ x: Int, _ y: Int) { points.append(CGPoint(x: x, y: y)) }
-        add(depth(), depth())
-        for i in stride(from: 1, to: horizontalRegions - 1, by: 1) { add(i * range, depth()) }
-        add(width - depth(), depth())
-        for i in stride(from: 1, to: verticalRegions - 1, by: 1) { add(width - depth(), i * range) }
-        add(width - depth(), height - depth())
-        for i in stride(from: 1, to: horizontalRegions - 1, by: 1) { add(width - i * range, height - depth()) }
-        add(depth(), height - depth())
-        for _ in stride(from: 1, to: verticalRegions - 1, by: 1) { add(depth(), Int(points[points.count - 1].y) - range) }
+        if settings.top {
+            // The starting point is only torn when the left edge is torn too.
+            if settings.left { add(depth(), depth()) } else { points.append(topLeft) }
+            for i in stride(from: 1, to: horizontalRegions - 1, by: 1) { add(i * horizontalRange, depth()) }
+            add(width - depth(), depth())
+        } else {
+            points += [topLeft, topRight]
+        }
+        if settings.right {
+            for i in stride(from: 1, to: verticalRegions - 1, by: 1) { add(width - depth(), i * verticalRange) }
+            add(width - depth(), height - depth())
+        } else {
+            // Correct the previous end point, then a straight edge.
+            points[points.count - 1] = topRight
+            points.append(bottomRight)
+        }
+        if settings.bottom {
+            for i in stride(from: 1, to: horizontalRegions - 1, by: 1) { add(width - i * horizontalRange, height - depth()) }
+            add(depth(), height - depth())
+        } else {
+            points[points.count - 1] = bottomRight
+            points.append(bottomLeft)
+        }
+        if settings.left {
+            for _ in stride(from: 1, to: verticalRegions - 1, by: 1) {
+                add(depth(), Int(points[points.count - 1].y) - verticalRange)
+            }
+        } else {
+            points[points.count - 1] = bottomLeft
+            points.append(topLeft)
+        }
         // Upstream ends where it started by replacing the last point.
         points[points.count - 1] = points[0]
 
@@ -171,6 +223,17 @@ public enum ImageEffects {
             }
         }
         return context.makeImage()
+    }
+}
+
+extension EditorDocument {
+    /// Applies an effect with the given settings of the drop shadow and the torn edges.
+    @discardableResult
+    public func apply(_ effect: ImageEffect, dropShadow: DropShadowSettings, tornEdge: TornEdgeSettings,
+                      seed: UInt64 = .random(in: .min ... .max)) -> Bool {
+        guard let result = ImageEffects.apply(effect, to: baseImage, scale: scale, seed: seed,
+                                              dropShadow: dropShadow, tornEdge: tornEdge) else { return false }
+        return replaceImage(with: result.image, offset: result.offset)
     }
 }
 

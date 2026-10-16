@@ -96,4 +96,63 @@ struct ImageEffectsTests {
         doc.change { doc.apply(.grayscale) }
         #expect(doc.canUndo && doc.isModified)
     }
+    // MARK: Settings
+
+    @Test func aBiggerShadowGrowsTheCanvasAccordingly() throws {
+        let settings = DropShadowSettings(darkness: 0.5, size: 10, offsetX: 0, offsetY: 0)
+        let result = try #require(ImageEffects.dropShadow(white, scale: 1, settings: settings))
+        #expect(result.image.width == 60 && result.image.height == 50)
+        // The image at offset + size - 1.
+        #expect(result.offset == CGVector(dx: 9, dy: 9))
+        let retina = try #require(ImageEffects.dropShadow(white, scale: 2, settings: settings))
+        #expect(retina.image.width == 80 && retina.offset == CGVector(dx: 18, dy: 18))
+    }
+
+    @Test func aLargeShadowOffsetKeepsTheWholeImage() throws {
+        // Upstream would draw the image at -20 + 1 - 1 and clip it; here the canvas grows instead.
+        let settings = DropShadowSettings(darkness: 1, size: 1, offsetX: -20, offsetY: 0)
+        let result = try #require(ImageEffects.dropShadow(white, scale: 1, settings: settings))
+        #expect(result.offset == CGVector(dx: 0, dy: 0))
+        #expect(result.image.width == 40 + 22 && result.image.height == 32)
+        #expect(TestImage.pixel(result.image, 0, 15) == .white)
+        #expect(TestImage.pixel(result.image, 39, 15) == .white)
+    }
+
+    @Test func theDefaultSettingsGiveUpstreamsEffects() throws {
+        let plain = try apply(.dropShadow)
+        let set = try #require(ImageEffects.apply(.dropShadow, to: white, scale: 1, seed: 1,
+                                                  dropShadow: DropShadowSettings(), tornEdge: TornEdgeSettings()))
+        #expect(bytes(plain.image) == bytes(set.image) && plain.offset == set.offset)
+    }
+
+    @Test func tornEdgesOnlyOnTopKeepTheOtherEdgesStraight() throws {
+        let base = TestImage.solid(width: 200, height: 150, .white)
+        let settings = TornEdgeSettings(top: true, left: false, right: false, bottom: false, shadow: false)
+        let result = try #require(ImageEffects.tornEdge(base, scale: 1, seed: 3, settings: settings))
+        // Without a shadow the size and position stay.
+        #expect(result.image.width == 200 && result.image.height == 150 && result.offset == .zero)
+        #expect(TestImage.pixel(result.image, 100, 0).a < 255)
+        #expect(TestImage.pixel(result.image, 0, 75) == .white)
+        #expect(TestImage.pixel(result.image, 199, 75) == .white)
+        #expect(TestImage.pixel(result.image, 100, 149) == .white)
+        #expect(TestImage.pixel(result.image, 0, 149) == .white && TestImage.pixel(result.image, 199, 149) == .white)
+    }
+
+    @Test func tornEdgesAcceptZeroSizes() throws {
+        let settings = TornEdgeSettings(toothHeight: 0, horizontalToothRange: 0, verticalToothRange: 0)
+        let result = try #require(ImageEffects.tornEdge(white, scale: 1, seed: 1, settings: settings))
+        #expect(result.image.width == 54)
+    }
+
+    @Test func anEffectWithSettingsIsOneUndoStep() {
+        let doc = EditorDocument(image: white, scale: 1, title: "test", isModified: false)
+        let box = Annotation(kind: .rectangle, start: CGPoint(x: 5, y: 5), end: CGPoint(x: 20, y: 20))
+        doc.change { doc.add(box) }
+        let shadow = DropShadowSettings(darkness: 0.5, size: 10, offsetX: 0, offsetY: 0)
+        doc.change { #expect(doc.apply(.dropShadow, dropShadow: shadow, tornEdge: TornEdgeSettings())) }
+        #expect(doc.imageSize == CGSize(width: 60, height: 50))
+        #expect(doc.annotations[0].start == CGPoint(x: 14, y: 14))
+        doc.undo()
+        #expect(doc.imageSize == CGSize(width: 40, height: 30) && doc.annotations[0].start == CGPoint(x: 5, y: 5))
+    }
 }
