@@ -67,7 +67,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
 
     private var drag: Drag?
     private var rendered: CGImage?
-    private var textView: NSTextView?
+    private var textView: AlignedTextView?
     private var editingID: UUID?
     /// The typing undo of one text editing session, thrown away when it ends (not left on the window's manager).
     private var textUndoManager: UndoManager?
@@ -139,7 +139,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         guard let context = NSGraphicsContext.current?.cgContext else { return }
         if rendered == nil {
             rendered = AnnotationRenderer.flatten(base: document.baseImage, annotations: document.annotations,
-                                                  scale: document.scale, hiding: editingID)
+                                                  scale: document.scale, hiding: editingID, counterStart: document.counterStart)
         }
         if let rendered {
             context.saveGState()
@@ -782,12 +782,14 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         let style = a.style
         // A text element is replaced by the text field; a speech bubble stays drawn around it.
         let frame = a.kind == .speechBubble ? AnnotationRenderer.textRect(for: a, scale: document.scale) : a.bounds
-        let textView = NSTextView(frame: viewRect(frame))
+        let textView = AlignedTextView(frame: viewRect(frame))
         textView.string = a.text
+        // The same font and alignment as the renderer, so the text doesn't jump when editing ends.
         textView.font = AnnotationRenderer.font(for: style, size: CGFloat(style.fontSize))
         textView.textColor = NSColor(cgColor: style.lineColor.cgColor)
         textView.insertionPointColor = NSColor(cgColor: style.lineColor.cgColor) ?? .textColor
-        textView.alignment = .center
+        textView.alignment = AnnotationRenderer.alignment(of: style)
+        textView.verticalAlignment = style.verticalAlignment
         textView.isRichText = false
         textView.allowsUndo = true
         textView.drawsBackground = a.kind == .text && style.fillColor.isVisible
@@ -801,6 +803,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         self.textView = textView
         window?.makeFirstResponder(textView)
         textView.selectAll(nil)
+        textView.alignVertically()
         rendered = nil
         needsDisplay = true
     }
@@ -848,14 +851,46 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         layout.ensureLayout(for: container)
         let needed = layout.usedRect(for: container).height + textView.textContainerInset.height * 2 + 4
         let growth = needed - textView.frame.height
+        textView.alignVertically()
         guard growth > 0 else { return }
         textView.setFrameSize(NSSize(width: textView.frame.width, height: needed))
+        textView.alignVertically()
         let box = a.bounds
         a.start = box.origin
         a.end = CGPoint(x: box.maxX, y: box.maxY + growth * document.scale)
         document.update(a)
         // A speech bubble is drawn below the text field and grows with it.
         rendered = nil
+        needsDisplay = true
+    }
+}
+
+/// The in-place text editor: places its text at the top, middle or bottom of the box like the renderer does
+/// (NSTextView itself always starts at the top).
+final class AlignedTextView: NSTextView {
+    var verticalAlignment: VerticalTextAlignment = .center
+    private var topOffset: CGFloat = 0
+
+    override var textContainerOrigin: NSPoint {
+        let origin = super.textContainerOrigin
+        return NSPoint(x: origin.x, y: origin.y + topOffset)
+    }
+
+    /// Call after the text or the frame changed.
+    func alignVertically() {
+        guard let container = textContainer, let layout = layoutManager else { return }
+        layout.ensureLayout(for: container)
+        let used = layout.usedRect(for: container).height
+        let room = max(0, bounds.height - used - textContainerInset.height * 2)
+        let offset: CGFloat
+        switch verticalAlignment {
+        case .top: offset = 0
+        case .center: offset = (room / 2).rounded(.down)
+        case .bottom: offset = room
+        }
+        guard offset != topOffset else { return }
+        topOffset = offset
+        invalidateTextContainerOrigin()
         needsDisplay = true
     }
 }

@@ -25,13 +25,16 @@ public final class EditorDocument {
     public var fileURL: URL?
     /// Changed since it was last saved, copied or printed.
     public private(set) var isModified: Bool
+    /// The number of the first counter; the others count on from it (upstream `Surface.CounterStart`).
+    public var counterStart = 1
 
     private struct State {
         var base: CGImage
         var annotations: [Annotation]
+        var counterStart: Int
 
         func same(as other: State) -> Bool {
-            base === other.base && annotations == other.annotations
+            base === other.base && annotations == other.annotations && counterStart == other.counterStart
         }
     }
 
@@ -96,11 +99,12 @@ public final class EditorDocument {
         isModified = false
     }
 
-    private var current: State { State(base: baseImage, annotations: annotations) }
+    private var current: State { State(base: baseImage, annotations: annotations, counterStart: counterStart) }
 
     private func restore(_ state: State) {
         baseImage = state.base
         annotations = state.annotations
+        counterStart = state.counterStart
         isModified = true
     }
 
@@ -218,10 +222,10 @@ public final class EditorDocument {
         annotations.last { $0.hitTest(point, scale: scale, tolerance: tolerance) }
     }
 
-    /// The number a counter shows: counters are numbered in the order they were added, and renumber
-    /// when one is removed (upstream `StepLabelContainer`).
+    /// The number a counter shows: counters are numbered in the order they were added, from `counterStart`, and
+    /// renumber when one is removed (upstream `StepLabelContainer`, `Surface.CountStepLabels`).
     public func counterNumber(for id: UUID) -> Int? {
-        var number = 0
+        var number = counterStart - 1
         for annotation in annotations where annotation.kind == .counter {
             number += 1
             if annotation.id == id { return number }
@@ -262,6 +266,6 @@ public final class EditorDocument {
 
     /// The image with all elements drawn on it, the way it is saved.
     public func flattened() -> CGImage {
-        AnnotationRenderer.flatten(base: baseImage, annotations: annotations, scale: scale) ?? baseImage
+        AnnotationRenderer.flatten(base: baseImage, annotations: annotations, scale: scale, counterStart: counterStart) ?? baseImage
     }
 }

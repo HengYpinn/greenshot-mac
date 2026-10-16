@@ -44,6 +44,16 @@ public enum CutMarkStyle: String, Codable, CaseIterable, Sendable {
     case none, line, zigZag, wave, torn
 }
 
+/// Upstream `TEXT_HORIZONTAL_ALIGNMENT` (`StringAlignment` Near, Center, Far).
+public enum HorizontalTextAlignment: String, Codable, CaseIterable, Sendable {
+    case left, center, right
+}
+
+/// Upstream `TEXT_VERTICAL_ALIGNMENT`.
+public enum VerticalTextAlignment: String, Codable, CaseIterable, Sendable {
+    case top, center, bottom
+}
+
 /// Upstream `ArrowHeadCombination`.
 public enum ArrowHeads: String, Codable, CaseIterable, Sendable {
     case none, start, end, both
@@ -102,12 +112,18 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
     public var toothHeight: Double
     /// How wide a tooth of a cut mark is, points (upstream `TOOTH_RANGE`).
     public var toothRange: Double
+    /// The font family of text and speech bubbles; empty is the system font (upstream `FONT_FAMILY`).
+    public var fontFamily: String
+    public var horizontalAlignment: HorizontalTextAlignment
+    public var verticalAlignment: VerticalTextAlignment
 
     public init(lineColor: RGBAColor = .red, fillColor: RGBAColor = .clear, lineWidth: Double = 2, shadow: Bool = true,
                 fontSize: Double = 15, bold: Bool = false, italic: Bool = false, arrowHeads: ArrowHeads = .end,
                 highlightMode: HighlightMode = .text, obfuscateMode: ObfuscateMode = .pixelate,
                 pixelSize: Double = 5, blurRadius: Double = 6, magnification: Double = 2,
-                cutMarkStyle: CutMarkStyle = .torn, toothHeight: Double = 12, toothRange: Double = 20) {
+                cutMarkStyle: CutMarkStyle = .torn, toothHeight: Double = 12, toothRange: Double = 20,
+                fontFamily: String = "", horizontalAlignment: HorizontalTextAlignment = .center,
+                verticalAlignment: VerticalTextAlignment = .center) {
         self.lineColor = lineColor
         self.fillColor = fillColor
         self.lineWidth = lineWidth
@@ -124,6 +140,9 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         self.cutMarkStyle = cutMarkStyle
         self.toothHeight = toothHeight
         self.toothRange = toothRange
+        self.fontFamily = fontFamily
+        self.horizontalAlignment = horizontalAlignment
+        self.verticalAlignment = verticalAlignment
     }
 
     /// Every property falls back to its default, so the styles remembered by an older version (without the newer
@@ -150,6 +169,9 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         cutMarkStyle = value(.cutMarkStyle, d.cutMarkStyle)
         toothHeight = value(.toothHeight, d.toothHeight)
         toothRange = value(.toothRange, d.toothRange)
+        fontFamily = value(.fontFamily, d.fontFamily)
+        horizontalAlignment = value(.horizontalAlignment, d.horizontalAlignment)
+        verticalAlignment = value(.verticalAlignment, d.verticalAlignment)
     }
 
     /// The defaults of upstream's `InitializeFields` per container. Font sizes are converted from Windows points

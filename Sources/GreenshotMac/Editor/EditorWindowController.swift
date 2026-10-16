@@ -39,6 +39,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     private let cutMarkStylePopup = NSPopUpButton()
     private let toothHeightPopup = NSPopUpButton()
     private let toothRangePopup = NSPopUpButton()
+    private let fontFamilyPopup = NSPopUpButton()
+    private let horizontalAlignmentControl = NSSegmentedControl()
+    private let verticalAlignmentControl = NSSegmentedControl()
+    private let counterStartField = NSTextField()
+    private let counterStartStepper = NSStepper()
+    private let magnificationPopup = NSPopUpButton()
+    private var magnificationGroup: NSView?
+    /// The font families in the font popup after "System Font".
+    private let fontFamilies = NSFontManager.shared.availableFontFamilies.sorted {
+        $0.localizedStandardCompare($1) == .orderedAscending
+    }
     private var propertyGroups: [(view: NSView, kinds: Set<AnnotationKind>)] = []
     private let cropGroup = NSStackView()
 
@@ -47,6 +58,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     private static let effectSizes = [2, 3, 5, 8, 12, 16, 24]
     private static let toothHeights = [4, 6, 8, 10, 12, 16, 20, 24, 32]
     private static let toothRanges = [8, 10, 12, 16, 20, 24, 30, 40, 60]
+    private static let magnifications = [2, 3, 4]
 
     init(document: EditorDocument, settings: SettingsStore, saver: ImageSaver, onClose: @escaping (EditorWindowController) -> Void) {
         self.editorDocument = document
@@ -117,6 +129,29 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         popup.action = action
     }
 
+    private func setUpSegments(_ control: NSSegmentedControl, symbols: [String], labels: [String], action: Selector) {
+        control.segmentCount = symbols.count
+        control.trackingMode = .selectOne
+        control.controlSize = .small
+        for (index, symbol) in symbols.enumerated() {
+            if let image = NSImage(systemSymbolName: symbol, accessibilityDescription: labels[index]) {
+                control.setImage(image, forSegment: index)
+            } else {
+                control.setLabel(labels[index], forSegment: index)
+            }
+            control.setToolTip(labels[index], forSegment: index)
+        }
+        control.target = self
+        control.action = action
+    }
+
+    /// The zoom factor of the magnifier, shown only for the Magnify highlight (upstream `MAGNIFICATION_FACTOR`).
+    private func magnifyGroup() -> NSView {
+        let view = group([label("Zoom"), magnificationPopup], for: [.highlight])
+        magnificationGroup = view
+        return view
+    }
+
     private func buildUI() {
         guard let window else { return }
 
@@ -155,11 +190,36 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         setUp(cutMarkStylePopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutMarkStyleChanged))
         setUp(toothHeightPopup, titles: Self.toothHeights.map { "\($0) pt" }, action: #selector(toothHeightChanged))
         setUp(toothRangePopup, titles: Self.toothRanges.map { "\($0) pt" }, action: #selector(toothRangeChanged))
+        setUp(fontFamilyPopup, titles: ["System Font"] + fontFamilies, action: #selector(fontFamilyChanged))
+        fontFamilyPopup.menu?.insertItem(.separator(), at: 1)
+        setUp(magnificationPopup, titles: Self.magnifications.map { "\($0)×" }, action: #selector(magnificationChanged))
+        setUpSegments(horizontalAlignmentControl, symbols: ["text.alignleft", "text.aligncenter", "text.alignright"],
+                      labels: ["Left", "Center", "Right"], action: #selector(horizontalAlignmentChanged))
+        setUpSegments(verticalAlignmentControl, symbols: ["align.vertical.top", "align.vertical.center", "align.vertical.bottom"],
+                      labels: ["Top", "Middle", "Bottom"], action: #selector(verticalAlignmentChanged))
+        // Upstream's counter start value (`counterUpDown`).
+        let formatter = NumberFormatter()
+        formatter.minimum = 0
+        formatter.maximum = 9999
+        formatter.allowsFloats = false
+        counterStartField.formatter = formatter
+        counterStartField.controlSize = .small
+        counterStartField.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
+        counterStartField.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        counterStartField.target = self
+        counterStartField.action = #selector(counterStartChanged(_:))
+        counterStartStepper.minValue = 0
+        counterStartStepper.maxValue = 9999
+        counterStartStepper.increment = 1
+        counterStartStepper.valueWraps = false
+        counterStartStepper.controlSize = .small
+        counterStartStepper.target = self
+        counterStartStepper.action = #selector(counterStartChanged(_:))
 
         let properties = NSStackView(views: [
             group([lineColorLabel, lineColorWell], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble, .cutMark]),
             group([label("Fill"), fillColorWell, noFill], for: [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble, .cutMark]),
-            group([label("Width"), lineWidthPopup], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .speechBubble, .cutMark]),
+            group([label("Width"), lineWidthPopup], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .speechBubble, .counter, .cutMark]),
             group([cutMarkStylePopup, label("Teeth"), toothHeightPopup, label("Range"), toothRangePopup], for: [.cutMark]),
             group([arrowHeadsPopup], for: [.arrow]),
             group([label("Size"), fontSizePopup], for: [.text, .counter, .speechBubble]),
@@ -167,7 +227,11 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
             group([highlightPopup], for: [.highlight]),
             group([obfuscatePopup, label("Size"), effectSizePopup], for: [.obfuscate]),
             group([label("Emoji"), emojiPopup], for: [.emoji]),
-            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .text, .speechBubble, .image, .cutMark]),
+            group([fontFamilyPopup, horizontalAlignmentControl, verticalAlignmentControl], for: [.text, .speechBubble]),
+            group([label("Start at"), counterStartField, counterStartStepper], for: [.counter]),
+            magnifyGroup(),
+            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .highlight,
+                                          .obfuscate, .counter, .emoji, .image, .cutMark]),
         ])
         properties.spacing = 14
 
@@ -323,6 +387,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         window.isDocumentEdited = editorDocument.isModified
         undoButton.isEnabled = editorDocument.canUndo
         redoButton.isEnabled = editorDocument.canRedo
+        if counterStartField.currentEditor() == nil { counterStartField.integerValue = editorDocument.counterStart }
+        counterStartStepper.integerValue = editorDocument.counterStart
         let size = editorDocument.imageSize
         statusLabel.stringValue = "\(Int(size.width)) × \(Int(size.height)) px   \(Int((scrollView.magnification * 100).rounded())) %"
     }
@@ -357,6 +423,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         cutMarkStylePopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: style.cutMarkStyle) ?? 4)
         selectClosest(toothHeightPopup, values: Self.toothHeights, to: style.toothHeight)
         selectClosest(toothRangePopup, values: Self.toothRanges, to: style.toothRange)
+        if let index = fontFamilies.firstIndex(of: style.fontFamily) {
+            fontFamilyPopup.selectItem(at: index + 2)
+        } else {
+            fontFamilyPopup.selectItem(at: 0)
+        }
+        horizontalAlignmentControl.selectedSegment = HorizontalTextAlignment.allCases.firstIndex(of: style.horizontalAlignment) ?? 1
+        verticalAlignmentControl.selectedSegment = VerticalTextAlignment.allCases.firstIndex(of: style.verticalAlignment) ?? 1
+        selectClosest(magnificationPopup, values: Self.magnifications, to: style.magnification)
+        magnificationGroup?.isHidden = kind != .highlight || style.highlightMode != .magnify
+        counterStartField.integerValue = editorDocument.counterStart
+        counterStartStepper.integerValue = editorDocument.counterStart
         let emoji = canvas.selectedAnnotation.flatMap { $0.kind == .emoji ? $0.text : nil } ?? settings.value.recentEmoji
         if let index = EmojiChoices.all.firstIndex(of: emoji) { emojiPopup.selectItem(at: index) }
     }
@@ -410,6 +487,39 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         applyStyle {
             if $0.obfuscateMode == .pixelate { $0.pixelSize = size } else { $0.blurRadius = size }
         }
+    }
+
+    @objc private func fontFamilyChanged() {
+        let index = fontFamilyPopup.indexOfSelectedItem
+        let family = index >= 2 && index - 2 < fontFamilies.count ? fontFamilies[index - 2] : ""
+        applyStyle { $0.fontFamily = family }
+    }
+
+    @objc private func horizontalAlignmentChanged() {
+        let index = horizontalAlignmentControl.selectedSegment
+        guard HorizontalTextAlignment.allCases.indices.contains(index) else { return }
+        applyStyle { $0.horizontalAlignment = HorizontalTextAlignment.allCases[index] }
+    }
+
+    @objc private func verticalAlignmentChanged() {
+        let index = verticalAlignmentControl.selectedSegment
+        guard VerticalTextAlignment.allCases.indices.contains(index) else { return }
+        applyStyle { $0.verticalAlignment = VerticalTextAlignment.allCases[index] }
+    }
+
+    @objc private func magnificationChanged() {
+        applyStyle { $0.magnification = Double(Self.magnifications[magnificationPopup.indexOfSelectedItem]) }
+    }
+
+    /// The first counter's number; the others count on from it. An undo step of its own.
+    @objc private func counterStartChanged(_ sender: NSControl) {
+        let value = min(max(sender.integerValue, 0), 9999)
+        if value != editorDocument.counterStart {
+            editorDocument.change { editorDocument.counterStart = value }
+            canvas.documentChanged()
+        }
+        refreshProperties()
+        if sender === counterStartField { window?.makeFirstResponder(canvas) }
     }
 
     @objc private func cutMarkStyleChanged() {
