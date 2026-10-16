@@ -20,6 +20,11 @@ extension MainMenu {
         edit.addItem(withTitle: "Duplicate", action: #selector(CanvasView.duplicate(_:)), keyEquivalent: "d")
         edit.addItem(withTitle: "Delete", action: #selector(NSText.delete(_:)), keyEquivalent: "")
         edit.addItem(withTitle: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a")
+        edit.addItem(.separator())
+        // Upstream Edit › Insert window; the list is made when the menu opens.
+        let windows = NSMenu(title: "Insert Window")
+        windows.delegate = WindowInsertMenu.shared
+        edit.addItem(withTitle: "Insert Window", action: nil, keyEquivalent: "").submenu = windows
 
         addObjectMenu(to: main)
     }

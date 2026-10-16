@@ -669,6 +669,31 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
     }
 
+    // MARK: Insert window (Edit menu)
+
+    /// Upstream Edit › Insert window: captures the window and adds it as an image element at the top left.
+    @objc func insertWindow(_ sender: NSMenuItem) {
+        canvas.commitEditing()
+        guard let number = sender.representedObject as? NSNumber,
+              let target = ScreenCapturer.onScreenWindows().first(where: { $0.id == number.uint32Value }) else {
+            ErrorPresenter.show(message: "The window could not be captured", detail: CaptureError.windowNotFound.localizedDescription)
+            return
+        }
+        let includeShadow = settings.value.includeWindowShadow
+        Task { @MainActor [weak self] in
+            do {
+                let capture = try await ScreenCapturer.capture(window: target, showsCursor: false, includeShadow: includeShadow)
+                guard let self else { return }
+                let document = self.editorDocument
+                guard let element = Annotation.picture(capture.image, pictureScale: capture.scale, at: .zero,
+                                                       documentScale: document.scale, fitting: document.imageSize) else { return }
+                self.canvas.insert([element])
+            } catch {
+                ErrorPresenter.show(message: "The window could not be captured", detail: error.localizedDescription)
+            }
+        }
+    }
+
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
         switch item.action {
         case #selector(saveElements(_:)): return !editorDocument.annotations.isEmpty
