@@ -841,6 +841,16 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         return resolveChanges(makeSaveAlert().runModal())
     }
 
+    /// Before another screenshot replaces this one (reuse editor): true when it may go. Asks to save a changed one;
+    /// unlike closing, "suppress the save dialog" doesn't apply, so a new capture never silently discards edits.
+    func confirmReplace() -> Bool {
+        canvas.commitEditing()
+        guard editorDocument.isModified, let window else { return true }
+        NSApp.activate()
+        window.makeKeyAndOrderFront(nil)
+        return resolveChanges(makeSaveAlert().runModal())
+    }
+
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         canvas.commitEditing()
         // Upstream `SuppressSaveDialogAtClose`: closing a changed screenshot doesn't ask.

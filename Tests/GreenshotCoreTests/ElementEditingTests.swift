@@ -18,7 +18,10 @@ struct ElementTransferTests {
         var text = Annotation(kind: .speechBubble, start: .zero, end: CGPoint(x: 50, y: 30), text: "Hi", tail: CGPoint(x: 80, y: 80))
         text.style.bold = false
         let freehand = Annotation(kind: .freehand, start: .zero, end: .zero, points: [.zero, CGPoint(x: 3, y: 4)])
-        let transfer = ElementTransfer(elements: [text, freehand], scale: 2, sourceDocument: UUID())
+        var mark = Annotation(kind: .cutMark, start: .zero, end: CGPoint(x: 10, y: 30))
+        // A seed above 2^53 must survive JSON, or a pasted torn edge would change.
+        mark.seed = UInt64.max - 12345
+        let transfer = ElementTransfer(elements: [text, freehand, mark], scale: 2, sourceDocument: UUID())
         let decoded = try #require(ElementTransfer.decode(try transfer.encoded()))
         #expect(decoded == transfer)
     }

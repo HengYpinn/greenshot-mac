@@ -25,9 +25,9 @@ final class EditorManager {
     }
 
     func open(_ capture: Capture) {
-        if settings.value.reuseEditor, let editor = reusableEditor() {
-            // Upstream `EditorDestination`: the capture goes into an open editor whose screenshot has no unsaved
-            // changes; when every editor has some, a new one opens.
+        if settings.value.reuseEditor, let editor = frontEditor(), editor.confirmReplace() {
+            // Upstream `EditorDestination` reuses an open editor. A new capture is always unsaved here, so instead of
+            // skipping changed editors (upstream) the front one asks to save first; Cancel opens a new editor.
             editor.show(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
             guard let window = editor.window else { return }
             window.makeKeyAndOrderFront(nil)
@@ -38,11 +38,10 @@ final class EditorManager {
         open(EditorDocument(image: capture.image, scale: capture.scale, title: capture.title, captureDate: capture.date))
     }
 
-    /// The front-most editor without unsaved changes.
-    private func reusableEditor() -> EditorWindowController? {
-        let front = NSApp.orderedWindows.compactMap { window in controllers.first { $0.window === window } }
-        let ordered = front + controllers.filter { controller in !front.contains { $0 === controller } }
-        return ordered.first { !$0.editorDocument.isModified && !$0.canvas.isEditingText }
+    /// The front-most editor.
+    private func frontEditor() -> EditorWindowController? {
+        NSApp.orderedWindows.lazy.compactMap { window in self.controllers.first { $0.window === window } }.first
+            ?? controllers.last
     }
 
     /// Closes every editor, asking about each changed screenshot; stops when the user cancels.
