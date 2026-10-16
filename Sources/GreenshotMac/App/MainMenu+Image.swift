@@ -23,5 +23,14 @@ extension MainMenu {
         // Upstream's Resize button (key Z there; single letters choose the tools in the canvas, so ⌥⌘R here).
         image.addItem(withTitle: "Resize…", action: #selector(EditorWindowController.resizeImage(_:)), keyEquivalent: "r")
             .keyEquivalentModifierMask = [.option, .command]
+        // Upstream Ctrl+. and Ctrl+,; ⌘, opens the Settings on a Mac, so the arrows with ⌥⌘.
+        image.addItem(withTitle: "Rotate Clockwise", action: #selector(EditorWindowController.rotateClockwise(_:)),
+                      keyEquivalent: arrow(NSRightArrowFunctionKey)).keyEquivalentModifierMask = [.option, .command]
+        image.addItem(withTitle: "Rotate Counter-Clockwise", action: #selector(EditorWindowController.rotateCounterClockwise(_:)),
+                      keyEquivalent: arrow(NSLeftArrowFunctionKey)).keyEquivalentModifierMask = [.option, .command]
+    }
+
+    private static func arrow(_ key: Int) -> String {
+        String(utf16CodeUnits: [UInt16(key)], count: 1)
     }
 }

@@ -47,3 +47,47 @@ struct ImageOperationsTests {
         #expect(TestImage.pixel(image, 12, 2) == .red)
     }
 }
+
+extension ImageOperationsTests {
+    // MARK: Rotate
+
+    /// A 3 × 2 image, red in the top left corner, blue in the bottom right.
+    var marked: CGImage {
+        TestImage.make(width: 3, height: 2) { x, y in
+            if x == 0 && y == 0 { return .red }
+            if x == 2 && y == 1 { return .blue }
+            return .white
+        }
+    }
+
+    @Test func rotateClockwiseMovesTheTopLeftToTheTopRight() throws {
+        let image = try #require(ImageOperations.rotate(marked, clockwise: true))
+        #expect(image.width == 2 && image.height == 3)
+        #expect(TestImage.pixel(image, 1, 0) == .red)
+        #expect(TestImage.pixel(image, 0, 2) == .blue)
+    }
+
+    @Test func rotateCounterClockwiseMovesTheTopLeftToTheBottomLeft() throws {
+        let image = try #require(ImageOperations.rotate(marked, clockwise: false))
+        #expect(image.width == 2 && image.height == 3)
+        #expect(TestImage.pixel(image, 0, 2) == .red)
+        #expect(TestImage.pixel(image, 1, 0) == .blue)
+    }
+
+    @Test func rotatingFourTimesRestoresTheImageAndTheElements() {
+        let doc = document(marked)
+        let arrow = Annotation(kind: .arrow, start: CGPoint(x: 0.5, y: 0.5), end: CGPoint(x: 2.5, y: 1.5))
+        doc.change { doc.add(arrow) }
+        doc.change { #expect(doc.rotateImage(clockwise: true)) }
+        #expect(doc.imageSize == CGSize(width: 2, height: 3))
+        // The arrow turns with the image: the top left corner goes to the top right.
+        #expect(doc.annotations[0].start == CGPoint(x: 1.5, y: 0.5) && doc.annotations[0].end == CGPoint(x: 0.5, y: 2.5))
+        for _ in 0..<3 { doc.change { doc.rotateImage(clockwise: true) } }
+        #expect(doc.imageSize == CGSize(width: 3, height: 2))
+        #expect(doc.annotations[0] == arrow)
+        #expect(TestImage.pixel(doc.baseImage, 0, 0) == .red && TestImage.pixel(doc.baseImage, 2, 1) == .blue)
+        doc.change { doc.rotateImage(clockwise: false) }
+        doc.change { doc.rotateImage(clockwise: true) }
+        #expect(doc.annotations[0] == arrow)
+    }
+}

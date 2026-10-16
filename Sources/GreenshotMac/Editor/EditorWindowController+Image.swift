@@ -24,7 +24,9 @@ extension EditorWindowController {
             effects.menu?.addItem(item)
         }
         let resize = imageButton("arrow.up.left.and.arrow.down.right", "Resize the image (⌥⌘R)", #selector(resizeImage(_:)))
-        return [effects, resize]
+        let rotateLeft = imageButton("rotate.left", "Rotate counter-clockwise (⌥⌘←)", #selector(rotateCounterClockwise(_:)))
+        let rotateRight = imageButton("rotate.right", "Rotate clockwise (⌥⌘→)", #selector(rotateClockwise(_:)))
+        return [effects, resize, rotateLeft, rotateRight]
     }
 
     // MARK: Effects
@@ -75,6 +77,18 @@ extension EditorWindowController {
             guard let size = form.size else { NSSound.beep(); return }
             self?.performImageOperation { $0.resizeImage(to: size) }
         }
+    }
+
+    // MARK: Rotate
+
+    /// Upstream `RotateEffect(90)` (Ctrl+.): the image and its elements turn clockwise.
+    @objc func rotateClockwise(_ sender: Any?) {
+        performImageOperation { $0.rotateImage(clockwise: true) }
+    }
+
+    /// Upstream `RotateEffect(270)` (Ctrl+,).
+    @objc func rotateCounterClockwise(_ sender: Any?) {
+        performImageOperation { $0.rotateImage(clockwise: false) }
     }
 
     // MARK: Helpers
