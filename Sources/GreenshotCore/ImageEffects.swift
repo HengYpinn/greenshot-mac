@@ -231,31 +231,10 @@ public enum ImageEffects {
         return context.makeImage()
     }
 
-    /// Upstream `ReduceColorsEffect` (a Wu quantizer there, median cut here): the image with at most `count`
-    /// colors (alpha counts as part of a color). An image that already has no more colors comes back as it is.
+    /// Upstream `ReduceColorsEffect` (a Wu quantizer there, median cut here, see `ColorQuantizer`): the image with
+    /// at most `count` colors. An image that already has no more colors comes back as it is.
     public static func reduceColors(_ image: CGImage, to count: Int) -> CGImage? {
-        guard let context = AnnotationRenderer.makeContext(width: image.width, height: image.height),
-              let pixels = pixelBuffer(of: image, in: context) else { return nil }
-        let rowBytes = context.bytesPerRow
-        var histogram: [UInt32: Int] = [:]
-        for y in 0..<image.height {
-            for x in 0..<image.width {
-                histogram[packedColor(pixels, y * rowBytes + x * 4), default: 0] += 1
-            }
-        }
-        guard histogram.count > max(count, 1) else { return image }
-        let palette = ColorQuantizer.medianCut(histogram, count: max(count, 1))
-        for y in 0..<image.height {
-            for x in 0..<image.width {
-                let i = y * rowBytes + x * 4
-                guard let color = palette[packedColor(pixels, i)] else { continue }
-                pixels[i] = UInt8(color >> 24)
-                pixels[i + 1] = UInt8((color >> 16) & 0xFF)
-                pixels[i + 2] = UInt8((color >> 8) & 0xFF)
-                pixels[i + 3] = UInt8(color & 0xFF)
-            }
-        }
-        return context.makeImage()
+        ColorQuantizer.reduce(image, to: count)
     }
 
     /// The number of different colors of an image (premultiplied RGBA).
@@ -354,67 +333,6 @@ extension EditorDocument {
         guard let result = ImageEffects.apply(effect, to: baseImage, scale: scale, seed: seed,
                                               dropShadow: dropShadow, tornEdge: tornEdge) else { return false }
         return replaceImage(with: result.image, offset: result.offset)
-    }
-}
-
-/// Median cut color quantization: the colors are split into boxes along their widest channel until there are
-/// enough boxes; each box becomes the weighted average of its colors.
-enum ColorQuantizer {
-    private struct Entry {
-        var channels: [Int]
-        var color: UInt32
-        var weight: Int
-    }
-
-    /// Maps every color of `histogram` (packed RGBA with its pixel count) to one of at most `count` colors.
-    static func medianCut(_ histogram: [UInt32: Int], count: Int) -> [UInt32: UInt32] {
-        let entries = histogram.map { color, weight in
-            Entry(channels: [Int(color >> 24), Int((color >> 16) & 0xFF), Int((color >> 8) & 0xFF), Int(color & 0xFF)],
-                  color: color, weight: weight)
-        }
-        var boxes: [[Entry]] = [entries]
-        while boxes.count < count {
-            // The box with the widest channel that can still be split.
-            var best: (box: Int, channel: Int, range: Int)?
-            for (index, box) in boxes.enumerated() where box.count > 1 {
-                for channel in 0..<4 {
-                    let values = box.map { $0.channels[channel] }
-                    let range = (values.max() ?? 0) - (values.min() ?? 0)
-                    if range > (best?.range ?? 0) { best = (index, channel, range) }
-                }
-            }
-            guard let split = best else { break }
-            let sorted = boxes[split.box].sorted { $0.channels[split.channel] < $1.channels[split.channel] }
-            let half = sorted.reduce(0) { $0 + $1.weight } / 2
-            var running = 0
-            var cut = 1
-            for (index, entry) in sorted.enumerated() {
-                running += entry.weight
-                if running >= half {
-                    cut = min(max(index + 1, 1), sorted.count - 1)
-                    break
-                }
-            }
-            boxes[split.box] = Array(sorted[..<cut])
-            boxes.append(Array(sorted[cut...]))
-        }
-        var palette: [UInt32: UInt32] = [:]
-        for box in boxes {
-            let representative = average(box)
-            for entry in box { palette[entry.color] = representative }
-        }
-        return palette
-    }
-
-    private static func average(_ box: [Entry]) -> UInt32 {
-        let total = max(box.reduce(0) { $0 + $1.weight }, 1)
-        var result: UInt32 = 0
-        for channel in 0..<4 {
-            let sum = box.reduce(0) { $0 + $1.channels[channel] * $1.weight }
-            let value: Int = (sum + total / 2) / total
-            result = (result << 8) | UInt32(min(value, 255))
-        }
-        return result
     }
 }
 
