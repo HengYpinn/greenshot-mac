@@ -91,3 +91,73 @@ extension ImageOperationsTests {
         #expect(doc.annotations[0] == arrow)
     }
 }
+
+extension ImageOperationsTests {
+    // MARK: Canvas
+
+    @Test func enlargeAndShrinkCanvasIsARoundTrip() {
+        let doc = document(scale: 2)
+        // Without a shadow: Shrink Canvas keeps what the elements draw, a shadow included.
+        let box = Annotation(kind: .rectangle, start: CGPoint(x: 4, y: 3), end: CGPoint(x: 20, y: 15),
+                             style: AnnotationStyle(shadow: false))
+        doc.change { doc.add(box) }
+        doc.change { #expect(doc.enlargeCanvas()) }
+        // 25 pt are 50 pixels at 2 pixels per point.
+        #expect(doc.imageSize == CGSize(width: 140, height: 130))
+        #expect(doc.annotations[0].start == CGPoint(x: 54, y: 53))
+        #expect(TestImage.pixel(doc.baseImage, 10, 10).a == 0)
+        #expect(TestImage.pixel(doc.baseImage, 60, 60) == .white)
+        doc.change { #expect(doc.shrinkCanvas()) }
+        #expect(doc.imageSize == CGSize(width: 40, height: 30))
+        #expect(doc.annotations[0] == box)
+        // Nothing more to shrink.
+        doc.change { #expect(!doc.shrinkCanvas()) }
+    }
+
+    @Test func shrinkCanvasKeepsElementsOnTheMargin() {
+        let doc = document()
+        doc.change { doc.enlargeCanvas() }
+        let line = Annotation(kind: .line, start: CGPoint(x: 5, y: 45), end: CGPoint(x: 30, y: 45),
+                              style: AnnotationStyle(lineColor: .blue, lineWidth: 2, shadow: false))
+        doc.change { doc.add(line) }
+        doc.change { #expect(doc.shrinkCanvas()) }
+        // The line sticks out 20 pixels to the left of the image.
+        #expect(doc.imageSize.width > 60 && doc.imageSize.width < 70)
+    }
+
+    @Test func resizeCanvasWithABackgroundColorAndNegativeInsets() throws {
+        let result = try #require(ImageOperations.resizeCanvas(white, left: 5, right: -10, top: 0, bottom: 2,
+                                                               background: CGColor(srgbRed: 1, green: 0, blue: 0, alpha: 1)))
+        #expect(result.image.width == 35 && result.image.height == 32)
+        #expect(result.offset == CGVector(dx: 5, dy: 0))
+        #expect(TestImage.pixel(result.image, 2, 10) == .red)
+        #expect(TestImage.pixel(result.image, 20, 31) == .red)
+        #expect(TestImage.pixel(result.image, 20, 10) == .white)
+    }
+
+    @Test func clearBackgroundMakesThePixelsTransparent() {
+        let doc = document()
+        let box = Annotation(kind: .rectangle, start: CGPoint(x: 4, y: 3), end: CGPoint(x: 20, y: 15))
+        doc.change { doc.add(box) }
+        doc.change { #expect(doc.clearImage()) }
+        #expect(doc.imageSize == CGSize(width: 40, height: 30) && doc.annotations == [box])
+        #expect(TestImage.pixel(doc.baseImage, 30, 25).a == 0)
+        doc.undo()
+        #expect(TestImage.pixel(doc.baseImage, 30, 25) == .white)
+    }
+
+    @Test func removeTransparencyMakesThemWhite() {
+        let image = TestImage.make(width: 4, height: 1) { x, _ in
+            [RGBA.red, RGBA(r: 0, g: 0, b: 0, a: 0), RGBA(r: 0, g: 0, b: 128, a: 128), .blue][x]
+        }
+        #expect(ImageOperations.hasTransparency(image))
+        #expect(!ImageOperations.hasTransparency(white))
+        let doc = document(image)
+        doc.change { #expect(doc.removeTransparency()) }
+        #expect(TestImage.pixel(doc.baseImage, 0, 0) == .red)
+        #expect(TestImage.pixel(doc.baseImage, 1, 0) == .white)
+        #expect(TestImage.pixel(doc.baseImage, 2, 0).isClose(to: RGBA(r: 127, g: 127, b: 255, a: 255)))
+        #expect(!ImageOperations.hasTransparency(doc.baseImage))
+        doc.change { #expect(!doc.removeTransparency()) }
+    }
+}

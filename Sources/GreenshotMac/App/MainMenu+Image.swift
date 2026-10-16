@@ -28,6 +28,18 @@ extension MainMenu {
                       keyEquivalent: arrow(NSRightArrowFunctionKey)).keyEquivalentModifierMask = [.option, .command]
         image.addItem(withTitle: "Rotate Counter-Clockwise", action: #selector(EditorWindowController.rotateCounterClockwise(_:)),
                       keyEquivalent: arrow(NSLeftArrowFunctionKey)).keyEquivalentModifierMask = [.option, .command]
+
+        // Upstream Ctrl+Shift+Plus / Minus; ⌘+ and ⌘- zoom here, so with ⌥⌘ (which only clash with the
+        // system's Zoom when its keyboard shortcuts are turned on in the Accessibility settings).
+        image.addItem(withTitle: "Enlarge Canvas", action: #selector(EditorWindowController.enlargeCanvas(_:)),
+                      keyEquivalent: "=").keyEquivalentModifierMask = [.option, .command]
+        image.addItem(withTitle: "Shrink Canvas", action: #selector(EditorWindowController.shrinkCanvas(_:)),
+                      keyEquivalent: "-").keyEquivalentModifierMask = [.option, .command]
+        // Upstream Ctrl+Delete; ⌘⌫ is the Mac's delete key with Command.
+        image.addItem(withTitle: "Clear Background", action: #selector(EditorWindowController.clearBackground(_:)),
+                      keyEquivalent: "\u{8}")
+        image.addItem(withTitle: "Remove Transparency", action: #selector(EditorWindowController.removeTransparency(_:)),
+                      keyEquivalent: "")
     }
 
     private static func arrow(_ key: Int) -> String {

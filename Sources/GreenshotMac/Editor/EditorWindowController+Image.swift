@@ -91,6 +91,28 @@ extension EditorWindowController {
         performImageOperation { $0.rotateImage(clockwise: false) }
     }
 
+    // MARK: Canvas
+
+    /// Upstream "Enlarge canvas" (Ctrl+Shift+Plus, FEATURE-919): 25 pt of transparent canvas on every side.
+    @objc func enlargeCanvas(_ sender: Any?) {
+        performImageOperation { $0.enlargeCanvas() }
+    }
+
+    /// Upstream "Shrink canvas" (Ctrl+Shift+Minus): cuts the transparent margin away again.
+    @objc func shrinkCanvas(_ sender: Any?) {
+        if !performImageOperation({ $0.shrinkCanvas() }) { NSSound.beep() }
+    }
+
+    /// Upstream "Clear" (Ctrl+Delete): the image becomes transparent; its size and the elements stay.
+    @objc func clearBackground(_ sender: Any?) {
+        performImageOperation { $0.clearImage() }
+    }
+
+    /// Upstream "Remove transparency": the transparent parts become white.
+    @objc func removeTransparency(_ sender: Any?) {
+        if !performImageOperation({ $0.removeTransparency() }) { NSSound.beep() }
+    }
+
     // MARK: Helpers
 
     /// A toolbar button with an SF Symbol, like the editor's other icon buttons.
@@ -111,6 +133,36 @@ extension EditorWindowController {
         editorDocument.change { done = operation(editorDocument) }
         canvas.documentChanged()
         return done
+    }
+}
+
+extension EditorWindowController: NSMenuItemValidation {
+    /// Enables the image operations that have something to do. Every other item stays enabled, as without this.
+    func validateMenuItem(_ item: NSMenuItem) -> Bool {
+        switch item.action {
+        case #selector(removeTransparency(_:)):
+            return TransparencyCheck.hasTransparency(editorDocument.baseImage)
+        case #selector(clearBackground(_:)):
+            // ⌘⌫ deletes to the start of the line while a text element is being typed.
+            return !canvas.isEditingText
+        default:
+            return true
+        }
+    }
+}
+
+/// Whether the image has transparent pixels, remembered for the last image: the menu asks every time it opens.
+@MainActor
+private enum TransparencyCheck {
+    private static var image: CGImage?
+    private static var result = false
+
+    static func hasTransparency(_ image: CGImage) -> Bool {
+        if image !== self.image {
+            self.image = image
+            result = ImageOperations.hasTransparency(image)
+        }
+        return result
     }
 }
 
