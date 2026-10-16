@@ -196,10 +196,9 @@ extension EditorWindowController {
         let sheet = TextObfuscationSheet(image: editorDocument.baseImage, settings: settings.value.textObfuscation,
                                          language: settings.value.ocrLanguage)
         sheet.onSaveSettings = { [weak self] options in self?.settings.update { $0.textObfuscation = options } }
-        sheet.onApply = { [weak self] boxes, effect in
+        sheet.onApply = { [weak self] boxes, options in
             guard let self else { return }
-            let style = self.settings.value
-            let elements = TextObfuscation.annotations(for: boxes, effect: effect) { style.style(for: $0) }
+            let elements = TextObfuscation.annotations(for: boxes, settings: options)
             self.performImageOperation { document in
                 elements.forEach(document.add)
                 return true

@@ -50,20 +50,28 @@ public enum TextObfuscation {
                       width: box.width + dx * 2, height: box.height + dy * 2)
     }
 
-    /// Upstream `CreateFilterContainer`: one obfuscate (pixelate, blur) or highlight (text, magnify) element per box.
-    /// `style` gives the last used style of that kind; its filter is set to the effect.
-    public static func annotations(for boxes: [CGRect], effect: TextObfuscationSettings.Effect,
-                                   style: (AnnotationKind) -> AnnotationStyle = { .defaults(for: $0) }) -> [Annotation] {
-        let kind: AnnotationKind = effect == .pixelate || effect == .blur ? .obfuscate : .highlight
-        var elementStyle = style(kind)
-        switch effect {
-        case .pixelate: elementStyle.obfuscateMode = .pixelate
-        case .blur: elementStyle.obfuscateMode = .blur
-        case .highlight: elementStyle.highlightMode = .text
-        case .magnify: elementStyle.highlightMode = .magnify
+    /// Upstream `CreateFilterContainer`: one obfuscate (pixelate, blur) or highlight (text, magnify) element per box,
+    /// with the default style of its kind and the effect's options from the dialog (pixel size, blur radius,
+    /// magnification, highlight color).
+    public static func annotations(for boxes: [CGRect], settings: TextObfuscationSettings) -> [Annotation] {
+        let kind: AnnotationKind = settings.effect == .pixelate || settings.effect == .blur ? .obfuscate : .highlight
+        var style = AnnotationStyle.defaults(for: kind)
+        switch settings.effect {
+        case .pixelate:
+            style.obfuscateMode = .pixelate
+            style.pixelSize = Double(max(settings.pixelSize, 1))
+        case .blur:
+            style.obfuscateMode = .blur
+            style.blurRadius = Double(max(settings.blurRadius, 1))
+        case .highlight:
+            style.highlightMode = .text
+            style.fillColor = settings.highlightColor
+        case .magnify:
+            style.highlightMode = .magnify
+            style.magnification = Double(max(settings.magnification, 1))
         }
         return boxes.map { box in
-            Annotation(kind: kind, start: box.origin, end: CGPoint(x: box.maxX, y: box.maxY), style: elementStyle)
+            Annotation(kind: kind, start: box.origin, end: CGPoint(x: box.maxX, y: box.maxY), style: style)
         }
     }
 

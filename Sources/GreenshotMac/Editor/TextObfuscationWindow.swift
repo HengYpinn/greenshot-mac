@@ -18,8 +18,8 @@ final class TextObfuscationSheet: NSObject {
     private let language: String
     /// Saves the options when Apply is clicked.
     var onSaveSettings: ((TextObfuscationSettings) -> Void)?
-    /// Adds the elements for the matched boxes (image pixels).
-    var onApply: (([CGRect], TextObfuscationSettings.Effect) -> Void)?
+    /// Adds the elements for the matched boxes (image pixels) with the options of the dialog.
+    var onApply: (([CGRect], TextObfuscationSettings) -> Void)?
 
     private let panel: NSPanel
     private let searchField = NSTextField()
@@ -27,6 +27,11 @@ final class TextObfuscationSheet: NSObject {
     private let caseBox = NSButton(checkboxWithTitle: "Case sensitive", target: nil, action: nil)
     private let scopePopup = NSPopUpButton()
     private let effectPopup = NSPopUpButton()
+    private let pixelSize: SliderField
+    private let blurRadius: SliderField
+    private let magnification: SliderField
+    private let highlightColorWell = NSColorWell(style: .minimal)
+    private var options = NSGridView()
     private let advancedButton = NSButton()
     private var advancedView = NSView()
     private let paddingHorizontal: SliderField
@@ -50,6 +55,9 @@ final class TextObfuscationSheet: NSObject {
     init(image: CGImage, settings: TextObfuscationSettings, language: String) {
         self.image = image
         self.language = language
+        pixelSize = SliderField(range: 1...50, value: settings.pixelSize, width: 160)
+        blurRadius = SliderField(range: 1...30, value: settings.blurRadius, width: 160)
+        magnification = SliderField(range: 1...10, value: settings.magnification, width: 160, format: { "\($0)×" })
         paddingHorizontal = SliderField(range: -50...100, value: settings.paddingHorizontal, width: 160, format: { "\($0) %" })
         paddingVertical = SliderField(range: -50...100, value: settings.paddingVertical, width: 160, format: { "\($0) %" })
         offsetX = SliderField(range: -100...100, value: settings.offsetX, width: 160)
@@ -66,7 +74,11 @@ final class TextObfuscationSheet: NSObject {
         scopePopup.selectItem(at: Self.scopes.firstIndex { $0.0 == settings.scope } ?? 0)
         effectPopup.addItems(withTitles: Self.effects.map(\.1))
         effectPopup.selectItem(at: Self.effects.firstIndex { $0.0 == settings.effect } ?? 0)
+        effectPopup.target = self
+        effectPopup.action = #selector(effectChanged(_:))
+        highlightColorWell.color = NSColor(cgColor: settings.highlightColor.cgColor) ?? .yellow
         buildLayout()
+        refreshEffectRows()
     }
 
     /// Shows the dialog as a sheet on `window`.
@@ -100,7 +112,16 @@ final class TextObfuscationSheet: NSObject {
         settings.paddingVertical = paddingVertical.value
         settings.offsetX = offsetX.value
         settings.offsetY = offsetY.value
+        settings.pixelSize = pixelSize.value
+        settings.blurRadius = blurRadius.value
+        settings.magnification = magnification.value
+        settings.highlightColor = RGBAColor(highlightColorWell.color)
         return settings
+    }
+
+    /// The effect chosen in the dialog.
+    var effect: TextObfuscationSettings.Effect {
+        Self.effects[max(effectPopup.indexOfSelectedItem, 0)].0
     }
 
     // MARK: Layout
@@ -114,11 +135,16 @@ final class TextObfuscationSheet: NSObject {
         info.textColor = .secondaryLabelColor
         info.preferredMaxLayoutWidth = 380
 
-        let options = EffectSettingsDialog.form([
+        // Upstream shows the row of the chosen effect only (`UpdateEffectSettingsVisibility`).
+        options = EffectSettingsDialog.form([
             [EffectSettingsDialog.label("Search for:"), searchField],
             [NSGridCell.emptyContentView, NSStackView(views: [regexBox, caseBox])],
             [EffectSettingsDialog.label("Search in:"), scopePopup],
             [EffectSettingsDialog.label("Effect:"), effectPopup],
+            pixelSize.row("Pixel size:"),
+            blurRadius.row("Blur radius:"),
+            [EffectSettingsDialog.label("Color:"), highlightColorWell],
+            magnification.row("Magnification:"),
         ])
 
         advancedButton.bezelStyle = .disclosure
@@ -181,6 +207,19 @@ final class TextObfuscationSheet: NSObject {
         advancedView.isHidden = sender.state != .on
     }
 
+    @objc private func effectChanged(_ sender: Any?) {
+        refreshEffectRows()
+    }
+
+    /// Shows the option of the chosen effect: pixel size, blur radius, highlight color or magnification.
+    private func refreshEffectRows() {
+        let effect = effect
+        let rows: [(Int, TextObfuscationSettings.Effect)] = [(4, .pixelate), (5, .blur), (6, .highlight), (7, .magnify)]
+        for (index, owner) in rows where index < options.numberOfRows {
+            options.row(at: index).isHidden = owner != effect
+        }
+    }
+
     // MARK: Actions
 
     @objc private func cancel(_ sender: Any?) {
@@ -233,7 +272,7 @@ final class TextObfuscationSheet: NSObject {
                 show("No text matches “\(settings.searchPattern)”.")
                 return
             }
-            onApply?(boxes, settings.effect)
+            onApply?(boxes, settings)
             close()
         } catch {
             show(error.localizedDescription)

@@ -180,7 +180,8 @@ public struct TornEdgeSettings: Codable, Equatable, Sendable {
     }
 }
 
-/// Upstream `TextObfuscationWindow` options (`TEXT_OBFUSCATION_FEATURE.md`).
+/// Upstream `TextObfuscationWindow` options (`TEXT_OBFUSCATION_FEATURE.md`), with the dialog's slider defaults
+/// for the effects.
 public struct TextObfuscationSettings: Codable, Equatable, Sendable {
     public enum Scope: String, Codable, CaseIterable, Sendable { case words, lines }
     public enum Effect: String, Codable, CaseIterable, Sendable { case pixelate, blur, highlight, magnify }
@@ -195,8 +196,43 @@ public struct TextObfuscationSettings: Codable, Equatable, Sendable {
     public var paddingVertical = 20
     public var offsetX = 0
     public var offsetY = 0
+    /// The block size of the pixelate effect, points (1...50).
+    public var pixelSize = 10
+    /// The radius of the blur effect, points (1...30).
+    public var blurRadius = 10
+    /// The factor of the magnify effect (1...10).
+    public var magnification = 2
+    /// The color of the highlight effect.
+    public var highlightColor: RGBAColor = .yellow
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey {
+        case searchPattern, useRegex, caseSensitive, scope, effect, paddingHorizontal, paddingVertical, offsetX, offsetY
+        case pixelSize, blurRadius, magnification, highlightColor
+    }
+
+    /// Every value falls back to its default, so settings written before the effect options still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = TextObfuscationSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        searchPattern = value(.searchPattern, d.searchPattern)
+        useRegex = value(.useRegex, d.useRegex)
+        caseSensitive = value(.caseSensitive, d.caseSensitive)
+        scope = value(.scope, d.scope)
+        effect = value(.effect, d.effect)
+        paddingHorizontal = value(.paddingHorizontal, d.paddingHorizontal)
+        paddingVertical = value(.paddingVertical, d.paddingVertical)
+        offsetX = value(.offsetX, d.offsetX)
+        offsetY = value(.offsetY, d.offsetY)
+        pixelSize = value(.pixelSize, d.pixelSize)
+        blurRadius = value(.blurRadius, d.blurRadius)
+        magnification = value(.magnification, d.magnification)
+        highlightColor = value(.highlightColor, d.highlightColor)
+    }
 }
 
 // MARK: Output

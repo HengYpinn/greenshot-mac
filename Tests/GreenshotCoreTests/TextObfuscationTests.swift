@@ -82,15 +82,53 @@ struct TextObfuscationTests {
 
     @Test func elementsForEachEffect() {
         let box = CGRect(x: 1, y: 2, width: 30, height: 10)
-        let pixelate = TextObfuscation.annotations(for: [box], effect: .pixelate)
+        func elements(_ effect: TextObfuscationSettings.Effect, _ change: (inout TextObfuscationSettings) -> Void = { _ in }) -> [Annotation] {
+            var settings = TextObfuscationSettings()
+            settings.effect = effect
+            change(&settings)
+            return TextObfuscation.annotations(for: [box], settings: settings)
+        }
+        let pixelate = elements(.pixelate)
         #expect(pixelate.count == 1 && pixelate[0].kind == .obfuscate && pixelate[0].style.obfuscateMode == .pixelate)
         #expect(pixelate[0].bounds == box)
-        #expect(TextObfuscation.annotations(for: [box], effect: .blur)[0].style.obfuscateMode == .blur)
-        let highlight = TextObfuscation.annotations(for: [box, box], effect: .highlight)
-        #expect(highlight.count == 2 && highlight[0].kind == .highlight && highlight[0].style.highlightMode == .text)
-        #expect(TextObfuscation.annotations(for: [box], effect: .magnify)[0].style.highlightMode == .magnify)
-        // The last used style of the kind is kept.
-        let big = TextObfuscation.annotations(for: [box], effect: .pixelate) { _ in AnnotationStyle(pixelSize: 12) }
-        #expect(big[0].style.pixelSize == 12)
+        #expect(elements(.blur)[0].style.obfuscateMode == .blur)
+        let highlight = elements(.highlight)
+        #expect(highlight.count == 1 && highlight[0].kind == .highlight && highlight[0].style.highlightMode == .text)
+        #expect(elements(.magnify)[0].style.highlightMode == .magnify)
+        #expect(TextObfuscation.annotations(for: [box, box], settings: TextObfuscationSettings()).count == 2)
+    }
+
+    @Test func theDialogsOptionsBecomeTheElementsStyle() {
+        let box = CGRect(x: 1, y: 2, width: 30, height: 10)
+        func style(_ effect: TextObfuscationSettings.Effect, _ change: (inout TextObfuscationSettings) -> Void) -> AnnotationStyle {
+            var settings = TextObfuscationSettings()
+            settings.effect = effect
+            change(&settings)
+            return TextObfuscation.annotations(for: [box], settings: settings)[0].style
+        }
+        // Upstream's slider defaults: 10 px, 10 px, 2×, yellow.
+        #expect(style(.pixelate) { _ in }.pixelSize == 10)
+        #expect(style(.blur) { _ in }.blurRadius == 10)
+        #expect(style(.magnify) { _ in }.magnification == 2)
+        #expect(style(.highlight) { _ in }.fillColor == .yellow)
+        #expect(style(.pixelate) { $0.pixelSize = 25 }.pixelSize == 25)
+        #expect(style(.blur) { $0.blurRadius = 3 }.blurRadius == 3)
+        #expect(style(.magnify) { $0.magnification = 4 }.magnification == 4)
+        #expect(style(.highlight) { $0.highlightColor = .blue }.fillColor == .blue)
+        // The other options of a kind stay at the defaults; nonsense values are kept usable.
+        #expect(style(.pixelate) { $0.blurRadius = 3 }.blurRadius == AnnotationStyle.defaults(for: .obfuscate).blurRadius)
+        #expect(style(.pixelate) { $0.pixelSize = 0 }.pixelSize == 1)
+    }
+
+    @Test func oldOptionsLoadWithTheDefaultEffectOptions() throws {
+        let json = #"{"searchPattern":"secret","useRegex":true,"caseSensitive":false,"scope":"lines","effect":"blur","paddingHorizontal":5,"paddingVertical":5,"offsetX":1,"offsetY":-1}"#
+        let settings = try JSONDecoder().decode(TextObfuscationSettings.self, from: Data(json.utf8))
+        #expect(settings.searchPattern == "secret" && settings.useRegex && settings.scope == .lines && settings.effect == .blur)
+        #expect(settings.pixelSize == 10 && settings.blurRadius == 10 && settings.magnification == 2 && settings.highlightColor == .yellow)
+        var changed = settings
+        changed.magnification = 5
+        changed.highlightColor = .red
+        let decoded = try JSONDecoder().decode(TextObfuscationSettings.self, from: JSONEncoder().encode(changed))
+        #expect(decoded == changed)
     }
 }
