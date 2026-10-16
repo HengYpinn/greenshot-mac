@@ -23,6 +23,7 @@ extension MainMenu {
         file.addItem(withTitle: "Print…", action: #selector(EditorWindowController.printImage(_:)), keyEquivalent: "p")
         file.addItem(.separator())
         file.addItem(destinationItem("Email…", .destination(.email), key: "e"))
+        file.addItem(destinationItem("Share…", .destination(.share)))
     }
 
     /// A File menu entry that sends the front editor's screenshot to a destination (see `AppDelegate.sendToDestination`).

@@ -79,7 +79,9 @@ final class OutputManager {
             Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date)
         case .email:
             EmailDestination.send(capture, settings: settings, saver: saver)
-        case .share, .ocr, .externalCommand, .pdf, .openWith, .qrCode:
+        case .share:
+            ShareDestination.share(capture, settings: settings, window: window)
+        case .ocr, .externalCommand, .pdf, .openWith, .qrCode:
             ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")
         }
     }
@@ -99,6 +101,7 @@ final class OutputManager {
         add("Copy to Clipboard", .destination(.clipboard))
         add("Print…", .destination(.printer))
         add("Email…", .destination(.email))
+        add("Share…", .destination(.share))
         return items
     }
 
