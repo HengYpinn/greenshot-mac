@@ -54,8 +54,7 @@ public enum ImageEffects {
             return dropShadow(image, scale: scale)
         case .grayscale:
             return mapPixels(image) { r, g, b, _ in
-                // Upstream `CreateGrayscale`'s color matrix.
-                let gray = UInt8((0.3 * Double(r) + 0.59 * Double(g) + 0.11 * Double(b)).rounded())
+                let gray = grayValue(red: r, green: g, blue: b)
                 r = gray
                 g = gray
                 b = gray
@@ -139,6 +138,15 @@ public enum ImageEffects {
     }
 
     // MARK: - Helpers
+
+    /// Upstream `CreateGrayscale`'s color matrix. Written as typed steps: as one expression inside the pixel closure,
+    /// Swift 6.1 (Xcode 16) gives up type-checking it.
+    static func grayValue(red: UInt8, green: UInt8, blue: UInt8) -> UInt8 {
+        let r: Double = 0.3 * Double(red)
+        let g: Double = 0.59 * Double(green)
+        let b: Double = 0.11 * Double(blue)
+        return UInt8(min((r + g + b).rounded(), 255))
+    }
 
     static func makeContext(_ size: CGSize) -> CGContext? {
         AnnotationRenderer.makeContext(width: Int(size.width), height: Int(size.height))
