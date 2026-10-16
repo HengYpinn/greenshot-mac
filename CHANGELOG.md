@@ -7,6 +7,12 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Open at login, like Greenshot's "start with Windows": the welcome window offers it, ticked by default, and users
+  who saw the welcome before are asked once. When macOS wants approval, its Login Items settings open, and
+  Settings › General shows what is missing.
+- A Quit button in Settings › General, for when macOS hides the menu bar icon (behind the notch, or in its menu bar
+  settings). Opening the app again from Spotlight or Finder shows Settings.
+
 - Speech bubble element (S), ported from Greenshot's `SpeechbubbleContainer`: a rounded text box with a tail whose
   tip is a handle; blue outline and bold text on white by default, text edited in place.
 - Emoji element (M): placed with a click, resized at its corners, picked from a short list in the top bar or with a
@@ -20,6 +26,15 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- When screen recording isn't allowed, the app now tries a capture once, which is what makes recent macOS versions
+  list it under Screen & System Audio Recording; the message also says to add it with + when it isn't listed.
+- The screen recording message explains what to do when the switch is already on but belongs to an older build, and
+  `scripts/build-app.sh` signs with a "Greenshot Dev" certificate when there is one, so the permission survives
+  rebuilds (see the README).
+- "Open in Image Editor" opens the editor right where you are, also over a full screen app, without jumping to the
+  desktop; it hides when you click another app and comes back when you open Greenshot again (Spotlight, Finder, or
+  "Show Open Screenshots" in the menu bar menu). Greenshot no longer turns into a Dock app while an editor is open.
+- The editor no longer opens wider than the screen.
 - The capture screen appears right away over the app in front, also a full screen one, instead of waiting on
   another Space until Greenshot was clicked in the Dock (it happened while an editor window was open).
 

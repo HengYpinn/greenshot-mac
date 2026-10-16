@@ -49,9 +49,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         editors.confirmQuit() ? .terminateNow : .terminateCancel
     }
 
-    /// Opening the app again while it runs (it has no window) shows the settings.
+    /// Opening the app again while it runs brings back the editors (they hide when another app is clicked), or
+    /// shows the settings when there are none.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !flag { showSettings(nil) }
+        if !editors.showEditors(), !flag { showSettings(nil) }
         return true
     }
 
@@ -115,10 +116,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.open(AppInfo.upstreamURL)
     }
 
+    private static let didShowWelcomeKey = "didShowWelcome"
+    private static let didOfferLaunchAtLoginKey = "didOfferLaunchAtLogin"
+
+    /// The welcome on the first launch; users who saw it before this option existed are asked about opening at
+    /// login once, separately.
     private func showWelcomeOnFirstLaunch() {
-        let key = "didShowWelcome"
-        guard !UserDefaults.standard.bool(forKey: key) else { return }
-        UserDefaults.standard.set(true, forKey: key)
+        let defaults = UserDefaults.standard
+        if !defaults.bool(forKey: Self.didShowWelcomeKey) {
+            defaults.set(true, forKey: Self.didShowWelcomeKey)
+            defaults.set(true, forKey: Self.didOfferLaunchAtLoginKey)
+            showWelcome()
+        } else if !defaults.bool(forKey: Self.didOfferLaunchAtLoginKey) {
+            defaults.set(true, forKey: Self.didOfferLaunchAtLoginKey)
+            offerLaunchAtLogin()
+        }
+    }
+
+    private func showWelcome() {
         let region = settings.value.hotkeys.region?.displayString ?? "the menu bar icon"
         let alert = NSAlert()
         alert.messageText = "\(AppInfo.name) is in your menu bar"
@@ -127,10 +142,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             The hotkeys can be changed in Settings.
 
             macOS will ask you to allow screen recording the first time you take a screenshot.
-            """
+            """ + LaunchAtLogin.moveToApplicationsTip
+        // Checked by default, like the "start with Windows" option of Greenshot's installer.
+        let openAtLogin = NSButton(checkboxWithTitle: "Open \(AppInfo.name) at login", target: nil, action: nil)
+        openAtLogin.state = .on
+        alert.accessoryView = openAtLogin
         alert.addButton(withTitle: "OK")
         alert.addButton(withTitle: "Open Settings")
         NSApp.activate()
-        if alert.runModal() == .alertSecondButtonReturn { showSettings(nil) }
+        let response = alert.runModal()
+        if openAtLogin.state == .on { turnOnLaunchAtLogin() }
+        if response == .alertSecondButtonReturn { showSettings(nil) }
+    }
+
+    private func offerLaunchAtLogin() {
+        guard LaunchAtLogin.state == .off else { return }
+        let alert = NSAlert()
+        alert.messageText = "Open \(AppInfo.name) when you log in?"
+        alert.informativeText = """
+            Then the hotkeys work right after a restart, like Greenshot on Windows. \
+            You can change this any time in Settings › General.
+            """ + LaunchAtLogin.moveToApplicationsTip
+        alert.addButton(withTitle: "Open at Login")
+        alert.addButton(withTitle: "Not Now")
+        NSApp.activate()
+        if alert.runModal() == .alertFirstButtonReturn { turnOnLaunchAtLogin() }
+    }
+
+    private func turnOnLaunchAtLogin() {
+        guard let problem = LaunchAtLogin.set(true) else { return }
+        ErrorPresenter.show(message: "\(AppInfo.name) doesn't open at login yet", detail: problem)
     }
 }

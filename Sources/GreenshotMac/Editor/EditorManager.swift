@@ -5,8 +5,12 @@
 import AppKit
 import GreenshotCore
 
-/// Opens editor windows and keeps them alive. While one is open the app shows in the Dock and has a menu bar,
-/// otherwise it lives in the menu bar only.
+/// Opens editor windows and keeps them alive.
+///
+/// The app stays a menu bar app (no Dock icon) also while editors are open. A Dock app that gets activated from a
+/// full screen app makes macOS jump to the desktop, away from where the user captured. Instead an editor opens where
+/// the user is, also over a full screen app, and hides when another app is clicked; opening the app again (Spotlight,
+/// Finder, the menu bar icon) brings the editors back.
 @MainActor
 final class EditorManager {
     private let settings: SettingsStore
@@ -48,6 +52,18 @@ final class EditorManager {
         panel.urls.forEach(open(fileURL:))
     }
 
+    var hasEditors: Bool { !controllers.isEmpty }
+
+    /// Brings the open editors back after they hid. False when there are none.
+    @discardableResult
+    func showEditors() -> Bool {
+        guard !controllers.isEmpty else { return false }
+        NSApp.activate()
+        for controller in controllers { controller.window?.orderFrontRegardless() }
+        controllers.last?.window?.makeKey()
+        return true
+    }
+
     /// Asks about every changed screenshot before the app quits. False when the user cancelled.
     func confirmQuit() -> Bool {
         controllers.allSatisfy { $0.confirmCloseBeforeQuit() }
@@ -56,16 +72,12 @@ final class EditorManager {
     private func open(_ document: EditorDocument) {
         let controller = EditorWindowController(document: document, settings: settings, saver: saver) { [weak self] closed in
             self?.controllers.removeAll { $0 === closed }
-            self?.updateActivationPolicy()
         }
         controllers.append(controller)
-        updateActivationPolicy()
+        guard let window = controller.window else { return }
+        // Shown before the (asynchronous since macOS 14) activation finishes, so it doesn't wait on the app in front.
+        window.makeKeyAndOrderFront(nil)
+        window.orderFrontRegardless()
         NSApp.activate()
-        controller.showWindow(nil)
-        controller.window?.makeKeyAndOrderFront(nil)
-    }
-
-    private func updateActivationPolicy() {
-        NSApp.setActivationPolicy(controllers.isEmpty ? .accessory : .regular)
     }
 }

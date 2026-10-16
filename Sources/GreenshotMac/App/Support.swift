@@ -97,10 +97,14 @@ enum Permissions {
     /// prompt), and later times explain where to turn it on.
     static func ensureScreenCapture() -> Bool {
         if CGPreflightScreenCaptureAccess() { return true }
+        if CGRequestScreenCaptureAccess() { return true }
+        // Recent macOS versions add the app to the Screen Recording list only when it really tries to capture,
+        // so try once in the background (it fails without the permission); then the user just turns it on.
+        Task { _ = try? await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true) }
         let askedKey = "didRequestScreenCapture"
         if !UserDefaults.standard.bool(forKey: askedKey) {
+            // The first time macOS shows its own prompt; explaining on top of it would be one dialog too many.
             UserDefaults.standard.set(true, forKey: askedKey)
-            if CGRequestScreenCaptureAccess() { return true }
             return false
         }
         explainScreenCapture()
@@ -115,6 +119,11 @@ enum Permissions {
 
             Open System Settings › Privacy & Security › Screen & System Audio Recording, turn on \
             \(AppInfo.name), then quit and reopen it.
+
+            Not in the list? Click + below it and add \(AppInfo.name) from Applications.
+
+            Already on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen \
+            \(AppInfo.name) and allow it again.
             """
         alert.addButton(withTitle: "Open System Settings")
         alert.addButton(withTitle: "Later")

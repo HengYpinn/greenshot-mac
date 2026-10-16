@@ -47,11 +47,19 @@ scripts/build-app.sh
 This builds `build/Greenshot for Mac (Community).app`. Drag it to your Applications folder and open it. It lives in the
 menu bar (camera icon), not in the Dock.
 
+Like Greenshot on Windows, it can open when you log in, so the hotkeys work right after a restart: the welcome window
+offers it (ticked by default), and Settings › General › Launch at login turns it on or off. If macOS asks you to approve
+it, turn the app on in System Settings › General › Login Items & Extensions.
+
 The first time you take a screenshot, macOS asks you to allow **screen recording**: turn on the app in
 System Settings › Privacy & Security › Screen & System Audio Recording, then quit and reopen it.
 
-The build is signed ad hoc. macOS remembers the screen recording permission per signature, so after a rebuild you
-may have to allow it again; building with a stable identity avoids that: `SIGN_IDENTITY="My Certificate" scripts/build-app.sh`.
+macOS remembers the screen recording permission per signature. A plain build is signed ad hoc, which changes with
+every build, so you would have to allow screen recording again after each rebuild. To keep it, create a signing
+certificate once: in Keychain Access choose Keychain Access › Certificate Assistant › Create a Certificate…, name it
+`Greenshot Dev`, Identity Type "Self Signed Root", Certificate Type "Code Signing". `scripts/build-app.sh` uses it
+automatically (another one with `SIGN_IDENTITY="Name" scripts/build-app.sh`). If the permission switch is on but the app
+still asks, remove the app from the list with −, then reopen it and allow it again.
 
 ## Using it
 

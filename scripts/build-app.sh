@@ -5,9 +5,10 @@
 #   VERSION        version shown in Finder and About (default 0.1.0)
 #   BUILD_NUMBER   CFBundleVersion (default 1)
 #   BUNDLE_ID      bundle identifier (default io.github.greenshot-mac.GreenshotMac)
-#   SIGN_IDENTITY  codesign identity; "-" (default) signs ad hoc. macOS remembers the screen recording permission
-#                  per signature, so a stable identity (even a self-signed one) avoids granting it again after
-#                  every rebuild.
+#   SIGN_IDENTITY  codesign identity. Default: a code signing certificate named "Greenshot Dev" in your keychain
+#                  when there is one, else "-" (ad hoc). macOS remembers the screen recording permission per
+#                  signature: ad hoc builds need it again after every rebuild, a stable identity (even a
+#                  self-signed one, see the README) keeps it.
 #   ARCHS          e.g. "arm64 x86_64" for a universal app (Intel and Apple silicon)
 # SPDX-License-Identifier: GPL-3.0-or-later
 set -euo pipefail
@@ -19,7 +20,13 @@ APP_NAME="Greenshot for Mac (Community)"
 VERSION="${VERSION:-0.1.0}"
 BUILD_NUMBER="${BUILD_NUMBER:-1}"
 BUNDLE_ID="${BUNDLE_ID:-io.github.greenshot-mac.GreenshotMac}"
-SIGN_IDENTITY="${SIGN_IDENTITY:--}"
+if [[ -z "${SIGN_IDENTITY:-}" ]]; then
+  if security find-identity -p codesigning 2>/dev/null | grep -q '"Greenshot Dev"'; then
+    SIGN_IDENTITY="Greenshot Dev"
+  else
+    SIGN_IDENTITY="-"
+  fi
+fi
 
 args=(-c release --product GreenshotMac)
 for arch in ${ARCHS:-}; do args+=(--arch "$arch"); done
@@ -44,4 +51,4 @@ sed -e "s/__VERSION__/$VERSION/g" -e "s/__BUILD__/$BUILD_NUMBER/g" -e "s/__BUNDL
 plutil -lint "$APP/Contents/Info.plist" >/dev/null
 
 codesign --force --options runtime --sign "$SIGN_IDENTITY" "$APP"
-echo "Built $APP"
+echo "Built $APP (signed: $([[ "$SIGN_IDENTITY" == "-" ]] && echo "ad hoc" || echo "$SIGN_IDENTITY"))"

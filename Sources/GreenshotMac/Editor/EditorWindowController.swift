@@ -54,13 +54,19 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
                               backing: .buffered, defer: false)
         window.isReleasedWhenClosed = false
         window.tabbingMode = .disallowed
+        // Open where the user is, also over a full screen app, and follow them when the app is opened again
+        // elsewhere; hide when they click another app (see EditorManager).
+        window.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
+        window.hidesOnDeactivate = true
         window.minSize = NSSize(width: 640, height: 360)
         super.init(window: window)
         window.delegate = self
         buildUI()
         wireCanvas()
-        sizeWindowToImage()
+        // Hide the properties that don't apply before sizing: with all of them shown the top bar is wider than a
+        // laptop screen, and the window would grow to fit it.
         refreshAll()
+        sizeWindowToImage()
     }
 
     required init?(coder: NSCoder) {
@@ -182,6 +188,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
                                          properties, cropGroup, spacer])
         topBar.spacing = 6
         topBar.edgeInsets = NSEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        // When a tool has many properties, the bar is cut off at the window's edge rather than widening the window.
+        topBar.setClippingResistancePriority(.defaultLow, for: .horizontal)
         topBar.alignment = .centerY
 
         // Tools

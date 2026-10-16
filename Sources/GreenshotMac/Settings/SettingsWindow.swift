@@ -5,7 +5,6 @@
 
 import AppKit
 import GreenshotCore
-import ServiceManagement
 import SwiftUI
 
 @MainActor
@@ -68,23 +67,23 @@ struct SettingsView: View {
 /// is a macro whose plugin only ships with Xcode, and the app builds with the Command Line Tools alone.)
 @MainActor
 final class SystemStatus: ObservableObject {
-    @Published var launchAtLogin = SMAppService.mainApp.status == .enabled
+    @Published var launchAtLogin = LaunchAtLogin.state != .off
+    @Published var loginNeedsApproval = LaunchAtLogin.state == .needsApproval
     @Published var loginError: String?
     @Published var canRecordScreen = CGPreflightScreenCaptureAccess()
 
     func setLaunchAtLogin(_ on: Bool) {
-        do {
-            if on { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
-            loginError = nil
-        } catch {
-            loginError = error.localizedDescription
-        }
-        launchAtLogin = SMAppService.mainApp.status == .enabled
+        let message = LaunchAtLogin.set(on)
+        refresh()
+        // Waiting for approval has its own hint and button; anything else is an error.
+        loginError = loginNeedsApproval ? nil : message
     }
 
     func refresh() {
         canRecordScreen = CGPreflightScreenCaptureAccess()
-        launchAtLogin = SMAppService.mainApp.status == .enabled
+        let state = LaunchAtLogin.state
+        launchAtLogin = state != .off
+        loginNeedsApproval = state == .needsApproval
     }
 }
 
@@ -108,6 +107,12 @@ private struct GeneralSettings: View {
             }
             Section("Startup") {
                 Toggle("Launch at login", isOn: Binding(get: { status.launchAtLogin }, set: { status.setLaunchAtLogin($0) }))
+                if status.loginNeedsApproval {
+                    HStack {
+                        Text(LaunchAtLogin.approvalHint).font(.caption).foregroundStyle(.orange)
+                        Button("Open Login Items") { LaunchAtLogin.openSystemSettings() }
+                    }
+                }
                 if let loginError = status.loginError {
                     Text(loginError).font(.caption).foregroundStyle(.red)
                 }
@@ -121,6 +126,15 @@ private struct GeneralSettings: View {
                             Button("Open System Settings") { NSWorkspace.shared.open(Permissions.screenCaptureSettingsURL) }
                         }
                     }
+                }
+            }
+            // The menu bar icon can be hidden (behind the notch, or by macOS's menu bar settings), and it is the
+            // only other way to quit; opening the app again from Spotlight or Finder shows this window.
+            Section {
+                HStack {
+                    Text("The menu bar icon hidden? Quit from here.").font(.caption).foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Quit \(AppInfo.name)") { NSApp.terminate(nil) }
                 }
             }
         }

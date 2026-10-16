@@ -31,6 +31,12 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         let hotkeys = app.settings.value.hotkeys
         let capture = app.capture
 
+        // Editors hide when another app is clicked; this brings them back.
+        if app.editors.hasEditors {
+            menu.addItem(ClosureMenuItem(title: "Show Open Screenshots") { [unowned app] in app.editors.showEditors() })
+            menu.addItem(.separator())
+        }
+
         menu.addItem(item("Capture Region", hotkeys.region) { capture.captureRegion() })
         menu.addItem(item("Capture Last Region", hotkeys.lastRegion) { capture.captureLastRegion() })
         menu.addItem(item("Capture Window", hotkeys.window) { capture.captureWindowInteractively() })
