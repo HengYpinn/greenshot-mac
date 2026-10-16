@@ -17,6 +17,20 @@ public enum CaptureDestination: String, Codable, CaseIterable, Sendable {
     /// Ask for a file name.
     case fileAs
     case printer
+    /// A new mail with the image attached (upstream `EmailDestination`).
+    case email
+    /// The macOS share menu (upstream `Win10ShareDestination`).
+    case share
+    /// The text in the image to the clipboard (upstream `Win10OcrDestination`).
+    case ocr
+    /// The External Command plugin: run a configured command with the image file.
+    case externalCommand
+    /// The PDF plugin.
+    case pdf
+    /// Open the image file with another application (the Mac's stand-in for the Office destinations).
+    case openWith
+    /// The Zxing plugin's QR code actions: copy or open what a QR code in the image says.
+    case qrCode
 
     public var displayName: String {
         switch self {
@@ -26,6 +40,13 @@ public enum CaptureDestination: String, Codable, CaseIterable, Sendable {
         case .file: return "Save directly"
         case .fileAs: return "Save as…"
         case .printer: return "Print…"
+        case .email: return "Email…"
+        case .share: return "Share…"
+        case .ocr: return "Copy text (OCR)"
+        case .externalCommand: return "External command"
+        case .pdf: return "Save as PDF"
+        case .openWith: return "Open with…"
+        case .qrCode: return "QR code actions"
         }
     }
 }
@@ -98,6 +119,53 @@ public struct AppSettings: Codable, Equatable, Sendable {
     /// The emoji new emoji elements get: the last one picked (upstream `IEditorConfiguration.RecentEmoji`).
     public var recentEmoji = "🙂"
 
+    // Capture screen (upstream `FixedCaptureSizes`, `RecentCaptureSizes`, `FixedCaptureSize`, `FixedCaptureAnchor`,
+    // `ScreenCaptureMode`, `ScreenToCapture`, `CaptureHelpVisible`, `CaptureInfoVisible`,
+    // `CaptureSelectionPreviewVisible`, `OcrLanguage`, `ScanOnCapture`, `AutoCropDifference`).
+    public var fixedCaptureSizes: [CaptureSize] = CaptureSize.defaults
+    /// The last five region sizes, newest first.
+    public var recentCaptureSizes: [CaptureSize] = []
+    /// The size the fixed-size mode last used.
+    public var fixedCaptureSize: CaptureSize?
+    public var fixedCaptureAnchor: FixedCaptureAnchor = .topLeft
+    public var screenCaptureMode: ScreenCaptureMode = .fullScreen
+    /// 1-based, for `screenCaptureMode == .fixed`.
+    public var screenToCapture = 1
+    public var captureHelpVisible = true
+    public var captureInfoVisible = true
+    public var captureSelectionPreviewVisible = true
+    /// A BCP 47 language for text recognition; empty means automatic.
+    public var ocrLanguage = ""
+    /// Look for QR codes on the capture screen.
+    public var scanQRCodesOnCapture = true
+    /// Colour difference (0–255) that auto crop treats as the same colour.
+    public var autoCropDifference = 10
+    public var notificationLevel: NotificationLevel = .all
+
+    // Editor (upstream `IEditorConfiguration`).
+    public var reuseEditor = false
+    public var suppressSaveDialogAtClose = false
+    public var matchSizeToCapture = true
+    public var dropShadowSettings = DropShadowSettings()
+    public var tornEdgeSettings = TornEdgeSettings()
+    public var textObfuscation = TextObfuscationSettings()
+
+    // Output (upstream `OutputFile*`, `ClipboardFormats`, `OutputPrint*`, mail and the plugins).
+    public var allowOverwrite = true
+    public var promptJpegQuality = false
+    public var reduceColors = false
+    public var reduceColorsTo = 256
+    public var clipboardFormats: [ClipboardFormat] = ClipboardFormat.defaults
+    public var printing = PrintSettings()
+    public var email = EmailSettings()
+    public var externalCommands: [ExternalCommand] = ExternalCommand.defaults
+    public var pdf = PDFSettings()
+    /// Days between update checks; 0 never checks (upstream `UpdateCheckInterval`, 14).
+    public var updateCheckIntervalDays = 14
+    public var lastUpdateCheck: Date?
+    /// The last file "Save directly" or "Save as" wrote, for "Open recent capture".
+    public var lastSavedFile: String?
+
     public init() {}
 
     public var outputFolderURL: URL {
@@ -127,6 +195,12 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case hotkeys, destinations, captureMousePointer, interactiveWindowCapture, includeWindowShadow, captureDelayMilliseconds
         case playCameraSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
         case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
+        case fixedCaptureSizes, recentCaptureSizes, fixedCaptureSize, fixedCaptureAnchor, screenCaptureMode, screenToCapture
+        case captureHelpVisible, captureInfoVisible, captureSelectionPreviewVisible, ocrLanguage, scanQRCodesOnCapture
+        case autoCropDifference, notificationLevel
+        case reuseEditor, suppressSaveDialogAtClose, matchSizeToCapture, dropShadowSettings, tornEdgeSettings, textObfuscation
+        case allowOverwrite, promptJpegQuality, reduceColors, reduceColorsTo, clipboardFormats, printing, email, externalCommands, pdf
+        case updateCheckIntervalDays, lastUpdateCheck, lastSavedFile
     }
 
     // Every value falls back to its default, so settings written by another version still load.
@@ -155,6 +229,37 @@ public struct AppSettings: Codable, Equatable, Sendable {
         lastCapturedRegion = value(.lastCapturedRegion, d.lastCapturedRegion)
         editorStyles = value(.editorStyles, d.editorStyles)
         recentEmoji = value(.recentEmoji, d.recentEmoji)
+        fixedCaptureSizes = value(.fixedCaptureSizes, d.fixedCaptureSizes)
+        recentCaptureSizes = value(.recentCaptureSizes, d.recentCaptureSizes)
+        fixedCaptureSize = value(.fixedCaptureSize, d.fixedCaptureSize)
+        fixedCaptureAnchor = value(.fixedCaptureAnchor, d.fixedCaptureAnchor)
+        screenCaptureMode = value(.screenCaptureMode, d.screenCaptureMode)
+        screenToCapture = value(.screenToCapture, d.screenToCapture)
+        captureHelpVisible = value(.captureHelpVisible, d.captureHelpVisible)
+        captureInfoVisible = value(.captureInfoVisible, d.captureInfoVisible)
+        captureSelectionPreviewVisible = value(.captureSelectionPreviewVisible, d.captureSelectionPreviewVisible)
+        ocrLanguage = value(.ocrLanguage, d.ocrLanguage)
+        scanQRCodesOnCapture = value(.scanQRCodesOnCapture, d.scanQRCodesOnCapture)
+        autoCropDifference = value(.autoCropDifference, d.autoCropDifference)
+        notificationLevel = value(.notificationLevel, d.notificationLevel)
+        reuseEditor = value(.reuseEditor, d.reuseEditor)
+        suppressSaveDialogAtClose = value(.suppressSaveDialogAtClose, d.suppressSaveDialogAtClose)
+        matchSizeToCapture = value(.matchSizeToCapture, d.matchSizeToCapture)
+        dropShadowSettings = value(.dropShadowSettings, d.dropShadowSettings)
+        tornEdgeSettings = value(.tornEdgeSettings, d.tornEdgeSettings)
+        textObfuscation = value(.textObfuscation, d.textObfuscation)
+        allowOverwrite = value(.allowOverwrite, d.allowOverwrite)
+        promptJpegQuality = value(.promptJpegQuality, d.promptJpegQuality)
+        reduceColors = value(.reduceColors, d.reduceColors)
+        reduceColorsTo = value(.reduceColorsTo, d.reduceColorsTo)
+        clipboardFormats = value(.clipboardFormats, d.clipboardFormats)
+        printing = value(.printing, d.printing)
+        email = value(.email, d.email)
+        externalCommands = value(.externalCommands, d.externalCommands)
+        pdf = value(.pdf, d.pdf)
+        updateCheckIntervalDays = value(.updateCheckIntervalDays, d.updateCheckIntervalDays)
+        lastUpdateCheck = value(.lastUpdateCheck, d.lastUpdateCheck)
+        lastSavedFile = value(.lastSavedFile, d.lastSavedFile)
     }
 }
 

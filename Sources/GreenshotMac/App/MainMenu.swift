@@ -24,41 +24,13 @@ enum MainMenu {
         app.addItem(.separator())
         app.addItem(withTitle: "Quit \(AppInfo.name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
 
-        let file = submenu(in: main, title: "File")
-        file.addItem(withTitle: "Capture Region", action: #selector(AppDelegate.captureRegion(_:)), keyEquivalent: "")
-        file.addItem(withTitle: "Open…", action: #selector(AppDelegate.openImageFile(_:)), keyEquivalent: "o")
-        file.addItem(withTitle: "Open Image from Clipboard", action: #selector(AppDelegate.openClipboard(_:)), keyEquivalent: "")
-        file.addItem(.separator())
-        file.addItem(withTitle: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
-        file.addItem(withTitle: "Save", action: #selector(EditorWindowController.saveImage(_:)), keyEquivalent: "s")
-        let saveAs = file.addItem(withTitle: "Save As…", action: #selector(EditorWindowController.saveImageAs(_:)), keyEquivalent: "s")
-        saveAs.keyEquivalentModifierMask = [.command, .shift]
-        let copyImage = file.addItem(withTitle: "Copy Image to Clipboard", action: #selector(EditorWindowController.copyImage(_:)), keyEquivalent: "c")
-        copyImage.keyEquivalentModifierMask = [.command, .shift]
-        file.addItem(withTitle: "Print…", action: #selector(EditorWindowController.printImage(_:)), keyEquivalent: "p")
+        addFileMenu(to: main)
 
-        let edit = submenu(in: main, title: "Edit")
-        edit.addItem(withTitle: "Undo", action: Selector(("undo:")), keyEquivalent: "z")
-        let redo = edit.addItem(withTitle: "Redo", action: Selector(("redo:")), keyEquivalent: "z")
-        redo.keyEquivalentModifierMask = [.command, .shift]
-        edit.addItem(.separator())
-        edit.addItem(withTitle: "Cut", action: #selector(NSText.cut(_:)), keyEquivalent: "x")
-        edit.addItem(withTitle: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c")
-        edit.addItem(withTitle: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v")
-        edit.addItem(withTitle: "Delete", action: #selector(NSText.delete(_:)), keyEquivalent: "")
-        edit.addItem(withTitle: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a")
+        addEditMenus(to: main)
 
-        // Upstream's Effects menu.
-        let image = submenu(in: main, title: "Image")
-        for (index, effect) in ImageEffect.allCases.enumerated() {
-            image.addItem(withTitle: effect.title, action: #selector(EditorWindowController.applyEffect(_:)), keyEquivalent: "").tag = index
-        }
+        addImageMenu(to: main)
 
-        let view = submenu(in: main, title: "View")
-        view.addItem(withTitle: "Zoom In", action: #selector(EditorWindowController.zoomIn(_:)), keyEquivalent: "=")
-        view.addItem(withTitle: "Zoom Out", action: #selector(EditorWindowController.zoomOut(_:)), keyEquivalent: "-")
-        view.addItem(withTitle: "Actual Size", action: #selector(EditorWindowController.actualSize(_:)), keyEquivalent: "0")
-        view.addItem(withTitle: "Zoom to Fit", action: #selector(EditorWindowController.zoomToFit(_:)), keyEquivalent: "9")
+        addViewMenu(to: main)
 
         let window = submenu(in: main, title: "Window")
         window.addItem(withTitle: "Minimize", action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
@@ -74,7 +46,7 @@ enum MainMenu {
         return main
     }
 
-    private static func submenu(in main: NSMenu, title: String) -> NSMenu {
+    static func submenu(in main: NSMenu, title: String) -> NSMenu {
         let item = main.addItem(withTitle: title, action: nil, keyEquivalent: "")
         let menu = NSMenu(title: title)
         item.submenu = menu

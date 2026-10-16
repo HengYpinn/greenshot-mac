@@ -11,8 +11,8 @@ import GreenshotCore
 @MainActor
 final class EditorWindowController: NSWindowController, NSWindowDelegate {
     let editorDocument: EditorDocument
-    private let settings: SettingsStore
-    private let saver: ImageSaver
+    let settings: SettingsStore
+    let saver: ImageSaver
     private let onClose: (EditorWindowController) -> Void
 
     let canvas: CanvasView
@@ -169,23 +169,13 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         cropGroup.setViews([label("Drag the area to keep"), applyCrop, cancelCrop], in: .leading)
         cropGroup.spacing = 6
 
-        // Upstream's Effects menu: a pull-down whose first item is its button.
-        let effects = NSPopUpButton(frame: .zero, pullsDown: true)
-        effects.controlSize = .small
-        effects.toolTip = "Effects on the whole image"
-        effects.addItem(withTitle: "Effects")
-        effects.item(at: 0)?.image = NSImage(systemSymbolName: "sparkles", accessibilityDescription: nil)
-        for (index, effect) in ImageEffect.allCases.enumerated() {
-            let item = NSMenuItem(title: effect.title, action: #selector(applyEffect(_:)), keyEquivalent: "")
-            item.target = self
-            item.tag = index
-            effects.menu?.addItem(item)
-        }
+        // The image operations (effects, resize, rotate, canvas) live in EditorWindowController+Image.swift.
+        let imageItems = imageToolbarItems()
 
         let spacer = NSView()
         spacer.setContentHuggingPriority(.init(1), for: .horizontal)
-        let topBar = NSStackView(views: [save, saveAs, copy, print, Self.divider(), undoButton, redoButton, effects, Self.divider(),
-                                         properties, cropGroup, spacer])
+        let topBar = NSStackView(views: [save, saveAs, copy, print, Self.divider(), undoButton, redoButton] + imageItems +
+                                        [Self.divider(), properties, cropGroup, spacer])
         topBar.spacing = 6
         topBar.edgeInsets = NSEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
         // When a tool has many properties, the bar is cut off at the window's edge rather than widening the window.
@@ -254,7 +244,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         window.contentView = root
     }
 
-    private static func divider() -> NSView {
+    static func divider() -> NSView {
         let box = NSBox()
         box.boxType = .separator
         box.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -306,7 +296,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
 
     // MARK: State
 
-    private func refreshAll() {
+    func refreshAll() {
         refreshTools()
         refreshProperties()
         refreshDocumentState()
@@ -317,7 +307,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         cropGroup.isHidden = canvas.tool != .crop
     }
 
-    private func refreshDocumentState() {
+    func refreshDocumentState() {
         guard let window else { return }
         window.title = editorDocument.fileURL?.lastPathComponent ?? "\(editorDocument.title) – Greenshot"
         window.representedURL = editorDocument.fileURL
@@ -338,7 +328,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         return activeKind.map { settings.value.style(for: $0) }
     }
 
-    private func refreshProperties() {
+    func refreshProperties() {
         let kind = activeKind
         for (view, kinds) in propertyGroups { view.isHidden = kind.map { !kinds.contains($0) } ?? true }
         guard let kind, let style = activeStyle else { return }
@@ -415,12 +405,6 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
             canvas.documentChanged()
         }
         refreshProperties()
-    }
-
-    /// An item of the Effects menu (in the window and the main menu); its tag is the effect's index.
-    @objc func applyEffect(_ sender: NSMenuItem) {
-        guard ImageEffect.allCases.indices.contains(sender.tag) else { return }
-        canvas.apply(ImageEffect.allCases[sender.tag])
     }
 
     @objc private func toolClicked(_ sender: NSButton) {
