@@ -44,6 +44,18 @@ struct GeneralSettings: View {
                     Text(loginError).font(.caption).foregroundStyle(.red)
                 }
             }
+            Section("Updates") {
+                Stepper(value: store.binding(\.updateCheckIntervalDays), in: 0...365) {
+                    Text(store.value.updateCheckIntervalDays == 0
+                         ? "Never check for updates"
+                         : "Check for updates every \(store.value.updateCheckIntervalDays) days")
+                }
+                HStack {
+                    Text(lastCheck).font(.caption).foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Check Now") { checkNow() }
+                }
+            }
             Section("Permissions") {
                 LabeledContent("Screen recording") {
                     HStack {
@@ -67,5 +79,16 @@ struct GeneralSettings: View {
         }
         .formStyle(.grouped)
         .onAppear { status.refresh() }
+    }
+
+    private var lastCheck: String {
+        guard let date = store.value.lastUpdateCheck else { return "Not checked yet. You have version \(UpdateChecker.currentVersion)." }
+        let when = date.formatted(date: .abbreviated, time: .shortened)
+        return "Last checked \(when). You have version \(UpdateChecker.currentVersion)."
+    }
+
+    private func checkNow() {
+        guard let app = NSApp.delegate as? AppDelegate else { return }
+        UpdateChecker.check(settings: store, saver: app.saver, userAsked: true)
     }
 }

@@ -16,7 +16,6 @@ struct EditorSettings: View {
         Form {
             Section {
                 Toggle("Match the editor window size to the capture", isOn: store.binding(\.matchSizeToCapture))
-                    .help("Off: editors open at the size of the last one.")
                 Toggle("Reuse the editor if possible", isOn: store.binding(\.reuseEditor))
                     .help("A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.")
                 Toggle("Don't ask to save when closing an editor", isOn: store.binding(\.suppressSaveDialogAtClose))

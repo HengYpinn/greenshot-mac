@@ -43,6 +43,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         }
         registerHotkeys()
         showWelcomeOnFirstLaunch()
+        // After the welcome (which is modal), and a little later so a message doesn't cover "is running".
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            guard let self else { return }
+            UpdateChecker.checkIfDue(settings: self.settings, saver: self.saver)
+        }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
