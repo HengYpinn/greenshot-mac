@@ -360,9 +360,15 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         var remembered = settings.value.style(for: kind)
         change(&remembered)
         settings.update { $0.editorStyles[kind.rawValue] = remembered }
-        if var selected = canvas.selectedAnnotation {
-            change(&selected.style)
-            editorDocument.change { editorDocument.update(selected) }
+        // With several elements selected the change applies to all of them, as one undo step.
+        let selected = canvas.selectedAnnotations
+        if !selected.isEmpty {
+            editorDocument.change {
+                for var element in selected {
+                    change(&element.style)
+                    editorDocument.update(element)
+                }
+            }
             canvas.documentChanged()
         }
         refreshProperties()
@@ -399,9 +405,14 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     /// Changes the selected emoji element and remembers the emoji for new ones (upstream `RecentEmoji`).
     private func pickEmoji(_ emoji: String) {
         settings.update { $0.recentEmoji = emoji }
-        if var selected = canvas.selectedAnnotation, selected.kind == .emoji {
-            selected.text = emoji
-            editorDocument.change { editorDocument.update(selected) }
+        let selected = canvas.selectedAnnotations.filter { $0.kind == .emoji }
+        if !selected.isEmpty {
+            editorDocument.change {
+                for var element in selected {
+                    element.text = emoji
+                    editorDocument.update(element)
+                }
+            }
             canvas.documentChanged()
         }
         refreshProperties()

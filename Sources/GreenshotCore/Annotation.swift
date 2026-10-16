@@ -168,6 +168,26 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         return Geometry.rect(from: start, to: end)
     }
 
+    /// A copy that is a new element: pasted, duplicated or loaded elements must never share the id of another one.
+    public func withNewID() -> Annotation {
+        var copy = self
+        copy.id = UUID()
+        return copy
+    }
+
+    /// The element with its geometry multiplied by `factor` (style sizes are points and stay), for pasting into an
+    /// image with other pixels per point.
+    public func scaled(by factor: CGFloat) -> Annotation {
+        guard factor != 1 else { return self }
+        func scale(_ p: CGPoint) -> CGPoint { CGPoint(x: p.x * factor, y: p.y * factor) }
+        var copy = self
+        copy.start = scale(start)
+        copy.end = scale(end)
+        copy.points = points.map(scale)
+        copy.tail = tail.map(scale)
+        return copy
+    }
+
     public mutating func move(by delta: CGVector) {
         start = CGPoint(x: start.x + delta.dx, y: start.y + delta.dy)
         end = CGPoint(x: end.x + delta.dx, y: end.y + delta.dy)

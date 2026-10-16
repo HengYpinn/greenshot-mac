@@ -12,6 +12,9 @@ import Foundation
 /// keeps the change open from mouse down to mouse up, so it is one undo step. A change that changed nothing
 /// leaves no undo step.
 public final class EditorDocument {
+    /// Tells this document apart from others, e.g. so elements pasted into the window they were copied from move a
+    /// little (upstream `Surface.ID`).
+    public let id = UUID()
     public private(set) var baseImage: CGImage
     public private(set) var annotations: [Annotation]
     /// Pixels per point of the capture.
@@ -120,6 +123,41 @@ public final class EditorDocument {
         annotations.removeAll { $0.id == id }
     }
 
+    /// Adds elements on top of the others, in their order.
+    public func add(_ elements: [Annotation]) {
+        annotations.append(contentsOf: elements)
+    }
+
+    /// The elements with one of `ids`, in drawing order (back to front).
+    public func annotations(_ ids: Set<UUID>) -> [Annotation] {
+        annotations.filter { ids.contains($0.id) }
+    }
+
+    public func remove(_ ids: Set<UUID>) {
+        annotations.removeAll { ids.contains($0.id) }
+    }
+
+    /// Moves the elements with one of `ids` by `delta` (image pixels).
+    public func move(_ ids: Set<UUID>, by delta: CGVector) {
+        guard delta != .zero else { return }
+        for index in annotations.indices where ids.contains(annotations[index].id) {
+            annotations[index].move(by: delta)
+        }
+    }
+
+    /// Copies of the elements with one of `ids`, with new ids, moved by `delta` and added on top
+    /// (upstream `Surface.DuplicateSelectedElements`, which moves them by 10, 10). Returns the copies.
+    @discardableResult
+    public func duplicate(_ ids: Set<UUID>, offset delta: CGVector) -> [Annotation] {
+        let copies = annotations(ids).map { original -> Annotation in
+            var copy = original.withNewID()
+            copy.move(by: delta)
+            return copy
+        }
+        add(copies)
+        return copies
+    }
+
     public func bringToFront(_ id: UUID) {
         guard let index = annotations.firstIndex(where: { $0.id == id }) else { return }
         annotations.append(annotations.remove(at: index))
@@ -128,6 +166,18 @@ public final class EditorDocument {
     public func sendToBack(_ id: UUID) {
         guard let index = annotations.firstIndex(where: { $0.id == id }) else { return }
         annotations.insert(annotations.remove(at: index), at: 0)
+    }
+
+    /// Puts the elements with one of `ids` on top of all others, keeping their order (upstream `PullElementsToTop`).
+    public func bringToFront(_ ids: Set<UUID>) {
+        let moving = annotations.filter { ids.contains($0.id) }
+        annotations = annotations.filter { !ids.contains($0.id) } + moving
+    }
+
+    /// Puts the elements with one of `ids` below all others, keeping their order (upstream `PushElementsToBottom`).
+    public func sendToBack(_ ids: Set<UUID>) {
+        let moving = annotations.filter { ids.contains($0.id) }
+        annotations = moving + annotations.filter { !ids.contains($0.id) }
     }
 
     /// The front-most element at `point` (image pixels).
