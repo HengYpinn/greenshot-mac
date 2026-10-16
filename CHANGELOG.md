@@ -51,6 +51,13 @@ All notable changes to this project are documented here. The format follows
   as `{0}`, a URL from its output or all of it to the clipboard), Save as PDF (⌥⌘P; page size, margins, shrink or
   fit), Open With (any app that opens images), QR code actions. All of them are in the destination menu, the
   editor's File menu and Settings › Destinations.
+- Upload destinations, like Greenshot's Jira, Confluence, Box and Dropbox plugins: "Upload to Jira…" (issue key,
+  recent issues or a JQL/text search, optional comment, a message that opens the issue), "Upload to Confluence…"
+  (page search by title or CQL, wiki markup or image link to the clipboard, open the page), "Upload to Box" and
+  "Upload to Dropbox" (your own app registration, OAuth 2 with PKCE in a sign-in sheet, folder, shared link to the
+  clipboard). Atlassian API tokens, the Box client secret and the sign-ins are kept in the Keychain. All four are in
+  the destination menu, the editor's File menu and Settings › Destinations (with Test Connection, Sign In and Sign
+  Out).
 - Output: no-overwrite naming ("name (2)"), an optional JPEG quality prompt, reducing PNG/GIF to N colours, the
   clipboard formats (PNG, TIFF, JPEG, HTML), and a message level.
 - Menu bar: Open Recent Capture, Quick Settings (mouse pointer, destinations, print options, sound, notifications),

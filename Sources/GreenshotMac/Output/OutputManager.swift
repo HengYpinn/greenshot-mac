@@ -98,6 +98,12 @@ final class OutputManager {
             popUp(menu)
         case .qrCode:
             QRCodeDestination.show(capture, saver: saver) { [weak self] menu in self?.popUp(menu) }
+        case .jira:
+            JiraDestination.upload(capture, settings: settings, saver: saver)
+        case .confluence:
+            ConfluenceDestination.upload(capture, settings: settings, saver: saver)
+        case .box, .dropbox:
+            CloudDestination.upload(destination, capture, settings: settings, saver: saver)
         }
     }
 
@@ -119,6 +125,9 @@ final class OutputManager {
         add("Print…", .destination(.printer))
         add("Email…", .destination(.email))
         add("Share…", .destination(.share))
+        for upload in [CaptureDestination.jira, .confluence, .box, .dropbox] {
+            add(upload.displayName, .destination(upload))
+        }
         let openWith = NSMenuItem(title: "Open With", action: nil, keyEquivalent: "")
         openWith.submenu = NSMenu(title: "Open With")
         openWith.submenu?.autoenablesItems = false

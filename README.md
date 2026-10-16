@@ -36,7 +36,7 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Office destinations (Word, Excel, PowerPoint, Outlook, OneNote) | ✅ | "Open with…" any app instead |
 | Output options: no overwrite, JPEG quality prompt, reduce colours, clipboard formats | ✅ | ✅ |
 | Quick settings in the menu, open recent capture, update check | ✅ | ✅ |
-| Upload plugins (Jira, Confluence, Box, Dropbox) | ✅ | not yet |
+| Upload plugins (Jira, Confluence, Box, Dropbox) | ✅ | ✅ (Atlassian API token; Box and Dropbox need your own app registration) |
 | Recipes, MCP server, browser extension, video recording, translations | ✅ | not yet |
 
 Contributions for the missing parts are welcome; see [Contributing](#contributing).
@@ -151,8 +151,24 @@ After a capture (or from the editor's File menu) a screenshot can go to: the ima
 Save as PDF… (⌥⌘P), Copy to Clipboard, Copy Text (OCR) (⌥⌘T), Print… (with print options), Email… (⌘E),
 Share… (AirDrop, Messages, Notes, …), Open With (any app that opens images), an external command (Settings ›
 Destinations: any program gets the screenshot as `{0}`, and a URL from its output can go to the clipboard), and QR
-Code (copy or open what a code in the screenshot says). Settings › Destinations chooses which of them run without
-asking.
+Code (copy or open what a code in the screenshot says), and the uploads: Jira, Confluence, Box and Dropbox. Settings
+› Destinations chooses which of them run without asking.
+
+### Uploads
+
+Greenshot's upload plugins are built in, set up under Settings › Destinations. Secrets (API tokens, the Box client
+secret, the sign-ins) live in your Keychain, never in the settings.
+
+- **Jira** and **Confluence** (Atlassian Cloud): the site URL (Confluence sites end in `/wiki`), your email and an
+  [API token](https://id.atlassian.com/manage-profile/security/api-tokens). "Upload to Jira…" asks for the issue (a
+  key, one of the last ten, or a search by words or JQL), attaches the image and can add a comment; the message
+  afterwards opens the issue. "Upload to Confluence…" asks for the page (the last ten, or a search by title or CQL),
+  attaches the image, copies the wiki markup `!name!` or the image's link to the clipboard and opens the page.
+- **Box** and **Dropbox**: Greenshot for Windows ships its own app keys, which this port can't reuse, so you register
+  an app of your own once (the Settings footers say where and with which redirect URI: `http://127.0.0.1:52398/box`
+  and `greenshotmac://oauth/dropbox`) and paste its client ID (Box: and secret) or app key. The first upload signs you
+  in through the browser (OAuth 2 with PKCE); the refresh token stays in the Keychain. The image goes to the Box folder
+  ID or the Dropbox folder you set, and a link (shared when asked for) goes to the clipboard.
 
 ### File names
 

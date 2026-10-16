@@ -32,6 +32,17 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Unofficial community port of Greenshot. Greenshot © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom. GPL-3.0-or-later.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Greenshot OAuth callback</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>greenshotmac</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>

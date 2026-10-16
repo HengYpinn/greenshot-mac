@@ -28,6 +28,9 @@ extension MainMenu {
         file.addItem(.separator())
         file.addItem(destinationItem("Email…", .destination(.email), key: "e"))
         file.addItem(destinationItem("Share…", .destination(.share)))
+        for upload in [CaptureDestination.jira, .confluence, .box, .dropbox] {
+            file.addItem(destinationItem(upload.displayName, .destination(upload)))
+        }
         let openWith = file.addItem(withTitle: "Open With", action: nil, keyEquivalent: "")
         openWith.submenu = NSMenu(title: "Open With")
         openWith.submenu?.delegate = DynamicFileMenus.shared

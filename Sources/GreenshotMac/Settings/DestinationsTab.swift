@@ -8,7 +8,7 @@ import GreenshotCore
 import SwiftUI
 
 /// Settings › Destinations: upstream's Destination tab (where a capture goes) with the settings of the
-/// destinations that have some (mail, PDF, external commands).
+/// destinations that have some (mail, PDF, external commands, and the uploads in `DestinationsTab+Uploads.swift`).
 struct DestinationsSettings: View {
     @ObservedObject var store: SettingsStore
     static let choices: [CaptureDestination] = CaptureDestination.allCases.filter { $0 != .picker }
@@ -19,6 +19,10 @@ struct DestinationsSettings: View {
             emailSection
             pdfSection
             externalCommandsSection
+            JiraSettingsSection(store: store)
+            ConfluenceSettingsSection(store: store)
+            BoxSettingsSection(store: store)
+            DropboxSettingsSection(store: store)
         }
         .formStyle(.grouped)
     }

@@ -366,3 +366,91 @@ public struct PDFSettings: Codable, Equatable, Sendable {
 
     public init() {}
 }
+
+// MARK: Uploads
+
+/// Upstream Jira plugin settings (`IJiraConfiguration.cs`). The API token is in the Keychain, not here.
+public struct JiraSettings: Codable, Equatable, Sendable {
+    /// e.g. `https://yourcompany.atlassian.net`; empty means not set up.
+    public var url = ""
+    /// The Atlassian account the API token belongs to.
+    public var email = ""
+    public var uploadFormat: UploadFormat = .png
+    public var jpegQuality = 80
+    /// The issues uploaded to, newest first (upstream remembers the issues seen in browser titles).
+    public var recentIssueKeys: [String] = []
+
+    public static let maxRecentIssueKeys = 10
+
+    public init() {}
+
+    public mutating func remember(issueKey: String) {
+        recentIssueKeys.removeAll { $0 == issueKey }
+        recentIssueKeys.insert(issueKey, at: 0)
+        if recentIssueKeys.count > Self.maxRecentIssueKeys { recentIssueKeys.removeLast(recentIssueKeys.count - Self.maxRecentIssueKeys) }
+    }
+}
+
+/// Upstream Confluence plugin settings (`IConfluenceConfiguration.cs`). The API token is in the Keychain.
+public struct ConfluenceSettings: Codable, Equatable, Sendable {
+    public enum ClipboardContent: String, Codable, CaseIterable, Sendable {
+        case nothing, wikiMarkup, imageLink
+
+        public var displayName: String {
+            switch self {
+            case .nothing: return "Nothing"
+            case .wikiMarkup: return "Wiki markup (!name!)"
+            case .imageLink: return "Link to the image"
+            }
+        }
+    }
+
+    /// e.g. `https://yourcompany.atlassian.net/wiki`; empty means not set up.
+    public var url = ""
+    public var email = ""
+    public var uploadFormat: UploadFormat = .png
+    public var jpegQuality = 80
+    public var openPageAfterUpload = true
+    /// Upstream `CopyWikiMarkupForImageToClipboard`, with the image's link as the other choice.
+    public var clipboardContent: ClipboardContent = .wikiMarkup
+    /// The pages uploaded to, newest first.
+    public var recentPages: [ConfluencePage] = []
+
+    public static let maxRecentPages = 10
+
+    public init() {}
+
+    public mutating func remember(page: ConfluencePage) {
+        recentPages.removeAll { $0.id == page.id }
+        recentPages.insert(page, at: 0)
+        if recentPages.count > Self.maxRecentPages { recentPages.removeLast(recentPages.count - Self.maxRecentPages) }
+    }
+}
+
+/// Upstream Box plugin settings (`IBoxConfiguration.cs`), plus the user's own app (upstream ships Greenshot's
+/// client ID, which this port can't use). The client secret and the tokens are in the Keychain.
+public struct BoxSettings: Codable, Equatable, Sendable {
+    public var clientID = ""
+    public var uploadFormat: UploadFormat = .png
+    public var jpegQuality = 80
+    /// The folder to upload to ("0" is All Files).
+    public var folderID = "0"
+    public var copyLinkToClipboard = true
+    /// A shared (open) link instead of the private one.
+    public var useSharedLink = true
+
+    public init() {}
+}
+
+/// Upstream Dropbox plugin settings (`IDropboxConfiguration.cs`), plus the user's own app key. The tokens are in
+/// the Keychain.
+public struct DropboxSettings: Codable, Equatable, Sendable {
+    public var appKey = ""
+    public var uploadFormat: UploadFormat = .png
+    public var jpegQuality = 80
+    /// The folder to upload to, inside the app's folder or the Dropbox, e.g. "Screenshots"; empty is the root.
+    public var folder = ""
+    public var copyLinkToClipboard = true
+
+    public init() {}
+}

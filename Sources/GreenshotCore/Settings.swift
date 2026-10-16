@@ -31,6 +31,11 @@ public enum CaptureDestination: String, Codable, CaseIterable, Sendable {
     case openWith
     /// The Zxing plugin's QR code actions: copy or open what a QR code in the image says.
     case qrCode
+    /// The upload plugins: attach to a Jira issue or a Confluence page, upload to Box or Dropbox.
+    case jira
+    case confluence
+    case box
+    case dropbox
 
     public var displayName: String {
         switch self {
@@ -47,6 +52,10 @@ public enum CaptureDestination: String, Codable, CaseIterable, Sendable {
         case .pdf: return "Save as PDF"
         case .openWith: return "Open with…"
         case .qrCode: return "QR code actions"
+        case .jira: return "Upload to Jira…"
+        case .confluence: return "Upload to Confluence…"
+        case .box: return "Upload to Box"
+        case .dropbox: return "Upload to Dropbox"
         }
     }
 }
@@ -164,6 +173,10 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var email = EmailSettings()
     public var externalCommands: [ExternalCommand] = ExternalCommand.defaults
     public var pdf = PDFSettings()
+    public var jira = JiraSettings()
+    public var confluence = ConfluenceSettings()
+    public var box = BoxSettings()
+    public var dropbox = DropboxSettings()
     /// Days between update checks; 0 never checks (upstream `UpdateCheckInterval`, 14).
     public var updateCheckIntervalDays = 14
     public var lastUpdateCheck: Date?
@@ -205,6 +218,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case reuseEditor, suppressSaveDialogAtClose, matchSizeToCapture, dropShadowSettings, tornEdgeSettings, textObfuscation
         case cutOutMarkStyle
         case allowOverwrite, promptJpegQuality, reduceColors, reduceColorsTo, clipboardFormats, printing, email, externalCommands, pdf
+        case jira, confluence, box, dropbox
         case updateCheckIntervalDays, lastUpdateCheck, lastSavedFile
     }
 
@@ -264,6 +278,10 @@ public struct AppSettings: Codable, Equatable, Sendable {
         email = value(.email, d.email)
         externalCommands = value(.externalCommands, d.externalCommands)
         pdf = value(.pdf, d.pdf)
+        jira = value(.jira, d.jira)
+        confluence = value(.confluence, d.confluence)
+        box = value(.box, d.box)
+        dropbox = value(.dropbox, d.dropbox)
         updateCheckIntervalDays = value(.updateCheckIntervalDays, d.updateCheckIntervalDays)
         lastUpdateCheck = value(.lastUpdateCheck, d.lastUpdateCheck)
         lastSavedFile = value(.lastSavedFile, d.lastSavedFile)
