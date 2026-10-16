@@ -439,6 +439,9 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
     override func menu(for event: NSEvent) -> NSMenu? {
         let p = imagePoint(event)
         guard let a = document.topmostAnnotation(at: p, tolerance: 5 * pixelsPerScreenPoint) else { return nil }
+        // The items without a target (Cut, Copy, Arrange) go through the responder chain from the canvas.
+        commitEditing()
+        window?.makeFirstResponder(self)
         if !selectedIDs.contains(a.id) { select(a.id) }
         let menu = NSMenu()
         if a.kind.hasEditableText && selectedIDs.count == 1 {
