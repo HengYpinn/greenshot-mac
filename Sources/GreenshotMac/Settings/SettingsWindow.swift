@@ -76,6 +76,7 @@ struct SettingsView: View {
         OutputSettings(store: store).tabItem { Label("Output", systemImage: "square.and.arrow.down") }.tag(2)
         DestinationsSettings(store: store).tabItem { Label("Destinations", systemImage: "paperplane") }.tag(3)
         PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(4)
+        ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(5)
     }
 }
 

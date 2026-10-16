@@ -13,34 +13,65 @@ struct OutputSettings: View {
 
     var body: some View {
         Form {
-            Section("Files") {
-                LabeledContent("Folder") {
-                    HStack {
-                        Text((store.value.outputFolderURL.path as NSString).abbreviatingWithTildeInPath)
-                            .lineLimit(1).truncationMode(.middle)
-                        Button("Choose…", action: chooseFolder)
-                    }
-                }
-                TextField("File name pattern", text: store.binding(\.filenamePattern))
-                Text("Example: \(example)").font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
-                DisclosureGroup("Pattern variables") {
-                    Text(Self.patternHelp).font(.caption).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
-                }
-                Picker("Format", selection: store.binding(\.outputFormat)) {
-                    ForEach(ImageFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
-                }
-                if store.value.outputFormat == .jpg {
-                    Slider(value: Binding(get: { Double(store.value.jpegQuality) },
-                                          set: { value in store.update { $0.jpegQuality = Int(value.rounded()) } }),
-                           in: 10...100, step: 5) {
-                        Text("JPEG quality: \(store.value.jpegQuality)")
-                    }
-                }
-                Toggle("Copy the file path to the clipboard after “Save directly”", isOn: store.binding(\.copyPathToClipboard))
-                Toggle("Show a message after saving or copying", isOn: store.binding(\.showNotifications))
-            }
+            filesSection
+            formatSection
+            messagesSection
         }
         .formStyle(.grouped)
+    }
+
+    private var filesSection: some View {
+        Section("Files") {
+            LabeledContent("Folder") {
+                HStack {
+                    Text((store.value.outputFolderURL.path as NSString).abbreviatingWithTildeInPath)
+                        .lineLimit(1).truncationMode(.middle)
+                    Button("Choose…", action: chooseFolder)
+                }
+            }
+            TextField("File name pattern", text: store.binding(\.filenamePattern))
+            Text("Example: \(example)").font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+            DisclosureGroup("Pattern variables") {
+                Text(Self.patternHelp).font(.caption).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+            }
+            Toggle("Overwrite a file with the same name", isOn: store.binding(\.allowOverwrite))
+                .help("Off: “Save directly” adds (2), (3), … to the name instead.")
+            Toggle("Copy the file path to the clipboard after “Save directly”", isOn: store.binding(\.copyPathToClipboard))
+        }
+    }
+
+    private var formatSection: some View {
+        Section("Image format") {
+            Picker("Format", selection: store.binding(\.outputFormat)) {
+                ForEach(ImageFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            if store.value.outputFormat == .jpg {
+                Slider(value: jpegQuality, in: 10...100, step: 5) {
+                    Text("JPEG quality: \(store.value.jpegQuality)")
+                }
+            }
+            Toggle("Ask for the JPEG quality every time", isOn: store.binding(\.promptJpegQuality))
+            Toggle("Reduce the colours of PNG and GIF files", isOn: store.binding(\.reduceColors))
+            if store.value.reduceColors {
+                Stepper(value: store.binding(\.reduceColorsTo), in: 2...256) {
+                    Text("At most \(store.value.reduceColorsTo) colours")
+                }
+            }
+        }
+    }
+
+    private var messagesSection: some View {
+        Section("Messages") {
+            Toggle("Show a message after saving or copying", isOn: store.binding(\.showNotifications))
+            Picker("Show", selection: store.binding(\.notificationLevel)) {
+                ForEach(NotificationLevel.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+        }
+    }
+
+    private var jpegQuality: Binding<Double> {
+        Binding(get: { Double(store.value.jpegQuality) },
+                set: { value in store.update { $0.jpegQuality = Int(value.rounded()) } })
     }
 
     private var example: String {

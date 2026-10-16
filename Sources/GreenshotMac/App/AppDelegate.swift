@@ -27,6 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             }
         }
         Printing.settings = settings
+        Clipboard.formats = { [settings] in settings.value.clipboardFormats }
         editors.onWindowsChange = { [weak self] in self?.updateDockIcon() }
         settingsWindow.onOpenChange = { [weak self] in self?.updateDockIcon() }
         updateDockIcon()

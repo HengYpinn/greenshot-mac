@@ -136,4 +136,35 @@ struct ImageExporterTests {
         #expect(ImageFormat(fileExtension: "tif") == .tiff)
         #expect(ImageFormat(fileExtension: "webp") == nil)
     }
+
+    @Test func reduceColorsLeavesAtMostNColours() throws {
+        let gradient = TestImage.make(width: 64, height: 64) { x, y in
+            RGBA(r: UInt8(x * 4), g: UInt8(y * 4), b: UInt8((x + y) * 2), a: 255)
+        }
+        #expect(distinctColors(gradient) > 1000)
+        for limit in [2, 16, 256] {
+            let reduced = ColorQuantizer.reduce(gradient, to: limit)
+            let count = distinctColors(reduced)
+            #expect(count <= limit && count > limit / 2, "\(limit): \(count)")
+        }
+        // Encoded PNG, read back, keeps the limit.
+        let data = try ImageExporter.data(for: gradient, format: .png, maxColors: 8)
+        let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
+        let decoded = try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))
+        #expect(distinctColors(decoded) <= 8)
+        // Few colours already: unchanged.
+        let two = TestImage.make(width: 4, height: 4) { x, _ in x < 2 ? .red : .blue }
+        #expect(ColorQuantizer.reduce(two, to: 16) === two)
+    }
+
+    private func distinctColors(_ image: CGImage) -> Int {
+        var colors = Set<UInt32>()
+        for y in 0..<image.height {
+            for x in 0..<image.width {
+                let p = TestImage.pixel(image, x, y)
+                colors.insert(UInt32(p.r) << 16 | UInt32(p.g) << 8 | UInt32(p.b))
+            }
+        }
+        return colors.count
+    }
 }

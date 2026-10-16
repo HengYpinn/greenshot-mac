@@ -3,19 +3,33 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import AppKit
+import GreenshotCore
 import ImageIO
 
 @MainActor
 enum Clipboard {
-    /// Puts the image on the clipboard as PNG and TIFF (upstream writes PNG and DIB). `scale` is the pixels per
-    /// point: it sets the point size, so other apps paste a Retina capture at its real size and `image()` reads
-    /// the scale back.
+    /// The formats a copy writes (Settings › Expert, upstream `ClipboardFormats`); set by the app delegate.
+    static var formats: () -> [ClipboardFormat] = { ClipboardFormat.defaults }
+
+    /// Puts the image on the clipboard in the chosen formats (default PNG and TIFF; upstream writes PNG and DIB).
+    /// `scale` is the pixels per point: it sets the point size, so other apps paste a Retina capture at its real
+    /// size and `image()` reads the scale back.
     static func copy(_ image: CGImage, scale: CGFloat) {
         let rep = NSBitmapImageRep(cgImage: image)
         rep.size = NSSize(width: CGFloat(image.width) / scale, height: CGFloat(image.height) / scale)
+        var chosen = Set(formats())
+        if chosen.isEmpty { chosen = [.png] }
         let item = NSPasteboardItem()
-        if let png = rep.representation(using: .png, properties: [:]) { item.setData(png, forType: .png) }
-        if let tiff = rep.tiffRepresentation { item.setData(tiff, forType: .tiff) }
+        let png = rep.representation(using: .png, properties: [:])
+        if chosen.contains(.png), let png { item.setData(png, forType: .png) }
+        if chosen.contains(.tiff), let tiff = rep.tiffRepresentation { item.setData(tiff, forType: .tiff) }
+        if chosen.contains(.jpeg), let jpeg = try? ImageExporter.data(for: image, format: .jpg, quality: 90, scale: scale) {
+            item.setData(jpeg, forType: NSPasteboard.PasteboardType("public.jpeg"))
+        }
+        if chosen.contains(.html), let png {
+            let html = DestinationSupport.htmlSnippet(png: png, width: Int(rep.size.width.rounded()), height: Int(rep.size.height.rounded()))
+            item.setString(html, forType: .html)
+        }
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.writeObjects([item])
