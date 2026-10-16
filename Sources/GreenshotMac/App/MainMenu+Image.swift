@@ -40,6 +40,13 @@ extension MainMenu {
                       keyEquivalent: "\u{8}")
         image.addItem(withTitle: "Remove Transparency", action: #selector(EditorWindowController.removeTransparency(_:)),
                       keyEquivalent: "")
+
+        // Upstream's crop modes. ⇧⌘A is taken, so Auto Crop is ⌥⌘A. The other two need a selection of the crop tool.
+        image.addItem(.separator())
+        for (index, (title, action)) in EditorWindowController.cropModeItems.enumerated() {
+            let item = image.addItem(withTitle: title, action: action, keyEquivalent: index == 0 ? "a" : "")
+            if index == 0 { item.keyEquivalentModifierMask = [.option, .command] }
+        }
     }
 
     private static func arrow(_ key: Int) -> String {

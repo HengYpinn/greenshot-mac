@@ -26,7 +26,19 @@ extension EditorWindowController {
         let resize = imageButton("arrow.up.left.and.arrow.down.right", "Resize the image (⌥⌘R)", #selector(resizeImage(_:)))
         let rotateLeft = imageButton("rotate.left", "Rotate counter-clockwise (⌥⌘←)", #selector(rotateCounterClockwise(_:)))
         let rotateRight = imageButton("rotate.right", "Rotate clockwise (⌥⌘→)", #selector(rotateClockwise(_:)))
-        return [effects, resize, rotateLeft, rotateRight]
+        // Upstream's crop modes (`CropContainer.CropModes`): auto crop, and the crop tool's selection kept as rows
+        // or as columns.
+        let crop = NSPopUpButton(frame: .zero, pullsDown: true)
+        crop.controlSize = .small
+        crop.toolTip = "Auto crop, or crop to the rows or columns of the crop selection"
+        crop.addItem(withTitle: "")
+        crop.item(at: 0)?.image = NSImage(systemSymbolName: "crop", accessibilityDescription: "Crop modes")
+        for (title, action) in Self.cropModeItems {
+            let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+            item.target = self
+            crop.menu?.addItem(item)
+        }
+        return [effects, resize, rotateLeft, rotateRight, crop]
     }
 
     // MARK: Effects
@@ -113,6 +125,44 @@ extension EditorWindowController {
         if !performImageOperation({ $0.removeTransparency() }) { NSSound.beep() }
     }
 
+    // MARK: Crop modes
+
+    /// The crop mode items of the toolbar and the Image menu.
+    static let cropModeItems: [(String, Selector)] = [
+        ("Auto Crop", #selector(autoCrop(_:))),
+        ("Crop to Selected Rows (Full Width)", #selector(cropToSelectedRows(_:))),
+        ("Crop to Selected Columns (Full Height)", #selector(cropToSelectedColumns(_:))),
+    ]
+
+    /// Upstream `CropModes.AutoCrop` / `Surface.AutoCrop`: crops away the border of one color around the content
+    /// (within the crop selection when there is one).
+    @objc func autoCrop(_ sender: Any?) {
+        let area = canvas.tool == .crop ? canvas.cropRect : nil
+        let difference = settings.value.autoCropDifference
+        if performImageOperation({ $0.autoCrop(difference: difference, area: area) }) {
+            canvas.tool = .select
+            return
+        }
+        let alert = NSAlert()
+        alert.messageText = "Auto crop is not possible"
+        alert.informativeText = "There is no border of one color around the content to crop away."
+        if let window { alert.beginSheetModal(for: window) } else { alert.runModal() }
+    }
+
+    /// Crops to the rows of the crop selection and keeps the whole width.
+    @objc func cropToSelectedRows(_ sender: Any?) {
+        guard let selection = canvas.cropRect else { NSSound.beep(); return }
+        performImageOperation { $0.cropRows(of: selection) }
+        canvas.tool = .select
+    }
+
+    /// Crops to the columns of the crop selection and keeps the whole height.
+    @objc func cropToSelectedColumns(_ sender: Any?) {
+        guard let selection = canvas.cropRect else { NSSound.beep(); return }
+        performImageOperation { $0.cropColumns(of: selection) }
+        canvas.tool = .select
+    }
+
     // MARK: Helpers
 
     /// A toolbar button with an SF Symbol, like the editor's other icon buttons.
@@ -142,6 +192,8 @@ extension EditorWindowController: NSMenuItemValidation {
         switch item.action {
         case #selector(removeTransparency(_:)):
             return TransparencyCheck.hasTransparency(editorDocument.baseImage)
+        case #selector(cropToSelectedRows(_:)), #selector(cropToSelectedColumns(_:)):
+            return canvas.tool == .crop && canvas.cropRect != nil
         case #selector(clearBackground(_:)):
             // ⌘⌫ deletes to the start of the line while a text element is being typed.
             return !canvas.isEditingText
