@@ -79,6 +79,15 @@ final class TextObfuscationSheet: NSObject {
         panel.makeFirstResponder(searchField)
     }
 
+    /// The dialog's content, for offscreen snapshots.
+    var contentView: NSView? { panel.contentView }
+
+    /// Opens the Advanced options (for snapshots).
+    func showAdvanced() {
+        advancedButton.state = .on
+        advancedView.isHidden = false
+    }
+
     /// The options as they are set in the dialog.
     var settings: TextObfuscationSettings {
         var settings = TextObfuscationSettings()
