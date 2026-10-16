@@ -134,12 +134,18 @@ final class DropShadowSettingsForm: NSObject {
     }
 }
 
-/// Upstream `TornEdgeSettingsWindow`: the edges to tear (with "All"), the tooth size and ranges 0...40 and the shadow.
+/// Upstream `TornEdgeSettingsWindow`: the edges to tear (with "All"), the tooth size and ranges 0...40, the
+/// background color, and the shadow with its thickness, offset and darkness like the drop shadow dialog.
 @MainActor
 final class TornEdgeSettingsForm: NSObject {
     let toothHeight: SliderField
     let horizontalRange: SliderField
     let verticalRange: SliderField
+    let shadowThickness: SliderField
+    let shadowOffsetX: SliderField
+    let shadowOffsetY: SliderField
+    let shadowDarkness: SliderField
+    let backgroundColorWell = NSColorWell(style: .minimal)
     private let top = NSButton(checkboxWithTitle: "Top", target: nil, action: nil)
     private let left = NSButton(checkboxWithTitle: "Left", target: nil, action: nil)
     private let right = NSButton(checkboxWithTitle: "Right", target: nil, action: nil)
@@ -152,6 +158,11 @@ final class TornEdgeSettingsForm: NSObject {
         toothHeight = SliderField(range: 0...40, value: settings.toothHeight)
         horizontalRange = SliderField(range: 0...40, value: settings.horizontalToothRange)
         verticalRange = SliderField(range: 0...40, value: settings.verticalToothRange)
+        shadowThickness = SliderField(range: 1...20, value: settings.shadowSize)
+        shadowOffsetX = SliderField(range: -20...20, value: settings.shadowOffsetX)
+        shadowOffsetY = SliderField(range: -20...20, value: settings.shadowOffsetY)
+        shadowDarkness = SliderField(range: 1...40, value: DropShadowSettingsForm.sliderValue(darkness: settings.shadowDarkness),
+                                     format: { "\($0)" })
         super.init()
         for (box, on) in [(top, settings.top), (left, settings.left), (right, settings.right), (bottom, settings.bottom)] {
             box.state = on ? .on : .off
@@ -162,7 +173,12 @@ final class TornEdgeSettingsForm: NSObject {
         all.action = #selector(allChanged(_:))
         all.allowsMixedState = false
         shadow.state = settings.shadow ? .on : .off
+        shadow.target = self
+        shadow.action = #selector(shadowChanged(_:))
+        backgroundColorWell.color = NSColor(cgColor: settings.backgroundColor.cgColor) ?? .clear
+        backgroundColorWell.toolTip = "The color of the torn off parts; transparent by default"
         refreshAll()
+        refreshShadow()
 
         // Upstream lays the edges out around "All": top above, left and right beside, bottom below.
         let edges = NSGridView(views: [[NSGridCell.emptyContentView, top, NSGridCell.emptyContentView],
@@ -176,7 +192,12 @@ final class TornEdgeSettingsForm: NSObject {
             toothHeight.row("Tooth size:"),
             horizontalRange.row("Horizontal range:"),
             verticalRange.row("Vertical range:"),
+            [EffectSettingsDialog.label("Background:"), backgroundColorWell],
             [EffectSettingsDialog.label("Shadow:"), shadow],
+            shadowThickness.row("Thickness:"),
+            shadowOffsetX.row("Offset X:"),
+            shadowOffsetY.row("Offset Y:"),
+            shadowDarkness.row("Darkness:"),
         ])
     }
 
@@ -184,7 +205,10 @@ final class TornEdgeSettingsForm: NSObject {
         TornEdgeSettings(toothHeight: toothHeight.value, horizontalToothRange: horizontalRange.value,
                          verticalToothRange: verticalRange.value,
                          top: top.state == .on, left: left.state == .on, right: right.state == .on,
-                         bottom: bottom.state == .on, shadow: shadow.state == .on)
+                         bottom: bottom.state == .on, shadow: shadow.state == .on,
+                         shadowDarkness: Double(shadowDarkness.value) / 40, shadowSize: shadowThickness.value,
+                         shadowOffsetX: shadowOffsetX.value, shadowOffsetY: shadowOffsetY.value,
+                         backgroundColor: RGBAColor(backgroundColorWell.color))
     }
 
     @objc private func edgeChanged(_ sender: NSButton) {
@@ -195,8 +219,27 @@ final class TornEdgeSettingsForm: NSObject {
         for box in [top, left, right, bottom] { box.state = sender.state == .on ? .on : .off }
     }
 
+    @objc private func shadowChanged(_ sender: NSButton) {
+        refreshShadow()
+    }
+
     private func refreshAll() {
         all.state = [top, left, right, bottom].allSatisfy { $0.state == .on } ? .on : .off
+    }
+
+    /// The shadow's sliders only work while there is a shadow (upstream binds the group to the checkbox).
+    private func refreshShadow() {
+        let on = shadow.state == .on
+        for field in [shadowThickness, shadowOffsetX, shadowOffsetY, shadowDarkness] { field.isEnabled = on }
+    }
+}
+
+extension RGBAColor {
+    /// The color of a color well, in sRGB.
+    init(_ color: NSColor) {
+        let c = color.usingColorSpace(.sRGB) ?? color
+        self.init(red: Double(c.redComponent), green: Double(c.greenComponent), blue: Double(c.blueComponent),
+                  alpha: Double(c.alphaComponent))
     }
 }
 

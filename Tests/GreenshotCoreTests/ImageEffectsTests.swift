@@ -138,6 +138,46 @@ struct ImageEffectsTests {
         #expect(TestImage.pixel(result.image, 0, 149) == .white && TestImage.pixel(result.image, 199, 149) == .white)
     }
 
+    @Test func tornEdgesUseTheirOwnShadowSettings() throws {
+        let base = TestImage.solid(width: 200, height: 150, .white)
+        let settings = TornEdgeSettings(shadowDarkness: 1, shadowSize: 10, shadowOffsetX: 0, shadowOffsetY: 0)
+        let result = try #require(ImageEffects.tornEdge(base, scale: 1, seed: 3, settings: settings))
+        // 10 px of shadow on every side, the image 1 px in from that (offset 0 is drawn at size - 1).
+        #expect(result.image.width == 220 && result.image.height == 170)
+        #expect(result.offset == CGVector(dx: 9, dy: 9))
+        let defaultShadow = try #require(ImageEffects.tornEdge(base, scale: 1, seed: 3, settings: TornEdgeSettings()))
+        #expect(defaultShadow.image.width == 214)
+        // Darkness 1 makes a darker shadow next to the image than the default 0.6.
+        let dark = TestImage.pixel(result.image, 110, 161)
+        let defaults = try #require(ImageEffects.tornEdge(base, scale: 1, seed: 3, settings: TornEdgeSettings(shadowSize: 10, shadowOffsetX: 0, shadowOffsetY: 0)))
+        #expect(dark.a > TestImage.pixel(defaults.image, 110, 161).a)
+    }
+
+    @Test func tornEdgesOnABackgroundColor() throws {
+        let base = TestImage.solid(width: 200, height: 150, .white)
+        let settings = TornEdgeSettings(shadow: false, backgroundColor: .blue)
+        let result = try #require(ImageEffects.tornEdge(base, scale: 1, seed: 3, settings: settings))
+        #expect(result.image.width == 200 && result.image.height == 150 && result.offset == .zero)
+        // The torn off corner is blue, the middle still white, nothing is transparent.
+        #expect(TestImage.pixel(result.image, 0, 0) == .blue)
+        #expect(TestImage.pixel(result.image, 100, 75) == .white)
+        let withShadow = try #require(ImageEffects.tornEdge(base, scale: 1, seed: 3, settings: TornEdgeSettings(backgroundColor: .blue)))
+        #expect(TestImage.pixel(withShadow.image, 0, 0) == .blue)
+        #expect(TestImage.pixel(withShadow.image, 213, 163).a == 255)
+    }
+
+    @Test func oldTornEdgeSettingsLoadWithTheDefaultShadow() throws {
+        let json = #"{"toothHeight":8,"horizontalToothRange":20,"verticalToothRange":20,"top":true,"left":false,"right":true,"bottom":true,"shadow":false}"#
+        let settings = try JSONDecoder().decode(TornEdgeSettings.self, from: Data(json.utf8))
+        #expect(settings.toothHeight == 8 && !settings.left && !settings.shadow)
+        #expect(settings.dropShadow == DropShadowSettings() && settings.backgroundColor == .clear)
+        var changed = settings
+        changed.backgroundColor = .yellow
+        changed.shadowOffsetY = 3
+        let decoded = try JSONDecoder().decode(TornEdgeSettings.self, from: JSONEncoder().encode(changed))
+        #expect(decoded == changed)
+    }
+
     @Test func tornEdgesAcceptZeroSizes() throws {
         let settings = TornEdgeSettings(toothHeight: 0, horizontalToothRange: 0, verticalToothRange: 0)
         let result = try #require(ImageEffects.tornEdge(white, scale: 1, seed: 1, settings: settings))

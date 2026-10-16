@@ -523,16 +523,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         refreshProperties()
     }
 
-    private func rgba(_ color: NSColor) -> RGBAColor {
-        let c = color.usingColorSpace(.sRGB) ?? color
-        return RGBAColor(red: Double(c.redComponent), green: Double(c.greenComponent), blue: Double(c.blueComponent),
-                         alpha: Double(c.alphaComponent))
-    }
-
     // MARK: Property actions
 
-    @objc private func lineColorChanged() { applyStyle { $0.lineColor = rgba(lineColorWell.color) } }
-    @objc private func fillColorChanged() { applyStyle { $0.fillColor = rgba(fillColorWell.color) } }
+    @objc private func lineColorChanged() { applyStyle { $0.lineColor = RGBAColor(lineColorWell.color) } }
+    @objc private func fillColorChanged() { applyStyle { $0.fillColor = RGBAColor(fillColorWell.color) } }
     @objc private func clearFill() { applyStyle { $0.fillColor = .clear } }
     @objc private func lineWidthChanged() { applyStyle { $0.lineWidth = Double(Self.lineWidths[lineWidthPopup.indexOfSelectedItem]) } }
     @objc private func shadowChanged() { applyStyle { $0.shadow = shadowCheckbox.state == .on } }

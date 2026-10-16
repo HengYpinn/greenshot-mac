@@ -109,7 +109,8 @@ public struct DropShadowSettings: Codable, Equatable, Sendable {
     }
 }
 
-/// Upstream `TornEdgeEffect`: ToothHeight 12, tooth ranges 20, all edges, GenerateShadow true.
+/// Upstream `TornEdgeEffect`: ToothHeight 12, tooth ranges 20, all edges, GenerateShadow true with the drop shadow's
+/// defaults (Darkness 0.6, ShadowSize 7, ShadowOffset -1, -1), BackgroundColor transparent.
 public struct TornEdgeSettings: Codable, Equatable, Sendable {
     public var toothHeight: Int = 12
     public var horizontalToothRange: Int = 20
@@ -119,9 +120,18 @@ public struct TornEdgeSettings: Codable, Equatable, Sendable {
     public var right = true
     public var bottom = true
     public var shadow = true
+    /// The shadow's own settings (upstream `TornEdgeSettingsWindow`'s shadow group), like the drop shadow's.
+    public var shadowDarkness: Double = 0.6
+    public var shadowSize: Int = 7
+    public var shadowOffsetX: Int = -1
+    public var shadowOffsetY: Int = -1
+    /// What the torn off parts (and the room of the shadow) show; transparent by default.
+    public var backgroundColor: RGBAColor = .clear
 
     public init(toothHeight: Int = 12, horizontalToothRange: Int = 20, verticalToothRange: Int = 20,
-                top: Bool = true, left: Bool = true, right: Bool = true, bottom: Bool = true, shadow: Bool = true) {
+                top: Bool = true, left: Bool = true, right: Bool = true, bottom: Bool = true, shadow: Bool = true,
+                shadowDarkness: Double = 0.6, shadowSize: Int = 7, shadowOffsetX: Int = -1, shadowOffsetY: Int = -1,
+                backgroundColor: RGBAColor = .clear) {
         self.toothHeight = toothHeight
         self.horizontalToothRange = horizontalToothRange
         self.verticalToothRange = verticalToothRange
@@ -130,6 +140,43 @@ public struct TornEdgeSettings: Codable, Equatable, Sendable {
         self.right = right
         self.bottom = bottom
         self.shadow = shadow
+        self.shadowDarkness = shadowDarkness
+        self.shadowSize = shadowSize
+        self.shadowOffsetX = shadowOffsetX
+        self.shadowOffsetY = shadowOffsetY
+        self.backgroundColor = backgroundColor
+    }
+
+    /// The shadow as drop shadow settings.
+    public var dropShadow: DropShadowSettings {
+        DropShadowSettings(darkness: shadowDarkness, size: shadowSize, offsetX: shadowOffsetX, offsetY: shadowOffsetY)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case toothHeight, horizontalToothRange, verticalToothRange, top, left, right, bottom, shadow
+        case shadowDarkness, shadowSize, shadowOffsetX, shadowOffsetY, backgroundColor
+    }
+
+    /// Every value falls back to its default, so settings written before the shadow options still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = TornEdgeSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        toothHeight = value(.toothHeight, d.toothHeight)
+        horizontalToothRange = value(.horizontalToothRange, d.horizontalToothRange)
+        verticalToothRange = value(.verticalToothRange, d.verticalToothRange)
+        top = value(.top, d.top)
+        left = value(.left, d.left)
+        right = value(.right, d.right)
+        bottom = value(.bottom, d.bottom)
+        shadow = value(.shadow, d.shadow)
+        shadowDarkness = value(.shadowDarkness, d.shadowDarkness)
+        shadowSize = value(.shadowSize, d.shadowSize)
+        shadowOffsetX = value(.shadowOffsetX, d.shadowOffsetX)
+        shadowOffsetY = value(.shadowOffsetY, d.shadowOffsetY)
+        backgroundColor = value(.backgroundColor, d.backgroundColor)
     }
 }
 

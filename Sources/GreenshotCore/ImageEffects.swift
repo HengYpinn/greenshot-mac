@@ -113,13 +113,30 @@ public enum ImageEffects {
         return result(context, offset: CGVector(dx: origin.x, dy: origin.y))
     }
 
-    /// Upstream `TornEdgeEffect`: the image torn along the chosen edges, with upstream's default drop shadow when
-    /// `settings.shadow` is on (the shadow's own settings of upstream's torn edge dialog are not kept here).
+    /// Upstream `TornEdgeEffect.Apply`: the image torn along the chosen edges, with the shadow of the settings when
+    /// `settings.shadow` is on, on the background color when that is not transparent.
     public static func tornEdge(_ image: CGImage, scale: CGFloat, seed: UInt64,
                                 settings: TornEdgeSettings = TornEdgeSettings()) -> EffectResult? {
         guard let torn = tornEdgeImage(image, scale: scale, seed: seed, settings: settings) else { return nil }
-        guard settings.shadow else { return EffectResult(image: torn, offset: .zero) }
-        return dropShadow(torn, scale: scale)
+        var result = EffectResult(image: torn, offset: .zero)
+        if settings.shadow {
+            guard let shadowed = dropShadow(torn, scale: scale, settings: settings.dropShadow) else { return nil }
+            result = shadowed
+        }
+        guard settings.backgroundColor.isVisible else { return result }
+        guard let background = onBackground(result.image, color: settings.backgroundColor.cgColor) else { return nil }
+        result.image = background
+        return result
+    }
+
+    /// `image` drawn on `color`.
+    static func onBackground(_ image: CGImage, color: CGColor) -> CGImage? {
+        let size = CGSize(width: image.width, height: image.height)
+        guard let context = makeContext(size) else { return nil }
+        context.setFillColor(color)
+        context.fill(CGRect(origin: .zero, size: size))
+        context.draw(image, in: CGRect(origin: .zero, size: size))
+        return context.makeImage()
     }
 
     /// Upstream `CreateTornEdge`: the image cut out along a zigzag line on the chosen edges, the same size as the
