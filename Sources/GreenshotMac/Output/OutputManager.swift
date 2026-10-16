@@ -54,7 +54,7 @@ final class OutputManager {
         case .destination(let destination):
             perform(destination, with: capture, window: window)
         case .pdfAs:
-            break
+            PdfDestination.save(capture, settings: settings, saver: saver, ask: true)
         case .externalCommand(let command):
             ExternalCommandRunner.run(command, capture: capture, settings: settings, saver: saver)
         case .application:
@@ -85,7 +85,9 @@ final class OutputManager {
             TextDestination.copyText(capture, settings: settings, saver: saver)
         case .externalCommand:
             runExternalCommand(with: capture, window: window)
-        case .pdf, .openWith, .qrCode:
+        case .pdf:
+            PdfDestination.save(capture, settings: settings, saver: saver, ask: false)
+        case .openWith, .qrCode:
             ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")
         }
     }
@@ -102,6 +104,7 @@ final class OutputManager {
         add("Open in Image Editor", .destination(.editor))
         add("Save Directly (\(folder))", .destination(.file))
         add("Save As…", .destination(.fileAs))
+        add("Save as PDF…", .pdfAs)
         add("Copy to Clipboard", .destination(.clipboard))
         add("Copy Text (OCR)", .destination(.ocr))
         add("Print…", .destination(.printer))

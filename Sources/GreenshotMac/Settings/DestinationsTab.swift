@@ -17,6 +17,7 @@ struct DestinationsSettings: View {
         Form {
             afterCaptureSection
             emailSection
+            pdfSection
             externalCommandsSection
         }
         .formStyle(.grouped)
@@ -49,6 +50,50 @@ struct DestinationsSettings: View {
             Text("Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. The macOS mail service fills in To and the subject; CC and BCC are shown to add by hand.")
                 .font(.caption).foregroundStyle(.secondary)
         }
+    }
+
+    private var pdfSection: some View {
+        Section {
+            Picker("Page size", selection: store.binding(\.pdf.pageSize)) {
+                ForEach(PDFSettings.PageSize.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            Picker("Unit", selection: store.binding(\.pdf.unit)) {
+                ForEach(PDFSettings.Unit.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            if store.value.pdf.pageSize == .custom {
+                LabeledContent("Custom size") {
+                    HStack {
+                        numberField("Width", \.pdf.customWidth)
+                        Text("×")
+                        numberField("Height", \.pdf.customHeight)
+                    }
+                }
+            }
+            LabeledContent("Margins") {
+                HStack {
+                    numberField("Top", \.pdf.marginTop)
+                    numberField("Left", \.pdf.marginLeft)
+                    numberField("Right", \.pdf.marginRight)
+                    numberField("Bottom", \.pdf.marginBottom)
+                }
+            }
+            Picker("Scaling", selection: store.binding(\.pdf.scaling)) {
+                ForEach(PDFSettings.Scaling.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            .disabled(store.value.pdf.pageSize == .image)
+        } header: {
+            Text("PDF")
+        } footer: {
+            Text("“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    private func numberField(_ title: String, _ keyPath: WritableKeyPath<AppSettings, Double>) -> some View {
+        TextField(title, value: store.binding(keyPath), format: .number)
+            .frame(width: 56)
+            .multilineTextAlignment(.trailing)
+            .help(title)
     }
 
     private var externalCommandsSection: some View {
