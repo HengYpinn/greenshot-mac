@@ -27,7 +27,7 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Editor: image element (paste, drop, insert window), cut marks | ✅ | ✅ (cut marks horizontal only) |
 | Editor: cut/copy/paste/duplicate, multi-select, arrange, save/load elements | ✅ | ✅ (element files are not compatible with Windows) |
 | Editor: font family, text alignment, counter start, crop, undo/redo, remembered styles | ✅ | ✅ |
-| Effects: torn edges, border, drop shadow, grayscale, invert, with settings dialogs | ✅ | ✅ |
+| Effects: torn edges, border, drop shadow, grayscale, invert, with settings dialogs | ✅ | ✅ (the torn edges' own shadow uses the default settings) |
 | Image: resize, rotate, enlarge/shrink canvas, clear background, remove transparency, auto crop, adjust | ✅ | ✅ (vertical/horizontal cut-out not yet) |
 | Capture screen: info panel, selection preview, window details, mouse pointer | ✅ | ✅ |
 | Fixed-size and text (OCR) capture modes, QR codes on the capture screen | ✅ | ✅ (Vision instead of Windows OCR / Zxing) |
