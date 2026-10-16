@@ -238,6 +238,19 @@ public final class EditorDocument {
         annotations.last { $0.hitTest(point, scale: scale, tolerance: tolerance) }
     }
 
+    /// The elements completely inside `rect` (image pixels), in drawing order: what a rubber band drawn with the
+    /// Select tool selects. Lines have no width or height, so an element covers at least one pixel (like upstream's
+    /// `IsOutside` of a crop).
+    public func annotations(within rect: CGRect) -> [Annotation] {
+        let area = rect.standardized
+        guard !area.isEmpty else { return [] }
+        return annotations.filter { element in
+            let box = element.bounds
+            let covered = CGRect(x: box.minX, y: box.minY, width: max(box.width, 1), height: max(box.height, 1))
+            return area.contains(covered)
+        }
+    }
+
     /// The number a counter shows: counters are numbered in the order they were added, from `counterStart`, and
     /// renumber when one is removed (upstream `StepLabelContainer`, `Surface.CountStepLabels`).
     public func counterNumber(for id: UUID) -> Int? {

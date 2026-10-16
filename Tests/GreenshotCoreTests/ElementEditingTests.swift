@@ -228,3 +228,46 @@ struct ReusedDocumentTests {
         #expect(!doc.canUndo && !doc.canRedo && doc.isModified)
     }
 }
+
+/// The rubber band of the Select tool: the elements completely inside the dragged rectangle.
+struct RubberBandSelectionTests {
+    func document() -> EditorDocument {
+        EditorDocument(image: TestImage.solid(width: 200, height: 100, .white), scale: 1, title: "test", isModified: false)
+    }
+
+    func box(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat = 20, _ h: CGFloat = 10, kind: AnnotationKind = .rectangle) -> Annotation {
+        Annotation(kind: kind, start: CGPoint(x: x, y: y), end: CGPoint(x: x + w, y: y + h))
+    }
+
+    @Test func selectsTheElementsCompletelyInsideInDrawingOrder() {
+        let doc = document()
+        let inside = box(10, 10), alsoInside = box(40, 20), partly = box(60, 25), outside = box(150, 80)
+        doc.add([outside, inside, alsoInside, partly])
+        let found = doc.annotations(within: CGRect(x: 5, y: 5, width: 70, height: 40))
+        #expect(found.map(\.id) == [inside.id, alsoInside.id])
+        // The band may be dragged from any corner.
+        #expect(doc.annotations(within: CGRect(x: 75, y: 45, width: -70, height: -40)).map(\.id) == [inside.id, alsoInside.id])
+        #expect(doc.annotations(within: CGRect(x: 5, y: 5, width: 0, height: 40)).isEmpty)
+    }
+
+    @Test func linesAndFreehandCountWithTheirPath() {
+        let doc = document()
+        let flat = Annotation(kind: .line, start: CGPoint(x: 10, y: 30), end: CGPoint(x: 50, y: 30))
+        let upright = Annotation(kind: .arrow, start: CGPoint(x: 70, y: 60), end: CGPoint(x: 70, y: 20))
+        let scribble = Annotation(kind: .freehand, start: .zero, end: .zero, points: [CGPoint(x: 20, y: 40), CGPoint(x: 90, y: 45)])
+        doc.add([flat, upright, scribble])
+        #expect(doc.annotations(within: CGRect(x: 0, y: 0, width: 100, height: 70)).count == 3)
+        // A flat line is one pixel high: a band along its row takes it, one above it doesn't.
+        #expect(doc.annotations(within: CGRect(x: 0, y: 29, width: 60, height: 2)).map(\.id) == [flat.id])
+        #expect(doc.annotations(within: CGRect(x: 0, y: 20, width: 60, height: 10)).isEmpty)
+        #expect(doc.annotations(within: CGRect(x: 0, y: 0, width: 80, height: 70)).map(\.id) == [flat.id, upright.id])
+    }
+
+    @Test func aCutMarkNeedsTheWholeWidth() {
+        let doc = document()
+        let mark = Annotation(kind: .cutMark, start: CGPoint(x: 0, y: 40), end: CGPoint(x: 200, y: 70))
+        doc.add(mark)
+        #expect(doc.annotations(within: CGRect(x: 10, y: 30, width: 100, height: 50)).isEmpty)
+        #expect(doc.annotations(within: CGRect(x: 0, y: 30, width: 200, height: 50)).map(\.id) == [mark.id])
+    }
+}

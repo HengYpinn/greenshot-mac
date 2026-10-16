@@ -29,6 +29,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             guard oldValue != tool else { return }
             commitEditing()
             if case .crop = drag { drag = nil }
+            if case .rubberBand = drag {
+                drag = nil
+                rubberBand = nil
+            }
             if oldValue == .crop || tool == .crop { cropRect = nil }
             window?.invalidateCursorRects(for: self)
             needsDisplay = true
@@ -63,9 +67,16 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         case move(originals: [Annotation], origin: CGPoint)
         case resize(original: Annotation, handle: Handle)
         case crop(origin: CGPoint)
+        /// A rubber band drawn on empty canvas with the Select tool; `kept` are the elements selected before, which
+        /// stay selected with Shift or Command.
+        case rubberBand(origin: CGPoint, kept: [UUID])
     }
 
     private var drag: Drag?
+    /// The rubber band being drawn, image pixels.
+    private var rubberBand: CGRect? {
+        didSet { needsDisplay = true }
+    }
     private var rendered: CGImage?
     private var textView: AlignedTextView?
     private var editingID: UUID?
@@ -151,6 +162,22 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         }
         drawSelection(in: context)
         drawCrop(in: context)
+        drawRubberBand(in: context)
+    }
+
+    /// The rubber band of the Select tool: a dashed frame, lightly filled.
+    private func drawRubberBand(in context: CGContext) {
+        guard let band = rubberBand else { return }
+        let rect = viewRect(band)
+        let line = 1 / magnification
+        context.saveGState()
+        context.setFillColor(NSColor.controlAccentColor.withAlphaComponent(0.12).cgColor)
+        context.fill(rect)
+        context.setLineWidth(line)
+        context.setStrokeColor(NSColor.controlAccentColor.cgColor)
+        context.setLineDash(phase: 0, lengths: [4 * line, 3 * line])
+        context.stroke(rect)
+        context.restoreGState()
     }
 
     private func drawSelection(in context: CGContext) {
@@ -263,7 +290,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         case .select:
             let extend = !event.modifierFlags.intersection([.shift, .command]).isEmpty
             guard let a = document.topmostAnnotation(at: p, tolerance: tolerance) else {
+                // On empty canvas a drag draws a rubber band that selects the elements inside it; with Shift or
+                // Command they are added to the selection.
                 if !extend { selectedIDs = [] }
+                drag = .rubberBand(origin: p, kept: extend ? selectedIDs : [])
                 return
             }
             if extend {
@@ -372,6 +402,15 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             cropRect = Geometry.rect(from: origin, to: p).intersection(CGRect(origin: .zero, size: document.imageSize))
             autoscroll(with: event)
             return
+        case .rubberBand(let origin, let kept):
+            let band = Geometry.rect(from: origin, to: p)
+            rubberBand = band
+            // The selection follows the band while it is drawn (upstream selects on mouse up; this shows what a
+            // release would select). Nothing in the document changes.
+            let inside = document.annotations(within: band).map(\.id).filter { !kept.contains($0) }
+            selectedIDs = kept + inside
+            autoscroll(with: event)
+            return
         }
         documentChanged()
         autoscroll(with: event)
@@ -431,6 +470,9 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             document.endChange()
         case .crop:
             if let crop = cropRect, crop.width < 2 || crop.height < 2 { cropRect = nil }
+            return
+        case .rubberBand:
+            rubberBand = nil
             return
         }
         documentChanged()
