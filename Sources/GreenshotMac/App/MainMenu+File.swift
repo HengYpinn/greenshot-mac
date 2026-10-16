@@ -30,6 +30,7 @@ extension MainMenu {
         openWith.submenu = NSMenu(title: "Open With")
         openWith.submenu?.delegate = DynamicFileMenus.shared
         DynamicFileMenus.shared.openWith = openWith.submenu
+        file.addItem(destinationItem("QR Code Actions…", .destination(.qrCode)))
         let external = file.addItem(withTitle: "External Command", action: nil, keyEquivalent: "")
         external.submenu = NSMenu(title: "External Command")
         external.submenu?.delegate = DynamicFileMenus.shared

@@ -97,7 +97,7 @@ final class OutputManager {
             }.forEach(menu.addItem)
             popUp(menu)
         case .qrCode:
-            ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")
+            QRCodeDestination.show(capture, saver: saver) { [weak self] menu in self?.popUp(menu) }
         }
     }
 
@@ -130,6 +130,9 @@ final class OutputManager {
         for command in settings.value.externalCommands {
             add("External: \(command.name)", .externalCommand(command))
         }
+        let qrCode = NSMenuItem(title: "QR Code", action: nil, keyEquivalent: "")
+        qrCode.submenu = QRCodeDestination.pickerSubmenu(for: capture, saver: saver)
+        items.append(qrCode)
         return items
     }
 
