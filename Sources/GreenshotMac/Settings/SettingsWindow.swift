@@ -74,6 +74,7 @@ struct SettingsView: View {
         GeneralSettings(store: store, status: status).tabItem { Label("General", systemImage: "gearshape") }.tag(0)
         CaptureSettings(store: store).tabItem { Label("Capture", systemImage: "camera.viewfinder") }.tag(1)
         OutputSettings(store: store).tabItem { Label("Output", systemImage: "square.and.arrow.down") }.tag(2)
+        PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(3)
     }
 }
 

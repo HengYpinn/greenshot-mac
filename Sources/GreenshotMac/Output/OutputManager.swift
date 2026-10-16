@@ -42,7 +42,7 @@ final class OutputManager {
         case .fileAs:
             saver.saveAs(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
         case .printer:
-            Printing.print(capture.image, scale: capture.scale, window: nil)
+            Printing.print(capture.image, scale: capture.scale, window: nil, title: capture.title, date: capture.date)
         case .email, .share, .ocr, .externalCommand, .pdf, .openWith, .qrCode:
             // Implemented by the destinations work stream.
             ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")

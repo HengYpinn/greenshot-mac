@@ -57,28 +57,3 @@ enum ImageLoader {
         return (cgImage, 1)
     }
 }
-
-@MainActor
-enum Printing {
-    static func print(_ image: CGImage, scale: CGFloat, window: NSWindow?) {
-        let size = NSSize(width: CGFloat(image.width) / scale, height: CGFloat(image.height) / scale)
-        let view = NSImageView(frame: NSRect(origin: .zero, size: size))
-        view.image = NSImage(cgImage: image, size: size)
-        view.imageScaling = .scaleProportionallyDown
-        let info = (NSPrintInfo.shared.copy() as? NSPrintInfo) ?? NSPrintInfo()
-        info.horizontalPagination = .fit
-        info.verticalPagination = .fit
-        info.isHorizontallyCentered = true
-        info.isVerticallyCentered = true
-        info.orientation = size.width > size.height ? .landscape : .portrait
-        let operation = NSPrintOperation(view: view, printInfo: info)
-        operation.showsPrintPanel = true
-        operation.showsProgressPanel = true
-        NSApp.activate()
-        if let window {
-            operation.runModal(for: window, delegate: nil, didRun: nil, contextInfo: nil)
-        } else {
-            operation.run()
-        }
-    }
-}

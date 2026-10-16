@@ -26,6 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 exit(1)
             }
         }
+        Printing.settings = settings
         editors.onWindowsChange = { [weak self] in self?.updateDockIcon() }
         settingsWindow.onOpenChange = { [weak self] in self?.updateDockIcon() }
         updateDockIcon()
