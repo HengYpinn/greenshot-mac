@@ -15,6 +15,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     let settings: SettingsStore
     let saver: ImageSaver
     private let onClose: (EditorWindowController) -> Void
+    /// File › Close All (the editor manager closes every editor).
+    var onCloseAll: (() -> Void)?
+    /// The last frame of an editor window, used when the window isn't sized to the screenshot.
+    private static let frameDefaultsKey = "editorWindowFrame"
 
     let canvas: CanvasView
     private let scrollView = NSScrollView()
@@ -353,9 +357,16 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         canvas.onCopy = { [weak self] in self?.copyImage(nil) }
     }
 
-    /// Opens the window at the image's size, up to most of the screen; larger images are zoomed to fit.
+    /// Opens the window at the image's size, up to most of the screen; larger images are zoomed to fit. With
+    /// "match size to capture" off (upstream `MatchSizeToCapture`) it keeps the last editor window's size instead.
     private func sizeWindowToImage() {
         guard let window else { return }
+        if !settings.value.matchSizeToCapture, let frame = UserDefaults.standard.string(forKey: Self.frameDefaultsKey) {
+            window.setFrame(from: frame)
+            window.layoutIfNeeded()
+            zoomToFitIfLarger()
+            return
+        }
         let visible = (NSScreen.main ?? NSScreen.screens[0]).visibleFrame
         let image = canvas.pointSize
         let chrome = NSSize(width: 60, height: 90)
@@ -364,10 +375,42 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         window.setContentSize(NSSize(width: width, height: height))
         window.center()
         window.layoutIfNeeded()
+        zoomToFitIfLarger()
+    }
+
+    private func zoomToFitIfLarger() {
+        let image = canvas.pointSize
         let viewport = scrollView.contentSize
         if image.width > viewport.width || image.height > viewport.height {
             zoomToFit(nil)
+        } else {
+            setMagnification(1)
         }
+    }
+
+    /// Shows another screenshot in this window (upstream's reused editor): its elements and undo are gone.
+    func show(_ image: CGImage, scale: CGFloat, title: String, date: Date) {
+        canvas.commitEditing()
+        canvas.cancelCrop()
+        canvas.select(nil)
+        editorDocument.reset(image: image, scale: scale, title: title, captureDate: date)
+        canvas.documentChanged()
+        if settings.value.matchSizeToCapture {
+            sizeWindowToImage()
+        } else {
+            zoomToFitIfLarger()
+        }
+        refreshAll()
+    }
+
+    private func rememberFrame() {
+        guard let window, window.isVisible, !window.isMiniaturized else { return }
+        UserDefaults.standard.set(window.frameDescriptor, forKey: Self.frameDefaultsKey)
+    }
+
+    /// File › Close All.
+    @objc func closeAllWindows(_ sender: Any?) {
+        onCloseAll?()
     }
 
     // MARK: State
@@ -759,6 +802,11 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     func windowDidResize(_ notification: Notification) {
         refreshDocumentState()
+        rememberFrame()
+    }
+
+    func windowDidMove(_ notification: Notification) {
+        rememberFrame()
     }
 
     private func makeSaveAlert() -> NSAlert {
@@ -787,7 +835,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     /// Before quitting (quitting doesn't ask the windows): true when the window may go.
     func confirmCloseBeforeQuit() -> Bool {
         canvas.commitEditing()
-        guard editorDocument.isModified, let window else { return true }
+        guard editorDocument.isModified, !settings.value.suppressSaveDialogAtClose, let window else { return true }
         NSApp.activate()
         window.makeKeyAndOrderFront(nil)
         return resolveChanges(makeSaveAlert().runModal())
@@ -795,7 +843,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         canvas.commitEditing()
-        guard editorDocument.isModified else { return true }
+        // Upstream `SuppressSaveDialogAtClose`: closing a changed screenshot doesn't ask.
+        guard editorDocument.isModified, !settings.value.suppressSaveDialogAtClose else { return true }
         makeSaveAlert().beginSheetModal(for: sender) { [weak self] response in
             guard let self, self.resolveChanges(response) else { return }
             self.window?.close()
@@ -804,6 +853,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
 
     func windowWillClose(_ notification: Notification) {
+        rememberFrame()
         onClose(self)
     }
 }

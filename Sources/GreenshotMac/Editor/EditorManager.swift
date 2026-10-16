@@ -25,7 +25,32 @@ final class EditorManager {
     }
 
     func open(_ capture: Capture) {
+        if settings.value.reuseEditor, let editor = reusableEditor() {
+            // Upstream `EditorDestination`: the capture goes into an open editor whose screenshot has no unsaved
+            // changes; when every editor has some, a new one opens.
+            editor.show(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
+            guard let window = editor.window else { return }
+            window.makeKeyAndOrderFront(nil)
+            window.orderFrontRegardless()
+            NSApp.activate()
+            return
+        }
         open(EditorDocument(image: capture.image, scale: capture.scale, title: capture.title, captureDate: capture.date))
+    }
+
+    /// The front-most editor without unsaved changes.
+    private func reusableEditor() -> EditorWindowController? {
+        let front = NSApp.orderedWindows.compactMap { window in controllers.first { $0.window === window } }
+        let ordered = front + controllers.filter { controller in !front.contains { $0 === controller } }
+        return ordered.first { !$0.editorDocument.isModified && !$0.canvas.isEditingText }
+    }
+
+    /// Closes every editor, asking about each changed screenshot; stops when the user cancels.
+    func closeAll() {
+        for controller in controllers {
+            guard controller.confirmCloseBeforeQuit() else { return }
+            controller.window?.close()
+        }
     }
 
     func open(fileURL: URL) {
@@ -78,6 +103,7 @@ final class EditorManager {
             self?.controllers.removeAll { $0 === closed }
             self?.onWindowsChange?()
         }
+        controller.onCloseAll = { [weak self] in self?.closeAll() }
         controllers.append(controller)
         onWindowsChange?()
         guard let window = controller.window else { return }

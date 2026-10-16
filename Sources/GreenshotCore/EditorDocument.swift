@@ -18,7 +18,7 @@ public final class EditorDocument {
     public private(set) var baseImage: CGImage
     public private(set) var annotations: [Annotation]
     /// Pixels per point of the capture.
-    public let scale: CGFloat
+    public private(set) var scale: CGFloat
     public var title: String
     public var captureDate: Date
     /// Where the image was opened from or last saved to.
@@ -97,6 +97,22 @@ public final class EditorDocument {
 
     public func markSaved() {
         isModified = false
+    }
+
+    /// Starts over with another screenshot: no elements, no undo, not saved anywhere (upstream replaces the surface
+    /// of a reused editor).
+    public func reset(image: CGImage, scale: CGFloat, title: String, captureDate: Date = Date()) {
+        guard depth == 0 else { return }
+        baseImage = image
+        self.scale = scale
+        self.title = title
+        self.captureDate = captureDate
+        annotations = []
+        counterStart = 1
+        fileURL = nil
+        undoStack.removeAll()
+        redoStack.removeAll()
+        isModified = true
     }
 
     private var current: State { State(base: baseImage, annotations: annotations, counterStart: counterStart) }

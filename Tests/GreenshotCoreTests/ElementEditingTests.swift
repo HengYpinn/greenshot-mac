@@ -210,3 +210,18 @@ struct ElementsFileTests {
         #expect(target.annotations.map(\.id) == [existing.id])
     }
 }
+
+struct ReusedDocumentTests {
+    @Test func resetStartsOverWithTheNewScreenshot() {
+        let doc = EditorDocument(image: TestImage.solid(width: 10, height: 10, .white), scale: 1, title: "old",
+                                 fileURL: URL(fileURLWithPath: "/tmp/old.png"), isModified: false)
+        doc.change {
+            doc.add(Annotation(kind: .rectangle, start: .zero, end: CGPoint(x: 5, y: 5)))
+            doc.counterStart = 3
+        }
+        doc.reset(image: TestImage.solid(width: 40, height: 20, .blue), scale: 2, title: "new")
+        #expect(doc.imageSize == CGSize(width: 40, height: 20) && doc.scale == 2 && doc.title == "new")
+        #expect(doc.annotations.isEmpty && doc.counterStart == 1 && doc.fileURL == nil)
+        #expect(!doc.canUndo && !doc.canRedo && doc.isModified)
+    }
+}
