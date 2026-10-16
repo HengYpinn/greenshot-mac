@@ -251,7 +251,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         setUp(cutOutJointPopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutOutJointChanged))
         cutOutJointPopup.toolTip = "How the joint is marked when the selected rows or columns are cut out"
         cutOutJointPopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: settings.value.cutOutMarkStyle) ?? 0)
-        cropGroup.setViews([label("Drag the area to keep, or the rows or columns to cut out"), applyCrop, cancelCrop,
+        cropGroup.setViews([label("Drag the area to keep or to cut out"), applyCrop, cancelCrop,
                             Self.divider(), label("Cut-out joint"), cutOutJointPopup], in: .leading)
         cropGroup.spacing = 6
 

@@ -177,6 +177,12 @@ final class TornEdgeSettingsForm: NSObject {
         shadow.action = #selector(shadowChanged(_:))
         backgroundColorWell.color = NSColor(cgColor: settings.backgroundColor.cgColor) ?? .clear
         backgroundColorWell.toolTip = "The color of the torn off parts; transparent by default"
+        // The color panel doesn't offer transparency: a button brings it back, like "No fill" in the property bar.
+        let transparent = NSButton(title: "Transparent", target: self, action: #selector(clearBackground(_:)))
+        transparent.bezelStyle = .rounded
+        transparent.controlSize = .small
+        let background = NSStackView(views: [backgroundColorWell, transparent])
+        background.spacing = 6
         refreshAll()
         refreshShadow()
 
@@ -192,7 +198,7 @@ final class TornEdgeSettingsForm: NSObject {
             toothHeight.row("Tooth size:"),
             horizontalRange.row("Horizontal range:"),
             verticalRange.row("Vertical range:"),
-            [EffectSettingsDialog.label("Background:"), backgroundColorWell],
+            [EffectSettingsDialog.label("Background:"), background],
             [EffectSettingsDialog.label("Shadow:"), shadow],
             shadowThickness.row("Thickness:"),
             shadowOffsetX.row("Offset X:"),
@@ -221,6 +227,10 @@ final class TornEdgeSettingsForm: NSObject {
 
     @objc private func shadowChanged(_ sender: NSButton) {
         refreshShadow()
+    }
+
+    @objc private func clearBackground(_ sender: Any?) {
+        backgroundColorWell.color = .clear
     }
 
     private func refreshAll() {
