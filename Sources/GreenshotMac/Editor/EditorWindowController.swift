@@ -697,6 +697,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
         switch item.action {
         case #selector(saveElements(_:)): return !editorDocument.annotations.isEmpty
+        case #selector(zoomPreset(_:)):
+            item.state = abs(scrollView.magnification - Self.zoomFactor(percent: item.tag)) < 0.005 ? .on : .off
+            return true
         default: return true
         }
     }
@@ -706,6 +709,18 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     @objc func zoomIn(_ sender: Any?) { setMagnification(scrollView.magnification * 1.25) }
     @objc func zoomOut(_ sender: Any?) { setMagnification(scrollView.magnification / 1.25) }
     @objc func actualSize(_ sender: Any?) { setMagnification(1) }
+
+    /// Upstream's zoom presets (`ImageEditorForm` zoom menu); the menu item's tag is the percentage.
+    static let zoomPresets = [25, 50, 66, 75, 100, 200, 300, 400, 600]
+
+    /// 66 % is two thirds, like upstream's.
+    static func zoomFactor(percent: Int) -> CGFloat {
+        percent == 66 ? 2.0 / 3.0 : CGFloat(percent) / 100
+    }
+
+    @objc func zoomPreset(_ sender: NSMenuItem) {
+        setMagnification(Self.zoomFactor(percent: sender.tag))
+    }
 
     @objc func zoomToFit(_ sender: Any?) {
         let viewport = scrollView.contentView.bounds.size.applying(CGAffineTransform(scaleX: scrollView.magnification, y: scrollView.magnification))
