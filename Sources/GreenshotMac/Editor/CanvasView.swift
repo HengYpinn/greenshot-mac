@@ -6,6 +6,7 @@
 import AppKit
 import Carbon.HIToolbox
 import GreenshotCore
+import UniformTypeIdentifiers
 
 /// The drawing surface of the editor (upstream `Surface`). The view is sized in points; the document works in
 /// image pixels, so a Retina capture shows at its real size.
@@ -75,6 +76,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         self.document = document
         super.init(frame: .zero)
         setFrameSize(pointSize)
+        // Image files dropped on the canvas become image elements.
+        registerForDraggedTypes([.fileURL])
     }
 
     required init?(coder: NSCoder) {
@@ -361,7 +364,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             if shift && (original.kind == .line || original.kind == .arrow) {
                 target = Geometry.snap45(from: handle == .start ? original.end : original.start, to: p)
             }
-            document.update(handle.drag(original, to: target))
+            // Shift keeps the aspect ratio of an image element.
+            document.update(handle.drag(original, to: target, keepAspect: shift && original.kind == .image))
         case .crop(let origin):
             guard tool == .crop else { return }
             cropRect = Geometry.rect(from: origin, to: p).intersection(CGRect(origin: .zero, size: document.imageSize))
@@ -595,7 +599,54 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             insert(pasted)
             return
         }
+        // An image on the clipboard becomes an image element (upstream pastes it as an `ImageContainer`).
+        if let pasted = Clipboard.image(), let a = pictureElement(pasted.image, scale: pasted.scale, at: mouseImagePoint()) {
+            insert([a])
+            return
+        }
         NSSound.beep()
+    }
+
+    /// An image element for `picture`, its top left at `point`, else 10 points into the visible part of the image.
+    private func pictureElement(_ picture: CGImage, scale: CGFloat, at point: CGPoint?) -> Annotation? {
+        let visible = visibleRect.intersection(bounds)
+        let origin = point ?? CGPoint(x: (visible.minX + 10) * document.scale, y: (visible.minY + 10) * document.scale)
+        let room = CGSize(width: max(document.imageSize.width - origin.x, 1), height: max(document.imageSize.height - origin.y, 1))
+        return Annotation.picture(picture, pictureScale: scale, at: origin, documentScale: document.scale, fitting: room)
+    }
+
+    // MARK: Drop
+
+    private static let imageFileOptions: [NSPasteboard.ReadingOptionKey: Any] = [
+        .urlReadingFileURLsOnly: true,
+        .urlReadingContentsConformToTypes: [UTType.image.identifier],
+    ]
+
+    private func droppedImageURLs(_ info: NSDraggingInfo) -> [URL] {
+        info.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: Self.imageFileOptions) as? [URL] ?? []
+    }
+
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        droppedImageURLs(sender).isEmpty ? [] : .copy
+    }
+
+    override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
+        droppedImageURLs(sender).isEmpty ? [] : .copy
+    }
+
+    /// Dropped image files become image elements where they were dropped, each a little below the one before.
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        commitEditing()
+        let drop = convert(sender.draggingLocation, from: nil)
+        var origin = CGPoint(x: drop.x * document.scale, y: drop.y * document.scale)
+        var elements: [Annotation] = []
+        for url in droppedImageURLs(sender) {
+            guard let loaded = ImageLoader.load(url), let a = pictureElement(loaded.image, scale: loaded.scale, at: origin) else { continue }
+            elements.append(a)
+            origin = CGPoint(x: origin.x + 10 * document.scale, y: origin.y + 10 * document.scale)
+        }
+        insert(elements)
+        return !elements.isEmpty
     }
 
     /// Upstream `Surface.DuplicateSelectedElements`: copies moved by 10, 10, selected instead of the originals.
@@ -644,12 +695,16 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         NSPasteboard.general.availableType(from: [Self.elementsType]) != nil
     }
 
+    private var canPaste: Bool {
+        pasteboardHasElements || NSImage.canInit(with: .general)
+    }
+
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
         switch item.action {
         case #selector(undo(_:)): return textView?.undoManager?.canUndo ?? document.canUndo
         case #selector(redo(_:)): return textView?.undoManager?.canRedo ?? document.canRedo
         case #selector(delete(_:)), #selector(cut(_:)), #selector(duplicate(_:)): return !selectedIDs.isEmpty
-        case #selector(paste(_:)): return pasteboardHasElements
+        case #selector(paste(_:)): return canPaste
         case #selector(selectAll(_:)): return !document.annotations.isEmpty
         default: return true
         }

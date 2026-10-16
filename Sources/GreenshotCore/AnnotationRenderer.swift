@@ -90,7 +90,43 @@ public enum AnnotationRenderer {
             drawSpeechBubble(a, in: context, scale: scale)
         case .emoji:
             drawEmoji(a)
+        case .image:
+            drawPicture(a, in: context, scale: scale)
         }
+    }
+
+    /// Upstream `ImageContainer.Draw`: the picture stretched into the box, with an optional shadow.
+    static func drawPicture(_ a: Annotation, in context: CGContext, scale: CGFloat) {
+        let box = a.bounds
+        guard box.width > 0, box.height > 0, let picture = picture(of: a) else { return }
+        withShadow(a.style.shadow, in: context, scale: scale) {
+            context.interpolationQuality = .high
+            drawUpright(picture, in: box, context: context)
+        }
+    }
+
+    private final class DecodedPicture {
+        let byteCount: Int
+        let image: CGImage
+
+        init(byteCount: Int, image: CGImage) {
+            self.byteCount = byteCount
+            self.image = image
+        }
+    }
+
+    /// Decoded pictures by element: an element's picture never changes, and decoding PNG on every redraw is slow.
+    private static let pictures = NSCache<NSUUID, DecodedPicture>()
+
+    /// The picture of an image element.
+    public static func picture(of a: Annotation) -> CGImage? {
+        guard let data = a.imageData else { return nil }
+        let key = a.id as NSUUID
+        if let cached = pictures.object(forKey: key), cached.byteCount == data.count { return cached.image }
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
+        pictures.setObject(DecodedPicture(byteCount: data.count, image: image), forKey: key)
+        return image
     }
 
     /// Runs `body` with a soft drop shadow to the bottom right, drawn once for everything in `body`.

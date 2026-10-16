@@ -9,6 +9,8 @@ import Foundation
 /// The drawable elements of the editor. Upstream calls them containers (`Greenshot.Editor/Drawing/*Container.cs`).
 public enum AnnotationKind: String, Codable, CaseIterable, Sendable {
     case rectangle, ellipse, line, arrow, freehand, text, highlight, obfuscate, counter, speechBubble, emoji
+    /// A pasted or dropped picture (upstream `ImageContainer`).
+    case image
 
     /// Elements that are a box: they get resize handles. Lines and arrows get two end points, freehand none.
     public var isBoxShaped: Bool {
@@ -128,6 +130,9 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
             return AnnotationStyle(lineColor: .blue, fillColor: .white, lineWidth: 2, shadow: false, fontSize: 27, bold: true)
         case .emoji:
             return AnnotationStyle(shadow: false)
+        case .image:
+            // Upstream ImageContainer: only a shadow field, off.
+            return AnnotationStyle(lineWidth: 0, shadow: false)
         }
     }
 }
@@ -146,10 +151,12 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     public var text: String
     /// Where the tail of a speech bubble points (upstream `TargetAdorner`). See `tailTip` for when it is nil.
     public var tail: CGPoint?
+    /// The picture of an image element, as PNG.
+    public var imageData: Data?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
-                text: String = "", tail: CGPoint? = nil, style: AnnotationStyle? = nil) {
+                text: String = "", tail: CGPoint? = nil, imageData: Data? = nil, style: AnnotationStyle? = nil) {
         self.id = id
         self.kind = kind
         self.start = start
@@ -157,6 +164,7 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         self.points = points
         self.text = text
         self.tail = tail
+        self.imageData = imageData
         self.style = style ?? .defaults(for: kind)
     }
 
@@ -252,7 +260,7 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
             let tail = speechBubbleTail
             return tail.contains(point)
                 || tail.copy(strokingWithWidth: reach * 2, lineCap: .round, lineJoin: .round, miterLimit: 10).contains(point)
-        case .text, .highlight, .obfuscate, .counter, .emoji:
+        case .text, .highlight, .obfuscate, .counter, .emoji, .image:
             return bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point)
         }
     }
@@ -297,8 +305,9 @@ public enum Handle: CaseIterable, Sendable {
         }
     }
 
-    /// `original` with this handle dragged to `point`.
-    public func drag(_ original: Annotation, to point: CGPoint) -> Annotation {
+    /// `original` with this handle dragged to `point`. With `keepAspect` a corner keeps the box's aspect ratio
+    /// (Shift while resizing an image element).
+    public func drag(_ original: Annotation, to point: CGPoint, keepAspect: Bool = false) -> Annotation {
         var result = original
         switch self {
         case .start:
@@ -321,6 +330,12 @@ public enum Handle: CaseIterable, Sendable {
             result.end = CGPoint(x: rect.maxX, y: rect.maxY)
             return result
         }
+        if keepAspect, r.width > 0, r.height > 0, let anchor = oppositeCorner(in: r) {
+            let rect = Geometry.rect(from: anchor, to: Self.aspectEnd(from: anchor, to: point, aspect: r.width / r.height))
+            result.start = rect.origin
+            result.end = CGPoint(x: rect.maxX, y: rect.maxY)
+            return result
+        }
         var minX = r.minX, minY = r.minY, maxX = r.maxX, maxY = r.maxY
         switch self {
         case .topLeft: minX = point.x; minY = point.y
@@ -339,6 +354,15 @@ public enum Handle: CaseIterable, Sendable {
         return result
     }
 
+    /// The corner of a box from `anchor` towards `point` with `aspect` (width / height), as big as covers `point`.
+    static func aspectEnd(from anchor: CGPoint, to point: CGPoint, aspect: CGFloat) -> CGPoint {
+        let dx = point.x - anchor.x
+        let dy = point.y - anchor.y
+        let width = max(abs(dx), abs(dy) * aspect)
+        let height = width / aspect
+        return CGPoint(x: anchor.x + (dx < 0 ? -width : width), y: anchor.y + (dy < 0 ? -height : height))
+    }
+
     /// The corner that stays put while this corner handle is dragged.
     private func oppositeCorner(in r: CGRect) -> CGPoint? {
         switch self {
@@ -348,5 +372,23 @@ public enum Handle: CaseIterable, Sendable {
         case .bottomLeft: return CGPoint(x: r.maxX, y: r.minY)
         default: return nil
         }
+    }
+}
+
+extension Annotation {
+    /// An image element showing `picture` (upstream `ImageContainer`), its top left at `origin`, at its point size
+    /// (`pictureScale` pixels per point) on an image with `documentScale` pixels per point, made smaller to fit in
+    /// `fitting` (image pixels) when it is bigger. Nil when the picture can't be stored as PNG.
+    public static func picture(_ picture: CGImage, pictureScale: CGFloat, at origin: CGPoint, documentScale: CGFloat,
+                               fitting limit: CGSize? = nil) -> Annotation? {
+        guard let data = try? ImageExporter.data(for: picture, format: .png, scale: pictureScale) else { return nil }
+        let factor = documentScale / max(pictureScale, 1)
+        var size = CGSize(width: CGFloat(picture.width) * factor, height: CGFloat(picture.height) * factor)
+        if let limit, limit.width > 0, limit.height > 0, size.width > limit.width || size.height > limit.height {
+            let shrink = min(limit.width / size.width, limit.height / size.height)
+            size = CGSize(width: size.width * shrink, height: size.height * shrink)
+        }
+        return Annotation(kind: .image, start: origin, end: CGPoint(x: origin.x + size.width, y: origin.y + size.height),
+                          imageData: data)
     }
 }

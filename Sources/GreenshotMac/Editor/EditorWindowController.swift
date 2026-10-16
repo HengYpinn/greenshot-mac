@@ -158,7 +158,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
             group([highlightPopup], for: [.highlight]),
             group([obfuscatePopup, label("Size"), effectSizePopup], for: [.obfuscate]),
             group([label("Emoji"), emojiPopup], for: [.emoji]),
-            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .text, .speechBubble]),
+            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .text, .speechBubble, .image]),
         ])
         properties.spacing = 14
 

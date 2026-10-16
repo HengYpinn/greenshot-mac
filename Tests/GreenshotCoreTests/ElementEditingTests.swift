@@ -112,3 +112,44 @@ struct MultiSelectionTests {
         #expect(doc.annotations.map(\.id) == [d.id, c.id, b.id, a.id])
     }
 }
+
+struct PictureElementTests {
+    @Test func isSizedInPointsAndFitsTheImage() throws {
+        let picture = TestImage.solid(width: 40, height: 20, .blue)
+        // A 2x picture on a 1x image is half as many pixels wide.
+        let a = try #require(Annotation.picture(picture, pictureScale: 2, at: CGPoint(x: 5, y: 5), documentScale: 1))
+        #expect(a.kind == .image && a.bounds == CGRect(x: 5, y: 5, width: 20, height: 10))
+        let fitted = try #require(Annotation.picture(picture, pictureScale: 1, at: .zero, documentScale: 1,
+                                                     fitting: CGSize(width: 20, height: 100)))
+        #expect(fitted.bounds.size == CGSize(width: 20, height: 10))
+    }
+
+    @Test func drawsThePictureIntoItsBox() throws {
+        let picture = TestImage.make(width: 10, height: 10) { _, y in y < 5 ? .red : .blue }
+        let a = try #require(Annotation.picture(picture, pictureScale: 1, at: CGPoint(x: 10, y: 10), documentScale: 1))
+        var stretched = a
+        stretched.end = CGPoint(x: 30, y: 50)
+        let base = TestImage.solid(width: 60, height: 60, .white)
+        let image = try #require(AnnotationRenderer.flatten(base: base, annotations: [stretched], scale: 1))
+        #expect(TestImage.pixel(image, 15, 15).isClose(to: .red))
+        #expect(TestImage.pixel(image, 15, 45).isClose(to: .blue))
+        #expect(TestImage.pixel(image, 40, 45).isClose(to: .white))
+    }
+
+    @Test func survivesTheClipboard() throws {
+        let a = try #require(Annotation.picture(TestImage.solid(width: 4, height: 4, .red), pictureScale: 1, at: .zero, documentScale: 1))
+        let decoded = try #require(ElementTransfer.decode(try ElementTransfer(elements: [a], scale: 1).encoded()))
+        #expect(decoded.elements[0].imageData == a.imageData)
+        #expect(AnnotationRenderer.picture(of: decoded.elements[0])?.width == 4)
+    }
+
+    @Test func shiftKeepsTheAspectRatio() throws {
+        let a = Annotation(kind: .image, start: .zero, end: CGPoint(x: 40, y: 20))
+        let free = Handle.bottomRight.drag(a, to: CGPoint(x: 60, y: 60))
+        #expect(free.bounds.size == CGSize(width: 60, height: 60))
+        let kept = Handle.bottomRight.drag(a, to: CGPoint(x: 60, y: 60), keepAspect: true)
+        #expect(kept.bounds == CGRect(x: 0, y: 0, width: 120, height: 60))
+        let fromTopLeft = Handle.topLeft.drag(a, to: CGPoint(x: 20, y: 15), keepAspect: true)
+        #expect(fromTopLeft.bounds == CGRect(x: 20, y: 10, width: 20, height: 10))
+    }
+}
