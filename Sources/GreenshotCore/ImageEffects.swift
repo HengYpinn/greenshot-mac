@@ -189,6 +189,86 @@ public enum ImageEffects {
         return context.makeImage()
     }
 
+    // MARK: - Adjustments
+
+    /// Upstream `AdjustEffect` / `ImageHelper.Adjust`: each color times `contrast`, plus `brightness - 1`, then the
+    /// gamma curve; 1 changes nothing. Upstream's GDI+ `SetGamma` is taken as `value ^ (1 / gamma)` here, so a gamma
+    /// above 1 lightens the mid tones. Unlike upstream, which makes a 24 bit image, the alpha channel stays.
+    public static func adjust(_ image: CGImage, brightness: Double = 1, contrast: Double = 1, gamma: Double = 1) -> CGImage? {
+        let table = adjustTable(brightness: brightness, contrast: contrast, gamma: gamma)
+        return mapUnpremultiplied(image) { table[Int($0)] }
+    }
+
+    /// The 256 output values of `adjust` for the input values 0...255.
+    static func adjustTable(brightness: Double, contrast: Double, gamma: Double) -> [UInt8] {
+        let exponent: Double = 1 / max(gamma, 0.01)
+        let offset: Double = brightness - 1
+        return (0..<256).map { value in
+            let linear: Double = Double(value) / 255 * contrast + offset
+            let curved: Double = pow(min(max(linear, 0), 1), exponent)
+            return UInt8((curved * 255).rounded())
+        }
+    }
+
+    /// Upstream `MonochromeEffect` / `ImageHelper.CreateMonochrome`: black where the average of red, green and blue
+    /// is at most `threshold`, white above it; alpha stays.
+    public static func monochrome(_ image: CGImage, threshold: UInt8 = 127) -> CGImage? {
+        guard let context = AnnotationRenderer.makeContext(width: image.width, height: image.height),
+              let pixels = pixelBuffer(of: image, in: context) else { return nil }
+        let rowBytes = context.bytesPerRow
+        for y in 0..<image.height {
+            var i = y * rowBytes
+            for _ in 0..<image.width {
+                let alpha = pixels[i + 3]
+                let average = averageColor(red: pixels[i], green: pixels[i + 1], blue: pixels[i + 2], alpha: alpha)
+                let value: UInt8 = average > Int(threshold) ? alpha : 0
+                pixels[i] = value
+                pixels[i + 1] = value
+                pixels[i + 2] = value
+                i += 4
+            }
+        }
+        return context.makeImage()
+    }
+
+    /// Upstream `ReduceColorsEffect` (a Wu quantizer there, median cut here): the image with at most `count`
+    /// colors (alpha counts as part of a color). An image that already has no more colors comes back as it is.
+    public static func reduceColors(_ image: CGImage, to count: Int) -> CGImage? {
+        guard let context = AnnotationRenderer.makeContext(width: image.width, height: image.height),
+              let pixels = pixelBuffer(of: image, in: context) else { return nil }
+        let rowBytes = context.bytesPerRow
+        var histogram: [UInt32: Int] = [:]
+        for y in 0..<image.height {
+            for x in 0..<image.width {
+                histogram[packedColor(pixels, y * rowBytes + x * 4), default: 0] += 1
+            }
+        }
+        guard histogram.count > max(count, 1) else { return image }
+        let palette = ColorQuantizer.medianCut(histogram, count: max(count, 1))
+        for y in 0..<image.height {
+            for x in 0..<image.width {
+                let i = y * rowBytes + x * 4
+                guard let color = palette[packedColor(pixels, i)] else { continue }
+                pixels[i] = UInt8(color >> 24)
+                pixels[i + 1] = UInt8((color >> 16) & 0xFF)
+                pixels[i + 2] = UInt8((color >> 8) & 0xFF)
+                pixels[i + 3] = UInt8(color & 0xFF)
+            }
+        }
+        return context.makeImage()
+    }
+
+    /// The number of different colors of an image (premultiplied RGBA).
+    public static func colorCount(_ image: CGImage) -> Int {
+        guard let context = AnnotationRenderer.makeContext(width: image.width, height: image.height),
+              let pixels = pixelBuffer(of: image, in: context) else { return 0 }
+        var colors = Set<UInt32>()
+        for y in 0..<image.height {
+            for x in 0..<image.width { colors.insert(packedColor(pixels, y * context.bytesPerRow + x * 4)) }
+        }
+        return colors.count
+    }
+
     // MARK: - Helpers
 
     /// Upstream `CreateGrayscale`'s color matrix. Written as typed steps: as one expression inside the pixel closure,
@@ -198,6 +278,46 @@ public enum ImageEffects {
         let g: Double = 0.59 * Double(green)
         let b: Double = 0.11 * Double(blue)
         return UInt8(min((r + g + b).rounded(), 255))
+    }
+
+    /// The average of red, green and blue without the premultiplied alpha, 0...255.
+    static func averageColor(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) -> Int {
+        guard alpha > 0 else { return 0 }
+        let sum: Int = Int(red) + Int(green) + Int(blue)
+        return sum * 255 / Int(alpha) / 3
+    }
+
+    static func packedColor(_ pixels: UnsafeMutablePointer<UInt8>, _ i: Int) -> UInt32 {
+        let red: UInt32 = UInt32(pixels[i]) << 24
+        let green: UInt32 = UInt32(pixels[i + 1]) << 16
+        let blue: UInt32 = UInt32(pixels[i + 2]) << 8
+        return red | green | blue | UInt32(pixels[i + 3])
+    }
+
+    /// Draws `image` into `context` (of its size) and returns the context's pixels.
+    static func pixelBuffer(of image: CGImage, in context: CGContext) -> UnsafeMutablePointer<UInt8>? {
+        context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+        return context.data?.bindMemory(to: UInt8.self, capacity: context.bytesPerRow * image.height)
+    }
+
+    /// The image with `transform` applied to the red, green and blue of every pixel without premultiplied alpha.
+    static func mapUnpremultiplied(_ image: CGImage, _ transform: (UInt8) -> UInt8) -> CGImage? {
+        mapPixels(image) { r, g, b, a in
+            guard a > 0 else { return }
+            r = premultiply(transform(unpremultiply(r, alpha: a)), alpha: a)
+            g = premultiply(transform(unpremultiply(g, alpha: a)), alpha: a)
+            b = premultiply(transform(unpremultiply(b, alpha: a)), alpha: a)
+        }
+    }
+
+    static func unpremultiply(_ value: UInt8, alpha: UInt8) -> UInt8 {
+        let scaled: Int = Int(value) * 255 / Int(alpha)
+        return UInt8(min(scaled, 255))
+    }
+
+    static func premultiply(_ value: UInt8, alpha: UInt8) -> UInt8 {
+        let scaled: Int = (Int(value) * Int(alpha) + 127) / 255
+        return UInt8(scaled)
     }
 
     static func makeContext(_ size: CGSize) -> CGContext? {
@@ -234,6 +354,67 @@ extension EditorDocument {
         guard let result = ImageEffects.apply(effect, to: baseImage, scale: scale, seed: seed,
                                               dropShadow: dropShadow, tornEdge: tornEdge) else { return false }
         return replaceImage(with: result.image, offset: result.offset)
+    }
+}
+
+/// Median cut color quantization: the colors are split into boxes along their widest channel until there are
+/// enough boxes; each box becomes the weighted average of its colors.
+enum ColorQuantizer {
+    private struct Entry {
+        var channels: [Int]
+        var color: UInt32
+        var weight: Int
+    }
+
+    /// Maps every color of `histogram` (packed RGBA with its pixel count) to one of at most `count` colors.
+    static func medianCut(_ histogram: [UInt32: Int], count: Int) -> [UInt32: UInt32] {
+        let entries = histogram.map { color, weight in
+            Entry(channels: [Int(color >> 24), Int((color >> 16) & 0xFF), Int((color >> 8) & 0xFF), Int(color & 0xFF)],
+                  color: color, weight: weight)
+        }
+        var boxes: [[Entry]] = [entries]
+        while boxes.count < count {
+            // The box with the widest channel that can still be split.
+            var best: (box: Int, channel: Int, range: Int)?
+            for (index, box) in boxes.enumerated() where box.count > 1 {
+                for channel in 0..<4 {
+                    let values = box.map { $0.channels[channel] }
+                    let range = (values.max() ?? 0) - (values.min() ?? 0)
+                    if range > (best?.range ?? 0) { best = (index, channel, range) }
+                }
+            }
+            guard let split = best else { break }
+            let sorted = boxes[split.box].sorted { $0.channels[split.channel] < $1.channels[split.channel] }
+            let half = sorted.reduce(0) { $0 + $1.weight } / 2
+            var running = 0
+            var cut = 1
+            for (index, entry) in sorted.enumerated() {
+                running += entry.weight
+                if running >= half {
+                    cut = min(max(index + 1, 1), sorted.count - 1)
+                    break
+                }
+            }
+            boxes[split.box] = Array(sorted[..<cut])
+            boxes.append(Array(sorted[cut...]))
+        }
+        var palette: [UInt32: UInt32] = [:]
+        for box in boxes {
+            let representative = average(box)
+            for entry in box { palette[entry.color] = representative }
+        }
+        return palette
+    }
+
+    private static func average(_ box: [Entry]) -> UInt32 {
+        let total = max(box.reduce(0) { $0 + $1.weight }, 1)
+        var result: UInt32 = 0
+        for channel in 0..<4 {
+            let sum = box.reduce(0) { $0 + $1.channels[channel] * $1.weight }
+            let value: Int = (sum + total / 2) / total
+            result = (result << 8) | UInt32(min(value, 255))
+        }
+        return result
     }
 }
 

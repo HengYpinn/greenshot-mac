@@ -79,6 +79,16 @@ extension EditorWindowController {
         performImageOperation { $0.apply(effect, dropShadow: shadow, tornEdge: torn) }
     }
 
+    /// Brightness, contrast and gamma of the image (upstream `AdjustEffect`).
+    @objc func adjustImage(_ sender: Any?) {
+        let form = AdjustSettingsForm()
+        EffectSettingsDialog.run(title: "Adjust", message: "Brightness, contrast and gamma of the image.",
+                                 content: form.view, owner: form, for: window) { [weak self] in
+            guard !form.isNeutral else { return }
+            self?.performImageOperation { $0.transformImage(form.apply(to:)) }
+        }
+    }
+
     // MARK: Resize
 
     /// Upstream's Resize button ("Z"): asks for the new size, then scales the image and its elements' positions.

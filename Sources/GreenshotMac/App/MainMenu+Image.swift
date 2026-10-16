@@ -18,6 +18,7 @@ extension MainMenu {
             item.keyEquivalentModifierMask = [.control, .command]
             item.tag = index
         }
+        image.addItem(withTitle: "Adjust…", action: #selector(EditorWindowController.adjustImage(_:)), keyEquivalent: "")
 
         image.addItem(.separator())
         // Upstream's Resize button (key Z there; single letters choose the tools in the canvas, so ⌥⌘R here).

@@ -156,3 +156,46 @@ struct ImageEffectsTests {
         #expect(doc.imageSize == CGSize(width: 40, height: 30) && doc.annotations[0].start == CGPoint(x: 5, y: 5))
     }
 }
+
+extension ImageEffectsTests {
+    // MARK: Adjustments
+
+    @Test func monochromeUsesTheThreshold() throws {
+        let image = TestImage.make(width: 4, height: 1) { x, _ in
+            [RGBA(r: 128, g: 128, b: 128, a: 255), RGBA(r: 127, g: 127, b: 127, a: 255), .red, .white][x]
+        }
+        let result = try #require(ImageEffects.monochrome(image))
+        #expect(TestImage.pixel(result, 0, 0) == .white)
+        #expect(TestImage.pixel(result, 1, 0) == .black)
+        // Red averages 85.
+        #expect(TestImage.pixel(result, 2, 0) == .black)
+        #expect(TestImage.pixel(result, 3, 0) == .white)
+        let low = try #require(ImageEffects.monochrome(image, threshold: 50))
+        #expect(TestImage.pixel(low, 2, 0) == .white)
+    }
+
+    @Test func adjustWithOnesChangesNothing() throws {
+        let image = TestImage.make(width: 3, height: 1) { x, _ in [RGBA.red, RGBA(r: 10, g: 100, b: 200, a: 255), .white][x] }
+        let same = try #require(ImageEffects.adjust(image))
+        for x in 0..<3 { #expect(TestImage.pixel(same, x, 0) == TestImage.pixel(image, x, 0)) }
+        let brighter = try #require(ImageEffects.adjust(image, brightness: 1.2))
+        #expect(TestImage.pixel(brighter, 1, 0).isClose(to: RGBA(r: 61, g: 151, b: 251, a: 255), tolerance: 1))
+        let flat = try #require(ImageEffects.adjust(image, contrast: 0))
+        #expect(TestImage.pixel(flat, 2, 0) == .black)
+        let lighter = try #require(ImageEffects.adjust(image, gamma: 2))
+        #expect(TestImage.pixel(lighter, 1, 0).g > 100)
+    }
+
+    @Test func reduceColorsKeepsAtMostTheCount() throws {
+        let gradient = TestImage.make(width: 64, height: 16) { x, y in RGBA(r: UInt8(x * 4), g: UInt8(y * 16), b: 128, a: 255) }
+        #expect(ImageEffects.colorCount(gradient) == 1024)
+        for count in [2, 16, 256] {
+            let reduced = try #require(ImageEffects.reduceColors(gradient, to: count))
+            #expect(ImageEffects.colorCount(reduced) <= count)
+            #expect(reduced.width == 64 && reduced.height == 16)
+        }
+        // Few colors already: unchanged.
+        let two = TestImage.make(width: 2, height: 1) { x, _ in x == 0 ? .red : .blue }
+        #expect(try #require(ImageEffects.reduceColors(two, to: 256)) === two)
+    }
+}

@@ -199,3 +199,29 @@ final class TornEdgeSettingsForm: NSObject {
         all.state = [top, left, right, bottom].allSatisfy { $0.state == .on } ? .on : .off
     }
 }
+
+/// Brightness, contrast and gamma of upstream `AdjustEffect` (which has no dialog upstream). Percent sliders,
+/// 100 % changes nothing; not kept in the settings.
+@MainActor
+final class AdjustSettingsForm: NSObject {
+    let brightness = SliderField(range: 0...200, value: 100, format: { "\($0) %" })
+    let contrast = SliderField(range: 0...200, value: 100, format: { "\($0) %" })
+    let gamma = SliderField(range: 10...500, value: 100, format: { String(format: "%.2f", Double($0) / 100) })
+    private(set) var view = NSView()
+
+    override init() {
+        super.init()
+        view = EffectSettingsDialog.form([
+            brightness.row("Brightness:"),
+            contrast.row("Contrast:"),
+            gamma.row("Gamma:"),
+        ])
+    }
+
+    var isNeutral: Bool { brightness.value == 100 && contrast.value == 100 && gamma.value == 100 }
+
+    func apply(to image: CGImage) -> CGImage? {
+        ImageEffects.adjust(image, brightness: Double(brightness.value) / 100, contrast: Double(contrast.value) / 100,
+                            gamma: Double(gamma.value) / 100)
+    }
+}
