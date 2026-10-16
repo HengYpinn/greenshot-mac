@@ -53,18 +53,6 @@ struct AutoCropTests {
         #expect(doc.imageSize == CGSize(width: 40, height: 30))
     }
 
-    @Test func cropToRowsOrColumnsOfTheSelection() {
-        let selection = CGRect(x: 10, y: 5, width: 8, height: 6)
-        let rows = EditorDocument(image: framed, scale: 1, title: "rows", isModified: false)
-        #expect(rows.cropRows(of: selection))
-        #expect(rows.imageSize == CGSize(width: 40, height: 6))
-        let columns = EditorDocument(image: framed, scale: 1, title: "columns", isModified: false)
-        #expect(columns.cropColumns(of: selection))
-        #expect(columns.imageSize == CGSize(width: 8, height: 30))
-        // A selection over the whole height leaves nothing to crop to rows.
-        #expect(!rows.cropRows(of: CGRect(x: 3, y: 0, width: 5, height: 6)))
-    }
-
     @Test func opaqueBoundsFindTheTransparentMargin() {
         let image = TestImage.make(width: 10, height: 10) { x, y in
             (3..<6).contains(x) && (2..<9).contains(y) ? .red : RGBA(r: 0, g: 0, b: 0, a: 0)

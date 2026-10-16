@@ -226,6 +226,9 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     public var imageData: Data?
     /// The random parts of a cut mark's edges; nil takes them from the id.
     public var seed: UInt64?
+    /// A cut mark across a vertical cut: it spans the whole height of the image and moves left and right. Nil or
+    /// false is a mark across a horizontal cut, spanning the whole width (upstream `CutMarkContainer.IsHorizontal`).
+    public var verticalCut: Bool?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
@@ -240,6 +243,9 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         self.imageData = imageData
         self.style = style ?? .defaults(for: kind)
     }
+
+    /// Whether the element is a cut mark across a vertical cut (a band down the whole image).
+    public var isVerticalCutMark: Bool { kind == .cutMark && verticalCut == true }
 
     /// The box of the element (for freehand the box around its path).
     public var bounds: CGRect {
@@ -336,6 +342,9 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         case .cutMark:
             // The band spans the whole image (upstream `ClickableAt` of the band).
             let band = bounds
+            if isVerticalCutMark {
+                return point.y >= 0 && point.x >= band.minX - tolerance / 2 && point.x <= band.maxX + tolerance / 2
+            }
             return point.x >= 0 && point.y >= band.minY - tolerance / 2 && point.y <= band.maxY + tolerance / 2
         case .text, .highlight, .obfuscate, .counter, .emoji, .image:
             return bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point)
@@ -361,8 +370,9 @@ public enum Handle: CaseIterable, Sendable {
         case .speechBubble: return boxHandles + [.tail]
         // An emoji keeps its aspect ratio (upstream `EmojiContainer` scales with `ScaleOptions.Rational`).
         case .emoji: return cornerHandles
-        // A cut mark is only sized across the cut (upstream's top and bottom center grippers).
-        case .cutMark: return [.top, .bottom]
+        // A cut mark is only sized across the cut (upstream's top and bottom center grippers, left and right for a
+        // vertical cut).
+        case .cutMark: return annotation.isVerticalCutMark ? [.left, .right] : [.top, .bottom]
         default: return boxHandles
         }
     }

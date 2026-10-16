@@ -86,6 +86,67 @@ public enum ImageOperations {
         return false
     }
 
+    // MARK: - Cut out
+
+    /// Upstream `CutOutHelper.CutOut`: the image without the `size` rows (`horizontal`) or columns from `start`
+    /// on, the two parts joined seamlessly. `start` and `size` must be within the image.
+    public static func cutOut(_ image: CGImage, start: Int, size: Int, horizontal: Bool) -> CGImage? {
+        guard size > 0 else { return image }
+        let width = image.width
+        let height = image.height
+        let length = horizontal ? height : width
+        let afterLength = length - start - size
+        guard start >= 0, afterLength >= 0 else { return nil }
+        let newWidth = horizontal ? width : width - size
+        let newHeight = horizontal ? height - size : height
+        guard let context = AnnotationRenderer.makeContext(width: newWidth, height: newHeight) else { return nil }
+        // The context's origin is at the bottom left; the parts are drawn where their rows or columns end up.
+        if start > 0 {
+            let before = horizontal ? CGRect(x: 0, y: 0, width: width, height: start) : CGRect(x: 0, y: 0, width: start, height: height)
+            if let part = image.cropping(to: before) {
+                let target = horizontal ? CGRect(x: 0, y: newHeight - start, width: width, height: start) : before
+                context.draw(part, in: target)
+            }
+        }
+        if afterLength > 0 {
+            let source = horizontal
+                ? CGRect(x: 0, y: start + size, width: width, height: afterLength)
+                : CGRect(x: start + size, y: 0, width: afterLength, height: height)
+            if let part = image.cropping(to: source) {
+                let target = horizontal
+                    ? CGRect(x: 0, y: 0, width: width, height: afterLength)
+                    : CGRect(x: start, y: 0, width: afterLength, height: height)
+                context.draw(part, in: target)
+            }
+        }
+        return context.makeImage()
+    }
+
+    /// Where an element is, compared to a strip that is cut out (upstream `Surface.CutOutPlacement`).
+    public enum CutOutPlacement: Sendable {
+        /// Above or left of the cut: it stays.
+        case before
+        /// Completely inside the cut: it is removed.
+        case inside
+        /// Below or right of the cut: it moves with the image.
+        case after
+        /// Over an edge of the cut: it stays.
+        case across
+    }
+
+    /// Upstream `Surface.GetCutOutPlacement`: where `bounds` (image pixels) is compared to the `cutSize` rows
+    /// (`horizontal`) or columns from `cutStart` on.
+    public static func cutOutPlacement(of bounds: CGRect, cutStart: CGFloat, cutSize: CGFloat, horizontal: Bool) -> CutOutPlacement {
+        let box = bounds.standardized
+        let start = horizontal ? box.minY : box.minX
+        let end = horizontal ? box.maxY : box.maxX
+        let cutEnd = cutStart + cutSize
+        if end <= cutStart { return .before }
+        if start >= cutEnd { return .after }
+        if start >= cutStart && end <= cutEnd { return .inside }
+        return .across
+    }
+
     // MARK: - Element geometry
 
     /// `annotation` with every position (corners, end points, freehand path, speech bubble tail) mapped by `map`.
@@ -122,13 +183,16 @@ extension EditorDocument {
         }
     }
 
-    /// Turns the image by a quarter; the elements turn along (their text stays upright).
+    /// Turns the image by a quarter; the elements turn along (their text stays upright, a cut mark across the rows
+    /// becomes one across the columns and the other way round).
     @discardableResult
     public func rotateImage(clockwise: Bool) -> Bool {
         let size = imageSize
         guard let image = ImageOperations.rotate(baseImage, clockwise: clockwise) else { return false }
         return replaceImage(with: image) { annotation in
-            ImageOperations.mapPositions(of: annotation) { ImageOperations.rotated($0, imageSize: size, clockwise: clockwise) }
+            var turned = ImageOperations.mapPositions(of: annotation) { ImageOperations.rotated($0, imageSize: size, clockwise: clockwise) }
+            if turned.kind == .cutMark { turned.verticalCut = !turned.isVerticalCutMark }
+            return turned
         }
     }
 
@@ -179,16 +243,62 @@ extension EditorDocument {
         return crop(to: content)
     }
 
-    /// Crops to the rows of `selection` and keeps the whole width.
+    /// Upstream `Surface.ApplyCutOut` (the crop modes Horizontal and Vertical): cuts the rows (`horizontal`) or
+    /// the columns of `selection` (image pixels) out of the image and joins the two sides. Elements before the
+    /// cut stay, elements inside it are removed, elements after it move along, elements across an edge of it stay.
+    ///
+    /// With a `cutMark` style other than none, and a cut that is not at an edge of the image, a few rows or
+    /// columns of the strip stay for the gap of a cut mark over the joint. The mark gets `markStyle` (the last used
+    /// cut mark style: its teeth, colors, shadow and line) with the edges of `cutMark`. Returns false when the
+    /// strip is empty or the whole image.
     @discardableResult
-    public func cropRows(of selection: CGRect) -> Bool {
-        crop(to: CGRect(x: 0, y: selection.minY, width: imageSize.width, height: selection.height))
-    }
+    public func cutOut(_ selection: CGRect, horizontal: Bool, cutMark: CutMarkStyle = .none,
+                       markStyle: AnnotationStyle = .defaults(for: .cutMark)) -> Bool {
+        let size = imageSize
+        let strip = selection.standardized.integral.intersection(CGRect(origin: .zero, size: size))
+        guard !strip.isEmpty else { return false }
+        let cutStart = Int(horizontal ? strip.minY : strip.minX)
+        let cutSize = Int(horizontal ? strip.height : strip.width)
+        let imageLength = Int(horizontal ? size.height : size.width)
+        guard cutSize > 0, cutSize < imageLength else { return false }
 
-    /// Crops to the columns of `selection` and keeps the whole height.
-    @discardableResult
-    public func cropColumns(of selection: CGRect) -> Bool {
-        crop(to: CGRect(x: selection.minX, y: 0, width: selection.width, height: imageSize.height))
+        // Only a cut in the middle has a joint to mark; the gap of the mark keeps a part of the strip.
+        let marked = cutMark != .none && cutStart > 0 && cutStart + cutSize < imageLength
+        let teeth = max(1, Int((CGFloat(markStyle.toothHeight) * scale).rounded()))
+        let gap = marked ? min(cutSize, max(2, teeth)) : 0
+        guard let image = ImageOperations.cutOut(baseImage, start: cutStart + gap, size: cutSize - gap, horizontal: horizontal) else {
+            return false
+        }
+
+        let moveBy = CGFloat(cutSize - gap)
+        let offset = horizontal ? CGVector(dx: 0, dy: -moveBy) : CGVector(dx: -moveBy, dy: 0)
+        func placement(_ element: Annotation) -> ImageOperations.CutOutPlacement {
+            ImageOperations.cutOutPlacement(of: element.bounds, cutStart: CGFloat(cutStart), cutSize: CGFloat(cutSize),
+                                            horizontal: horizontal)
+        }
+        let inside = Set(annotations.filter { placement($0) == .inside }.map(\.id))
+        remove(inside)
+        replaceImage(with: image) { element in
+            guard placement(element) == .after else { return element }
+            var moved = element
+            moved.move(by: offset)
+            return moved
+        }
+        let newSize = imageSize
+
+        if marked {
+            var style = markStyle
+            style.cutMarkStyle = cutMark
+            let bandSize = Int(CutMark.bandSize(toothHeight: CGFloat(teeth), gap: CGFloat(gap)))
+            let bandStart = CGFloat(cutStart + gap / 2 - bandSize / 2)
+            let bandEnd = bandStart + CGFloat(bandSize)
+            var mark = horizontal
+                ? Annotation(kind: .cutMark, start: CGPoint(x: 0, y: bandStart), end: CGPoint(x: newSize.width, y: bandEnd), style: style)
+                : Annotation(kind: .cutMark, start: CGPoint(x: bandStart, y: 0), end: CGPoint(x: bandEnd, y: newSize.height), style: style)
+            mark.verticalCut = !horizontal
+            add(mark)
+        }
+        return true
     }
 
     /// Replaces the image with `transform`'s result of the same size (adjust, monochrome, reduce colors).

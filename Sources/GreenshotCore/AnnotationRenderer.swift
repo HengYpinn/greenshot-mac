@@ -117,9 +117,10 @@ public enum AnnotationRenderer {
     static func drawCutMark(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         let style = a.style
         let canvas = canvasBounds(context)
-        guard let shape = CutMark.shape(band: CutMark.band(of: a, imageWidth: canvas.width), style: style.cutMarkStyle,
+        guard let shape = CutMark.shape(band: CutMark.band(of: a, imageSize: canvas.size), style: style.cutMarkStyle,
                                         toothHeight: CGFloat(style.toothHeight) * scale,
-                                        toothRange: CGFloat(style.toothRange) * scale, seed: CutMark.seed(of: a)) else { return }
+                                        toothRange: CGFloat(style.toothRange) * scale, seed: CutMark.seed(of: a),
+                                        vertical: a.isVerticalCutMark) else { return }
         context.saveGState()
         context.addPath(shape.gap)
         if style.fillColor.isVisible {

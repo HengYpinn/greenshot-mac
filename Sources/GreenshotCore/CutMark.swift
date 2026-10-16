@@ -11,21 +11,25 @@ import Foundation
 ///
 /// A horizontal cut mark is a band across the whole width of the image. Its first edge goes into the part above the
 /// cut, its second one into the part below; between them is the gap, which shows where the strip was cut out.
-/// Upstream also has vertical cut marks, made by its "crop out" operation; this port has the horizontal one only.
+/// A vertical cut mark (`Annotation.verticalCut`, made by cutting out columns) is the same turned by a quarter: a
+/// band down the whole height, its first edge going into the part on the left, its second into the part on the right.
 public enum CutMark {
     public struct Shape {
-        /// The edge along the top of the gap, left to right (image pixels).
+        /// The edge along the first side of the gap (the top, or the left of a vertical cut), along the cut
+        /// (image pixels).
         public var first: [CGPoint]
-        /// The edge along the bottom of the gap, left to right.
+        /// The edge along the second side of the gap (the bottom, or the right of a vertical cut).
         public var second: [CGPoint]
         /// The outline of the gap.
         public var gap: CGPath
     }
 
-    /// The band of a cut mark: its height across the whole image width.
-    public static func band(of a: Annotation, imageWidth: CGFloat) -> CGRect {
+    /// The band of a cut mark: its thickness across the whole image (the full width, or the full height of a
+    /// vertical cut).
+    public static func band(of a: Annotation, imageSize: CGSize) -> CGRect {
         let box = a.bounds
-        return CGRect(x: 0, y: box.minY, width: imageWidth, height: box.height)
+        if a.isVerticalCutMark { return CGRect(x: box.minX, y: 0, width: box.width, height: imageSize.height) }
+        return CGRect(x: 0, y: box.minY, width: imageSize.width, height: box.height)
     }
 
     /// The height of a band for a gap of `gap`, two teeth and the gap (upstream `GetBandSize`).
@@ -41,18 +45,23 @@ public enum CutMark {
             .reduce(UInt64(0)) { ($0 << 8) | UInt64($1) }
     }
 
-    /// The edges and the gap of a cut mark, nil for the style None or an empty band. Sizes are image pixels.
+    /// The edges and the gap of a cut mark, nil for the style None or an empty band. Sizes are image pixels. The
+    /// band of a `vertical` cut runs down the image: its length is the band's height.
     public static func shape(band: CGRect, style: CutMarkStyle, toothHeight: CGFloat, toothRange: CGFloat,
-                             seed: UInt64) -> Shape? {
+                             seed: UInt64, vertical: Bool = false) -> Shape? {
         guard style != .none, band.width > 0, band.height > 0 else { return nil }
-        let length = band.width
-        let thickness = band.height
+        let length = vertical ? band.height : band.width
+        let thickness = vertical ? band.width : band.height
         let teeth = min(max(1, toothHeight), thickness / 2)
         var random = SeededRandom(seed: seed)
         let first = edge(style: style, length: length, toothHeight: teeth, toothRange: toothRange, random: &random)
         let second = edge(style: style, length: length, toothHeight: teeth, toothRange: toothRange, random: &random)
-        let firstEdge = first.map { CGPoint(x: band.minX + $0.x, y: band.minY + teeth - $0.y) }
-        let secondEdge = second.map { CGPoint(x: band.minX + $0.x, y: band.minY + thickness - teeth + $0.y) }
+        // Along the cut, across the cut (upstream `CreateEdges`' `Map`).
+        func map(_ along: CGFloat, _ across: CGFloat) -> CGPoint {
+            vertical ? CGPoint(x: band.minX + across, y: band.minY + along) : CGPoint(x: band.minX + along, y: band.minY + across)
+        }
+        let firstEdge = first.map { map($0.x, teeth - $0.y) }
+        let secondEdge = second.map { map($0.x, thickness - teeth + $0.y) }
         let gap = CGMutablePath()
         gap.addLines(between: firstEdge + secondEdge.reversed())
         gap.closeSubpath()
@@ -112,6 +121,13 @@ extension Annotation {
         guard kind == .cutMark, new != old else { return result }
         let delta = CGFloat(new - old) * scale
         let band = bounds
+        if isVerticalCutMark {
+            let width = max(2 * CGFloat(new) * scale, band.width + 2 * delta)
+            let left = band.minX - delta
+            result.start = CGPoint(x: left, y: band.minY)
+            result.end = CGPoint(x: left + width, y: band.maxY)
+            return result
+        }
         let height = max(2 * CGFloat(new) * scale, band.height + 2 * delta)
         let top = band.minY - delta
         result.start = CGPoint(x: band.minX, y: top)
@@ -119,13 +135,19 @@ extension Annotation {
         return result
     }
 
-    /// A cut mark across the whole width of an image `width` pixels wide (upstream `SpanImage`).
-    public func spanning(width: CGFloat) -> Annotation {
+    /// A cut mark across the whole image: the full width, or the full height of a vertical cut (upstream
+    /// `SpanImage`). Other elements come back as they are.
+    public func spanning(_ imageSize: CGSize) -> Annotation {
         guard kind == .cutMark else { return self }
         var result = self
         let band = bounds
-        result.start = CGPoint(x: 0, y: band.minY)
-        result.end = CGPoint(x: width, y: band.maxY)
+        if isVerticalCutMark {
+            result.start = CGPoint(x: band.minX, y: 0)
+            result.end = CGPoint(x: band.maxX, y: imageSize.height)
+        } else {
+            result.start = CGPoint(x: 0, y: band.minY)
+            result.end = CGPoint(x: imageSize.width, y: band.maxY)
+        }
         return result
     }
 }

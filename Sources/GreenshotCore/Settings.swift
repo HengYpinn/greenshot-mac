@@ -149,6 +149,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var dropShadowSettings = DropShadowSettings()
     public var tornEdgeSettings = TornEdgeSettings()
     public var textObfuscation = TextObfuscationSettings()
+    /// How the joint is marked after cutting rows or columns out (upstream's `CUT_MARK_STYLE` field of the crop).
+    public var cutOutMarkStyle: CutMarkStyle = .none
 
     // Output (upstream `OutputFile*`, `ClipboardFormats`, `OutputPrint*`, mail and the plugins).
     public var allowOverwrite = true
@@ -199,6 +201,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case captureHelpVisible, captureInfoVisible, captureSelectionPreviewVisible, ocrLanguage, scanQRCodesOnCapture
         case autoCropDifference, notificationLevel
         case reuseEditor, suppressSaveDialogAtClose, matchSizeToCapture, dropShadowSettings, tornEdgeSettings, textObfuscation
+        case cutOutMarkStyle
         case allowOverwrite, promptJpegQuality, reduceColors, reduceColorsTo, clipboardFormats, printing, email, externalCommands, pdf
         case updateCheckIntervalDays, lastUpdateCheck, lastSavedFile
     }
@@ -248,6 +251,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         dropShadowSettings = value(.dropShadowSettings, d.dropShadowSettings)
         tornEdgeSettings = value(.tornEdgeSettings, d.tornEdgeSettings)
         textObfuscation = value(.textObfuscation, d.textObfuscation)
+        cutOutMarkStyle = value(.cutOutMarkStyle, d.cutOutMarkStyle)
         allowOverwrite = value(.allowOverwrite, d.allowOverwrite)
         promptJpegQuality = value(.promptJpegQuality, d.promptJpegQuality)
         reduceColors = value(.reduceColors, d.reduceColors)

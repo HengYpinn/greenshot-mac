@@ -131,13 +131,13 @@ public final class EditorDocument {
     }
 
     public func add(_ annotation: Annotation) {
-        annotations.append(annotation.spanning(width: imageSize.width))
+        annotations.append(annotation.spanning(imageSize))
     }
 
-    /// Replaces the element with the same id. A cut mark stays across the whole image, it only moves up and down.
+    /// Replaces the element with the same id. A cut mark stays across the whole image, it only moves across its cut.
     public func update(_ annotation: Annotation) {
         guard let index = annotations.firstIndex(where: { $0.id == annotation.id }) else { return }
-        annotations[index] = annotation.spanning(width: imageSize.width)
+        annotations[index] = annotation.spanning(imageSize)
     }
 
     public func remove(_ id: UUID) {
@@ -146,8 +146,8 @@ public final class EditorDocument {
 
     /// Adds elements on top of the others, in their order.
     public func add(_ elements: [Annotation]) {
-        let width = imageSize.width
-        annotations.append(contentsOf: elements.map { $0.spanning(width: width) })
+        let size = imageSize
+        annotations.append(contentsOf: elements.map { $0.spanning(size) })
     }
 
     /// The elements with one of `ids`, in drawing order (back to front).
@@ -162,10 +162,10 @@ public final class EditorDocument {
     /// Moves the elements with one of `ids` by `delta` (image pixels).
     public func move(_ ids: Set<UUID>, by delta: CGVector) {
         guard delta != .zero else { return }
-        let width = imageSize.width
+        let size = imageSize
         for index in annotations.indices where ids.contains(annotations[index].id) {
             annotations[index].move(by: delta)
-            annotations[index] = annotations[index].spanning(width: width)
+            annotations[index] = annotations[index].spanning(size)
         }
     }
 
@@ -277,8 +277,8 @@ public final class EditorDocument {
     public func replaceImage(with image: CGImage, offset: CGVector = .zero, transform: ((Annotation) -> Annotation)? = nil) -> Bool {
         baseImage = image
         if let transform {
-            // Cut marks keep spanning the (new) image width.
-            annotations = annotations.map { transform($0).spanning(width: imageSize.width) }
+            // Cut marks keep spanning the (new) image.
+            annotations = annotations.map { transform($0).spanning(imageSize) }
         } else {
             moveAnnotations(by: offset)
         }
@@ -286,11 +286,11 @@ public final class EditorDocument {
     }
 
     private func moveAnnotations(by delta: CGVector) {
-        let width = imageSize.width
+        let size = imageSize
         annotations = annotations.map {
             var moved = $0
             moved.move(by: delta)
-            return moved.spanning(width: width)
+            return moved.spanning(size)
         }
     }
 

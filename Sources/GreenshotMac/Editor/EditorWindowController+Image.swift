@@ -26,11 +26,11 @@ extension EditorWindowController {
         let resize = imageButton("arrow.up.left.and.arrow.down.right", "Resize the image (⌥⌘R)", #selector(resizeImage(_:)))
         let rotateLeft = imageButton("rotate.left", "Rotate counter-clockwise (⌥⌘←)", #selector(rotateCounterClockwise(_:)))
         let rotateRight = imageButton("rotate.right", "Rotate clockwise (⌥⌘→)", #selector(rotateClockwise(_:)))
-        // Upstream's crop modes (`CropContainer.CropModes`): auto crop, and the crop tool's selection kept as rows
-        // or as columns.
+        // Upstream's crop modes (`CropContainer.CropModes`): auto crop, and the rows or columns of the crop tool's
+        // selection cut out.
         let crop = NSPopUpButton(frame: .zero, pullsDown: true)
         crop.controlSize = .small
-        crop.toolTip = "Auto crop, or crop to the rows or columns of the crop selection"
+        crop.toolTip = "Auto crop, or cut the rows or columns of the crop selection out"
         crop.addItem(withTitle: "")
         crop.item(at: 0)?.image = NSImage(systemSymbolName: "crop", accessibilityDescription: "Crop modes")
         for (title, action) in Self.cropModeItems {
@@ -140,8 +140,8 @@ extension EditorWindowController {
     /// The crop mode items of the toolbar and the Image menu.
     static let cropModeItems: [(String, Selector)] = [
         ("Auto Crop", #selector(autoCrop(_:))),
-        ("Crop to Selected Rows (Full Width)", #selector(cropToSelectedRows(_:))),
-        ("Crop to Selected Columns (Full Height)", #selector(cropToSelectedColumns(_:))),
+        ("Cut Out the Selected Rows", #selector(cutOutSelectedRows(_:))),
+        ("Cut Out the Selected Columns", #selector(cutOutSelectedColumns(_:))),
     ]
 
     /// Upstream `CropModes.AutoCrop` / `Surface.AutoCrop`: crops away the border of one color around the content
@@ -159,18 +159,32 @@ extension EditorWindowController {
         if let window { alert.beginSheetModal(for: window) } else { alert.runModal() }
     }
 
-    /// Crops to the rows of the crop selection and keeps the whole width.
-    @objc func cropToSelectedRows(_ sender: Any?) {
-        guard let selection = canvas.cropRect else { NSSound.beep(); return }
-        performImageOperation { $0.cropRows(of: selection) }
-        canvas.tool = .select
+    /// Upstream `CropModes.Horizontal`: cuts the rows of the crop selection out and joins the parts above and below.
+    @objc func cutOutSelectedRows(_ sender: Any?) {
+        cutOut(horizontal: true)
     }
 
-    /// Crops to the columns of the crop selection and keeps the whole height.
-    @objc func cropToSelectedColumns(_ sender: Any?) {
+    /// Upstream `CropModes.Vertical`: cuts the columns of the crop selection out and joins the parts left and right.
+    @objc func cutOutSelectedColumns(_ sender: Any?) {
+        cutOut(horizontal: false)
+    }
+
+    /// The joint is marked with the cut mark style chosen in the crop bar (a cut mark element with the last used
+    /// teeth, colors and shadow), which is selected afterwards so it can be changed.
+    private func cutOut(horizontal: Bool) {
         guard let selection = canvas.cropRect else { NSSound.beep(); return }
-        performImageOperation { $0.cropColumns(of: selection) }
+        let values = settings.value
+        let markStyle = values.style(for: .cutMark)
+        let joint = values.cutOutMarkStyle
+        let before = Set(editorDocument.annotations.map(\.id))
+        guard performImageOperation({ $0.cutOut(selection, horizontal: horizontal, cutMark: joint, markStyle: markStyle) }) else {
+            NSSound.beep()
+            return
+        }
         canvas.tool = .select
+        if let mark = editorDocument.annotations.first(where: { $0.kind == .cutMark && !before.contains($0.id) }) {
+            canvas.select(mark.id)
+        }
     }
 
     // MARK: Text obfuscation
@@ -224,7 +238,7 @@ extension EditorWindowController {
         switch item.action {
         case #selector(removeTransparency(_:)):
             return TransparencyCheck.hasTransparency(editorDocument.baseImage)
-        case #selector(cropToSelectedRows(_:)), #selector(cropToSelectedColumns(_:)):
+        case #selector(cutOutSelectedRows(_:)), #selector(cutOutSelectedColumns(_:)):
             return canvas.tool == .crop && canvas.cropRect != nil
         case #selector(clearBackground(_:)):
             // ⌘⌫ deletes to the start of the line while a text element is being typed.

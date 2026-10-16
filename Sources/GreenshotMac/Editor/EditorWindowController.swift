@@ -57,6 +57,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
     private var propertyGroups: [(view: NSView, kinds: Set<AnnotationKind>)] = []
     private let cropGroup = NSStackView()
+    /// How the joint of a cut-out is marked (upstream's cut mark style drop-down of the crop tool).
+    private let cutOutJointPopup = NSPopUpButton()
 
     private static let lineWidths = [0, 1, 2, 3, 4, 5, 6, 8, 10]
     private static let fontSizes = [9, 11, 13, 15, 18, 22, 27, 36, 48, 64, 96]
@@ -246,7 +248,11 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         applyCrop.bezelStyle = .push
         applyCrop.keyEquivalent = ""
         let cancelCrop = NSButton(title: "Cancel", target: self, action: #selector(cancelCrop))
-        cropGroup.setViews([label("Drag the area to keep"), applyCrop, cancelCrop], in: .leading)
+        setUp(cutOutJointPopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutOutJointChanged))
+        cutOutJointPopup.toolTip = "How the joint is marked when the selected rows or columns are cut out"
+        cutOutJointPopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: settings.value.cutOutMarkStyle) ?? 0)
+        cropGroup.setViews([label("Drag the area to keep, or the rows or columns to cut out"), applyCrop, cancelCrop,
+                            Self.divider(), label("Cut-out joint"), cutOutJointPopup], in: .leading)
         cropGroup.spacing = 6
 
         // The image operations (effects, resize, rotate, canvas) live in EditorWindowController+Image.swift.
@@ -578,6 +584,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     @objc private func cutMarkStyleChanged() {
         applyStyle { $0.cutMarkStyle = CutMarkStyle.allCases[cutMarkStylePopup.indexOfSelectedItem] }
+    }
+
+    @objc private func cutOutJointChanged() {
+        let index = cutOutJointPopup.indexOfSelectedItem
+        guard CutMarkStyle.allCases.indices.contains(index) else { return }
+        settings.update { $0.cutOutMarkStyle = CutMarkStyle.allCases[index] }
     }
 
     @objc private func toothRangeChanged() {
