@@ -54,6 +54,27 @@ struct SettingsTests {
         #expect(SettingsStorage.load(from: defaults).outputFolderURL.path.hasSuffix("/Pictures/Screenshots"))
     }
 
+    @Test func turningOnADestinationTurnsOffTheMenu() {
+        var s = AppSettings()
+        s.setDestination(.clipboard, on: true)
+        #expect(s.destinations == [.clipboard])
+        s.setDestination(.file, on: true)
+        s.setDestination(.file, on: true)
+        #expect(s.destinations == [.clipboard, .file])
+    }
+
+    @Test func theMenuExcludesTheOthersAndComesBackWhenNothingIsLeft() {
+        var s = AppSettings()
+        s.setDestination(.clipboard, on: true)
+        s.setDestination(.picker, on: true)
+        #expect(s.destinations == [.picker])
+        s.setDestination(.clipboard, on: true)
+        s.setDestination(.clipboard, on: false)
+        #expect(s.destinations == [.picker])
+        s.setDestination(.picker, on: false)
+        #expect(s.destinations == [.picker])
+    }
+
     @Test func rememberedStylesPerKind() {
         var s = AppSettings()
         #expect(s.style(for: .counter) == .defaults(for: .counter))

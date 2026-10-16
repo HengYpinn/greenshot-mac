@@ -100,6 +100,21 @@ public struct AppSettings: Codable, Equatable, Sendable {
         URL(fileURLWithPath: (outputFolder as NSString).expandingTildeInPath, isDirectory: true)
     }
 
+    /// Turns a destination on or off. "Ask every time" (upstream's picker) excludes the others: turning it on turns
+    /// them off, turning on another turns it off, and with no destination left it comes back.
+    public mutating func setDestination(_ destination: CaptureDestination, on: Bool) {
+        if on {
+            if destination == .picker {
+                destinations = [.picker]
+            } else if !destinations.contains(destination) {
+                destinations = destinations.filter { $0 != .picker } + [destination]
+            }
+        } else {
+            destinations.removeAll { $0 == destination }
+        }
+        if destinations.isEmpty { destinations = [.picker] }
+    }
+
     public func style(for kind: AnnotationKind) -> AnnotationStyle {
         editorStyles[kind.rawValue] ?? .defaults(for: kind)
     }

@@ -16,6 +16,10 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         window.title = "\(AppInfo.name) Settings"
         window.styleMask = [.titled, .closable]
         window.isReleasedWhenClosed = false
+        // Like the editors: come to the Space the user is on (also over a full screen app) and hide when another
+        // app is clicked, rather than staying open on another Space where opening the app again can't be seen.
+        window.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
+        window.hidesOnDeactivate = true
         super.init(window: window)
         window.delegate = self
         window.center()
@@ -170,12 +174,17 @@ private struct OutputSettings: View {
 
     var body: some View {
         Form {
-            Section("After a capture") {
+            Section {
                 Toggle("Ask every time (destination menu)", isOn: destination(.picker))
+                // Never disabled: with the menu on and nothing else chosen, there would be no way to switch.
                 ForEach(Self.others, id: \.self) { candidate in
                     Toggle(candidate.displayName, isOn: destination(candidate))
-                        .disabled(store.value.destinations.contains(.picker))
                 }
+            } header: {
+                Text("After a capture")
+            } footer: {
+                Text("Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
             Section("Files") {
                 LabeledContent("Folder") {
@@ -217,16 +226,7 @@ private struct OutputSettings: View {
     private func destination(_ candidate: CaptureDestination) -> Binding<Bool> {
         Binding(
             get: { store.value.destinations.contains(candidate) },
-            set: { on in
-                store.update { s in
-                    if on {
-                        s.destinations = candidate == .picker ? [.picker] : s.destinations.filter { $0 != .picker } + [candidate]
-                    } else {
-                        s.destinations.removeAll { $0 == candidate }
-                    }
-                    if s.destinations.isEmpty { s.destinations = [.picker] }
-                }
-            })
+            set: { on in store.update { $0.setDestination(candidate, on: on) } })
     }
 
     private func chooseFolder() {

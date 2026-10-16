@@ -52,7 +52,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Opening the app again while it runs brings back the editors (they hide when another app is clicked), or
     /// shows the settings when there are none.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !editors.showEditors(), !flag { showSettings(nil) }
+        // Also when a window is "visible": it may be on another Space, where the user doesn't see it.
+        if !editors.showEditors() { showSettings(nil) }
         return true
     }
 
@@ -130,6 +131,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } else if !defaults.bool(forKey: Self.didOfferLaunchAtLoginKey) {
             defaults.set(true, forKey: Self.didOfferLaunchAtLoginKey)
             offerLaunchAtLogin()
+        } else {
+            showRunningMessage()
+        }
+    }
+
+    /// A menu bar app opens no window, and macOS can hide its icon (behind the notch), so starting it would look
+    /// like nothing happened. Say that it runs; a click opens Settings.
+    private func showRunningMessage() {
+        let region = settings.value.hotkeys.region.map { "Press \($0.displayString) to capture." } ?? "It's in the menu bar."
+        saver.notify("\(AppInfo.name) is running", detail: "\(region) Click here for Settings.") { [weak self] in
+            self?.showSettings(nil)
         }
     }
 

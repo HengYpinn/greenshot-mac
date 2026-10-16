@@ -26,6 +26,14 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- Settings › Output: the destinations can be turned on while "Ask every time" is on (turning one on turns the menu
+  off). Before, they were greyed out and "Ask every time" couldn't be turned off, so captures couldn't go straight to
+  the clipboard.
+- Opening the app again (Spotlight, Finder) always shows Settings or the open screenshots on the Space you are on.
+  Before, a Settings window left open on another Space meant nothing appeared. Settings, like the editors, now comes
+  to your Space and hides when you click another app.
+- Starting the app shows a short "is running" message (click it for Settings), since a menu bar app opens no window
+  and macOS may hide its icon behind the notch.
 - When screen recording isn't allowed, the app now tries a capture once, which is what makes recent macOS versions
   list it under Screen & System Audio Recording; the message also says to add it with + when it isn't listed.
 - The screen recording message explains what to do when the switch is already on but belongs to an older build, and
