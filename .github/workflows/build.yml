@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test
+        run: swift test
+
+      - name: Build the app (universal)
+        run: ARCHS="arm64 x86_64" VERSION="0.1.0" BUILD_NUMBER="${{ github.run_number }}" scripts/build-app.sh
+
+      - name: Render UI snapshots
+        run: |
+          swift build
+          "$(swift build --show-bin-path)/GreenshotMac" --snapshot build/snapshots
+
+      - name: Zip
+        run: cd build && ditto -c -k --keepParent "Greenshot for Mac (Community).app" GreenshotMac.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GreenshotMac
+          path: |
+            build/GreenshotMac.zip
+            build/snapshots
