@@ -47,5 +47,8 @@ extension MainMenu {
         add("Bring Forward", #selector(CanvasView.bringForward(_:)), "f", [.command, .option, .shift])
         add("Send Backward", #selector(CanvasView.sendBackward(_:)), "b", [.command, .option, .shift])
         add("Send to Back", #selector(CanvasView.sendToBack(_:)), "b", [.command, .shift])
+        object.addItem(.separator())
+        object.addItem(withTitle: "Save Elements…", action: #selector(EditorWindowController.saveElements(_:)), keyEquivalent: "")
+        object.addItem(withTitle: "Load Elements…", action: #selector(EditorWindowController.loadElements(_:)), keyEquivalent: "")
     }
 }

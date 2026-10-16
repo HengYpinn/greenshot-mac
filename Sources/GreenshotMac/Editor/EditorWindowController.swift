@@ -5,11 +5,12 @@
 
 import AppKit
 import GreenshotCore
+import UniformTypeIdentifiers
 
 /// The image editor window (upstream `ImageEditorForm`): tools on the left, the properties of the current tool
 /// or selected element on top, the image in the middle.
 @MainActor
-final class EditorWindowController: NSWindowController, NSWindowDelegate {
+final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenuItemValidation {
     let editorDocument: EditorDocument
     let settings: SettingsStore
     let saver: ImageSaver
@@ -624,6 +625,55 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     @objc func printImage(_ sender: Any?) {
         canvas.commitEditing()
         Printing.print(editorDocument.flattened(), scale: editorDocument.scale, window: window)
+    }
+
+    // MARK: Elements files (Object menu)
+
+    private static var elementsFileType: UTType {
+        UTType(filenameExtension: ElementTransfer.fileExtension, conformingTo: .json) ?? .json
+    }
+
+    /// Upstream "Save objects to file": every element, as JSON.
+    @objc func saveElements(_ sender: Any?) {
+        canvas.commitEditing()
+        guard let window else { return }
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [Self.elementsFileType]
+        panel.nameFieldStringValue = "\(editorDocument.title).\(ElementTransfer.fileExtension)"
+        panel.beginSheetModal(for: window) { [weak self] response in
+            guard let self, response == .OK, let url = panel.url else { return }
+            do {
+                try ElementTransfer.file(of: self.editorDocument).encoded().write(to: url, options: .atomic)
+            } catch {
+                ErrorPresenter.show(message: "The elements could not be saved", detail: error.localizedDescription)
+            }
+        }
+    }
+
+    /// Upstream "Load objects from file": adds the elements of a file, as one undo step, and selects them.
+    @objc func loadElements(_ sender: Any?) {
+        canvas.commitEditing()
+        guard let window else { return }
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [Self.elementsFileType]
+        panel.allowsMultipleSelection = false
+        panel.beginSheetModal(for: window) { [weak self] response in
+            guard let self, response == .OK, let url = panel.url else { return }
+            guard let data = try? Data(contentsOf: url), let transfer = ElementTransfer.decode(data) else {
+                ErrorPresenter.show(message: "The elements could not be loaded", detail: url.lastPathComponent)
+                return
+            }
+            let added = transfer.load(into: self.editorDocument)
+            self.canvas.documentChanged()
+            self.canvas.select(added.map(\.id))
+        }
+    }
+
+    func validateMenuItem(_ item: NSMenuItem) -> Bool {
+        switch item.action {
+        case #selector(saveElements(_:)): return !editorDocument.annotations.isEmpty
+        default: return true
+        }
     }
 
     // MARK: Zoom (View menu)

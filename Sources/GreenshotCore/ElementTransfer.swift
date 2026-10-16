@@ -40,6 +40,20 @@ public struct ElementTransfer: Codable, Equatable {
         return transfer
     }
 
+    /// All elements of a document, for a `.greenshot-elements` file (upstream `Surface.SaveElementsToStream`).
+    public static func file(of document: EditorDocument) -> ElementTransfer {
+        ElementTransfer(elements: document.annotations, scale: document.scale)
+    }
+
+    /// Adds the elements of a file to `document` as one undo step (upstream `Surface.LoadElementsFromStream`), at
+    /// their saved place, moved into the image when it is smaller. Returns the added elements.
+    @discardableResult
+    public func load(into document: EditorDocument) -> [Annotation] {
+        let added = placed(in: document.imageSize, scale: document.scale, documentID: document.id)
+        document.change { document.add(added) }
+        return added
+    }
+
     /// The elements as new elements of a document: with new ids, at the pixels per point of the document, and placed
     /// like upstream's `Surface.PasteElementFromClipboard`.
     /// - Parameters:

@@ -189,3 +189,24 @@ struct PictureElementTests {
         #expect(fromTopLeft.bounds == CGRect(x: 20, y: 10, width: 20, height: 10))
     }
 }
+
+struct ElementsFileTests {
+    @Test func savedElementsLoadIntoAnotherDocumentAsOneStep() throws {
+        let source = EditorDocument(image: TestImage.solid(width: 100, height: 100, .white), scale: 2, title: "a")
+        let rectangle = Annotation(kind: .rectangle, start: CGPoint(x: 10, y: 10), end: CGPoint(x: 30, y: 30))
+        let text = Annotation(kind: .text, start: CGPoint(x: 40, y: 40), end: CGPoint(x: 90, y: 60), text: "Hello")
+        source.add([rectangle, text])
+        let data = try ElementTransfer.file(of: source).encoded()
+
+        let target = EditorDocument(image: TestImage.solid(width: 100, height: 100, .white), scale: 2, title: "b", isModified: false)
+        let existing = Annotation(kind: .ellipse, start: .zero, end: CGPoint(x: 5, y: 5))
+        target.add(existing)
+        let loaded = try #require(ElementTransfer.decode(data)).load(into: target)
+        #expect(loaded.map(\.text) == ["", "Hello"])
+        #expect(loaded.map(\.bounds) == [rectangle.bounds, text.bounds])
+        #expect(target.annotations.count == 3 && target.annotations[0].id == existing.id)
+        #expect(!loaded.contains { $0.id == rectangle.id || $0.id == text.id })
+        target.undo()
+        #expect(target.annotations.map(\.id) == [existing.id])
+    }
+}
