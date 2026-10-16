@@ -168,6 +168,19 @@ public final class EditorDocument {
         return true
     }
 
+    /// Replaces the image with the result of an operation (resize, rotate, canvas change, …) and moves the elements
+    /// by `offset`; `transform` maps old element positions to new ones when it is not a plain move (rotate, resize).
+    @discardableResult
+    public func replaceImage(with image: CGImage, offset: CGVector = .zero, transform: ((Annotation) -> Annotation)? = nil) -> Bool {
+        baseImage = image
+        if let transform {
+            annotations = annotations.map(transform)
+        } else {
+            moveAnnotations(by: offset)
+        }
+        return true
+    }
+
     private func moveAnnotations(by delta: CGVector) {
         guard delta != .zero else { return }
         annotations = annotations.map {
