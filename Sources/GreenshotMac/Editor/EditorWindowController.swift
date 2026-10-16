@@ -188,6 +188,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         setUp(obfuscatePopup, titles: ["Pixelate", "Blur"], action: #selector(obfuscateChanged))
         setUp(effectSizePopup, titles: Self.effectSizes.map { "\($0) pt" }, action: #selector(effectSizeChanged))
         setUp(emojiPopup, titles: EmojiChoices.all, action: #selector(emojiChanged))
+        emojiPopup.menu?.addItem(.separator())
+        emojiPopup.addItem(withTitle: "More Emoji…")
         setUp(cutMarkStylePopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutMarkStyleChanged))
         setUp(toothHeightPopup, titles: Self.toothHeights.map { "\($0) pt" }, action: #selector(toothHeightChanged))
         setUp(toothRangePopup, titles: Self.toothRanges.map { "\($0) pt" }, action: #selector(toothRangeChanged))
@@ -436,7 +438,15 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         counterStartField.integerValue = editorDocument.counterStart
         counterStartStepper.integerValue = editorDocument.counterStart
         let emoji = canvas.selectedAnnotation.flatMap { $0.kind == .emoji ? $0.text : nil } ?? settings.value.recentEmoji
-        if let index = EmojiChoices.all.firstIndex(of: emoji) { emojiPopup.selectItem(at: index) }
+        // An emoji from the Character Viewer that isn't in the short list shows as an extra item at the top.
+        if emojiPopup.item(at: 0)?.tag == Self.extraEmojiTag { emojiPopup.removeItem(at: 0) }
+        if let index = EmojiChoices.all.firstIndex(of: emoji) {
+            emojiPopup.selectItem(at: index)
+        } else {
+            emojiPopup.insertItem(withTitle: emoji, at: 0)
+            emojiPopup.item(at: 0)?.tag = Self.extraEmojiTag
+            emojiPopup.selectItem(at: 0)
+        }
     }
 
     private func selectClosest(_ popup: NSPopUpButton, values: [Int], to value: Double) {
@@ -548,7 +558,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         refreshProperties()
     }
 
-    @objc private func emojiChanged() { pickEmoji(EmojiChoices.all[emojiPopup.indexOfSelectedItem]) }
+    private static let extraEmojiTag = 1
+
+    @objc private func emojiChanged() {
+        guard let item = emojiPopup.selectedItem else { return }
+        if item.title == "More Emoji…" {
+            refreshProperties()
+            canvas.showEmojiPalette()
+            return
+        }
+        pickEmoji(item.title)
+    }
 
     /// Changes the selected emoji element and remembers the emoji for new ones (upstream `RecentEmoji`).
     private func pickEmoji(_ emoji: String) {

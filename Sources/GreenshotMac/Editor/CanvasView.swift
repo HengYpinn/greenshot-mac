@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 /// The drawing surface of the editor (upstream `Surface`). The view is sized in points; the document works in
 /// image pixels, so a Retina capture shows at its real size.
 @MainActor
-final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
+final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preconcurrency NSTextInputClient {
     let document: EditorDocument
     /// The style new elements of a kind get (the last used one).
     var styleProvider: (AnnotationKind) -> AnnotationStyle = { .defaults(for: $0) }
@@ -286,7 +286,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
                 return
             }
             if event.clickCount == 2 && a.kind == .emoji {
-                showEmojiMenu(for: a)
+                // Upstream opens its emoji picker on a double click; here it is the system's Character Viewer.
+                showEmojiPalette()
                 return
             }
             document.beginChange()
@@ -572,13 +573,50 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         for emoji in EmojiChoices.all {
             menu.addItem(ClosureMenuItem(title: emoji) { [weak self] in self?.onPickEmoji?(emoji) })
         }
+        menu.addItem(.separator())
+        menu.addItem(ClosureMenuItem(title: "More Emoji…") { [weak self] in self?.showEmojiPalette() })
         return menu
     }
 
-    /// Upstream opens its emoji picker on a double click of an emoji.
-    private func showEmojiMenu(for a: Annotation) {
-        let box = viewRect(a.bounds)
-        emojiMenu().popUp(positioning: nil, at: CGPoint(x: box.minX, y: box.maxY), in: self)
+    /// The full emoji picker (upstream `Greenshot.Editor/Controls/Emoji`): the system's Character Viewer, which types
+    /// the chosen emoji into the canvas (`insertText(_:replacementRange:)`).
+    func showEmojiPalette() {
+        commitEditing()
+        window?.makeFirstResponder(self)
+        NSApp.orderFrontCharacterPalette(nil)
+    }
+
+    // MARK: NSTextInputClient (only for the Character Viewer; keys are handled in keyDown)
+
+    func insertText(_ string: Any, replacementRange: NSRange) {
+        let text = (string as? NSAttributedString)?.string ?? (string as? String) ?? ""
+        guard let emoji = text.trimmingCharacters(in: .whitespacesAndNewlines).first.map(String.init) else { return }
+        // For the selected emoji elements, or the next ones while the emoji tool is chosen.
+        guard selectedAnnotations.contains(where: { $0.kind == .emoji }) || tool == .emoji else {
+            NSSound.beep()
+            return
+        }
+        onPickEmoji?(emoji)
+    }
+
+    override func doCommand(by selector: Selector) {}
+    func setMarkedText(_ string: Any, selectedRange: NSRange, replacementRange: NSRange) {}
+    func unmarkText() {}
+    func selectedRange() -> NSRange { NSRange(location: 0, length: 0) }
+    func markedRange() -> NSRange { NSRange(location: NSNotFound, length: 0) }
+    func hasMarkedText() -> Bool { false }
+    func validAttributesForMarkedText() -> [NSAttributedString.Key] { [] }
+    func characterIndex(for point: NSPoint) -> Int { NSNotFound }
+
+    func attributedSubstring(forProposedRange range: NSRange, actualRange: NSRangePointer?) -> NSAttributedString? {
+        nil
+    }
+
+    /// Where the Character Viewer appears: next to the selected element.
+    func firstRect(forCharacterRange range: NSRange, actualRange: NSRangePointer?) -> NSRect {
+        let rect = selectedAnnotation.map { viewRect($0.bounds) } ?? visibleRect
+        guard let window else { return .zero }
+        return window.convertToScreen(convert(rect, to: nil))
     }
 
     // MARK: Edit menu
