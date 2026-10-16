@@ -7,6 +7,51 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Capture screen: the mouse pointer is in interactive captures when "Capture the mouse pointer" is on, and M shows or
+  hides it for one capture. An info panel (I: screen, selection, window, mouse), a preview of the selection (P: in a
+  corner, at the zoomer, off) and window details (D). The panels move out of the way of the mouse and the selection,
+  and the key, info, preview and zoomer choices are remembered.
+- Fixed-size capture (F) with the sizes from Settings › Capture and the last five region sizes: 1–9, PgUp/PgDn or
+  [ ] pick a size, C moves the area to another corner or the middle, edges snap to windows and screens unless ⌥ is
+  held.
+- Text capture (T): recognises the text on the screen (Vision); click a line or drag over words to copy the text.
+- QR codes on the capture screen get a frame; click one to copy what it says or open its link (Settings › Capture
+  turns it off).
+- Settings › Capture: what the full screen hotkey captures (the screen with the mouse, all screens, or one screen),
+  the text recognition language, and which messages are shown.
+- Editor: cut, copy, paste and duplicate elements (⌘X/⌘C/⌘V/⌘D); select several with Shift-click or Select All and
+  move, delete, arrange or restyle them together. ⌘C copies the image when no element is selected.
+- Editor: image elements: paste an image or drop image files onto the canvas; Shift keeps the aspect ratio while
+  resizing; optional shadow. Edit › Insert Window adds a capture of an open window the same way.
+- Editor: Object menu with the drawing tools and their one-letter shortcuts, Select All, Delete, Arrange (Bring to
+  Front ⇧⌘F, Bring Forward ⌥⇧⌘F, Send Backward ⌥⇧⌘B, Send to Back ⇧⌘B), Save Elements… and Load Elements…
+  (`.greenshot-elements` files).
+- Editor: cut mark element (K): a band across the image with straight, zig-zag, wavy or torn edges, a transparent or
+  filled gap, a shadow and an optional line.
+- Editor: font family and horizontal/vertical alignment for text and speech bubbles; counter start value and outline
+  width; shadow for freehand, highlight, obfuscate, counter, emoji and image elements; 2×/3×/4× for the magnifier.
+- Editor: any emoji through the system Character Viewer (double-click an emoji, or More Emoji…); zoom presets
+  25 %–600 % in the View menu; Close All (⌥⌘W).
+- Editor: Drop Shadow and Torn Edges ask for their settings (thickness, offset, darkness; edges, tooth size and
+  ranges, shadow) and remember them. Image menu shortcuts: ⌃⌘B border, ⌃⌘S drop shadow, ⌃⌘T torn edges, ⌃⌘G
+  grayscale, ⌃⌘I invert.
+- Editor: Resize (⌥⌘R, pixels or percent, aspect ratio kept), Rotate (⌥⌘→ / ⌥⌘←), Enlarge Canvas (⌥⌘=), Shrink
+  Canvas (⌥⌘−), Clear Background (⌘⌫), Remove Transparency, Auto Crop (⌥⌘A), crop to the selected rows or
+  columns, Adjust brightness/contrast/gamma. The elements move, scale and turn along.
+- Editor: Obfuscate Text… finds text with text recognition and pixelates, blurs, highlights or magnifies every match.
+- Print options before printing (colour, grayscale, black and white, inverted; a footer from a pattern; shrink,
+  enlarge, rotate, center), and a Settings › Printer tab.
+- New destinations: Email (⌘E), Share, Copy Text (OCR) (⌥⌘T), External commands (any program with the screenshot
+  as `{0}`, a URL from its output or all of it to the clipboard), Save as PDF (⌥⌘P; page size, margins, shrink or
+  fit), Open With (any app that opens images), QR code actions. All of them are in the destination menu, the
+  editor's File menu and Settings › Destinations.
+- Output: no-overwrite naming ("name (2)"), an optional JPEG quality prompt, reducing PNG/GIF to N colours, the
+  clipboard formats (PNG, TIFF, JPEG, HTML), and a message level.
+- Menu bar: Open Recent Capture, Quick Settings (mouse pointer, destinations, print options, sound, notifications),
+  and Open Image from Clipboard is disabled when there is nothing to open. Help: Greenshot Help and Report an Issue.
+- Settings: new Destinations, Editor, Printer and Expert tabs (Expert resets the `${NUM}` counter). Checks GitHub
+  for a new version every 14 days (adjustable, 0 = never), plus Check Now.
+
 - A Dock icon (and a place in ⌘Tab) while an editor or Settings is open; it goes away with the last window, while
   the menu bar icon stays until Quit. On by default, Settings › General › "Show in Dock while a window is open".
   Clicking the Dock icon shows the open screenshots or Settings. The menu bar icon keeps the place it is ⌘-dragged to.
@@ -25,6 +70,11 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- The Reuse editor, Suppress save dialog at close and Match size to capture settings take effect; with Match size
+  off the window keeps the last editor's frame.
+- Printing follows the Printer settings: a wide screenshot prints on portrait paper, shrunk to fit, unless "Rotate"
+  is on (before, it always printed landscape).
+- The "After a capture" destination switches moved from Settings › Output to Settings › Destinations.
 - The 28 pt font size is now 27 pt, the Mac size of the speech bubble's 20 pt on Windows.
 
 ### Fixed
