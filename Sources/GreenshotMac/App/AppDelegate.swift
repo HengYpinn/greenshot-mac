@@ -6,7 +6,7 @@ import AppKit
 import GreenshotCore
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     let settings = SettingsStore()
     private(set) lazy var saver = ImageSaver(settings: settings)
     private(set) lazy var editors = EditorManager(settings: settings, saver: saver)
@@ -123,6 +123,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc func openClipboard(_ sender: Any?) {
         editors.openClipboard()
+    }
+
+    /// The screenshot of the editor window in front, with the window, for the File menu's destinations.
+    var frontEditor: (capture: Capture, window: NSWindow)? {
+        guard let window = NSApp.keyWindow ?? NSApp.mainWindow,
+              let editor = window.windowController as? EditorWindowController else { return nil }
+        let document = editor.editorDocument
+        let capture = Capture(image: document.flattened(), scale: document.scale, title: document.title, date: document.captureDate)
+        return (capture, window)
+    }
+
+    /// File menu entries of the destinations: the item's `representedObject` is a `DestinationTargetBox`.
+    @objc func sendToDestination(_ sender: NSMenuItem) {
+        guard let box = sender.representedObject as? DestinationTargetBox, let front = frontEditor else { return }
+        output.perform(box.target, with: front.capture, window: front.window)
+    }
+
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.action == #selector(sendToDestination(_:)) {
+            let window = NSApp.keyWindow ?? NSApp.mainWindow
+            return window?.windowController is EditorWindowController
+        }
+        return true
     }
 
     @objc func openUpstreamWebsite(_ sender: Any?) {

@@ -21,6 +21,16 @@ extension MainMenu {
         let copyImage = file.addItem(withTitle: "Copy Image to Clipboard", action: #selector(EditorWindowController.copyImage(_:)), keyEquivalent: "c")
         copyImage.keyEquivalentModifierMask = [.command, .shift]
         file.addItem(withTitle: "Print…", action: #selector(EditorWindowController.printImage(_:)), keyEquivalent: "p")
+        file.addItem(.separator())
+        file.addItem(destinationItem("Email…", .destination(.email), key: "e"))
+    }
 
+    /// A File menu entry that sends the front editor's screenshot to a destination (see `AppDelegate.sendToDestination`).
+    static func destinationItem(_ title: String, _ target: DestinationTarget, key: String = "",
+                                modifiers: NSEvent.ModifierFlags = .command) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: #selector(AppDelegate.sendToDestination(_:)), keyEquivalent: key)
+        item.keyEquivalentModifierMask = modifiers
+        item.representedObject = DestinationTargetBox(target)
+        return item
     }
 }

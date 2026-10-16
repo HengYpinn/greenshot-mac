@@ -18,11 +18,15 @@ final class ImageSaver {
 
     /// The file "Save directly" writes to: the output folder plus the filled filename pattern.
     func defaultURL(title: String, date: Date, format: ImageFormat? = nil) -> URL {
+        defaultURL(title: title, date: date, fileExtension: (format ?? settings.value.outputFormat).fileExtension)
+    }
+
+    /// The same for any extension (e.g. "pdf").
+    func defaultURL(title: String, date: Date, fileExtension: String) -> URL {
         let s = settings.value
         let name = FilenamePattern.fileName(s.filenamePattern, context: settings.patternContext(title: title, date: date))
-        let ext = (format ?? s.outputFormat).fileExtension
         let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : s.outputFolderURL.appendingPathComponent(name)
-        return base.appendingPathExtension(ext)
+        return base.appendingPathExtension(fileExtension)
     }
 
     /// Upstream's "Save directly": no dialog. Returns the file, or nil after showing the error.
@@ -79,15 +83,20 @@ final class ImageSaver {
         }
     }
 
+    /// Records the file for "Open Recent Capture" and says where it went.
     func notifySaved(_ url: URL) {
+        settings.update { $0.lastSavedFile = url.path }
         let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
         notify("Saved \(url.lastPathComponent)", detail: "\(folder) – click to show in Finder") {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }
     }
 
-    func notify(_ message: String, detail: String? = nil, action: (() -> Void)? = nil) {
-        guard settings.value.showNotifications else { return }
+    /// A toast, filtered by Settings › Output › Messages. "Show a message after saving or copying" turns off the
+    /// information ones only; warnings and errors follow the message level alone.
+    func notify(_ message: String, detail: String? = nil, kind: MessageKind = .info, action: (() -> Void)? = nil) {
+        let s = settings.value
+        guard s.notificationLevel.shows(kind), kind != .info || s.showNotifications else { return }
         Toast.show(message, detail: detail, action: action)
     }
 }

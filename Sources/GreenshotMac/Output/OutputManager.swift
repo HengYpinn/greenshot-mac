@@ -6,11 +6,31 @@
 import AppKit
 import GreenshotCore
 
-/// Sends a capture to the configured destinations, or asks with upstream's destination picker menu.
+/// Where one menu entry sends a capture: a destination, or one of the entries some destinations have per item
+/// (upstream has a destination object per external command and per Office application).
+enum DestinationTarget: Equatable {
+    case destination(CaptureDestination)
+    /// "Save as PDF…": asks for the file name (the `.pdf` destination saves directly).
+    case pdfAs
+    case externalCommand(ExternalCommand)
+    case application(URL)
+}
+
+/// A `DestinationTarget` as a menu item's `representedObject`.
+final class DestinationTargetBox: NSObject {
+    let target: DestinationTarget
+
+    init(_ target: DestinationTarget) {
+        self.target = target
+    }
+}
+
+/// Sends a capture to the configured destinations, or asks with upstream's destination picker menu
+/// (`Greenshot/Destinations/PickerDestination.cs`).
 @MainActor
 final class OutputManager {
-    private let settings: SettingsStore
-    private let saver: ImageSaver
+    let settings: SettingsStore
+    let saver: ImageSaver
     private let editors: EditorManager
 
     init(settings: SettingsStore, saver: ImageSaver, editors: EditorManager) {
@@ -28,7 +48,21 @@ final class OutputManager {
         }
     }
 
-    func perform(_ destination: CaptureDestination, with capture: Capture) {
+    /// `window` is the editor the capture comes from, if any (dialogs and the share menu attach to it).
+    func perform(_ target: DestinationTarget, with capture: Capture, window: NSWindow? = nil) {
+        switch target {
+        case .destination(let destination):
+            perform(destination, with: capture, window: window)
+        case .pdfAs:
+            break
+        case .externalCommand:
+            break
+        case .application:
+            break
+        }
+    }
+
+    func perform(_ destination: CaptureDestination, with capture: Capture, window: NSWindow? = nil) {
         switch destination {
         case .picker:
             showPicker(for: capture)
@@ -42,11 +76,30 @@ final class OutputManager {
         case .fileAs:
             saver.saveAs(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
         case .printer:
-            Printing.print(capture.image, scale: capture.scale, window: nil, title: capture.title, date: capture.date)
-        case .email, .share, .ocr, .externalCommand, .pdf, .openWith, .qrCode:
-            // Implemented by the destinations work stream.
+            Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date)
+        case .email:
+            EmailDestination.send(capture, settings: settings, saver: saver)
+        case .share, .ocr, .externalCommand, .pdf, .openWith, .qrCode:
             ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")
         }
+    }
+
+    /// The menu entries of every destination, for the picker (upstream's order: editor, files, clipboard, the rest).
+    func pickerItems(for capture: Capture) -> [NSMenuItem] {
+        let folder = (settings.value.outputFolderURL.path as NSString).abbreviatingWithTildeInPath
+        var items: [NSMenuItem] = []
+        func add(_ title: String, _ target: DestinationTarget) {
+            // NSMenu sends the action after it has closed, so dialogs and windows open normally, and before
+            // popUp returns, so the caller sees an opened editor when it decides where the focus goes.
+            items.append(ClosureMenuItem(title: title) { [weak self] in self?.perform(target, with: capture) })
+        }
+        add("Open in Image Editor", .destination(.editor))
+        add("Save Directly (\(folder))", .destination(.file))
+        add("Save As…", .destination(.fileAs))
+        add("Copy to Clipboard", .destination(.clipboard))
+        add("Print…", .destination(.printer))
+        add("Email…", .destination(.email))
+        return items
     }
 
     /// The menu at the mouse that asks where the capture goes.
@@ -57,21 +110,14 @@ final class OutputManager {
         header.isEnabled = false
         menu.addItem(header)
         menu.addItem(.separator())
-        let folder = (settings.value.outputFolderURL.path as NSString).abbreviatingWithTildeInPath
-        let choices: [(CaptureDestination, String)] = [
-            (.editor, "Open in Image Editor"),
-            (.file, "Save Directly (\(folder))"),
-            (.fileAs, "Save As…"),
-            (.clipboard, "Copy to Clipboard"),
-            (.printer, "Print…"),
-        ]
-        for (destination, title) in choices {
-            // NSMenu sends the action after it has closed, so dialogs and windows open normally, and before
-            // popUp returns, so the caller sees an opened editor when it decides where the focus goes.
-            menu.addItem(ClosureMenuItem(title: title) { [weak self] in self?.perform(destination, with: capture) })
-        }
+        pickerItems(for: capture).forEach(menu.addItem)
         menu.addItem(.separator())
         menu.addItem(ClosureMenuItem(title: "Discard") {})
+        popUp(menu)
+    }
+
+    /// Shows a menu at the mouse.
+    func popUp(_ menu: NSMenu) {
         // Activating (for keyboard navigation in the menu) while an editor window is open could switch to that
         // window's Space, away from where the user captured; the menu works with the mouse without it.
         if !NSApp.windows.contains(where: { $0.isVisible && $0.canBecomeMain }) {

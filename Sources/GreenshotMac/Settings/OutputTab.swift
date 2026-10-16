@@ -7,25 +7,12 @@ import AppKit
 import GreenshotCore
 import SwiftUI
 
-/// Settings › Output (upstream's Output and Destination tabs).
+/// Settings › Output (upstream's Output tab); where captures go is in Settings › Destinations.
 struct OutputSettings: View {
     @ObservedObject var store: SettingsStore
-    private static let others: [CaptureDestination] = [.editor, .clipboard, .file, .fileAs, .printer]
 
     var body: some View {
         Form {
-            Section {
-                Toggle("Ask every time (destination menu)", isOn: destination(.picker))
-                // Never disabled: with the menu on and nothing else chosen, there would be no way to switch.
-                ForEach(Self.others, id: \.self) { candidate in
-                    Toggle(candidate.displayName, isOn: destination(candidate))
-                }
-            } header: {
-                Text("After a capture")
-            } footer: {
-                Text("Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.")
-                    .font(.caption).foregroundStyle(.secondary)
-            }
             Section("Files") {
                 LabeledContent("Folder") {
                     HStack {
@@ -60,13 +47,6 @@ struct OutputSettings: View {
         let name = FilenamePattern.fill(store.value.filenamePattern,
                                         context: store.patternContext(title: "Safari", date: Date(), consumeNumber: false))
         return "\(name).\(store.value.outputFormat.fileExtension)"
-    }
-
-    /// "Ask every time" excludes the others, like upstream's picker; without any destination it comes back.
-    private func destination(_ candidate: CaptureDestination) -> Binding<Bool> {
-        Binding(
-            get: { store.value.destinations.contains(candidate) },
-            set: { on in store.update { $0.setDestination(candidate, on: on) } })
     }
 
     private func chooseFolder() {
