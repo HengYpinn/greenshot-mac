@@ -23,7 +23,8 @@ extension EditorWindowController {
             item.tag = index
             effects.menu?.addItem(item)
         }
-        return [effects]
+        let resize = imageButton("arrow.up.left.and.arrow.down.right", "Resize the image (⌥⌘R)", #selector(resizeImage(_:)))
+        return [effects, resize]
     }
 
     // MARK: Effects
@@ -64,7 +65,28 @@ extension EditorWindowController {
         performImageOperation { $0.apply(effect, dropShadow: shadow, tornEdge: torn) }
     }
 
+    // MARK: Resize
+
+    /// Upstream's Resize button ("Z"): asks for the new size, then scales the image and its elements' positions.
+    @objc func resizeImage(_ sender: Any?) {
+        let form = ResizeForm(size: editorDocument.imageSize)
+        EffectSettingsDialog.run(title: "Resize", message: "The new size of the image. The elements move along.",
+                                 content: form.view, owner: form, okTitle: "Resize", for: window) { [weak self] in
+            guard let size = form.size else { NSSound.beep(); return }
+            self?.performImageOperation { $0.resizeImage(to: size) }
+        }
+    }
+
     // MARK: Helpers
+
+    /// A toolbar button with an SF Symbol, like the editor's other icon buttons.
+    func imageButton(_ symbol: String, _ tooltip: String, _ action: Selector) -> NSButton {
+        let button = NSButton(image: NSImage(systemSymbolName: symbol, accessibilityDescription: tooltip) ?? NSImage(),
+                              target: self, action: action)
+        button.bezelStyle = .toolbar
+        button.toolTip = tooltip
+        return button
+    }
 
     /// Runs `operation` on the document as one undo step and shows the result. Returns what the operation returned.
     @discardableResult
