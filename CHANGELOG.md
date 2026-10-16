@@ -48,6 +48,9 @@ All notable changes to this project are documented here. The format follows
 - The editor no longer opens wider than the screen.
 - The capture screen appears right away over the app in front, also a full screen one, instead of waiting on
   another Space until Greenshot was clicked in the Dock (it happened while an editor window was open).
+- Retina screenshots keep their size when saved or copied: the files carry 144 dpi and the clipboard image its
+  point size, so Preview, other apps and the editor (File › Open, drag onto the app) show them at their real size,
+  and annotations added after reopening have the right line thickness and font size.
 
 ## [0.1.0] - 2026-10-16
 

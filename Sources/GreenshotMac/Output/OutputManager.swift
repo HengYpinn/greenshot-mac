@@ -35,12 +35,12 @@ final class OutputManager {
         case .editor:
             editors.open(capture)
         case .clipboard:
-            Clipboard.copy(capture.image)
+            Clipboard.copy(capture.image, scale: capture.scale)
             saver.notify("Copied to the clipboard")
         case .file:
-            saver.saveDirectly(capture.image, title: capture.title, date: capture.date)
+            saver.saveDirectly(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
         case .fileAs:
-            saver.saveAs(capture.image, title: capture.title, date: capture.date)
+            saver.saveAs(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
         case .printer:
             Printing.print(capture.image, scale: capture.scale, window: nil)
         }

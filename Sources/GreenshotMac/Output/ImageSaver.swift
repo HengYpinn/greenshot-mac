@@ -27,9 +27,9 @@ final class ImageSaver {
 
     /// Upstream's "Save directly": no dialog. Returns the file, or nil after showing the error.
     @discardableResult
-    func saveDirectly(_ image: CGImage, title: String, date: Date) -> URL? {
+    func saveDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date) -> URL? {
         let url = defaultURL(title: title, date: date)
-        guard write(image, to: url) else { return nil }
+        guard write(image, scale: scale, to: url) else { return nil }
         let s = settings.value
         if s.copyPathToClipboard && !s.destinations.contains(.clipboard) {
             Clipboard.copy(text: url.path)
@@ -40,7 +40,7 @@ final class ImageSaver {
 
     /// Asks for a file name and format. Returns the file, or nil when cancelled or failed.
     @discardableResult
-    func saveAs(_ image: CGImage, title: String, date: Date, suggestedURL: URL? = nil) -> URL? {
+    func saveAs(_ image: CGImage, scale: CGFloat, title: String, date: Date, suggestedURL: URL? = nil) -> URL? {
         let s = settings.value
         let writable = suggestedURL.flatMap { ImageFormat(fileExtension: $0.pathExtension) }
         let initialFormat = writable ?? s.outputFormat
@@ -60,17 +60,18 @@ final class ImageSaver {
         NSApp.activate()
         guard panel.runModal() == .OK, let url = panel.url else { return nil }
         let format = ImageFormat(fileExtension: url.pathExtension) ?? accessory.format
-        guard write(image, to: url, format: format) else { return nil }
+        guard write(image, scale: scale, to: url, format: format) else { return nil }
         notifySaved(url)
         return url
     }
 
+    /// `scale` is the pixels per point, written as the file's resolution so it opens at its real size.
     @discardableResult
-    func write(_ image: CGImage, to url: URL, format: ImageFormat? = nil) -> Bool {
+    func write(_ image: CGImage, scale: CGFloat, to url: URL, format: ImageFormat? = nil) -> Bool {
         let s = settings.value
         let format = format ?? ImageFormat(fileExtension: url.pathExtension) ?? s.outputFormat
         do {
-            try ImageExporter.write(image, to: url, format: format, quality: s.jpegQuality)
+            try ImageExporter.write(image, to: url, format: format, quality: s.jpegQuality, scale: scale)
             return true
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be saved")

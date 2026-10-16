@@ -451,10 +451,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         }
         let image = editorDocument.flattened()
         if let url = editorDocument.fileURL {
-            guard saver.write(image, to: url) else { return false }
+            guard saver.write(image, scale: editorDocument.scale, to: url) else { return false }
             saver.notifySaved(url)
         } else {
-            guard let url = saver.saveDirectly(image, title: editorDocument.title, date: editorDocument.captureDate) else { return false }
+            guard let url = saver.saveDirectly(image, scale: editorDocument.scale, title: editorDocument.title, date: editorDocument.captureDate) else { return false }
             editorDocument.fileURL = url
         }
         editorDocument.markSaved()
@@ -464,8 +464,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
 
     @objc func saveImageAs(_ sender: Any?) {
         canvas.commitEditing()
-        guard let url = saver.saveAs(editorDocument.flattened(), title: editorDocument.title, date: editorDocument.captureDate,
-                                     suggestedURL: editorDocument.fileURL) else { return }
+        guard let url = saver.saveAs(editorDocument.flattened(), scale: editorDocument.scale, title: editorDocument.title,
+                                     date: editorDocument.captureDate, suggestedURL: editorDocument.fileURL) else { return }
         editorDocument.fileURL = url
         editorDocument.markSaved()
         refreshDocumentState()
@@ -473,7 +473,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
 
     @objc func copyImage(_ sender: Any?) {
         canvas.commitEditing()
-        Clipboard.copy(editorDocument.flattened())
+        Clipboard.copy(editorDocument.flattened(), scale: editorDocument.scale)
         editorDocument.markSaved()
         refreshDocumentState()
         saver.notify("Copied to the clipboard")

@@ -30,8 +30,9 @@ enum Snapshots {
         for (index, name) in ["general", "capture", "output"].enumerated() {
             try write(settingsTab(index, settings: settings), to: folder.appendingPathComponent("settings-\(name).png"))
         }
-        if let flattened = editorDocument?.flattened() {
-            try ImageExporter.write(flattened, to: folder.appendingPathComponent("editor-export.png"), format: .png)
+        if let editorDocument {
+            try ImageExporter.write(editorDocument.flattened(), to: folder.appendingPathComponent("editor-export.png"), format: .png,
+                                    scale: editorDocument.scale)
         }
     }
 

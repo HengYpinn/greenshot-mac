@@ -107,6 +107,17 @@ struct ImageExporterTests {
         #expect(TestImage.pixel(decoded, 30, 10) == .blue)
     }
 
+    @Test func retinaScaleIsWrittenAsResolution() throws {
+        for format in [ImageFormat.png, .jpg, .tiff] {
+            let data = try ImageExporter.data(for: image, format: format, scale: 2)
+            let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
+            let properties = try #require(CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any])
+            // PNG stores pixels per metre, so the value read back may be a hair off 144.
+            let dpi = try #require(properties[kCGImagePropertyDPIWidth] as? NSNumber).doubleValue
+            #expect(dpi.rounded() == 144, "\(format)")
+        }
+    }
+
     @Test func jpegIsJpeg() throws {
         let data = try ImageExporter.data(for: image, format: .jpg, quality: 50)
         #expect(data.prefix(2) == Data([0xFF, 0xD8]))

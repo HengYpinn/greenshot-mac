@@ -59,14 +59,18 @@ public enum ImageExportError: Error, LocalizedError {
 }
 
 public enum ImageExporter {
-    /// `quality` is 0–100 and only used for JPEG.
-    public static func data(for image: CGImage, format: ImageFormat, quality: Int = 80) throws -> Data {
+    /// `quality` is 0–100 and only used for JPEG. `scale` is the capture's pixels per point: it is written as the
+    /// resolution (72 dpi × scale, so 144 dpi for Retina), which is how `ImageLoader` and Preview find the real size.
+    public static func data(for image: CGImage, format: ImageFormat, quality: Int = 80, scale: CGFloat = 1) throws -> Data {
         let data = NSMutableData()
         guard let destination = CGImageDestinationCreateWithData(data, format.utType.identifier as CFString, 1, nil) else {
             throw ImageExportError.encodingFailed(format)
         }
         let source = format.supportsAlpha ? image : (opaque(image) ?? image)
-        var properties: [CFString: Any] = [:]
+        var properties: [CFString: Any] = [
+            kCGImagePropertyDPIWidth: 72 * scale,
+            kCGImagePropertyDPIHeight: 72 * scale,
+        ]
         if format == .jpg {
             properties[kCGImageDestinationLossyCompressionQuality] = Double(min(max(quality, 1), 100)) / 100
         }
@@ -76,8 +80,8 @@ public enum ImageExporter {
     }
 
     /// Writes the image, creating missing folders on the way.
-    public static func write(_ image: CGImage, to url: URL, format: ImageFormat, quality: Int = 80) throws {
-        let encoded = try data(for: image, format: format, quality: quality)
+    public static func write(_ image: CGImage, to url: URL, format: ImageFormat, quality: Int = 80, scale: CGFloat = 1) throws {
+        let encoded = try data(for: image, format: format, quality: quality, scale: scale)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try encoded.write(to: url, options: .atomic)
     }

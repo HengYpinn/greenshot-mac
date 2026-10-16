@@ -7,9 +7,12 @@ import ImageIO
 
 @MainActor
 enum Clipboard {
-    /// Puts the image on the clipboard as PNG and TIFF (upstream writes PNG and DIB).
-    static func copy(_ image: CGImage) {
+    /// Puts the image on the clipboard as PNG and TIFF (upstream writes PNG and DIB). `scale` is the pixels per
+    /// point: it sets the point size, so other apps paste a Retina capture at its real size and `image()` reads
+    /// the scale back.
+    static func copy(_ image: CGImage, scale: CGFloat) {
         let rep = NSBitmapImageRep(cgImage: image)
+        rep.size = NSSize(width: CGFloat(image.width) / scale, height: CGFloat(image.height) / scale)
         let item = NSPasteboardItem()
         if let png = rep.representation(using: .png, properties: [:]) { item.setData(png, forType: .png) }
         if let tiff = rep.tiffRepresentation { item.setData(tiff, forType: .tiff) }
