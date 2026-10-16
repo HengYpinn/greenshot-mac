@@ -18,6 +18,11 @@ All notable changes to this project are documented here. The format follows
 
 - The 28 pt font size is now 27 pt, the Mac size of the speech bubble's 20 pt on Windows.
 
+### Fixed
+
+- The capture screen appears right away over the app in front, also a full screen one, instead of waiting on
+  another Space until Greenshot was clicked in the Dock (it happened while an editor window was open).
+
 ## [0.1.0] - 2026-10-16
 
 ### Added

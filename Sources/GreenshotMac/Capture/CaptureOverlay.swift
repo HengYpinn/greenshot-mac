@@ -80,9 +80,11 @@ final class CaptureOverlayController {
             finish(nil)
             return
         }
-        NSApp.activate()
+        // No NSApp.activate(): since macOS 14 another app may refuse to give up the focus, and activating can switch
+        // to the Space of an open editor. The panels show over the current app, even a full screen one, and take
+        // the mouse and keys without activating this app.
         overlayWindows.forEach { $0.orderFrontRegardless() }
-        (overlayWindows.first { $0.frozen.frame.contains(cursor) } ?? overlayWindows[0]).makeKey()
+        (overlayWindows.first { $0.frozen.frame.contains(cursor) } ?? overlayWindows[0]).makeKeyAndOrderFront(nil)
         NSCursor.crosshair.set()
         updateSelection()
     }
@@ -260,8 +262,9 @@ final class CaptureOverlayController {
     }
 }
 
-/// One display's part of the capture screen.
-final class OverlayWindow: NSWindow {
+/// One display's part of the capture screen. A non-activating panel: macOS lets those float over every app,
+/// including one in full screen, also while an editor window makes this a regular (Dock) app.
+final class OverlayWindow: NSPanel {
     let frozen: FrozenScreen
     let marksView: OverlayMarksView
 
@@ -270,8 +273,13 @@ final class OverlayWindow: NSWindow {
         self.frozen = frozen
         let size = screen.frame.size
         marksView = OverlayMarksView(frame: NSRect(origin: .zero, size: size), frozen: frozen, controller: controller)
-        super.init(contentRect: screen.frame, styleMask: .borderless, backing: .buffered, defer: false)
+        // .nonactivatingPanel has to be set here: changing it after init doesn't take effect.
+        super.init(contentRect: screen.frame, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         setFrame(screen.frame, display: false)
+        isFloatingPanel = true
+        hidesOnDeactivate = false
+        becomesKeyOnlyIfNeeded = false
+        worksWhenModal = true
         level = .screenSaver
         isOpaque = true
         backgroundColor = .black

@@ -69,7 +69,11 @@ final class OutputManager {
         }
         menu.addItem(.separator())
         menu.addItem(ClosureMenuItem(title: "Discard") {})
-        NSApp.activate()
+        // Activating (for keyboard navigation in the menu) while an editor window is open could switch to that
+        // window's Space, away from where the user captured; the menu works with the mouse without it.
+        if !NSApp.windows.contains(where: { $0.isVisible && $0.canBecomeMain }) {
+            NSApp.activate()
+        }
         menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
     }
 }
