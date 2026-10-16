@@ -75,8 +75,9 @@ struct SettingsView: View {
         CaptureSettings(store: store).tabItem { Label("Capture", systemImage: "camera.viewfinder") }.tag(1)
         OutputSettings(store: store).tabItem { Label("Output", systemImage: "square.and.arrow.down") }.tag(2)
         DestinationsSettings(store: store).tabItem { Label("Destinations", systemImage: "paperplane") }.tag(3)
-        PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(4)
-        ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(5)
+        EditorSettings(store: store).tabItem { Label("Editor", systemImage: "pencil.and.outline") }.tag(4)
+        PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(5)
+        ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(6)
     }
 }
 
