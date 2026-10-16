@@ -32,6 +32,14 @@ public enum Geometry {
         return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     }
 
+    /// A rectangle in pixels of one display's image (origin top left) in global points, for a display at `origin`
+    /// with `scale` pixels per point. Used for the text lines and QR codes found on the frozen screens.
+    public static func globalRect(fromPixels rect: CGRect, scale: CGFloat, origin: CGPoint) -> CGRect {
+        let scale = max(scale, 0.001)
+        return CGRect(x: origin.x + rect.minX / scale, y: origin.y + rect.minY / scale,
+                      width: rect.width / scale, height: rect.height / scale)
+    }
+
     /// Moves `end` so the rectangle from `start` becomes a square (Shift while drawing a rectangle or ellipse).
     public static func squareEnd(from start: CGPoint, to end: CGPoint) -> CGPoint {
         let dx = end.x - start.x

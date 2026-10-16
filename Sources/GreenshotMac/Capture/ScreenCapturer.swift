@@ -13,6 +13,9 @@ struct Capture {
     var scale: CGFloat
     var title: String
     var date = Date()
+    /// The text mode of the capture screen: the recognised text. A capture with text goes to the clipboard as text,
+    /// not to the destinations; `image` is then the picture of the selected words.
+    var text: String? = nil
 }
 
 /// A normal on-screen window of another app.
@@ -82,20 +85,40 @@ enum ScreenCapturer {
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         var screens: [FrozenScreen] = []
         for display in content.displays {
-            let filter = SCContentFilter(display: display, excludingWindows: [])
-            let scale = CGFloat(filter.pointPixelScale)
-            let configuration = SCStreamConfiguration()
-            configuration.width = Int((filter.contentRect.width * scale).rounded())
-            configuration.height = Int((filter.contentRect.height * scale).rounded())
-            configuration.showsCursor = showsCursor
-            configuration.captureResolution = .best
-            configuration.colorSpaceName = CGColorSpace.sRGB
-            let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
-            screens.append(FrozenScreen(displayID: display.displayID, frame: CGDisplayBounds(display.displayID),
-                                        scale: scale, image: image))
+            screens.append(try await screenshot(of: display, showsCursor: showsCursor))
         }
         guard !screens.isEmpty else { throw CaptureError.nothingToCapture }
         return screens
+    }
+
+    /// Every display twice at the same moment, without and with the mouse pointer, so the capture screen can switch
+    /// between them (M) after the picture was taken.
+    static func freezeScreensWithAndWithoutPointer() async throws -> (plain: [FrozenScreen], pointer: [FrozenScreen]) {
+        let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+        var plain: [FrozenScreen] = []
+        var pointer: [FrozenScreen] = []
+        for display in content.displays {
+            async let without = screenshot(of: display, showsCursor: false)
+            async let with = screenshot(of: display, showsCursor: true)
+            let pair = try await (without, with)
+            plain.append(pair.0)
+            pointer.append(pair.1)
+        }
+        guard !plain.isEmpty else { throw CaptureError.nothingToCapture }
+        return (plain, pointer)
+    }
+
+    private static func screenshot(of display: SCDisplay, showsCursor: Bool) async throws -> FrozenScreen {
+        let filter = SCContentFilter(display: display, excludingWindows: [])
+        let scale = CGFloat(filter.pointPixelScale)
+        let configuration = SCStreamConfiguration()
+        configuration.width = Int((filter.contentRect.width * scale).rounded())
+        configuration.height = Int((filter.contentRect.height * scale).rounded())
+        configuration.showsCursor = showsCursor
+        configuration.captureResolution = .best
+        configuration.colorSpaceName = CGColorSpace.sRGB
+        let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
+        return FrozenScreen(displayID: display.displayID, frame: CGDisplayBounds(display.displayID), scale: scale, image: image)
     }
 
     /// One window on its own, including the parts other windows cover.

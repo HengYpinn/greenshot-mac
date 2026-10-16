@@ -7,27 +7,63 @@ import AppKit
 import Carbon.HIToolbox
 import GreenshotCore
 
+/// What a click on a QR code's menu on the capture screen asks for.
+enum BarcodeAction: Equatable {
+    case copy(String)
+    case open(URL)
+}
+
 /// What the user picked on the capture screen.
 struct OverlaySelection {
     /// Quartz global points.
     var rect: CGRect
     var window: WindowInfo?
+    /// The text mode: the recognised text of the selected line or words.
+    var text: String?
+    /// The fixed-size mode: the size (in pixels) that was used.
+    var fixedSize: CaptureSize?
+    /// Whether the picture with the mouse pointer (M) is to be cropped.
+    var includesPointer = false
+    /// A QR code's menu was used: nothing is captured.
+    var barcodeAction: BarcodeAction?
+    var mode: CaptureOverlayController.Mode = .region
 }
 
-/// The capture screen (upstream `CaptureWindow`): the frozen picture of every display, where the user selects
-/// a region or a window. One borderless window per display; this controller holds the state they share.
+/// The capture screen (upstream `Greenshot/Capturing/Views/CaptureWindow.xaml.cs`): the frozen picture of every
+/// display, where the user selects a region, a window, a fixed size area or text. One borderless window per
+/// display; this controller holds the state they share.
 ///
-/// Keys, as in upstream's capture user guide: Space switches region/window mode, Enter starts and finishes
-/// a keyboard selection, the arrow keys move the cursor one pixel (⌃ or ⌘: ten), Shift keeps a drag to one
-/// direction, Z shows or hides the zoomer, H or F1 the help, Esc cancels.
+/// Keys, as in upstream's capture user guide: Space switches region/window mode (from fixed size or text: back to
+/// region), F the fixed-size mode, T the text mode, Enter starts and finishes a keyboard selection, the arrow keys
+/// move the cursor one pixel (⌃ or ⌘: ten), Shift keeps a drag to one direction, M shows or hides the mouse pointer
+/// in the capture, Z the zoomer, H or F1 the keys, I the info, P moves the preview of the selection (corner, at the
+/// zoomer, off), D the window details, Esc cancels. In the fixed-size mode 1–9, PgUp/PgDn (or [ and ]) pick the
+/// size, C the corner the mouse holds, ⌥ places it without snapping.
 @MainActor
 final class CaptureOverlayController {
-    enum Mode { case region, window }
+    enum Mode { case region, window, fixedSize, text }
+    enum PreviewPlacement { case corner, zoomer, off }
     private enum Axis { case horizontal, vertical }
 
     private static var active: CaptureOverlayController?
 
     /// Shows the capture screen and returns the selection, or nil when it was cancelled.
+    /// `screens` is the picture without the mouse pointer, `pointerScreens` the one with it (for M).
+    static func select(screens: [FrozenScreen], pointerScreens: [FrozenScreen]?, windows: [WindowInfo], mode: Mode,
+                       settings: SettingsStore) async -> OverlaySelection? {
+        await withCheckedContinuation { continuation in
+            let controller = CaptureOverlayController(
+                screens: screens, windows: windows, mode: mode, zoomer: settings.value.zoomerEnabled, settings: settings,
+                pointerScreens: pointerScreens, pointerVisible: settings.value.captureMousePointer && pointerScreens != nil
+            ) {
+                continuation.resume(returning: $0)
+            }
+            active = controller
+            controller.show()
+        }
+    }
+
+    /// Shows the capture screen without settings (the mouse pointer can't be toggled).
     static func select(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool) async -> OverlaySelection? {
         await withCheckedContinuation { continuation in
             let controller = CaptureOverlayController(screens: screens, windows: windows, mode: mode, zoomer: zoomer) {
@@ -38,29 +74,75 @@ final class CaptureOverlayController {
         }
     }
 
-    let screens: [FrozenScreen]
+    /// The frozen displays as shown now: with or without the mouse pointer.
+    var screens: [FrozenScreen] { pointerVisible ? (pointerScreens ?? plainScreens) : plainScreens }
+    let plainScreens: [FrozenScreen]
+    let pointerScreens: [FrozenScreen]?
     let windows: [WindowInfo]
+    let settings: SettingsStore?
     private(set) var mode: Mode
     private(set) var zoomerVisible: Bool
-    private(set) var helpVisible = true
+    private(set) var helpVisible: Bool
+    private(set) var infoVisible: Bool
+    private(set) var previewPlacement: PreviewPlacement
+    private(set) var pointerVisible: Bool
+    private(set) var windowDetailsVisible = false
     private(set) var cursor: CGPoint = .zero
     /// Where the selection started (mouse down, or the first Enter).
     private(set) var anchor: CGPoint?
     /// The rectangle that would be captured now, Quartz global points.
     private(set) var selection: CGRect?
+    /// The window mode's window.
     private(set) var hoveredWindow: WindowInfo?
+    /// The front window under the mouse, in every mode (for the info and for snapping).
+    private(set) var windowUnderCursor: WindowInfo?
+
+    // Fixed size
+    private(set) var fixedSizes: [FixedSizeEntry]
+    private(set) var fixedSizeIndex: Int
+    private(set) var fixedAnchor: FixedCaptureAnchor
+
+    // Text and QR codes (CaptureOverlayAnalysis.swift)
+    let ocrLanguage: String
+    let scanBarcodes: Bool
+    /// The recognised lines in global points; nil until the text mode ran the recognition.
+    var textLines: [RecognizedLine]?
+    var recognizingText = false
+    private(set) var hoveredLine: RecognizedLine?
+    /// The QR codes found on the frozen displays, in global points.
+    var barcodes: [DetectedBarcode] = []
+    private(set) var hoveredBarcode: DetectedBarcode?
+    /// The menu of a clicked QR code.
+    var barcodeMenu: BarcodeMenu?
+
     private var shiftStart: CGPoint?
     private var shiftAxis: Axis?
     private var overlayWindows: [OverlayWindow] = []
     private let completion: (OverlaySelection?) -> Void
-    private var finished = false
+    private(set) var finished = false
+    private var previewCache: (rect: CGRect, pointer: Bool, image: CGImage, scale: CGFloat)?
 
-    init(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool,
-                 completion: @escaping (OverlaySelection?) -> Void) {
-        self.screens = screens
+    init(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool, settings: SettingsStore? = nil,
+         pointerScreens: [FrozenScreen]? = nil, pointerVisible: Bool = false,
+         completion: @escaping (OverlaySelection?) -> Void) {
+        let values = settings?.value ?? AppSettings()
+        self.plainScreens = screens
+        self.pointerScreens = pointerScreens
+        self.pointerVisible = pointerVisible && pointerScreens != nil
         self.windows = windows
+        self.settings = settings
         self.mode = mode
         self.zoomerVisible = zoomer
+        self.helpVisible = values.captureHelpVisible
+        self.infoVisible = values.captureInfoVisible
+        self.previewPlacement = values.captureSelectionPreviewVisible ? .corner : .off
+        let sizes = FixedSizeCapture.sizes(configured: values.fixedCaptureSizes, recent: values.recentCaptureSizes)
+        self.fixedSizes = sizes
+        // The mode starts with the size used last time.
+        self.fixedSizeIndex = values.fixedCaptureSize.flatMap { size in sizes.firstIndex { $0.size == size } } ?? 0
+        self.fixedAnchor = values.fixedCaptureAnchor
+        self.ocrLanguage = values.ocrLanguage
+        self.scanBarcodes = values.scanQRCodesOnCapture
         self.completion = completion
     }
 
@@ -68,6 +150,19 @@ final class CaptureOverlayController {
 
     func screen(at point: CGPoint) -> FrozenScreen? {
         screens.first { $0.frame.contains(point) }
+    }
+
+    /// The display with the mouse, or the nearest one.
+    var cursorScreen: FrozenScreen? {
+        guard !screens.isEmpty else { return nil }
+        return screens[CaptureScreenChoice.screen(at: cursor, frames: screens.map(\.frame))]
+    }
+
+    /// The zoomer is for selecting pixels, not whole windows.
+    var showsZoomer: Bool { zoomerVisible && mode != .window }
+
+    var currentFixedSize: CaptureSize? {
+        fixedSizes.indices.contains(fixedSizeIndex) ? fixedSizes[fixedSizeIndex].size : nil
     }
 
     private func show() {
@@ -86,6 +181,8 @@ final class CaptureOverlayController {
         overlayWindows.forEach { $0.orderFrontRegardless() }
         (overlayWindows.first { $0.frozen.frame.contains(cursor) } ?? overlayWindows[0]).makeKeyAndOrderFront(nil)
         NSCursor.crosshair.set()
+        if scanBarcodes { startBarcodeDetection() }
+        if mode == .text { startTextRecognition() }
         updateSelection()
     }
 
@@ -96,10 +193,12 @@ final class CaptureOverlayController {
         overlayWindows.removeAll()
         NSCursor.arrow.set()
         Self.active = nil
+        var result = result
+        result?.includesPointer = pointerVisible
         completion(result)
     }
 
-    private func redraw() {
+    func redraw() {
         overlayWindows.forEach { $0.marksView.needsDisplay = true }
     }
 
@@ -107,12 +206,21 @@ final class CaptureOverlayController {
 
     func mouseMoved(to point: CGPoint) {
         cursor = point
+        if barcodeMenu != nil {
+            barcodeMenu?.hover(at: point)
+            redraw()
+            return
+        }
         updateSelection()
     }
 
     func mouseDown(at point: CGPoint) {
         cursor = point
-        if mode == .region {
+        if barcodeMenu != nil {
+            pickBarcodeMenuItem(at: point)
+            return
+        }
+        if mode == .region || mode == .text {
             anchor = point
             shiftStart = nil
             shiftAxis = nil
@@ -122,6 +230,7 @@ final class CaptureOverlayController {
 
     func mouseDragged(to point: CGPoint, shift: Bool) {
         cursor = point
+        guard barcodeMenu == nil else { return }
         if !shift {
             shiftStart = nil
             shiftAxis = nil
@@ -130,61 +239,171 @@ final class CaptureOverlayController {
     }
 
     func mouseUp(at point: CGPoint) {
+        guard barcodeMenu == nil else { return }
         switch mode {
         case .region:
-            guard anchor != nil else { return }
+            guard let start = anchor else { return }
             // A very small drag counts as a click and captures nothing, so the user can just try again.
             if let rect = selection, rect.width >= 3 || rect.height >= 3, rect.width >= 1, rect.height >= 1 {
                 finish(OverlaySelection(rect: rect, window: nil))
             } else {
                 anchor = nil
+                // A click on a QR code opens its menu.
+                if let barcode = barcodes.first(where: { $0.bounds.contains(start) }) {
+                    openBarcodeMenu(for: barcode, at: point)
+                }
                 updateSelection()
             }
+        case .text:
+            finishText(clickedAt: point)
         case .window:
             acceptWindow()
+        case .fixedSize:
+            acceptFixedSize()
         }
     }
 
     // MARK: Keys
 
     func keyDown(_ event: NSEvent) {
-        let flags = event.modifierFlags
-        switch Int(event.keyCode) {
+        let keyCode = Int(event.keyCode)
+        if barcodeMenu != nil {
+            if keyCode == kVK_Escape {
+                barcodeMenu = nil
+                updateSelection()
+            }
+            return
+        }
+        switch keyCode {
         case kVK_Escape:
             finish(nil)
         case kVK_Space:
-            mode = mode == .region ? .window : .region
-            anchor = nil
-            updateSelection()
+            switchMode(to: mode == .region ? .window : .region)
         case kVK_Return, kVK_ANSI_KeypadEnter:
-            switch mode {
-            case .region:
-                if let anchor {
-                    let rect = Geometry.rect(from: anchor, to: cursor)
-                    if rect.width >= 1, rect.height >= 1 { finish(OverlaySelection(rect: rect, window: nil)) }
-                } else {
-                    anchor = cursor
-                    updateSelection()
-                }
-            case .window:
-                acceptWindow()
-            }
+            enter()
         case kVK_LeftArrow, kVK_RightArrow, kVK_UpArrow, kVK_DownArrow:
-            moveCursor(keyCode: Int(event.keyCode), fast: flags.contains(.control) || flags.contains(.command))
+            let flags = event.modifierFlags
+            moveCursor(keyCode: keyCode, fast: flags.contains(.control) || flags.contains(.command))
         case kVK_F1:
-            helpVisible.toggle()
-            redraw()
+            toggleHelp()
+        case kVK_PageUp:
+            stepFixedSize(by: -1)
+        case kVK_PageDown:
+            stepFixedSize(by: 1)
         default:
-            switch event.charactersIgnoringModifiers?.lowercased() {
-            case "z":
-                zoomerVisible.toggle()
-                redraw()
-            case "h":
-                helpVisible.toggle()
-                redraw()
-            default:
-                break
+            if mode == .fixedSize, let index = Self.digitIndex(keyCode: keyCode) {
+                pickFixedSize(index)
+                return
             }
+            letterKey(event.charactersIgnoringModifiers?.lowercased() ?? "")
+        }
+    }
+
+    private func letterKey(_ key: String) {
+        switch key {
+        case "z":
+            zoomerVisible.toggle()
+            let visible = zoomerVisible
+            settings?.update { $0.zoomerEnabled = visible }
+            redraw()
+        case "h": toggleHelp()
+        case "i":
+            infoVisible.toggle()
+            let visible = infoVisible
+            settings?.update { $0.captureInfoVisible = visible }
+            redraw()
+        case "p": nextPreviewPlacement()
+        case "m": togglePointer()
+        case "f": switchMode(to: .fixedSize)
+        case "t": switchMode(to: .text)
+        case "d":
+            guard mode == .window else { return }
+            windowDetailsVisible.toggle()
+            redraw()
+        case "c":
+            guard mode == .fixedSize else { return }
+            fixedAnchor = fixedAnchor.next
+            let anchor = fixedAnchor
+            settings?.update { $0.fixedCaptureAnchor = anchor }
+            updateSelection()
+        case "[": stepFixedSize(by: -1)
+        case "]": stepFixedSize(by: 1)
+        default: break
+        }
+    }
+
+    /// 0 for the 1 key, … 8 for the 9 key (also on the keypad).
+    private static func digitIndex(keyCode: Int) -> Int? {
+        let row = [kVK_ANSI_1, kVK_ANSI_2, kVK_ANSI_3, kVK_ANSI_4, kVK_ANSI_5, kVK_ANSI_6, kVK_ANSI_7, kVK_ANSI_8, kVK_ANSI_9]
+        let pad = [kVK_ANSI_Keypad1, kVK_ANSI_Keypad2, kVK_ANSI_Keypad3, kVK_ANSI_Keypad4, kVK_ANSI_Keypad5,
+                   kVK_ANSI_Keypad6, kVK_ANSI_Keypad7, kVK_ANSI_Keypad8, kVK_ANSI_Keypad9]
+        return row.firstIndex(of: keyCode) ?? pad.firstIndex(of: keyCode)
+    }
+
+    private func toggleHelp() {
+        helpVisible.toggle()
+        let visible = helpVisible
+        settings?.update { $0.captureHelpVisible = visible }
+        redraw()
+    }
+
+    /// P: in a corner, in the place of the zoomer, off. Only on/off is remembered.
+    private func nextPreviewPlacement() {
+        switch previewPlacement {
+        case .corner: previewPlacement = .zoomer
+        case .zoomer: previewPlacement = .off
+        case .off: previewPlacement = .corner
+        }
+        let visible = previewPlacement != .off
+        settings?.update { $0.captureSelectionPreviewVisible = visible }
+        redraw()
+    }
+
+    /// M: the picture with or without the mouse pointer, for this capture only.
+    private func togglePointer() {
+        guard pointerScreens != nil else {
+            NSSound.beep()
+            return
+        }
+        pointerVisible.toggle()
+        previewCache = nil
+        let shown = screens
+        for window in overlayWindows {
+            if let frozen = shown.first(where: { $0.displayID == window.frozen.displayID }) { window.show(frozen) }
+        }
+        redraw()
+    }
+
+    func switchMode(to newMode: Mode) {
+        guard newMode != mode else { return }
+        mode = newMode
+        anchor = nil
+        shiftStart = nil
+        shiftAxis = nil
+        windowDetailsVisible = false
+        if mode == .text { startTextRecognition() }
+        updateSelection()
+    }
+
+    private func enter() {
+        switch mode {
+        case .region, .text:
+            if let anchor {
+                let rect = Geometry.rect(from: anchor, to: cursor)
+                guard rect.width >= 1, rect.height >= 1 else { return }
+                if mode == .region {
+                    finish(OverlaySelection(rect: rect, window: nil))
+                } else {
+                    finishText(in: rect)
+                }
+            } else {
+                anchor = cursor
+                updateSelection()
+            }
+        case .window:
+            acceptWindow()
+        case .fixedSize:
+            acceptFixedSize()
         }
     }
 
@@ -192,8 +411,9 @@ final class CaptureOverlayController {
         if !down {
             shiftStart = nil
             shiftAxis = nil
-            updateSelection()
         }
+        // ⌥ switches the snapping of the fixed-size mode.
+        updateSelection(shift: down)
     }
 
     /// Moves the mouse one pixel of the display under it.
@@ -217,16 +437,19 @@ final class CaptureOverlayController {
     // MARK: Selection
 
     private func updateSelection(shift: Bool = false) {
+        windowUnderCursor = windows.first { $0.frame.contains(cursor) }
+        hoveredLine = nil
+        hoveredWindow = nil
         switch mode {
-        case .region:
-            hoveredWindow = nil
+        case .region, .text:
             if let anchor {
                 selection = Geometry.rect(from: anchor, to: shift ? lockedToAxis(cursor) : cursor)
             } else {
                 selection = nil
+                if mode == .text { hoveredLine = TextCaptureSelection.line(at: cursor, in: textLines ?? []) }
             }
         case .window:
-            hoveredWindow = windows.first { $0.frame.contains(cursor) }
+            hoveredWindow = windowUnderCursor
             if let window = hoveredWindow {
                 let visible = window.frame.intersection(desktopBounds)
                 selection = visible.isEmpty ? nil : visible
@@ -234,7 +457,10 @@ final class CaptureOverlayController {
                 // Over the desktop: the display under the mouse.
                 selection = screen(at: cursor)?.frame
             }
+        case .fixedSize:
+            selection = fixedSelection()
         }
+        hoveredBarcode = mode == .region && anchor == nil ? barcodes.first { $0.bounds.contains(cursor) } : nil
         redraw()
     }
 
@@ -256,23 +482,70 @@ final class CaptureOverlayController {
         }
     }
 
+    /// Drops a started selection (a click that selected nothing), so the user can try again.
+    func cancelSelection() {
+        anchor = nil
+        updateSelection()
+    }
+
     private func acceptWindow() {
         guard let rect = selection else { return }
-        finish(OverlaySelection(rect: rect, window: hoveredWindow))
+        finish(OverlaySelection(rect: rect, window: hoveredWindow, mode: .window))
+    }
+
+    // MARK: Fixed size
+
+    /// The fixed-size rectangle at the mouse; its edges snap to the window under the mouse and the display unless ⌥ is held.
+    private func fixedSelection() -> CGRect? {
+        guard let size = currentFixedSize, let monitor = cursorScreen else { return nil }
+        let snapping = !NSEvent.modifierFlags.contains(.option)
+        let rect = FixedSizeCapture.selection(cursor: cursor, size: size, anchor: fixedAnchor, scale: monitor.scale,
+                                              monitor: monitor.frame, desktop: desktopBounds,
+                                              snapTargets: windowUnderCursor.map { [$0.frame] } ?? [], snapping: snapping)
+        return rect.isEmpty ? nil : rect
+    }
+
+    private func pickFixedSize(_ index: Int) {
+        guard mode == .fixedSize, fixedSizes.indices.contains(index) else { return }
+        fixedSizeIndex = index
+        updateSelection()
+    }
+
+    private func stepFixedSize(by change: Int) {
+        guard mode == .fixedSize else { return }
+        pickFixedSize(FixedSizeCapture.step(fixedSizeIndex, by: change, count: fixedSizes.count))
+    }
+
+    private func acceptFixedSize() {
+        guard let rect = selection, let size = currentFixedSize else { return }
+        finish(OverlaySelection(rect: rect, window: nil, fixedSize: size, mode: .fixedSize))
+    }
+
+    // MARK: Preview
+
+    /// The picture of the selection for the preview, and its pixels per point; cached while the selection stays.
+    func previewImage() -> (image: CGImage, scale: CGFloat)? {
+        guard let rect = selection, rect.width >= 1, rect.height >= 1 else { return nil }
+        if let cache = previewCache, cache.rect == rect, cache.pointer == pointerVisible { return (cache.image, cache.scale) }
+        guard let result = ScreenComposer.image(of: rect, from: screens) else { return nil }
+        previewCache = (rect, pointerVisible, result.image, result.scale)
+        return result
     }
 }
 
 /// One display's part of the capture screen. A non-activating panel: macOS lets those float over every app,
 /// including one in full screen, also while an editor window makes this a regular (Dock) app.
 final class OverlayWindow: NSPanel {
-    let frozen: FrozenScreen
+    private(set) var frozen: FrozenScreen
     let marksView: OverlayMarksView
+    private let imageView: FrozenImageView
 
     @MainActor
     init(screen: NSScreen, frozen: FrozenScreen, controller: CaptureOverlayController) {
         self.frozen = frozen
         let size = screen.frame.size
         marksView = OverlayMarksView(frame: NSRect(origin: .zero, size: size), frozen: frozen, controller: controller)
+        imageView = FrozenImageView(frame: NSRect(origin: .zero, size: size), image: frozen.image, scale: frozen.scale)
         // .nonactivatingPanel has to be set here: changing it after init doesn't take effect.
         super.init(contentRect: screen.frame, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         setFrame(screen.frame, display: false)
@@ -290,7 +563,6 @@ final class OverlayWindow: NSPanel {
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary, .ignoresCycle]
 
         let container = NSView(frame: NSRect(origin: .zero, size: size))
-        let imageView = FrozenImageView(frame: container.bounds, image: frozen.image, scale: frozen.scale)
         imageView.autoresizingMask = [.width, .height]
         marksView.autoresizingMask = [.width, .height]
         container.addSubview(imageView)
@@ -298,6 +570,14 @@ final class OverlayWindow: NSPanel {
         contentView = container
         initialFirstResponder = marksView
         makeFirstResponder(marksView)
+    }
+
+    /// Shows the other picture of this display (with or without the mouse pointer).
+    @MainActor
+    func show(_ frozen: FrozenScreen) {
+        self.frozen = frozen
+        marksView.frozen = frozen
+        imageView.layer?.contents = frozen.image
     }
 
     override var canBecomeKey: Bool { true }
@@ -319,11 +599,16 @@ final class FrozenImageView: NSView {
     }
 }
 
-/// Draws the selection, labels, crosshair, zoomer and help on one display, and passes the input on.
+/// Passes the input of one display on to the controller and draws its marks (CaptureOverlayDrawing.swift):
+/// the selection, labels, crosshair, zoomer, the panels and the text lines and QR codes.
 final class OverlayMarksView: NSView {
-    private let frozen: FrozenScreen
-    private weak var controller: CaptureOverlayController?
-    private let accent = NSColor(srgbRed: 0.42, green: 0.75, blue: 0.27, alpha: 1)
+    var frozen: FrozenScreen
+    weak var controller: CaptureOverlayController?
+    let accent = NSColor(srgbRed: 0.42, green: 0.75, blue: 0.27, alpha: 1)
+    /// Where each panel is now (local points), so panels stay put while they can.
+    var panelFrames: [String: CGRect] = [:]
+    /// The zoomer's offset from the mouse.
+    var zoomerOffset: CGPoint?
 
     init(frame: NSRect, frozen: FrozenScreen, controller: CaptureOverlayController) {
         self.frozen = frozen
@@ -355,8 +640,12 @@ final class OverlayMarksView: NSView {
         return CGPoint(x: frozen.frame.minX + p.x, y: frozen.frame.minY + p.y)
     }
 
-    private func local(_ rect: CGRect) -> CGRect {
+    func local(_ rect: CGRect) -> CGRect {
         rect.offsetBy(dx: -frozen.frame.minX, dy: -frozen.frame.minY)
+    }
+
+    func local(_ point: CGPoint) -> CGPoint {
+        CGPoint(x: point.x - frozen.frame.minX, y: point.y - frozen.frame.minY)
     }
 
     override func mouseMoved(with event: NSEvent) {
@@ -373,169 +662,7 @@ final class OverlayMarksView: NSView {
     override func keyDown(with event: NSEvent) { controller?.keyDown(event) }
     override func flagsChanged(with event: NSEvent) { controller?.shiftChanged(event.modifierFlags.contains(.shift)) }
 
-    // MARK: Drawing
-
     override func draw(_ dirtyRect: NSRect) {
-        guard let controller, let context = NSGraphicsContext.current?.cgContext else { return }
-        let cursor = CGPoint(x: controller.cursor.x - frozen.frame.minX, y: controller.cursor.y - frozen.frame.minY)
-        let cursorHere = bounds.contains(cursor)
-        let selection = controller.selection.map(local)
-
-        // Dim everything outside the selection a little, so the capture screen is recognizable.
-        let dim = CGMutablePath()
-        dim.addRect(bounds)
-        if let selection { dim.addRect(selection) }
-        context.addPath(dim)
-        context.setFillColor(NSColor.black.withAlphaComponent(selection == nil ? 0.12 : 0.35).cgColor)
-        context.fillPath(using: .evenOdd)
-
-        if let selection, selection.intersects(bounds) {
-            context.setStrokeColor(accent.cgColor)
-            context.setLineWidth(1)
-            context.stroke(selection.insetBy(dx: 0.5, dy: 0.5))
-            drawSizeLabel(for: selection, in: context)
-        }
-
-        if controller.mode == .region && controller.anchor == nil && cursorHere {
-            context.setStrokeColor(accent.withAlphaComponent(0.8).cgColor)
-            context.setLineWidth(1)
-            context.move(to: CGPoint(x: 0, y: cursor.y.rounded() + 0.5))
-            context.addLine(to: CGPoint(x: bounds.maxX, y: cursor.y.rounded() + 0.5))
-            context.move(to: CGPoint(x: cursor.x.rounded() + 0.5, y: 0))
-            context.addLine(to: CGPoint(x: cursor.x.rounded() + 0.5, y: bounds.maxY))
-            context.strokePath()
-        }
-
-        if controller.mode == .region && controller.zoomerVisible && cursorHere {
-            drawZoomer(at: cursor, in: context)
-        }
-        if controller.helpVisible && cursorHere {
-            drawHelp(avoiding: cursor, selection: selection)
-        }
-    }
-
-    private func label(_ text: String, size: CGFloat = 12, weight: NSFont.Weight = .medium) -> NSAttributedString {
-        NSAttributedString(string: text, attributes: [
-            .font: NSFont.monospacedDigitSystemFont(ofSize: size, weight: weight),
-            .foregroundColor: NSColor.white,
-        ])
-    }
-
-    private func drawBubble(_ text: NSAttributedString, at origin: CGPoint) -> CGRect {
-        let size = text.size()
-        let box = CGRect(x: origin.x, y: origin.y, width: size.width + 12, height: size.height + 6)
-        NSColor.black.withAlphaComponent(0.75).setFill()
-        NSBezierPath(roundedRect: box, xRadius: 5, yRadius: 5).fill()
-        text.draw(at: CGPoint(x: box.minX + 6, y: box.minY + 3))
-        return box
-    }
-
-    /// The size of the selection in pixels, and the window title in window mode.
-    private func drawSizeLabel(for selection: CGRect, in context: CGContext) {
-        guard let controller else { return }
-        let width = Int((selection.width * frozen.scale).rounded())
-        let height = Int((selection.height * frozen.scale).rounded())
-        var text = "\(width) × \(height)"
-        if controller.mode == .window, let window = controller.hoveredWindow {
-            text = "\(window.menuTitle)   \(text)"
-        }
-        let string = label(text)
-        let size = string.size()
-        var origin = CGPoint(x: selection.minX, y: selection.maxY + 6)
-        if origin.y + size.height + 8 > bounds.maxY { origin.y = selection.maxY - size.height - 12 }
-        origin.x = min(max(origin.x, 4), bounds.maxX - size.width - 16)
-        origin.y = max(origin.y, 4)
-        _ = drawBubble(string, at: origin)
-    }
-
-    /// The magnifier next to the mouse: 8 points per pixel of the frozen picture, the pixel under the mouse framed.
-    private func drawZoomer(at cursor: CGPoint, in context: CGContext) {
-        let diameter: CGFloat = 128
-        let magnification: CGFloat = 8
-        let pixelsAcross = (diameter / magnification).rounded(.down)
-        let scale = frozen.scale
-        let pixel = CGPoint(x: (cursor.x * scale).rounded(.down), y: (cursor.y * scale).rounded(.down))
-        let source = CGRect(x: pixel.x - (pixelsAcross / 2).rounded(.down), y: pixel.y - (pixelsAcross / 2).rounded(.down),
-                            width: pixelsAcross, height: pixelsAcross)
-
-        var zoom = CGRect(x: cursor.x + 24, y: cursor.y + 24, width: diameter, height: diameter)
-        if zoom.maxX > bounds.maxX - 8 { zoom.origin.x = cursor.x - 24 - diameter }
-        if zoom.maxY > bounds.maxY - 30 { zoom.origin.y = cursor.y - 24 - diameter }
-
-        // Where the source square lands, so that the pixel under the mouse sits in the middle.
-        let destinationOrigin = CGPoint(x: zoom.midX - (pixel.x - source.minX + 0.5) * magnification,
-                                        y: zoom.midY - (pixel.y - source.minY + 0.5) * magnification)
-        let imageBounds = CGRect(x: 0, y: 0, width: frozen.image.width, height: frozen.image.height)
-        let visible = source.intersection(imageBounds)
-
-        context.saveGState()
-        context.addEllipse(in: zoom)
-        context.clip()
-        context.setFillColor(NSColor.black.cgColor)
-        context.fill(zoom)
-        if !visible.isEmpty, let crop = frozen.image.cropping(to: visible) {
-            let destination = CGRect(x: destinationOrigin.x + (visible.minX - source.minX) * magnification,
-                                     y: destinationOrigin.y + (visible.minY - source.minY) * magnification,
-                                     width: visible.width * magnification, height: visible.height * magnification)
-            NSImage(cgImage: crop, size: destination.size)
-                .draw(in: destination, from: .zero, operation: .copy, fraction: 1, respectFlipped: true,
-                      hints: [.interpolation: NSNumber(value: NSImageInterpolation.none.rawValue)])
-        }
-        let center = CGRect(x: destinationOrigin.x + (pixel.x - source.minX) * magnification,
-                            y: destinationOrigin.y + (pixel.y - source.minY) * magnification,
-                            width: magnification, height: magnification)
-        context.setStrokeColor(accent.cgColor)
-        context.setLineWidth(1)
-        context.stroke(center.insetBy(dx: -0.5, dy: -0.5))
-        context.restoreGState()
-
-        context.setStrokeColor(NSColor.white.cgColor)
-        context.setLineWidth(2)
-        context.strokeEllipse(in: zoom.insetBy(dx: 1, dy: 1))
-        context.setStrokeColor(NSColor.black.withAlphaComponent(0.5).cgColor)
-        context.setLineWidth(1)
-        context.strokeEllipse(in: zoom.insetBy(dx: -0.5, dy: -0.5))
-
-        let coordinates = label("\(Int(pixel.x)), \(Int(pixel.y))", size: 11)
-        let size = coordinates.size()
-        _ = drawBubble(coordinates, at: CGPoint(x: zoom.midX - size.width / 2 - 6, y: zoom.maxY + 4))
-    }
-
-    private static let helpLines = [
-        ("Drag", "select a region"),
-        ("Space", "switch between region and window"),
-        ("Enter", "start and finish a selection with the keys"),
-        ("← → ↑ ↓", "move one pixel, with ⌃ ten"),
-        ("Shift", "keep a drag to one direction"),
-        ("Z", "zoomer on or off"),
-        ("H", "hide this help"),
-        ("Esc", "cancel"),
-    ]
-
-    /// The keys, in the first corner that is free of the mouse and the selection; hidden when none is.
-    private func drawHelp(avoiding cursor: CGPoint, selection: CGRect?) {
-        let keyFont = NSFont.systemFont(ofSize: 12, weight: .semibold)
-        let textFont = NSFont.systemFont(ofSize: 12)
-        let keyWidth = Self.helpLines.map { NSAttributedString(string: $0.0, attributes: [.font: keyFont]).size().width }.max() ?? 0
-        let textWidth = Self.helpLines.map { NSAttributedString(string: $0.1, attributes: [.font: textFont]).size().width }.max() ?? 0
-        let lineHeight: CGFloat = 18
-        let size = CGSize(width: keyWidth + textWidth + 40, height: CGFloat(Self.helpLines.count) * lineHeight + 20)
-        let corners = [CGPoint(x: 20, y: 20), CGPoint(x: bounds.maxX - size.width - 20, y: 20),
-                       CGPoint(x: 20, y: bounds.maxY - size.height - 20),
-                       CGPoint(x: bounds.maxX - size.width - 20, y: bounds.maxY - size.height - 20)]
-        let free = corners.map { CGRect(origin: $0, size: size) }.first { box in
-            !box.insetBy(dx: -40, dy: -40).contains(cursor) && !(selection.map { box.intersects($0) } ?? false)
-        }
-        guard let box = free else { return }
-
-        NSColor.black.withAlphaComponent(0.72).setFill()
-        NSBezierPath(roundedRect: box, xRadius: 8, yRadius: 8).fill()
-        for (index, line) in Self.helpLines.enumerated() {
-            let y = box.minY + 10 + CGFloat(index) * lineHeight
-            NSAttributedString(string: line.0, attributes: [.font: keyFont, .foregroundColor: accent])
-                .draw(at: CGPoint(x: box.minX + 12, y: y))
-            NSAttributedString(string: line.1, attributes: [.font: textFont, .foregroundColor: NSColor.white])
-                .draw(at: CGPoint(x: box.minX + 24 + keyWidth, y: y))
-        }
+        drawMarks()
     }
 }
