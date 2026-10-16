@@ -63,17 +63,6 @@ final class CaptureOverlayController {
         }
     }
 
-    /// Shows the capture screen without settings (the mouse pointer can't be toggled).
-    static func select(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool) async -> OverlaySelection? {
-        await withCheckedContinuation { continuation in
-            let controller = CaptureOverlayController(screens: screens, windows: windows, mode: mode, zoomer: zoomer) {
-                continuation.resume(returning: $0)
-            }
-            active = controller
-            controller.show()
-        }
-    }
-
     /// The frozen displays as shown now: with or without the mouse pointer.
     var screens: [FrozenScreen] { pointerVisible ? (pointerScreens ?? plainScreens) : plainScreens }
     let plainScreens: [FrozenScreen]
@@ -120,6 +109,8 @@ final class CaptureOverlayController {
     private var overlayWindows: [OverlayWindow] = []
     private let completion: (OverlaySelection?) -> Void
     private(set) var finished = false
+    /// A mode key during a drag: the mouse-up that ends the drag doesn't capture in the new mode.
+    private var ignoresMouseUp = false
     private var previewCache: (rect: CGRect, pointer: Bool, image: CGImage, scale: CGFloat)?
 
     init(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool, settings: SettingsStore? = nil,
@@ -240,6 +231,10 @@ final class CaptureOverlayController {
 
     func mouseUp(at point: CGPoint) {
         guard barcodeMenu == nil else { return }
+        if ignoresMouseUp {
+            ignoresMouseUp = false
+            return
+        }
         switch mode {
         case .region:
             guard let start = anchor else { return }
@@ -381,6 +376,7 @@ final class CaptureOverlayController {
         shiftStart = nil
         shiftAxis = nil
         windowDetailsVisible = false
+        ignoresMouseUp = NSEvent.pressedMouseButtons & 1 != 0
         if mode == .text { startTextRecognition() }
         updateSelection()
     }
