@@ -21,6 +21,7 @@ extension MainMenu {
         let copyImage = file.addItem(withTitle: "Copy Image to Clipboard", action: #selector(EditorWindowController.copyImage(_:)), keyEquivalent: "c")
         copyImage.keyEquivalentModifierMask = [.command, .shift]
         file.addItem(withTitle: "Print…", action: #selector(EditorWindowController.printImage(_:)), keyEquivalent: "p")
+        file.addItem(destinationItem("Copy Text (OCR)", .destination(.ocr), key: "t", modifiers: [.command, .option]))
         file.addItem(.separator())
         file.addItem(destinationItem("Email…", .destination(.email), key: "e"))
         file.addItem(destinationItem("Share…", .destination(.share)))

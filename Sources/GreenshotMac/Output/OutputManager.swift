@@ -81,7 +81,9 @@ final class OutputManager {
             EmailDestination.send(capture, settings: settings, saver: saver)
         case .share:
             ShareDestination.share(capture, settings: settings, window: window)
-        case .ocr, .externalCommand, .pdf, .openWith, .qrCode:
+        case .ocr:
+            TextDestination.copyText(capture, settings: settings, saver: saver)
+        case .externalCommand, .pdf, .openWith, .qrCode:
             ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")
         }
     }
@@ -99,6 +101,7 @@ final class OutputManager {
         add("Save Directly (\(folder))", .destination(.file))
         add("Save As…", .destination(.fileAs))
         add("Copy to Clipboard", .destination(.clipboard))
+        add("Copy Text (OCR)", .destination(.ocr))
         add("Print…", .destination(.printer))
         add("Email…", .destination(.email))
         add("Share…", .destination(.share))
