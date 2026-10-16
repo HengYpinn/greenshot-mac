@@ -15,6 +15,8 @@ extension MainMenu {
         file.addItem(withTitle: "Open Image from Clipboard", action: #selector(AppDelegate.openClipboard(_:)), keyEquivalent: "")
         file.addItem(.separator())
         file.addItem(withTitle: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
+        let closeAll = file.addItem(withTitle: "Close All", action: #selector(EditorWindowController.closeAllWindows(_:)), keyEquivalent: "w")
+        closeAll.keyEquivalentModifierMask = [.command, .option]
         file.addItem(withTitle: "Save", action: #selector(EditorWindowController.saveImage(_:)), keyEquivalent: "s")
         let saveAs = file.addItem(withTitle: "Save As…", action: #selector(EditorWindowController.saveImageAs(_:)), keyEquivalent: "s")
         saveAs.keyEquivalentModifierMask = [.command, .shift]

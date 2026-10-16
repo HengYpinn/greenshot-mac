@@ -758,6 +758,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
 
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
+        if let imageItem = validateImageMenuItem(item) { return imageItem }
         switch item.action {
         case #selector(saveElements(_:)): return !editorDocument.annotations.isEmpty
         case #selector(zoomPreset(_:)):

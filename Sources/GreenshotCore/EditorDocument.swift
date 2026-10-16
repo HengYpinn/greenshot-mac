@@ -277,7 +277,8 @@ public final class EditorDocument {
     public func replaceImage(with image: CGImage, offset: CGVector = .zero, transform: ((Annotation) -> Annotation)? = nil) -> Bool {
         baseImage = image
         if let transform {
-            annotations = annotations.map(transform)
+            // Cut marks keep spanning the (new) image width.
+            annotations = annotations.map { transform($0).spanning(width: imageSize.width) }
         } else {
             moveAnnotations(by: offset)
         }

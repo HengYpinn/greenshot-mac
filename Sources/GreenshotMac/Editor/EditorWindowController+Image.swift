@@ -217,9 +217,10 @@ extension EditorWindowController {
     }
 }
 
-extension EditorWindowController: NSMenuItemValidation {
-    /// Enables the image operations that have something to do. Every other item stays enabled, as without this.
-    func validateMenuItem(_ item: NSMenuItem) -> Bool {
+extension EditorWindowController {
+    /// Enables the image operations that have something to do; nil for items this file doesn't know (the main
+    /// `validateMenuItem` asks here first).
+    func validateImageMenuItem(_ item: NSMenuItem) -> Bool? {
         switch item.action {
         case #selector(removeTransparency(_:)):
             return TransparencyCheck.hasTransparency(editorDocument.baseImage)
@@ -229,7 +230,7 @@ extension EditorWindowController: NSMenuItemValidation {
             // ⌘⌫ deletes to the start of the line while a text element is being typed.
             return !canvas.isEditingText
         default:
-            return true
+            return nil
         }
     }
 }
