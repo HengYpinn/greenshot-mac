@@ -431,16 +431,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             item.submenu = emojiMenu()
             menu.addItem(item)
         }
-        menu.addItem(ClosureMenuItem(title: "Bring to Front") { [weak self] in
-            guard let self else { return }
-            self.document.change { self.document.bringToFront(self.selectedSet) }
-            self.documentChanged()
-        })
-        menu.addItem(ClosureMenuItem(title: "Send to Back") { [weak self] in
-            guard let self else { return }
-            self.document.change { self.document.sendToBack(self.selectedSet) }
-            self.documentChanged()
-        })
+        menu.addItem(withTitle: "Bring to Front", action: #selector(bringToFront(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Bring Forward", action: #selector(bringForward(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Send Backward", action: #selector(sendBackward(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: "Send to Back", action: #selector(sendToBack(_:)), keyEquivalent: "")
         menu.addItem(.separator())
         menu.addItem(withTitle: "Cut", action: #selector(cut(_:)), keyEquivalent: "")
         menu.addItem(withTitle: "Copy", action: #selector(copy(_:)), keyEquivalent: "")
@@ -475,6 +469,19 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             return
         case kVK_LeftArrow, kVK_RightArrow, kVK_UpArrow, kVK_DownArrow:
             nudge(keyCode: Int(event.keyCode), far: flags.contains(.shift))
+            return
+        // Upstream's arrange keys: Home and End to the top and bottom, Page Up and Down one level.
+        case kVK_Home where !selectedIDs.isEmpty:
+            bringToFront(nil)
+            return
+        case kVK_End where !selectedIDs.isEmpty:
+            sendToBack(nil)
+            return
+        case kVK_PageUp where !selectedIDs.isEmpty:
+            bringForward(nil)
+            return
+        case kVK_PageDown where !selectedIDs.isEmpty:
+            sendBackward(nil)
             return
         default:
             break
@@ -665,6 +672,27 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         selectedIDs = document.annotations.map(\.id)
     }
 
+    // MARK: Arrange (upstream `Surface.PullElementsToTop` / `PullElementsUp` / `PushElementsDown` / `PushElementsToBottom`)
+
+    private func arrange(_ body: (Set<UUID>) -> Void) {
+        commitEditing()
+        let ids = selectedSet
+        guard !ids.isEmpty else { return }
+        document.change { body(ids) }
+        documentChanged()
+    }
+
+    @objc func bringToFront(_ sender: Any?) { arrange(document.bringToFront) }
+    @objc func bringForward(_ sender: Any?) { arrange(document.bringForward) }
+    @objc func sendBackward(_ sender: Any?) { arrange(document.sendBackward) }
+    @objc func sendToBack(_ sender: Any?) { arrange(document.sendToBack) }
+
+    /// An item of the Object menu choosing a tool; its tag is the tool's index.
+    @objc func selectTool(_ sender: NSMenuItem) {
+        guard EditorTool.allCases.indices.contains(sender.tag) else { return }
+        tool = EditorTool.allCases[sender.tag]
+    }
+
     /// Adds elements as one undo step and selects them.
     func insert(_ elements: [Annotation]) {
         guard !elements.isEmpty else { return }
@@ -706,6 +734,13 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         case #selector(delete(_:)), #selector(cut(_:)), #selector(duplicate(_:)): return !selectedIDs.isEmpty
         case #selector(paste(_:)): return canPaste
         case #selector(selectAll(_:)): return !document.annotations.isEmpty
+        case #selector(bringToFront(_:)), #selector(bringForward(_:)): return document.canBringForward(selectedSet)
+        case #selector(sendToBack(_:)), #selector(sendBackward(_:)): return document.canSendBackward(selectedSet)
+        case #selector(selectTool(_:)):
+            // The tools have single-letter shortcuts: only while the canvas has the keyboard, so that typing into a
+            // text element or a field of the property bar isn't taken by the menu.
+            item.state = EditorTool.allCases.firstIndex(of: tool) == item.tag ? .on : .off
+            return window?.firstResponder === self
         default: return true
         }
     }

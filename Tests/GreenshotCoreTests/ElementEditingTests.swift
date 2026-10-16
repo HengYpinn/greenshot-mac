@@ -113,6 +113,42 @@ struct MultiSelectionTests {
     }
 }
 
+struct ArrangeTests {
+    func document(_ count: Int) -> (EditorDocument, [Annotation]) {
+        let doc = EditorDocument(image: TestImage.solid(width: 10, height: 10, .white), scale: 1, title: "test")
+        let elements = (0..<count).map { Annotation(kind: .rectangle, start: CGPoint(x: $0, y: 0), end: CGPoint(x: $0 + 1, y: 1)) }
+        doc.add(elements)
+        return (doc, elements)
+    }
+
+    @Test func bringsForwardOneLevel() {
+        let (doc, e) = document(4)
+        doc.bringForward([e[1].id])
+        #expect(doc.annotations.map(\.id) == [e[0], e[2], e[1], e[3]].map(\.id))
+    }
+
+    @Test func neighboursMoveTogetherInsteadOfLeapfrogging() {
+        let (doc, e) = document(4)
+        doc.bringForward([e[0].id, e[1].id])
+        #expect(doc.annotations.map(\.id) == [e[2], e[0], e[1], e[3]].map(\.id))
+        doc.sendBackward([e[0].id, e[1].id])
+        #expect(doc.annotations.map(\.id) == [e[0], e[1], e[2], e[3]].map(\.id))
+    }
+
+    @Test func topmostElementsCantGoFurther() {
+        let (doc, e) = document(3)
+        #expect(!doc.canBringForward([e[2].id]))
+        #expect(!doc.canBringForward([e[1].id, e[2].id]))
+        #expect(doc.canBringForward([e[0].id, e[2].id]))
+        #expect(!doc.canSendBackward([e[0].id]))
+        #expect(doc.canSendBackward([e[0].id, e[2].id]))
+        #expect(!doc.canBringForward(Set(e.map(\.id))))
+        #expect(!doc.canSendBackward([]))
+        doc.bringForward([e[2].id])
+        #expect(doc.annotations.map(\.id) == e.map(\.id))
+    }
+}
+
 struct PictureElementTests {
     @Test func isSizedInPointsAndFitsTheImage() throws {
         let picture = TestImage.solid(width: 40, height: 20, .blue)

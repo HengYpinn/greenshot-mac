@@ -180,6 +180,35 @@ public final class EditorDocument {
         annotations = moving + annotations.filter { !ids.contains($0.id) }
     }
 
+    /// Whether one of the elements with `ids` has an unselected element above it (upstream `CanPullUp`).
+    public func canBringForward(_ ids: Set<UUID>) -> Bool {
+        let selected = annotations.indices.filter { ids.contains(annotations[$0].id) }
+        guard !selected.isEmpty, selected.count < annotations.count else { return false }
+        return selected.contains { $0 < annotations.count - selected.count }
+    }
+
+    /// Whether one of the elements with `ids` has an unselected element below it (upstream `CanPushDown`).
+    public func canSendBackward(_ ids: Set<UUID>) -> Bool {
+        let selected = annotations.indices.filter { ids.contains(annotations[$0].id) }
+        guard !selected.isEmpty, selected.count < annotations.count else { return false }
+        return selected.contains { $0 >= selected.count }
+    }
+
+    /// Moves the elements with `ids` one level up: each swaps with the unselected element just above it, so
+    /// neighbours move up together (upstream `PullElementsUp`).
+    public func bringForward(_ ids: Set<UUID>) {
+        for i in annotations.indices.reversed() where ids.contains(annotations[i].id) {
+            if i + 1 < annotations.count && !ids.contains(annotations[i + 1].id) { annotations.swapAt(i, i + 1) }
+        }
+    }
+
+    /// Moves the elements with `ids` one level down (upstream `PushElementsDown`).
+    public func sendBackward(_ ids: Set<UUID>) {
+        for i in annotations.indices where ids.contains(annotations[i].id) {
+            if i > 0 && !ids.contains(annotations[i - 1].id) { annotations.swapAt(i, i - 1) }
+        }
+    }
+
     /// The front-most element at `point` (image pixels).
     public func topmostAnnotation(at point: CGPoint, tolerance: CGFloat) -> Annotation? {
         annotations.last { $0.hitTest(point, scale: scale, tolerance: tolerance) }

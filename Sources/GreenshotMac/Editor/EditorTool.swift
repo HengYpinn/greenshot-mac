@@ -45,6 +45,25 @@ enum EditorTool: CaseIterable {
         }
     }
 
+    /// The title in the Object menu (upstream's Object menu items).
+    var menuTitle: String {
+        switch self {
+        case .select: return "Select"
+        case .rectangle: return "Add Rectangle"
+        case .ellipse: return "Add Ellipse"
+        case .line: return "Draw Line"
+        case .arrow: return "Draw Arrow"
+        case .freehand: return "Draw Freehand"
+        case .text: return "Add Text"
+        case .speechBubble: return "Add Speech Bubble"
+        case .counter: return "Add Counter"
+        case .emoji: return "Add Emoji"
+        case .highlight: return "Highlight"
+        case .obfuscate: return "Obfuscate"
+        case .crop: return "Crop"
+        }
+    }
+
     var symbolName: String {
         switch self {
         case .select: return "cursorarrow"
