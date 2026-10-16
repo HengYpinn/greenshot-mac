@@ -15,6 +15,7 @@ struct SettingsTests {
         #expect(s.captureDelayMilliseconds == 100)
         #expect(s.filenamePattern == "${capturetime:d\"yyyy-MM-dd HH_mm_ss\"}-${title}")
         #expect(s.outputFormat == .png && s.jpegQuality == 80 && s.copyPathToClipboard)
+        #expect(s.dockIconWhileWindowOpen)
         #expect(s.recentEmoji == "🙂")
     }
 

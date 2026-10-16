@@ -26,10 +26,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 exit(1)
             }
         }
-        NSApp.setActivationPolicy(.accessory)
+        editors.onWindowsChange = { [weak self] in self?.updateDockIcon() }
+        settingsWindow.onOpenChange = { [weak self] in self?.updateDockIcon() }
+        updateDockIcon()
         NSApp.mainMenu = MainMenu.make()
         statusItem = StatusItemController(app: self)
         settings.onHotkeysChange = { [weak self] in self?.registerHotkeys() }
+        settings.onDockChange = { [weak self] in self?.updateDockIcon() }
         NotificationCenter.default.addObserver(forName: ShortcutRecorderButton.recordingDidBegin, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.hotkeys.unregisterAll() }
         }
@@ -60,6 +63,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Images dropped on the app or opened with it go to the editor.
     func application(_ application: NSApplication, open urls: [URL]) {
         urls.forEach(editors.open(fileURL:))
+    }
+
+    /// A Dock icon (with the menu bar and a place in ⌘Tab) while an editor or Settings is open, if the setting is on;
+    /// otherwise only the menu bar icon, which is there whenever the app runs. Hidden editors count as open: a click
+    /// on the Dock icon brings them back.
+    private func updateDockIcon() {
+        let windowOpen = editors.hasEditors || settingsWindow.isOpen
+        NSApp.setActivationPolicy(settings.value.dockIconWhileWindowOpen && windowOpen ? .regular : .accessory)
     }
 
     // MARK: Hotkeys

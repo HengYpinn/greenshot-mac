@@ -28,13 +28,23 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     /// A backstop for the shortcut recorder: whatever happened, the hotkeys are on again once Settings closes.
     func windowWillClose(_ notification: Notification) {
         NotificationCenter.default.post(name: ShortcutRecorderButton.recordingDidEnd, object: self)
+        isOpen = false
+        onOpenChange?()
     }
 
     required init?(coder: NSCoder) {
         fatalError("not used")
     }
 
+    /// Open from show() until the window is closed (also while it is hidden because another app is active).
+    private(set) var isOpen = false
+    var onOpenChange: (() -> Void)?
+
     func show() {
+        if !isOpen {
+            isOpen = true
+            onOpenChange?()
+        }
         NSApp.activate()
         showWindow(nil)
         window?.makeKeyAndOrderFront(nil)
@@ -111,6 +121,12 @@ private struct GeneralSettings: View {
             }
             Section("Startup") {
                 Toggle("Launch at login", isOn: Binding(get: { status.launchAtLogin }, set: { status.setLaunchAtLogin($0) }))
+                Toggle("Show in Dock while a window is open", isOn: store.binding(\.dockIconWhileWindowOpen))
+                    .help("""
+                        A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is always \
+                        there. Off: opening an editor from a full screen app stays on its Space instead of switching to \
+                        the desktop.
+                        """)
                 if status.loginNeedsApproval {
                     HStack {
                         Text(LaunchAtLogin.approvalHint).font(.caption).foregroundStyle(.orange)

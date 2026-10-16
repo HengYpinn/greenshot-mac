@@ -16,6 +16,8 @@ final class EditorManager {
     private let settings: SettingsStore
     private let saver: ImageSaver
     private var controllers: [EditorWindowController] = []
+    private var spaceObserver: NSObjectProtocol?
+    private var spaceFollowGeneration = 0
 
     init(settings: SettingsStore, saver: ImageSaver) {
         self.settings = settings
@@ -53,6 +55,8 @@ final class EditorManager {
     }
 
     var hasEditors: Bool { !controllers.isEmpty }
+    /// Called when an editor opened or closed (the Dock icon follows).
+    var onWindowsChange: (() -> Void)?
 
     /// Brings the open editors back after they hid. False when there are none.
     @discardableResult
@@ -72,12 +76,42 @@ final class EditorManager {
     private func open(_ document: EditorDocument) {
         let controller = EditorWindowController(document: document, settings: settings, saver: saver) { [weak self] closed in
             self?.controllers.removeAll { $0 === closed }
+            self?.onWindowsChange?()
         }
         controllers.append(controller)
+        onWindowsChange?()
         guard let window = controller.window else { return }
         // Shown before the (asynchronous since macOS 14) activation finishes, so it doesn't wait on the app in front.
         window.makeKeyAndOrderFront(nil)
         window.orderFrontRegardless()
         NSApp.activate()
+        followSpaceSwitch(of: window)
+    }
+
+    /// When the app turns into a Dock app as it is activated from a full screen app, macOS switches to the desktop,
+    /// a moment after the window was shown on the full screen app's Space. Made key again after the switch, the window
+    /// moves along (its collection behavior is moveToActiveSpace) instead of staying behind.
+    private func followSpaceSwitch(of window: NSWindow) {
+        stopFollowingSpaceSwitch()
+        spaceFollowGeneration += 1
+        let generation = spaceFollowGeneration
+        spaceObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.activeSpaceDidChangeNotification, object: nil, queue: .main) { [weak self, weak window] _ in
+            MainActor.assumeIsolated {
+                self?.stopFollowingSpaceSwitch()
+                window?.makeKeyAndOrderFront(nil)
+            }
+        }
+        // Only a switch right after opening is followed.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            MainActor.assumeIsolated {
+                if self?.spaceFollowGeneration == generation { self?.stopFollowingSpaceSwitch() }
+            }
+        }
+    }
+
+    private func stopFollowingSpaceSwitch() {
+        if let spaceObserver { NSWorkspace.shared.notificationCenter.removeObserver(spaceObserver) }
+        spaceObserver = nil
     }
 }

@@ -79,6 +79,10 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var captureDelayMilliseconds = 100
     public var playCameraSound = false
     public var showNotifications = true
+    /// Show a Dock icon (and be in ⌘Tab) while an editor or Settings is open. Without windows Greenshot is a menu bar
+    /// app either way, like its tray icon on Windows. Off: never a Dock icon, and opening an editor from a full screen
+    /// app doesn't switch to the desktop.
+    public var dockIconWhileWindowOpen = true
     public var zoomerEnabled = true
     public var outputFolder = "~/Desktop"
     public var filenamePattern = FilenamePattern.defaultPattern
@@ -121,7 +125,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
 
     enum CodingKeys: String, CodingKey {
         case hotkeys, destinations, captureMousePointer, interactiveWindowCapture, includeWindowShadow, captureDelayMilliseconds
-        case playCameraSound, showNotifications, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
+        case playCameraSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
         case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
     }
 
@@ -140,6 +144,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         captureDelayMilliseconds = value(.captureDelayMilliseconds, d.captureDelayMilliseconds)
         playCameraSound = value(.playCameraSound, d.playCameraSound)
         showNotifications = value(.showNotifications, d.showNotifications)
+        dockIconWhileWindowOpen = value(.dockIconWhileWindowOpen, d.dockIconWhileWindowOpen)
         zoomerEnabled = value(.zoomerEnabled, d.zoomerEnabled)
         outputFolder = value(.outputFolder, d.outputFolder)
         filenamePattern = value(.filenamePattern, d.filenamePattern)

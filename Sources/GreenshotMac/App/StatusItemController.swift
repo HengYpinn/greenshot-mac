@@ -24,6 +24,8 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         let menu = NSMenu()
         menu.delegate = self
         statusItem.menu = menu
+        // macOS keeps the icon where the user ⌘-dragged it.
+        statusItem.autosaveName = "GreenshotStatusItem"
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {

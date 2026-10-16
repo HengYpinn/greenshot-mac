@@ -7,6 +7,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- A Dock icon (and a place in ⌘Tab) while an editor or Settings is open; it goes away with the last window, while
+  the menu bar icon stays until Quit. On by default, Settings › General › "Show in Dock while a window is open".
+  Clicking the Dock icon shows the open screenshots or Settings. The menu bar icon keeps the place it is ⌘-dragged to.
 - Open at login, like Greenshot's "start with Windows": the welcome window offers it, ticked by default, and users
   who saw the welcome before are asked once. When macOS wants approval, its Login Items settings open, and
   Settings › General shows what is missing.

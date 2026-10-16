@@ -12,6 +12,8 @@ final class SettingsStore: ObservableObject {
     @Published private(set) var value: AppSettings
     /// Called after the hotkeys changed, to register them again.
     var onHotkeysChange: (() -> Void)?
+    /// Called after "Show in Dock while a window is open" changed.
+    var onDockChange: (() -> Void)?
     private let defaults: UserDefaults
 
     init(defaults: UserDefaults = .standard) {
@@ -24,9 +26,11 @@ final class SettingsStore: ObservableObject {
         body(&changed)
         guard changed != value else { return }
         let hotkeysChanged = changed.hotkeys != value.hotkeys
+        let dockChanged = changed.dockIconWhileWindowOpen != value.dockIconWhileWindowOpen
         value = changed
         SettingsStorage.save(changed, to: defaults)
         if hotkeysChanged { onHotkeysChange?() }
+        if dockChanged { onDockChange?() }
     }
 
     func binding<T>(_ keyPath: WritableKeyPath<AppSettings, T>) -> Binding<T> {
