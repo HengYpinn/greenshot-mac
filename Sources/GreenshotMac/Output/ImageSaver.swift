@@ -18,17 +18,23 @@ final class ImageSaver {
 
     /// The file "Save directly" writes to: the output folder plus the filled filename pattern.
     func defaultURL(title: String, date: Date, format: ImageFormat? = nil) -> URL {
-        let s = settings.value
-        let name = FilenamePattern.fileName(s.filenamePattern, context: settings.patternContext(title: title, date: date))
-        let ext = (format ?? s.outputFormat).fileExtension
-        let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : s.outputFolderURL.appendingPathComponent(name)
-        return base.appendingPathExtension(ext)
+        defaultURL(title: title, date: date, fileExtension: (format ?? settings.value.outputFormat).fileExtension)
     }
 
-    /// Upstream's "Save directly": no dialog. Returns the file, or nil after showing the error.
+    /// The same for any extension (e.g. "pdf").
+    func defaultURL(title: String, date: Date, fileExtension: String) -> URL {
+        let s = settings.value
+        let name = FilenamePattern.fileName(s.filenamePattern, context: settings.patternContext(title: title, date: date))
+        let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : s.outputFolderURL.appendingPathComponent(name)
+        return base.appendingPathExtension(fileExtension)
+    }
+
+    /// Upstream's "Save directly": no dialog. Returns the file, or nil after showing the error. Without "Allow
+    /// overwrite" an existing file's name gets " (2)", " (3)", ….
     @discardableResult
     func saveDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date) -> URL? {
-        let url = defaultURL(title: title, date: date)
+        var url = defaultURL(title: title, date: date)
+        if !settings.value.allowOverwrite { url = DestinationSupport.uniqueURL(for: url) }
         guard write(image, scale: scale, to: url) else { return nil }
         let s = settings.value
         if s.copyPathToClipboard && !s.destinations.contains(.clipboard) {
@@ -65,13 +71,21 @@ final class ImageSaver {
         return url
     }
 
-    /// `scale` is the pixels per point, written as the file's resolution so it opens at its real size.
+    /// `scale` is the pixels per point, written as the file's resolution so it opens at its real size. JPEG asks
+    /// for the quality first when "Ask for the JPEG quality" is on (false when cancelled); "Reduce colours" applies
+    /// to PNG and GIF.
     @discardableResult
     func write(_ image: CGImage, scale: CGFloat, to url: URL, format: ImageFormat? = nil) -> Bool {
         let s = settings.value
         let format = format ?? ImageFormat(fileExtension: url.pathExtension) ?? s.outputFormat
+        var quality = s.jpegQuality
+        if format == .jpg, s.promptJpegQuality {
+            guard let chosen = askJpegQuality() else { return false }
+            quality = chosen
+        }
         do {
-            try ImageExporter.write(image, to: url, format: format, quality: s.jpegQuality, scale: scale)
+            try ImageExporter.write(image, to: url, format: format, quality: quality, scale: scale,
+                                    maxColors: s.reduceColors ? s.reduceColorsTo : nil)
             return true
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be saved")
@@ -79,16 +93,71 @@ final class ImageSaver {
         }
     }
 
+    /// Upstream `QualityDialog`: the JPEG quality for this save, with "Don't ask again". Nil when cancelled.
+    private func askJpegQuality() -> Int? {
+        let slider = NSSlider(value: Double(settings.value.jpegQuality), minValue: 10, maxValue: 100, target: nil, action: nil)
+        slider.numberOfTickMarks = 10
+        slider.allowsTickMarkValuesOnly = false
+        let label = NSTextField(labelWithString: "Quality: \(settings.value.jpegQuality)")
+        let update = SliderLabel(slider: slider, label: label)
+        let stack = NSStackView(views: [label, slider])
+        stack.orientation = .vertical
+        stack.alignment = .leading
+        slider.widthAnchor.constraint(equalToConstant: 260).isActive = true
+        stack.frame = NSRect(origin: .zero, size: stack.fittingSize)
+        let alert = NSAlert()
+        alert.messageText = "JPEG Quality"
+        alert.informativeText = "Higher quality makes bigger files."
+        alert.accessoryView = stack
+        alert.showsSuppressionButton = true
+        alert.suppressionButton?.title = "Don't ask again, always use this quality"
+        alert.addButton(withTitle: "Save")
+        alert.addButton(withTitle: "Cancel")
+        NSApp.activate()
+        let response = alert.runModal()
+        withExtendedLifetime(update) {}
+        guard response == .alertFirstButtonReturn else { return nil }
+        let quality = Int(slider.doubleValue.rounded())
+        let dontAsk = alert.suppressionButton?.state == .on
+        settings.update {
+            $0.jpegQuality = quality
+            if dontAsk { $0.promptJpegQuality = false }
+        }
+        return quality
+    }
+
+    /// Records the file for "Open Recent Capture" and says where it went.
     func notifySaved(_ url: URL) {
+        settings.update { $0.lastSavedFile = url.path }
         let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
         notify("Saved \(url.lastPathComponent)", detail: "\(folder) – click to show in Finder") {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }
     }
 
-    func notify(_ message: String, detail: String? = nil, action: (() -> Void)? = nil) {
-        guard settings.value.showNotifications else { return }
+    /// A toast, filtered by Settings › Output › Messages. "Show a message after saving or copying" turns off the
+    /// information ones only; warnings and errors follow the message level alone.
+    func notify(_ message: String, detail: String? = nil, kind: MessageKind = .info, action: (() -> Void)? = nil) {
+        let s = settings.value
+        guard s.notificationLevel.shows(kind), kind != .info || s.showNotifications else { return }
         Toast.show(message, detail: detail, action: action)
+    }
+}
+
+/// Shows a slider's value in a label.
+@MainActor
+private final class SliderLabel: NSObject {
+    private let label: NSTextField
+
+    init(slider: NSSlider, label: NSTextField) {
+        self.label = label
+        super.init()
+        slider.target = self
+        slider.action = #selector(changed(_:))
+    }
+
+    @objc private func changed(_ sender: NSSlider) {
+        label.stringValue = "Quality: \(Int(sender.doubleValue.rounded()))"
     }
 }
 

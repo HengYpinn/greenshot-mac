@@ -7,66 +7,77 @@ import AppKit
 import GreenshotCore
 import SwiftUI
 
-/// Settings › Output (upstream's Output and Destination tabs).
+/// Settings › Output (upstream's Output tab); where captures go is in Settings › Destinations.
 struct OutputSettings: View {
     @ObservedObject var store: SettingsStore
-    private static let others: [CaptureDestination] = [.editor, .clipboard, .file, .fileAs, .printer]
 
     var body: some View {
         Form {
-            Section {
-                Toggle("Ask every time (destination menu)", isOn: destination(.picker))
-                // Never disabled: with the menu on and nothing else chosen, there would be no way to switch.
-                ForEach(Self.others, id: \.self) { candidate in
-                    Toggle(candidate.displayName, isOn: destination(candidate))
-                }
-            } header: {
-                Text("After a capture")
-            } footer: {
-                Text("Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.")
-                    .font(.caption).foregroundStyle(.secondary)
-            }
-            Section("Files") {
-                LabeledContent("Folder") {
-                    HStack {
-                        Text((store.value.outputFolderURL.path as NSString).abbreviatingWithTildeInPath)
-                            .lineLimit(1).truncationMode(.middle)
-                        Button("Choose…", action: chooseFolder)
-                    }
-                }
-                TextField("File name pattern", text: store.binding(\.filenamePattern))
-                Text("Example: \(example)").font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
-                DisclosureGroup("Pattern variables") {
-                    Text(Self.patternHelp).font(.caption).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
-                }
-                Picker("Format", selection: store.binding(\.outputFormat)) {
-                    ForEach(ImageFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
-                }
-                if store.value.outputFormat == .jpg {
-                    Slider(value: Binding(get: { Double(store.value.jpegQuality) },
-                                          set: { value in store.update { $0.jpegQuality = Int(value.rounded()) } }),
-                           in: 10...100, step: 5) {
-                        Text("JPEG quality: \(store.value.jpegQuality)")
-                    }
-                }
-                Toggle("Copy the file path to the clipboard after “Save directly”", isOn: store.binding(\.copyPathToClipboard))
-                Toggle("Show a message after saving or copying", isOn: store.binding(\.showNotifications))
-            }
+            filesSection
+            formatSection
+            messagesSection
         }
         .formStyle(.grouped)
+    }
+
+    private var filesSection: some View {
+        Section("Files") {
+            LabeledContent("Folder") {
+                HStack {
+                    Text((store.value.outputFolderURL.path as NSString).abbreviatingWithTildeInPath)
+                        .lineLimit(1).truncationMode(.middle)
+                    Button("Choose…", action: chooseFolder)
+                }
+            }
+            TextField("File name pattern", text: store.binding(\.filenamePattern))
+            Text("Example: \(example)").font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
+            DisclosureGroup("Pattern variables") {
+                Text(Self.patternHelp).font(.caption).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+            }
+            Toggle("Overwrite a file with the same name", isOn: store.binding(\.allowOverwrite))
+                .help("Off: “Save directly” adds (2), (3), … to the name instead.")
+            Toggle("Copy the file path to the clipboard after “Save directly”", isOn: store.binding(\.copyPathToClipboard))
+        }
+    }
+
+    private var formatSection: some View {
+        Section("Image format") {
+            Picker("Format", selection: store.binding(\.outputFormat)) {
+                ForEach(ImageFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            if store.value.outputFormat == .jpg {
+                Slider(value: jpegQuality, in: 10...100, step: 5) {
+                    Text("JPEG quality: \(store.value.jpegQuality)")
+                }
+            }
+            Toggle("Ask for the JPEG quality every time", isOn: store.binding(\.promptJpegQuality))
+            Toggle("Reduce the colours of PNG and GIF files", isOn: store.binding(\.reduceColors))
+            if store.value.reduceColors {
+                Stepper(value: store.binding(\.reduceColorsTo), in: 2...256) {
+                    Text("At most \(store.value.reduceColorsTo) colours")
+                }
+            }
+        }
+    }
+
+    private var messagesSection: some View {
+        Section("Messages") {
+            Toggle("Show a message after saving or copying", isOn: store.binding(\.showNotifications))
+            Picker("Show", selection: store.binding(\.notificationLevel)) {
+                ForEach(NotificationLevel.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+        }
+    }
+
+    private var jpegQuality: Binding<Double> {
+        Binding(get: { Double(store.value.jpegQuality) },
+                set: { value in store.update { $0.jpegQuality = Int(value.rounded()) } })
     }
 
     private var example: String {
         let name = FilenamePattern.fill(store.value.filenamePattern,
                                         context: store.patternContext(title: "Safari", date: Date(), consumeNumber: false))
         return "\(name).\(store.value.outputFormat.fileExtension)"
-    }
-
-    /// "Ask every time" excludes the others, like upstream's picker; without any destination it comes back.
-    private func destination(_ candidate: CaptureDestination) -> Binding<Bool> {
-        Binding(
-            get: { store.value.destinations.contains(candidate) },
-            set: { on in store.update { $0.setDestination(candidate, on: on) } })
     }
 
     private func chooseFolder() {
