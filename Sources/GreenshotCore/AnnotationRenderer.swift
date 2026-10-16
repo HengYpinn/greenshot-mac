@@ -18,7 +18,8 @@ public enum AnnotationRenderer {
     /// The base image with `annotations` drawn on it, at the pixel size of `base`.
     /// - Parameters:
     ///   - scale: pixels per point of the capture; style sizes are multiplied with it.
-    ///   - hiddenID: an element to leave out (the text being edited in place).
+    ///   - hiddenID: the element whose text is being edited in place. A text element is left out; a speech bubble
+    ///     is drawn without its text, as the frame around the text field.
     public static func flatten(base: CGImage, annotations: [Annotation], scale: CGFloat, hiding hiddenID: UUID? = nil) -> CGImage? {
         guard let context = makeContext(width: base.width, height: base.height) else { return nil }
         context.draw(base, in: CGRect(x: 0, y: 0, width: base.width, height: base.height))
@@ -33,9 +34,13 @@ public enum AnnotationRenderer {
         var counter = 0
         for annotation in annotations {
             if annotation.kind == .counter { counter += 1 }
-            guard annotation.id != hiddenID else { continue }
+            var shown = annotation
+            if annotation.id == hiddenID {
+                guard annotation.kind == .speechBubble else { continue }
+                shown.text = ""
+            }
             context.saveGState()
-            draw(annotation, number: counter, in: context, scale: scale)
+            draw(shown, number: counter, in: context, scale: scale)
             context.restoreGState()
         }
         return context.makeImage()
@@ -81,6 +86,10 @@ public enum AnnotationRenderer {
             drawHighlight(a, in: context, scale: scale)
         case .obfuscate:
             drawObfuscate(a, in: context, scale: scale)
+        case .speechBubble:
+            drawSpeechBubble(a, in: context, scale: scale)
+        case .emoji:
+            drawEmoji(a)
         }
     }
 
@@ -204,23 +213,70 @@ public enum AnnotationRenderer {
 
     static func drawText(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         let style = a.style
-        let rect = a.bounds
         if style.fillColor.isVisible {
             context.setFillColor(style.fillColor.cgColor)
-            context.fill(rect)
+            context.fill(a.bounds)
         }
-        guard !a.text.isEmpty, style.lineColor.isVisible else { return }
-        let string = attributedText(a.text, style: style, pixelsPerPoint: scale)
-        let inset = rect.insetBy(dx: 2 * scale, dy: 2 * scale)
-        guard inset.width > 0 else { return }
-        let measured = string.boundingRect(with: CGSize(width: inset.width, height: .greatestFiniteMagnitude),
+        drawCenteredText(a.text, style: style, in: textRect(for: a, scale: scale), context: context, scale: scale)
+    }
+
+    /// The area the text of a text element or speech bubble is laid out in. A bubble's text stays inside its
+    /// outline, like upstream `TextContainer.DrawText` (which moves it in by half the line width).
+    public static func textRect(for a: Annotation, scale: CGFloat) -> CGRect {
+        var inset = 2 * scale
+        if a.kind == .speechBubble { inset += ceil(CGFloat(a.style.lineWidth) * scale / 2) }
+        return a.bounds.insetBy(dx: inset, dy: inset)
+    }
+
+    /// `text` centered in `rect`, wrapped at its width.
+    static func drawCenteredText(_ text: String, style: AnnotationStyle, in rect: CGRect, context: CGContext, scale: CGFloat) {
+        guard !text.isEmpty, style.lineColor.isVisible, rect.width > 0 else { return }
+        let string = attributedText(text, style: style, pixelsPerPoint: scale)
+        let measured = string.boundingRect(with: CGSize(width: rect.width, height: .greatestFiniteMagnitude),
                                            options: [.usesLineFragmentOrigin, .usesFontLeading])
-        let y = inset.minY + max(0, (inset.height - measured.height) / 2)
-        let target = CGRect(x: inset.minX, y: y, width: inset.width, height: ceil(measured.height) + 1)
+        let y = rect.minY + max(0, (rect.height - measured.height) / 2)
+        let target = CGRect(x: rect.minX, y: y, width: rect.width, height: ceil(measured.height) + 1)
         withShadow(style.shadow, in: context, scale: scale) {
             string.draw(with: target, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
         }
     }
+
+    /// The rounded box of a speech bubble (upstream `SpeechbubbleContainer.CreateBubble`): the corners get smaller
+    /// in a small bubble, down to square ones.
+    static func speechBubbleBody(_ a: Annotation, lineWidth: CGFloat, scale: CGFloat) -> CGPath {
+        let box = a.bounds
+        // Upstream's value is the size of the corner arc's box, so the radius is half of it.
+        let cornerSize = min(30 * scale, min(box.width, box.height) / 2 - lineWidth)
+        guard cornerSize > 0 else { return CGPath(rect: box, transform: nil) }
+        return CGPath(roundedRect: box, cornerWidth: cornerSize / 2, cornerHeight: cornerSize / 2, transform: nil)
+    }
+
+    /// Upstream `SpeechbubbleContainer.Draw`. Upstream strokes and fills the box and the tail separately, clipping
+    /// each outline where the other shape covers it; filling and outlining their union draws the same shape in one go.
+    static func drawSpeechBubble(_ a: Annotation, in context: CGContext, scale: CGFloat) {
+        let style = a.style
+        let lineWidth = CGFloat(style.lineWidth) * scale
+        let shape = speechBubbleBody(a, lineWidth: lineWidth, scale: scale).union(a.speechBubbleTail)
+        drawShape(shape, style: style, lineWidth: lineWidth, in: context, scale: scale)
+        drawCenteredText(a.text, style: style, in: textRect(for: a, scale: scale), context: context, scale: scale)
+    }
+
+    /// The emoji, as big as fits in the element's square (upstream `EmojiRenderer`, which uses the Twemoji font;
+    /// here it is the system's Apple Color Emoji).
+    static func drawEmoji(_ a: Annotation) {
+        let box = a.bounds
+        let side = min(box.width, box.height)
+        guard side > 0, !a.text.isEmpty else { return }
+        let fontSize = side * emojiFontScale
+        let font = NSFont(name: "Apple Color Emoji", size: fontSize) ?? NSFont.systemFont(ofSize: fontSize)
+        let glyph = NSAttributedString(string: a.text, attributes: [.font: font])
+        let size = glyph.size()
+        glyph.draw(at: CGPoint(x: box.midX - size.width / 2, y: box.midY - size.height / 2))
+    }
+
+    /// Font size per pixel of the emoji's square. Upstream renders at 95 %; Apple Color Emoji glyphs are about as big
+    /// as their font size and sit a little low in the line, so 90 % keeps every one inside the square.
+    static let emojiFontScale: CGFloat = 0.9
 
     /// The text of a text element, centered like upstream's default `StringAlignment.Center`.
     public static func attributedText(_ text: String, style: AnnotationStyle, pixelsPerPoint: CGFloat) -> NSAttributedString {

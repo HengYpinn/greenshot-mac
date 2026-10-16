@@ -8,14 +8,19 @@ import Foundation
 
 /// The drawable elements of the editor. Upstream calls them containers (`Greenshot.Editor/Drawing/*Container.cs`).
 public enum AnnotationKind: String, Codable, CaseIterable, Sendable {
-    case rectangle, ellipse, line, arrow, freehand, text, highlight, obfuscate, counter
+    case rectangle, ellipse, line, arrow, freehand, text, highlight, obfuscate, counter, speechBubble, emoji
 
-    /// Elements that are a box: they get eight resize handles. Lines and arrows get two end points, freehand none.
+    /// Elements that are a box: they get resize handles. Lines and arrows get two end points, freehand none.
     public var isBoxShaped: Bool {
         switch self {
         case .line, .arrow, .freehand: return false
         default: return true
         }
+    }
+
+    /// Elements whose text is typed in place: upstream `TextContainer` and its subclass `SpeechbubbleContainer`.
+    public var hasEditableText: Bool {
+        self == .text || self == .speechBubble
     }
 }
 
@@ -118,6 +123,11 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
             return AnnotationStyle(shadow: false, obfuscateMode: .pixelate)
         case .counter:
             return AnnotationStyle(lineColor: .white, fillColor: .darkRed, lineWidth: 0, shadow: false, fontSize: 15, bold: true)
+        case .speechBubble:
+            // Upstream SpeechbubbleContainer: blue outline and text on white, 20 pt bold (about 27 pt here).
+            return AnnotationStyle(lineColor: .blue, fillColor: .white, lineWidth: 2, shadow: false, fontSize: 27, bold: true)
+        case .emoji:
+            return AnnotationStyle(shadow: false)
         }
     }
 }
@@ -132,17 +142,21 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     public var end: CGPoint
     /// The path of a freehand drawing.
     public var points: [CGPoint]
+    /// The text of text and speech bubbles; the character of an emoji.
     public var text: String
+    /// Where the tail of a speech bubble points (upstream `TargetAdorner`). See `tailTip` for when it is nil.
+    public var tail: CGPoint?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
-                text: String = "", style: AnnotationStyle? = nil) {
+                text: String = "", tail: CGPoint? = nil, style: AnnotationStyle? = nil) {
         self.id = id
         self.kind = kind
         self.start = start
         self.end = end
         self.points = points
         self.text = text
+        self.tail = tail
         self.style = style ?? .defaults(for: kind)
     }
 
@@ -158,6 +172,32 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         start = CGPoint(x: start.x + delta.dx, y: start.y + delta.dy)
         end = CGPoint(x: end.x + delta.dx, y: end.y + delta.dy)
         points = points.map { CGPoint(x: $0.x + delta.dx, y: $0.y + delta.dy) }
+        tail = tail.map { CGPoint(x: $0.x + delta.dx, y: $0.y + delta.dy) }
+    }
+
+    /// The tip of a speech bubble's tail. Without a set `tail` it is below the bottom left corner, where upstream's
+    /// `SpeechbubbleContainer.Draw` puts the tail of a bubble that was not drawn with the mouse.
+    public var tailTip: CGPoint {
+        tail ?? CGPoint(x: bounds.minX - 20, y: bounds.maxY + 25)
+    }
+
+    /// The tail of a speech bubble: a triangle from the middle of the box to `tailTip`, with a base as wide as a tenth
+    /// of the box's width plus height (upstream `SpeechbubbleContainer.CreateTail`). Empty when the tip is the middle.
+    public var speechBubbleTail: CGPath {
+        let box = bounds
+        let center = CGPoint(x: box.midX, y: box.midY)
+        let tip = tailTip
+        let length = Geometry.distance(center, tip)
+        let path = CGMutablePath()
+        guard length > 0 else { return path }
+        let halfWidth = min((box.width + box.height) / 20, box.width / 2, box.height / 2)
+        // Half the base, at a right angle to the direction of the tip.
+        let side = CGVector(dx: -(tip.y - center.y) / length * halfWidth, dy: (tip.x - center.x) / length * halfWidth)
+        path.move(to: CGPoint(x: center.x + side.dx, y: center.y + side.dy))
+        path.addLine(to: tip)
+        path.addLine(to: CGPoint(x: center.x - side.dx, y: center.y - side.dy))
+        path.closeSubpath()
+        return path
     }
 
     /// Whether a click at `point` (image pixels) hits the element. `scale` is pixels per point, `tolerance` in pixels.
@@ -186,7 +226,13 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
             let outer = normalized(rect.insetBy(dx: -reach, dy: -reach))
             if style.fillColor.isVisible { return outer <= 1 }
             return outer <= 1 && normalized(rect.insetBy(dx: reach, dy: reach)) >= 1
-        case .text, .highlight, .obfuscate, .counter:
+        case .speechBubble:
+            // Upstream `SpeechbubbleContainer.Contains`: the box, or the tail with its outline.
+            if bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point) { return true }
+            let tail = speechBubbleTail
+            return tail.contains(point)
+                || tail.copy(strokingWithWidth: reach * 2, lineCap: .round, lineJoin: .round, miterLimit: 10).contains(point)
+        case .text, .highlight, .obfuscate, .counter, .emoji:
             return bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point)
         }
     }
@@ -197,13 +243,19 @@ public enum Handle: CaseIterable, Sendable {
     case topLeft, top, topRight, right, bottomRight, bottom, bottomLeft, left
     /// The two ends of a line or arrow.
     case start, end
+    /// The tip of a speech bubble's tail.
+    case tail
 
     public static let boxHandles: [Handle] = [.topLeft, .top, .topRight, .right, .bottomRight, .bottom, .bottomLeft, .left]
+    public static let cornerHandles: [Handle] = [.topLeft, .topRight, .bottomRight, .bottomLeft]
 
     public static func handles(for annotation: Annotation) -> [Handle] {
         switch annotation.kind {
         case .line, .arrow: return [.start, .end]
         case .freehand: return []
+        case .speechBubble: return boxHandles + [.tail]
+        // An emoji keeps its aspect ratio (upstream `EmojiContainer` scales with `ScaleOptions.Rational`).
+        case .emoji: return cornerHandles
         default: return boxHandles
         }
     }
@@ -221,6 +273,7 @@ public enum Handle: CaseIterable, Sendable {
         case .left: return CGPoint(x: r.minX, y: r.midY)
         case .start: return annotation.start
         case .end: return annotation.end
+        case .tail: return annotation.tailTip
         }
     }
 
@@ -234,10 +287,20 @@ public enum Handle: CaseIterable, Sendable {
         case .end:
             result.end = point
             return result
+        case .tail:
+            // Only the tip moves; the box stays (upstream's target gripper).
+            result.tail = point
+            return result
         default:
             break
         }
         let r = original.bounds
+        if original.kind == .emoji, let anchor = oppositeCorner(in: r) {
+            let rect = Geometry.rect(from: anchor, to: Geometry.squareEnd(from: anchor, to: point))
+            result.start = rect.origin
+            result.end = CGPoint(x: rect.maxX, y: rect.maxY)
+            return result
+        }
         var minX = r.minX, minY = r.minY, maxX = r.maxX, maxY = r.maxY
         switch self {
         case .topLeft: minX = point.x; minY = point.y
@@ -248,11 +311,22 @@ public enum Handle: CaseIterable, Sendable {
         case .bottom: maxY = point.y
         case .bottomLeft: minX = point.x; maxY = point.y
         case .left: minX = point.x
-        case .start, .end: break
+        case .start, .end, .tail: break
         }
         let rect = Geometry.rect(from: CGPoint(x: minX, y: minY), to: CGPoint(x: maxX, y: maxY))
         result.start = rect.origin
         result.end = CGPoint(x: rect.maxX, y: rect.maxY)
         return result
+    }
+
+    /// The corner that stays put while this corner handle is dragged.
+    private func oppositeCorner(in r: CGRect) -> CGPoint? {
+        switch self {
+        case .topLeft: return CGPoint(x: r.maxX, y: r.maxY)
+        case .topRight: return CGPoint(x: r.minX, y: r.maxY)
+        case .bottomRight: return CGPoint(x: r.minX, y: r.minY)
+        case .bottomLeft: return CGPoint(x: r.maxX, y: r.minY)
+        default: return nil
+        }
     }
 }

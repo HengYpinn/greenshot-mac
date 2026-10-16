@@ -7,7 +7,7 @@ import GreenshotCore
 
 /// The tools of the editor, with upstream's one-letter shortcuts.
 enum EditorTool: CaseIterable {
-    case select, rectangle, ellipse, line, arrow, freehand, text, highlight, obfuscate, counter, crop
+    case select, rectangle, ellipse, line, arrow, freehand, text, speechBubble, highlight, obfuscate, counter, emoji, crop
 
     /// The element the tool draws.
     var kind: AnnotationKind? {
@@ -19,9 +19,11 @@ enum EditorTool: CaseIterable {
         case .arrow: return .arrow
         case .freehand: return .freehand
         case .text: return .text
+        case .speechBubble: return .speechBubble
         case .highlight: return .highlight
         case .obfuscate: return .obfuscate
         case .counter: return .counter
+        case .emoji: return .emoji
         }
     }
 
@@ -34,9 +36,11 @@ enum EditorTool: CaseIterable {
         case .arrow: return "Arrow"
         case .freehand: return "Freehand"
         case .text: return "Text"
+        case .speechBubble: return "Speech Bubble"
         case .highlight: return "Highlight"
         case .obfuscate: return "Obfuscate"
         case .counter: return "Counter"
+        case .emoji: return "Emoji"
         case .crop: return "Crop"
         }
     }
@@ -50,9 +54,11 @@ enum EditorTool: CaseIterable {
         case .arrow: return "arrow.up.right"
         case .freehand: return "scribble"
         case .text: return "textformat"
+        case .speechBubble: return "bubble.left"
         case .highlight: return "highlighter"
         case .obfuscate: return "eye.slash"
         case .counter: return "1.circle"
+        case .emoji: return "face.smiling"
         case .crop: return "crop"
         }
     }
@@ -66,10 +72,19 @@ enum EditorTool: CaseIterable {
         case .arrow: return "a"
         case .freehand: return "f"
         case .text: return "t"
+        case .speechBubble: return "s"
         case .highlight: return "h"
         case .obfuscate: return "o"
         case .counter: return "i"
+        case .emoji: return "m"
         case .crop: return "c"
         }
     }
+}
+
+/// The emoji to pick from. Upstream has a full emoji picker (`Greenshot.Editor/Controls/Emoji`); this is a short list
+/// of ones that suit screenshots.
+enum EmojiChoices {
+    static let all = ["🙂", "😀", "😂", "😍", "😎", "🤔", "😮", "😢", "😡", "🙈", "👍", "👎", "👏", "🙏", "👉", "👀",
+                      "❤️", "⭐️", "✅", "❌", "⚠️", "❓", "❗️", "💡", "🔥", "🎉", "🐛", "🚀"]
 }

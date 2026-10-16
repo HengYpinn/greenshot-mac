@@ -91,6 +91,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var lastCapturedRegion: CGRect?
     /// The last used style per element kind (keyed by `AnnotationKind.rawValue`), like upstream's remembered fields.
     public var editorStyles: [String: AnnotationStyle] = [:]
+    /// The emoji new emoji elements get: the last one picked (upstream `IEditorConfiguration.RecentEmoji`).
+    public var recentEmoji = "🙂"
 
     public init() {}
 
@@ -105,7 +107,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
     enum CodingKeys: String, CodingKey {
         case hotkeys, destinations, captureMousePointer, interactiveWindowCapture, includeWindowShadow, captureDelayMilliseconds
         case playCameraSound, showNotifications, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
-        case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles
+        case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
     }
 
     // Every value falls back to its default, so settings written by another version still load.
@@ -132,6 +134,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         incrementingNumber = value(.incrementingNumber, d.incrementingNumber)
         lastCapturedRegion = value(.lastCapturedRegion, d.lastCapturedRegion)
         editorStyles = value(.editorStyles, d.editorStyles)
+        recentEmoji = value(.recentEmoji, d.recentEmoji)
     }
 }
 

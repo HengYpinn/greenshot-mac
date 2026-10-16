@@ -21,10 +21,12 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Destination picker after a capture | ✅ | ✅ |
 | Save directly with a filename pattern, Save as, Copy, Print | ✅ | ✅ |
 | Editor: rectangle, ellipse, line, arrow, freehand, text, counter | ✅ | ✅ |
+| Editor: speech bubble, emoji | ✅ | ✅ (a short emoji list instead of the full picker) |
 | Editor: highlight (text marker, area, grayscale, magnify) | ✅ | ✅ |
 | Editor: obfuscate (pixelate, blur) | ✅ | ✅ |
 | Editor: crop, undo/redo, remembered styles per tool | ✅ | ✅ |
-| Speech bubble, emoji, image effects (torn edge, border, shadow) | ✅ | not yet |
+| Effects: torn edges, border, drop shadow, grayscale, invert | ✅ | ✅ (upstream's default settings) |
+| Effects: settings dialogs, rotate, resize, canvas size, remove transparency | ✅ | not yet |
 | Text (OCR) and fixed size capture modes | ✅ | not yet |
 | Upload plugins (Imgur, Jira, Confluence, Box, Dropbox), Office export | ✅ | not yet |
 | Recipes, MCP server, browser extension, translations | ✅ | not yet |
@@ -85,16 +87,25 @@ Like Greenshot, the app freezes the screen first, so menus and tooltips stay whe
 
 | Tool | Key | | Tool | Key |
 |---|---|---|---|---|
-| Select | V | | Text | T |
+| Select | V | | Speech bubble | S |
 | Rectangle | R | | Highlight | H |
 | Ellipse | E | | Obfuscate | O |
 | Line | L | | Counter | I |
-| Arrow | A | | Crop | C |
-| Freehand | F | | | |
+| Arrow | A | | Emoji | M |
+| Freehand | F | | Crop | C |
+| Text | T | | | |
 
 Shift draws squares, circles and lines at 45°. Delete removes the selected element, the arrow keys move it
 (Shift: ten points), Esc deselects. Double-click a text to edit it. Right-click an element to bring it to the front or
 send it to the back. ⌘S saves, ⇧⌘S saves as, ⇧⌘C copies the image, ⌘P prints, ⌘Z / ⇧⌘Z undo and redo.
+
+A speech bubble is a text box with a tail: drag the handle at the tip of the tail to point it somewhere, double-click
+the bubble to edit its text. An emoji is placed with a click; pick another one in the bar at the top or by
+double-clicking it, and resize it at its corners.
+
+The Effects menu (in the editor's top bar and the Image menu) changes the whole screenshot: torn edges, border,
+drop shadow, grayscale or invert. Each is one undo step; the elements stay editable and move along when the
+picture grows.
 
 ### File names
 

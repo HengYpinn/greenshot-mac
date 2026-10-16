@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import AppKit
+import GreenshotCore
 
 /// The menu bar shown while an editor window is open. Its items go through the responder chain to the editor
 /// window, the canvas or the app delegate.
@@ -46,6 +47,12 @@ enum MainMenu {
         edit.addItem(withTitle: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v")
         edit.addItem(withTitle: "Delete", action: #selector(NSText.delete(_:)), keyEquivalent: "")
         edit.addItem(withTitle: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a")
+
+        // Upstream's Effects menu.
+        let image = submenu(in: main, title: "Image")
+        for (index, effect) in ImageEffect.allCases.enumerated() {
+            image.addItem(withTitle: effect.title, action: #selector(EditorWindowController.applyEffect(_:)), keyEquivalent: "").tag = index
+        }
 
         let view = submenu(in: main, title: "View")
         view.addItem(withTitle: "Zoom In", action: #selector(EditorWindowController.zoomIn(_:)), keyEquivalent: "=")

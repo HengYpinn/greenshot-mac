@@ -35,11 +35,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     private let highlightPopup = NSPopUpButton()
     private let obfuscatePopup = NSPopUpButton()
     private let effectSizePopup = NSPopUpButton()
+    private let emojiPopup = NSPopUpButton()
     private var propertyGroups: [(view: NSView, kinds: Set<AnnotationKind>)] = []
     private let cropGroup = NSStackView()
 
     private static let lineWidths = [0, 1, 2, 3, 4, 5, 6, 8, 10]
-    private static let fontSizes = [9, 11, 13, 15, 18, 22, 28, 36, 48, 64, 96]
+    private static let fontSizes = [9, 11, 13, 15, 18, 22, 27, 36, 48, 64, 96]
     private static let effectSizes = [2, 3, 5, 8, 12, 16, 24]
 
     init(document: EditorDocument, settings: SettingsStore, saver: ImageSaver, onClose: @escaping (EditorWindowController) -> Void) {
@@ -139,17 +140,19 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         setUp(highlightPopup, titles: ["Text marker", "Highlight area", "Grayscale", "Magnify"], action: #selector(highlightChanged))
         setUp(obfuscatePopup, titles: ["Pixelate", "Blur"], action: #selector(obfuscateChanged))
         setUp(effectSizePopup, titles: Self.effectSizes.map { "\($0) pt" }, action: #selector(effectSizeChanged))
+        setUp(emojiPopup, titles: EmojiChoices.all, action: #selector(emojiChanged))
 
         let properties = NSStackView(views: [
-            group([lineColorLabel, lineColorWell], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter]),
-            group([label("Fill"), fillColorWell, noFill], for: [.rectangle, .ellipse, .text, .counter, .highlight]),
-            group([label("Width"), lineWidthPopup], for: [.rectangle, .ellipse, .line, .arrow, .freehand]),
+            group([lineColorLabel, lineColorWell], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble]),
+            group([label("Fill"), fillColorWell, noFill], for: [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble]),
+            group([label("Width"), lineWidthPopup], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .speechBubble]),
             group([arrowHeadsPopup], for: [.arrow]),
-            group([label("Size"), fontSizePopup], for: [.text, .counter]),
-            group([boldButton, italicButton], for: [.text]),
+            group([label("Size"), fontSizePopup], for: [.text, .counter, .speechBubble]),
+            group([boldButton, italicButton], for: [.text, .speechBubble]),
             group([highlightPopup], for: [.highlight]),
             group([obfuscatePopup, label("Size"), effectSizePopup], for: [.obfuscate]),
-            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .text]),
+            group([label("Emoji"), emojiPopup], for: [.emoji]),
+            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .text, .speechBubble]),
         ])
         properties.spacing = 14
 
@@ -160,9 +163,22 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         cropGroup.setViews([label("Drag the area to keep"), applyCrop, cancelCrop], in: .leading)
         cropGroup.spacing = 6
 
+        // Upstream's Effects menu: a pull-down whose first item is its button.
+        let effects = NSPopUpButton(frame: .zero, pullsDown: true)
+        effects.controlSize = .small
+        effects.toolTip = "Effects on the whole image"
+        effects.addItem(withTitle: "Effects")
+        effects.item(at: 0)?.image = NSImage(systemSymbolName: "sparkles", accessibilityDescription: nil)
+        for (index, effect) in ImageEffect.allCases.enumerated() {
+            let item = NSMenuItem(title: effect.title, action: #selector(applyEffect(_:)), keyEquivalent: "")
+            item.target = self
+            item.tag = index
+            effects.menu?.addItem(item)
+        }
+
         let spacer = NSView()
         spacer.setContentHuggingPriority(.init(1), for: .horizontal)
-        let topBar = NSStackView(views: [save, saveAs, copy, print, Self.divider(), undoButton, redoButton, Self.divider(),
+        let topBar = NSStackView(views: [save, saveAs, copy, print, Self.divider(), undoButton, redoButton, effects, Self.divider(),
                                          properties, cropGroup, spacer])
         topBar.spacing = 6
         topBar.edgeInsets = NSEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
@@ -181,7 +197,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
             b.heightAnchor.constraint(equalToConstant: 30).isActive = true
             toolButtons[tool] = b
             palette.addArrangedSubview(b)
-            if tool == .select || tool == .counter { palette.addArrangedSubview(Self.horizontalDivider()) }
+            if tool == .select || tool == .emoji { palette.addArrangedSubview(Self.horizontalDivider()) }
         }
         palette.setHuggingPriority(.required, for: .horizontal)
 
@@ -252,6 +268,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
 
     private func wireCanvas() {
         canvas.styleProvider = { [weak self] kind in self?.settings.value.style(for: kind) ?? .defaults(for: kind) }
+        canvas.emojiProvider = { [weak self] in self?.settings.value.recentEmoji ?? AppSettings().recentEmoji }
+        canvas.onPickEmoji = { [weak self] emoji in self?.pickEmoji(emoji) }
         canvas.onDocumentChange = { [weak self] in self?.refreshDocumentState() }
         canvas.onSelectionChange = { [weak self] in self?.refreshProperties() }
         canvas.onToolChange = { [weak self] in
@@ -329,6 +347,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         obfuscatePopup.selectItem(at: ObfuscateMode.allCases.firstIndex(of: style.obfuscateMode) ?? 0)
         selectClosest(effectSizePopup, values: Self.effectSizes,
                       to: style.obfuscateMode == .pixelate ? style.pixelSize : style.blurRadius)
+        let emoji = canvas.selectedAnnotation.flatMap { $0.kind == .emoji ? $0.text : nil } ?? settings.value.recentEmoji
+        if let index = EmojiChoices.all.firstIndex(of: emoji) { emojiPopup.selectItem(at: index) }
     }
 
     private func selectClosest(_ popup: NSPopUpButton, values: [Int], to value: Double) {
@@ -374,6 +394,25 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         applyStyle {
             if $0.obfuscateMode == .pixelate { $0.pixelSize = size } else { $0.blurRadius = size }
         }
+    }
+
+    @objc private func emojiChanged() { pickEmoji(EmojiChoices.all[emojiPopup.indexOfSelectedItem]) }
+
+    /// Changes the selected emoji element and remembers the emoji for new ones (upstream `RecentEmoji`).
+    private func pickEmoji(_ emoji: String) {
+        settings.update { $0.recentEmoji = emoji }
+        if var selected = canvas.selectedAnnotation, selected.kind == .emoji {
+            selected.text = emoji
+            editorDocument.change { editorDocument.update(selected) }
+            canvas.documentChanged()
+        }
+        refreshProperties()
+    }
+
+    /// An item of the Effects menu (in the window and the main menu); its tag is the effect's index.
+    @objc func applyEffect(_ sender: NSMenuItem) {
+        guard ImageEffect.allCases.indices.contains(sender.tag) else { return }
+        canvas.apply(ImageEffect.allCases[sender.tag])
     }
 
     @objc private func toolClicked(_ sender: NSButton) {

@@ -15,6 +15,7 @@ struct SettingsTests {
         #expect(s.captureDelayMilliseconds == 100)
         #expect(s.filenamePattern == "${capturetime:d\"yyyy-MM-dd HH_mm_ss\"}-${title}")
         #expect(s.outputFormat == .png && s.jpegQuality == 80 && s.copyPathToClipboard)
+        #expect(s.recentEmoji == "🙂")
     }
 
     @Test func roundTrip() throws {
@@ -22,6 +23,7 @@ struct SettingsTests {
         s.destinations = [.editor, .clipboard]
         s.lastCapturedRegion = CGRect(x: 1, y: 2, width: 3, height: 4)
         s.editorStyles["arrow"] = AnnotationStyle(lineColor: .blue)
+        s.recentEmoji = "👍"
         let decoded = try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(s))
         #expect(decoded == s)
     }
@@ -32,6 +34,7 @@ struct SettingsTests {
         #expect(decoded.captureDelayMilliseconds == 100)
         #expect(!decoded.zoomerEnabled)
         #expect(decoded.hotkeys.region == .defaultRegion)
+        #expect(decoded.recentEmoji == "🙂")
     }
 
     @Test func aClearedHotkeyStaysCleared() throws {

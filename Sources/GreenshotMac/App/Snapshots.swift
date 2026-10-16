@@ -24,6 +24,7 @@ enum Snapshots {
         let sample = sampleImage(width: 1280, height: 800)
 
         try write(editor(sample: sample, settings: settings), to: folder.appendingPathComponent("editor.png"))
+        try write(effectsEditor(sample: sample, settings: settings), to: folder.appendingPathComponent("editor-effects.png"))
         try write(overlay(sample: sample, mode: .region), to: folder.appendingPathComponent("capture-region.png"))
         try write(overlay(sample: sample, mode: .window), to: folder.appendingPathComponent("capture-window.png"))
         for (index, name) in ["general", "capture", "output"].enumerated() {
@@ -60,13 +61,34 @@ enum Snapshots {
                            points: stride(from: 0, through: 60, by: 1).map { i in
                                CGPoint(x: 1750 + CGFloat(i) * 10, y: 1500 + sin(CGFloat(i) / 4) * 40)
                            }))
+        let bubble = Annotation(kind: .speechBubble, start: CGPoint(x: 1560, y: 760), end: CGPoint(x: 2340, y: 960),
+                                text: "Best quarter yet!", tail: CGPoint(x: 1900, y: 640))
+        doc.add(bubble)
+        doc.add(Annotation(kind: .emoji, start: CGPoint(x: 2140, y: 1246), end: CGPoint(x: 2268, y: 1374), text: "🙈"))
 
+        return editorWindow(doc, settings: settings) { controller in
+            controller.canvas.tool = .speechBubble
+            controller.canvas.select(bubble.id)
+        }
+    }
+
+    /// The editor after Effects › Torn Edges, with the elements moved along.
+    private static func effectsEditor(sample: CGImage, settings: SettingsStore) -> NSBitmapImageRep? {
+        let doc = EditorDocument(image: sample, scale: 2, title: "Snapshot")
+        doc.add(Annotation(kind: .speechBubble, start: CGPoint(x: 1500, y: 1180), end: CGPoint(x: 2300, y: 1400),
+                           text: "Torn edges, drop shadow", tail: CGPoint(x: 1200, y: 1500)))
+        doc.add(Annotation(kind: .emoji, start: CGPoint(x: 2340, y: 1220), end: CGPoint(x: 2480, y: 1360), text: "✂️"))
+        doc.apply(.tornEdge, seed: 2026)
+        return editorWindow(doc, settings: settings) { $0.canvas.tool = .select }
+    }
+
+    private static func editorWindow(_ doc: EditorDocument, settings: SettingsStore,
+                                     configure: (EditorWindowController) -> Void) -> NSBitmapImageRep? {
         let saver = ImageSaver(settings: settings)
         let controller = EditorWindowController(document: doc, settings: settings, saver: saver) { _ in }
         guard let window = controller.window, let content = window.contentView else { return nil }
         window.setContentSize(NSSize(width: 1180, height: 760))
-        controller.canvas.tool = .arrow
-        controller.canvas.select(arrow.id)
+        configure(controller)
         content.layoutSubtreeIfNeeded()
         controller.zoomToFit(nil)
         content.layoutSubtreeIfNeeded()

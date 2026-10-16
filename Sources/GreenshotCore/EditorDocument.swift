@@ -153,13 +153,28 @@ public final class EditorDocument {
         let target = rect.standardized.integral.intersection(bounds)
         guard !target.isEmpty, target != bounds, let cropped = baseImage.cropping(to: target) else { return false }
         baseImage = cropped
-        let delta = CGVector(dx: -target.minX, dy: -target.minY)
+        moveAnnotations(by: CGVector(dx: -target.minX, dy: -target.minY))
+        return true
+    }
+
+    /// Applies an effect of the Effects menu to the image (upstream `Surface.ApplyBitmapEffect`): the elements stay
+    /// editable and move along when the image grows. Returns false when the effect could not be drawn.
+    /// `seed` picks the torn edges.
+    @discardableResult
+    public func apply(_ effect: ImageEffect, seed: UInt64 = .random(in: .min ... .max)) -> Bool {
+        guard let result = ImageEffects.apply(effect, to: baseImage, scale: scale, seed: seed) else { return false }
+        baseImage = result.image
+        moveAnnotations(by: result.offset)
+        return true
+    }
+
+    private func moveAnnotations(by delta: CGVector) {
+        guard delta != .zero else { return }
         annotations = annotations.map {
             var moved = $0
             moved.move(by: delta)
             return moved
         }
-        return true
     }
 
     /// The image with all elements drawn on it, the way it is saved.

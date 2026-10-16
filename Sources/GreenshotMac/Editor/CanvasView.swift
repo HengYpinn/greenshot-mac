@@ -14,6 +14,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
     let document: EditorDocument
     /// The style new elements of a kind get (the last used one).
     var styleProvider: (AnnotationKind) -> AnnotationStyle = { .defaults(for: $0) }
+    /// The emoji new emoji elements get.
+    var emojiProvider: () -> String = { "🙂" }
+    /// An emoji was picked from the canvas's menu, for the selected emoji element.
+    var onPickEmoji: ((String) -> Void)?
     var onDocumentChange: (() -> Void)?
     var onSelectionChange: (() -> Void)?
     var onToolChange: (() -> Void)?
@@ -189,8 +193,16 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
 
     // MARK: Mouse
 
-    private func textAnnotation(at point: CGPoint, tolerance: CGFloat) -> Annotation? {
-        document.topmostAnnotation(at: point, tolerance: tolerance).flatMap { $0.kind == .text ? $0 : nil }
+    /// The element of `kind` (text or speech bubble) at `point`, whose text a click with that tool edits.
+    private func textAnnotation(at point: CGPoint, tolerance: CGFloat, kind: AnnotationKind) -> Annotation? {
+        document.topmostAnnotation(at: point, tolerance: tolerance).flatMap { $0.kind == kind ? $0 : nil }
+    }
+
+    /// While a speech bubble is drawn its tail points next to where the drag began, away from the box, so it stays
+    /// visible (upstream `SpeechbubbleContainer.HandleMouseMove`).
+    private func drawnTail(origin: CGPoint, end: CGPoint) -> CGPoint {
+        let offset = 20 * document.scale
+        return CGPoint(x: origin.x + (end.x >= origin.x ? -offset : offset), y: origin.y + (end.y >= origin.y ? -offset : offset))
     }
 
     private func handle(at point: CGPoint, of a: Annotation) -> Handle? {
@@ -203,9 +215,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         let tolerance = 5 * pixelsPerScreenPoint
         if isEditingText {
             commitEditing()
-            if tool == .text {
-                // With the text tool a click on another text edits it; anywhere else it only finishes the text.
-                if let hit = textAnnotation(at: p, tolerance: tolerance) { beginEditing(hit, isNew: false) }
+            if let kind = tool.kind, kind.hasEditableText {
+                // With the text or speech bubble tool a click on another of its elements edits that one; anywhere else
+                // it only finishes the text.
+                if let hit = textAnnotation(at: p, tolerance: tolerance, kind: kind) { beginEditing(hit, isNew: false) }
                 return
             }
         }
@@ -225,8 +238,12 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
                 return
             }
             selectedID = a.id
-            if event.clickCount == 2 && a.kind == .text {
+            if event.clickCount == 2 && a.kind.hasEditableText {
                 beginEditing(a, isNew: false)
+                return
+            }
+            if event.clickCount == 2 && a.kind == .emoji {
+                showEmojiMenu(for: a)
                 return
             }
             document.beginChange()
@@ -236,11 +253,15 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             drag = .crop(origin: p)
             cropRect = nil
 
-        case .counter:
-            let style = styleProvider(.counter)
-            let radius = CGFloat(style.fontSize) * document.scale
-            let a = Annotation(kind: .counter, start: CGPoint(x: p.x - radius, y: p.y - radius),
-                               end: CGPoint(x: p.x + radius, y: p.y + radius), style: style)
+        case .counter, .emoji:
+            // Placed with a click, centered on the mouse; dragging moves it.
+            guard let kind = tool.kind else { return }
+            let style = styleProvider(kind)
+            // A counter is as big as its font, an emoji 64 × 64 (upstream `EmojiContainer.DefaultSize`).
+            let radius = (kind == .counter ? CGFloat(style.fontSize) : 32) * document.scale
+            let a = Annotation(kind: kind, start: CGPoint(x: p.x - radius, y: p.y - radius),
+                               end: CGPoint(x: p.x + radius, y: p.y + radius), text: kind == .emoji ? emojiProvider() : "",
+                               style: style)
             document.beginChange()
             document.add(a)
             selectedID = a.id
@@ -249,12 +270,13 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
 
         default:
             guard let kind = tool.kind else { return }
-            if kind == .text, let hit = textAnnotation(at: p, tolerance: tolerance) {
+            if kind.hasEditableText, let hit = textAnnotation(at: p, tolerance: tolerance, kind: kind) {
                 beginEditing(hit, isNew: false)
                 return
             }
             var a = Annotation(kind: kind, start: p, end: p, style: styleProvider(kind))
             if kind == .freehand { a.points = [p] }
+            if kind == .speechBubble { a.tail = drawnTail(origin: p, end: p) }
             document.beginChange()
             document.add(a)
             selectedID = a.id
@@ -281,6 +303,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
                 }
                 a.start = origin
                 a.end = end
+                if a.kind == .speechBubble { a.tail = drawnTail(origin: origin, end: end) }
             }
             document.update(a)
         case .move(let original, let origin):
@@ -318,12 +341,16 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
             }
             let minimum = 3 * pixelsPerScreenPoint
             let tiny = a.kind == .freehand ? a.points.count < 2 : (a.bounds.width < minimum && a.bounds.height < minimum)
-            if a.kind == .text {
+            if a.kind.hasEditableText {
                 var box = a
                 if tiny {
-                    // A click makes a text box of a default size.
+                    // A click makes a box of a default size. The tail of a speech bubble then points down left, where
+                    // upstream puts the tail of a bubble that was not drawn.
                     box.end = CGPoint(x: a.start.x + 220 * document.scale,
                                       y: a.start.y + CGFloat(a.style.fontSize) * 2.4 * document.scale)
+                    if box.kind == .speechBubble {
+                        box.tail = CGPoint(x: box.bounds.minX - 20 * document.scale, y: box.bounds.maxY + 25 * document.scale)
+                    }
                     document.update(box)
                 }
                 documentChanged()
@@ -350,8 +377,13 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         guard let a = document.topmostAnnotation(at: p, tolerance: 5 * pixelsPerScreenPoint) else { return nil }
         selectedID = a.id
         let menu = NSMenu()
-        if a.kind == .text {
+        if a.kind.hasEditableText {
             menu.addItem(ClosureMenuItem(title: "Edit Text") { [weak self] in self?.beginEditing(a, isNew: false) })
+        }
+        if a.kind == .emoji {
+            let item = NSMenuItem(title: "Emoji", action: nil, keyEquivalent: "")
+            item.submenu = emojiMenu()
+            menu.addItem(item)
         }
         menu.addItem(ClosureMenuItem(title: "Bring to Front") { [weak self] in
             self?.document.change { self?.document.bringToFront(a.id) }
@@ -386,7 +418,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         case kVK_Return, kVK_ANSI_KeypadEnter:
             if tool == .crop {
                 applyCrop()
-            } else if let a = selectedAnnotation, a.kind == .text {
+            } else if let a = selectedAnnotation, a.kind.hasEditableText {
                 beginEditing(a, isNew: false)
             }
             return
@@ -441,6 +473,31 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         cropRect = nil
     }
 
+    /// Applies an effect to the whole image as one undo step.
+    func apply(_ effect: ImageEffect) {
+        commitEditing()
+        cropRect = nil
+        document.change { document.apply(effect) }
+        documentChanged()
+    }
+
+    // MARK: Emoji
+
+    /// The emoji to pick from; picking one changes the selected emoji element.
+    private func emojiMenu() -> NSMenu {
+        let menu = NSMenu()
+        for emoji in EmojiChoices.all {
+            menu.addItem(ClosureMenuItem(title: emoji) { [weak self] in self?.onPickEmoji?(emoji) })
+        }
+        return menu
+    }
+
+    /// Upstream opens its emoji picker on a double click of an emoji.
+    private func showEmojiMenu(for a: Annotation) {
+        let box = viewRect(a.bounds)
+        emojiMenu().popUp(positioning: nil, at: CGPoint(x: box.minX, y: box.maxY), in: self)
+    }
+
     // MARK: Edit menu
 
     @objc func undo(_ sender: Any?) {
@@ -487,7 +544,9 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         selectedID = a.id
         textUndoManager = UndoManager()
         let style = a.style
-        let textView = NSTextView(frame: viewRect(a.bounds))
+        // A text element is replaced by the text field; a speech bubble stays drawn around it.
+        let frame = a.kind == .speechBubble ? AnnotationRenderer.textRect(for: a, scale: document.scale) : a.bounds
+        let textView = NSTextView(frame: viewRect(frame))
         textView.string = a.text
         textView.font = AnnotationRenderer.font(for: style, size: CGFloat(style.fontSize))
         textView.textColor = NSColor(cgColor: style.lineColor.cgColor)
@@ -495,7 +554,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         textView.alignment = .center
         textView.isRichText = false
         textView.allowsUndo = true
-        textView.drawsBackground = style.fillColor.isVisible
+        textView.drawsBackground = a.kind == .text && style.fillColor.isVisible
         textView.backgroundColor = NSColor(cgColor: style.fillColor.cgColor) ?? .clear
         textView.textContainerInset = NSSize(width: 0, height: 2)
         textView.delegate = self
@@ -520,7 +579,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         let text = textView.string
         textView.removeFromSuperview()
         if var a = document.annotation(id) {
-            if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            // An empty text shows nothing; an empty speech bubble still shows its shape, so it stays.
+            if a.kind == .text && text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 document.remove(id)
                 selectedID = nil
             } else {
@@ -551,12 +611,16 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
               let container = textView.textContainer, let layout = textView.layoutManager else { return }
         layout.ensureLayout(for: container)
         let needed = layout.usedRect(for: container).height + textView.textContainerInset.height * 2 + 4
-        guard needed > textView.frame.height else { return }
+        let growth = needed - textView.frame.height
+        guard growth > 0 else { return }
         textView.setFrameSize(NSSize(width: textView.frame.width, height: needed))
         let box = a.bounds
         a.start = box.origin
-        a.end = CGPoint(x: box.maxX, y: box.minY + needed * document.scale)
+        a.end = CGPoint(x: box.maxX, y: box.maxY + growth * document.scale)
         document.update(a)
+        // A speech bubble is drawn below the text field and grows with it.
+        rendered = nil
+        needsDisplay = true
     }
 }
 

@@ -5,6 +5,19 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Speech bubble element (S), ported from Greenshot's `SpeechbubbleContainer`: a rounded text box with a tail whose
+  tip is a handle; blue outline and bold text on white by default, text edited in place.
+- Emoji element (M): placed with a click, resized at its corners, picked from a short list in the top bar or with a
+  double-click; the last pick is remembered.
+- Effects menu in the editor and an Image menu: torn edges, border, drop shadow, grayscale and invert with
+  Greenshot's default settings, applied to the whole screenshot as one undo step.
+
+### Changed
+
+- The 28 pt font size is now 27 pt, the Mac size of the speech bubble's 20 pt on Windows.
+
 ## [0.1.0] - 2026-10-16
 
 ### Added
