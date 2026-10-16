@@ -92,7 +92,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         }
         bind(h.region, "Capture region") { [weak self] in self?.capture.captureRegion() }
         bind(h.window, "Capture window") { [weak self] in self?.capture.captureWindowFromHotkey() }
-        bind(h.fullScreen, "Capture full screen") { [weak self] in self?.capture.captureFullScreen() }
+        bind(h.fullScreen, "Capture full screen") { [weak self] in self?.capture.captureFullScreenFromHotkey() }
         bind(h.lastRegion, "Capture last region") { [weak self] in self?.capture.captureLastRegion() }
         bind(h.clipboard, "Open clipboard") { [weak self] in self?.editors.openClipboard() }
         if !failed.isEmpty {

@@ -27,8 +27,14 @@ enum Snapshots {
         try write(effectsEditor(sample: sample, settings: settings), to: folder.appendingPathComponent("editor-effects.png"))
         try write(overlay(sample: sample, mode: .region), to: folder.appendingPathComponent("capture-region.png"))
         try write(overlay(sample: sample, mode: .window), to: folder.appendingPathComponent("capture-window.png"))
-        for (index, name) in ["general", "capture", "output"].enumerated() {
+        try write(overlay(sample: sample, mode: .fixedSize), to: folder.appendingPathComponent("capture-fixed-size.png"))
+        try write(overlay(sample: sample, mode: .text), to: folder.appendingPathComponent("capture-text.png"))
+        try write(overlay(sample: sample, mode: .region, qrCode: true), to: folder.appendingPathComponent("capture-qr.png"))
+        for (index, name) in ["general", "capture", "output", "destinations", "editor", "printer", "expert"].enumerated() {
             try write(settingsTab(index, settings: settings), to: folder.appendingPathComponent("settings-\(name).png"))
+        }
+        for (name, view) in dialogs(sample: sample) {
+            try write(form(view), to: folder.appendingPathComponent("dialog-\(name).png"))
         }
         if let editorDocument {
             try ImageExporter.write(editorDocument.flattened(), to: folder.appendingPathComponent("editor-export.png"), format: .png,
@@ -96,17 +102,72 @@ enum Snapshots {
         return capture(content)
     }
 
-    private static func overlay(sample: CGImage, mode: CaptureOverlayController.Mode) -> NSBitmapImageRep? {
+    /// The dialogs (their forms, without the alert around them): print options, the effect settings, resize, adjust
+    /// and text obfuscation.
+    private static func dialogs(sample: CGImage) -> [(String, NSView)] {
+        let printOptions = PrintOptionsForm(options: PrintSettings())
+        let dropShadow = DropShadowSettingsForm(DropShadowSettings())
+        let tornEdge = TornEdgeSettingsForm(TornEdgeSettings())
+        let resize = ResizeForm(size: CGSize(width: 2560, height: 1600))
+        let adjust = AdjustSettingsForm()
+        let obfuscate = TextObfuscationSheet(image: sample, settings: TextObfuscationSettings(), language: "")
+        obfuscate.showAdvanced()
+        // The forms own their controls; keep them alive until the renders are written.
+        keepAlive += [printOptions, dropShadow, tornEdge, resize, adjust, obfuscate]
+        return [("print-options", printOptions.view), ("drop-shadow", dropShadow.view), ("torn-edges", tornEdge.view),
+                ("resize", resize.view), ("adjust", adjust.view), ("obfuscate-text", obfuscate.contentView ?? NSView())]
+    }
+
+    private static var keepAlive: [AnyObject] = []
+
+    private static func form(_ view: NSView) -> NSBitmapImageRep? {
+        view.appearance = NSAppearance(named: .aqua)
+        view.layoutSubtreeIfNeeded()
+        if view.frame.isEmpty { view.frame.size = view.fittingSize }
+        let window = NSWindow(contentRect: view.bounds, styleMask: [.titled], backing: .buffered, defer: false)
+        window.contentView = view
+        return capture(view)
+    }
+
+    private static func overlay(sample: CGImage, mode: CaptureOverlayController.Mode, qrCode: Bool = false) -> NSBitmapImageRep? {
         let screen = FrozenScreen(displayID: 1, frame: CGRect(x: 0, y: 0, width: 1280, height: 800), scale: 2, image: sample)
         let windows = [WindowInfo(id: 1, frame: CGRect(x: 50, y: 50, width: 1140, height: 690), title: "Quarterly report",
                                   appName: "Preview", pid: 1)]
-        let controller = CaptureOverlayController(screens: [screen], windows: windows, mode: mode, zoomer: true) { _ in }
+        let controller = CaptureOverlayController(screens: [screen], windows: windows, mode: .region, zoomer: true) { _ in }
         let view = OverlayMarksView(frame: NSRect(x: 0, y: 0, width: 1280, height: 800), frozen: screen, controller: controller)
-        if mode == .region {
+        switch mode {
+        case .region where qrCode:
+            // A made-up QR code frame over the orange shape, with its menu open.
+            let code = DetectedBarcode(payload: "https://getgreenshot.org/", bounds: CGRect(x: 880, y: 160, width: 220, height: 160), symbology: "QR")
+            controller.useBarcodes([code])
+            controller.mouseMoved(to: CGPoint(x: 990, y: 240))
+            controller.openBarcodeMenu(for: code, at: CGPoint(x: 990, y: 240))
+        case .region:
             controller.mouseDown(at: CGPoint(x: 90, y: 160))
             controller.mouseDragged(to: CGPoint(x: 560, y: 470), shift: false)
-        } else {
+        case .window:
+            controller.switchMode(to: .window)
             controller.mouseMoved(to: CGPoint(x: 700, y: 400))
+        case .fixedSize:
+            controller.switchMode(to: .fixedSize)
+            controller.mouseMoved(to: CGPoint(x: 300, y: 220))
+        case .text:
+            // The sample's text lines, as text recognition would report them (global points).
+            let texts = ["Revenue grew in every region this quarter.", "Contact: support@example.com  Order 4711-0815",
+                         "Next review: Thursday at 10:00"]
+            let lines = texts.enumerated().map { index, text -> RecognizedLine in
+                let bounds = CGRect(x: 100, y: 410 + CGFloat(index) * 30, width: CGFloat(text.count) * 10, height: 24)
+                var x = bounds.minX
+                let words = text.split(separator: " ").map { word -> RecognizedWord in
+                    let w = RecognizedWord(text: String(word), bounds: CGRect(x: x, y: bounds.minY, width: CGFloat(word.count) * 10, height: 24))
+                    x += CGFloat(word.count + 1) * 10
+                    return w
+                }
+                return RecognizedLine(text: text, bounds: bounds, words: words)
+            }
+            controller.useTextLines(lines)
+            controller.switchMode(to: .text)
+            controller.mouseMoved(to: CGPoint(x: 300, y: 452))
         }
         // The frozen picture is a layer in the app; here it is drawn below the (transparent) marks by hand.
         let size = view.bounds.size
@@ -129,7 +190,7 @@ enum Snapshots {
     private static func settingsTab(_ index: Int, settings: SettingsStore) -> NSBitmapImageRep? {
         let root = SettingsTabSnapshot(store: settings, status: SystemStatus(), tab: index)
         let hosting = NSHostingView(rootView: root)
-        hosting.frame = NSRect(x: 0, y: 0, width: 580, height: 560)
+        hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 600)
         let window = NSWindow(contentRect: hosting.frame, styleMask: [.titled], backing: .buffered, defer: false)
         window.contentView = hosting
         hosting.layoutSubtreeIfNeeded()
