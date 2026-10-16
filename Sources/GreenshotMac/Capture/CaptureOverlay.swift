@@ -42,7 +42,6 @@ struct OverlaySelection {
 @MainActor
 final class CaptureOverlayController {
     enum Mode { case region, window, fixedSize, text }
-    enum PreviewPlacement { case corner, zoomer, off }
     private enum Axis { case horizontal, vertical }
 
     private static var active: CaptureOverlayController?
@@ -73,7 +72,7 @@ final class CaptureOverlayController {
     private(set) var zoomerVisible: Bool
     private(set) var helpVisible: Bool
     private(set) var infoVisible: Bool
-    private(set) var previewPlacement: PreviewPlacement
+    private(set) var previewPlacement: SelectionPreviewPlacement
     private(set) var pointerVisible: Bool
     private(set) var windowDetailsVisible = false
     private(set) var cursor: CGPoint = .zero
@@ -126,7 +125,8 @@ final class CaptureOverlayController {
         self.zoomerVisible = zoomer
         self.helpVisible = values.captureHelpVisible
         self.infoVisible = values.captureInfoVisible
-        self.previewPlacement = values.captureSelectionPreviewVisible ? .corner : .off
+        self.previewPlacement = SelectionPreviewPlacement(visible: values.captureSelectionPreviewVisible,
+                                                          inZoomer: values.zoomerShowsPreview)
         let sizes = FixedSizeCapture.sizes(configured: values.fixedCaptureSizes, recent: values.recentCaptureSizes)
         self.fixedSizes = sizes
         // The mode starts with the size used last time.
@@ -342,15 +342,15 @@ final class CaptureOverlayController {
         redraw()
     }
 
-    /// P: in a corner, in the place of the zoomer, off. Only on/off is remembered.
+    /// P: in a corner, in the place of the zoomer, off. The placement is remembered (upstream
+    /// `CaptureSelectionPreviewVisible` and `ZoomerShowsPreview`).
     private func nextPreviewPlacement() {
-        switch previewPlacement {
-        case .corner: previewPlacement = .zoomer
-        case .zoomer: previewPlacement = .off
-        case .off: previewPlacement = .corner
+        previewPlacement = previewPlacement.next
+        let placement = previewPlacement
+        settings?.update {
+            $0.captureSelectionPreviewVisible = placement.isVisible
+            $0.zoomerShowsPreview = placement.isInZoomer
         }
-        let visible = previewPlacement != .off
-        settings?.update { $0.captureSelectionPreviewVisible = visible }
         redraw()
     }
 

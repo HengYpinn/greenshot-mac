@@ -83,6 +83,32 @@ public enum CapturePanelPlacement {
     }
 }
 
+/// Where the preview of the selection is on the capture screen (upstream `SelectionPreviewOverlay`): in a corner, in
+/// the place of the zoomer, or off. P goes from one to the next (`NextMode`); the choice is remembered in the
+/// settings `captureSelectionPreviewVisible` and `zoomerShowsPreview`, so it comes back with the next capture.
+public enum SelectionPreviewPlacement: Equatable, Sendable {
+    case corner, zoomer, off
+
+    /// The placement the two settings mean.
+    public init(visible: Bool, inZoomer: Bool) {
+        self = visible ? (inZoomer ? .zoomer : .corner) : .off
+    }
+
+    /// After P: a corner, the zoomer's place, off, a corner again.
+    public var next: SelectionPreviewPlacement {
+        switch self {
+        case .corner: return .zoomer
+        case .zoomer: return .off
+        case .off: return .corner
+        }
+    }
+
+    /// `captureSelectionPreviewVisible`.
+    public var isVisible: Bool { self != .off }
+    /// `zoomerShowsPreview`.
+    public var isInZoomer: Bool { self == .zoomer }
+}
+
 /// Where the zoomer (or the preview in its place) goes: next to the mouse, on the display, and if possible not over
 /// the selection or the panels. Port of upstream `Greenshot/Capturing/ZoomerPlacement.cs`.
 public enum CaptureZoomerPlacement {

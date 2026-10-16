@@ -156,6 +156,27 @@ struct CaptureScreenChoiceTests {
 }
 
 /// The panels and the zoomer (upstream `PanelPlacement`, `ZoomerPlacement`, `SelectionPreviewOverlay`).
+struct SelectionPreviewPlacementTests {
+    @Test func pGoesCornerZoomerOffAndRemembersBoth() {
+        var placement = SelectionPreviewPlacement(visible: true, inZoomer: false)
+        #expect(placement == .corner)
+        placement = placement.next
+        #expect(placement == .zoomer && placement.isVisible && placement.isInZoomer)
+        placement = placement.next
+        #expect(placement == .off && !placement.isVisible && !placement.isInZoomer)
+        placement = placement.next
+        #expect(placement == .corner && placement.isVisible && !placement.isInZoomer)
+    }
+
+    @Test func theRememberedSettingsBringThePlacementBack() {
+        #expect(SelectionPreviewPlacement(visible: true, inZoomer: true) == .zoomer)
+        #expect(SelectionPreviewPlacement(visible: false, inZoomer: true) == .off)
+        #expect(SelectionPreviewPlacement(visible: false, inZoomer: false) == .off)
+        let settings = AppSettings()
+        #expect(settings.captureSelectionPreviewVisible && !settings.zoomerShowsPreview)
+    }
+}
+
 struct CapturePanelLayoutTests {
     let monitor = CGRect(x: 0, y: 0, width: 1280, height: 800)
     let size = CGSize(width: 200, height: 100)

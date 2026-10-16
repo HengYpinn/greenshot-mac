@@ -121,7 +121,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
 
     // Capture screen (upstream `FixedCaptureSizes`, `RecentCaptureSizes`, `FixedCaptureSize`, `FixedCaptureAnchor`,
     // `ScreenCaptureMode`, `ScreenToCapture`, `CaptureHelpVisible`, `CaptureInfoVisible`,
-    // `CaptureSelectionPreviewVisible`, `OcrLanguage`, `ScanOnCapture`, `AutoCropDifference`).
+    // `CaptureSelectionPreviewVisible`, `ZoomerShowsPreview`, `OcrLanguage`, `ScanOnCapture`, `AutoCropDifference`).
     public var fixedCaptureSizes: [CaptureSize] = CaptureSize.defaults
     /// The last five region sizes, newest first.
     public var recentCaptureSizes: [CaptureSize] = []
@@ -134,6 +134,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var captureHelpVisible = true
     public var captureInfoVisible = true
     public var captureSelectionPreviewVisible = true
+    /// The preview of the selection is in the place of the zoomer instead of a corner (upstream `ZoomerShowsPreview`).
+    public var zoomerShowsPreview = false
     /// A BCP 47 language for text recognition; empty means automatic.
     public var ocrLanguage = ""
     /// Look for QR codes on the capture screen.
@@ -198,7 +200,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case playCameraSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
         case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
         case fixedCaptureSizes, recentCaptureSizes, fixedCaptureSize, fixedCaptureAnchor, screenCaptureMode, screenToCapture
-        case captureHelpVisible, captureInfoVisible, captureSelectionPreviewVisible, ocrLanguage, scanQRCodesOnCapture
+        case captureHelpVisible, captureInfoVisible, captureSelectionPreviewVisible, zoomerShowsPreview, ocrLanguage, scanQRCodesOnCapture
         case autoCropDifference, notificationLevel
         case reuseEditor, suppressSaveDialogAtClose, matchSizeToCapture, dropShadowSettings, tornEdgeSettings, textObfuscation
         case cutOutMarkStyle
@@ -241,6 +243,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         captureHelpVisible = value(.captureHelpVisible, d.captureHelpVisible)
         captureInfoVisible = value(.captureInfoVisible, d.captureInfoVisible)
         captureSelectionPreviewVisible = value(.captureSelectionPreviewVisible, d.captureSelectionPreviewVisible)
+        zoomerShowsPreview = value(.zoomerShowsPreview, d.zoomerShowsPreview)
         ocrLanguage = value(.ocrLanguage, d.ocrLanguage)
         scanQRCodesOnCapture = value(.scanQRCodesOnCapture, d.scanQRCodesOnCapture)
         autoCropDifference = value(.autoCropDifference, d.autoCropDifference)
