@@ -66,7 +66,7 @@ struct SettingsView: View {
                 TabView { tabs }
             }
         }
-        .frame(width: 580, height: 600)
+        .frame(width: 620, height: 600)
         .padding(.vertical, 8)
     }
 

@@ -15,12 +15,12 @@ struct PrinterSettings: View {
 
     var body: some View {
         Form {
-            layoutSection
-            colorSection
-            footerSection
             Section {
                 Toggle("Show print options every time before printing", isOn: store.binding(\.printing.promptOptions))
             }
+            layoutSection
+            colorSection
+            footerSection
         }
         .formStyle(.grouped)
     }
