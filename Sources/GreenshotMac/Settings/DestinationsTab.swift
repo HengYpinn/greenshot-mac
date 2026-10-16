@@ -17,6 +17,7 @@ struct DestinationsSettings: View {
         Form {
             afterCaptureSection
             emailSection
+            externalCommandsSection
         }
         .formStyle(.grouped)
     }
@@ -50,10 +51,75 @@ struct DestinationsSettings: View {
         }
     }
 
+    private var externalCommandsSection: some View {
+        Section {
+            ForEach(store.value.externalCommands) { command in
+                ExternalCommandRow(command: command, edit: { edit(command) }, remove: { remove(command) })
+            }
+            HStack {
+                Spacer()
+                Button("Add…") { add() }
+            }
+        } header: {
+            Text("External commands")
+        } footer: {
+            Text("Each command is a destination of its own (\u{201C}External: name\u{201D}). {0} in the arguments is the screenshot's file.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    private func add() {
+        guard let command = ExternalCommandEditor.edit(nil) else { return }
+        store.update { $0.externalCommands.append(command) }
+    }
+
+    private func edit(_ command: ExternalCommand) {
+        guard let changed = ExternalCommandEditor.edit(command) else { return }
+        store.update { settings in
+            if let index = settings.externalCommands.firstIndex(where: { $0.id == command.id }) {
+                settings.externalCommands[index] = changed
+            }
+        }
+    }
+
+    private func remove(_ command: ExternalCommand) {
+        store.update { $0.externalCommands.removeAll { $0.id == command.id } }
+    }
+
     /// "Ask every time" excludes the others, like upstream's picker; without any destination it comes back.
     private func destination(_ candidate: CaptureDestination) -> Binding<Bool> {
         Binding(
             get: { store.value.destinations.contains(candidate) },
             set: { on in store.update { $0.setDestination(candidate, on: on) } })
+    }
+}
+
+/// One external command in Settings › Destinations.
+private struct ExternalCommandRow: View {
+    let command: ExternalCommand
+    let edit: () -> Void
+    let remove: () -> Void
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(command.name).fontWeight(.medium)
+                Text("\(command.command) \(command.arguments)")
+                    .font(.caption).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)
+                Text(options).font(.caption2).foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button("Edit…", action: edit)
+            Button(role: .destructive, action: remove) { Image(systemName: "minus.circle") }
+                .buttonStyle(.borderless)
+                .help("Remove \(command.name)")
+        }
+    }
+
+    private var options: String {
+        var parts: [String] = [command.runInBackground ? "In the background" : "Waits, errors in a dialog"]
+        if command.copyURLFromOutput { parts.append("copies a URL") }
+        if command.copyOutputToClipboard { parts.append("copies the output") }
+        return parts.joined(separator: " · ")
     }
 }

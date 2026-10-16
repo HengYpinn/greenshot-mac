@@ -55,8 +55,8 @@ final class OutputManager {
             perform(destination, with: capture, window: window)
         case .pdfAs:
             break
-        case .externalCommand:
-            break
+        case .externalCommand(let command):
+            ExternalCommandRunner.run(command, capture: capture, settings: settings, saver: saver)
         case .application:
             break
         }
@@ -83,7 +83,9 @@ final class OutputManager {
             ShareDestination.share(capture, settings: settings, window: window)
         case .ocr:
             TextDestination.copyText(capture, settings: settings, saver: saver)
-        case .externalCommand, .pdf, .openWith, .qrCode:
+        case .externalCommand:
+            runExternalCommand(with: capture, window: window)
+        case .pdf, .openWith, .qrCode:
             ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")
         }
     }
@@ -105,7 +107,31 @@ final class OutputManager {
         add("Print…", .destination(.printer))
         add("Email…", .destination(.email))
         add("Share…", .destination(.share))
+        for command in settings.value.externalCommands {
+            add("External: \(command.name)", .externalCommand(command))
+        }
         return items
+    }
+
+    /// The external command destination: the one command, or a menu to choose with several.
+    private func runExternalCommand(with capture: Capture, window: NSWindow?) {
+        let commands = settings.value.externalCommands
+        if commands.count == 1 {
+            perform(.externalCommand(commands[0]), with: capture, window: window)
+            return
+        }
+        guard !commands.isEmpty else {
+            ErrorPresenter.show(message: "No external command is set up", detail: "Add one in Settings › Destinations.")
+            return
+        }
+        let menu = NSMenu(title: "External command")
+        menu.autoenablesItems = false
+        for command in commands {
+            menu.addItem(ClosureMenuItem(title: command.name) { [weak self] in
+                self?.perform(.externalCommand(command), with: capture, window: window)
+            })
+        }
+        popUp(menu)
     }
 
     /// The menu at the mouse that asks where the capture goes.
