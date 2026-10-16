@@ -26,6 +26,10 @@ extension MainMenu {
         file.addItem(.separator())
         file.addItem(destinationItem("Email…", .destination(.email), key: "e"))
         file.addItem(destinationItem("Share…", .destination(.share)))
+        let openWith = file.addItem(withTitle: "Open With", action: nil, keyEquivalent: "")
+        openWith.submenu = NSMenu(title: "Open With")
+        openWith.submenu?.delegate = DynamicFileMenus.shared
+        DynamicFileMenus.shared.openWith = openWith.submenu
         let external = file.addItem(withTitle: "External Command", action: nil, keyEquivalent: "")
         external.submenu = NSMenu(title: "External Command")
         external.submenu?.delegate = DynamicFileMenus.shared
@@ -47,6 +51,7 @@ extension MainMenu {
 final class DynamicFileMenus: NSObject, NSMenuDelegate {
     static let shared = DynamicFileMenus()
     weak var externalCommands: NSMenu?
+    weak var openWith: NSMenu?
 
     func menuNeedsUpdate(_ menu: NSMenu) {
         guard let app = NSApp.delegate as? AppDelegate else { return }
@@ -60,6 +65,17 @@ final class DynamicFileMenus: NSObject, NSMenuDelegate {
             }
             menu.addItem(.separator())
             menu.addItem(withTitle: "Set Up Commands…", action: #selector(AppDelegate.showSettings(_:)), keyEquivalent: "")
+        } else if menu === openWith {
+            let format = app.settings.value.outputFormat
+            for application in OpenWithDestination.applications(for: format).prefix(30) {
+                let item = MainMenu.destinationItem(OpenWithDestination.name(of: application), .application(application))
+                let icon = NSWorkspace.shared.icon(forFile: application.path)
+                icon.size = NSSize(width: 16, height: 16)
+                item.image = icon
+                menu.addItem(item)
+            }
+            menu.addItem(.separator())
+            menu.addItem(MainMenu.destinationItem("Other…", .application(nil)))
         }
     }
 }

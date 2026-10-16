@@ -13,7 +13,8 @@ enum DestinationTarget: Equatable {
     /// "Save as PDF…": asks for the file name (the `.pdf` destination saves directly).
     case pdfAs
     case externalCommand(ExternalCommand)
-    case application(URL)
+    /// Open with that app; nil asks for one.
+    case application(URL?)
 }
 
 /// A `DestinationTarget` as a menu item's `representedObject`.
@@ -57,8 +58,8 @@ final class OutputManager {
             PdfDestination.save(capture, settings: settings, saver: saver, ask: true)
         case .externalCommand(let command):
             ExternalCommandRunner.run(command, capture: capture, settings: settings, saver: saver)
-        case .application:
-            break
+        case .application(let app):
+            OpenWithDestination.open(capture, with: app, settings: settings)
         }
     }
 
@@ -87,7 +88,15 @@ final class OutputManager {
             runExternalCommand(with: capture, window: window)
         case .pdf:
             PdfDestination.save(capture, settings: settings, saver: saver, ask: false)
-        case .openWith, .qrCode:
+        case .openWith:
+            let menu = NSMenu(title: "Open with")
+            menu.autoenablesItems = false
+            OpenWithDestination.menuItems(format: settings.value.outputFormat) { [weak self] app in
+                guard let self else { return }
+                OpenWithDestination.open(capture, with: app, settings: self.settings)
+            }.forEach(menu.addItem)
+            popUp(menu)
+        case .qrCode:
             ErrorPresenter.show(message: "\(destination.displayName) isn't available yet", detail: "")
         }
     }
@@ -110,6 +119,14 @@ final class OutputManager {
         add("Print…", .destination(.printer))
         add("Email…", .destination(.email))
         add("Share…", .destination(.share))
+        let openWith = NSMenuItem(title: "Open With", action: nil, keyEquivalent: "")
+        openWith.submenu = NSMenu(title: "Open With")
+        openWith.submenu?.autoenablesItems = false
+        OpenWithDestination.menuItems(format: settings.value.outputFormat) { [weak self] app in
+            guard let self else { return }
+            OpenWithDestination.open(capture, with: app, settings: self.settings)
+        }.forEach { openWith.submenu?.addItem($0) }
+        items.append(openWith)
         for command in settings.value.externalCommands {
             add("External: \(command.name)", .externalCommand(command))
         }
