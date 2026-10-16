@@ -11,6 +11,9 @@ public enum AnnotationKind: String, Codable, CaseIterable, Sendable {
     case rectangle, ellipse, line, arrow, freehand, text, highlight, obfuscate, counter, speechBubble, emoji
     /// A pasted or dropped picture (upstream `ImageContainer`).
     case image
+    /// Marks where a strip was cut out of the image: a band across the whole image between two edges
+    /// (upstream `CutMarkContainer`).
+    case cutMark
 
     /// Elements that are a box: they get resize handles. Lines and arrows get two end points, freehand none.
     public var isBoxShaped: Bool {
@@ -34,6 +37,11 @@ public enum HighlightMode: String, Codable, CaseIterable, Sendable {
 /// Upstream `PreparedFilter` values of the obfuscate container.
 public enum ObfuscateMode: String, Codable, CaseIterable, Sendable {
     case pixelate, blur
+}
+
+/// How the edges of a cut mark look (upstream `CutMarkStyle`).
+public enum CutMarkStyle: String, Codable, CaseIterable, Sendable {
+    case none, line, zigZag, wave, torn
 }
 
 /// Upstream `ArrowHeadCombination`.
@@ -61,6 +69,8 @@ public struct RGBAColor: Codable, Hashable, Sendable {
     public static let white = RGBAColor(red: 1, green: 1, blue: 1)
     public static let black = RGBAColor(red: 0, green: 0, blue: 0)
     public static let clear = RGBAColor(red: 0, green: 0, blue: 0, alpha: 0)
+    /// .NET `Color.DimGray`.
+    public static let dimGray = RGBAColor(red: 105 / 255, green: 105 / 255, blue: 105 / 255)
 
     public var isVisible: Bool { alpha > 0 }
 
@@ -87,11 +97,17 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
     public var pixelSize: Double
     public var blurRadius: Double
     public var magnification: Double
+    public var cutMarkStyle: CutMarkStyle
+    /// How deep the edges of a cut mark go into the image, points (upstream `TOOTH_HEIGHT`).
+    public var toothHeight: Double
+    /// How wide a tooth of a cut mark is, points (upstream `TOOTH_RANGE`).
+    public var toothRange: Double
 
     public init(lineColor: RGBAColor = .red, fillColor: RGBAColor = .clear, lineWidth: Double = 2, shadow: Bool = true,
                 fontSize: Double = 15, bold: Bool = false, italic: Bool = false, arrowHeads: ArrowHeads = .end,
                 highlightMode: HighlightMode = .text, obfuscateMode: ObfuscateMode = .pixelate,
-                pixelSize: Double = 5, blurRadius: Double = 6, magnification: Double = 2) {
+                pixelSize: Double = 5, blurRadius: Double = 6, magnification: Double = 2,
+                cutMarkStyle: CutMarkStyle = .torn, toothHeight: Double = 12, toothRange: Double = 20) {
         self.lineColor = lineColor
         self.fillColor = fillColor
         self.lineWidth = lineWidth
@@ -105,6 +121,35 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         self.pixelSize = pixelSize
         self.blurRadius = blurRadius
         self.magnification = magnification
+        self.cutMarkStyle = cutMarkStyle
+        self.toothHeight = toothHeight
+        self.toothRange = toothRange
+    }
+
+    /// Every property falls back to its default, so the styles remembered by an older version (without the newer
+    /// properties) still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = AnnotationStyle()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        lineColor = value(.lineColor, d.lineColor)
+        fillColor = value(.fillColor, d.fillColor)
+        lineWidth = value(.lineWidth, d.lineWidth)
+        shadow = value(.shadow, d.shadow)
+        fontSize = value(.fontSize, d.fontSize)
+        bold = value(.bold, d.bold)
+        italic = value(.italic, d.italic)
+        arrowHeads = value(.arrowHeads, d.arrowHeads)
+        highlightMode = value(.highlightMode, d.highlightMode)
+        obfuscateMode = value(.obfuscateMode, d.obfuscateMode)
+        pixelSize = value(.pixelSize, d.pixelSize)
+        blurRadius = value(.blurRadius, d.blurRadius)
+        magnification = value(.magnification, d.magnification)
+        cutMarkStyle = value(.cutMarkStyle, d.cutMarkStyle)
+        toothHeight = value(.toothHeight, d.toothHeight)
+        toothRange = value(.toothRange, d.toothRange)
     }
 
     /// The defaults of upstream's `InitializeFields` per container. Font sizes are converted from Windows points
@@ -133,6 +178,10 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         case .image:
             // Upstream ImageContainer: only a shadow field, off.
             return AnnotationStyle(lineWidth: 0, shadow: false)
+        case .cutMark:
+            // Upstream CutMarkContainer.InitializeFields.
+            return AnnotationStyle(lineColor: .dimGray, fillColor: .clear, lineWidth: 0, shadow: true,
+                                   cutMarkStyle: .torn, toothHeight: 12, toothRange: 20)
         }
     }
 }
@@ -153,6 +202,8 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     public var tail: CGPoint?
     /// The picture of an image element, as PNG.
     public var imageData: Data?
+    /// The random parts of a cut mark's edges; nil takes them from the id.
+    public var seed: UInt64?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
@@ -260,6 +311,10 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
             let tail = speechBubbleTail
             return tail.contains(point)
                 || tail.copy(strokingWithWidth: reach * 2, lineCap: .round, lineJoin: .round, miterLimit: 10).contains(point)
+        case .cutMark:
+            // The band spans the whole image (upstream `ClickableAt` of the band).
+            let band = bounds
+            return point.x >= 0 && point.y >= band.minY - tolerance / 2 && point.y <= band.maxY + tolerance / 2
         case .text, .highlight, .obfuscate, .counter, .emoji, .image:
             return bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point)
         }
@@ -284,6 +339,8 @@ public enum Handle: CaseIterable, Sendable {
         case .speechBubble: return boxHandles + [.tail]
         // An emoji keeps its aspect ratio (upstream `EmojiContainer` scales with `ScaleOptions.Rational`).
         case .emoji: return cornerHandles
+        // A cut mark is only sized across the cut (upstream's top and bottom center grippers).
+        case .cutMark: return [.top, .bottom]
         default: return boxHandles
         }
     }

@@ -386,6 +386,23 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
                 return
             }
             let minimum = 3 * pixelsPerScreenPoint
+            if a.kind == .cutMark {
+                // A click makes a band with a small gap around the click (upstream `GetBandSize`); a drag at least
+                // two teeth high.
+                let teeth = CGFloat(a.style.toothHeight) * document.scale
+                var band = a
+                if a.bounds.height < minimum {
+                    let height = CutMark.bandSize(toothHeight: teeth, gap: 10 * document.scale)
+                    band.start = CGPoint(x: 0, y: a.start.y - height / 2)
+                    band.end = CGPoint(x: 0, y: a.start.y + height / 2)
+                } else if a.bounds.height < 2 * teeth {
+                    band.end = CGPoint(x: 0, y: a.bounds.minY + 2 * teeth)
+                }
+                document.update(band)
+                document.endChange()
+                documentChanged()
+                return
+            }
             let tiny = a.kind == .freehand ? a.points.count < 2 : (a.bounds.width < minimum && a.bounds.height < minimum)
             if a.kind.hasEditableText {
                 var box = a
@@ -425,6 +442,15 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation {
         let menu = NSMenu()
         if a.kind.hasEditableText && selectedIDs.count == 1 {
             menu.addItem(ClosureMenuItem(title: "Edit Text") { [weak self] in self?.beginEditing(a, isNew: false) })
+        }
+        if a.kind == .cutMark && selectedIDs.count == 1 {
+            // Upstream `CutMarkContainer.AddContextMenuItems`: "new random edges".
+            menu.addItem(ClosureMenuItem(title: "New Random Edges") { [weak self] in
+                guard let self, var mark = self.document.annotation(a.id) else { return }
+                mark.seed = .random(in: .min ... .max)
+                self.document.change { self.document.update(mark) }
+                self.documentChanged()
+            })
         }
         if a.kind == .emoji && selectedIDs.count == 1 {
             let item = NSMenuItem(title: "Emoji", action: nil, keyEquivalent: "")

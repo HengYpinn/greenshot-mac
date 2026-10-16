@@ -36,12 +36,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     private let obfuscatePopup = NSPopUpButton()
     private let effectSizePopup = NSPopUpButton()
     private let emojiPopup = NSPopUpButton()
+    private let cutMarkStylePopup = NSPopUpButton()
+    private let toothHeightPopup = NSPopUpButton()
+    private let toothRangePopup = NSPopUpButton()
     private var propertyGroups: [(view: NSView, kinds: Set<AnnotationKind>)] = []
     private let cropGroup = NSStackView()
 
     private static let lineWidths = [0, 1, 2, 3, 4, 5, 6, 8, 10]
     private static let fontSizes = [9, 11, 13, 15, 18, 22, 27, 36, 48, 64, 96]
     private static let effectSizes = [2, 3, 5, 8, 12, 16, 24]
+    private static let toothHeights = [4, 6, 8, 10, 12, 16, 20, 24, 32]
+    private static let toothRanges = [8, 10, 12, 16, 20, 24, 30, 40, 60]
 
     init(document: EditorDocument, settings: SettingsStore, saver: ImageSaver, onClose: @escaping (EditorWindowController) -> Void) {
         self.editorDocument = document
@@ -147,18 +152,22 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         setUp(obfuscatePopup, titles: ["Pixelate", "Blur"], action: #selector(obfuscateChanged))
         setUp(effectSizePopup, titles: Self.effectSizes.map { "\($0) pt" }, action: #selector(effectSizeChanged))
         setUp(emojiPopup, titles: EmojiChoices.all, action: #selector(emojiChanged))
+        setUp(cutMarkStylePopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutMarkStyleChanged))
+        setUp(toothHeightPopup, titles: Self.toothHeights.map { "\($0) pt" }, action: #selector(toothHeightChanged))
+        setUp(toothRangePopup, titles: Self.toothRanges.map { "\($0) pt" }, action: #selector(toothRangeChanged))
 
         let properties = NSStackView(views: [
-            group([lineColorLabel, lineColorWell], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble]),
-            group([label("Fill"), fillColorWell, noFill], for: [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble]),
-            group([label("Width"), lineWidthPopup], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .speechBubble]),
+            group([lineColorLabel, lineColorWell], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble, .cutMark]),
+            group([label("Fill"), fillColorWell, noFill], for: [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble, .cutMark]),
+            group([label("Width"), lineWidthPopup], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .speechBubble, .cutMark]),
+            group([cutMarkStylePopup, label("Teeth"), toothHeightPopup, label("Range"), toothRangePopup], for: [.cutMark]),
             group([arrowHeadsPopup], for: [.arrow]),
             group([label("Size"), fontSizePopup], for: [.text, .counter, .speechBubble]),
             group([boldButton, italicButton], for: [.text, .speechBubble]),
             group([highlightPopup], for: [.highlight]),
             group([obfuscatePopup, label("Size"), effectSizePopup], for: [.obfuscate]),
             group([label("Emoji"), emojiPopup], for: [.emoji]),
-            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .text, .speechBubble, .image]),
+            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .text, .speechBubble, .image, .cutMark]),
         ])
         properties.spacing = 14
 
@@ -195,7 +204,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
             b.heightAnchor.constraint(equalToConstant: 30).isActive = true
             toolButtons[tool] = b
             palette.addArrangedSubview(b)
-            if tool == .select || tool == .emoji { palette.addArrangedSubview(Self.horizontalDivider()) }
+            if tool == .select || tool == .cutMark { palette.addArrangedSubview(Self.horizontalDivider()) }
         }
         palette.setHuggingPriority(.required, for: .horizontal)
 
@@ -345,6 +354,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         obfuscatePopup.selectItem(at: ObfuscateMode.allCases.firstIndex(of: style.obfuscateMode) ?? 0)
         selectClosest(effectSizePopup, values: Self.effectSizes,
                       to: style.obfuscateMode == .pixelate ? style.pixelSize : style.blurRadius)
+        cutMarkStylePopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: style.cutMarkStyle) ?? 4)
+        selectClosest(toothHeightPopup, values: Self.toothHeights, to: style.toothHeight)
+        selectClosest(toothRangePopup, values: Self.toothRanges, to: style.toothRange)
         let emoji = canvas.selectedAnnotation.flatMap { $0.kind == .emoji ? $0.text : nil } ?? settings.value.recentEmoji
         if let index = EmojiChoices.all.firstIndex(of: emoji) { emojiPopup.selectItem(at: index) }
     }
@@ -398,6 +410,31 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
         applyStyle {
             if $0.obfuscateMode == .pixelate { $0.pixelSize = size } else { $0.blurRadius = size }
         }
+    }
+
+    @objc private func cutMarkStyleChanged() {
+        applyStyle { $0.cutMarkStyle = CutMarkStyle.allCases[cutMarkStylePopup.indexOfSelectedItem] }
+    }
+
+    @objc private func toothRangeChanged() {
+        applyStyle { $0.toothRange = Double(Self.toothRanges[toothRangePopup.indexOfSelectedItem]) }
+    }
+
+    /// The band of a selected cut mark grows or shrinks with its teeth, so its gap keeps its size.
+    @objc private func toothHeightChanged() {
+        let height = Double(Self.toothHeights[toothHeightPopup.indexOfSelectedItem])
+        guard let kind = activeKind else { return }
+        var remembered = settings.value.style(for: kind)
+        remembered.toothHeight = height
+        settings.update { $0.editorStyles[kind.rawValue] = remembered }
+        let selected = canvas.selectedAnnotations
+        if !selected.isEmpty {
+            editorDocument.change {
+                for element in selected { editorDocument.update(element.withToothHeight(height, scale: editorDocument.scale)) }
+            }
+            canvas.documentChanged()
+        }
+        refreshProperties()
     }
 
     @objc private func emojiChanged() { pickEmoji(EmojiChoices.all[emojiPopup.indexOfSelectedItem]) }

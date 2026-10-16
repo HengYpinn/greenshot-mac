@@ -92,6 +92,55 @@ public enum AnnotationRenderer {
             drawEmoji(a)
         case .image:
             drawPicture(a, in: context, scale: scale)
+        case .cutMark:
+            drawCutMark(a, in: context, scale: scale)
+        }
+    }
+
+    /// Upstream `CutMarkContainer.Draw`: the gap filled with the fill color or made transparent (upstream's export
+    /// mode, so what is saved is what is shown), the shadow the rest of the image casts into it, and the line along
+    /// the edges.
+    static func drawCutMark(_ a: Annotation, in context: CGContext, scale: CGFloat) {
+        let style = a.style
+        let canvas = canvasBounds(context)
+        guard let shape = CutMark.shape(band: CutMark.band(of: a, imageWidth: canvas.width), style: style.cutMarkStyle,
+                                        toothHeight: CGFloat(style.toothHeight) * scale,
+                                        toothRange: CGFloat(style.toothRange) * scale, seed: CutMark.seed(of: a)) else { return }
+        context.saveGState()
+        context.addPath(shape.gap)
+        if style.fillColor.isVisible {
+            context.setFillColor(style.fillColor.cgColor)
+        } else {
+            context.setBlendMode(.clear)
+        }
+        context.fillPath()
+        context.restoreGState()
+
+        if style.shadow {
+            // Like upstream's CutShadow: the parts of the image cast a soft shadow into the gap. Everything but the gap
+            // is filled, clipped to the gap, so only the shadow of it shows.
+            context.saveGState()
+            context.addPath(shape.gap)
+            context.clip()
+            context.setShadow(offset: .zero, blur: 6 * scale, color: CGColor(gray: 0, alpha: 0.6))
+            let outside = CGMutablePath()
+            outside.addRect(canvas.insetBy(dx: -20 * scale, dy: -20 * scale))
+            outside.addPath(shape.gap)
+            context.addPath(outside)
+            context.setFillColor(CGColor(gray: 0, alpha: 1))
+            context.fillPath(using: .evenOdd)
+            context.restoreGState()
+        }
+
+        let lineWidth = CGFloat(style.lineWidth) * scale
+        if lineWidth > 0, style.lineColor.isVisible {
+            context.setStrokeColor(style.lineColor.cgColor)
+            context.setLineWidth(lineWidth)
+            context.setLineJoin(.round)
+            context.setLineCap(.round)
+            context.addLines(between: shape.first)
+            context.addLines(between: shape.second)
+            context.strokePath()
         }
     }
 

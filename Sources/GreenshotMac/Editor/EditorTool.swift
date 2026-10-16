@@ -7,7 +7,7 @@ import GreenshotCore
 
 /// The tools of the editor, with upstream's one-letter shortcuts.
 enum EditorTool: CaseIterable {
-    case select, rectangle, ellipse, line, arrow, freehand, text, speechBubble, highlight, obfuscate, counter, emoji, crop
+    case select, rectangle, ellipse, line, arrow, freehand, text, speechBubble, highlight, obfuscate, counter, emoji, cutMark, crop
 
     /// The element the tool draws.
     var kind: AnnotationKind? {
@@ -24,6 +24,7 @@ enum EditorTool: CaseIterable {
         case .obfuscate: return .obfuscate
         case .counter: return .counter
         case .emoji: return .emoji
+        case .cutMark: return .cutMark
         }
     }
 
@@ -41,6 +42,7 @@ enum EditorTool: CaseIterable {
         case .obfuscate: return "Obfuscate"
         case .counter: return "Counter"
         case .emoji: return "Emoji"
+        case .cutMark: return "Cut Mark"
         case .crop: return "Crop"
         }
     }
@@ -58,6 +60,7 @@ enum EditorTool: CaseIterable {
         case .speechBubble: return "Add Speech Bubble"
         case .counter: return "Add Counter"
         case .emoji: return "Add Emoji"
+        case .cutMark: return "Add Cut Mark"
         case .highlight: return "Highlight"
         case .obfuscate: return "Obfuscate"
         case .crop: return "Crop"
@@ -78,6 +81,7 @@ enum EditorTool: CaseIterable {
         case .obfuscate: return "eye.slash"
         case .counter: return "1.circle"
         case .emoji: return "face.smiling"
+        case .cutMark: return "scissors"
         case .crop: return "crop"
         }
     }
@@ -96,6 +100,8 @@ enum EditorTool: CaseIterable {
         case .obfuscate: return "o"
         case .counter: return "i"
         case .emoji: return "m"
+        // Upstream has no shortcut for cut marks (they come from its crop-out operation); K is free here.
+        case .cutMark: return "k"
         case .crop: return "c"
         }
     }

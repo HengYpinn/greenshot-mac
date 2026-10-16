@@ -111,12 +111,13 @@ public final class EditorDocument {
     }
 
     public func add(_ annotation: Annotation) {
-        annotations.append(annotation)
+        annotations.append(annotation.spanning(width: imageSize.width))
     }
 
+    /// Replaces the element with the same id. A cut mark stays across the whole image, it only moves up and down.
     public func update(_ annotation: Annotation) {
         guard let index = annotations.firstIndex(where: { $0.id == annotation.id }) else { return }
-        annotations[index] = annotation
+        annotations[index] = annotation.spanning(width: imageSize.width)
     }
 
     public func remove(_ id: UUID) {
@@ -125,7 +126,8 @@ public final class EditorDocument {
 
     /// Adds elements on top of the others, in their order.
     public func add(_ elements: [Annotation]) {
-        annotations.append(contentsOf: elements)
+        let width = imageSize.width
+        annotations.append(contentsOf: elements.map { $0.spanning(width: width) })
     }
 
     /// The elements with one of `ids`, in drawing order (back to front).
@@ -140,8 +142,10 @@ public final class EditorDocument {
     /// Moves the elements with one of `ids` by `delta` (image pixels).
     public func move(_ ids: Set<UUID>, by delta: CGVector) {
         guard delta != .zero else { return }
+        let width = imageSize.width
         for index in annotations.indices where ids.contains(annotations[index].id) {
             annotations[index].move(by: delta)
+            annotations[index] = annotations[index].spanning(width: width)
         }
     }
 
@@ -248,11 +252,11 @@ public final class EditorDocument {
     }
 
     private func moveAnnotations(by delta: CGVector) {
-        guard delta != .zero else { return }
+        let width = imageSize.width
         annotations = annotations.map {
             var moved = $0
             moved.move(by: delta)
-            return moved
+            return moved.spanning(width: width)
         }
     }
 
