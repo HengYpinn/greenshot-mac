@@ -156,6 +156,9 @@ public final class MCPServer: @unchecked Sendable {
             return Array(subscriptions.values)
         }
         for id in open {
+            // The Cancellation page: a server tearing a subscription down MUST send notifications/cancelled for it (MC-L7);
+            // the Subscriptions page: and SHOULD answer the listen request with a completion result.
+            send(notification("notifications/cancelled", params: ["requestId": id, "reason": .string("The server is shutting down.")]))
             let result: JSONObject = ["resultType": .string("complete"), "_meta": .object([Self.subscriptionIdKey: id])]
             send(response(id: id, result: result))
         }
@@ -163,37 +166,74 @@ public final class MCPServer: @unchecked Sendable {
 
     // MARK: Messages
 
-    /// Handles one line of the input stream; returns when the answer (if any) was sent. Call it concurrently for
-    /// concurrent requests: a tool call can wait for the user.
+    /// Handles one line of the input stream; returns when the answer (if any) was sent.
     public func handle(line: String) async {
+        await receive(line: line)?.value
+    }
+
+    /// Takes one line of the input stream in the order it arrived (MC-L4): a notification at once, a request registered
+    /// (so a cancellation on a later line finds it) and started. The task ends when the answer was sent; call this for
+    /// every line from one thread and don't wait: a tool call can wait for the user. A JSON array is a batch (2025-03-26,
+    /// MC-L3): its answers go out as one array.
+    @discardableResult
+    public func receive(line: String) -> Task<Void, Never>? {
         let text = line.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !text.isEmpty else { return }
-        guard let value = try? JSONValue.parse(text), let message = value.objectValue else {
+        guard !text.isEmpty else { return nil }
+        guard let value = try? JSONValue.parse(text) else {
             send(errorResponse(id: .null, code: ErrorCode.parseError, message: "Parse error"))
-            return
+            return nil
         }
+        switch value {
+        case .object(let message):
+            return receive(message: message, answer: send)
+        case .array(let items) where !items.isEmpty:
+            let batch = MCPBatchAnswers()
+            var tasks: [Task<Void, Never>] = []
+            for item in items {
+                guard let message = item.objectValue else {
+                    batch.add(errorResponse(id: .null, code: ErrorCode.invalidRequest, message: "Invalid Request"))
+                    continue
+                }
+                if let task = receive(message: message, answer: { batch.add($0) }) { tasks.append(task) }
+            }
+            return Task {
+                for task in tasks { await task.value }
+                let answers = batch.all
+                // A batch of notifications gets no answer
+                if !answers.isEmpty { self.send(.array(answers)) }
+            }
+        default:
+            // Valid JSON that is no request (JSON-RPC: Invalid Request)
+            send(errorResponse(id: .null, code: ErrorCode.invalidRequest, message: "Invalid Request"))
+            return nil
+        }
+    }
+
+    private func receive(message: JSONObject, answer: @escaping @Sendable (JSONValue) -> Void) -> Task<Void, Never>? {
         let id = message["id"]
         guard let method = message["method"]?.stringValue else {
             // A response (the server sends no requests) or garbage
-            if id == nil || message["result"] != nil || message["error"] != nil { return }
-            send(errorResponse(id: id ?? .null, code: ErrorCode.invalidRequest, message: "Invalid Request"))
-            return
+            if id == nil || message["result"] != nil || message["error"] != nil { return nil }
+            answer(errorResponse(id: id ?? .null, code: ErrorCode.invalidRequest, message: "Invalid Request"))
+            return nil
         }
         let params = message["params"]?.objectValue ?? [:]
         guard let id, !id.isNull else {
             handleNotification(method, params: params)
-            return
+            return nil
         }
         let key = Self.key(of: id)
-        let task = Task { await self.process(method, id: id, params: params) }
-        lock.withLock { inFlight[key] = task }
-        let reply = await task.value
-        let wasCancelled = lock.withLock { () -> Bool in
-            inFlight.removeValue(forKey: key)
-            return cancelled.remove(key) != nil
+        let work = Task { await self.process(method, id: id, params: params) }
+        lock.withLock { inFlight[key] = work }
+        return Task {
+            let reply = await work.value
+            let wasCancelled = self.lock.withLock { () -> Bool in
+                self.inFlight.removeValue(forKey: key)
+                return self.cancelled.remove(key) != nil
+            }
+            // A cancelled request gets no answer at all (spec: stdio cancellation)
+            if let reply, !wasCancelled { answer(reply) }
         }
-        // A cancelled request gets no answer at all (spec: stdio cancellation)
-        if let reply, !wasCancelled { send(reply) }
     }
 
     private func handleNotification(_ method: String, params: JSONObject) {
@@ -302,12 +342,20 @@ public final class MCPServer: @unchecked Sendable {
         let wanted = params["notifications"]?.objectValue ?? [:]
         let tools = wanted["toolsListChanged"]?.boolValue == true
         var honoured: JSONObject = [:]
-        if tools {
-            honoured["toolsListChanged"] = .bool(true)
-            lock.withLock { subscriptions[Self.key(of: id)] = id }
+        if tools { honoured["toolsListChanged"] = .bool(true) }
+        let acknowledgement = notification("notifications/subscriptions/acknowledged",
+                                           params: ["_meta": .object([Self.subscriptionIdKey: id]), "notifications": .object(honoured)])
+        // The acknowledgement first (MC-L2): queued and registered together, so a tools change on another thread either
+        // doesn't see the subscription yet or goes out after the acknowledgement. A listen cancelled before it got here
+        // (MC-L4) opens nothing.
+        let key = Self.key(of: id)
+        let opened: Bool = lock.withLock {
+            guard !cancelled.contains(key) else { return false }
+            send(acknowledgement)
+            if tools { subscriptions[key] = id }
+            return true
         }
-        send(notification("notifications/subscriptions/acknowledged",
-                          params: ["_meta": .object([Self.subscriptionIdKey: id]), "notifications": .object(honoured)]))
+        guard opened else { return nil }
         guard tools else {
             // Nothing to listen to: the subscription ends at once
             return response(id: id, result: ["resultType": .string("complete"), "_meta": .object([Self.subscriptionIdKey: id])])
@@ -364,4 +412,13 @@ public final class MCPServer: @unchecked Sendable {
         let version = info["version"]?.stringValue?.trimmingCharacters(in: .whitespaces) ?? ""
         return version.isEmpty ? name : "\(name) \(version)"
     }
+}
+
+/// The answers of a batch, collected from its requests' tasks.
+final class MCPBatchAnswers: @unchecked Sendable {
+    private let lock = NSLock()
+    private var answers: [JSONValue] = []
+
+    func add(_ answer: JSONValue) { lock.withLock { answers.append(answer) } }
+    var all: [JSONValue] { lock.withLock { answers } }
 }

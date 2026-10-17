@@ -11,13 +11,18 @@ import Testing
 final class MCPOutbox: @unchecked Sendable {
     private let lock = NSLock()
     private var messages: [JSONObject] = []
+    private var values: [JSONValue] = []
 
     func add(_ value: JSONValue) {
-        guard let object = value.objectValue else { return }
-        lock.withLock { messages.append(object) }
+        lock.withLock {
+            values.append(value)
+            if let object = value.objectValue { messages.append(object) }
+        }
     }
 
     var all: [JSONObject] { lock.withLock { messages } }
+    /// Everything written, in order, batches (arrays) included.
+    var raw: [JSONValue] { lock.withLock { values } }
 
     func response(_ id: Double) -> JSONObject? {
         all.first { $0["id"]?.doubleValue == id }
@@ -241,6 +246,91 @@ private let modernMeta: JSONObject = [
         #expect(outbox.response(3)?["error"]?.objectValue?.int("code") == MCPServer.ErrorCode.legacyResourceNotFound)
         await server.handle(line: request(4, "resources/read", ["_meta": .object(modernMeta), "uri": .string("greenshot-mcp://nope")]))
         #expect(outbox.response(4)?["error"]?.objectValue?.int("code") == MCPServer.ErrorCode.invalidParams)
+    }
+
+    @Test func batchesAndOtherJSON() async throws {
+        let outbox = MCPOutbox()
+        let server = server(outbox)
+        let notification = line(["jsonrpc": .string("2.0"), "method": .string("notifications/whatever")])
+        // A batch (2025-03-26): one array with the requests' answers, nothing for its notifications
+        await server.receive(line: "[\(request(1, "ping")),\(notification),\(request(2, "prompts/list"))]")?.value
+        let answers = try #require(outbox.raw.last?.arrayValue)
+        #expect(answers.count == 2)
+        #expect(answers.contains { $0.objectValue?["id"]?.doubleValue == 1 && $0.objectValue?["result"] != nil })
+        #expect(answers.contains { $0.objectValue?["id"]?.doubleValue == 2
+                && $0.objectValue?["error"]?.objectValue?.int("code") == MCPServer.ErrorCode.methodNotFound })
+        let before = outbox.raw.count
+        await server.receive(line: "[\(notification),\(notification)]")?.value
+        #expect(outbox.raw.count == before)
+        // A batch element that isn't an object
+        await server.receive(line: "[1]")?.value
+        #expect(outbox.raw.last?.arrayValue?.first?.objectValue?["error"]?.objectValue?.int("code") == MCPServer.ErrorCode.invalidRequest)
+        // Valid JSON that is no request: Invalid Request, not Parse error
+        for text in ["5", "[]", "\"text\"", "null"] {
+            await server.receive(line: text)?.value
+            #expect(outbox.all.last?["error"]?.objectValue?.int("code") == MCPServer.ErrorCode.invalidRequest, "\(text)")
+        }
+        await server.receive(line: "[{")?.value
+        #expect(outbox.all.last?["error"]?.objectValue?.int("code") == MCPServer.ErrorCode.parseError)
+    }
+
+    @Test func cancellationRightAfterTheRequest() async {
+        let outbox = MCPOutbox()
+        let server = server(outbox)
+        let cancel = { (id: Int) in
+            self.line(["jsonrpc": .string("2.0"), "method": .string("notifications/cancelled"), "params": .object(["requestId": .number(Double(id))])])
+        }
+        // Read one after the other, as greenshot-mcp's stdin thread does: the request is known when its cancellation comes
+        let call = server.receive(line: request(9, "tools/call", ["name": .string("slow")]))
+        server.receive(line: cancel(9))
+        await call?.value
+        #expect(outbox.response(9) == nil)
+
+        // A listen cancelled at once opens no subscription
+        var params: JSONObject = ["_meta": .object(modernMeta)]
+        params["notifications"] = .object(["toolsListChanged": .bool(true)])
+        let listen = server.receive(line: request(10, "subscriptions/listen", params))
+        server.receive(line: cancel(10))
+        await listen?.value
+        server.setRecipeTools([MCPTool(name: "x", definition: ["name": .string("x")])])
+        server.closeSubscriptions()
+        #expect(outbox.notifications("notifications/tools/list_changed").isEmpty)
+        #expect(outbox.response(10) == nil)
+    }
+
+    @Test func acknowledgementComesFirst() async throws {
+        let outbox = MCPOutbox()
+        let server = server(outbox)
+        var params: JSONObject = ["_meta": .object(modernMeta)]
+        params["notifications"] = .object(["toolsListChanged": .bool(true)])
+        // Tool changes on another thread while the subscription opens
+        let changes = Thread {
+            for index in 0..<400 {
+                server.setRecipeTools(index % 2 == 0 ? [MCPTool(name: "x", definition: ["name": .string("x")])] : [])
+            }
+        }
+        changes.start()
+        await server.handle(line: request(11, "subscriptions/listen", params))
+        try await offPool { while !changes.isFinished { usleep(1000) } }
+        let methods = outbox.raw.compactMap { $0.objectValue?.string("method") }
+        let acknowledged = try #require(methods.firstIndex(of: "notifications/subscriptions/acknowledged"))
+        #expect(methods.firstIndex(of: "notifications/tools/list_changed").map { $0 > acknowledged } ?? true)
+    }
+
+    @Test func serverEndsSubscriptionsWithCancelled() async throws {
+        let outbox = MCPOutbox()
+        let server = server(outbox)
+        var params: JSONObject = ["_meta": .object(modernMeta)]
+        params["notifications"] = .object(["toolsListChanged": .bool(true)])
+        await server.handle(line: request(12, "subscriptions/listen", params))
+        server.closeSubscriptions()
+        // The Cancellation page's notifications/cancelled, then the Subscriptions page's completion result
+        let messages = outbox.all
+        let cancelled = try #require(messages.firstIndex { $0["method"]?.stringValue == "notifications/cancelled" })
+        #expect(messages[cancelled]["params"]?.objectValue?["requestId"]?.doubleValue == 12)
+        let completion = try #require(messages.firstIndex { $0["id"]?.doubleValue == 12 })
+        #expect(cancelled < completion)
+        #expect(messages[completion]["result"]?.objectValue?.string("resultType") == "complete")
     }
 
     @Test func messagesAreOneLine() {
