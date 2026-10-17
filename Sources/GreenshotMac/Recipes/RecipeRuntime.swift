@@ -140,10 +140,14 @@ final class RecipeRuntime {
     /// MCP: excluded apps for AI tool captures.
     var aiToolCaptureGuard: (any RecipeAIToolCaptureGuard)?
 
-    private unowned let app: AppDelegate
+    /// The app's parts the step executors use (settings, output, editors, capture, video).
+    unowned let app: AppDelegate
     private let snapshot: RecipeSettingsSnapshot
     private var loading: Task<Void, Never>?
     private var changeObservers: [UUID: @MainActor () -> Void] = [:]
+    /// What the app keeps per running flow (focus to give back, exports for the Notification step); RecipeRuntime+Flows.swift.
+    var flowStates: [UUID: RecipeFlowAppState] = [:]
+    private var flowObservation: RecipeObservation?
 
     init(app: AppDelegate) {
         self.app = app
@@ -162,18 +166,30 @@ final class RecipeRuntime {
         approver = proxy
         let library = RecipeLibrary(loadSettings: { settings.value.recipes },
                                     saveSettings: { recipes in settings.update { $0.recipes = recipes } },
-                                    trustStore: trustStore, approver: proxy, builtInRecipes: [],
+                                    trustStore: trustStore, approver: proxy, builtInRecipes: BuiltInRecipes.all,
                                     gates: { GateEnvironment(settings: settings.value) })
         self.library = library
         let steps = RecipeStepRegistry()
         self.steps = steps
+        // The closures need the runtime, which doesn't exist yet: they reach it through the box, filled at the end.
+        let box = RecipeRuntimeBox()
         let runner = RecipeRunner(steps: steps, environment: { SystemRecipeEnvironment(settings: snapshot.value) },
-                                  preflight: { recipe in await library.ensureApprovedAndCurrent(recipe) },
-                                  recipeLookup: { id in await MainActor.run { library.recipe(id: id)?.recipe } },
-                                  selectionInProgress: { CaptureOverlayController.isShowing },
+                                  preflight: { recipe in
+                                      // Upstream CapturePipeline: the approval of a changed file first, then the automatic steps.
+                                      guard let checked = await library.ensureApprovedAndCurrent(recipe) else { return nil }
+                                      return await MainActor.run { box.runtime?.composed(checked) ?? checked }
+                                  },
+                                  recipeLookup: { id in
+                                      await MainActor.run {
+                                          guard let loaded = library.recipe(id: id), loaded.isEnabled else { return nil }
+                                          return box.runtime?.composed(loaded.recipe) ?? loaded.recipe
+                                      }
+                                  },
+                                  selectionInProgress: { CaptureOverlayController.isShowing || (box.runtime?.app.capture.isBusy ?? false) },
                                   bringSelectionToFront: { CaptureOverlayController.bringToFront() })
         self.runner = runner
         hub = RecipeTriggerHub(library: library, runner: runner)
+        box.runtime = self
     }
 
     /// Recipes switched on (Settings › Recipes, upstream `EnableRecipeFeature`).
@@ -183,9 +199,12 @@ final class RecipeRuntime {
     func start() {
         guard Self.shared == nil else { return }
         Self.shared = self
-        steps.registerCoreExecutors()
+        RecipeExecutors.register(on: self)
         app.settings.onChange(of: \AppSettings.self) { [snapshot] in snapshot.value = $0 }
         library.onChange = { [weak self] in self?.libraryChanged() }
+        flowObservation = runner.addObserver { [weak self] event in
+            Task { @MainActor in self?.flowEvent(event) }
+        }
         loading = Task { [weak self] in
             guard let self else { return }
             _ = await self.library.reload()
@@ -248,6 +267,8 @@ final class RecipeRuntime {
     /// A trigger of RUI's sources fired.
     func fire(_ trigger: ActiveRecipeTrigger, info: RecipeTriggerInfo, variables: [String: JSONValue] = [:],
               objects: [String: any Sendable] = [:], payload: RecipePayload? = nil) -> RecipeFireOutcome {
+        // The OpenFile trigger of a stock `recipe_file`: the app opens the file as it always did.
+        if BuiltInRecipes.isDirectCapture(trigger.recipeId), route(builtIn: trigger.recipeId) == .direct { return .direct }
         guard let handle = hub.fire(trigger, info: info, variables: variables, objects: objects, payload: payload) else {
             return .notStarted
         }
@@ -257,12 +278,35 @@ final class RecipeRuntime {
     /// CaptureCoordinator / EditorManager / MenuBarActions hook: true when the recipe took the capture (started, or
     /// refused because the built-in is switched off); false: the caller captures as before.
     func interceptBuiltIn(_ capture: BuiltInCapture) -> Bool {
-        false
+        let request = BuiltInCaptureRequest(capture, settings: app.settings.value)
+        switch route(builtIn: request.recipeId) {
+        case .direct:
+            return false
+        case .off:
+            log.info("The built-in recipe '\(request.recipeId)' is switched off: nothing is captured.")
+            NSSound.beep()
+            return true
+        case .recipe:
+            startBuiltIn(request.recipeId, variables: request.variables, objects: request.objects)
+            return true
+        }
     }
 
     /// NotificationService hook: true when `recipe_notification` (changed) took the clicked capture; false: the picker.
     func offerNotificationCapture(_ capture: Capture) -> Bool {
-        false
+        let id = BuiltInRecipes.notificationId
+        switch route(builtIn: id) {
+        case .direct:
+            return false
+        case .off:
+            // Upstream `OfferCapture`: a switched-off recipe offers nothing more.
+            return true
+        case .recipe:
+            var payload = RecipePayload(capture: capture, sourceType: "File")
+            payload.metadata["source"] = .string("Notification")
+            startBuiltIn(id, payload: payload)
+            return true
+        }
     }
 
     /// The browser extension's capture (upstream `CaptureHelper.ImportExtensionCapture`: the first active recipe with an
@@ -270,7 +314,25 @@ final class RecipeRuntime {
     /// started (recipes off, refused): BROWSER shows the destination picker instead.
     @discardableResult
     func importExtensionCapture(_ payload: RecipePayload, browser: String?) -> RecipeFlowHandle? {
-        nil
+        guard isEnabled else { return nil }
+        let pick = RecipeExtensionCapturePick.pick(library.recipes, browser: browser)
+        var variables: [String: JSONValue] = [:]
+        if let browser, !browser.isEmpty { variables["Browser"] = .string(browser) }
+        var objects: [String: any Sendable] = [:]
+        // Upstream also hands the capture itself over as "Capture".
+        objects["Capture"] = RecipeCaptureObject(payload: payload)
+        if let index = pick.triggerIndex, let loaded = library.recipe(id: pick.recipeId),
+           let trigger = library.activeTriggers(ofTypes: [WellKnownTriggerType.extension])
+               .first(where: { recipeEquals($0.recipeId, loaded.recipe.id) && $0.index == index }) {
+            var info = Self.triggerInfo(for: trigger)
+            info.frontmostProcessID = nil
+            if case .started(let handle) = fire(trigger, info: info, variables: variables, objects: objects, payload: payload) {
+                return handle
+            }
+            return nil
+        }
+        return start(recipeId: pick.recipeId, triggerType: WellKnownTriggerType.extension, variables: variables,
+                     objects: objects, payload: payload)
     }
 
     /// The host object for RUI's Editor trigger.
@@ -295,5 +357,73 @@ final class RecipeRuntime {
     private func libraryChanged() {
         hub.sync()
         changeObservers.values.forEach { $0() }
+    }
+
+    // MARK: Built-in captures (CAP-012)
+
+    /// The recipe as it runs: with its automatic steps (RMANAGER's composer), else as loaded.
+    func composed(_ recipe: CaptureRecipe) -> CaptureRecipe {
+        composeForRun?(recipe) ?? recipe
+    }
+
+    /// Which way a built-in capture goes now (`BuiltInCaptureRoute`).
+    func route(builtIn id: String) -> BuiltInCaptureRoute {
+        let loaded = library.recipe(id: id)
+        return BuiltInCaptureRoute.decision(featureEnabled: isEnabled, loaded: loaded,
+                                            composed: loaded.flatMap { composeForRun?($0.recipe) })
+    }
+
+    /// Starts a built-in recipe (upstream `CaptureHelper.Start`): its triggers don't matter, the trigger info is the
+    /// moment of the hotkey or menu click.
+    @discardableResult
+    func startBuiltIn(_ id: String, variables: [String: JSONValue] = [:], objects: [String: any Sendable] = [:],
+                      payload: RecipePayload? = nil) -> RecipeFlowHandle? {
+        guard let loaded = library.recipe(id: id), loaded.isEnabled else { return nil }
+        var request = RecipeRunRequest(recipe: loaded.recipe, trigger: Self.triggerInfo(type: WellKnownTriggerType.manual))
+        request.variables = variables
+        request.objects = objects
+        request.payload = payload
+        request.optionValues = library.optionValues
+        log.info("Capturing with the recipe '\(id)' (it differs from the built-in one).")
+        return runner.start(request)
+    }
+}
+
+/// The runtime for the runner's closures, which are made before the runtime exists.
+final class RecipeRuntimeBox: @unchecked Sendable {
+    @MainActor weak var runtime: RecipeRuntime?
+}
+
+/// A built-in capture as a recipe start: the recipe and what the caller hands over (upstream `CaptureHelper`).
+struct BuiltInCaptureRequest {
+    var recipeId: String
+    var variables: [String: JSONValue] = [:]
+    var objects: [String: any Sendable] = [:]
+
+    @MainActor
+    init(_ capture: BuiltInCapture, settings: AppSettings) {
+        switch capture {
+        case .region: recipeId = BuiltInRecipes.regionId
+        case .window: recipeId = BuiltInRecipes.windowId
+        case .activeWindow: recipeId = BuiltInRecipes.activeWindowId
+        case .windowFromList(let window):
+            recipeId = BuiltInRecipes.activeWindowId
+            objects["TargetWindow"] = RecipeWindowObject(window: window)
+        case .fullScreen(let display):
+            recipeId = BuiltInRecipes.fullScreenId
+            if let display {
+                objects["TargetDisplay"] = RecipeDisplayObject(displayID: display)
+            } else {
+                // The menu's "All Screens" (upstream `CaptureFullscreen(…, ScreenCaptureMode.FullScreen)`).
+                variables["ScreenCaptureMode"] = .string("FullScreen")
+            }
+        case .fullScreenFromHotkey: recipeId = BuiltInRecipes.fullScreenId
+        case .lastRegion: recipeId = BuiltInRecipes.lastRegionId
+        case .text: recipeId = BuiltInRecipes.ocrId
+        case .clipboard: recipeId = BuiltInRecipes.clipboardId
+        case .file(let url):
+            recipeId = BuiltInRecipes.fileId
+            variables["Filename"] = .string(url.path)
+        }
     }
 }
