@@ -140,6 +140,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     /// Quitting doesn't close the editor windows one by one, so ask about unsaved screenshots here.
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard editors.confirmQuit() else { return .terminateCancel }
+        // TODO(wave4 merge, REDITOR W-H3): `guard RecipeEditorService.reviewUnsavedBeforeQuit() else { return .terminateCancel }`
+        // A recipe that waits at a prompt or the destination flyout holds the only copy of its capture (RSTEPS, R-F9).
+        guard recipes.confirmQuit() else { return .terminateCancel }
         return video.terminateReply()
     }
 

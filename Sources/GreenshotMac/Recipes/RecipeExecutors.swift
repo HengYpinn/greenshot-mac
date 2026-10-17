@@ -30,7 +30,7 @@ enum RecipeExecutors {
         steps.register(WellKnownStepType.clipboard, executor: RecipeClipboardStepExecutor(runtime: runtime, steps: steps))
         steps.register(contract: RecipeNotificationExecutor.contract,
                        executor: RecipeNotificationExecutor(presenter: RecipeAppNotificationPresenter(runtime: runtime)))
-        steps.register(WellKnownStepType.userPrompt, executor: RecipeUserPromptExecutor(presenter: RecipePromptPresenter()))
+        steps.register(WellKnownStepType.userPrompt, executor: RecipeUserPromptExecutor(presenter: RecipePromptPresenter(runtime: runtime)))
         steps.register(WellKnownStepType.dynamicDestination,
                        executor: RecipeDynamicDestinationExecutor(presenter: RecipeFlyoutPresenter(runtime: runtime, steps: steps)))
         steps.register(WellKnownStepType.recordVideo, executor: RecipeRecordVideoExecutor(runtime: runtime))

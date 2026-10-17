@@ -45,6 +45,8 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
         }
         let snapping = step.bool("AllowWindowSnapping") ?? true
         let outcome = await Self.select(screens, mode: mode, snapping: snapping, runtime: runtime)
+        // The capture screen is closed: another one may open (RecipeRuntime.launch).
+        await MainActor.run { runtime.releaseSelection(of: context.executionId) }
         payload.attachments[RecipeFrozenScreens.key] = nil
         switch outcome {
         case .cancelled:
@@ -64,6 +66,11 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
             cropped.metadata = payload.metadata
             cropped.metadata["WindowTitle"] = .string(selected.title)
             if let text = selected.extractedText { cropped.metadata["CaptureMode"] = .string("Text"); cropped.extractedText = text }
+            // An AI tool gets the selection with the excluded apps' windows blacked out, like a Source's picture (SM-L2).
+            if recipeEquals(context.trigger?.triggerType ?? "", WellKnownTriggerType.aiTool),
+               let guardian = await MainActor.run(body: { runtime.aiToolCaptureGuard }) {
+                cropped = RecipeSourceExecutor.redacted(cropped, guard: guardian, context: context)
+            }
             context.payload = cropped
         }
     }
@@ -106,6 +113,7 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
             else { return .cancelled }
             var payload = RecipePayload(image: result.image, scale: result.scale, title: title)
             payload.extractedText = text
+            payload.attachments[RecipeSourceExecutor.originKey] = RecipeScreenOrigin(origin: selection.rect.origin)
             return .selected(payload, window: selection.window)
         }
         guard let capture = frozen.capture(of: selection.rect, withPointer: selection.includesPointer, title: title) else {

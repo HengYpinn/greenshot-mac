@@ -147,6 +147,8 @@ final class RecipeRuntime {
     private var changeObservers: [UUID: @MainActor () -> Void] = [:]
     /// What the app keeps per running flow (focus to give back, exports for the Notification step); RecipeRuntime+Flows.swift.
     var flowStates: [UUID: RecipeFlowAppState] = [:]
+    /// Flows that will show the capture screen and haven't yet (RecipeRuntime+Selection.swift).
+    var selectionReservations: Set<UUID> = []
     private var flowObservation: RecipeObservation?
 
     init(app: AppDelegate) {
@@ -217,10 +219,12 @@ final class RecipeRuntime {
         await loading?.value
     }
 
-    /// At quit: no more triggers, running flows cancelled (upstream `CaptureFlowRunner` on shutdown).
+    /// At quit: no more triggers, running flows cancelled, no new flow starts (upstream `CaptureFlowRunner` on shutdown).
     func shutdown() {
         hub.stopAll()
         runner.running.forEach { $0.cancel() }
+        let runner = runner
+        Task.detached { await runner.shutdown() }
     }
 
     /// The menu bar's "Reload Recipes".
@@ -248,7 +252,7 @@ final class RecipeRuntime {
     /// Starts a prepared request (CLI, MCP, the recipe editor's test run).
     @discardableResult
     func start(_ request: RecipeRunRequest) -> RecipeFlowHandle {
-        runner.start(request)
+        launch(request.recipe) { runner.start(request) } ?? .rejected(recipe: request.recipe, reason: Self.selectionOpen)
     }
 
     /// Starts a recipe by id (Recipes menu, forwarding); nil when it isn't there or is switched off.
@@ -261,7 +265,7 @@ final class RecipeRuntime {
         request.variables = variables
         request.objects = objects
         request.payload = payload
-        return runner.start(request)
+        return launch(request.recipe) { runner.start(request) }
     }
 
     /// A trigger of RUI's sources fired.
@@ -269,7 +273,8 @@ final class RecipeRuntime {
               objects: [String: any Sendable] = [:], payload: RecipePayload? = nil) -> RecipeFireOutcome {
         // The OpenFile trigger of a stock `recipe_file`: the app opens the file as it always did.
         if BuiltInRecipes.isDirectCapture(trigger.recipeId), route(builtIn: trigger.recipeId) == .direct { return .direct }
-        guard let handle = hub.fire(trigger, info: info, variables: variables, objects: objects, payload: payload) else {
+        guard let recipe = library.recipe(id: trigger.recipeId)?.recipe,
+              let handle = launch(recipe, { hub.fire(trigger, info: info, variables: variables, objects: objects, payload: payload) }) else {
             return .notStarted
         }
         return .started(handle)
@@ -278,7 +283,19 @@ final class RecipeRuntime {
     /// CaptureCoordinator / EditorManager / MenuBarActions hook: true when the recipe took the capture (started, or
     /// refused because the built-in is switched off); false: the caller captures as before.
     func interceptBuiltIn(_ capture: BuiltInCapture) -> Bool {
-        let request = BuiltInCaptureRequest(capture, settings: app.settings.value)
+        intercept(BuiltInCaptureRequest(capture, settings: app.settings.value))
+    }
+
+    /// `interceptBuiltIn` for an entry point that sends the capture somewhere of its own: the menu bar's "capture the
+    /// clipboard" and "Open Image from File…" go to `destinations` (the settings' destinations) whichever way they go
+    /// (upstream `CaptureHelper`'s destination argument, `OverrideDestinations`). The app chooses them, not a caller.
+    func interceptBuiltIn(_ capture: BuiltInCapture, destinations: [CaptureDestination]) -> Bool {
+        var request = BuiltInCaptureRequest(capture, settings: app.settings.value)
+        request.variables["OverrideDestinations"] = .array(RecipeDestinationsSnapshot.designations(destinations).map(JSONValue.string))
+        return intercept(request)
+    }
+
+    private func intercept(_ request: BuiltInCaptureRequest) -> Bool {
         switch route(builtIn: request.recipeId) {
         case .direct:
             return false
@@ -385,7 +402,7 @@ final class RecipeRuntime {
         request.payload = payload
         request.optionValues = library.optionValues
         log.info("Capturing with the recipe '\(id)' (it differs from the built-in one).")
-        return runner.start(request)
+        return launch(request.recipe) { runner.start(request) }
     }
 }
 

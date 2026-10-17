@@ -51,11 +51,21 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
         let choice = await withTaskCancellationHandler {
             await withCheckedContinuation { (continuation: CheckedContinuation<RecipeFlyout.Choice, Never>) in
                 Task { @MainActor in
-                    handle.controller = RecipeFlyoutPanel.show(flyout, preview: preview) { continuation.resume(returning: $0) }
+                    // Cancelled before the flyout was there: none is shown (R-F5).
+                    guard !handle.cancelled else { return continuation.resume(returning: .dismissed) }
+                    let state = runtime.flowState(context.executionId)
+                    state.waitsFor = "you to choose where its capture goes"
+                    handle.controller = RecipeFlyoutPanel.show(flyout, preview: preview) { choice in
+                        state.waitsFor = nil
+                        continuation.resume(returning: choice)
+                    }
                 }
             }
         } onCancel: {
-            Task { @MainActor in handle.controller?.close() }
+            Task { @MainActor in
+                handle.cancelled = true
+                handle.controller?.close()
+            }
         }
         try Task.checkCancellation()
         return choice
@@ -89,7 +99,9 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
     func forward(to recipeId: String, in context: RecipeFlowContext) async {
         guard let payload = context.payload else { return }
         var variables: [String: JSONValue] = [:]
-        for member in context.variables where !recipeEquals(member.key, "OverrideDestinations") { variables[member.key] = member.value }
+        // Not where this flow sends or saved its capture: `OverrideDestinations` (the other recipe was approved for its
+        // own destinations) and `Destination.*` (this flow's files, R-F8).
+        for member in context.variables where !Self.staysHere(member.key) { variables[member.key] = member.value }
         let handed = variables
         let handle = await MainActor.run {
             runtime.start(recipeId: recipeId, triggerType: WellKnownTriggerType.manual, variables: handed, payload: payload)
@@ -103,9 +115,16 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
     }
 }
 
+extension RecipeFlyoutPresenter {
+    static func staysHere(_ name: String) -> Bool {
+        recipeEquals(name, "OverrideDestinations") || name.lowercased().hasPrefix("destination.")
+    }
+}
+
 /// The open flyout of a flow, so a cancelled flow can close it.
 final class RecipeFlyoutHandle: @unchecked Sendable {
     @MainActor var controller: RecipeFlyoutPanel?
+    @MainActor var cancelled = false
 }
 
 @MainActor
