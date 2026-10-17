@@ -164,3 +164,32 @@ public enum EditorSessionPolicy {
         return keepsWindows
     }
 }
+
+/// What the user answered about one editor with unsaved changes when the app quits.
+public enum QuitAnswer: Sendable {
+    /// Saved, or nothing to ask: it may go.
+    case proceed
+    /// "Don't Save".
+    case discard
+    /// "Cancel" (or saving failed): the app keeps running.
+    case cancel
+}
+
+/// The questions before quitting: each editor is asked in turn, and "Don't Save" only counts once every editor agreed
+/// to quit. Discarding at once would lose the changes of an editor that was answered "Don't Save" before another one
+/// was cancelled.
+public enum QuitReview {
+    /// Asks about each editor in order and stops at the first Cancel. The editors whose changes go are returned when
+    /// nobody cancelled; nil when the quit is cancelled.
+    public static func run<Editor>(_ editors: [Editor], ask: (Editor) -> QuitAnswer) -> [Editor]? {
+        var discarded: [Editor] = []
+        for editor in editors {
+            switch ask(editor) {
+            case .proceed: continue
+            case .discard: discarded.append(editor)
+            case .cancel: return nil
+            }
+        }
+        return discarded
+    }
+}

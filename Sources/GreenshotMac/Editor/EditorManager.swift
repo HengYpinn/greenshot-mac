@@ -172,9 +172,11 @@ final class EditorManager {
             let failed = sessions.keep(controllers.map(\.editorDocument))
             // What couldn't be kept (a full disk) is asked about after all.
             let unkept = controllers.filter { controller in failed.contains { $0 === controller.editorDocument } }
-            guard unkept.allSatisfy({ $0.confirmCloseBeforeQuit() }) else { return false }
+            guard let discarded = QuitReview.run(unkept, ask: { $0.askBeforeQuit() }) else { return false }
+            discarded.forEach { $0.discardChanges() }
         } else {
-            guard controllers.allSatisfy({ $0.confirmCloseBeforeQuit() }) else { return false }
+            guard let discarded = QuitReview.run(controllers, ask: { $0.askBeforeQuit() }) else { return false }
+            discarded.forEach { $0.discardChanges() }
             // Every screenshot was saved or its changes discarded.
             sessions.forgetAll()
         }

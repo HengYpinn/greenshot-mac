@@ -982,6 +982,26 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         return resolveChanges(makeSaveAlert().runModal())
     }
 
+    /// Before quitting: asks about a changed screenshot. Save saves at once (Cancel when that fails); "Don't Save" is
+    /// only an answer here, the changes go with `discardChanges()` once every editor agreed to quit (`QuitReview`).
+    func askBeforeQuit() -> QuitAnswer {
+        canvas.commitEditing()
+        guard editorDocument.isModified, !settings.value.suppressSaveDialogAtClose, let window else { return .proceed }
+        NSApp.activate()
+        window.makeKeyAndOrderFront(nil)
+        switch makeSaveAlert().runModal() {
+        case .alertFirstButtonReturn: return save() ? .proceed : .cancel
+        case .alertSecondButtonReturn: return .discard
+        default: return .cancel
+        }
+    }
+
+    /// "Don't Save" at quit, after every editor agreed: its kept file goes too (via `onDocumentStateChange`).
+    func discardChanges() {
+        editorDocument.markSaved()
+        refreshDocumentState()
+    }
+
     /// Before another screenshot replaces this one (reuse editor): true when it may go. Asks to save a changed one;
     /// unlike closing, "suppress the save dialog" doesn't apply, so a new capture never silently discards edits.
     func confirmReplace() -> Bool {

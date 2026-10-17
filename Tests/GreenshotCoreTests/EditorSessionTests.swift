@@ -247,4 +247,23 @@ struct EditorSessionTests {
     @Test func keepWindowsSettingKeeps() {
         #expect(EditorSessionPolicy.keepsEditors(quitReason: nil, poweringOffSince: nil, now: Date(), keepsWindows: true))
     }
+
+    // MARK: Questions before quitting
+
+    @Test func dontSaveCountsOnlyWhenNobodyCancels() {
+        var asked: [Int] = []
+        let cancelled = QuitReview.run([1, 2, 3]) { editor -> QuitAnswer in
+            asked.append(editor)
+            return editor == 1 ? .discard : .cancel
+        }
+        #expect(cancelled == nil)
+        // Editor 3 isn't asked after the Cancel, and editor 1's "Don't Save" is not applied.
+        #expect(asked == [1, 2])
+    }
+
+    @Test func discardedEditorsWhenEveryoneAgreed() {
+        let answers: [Int: QuitAnswer] = [1: .discard, 2: .proceed, 3: .discard]
+        let discarded = QuitReview.run([1, 2, 3]) { answers[$0] ?? .cancel }
+        #expect(discarded == [1, 3])
+    }
 }
