@@ -143,7 +143,7 @@ public enum GreenshotFile {
     public static func readTemplate(_ data: Data, scale: CGFloat) throws -> (elements: [Annotation], unreadable: [String]) {
         guard data.count <= maxFileBytes else { throw NRBFError.badLength }
         let result = try GreenshotLegacyImport.read(payload: data, scale: scale)
-        return (result.elements, result.unreadable)
+        return Annotation.withinLimits(result.elements, unreadable: result.unreadable)
     }
 
     /// The editor's message about elements that were left out, e.g. "2 elements can't be shown here: SVG picture,
@@ -183,9 +183,8 @@ public enum GreenshotFile {
         var contents = Contents(image: loaded.image, scale: loaded.scale, origin: .windows(marker: trailer.marker))
         do {
             let imported = try GreenshotLegacyImport.read(payload: block, scale: loaded.scale)
-            contents.elements = imported.elements
+            (contents.elements, contents.unreadable) = Annotation.withinLimits(imported.elements, unreadable: imported.unreadable)
             contents.counterStart = imported.counterStart
-            contents.unreadable = imported.unreadable
         } catch {
             // Like upstream: the image opens, the elements are left out.
             log.error("The elements of a Greenshot for Windows file (\(trailer.marker)) could not be read", error: error)
@@ -200,12 +199,13 @@ public enum GreenshotFile {
             log.error("The elements of a .greenshot file could not be read")
             return Contents(image: image, scale: scale, origin: .mac, elementsFailed: true)
         }
-        let elements = payload.elements.compactMap(\.value).map { $0.withNewID() }
-        let skipped = payload.elements.count - elements.count
-        return Contents(image: image, scale: min(max(payload.scale, 1), 8), elements: elements,
+        let decoded = payload.elements.compactMap(\.value)
+        let skipped = payload.elements.count - decoded.count
+        let (elements, unreadable) = Annotation.withinLimits(decoded, unreadable: Array(repeating: "Element of a newer version", count: skipped))
+        return Contents(image: image, scale: min(max(payload.scale, 1), 8), elements: elements.map { $0.withNewID() },
                         counterStart: min(max(payload.counterStart, 0), 999_999), title: payload.title,
                         captureDate: payload.captureDate, session: payload.session, origin: .mac,
-                        unreadable: Array(repeating: "Element of a newer version", count: skipped))
+                        unreadable: unreadable)
     }
 
     private static let log = Log("Greenshot file")

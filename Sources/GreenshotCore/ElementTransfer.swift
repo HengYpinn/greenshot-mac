@@ -35,8 +35,14 @@ public struct ElementTransfer: Codable, Equatable {
         return try encoder.encode(self)
     }
 
+    /// The elements of a file or the clipboard, which can come from anywhere: elements whose positions are out of the
+    /// limits are left out (see `Annotation.withinLimits`), and the pixels per point are those of an image here
+    /// (1...8, like `GreenshotFile`), so scaling the elements to the target document can't make them huge.
     public static func decode(_ data: Data) -> ElementTransfer? {
-        guard let transfer = try? JSONDecoder().decode(ElementTransfer.self, from: data), transfer.scale > 0 else { return nil }
+        guard var transfer = try? JSONDecoder().decode(ElementTransfer.self, from: data), transfer.scale.isFinite,
+              transfer.scale > 0 else { return nil }
+        transfer.scale = min(max(transfer.scale, 1), 8)
+        transfer.elements = Annotation.withinLimits(transfer.elements).elements
         return transfer
     }
 

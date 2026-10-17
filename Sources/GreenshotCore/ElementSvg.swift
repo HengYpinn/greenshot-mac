@@ -23,6 +23,9 @@ public enum ElementSvg {
     static let maxPixels: CGFloat = 64 * 1024 * 1024
     /// The pixels per point an SVG file is opened with: the Retina default (upstream draws it at its own size).
     static let openScale: CGFloat = 2
+    /// The fewest and most pixels per point an SVG file is opened with: a huge one is drawn smaller, to the limits.
+    static let minOpenScale: CGFloat = 0.1
+    static let maxOpenScale: CGFloat = 8
 
     /// Whether this Mac can draw SVG (`NSImage` reads `public.svg-image`; checked once).
     public static let isSupported: Bool = NSImage.imageUnfilteredTypes.contains(UTType.svg.identifier)
@@ -73,7 +76,8 @@ public enum ElementSvg {
     }
 
     static func render(_ image: NSImage?, pixelSize: CGSize) -> CGImage? {
-        guard let image else { return nil }
+        // `limited` keeps a size that isn't finite as it is, and `Int` traps on it.
+        guard let image, pixelSize.width.isFinite, pixelSize.height.isFinite else { return nil }
         let size = limited(pixelSize)
         let width = Int(size.width.rounded())
         let height = Int(size.height.rounded())
@@ -108,7 +112,9 @@ public enum ElementSvg {
         let points = image.size
         let pixels = limited(CGSize(width: points.width * openScale, height: points.height * openScale))
         guard let picture = render(image, pixelSize: pixels) else { return nil }
-        return (picture, CGFloat(picture.width) / points.width)
+        // An SVG of absurd size (1e300 points is drawn into a few pixels) gets no absurd pixels per point.
+        let scale = min(max(CGFloat(picture.width) / points.width, minOpenScale), maxOpenScale)
+        return (picture, scale)
     }
 
     // MARK: Drawing elements
@@ -143,10 +149,13 @@ public enum ElementSvg {
 
     /// The SVG of element `a` drawn at `pixelSize`.
     static func picture(of a: Annotation, pixelSize: CGSize) -> CGImage? {
-        guard let data = a.imageData else { return nil }
-        let width = Int(pixelSize.width.rounded())
-        let height = Int(pixelSize.height.rounded())
-        guard width > 0, height > 0 else { return nil }
+        // An element can be any size (a file can say 1e300): nothing for sizes that aren't finite or round to nothing,
+        // and huge ones at the size `render` draws them, which is whole pixels within the limits.
+        guard let data = a.imageData, pixelSize.width.isFinite, pixelSize.height.isFinite,
+              pixelSize.width.rounded() >= 1, pixelSize.height.rounded() >= 1 else { return nil }
+        let size = limited(pixelSize)
+        let width = Int(size.width)
+        let height = Int(size.height)
         let key = "\(a.id.uuidString) \(data.count) \(width)x\(height)" as NSString
         if let cached = drawn.object(forKey: key) { return cached.image }
         let id = a.id as NSUUID
