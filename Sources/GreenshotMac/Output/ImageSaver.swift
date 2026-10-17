@@ -7,13 +7,28 @@ import AppKit
 import GreenshotCore
 import UniformTypeIdentifiers
 
-/// Writes images to files, with the output folder and filename pattern of the settings.
+/// Writes images to files, with the output folder and filename pattern of the settings: port of upstream
+/// `Greenshot/Destinations/FileDestination.cs`, `FileWithDialogDestination.cs` and `SaveImageFileDialog.cs`.
 @MainActor
 final class ImageSaver {
     private let settings: SettingsStore
 
     init(settings: SettingsStore) {
         self.settings = settings
+    }
+
+    /// How a write ended.
+    enum WriteOutcome {
+        case written
+        /// The quality dialog was cancelled.
+        case cancelled
+        case failed(Error)
+    }
+
+    /// The output folder with its pattern variables filled in (upstream `FillVariables(OutputFilePath)`).
+    func outputFolderURL(title: String, date: Date) -> URL {
+        DestinationSupport.outputFolder(settings.value.outputFolder,
+                                        context: settings.patternContext(title: title, date: date, consumeNumber: false))
     }
 
     /// The file "Save directly" writes to: the output folder plus the filled filename pattern.
@@ -24,8 +39,10 @@ final class ImageSaver {
     /// The same for any extension (e.g. "pdf").
     func defaultURL(title: String, date: Date, fileExtension: String) -> URL {
         let s = settings.value
+        // The folder first: it only previews ${NUM}, the name counts it up.
+        let folder = outputFolderURL(title: title, date: date)
         let name = FilenamePattern.fileName(s.filenamePattern, context: settings.patternContext(title: title, date: date))
-        let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : s.outputFolderURL.appendingPathComponent(name)
+        let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : folder.appendingPathComponent(name)
         return base.appendingPathExtension(fileExtension)
     }
 
@@ -33,103 +50,179 @@ final class ImageSaver {
     /// overwrite" an existing file's name gets " (2)", " (3)", ….
     @discardableResult
     func saveDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date) -> URL? {
+        exportDirectly(image, scale: scale, title: title, date: date).fileURL
+    }
+
+    /// "Save directly" as an export (upstream `FileDestination.ExportAsync`): a file that can't be written shows the
+    /// problem and then the Save As dialog.
+    func exportDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date) -> ExportResult {
         var url = defaultURL(title: title, date: date)
         if !settings.value.allowOverwrite { url = DestinationSupport.uniqueURL(for: url) }
-        guard write(image, scale: scale, to: url) else { return nil }
-        let s = settings.value
-        if s.copyPathToClipboard && !s.destinations.contains(.clipboard) {
-            Clipboard.copy(text: url.path)
+        switch writeResult(image, scale: scale, to: url) {
+        case .written:
+            notifySaved(url)
+            return .succeeded(fileURL: url)
+        case .cancelled:
+            return .declined
+        case .failed(let error):
+            // Upstream `error_save`: say so, then ask where to save instead (no write access, a bad name, a full disk).
+            let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
+            ErrorPresenter.show(message: "The screenshot could not be saved, please choose another place",
+                                detail: "\(url.lastPathComponent) could not be written to \(folder): \(error.localizedDescription)")
+            return exportAs(image, scale: scale, title: title, date: date, fileName: url.lastPathComponent)
         }
-        notifySaved(url)
-        return url
     }
 
     /// Asks for a file name and format. Returns the file, or nil when cancelled or failed.
     @discardableResult
     func saveAs(_ image: CGImage, scale: CGFloat, title: String, date: Date, suggestedURL: URL? = nil) -> URL? {
+        exportAs(image, scale: scale, title: title, date: date, suggestedURL: suggestedURL).fileURL
+    }
+
+    /// "Save as" as an export (upstream `FileWithDialogDestination`). `suggestedURL` is the editor's own file: the dialog
+    /// starts there. `fileName` replaces the pattern's name.
+    func exportAs(_ image: CGImage, scale: CGFloat, title: String, date: Date, suggestedURL: URL? = nil,
+                  fileName: String? = nil) -> ExportResult {
         let s = settings.value
         let writable = suggestedURL.flatMap { ImageFormat(fileExtension: $0.pathExtension) }
         let initialFormat = writable ?? s.outputFormat
-        var suggested = suggestedURL ?? defaultURL(title: title, date: date, format: initialFormat)
-        if writable == nil, suggestedURL != nil {
+        var name = fileName
+        if let suggestedURL, writable == nil {
             // e.g. a HEIC file opened in the editor: offer the same name in a format this app writes.
-            suggested = suggested.deletingPathExtension().appendingPathExtension(initialFormat.fileExtension)
+            name = suggestedURL.deletingPathExtension().appendingPathExtension(initialFormat.fileExtension).lastPathComponent
         }
         let panel = NSSavePanel()
         panel.title = "Save Screenshot"
-        panel.canCreateDirectories = true
-        panel.directoryURL = suggested.deletingLastPathComponent()
-        panel.nameFieldStringValue = suggested.lastPathComponent
         panel.allowedContentTypes = [initialFormat.utType]
         let accessory = FormatAccessory(panel: panel, format: initialFormat)
         panel.accessoryView = accessory.view
-        NSApp.activate()
-        guard panel.runModal() == .OK, let url = panel.url else { return nil }
-        let format = ImageFormat(fileExtension: url.pathExtension) ?? accessory.format
-        guard write(image, scale: scale, to: url, format: format) else { return nil }
-        notifySaved(url)
-        return url
+        guard var url = runSavePanel(panel, title: title, date: date, fileExtension: initialFormat.fileExtension,
+                                     editorFile: suggestedURL, fileName: name) else { return .declined }
+        // A name without an extension this app writes gets the one of the chosen format (upstream
+        // `SaveImageFileDialog.FileNameWithExtension`) instead of a PNG called "shot.xyz".
+        let format: ImageFormat
+        if let typed = ImageFormat(fileExtension: url.pathExtension) {
+            format = typed
+        } else {
+            format = accessory.format
+            url = url.appendingPathExtension(format.fileExtension)
+        }
+        switch writeResult(image, scale: scale, to: url, format: format) {
+        case .written:
+            notifySaved(url)
+            return .succeeded(fileURL: url)
+        case .cancelled:
+            return .declined
+        case .failed(let error):
+            // Upstream `error_nowriteaccess`.
+            let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
+            ErrorPresenter.show(message: "The screenshot could not be saved to \(url.lastPathComponent)",
+                                detail: "Check that you can write to \(folder).\n\n\(error.localizedDescription)")
+            return .failed(error.localizedDescription)
+        }
     }
 
-    /// `scale` is the pixels per point, written as the file's resolution so it opens at its real size. JPEG asks
-    /// for the quality first when "Ask for the JPEG quality" is on (false when cancelled); "Reduce colours" applies
-    /// to PNG and GIF.
+    /// Runs a save panel where upstream's `SaveImageFileDialog` starts: in the folder of the editor's own file, else in
+    /// the sub folder the filename pattern makes (created for the dialog and removed again when nothing was saved in
+    /// it), else in the folder of the last saved file, else in the output folder. The name is the pattern's.
+    func runSavePanel(_ panel: NSSavePanel, title: String, date: Date, fileExtension: String, editorFile: URL? = nil,
+                      fileName: String? = nil) -> URL? {
+        panel.canCreateDirectories = true
+        let output = outputFolderURL(title: title, date: date)
+        let suggested = editorFile ?? defaultURL(title: title, date: date, fileExtension: fileExtension)
+        var created: [URL] = []
+        var patternFolder: URL?
+        if editorFile == nil {
+            let folder = suggested.deletingLastPathComponent()
+            if folder.standardizedFileURL.path != output.standardizedFileURL.path {
+                // NSSavePanel ignores a folder that isn't there, so it is made now (upstream `_eagerlyCreatedDirectory`).
+                created = Self.createFolders(folder)
+                if Self.isFolder(folder) { patternFolder = folder }
+            }
+        }
+        panel.directoryURL = DestinationSupport.saveAsFolder(editorFile: editorFile, patternSubfolder: patternFolder,
+                                                             lastSavedFile: settings.value.lastSavedFile, outputFolder: output,
+                                                             folderExists: Self.isFolder)
+        panel.nameFieldStringValue = fileName ?? suggested.lastPathComponent
+        NSApp.activate()
+        let response = panel.runModal()
+        // Also after OK: the write makes the folder again when the file goes there.
+        Self.removeUnused(created)
+        return response == .OK ? panel.url : nil
+    }
+
+    private static func isFolder(_ url: URL) -> Bool {
+        var isDirectory: ObjCBool = false
+        return FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) && isDirectory.boolValue
+    }
+
+    /// Creates `folder` and the missing folders above it; returns the ones it made, the deepest first.
+    private static func createFolders(_ folder: URL) -> [URL] {
+        var missing: [URL] = []
+        var current = folder.standardizedFileURL
+        while !FileManager.default.fileExists(atPath: current.path), current.path != "/" {
+            missing.append(current)
+            current = current.deletingLastPathComponent()
+        }
+        guard !missing.isEmpty, (try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)) != nil else {
+            return []
+        }
+        return missing
+    }
+
+    /// Removes the folders made for the dialog that are still empty, the deepest first (upstream `CleanUp`).
+    private static func removeUnused(_ folders: [URL]) {
+        for folder in folders {
+            guard let contents = try? FileManager.default.contentsOfDirectory(atPath: folder.path),
+                  DestinationSupport.isUnused(folderContents: contents) else { return }
+            try? FileManager.default.removeItem(at: folder)
+        }
+    }
+
+    /// `scale` is the pixels per point, written as the file's resolution so it opens at its real size. Asks with the
+    /// quality dialog first when "Show the quality dialog" is on (false when cancelled); shows the error when the
+    /// file can't be written.
     @discardableResult
     func write(_ image: CGImage, scale: CGFloat, to url: URL, format: ImageFormat? = nil) -> Bool {
-        let s = settings.value
-        let format = format ?? ImageFormat(fileExtension: url.pathExtension) ?? s.outputFormat
-        var quality = s.jpegQuality
-        if format == .jpg, s.promptJpegQuality {
-            guard let chosen = askJpegQuality() else { return false }
-            quality = chosen
-        }
-        do {
-            var options = ImageOutputOptions(settings: s, format: format, scale: scale)
-            options.jpegQuality = quality
-            try ImageExporter.write(image, to: url, options: options)
+        switch writeResult(image, scale: scale, to: url, format: format) {
+        case .written:
             return true
-        } catch {
+        case .cancelled:
+            return false
+        case .failed(let error):
             ErrorPresenter.show(error, title: "The screenshot could not be saved")
             return false
         }
     }
 
-    /// Upstream `QualityDialog`: the JPEG quality for this save, with "Don't ask again". Nil when cancelled.
-    private func askJpegQuality() -> Int? {
-        let slider = NSSlider(value: Double(settings.value.jpegQuality), minValue: 10, maxValue: 100, target: nil, action: nil)
-        slider.numberOfTickMarks = 10
-        slider.allowsTickMarkValuesOnly = false
-        let label = NSTextField(labelWithString: "Quality: \(settings.value.jpegQuality)")
-        let update = SliderLabel(slider: slider, label: label)
-        let stack = NSStackView(views: [label, slider])
-        stack.orientation = .vertical
-        stack.alignment = .leading
-        slider.widthAnchor.constraint(equalToConstant: 260).isActive = true
-        stack.frame = NSRect(origin: .zero, size: stack.fittingSize)
-        let alert = NSAlert()
-        alert.messageText = "JPEG Quality"
-        alert.informativeText = "Higher quality makes bigger files."
-        alert.accessoryView = stack
-        alert.showsSuppressionButton = true
-        alert.suppressionButton?.title = "Don't ask again, always use this quality"
-        alert.addButton(withTitle: "Save")
-        alert.addButton(withTitle: "Cancel")
-        NSApp.activate()
-        let response = alert.runModal()
-        withExtendedLifetime(update) {}
-        guard response == .alertFirstButtonReturn else { return nil }
-        let quality = Int(slider.doubleValue.rounded())
-        let dontAsk = alert.suppressionButton?.state == .on
-        settings.update {
-            $0.jpegQuality = quality
-            if dontAsk { $0.promptJpegQuality = false }
+    /// `write` without the error dialog.
+    func writeResult(_ image: CGImage, scale: CGFloat, to url: URL, format: ImageFormat? = nil) -> WriteOutcome {
+        let s = settings.value
+        let format = format ?? ImageFormat(fileExtension: url.pathExtension) ?? s.outputFormat
+        var options = ImageOutputOptions(settings: s, format: format, scale: scale)
+        if s.promptJpegQuality, DestinationSupport.asksQuality(format) {
+            // Upstream `QualityWindow` (FileDestination asks before every save when OutputFilePromptQuality is on).
+            guard let choice = QualityForm.ask(format: format, settings: settings) else { return .cancelled }
+            options.jpegQuality = choice.quality
+            options.reduceColors = choice.reduceColors
         }
-        return quality
+        do {
+            try ImageExporter.write(image, to: url, options: options)
+            return .written
+        } catch {
+            return .failed(error)
+        }
     }
 
-    /// Records the file for "Open Recent Capture" and says where it went.
-    func notifySaved(_ url: URL) {
+    /// Records the file for "Open Recent Capture", copies its path when "Copy the file path" is on (upstream
+    /// `OutputFileCopyPathToClipboard`, after every save of an image; not when the Clipboard destination put the
+    /// screenshot there) and says where it went.
+    func notifySaved(_ url: URL, copyPath: Bool = true) {
         settings.update { $0.lastSavedFile = url.path }
+        let s = settings.value
+        if copyPath, s.copyPathToClipboard, !s.destinations.contains(.clipboard) {
+            Clipboard.copy(text: url.path)
+        }
         let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
         notify("Saved \(url.lastPathComponent)", detail: "\(folder) – click to show in Finder") {
             NSWorkspace.shared.activateFileViewerSelecting([url])
@@ -142,23 +235,6 @@ final class ImageSaver {
         let s = settings.value
         guard s.notificationLevel.shows(kind), kind != .info || s.showNotifications else { return }
         Toast.show(message, detail: detail, action: action)
-    }
-}
-
-/// Shows a slider's value in a label.
-@MainActor
-private final class SliderLabel: NSObject {
-    private let label: NSTextField
-
-    init(slider: NSSlider, label: NSTextField) {
-        self.label = label
-        super.init()
-        slider.target = self
-        slider.action = #selector(changed(_:))
-    }
-
-    @objc private func changed(_ sender: NSSlider) {
-        label.stringValue = "Quality: \(Int(sender.doubleValue.rounded()))"
     }
 }
 
