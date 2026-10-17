@@ -6,33 +6,118 @@
 import AppKit
 import GreenshotCore
 
-/// The menu bar icon and its menu: upstream's tray icon menu.
+/// The menu bar icon and its menu: upstream's tray icon (`Greenshot/Shell/TrayIcon.cs`) and menu (`TrayMenu.cs`).
+///
+/// A click runs `leftClickAction`. When that shows the menu (the default), the menu belongs to the icon and opens on
+/// mouse-down like every Mac menu bar item. Otherwise the icon is a button: a click runs the action, a right-click or
+/// ⌃-click shows the menu, and with a `doubleClickAction` a click waits the double-click time for a second one.
 @MainActor
 final class StatusItemController: NSObject, NSMenuDelegate {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private unowned let app: AppDelegate
+    private let menu = NSMenu()
+    private lazy var windowList = MenuBarWindowList(app: app)
+    /// A first click waiting for its second one (upstream `_doubleClickTimer`).
+    private var singleClickTimer: Timer?
 
     init(app: AppDelegate) {
         self.app = app
         super.init()
+        // Items are enabled or disabled here, not by the responder chain.
+        menu.autoenablesItems = false
+        menu.delegate = self
+        // macOS keeps the icon where the user ⌘-dragged it.
+        statusItem.autosaveName = "GreenshotStatusItem"
         if let button = statusItem.button {
             let image = NSImage(systemSymbolName: "camera.viewfinder", accessibilityDescription: AppInfo.name)
             image?.isTemplate = true
             button.image = image
             button.toolTip = AppInfo.name
+            button.target = self
+            button.action = #selector(iconClicked(_:))
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
-        let menu = NSMenu()
-        // Items are enabled or disabled here, not by the responder chain.
-        menu.autoenablesItems = false
-        menu.delegate = self
-        statusItem.menu = menu
-        // macOS keeps the icon where the user ⌘-dragged it.
-        statusItem.autosaveName = "GreenshotStatusItem"
+        applySettings()
+        app.settings.onChange(of: \.leftClickAction) { [weak self] _ in self?.applySettings() }
+        app.settings.onChange(of: \.hideMenuBarIcon) { [weak self] _ in self?.applySettings() }
     }
 
+    /// The icon's menu while a click shows it, and whether the icon is there (upstream `HideTrayicon`). Set at every
+    /// launch: macOS remembers the visibility under the autosave name and must not win over the setting.
+    private func applySettings() {
+        let s = app.settings.value
+        cancelSingleClick()
+        statusItem.menu = MenuBarClick.clickShowsMenu(s.leftClickAction) ? menu : nil
+        statusItem.isVisible = !s.hideMenuBarIcon
+    }
+
+    // MARK: Clicks
+
+    @objc private func iconClicked(_ sender: Any?) {
+        let event = NSApp.currentEvent
+        let mouseUp = event?.type == .leftMouseUp || event?.type == .rightMouseUp
+        // A press without the mouse (VoiceOver, keyboard) gets the menu too: it is the way to everything else.
+        let menuGesture = !mouseUp || event?.type == .rightMouseUp || event?.modifierFlags.contains(.control) == true
+        let s = app.settings.value
+        switch MenuBarClick.decide(menuGesture: menuGesture, waiting: singleClickTimer != nil,
+                                   click: s.leftClickAction, doubleClick: s.doubleClickAction) {
+        case .showMenu:
+            cancelSingleClick()
+            showMenu()
+        case .run(let action):
+            run(action)
+        case .waitForSecondClick:
+            let timer = Timer(timeInterval: NSEvent.doubleClickInterval, repeats: false) { [weak self] _ in
+                MainActor.assumeIsolated {
+                    guard let self else { return }
+                    self.singleClickTimer = nil
+                    self.run(self.app.settings.value.leftClickAction)
+                }
+            }
+            // Also while a menu or a modal window runs its own loop.
+            RunLoop.main.add(timer, forMode: .common)
+            singleClickTimer = timer
+        case .runDoubleClick(let action):
+            cancelSingleClick()
+            run(action)
+        }
+    }
+
+    private func cancelSingleClick() {
+        singleClickTimer?.invalidate()
+        singleClickTimer = nil
+    }
+
+    /// Runs a click action once the click is handled (upstream `RunLater`).
+    private func run(_ action: ClickAction) {
+        DispatchQueue.main.async { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                MenuBarActions.perform(action, app: self.app) { self.showMenu() }
+            }
+        }
+    }
+
+    /// Opens the menu from the icon while it isn't the icon's menu: the menu is the icon's while it is open (so it
+    /// hangs from the icon, which is highlighted) and is taken back in `menuDidClose`.
+    private func showMenu() {
+        guard let button = statusItem.button, statusItem.isVisible else { return }
+        statusItem.menu = menu
+        button.performClick(nil)
+    }
+
+    func menuDidClose(_ menu: NSMenu) {
+        guard menu === self.menu else { return }
+        if !MenuBarClick.clickShowsMenu(app.settings.value.leftClickAction) { statusItem.menu = nil }
+    }
+
+    // MARK: The menu
+
     func menuNeedsUpdate(_ menu: NSMenu) {
+        guard menu === self.menu else { return }
         menu.removeAllItems()
-        let hotkeys = app.settings.value.hotkeys
+        let settings = app.settings.value
+        let hotkeys = settings.hotkeys
         let capture = app.capture
 
         // Editors hide when another app is clicked; this brings them back.
@@ -42,69 +127,60 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         }
 
         menu.addItem(item("Capture Region", hotkeys.region) { capture.captureRegion() })
-        menu.addItem(item("Capture Last Region", hotkeys.lastRegion) { capture.captureLastRegion() })
+        let lastRegion = item("Capture Last Region", hotkeys.lastRegion) { capture.captureLastRegion() }
+        // Upstream greys it out until a region was captured (TrayMenu.cs).
+        lastRegion.isEnabled = settings.lastCapturedRegion != nil
+        menu.addItem(lastRegion)
         menu.addItem(item("Capture Window", hotkeys.window) { capture.captureWindowInteractively() })
-
-        let screens = NSScreen.screens
-        if screens.count > 1 {
-            let fullScreen = NSMenuItem(title: "Capture Full Screen", action: nil, keyEquivalent: "")
-            let submenu = NSMenu()
-            submenu.addItem(item("All Screens", hotkeys.fullScreen) { capture.captureFullScreen() })
-            submenu.addItem(.separator())
-            for screen in screens {
-                let id = screen.displayID
-                submenu.addItem(ClosureMenuItem(title: screen.localizedName) { capture.captureFullScreen(displayID: id) })
-            }
-            fullScreen.submenu = submenu
-            menu.addItem(fullScreen)
-        } else {
-            menu.addItem(item("Capture Full Screen", hotkeys.fullScreen) { capture.captureFullScreen() })
-        }
-
-        let fromList = NSMenuItem(title: "Capture Window from List", action: nil, keyEquivalent: "")
-        let windowMenu = NSMenu()
-        let windows = ScreenCapturer.onScreenWindows()
-        if windows.isEmpty {
-            let none = NSMenuItem(title: "No windows", action: nil, keyEquivalent: "")
-            none.isEnabled = false
-            windowMenu.addItem(none)
-        }
-        for window in windows.prefix(40) {
-            let entry = ClosureMenuItem(title: window.menuTitle) { capture.capture(window: window) }
-            if let icon = NSRunningApplication(processIdentifier: window.pid)?.icon {
-                icon.size = NSSize(width: 16, height: 16)
-                entry.image = icon
-            }
-            windowMenu.addItem(entry)
-        }
-        fromList.submenu = windowMenu
-        menu.addItem(fromList)
+        menu.addItem(item("Capture Text", hotkeys.text) { capture.captureText() })
+        menu.addItem(fullScreenItem(hotkey: hotkeys.fullScreen))
+        menu.addItem(windowList.makeItem())
 
         menu.addItem(.separator())
         let clipboard = item("Open Image from Clipboard", hotkeys.clipboard) { [unowned app] in app.editors.openClipboard() }
         clipboard.isEnabled = NSImage.canInit(with: .general)
         menu.addItem(clipboard)
-        menu.addItem(ClosureMenuItem(title: "Open Image from File…") { [unowned app] in app.editors.chooseAndOpenFile() })
+        menu.addItem(ClosureMenuItem(title: "Open Image from File…") { [unowned app] in MenuBarActions.openFilesToDestinations(app: app) })
         menu.addItem(recentCaptureItem())
         menu.addItem(.separator())
         menu.addItem(quickSettingsItem())
         menu.addItem(ClosureMenuItem(title: "Settings…", keyEquivalent: ",") { [unowned app] in app.showSettings(nil) })
+        menu.addItem(.separator())
+        menu.addItem(ClosureMenuItem(title: "Help") { NSWorkspace.shared.open(AppInfo.helpURL) })
         menu.addItem(ClosureMenuItem(title: "About \(AppInfo.name)") { [unowned app] in app.showAbout(nil) })
         menu.addItem(.separator())
         menu.addItem(ClosureMenuItem(title: "Quit", keyEquivalent: "q") { NSApp.terminate(nil) })
     }
 
-    /// Upstream's "Open last capture in explorer": shows the last saved file in Finder.
+    /// "Capture Full Screen"; with several displays a submenu with all of them and each one, named with upstream's
+    /// position words (TrayMenu.cs `CreateFullscreenItem`).
+    private func fullScreenItem(hotkey: KeyCombo?) -> NSMenuItem {
+        let capture = app.capture
+        let screens = NSScreen.screens
+        guard screens.count > 1 else {
+            return item("Capture Full Screen", hotkey) { capture.captureFullScreen() }
+        }
+        let fullScreen = NSMenuItem(title: "Capture Full Screen", action: nil, keyEquivalent: "")
+        let submenu = NSMenu()
+        submenu.addItem(item("All Screens", hotkey) { capture.captureFullScreen() })
+        submenu.addItem(.separator())
+        let frames = screens.map { CGDisplayBounds($0.displayID) }
+        for (screen, frame) in zip(screens, frames) {
+            let id = screen.displayID
+            let title = ScreenPosition.label(name: screen.localizedName, frame: frame, among: frames)
+            submenu.addItem(ClosureMenuItem(title: title) { capture.captureFullScreen(displayID: id) })
+        }
+        fullScreen.submenu = submenu
+        return fullScreen
+    }
+
+    /// Upstream's "Open last capture location": the last saved file in Finder, else its folder or the output folder.
     private func recentCaptureItem() -> NSMenuItem {
-        let path = app.settings.value.lastSavedFile
-        let url = path.map { URL(fileURLWithPath: $0) }
-        let entry = ClosureMenuItem(title: "Open Recent Capture") {
-            if let url { NSWorkspace.shared.activateFileViewerSelecting([url]) }
+        let settings = app.settings
+        let entry = ClosureMenuItem(title: "Open Last Capture Location") { MenuBarActions.openLastCaptureLocation(settings: settings) }
+        if let path = settings.value.lastSavedFile {
+            entry.toolTip = (path as NSString).abbreviatingWithTildeInPath
         }
-        if let url {
-            entry.toolTip = (url.path as NSString).abbreviatingWithTildeInPath
-        }
-        entry.isEnabled = url.map { FileManager.default.fileExists(atPath: $0.path) } ?? false
         return entry
     }
 
