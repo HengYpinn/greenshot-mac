@@ -23,6 +23,9 @@ extension MainMenu {
         file.addItem(withTitle: "Save", action: #selector(EditorWindowController.saveImage(_:)), keyEquivalent: "s")
         let saveAs = file.addItem(withTitle: "Save As…", action: #selector(EditorWindowController.saveImageAs(_:)), keyEquivalent: "s")
         saveAs.keyEquivalentModifierMask = [.command, .shift]
+        // Upstream's "Greenshot Editor" format (.greenshot): the image with elements that stay editable.
+        file.addItem(withTitle: "Save as Greenshot File…", action: #selector(EditorWindowController.saveAsGreenshotFile(_:)),
+                     keyEquivalent: "")
         // The saved file (upstream's status bar menu after a save: copy the path, open the folder).
         file.addItem(withTitle: "Show in Finder", action: #selector(EditorWindowController.showInFinder(_:)), keyEquivalent: "")
         file.addItem(withTitle: "Copy Path", action: #selector(EditorWindowController.copyFilePath(_:)), keyEquivalent: "")

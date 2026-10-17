@@ -18,6 +18,9 @@ final class EditorManager {
     private var controllers: [EditorWindowController] = []
     private var spaceObserver: NSObjectProtocol?
     private var spaceFollowGeneration = 0
+    /// Keeps unsaved editors for the next start (EditorSessionKeeper.swift).
+    private lazy var sessions = EditorSessionKeeper.standard()
+    private let log = Log("Editor")
 
     init(settings: SettingsStore, saver: ImageSaver) {
         self.settings = settings
@@ -38,9 +41,35 @@ final class EditorManager {
         controllers.last?.addCapturedPointer(of: capture)
     }
 
-    /// Opens the editors that were open when the app last quit, logged out or crashed (upstream Restart Manager
-    /// `--restore`). Package F fills it in.
-    func restoreSavedEditors() {}
+    /// Opens the unsaved editors kept when the app last quit for a logout, restart or shut down, or ended without
+    /// quitting (upstream `RestartManagerHelper.RestoreState` with `--restore`). They are still unsaved, and Save goes to
+    /// the file they showed.
+    func restoreSavedEditors() {
+        let crashed = (NSApp.delegate as? AppDelegate)?.previousRunEndedAbnormally ?? false
+        let files = sessions.keptFiles()
+        guard !files.isEmpty else { return }
+        log.info("Restoring \(files.count) unsaved editors (the last run ended abnormally: \(crashed))")
+        for file in files {
+            guard let kept = sessions.claim(file), let session = kept.contents.session else { continue }
+            let contents = kept.contents
+            let original = session.originalFile.map { URL(fileURLWithPath: $0) }
+            let document = EditorDocument(image: contents.image, scale: contents.scale, title: contents.title ?? "Screenshot",
+                                          captureDate: contents.captureDate ?? Date(),
+                                          fileURL: original.flatMap { FileManager.default.fileExists(atPath: $0.path) ? $0 : nil })
+            document.addOpened(contents.elements)
+            document.counterStart = contents.counterStart
+            document.isWindowsGreenshotFile = session.isWindowsGreenshotFile
+            let controller = open(document)
+            sessions.adopt(kept, for: document)
+            let message: String
+            switch session.reason {
+            case .quit: message = "Reopened after the last logout or restart, not saved yet."
+            case .autosave where crashed: message = "Restored after Greenshot quit unexpectedly, not saved yet."
+            case .autosave: message = "Restored, not saved yet."
+            }
+            controller.showStatusMessage(message)
+        }
+    }
 
     /// The editor a new capture goes to with "reuse the editor": like upstream `EditorDestination`, the front-most one
     /// without unsaved changes. A capture is unsaved until it is saved or exported, so often every editor has changes:
@@ -76,12 +105,35 @@ final class EditorManager {
     }
 
     func open(fileURL: URL) {
+        if GreenshotFile.isGreenshotFile(fileURL) {
+            openGreenshotFile(fileURL)
+            return
+        }
         guard let loaded = ImageLoader.load(fileURL) else {
             ErrorPresenter.show(message: "The image could not be opened", detail: fileURL.lastPathComponent)
             return
         }
         open(EditorDocument(image: loaded.image, scale: loaded.scale, title: fileURL.deletingPathExtension().lastPathComponent,
                             fileURL: fileURL, isModified: false))
+    }
+
+    /// Opens a `.greenshot` file (upstream `ImageIO.LoadGreenshotSurface`): the image and its elements, which stay
+    /// editable. A file of Greenshot for Windows shows the elements this editor has; the status bar names the others.
+    private func openGreenshotFile(_ url: URL) {
+        guard let contents = GreenshotFile.read(contentsOf: url) else {
+            ErrorPresenter.show(message: "The Greenshot file could not be opened", detail: url.lastPathComponent)
+            return
+        }
+        log.info("Opened a .greenshot file (\(contents.origin)) with \(contents.elements.count) elements, "
+                 + "\(contents.unreadable.count) left out")
+        let document = EditorDocument(image: contents.image, scale: contents.scale,
+                                      title: url.deletingPathExtension().lastPathComponent,
+                                      captureDate: contents.captureDate ?? Date(), fileURL: url, isModified: false)
+        document.addOpened(contents.elements)
+        document.counterStart = contents.counterStart
+        if case .windows = contents.origin { document.isWindowsGreenshotFile = true }
+        let controller = open(document)
+        if let message = contents.openMessage { controller.showStatusMessage(message, isError: contents.elementsFailed) }
     }
 
     /// Opens the image on the clipboard; for a copied web page part, the image it shows is downloaded first (upstream
@@ -102,7 +154,7 @@ final class EditorManager {
 
     func chooseAndOpenFile() {
         let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.image]
+        panel.allowedContentTypes = [.image, EditorWindowController.greenshotFileType]
         panel.allowsMultipleSelection = true
         NSApp.activate()
         guard panel.runModal() == .OK else { return }
@@ -123,28 +175,42 @@ final class EditorManager {
         return true
     }
 
-    /// Asks about every changed screenshot before the app quits. False when the user cancelled.
+    /// Asks about every changed screenshot before the app quits. False when the user cancelled. When macOS logs out,
+    /// restarts or shuts down (or keeps windows at quit), the changed screenshots are kept for the next start instead,
+    /// without asking: a question would cancel the logout (upstream `RestartManagerHelper.SaveEditorState`).
     func confirmQuit() -> Bool {
-        guard controllers.allSatisfy({ $0.confirmCloseBeforeQuit() }) else { return false }
+        for controller in controllers { controller.canvas.commitEditing() }
+        if controllers.contains(where: { $0.editorDocument.isModified }), sessions.quitKeepsEditors() {
+            sessions.keep(controllers.map(\.editorDocument))
+        } else {
+            guard controllers.allSatisfy({ $0.confirmCloseBeforeQuit() }) else { return false }
+            // Every screenshot was saved or its changes discarded.
+            sessions.forgetAll()
+        }
         // Quitting doesn't close the windows: the front editor's place is the one the next editor gets.
         frontEditor()?.savePlacement()
         return true
     }
 
-    private func open(_ document: EditorDocument) {
+    @discardableResult
+    private func open(_ document: EditorDocument) -> EditorWindowController {
         let controller = EditorWindowController(document: document, settings: settings, saver: saver) { [weak self] closed in
             self?.controllers.removeAll { $0 === closed }
+            self?.sessions.forget(closed.editorDocument.id)
             self?.onWindowsChange?()
         }
         controller.onCloseAll = { [weak self] in self?.closeAll() }
+        controller.onDocumentStateChange = { [weak self] changed in self?.sessions.documentChanged(changed.editorDocument) }
         controllers.append(controller)
         onWindowsChange?()
-        guard let window = controller.window else { return }
+        sessions.documentChanged(document)
+        guard let window = controller.window else { return controller }
         // Shown before the (asynchronous since macOS 14) activation finishes, so it doesn't wait on the app in front.
         window.makeKeyAndOrderFront(nil)
         window.orderFrontRegardless()
         NSApp.activate()
         followSpaceSwitch(of: window)
+        return controller
     }
 
     /// When the app turns into a Dock app as it is activated from a full screen app, macOS switches to the desktop,

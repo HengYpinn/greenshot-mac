@@ -20,6 +20,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     private let onClose: (EditorWindowController) -> Void
     /// File › Close All (the editor manager closes every editor).
     var onCloseAll: (() -> Void)?
+    /// After the image, the elements or the saved state changed (the editor manager keeps unsaved editors for the next
+    /// start).
+    var onDocumentStateChange: ((EditorWindowController) -> Void)?
 
     let canvas: CanvasView
     let scrollView = EditorWindowScrollView()
@@ -507,6 +510,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         statusBar.setDimensions(EditorWindowStatus.dimensions(editorDocument.imageSize))
         statusBar.setZoom(EditorWindowZoom.label(scrollView.magnification))
         refitWindowIfImageResized()
+        onDocumentStateChange?(self)
     }
 
     /// The counter tool's icon shows the number the next counter gets (upstream's step label button images).
@@ -783,6 +787,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     @discardableResult
     func save() -> Bool {
         canvas.commitEditing()
+        if let url = editorDocument.fileURL, GreenshotFile.isGreenshotFile(url) {
+            // The image with its elements, editable again later (EditorWindowController+Files.swift).
+            return saveGreenshotFile(to: url)
+        }
         if let url = editorDocument.fileURL, ImageFormat(fileExtension: url.pathExtension) == nil {
             // Opened from a format this app can't write (HEIC, WebP, ...): never overwrite it, ask for a new file.
             saveImageAs(nil)
@@ -847,28 +855,41 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
     }
 
-    /// Upstream "Load objects from file": adds the elements of a file, as one undo step, and selects them.
+    /// Upstream "Load objects from file": adds the elements of a file, as one undo step, and selects them. Also reads
+    /// the `.gst` element files of Greenshot for Windows.
     @objc func loadElements(_ sender: Any?) {
         canvas.commitEditing()
         guard let window else { return }
         let panel = NSOpenPanel()
-        panel.allowedContentTypes = [Self.elementsFileType]
+        panel.allowedContentTypes = [Self.elementsFileType, Self.windowsElementsFileType]
         panel.allowsMultipleSelection = false
         panel.beginSheetModal(for: window) { [weak self] response in
             guard let self, response == .OK, let url = panel.url else { return }
-            guard let data = try? Data(contentsOf: url), let transfer = ElementTransfer.decode(data) else {
-                ErrorPresenter.show(message: "The elements could not be loaded", detail: url.lastPathComponent)
-                return
+            let transfer: ElementTransfer
+            var message: String?
+            if url.pathExtension.caseInsensitiveCompare(GreenshotFile.templateExtension) == .orderedSame {
+                guard let loaded = self.windowsElements(from: url) else { return }
+                transfer = ElementTransfer(elements: loaded.elements, scale: self.editorDocument.scale)
+                message = loaded.message
+            } else {
+                guard let data = try? Data(contentsOf: url), let decoded = ElementTransfer.decode(data) else {
+                    ErrorPresenter.show(message: "The elements could not be loaded", detail: url.lastPathComponent)
+                    return
+                }
+                transfer = decoded
             }
             let added = transfer.load(into: self.editorDocument)
             self.canvas.documentChanged()
             self.canvas.select(added.map(\.id))
+            if let message { self.showStatusMessage(message) }
         }
     }
 
     // MARK: Insert window (Edit menu)
 
-    /// Upstream Edit › Insert window: captures the window and adds it as an image element at the top left.
+    /// Upstream Edit › Insert window: captures the window and adds it as an image element 100 points from the top left
+    /// (`ImageEditorForm.CaptureWindowIntoEditorAsync`: `AddImageContainer(image, 100, 100)`), at the top left when the
+    /// image is smaller than that.
     @objc func insertWindow(_ sender: NSMenuItem) {
         canvas.commitEditing()
         guard let number = sender.representedObject as? NSNumber,
@@ -882,8 +903,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                 let capture = try await ScreenCapturer.capture(window: target, showsCursor: false, includeShadow: includeShadow)
                 guard let self else { return }
                 let document = self.editorDocument
-                guard let element = Annotation.picture(capture.image, pictureScale: capture.scale, at: .zero,
-                                                       documentScale: document.scale, fitting: document.imageSize) else { return }
+                let origin = WindowInsertMenu.insertOrigin(imageSize: document.imageSize, scale: document.scale)
+                let room = CGSize(width: document.imageSize.width - origin.x, height: document.imageSize.height - origin.y)
+                guard let element = Annotation.picture(capture.image, pictureScale: capture.scale, at: origin,
+                                                       documentScale: document.scale, fitting: room) else { return }
                 self.canvas.insert([element])
             } catch {
                 ErrorPresenter.show(message: "The window could not be captured", detail: error.localizedDescription)
@@ -895,6 +918,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     private static let lockedWhileCropping: Set<Selector> = [
         #selector(saveImage(_:)), #selector(saveImageAs(_:)), #selector(copyImage(_:)), #selector(printImage(_:)),
         #selector(saveElements(_:)), #selector(loadElements(_:)), #selector(insertWindow(_:)), #selector(insertBarcode(_:)),
+        #selector(saveAsGreenshotFile(_:)),
     ]
 
     func validateMenuItem(_ item: NSMenuItem) -> Bool {

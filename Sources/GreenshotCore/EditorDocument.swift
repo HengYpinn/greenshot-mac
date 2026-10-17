@@ -27,6 +27,12 @@ public final class EditorDocument {
     public private(set) var isModified: Bool
     /// The number of the first counter; the others count on from it (upstream `Surface.CounterStart`).
     public var counterStart = 1
+    /// Opened from a `.greenshot` file of Greenshot for Windows: saving must not overwrite it, Greenshot for Windows
+    /// would only show the image of a file this app writes.
+    public var isWindowsGreenshotFile = false
+    /// Counts the changes of the image and the elements (each change, undo, redo, new screenshot): an unchanged count
+    /// means nothing needs to be written again, e.g. by the autosave of unsaved editors.
+    public private(set) var changeCount = 0
 
     private struct State {
         var base: CGImage
@@ -79,6 +85,7 @@ public final class EditorDocument {
         guard !before.same(as: current) else { return }
         undoStack.append(before)
         stepsMade += 1
+        changeCount += 1
         mergeKey = nil
         limitUndoImages()
         redoStack.removeAll()
@@ -99,6 +106,7 @@ public final class EditorDocument {
             body()
             if !before.same(as: current) {
                 redoStack.removeAll()
+                changeCount += 1
                 isModified = true
             }
             return
@@ -159,7 +167,18 @@ public final class EditorDocument {
         undoStack.removeAll()
         redoStack.removeAll()
         mergeKey = nil
+        isWindowsGreenshotFile = false
+        changeCount += 1
         isModified = true
+    }
+
+    /// Adds elements that belong to the document as it was opened (the elements of a `.greenshot` file, a restored
+    /// editor, the captured mouse pointer): no undo step, and the document stays as modified as it was.
+    public func addOpened(_ elements: [Annotation]) {
+        guard depth == 0 else { return }
+        let size = imageSize
+        annotations.append(contentsOf: elements.map { $0.spanning(size) })
+        changeCount += 1
     }
 
     private var current: State { State(base: baseImage, annotations: annotations, counterStart: counterStart) }
@@ -168,6 +187,7 @@ public final class EditorDocument {
         baseImage = state.base
         annotations = state.annotations
         counterStart = state.counterStart
+        changeCount += 1
         isModified = true
     }
 
