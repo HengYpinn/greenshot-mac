@@ -15,7 +15,8 @@ private let log = Log("Capture")
 ///
 /// The app's element is asked, not the system-wide one: that one would find the capture screen's own panels, which cover
 /// every display. Each element costs one call into the other app, so the walk stops at `WindowAreas.maximumDepth`
-/// levels, `maximumElements` elements or `timeLimit` seconds; a hanging app waits at most `messagingTimeout` per call.
+/// levels, `maximumElements` elements or `timeLimit` seconds; a hanging app waits at most `messagingTimeout` per call
+/// (set on every element asked, and for the whole app; macOS's own default is about 6 seconds).
 ///
 /// Browsers show their web content to the Accessibility API only when asked: Chromium and Electron apps with
 /// `AXManualAccessibility`, others with `AXEnhancedUserInterface` (which VoiceOver sets, and which slows window
@@ -33,12 +34,26 @@ final class WindowAreaReader: @unchecked Sendable {
 
     private let queue = DispatchQueue(label: "org.greenshot.mac.window-areas", qos: .userInitiated)
     private let lock = NSLock()
+    // Under `lock`:
     /// Raised by `cancel()`: a running read stops at its next element.
     private var generation = 0
-    // Only on `queue`:
-    private var preparedApps: Set<pid_t> = []
+    /// The capture screen closed: nothing is changed in an app any more.
+    private var finished = false
     /// The attributes this reader changed, with the value to put back.
     private var changed: [(pid: pid_t, attribute: CFString, previous: Bool)] = []
+    // Only on `queue`:
+    private var preparedApps: Set<pid_t> = []
+
+    init() {
+        // For every element this app asks, not only those given a timeout of their own.
+        AXUIElementSetMessagingTimeout(AXUIElementCreateSystemWide(), Self.messagingTimeout)
+    }
+
+    /// `element` with the short timeout, before it is asked anything.
+    private static func timed(_ element: AXUIElement) -> AXUIElement {
+        AXUIElementSetMessagingTimeout(element, messagingTimeout)
+        return element
+    }
 
     /// Reads the areas of `window` in the background; `completion` gets the tree on the main thread, nil when the app
     /// has none to tell, and is not called when the read was cancelled. `scale` is the display's pixels per point, for
@@ -65,18 +80,26 @@ final class WindowAreaReader: @unchecked Sendable {
         lock.withLock { generation += 1 }
     }
 
-    /// The capture screen closed: stop reading and put back what was changed in the apps.
+    /// The capture screen closed: stop reading and put back what was changed in the apps, at once, not after a read that
+    /// is still waiting for an app.
     func finish() {
-        cancel()
-        queue.async { [self] in
-            for change in changed.reversed() {
-                let app = AXUIElementCreateApplication(change.pid)
-                AXUIElementSetMessagingTimeout(app, Self.messagingTimeout)
-                AXUIElementSetAttributeValue(app, change.attribute, (change.previous ? kCFBooleanTrue : kCFBooleanFalse) as CFTypeRef)
-            }
-            changed.removeAll()
-            preparedApps.removeAll()
+        let changes = lock.withLock { () -> [(pid: pid_t, attribute: CFString, previous: Bool)] in
+            generation += 1
+            finished = true
+            defer { changed.removeAll() }
+            return changed
         }
+        guard !changes.isEmpty else { return }
+        DispatchQueue.global(qos: .utility).async {
+            for change in changes.reversed() {
+                Self.put(change.attribute, change.previous, on: change.pid)
+            }
+        }
+    }
+
+    private static func put(_ attribute: CFString, _ value: Bool, on pid: pid_t) {
+        let app = timed(AXUIElementCreateApplication(pid))
+        AXUIElementSetAttributeValue(app, attribute, (value ? kCFBooleanTrue : kCFBooleanFalse) as CFTypeRef)
     }
 
     private func isCancelled(_ token: Int) -> Bool {
@@ -86,8 +109,7 @@ final class WindowAreaReader: @unchecked Sendable {
     // MARK: Reading (on `queue`)
 
     private func readTree(of window: WindowInfo, scale: CGFloat, token: Int) -> WindowArea? {
-        let app = AXUIElementCreateApplication(window.pid)
-        AXUIElementSetMessagingTimeout(app, Self.messagingTimeout)
+        let app = Self.timed(AXUIElementCreateApplication(window.pid))
         let askedForWebContent = prepare(app, pid: window.pid)
         guard let element = axWindow(of: app, matching: window) else { return nil }
         var tree = readOnce(element, scale: scale, token: token)
@@ -112,14 +134,24 @@ final class WindowAreaReader: @unchecked Sendable {
         return set(Self.manualAccessibility, on: app, pid: pid)
     }
 
-    /// Turns `attribute` on and remembers its value before; false when the app doesn't have it.
+    /// Turns `attribute` on and remembers its value before; false when the app doesn't have it, or the capture screen
+    /// closed meanwhile.
     @discardableResult
     private func set(_ attribute: CFString, on app: AXUIElement, pid: pid_t) -> Bool {
         var value: CFTypeRef?
         let previous = AXUIElementCopyAttributeValue(app, attribute, &value) == .success && (value as? Bool) == true
-        guard !previous else { return false }
+        guard !previous, !lock.withLock({ finished }) else { return false }
         guard AXUIElementSetAttributeValue(app, attribute, kCFBooleanTrue) == .success else { return false }
-        changed.append((pid, attribute, previous))
+        let kept = lock.withLock { () -> Bool in
+            guard !finished else { return false }
+            changed.append((pid, attribute, previous))
+            return true
+        }
+        guard kept else {
+            // The capture screen closed while it was set: put it back now.
+            Self.put(attribute, previous, on: pid)
+            return false
+        }
         log.debug("Set \(attribute) on process \(pid) for the areas of its windows")
         return true
     }
@@ -129,7 +161,7 @@ final class WindowAreaReader: @unchecked Sendable {
         var value: CFTypeRef?
         guard AXUIElementCopyAttributeValue(app, kAXWindowsAttribute as CFString, &value) == .success,
               let windows = value as? [AnyObject] else { return nil }
-        let candidates = windows.compactMap(Self.element).filter { element in
+        let candidates = windows.compactMap(Self.element).map(Self.timed).filter { element in
             guard let frame = Self.frame(of: element) else { return false }
             return abs(frame.minX - window.frame.minX) <= 2 && abs(frame.minY - window.frame.minY) <= 2
                 && abs(frame.width - window.frame.width) <= 2 && abs(frame.height - window.frame.height) <= 2
@@ -159,7 +191,7 @@ final class WindowAreaReader: @unchecked Sendable {
         guard !budget.isSpent, !isCancelled(token) else { return nil }
         budget.elements += 1
         var values: CFArray?
-        guard AXUIElementCopyMultipleAttributeValues(element, Self.attributes, AXCopyMultipleAttributeOptions(rawValue: 0),
+        guard AXUIElementCopyMultipleAttributeValues(Self.timed(element), Self.attributes, AXCopyMultipleAttributeOptions(rawValue: 0),
                                                      &values) == .success,
               let list = values as? [AnyObject], list.count == 7,
               let position = Self.point(list[4]), let size = Self.size(list[5]) else { return nil }

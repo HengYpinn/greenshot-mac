@@ -8,13 +8,22 @@ import Foundation
 
 /// The brightest value of an HDR picture and the share of its pixels brighter than SDR white (upstream
 /// `HdrContent.Measure`). Values in EDR units: SDR white is 1.0.
+///
+/// Brightness is the luminance (Y), not the largest colour channel as upstream measures it: a Display P3 colour at SDR
+/// brightness, like a saturated P3 red, has a red channel of about 1.22 in extended sRGB but isn't brighter than SDR
+/// white, and must not make a screenshot without HDR content look different.
 public struct HDRMeasurement: Equatable, Sendable {
+    /// The highest luminance.
     public var peak: Float
+    /// The share of pixels whose luminance is above SDR white.
     public var highlightShare: Float
+    /// The largest sRGB colour channel, which the highlight curve brings down to 1.
+    public var channelPeak: Float
 
-    public init(peak: Float, highlightShare: Float) {
+    public init(peak: Float, highlightShare: Float, channelPeak: Float? = nil) {
         self.peak = peak
         self.highlightShare = highlightShare
+        self.channelPeak = channelPeak ?? peak
     }
 
     /// Something on the picture is brighter than SDR white: an HDR video, photo or game.
@@ -23,8 +32,9 @@ public struct HDRMeasurement: Equatable, Sendable {
 
 /// HDR screens: a picture of an HDR display tone mapped into an 8-bit sRGB screenshot, so the bright parts of HDR content
 /// keep their detail instead of being cut off (upstream 1.4, `Greenshot.Base/Native/HdrContent.cs` and
-/// `HdrToneMapper.cs`). Pictures without HDR content aren't tone mapped at all: the app keeps the SDR picture
-/// ScreenCaptureKit took, so their colours stay exactly as before.
+/// `HdrToneMapper.cs`). Pictures without HDR content, and those with only a few highlights (where SDR white stays the
+/// white level), aren't tone mapped at all: the app keeps the SDR picture ScreenCaptureKit took, so their colours stay
+/// exactly as before.
 ///
 /// macOS counts in EDR units, SDR white = 1.0, so upstream's nits become ratios: upstream's white level of 200 nits
 /// with a peak of 800 nits is a white level of 1 with a peak of 4 here.
@@ -36,8 +46,14 @@ public enum CaptureHDR {
     /// A value within this factor of SDR white is SDR; the margin covers half-float rounding (upstream `SdrMargin`).
     public static let sdrMargin: Float = 1.01
     /// In units of the white level, values up to the knee stay as they are; above it the highlights are compressed so the
-    /// peak becomes white (upstream lets Direct2D's `HdrToneMap` in HDR mode do this).
+    /// peak becomes white (upstream lets Direct2D's `HdrToneMap` in HDR mode do this). Only when the white level is
+    /// above SDR white: at SDR white nothing up to white changes.
     public static let knee: Float = 0.9
+
+    /// The luminance of linear sRGB (Rec. 709 primaries, D65), also for the extended values of wider colours.
+    static func luminance(_ r: Float, _ g: Float, _ b: Float) -> Float {
+        0.2126 * r + 0.7152 * g + 0.0722 * b
+    }
 
     /// The brightness (EDR units) that becomes white (upstream `HdrContent.WhiteLevelInNits`). Few highlights: SDR white
     /// stays white; mostly highlights: the peak becomes white, like the Xbox Game Bar; in between it blends by the share
@@ -65,12 +81,14 @@ public enum CaptureHDR {
     // MARK: Pictures
 
     /// The pictures of one display tone mapped with the same white level, the first one (without the mouse pointer)
-    /// measured; nil when it has no HDR content (keep the SDR pictures then) or something failed.
+    /// measured; nil when it has no HDR content or so few highlights that SDR white stays the white level (keep the SDR
+    /// pictures then, their colours are exact), or something failed.
     public static func toneMapped(_ pictures: [CGImage], displayPeak: Float) -> (images: [CGImage], measurement: HDRMeasurement,
                                                                               whiteLevel: Float)? {
         guard let first = pictures.first, let measurement = measure(first), measurement.hasHDRContent else { return nil }
         let white = whiteLevel(peak: measurement.peak, displayPeak: displayPeak, highlightShare: measurement.highlightShare)
-        let mapped = pictures.compactMap { toneMap($0, whiteLevel: white, peak: measurement.peak) }
+        guard white > 1 else { return nil }
+        let mapped = pictures.compactMap { toneMap($0, whiteLevel: white, peak: measurement.channelPeak) }
         guard mapped.count == pictures.count else { return nil }
         return (mapped, measurement, white)
     }
@@ -80,49 +98,65 @@ public enum CaptureHDR {
 
     /// Measures every second pixel of every second row (upstream: enough for these two numbers, a quarter of the work).
     public static func measure(_ image: CGImage) -> HDRMeasurement? {
-        var peak: Float = 0
-        var brighter = 0
-        var counted = 0
+        var total = MeasuredPart()
         let done = forEachBand(of: image) { buffer, width, rows in
             let part = measure(buffer, width: width, height: rows)
-            peak = max(peak, part.peak)
-            brighter += part.brighter
-            counted += part.counted
+            total.peak = max(total.peak, part.peak)
+            total.channelPeak = max(total.channelPeak, part.channelPeak)
+            total.brighter += part.brighter
+            total.counted += part.counted
         }
         guard done else { return nil }
-        return HDRMeasurement(peak: peak, highlightShare: counted > 0 ? Float(brighter) / Float(counted) : 0)
+        let share = total.counted > 0 ? Float(total.brighter) / Float(total.counted) : 0
+        return HDRMeasurement(peak: total.peak, highlightShare: share, channelPeak: total.channelPeak)
     }
 
-    /// The measurement of premultiplied RGBA floats, `width` pixels per row: NaN and infinite values skipped, colours
-    /// unpremultiplied.
-    static func measure(_ pixels: UnsafeMutableBufferPointer<Float>, width: Int, height: Int) -> (peak: Float, brighter: Int, counted: Int) {
+    /// The measurement of a part of a picture.
+    struct MeasuredPart: Equatable {
+        /// The highest luminance.
         var peak: Float = 0
+        /// The largest colour channel.
+        var channelPeak: Float = 0
+        /// Pixels with a luminance above SDR white.
         var brighter = 0
         var counted = 0
+    }
+
+    /// The measurement of premultiplied RGBA floats in extended linear sRGB, `width` pixels per row: NaN and infinite
+    /// values skipped, colours unpremultiplied.
+    static func measure(_ pixels: UnsafeMutableBufferPointer<Float>, width: Int, height: Int) -> MeasuredPart {
+        var part = MeasuredPart()
         let sdrWhite = sdrMargin
         for row in stride(from: 0, to: height, by: 2) {
             for x in stride(from: 0, to: width, by: 2) {
                 let i = (row * width + x) * 4
-                var value = max(pixels[i], max(pixels[i + 1], pixels[i + 2]))
+                var y = luminance(pixels[i], pixels[i + 1], pixels[i + 2])
+                var largest = max(pixels[i], max(pixels[i + 1], pixels[i + 2]))
                 let alpha = pixels[i + 3]
-                if alpha > 0.0001 && alpha < 1 { value /= alpha }
+                if alpha > 0.0001 && alpha < 1 {
+                    y /= alpha
+                    largest /= alpha
+                }
                 // NaN fails the comparison.
-                guard value.isFinite, value >= 0 else { continue }
-                counted += 1
-                peak = max(peak, value)
-                if value > sdrWhite { brighter += 1 }
+                guard y.isFinite, largest.isFinite, largest >= 0 else { continue }
+                part.counted += 1
+                part.peak = max(part.peak, y)
+                part.channelPeak = max(part.channelPeak, largest)
+                if y > sdrWhite { part.brighter += 1 }
             }
         }
-        return (peak, brighter, counted)
+        return part
     }
 
-    /// The picture with white level `whiteLevel` and the highlights up to `peak` compressed, as 8-bit sRGB.
+    /// The picture with white level `whiteLevel` and the highlights up to `peak` (the largest colour channel)
+    /// compressed, as 8-bit sRGB. At a white level of SDR white (1) nothing up to white changes; brighter pixels are
+    /// brought down to white with their hue.
     public static func toneMap(_ image: CGImage, whiteLevel: Float, peak: Float) -> CGImage? {
         guard let space = CGColorSpace(name: CGColorSpace.sRGB),
               let output = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: 8, bytesPerRow: 0,
                                      space: space, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
         else { return nil }
-        let relativePeak = peak / whiteLevel
+        let relativePeak = whiteLevel > 1 ? peak / whiteLevel : 1
         var top = 0
         let done = forEachBand(of: image) { buffer, width, rows in
             // The rows of a band in parallel: each row is its own part of the buffer.

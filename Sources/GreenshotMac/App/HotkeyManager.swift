@@ -39,7 +39,6 @@ final class HotkeyManager {
 
     // The hotkeys with a left or right side.
     private var tap: HotkeyEventTap?
-    private var tapMatcher = HotkeySequenceMatcher(hotkeys: [])
     private var tapActions: [() -> Void] = []
     /// What is registered now, to register it again when the permission for the tap changes; nil while the hotkeys
     /// are off (a shortcut is being recorded).
@@ -99,7 +98,6 @@ final class HotkeyManager {
         actions = []
         tap?.stop()
         tap = nil
-        tapMatcher = HotkeySequenceMatcher(hotkeys: [])
         tapActions = []
         registered = nil
         registeredNames = nil
@@ -115,32 +113,25 @@ final class HotkeyManager {
             log.info("No permission for left/right hotkeys: \(sided.count) of them work with either key")
             return []
         }
-        guard let tap = HotkeyEventTap(mode: mode, handler: { [weak self] chord, flags in self?.tapped(chord, deviceFlags: flags) ?? false })
-        else {
+        // The tap matches the keys on its own thread and comes here only for a typed hotkey.
+        guard let tap = HotkeyEventTap(mode: mode, hotkeys: sided.map { hotkeys[$0] }, fired: { [weak self] index in
+            DispatchQueue.main.async {
+                MainActor.assumeIsolated { self?.tappedHotkey(index) }
+            }
+        }) else {
             refusedTapMode = mode
             return []
         }
         refusedTapMode = nil
         self.tap = tap
-        tapMatcher = HotkeySequenceMatcher(hotkeys: sided.map { hotkeys[$0] })
         tapActions = sided.map { actions[$0] }
         return Set(sided)
     }
 
-    /// A key the tap saw; true when it belongs to a hotkey with sides (the tap then keeps it from the app in front).
-    private func tapped(_ chord: KeyChord, deviceFlags: UInt64) -> Bool {
-        switch tapMatcher.feed(chord, deviceFlags: deviceFlags, at: Date()) {
-        case .completed(let index):
-            guard tapActions.indices.contains(index) else { return true }
-            let action = tapActions[index]
-            // After the event is handled, like the Carbon hotkeys.
-            DispatchQueue.main.async { action() }
-            return true
-        case .pending, .cancelled:
-            return true
-        case .ignored:
-            return false
-        }
+    /// The tap's hotkey with this index was typed.
+    private func tappedHotkey(_ index: Int) {
+        guard tapActions.indices.contains(index) else { return }
+        tapActions[index]()
     }
 
     /// Accessibility and Input Monitoring post no notification of their own: look again when the app becomes active
