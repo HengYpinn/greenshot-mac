@@ -25,9 +25,7 @@ final class EditorManager {
     }
 
     func open(_ capture: Capture) {
-        if settings.value.reuseEditor, let editor = frontEditor(), editor.confirmReplace() {
-            // Upstream `EditorDestination` reuses an open editor. A new capture is always unsaved here, so instead of
-            // skipping changed editors (upstream) the front one asks to save first; Cancel opens a new editor.
+        if settings.value.reuseEditor, let editor = reusableEditor() {
             editor.show(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
             guard let window = editor.window else { return }
             window.makeKeyAndOrderFront(nil)
@@ -38,10 +36,29 @@ final class EditorManager {
         open(EditorDocument(image: capture.image, scale: capture.scale, title: capture.title, captureDate: capture.date))
     }
 
+    /// The editor a new capture goes to with "reuse the editor": like upstream `EditorDestination`, the front-most one
+    /// without unsaved changes. A capture is unsaved until it is saved or exported, so often every editor has changes:
+    /// then the front one asks to save first instead of opening another window (upstream would); Cancel opens a new
+    /// editor.
+    private func reusableEditor() -> EditorWindowController? {
+        let editors = editorsFrontToBack()
+        for editor in editors {
+            editor.canvas.commitEditing()
+            if !editor.editorDocument.isModified { return editor }
+        }
+        guard let front = editors.first, front.confirmReplace() else { return nil }
+        return front
+    }
+
+    /// The editors, front-most first; hidden ones (another app is active) after those on screen, newest first.
+    private func editorsFrontToBack() -> [EditorWindowController] {
+        let onScreen = NSApp.orderedWindows.compactMap { window in controllers.first { $0.window === window } }
+        return onScreen + controllers.reversed().filter { editor in !onScreen.contains { $0 === editor } }
+    }
+
     /// The front-most editor.
     private func frontEditor() -> EditorWindowController? {
-        NSApp.orderedWindows.lazy.compactMap { window in self.controllers.first { $0.window === window } }.first
-            ?? controllers.last
+        editorsFrontToBack().first
     }
 
     /// Closes every editor, asking about each changed screenshot; stops when the user cancels.
@@ -61,12 +78,20 @@ final class EditorManager {
                             fileURL: fileURL, isModified: false))
     }
 
+    /// Opens the image on the clipboard; for a copied web page part, the image it shows is downloaded first (upstream
+    /// `ClipboardHelper` reads `<img src>` from the HTML on the clipboard).
     func openClipboard() {
-        guard let pasted = Clipboard.image() else {
-            ErrorPresenter.show(message: "There is no image on the clipboard", detail: "Copy an image first, then try again.")
+        if let pasted = Clipboard.image() {
+            open(EditorDocument(image: pasted.image, scale: pasted.scale, title: "Clipboard"))
             return
         }
-        open(EditorDocument(image: pasted.image, scale: pasted.scale, title: "Clipboard"))
+        Task { @MainActor [weak self] in
+            guard let downloaded = await ImageLoader.downloadedHTMLImage() else {
+                ErrorPresenter.show(message: "There is no image on the clipboard", detail: "Copy an image first, then try again.")
+                return
+            }
+            self?.open(EditorDocument(image: downloaded.image, scale: downloaded.scale, title: "Clipboard"))
+        }
     }
 
     func chooseAndOpenFile() {
@@ -94,7 +119,10 @@ final class EditorManager {
 
     /// Asks about every changed screenshot before the app quits. False when the user cancelled.
     func confirmQuit() -> Bool {
-        controllers.allSatisfy { $0.confirmCloseBeforeQuit() }
+        guard controllers.allSatisfy({ $0.confirmCloseBeforeQuit() }) else { return false }
+        // Quitting doesn't close the windows: the front editor's place is the one the next editor gets.
+        frontEditor()?.savePlacement()
+        return true
     }
 
     private func open(_ document: EditorDocument) {
@@ -164,17 +192,15 @@ final class EditorManager {
         return true
     }
 
-    /// An editor with a blank white image (upstream `TrayActions.OpenEmptyEditor`, `IEditorConfiguration.DefaultEditorSize`
-    /// 500×500).
+    /// An editor with a blank white image (upstream `TrayActions.OpenEmptyEditor` and `ImageEditorForm()`): Settings ›
+    /// Editor's size (upstream `DefaultEditorSize`, 500 × 500) in points, at the screen's resolution. It counts as
+    /// unchanged until something is drawn on it.
     func openEmptyEditor() {
-        let size = 500
-        guard let space = CGColorSpace(name: CGColorSpace.sRGB),
-              let context = CGContext(data: nil, width: size, height: size, bitsPerComponent: 8, bytesPerRow: 0, space: space,
-                                      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return }
-        context.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
-        context.fill(CGRect(x: 0, y: 0, width: size, height: size))
-        guard let image = context.makeImage() else { return }
-        open(EditorDocument(image: image, scale: 1, title: "Untitled", isModified: false))
+        let size = settings.value.defaultEditorSize
+        let scale = NSScreen.main?.backingScaleFactor ?? 2
+        guard let image = EditorWindowPlacement.blankImage(points: CGSize(width: max(size.width, 1), height: max(size.height, 1)),
+                                                           scale: scale) else { return }
+        open(EditorDocument(image: image, scale: scale, title: "Untitled", isModified: false))
     }
 }
 

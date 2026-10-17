@@ -7,65 +7,94 @@ import AppKit
 import GreenshotCore
 import UniformTypeIdentifiers
 
-/// The image editor window (upstream `ImageEditorForm`): tools on the left, the properties of the current tool
-/// or selected element on top, the image in the middle.
+/// The image editor window (upstream `ImageEditorForm`): the actions and destinations on top (upstream
+/// `destinationsToolStrip`), under them the properties of the current tool or selected element
+/// (`propertiesToolStrip`), tools on the left, the image in the middle and the status bar at the bottom.
+/// Zoom is in EditorWindowController+Zoom.swift, exports and the status bar's messages in
+/// EditorWindowController+Export.swift, the window's size and place in EditorWindowController+Placement.swift.
 @MainActor
-final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenuItemValidation {
+final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenuItemValidation, NSMenuDelegate {
     let editorDocument: EditorDocument
     let settings: SettingsStore
     let saver: ImageSaver
     private let onClose: (EditorWindowController) -> Void
     /// File › Close All (the editor manager closes every editor).
     var onCloseAll: (() -> Void)?
-    /// The last frame of an editor window, used when the window isn't sized to the screenshot.
-    private static let frameDefaultsKey = "editorWindowFrame"
 
     let canvas: CanvasView
-    private let scrollView = NSScrollView()
+    let scrollView = EditorWindowScrollView()
     private var toolButtons: [EditorTool: NSButton] = [:]
-    private let undoButton = EditorWindowController.iconButton("arrow.uturn.backward", "Undo (⌘Z)")
-    private let redoButton = EditorWindowController.iconButton("arrow.uturn.forward", "Redo (⇧⌘Z)")
-    private let statusLabel = NSTextField(labelWithString: "")
+    /// The counter tool's icon shows the next number (upstream `btnStepLabel01`…); the symbol shown now.
+    private var counterSymbol = ""
+    let undoButton = EditorWindowController.iconButton("arrow.uturn.backward", "Undo (⌘Z)")
+    let redoButton = EditorWindowController.iconButton("arrow.uturn.forward", "Redo (⇧⌘Z)")
+    private(set) lazy var statusBar = EditorStatusBar(zoomItems: MainMenu.zoomItems(target: self, withKeys: false))
+    private var actionBar: EditorActionBar?
+
+    // What the last exports left (upstream `Surface.LastSaveFullPath` and `UploadUrl`), see +Export.
+    /// The file this image was last saved or exported to.
+    var lastSavedURL: URL?
+    /// The link of the last upload.
+    var uploadURL: URL?
+
+    // Window placement, see +Placement.
+    /// The window's frame when it was last neither zoomed nor minimised: what is remembered for the next editor.
+    var normalFrame: NSRect?
+    /// Whether the window was zoomed when last seen (upstream `ShowWindowCommand` Maximize).
+    var wasZoomed = false
+    /// Zoom the window once it is on screen (the remembered editor was zoomed).
+    var zoomsWhenShown = false
+    /// While the zoom button animates the window, its frames aren't the normal frame.
+    var isZoomAnimating = false
+    /// The image size the window was last fitted to (with "match size to capture").
+    var fittedImageSize: CGSize?
 
     // Properties
     private let lineColorWell = NSColorWell(style: .minimal)
     private let fillColorWell = NSColorWell(style: .minimal)
     private let lineColorLabel = NSTextField(labelWithString: "Line")
-    private let lineWidthPopup = NSPopUpButton()
+    private let lineWidthField = PropertyNumberField(range: 0...100, tooltip: "Line thickness in points (0: no line)")
     private let shadowCheckbox = NSButton(checkboxWithTitle: "Shadow", target: nil, action: nil)
-    private let fontSizePopup = NSPopUpButton()
+    private let fontSizeField = PropertyNumberField(range: 7...500, tooltip: "Font size in points")
     private let boldButton = EditorWindowController.iconButton("bold", "Bold")
     private let italicButton = EditorWindowController.iconButton("italic", "Italic")
     private let arrowHeadsPopup = NSPopUpButton()
     private let highlightPopup = NSPopUpButton()
     private let obfuscatePopup = NSPopUpButton()
-    private let effectSizePopup = NSPopUpButton()
+    private let pixelSizeField = PropertyNumberField(range: 2...100, tooltip: "Pixel size")
+    private let blurRadiusField = PropertyNumberField(range: 0...100, tooltip: "Blur radius")
+    private let brightnessField = PropertyNumberField(range: 0...200, step: 5, tooltip: "Brightness of the area around the highlight, in percent")
     private let emojiPopup = NSPopUpButton()
     private let cutMarkStylePopup = NSPopUpButton()
     private let toothHeightPopup = NSPopUpButton()
     private let toothRangePopup = NSPopUpButton()
     private let fontFamilyPopup = NSPopUpButton()
+    private var fontMenuStyled = false
     private let horizontalAlignmentControl = NSSegmentedControl()
     private let verticalAlignmentControl = NSSegmentedControl()
     private let counterStartField = NSTextField()
     private let counterStartStepper = NSStepper()
     private let magnificationPopup = NSPopUpButton()
+    /// Groups that depend on a mode as well as on the kind: shown by `refreshProperties`.
     private var magnificationGroup: NSView?
+    private var pixelSizeGroup: NSView?
+    private var blurRadiusGroup: NSView?
+    private var brightnessGroup: NSView?
     /// The font families in the font popup after "System Font".
     private let fontFamilies = NSFontManager.shared.availableFontFamilies.sorted {
         $0.localizedStandardCompare($1) == .orderedAscending
     }
     private var propertyGroups: [(view: NSView, kinds: Set<AnnotationKind>)] = []
     private let cropGroup = NSStackView()
+    /// The crop tool's modes (upstream's crop mode buttons, `CropContainer.CropModes`).
+    private let cropModeControl = NSSegmentedControl()
     /// How the joint of a cut-out is marked (upstream's cut mark style drop-down of the crop tool).
     private let cutOutJointPopup = NSPopUpButton()
 
-    private static let lineWidths = [0, 1, 2, 3, 4, 5, 6, 8, 10]
-    private static let fontSizes = [9, 11, 13, 15, 18, 22, 27, 36, 48, 64, 96]
-    private static let effectSizes = [2, 3, 5, 8, 12, 16, 24]
     private static let toothHeights = [4, 6, 8, 10, 12, 16, 20, 24, 32]
     private static let toothRanges = [8, 10, 12, 16, 20, 24, 30, 40, 60]
-    private static let magnifications = [2, 3, 4]
+    /// Upstream's magnification factor field goes up to 8.
+    private static let magnifications = [2, 3, 4, 5, 6, 7, 8]
 
     init(document: EditorDocument, settings: SettingsStore, saver: ImageSaver, onClose: @escaping (EditorWindowController) -> Void) {
         self.editorDocument = document
@@ -87,10 +116,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         window.delegate = self
         buildUI()
         wireCanvas()
-        // Hide the properties that don't apply before sizing: with all of them shown the top bar is wider than a
-        // laptop screen, and the window would grow to fit it.
+        // Hide the properties that don't apply before sizing: with all of them shown the property bar is wider than a
+        // laptop screen.
         refreshAll()
-        sizeWindowToImage()
+        // A file opened in the editor counts as its saved file (upstream `SetImagePath`).
+        lastSavedURL = document.fileURL
+        placeWindow()
     }
 
     required init?(coder: NSCoder) {
@@ -99,7 +130,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     // MARK: Layout
 
-    private static func iconButton(_ symbol: String, _ tooltip: String) -> NSButton {
+    static func iconButton(_ symbol: String, _ tooltip: String) -> NSButton {
         let button = NSButton(image: NSImage(systemSymbolName: symbol, accessibilityDescription: tooltip) ?? NSImage(),
                               target: nil, action: nil)
         button.bezelStyle = .toolbar
@@ -152,37 +183,79 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         control.action = action
     }
 
-    /// The zoom factor of the magnifier, shown only for the Magnify highlight (upstream `MAGNIFICATION_FACTOR`).
-    private func magnifyGroup() -> NSView {
-        let view = group([label("Zoom"), magnificationPopup], for: [.highlight])
-        magnificationGroup = view
-        return view
+    /// A number field of the property bar: its value goes to the style, Return gives the keyboard back to the canvas.
+    private func setUp(_ field: PropertyNumberField, _ change: @escaping (inout AnnotationStyle, Double) -> Void) {
+        field.onChange = { [weak self] value in self?.applyStyle { change(&$0, value) } }
+        field.onCommit = { [weak self] in
+            guard let self else { return }
+            self.window?.makeFirstResponder(self.canvas)
+        }
+    }
+
+    /// The cut edge styles with a small picture of each (upstream `CreateCutMarkPreview`).
+    private func addCutMarkPreviews(_ popup: NSPopUpButton) {
+        for (index, style) in CutMarkStyle.allCases.enumerated() {
+            guard let item = popup.item(at: index), let preview = CutMark.previewImage(style) else { continue }
+            item.image = NSImage(cgImage: preview, size: NSSize(width: 16, height: 16))
+        }
     }
 
     private func buildUI() {
         guard let window else { return }
-
-        // Actions
-        let save = button("square.and.arrow.down", "Save (⌘S)", #selector(saveImage(_:)))
-        let saveAs = button("square.and.arrow.down.on.square", "Save As… (⇧⌘S)", #selector(saveImageAs(_:)))
-        let copy = button("doc.on.doc", "Copy image to the clipboard (⇧⌘C)", #selector(copyImage(_:)))
-        let print = button("printer", "Print… (⌘P)", #selector(printImage(_:)))
         undoButton.target = self
         undoButton.action = #selector(undoAction)
         redoButton.target = self
         redoButton.action = #selector(redoAction)
 
-        // Properties
+        // The image operations (effects, resize, rotate, canvas) live in EditorWindowController+Image.swift.
+        let actionBar = EditorActionBar(editor: self, imageItems: imageToolbarItems())
+        self.actionBar = actionBar
+        let propertyBar = makePropertyBar()
+        let body = makeBody()
+
+        // Bars at their own height, the canvas takes the rest.
+        let root = NSView()
+        let rows: [NSView] = [actionBar.view, Self.horizontalDivider(), propertyBar, Self.horizontalDivider(), body,
+                              Self.horizontalDivider(), statusBar]
+        var constraints: [NSLayoutConstraint] = []
+        var previousBottom = root.topAnchor
+        for row in rows {
+            row.translatesAutoresizingMaskIntoConstraints = false
+            root.addSubview(row)
+            constraints += [row.leadingAnchor.constraint(equalTo: root.leadingAnchor),
+                            row.trailingAnchor.constraint(equalTo: root.trailingAnchor),
+                            row.topAnchor.constraint(equalTo: previousBottom)]
+            previousBottom = row.bottomAnchor
+        }
+        constraints.append(statusBar.bottomAnchor.constraint(equalTo: root.bottomAnchor))
+        constraints.append(statusBar.heightAnchor.constraint(equalToConstant: 22))
+        // Always the same height, also when the tool has no properties, so the canvas doesn't jump.
+        constraints.append(propertyBar.heightAnchor.constraint(equalToConstant: 32))
+        NSLayoutConstraint.activate(constraints)
+        body.setHuggingPriority(.init(1), for: .vertical)
+        window.contentView = root
+
+        scrollView.onWheelZoom = { [weak self] zoomIn, point in self?.wheelZoom(zoomIn: zoomIn, at: point) }
+        NotificationCenter.default.addObserver(self, selector: #selector(liveMagnifyEnded(_:)),
+                                               name: NSScrollView.didEndLiveMagnifyNotification, object: scrollView)
+    }
+
+    /// The second row: the properties of the current tool or selected element, and the crop tool's bar.
+    private func makePropertyBar() -> NSStackView {
         lineColorWell.target = self
         lineColorWell.action = #selector(lineColorChanged)
         fillColorWell.target = self
         fillColorWell.action = #selector(fillColorChanged)
+        // Upstream's colour dialog has alpha and a Transparent button; the colour panel shows opacity with this.
+        lineColorWell.supportsAlpha = true
+        fillColorWell.supportsAlpha = true
+        let transparentLine = button("circle.slash", "Transparent", #selector(clearLine))
         let noFill = button("circle.slash", "No fill", #selector(clearFill))
-        setUp(lineWidthPopup, titles: Self.lineWidths.map { $0 == 0 ? "No line" : "\($0) pt" }, action: #selector(lineWidthChanged))
+        setUp(lineWidthField) { $0.lineWidth = $1 }
         shadowCheckbox.target = self
         shadowCheckbox.action = #selector(shadowChanged)
         shadowCheckbox.controlSize = .small
-        setUp(fontSizePopup, titles: Self.fontSizes.map { "\($0) pt" }, action: #selector(fontSizeChanged))
+        setUp(fontSizeField) { $0.fontSize = $1 }
         boldButton.setButtonType(.pushOnPushOff)
         boldButton.target = self
         boldButton.action = #selector(boldChanged)
@@ -192,21 +265,72 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         setUp(arrowHeadsPopup, titles: ["No heads", "Head at start", "Head at end", "Both heads"], action: #selector(arrowHeadsChanged))
         setUp(highlightPopup, titles: ["Text marker", "Highlight area", "Grayscale", "Magnify"], action: #selector(highlightChanged))
         setUp(obfuscatePopup, titles: ["Pixelate", "Blur"], action: #selector(obfuscateChanged))
-        setUp(effectSizePopup, titles: Self.effectSizes.map { "\($0) pt" }, action: #selector(effectSizeChanged))
+        setUp(pixelSizeField) { $0.pixelSize = $1 }
+        setUp(blurRadiusField) { $0.blurRadius = $1 }
+        setUp(brightnessField) { $0.brightness = $1 / 100 }
         setUp(emojiPopup, titles: EmojiChoices.all, action: #selector(emojiChanged))
         emojiPopup.menu?.addItem(.separator())
         emojiPopup.addItem(withTitle: "More Emoji…")
         setUp(cutMarkStylePopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutMarkStyleChanged))
+        addCutMarkPreviews(cutMarkStylePopup)
         setUp(toothHeightPopup, titles: Self.toothHeights.map { "\($0) pt" }, action: #selector(toothHeightChanged))
         setUp(toothRangePopup, titles: Self.toothRanges.map { "\($0) pt" }, action: #selector(toothRangeChanged))
         setUp(fontFamilyPopup, titles: ["System Font"] + fontFamilies, action: #selector(fontFamilyChanged))
         fontFamilyPopup.menu?.insertItem(.separator(), at: 1)
+        // Each family is shown in its own font once the menu is first opened (upstream `FontFamilyComboBox`).
+        fontFamilyPopup.menu?.delegate = self
         setUp(magnificationPopup, titles: Self.magnifications.map { "\($0)×" }, action: #selector(magnificationChanged))
         setUpSegments(horizontalAlignmentControl, symbols: ["text.alignleft", "text.aligncenter", "text.alignright"],
                       labels: ["Left", "Center", "Right"], action: #selector(horizontalAlignmentChanged))
         setUpSegments(verticalAlignmentControl, symbols: ["align.vertical.top", "align.vertical.center", "align.vertical.bottom"],
                       labels: ["Top", "Middle", "Bottom"], action: #selector(verticalAlignmentChanged))
-        // Upstream's counter start value (`counterUpDown`).
+        setUpCounterStart()
+
+        let lineKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble, .cutMark]
+        let fillKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble, .cutMark]
+        let widthKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .counter, .cutMark]
+        let shadowKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .highlight,
+                                                .obfuscate, .counter, .emoji, .image, .cutMark]
+        let pixelSize = group([label("Pixel size")] + pixelSizeField.views, for: [.obfuscate])
+        let blurRadius = group([label("Blur")] + blurRadiusField.views, for: [.obfuscate, .highlight])
+        let brightness = group([label("Brightness")] + brightnessField.views + [label("%")], for: [.highlight])
+        let magnification = group([label("Zoom"), magnificationPopup], for: [.highlight])
+        pixelSizeGroup = pixelSize
+        blurRadiusGroup = blurRadius
+        brightnessGroup = brightness
+        magnificationGroup = magnification
+        var groups: [NSView] = []
+        groups.append(group([lineColorLabel, lineColorWell, transparentLine], for: lineKinds))
+        groups.append(group([label("Fill"), fillColorWell, noFill], for: fillKinds))
+        groups.append(group([label("Width")] + lineWidthField.views, for: widthKinds))
+        groups.append(group([cutMarkStylePopup, label("Teeth"), toothHeightPopup, label("Range"), toothRangePopup], for: [.cutMark]))
+        groups.append(group([arrowHeadsPopup], for: [.arrow]))
+        groups.append(group([label("Size")] + fontSizeField.views, for: [.text, .counter, .speechBubble]))
+        groups.append(group([boldButton, italicButton], for: [.text, .speechBubble]))
+        groups.append(group([highlightPopup], for: [.highlight]))
+        groups.append(group([obfuscatePopup], for: [.obfuscate]))
+        groups += [pixelSize, blurRadius, brightness, magnification]
+        groups.append(group([label("Emoji"), emojiPopup], for: [.emoji]))
+        groups.append(group([fontFamilyPopup, horizontalAlignmentControl, verticalAlignmentControl], for: [.text, .speechBubble]))
+        groups.append(group([label("Start at"), counterStartField, counterStartStepper], for: [.counter]))
+        groups.append(group([shadowCheckbox], for: shadowKinds))
+        let properties = NSStackView(views: groups)
+        properties.spacing = 14
+
+        setUpCropGroup()
+        let spacer = NSView()
+        spacer.setContentHuggingPriority(.init(1), for: .horizontal)
+        let bar = NSStackView(views: [properties, cropGroup, spacer])
+        bar.spacing = 6
+        bar.edgeInsets = NSEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+        // When a tool has many properties, the bar is cut off at the window's edge rather than widening the window.
+        bar.setClippingResistancePriority(.defaultLow, for: .horizontal)
+        bar.alignment = .centerY
+        return bar
+    }
+
+    /// Upstream's counter start value (`counterUpDown`).
+    private func setUpCounterStart() {
         let formatter = NumberFormatter()
         formatter.minimum = 0
         formatter.maximum = 9999
@@ -224,51 +348,27 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         counterStartStepper.controlSize = .small
         counterStartStepper.target = self
         counterStartStepper.action = #selector(counterStartChanged(_:))
+    }
 
-        let properties = NSStackView(views: [
-            group([lineColorLabel, lineColorWell], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble, .cutMark]),
-            group([label("Fill"), fillColorWell, noFill], for: [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble, .cutMark]),
-            group([label("Width"), lineWidthPopup], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .speechBubble, .counter, .cutMark]),
-            group([cutMarkStylePopup, label("Teeth"), toothHeightPopup, label("Range"), toothRangePopup], for: [.cutMark]),
-            group([arrowHeadsPopup], for: [.arrow]),
-            group([label("Size"), fontSizePopup], for: [.text, .counter, .speechBubble]),
-            group([boldButton, italicButton], for: [.text, .speechBubble]),
-            group([highlightPopup], for: [.highlight]),
-            group([obfuscatePopup, label("Size"), effectSizePopup], for: [.obfuscate]),
-            group([label("Emoji"), emojiPopup], for: [.emoji]),
-            group([fontFamilyPopup, horizontalAlignmentControl, verticalAlignmentControl], for: [.text, .speechBubble]),
-            group([label("Start at"), counterStartField, counterStartStepper], for: [.counter]),
-            magnifyGroup(),
-            group([shadowCheckbox], for: [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .highlight,
-                                          .obfuscate, .counter, .emoji, .image, .cutMark]),
-        ])
-        properties.spacing = 14
-
+    /// The crop tool's bar: its modes (upstream's four crop mode buttons), Crop and Cancel, the cut-out joint.
+    private func setUpCropGroup() {
+        let modes = CropMode.allCases
+        setUpSegments(cropModeControl, symbols: modes.map(\.symbolName), labels: modes.map(\.title), action: #selector(cropModeChanged))
         let applyCrop = NSButton(title: "Crop", target: self, action: #selector(applyCrop))
         applyCrop.bezelStyle = .push
         applyCrop.keyEquivalent = ""
         let cancelCrop = NSButton(title: "Cancel", target: self, action: #selector(cancelCrop))
         setUp(cutOutJointPopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutOutJointChanged))
+        addCutMarkPreviews(cutOutJointPopup)
         cutOutJointPopup.toolTip = "How the joint is marked when the selected rows or columns are cut out"
         cutOutJointPopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: settings.value.cutOutMarkStyle) ?? 0)
-        cropGroup.setViews([label("Drag the area to keep or to cut out"), applyCrop, cancelCrop,
+        cropGroup.setViews([cropModeControl, label("Drag the area to keep or to cut out"), applyCrop, cancelCrop,
                             Self.divider(), label("Cut-out joint"), cutOutJointPopup], in: .leading)
         cropGroup.spacing = 6
+    }
 
-        // The image operations (effects, resize, rotate, canvas) live in EditorWindowController+Image.swift.
-        let imageItems = imageToolbarItems()
-
-        let spacer = NSView()
-        spacer.setContentHuggingPriority(.init(1), for: .horizontal)
-        let topBar = NSStackView(views: [save, saveAs, copy, print, Self.divider(), undoButton, redoButton] + imageItems +
-                                        [Self.divider(), properties, cropGroup, spacer])
-        topBar.spacing = 6
-        topBar.edgeInsets = NSEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
-        // When a tool has many properties, the bar is cut off at the window's edge rather than widening the window.
-        topBar.setClippingResistancePriority(.defaultLow, for: .horizontal)
-        topBar.alignment = .centerY
-
-        // Tools
+    /// The tools on the left and the canvas.
+    private func makeBody() -> NSStackView {
         let palette = NSStackView()
         palette.orientation = .vertical
         palette.spacing = 4
@@ -285,7 +385,6 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
         palette.setHuggingPriority(.required, for: .horizontal)
 
-        // Canvas
         let clip = CenteringClipView()
         clip.drawsBackground = true
         clip.backgroundColor = .underPageBackgroundColor
@@ -305,29 +404,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         palette.topAnchor.constraint(equalTo: body.topAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: body.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: body.bottomAnchor).isActive = true
-
-        statusLabel.font = .monospacedDigitSystemFont(ofSize: NSFont.smallSystemFontSize, weight: .regular)
-        statusLabel.textColor = .secondaryLabelColor
-        let statusBar = NSStackView(views: [statusLabel])
-        statusBar.edgeInsets = NSEdgeInsets(top: 3, left: 10, bottom: 4, right: 10)
-
-        // Bars at their own height, the canvas takes the rest.
-        let root = NSView()
-        let rows = [topBar, Self.horizontalDivider(), body, Self.horizontalDivider(), statusBar]
-        var constraints: [NSLayoutConstraint] = []
-        var previousBottom = root.topAnchor
-        for row in rows {
-            row.translatesAutoresizingMaskIntoConstraints = false
-            root.addSubview(row)
-            constraints += [row.leadingAnchor.constraint(equalTo: root.leadingAnchor),
-                            row.trailingAnchor.constraint(equalTo: root.trailingAnchor),
-                            row.topAnchor.constraint(equalTo: previousBottom)]
-            previousBottom = row.bottomAnchor
-        }
-        constraints.append(statusBar.bottomAnchor.constraint(equalTo: root.bottomAnchor))
-        NSLayoutConstraint.activate(constraints)
-        body.setHuggingPriority(.init(1), for: .vertical)
-        window.contentView = root
+        return body
     }
 
     static func divider() -> NSView {
@@ -355,43 +432,15 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         canvas.emojiProvider = { [weak self] in self?.settings.value.recentEmoji ?? AppSettings().recentEmoji }
         canvas.onPickEmoji = { [weak self] emoji in self?.pickEmoji(emoji) }
         canvas.onDocumentChange = { [weak self] in self?.refreshDocumentState() }
-        canvas.onSelectionChange = { [weak self] in self?.refreshProperties() }
+        canvas.onSelectionChange = { [weak self] in
+            self?.refreshProperties()
+            self?.refreshActionBar()
+        }
         canvas.onToolChange = { [weak self] in
             self?.refreshTools()
             self?.refreshProperties()
         }
         canvas.onCopy = { [weak self] in self?.copyImage(nil) }
-    }
-
-    /// Opens the window at the image's size, up to most of the screen; larger images are zoomed to fit. With
-    /// "match size to capture" off (upstream `MatchSizeToCapture`) it keeps the last editor window's size instead.
-    private func sizeWindowToImage() {
-        guard let window else { return }
-        if !settings.value.matchSizeToCapture, let frame = UserDefaults.standard.string(forKey: Self.frameDefaultsKey) {
-            window.setFrame(from: frame)
-            window.layoutIfNeeded()
-            zoomToFitIfLarger()
-            return
-        }
-        let visible = (NSScreen.main ?? NSScreen.screens[0]).visibleFrame
-        let image = canvas.pointSize
-        let chrome = NSSize(width: 60, height: 90)
-        let width = min(max(image.width + chrome.width, 760), visible.width * 0.9)
-        let height = min(max(image.height + chrome.height, 420), visible.height * 0.9)
-        window.setContentSize(NSSize(width: width, height: height))
-        window.center()
-        window.layoutIfNeeded()
-        zoomToFitIfLarger()
-    }
-
-    private func zoomToFitIfLarger() {
-        let image = canvas.pointSize
-        let viewport = scrollView.contentSize
-        if image.width > viewport.width || image.height > viewport.height {
-            zoomToFit(nil)
-        } else {
-            setMagnification(1)
-        }
     }
 
     /// Shows another screenshot in this window (upstream's reused editor): its elements and undo are gone.
@@ -401,17 +450,11 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         canvas.select(nil)
         editorDocument.reset(image: image, scale: scale, title: title, captureDate: date)
         canvas.documentChanged()
-        if settings.value.matchSizeToCapture {
-            sizeWindowToImage()
-        } else {
-            zoomToFitIfLarger()
-        }
+        lastSavedURL = nil
+        uploadURL = nil
+        statusBar.setMessage("", isError: false, menu: nil)
+        refitWindowForNewImage()
         refreshAll()
-    }
-
-    private func rememberFrame() {
-        guard let window, window.isVisible, !window.isMiniaturized else { return }
-        UserDefaults.standard.set(window.frameDescriptor, forKey: Self.frameDefaultsKey)
     }
 
     /// File › Close All.
@@ -427,9 +470,26 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         refreshDocumentState()
     }
 
+    /// A crop is drawn and waits for Crop or Cancel: the other actions are off (upstream disables the form's controls
+    /// while a confirmable element is pending, `ToolStripItemEndisabler`).
+    var isCropPending: Bool { canvas.tool == .crop && canvas.cropRect != nil }
+
     private func refreshTools() {
         for (tool, button) in toolButtons { button.state = tool == canvas.tool ? .on : .off }
         cropGroup.isHidden = canvas.tool != .crop
+        if let index = CropMode.allCases.firstIndex(of: canvas.cropMode) { cropModeControl.selectedSegment = index }
+        refreshActionBar()
+        refreshUndoButtons()
+    }
+
+    /// The edit buttons follow the selection and the clipboard (buttons don't validate like menu items).
+    func refreshActionBar() {
+        actionBar?.refresh(canvas: canvas, locked: isCropPending)
+    }
+
+    private func refreshUndoButtons() {
+        undoButton.isEnabled = editorDocument.canUndo && !isCropPending
+        redoButton.isEnabled = editorDocument.canRedo && !isCropPending
     }
 
     func refreshDocumentState() {
@@ -437,12 +497,23 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         window.title = editorDocument.fileURL?.lastPathComponent ?? "\(editorDocument.title) – Greenshot"
         window.representedURL = editorDocument.fileURL
         window.isDocumentEdited = editorDocument.isModified
-        undoButton.isEnabled = editorDocument.canUndo
-        redoButton.isEnabled = editorDocument.canRedo
+        refreshUndoButtons()
         if counterStartField.currentEditor() == nil { counterStartField.integerValue = editorDocument.counterStart }
         counterStartStepper.integerValue = editorDocument.counterStart
-        let size = editorDocument.imageSize
-        statusLabel.stringValue = "\(Int(size.width)) × \(Int(size.height)) px   \(Int((scrollView.magnification * 100).rounded())) %"
+        refreshCounterTool()
+        statusBar.setDimensions(EditorWindowStatus.dimensions(editorDocument.imageSize))
+        statusBar.setZoom(EditorWindowZoom.label(scrollView.magnification))
+        refitWindowIfImageResized()
+    }
+
+    /// The counter tool's icon shows the number the next counter gets (upstream's step label button images).
+    private func refreshCounterTool() {
+        guard let button = toolButtons[.counter] else { return }
+        let next = editorDocument.counterStart + editorDocument.annotations.filter { $0.kind == .counter }.count
+        let symbol = (0...50).contains(next) ? "\(next).circle" : "number.circle"
+        guard symbol != counterSymbol, let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Counter") else { return }
+        counterSymbol = symbol
+        button.image = image
     }
 
     /// The kind whose properties the bar shows: the selected element's, else the tool's.
@@ -459,19 +530,24 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let kind = activeKind
         for (view, kinds) in propertyGroups { view.isHidden = kind.map { !kinds.contains($0) } ?? true }
         guard let kind, let style = activeStyle else { return }
+        refreshModeGroups(kind: kind, style: style)
         lineColorLabel.stringValue = (kind == .text || kind == .counter) ? "Text" : "Line"
         lineColorWell.color = NSColor(cgColor: style.lineColor.cgColor) ?? .red
         fillColorWell.color = NSColor(cgColor: style.fillColor.cgColor) ?? .clear
-        selectClosest(lineWidthPopup, values: Self.lineWidths, to: style.lineWidth)
+        lineWidthField.show(style.lineWidth)
         shadowCheckbox.state = style.shadow ? .on : .off
-        selectClosest(fontSizePopup, values: Self.fontSizes, to: style.fontSize)
-        boldButton.state = style.bold ? .on : .off
-        italicButton.state = style.italic ? .on : .off
+        fontSizeField.show(style.fontSize)
+        let faces = Self.availableFaces(of: style.fontFamily)
+        boldButton.isEnabled = faces.bold
+        italicButton.isEnabled = faces.italic
+        boldButton.state = style.bold && faces.bold ? .on : .off
+        italicButton.state = style.italic && faces.italic ? .on : .off
         arrowHeadsPopup.selectItem(at: ArrowHeads.allCases.firstIndex(of: style.arrowHeads) ?? 2)
         highlightPopup.selectItem(at: HighlightMode.allCases.firstIndex(of: style.highlightMode) ?? 0)
         obfuscatePopup.selectItem(at: ObfuscateMode.allCases.firstIndex(of: style.obfuscateMode) ?? 0)
-        selectClosest(effectSizePopup, values: Self.effectSizes,
-                      to: style.obfuscateMode == .pixelate ? style.pixelSize : style.blurRadius)
+        pixelSizeField.show(style.pixelSize)
+        blurRadiusField.show(style.blurRadius)
+        brightnessField.show((style.brightness * 100).rounded())
         cutMarkStylePopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: style.cutMarkStyle) ?? 4)
         selectClosest(toothHeightPopup, values: Self.toothHeights, to: style.toothHeight)
         selectClosest(toothRangePopup, values: Self.toothRanges, to: style.toothRange)
@@ -483,9 +559,24 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         horizontalAlignmentControl.selectedSegment = HorizontalTextAlignment.allCases.firstIndex(of: style.horizontalAlignment) ?? 1
         verticalAlignmentControl.selectedSegment = VerticalTextAlignment.allCases.firstIndex(of: style.verticalAlignment) ?? 1
         selectClosest(magnificationPopup, values: Self.magnifications, to: style.magnification)
-        magnificationGroup?.isHidden = kind != .highlight || style.highlightMode != .magnify
         counterStartField.integerValue = editorDocument.counterStart
         counterStartStepper.integerValue = editorDocument.counterStart
+        refreshEmoji()
+    }
+
+    /// The groups that also depend on a mode: pixel size for pixelate; blur radius for blur and the area highlight;
+    /// brightness for the area highlight (upstream `BRIGHTNESS`); the zoom factor for the magnifier.
+    private func refreshModeGroups(kind: AnnotationKind, style: AnnotationStyle) {
+        let obfuscate = kind == .obfuscate
+        let highlight = kind == .highlight
+        let area = highlight && style.highlightMode == .area
+        pixelSizeGroup?.isHidden = !(obfuscate && style.obfuscateMode == .pixelate)
+        blurRadiusGroup?.isHidden = !((obfuscate && style.obfuscateMode == .blur) || area)
+        brightnessGroup?.isHidden = !area
+        magnificationGroup?.isHidden = !(highlight && style.highlightMode == .magnify)
+    }
+
+    private func refreshEmoji() {
         let emoji = canvas.selectedAnnotation.flatMap { $0.kind == .emoji ? $0.text : nil } ?? settings.value.recentEmoji
         // An emoji from the Character Viewer that isn't in the short list shows as an extra item at the top.
         if emojiPopup.item(at: 0)?.tag == Self.extraEmojiTag { emojiPopup.removeItem(at: 0) }
@@ -501,6 +592,26 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     private func selectClosest(_ popup: NSPopUpButton, values: [Int], to value: Double) {
         let index = values.indices.min { abs(Double(values[$0]) - value) < abs(Double(values[$1]) - value) } ?? 0
         popup.selectItem(at: index)
+    }
+
+    /// Which faces a font family has, so Bold and Italic are off when it has none (upstream `FontPropertyChanged`).
+    private static var facesCache: [String: (bold: Bool, italic: Bool)] = [:]
+
+    static func availableFaces(of family: String) -> (bold: Bool, italic: Bool) {
+        // The system font has both.
+        guard !family.isEmpty else { return (true, true) }
+        if let cached = facesCache[family] { return cached }
+        var bold = false
+        var italic = false
+        for member in NSFontManager.shared.availableMembers(ofFontFamily: family) ?? [] where member.count >= 4 {
+            let weight = (member[2] as? NSNumber)?.intValue ?? 5
+            let traits = NSFontTraitMask(rawValue: (member[3] as? NSNumber)?.uintValue ?? 0)
+            if traits.contains(.boldFontMask) || weight >= 8 { bold = true }
+            if traits.contains(.italicFontMask) { italic = true }
+        }
+        let faces = (bold: bold, italic: italic)
+        facesCache[family] = faces
+        return faces
     }
 
     /// Applies a property change to the selected element and remembers it for new elements of that kind.
@@ -523,25 +634,31 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         refreshProperties()
     }
 
+    // MARK: Font menu
+
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        guard menu === fontFamilyPopup.menu, !fontMenuStyled else { return }
+        fontMenuStyled = true
+        let size = NSFont.systemFontSize
+        for (index, family) in fontFamilies.enumerated() {
+            guard let item = menu.item(at: index + 2), let font = NSFont(name: family, size: size)
+                ?? NSFontManager.shared.font(withFamily: family, traits: [], weight: 5, size: size) else { continue }
+            item.attributedTitle = NSAttributedString(string: family, attributes: [.font: font])
+        }
+    }
+
     // MARK: Property actions
 
     @objc private func lineColorChanged() { applyStyle { $0.lineColor = RGBAColor(lineColorWell.color) } }
     @objc private func fillColorChanged() { applyStyle { $0.fillColor = RGBAColor(fillColorWell.color) } }
+    @objc private func clearLine() { applyStyle { $0.lineColor = .clear } }
     @objc private func clearFill() { applyStyle { $0.fillColor = .clear } }
-    @objc private func lineWidthChanged() { applyStyle { $0.lineWidth = Double(Self.lineWidths[lineWidthPopup.indexOfSelectedItem]) } }
     @objc private func shadowChanged() { applyStyle { $0.shadow = shadowCheckbox.state == .on } }
-    @objc private func fontSizeChanged() { applyStyle { $0.fontSize = Double(Self.fontSizes[fontSizePopup.indexOfSelectedItem]) } }
     @objc private func boldChanged() { applyStyle { $0.bold = boldButton.state == .on } }
     @objc private func italicChanged() { applyStyle { $0.italic = italicButton.state == .on } }
     @objc private func arrowHeadsChanged() { applyStyle { $0.arrowHeads = ArrowHeads.allCases[arrowHeadsPopup.indexOfSelectedItem] } }
     @objc private func highlightChanged() { applyStyle { $0.highlightMode = HighlightMode.allCases[highlightPopup.indexOfSelectedItem] } }
     @objc private func obfuscateChanged() { applyStyle { $0.obfuscateMode = ObfuscateMode.allCases[obfuscatePopup.indexOfSelectedItem] } }
-    @objc private func effectSizeChanged() {
-        let size = Double(Self.effectSizes[effectSizePopup.indexOfSelectedItem])
-        applyStyle {
-            if $0.obfuscateMode == .pixelate { $0.pixelSize = size } else { $0.blurRadius = size }
-        }
-    }
 
     @objc private func fontFamilyChanged() {
         let index = fontFamilyPopup.indexOfSelectedItem
@@ -584,6 +701,13 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let index = cutOutJointPopup.indexOfSelectedItem
         guard CutMarkStyle.allCases.indices.contains(index) else { return }
         settings.update { $0.cutOutMarkStyle = CutMarkStyle.allCases[index] }
+    }
+
+    @objc private func cropModeChanged() {
+        let index = cropModeControl.selectedSegment
+        guard CropMode.allCases.indices.contains(index) else { return }
+        canvas.selectCropMode(CropMode.allCases[index])
+        window?.makeFirstResponder(canvas)
     }
 
     @objc private func toothRangeChanged() {
@@ -662,15 +786,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             return !editorDocument.isModified
         }
         let image = editorDocument.flattened()
+        let saved: URL
         if let url = editorDocument.fileURL {
             guard saver.write(image, scale: editorDocument.scale, to: url) else { return false }
             saver.notifySaved(url)
+            saved = url
         } else {
             guard let url = saver.saveDirectly(image, scale: editorDocument.scale, title: editorDocument.title, date: editorDocument.captureDate) else { return false }
             editorDocument.fileURL = url
+            saved = url
         }
-        editorDocument.markSaved()
-        refreshDocumentState()
+        showExportResult(.succeeded(fileURL: saved), destination: "Save")
         return true
     }
 
@@ -679,21 +805,20 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         guard let url = saver.saveAs(editorDocument.flattened(), scale: editorDocument.scale, title: editorDocument.title,
                                      date: editorDocument.captureDate, suggestedURL: editorDocument.fileURL) else { return }
         editorDocument.fileURL = url
-        editorDocument.markSaved()
-        refreshDocumentState()
+        showExportResult(.succeeded(fileURL: url), destination: "Save As")
     }
 
     @objc func copyImage(_ sender: Any?) {
         canvas.commitEditing()
         Clipboard.copy(editorDocument.flattened(), scale: editorDocument.scale)
-        editorDocument.markSaved()
-        refreshDocumentState()
         saver.notify("Copied to the clipboard")
+        showExportResult(.succeeded(), destination: "Clipboard")
+        refreshActionBar()
     }
 
+    /// Print goes through the output manager like the other destinations, which reports how it ended.
     @objc func printImage(_ sender: Any?) {
-        canvas.commitEditing()
-        Printing.print(editorDocument.flattened(), scale: editorDocument.scale, window: window)
+        export(.destination(.printer))
     }
 
     // MARK: Elements files (Object menu)
@@ -763,57 +888,39 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
     }
 
+    /// The actions that wait while a crop is pending (upstream leaves Close, Help and Settings).
+    private static let lockedWhileCropping: Set<Selector> = [
+        #selector(saveImage(_:)), #selector(saveImageAs(_:)), #selector(copyImage(_:)), #selector(printImage(_:)),
+        #selector(saveElements(_:)), #selector(loadElements(_:)), #selector(insertWindow(_:)),
+    ]
+
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
+        if let action = item.action, isCropPending, Self.lockedWhileCropping.contains(action) { return false }
         if let imageItem = validateImageMenuItem(item) { return imageItem }
+        if let exportItem = validateExportMenuItem(item) { return exportItem }
         switch item.action {
         case #selector(saveElements(_:)): return !editorDocument.annotations.isEmpty
         case #selector(zoomPreset(_:)):
-            item.state = abs(scrollView.magnification - Self.zoomFactor(percent: item.tag)) < 0.005 ? .on : .off
+            item.state = EditorWindowZoom.matches(scrollView.magnification, percent: item.tag) ? .on : .off
             return true
         default: return true
         }
-    }
-
-    // MARK: Zoom (View menu)
-
-    @objc func zoomIn(_ sender: Any?) { setMagnification(scrollView.magnification * 1.25) }
-    @objc func zoomOut(_ sender: Any?) { setMagnification(scrollView.magnification / 1.25) }
-    @objc func actualSize(_ sender: Any?) { setMagnification(1) }
-
-    /// Upstream's zoom presets (`ImageEditorForm` zoom menu); the menu item's tag is the percentage.
-    static let zoomPresets = [25, 50, 66, 75, 100, 200, 300, 400, 600]
-
-    /// 66 % is two thirds, like upstream's.
-    static func zoomFactor(percent: Int) -> CGFloat {
-        percent == 66 ? 2.0 / 3.0 : CGFloat(percent) / 100
-    }
-
-    @objc func zoomPreset(_ sender: NSMenuItem) {
-        setMagnification(Self.zoomFactor(percent: sender.tag))
-    }
-
-    @objc func zoomToFit(_ sender: Any?) {
-        let viewport = scrollView.contentView.bounds.size.applying(CGAffineTransform(scaleX: scrollView.magnification, y: scrollView.magnification))
-        let image = canvas.pointSize
-        guard image.width > 0, image.height > 0 else { return }
-        setMagnification(min(viewport.width / image.width, viewport.height / image.height, 1))
-    }
-
-    private func setMagnification(_ value: CGFloat) {
-        let clamped = min(max(value, scrollView.minMagnification), scrollView.maxMagnification)
-        scrollView.setMagnification(clamped, centeredAt: NSPoint(x: canvas.bounds.midX, y: canvas.bounds.midY))
-        refreshDocumentState()
     }
 
     // MARK: Window
 
     func windowDidResize(_ notification: Notification) {
         refreshDocumentState()
-        rememberFrame()
+        rememberNormalFrame()
     }
 
     func windowDidMove(_ notification: Notification) {
-        rememberFrame()
+        rememberNormalFrame()
+    }
+
+    func windowDidBecomeKey(_ notification: Notification) {
+        refreshActionBar()
+        restoreZoomIfNeeded()
     }
 
     private func makeSaveAlert() -> NSAlert {
@@ -870,15 +977,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
 
     func windowWillClose(_ notification: Notification) {
-        rememberFrame()
+        savePlacement()
+        NotificationCenter.default.removeObserver(self, name: NSScrollView.didEndLiveMagnifyNotification, object: scrollView)
         onClose(self)
     }
-
-    /// Shows a message in the status bar (upstream `UpdateStatusLabel`): errors in red with a warning sign.
-    func showStatusMessage(_ message: String, isError: Bool = false) {}
-
-    /// Shows how an export of this editor's image ended (upstream `ExportResultHandler` + `SurfaceMessageReceived`),
-    /// remembers its file or link and clears the unsaved-changes mark when the result says so. `destination` names the
-    /// destination, e.g. "Clipboard", "Upload to Box".
-    func showExportResult(_ result: ExportResult, destination: String) {}
 }

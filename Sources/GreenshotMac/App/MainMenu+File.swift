@@ -11,6 +11,9 @@ extension MainMenu {
     static func addFileMenu(to main: NSMenu) {
         let file = submenu(in: main, title: "File")
         file.addItem(withTitle: "Capture Region", action: #selector(AppDelegate.captureRegion(_:)), keyEquivalent: "")
+        // Upstream opens an empty editor of `DefaultEditorSize` (500 × 500).
+        let newImage = file.addItem(withTitle: "New Image", action: #selector(EditorMenuActions.newImage(_:)), keyEquivalent: "n")
+        newImage.target = EditorMenuActions.shared
         file.addItem(withTitle: "Open…", action: #selector(AppDelegate.openImageFile(_:)), keyEquivalent: "o")
         file.addItem(withTitle: "Open Image from Clipboard", action: #selector(AppDelegate.openClipboard(_:)), keyEquivalent: "")
         file.addItem(.separator())
@@ -20,6 +23,9 @@ extension MainMenu {
         file.addItem(withTitle: "Save", action: #selector(EditorWindowController.saveImage(_:)), keyEquivalent: "s")
         let saveAs = file.addItem(withTitle: "Save As…", action: #selector(EditorWindowController.saveImageAs(_:)), keyEquivalent: "s")
         saveAs.keyEquivalentModifierMask = [.command, .shift]
+        // The saved file (upstream's status bar menu after a save: copy the path, open the folder).
+        file.addItem(withTitle: "Show in Finder", action: #selector(EditorWindowController.showInFinder(_:)), keyEquivalent: "")
+        file.addItem(withTitle: "Copy Path", action: #selector(EditorWindowController.copyFilePath(_:)), keyEquivalent: "")
         file.addItem(destinationItem("Save as PDF…", .pdfAs, key: "p", modifiers: [.command, .option]))
         let copyImage = file.addItem(withTitle: "Copy Image to Clipboard", action: #selector(EditorWindowController.copyImage(_:)), keyEquivalent: "c")
         copyImage.keyEquivalentModifierMask = [.command, .shift]
@@ -33,13 +39,11 @@ extension MainMenu {
         }
         let openWith = file.addItem(withTitle: "Open With", action: nil, keyEquivalent: "")
         openWith.submenu = NSMenu(title: "Open With")
-        openWith.submenu?.delegate = DynamicFileMenus.shared
-        DynamicFileMenus.shared.openWith = openWith.submenu
+        openWith.submenu?.delegate = DynamicFileMenus.openWith
         file.addItem(destinationItem("QR Code Actions…", .destination(.qrCode)))
         let external = file.addItem(withTitle: "External Command", action: nil, keyEquivalent: "")
         external.submenu = NSMenu(title: "External Command")
-        external.submenu?.delegate = DynamicFileMenus.shared
-        DynamicFileMenus.shared.externalCommands = external.submenu
+        external.submenu?.delegate = DynamicFileMenus.externalCommands
     }
 
     /// A File menu entry that sends the front editor's screenshot to a destination (see `AppDelegate.sendToDestination`).
@@ -52,26 +56,43 @@ extension MainMenu {
     }
 }
 
-/// The File menu's submenus whose entries come from the settings, filled each time they open.
+/// The menus whose entries come from the settings, filled each time they open: the File menu's Open With and External
+/// Command submenus, and the drop-downs of the editor's toolbar.
 @MainActor
 final class DynamicFileMenus: NSObject, NSMenuDelegate {
-    static let shared = DynamicFileMenus()
-    weak var externalCommands: NSMenu?
-    weak var openWith: NSMenu?
+    enum Kind {
+        case openWith, externalCommands
+    }
+
+    static let openWith = DynamicFileMenus(.openWith)
+    static let externalCommands = DynamicFileMenus(.externalCommands)
+
+    let kind: Kind
+    /// A pull-down button's menu: its first item is the button itself and stays.
+    let keepsTitleItem: Bool
+
+    init(_ kind: Kind, keepsTitleItem: Bool = false) {
+        self.kind = kind
+        self.keepsTitleItem = keepsTitleItem
+    }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
         guard let app = NSApp.delegate as? AppDelegate else { return }
+        let titleItem = keepsTitleItem ? menu.items.first : nil
         menu.removeAllItems()
-        if menu === externalCommands {
-            for command in app.settings.value.externalCommands {
+        if let titleItem { menu.addItem(titleItem) }
+        switch kind {
+        case .externalCommands:
+            let commands = app.settings.value.externalCommands
+            for command in commands {
                 menu.addItem(MainMenu.destinationItem(command.name, .externalCommand(command)))
             }
-            if menu.items.isEmpty {
+            if commands.isEmpty {
                 menu.addItem(NSMenuItem(title: "None set up", action: nil, keyEquivalent: ""))
             }
             menu.addItem(.separator())
             menu.addItem(withTitle: "Set Up Commands…", action: #selector(AppDelegate.showSettings(_:)), keyEquivalent: "")
-        } else if menu === openWith {
+        case .openWith:
             let format = app.settings.value.outputFormat
             for application in OpenWithDestination.applications(for: format).prefix(30) {
                 let item = MainMenu.destinationItem(OpenWithDestination.name(of: application), .application(application))
@@ -83,5 +104,16 @@ final class DynamicFileMenus: NSObject, NSMenuDelegate {
             menu.addItem(.separator())
             menu.addItem(MainMenu.destinationItem("Other…", .application(nil)))
         }
+    }
+}
+
+/// Main menu actions that also work without an editor window.
+@MainActor
+final class EditorMenuActions: NSObject {
+    static let shared = EditorMenuActions()
+
+    /// File › New Image.
+    @objc func newImage(_ sender: Any?) {
+        (NSApp.delegate as? AppDelegate)?.editors.openEmptyEditor()
     }
 }
