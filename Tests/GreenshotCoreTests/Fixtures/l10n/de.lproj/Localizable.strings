@@ -1,0 +1,10 @@
+/* LocalizationLookupTests: entries as scripts/l10n/l10n.py writes them. */
+
+/* core:Core.CANCEL */
+"Cancel" = "Abbrechen";
+
+/* test: an upstream text whose placeholders the translation reorders */
+"Saved %lld files to %@" = "Nach %2$@ wurden %1$lld Dateien gespeichert";
+
+/* test: a key without placeholders keeps its percent sign */
+"Quality 100%" = "Qualität 100 %";

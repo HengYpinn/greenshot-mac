@@ -1,0 +1,7 @@
+/* LocalizationLookupTests: the table of texts that are also data. */
+
+/* core:Core.contextmenu_capturearea */
+"Capture region" = "Bereich abfotografieren";
+
+/* core:Core.about_translation */
+"__about_translation__" = "Deutsche Übersetzung: Test";
