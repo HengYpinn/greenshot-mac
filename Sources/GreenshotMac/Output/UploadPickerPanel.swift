@@ -10,7 +10,8 @@ import GreenshotCore
 /// `ConfluenceUploadWindow`. A key (Jira) or a search, a filter or a space to choose from, a list of results (the
 /// recent ones first, sortable by every column), the file name and a comment, then Upload.
 @MainActor
-final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDelegate, NSWindowDelegate, NSComboBoxDelegate {
+final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDelegate, NSWindowDelegate, NSComboBoxDelegate,
+    NSTabViewDelegate {
     struct Row: Equatable {
         var id: String
         /// One text per column.
@@ -47,6 +48,21 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         var typedKey: String
         var filename: String
         var comment: String
+        /// The row was picked in the "Open pages" tab (upstream `IsOpenPageSelected`: the page is open already).
+        var fromOpenRows = false
+    }
+
+    /// The "Open pages" tab: rows found elsewhere (the browser's tabs), possibly only after the user asks.
+    struct OpenRows {
+        var title: String
+        var columns: [Column]
+        /// Loads the rows; nil when it would need a permission the user wasn't asked for yet.
+        var load: () async throws -> [Row]?
+        /// The button that asks for the permission and loads.
+        var askTitle: String
+        var ask: () async throws -> [Row]
+        /// What the tab says when nothing was found.
+        var emptyText: String
     }
 
     struct Configuration {
@@ -73,6 +89,12 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         var scopeChanged: (Scope?) -> Void = { _ in }
         /// Loads a row icon.
         var loadIcon: ((URL) async -> NSImage?)? = nil
+        /// The search's tab title when there are tabs.
+        var searchTitle = "Search pages"
+        /// A "Browse pages" tab (upstream `ConfluenceTreePickerPage`).
+        var browse: UploadPickerBrowser.Configuration? = nil
+        /// An "Open pages" tab (upstream `ConfluencePagePickerPage`).
+        var openRows: OpenRows? = nil
     }
 
     private let configuration: Configuration
@@ -91,13 +113,23 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
     private var loadingIcons: Set<URL> = []
     private var searchTask: Task<Void, Never>?
     private var scopeTask: Task<Void, Never>?
+    private var openTask: Task<Void, Never>?
     private var accepted = false
+    private let tabs = NSTabView()
+    /// The tab buttons (a segmented control above a tabless tab view, like Mac settings panes).
+    private let tabButtons = NSSegmentedControl()
+    private var browser: UploadPickerBrowser?
+    private var openList: UploadPickerList?
+    /// The user changed the tab: loading open rows doesn't switch it any more.
+    private var userChoseTab = false
+    private var switchingTab = false
 
     init(_ configuration: Configuration) {
         self.configuration = configuration
         let width = max(540, configuration.columns.reduce(0) { $0 + $1.width } + 150)
-        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: width, height: 480), styleMask: [.titled, .closable, .resizable],
-                          backing: .buffered, defer: false)
+        let hasTabs = configuration.browse != nil || configuration.openRows != nil
+        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: width, height: hasTabs ? 540 : 480),
+                          styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
         super.init()
         window.title = configuration.title
         window.isReleasedWhenClosed = false
@@ -116,14 +148,29 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         window.makeKeyAndOrderFront(nil)
         window.initialFirstResponder = configuration.keyLabel == nil ? searchField : keyField
         loadScopes()
+        loadOpenRows()
         NSApp.runModal(for: window)
         searchTask?.cancel()
         scopeTask?.cancel()
+        openTask?.cancel()
         window.orderOut(nil)
         guard accepted else { return nil }
-        let selected = table.selectedRow >= 0 && table.selectedRow < rows.count ? rows[table.selectedRow] : nil
-        return Choice(row: selected, typedKey: keyField.stringValue, filename: filenameField.stringValue,
-                      comment: commentField.stringValue)
+        return Choice(row: selectedRow, typedKey: keyField.stringValue, filename: filenameField.stringValue,
+                      comment: commentField.stringValue, fromOpenRows: currentTab == "open")
+    }
+
+    /// The identifier of the tab shown: "open", "search" or "browse" ("search" without tabs).
+    private var currentTab: String {
+        (tabs.selectedTabViewItem?.identifier as? String) ?? "search"
+    }
+
+    /// The row picked in the tab shown.
+    private var selectedRow: Row? {
+        switch currentTab {
+        case "open": return openList?.selectedRow
+        case "browse": return browser?.selectedRow
+        default: return table.selectedRow >= 0 && table.selectedRow < rows.count ? rows[table.selectedRow] : nil
+        }
     }
 
     /// Shows rows and scopes without a server, for the snapshots.
@@ -132,6 +179,25 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         fillScopes(scopes, select: selectedScope)
         show(rows: rows, status: "\(rows.count) found")
         if !rows.isEmpty { table.selectRowIndexes([0], byExtendingSelection: false) }
+    }
+
+    /// Shows the browse tab with a tree, for the snapshots.
+    func previewBrowse(_ nodes: [UploadPickerBrowser.Node], expand: [UploadPickerBrowser.Node], select: UploadPickerBrowser.Node?) {
+        browser?.preview(nodes, expand: expand, select: select)
+        tabs.selectTabViewItem(withIdentifier: "browse")
+    }
+
+    /// Shows the open-rows tab, for the snapshots: the rows, or the button that asks when `rows` is nil.
+    func previewOpenRows(_ rows: [Row]?) {
+        tabs.selectTabViewItem(withIdentifier: "open")
+        guard let openRows = configuration.openRows, let list = openList else { return }
+        if let rows {
+            list.setAction(nil, nil)
+            list.show(rows, status: rows.isEmpty ? openRows.emptyText : "\(rows.count) found")
+        } else {
+            list.setAction(openRows.askTitle) {}
+            list.show([], status: Self.askText)
+        }
     }
 
     private func build() {
@@ -143,17 +209,18 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
             keyField.delegate = self
             gridRows.append([label("\(keyLabel):"), keyField])
         }
+        var searchRows: [[NSView]] = []
         if let scopeLabel = configuration.scopeLabel {
             scopePopup.addItem(withTitle: configuration.noScopeTitle)
             scopePopup.target = self
             scopePopup.action = #selector(scopeChosen)
-            gridRows.append([label("\(scopeLabel):"), scopePopup])
+            searchRows.append([label("\(scopeLabel):"), scopePopup])
         }
         searchField.placeholderString = configuration.searchPlaceholder
         searchField.sendsWholeSearchString = true
         searchField.target = self
         searchField.action = #selector(search)
-        gridRows.append([label("Search:"), searchField])
+        searchRows.append([label("Search:"), searchField])
 
         for (index, column) in configuration.columns.enumerated() {
             let tableColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("c\(index)"))
@@ -174,12 +241,20 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         scroll.hasHorizontalScroller = true
         scroll.borderType = .bezelBorder
         scroll.heightAnchor.constraint(greaterThanOrEqualToConstant: 180).isActive = true
-        gridRows.append([label(""), scroll])
+        searchRows.append([label(""), scroll])
         status.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
         status.textColor = .secondaryLabelColor
         status.lineBreakMode = .byTruncatingTail
         status.stringValue = configuration.recent.isEmpty ? "" : "Recent"
-        gridRows.append([label(""), status])
+        searchRows.append([label(""), status])
+        var tabsView: NSView?
+        if configuration.browse == nil && configuration.openRows == nil {
+            gridRows += searchRows
+        } else {
+            let view = tabView(searchRows: searchRows)
+            tabsView = view
+            gridRows.append([label(""), view])
+        }
 
         filenameField.stringValue = configuration.filename
         gridRows.append([label("File name:"), filenameField])
@@ -198,6 +273,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
 
         let grid = NSGridView(views: gridRows)
         grid.column(at: 0).xPlacement = .trailing
+        if let tabsView { grid.cell(for: tabsView)?.xPlacement = .fill }
         grid.rowSpacing = 8
         grid.columnSpacing = 8
         grid.translatesAutoresizingMaskIntoConstraints = false
@@ -215,7 +291,136 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
     }
 
     private func label(_ text: String) -> NSTextField {
-        NSTextField(labelWithString: text)
+        let label = NSTextField(labelWithString: text)
+        // The label column is as wide as its longest label; the fields take the rest.
+        label.setContentHuggingPriority(.init(751), for: .horizontal)
+        return label
+    }
+
+    /// The tabs "Open pages", "Search pages" and "Browse pages" (upstream `ConfluenceUploadWindow`).
+    private func tabView(searchRows: [[NSView]]) -> NSView {
+        func item(_ identifier: String, _ title: String, _ content: NSView) -> NSTabViewItem {
+            let item = NSTabViewItem(identifier: identifier)
+            item.label = title
+            let holder = NSView()
+            content.translatesAutoresizingMaskIntoConstraints = false
+            holder.addSubview(content)
+            NSLayoutConstraint.activate([
+                content.leadingAnchor.constraint(equalTo: holder.leadingAnchor, constant: 12),
+                content.trailingAnchor.constraint(equalTo: holder.trailingAnchor, constant: -12),
+                content.topAnchor.constraint(equalTo: holder.topAnchor, constant: 12),
+                content.bottomAnchor.constraint(equalTo: holder.bottomAnchor, constant: -12),
+            ])
+            item.view = holder
+            return item
+        }
+        if let openRows = configuration.openRows {
+            let list = UploadPickerList(columns: openRows.columns)
+            list.selectionChanged = { [weak self] in self?.updateUploadButton() }
+            list.doubleClicked = { [weak self] in self?.accept() }
+            openList = list
+            tabs.addTabViewItem(item("open", openRows.title, list.view))
+        }
+        // The search rows as full-width lines: "Space:" and "Search:" before their controls, the list and the status under them.
+        let searchStack = NSStackView()
+        searchStack.orientation = .vertical
+        searchStack.alignment = .leading
+        searchStack.spacing = 8
+        for row in searchRows {
+            let line: NSView
+            if let label = row.first as? NSTextField, !label.stringValue.isEmpty, row.count > 1 {
+                let pair = NSStackView(views: [label, row[1]])
+                pair.orientation = .horizontal
+                pair.spacing = 8
+                line = pair
+            } else {
+                line = row.last ?? NSView()
+            }
+            searchStack.addArrangedSubview(line)
+            line.widthAnchor.constraint(equalTo: searchStack.widthAnchor).isActive = true
+        }
+        tabs.addTabViewItem(item("search", configuration.searchTitle, searchStack))
+        if let browse = configuration.browse {
+            let tree = UploadPickerBrowser(browse)
+            tree.selectionChanged = { [weak self] in self?.updateUploadButton() }
+            tree.doubleClicked = { [weak self] in self?.accept() }
+            browser = tree
+            tabs.addTabViewItem(item("browse", "Browse pages", tree.view))
+        }
+        tabs.tabViewType = .noTabsBezelBorder
+        tabs.selectTabViewItem(withIdentifier: "search")
+        tabs.delegate = self
+        tabs.heightAnchor.constraint(greaterThanOrEqualToConstant: 300).isActive = true
+        tabButtons.segmentCount = tabs.numberOfTabViewItems
+        for (index, item) in tabs.tabViewItems.enumerated() {
+            tabButtons.setLabel(item.label, forSegment: index)
+        }
+        tabButtons.trackingMode = .selectOne
+        tabButtons.target = self
+        tabButtons.action = #selector(tabButtonChosen)
+        tabButtons.selectedSegment = tabs.indexOfTabViewItem(withIdentifier: "search")
+        let stack = NSStackView(views: [tabButtons, tabs])
+        stack.orientation = .vertical
+        stack.alignment = .centerX
+        stack.spacing = 8
+        tabs.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        // Wide like the fields below it, not as narrow as its content.
+        stack.setContentHuggingPriority(.init(1), for: .horizontal)
+        // NSGridView gives spare width to the label column: the tabs ask for the window's width less the labels.
+        let windowWidth = max(540, configuration.columns.reduce(0) { $0 + $1.width } + 150)
+        stack.widthAnchor.constraint(greaterThanOrEqualToConstant: windowWidth - 130).isActive = true
+        return stack
+    }
+
+    @objc private func tabButtonChosen() {
+        tabs.selectTabViewItem(at: tabButtons.selectedSegment)
+    }
+
+    static let askText = "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it."
+
+    /// Fills the open-rows tab when it can without asking; selects it when it found rows and the user didn't switch.
+    private func loadOpenRows() {
+        guard let openRows = configuration.openRows, let list = openList else { return }
+        list.show([], status: "Looking…")
+        openTask = Task { @MainActor [weak self] in
+            do {
+                let found = try await openRows.load()
+                guard !Task.isCancelled, let self else { return }
+                if let found {
+                    list.setAction(nil, nil)
+                    list.show(found, status: found.isEmpty ? openRows.emptyText : "\(found.count) found")
+                    if !found.isEmpty, !userChoseTab { select("open") }
+                } else {
+                    list.show([], status: Self.askText)
+                    list.setAction(openRows.askTitle) { [weak self] in self?.askOpenRows() }
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+                list.show([], status: Uploads.explained(error).localizedDescription)
+            }
+        }
+    }
+
+    private func askOpenRows() {
+        guard let openRows = configuration.openRows, let list = openList else { return }
+        list.setAction(nil, nil)
+        list.show([], status: "Looking…")
+        openTask = Task { @MainActor in
+            do {
+                let found = try await openRows.ask()
+                guard !Task.isCancelled else { return }
+                list.show(found, status: found.isEmpty ? openRows.emptyText : "\(found.count) found")
+            } catch {
+                guard !Task.isCancelled else { return }
+                list.show([], status: error.localizedDescription)
+            }
+        }
+    }
+
+    private func select(_ identifier: String) {
+        switchingTab = true
+        tabs.selectTabViewItem(withIdentifier: identifier)
+        switchingTab = false
     }
 
     // MARK: Scopes
@@ -326,8 +531,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
     }
 
     private func updateUploadButton() {
-        let picked = table.selectedRow >= 0 && table.selectedRow < rows.count
-        uploadButton.isEnabled = picked || (configuration.keyLabel != nil && configuration.acceptsKey(keyField.stringValue))
+        uploadButton.isEnabled = selectedRow != nil || (configuration.keyLabel != nil && configuration.acceptsKey(keyField.stringValue))
     }
 
     @objc private func accept() {
@@ -342,6 +546,13 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
 
     func windowWillClose(_ notification: Notification) {
         NSApp.stopModal()
+    }
+
+    func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
+        if let tabViewItem { tabButtons.selectedSegment = tabView.indexOfTabViewItem(tabViewItem) }
+        if !switchingTab { userChoseTab = true }
+        if (tabViewItem?.identifier as? String) == "browse" { browser?.start() }
+        updateUploadButton()
     }
 
     // The key field: typing a key selects nothing in the list; picking a row fills the key.

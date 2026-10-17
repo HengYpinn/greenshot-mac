@@ -232,6 +232,7 @@ enum ConfluenceDestination {
         let format = s.confluence.uploadFormat
         var filename = Uploads.suggestedName(for: capture, settings: settings, format: format)
         var comment = ""
+        var isOpenPage = false
         let page: ConfluencePage
         if let givenPage {
             page = givenPage
@@ -244,6 +245,7 @@ enum ConfluenceDestination {
             page = choice.page
             filename = choice.filename
             comment = choice.comment
+            isOpenPage = choice.isOpenPage
         }
         let file: UploadFile
         do {
@@ -254,8 +256,8 @@ enum ConfluenceDestination {
             completion(.failed(error.localizedDescription))
             return
         }
-        // Upstream opens the page only after a page was chosen in the dialog.
-        let openPage = givenPage == nil && s.confluence.openPageAfterUpload
+        // Upstream opens the page only after a page was chosen in the dialog, and not when it is open already.
+        let openPage = givenPage == nil && !isOpenPage && s.confluence.openPageAfterUpload
         Uploads.run("The upload to Confluence failed", progress: "Transferring data to Confluence, please wait…", completion: completion) {
             let attachments = try await client.attach(file, toPage: page.id, comment: comment)
             settings.update { $0.confluence.remember(page: page) }

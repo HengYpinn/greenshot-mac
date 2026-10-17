@@ -191,4 +191,14 @@ extension DestinationsSettings {
         }
         .formStyle(.grouped)
     }
+
+    /// Jira, Confluence and Your own servers, for the snapshots.
+    var serversForSnapshot: some View {
+        Form {
+            JiraSettingsSection(store: store)
+            ConfluenceSettingsSection(store: store)
+            CertificateExceptionsSection(store: store)
+        }
+        .formStyle(.grouped)
+    }
 }

@@ -21,6 +21,9 @@ extension Snapshots {
         try write(form(progress.contentView), to: folder.appendingPathComponent("dialog-upload-progress.png"))
         try write(uploadPanel(jira()), to: folder.appendingPathComponent("dialog-upload-jira.png"))
         try write(uploadPanel(confluence()), to: folder.appendingPathComponent("dialog-upload-confluence.png"))
+        try write(uploadPanel(confluence(browse: true)), to: folder.appendingPathComponent("dialog-upload-confluence-browse.png"))
+        try write(uploadPanel(atlassianLogin()), to: folder.appendingPathComponent("dialog-atlassian-login.png"))
+        try write(serverSections(), to: folder.appendingPathComponent("settings-destinations-servers.png"))
         try write(destinationSections(), to: folder.appendingPathComponent("settings-destinations-commands.png"))
         try pickerDump().write(to: folder.appendingPathComponent("picker-menu.txt"), atomically: true, encoding: .utf8)
         print("Wrote \(folder.appendingPathComponent("picker-menu.txt").path)")
@@ -56,8 +59,8 @@ extension Snapshots {
         return panel.contentView
     }
 
-    /// The Confluence dialog with a space chosen and made-up pages.
-    private static func confluence() -> NSView? {
+    /// The Confluence dialog with a space chosen and made-up pages, or its page tree.
+    private static func confluence(browse: Bool = false) -> NSView? {
         let defaults = UserDefaults(suiteName: "greenshot-mac-snapshots-output")!
         defaults.removePersistentDomain(forName: "greenshot-mac-snapshots-output")
         let store = SettingsStore(defaults: defaults)
@@ -68,10 +71,49 @@ extension Snapshots {
             ConfluencePage(id: "1", title: "Release checklist", spaceName: "Engineering", url: URL(string: "https://example.atlassian.net/wiki/1")!),
             ConfluencePage(id: "2", title: "Release notes 2026", spaceName: "Engineering", url: URL(string: "https://example.atlassian.net/wiki/2")!),
         ]
-        picker.preview(pages: pages, spaces: [ConfluenceSpace(key: "ENG", name: "Engineering"), ConfluenceSpace(key: "HR", name: "People")],
-                       selected: "ENG")
+        let spaces = [ConfluenceSpace(key: "ENG", name: "Engineering", homepageID: "10"),
+                      ConfluenceSpace(key: "HR", name: "People", homepageID: "20")]
+        picker.preview(pages: pages, spaces: spaces, selected: "ENG")
+        if browse {
+            let home = ConfluencePage(id: "10", title: "Engineering Home", spaceName: "Engineering", url: URL(string: "https://example.atlassian.net/wiki/10")!)
+            picker.previewBrowse(spaces: spaces, homepage: home, children: pages)
+        }
         keepAlive.append(picker)
         return picker.contentView
+    }
+
+    /// The login dialog of a Server / Data Center site after a wrong password.
+    private static func atlassianLogin() -> NSView? {
+        let site = AtlassianSite(url: "https://jira.example.com", login: .serverPassword, user: "alex", secret: "")!
+        let dialog = AtlassianLoginDialog(service: .jira, site: site, problem: "HTTP 401: Unauthorized")
+        dialog.alert.layout()
+        keepAlive.append(dialog)
+        return dialog.alert.window.contentView
+    }
+
+    /// Jira on Data Center with a password, Confluence with a personal access token and personal spaces, and a host and a
+    /// fingerprint under Your own servers.
+    private static func serverSections() -> NSBitmapImageRep? {
+        let defaults = UserDefaults(suiteName: "greenshot-mac-snapshots-servers")!
+        defaults.removePersistentDomain(forName: "greenshot-mac-snapshots-servers")
+        let store = SettingsStore(defaults: defaults)
+        store.update {
+            $0.jira.login = .serverPassword
+            $0.jira.url = "https://jira.example.com"
+            $0.jira.email = "alex"
+            $0.confluence.login = .serverToken
+            $0.confluence.url = "https://wiki.example.com"
+            $0.confluence.includePersonalSpaces = true
+            $0.allowedUntrustedCertificateHosts = ["*.example.local"]
+            $0.allowedCertificateThumbprints = ["2F:D2:CC:7E:80:64:6D:89:6F:E6:62:25:45:62:1E:65:B7:08:66:67:7E:7C:0D:63:5F:89:6F:A5:10:E0:8A:33"]
+        }
+        let hosting = NSHostingView(rootView: DestinationsSettings(store: store).serversForSnapshot)
+        hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 1120)
+        let window = NSWindow(contentRect: hosting.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.contentView = hosting
+        hosting.layoutSubtreeIfNeeded()
+        keepAlive.append(window)
+        return capture(hosting)
     }
 
     /// Settings › Destinations below the destination list: a command in JPEG, one whose program is missing, and
