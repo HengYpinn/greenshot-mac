@@ -107,62 +107,44 @@ enum ScreenCapturer {
             ?? "Greenshot"
     }
 
-    /// Takes a picture of every display, the "frozen" screen the capture overlay shows.
-    static func freezeScreens(showsCursor: Bool) async throws -> [FrozenScreen] {
-        try await freeze(withPointer: showsCursor).screens(withPointer: showsCursor)
-    }
-
     /// Every display: without the mouse pointer, and with `withPointer` also with it, taken at the same moment, so the
     /// capture screen can switch between them (M) after the picture was taken; and the pointer itself, read before
-    /// the capture screen shows its own crosshair, for the pointer on its own (`Capture.pointer`).
-    static func freeze(withPointer: Bool) async throws -> FrozenDisplays {
+    /// the capture screen shows its own crosshair, for the pointer on its own (`Capture.pointer`). With `toneMapHDR` a
+    /// display that shows HDR content right now is also taken in HDR and tone mapped (`ScreenCapturer+HDR.swift`).
+    static func freeze(withPointer: Bool, toneMapHDR: Bool = false) async throws -> FrozenDisplays {
         let cursor = withPointer ? PointerSnapshot.current() : nil
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         var plain: [FrozenScreen] = []
         var pointer: [FrozenScreen] = []
         for display in content.displays {
-            if withPointer {
-                async let without = screenshot(of: display, showsCursor: false)
-                async let with = screenshot(of: display, showsCursor: true)
-                let pair = try await (without, with)
-                plain.append(pair.0)
-                pointer.append(pair.1)
-            } else {
-                plain.append(try await screenshot(of: display, showsCursor: false))
+            let filter = SCContentFilter(display: display, excludingWindows: [])
+            let scale = CGFloat(filter.pointPixelScale)
+            let pictures = try await self.pictures(of: filter, scale: scale, withPointer: withPointer,
+                                                   headroom: hdrHeadroom(of: display.displayID, enabled: toneMapHDR),
+                                                   name: "display \(display.displayID)")
+            let frame = CGDisplayBounds(display.displayID)
+            plain.append(FrozenScreen(displayID: display.displayID, frame: frame, scale: scale, image: pictures.plain))
+            if let image = pictures.pointer {
+                pointer.append(FrozenScreen(displayID: display.displayID, frame: frame, scale: scale, image: image))
             }
         }
         guard !plain.isEmpty else { throw CaptureError.nothingToCapture }
         return FrozenDisplays(plain: plain, pointer: withPointer ? pointer : nil, cursor: cursor)
     }
 
-    private static func screenshot(of display: SCDisplay, showsCursor: Bool) async throws -> FrozenScreen {
-        let filter = SCContentFilter(display: display, excludingWindows: [])
-        let scale = CGFloat(filter.pointPixelScale)
-        let configuration = SCStreamConfiguration()
-        configuration.width = Int((filter.contentRect.width * scale).rounded())
-        configuration.height = Int((filter.contentRect.height * scale).rounded())
-        configuration.showsCursor = showsCursor
-        configuration.captureResolution = .best
-        configuration.colorSpaceName = CGColorSpace.sRGB
-        let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
-        return FrozenScreen(displayID: display.displayID, frame: CGDisplayBounds(display.displayID), scale: scale, image: image)
-    }
-
     /// One window on its own, including the parts other windows cover. With `showsCursor` the window is taken with and
     /// without the pointer, so the pointer also comes on its own (`Capture.pointer`) when it is over the window.
-    static func capture(window: WindowInfo, showsCursor: Bool, includeShadow: Bool) async throws -> Capture {
+    static func capture(window: WindowInfo, showsCursor: Bool, includeShadow: Bool, toneMapHDR: Bool = false) async throws -> Capture {
         let cursor = showsCursor ? PointerSnapshot.current() : nil
         let content = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: true)
         guard let scWindow = content.windows.first(where: { $0.windowID == window.id }) else { throw CaptureError.windowNotFound }
         let filter = SCContentFilter(desktopIndependentWindow: scWindow)
         let scale = CGFloat(filter.pointPixelScale)
-        guard showsCursor else {
-            let image = try await windowImage(filter, scale: scale, showsCursor: false, includeShadow: includeShadow)
-            return Capture(image: image, scale: scale, title: window.displayTitle)
-        }
-        async let with = windowImage(filter, scale: scale, showsCursor: true, includeShadow: includeShadow)
-        async let without = windowImage(filter, scale: scale, showsCursor: false, includeShadow: includeShadow)
-        let (image, plain) = try await (with, without)
+        let pictures = try await self.pictures(of: filter, scale: scale, withPointer: showsCursor,
+                                               headroom: hdrHeadroom(of: window.frame, enabled: toneMapHDR),
+                                               ignoresShadow: !includeShadow, name: "window \(window.id)")
+        guard let image = pictures.pointer else { return Capture(image: pictures.plain, scale: scale, title: window.displayTitle) }
+        let plain = pictures.plain
         var capture = Capture(image: image, scale: scale, title: window.displayTitle)
         // Only when the picture is exactly the window (no shadow around it), so its corner is the window's.
         let width = Int((window.frame.width * scale).rounded())
@@ -175,19 +157,43 @@ enum ScreenCapturer {
         return capture
     }
 
-    private static func windowImage(_ filter: SCContentFilter, scale: CGFloat, showsCursor: Bool,
-                                    includeShadow: Bool) async throws -> CGImage {
+    /// `filter` without and (`withPointer`) with the mouse pointer, at the same moment. With a `headroom` (the
+    /// display shows HDR content) also in HDR, and then the tone mapped HDR pictures when they have HDR content.
+    private static func pictures(of filter: SCContentFilter, scale: CGFloat, withPointer: Bool, headroom: CGFloat?,
+                                 ignoresShadow: Bool? = nil, name: String) async throws -> (plain: CGImage, pointer: CGImage?) {
+        let hdr = headroom != nil
+        async let plain = sdrPicture(filter, scale: scale, showsCursor: false, ignoresShadow: ignoresShadow)
+        async let pointer = withPointer ? sdrPicture(filter, scale: scale, showsCursor: true, ignoresShadow: ignoresShadow) : nil
+        async let hdrPlain = hdr ? hdrPicture(filter, scale: scale, showsCursor: false, ignoresShadow: ignoresShadow) : nil
+        async let hdrPointer = hdr && withPointer
+            ? hdrPicture(filter, scale: scale, showsCursor: true, ignoresShadow: ignoresShadow) : nil
+        let sdr = try await (plain, pointer)
+        let taken = await (hdrPlain, hdrPointer)
+        guard let headroom else { return sdr }
+        let sdrImages = [sdr.0] + (sdr.1.map { [$0] } ?? [])
+        let hdrImages = [taken.0] + (withPointer ? [taken.1] : [])
+        let images = await preferringHDR(sdr: sdrImages, hdr: hdrImages, headroom: headroom, name: name)
+        return (images[0], withPointer ? images[1] : nil)
+    }
+
+    /// A picture in sRGB, as Greenshot always took them.
+    private static func sdrPicture(_ filter: SCContentFilter, scale: CGFloat, showsCursor: Bool,
+                                   ignoresShadow: Bool?) async throws -> CGImage {
         let configuration = SCStreamConfiguration()
+        configure(configuration, filter: filter, scale: scale, showsCursor: showsCursor, ignoresShadow: ignoresShadow)
+        configuration.colorSpaceName = CGColorSpace.sRGB
+        return try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
+    }
+
+    static func configure(_ configuration: SCStreamConfiguration, filter: SCContentFilter, scale: CGFloat, showsCursor: Bool,
+                          ignoresShadow: Bool?) {
         configuration.width = Int((filter.contentRect.width * scale).rounded())
         configuration.height = Int((filter.contentRect.height * scale).rounded())
         configuration.showsCursor = showsCursor
         configuration.captureResolution = .best
-        configuration.ignoreShadowsSingleWindow = !includeShadow
-        configuration.colorSpaceName = CGColorSpace.sRGB
-        return try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: configuration)
+        if let ignoresShadow { configuration.ignoreShadowsSingleWindow = ignoresShadow }
     }
 }
-
 /// The frozen displays of a capture.
 struct FrozenDisplays {
     /// Without the mouse pointer.

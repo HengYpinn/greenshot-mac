@@ -57,9 +57,10 @@ final class CaptureCoordinator {
 
     private func captureFullScreen(choosing choose: @escaping @MainActor ([FrozenScreen]) -> [FrozenScreen]) {
         let showsCursor = settings.value.captureMousePointer
+        let toneMapHDR = settings.value.toneMapHDRCaptures
         run {
             let windows = ScreenCapturer.onScreenWindows()
-            let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor)
+            let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor, toneMapHDR: toneMapHDR)
             let chosen = choose(frozen.screens(withPointer: showsCursor))
             let title = ScreenCapturer.frontWindow(in: windows)?.displayTitle ?? "Full screen"
             guard let capture = frozen.capture(of: ScreenComposer.union(of: chosen), withPointer: showsCursor, title: title,
@@ -81,9 +82,10 @@ final class CaptureCoordinator {
             return
         }
         let showsCursor = settings.value.captureMousePointer
+        let toneMapHDR = settings.value.toneMapHDRCaptures
         run {
             let windows = ScreenCapturer.onScreenWindows()
-            let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor)
+            let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor, toneMapHDR: toneMapHDR)
             guard let capture = frozen.capture(of: region, withPointer: showsCursor,
                                                title: ScreenCapturer.title(for: region, in: windows))
             else { throw CaptureError.nothingToCapture }
@@ -98,7 +100,8 @@ final class CaptureCoordinator {
                 throw CaptureError.windowNotFound
             }
             return try await ScreenCapturer.capture(window: window, showsCursor: settings.captureMousePointer,
-                                                    includeShadow: settings.includeWindowShadow)
+                                                    includeShadow: settings.includeWindowShadow,
+                                             toneMapHDR: settings.toneMapHDRCaptures)
         }
     }
 
@@ -107,7 +110,8 @@ final class CaptureCoordinator {
         let settings = self.settings.value
         run {
             try await ScreenCapturer.capture(window: window, showsCursor: settings.captureMousePointer,
-                                             includeShadow: settings.includeWindowShadow)
+                                             includeShadow: settings.includeWindowShadow,
+                                             toneMapHDR: settings.toneMapHDRCaptures)
         }
     }
 
@@ -116,7 +120,7 @@ final class CaptureCoordinator {
     private func interactive(_ mode: CaptureOverlayController.Mode) {
         run { [settings] in
             let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
-            let frozen = try await ScreenCapturer.freeze(withPointer: true)
+            let frozen = try await ScreenCapturer.freeze(withPointer: true, toneMapHDR: settings.value.toneMapHDRCaptures)
             guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
                                                                         windows: windows, mode: mode, settings: settings)
             else { return nil }
