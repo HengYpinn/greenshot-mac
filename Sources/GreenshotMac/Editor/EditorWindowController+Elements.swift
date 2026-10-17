@@ -86,8 +86,9 @@ extension EditorWindowController {
         guard let element = editorDocument.annotation(id) else { return }
         let torn = element.kind == .tornEdge
         let form = TornEdgeSettingsForm(element.cutEdgeSettings, showEdges: torn)
-        let message = torn ? "The torn edges of this image." : "The edges and the shadow of this cut mark."
-        EffectSettingsDialog.run(title: torn ? "Torn Edge Settings" : "Cut Edge Settings", message: message,
+        let message = torn ? String(localized: "The torn edges of this image.") : String(localized: "The edges and the shadow of this cut mark.")
+        let title = torn ? String(localized: "Torn Edge Settings") : String(localized: "Cut Edge Settings")
+        EffectSettingsDialog.run(title: title, message: message,
                                  content: form.view, owner: form, for: window) { [weak self] in
             guard let self, let current = self.editorDocument.annotation(id) else { return }
             let changed = current.applyingCutEdgeSettings(form.settings, scale: self.editorDocument.scale)
@@ -107,7 +108,7 @@ final class CutEdgeApplyButton: NSButton {
     init(canvas: CanvasView, target: AnyObject, action: Selector) {
         self.canvas = canvas
         super.init(frame: .zero)
-        title = "Apply to the Image"
+        title = String(localized: "Apply to the Image")
         image = NSImage(systemSymbolName: "checkmark.circle", accessibilityDescription: nil)
         imagePosition = .imageLeading
         bezelStyle = .rounded

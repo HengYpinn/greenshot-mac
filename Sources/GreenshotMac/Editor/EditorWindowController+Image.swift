@@ -14,8 +14,8 @@ extension EditorWindowController {
         // Upstream's Effects menu: a pull-down whose first item is its button.
         let effects = NSPopUpButton(frame: .zero, pullsDown: true)
         effects.controlSize = .small
-        effects.toolTip = "Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)"
-        effects.addItem(withTitle: "Effects")
+        effects.toolTip = String(localized: "Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)")
+        effects.addItem(withTitle: String(localized: "Effects"))
         effects.item(at: 0)?.image = NSImage(systemSymbolName: "sparkles", accessibilityDescription: nil)
         for item in Self.effectMenuItems(keyEquivalents: false) {
             item.target = self
@@ -23,22 +23,24 @@ extension EditorWindowController {
         }
         // Upstream's split button also has Remove Transparency and the text obfuscation ("Redact Text").
         effects.menu?.addItem(.separator())
-        for (title, action) in [("Remove Transparency…", #selector(removeTransparency(_:))),
-                                ("Obfuscate Text…", #selector(obfuscateText(_:)))] {
+        for (title, action) in [(String(localized: "Remove Transparency…"), #selector(removeTransparency(_:))),
+                                (String(localized: "Obfuscate Text…"), #selector(obfuscateText(_:)))] {
             let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
             item.target = self
             effects.menu?.addItem(item)
         }
-        let resize = imageButton("arrow.up.left.and.arrow.down.right", "Resize the image (⌥⌘R)", #selector(resizeImage(_:)))
-        let rotateLeft = imageButton("rotate.left", "Rotate counter-clockwise (⌥⌘←)", #selector(rotateCounterClockwise(_:)))
-        let rotateRight = imageButton("rotate.right", "Rotate clockwise (⌥⌘→)", #selector(rotateClockwise(_:)))
+        let resize = imageButton("arrow.up.left.and.arrow.down.right", String(localized: "Resize the image (⌥⌘R)"),
+                                 #selector(resizeImage(_:)))
+        let rotateLeft = imageButton("rotate.left", String(localized: "Rotate counter-clockwise (⌥⌘←)"),
+                                     #selector(rotateCounterClockwise(_:)))
+        let rotateRight = imageButton("rotate.right", String(localized: "Rotate clockwise (⌥⌘→)"), #selector(rotateClockwise(_:)))
         // Upstream's crop modes (`CropContainer.CropModes`): auto crop, and the rows or columns of the crop tool's
         // selection cut out.
         let crop = NSPopUpButton(frame: .zero, pullsDown: true)
         crop.controlSize = .small
-        crop.toolTip = "Auto crop, or cut the rows or columns of the crop selection out"
+        crop.toolTip = String(localized: "Auto crop, or cut the rows or columns of the crop selection out")
         crop.addItem(withTitle: "")
-        crop.item(at: 0)?.image = NSImage(systemSymbolName: "crop", accessibilityDescription: "Crop modes")
+        crop.item(at: 0)?.image = NSImage(systemSymbolName: "crop", accessibilityDescription: String(localized: "Crop modes"))
         for (title, action) in Self.cropModeItems {
             let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
             item.target = self
@@ -60,7 +62,7 @@ extension EditorWindowController {
             item.tag = index
             items.append(item)
             guard effect.hasSettings else { continue }
-            let alternate = NSMenuItem(title: effect.title + "…", action: #selector(applyEffectWithSettings(_:)), keyEquivalent: key)
+            let alternate = NSMenuItem(title: effect.settingsTitle, action: #selector(applyEffectWithSettings(_:)), keyEquivalent: key)
             alternate.keyEquivalentModifierMask = keyEquivalents ? [.control, .option, .command] : [.option]
             alternate.isAlternate = true
             alternate.tag = index
@@ -91,7 +93,8 @@ extension EditorWindowController {
 
     private func showDropShadowSettings() {
         let form = DropShadowSettingsForm(settings.value.dropShadowSettings)
-        EffectSettingsDialog.run(title: "Drop Shadow", message: "A soft shadow behind the image.", content: form.view,
+        EffectSettingsDialog.run(title: String(localized: "Drop Shadow"), message: String(localized: "A soft shadow behind the image."),
+                                 content: form.view,
                                  owner: form, for: window) { [weak self] in
             self?.settings.update { $0.dropShadowSettings = form.settings }
             self?.applyWithSettings(.dropShadow)
@@ -100,7 +103,8 @@ extension EditorWindowController {
 
     private func showTornEdgeSettings() {
         let form = TornEdgeSettingsForm(settings.value.tornEdgeSettings)
-        EffectSettingsDialog.run(title: "Torn Edges", message: "Tears the chosen edges of the image.", content: form.view,
+        EffectSettingsDialog.run(title: String(localized: "Torn Edges"), message: String(localized: "Tears the chosen edges of the image."),
+                                 content: form.view,
                                  owner: form, for: window) { [weak self] in
             self?.settings.update { $0.tornEdgeSettings = form.settings }
             self?.addTornEdges()
@@ -120,7 +124,7 @@ extension EditorWindowController {
     /// Brightness, contrast and gamma of the image (upstream `AdjustEffect`).
     @objc func adjustImage(_ sender: Any?) {
         let form = AdjustSettingsForm()
-        EffectSettingsDialog.run(title: "Adjust", message: "Brightness, contrast and gamma of the image.",
+        EffectSettingsDialog.run(title: String(localized: "Adjust"), message: String(localized: "Brightness, contrast and gamma of the image."),
                                  content: form.view, owner: form, for: window) { [weak self] in
             guard !form.isNeutral else { return }
             self?.performImageOperation { $0.transformImage(form.apply(to:)) }
@@ -132,8 +136,8 @@ extension EditorWindowController {
     /// Upstream's Resize button ("Z"): asks for the new size, then scales the image and its elements' positions.
     @objc func resizeImage(_ sender: Any?) {
         let form = ResizeForm(size: editorDocument.imageSize)
-        EffectSettingsDialog.run(title: "Resize", message: "The new size of the image. The elements move along.",
-                                 content: form.view, owner: form, okTitle: "Resize", for: window) { [weak self] in
+        EffectSettingsDialog.run(title: String(localized: "Resize"), message: String(localized: "The new size of the image. The elements move along."),
+                                 content: form.view, owner: form, okTitle: String(localized: "Resize"), for: window) { [weak self] in
             guard let size = form.size else { NSSound.beep(); return }
             self?.performImageOperation { $0.resizeImage(to: size) }
         }
@@ -173,8 +177,9 @@ extension EditorWindowController {
     /// upstream's `ColorDialog`), then puts the image on it.
     @objc func removeTransparency(_ sender: Any?) {
         let form = RemoveTransparencyForm()
-        EffectSettingsDialog.run(title: "Remove Transparency", message: "The transparent parts of the image get this color.",
-                                 content: form.view, owner: form, okTitle: "Remove", for: window) { [weak self] in
+        EffectSettingsDialog.run(title: String(localized: "Remove Transparency"),
+                                 message: String(localized: "The transparent parts of the image get this color."),
+                                 content: form.view, owner: form, okTitle: String(localized: "Remove"), for: window) { [weak self] in
             let color = form.color
             if self?.performImageOperation({ $0.removeTransparency(color: color) }) == false { NSSound.beep() }
         }
@@ -183,11 +188,13 @@ extension EditorWindowController {
     // MARK: Crop modes
 
     /// The crop mode items of the toolbar and the Image menu.
-    static let cropModeItems: [(String, Selector)] = [
-        ("Auto Crop", #selector(autoCrop(_:))),
-        ("Cut Out the Selected Rows", #selector(cutOutSelectedRows(_:))),
-        ("Cut Out the Selected Columns", #selector(cutOutSelectedColumns(_:))),
-    ]
+    static var cropModeItems: [(String, Selector)] {
+        [
+            (String(localized: "Auto Crop"), #selector(autoCrop(_:))),
+            (String(localized: "Cut Out the Selected Rows"), #selector(cutOutSelectedRows(_:))),
+            (String(localized: "Cut Out the Selected Columns"), #selector(cutOutSelectedColumns(_:))),
+        ]
+    }
 
     /// Upstream `CropModes.AutoCrop` / `Surface.AutoCrop`: crops away the border of one color around the content
     /// (within the crop selection when there is one).
@@ -199,8 +206,8 @@ extension EditorWindowController {
             return
         }
         let alert = NSAlert()
-        alert.messageText = "Auto crop is not possible"
-        alert.informativeText = "There is no border of one color around the content to crop away."
+        alert.messageText = String(localized: "Auto crop is not possible")
+        alert.informativeText = String(localized: "There is no border of one color around the content to crop away.")
         if let window { alert.beginSheetModal(for: window) } else { alert.runModal() }
     }
 
@@ -340,6 +347,15 @@ private enum TransparencyCheck {
 extension ImageEffect {
     /// The effects with a settings dialog (an ⌥ alternate in the menus).
     var hasSettings: Bool { self == .dropShadow || self == .tornEdge }
+
+    /// The title of the ⌥ alternate that asks for the settings first (`hasSettings`).
+    var settingsTitle: String {
+        switch self {
+        case .dropShadow: return String(localized: "Drop Shadow…")
+        case .tornEdge: return String(localized: "Torn Edges…")
+        case .border, .grayscale, .invert: return title
+        }
+    }
 
     /// The Image menu's shortcut, with ⌃⌘. Upstream uses Ctrl+B/Q/T/G/I, but ⌘B/I/T/G/Q are bold, italic, fonts,
     /// find next and quit on a Mac, and ⌃⌘Q locks the screen (the app never sees it), so the drop shadow is ⌃⌘S.

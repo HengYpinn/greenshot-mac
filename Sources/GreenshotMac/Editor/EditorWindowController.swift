@@ -29,8 +29,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     private var toolButtons: [EditorTool: NSButton] = [:]
     /// The counter tool's icon shows the next number (upstream `btnStepLabel01`…); the symbol shown now.
     private var counterSymbol = ""
-    let undoButton = EditorWindowController.iconButton("arrow.uturn.backward", "Undo (⌘Z)")
-    let redoButton = EditorWindowController.iconButton("arrow.uturn.forward", "Redo (⇧⌘Z)")
+    let undoButton = EditorWindowController.iconButton("arrow.uturn.backward", String(localized: "Undo (⌘Z)"))
+    let redoButton = EditorWindowController.iconButton("arrow.uturn.forward", String(localized: "Redo (⇧⌘Z)"))
     private(set) lazy var statusBar = EditorStatusBar(zoomItems: MainMenu.zoomItems(target: self, withKeys: false))
     private var actionBar: EditorActionBar?
 
@@ -56,18 +56,19 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     // Properties
     private let lineColorWell = NSColorWell(style: .minimal)
     private let fillColorWell = NSColorWell(style: .minimal)
-    private let lineColorLabel = NSTextField(labelWithString: "Line")
-    private let lineWidthField = PropertyNumberField(range: 0...100, tooltip: "Line thickness in points (0: no line)")
-    private let shadowCheckbox = NSButton(checkboxWithTitle: "Shadow", target: nil, action: nil)
-    private let fontSizeField = PropertyNumberField(range: 7...500, tooltip: "Font size in points")
-    private let boldButton = EditorWindowController.iconButton("bold", "Bold")
-    private let italicButton = EditorWindowController.iconButton("italic", "Italic")
+    private let lineColorLabel = NSTextField(labelWithString: EditorWindowController.lineColorTitle)
+    private let lineWidthField = PropertyNumberField(range: 0...100, tooltip: String(localized: "Line thickness in points (0: no line)"))
+    private let shadowCheckbox = NSButton(checkboxWithTitle: String(localized: "Shadow"), target: nil, action: nil)
+    private let fontSizeField = PropertyNumberField(range: 7...500, tooltip: String(localized: "Font size in points"))
+    private let boldButton = EditorWindowController.iconButton("bold", String(localized: "Bold"))
+    private let italicButton = EditorWindowController.iconButton("italic", String(localized: "Italic"))
     private let arrowHeadsPopup = NSPopUpButton()
     private let highlightPopup = NSPopUpButton()
     private let obfuscatePopup = NSPopUpButton()
-    private let pixelSizeField = PropertyNumberField(range: 2...100, tooltip: "Pixel size")
-    private let blurRadiusField = PropertyNumberField(range: 0...100, tooltip: "Blur radius")
-    private let brightnessField = PropertyNumberField(range: 0...200, step: 5, tooltip: "Brightness of the area around the highlight, in percent")
+    private let pixelSizeField = PropertyNumberField(range: 2...100, tooltip: String(localized: "Pixel size"))
+    private let blurRadiusField = PropertyNumberField(range: 0...100, tooltip: String(localized: "Blur radius"))
+    private let brightnessField = PropertyNumberField(range: 0...200, step: 5,
+                                                      tooltip: String(localized: "Brightness of the area around the highlight, in percent"))
     private let emojiPopup = NSPopUpButton()
     private let cutMarkStylePopup = NSPopUpButton()
     private let toothHeightPopup = NSPopUpButton()
@@ -135,6 +136,25 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
 
     // MARK: Layout
+
+    /// The label of the colour well for the line (or, for text and counters, the text): "Line" here is the line's
+    /// colour, not the Line tool.
+    private static var lineColorTitle: String {
+        String(localized: "editor.color.line", defaultValue: "Line", comment: "Label of the line colour well of an element")
+    }
+
+    private static var textColorTitle: String {
+        String(localized: "editor.color.text", defaultValue: "Text", comment: "Label of the text colour well of a text or counter")
+    }
+
+    /// The cut edge styles (`CutMarkStyle.allCases`, upstream `cut_mark_*`) of the cut mark and crop bars.
+    private static var cutEdgeStyleTitles: [String] {
+        [String(localized: "None", comment: "Cut edge style: straight and seamless"),
+         String(localized: "editor.cutEdge.line", defaultValue: "Line", comment: "Cut edge style: a straight line"),
+         String(localized: "Zig-zag", comment: "Cut edge style"),
+         String(localized: "Wave", comment: "Cut edge style"),
+         String(localized: "Torn", comment: "Cut edge style")]
+    }
 
     static func iconButton(_ symbol: String, _ tooltip: String) -> NSButton {
         let button = NSButton(image: NSImage(systemSymbolName: symbol, accessibilityDescription: tooltip) ?? NSImage(),
@@ -255,8 +275,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         // Upstream's colour dialog has alpha and a Transparent button; the colour panel shows opacity with this.
         lineColorWell.supportsAlpha = true
         fillColorWell.supportsAlpha = true
-        let transparentLine = button("circle.slash", "Transparent", #selector(clearLine))
-        let noFill = button("circle.slash", "No fill", #selector(clearFill))
+        let transparentLine = button("circle.slash", String(localized: "Transparent"), #selector(clearLine))
+        let noFill = button("circle.slash", String(localized: "No fill"), #selector(clearFill))
         setUp(lineWidthField) { $0.lineWidth = $1 }
         shadowCheckbox.target = self
         shadowCheckbox.action = #selector(shadowChanged)
@@ -268,59 +288,75 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         italicButton.setButtonType(.pushOnPushOff)
         italicButton.target = self
         italicButton.action = #selector(italicChanged)
-        setUp(arrowHeadsPopup, titles: ["No heads", "Head at start", "Head at end", "Both heads"], action: #selector(arrowHeadsChanged))
-        setUp(highlightPopup, titles: ["Text marker", "Highlight area", "Grayscale", "Magnify"], action: #selector(highlightChanged))
-        setUp(obfuscatePopup, titles: ["Pixelate", "Blur"], action: #selector(obfuscateChanged))
+        setUp(arrowHeadsPopup, titles: [String(localized: "No heads"), String(localized: "Head at start"),
+                                        String(localized: "Head at end"), String(localized: "Both heads")],
+              action: #selector(arrowHeadsChanged))
+        setUp(highlightPopup, titles: [String(localized: "Text marker"), String(localized: "Highlight area"),
+                                       String(localized: "Grayscale"), String(localized: "Magnify")],
+              action: #selector(highlightChanged))
+        setUp(obfuscatePopup, titles: [String(localized: "Pixelate"), String(localized: "Blur")], action: #selector(obfuscateChanged))
         setUp(pixelSizeField) { $0.pixelSize = $1 }
         setUp(blurRadiusField) { $0.blurRadius = $1 }
         setUp(brightnessField) { $0.brightness = $1 / 100 }
         setUp(emojiPopup, titles: EmojiChoices.all, action: #selector(emojiChanged))
         emojiPopup.menu?.addItem(.separator())
-        emojiPopup.addItem(withTitle: "More Emoji…")
-        setUp(cutMarkStylePopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutMarkStyleChanged))
+        emojiPopup.addItem(withTitle: String(localized: "More Emoji…"))
+        emojiPopup.lastItem?.tag = Self.moreEmojiTag
+        setUp(cutMarkStylePopup, titles: Self.cutEdgeStyleTitles, action: #selector(cutMarkStyleChanged))
         addCutMarkPreviews(cutMarkStylePopup)
         setUp(toothHeightPopup, titles: Self.toothHeights.map { "\($0) pt" }, action: #selector(toothHeightChanged))
         setUp(toothRangePopup, titles: Self.toothRanges.map { "\($0) pt" }, action: #selector(toothRangeChanged))
-        setUp(fontFamilyPopup, titles: ["System Font"] + fontFamilies, action: #selector(fontFamilyChanged))
+        setUp(fontFamilyPopup, titles: [String(localized: "System Font")] + fontFamilies, action: #selector(fontFamilyChanged))
         fontFamilyPopup.menu?.insertItem(.separator(), at: 1)
         // Each family is shown in its own font once the menu is first opened (upstream `FontFamilyComboBox`).
         fontFamilyPopup.menu?.delegate = self
         setUp(magnificationPopup, titles: Self.magnifications.map { "\($0)×" }, action: #selector(magnificationChanged))
         setUpSegments(horizontalAlignmentControl, symbols: ["text.alignleft", "text.aligncenter", "text.alignright"],
-                      labels: ["Left", "Center", "Right"], action: #selector(horizontalAlignmentChanged))
+                      labels: [String(localized: "Left", comment: "Horizontal alignment of text"),
+                               String(localized: "Center", comment: "Horizontal alignment of text"),
+                               String(localized: "Right", comment: "Horizontal alignment of text")],
+                      action: #selector(horizontalAlignmentChanged))
         setUpSegments(verticalAlignmentControl, symbols: ["align.vertical.top", "align.vertical.center", "align.vertical.bottom"],
-                      labels: ["Top", "Middle", "Bottom"], action: #selector(verticalAlignmentChanged))
+                      labels: [String(localized: "Top", comment: "Vertical alignment of text"),
+                               String(localized: "Middle", comment: "Vertical alignment of text"),
+                               String(localized: "Bottom", comment: "Vertical alignment of text")],
+                      action: #selector(verticalAlignmentChanged))
         setUpCounterStart()
 
         let lineKinds = AnnotationKind.kinds(with: .lineColor)
         let fillKinds = AnnotationKind.kinds(with: .fillColor)
         let widthKinds = AnnotationKind.kinds(with: .lineWidth)
         let shadowKinds = AnnotationKind.kinds(with: .shadow)
-        let pixelSize = group([label("Pixel size")] + pixelSizeField.views, for: [.obfuscate])
-        let blurRadius = group([label("Blur")] + blurRadiusField.views, for: [.obfuscate, .highlight])
-        let brightness = group([label("Brightness")] + brightnessField.views + [label("%")], for: [.highlight])
-        let magnification = group([label("Zoom"), magnificationPopup], for: [.highlight])
+        let pixelSize = group([label(String(localized: "Pixel size"))] + pixelSizeField.views, for: [.obfuscate])
+        let blurRadius = group([label(String(localized: "Blur"))] + blurRadiusField.views, for: [.obfuscate, .highlight])
+        let brightness = group([label(String(localized: "Brightness"))] + brightnessField.views + [label("%")], for: [.highlight])
+        let magnification = group([label(String(localized: "Zoom")), magnificationPopup], for: [.highlight])
         pixelSizeGroup = pixelSize
         blurRadiusGroup = blurRadius
         brightnessGroup = brightness
         magnificationGroup = magnification
         var groups: [NSView] = []
         groups.append(group([lineColorLabel, lineColorWell, transparentLine], for: lineKinds))
-        groups.append(group([label("Fill"), fillColorWell, noFill], for: fillKinds))
-        groups.append(group([label("Width")] + lineWidthField.views, for: widthKinds))
-        groups.append(group([cutMarkStylePopup, label("Teeth"), toothHeightPopup, label("Range"), toothRangePopup],
+        let fill = String(localized: "editor.fill", defaultValue: "Fill", comment: "Label of the fill colour of an element")
+        groups.append(group([label(fill), fillColorWell, noFill], for: fillKinds))
+        groups.append(group([label(String(localized: "Width", comment: "Line thickness of an element"))] + lineWidthField.views,
+                            for: widthKinds))
+        groups.append(group([cutMarkStylePopup, label(String(localized: "Teeth", comment: "Height of the teeth of a cut edge")),
+                             toothHeightPopup, label(String(localized: "Range", comment: "Spacing of the teeth of a cut edge")),
+                             toothRangePopup],
                             for: AnnotationKind.cutEdgeKinds))
         // Apply to the Image (upstream btnApplyToImage), EditorWindowController+Elements.swift.
         groups.append(group(cutEdgeActionViews(), for: AnnotationKind.cutEdgeKinds))
         groups.append(group([arrowHeadsPopup], for: [.arrow]))
-        groups.append(group([label("Size")] + fontSizeField.views, for: [.text, .counter, .speechBubble]))
+        groups.append(group([label(String(localized: "Size", comment: "Font size"))] + fontSizeField.views, for: [.text, .counter, .speechBubble]))
         groups.append(group([boldButton, italicButton], for: [.text, .speechBubble]))
         groups.append(group([highlightPopup], for: [.highlight]))
         groups.append(group([obfuscatePopup], for: [.obfuscate]))
         groups += [pixelSize, blurRadius, brightness, magnification]
-        groups.append(group([label("Emoji"), emojiPopup], for: [.emoji]))
+        groups.append(group([label(String(localized: "Emoji")), emojiPopup], for: [.emoji]))
         groups.append(group([fontFamilyPopup, horizontalAlignmentControl, verticalAlignmentControl], for: [.text, .speechBubble]))
-        groups.append(group([label("Start at"), counterStartField, counterStartStepper], for: [.counter]))
+        groups.append(group([label(String(localized: "Start at", comment: "The number of the first counter")), counterStartField,
+                             counterStartStepper], for: [.counter]))
         groups.append(group([shadowCheckbox], for: shadowKinds))
         let properties = NSStackView(views: groups)
         properties.spacing = 14
@@ -363,17 +399,16 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     private func setUpCropGroup() {
         let modes = CropMode.allCases
         setUpSegments(cropModeControl, symbols: modes.map(\.symbolName), labels: modes.map(\.title), action: #selector(cropModeChanged))
-        let applyCrop = NSButton(title: "Crop", target: self, action: #selector(applyCrop))
+        let applyCrop = NSButton(title: String(localized: "Crop", comment: "Button: applies the crop"), target: self, action: #selector(applyCrop))
         applyCrop.bezelStyle = .push
         applyCrop.keyEquivalent = ""
-        let cancelCrop = NSButton(title: "Cancel", target: self, action: #selector(cancelCrop))
-        setUp(cutOutJointPopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutOutJointChanged))
+        let cancelCrop = NSButton(title: String(localized: "Cancel"), target: self, action: #selector(cancelCrop))
+        setUp(cutOutJointPopup, titles: Self.cutEdgeStyleTitles, action: #selector(cutOutJointChanged))
         addCutMarkPreviews(cutOutJointPopup)
-        cutOutJointPopup.toolTip = "The edges of the sides a crop cuts off, and of the joint when rows or columns are "
-            + "cut out; None keeps them straight and seamless"
+        cutOutJointPopup.toolTip = String(localized: "The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless")
         cutOutJointPopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: settings.value.cutOutMarkStyle) ?? 0)
-        cropGroup.setViews([cropModeControl, label("Drag the area to keep or to cut out"), applyCrop, cancelCrop,
-                            Self.divider(), label("Cut edges"), cutOutJointPopup], in: .leading)
+        cropGroup.setViews([cropModeControl, label(String(localized: "Drag the area to keep or to cut out")), applyCrop, cancelCrop,
+                            Self.divider(), label(String(localized: "Cut edges")), cutOutJointPopup], in: .leading)
         cropGroup.spacing = 6
     }
 
@@ -522,7 +557,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         guard let button = toolButtons[.counter] else { return }
         let next = editorDocument.counterStart + editorDocument.annotations.filter { $0.kind == .counter }.count
         let symbol = (0...50).contains(next) ? "\(next).circle" : "number.circle"
-        guard symbol != counterSymbol, let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Counter") else { return }
+        guard symbol != counterSymbol, let image = NSImage(systemSymbolName: symbol, accessibilityDescription: String(localized: "Counter")) else { return }
         counterSymbol = symbol
         button.image = image
     }
@@ -542,7 +577,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         for (view, kinds) in propertyGroups { view.isHidden = kind.map { !kinds.contains($0) } ?? true }
         guard let kind, let style = activeStyle else { return }
         refreshModeGroups(kind: kind, style: style)
-        lineColorLabel.stringValue = (kind == .text || kind == .counter) ? "Text" : "Line"
+        lineColorLabel.stringValue = (kind == .text || kind == .counter) ? Self.textColorTitle : Self.lineColorTitle
         lineColorWell.color = NSColor(cgColor: style.lineColor.cgColor) ?? .red
         fillColorWell.color = NSColor(cgColor: style.fillColor.cgColor) ?? .clear
         lineWidthField.show(style.lineWidth)
@@ -753,10 +788,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
 
     private static let extraEmojiTag = 1
+    /// The tag of the popup's last item, More Emoji… (its title is translated, so it isn't compared).
+    private static let moreEmojiTag = 2
 
     @objc private func emojiChanged() {
         guard let item = emojiPopup.selectedItem else { return }
-        if item.title == "More Emoji…" {
+        if item.tag == Self.moreEmojiTag {
             refreshProperties()
             canvas.showEmojiPalette()
             return
@@ -824,7 +861,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             editorDocument.fileURL = url
             saved = url
         }
-        showExportResult(.succeeded(fileURL: saved), destination: "Save")
+        showExportResult(.succeeded(fileURL: saved), destination: String(localized: "Save"))
         return true
     }
 
@@ -836,14 +873,14 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         editorDocument.fileURL = url
         // A .greenshot file chosen in the format popup is this app's file now, which Save may overwrite.
         if GreenshotFile.isGreenshotFile(url) { editorDocument.savesToNewFile = false }
-        showExportResult(.succeeded(fileURL: url), destination: "Save As")
+        showExportResult(.succeeded(fileURL: url), destination: String(localized: "Save As"))
     }
 
     @objc func copyImage(_ sender: Any?) {
         canvas.commitEditing()
         Clipboard.copy(editorDocument.flattened(), scale: editorDocument.scale)
-        saver.notify("Copied to the clipboard")
-        showExportResult(.succeeded(), destination: "Clipboard")
+        saver.notify(String(localized: "Copied to the clipboard"))
+        showExportResult(.succeeded(), destination: String(localized: "Clipboard"))
         refreshActionBar()
     }
 
@@ -870,7 +907,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             do {
                 try ElementTransfer.file(of: self.editorDocument).encoded().write(to: url, options: .atomic)
             } catch {
-                ErrorPresenter.show(message: "The elements could not be saved", detail: error.localizedDescription)
+                ErrorPresenter.show(message: String(localized: "The elements could not be saved"), detail: error.localizedDescription)
             }
         }
     }
@@ -893,7 +930,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                 message = loaded.message
             } else {
                 guard let data = try? Data(contentsOf: url), let decoded = ElementTransfer.decode(data) else {
-                    ErrorPresenter.show(message: "The elements could not be loaded", detail: url.lastPathComponent)
+                    ErrorPresenter.show(message: String(localized: "The elements could not be loaded"), detail: url.lastPathComponent)
                     return
                 }
                 transfer = decoded
@@ -914,7 +951,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         canvas.commitEditing()
         guard let number = sender.representedObject as? NSNumber,
               let target = ScreenCapturer.onScreenWindows().first(where: { $0.id == number.uint32Value }) else {
-            ErrorPresenter.show(message: "The window could not be captured", detail: CaptureError.windowNotFound.localizedDescription)
+            ErrorPresenter.show(message: String(localized: "The window could not be captured"), detail: CaptureError.windowNotFound.localizedDescription)
             return
         }
         let includeShadow = settings.value.includeWindowShadow
@@ -929,7 +966,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                                                        documentScale: document.scale, fitting: room) else { return }
                 self.canvas.insert([element])
             } catch {
-                ErrorPresenter.show(message: "The window could not be captured", detail: error.localizedDescription)
+                ErrorPresenter.show(message: String(localized: "The window could not be captured"), detail: error.localizedDescription)
             }
         }
     }
@@ -972,11 +1009,11 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     private func makeSaveAlert() -> NSAlert {
         let alert = NSAlert()
-        alert.messageText = "Do you want to save the screenshot “\(editorDocument.title)”?"
-        alert.informativeText = "It will be lost if you don't save it."
-        alert.addButton(withTitle: "Save")
-        alert.addButton(withTitle: "Don't Save")
-        alert.addButton(withTitle: "Cancel")
+        alert.messageText = String(localized: "Do you want to save the screenshot “\(editorDocument.title)”?")
+        alert.informativeText = String(localized: "It will be lost if you don't save it.")
+        alert.addButton(withTitle: String(localized: "Save"))
+        alert.addButton(withTitle: String(localized: "Don't Save"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         return alert
     }
 
