@@ -14,7 +14,8 @@ import Foundation
 /// plain distances (no 2D distance codes), no color cache and one prefix code group for the whole image.
 enum ImageWebPEncoder {
     /// VP8L stores the width and height in 14 bits each.
-    static let maxSide = 16384
+    /// The VP8L header could hold 16384, but decoders (libwebp's `WEBP_MAX_DIMENSION`, so ImageIO) stop at 16383.
+    static let maxSide = 16383
 
     static func encode(_ image: CGImage) throws -> Data {
         let width = image.width

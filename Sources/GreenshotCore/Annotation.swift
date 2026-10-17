@@ -156,26 +156,31 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
             (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
         }
+        // Element files and pasted elements can come from anywhere: sizes outside what the editor offers (or not
+        // finite) would make the renderer trap or loop for ages.
+        func limited(_ number: Double, _ range: ClosedRange<Double>, _ fallback: Double) -> Double {
+            number.isFinite ? min(max(number, range.lowerBound), range.upperBound) : fallback
+        }
         lineColor = value(.lineColor, d.lineColor)
         fillColor = value(.fillColor, d.fillColor)
-        lineWidth = value(.lineWidth, d.lineWidth)
+        lineWidth = limited(value(.lineWidth, d.lineWidth), 0...100, d.lineWidth)
         shadow = value(.shadow, d.shadow)
-        fontSize = value(.fontSize, d.fontSize)
+        fontSize = limited(value(.fontSize, d.fontSize), 1...500, d.fontSize)
         bold = value(.bold, d.bold)
         italic = value(.italic, d.italic)
         arrowHeads = value(.arrowHeads, d.arrowHeads)
         highlightMode = value(.highlightMode, d.highlightMode)
         obfuscateMode = value(.obfuscateMode, d.obfuscateMode)
-        pixelSize = value(.pixelSize, d.pixelSize)
-        blurRadius = value(.blurRadius, d.blurRadius)
-        magnification = value(.magnification, d.magnification)
+        pixelSize = limited(value(.pixelSize, d.pixelSize), 1...100, d.pixelSize)
+        blurRadius = limited(value(.blurRadius, d.blurRadius), 0...100, d.blurRadius)
+        magnification = limited(value(.magnification, d.magnification), 1...8, d.magnification)
         cutMarkStyle = value(.cutMarkStyle, d.cutMarkStyle)
-        toothHeight = value(.toothHeight, d.toothHeight)
-        toothRange = value(.toothRange, d.toothRange)
+        toothHeight = limited(value(.toothHeight, d.toothHeight), 1...100, d.toothHeight)
+        toothRange = limited(value(.toothRange, d.toothRange), 2...500, d.toothRange)
         fontFamily = value(.fontFamily, d.fontFamily)
         horizontalAlignment = value(.horizontalAlignment, d.horizontalAlignment)
         verticalAlignment = value(.verticalAlignment, d.verticalAlignment)
-        brightness = value(.brightness, d.brightness)
+        brightness = limited(value(.brightness, d.brightness), 0...2, d.brightness)
     }
 
     /// The defaults of upstream's `InitializeFields` per container. Font sizes are converted from Windows points

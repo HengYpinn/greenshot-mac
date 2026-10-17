@@ -20,7 +20,8 @@ enum ExternalCommandRunner {
     static func run(_ command: ExternalCommand, capture: Capture, settings: SettingsStore, saver: ImageSaver,
                     savedFile: URL? = nil, completion: @escaping ExportCompletion = { _ in }) {
         let file: URL
-        if let savedFile {
+        // The capture's own file only in the command's format: a command set up for JPEG must not get a HEIC.
+        if let savedFile, ImageFormat(fileExtension: savedFile.pathExtension) == command.format {
             file = savedFile
         } else {
             do {

@@ -75,7 +75,9 @@ public enum ExternalCommandLine {
     public static func program(_ command: String, fill: (String) -> String = { $0 }) -> Program? {
         let filled = fill(command.trimmingCharacters(in: .whitespaces)).trimmingCharacters(in: .whitespaces)
         let path = (filled as NSString).expandingTildeInPath
-        guard !path.isEmpty else { return nil }
+        // A program name that starts with "-" would be read as an option (e.g. by /usr/bin/env), for instance when a
+        // window title fills it.
+        guard !path.isEmpty, !path.hasPrefix("-") else { return nil }
         let lower = path.lowercased()
         if lower.hasSuffix(".app") || lower.hasSuffix(".app/") { return .application(path) }
         if path.contains("/") { return .executable(path) }

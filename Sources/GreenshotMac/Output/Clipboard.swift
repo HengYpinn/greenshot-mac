@@ -63,7 +63,7 @@ enum ImageLoader {
     /// `ClipboardService.GetImageAsync`): the first source that gives an image. Nil when there is none.
     static func downloadedHTMLImage() async -> (image: CGImage, scale: CGFloat)? {
         let urls = await MainActor.run { ImagePasteboard.webImageURLs(on: .general) }
-        for url in urls {
+        for url in urls.prefix(ImageDownload.maxURLs) {
             if let image = await ImagePasteboard.downloadImage(from: url) { return image }
         }
         return nil

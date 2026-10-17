@@ -15,7 +15,9 @@ import Foundation
 public enum ImagePixelation {
     /// `image` in blocks of about `blockSize` pixels; `element` is the obfuscate element's id, which picks its secret.
     public static func pixelated(_ image: CGImage, blockSize: CGFloat, element: UUID) -> CGImage? {
-        pixelated(image, blockSize: Int(blockSize.rounded()), key: key(for: element))
+        // A size from a crafted element file can be anything; Int() of an infinite or huge value traps.
+        let size = blockSize.isFinite ? Int(min(max(blockSize.rounded(), 1), 4096)) : 1
+        return pixelated(image, blockSize: size, key: key(for: element))
     }
 
     // MARK: The secret

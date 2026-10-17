@@ -117,7 +117,9 @@ public enum FilenamePattern {
     }
 
     public static func makeFilenameSafe(_ value: String) -> String {
-        String(value.map { invalidFilenameCharacters.contains($0) ? Character(unsafeReplacement) : $0 })
+        let safe = String(value.map { invalidFilenameCharacters.contains($0) ? Character(unsafeReplacement) : $0 })
+        // "." and ".." would be the folder itself or its parent once a pattern puts a "/" after them.
+        return safe == "." || safe == ".." ? String(unsafeReplacement) : safe
     }
 
     public static func makePathSafe(_ value: String) -> String {

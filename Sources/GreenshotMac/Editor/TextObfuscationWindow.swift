@@ -66,7 +66,7 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
         self.image = image
         self.language = language
         self.lines = lines
-        pixelSize = SliderField(range: 1...50, value: settings.pixelSize, width: 160)
+        pixelSize = SliderField(range: 2...50, value: settings.pixelSize, width: 160)
         blurRadius = SliderField(range: 1...30, value: settings.blurRadius, width: 160)
         magnification = SliderField(range: 1...10, value: settings.magnification, width: 160, format: { "\($0)×" })
         paddingHorizontal = SliderField(range: -50...100, value: settings.paddingHorizontal, width: 160, format: { "\($0) %" })

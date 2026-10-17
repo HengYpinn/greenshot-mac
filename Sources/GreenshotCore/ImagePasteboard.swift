@@ -93,15 +93,10 @@ public enum ImagePasteboard {
         return payload.removingPercentEncoding.map { Data($0.utf8) }
     }
 
-    /// Downloads an image (upstream `NetworkHelper.DownloadImageAsync`): nil when the server doesn't answer with an
-    /// image within the timeout, or it is bigger than 50 MB.
-    public static func downloadImage(from url: URL, session: URLSession = .shared) async -> (image: CGImage, scale: CGFloat)? {
-        guard url.scheme == "http" || url.scheme == "https" else { return nil }
-        var request = URLRequest(url: url, timeoutInterval: 15)
-        request.setValue("image/*", forHTTPHeaderField: "Accept")
-        guard let (data, response) = try? await session.data(for: request),
-              (response as? HTTPURLResponse).map({ (200..<300).contains($0.statusCode) }) ?? true,
-              data.count <= 50 * 1024 * 1024 else { return nil }
+    /// Downloads an image (upstream `NetworkHelper.DownloadImageAsync`), within the limits of `ImageDownload`: nil when
+    /// the server doesn't answer with an image in time, or it is bigger than 50 MB.
+    public static func downloadImage(from url: URL, session: URLSession? = nil) async -> (image: CGImage, scale: CGFloat)? {
+        guard let data = await ImageDownload.data(from: url, session: session) else { return nil }
         return ImageFileLoader.load(data: data)
     }
 
