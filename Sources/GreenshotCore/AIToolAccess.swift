@@ -42,7 +42,10 @@ public struct AIToolClient: Sendable, Equatable {
     /// The scope of its window ids: this greenshot-mcp process and this program.
     public var scopeKey: String { "\(serverProcessID):\(serverStartTime)|\(key.lowercased())" }
 
-    public var signerText: String { signer.map { "Signed by: \(AIToolText.displayed($0, limit: 120))" } ?? "This program is not signed by a developer." }
+    public var signerText: String {
+        signer.map { String(localized: "Signed by: \(AIToolText.displayed($0, limit: 120))") }
+            ?? String(localized: "This program is not signed by a developer.")
+    }
 
     /// For the log: "Claude (/Applications/Claude.app/Contents/MacOS/Claude)".
     public var logText: String { "\(displayName) (\(key))" }
@@ -94,7 +97,8 @@ public enum AIToolAccess {
     /// Upstream `NotifyCapture`'s text.
     public static func captureNotice(client: String?, what: String) -> String {
         let name = client.flatMap { $0.trimmingCharacters(in: .whitespaces).isEmpty ? nil : $0.trimmingCharacters(in: .whitespaces) }
-        return "\(name ?? "An AI tool") captured \(what) with Greenshot."
+        guard let name else { return String(localized: "An AI tool captured \(what) with Greenshot.") }
+        return String(localized: "\(name) captured \(what) with Greenshot.")
     }
 }
 
