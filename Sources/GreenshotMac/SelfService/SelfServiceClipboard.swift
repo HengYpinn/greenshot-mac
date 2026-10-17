@@ -118,7 +118,9 @@ final class ClipboardSectionModel: ObservableObject {
         } else {
             types = names
         }
-        monitorLog.append("\(LogViewerModel.time(Date()))  " + String(localized: "Changed (#\(count)): \(types)"))
+        // The change count is a counter, shown without grouping.
+        let number = String(count)
+        monitorLog.append("\(LogViewerModel.time(Date()))  " + String(localized: "Changed (#\(number)): \(types)"))
         if monitorLog.count > 200 { monitorLog.removeFirst(monitorLog.count - 200) }
     }
 }

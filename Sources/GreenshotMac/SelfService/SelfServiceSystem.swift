@@ -89,7 +89,10 @@ struct SystemSectionView: View {
         let scale: String = String(format: "%g×", screen.scale)
         let pixelWidth: Int = Int(Double(screen.width) * screen.scale)
         let pixelHeight: Int = Int(Double(screen.height) * screen.scale)
-        var parts = [String(localized: "\(screen.width) × \(screen.height) points at \(scale) = \(pixelWidth) × \(pixelHeight) pixels")]
+        // Sizes as digits without grouping, like the report ("3024 × 1964").
+        let points = "\(screen.width) × \(screen.height)"
+        let pixels = "\(pixelWidth) × \(pixelHeight)"
+        var parts = [String(localized: "\(points) points at \(scale) = \(pixels) pixels")]
         if screen.refreshRate > 0 { parts.append("\(screen.refreshRate) Hz") }
         if screen.edrPotential > 1 {
             let now = String(format: "%.1f", screen.edrNow)
