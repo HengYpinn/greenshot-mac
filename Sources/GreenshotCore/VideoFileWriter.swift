@@ -19,10 +19,10 @@ public enum VideoWriterError: LocalizedError, Equatable {
 
     public var errorDescription: String? {
         switch self {
-        case .cannotAddInput: return "The video file could not be set up."
-        case .cannotStart(let reason): return "The video file could not be written: \(reason)"
-        case .noFrames: return "The recording ended before anything was recorded."
-        case .failed(let reason): return "The video file could not be finished: \(reason)"
+        case .cannotAddInput: return String(localized: "The video file could not be set up.")
+        case .cannotStart(let reason): return String(localized: "The video file could not be written: \(reason)")
+        case .noFrames: return String(localized: "The recording ended before anything was recorded.")
+        case .failed(let reason): return String(localized: "The video file could not be finished: \(reason)")
         }
     }
 }
@@ -228,7 +228,7 @@ public final class VideoFileWriter: @unchecked Sendable {
     private func endSession(at end: CMTime) throws -> CMTime {
         lock.lock()
         defer { lock.unlock() }
-        guard !done else { throw VideoWriterError.failed("The recording was already finished.") }
+        guard !done else { throw VideoWriterError.failed(String(localized: "The recording was already finished.")) }
         done = true
         guard let lastVideoTime, writer.status == .writing else {
             let failed = writer.status == .failed

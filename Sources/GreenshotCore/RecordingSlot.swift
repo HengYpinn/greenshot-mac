@@ -8,7 +8,7 @@ import Foundation
 public enum RecordingSlotError: LocalizedError, Equatable {
     case busy
 
-    public var errorDescription: String? { "A recording is already running." }
+    public var errorDescription: String? { String(localized: "A recording is already running.") }
 }
 
 /// The one recording at a time, from the moment it is asked for until its file is finished: picking what to record
