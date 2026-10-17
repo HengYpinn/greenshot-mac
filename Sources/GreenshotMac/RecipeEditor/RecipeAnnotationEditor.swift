@@ -165,7 +165,14 @@ private struct RecipeAnnotationForm: View {
                 .frame(width: 180)
             }
             ForEach(RecipeAnnotationSchema.fields(forType: type)) { field in
-                RecipeFieldRow(field: field, value: value(field.name))
+                switch field.name {
+                case "FontFamily":
+                    RecipeLabeled(field.label) { RecipeFontFamilyPicker(value: value(field.name)) }
+                case "ImageData":
+                    RecipeLabeled(field.label) { RecipeEmbedControl(value: value(field.name), svg: type.caseInsensitiveCompare("Svg") == .orderedSame) }
+                default:
+                    RecipeFieldRow(field: field, value: value(field.name))
+                }
             }
             if isCode {
                 Divider()
@@ -191,5 +198,45 @@ private struct RecipeAnnotationForm: View {
         let sheet = BarcodeSheet(spec: RecipeAnnotationExport.spec(of: annotation), editing: true)
         sheet.onApply = { spec in annotation = RecipeAnnotationExport.applying(spec, to: annotation) }
         sheet.begin(for: window)
+    }
+}
+
+/// The font families of the Mac (upstream's font controls).
+private struct RecipeFontFamilyPicker: View {
+    @Binding var value: JSONValue?
+
+    var body: some View {
+        let families = NSFontManager.shared.availableFontFamilies
+        let current = value?.asString ?? ""
+        Picker("", selection: Binding(get: { current }, set: { value = $0.isEmpty ? nil : .string($0) })) {
+            Text("Default (system font)").tag("")
+            if !current.isEmpty, !families.contains(current) { Text("\(current) (not installed)").tag(current) }
+            ForEach(families, id: \.self) { Text($0).tag($0) }
+        }
+        .labelsHidden()
+        .frame(maxWidth: 260)
+    }
+}
+
+/// An embedded picture (Base64): its size, "Embed File…" and "Remove" (upstream "Image Source": embed or link).
+private struct RecipeEmbedControl: View {
+    @Binding var value: JSONValue?
+    var svg: Bool
+
+    var body: some View {
+        let bytes = value?.asString.flatMap { Data(base64Encoded: $0, options: .ignoreUnknownCharacters) }?.count ?? 0
+        HStack {
+            Text(bytes > 0 ? ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file) + " embedded" : "Nothing embedded")
+                .foregroundStyle(.secondary)
+            Button("Embed File…") { embed() }
+            if bytes > 0 { Button("Remove") { value = nil } }
+        }
+    }
+
+    private func embed() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = svg ? [.svg] : [.image]
+        guard panel.runModal() == .OK, let url = panel.url, let data = try? Data(contentsOf: url) else { return }
+        value = .string(data.base64EncodedString())
     }
 }

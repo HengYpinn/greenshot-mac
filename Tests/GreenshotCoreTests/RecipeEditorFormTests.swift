@@ -28,18 +28,30 @@ import Testing
     }
 
     @Test func structuredEditors() throws {
-        #expect(try field("Conditional", "Branches").kind == .branchTable)
-        #expect(try field("UserPrompt", "Choices").kind == .choiceTable)
-        #expect(try field("SetVariable", "Variables").kind == .keyValueTable)
-        #expect(try field("TextEffect", "Patterns").kind == .stringList)
-        #expect(try field("Destinations", "DestinationDesignations").kind == .destinationList)
-        #expect(try field("DynamicDestination", "Destinations").kind == .destinationList)
-        #expect(try field("Effect", "Edges").kind == .edges)
-        #expect(try field("Slot", "Accept").kind == .accept)
-        #expect(try field("Annotation", "Annotations").kind == .annotations)
-        #expect(try field("ImmediateFeedback", "SoundFilePath").kind == .soundFile)
-        #expect(try field("Effect", "Color").kind == .color)
-        #expect(try field("Source", "WindowHandle").kind == .text)
+        let made1 = try field("Conditional", "Branches")
+        #expect(made1.kind == .branchTable)
+        let made2 = try field("UserPrompt", "Choices")
+        #expect(made2.kind == .choiceTable)
+        let made3 = try field("SetVariable", "Variables")
+        #expect(made3.kind == .keyValueTable)
+        let made4 = try field("TextEffect", "Patterns")
+        #expect(made4.kind == .stringList)
+        let made5 = try field("Destinations", "DestinationDesignations")
+        #expect(made5.kind == .destinationList)
+        let made6 = try field("DynamicDestination", "Destinations")
+        #expect(made6.kind == .destinationList)
+        let made7 = try field("Effect", "Edges")
+        #expect(made7.kind == .edges)
+        let made8 = try field("Slot", "Accept")
+        #expect(made8.kind == .accept)
+        let made9 = try field("Annotation", "Annotations")
+        #expect(made9.kind == .annotations)
+        let made10 = try field("ImmediateFeedback", "SoundFilePath")
+        #expect(made10.kind == .soundFile)
+        let made11 = try field("Effect", "Color")
+        #expect(made11.kind == .color)
+        let made12 = try field("Source", "WindowHandle")
+        #expect(made12.kind == .text)
         let hotkey = try #require(TriggerContractCatalog.builtIn.contract(for: "Hotkey"))
         #expect(RecipeParameterForm.fields(for: hotkey).first?.kind == .hotkey)
         let commandline = try #require(TriggerContractCatalog.builtIn.contract(for: "Commandline"))
@@ -47,7 +59,8 @@ import Testing
     }
 
     @Test func enumChoicesComeFromTheContract() throws {
-        #expect(try field("Source", "SourceType").kind == .choice(["Region", "Window", "ActiveWindow", "FullScreen", "LastRegion",
+        let made13 = try field("Source", "SourceType")
+        #expect(made13.kind == .choice(["Region", "Window", "ActiveWindow", "FullScreen", "LastRegion",
                                                                     "Clipboard", "File", "TextOcr", "CurrentEditor", "Extension"]))
         // The file formats come from a provider.
         guard case .choice(let formats) = try field("SaveFile", "Format").kind else {
@@ -55,7 +68,8 @@ import Testing
             return
         }
         #expect(formats.contains("png"))
-        #expect(try field("Source", "SourceType").supportsExpressions == false)
+        let made14 = try field("Source", "SourceType")
+        #expect(made14.supportsExpressions == false)
     }
 
     @Test func effectParametersBelongToTheirEffects() throws {
@@ -66,14 +80,19 @@ import Testing
             #expect(condition.parameter == "Effect")
             for value in condition.values { #expect(effects.contains(value), "\(field.name): \(value)") }
         }
-        #expect(try field("Effect", "Darkness").condition?.values == ["DropShadow", "TornEdge"])
+        let made15 = try field("Effect", "Darkness")
+        #expect(made15.condition?.values == ["DropShadow", "TornEdge"])
     }
 
     @Test func sourceTypeConditions() throws {
-        #expect(try field("Source", "Filename").condition == RecipeEditorFieldCondition(parameter: "SourceType", values: ["File"]))
-        #expect(try field("Source", "WindowTitle").condition == RecipeEditorFieldCondition(parameter: "SourceType", values: ["Window"]))
-        #expect(try field("Source", "DelayMs").condition == nil)
-        #expect(try field("RecordVideo", "MonitorIndex").condition == RecipeEditorFieldCondition(parameter: "SourceType", values: ["Monitor"]))
+        let made16 = try field("Source", "Filename")
+        #expect(made16.condition == RecipeEditorFieldCondition(parameter: "SourceType", values: ["File"]))
+        let made17 = try field("Source", "WindowTitle")
+        #expect(made17.condition == RecipeEditorFieldCondition(parameter: "SourceType", values: ["Window"]))
+        let made18 = try field("Source", "DelayMs")
+        #expect(made18.condition == nil)
+        let made19 = try field("RecordVideo", "MonitorIndex")
+        #expect(made19.condition == RecipeEditorFieldCondition(parameter: "SourceType", values: ["Monitor"]))
     }
 
     @Test func visibilityFollowsTheSelector() throws {

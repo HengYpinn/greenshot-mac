@@ -21,6 +21,8 @@ extension Snapshots {
         try write(recipeEditor(branching, select: "watermark", height: 1500), to: file("recipe-editor-annotation.png"))
         try write(recipeEditor(decision, tab: .triggers, height: 1300), to: file("recipe-editor-triggers.png"))
         try write(recipeEditor(decision, tab: .options), to: file("recipe-editor-options.png"))
+        try write(recipeEditor(decision, tab: .recipe), to: file("recipe-editor-recipe.png"))
+        try write(recipeEditor(RecipeEditorCatalog.newExtension(), tab: .recipe), to: file("recipe-editor-extension.png"))
         try write(recipeEditor(decision, tab: .errors), to: file("recipe-editor-errors.png"))
         try write(recipeEditor(decision, tab: .json), to: file("recipe-editor-json.png"))
         try write(recipeEditor(branching, tab: .flow), to: file("recipe-editor-flow.png"))

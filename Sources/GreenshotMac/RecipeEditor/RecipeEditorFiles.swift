@@ -87,31 +87,46 @@ extension RecipeEditorModel {
         await openFile(url)
     }
 
-    /// Opens a recipe file: through the library (approval) when recipes run, else read and checked only.
+    /// Opens a recipe file. A valid file is loaded by the library first (it asks for approval), so it runs in Greenshot;
+    /// a file with problems is opened as it is, to fix them (loading it would only show the validation-error sheet,
+    /// whose "Edit Recipe File" comes back here). The editor always shows what the file holds.
     func openFile(_ url: URL) async {
         let name = url.lastPathComponent
-        guard let library else {
-            guard let data = try? Data(contentsOf: url), let text = RecipeSerializer.text(of: data),
-                  let read = try? RecipeSerializer.decode(text: text), let first = read.first else {
-                await tell("Error Loading Recipe", detail: "The file \(name) is not a recipe.")
+        let fileURL = RecipeEditorFiles.standardized(url)
+        let read: [CaptureRecipe]
+        do {
+            guard let data = try? Data(contentsOf: fileURL), let text = RecipeSerializer.text(of: data) else {
+                await tell("Error Loading Recipe", detail: "The file \(name) could not be read.")
                 return
             }
-            open(first, fileURL: url, saved: true)
-            status = "Loaded: \(name)"
+            read = try RecipeSerializer.decode(text: text)
+        } catch {
+            await tell("Error Loading Recipe", detail: "\(name) is not a recipe:\n\((error as? RecipeFormatError)?.message ?? error.localizedDescription)")
             return
         }
-        let standardized = RecipeEditorFiles.standardized(url)
-        let result = await library.loadFile(standardized)
-        if !result.isValid {
-            await tell("Validation Error", detail: "Recipe failed validation:\n" + result.errors.joined(separator: "\n"))
-            status = "Recipe failed validation: \(name)"
+        guard let first = read.first else {
+            await tell("Error Loading Recipe", detail: "\(name) holds no recipe.")
             return
         }
-        let loaded = library.recipes.first { $0.sourceFile?.path == standardized.path }
-            ?? library.extensions.first { $0.sourceFile?.path == standardized.path }
-        guard let loaded else { return }
-        open(loaded.recipe, fileURL: loaded.sourceFile, saved: true)
-        status = "Loaded and registered: \(name)"
+        let validation = RecipeValidator(contracts: contracts, gates: environment.gates()).validate(first)
+        guard let library, validation.isValid else {
+            open(first, fileURL: fileURL, saved: true)
+            status = validation.isValid ? "Loaded: \(name)" : "\(name) has problems: \(validation.errors.count) to fix before it can run."
+            return
+        }
+        let result = await library.loadFile(fileURL)
+        let loaded = library.recipes.first { $0.sourceFile?.path == fileURL.path && $0.recipe.id.caseInsensitiveCompare(first.id) == .orderedSame }
+            ?? library.extensions.first { $0.sourceFile?.path == fileURL.path }
+        if let loaded {
+            open(loaded.recipe, fileURL: loaded.sourceFile, saved: true)
+            status = "Loaded and registered: \(name)"
+        } else {
+            open(first, fileURL: fileURL, saved: true)
+            status = "Opened \(name); it isn't loaded in Greenshot."
+            if !result.errors.isEmpty {
+                await tell("Recipe Not Loaded", detail: result.errors.joined(separator: "\n"), style: .informational)
+            }
+        }
     }
 
     /// Upstream `TrySaveRecipe`: to its file, or Save As when it has none (a new or built-in recipe). False when it wasn't saved.

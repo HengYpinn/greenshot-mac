@@ -63,18 +63,21 @@ import Testing
         magnify.style.magnification = 3
         let parameters = try #require(RecipeAnnotationExport.parameters(of: magnify, scale: scale))
         #expect(parameters.string("Type") == "Magnify")
-        #expect(try roundTrip(magnify).style.magnification == 3)
+        let made1 = try roundTrip(magnify)
+        #expect(made1.style.magnification == 3)
     }
 
     @Test func arrowHeadsAndFreehand() throws {
         var arrow = element(.arrow)
         arrow.style.arrowHeads = .both
-        #expect(try roundTrip(arrow).style.arrowHeads == .both)
+        let made2 = try roundTrip(arrow)
+        #expect(made2.style.arrowHeads == .both)
         let path = [CGPoint(x: 10, y: 10), CGPoint(x: 50, y: 30), CGPoint(x: 90, y: 10)]
         let freehand = Annotation(kind: .freehand, start: path[0], end: path[2], points: path)
         let parameters = try #require(RecipeAnnotationExport.parameters(of: freehand, scale: scale))
         #expect(parameters.string("Points") == "5,5;25,15;45,5")
-        #expect(try roundTrip(freehand).points == path)
+        let made3 = try roundTrip(freehand)
+        #expect(made3.points == path)
     }
 
     @Test func speechBubbleTail() throws {
