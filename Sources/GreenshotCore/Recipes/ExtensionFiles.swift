@@ -61,6 +61,12 @@ extension RecipeLibrary {
         var approval = forcePrompt ? nil : trustStore.approval(forFile: path, sha256: hash, recipeId: ext.id)
         var newlyApproved = false
         if approval == nil {
+            // A file an AI tool wrote, changed on disk: like a proposal it needs its switch, the sheet says it starts off (S-N3).
+            if previousRecord?.isAICreated == true, let problem = RecipeExtensionNames.aiProposalProblem(ext) {
+                result.errors.append(problem)
+                if interactive { await approver?.showValidationError(validationErrorRequest(fileURL, content, hash, recipe: ext, message: problem)) }
+                return result
+            }
             guard interactive, let approver else {
                 result.errors.append("Automatic step '\(ext.name)' from '\(path)' is not approved and interactive approval is disabled.")
                 return result
@@ -265,6 +271,11 @@ extension RecipeLibrary {
             result.errors.append("An AI tool can propose one automatic step at a time.")
             return result
         }
+        // Security review S-N3 / SM-M3: what an AI tool wrote starts switched off, so it needs the switch.
+        if let problem = RecipeExtensionNames.aiProposalProblem(ext) {
+            result.errors.append(problem)
+            return result
+        }
         let validation = validateExtension(ext)
         guard validation.isValid else {
             result.errors += validation.errors
@@ -275,7 +286,17 @@ extension RecipeLibrary {
             await approver?.showValidationError(request)
             return result
         }
-        var request = extensionApprovalRequest(ext, fileURL, content, hash, validation, mode: .newRecipe)
+        // Onto a file which holds an automatic step already (update_recipe): the sheet shows what changes (SM-M4).
+        let previousContent = previousExtensionContent(at: fileURL)
+        var request = extensionApprovalRequest(ext, fileURL, content, hash, validation, mode: previousContent == nil ? .newRecipe : .modified)
+        if let previousContent {
+            let previous = RecipeEditApproval.findRecipe(in: previousContent, id: ext.id)
+                ?? (try? RecipeSerializer.decode(text: previousContent))?.first
+            request.previousContent = previousContent
+            request.diff = RecipeTextDiff.compare(previousContent, content)
+            request.changes = RecipeDescriber(contracts: contracts, gates: gates()).describeChanges(from: previous, to: ext)
+            if let previous { request.replacedRecipe = previous }
+        }
         request.proposedBy = proposedBy
         request.aiRequest = aiRequest
         request.aiExplanation = aiExplanation
@@ -303,6 +324,13 @@ extension RecipeLibrary {
             return result
         }
         monitor?.watch(fileURL)
+        // The file holds only this automatic step now: another one loaded from it is gone.
+        for key in extensionStore.fileOrder where !recipeEquals(key, ext.id) {
+            guard let path = extensionStore.files[key]?.fileURL?.path, recipeEquals(path, fileURL.path) else { continue }
+            extensionStore.files[key] = nil
+            extensionStore.fileOrder.removeAll { $0 == key }
+            log.info("Automatic step '\(key)' was replaced in '\(fileURL.path)'.")
+        }
         // Approving is not switching on: what an AI tool wrote starts switched off.
         switchOffNewAIExtension(ext)
         registerFileExtension(LoadedRecipe(recipe: ext, source: .file(fileURL), replacesBuiltIn: approval.replacesBuiltIn,
@@ -345,6 +373,13 @@ extension RecipeLibrary {
     }
 
     // MARK: Helpers
+
+    /// What a file holds now, as approved (or as it is on disk), for a proposal onto it; nil when there is no such file.
+    private func previousExtensionContent(at fileURL: URL) -> String? {
+        if let approved = trustStore.record(forFile: fileURL.path)?.approvedContent { return approved }
+        guard FileManager.default.fileExists(atPath: fileURL.path) else { return nil }
+        return RecipeFileReader.data(fileURL).flatMap(RecipeSerializer.text(of:))
+    }
 
     /// The validator's checks, and that it doesn't extend another automatic step (upstream `ValidateExtension`).
     func validateExtension(_ ext: CaptureRecipe) -> RecipeValidationResult {
