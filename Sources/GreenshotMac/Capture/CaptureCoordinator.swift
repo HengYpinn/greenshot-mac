@@ -69,13 +69,15 @@ final class CaptureCoordinator {
         }
     }
 
-    /// The same area as the last capture again, without the capture screen.
-    /// Upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode.
+    /// "Capture text", upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode, the text
+    /// goes to the clipboard.
     func captureText() { interactive(.text) }
 
+    /// The same area as the last capture again, without the capture screen. Without a last area nothing is captured,
+    /// like upstream (`LastRegionCaptureSource.cs` aborts); the Mac beeps.
     func captureLastRegion() {
-        guard let region = settings.value.lastCapturedRegion else {
-            captureRegion()
+        guard let region = settings.value.lastCapturedRegion, !region.isEmpty else {
+            NSSound.beep()
             return
         }
         let showsCursor = settings.value.captureMousePointer
