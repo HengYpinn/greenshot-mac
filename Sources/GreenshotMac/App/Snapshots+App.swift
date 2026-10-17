@@ -15,7 +15,7 @@ extension Snapshots {
         try write(fullForm(general, height: 1080), to: folder.appendingPathComponent("app-settings-general-full.png"))
         try write(fullForm(general, height: 1080, appearance: NSAppearance(named: .darkAqua)),
                   to: folder.appendingPathComponent("app-settings-general-dark.png"))
-        try write(fullForm(ExpertSettings(store: settings), height: 640), to: folder.appendingPathComponent("app-settings-expert-full.png"))
+        try write(fullForm(ExpertSettings(store: settings), height: 760), to: folder.appendingPathComponent("app-settings-expert-full.png"))
 
         // The window picture beside the window list.
         let size = MenuBarThumbnailLayout.size(for: CGSize(width: sample.width, height: sample.height))
@@ -56,6 +56,23 @@ extension Snapshots {
             try write(window(SelfServiceView(model: selfService), size: NSSize(width: 900, height: section == .hotkeys ? 860 : 700)),
                       to: folder.appendingPathComponent("app-selfservice-\(section.rawValue).png"))
         }
+
+        var welcomeFacts = SetupFacts(appName: AppInfo.name, currentVersion: "1.4.0")
+        welcomeFacts.version = .checked(.upToDate(latest: "1.4.0"))
+        welcomeFacts.canRecordScreen = false
+        welcomeFacts.menuBarIconVisible = true
+        welcomeFacts.hotkeyCount = 4
+        let welcome = WelcomeModel(basics: WelcomeContent.basics(HotkeySettings()),
+                                   setup: SetupModel(sample: welcomeFacts, loginOn: true),
+                                   tips: WelcomeContent.tips(appName: AppInfo.name, showsCaptures: false), tipIndex: 2)
+        for step in WelcomeModel.Step.allCases {
+            welcome.show(step)
+            try write(window(WelcomeView(model: welcome), size: NSSize(width: 620, height: 520)),
+                      to: folder.appendingPathComponent("app-welcome-\(step.rawValue + 1)-\(step).png"))
+        }
+        let aboutHeight = CreditsText.height(width: AboutView.textWidth) + 260
+        try write(window(AboutView(openSelfService: { _ in }, close: {}), size: NSSize(width: AboutView.textWidth + 48, height: aboutHeight)),
+                  to: folder.appendingPathComponent("app-about.png"))
 
         let release = UpdateCheck.Release(version: "1.5.0", pageURL: UpdateCheck.releasesPageURL)
         let caught = BugReportModel(details: sampleException, environment: sampleEnvironment, settings: sampleSettings)

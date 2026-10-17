@@ -194,10 +194,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         showSelfService(section: nil)
     }
 
+    /// The About window with its Self-Service button (upstream `AboutWindow`).
     @objc func showAbout(_ sender: Any?) {
-        NSApp.activate()
-        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: AppInfo.name, .version: AppAboutCredits.versionDetail,
-                                                     .credits: AppAboutCredits.make()])
+        AboutWindowController.show(app: self)
     }
 
     @objc func captureRegion(_ sender: Any?) {
@@ -250,23 +249,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         NSWorkspace.shared.open(AppInfo.upstreamURL)
     }
 
-    private static let didShowWelcomeKey = "didShowWelcome"
-    private static let didOfferLaunchAtLoginKey = "didOfferLaunchAtLogin"
-
-    /// The welcome on the first launch; users who saw it before this option existed are asked about opening at
-    /// login once, separately.
+    /// The welcome window on the first start (upstream `WelcomeShown`, `GreenshotShell`), else the "is running" message.
+    /// Users of a version with the earlier welcome alert see the window once too, like upstream's updaters.
     private func showWelcomeOnFirstLaunch() {
-        let defaults = UserDefaults.standard
-        if !defaults.bool(forKey: Self.didShowWelcomeKey) {
-            defaults.set(true, forKey: Self.didShowWelcomeKey)
-            defaults.set(true, forKey: Self.didOfferLaunchAtLoginKey)
-            showWelcome()
-        } else if !defaults.bool(forKey: Self.didOfferLaunchAtLoginKey) {
-            defaults.set(true, forKey: Self.didOfferLaunchAtLoginKey)
-            offerLaunchAtLogin()
-        } else {
+        // The alert of earlier versions and its separate offer to open at login: the welcome window has both now.
+        UserDefaults.standard.removeObject(forKey: "didShowWelcome")
+        UserDefaults.standard.removeObject(forKey: "didOfferLaunchAtLogin")
+        if settings.value.welcomeShown {
             showRunningMessage()
+        } else {
+            settings.update { $0.welcomeShown = true }
+            WelcomeWindowController.show(app: self, firstLaunch: true)
         }
+    }
+
+    /// The welcome window again (upstream's pipe command `FIRST_LAUNCH`), for Help › Welcome Guide and
+    /// `greenshotmac://` links.
+    func showWelcome() {
+        WelcomeWindowController.show(app: self, firstLaunch: false)
+    }
+
+    @objc func showWelcomeGuide(_ sender: Any?) {
+        showWelcome()
     }
 
     /// A menu bar app opens no window, and macOS can hide its icon (behind the notch), so starting it would look
@@ -283,46 +287,5 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         saver.notify("\(AppInfo.name) is running", detail: detail) { [weak self] in
             self?.showSettings(nil)
         }
-    }
-
-    private func showWelcome() {
-        let region = settings.value.hotkeys.region?.displayString ?? "the menu bar icon"
-        let alert = NSAlert()
-        alert.messageText = "\(AppInfo.name) is in your menu bar"
-        alert.informativeText = """
-            Press \(region) to capture a region, or use the camera icon in the menu bar. \
-            The hotkeys can be changed in Settings.
-
-            macOS will ask you to allow screen recording the first time you take a screenshot.
-            """ + LaunchAtLogin.moveToApplicationsTip
-        // Checked by default, like the "start with Windows" option of Greenshot's installer.
-        let openAtLogin = NSButton(checkboxWithTitle: "Open \(AppInfo.name) at login", target: nil, action: nil)
-        openAtLogin.state = .on
-        alert.accessoryView = openAtLogin
-        alert.addButton(withTitle: "OK")
-        alert.addButton(withTitle: "Open Settings")
-        NSApp.activate()
-        let response = alert.runModal()
-        if openAtLogin.state == .on { turnOnLaunchAtLogin() }
-        if response == .alertSecondButtonReturn { showSettings(nil) }
-    }
-
-    private func offerLaunchAtLogin() {
-        guard LaunchAtLogin.state == .off else { return }
-        let alert = NSAlert()
-        alert.messageText = "Open \(AppInfo.name) when you log in?"
-        alert.informativeText = """
-            Then the hotkeys work right after a restart, like Greenshot on Windows. \
-            You can change this any time in Settings › General.
-            """ + LaunchAtLogin.moveToApplicationsTip
-        alert.addButton(withTitle: "Open at Login")
-        alert.addButton(withTitle: "Not Now")
-        NSApp.activate()
-        if alert.runModal() == .alertFirstButtonReturn { turnOnLaunchAtLogin() }
-    }
-
-    private func turnOnLaunchAtLogin() {
-        guard let problem = LaunchAtLogin.set(true) else { return }
-        ErrorPresenter.show(message: "\(AppInfo.name) doesn't open at login yet", detail: problem)
     }
 }

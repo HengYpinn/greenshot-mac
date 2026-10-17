@@ -21,8 +21,26 @@ struct ExpertSettings: View {
             }
             clipboardSection
             counterSection
+            troubleshootingSection
         }
         .formStyle(.grouped)
+    }
+
+    /// Self-Service and the log viewer (upstream opens them from the About window and `greenshot://` links).
+    private var troubleshootingSection: some View {
+        Section {
+            HStack {
+                Button("Open Self-Service…") { (NSApp.delegate as? AppDelegate)?.showSelfService(section: nil) }
+                Button("Open Log Viewer…") { (NSApp.delegate as? AppDelegate)?.showLogViewer(search: nil) }
+                Spacer()
+                Button("Show Welcome…") { (NSApp.delegate as? AppDelegate)?.showWelcome() }
+            }
+        } header: {
+            Text("Troubleshooting")
+        } footer: {
+            Text("Checks of the setup, the system, the hotkeys and the clipboard, and the log of \(AppInfo.name).")
+                .font(.caption).foregroundStyle(.secondary)
+        }
     }
 
     private var clipboardSection: some View {

@@ -172,6 +172,10 @@ struct LoginSwitch: View {
             if let error = model.loginError {
                 Text(error).font(.caption).foregroundStyle(.red)
             }
+            if !LaunchAtLogin.isInApplicationsFolder {
+                Text("Tip: move the app to your Applications folder first, so it keeps opening at login.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
         }
     }
 }
