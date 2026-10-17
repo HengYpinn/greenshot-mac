@@ -1,6 +1,6 @@
 # Feature parity with Greenshot for Windows
 
-This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 3: automation, screen recording, managed preferences and the recipe engine). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
+This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 4: recipes in the app, recipe editor and manager, MCP server for AI tools, browser extension). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
 
 ## How it was made
 
@@ -12,15 +12,15 @@ This is the checklist for bringing everything Greenshot for Windows does to this
 
 | Area | ✅ | 🟡 | ❌ | 🍎 | ➖ | ➕ | Rows |
 |---|---|---|---|---|---|---|---|
-| [Capture](parity/cap.md) | 108 | 3 | 3 | 3 | 10 | 0 | 127 |
+| [Capture](parity/cap.md) | 114 | 1 | 0 | 2 | 10 | 0 | 127 |
 | [Editor](parity/edt.md) | 141 | 2 | 0 | 13 | 10 | 0 | 168 |
-| [Image operations and file formats](parity/img.md) | 64 | 1 | 2 | 6 | 6 | 0 | 80 |
-| [Destinations and plugins](parity/dst.md) | 119 | 3 | 0 | 14 | 12 | 0 | 148 |
-| [App shell, settings, notifications](parity/app.md) | 129 | 3 | 13 | 11 | 27 | 0 | 185 |
-| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 31 | 1 | 33 | 3 | 6 | 0 | 74 |
-| [Recipes](parity/rcp.md) | 0 | 91 | 101 | 7 | 4 | 0 | 203 |
-| Found by the checks | 3 | 1 | 3 | 0 | 0 | 0 | 7 |
-| **All** | **595** | **105** | **155** | **57** | **75** | **0** | **992** |
+| [Image operations and file formats](parity/img.md) | 67 | 0 | 0 | 6 | 6 | 0 | 80 |
+| [Destinations and plugins](parity/dst.md) | 122 | 2 | 0 | 12 | 12 | 0 | 148 |
+| [App shell, settings, notifications](parity/app.md) | 134 | 2 | 9 | 11 | 27 | 0 | 185 |
+| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 68 | 0 | 0 | 0 | 6 | 0 | 74 |
+| [Recipes](parity/rcp.md) | 192 | 4 | 0 | 0 | 7 | 0 | 203 |
+| Found by the checks | 7 | 0 | 0 | 0 | 0 | 0 | 7 |
+| **All** | **845** | **11** | **9** | **44** | **78** | **0** | **992** |
 
 ➕ marks Mac-only additions with no upstream counterpart (AppleScript, Shortcuts, the Services menu, extra `greenshotmac://` actions).
 
@@ -32,11 +32,11 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
-| [A1. Capture screen and hotkeys polish](#a1) | 1 | 29 | 4-5 |
+| [A1. Capture screen and hotkeys polish](#a1) | ✅ | 29 | 4-5 |
 | [A2. Editor canvas: elements, styles, selection, paste and drop](#a2) | 1 | 47 | 5-6 |
 | [A3. Editor window: toolbar, status bar, zoom, colour dialog, add to editor](#a3) | ✅ | 16 | 3-4 |
 | [A4. Image operations, file formats and output options](#a4) | ✅ | 36 | 4-5 |
-| [A5. Destinations, picker, saving and upload polish](#a5) | 2 | 39 | 4-5 |
+| [A5. Destinations, picker, saving and upload polish](#a5) | 1 | 39 | 4-5 |
 | [A6. Menu bar icon, app shell and settings polish](#a6) | 1 | 27 | 3-4 |
 
 ### B. Medium features with a clear Mac design
@@ -62,12 +62,12 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
 | [C1. Translations: localisation plumbing + upstream language packs](#c1) | 10 | 10 | 7-10 (+ review by native speakers) |
-| [C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services](#c2) | 3 | 39 | 6-8 |
-| [C3. MCP server for AI tools (capture, list windows, consent)](#c3) | 18 | 18 | 4-6 |
-| [C4. Browser extension (Chrome/Edge/Firefox, then Safari)](#c4) | 9 | 9 | 4-6 |
-| [C5. Video recording (screen, window, region to MP4)](#c5) | 2 | 22 | 5 reduced / 10 full |
-| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | 154 | 156 | 15-20 |
-| [C7. Recipes: editor, manager, options, extensions](#c7) | 70 | 72 | 25-40 (list editor); node graph +25-40 |
+| [C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services](#c2) | ✅ | 39 | 6-8 |
+| [C3. MCP server for AI tools (capture, list windows, consent)](#c3) | ✅ | 18 | 4-6 |
+| [C4. Browser extension (Chrome/Edge/Firefox, then Safari)](#c4) | ✅ | 9 | 4-6 |
+| [C5. Video recording (screen, window, region to MP4)](#c5) | 1 | 22 | 5 reduced / 10 full |
+| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | 4 | 156 | 15-20 |
+| [C7. Recipes: editor, manager, options, extensions](#c7) | ✅ | 72 | 25-40 (list editor); node graph +25-40 |
 
 ### D. Optional
 
@@ -107,7 +107,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `CAP-110` ✅ Panel placement: always in a corner of the monitor with the mouse, farthest free corner, moves only if mouse is close, overlaps another panel, or covers >25 % of the selection (selection counts after 0.3 s stable)
 - `CAP-130` ✅ ScreenCaptureMode: Auto (monitor with mouse) / FullScreen / Fixed + ScreenToCapture
 - `DST-065` ✅ Always run OCR on every capture so text lines show as hotspots in the capture window
-- `R2-004` 🟡 Hotkey editor dialog ("Configure Hotkey: <action>"): Ctrl/Alt/Shift/Win checkboxes, a capture field ("Click here to focus and press shortcut keys"), a live "Preview:", "+ Add Step" to build a key sequence (each step removable with an X), inline validation error, Clear / Reset (back to a single chord), Save / Apply, Cancel. The settings row shows a read-only hotkey chip with an "Edit" button (tooltip "Change Hotkey") that opens this dialog; admin-locked hotkeys are disabled
+- `R2-004` ✅ Hotkey editor dialog ("Configure Hotkey: <action>"): Ctrl/Alt/Shift/Win checkboxes, a capture field ("Click here to focus and press shortcut keys"), a live "Preview:", "+ Add Step" to build a key sequence (each step removable with an X), inline validation error, Clear / Reset (back to a single chord), Save / Apply, Cancel. The settings row shows a read-only hotkey chip with an "Edit" button (tooltip "Change Hotkey") that opens this dialog; admin-locked hotkeys are disabled
 - `R3-003` ✅ Capture screen keeps working after another window took the keyboard focus (Alt+Tab, a message box of another program): the screen stays on top and the next mouse move gives the keys back
 
 <a id="a2"></a>
@@ -187,7 +187,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `DST-016` ✅ "Add to editor - <title>" sub-destinations: place the capture as an image element in an already open editor
 - `DST-019` ✅ Output folder setting with a folder browser; pattern variables also work in the folder (`FillVariables` on `OutputFilePath`)
 - `DST-021` ✅ File name pattern setting with a help window listing every variable
-- `DST-024` 🟡 Pattern variables from capture metadata: `${windowtitle}`, `${url}`, `${browser}` (browser extension), `${source}`, capture method
+- `DST-024` ✅ Pattern variables from capture metadata: `${windowtitle}`, `${url}`, `${browser}` (browser extension), `${source}`, capture method
 - `DST-026` 🍎 Overwrite setting: when the generated file exists, upstream shows a Save-As dialog; allowed overwrite replaces it
 - `DST-027` ✅ When saving fails (no write access, bad path) upstream tells the user and falls back to Save As
 - `DST-028` 🍎 Invalid filename pattern: error text, opens Settings so the user can fix it, retries
@@ -428,17 +428,17 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `AUT-045` ✅ IPC notifications/events: server pushes events to watch connections (`{"event":"tools_changed"}`, `shutdown` with reason exit/update/session_end) without waiting for the client to read (out buffer, 2 min reply write timeout) (9bba94ef)
 - `AUT-046` ✅ Reply protocol: JSON for json sources; text frames O/E/X for terminal; one final reply per request even on handler failure
 - `AUT-047` ➖ Plugin seam `IIpcCommandExtension` / `GreenshotModule`: optional parts (browser extension, AI tools) add commands, source whitelists, access checks (also 6aa9af56 plugin seams for capture tools)
-- `AUT-048` 🍎 `greenshot-proxy` native bridge (GUI subsystem: no console flash) used as native-messaging host, URL protocol handler and Explorer "Open with" target
+- `AUT-048` ✅ `greenshot-proxy` native bridge (GUI subsystem: no console flash) used as native-messaging host, URL protocol handler and Explorer "Open with" target
 - `AUT-050` ✅ URL protocol registered (`greenshot:` and `greenshot://`), opaque and hierarchical forms both accepted; web pages can open it, so a whitelist applies
 - `AUT-051` ✅ `greenshot://settings[?tab=general\|capture\|output\|destination\|editor\|printer\|plugins\|recipes\|expert][&plugin=<Name>]` opens Settings at a tab / plugin
 - `AUT-052` ✅ `greenshot://about` opens About
 - `AUT-053` ✅ `greenshot://self-service[?section=system\|setup\|files\|clipboard\|hotkeys\|checksum\|imgur\|debug_integration]` opens Diagnostics & Self-Service
 - `AUT-054` ✅ `greenshot://log[?search=<text>]` opens log viewer filtered by search text (max 200 chars; never changes log level) - new in 0aedcf04
-- `AUT-055` ❌ `greenshot://recipe-editor[?recipe=<id>]` and `greenshot://recipe-manager`
+- `AUT-055` ✅ `greenshot://recipe-editor[?recipe=<id>]` and `greenshot://recipe-manager`
 - `AUT-057` ✅ Mac-only URL actions worth adding (no upstream row): `greenshotmac://capture/region\|window\|fullscreen\|last`, `greenshotmac://open?file=` (must NOT be allowed from a URL, upstream forbids file opening from web pages), `greenshotmac://clipboard`
 - `AUT-060` ✅ "Open with Greenshot" for images (ProgID Greenshot.Image for png/jpg/bmp/gif/tif/webp/ico/svg/jxr/emf/wmf/tga) and Greenshot as default app for `.greenshot`
 - `AUT-088` ➖ Greenshot Light / edition gating of AI tools and extension (GreenshotModule)
-- `AUT-090` 🟡 Installer registers `greenshot:` URL protocol, native messaging host manifests (Chrome/Edge/Firefox), Open-with ProgIDs, RegisteredApplications (`includes\url-protocol.iss`, `browser-extension.iss`); self-service debug page registers for current user
+- `AUT-090` ✅ Installer registers `greenshot:` URL protocol, native messaging host manifests (Chrome/Edge/Firefox), Open-with ProgIDs, RegisteredApplications (`includes\url-protocol.iss`, `browser-extension.iss`); self-service debug page registers for current user
 - `AUT-091` ➖ Windows toast activation COM class (ToastActivator)
 - `AUT-100` ✅ AppleScript dictionary (`.sdef`) so `tell application "GreenshotMac" to capture region` works, replacing COM/`greenshot-cli` scripting on Windows
 - `AUT-101` ✅ Shortcuts / Siri / Spotlight actions via App Intents (capture region/window/full screen, open file)
@@ -447,42 +447,42 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="c3"></a>
 ### C3. MCP server for AI tools (capture, list windows, consent)
 
-- `APP-096` ❌ AI tools tab (beta testers): allow AI tools, allowed programs, denied list, recipe proposals, excluded apps, notify on capture, MCP download hint
-- `AUT-070` ❌ `greenshot-mcp` stdio MCP server executable ("greenshot", Native AOT, starts Greenshot if needed, reconnects, watch connection) separate download next to Greenshot.exe
-- `AUT-071` ❌ MCP tool `list_windows`: top-level windows in Z-order with id, title, process, class, bounds, minimized, active, plus displays; ids expire after 10 min and are per AI tool and MCP session
-- `AUT-072` ❌ MCP tool `capture_window` (by id, exact content even when covered, without activating, `ocr=true`)
-- `AUT-073` ❌ MCP tool `capture_region` (x,y,width,height screen coords, optional OCR)
-- `AUT-074` ❌ MCP tool `capture_screen` (all displays, optional OCR)
-- `AUT-075` ❌ Image result limits: scaled to 1568 px on the longest side (`MaxImageSize`, 0 = original); OCR returns text and position of each line
-- `AUT-079` ❌ AI tools opt-in switch "Let AI tools use Greenshot" (`AiToolsEnabled`, default off; every request refused without asking while off; only version check answers; lockable in greenshot-fixed.ini)
-- `AUT-080` ❌ `AiToolsAllowRecipeProposals` (default on) switch: "Let AI tools propose recipes"
-- `AUT-081` ❌ Per-program consent: first request shows a question with program name, path and signer; stored in `AiToolsAllowedClients`; the dialog stays on top without keyboard focus, no default button, ignores Escape, buttons react after 1 s; "No" remembered until restart; helper programs shown under their app's name
-- `AUT-082` 🍎 mcp-server identity check: pipe client must be `greenshot-mcp.exe` in Greenshot's directory (`AiToolsMcpServerPaths` extra paths for Debug builds)
-- `AUT-083` ❌ Excluded applications: `AiToolsExcludedProcesses` (default KeePass, KeePassXC, 1Password, Bitwarden, LastPass, Dashlane, Enpass, RoboForm, NordPass, ProtonPass) never listed/captured, blacked out in every capture taken by an AI recipe; editable list in settings with Add (Enter) and Remove
-- `AUT-084` ❌ Notification on every AI capture (`AiToolsNotifyOnCapture`, default on)
-- `AUT-085` ❌ Settings tab "AI tools" (shown when beta tester is ticked on Expert tab): Access group with greenshot-mcp present check (found/not found/wrong version, download link), Allowed programs list with remove, "Not allowed until restart" list with Allow / Ask Again, permissions (proposals, notify), excluded apps list, Approved recipes list with Details / Review / Revoke
-- `AUT-086` ❌ Documented client connection recipes (Claude Code `claude mcp add`, Claude Desktop JSON, Antigravity, Gemini CLI, VS Code `servers`, Cursor, Windsurf, Codex)
-- `AUT-087` ❌ Shutdown semantics for MCP: `exit` keeps greenshot-mcp alive and reconnects later; `update` makes it exit; `session_end`
-- `CAP-014` ❌ AI tool captures (greenshot-mcp): AI capture window/region/screen recipes, excluded processes, notify on capture
-- `CAP-123` ❌ Capture of protected/DRM windows and apps excluded for AI tools
+- `APP-096` ✅ AI tools tab (beta testers): allow AI tools, allowed programs, denied list, recipe proposals, excluded apps, notify on capture, MCP download hint
+- `AUT-070` ✅ `greenshot-mcp` stdio MCP server executable ("greenshot", Native AOT, starts Greenshot if needed, reconnects, watch connection) separate download next to Greenshot.exe
+- `AUT-071` ✅ MCP tool `list_windows`: top-level windows in Z-order with id, title, process, class, bounds, minimized, active, plus displays; ids expire after 10 min and are per AI tool and MCP session
+- `AUT-072` ✅ MCP tool `capture_window` (by id, exact content even when covered, without activating, `ocr=true`)
+- `AUT-073` ✅ MCP tool `capture_region` (x,y,width,height screen coords, optional OCR)
+- `AUT-074` ✅ MCP tool `capture_screen` (all displays, optional OCR)
+- `AUT-075` ✅ Image result limits: scaled to 1568 px on the longest side (`MaxImageSize`, 0 = original); OCR returns text and position of each line
+- `AUT-079` ✅ AI tools opt-in switch "Let AI tools use Greenshot" (`AiToolsEnabled`, default off; every request refused without asking while off; only version check answers; lockable in greenshot-fixed.ini)
+- `AUT-080` ✅ `AiToolsAllowRecipeProposals` (default on) switch: "Let AI tools propose recipes"
+- `AUT-081` ✅ Per-program consent: first request shows a question with program name, path and signer; stored in `AiToolsAllowedClients`; the dialog stays on top without keyboard focus, no default button, ignores Escape, buttons react after 1 s; "No" remembered until restart; helper programs shown under their app's name
+- `AUT-082` ✅ mcp-server identity check: pipe client must be `greenshot-mcp.exe` in Greenshot's directory (`AiToolsMcpServerPaths` extra paths for Debug builds)
+- `AUT-083` ✅ Excluded applications: `AiToolsExcludedProcesses` (default KeePass, KeePassXC, 1Password, Bitwarden, LastPass, Dashlane, Enpass, RoboForm, NordPass, ProtonPass) never listed/captured, blacked out in every capture taken by an AI recipe; editable list in settings with Add (Enter) and Remove
+- `AUT-084` ✅ Notification on every AI capture (`AiToolsNotifyOnCapture`, default on)
+- `AUT-085` ✅ Settings tab "AI tools" (shown when beta tester is ticked on Expert tab): Access group with greenshot-mcp present check (found/not found/wrong version, download link), Allowed programs list with remove, "Not allowed until restart" list with Allow / Ask Again, permissions (proposals, notify), excluded apps list, Approved recipes list with Details / Review / Revoke
+- `AUT-086` ✅ Documented client connection recipes (Claude Code `claude mcp add`, Claude Desktop JSON, Antigravity, Gemini CLI, VS Code `servers`, Cursor, Windsurf, Codex)
+- `AUT-087` ✅ Shutdown semantics for MCP: `exit` keeps greenshot-mcp alive and reconnects later; `update` makes it exit; `session_end`
+- `CAP-014` ✅ AI tool captures (greenshot-mcp): AI capture window/region/screen recipes, excluded processes, notify on capture
+- `CAP-123` ✅ Capture of protected/DRM windows and apps excluded for AI tools
 
 <a id="c4"></a>
 ### C4. Browser extension (Chrome/Edge/Firefox, then Safari)
 
-- `AUT-062` ❌ Extension package: MV3 manifest "Greenshot Companion" v1.0.0 (Chrome/Edge service worker + Firefox gecko id `greenshot@getgreenshot.org`, min 121), permissions activeTab/tabs/nativeMessaging/storage, host `<all_urls>`. Files (all, none are C#): manifest.json, background.js (298 lines), popup/popup.html, popup.js, popup.css, options/options.html, options.js, icons/icon-16/32/48/128.png, icons/g.svg
-- `AUT-063` ❌ Native messaging connection to host, auto reconnect, HANDSHAKE (extension version) -> Greenshot replies `{status:ready, greenshot_running, greenshot_version, config{capture_format, track_tab_urls, full_page_delay_ms}}`; ON badge when connected
-- `AUT-064` ❌ "Capture Visible Page" button: `captureVisibleTab` -> base64 PNG/JPEG + metadata (title, url, timestamp) sent as IMPORT_CAPTURE; Greenshot decodes and runs the built-in "Capture from browser extension" recipe (dynamic destination "Export Browser Capture")
-- `AUT-065` ❌ IMPORT_CAPTURE safety limits: only PNG/JPEG by signature, max 32767 px per side and 100 MP checked from the header before decoding, ack `{status, reply_to, width, height}`
-- `AUT-066` ❌ QA tab URL tracking: extension reports active tab url/title (TAB_CHANGED) when it changes, ignoring chrome://, edge://, about:, extension pages; Greenshot keeps BrowserContextTracker and exposes `${Browser.Url}`, `${Browser.Domain}`, `${Browser.Title}`, `${Browser.Ticket}` to recipes/filename patterns
-- `AUT-067` 🍎 Extension origin policy: only official extension IDs and `allowed_origins`/`allowed_extensions` of the host manifests may connect; dev IDs read on each connection
-- `AUT-068` ❌ Extension popup UI: Greenshot logo, connection status indicator (Connecting/online/offline), Capture Visible Page button, feedback message, QA URL Tracking badge, Settings link
-- `AUT-069` ❌ Extension options page: "QA Tab URL Tracking" switch, "Capture Format" PNG (lossless) / JPEG (compressed), saved indicator; stored in chrome.storage.local; UPDATE_CONFIG/RECONNECT/GET_STATUS runtime messages
-- `CAP-011` 🍎 Browser-extension capture import (ImportExtensionCapture, extension trigger recipe)
+- `AUT-062` ✅ Extension package: MV3 manifest "Greenshot Companion" v1.0.0 (Chrome/Edge service worker + Firefox gecko id `greenshot@getgreenshot.org`, min 121), permissions activeTab/tabs/nativeMessaging/storage, host `<all_urls>`. Files (all, none are C#): manifest.json, background.js (298 lines), popup/popup.html, popup.js, popup.css, options/options.html, options.js, icons/icon-16/32/48/128.png, icons/g.svg
+- `AUT-063` ✅ Native messaging connection to host, auto reconnect, HANDSHAKE (extension version) -> Greenshot replies `{status:ready, greenshot_running, greenshot_version, config{capture_format, track_tab_urls, full_page_delay_ms}}`; ON badge when connected
+- `AUT-064` ✅ "Capture Visible Page" button: `captureVisibleTab` -> base64 PNG/JPEG + metadata (title, url, timestamp) sent as IMPORT_CAPTURE; Greenshot decodes and runs the built-in "Capture from browser extension" recipe (dynamic destination "Export Browser Capture")
+- `AUT-065` ✅ IMPORT_CAPTURE safety limits: only PNG/JPEG by signature, max 32767 px per side and 100 MP checked from the header before decoding, ack `{status, reply_to, width, height}`
+- `AUT-066` ✅ QA tab URL tracking: extension reports active tab url/title (TAB_CHANGED) when it changes, ignoring chrome://, edge://, about:, extension pages; Greenshot keeps BrowserContextTracker and exposes `${Browser.Url}`, `${Browser.Domain}`, `${Browser.Title}`, `${Browser.Ticket}` to recipes/filename patterns
+- `AUT-067` ✅ Extension origin policy: only official extension IDs and `allowed_origins`/`allowed_extensions` of the host manifests may connect; dev IDs read on each connection
+- `AUT-068` ✅ Extension popup UI: Greenshot logo, connection status indicator (Connecting/online/offline), Capture Visible Page button, feedback message, QA URL Tracking badge, Settings link
+- `AUT-069` ✅ Extension options page: "QA Tab URL Tracking" switch, "Capture Format" PNG (lossless) / JPEG (compressed), saved indicator; stored in chrome.storage.local; UPDATE_CONFIG/RECONNECT/GET_STATUS runtime messages
+- `CAP-011` ✅ Browser-extension capture import (ImportExtensionCapture, extension trigger recipe)
 
 <a id="c5"></a>
 ### C5. Video recording (screen, window, region to MP4)
 
-- `CAP-200` 🟡 Record video via recipe step RecordVideo (experimental); output MP4 path put in the flow (VideoFilePath, VideoRecordingResult with path, duration, size, width, height, fps, format, hasAudio)
+- `CAP-200` ✅ Record video via recipe step RecordVideo (experimental); output MP4 path put in the flow (VideoFilePath, VideoRecordingResult with path, duration, size, width, height, fps, format, hasAudio)
 - `CAP-201` ✅ Record target: monitor (index), window (active window, by title, title regex, process name, case option, pre-supplied handle), or region (x,y,w,h or pre-supplied)
 - `CAP-202` ✅ Delay before recording starts (DelayMs)
 - `CAP-203` ✅ Stop conditions: DurationSeconds, record until the window closes (default for window targets without duration), cancel
@@ -522,5 +522,5 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 ## Not applicable on a Mac
 
-75 rows are Windows-only with no Mac meaning (installer, registry, Active Setup, Restart Manager, DPI manifests, DIB clipboard formats, Windows OCR engine choice, …); each says why in its area file. Upstream also removed some features, which are not to be ported: the Imgur upload plugin (#1529; the Self-Service page that deletes old Imgur uploads is not needed here either), the Flickr, Google Photos/Picasa and Photobucket plugins (#928), Office before 2013 (#1485), Internet Explorer capture, the WM_COPYDATA messages (replaced by named pipes) and the XML language files.
+78 rows are Windows-only with no Mac meaning (installer, registry, Active Setup, Restart Manager, DPI manifests, DIB clipboard formats, Windows OCR engine choice, …); each says why in its area file. Upstream also removed some features, which are not to be ported: the Imgur upload plugin (#1529; the Self-Service page that deletes old Imgur uploads is not needed here either), the Flickr, Google Photos/Picasa and Photobucket plugins (#928), Office before 2013 (#1485), Internet Explorer capture, the WM_COPYDATA messages (replaced by named pipes) and the XML language files.
 

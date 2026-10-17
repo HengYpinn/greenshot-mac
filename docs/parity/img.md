@@ -9,7 +9,7 @@ Status: ✅ done, 🟡 partial, ❌ missing, 🍎 a Mac equivalent is the way to
 
 | ID | Feature | Status | Size | Package | Upstream | Mac / what is missing | Notes |
 |---|---|---|---|---|---|---|---|
-| IMG-001 | Border effect (default 2 px, black; the canvas grows by the width) | 🟡 partial | S | C6 | Greenshot.Base/Effects/BorderEffect.cs:47 Width=2, Color=Black; ImageHelper.cs:840 | GreenshotCore/ImageEffects.swift:74 `border` (fixed 2 pt black, scale-aware). Missing: width and colour are fixed (no way to change them, same as upstream's editor button, but upstream's recipe step has Width/Color). | CoreGraphics context |
+| IMG-001 | Border effect (default 2 px, black; the canvas grows by the width) | ✅ done | S | C6 | Greenshot.Base/Effects/BorderEffect.cs:47 Width=2, Color=Black; ImageHelper.cs:840 | wave 4: built-in recipes and step executors | CoreGraphics context |
 | IMG-002 | Drop shadow effect (darkness 0.6, size 7, offset -1,-1) | ✅ done | - |  | Effects/DropShadowEffect.cs:55; ImageHelper.cs:641; EditorConfiguration DropShadowEffectSettings | GreenshotCore/ImageEffects.swift:92 `dropShadow`; settings GreenshotCore/SettingsTypes.swift:96 | CGContext shadow; grows the canvas so a large offset does not clip (deliberate difference) |
 | IMG-003 | Drop shadow settings dialog: thickness 1-20 px, offset X and Y -20..20, darkness 1-40; OK/Cancel; right-click on the button opens it, left-click applies the stored settings | ✅ done | - | A4 | Greenshot.Editor/Views/DropShadowSettingsWindow.xaml:156,172,180,194; ImageEditorForm.cs:2322 | wave 1: done | Mac always shows the dialog (no "apply last settings without dialog" path) |
 | IMG-004 | Torn edge effect on the pixels: tooth height, horizontal/vertical tooth range, 4 edges, shadow, background colour, seed | ✅ done | - |  | Effects/TornEdgeEffect.cs:82; ImageHelper.cs:338 | GreenshotCore/ImageEffects.swift:118,144 `tornEdge`; SettingsTypes.swift:114 | Seeded RNG (SplitMix64) |
@@ -28,7 +28,7 @@ Status: ✅ done, 🟡 partial, ❌ missing, 🍎 a Mac equivalent is the way to
 | IMG-017 | Rotate 90 clockwise / counter-clockwise (elements rotate along) | ✅ done | - |  | Effects/RotateEffect.cs:46 (only 90 / -90 / 270) | ImageOperations.swift:24,189 |  |
 | IMG-018 | Remove transparency with a chosen colour (colour dialog, default white) | ✅ done | S | A4 | Effects/RemoveTransparencyEffect.cs:45; ImageEditorForm.cs:2415 | wave 1: done | Add NSColorPanel/colour well sheet |
 | IMG-019 | Clear image (make transparent, Ctrl+Delete) | ✅ done | - |  | ImageEditorForm.cs:2395 | ImageOperations.swift:54,225; EditorWindowController+Image.swift:125 |  |
-| IMG-020 | Effects pipeline for output (effects list applied when exporting, SurfaceOutputSettings.Effects), recipe "Image Effect" step: Border, DropShadow, TornEdge, Invert, Grayscale, Monochrome, Adjust, Rotate, Resize (px or percent), ResizeCanvas (margin or l/r/t/b), ReduceColors, RemoveTransparency with their parameters | ❌ missing | XL (recipes) | C6 | Greenshot.Base/Core/ImageIO.cs:187-210; Greenshot/Recipes/Steps/EffectCaptureStep.cs:42-71 | Mac has no recipe/output-effects pipeline (no Effect list in ImageExporter.swift). Recipes are probably another slice (REC); here only the effect primitives exist (see IMG-001..018). | Needs a recipe engine first |
+| IMG-020 | Effects pipeline for output (effects list applied when exporting, SurfaceOutputSettings.Effects), recipe "Image Effect" step: Border, DropShadow, TornEdge, Invert, Grayscale, Monochrome, Adjust, Rotate, Resize (px or percent), ResizeCanvas (margin or l/r/t/b), ReduceColors, RemoveTransparency with their parameters | ✅ done | XL (recipes) | C6 | Greenshot.Base/Core/ImageIO.cs:187-210; Greenshot/Recipes/Steps/EffectCaptureStep.cs:42-71 | wave 4: built-in recipes and step executors | Needs a recipe engine first |
 | IMG-021 | Effects menu keyboard shortcuts (Ctrl+B border, "/" shadow, Ctrl+T torn, Ctrl+G grayscale, Ctrl+I invert) | 🍎 Mac equivalent | - |  | ImageEditorForm.cs:1385 etc. | Mac remaps to Ctrl+Cmd+B/S/T/G/I (EditorWindowController+Image.swift:272 keyEquivalent) | deliberate |
 
 ## Crop and auto crop
@@ -55,7 +55,7 @@ Status: ✅ done, 🟡 partial, ❌ missing, 🍎 a Mac equivalent is the way to
 | IMG-044 | Pixel size 1-50, blur radius 1-30, magnification 1-10 | ✅ done | - |  | .xaml:374,390,422 | TextObfuscationWindow.swift:60 and SliderField rows 144-147 |  |
 | IMG-045 | Advanced: horizontal/vertical padding -50..100 %, horizontal/vertical offset -100..100 px | ✅ done | - |  | .xaml:451-480 | TextObfuscationWindow.swift:61-64,160-163 |  |
 | IMG-046 | Result: element per match (obfuscate container) so it stays editable | ✅ done | - |  | TextObfuscationWindow.xaml.cs:424 | EditorWindowController+Image.swift:167 `TextObfuscation.annotations` |  |
-| IMG-047 | Recipe "Text Effect" step: OCR + patterns + Pixelize/Blur/Highlight/Redact/Magnify | ❌ missing | L | C6 | Greenshot/Recipes/Steps/TextEffectStep.cs:48 | No recipe engine on Mac | (REC slice) |
+| IMG-047 | Recipe "Text Effect" step: OCR + patterns + Pixelize/Blur/Highlight/Redact/Magnify | ✅ done | L | C6 | Greenshot/Recipes/Steps/TextEffectStep.cs:48 | wave 4: built-in recipes and step executors | (REC slice) |
 
 ## Filters used by obfuscate/highlight (behaviour)
 

@@ -46,7 +46,10 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Command line tool, links, AppleScript, Shortcuts, Services menu, one running copy | ✅ (greenshot-cli, `greenshot:` links) | ✅ ([below](#command-line-and-automation)) |
 | Admin policy: locked settings, defaults, hidden Settings and destinations | ✅ (greenshot-fixed.ini) | ✅ by managed preferences ([below](#managed-settings-administrators)) |
 | Screen recording to MP4 (screen, window, region; sound and microphone; pause; countdown) | only in recipes | ✅ |
-| Recipes, MCP server, browser extension, translations | ✅ | not yet (the recipe engine is in, without a user interface) |
+| Recipes: built-in and your own, editor (steps list and flow diagram), manager, automatic steps, approval of every file | ✅ | ✅ ([below](#recipes)) |
+| MCP server for AI tools: list windows, screenshots with OCR, run and propose recipes, consent per program | ✅ | ✅ ([below](#ai-tools-mcp)) |
+| Browser extension: capture the visible page with its address | ✅ (Chrome, Firefox) | ✅ Chrome, Edge, Firefox ([below](#browser-extension)); Safari not yet |
+| Translations | ✅ | not yet |
 
 The row-by-row comparison with Greenshot for Windows (992 features, what is done and what is planned) is in
 [docs/feature-parity.md](docs/feature-parity.md). Contributions for the missing parts are welcome; see
@@ -208,6 +211,48 @@ the default `${capturetime:d"yyyy-MM-dd HH_mm_ss"}-${title}` gives `2026-10-16 1
 Options follow a colon, separated by `;`: `p<width>[,<char>]` pads, `s<start>[,<length>]` takes a substring,
 `r<old>,<new>` replaces. A `/` in the pattern makes sub folders, e.g. `${YYYY}/${MM}/${title}`.
 
+## Recipes
+
+Recipes run a capture as a series of steps, started by a hotkey, an entry in the menu bar's Recipes submenu or the
+editor's Recipes menu, a copied image, Open With, the command line or an AI tool. Greenshot for Mac comes with the 13
+built-in recipes of Greenshot for Windows; a hotkey or menu capture captures exactly as before until a recipe file
+replaces its built-in recipe or an automatic step applies to it.
+
+- **Your own recipes:** import a `.gsrecipe.json` file with Recipes › Import Recipe… or in Settings › Recipes.
+  Greenshot shows in plain words what the file does and asks before using it, and again whenever the file changes;
+  programs, uploads and file access each need their own switch. Settings › Recipes switches recipes off and lists your
+  recipes with their approvals.
+- **Recipe editor** (menu bar › Recipe Editor…): recipes are edited as a list of steps; branches and parallel lanes are
+  indented. Each step's settings are a form made from its contract. The Flow tab draws the flow and copies it as Mermaid
+  text. Saving renews the recipe's approval and asks only when a change adds a trigger that starts on its own, a new
+  permission, or replaces a built-in recipe. Shortcuts: ⌘N new, ⌘O open, ⌘S save, ⇧⌘S save as, ⌘R test run, ⇧⌘M recipe
+  manager.
+- **Recipe Manager:** search and filter recipes and automatic steps; Edit, Test Run, Details, Permissions, Unload or
+  Reset Default.
+- **Automatic steps:** small steps Greenshot adds to your captures, like a caption with the date, a border or a drop
+  shadow. Switch them on in Settings › Recipes or Quick Settings › Automatic steps, and choose which captures and
+  destinations they're for. Automatic step files (`.gsrecipe.json` with `"kind": "extension"`) are approved like recipe
+  files before they're used.
+
+The file format is upstream's: see `Resources/recipe.schema.json` and upstream's recipe documentation.
+
+## AI tools (MCP)
+
+Greenshot for Mac comes with greenshot-mcp, an MCP server for AI tools (Claude Code, Claude Desktop, VS Code, Cursor,
+…). They can list your windows, take screenshots (with OCR) and run or propose recipes, after you switch on Settings ›
+AI Tools and allow each program the first time. A program that runs in a runtime (node, Python, …) is allowed together
+with its script; a signed program with its Team ID. Password managers are never shared, every AI screenshot shows a
+notification, and a recipe an AI tool proposes starts switched off. Settings › AI Tools has copyable setup for each AI
+tool; see [docs/mcp/README.md](docs/mcp/README.md).
+
+## Browser extension
+
+The Companion extension for Chrome, Edge and Firefox 126 or later (in `Extensions/Browser`) sends the visible page,
+with its address, to Greenshot. Install the connection in Settings › Expert › Browser extension, then load the extension
+folder with Load unpacked (Chrome, Edge) or Load Temporary Add-on (Firefox). See
+[docs/browser/README.md](docs/browser/README.md). File names can use `${url}`, `${browser}` and the active tab's
+`${Browser.Url}`, `${Browser.Domain}`, `${Browser.Title}` and `${Browser.Ticket}`.
+
 ## Command line and automation
 
 `greenshot-cli` is in the app bundle (Contents/Helpers). It sends its arguments to the running app, starting the app
@@ -218,6 +263,8 @@ when it isn't running, and prints the reply:
     greenshot-cli --reload                 Reload the settings
     greenshot-cli --exit                   Quit the app
     greenshot-cli greenshotmac://<link>    Run a link
+    greenshot-cli --recipe <cmd> [k=v…]    Run a recipe with a Commandline trigger (-r; --json, --query, --async)
+    greenshot-cli --list-recipes / --info  The recipes you can run (-l), one recipe's arguments (-i)
     greenshot-cli --version / --help
 
 Any program on your Mac can run greenshot-cli, so a screenshot of the full screen, a window or the last region asks
@@ -232,9 +279,11 @@ available. To put it on your PATH, use Settings › Expert › Automation › Co
 (no sudo needed for ~/.local/bin or /opt/homebrew/bin).
 
 Links (from a browser, Alfred, Raycast, `open`):
-- `greenshotmac://settings?tab=general|capture|output|destinations|editor|printer|expert|video` (`plugin=<name>` opens Destinations)
+- `greenshotmac://settings?tab=general|capture|output|destinations|editor|printer|expert|video|recipes|aitools` (`plugin=<name>` opens Destinations)
 - `greenshotmac://about`, `greenshotmac://self-service?section=system|setup|files|clipboard|hotkeys|integrity`
 - `greenshotmac://log?search=<text>`
+- `greenshotmac://recipe/<id>?key=value` runs a recipe whose Commandline trigger allows browsers;
+  `greenshotmac://recipe-editor` and `greenshotmac://recipe-manager` open those windows
 - `greenshotmac://capture/region|window|fullscreen|last|text` and `greenshotmac://clipboard`, only when
   "Allow links to take screenshots" is on in Settings › Expert › Automation (any web page can open a link)
 
@@ -286,14 +335,16 @@ start) or `incrementingNumber` (`${NUM}` would stop counting).
 
 ## Contributing
 
-The project is a Swift package with three targets:
+The project is a Swift package with five targets:
 
 - `Sources/GreenshotCore`: everything without windows — filename patterns, settings, the annotation model,
   the renderer, joining displays, the automation protocol and the recipe engine (`Recipes`). Covered by tests in
   `Tests/GreenshotCoreTests`.
 - `Sources/GreenshotMac`: the app — hotkeys (`App`), the capture screen and screen recording (`Capture`),
   destinations (`Output`), the editor (`Editor`) and the settings window (`Settings`).
-- `Sources/greenshot-cli`: the command line tool that `scripts/build-app.sh` puts in `Contents/Helpers`.
+- `Sources/greenshot-cli`, `Sources/greenshot-mcp` and `Sources/greenshot-native-host`: the command line tool, the MCP
+  server for AI tools and the browser extension's native messaging host, which `scripts/build-app.sh` puts in
+  `Contents/Helpers`. The browser extension itself is in `Extensions/Browser`.
 
 ```bash
 swift test                     # the core tests

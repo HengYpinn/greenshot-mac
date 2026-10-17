@@ -29,12 +29,50 @@ All notable changes to this project are documented here. The format follows
   greenshot-fixed.ini and greenshot-defaults.ini): locked controls show a lock, "Set by your organisation", and
   Settings, Quick Settings, the Expert tab and single destinations can be turned off. A sample profile is in
   docs/admin.
-- Recipes engine, without a user interface yet: recipe files load and validate as upstream's do and run as flows with
-  branches, joins, conditions and error routes, with expressions such as `${now:yyyy-MM-dd}`. A recipe file runs only
-  after you approve that exact content; approvals are signed, and a changed file is asked about again. A command, file,
-  folder or destination the recipe decides only when it runs needs its permission too. Files over 1 MB or with more
-  than 200 steps, and very long or deeply nested expressions, are refused. Image effects, OCR, QR/barcode scanning,
-  text effects and annotations already work as steps.
+- Recipes: a capture can run as a recipe, a series of steps started by a hotkey, the menu bar's Recipes submenu, the
+  editor's Recipes menu, a copied image, Open With, the command line or an AI tool. 13 built-in recipes as in Greenshot
+  for Windows (region, window, active window, full screen, last region, clipboard, open file, OCR text, a notification's
+  capture, browser extension captures and three AI tool captures); a hotkey or menu capture captures exactly as before
+  until a recipe file replaces its built-in, an automatic step changes it, or you switch it off. Steps capture, select,
+  play the camera sound, export to every destination (with file, editor and printer options per step), notify once per
+  flow, copy image or text, record video, run external commands, upload to Jira, Confluence, Box and Dropbox, and show a
+  decision prompt or a destination flyout. Recipe files load and validate as upstream's do, with expressions such as
+  `${now:yyyy-MM-dd}`.
+- Recipe approval: a recipe file runs only after you approve that exact content. The approval window says in plain
+  words what it does, with a switch per trigger and per permission, and what changed in a changed file; approvals are
+  signed, a changed file is asked about again, and a command, file, folder or upload target a recipe decides only when
+  it runs needs its permission too. Approve is never the Return button and waits a moment when the window opened on its
+  own. Files over 1 MB or with more than 200 steps, and very long or deeply nested expressions, are refused.
+- Recipe editor (menu bar › Recipe Editor…): recipes as a list of steps with branches and parallel lanes, forms made from
+  each step's contract (colour, file, sound, table, destination and hotkey editors), Triggers, Options, Error Routes,
+  Recipe and JSON tabs, a Flow tab that draws the flow and copies it as Mermaid text, annotations imported from open
+  editors or .greenshot files, undo and redo, Test Run, and saving that renews the approval and asks before replacing a
+  file that holds other recipes.
+- Recipe Manager: search and filters over recipes and automatic steps, with Edit, Test Run, Details, Permissions, Unload
+  or Reset Default, Load Recipe…, New Recipe, Reload All and Reset All. Settings › Recipes switches recipes on or off,
+  lists your recipes with their approvals and files, shows the options of recipes and automatic steps, and asks before
+  Unload and Reset Default.
+- Automatic steps: Caption, Border and Drop shadow for every capture, switched on in Settings › Recipes or Quick Settings
+  › Automatic steps and limited to some recipes and destinations; automatic step files are approved like recipe files.
+- Recipe hotkeys work next to Greenshot's own (a clashing one is left out and listed in Settings › Recipes); Clipboard
+  and Open With triggers run recipes when another app copies an image or a file is opened with Greenshot; a failed
+  recipe says so in a notification. Quitting while recipes run or with unsaved recipe edits asks first.
+- AI tools: greenshot-mcp, an MCP server in the app bundle, lets Claude Code, Claude Desktop, VS Code, Cursor and other
+  AI tools list your windows, take screenshots with optional text recognition, and run or propose recipes. It is off
+  until you switch it on in Settings › AI Tools, and each program is asked about once; a program running in a runtime
+  (node, Python, …) is allowed together with its script, and a signed one with its Team ID. The question counts Allow
+  only when nothing covers it. Password managers are never shared (their windows are blacked out), every AI screenshot
+  shows a notification, and a recipe or automatic step an AI tool proposes starts switched off after you approve it.
+- greenshot-cli runs recipes (`--recipe`/`-r` with arguments, `--list-recipes`/`-l`, `--info`/`-i`, `--json`, `--query`,
+  `--async`) and asks before a recipe takes a screenshot you don't select; `greenshotmac://recipe/<id>` runs recipes that
+  allow it, `greenshotmac://recipe-editor` and `greenshotmac://recipe-manager` open those windows.
+- Browser extension "Greenshot for Mac (Community) Companion" for Chrome, Edge and Firefox (126 or later): Capture
+  Visible Page sends the page to Greenshot, which asks where it goes, or a recipe with a browser extension trigger takes
+  it. File names can use `${url}`, `${browser}` and the active tab's `${Browser.Url}`, `${Browser.Domain}`,
+  `${Browser.Title}` and `${Browser.Ticket}` (cleaned, so they can't leave the output folder). Settings › Expert ›
+  Browser extension installs the browsers' connection; administrators can switch the extension off.
+- A recipe's RecordVideo step without DurationSeconds or UntilWindowCloses records until you stop it from the menu bar
+  (Greenshot for Windows stops it at once).
 
 - Notifications: after a capture, one macOS notification lists where it went, with a thumbnail. Click it within an
   hour to send the capture somewhere else (also after a restart); Edit, Show in Finder and Copy Link buttons; QR codes
