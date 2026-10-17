@@ -63,13 +63,15 @@ enum AtlassianSignIn {
     static func ready(_ service: AtlassianService, settings: SettingsStore) async -> AtlassianSite? {
         Uploads.applyCertificateExceptions(settings.value)
         guard var site = site(service, settings: settings.value) else {
-            Uploads.explainMissingSetup(service.name, detail: "Enter the \(service.name) URL in Settings › Destinations.")
+            Uploads.explainMissingSetup(service.name, detail: String(localized: "Enter the \(service.name) URL in Settings › Destinations."))
             return nil
         }
         guard site.login == .serverPassword else {
             guard site.hasCredentials else {
-                let what = site.login == .serverToken ? "a personal access token" : "your email and an API token"
-                Uploads.explainMissingSetup(service.name, detail: "Enter \(what) for \(service.name) in Settings › Destinations.")
+                let detail = site.login == .serverToken
+                    ? String(localized: "Enter a personal access token for \(service.name) in Settings › Destinations.")
+                    : String(localized: "Enter your email and an API token for \(service.name) in Settings › Destinations.")
+                Uploads.explainMissingSetup(service.name, detail: detail)
                 return nil
             }
             return site
@@ -81,7 +83,7 @@ enum AtlassianSignIn {
             case .success: return markVerified(site, service)
             case .failure(let error):
                 guard isLoginError(error) else {
-                    ErrorPresenter.show(error, title: "\(service.name) could not be reached")
+                    ErrorPresenter.show(error, title: String(localized: "\(service.name) could not be reached"))
                     return nil
                 }
                 problem = error.localizedDescription
@@ -97,7 +99,7 @@ enum AtlassianSignIn {
                 return markVerified(candidate, service)
             case .failure(let error):
                 guard isLoginError(error) else {
-                    ErrorPresenter.show(error, title: "\(service.name) could not be reached")
+                    ErrorPresenter.show(error, title: String(localized: "\(service.name) could not be reached"))
                     return nil
                 }
                 site = candidate.with(user: candidate.user, secret: "")
@@ -151,28 +153,30 @@ final class AtlassianLoginDialog {
     let alert = NSAlert()
     private let userField = NSTextField()
     private let passwordField = NSSecureTextField()
-    private let rememberBox = NSButton(checkboxWithTitle: "Remember in Keychain", target: nil, action: nil)
+    private let rememberBox = NSButton(checkboxWithTitle: String(localized: "Remember in Keychain"), target: nil, action: nil)
 
     init(service: AtlassianService, site: AtlassianSite, problem: String?) {
-        alert.messageText = "Please enter your \(service.name) login data"
+        // One text per service, like upstream's `login_title` of each plug-in.
+        alert.messageText = service == .jira ? String(localized: "Please enter your Jira login data")
+            : String(localized: "Please enter your Confluence login data")
         var info = site.baseURL.absoluteString
-        if site.isUnencrypted { info += "\n\nThis address starts with http://: the password travels unencrypted." }
-        if let problem { info += "\n\nThere was a problem during the login: \(problem)" }
+        if site.isUnencrypted { info += "\n\n" + String(localized: "This address starts with http://: the password travels unencrypted.") }
+        if let problem { info += "\n\n" + String(localized: "There was a problem during the login: \(problem)") }
         alert.informativeText = info
         alert.alertStyle = problem == nil ? .informational : .warning
-        alert.addButton(withTitle: "Log In")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Log In"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         userField.stringValue = site.user
-        userField.placeholderString = "User name"
-        passwordField.placeholderString = "Password"
+        userField.placeholderString = String(localized: "User name")
+        passwordField.placeholderString = String(localized: "Password")
         for field in [userField, passwordField] as [NSTextField] {
             field.translatesAutoresizingMaskIntoConstraints = false
             field.widthAnchor.constraint(equalToConstant: 220).isActive = true
         }
         rememberBox.state = .off
         let grid = NSGridView(views: [
-            [NSTextField(labelWithString: "User name:"), userField],
-            [NSTextField(labelWithString: "Password:"), passwordField],
+            [NSTextField(labelWithString: String(localized: "User name:")), userField],
+            [NSTextField(labelWithString: String(localized: "Password:")), passwordField],
             [NSView(), rememberBox],
         ])
         grid.column(at: 0).xPlacement = .trailing

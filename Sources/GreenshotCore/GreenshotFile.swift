@@ -129,10 +129,12 @@ public enum GreenshotFile {
 
         /// What the editor says after opening the file; nil when there is nothing to say.
         public var openMessage: String? {
-            if elementsFailed { return "The elements of this file could not be read, the image is shown without them." }
+            if elementsFailed {
+                return String(localized: "The elements of this file could not be read, the image is shown without them.")
+            }
             if let message = GreenshotFile.unreadableMessage(unreadable) { return message }
             if case .windows = origin {
-                return "A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is."
+                return String(localized: "A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.")
             }
             return nil
         }
@@ -183,8 +185,9 @@ public enum GreenshotFile {
         guard !unreadable.isEmpty else { return nil }
         var kinds: [String] = []
         for kind in unreadable where !kinds.contains(kind) { kinds.append(kind) }
-        let count = unreadable.count == 1 ? "1 element" : "\(unreadable.count) elements"
-        return "\(count) can't be shown here: \(kinds.joined(separator: ", "))."
+        let list = kinds.joined(separator: ", ")
+        if unreadable.count == 1 { return String(localized: "1 element can't be shown here: \(list).") }
+        return String(localized: "\(unreadable.count) elements can't be shown here: \(list).")
     }
 
     /// Reads a `.greenshot` file; nil when it is too big or has no image.
@@ -232,7 +235,7 @@ public enum GreenshotFile {
         }
         let decoded = payload.elements.compactMap(\.value)
         let skipped = payload.elements.count - decoded.count
-        let (elements, unreadable) = Annotation.withinLimits(decoded, unreadable: Array(repeating: "Element of a newer version", count: skipped))
+        let (elements, unreadable) = Annotation.withinLimits(decoded, unreadable: Array(repeating: String(localized: "Element of a newer version"), count: skipped))
         return Contents(image: image, scale: min(max(payload.scale, 1), 8), elements: elements.map { $0.withNewID() },
                         counterStart: min(max(payload.counterStart, 0), 999_999), title: payload.title,
                         captureDate: payload.captureDate, session: payload.session, origin: .mac,

@@ -12,13 +12,13 @@ import GreenshotCore
 enum EffectSettingsDialog {
     /// Shows `content` in a sheet on `window` (a modal alert without one); `onOK` runs when OK is clicked.
     /// `owner` (the object behind the controls) is kept alive while the sheet is open.
-    static func run(title: String, message: String, content: NSView, owner: AnyObject, okTitle: String = "OK",
+    static func run(title: String, message: String, content: NSView, owner: AnyObject, okTitle: String = String(localized: "OK"),
                     for window: NSWindow?, onOK: @escaping () -> Void) {
         let alert = NSAlert()
         alert.messageText = title
         alert.informativeText = message
         alert.addButton(withTitle: okTitle)
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Cancel"))
         content.layoutSubtreeIfNeeded()
         content.frame.size = content.fittingSize
         alert.accessoryView = content
@@ -115,10 +115,10 @@ final class DropShadowSettingsForm: NSObject {
         darkness = SliderField(range: 1...40, value: Self.sliderValue(darkness: settings.darkness), format: { "\($0)" })
         super.init()
         view = EffectSettingsDialog.form([
-            thickness.row("Thickness:"),
-            offsetX.row("Offset X:"),
-            offsetY.row("Offset Y:"),
-            darkness.row("Darkness:"),
+            thickness.row(String(localized: "Thickness:")),
+            offsetX.row(String(localized: "Offset X:")),
+            offsetY.row(String(localized: "Offset Y:")),
+            darkness.row(String(localized: "Darkness:")),
         ])
     }
 
@@ -148,12 +148,14 @@ final class TornEdgeSettingsForm: NSObject {
     let shadowOffsetY: SliderField
     let shadowDarkness: SliderField
     let backgroundColorWell = NSColorWell(style: .minimal)
-    private let top = NSButton(checkboxWithTitle: "Top", target: nil, action: nil)
-    private let left = NSButton(checkboxWithTitle: "Left", target: nil, action: nil)
-    private let right = NSButton(checkboxWithTitle: "Right", target: nil, action: nil)
-    private let bottom = NSButton(checkboxWithTitle: "Bottom", target: nil, action: nil)
-    private let all = NSButton(checkboxWithTitle: "All", target: nil, action: nil)
-    private let shadow = NSButton(checkboxWithTitle: "With shadow", target: nil, action: nil)
+    private let top = NSButton(checkboxWithTitle: String(localized: "Top", comment: "Torn edges: tear the top side"), target: nil, action: nil)
+    private let left = NSButton(checkboxWithTitle: String(localized: "Left", comment: "Torn edges: tear the left side"), target: nil, action: nil)
+    private let right = NSButton(checkboxWithTitle: String(localized: "Right", comment: "Torn edges: tear the right side"),
+                                 target: nil, action: nil)
+    private let bottom = NSButton(checkboxWithTitle: String(localized: "Bottom", comment: "Torn edges: tear the bottom side"),
+                                  target: nil, action: nil)
+    private let all = NSButton(checkboxWithTitle: String(localized: "All", comment: "Torn edges: tear all sides"), target: nil, action: nil)
+    private let shadow = NSButton(checkboxWithTitle: String(localized: "With shadow"), target: nil, action: nil)
     private(set) var view = NSView()
 
     init(_ settings: TornEdgeSettings, showEdges: Bool = true) {
@@ -178,9 +180,9 @@ final class TornEdgeSettingsForm: NSObject {
         shadow.target = self
         shadow.action = #selector(shadowChanged(_:))
         backgroundColorWell.color = NSColor(cgColor: settings.backgroundColor.cgColor) ?? .clear
-        backgroundColorWell.toolTip = "The color of the torn off parts; transparent by default"
+        backgroundColorWell.toolTip = String(localized: "The color of the torn off parts; transparent by default")
         // The color panel doesn't offer transparency: a button brings it back, like "No fill" in the property bar.
-        let transparent = NSButton(title: "Transparent", target: self, action: #selector(clearBackground(_:)))
+        let transparent = NSButton(title: String(localized: "Transparent"), target: self, action: #selector(clearBackground(_:)))
         transparent.bezelStyle = .rounded
         transparent.controlSize = .small
         let background = NSStackView(views: [backgroundColorWell, transparent])
@@ -195,17 +197,17 @@ final class TornEdgeSettingsForm: NSObject {
         edges.rowSpacing = 4
         edges.columnSpacing = 12
         for column in 0..<3 { edges.column(at: column).xPlacement = .center }
-        let edgeRows: [[NSView]] = showEdges ? [[EffectSettingsDialog.label("Edges:"), edges]] : []
+        let edgeRows: [[NSView]] = showEdges ? [[EffectSettingsDialog.label(String(localized: "Edges:")), edges]] : []
         view = EffectSettingsDialog.form(edgeRows + [
-            toothHeight.row("Tooth size:"),
-            horizontalRange.row("Horizontal range:"),
-            verticalRange.row("Vertical range:"),
-            [EffectSettingsDialog.label("Background:"), background],
-            [EffectSettingsDialog.label("Shadow:"), shadow],
-            shadowThickness.row("Thickness:"),
-            shadowOffsetX.row("Offset X:"),
-            shadowOffsetY.row("Offset Y:"),
-            shadowDarkness.row("Darkness:"),
+            toothHeight.row(String(localized: "Tooth size:")),
+            horizontalRange.row(String(localized: "Horizontal range:")),
+            verticalRange.row(String(localized: "Vertical range:")),
+            [EffectSettingsDialog.label(String(localized: "Background:")), background],
+            [EffectSettingsDialog.label(String(localized: "Shadow:")), shadow],
+            shadowThickness.row(String(localized: "Thickness:")),
+            shadowOffsetX.row(String(localized: "Offset X:")),
+            shadowOffsetY.row(String(localized: "Offset Y:")),
+            shadowDarkness.row(String(localized: "Darkness:")),
         ])
     }
 
@@ -267,9 +269,9 @@ final class AdjustSettingsForm: NSObject {
     override init() {
         super.init()
         view = EffectSettingsDialog.form([
-            brightness.row("Brightness:"),
-            contrast.row("Contrast:"),
-            gamma.row("Gamma:"),
+            brightness.row(String(localized: "Brightness:")),
+            contrast.row(String(localized: "Contrast:")),
+            gamma.row(String(localized: "Gamma:")),
         ])
     }
 
@@ -291,13 +293,13 @@ final class RemoveTransparencyForm: NSObject {
     override init() {
         super.init()
         colorWell.color = .white
-        colorWell.toolTip = "The color behind the image"
-        let white = NSButton(title: "White", target: self, action: #selector(useWhite(_:)))
+        colorWell.toolTip = String(localized: "The color behind the image")
+        let white = NSButton(title: String(localized: "White"), target: self, action: #selector(useWhite(_:)))
         white.bezelStyle = .rounded
         white.controlSize = .small
         let row = NSStackView(views: [colorWell, white])
         row.spacing = 6
-        view = EffectSettingsDialog.form([[EffectSettingsDialog.label("Background:"), row]])
+        view = EffectSettingsDialog.form([[EffectSettingsDialog.label(String(localized: "Background:")), row]])
     }
 
     /// The chosen color, opaque (a see-through background would leave the transparency).

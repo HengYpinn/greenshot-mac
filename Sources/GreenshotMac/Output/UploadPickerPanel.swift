@@ -67,7 +67,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
 
     struct Configuration {
         var title: String
-        /// The label of the key field (Jira: "Issue key"); nil when only a picked row counts (Confluence).
+        /// The label of the key field (Jira: "Issue key:"); nil when only a picked row counts (Confluence).
         var keyLabel: String?
         var searchPlaceholder: String
         var columns: [Column]
@@ -90,7 +90,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         /// Loads a row icon.
         var loadIcon: ((URL) async -> NSImage?)? = nil
         /// The search's tab title when there are tabs.
-        var searchTitle = "Search pages"
+        var searchTitle = String(localized: "Search pages")
         /// A "Browse pages" tab (upstream `ConfluenceTreePickerPage`).
         var browse: UploadPickerBrowser.Configuration? = nil
         /// An "Open pages" tab (upstream `ConfluencePagePickerPage`).
@@ -106,7 +106,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
     private let status = NSTextField(labelWithString: "")
     private let filenameField = NSTextField()
     private let commentField = NSTextField()
-    private let uploadButton = NSButton(title: "Upload", target: nil, action: nil)
+    private let uploadButton = NSButton(title: String(localized: "Upload"), target: nil, action: nil)
     private var rows: [Row] = []
     private var scopes: [Scope] = []
     private var icons: [URL: NSImage] = [:]
@@ -177,7 +177,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
     func preview(rows: [Row], scopes: [Scope], selectedScope: String?, icons: [URL: NSImage] = [:]) {
         self.icons = icons
         fillScopes(scopes, select: selectedScope)
-        show(rows: rows, status: "\(rows.count) found")
+        show(rows: rows, status: String(localized: "\(rows.count) found"))
         if !rows.isEmpty { table.selectRowIndexes([0], byExtendingSelection: false) }
     }
 
@@ -193,7 +193,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         guard let openRows = configuration.openRows, let list = openList else { return }
         if let rows {
             list.setAction(nil, nil)
-            list.show(rows, status: rows.isEmpty ? openRows.emptyText : "\(rows.count) found")
+            list.show(rows, status: rows.isEmpty ? openRows.emptyText : String(localized: "\(rows.count) found"))
         } else {
             list.setAction(openRows.askTitle) {}
             list.show([], status: Self.askText)
@@ -204,23 +204,23 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         var gridRows: [[NSView]] = []
         if let keyLabel = configuration.keyLabel {
             keyField.addItems(withObjectValues: configuration.recent.map(\.id))
-            keyField.placeholderString = "e.g. PROJ-123"
+            keyField.placeholderString = String(localized: "e.g. PROJ-123", comment: "Example of a Jira issue key")
             keyField.completes = true
             keyField.delegate = self
-            gridRows.append([label("\(keyLabel):"), keyField])
+            gridRows.append([label(keyLabel), keyField])
         }
         var searchRows: [[NSView]] = []
         if let scopeLabel = configuration.scopeLabel {
             scopePopup.addItem(withTitle: configuration.noScopeTitle)
             scopePopup.target = self
             scopePopup.action = #selector(scopeChosen)
-            searchRows.append([label("\(scopeLabel):"), scopePopup])
+            searchRows.append([label(scopeLabel), scopePopup])
         }
         searchField.placeholderString = configuration.searchPlaceholder
         searchField.sendsWholeSearchString = true
         searchField.target = self
         searchField.action = #selector(search)
-        searchRows.append([label("Search:"), searchField])
+        searchRows.append([label(String(localized: "Search:")), searchField])
 
         for (index, column) in configuration.columns.enumerated() {
             let tableColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("c\(index)"))
@@ -245,7 +245,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         status.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
         status.textColor = .secondaryLabelColor
         status.lineBreakMode = .byTruncatingTail
-        status.stringValue = configuration.recent.isEmpty ? "" : "Recent"
+        status.stringValue = configuration.recent.isEmpty ? "" : String(localized: "Recent", comment: "The list shows the recently used issues or pages")
         searchRows.append([label(""), status])
         var tabsView: NSView?
         if configuration.browse == nil && configuration.openRows == nil {
@@ -257,12 +257,12 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         }
 
         filenameField.stringValue = configuration.filename
-        gridRows.append([label("File name:"), filenameField])
+        gridRows.append([label(String(localized: "File name:")), filenameField])
         if configuration.showsComment {
-            commentField.placeholderString = "Optional"
-            gridRows.append([label("Comment:"), commentField])
+            commentField.placeholderString = String(localized: "Optional")
+            gridRows.append([label(String(localized: "Comment:")), commentField])
         }
-        let cancel = NSButton(title: "Cancel", target: self, action: #selector(cancel))
+        let cancel = NSButton(title: String(localized: "Cancel"), target: self, action: #selector(cancel))
         cancel.keyEquivalent = "\u{1b}"
         uploadButton.target = self
         uploadButton.action = #selector(accept)
@@ -345,7 +345,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
             tree.selectionChanged = { [weak self] in self?.updateUploadButton() }
             tree.doubleClicked = { [weak self] in self?.accept() }
             browser = tree
-            tabs.addTabViewItem(item("browse", "Browse pages", tree.view))
+            tabs.addTabViewItem(item("browse", String(localized: "Browse pages"), tree.view))
         }
         tabs.tabViewType = .noTabsBezelBorder
         tabs.selectTabViewItem(withIdentifier: "search")
@@ -376,19 +376,21 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         tabs.selectTabViewItem(at: tabButtons.selectedSegment)
     }
 
-    static let askText = "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it."
+    static var askText: String {
+        String(localized: "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.")
+    }
 
     /// Fills the open-rows tab when it can without asking; selects it when it found rows and the user didn't switch.
     private func loadOpenRows() {
         guard let openRows = configuration.openRows, let list = openList else { return }
-        list.show([], status: "Looking…")
+        list.show([], status: String(localized: "Looking…"))
         openTask = Task { @MainActor [weak self] in
             do {
                 let found = try await openRows.load()
                 guard !Task.isCancelled, let self else { return }
                 if let found {
                     list.setAction(nil, nil)
-                    list.show(found, status: found.isEmpty ? openRows.emptyText : "\(found.count) found")
+                    list.show(found, status: found.isEmpty ? openRows.emptyText : String(localized: "\(found.count) found"))
                     // Not away from a search the user started.
                     if !found.isEmpty, !userChoseTab, searchField.stringValue.isEmpty { select("open") }
                 } else {
@@ -405,12 +407,12 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
     private func askOpenRows() {
         guard let openRows = configuration.openRows, let list = openList else { return }
         list.setAction(nil, nil)
-        list.show([], status: "Looking…")
+        list.show([], status: String(localized: "Looking…"))
         openTask = Task { @MainActor in
             do {
                 let found = try await openRows.ask()
                 guard !Task.isCancelled else { return }
-                list.show(found, status: found.isEmpty ? openRows.emptyText : "\(found.count) found")
+                list.show(found, status: found.isEmpty ? openRows.emptyText : String(localized: "\(found.count) found"))
             } catch {
                 guard !Task.isCancelled else { return }
                 list.show([], status: error.localizedDescription)
@@ -464,11 +466,11 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         let scope = selectedScope
         configuration.scopeChanged(scope)
         if let scope, let list = configuration.listScope {
-            run(status: "Loading \(scope.title)…") { try await list(scope) }
+            run(status: String(localized: "Loading \(scope.title)…")) { try await list(scope) }
         } else if !searchField.stringValue.trimmingCharacters(in: .whitespaces).isEmpty {
             search()
         } else if scope == nil {
-            show(rows: configuration.recent, status: configuration.recent.isEmpty ? "" : "Recent")
+            show(rows: configuration.recent, status: configuration.recent.isEmpty ? "" : String(localized: "Recent", comment: "The list shows the recently used issues or pages"))
         }
     }
 
@@ -478,12 +480,12 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
         let text = searchField.stringValue.trimmingCharacters(in: .whitespaces)
         guard !text.isEmpty else {
             searchTask?.cancel()
-            show(rows: configuration.recent, status: configuration.recent.isEmpty ? "" : "Recent")
+            show(rows: configuration.recent, status: configuration.recent.isEmpty ? "" : String(localized: "Recent", comment: "The list shows the recently used issues or pages"))
             return
         }
         let search = configuration.search
         let scope = configuration.listScope == nil ? selectedScope : nil
-        run(status: "Searching…") { try await search(text, scope) }
+        run(status: String(localized: "Searching…")) { try await search(text, scope) }
     }
 
     private func run(status text: String, _ load: @escaping @MainActor () async throws -> [Row]) {
@@ -493,7 +495,7 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
             do {
                 let found = try await load()
                 guard !Task.isCancelled else { return }
-                self?.show(rows: found, status: found.isEmpty ? "Nothing found" : "\(found.count) found")
+                self?.show(rows: found, status: found.isEmpty ? String(localized: "Nothing found") : String(localized: "\(found.count) found"))
             } catch {
                 guard !Task.isCancelled else { return }
                 self?.show(rows: [], status: error.localizedDescription)

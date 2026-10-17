@@ -31,7 +31,7 @@ final class WindowInsertMenu: NSObject, NSMenuDelegate {
         menu.removeAllItems()
         let windows = ScreenCapturer.onScreenWindows()
         guard !windows.isEmpty else {
-            menu.addItem(withTitle: "No Windows", action: nil, keyEquivalent: "").isEnabled = false
+            menu.addItem(withTitle: String(localized: "No Windows"), action: nil, keyEquivalent: "").isEnabled = false
             return
         }
         let settings = (NSApp.delegate as? AppDelegate)?.settings.value

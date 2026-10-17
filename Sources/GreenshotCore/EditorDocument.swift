@@ -388,10 +388,10 @@ public enum CropMode: String, CaseIterable, Sendable {
 
     public var title: String {
         switch self {
-        case .crop: return "Crop"
-        case .vertical: return "Crop Out Vertically"
-        case .horizontal: return "Crop Out Horizontally"
-        case .auto: return "Auto Crop"
+        case .crop: return String(localized: "Crop", comment: "Crop mode: crop to the selected area")
+        case .vertical: return String(localized: "Crop Out Vertically")
+        case .horizontal: return String(localized: "Crop Out Horizontally")
+        case .auto: return String(localized: "Auto Crop")
         }
     }
 

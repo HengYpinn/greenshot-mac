@@ -31,12 +31,12 @@ public enum EditorWindowStatus {
             return nil
         case .succeeded:
             if result.target == nil, let file = result.fileURL {
-                return Message(text: "Image saved to \(abbreviated(file)).")
+                return Message(text: String(localized: "Image saved to \(abbreviated(file))."))
             }
-            return Message(text: "Exported to: \(target)")
+            return Message(text: String(localized: "Exported to: \(target)"))
         case .failed:
             guard let error = result.error?.trimmingCharacters(in: .whitespacesAndNewlines), !error.isEmpty else { return nil }
-            return Message(text: "An error occurred while exporting to \(target): \(error)", isError: true)
+            return Message(text: String(localized: "An error occurred while exporting to \(target): \(error)"), isError: true)
         }
     }
 

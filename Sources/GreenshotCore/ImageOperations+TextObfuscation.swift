@@ -15,7 +15,7 @@ public enum TextObfuscation {
 
         public var errorDescription: String? {
             switch self {
-            case .invalidPattern(let pattern): return "“\(pattern)” is not a valid regular expression."
+            case .invalidPattern(let pattern): return String(localized: "“\(pattern)” is not a valid regular expression.")
             }
         }
     }

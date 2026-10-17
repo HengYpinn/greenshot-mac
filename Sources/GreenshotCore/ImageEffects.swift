@@ -13,11 +13,11 @@ public enum ImageEffect: String, CaseIterable, Sendable {
 
     public var title: String {
         switch self {
-        case .tornEdge: return "Torn Edges"
-        case .border: return "Border"
-        case .dropShadow: return "Drop Shadow"
-        case .grayscale: return "Grayscale"
-        case .invert: return "Invert"
+        case .tornEdge: return String(localized: "Torn Edges")
+        case .border: return String(localized: "Border")
+        case .dropShadow: return String(localized: "Drop Shadow")
+        case .grayscale: return String(localized: "Grayscale")
+        case .invert: return String(localized: "Invert")
         }
     }
 }

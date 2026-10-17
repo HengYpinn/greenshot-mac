@@ -27,8 +27,8 @@ extension EditorWindowController {
         canvas.commitEditing()
         let document = editorDocument
         let panel = NSSavePanel()
-        panel.title = "Save as Greenshot File"
-        panel.message = "The elements stay editable when the file is opened again."
+        panel.title = String(localized: "Save as Greenshot File")
+        panel.message = String(localized: "The elements stay editable when the file is opened again.")
         panel.allowedContentTypes = [Self.greenshotFileType]
         let current = document.fileURL
         let name = current.map { $0.deletingPathExtension().lastPathComponent + "." + GreenshotFile.fileExtension }
@@ -37,10 +37,10 @@ extension EditorWindowController {
         do {
             try GreenshotFile.write(document, to: url)
         } catch {
-            saveFailed(url, destination: "Save as Greenshot File", error: error)
+            saveFailed(url, destination: String(localized: "Save as Greenshot File"), error: error)
             return
         }
-        saved(url, destination: "Save as Greenshot File")
+        saved(url, destination: String(localized: "Save as Greenshot File"))
     }
 
     /// Save of a document whose file is a `.greenshot`: written over it, unless the document `savesToNewFile` (a file
@@ -52,10 +52,10 @@ extension EditorWindowController {
                 saveAsGreenshotFile(nil)
                 return !document.isModified
             }
-            saved(url, destination: "Save")
+            saved(url, destination: String(localized: "Save"))
             return true
         } catch {
-            saveFailed(document.fileURL, destination: "Save", error: error)
+            saveFailed(document.fileURL, destination: String(localized: "Save"), error: error)
             return false
         }
     }
@@ -67,9 +67,11 @@ extension EditorWindowController {
     }
 
     private func saveFailed(_ url: URL?, destination: String, error: Error) {
-        let name = url?.lastPathComponent ?? "the file"
-        Self.log.error("Saving \(name) failed", error: error)
-        ErrorPresenter.show(message: "The screenshot could not be saved to \(name)", detail: error.localizedDescription)
+        let name = url?.lastPathComponent
+        Self.log.error("Saving \(name ?? "the file") failed", error: error)
+        let message = name.map { String(localized: "The screenshot could not be saved to \($0)") }
+            ?? String(localized: "The screenshot could not be saved to the file")
+        ErrorPresenter.show(message: message, detail: error.localizedDescription)
         showExportResult(.failed(error.localizedDescription), destination: destination)
     }
 
@@ -82,7 +84,7 @@ extension EditorWindowController {
             return (template.elements, GreenshotFile.unreadableMessage(template.unreadable))
         } catch {
             Self.log.error("The elements of \(url.lastPathComponent) could not be read", error: error)
-            ErrorPresenter.show(message: "The elements could not be loaded", detail: url.lastPathComponent)
+            ErrorPresenter.show(message: String(localized: "The elements could not be loaded"), detail: url.lastPathComponent)
             return nil
         }
     }

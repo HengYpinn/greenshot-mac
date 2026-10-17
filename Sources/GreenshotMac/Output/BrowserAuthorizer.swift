@@ -69,7 +69,7 @@ final class BrowserAuthorizer: NSObject, OAuthAuthorizer, ASWebAuthenticationPre
             NSApp.activate()
             if !session.start() {
                 listener?.stop()
-                once.resume(.failure(UploadError.oauth("The sign-in window could not be opened.")))
+                once.resume(.failure(UploadError.oauth(String(localized: "The sign-in window could not be opened."))))
             }
         }
     }
@@ -146,6 +146,19 @@ final class LoopbackListener: @unchecked Sendable {
         open.forEach { $0.cancel() }
     }
 
+    /// The page the browser shows after the sign-in, in the app's language.
+    private static var signedInPage: String {
+        let heading = html(String(localized: "Signed in", comment: "Web page shown in the browser after signing in to Box or Dropbox"))
+        let text = html(String(localized: "You can close this window and go back to Greenshot."))
+        return "<!doctype html><meta charset=utf-8><title>Greenshot</title><body style=\"font-family:-apple-system,sans-serif;margin:3em\">"
+            + "<h2>\(heading)</h2><p>\(text)</p>"
+    }
+
+    private static func html(_ text: String) -> String {
+        text.replacingOccurrences(of: "&", with: "&amp;").replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+    }
+
     private func accept(_ connection: NWConnection) {
         lock.lock()
         connections.append(connection)
@@ -157,9 +170,7 @@ final class LoopbackListener: @unchecked Sendable {
             let target = request.split(separator: "\r\n").first?.split(separator: " ").dropFirst().first.map(String.init) ?? ""
             let url = URL(string: "http://127.0.0.1:\(self.port)" + target)
             let matches = url?.path == self.path
-            let body = matches
-                ? "<!doctype html><meta charset=utf-8><title>Greenshot</title><body style=\"font-family:-apple-system,sans-serif;margin:3em\"><h2>Signed in</h2><p>You can close this window and go back to Greenshot.</p>"
-                : "Not found"
+            let body = matches ? Self.signedInPage : "Not found"
             let response = "HTTP/1.1 \(matches ? "200 OK" : "404 Not Found")\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: \(body.utf8.count)\r\nConnection: close\r\n\r\n" + body
             connection.send(content: Data(response.utf8), completion: .contentProcessed { _ in
                 connection.cancel()

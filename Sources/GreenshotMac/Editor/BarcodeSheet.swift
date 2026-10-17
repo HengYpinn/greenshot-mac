@@ -28,11 +28,11 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
     private let previewView = NSImageView()
     private let foregroundWell = NSColorWell(style: .minimal)
     private let backgroundWell = NSColorWell(style: .minimal)
-    private let roundedBox = NSButton(checkboxWithTitle: "Rounded Dots", target: nil, action: nil)
+    private let roundedBox = NSButton(checkboxWithTitle: String(localized: "Rounded Dots"), target: nil, action: nil)
     private let marginPopup = NSPopUpButton()
     private let statusLabel = NSTextField(wrappingLabelWithString: "")
-    private let insertButton = NSButton(title: "Insert", target: nil, action: nil)
-    private let cancelButton = NSButton(title: "Cancel", target: nil, action: nil)
+    private let insertButton = NSButton(title: String(localized: "Insert"), target: nil, action: nil)
+    private let cancelButton = NSButton(title: String(localized: "Cancel"), target: nil, action: nil)
     /// The sheet keeps itself alive while it is open.
     private var keepAlive: BarcodeSheet?
     /// The colour wells the user changed: their colours become recent colours on Insert.
@@ -67,7 +67,7 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
 
     private func buildLayout() {
         // Upstream: "Insert QR / Barcode", or "Edit QR / Barcode" with an Apply button for an element's model.
-        panel.title = isEditing ? "Edit QR / Barcode" : "Insert QR / Barcode"
+        panel.title = isEditing ? String(localized: "Edit QR / Barcode") : String(localized: "Insert QR / Barcode")
         let title = NSTextField(labelWithString: panel.title)
         title.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
 
@@ -87,9 +87,9 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
         roundedBox.target = self
         roundedBox.action = #selector(controlChanged(_:))
 
-        let formatLabel = Self.label("Barcode Format:")
+        let formatLabel = Self.label(String(localized: "Barcode Format:"))
         choices.addRow(with: [formatLabel, formatPopup])
-        choices.addRow(with: [Self.label("QR Type:"), typePopup])
+        choices.addRow(with: [Self.label(String(localized: "QR Type:")), typePopup])
         choices.rowSpacing = 8
         choices.columnSpacing = 8
         choices.column(at: 0).xPlacement = .trailing
@@ -118,22 +118,24 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
         previewView.imageScaling = .scaleProportionallyDown
         previewView.imageAlignment = .alignCenter
         let previewBox = NSBox()
-        previewBox.title = "Preview"
+        previewBox.title = String(localized: "Preview")
         previewBox.titleFont = .boldSystemFont(ofSize: NSFont.smallSystemFontSize)
         previewBox.contentView = Self.padded(previewView, inset: 8)
         previewView.widthAnchor.constraint(equalToConstant: Self.previewSize.width).isActive = true
         previewView.heightAnchor.constraint(equalToConstant: Self.previewSize.height).isActive = true
 
-        let colours = NSStackView(views: [foregroundWell, Self.label("Foreground"), Self.spacer(width: 16),
-                                          backgroundWell, Self.label("Background")])
+        let foreground = String(localized: "Foreground", comment: "Colour of the bars or dots of a barcode")
+        let background = String(localized: "Background", comment: "Colour behind a barcode")
+        let colours = NSStackView(views: [foregroundWell, Self.label(foreground), Self.spacer(width: 16),
+                                          backgroundWell, Self.label(background)])
         colours.spacing = 6
-        let marginLabel = Self.label("Margin:")
+        let marginLabel = Self.label(String(localized: "Margin:"))
         let style = NSStackView(views: [roundedBox, Self.spacer(width: 24), marginLabel, marginPopup])
         style.spacing = 6
         statusLabel.preferredMaxLayoutWidth = Self.previewSize.width
         statusLabel.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
 
-        insertButton.title = isEditing ? "Apply" : "Insert"
+        insertButton.title = isEditing ? String(localized: "Apply") : String(localized: "Insert")
         insertButton.bezelStyle = .push
         insertButton.keyEquivalent = "\r"
         insertButton.target = self
@@ -170,31 +172,42 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
 
     /// The fields of every QR type (upstream's `Pnl*` panels); the text panel is also the value of the other formats.
     private func buildPanels() {
-        panels[.text] = multiline("Enter plain text or URL:", \.text, height: 68)
+        panels[.text] = multiline(String(localized: "Enter plain text or URL:"), \.text, height: 68)
         panels[.wifi] = grid([
-            row("Network Name (SSID):", \.wifiSSID),
-            row("Password:", \.wifiPassword),
-            [Self.label("Encryption Type:"), encryptionPopup],
+            row(String(localized: "Network Name (SSID):"), \.wifiSSID),
+            row(String(localized: "Password:"), \.wifiPassword),
+            [Self.label(String(localized: "Encryption Type:")), encryptionPopup],
         ])
         panels[.vCard] = grid([
-            row("First Name:", \.vCardFirstName), row("Last Name:", \.vCardLastName), row("Phone:", \.vCardPhone),
-            row("Email:", \.vCardEmail), row("Company:", \.vCardCompany), row("URL:", \.vCardURL),
+            row(String(localized: "First Name:"), \.vCardFirstName),
+            row(String(localized: "Last Name:"), \.vCardLastName),
+            row(String(localized: "Phone:"), \.vCardPhone),
+            row(String(localized: "Email:"), \.vCardEmail),
+            row(String(localized: "Company:"), \.vCardCompany),
+            row(String(localized: "URL:"), \.vCardURL),
         ])
         panels[.epcTransfer] = grid([
-            row("Recipient:", \.epcName), row("IBAN:", \.epcIBAN), row("BIC (optional):", \.epcBIC),
-            row("Amount (EUR):", \.epcAmount), row("Reference:", \.epcReference), row("Message:", \.epcMessage),
+            row(String(localized: "Recipient:"), \.epcName),
+            row(String(localized: "IBAN:"), \.epcIBAN),
+            row(String(localized: "BIC (optional):"), \.epcBIC),
+            row(String(localized: "Amount (EUR):"), \.epcAmount),
+            row(String(localized: "Reference:"), \.epcReference),
+            row(String(localized: "Message:"), \.epcMessage),
         ])
-        panels[.email] = stack([grid([row("To:", \.emailTo), row("Subject:", \.emailSubject)]),
-                                multiline("Body:", \.emailBody, height: 70)])
+        panels[.email] = stack([grid([row(String(localized: "To:"), \.emailTo), row(String(localized: "Subject:"), \.emailSubject)]),
+                                multiline(String(localized: "Body:"), \.emailBody, height: 70)])
         panels[.calendarEvent] = grid([
-            row("Title:", \.eventTitle), row("Location:", \.eventLocation),
-            row("Start (UTC):", \.eventStart, placeholder: "20261017T090000Z"),
-            row("End (UTC):", \.eventEnd, placeholder: "20261017T100000Z"),
-            row("Description:", \.eventDescription),
+            row(String(localized: "Title:"), \.eventTitle),
+            row(String(localized: "Location:"), \.eventLocation),
+            row(String(localized: "Start (UTC):"), \.eventStart, placeholder: "20261017T090000Z"),
+            row(String(localized: "End (UTC):"), \.eventEnd, placeholder: "20261017T100000Z"),
+            row(String(localized: "Description:"), \.eventDescription),
         ])
-        panels[.phone] = grid([row("Phone Number:", \.phoneNumber)])
-        panels[.sms] = stack([grid([row("Recipient Number:", \.smsNumber)]), multiline("Message:", \.smsMessage, height: 70)])
-        panels[.geo] = grid([row("Latitude:", \.latitude, placeholder: "52.5163"), row("Longitude:", \.longitude, placeholder: "13.3777")])
+        panels[.phone] = grid([row(String(localized: "Phone Number:"), \.phoneNumber)])
+        panels[.sms] = stack([grid([row(String(localized: "Recipient Number:"), \.smsNumber)]),
+                              multiline(String(localized: "Message:"), \.smsMessage, height: 70)])
+        panels[.geo] = grid([row(String(localized: "Latitude:"), \.latitude, placeholder: "52.5163"),
+                             row(String(localized: "Longitude:"), \.longitude, placeholder: "13.3777")])
     }
 
     private func row(_ title: String, _ key: WritableKeyPath<BarcodeSpec, String>, placeholder: String? = nil) -> [NSView] {
@@ -302,7 +315,7 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
         choices.row(at: 1).isHidden = !isQR
         let shown: QRPayloadType = isQR ? spec.qrType : .text
         for (type, view) in panels { view.isHidden = type != shown }
-        fieldsBox.title = isQR ? spec.qrType.fieldsTitle : "Text / Number Value"
+        fieldsBox.title = isQR ? spec.qrType.fieldsTitle : String(localized: "Text / Number Value")
         roundedBox.isHidden = !spec.symbology.hasRoundedDots
 
         guard !spec.payload.isEmpty else {

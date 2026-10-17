@@ -16,7 +16,7 @@ extension Annotation {
     public static let maxCoordinate: CGFloat = 1_000_000
 
     /// What the editor calls an element left out by the limits (see `GreenshotFile.unreadableMessage`).
-    public static let outOfLimitsName = "Damaged element"
+    public static var outOfLimitsName: String { String(localized: "Damaged element") }
 
     /// Whether the start, end, tail and freehand path are finite and within `maxCoordinate` of the origin.
     public var hasLimitedGeometry: Bool {

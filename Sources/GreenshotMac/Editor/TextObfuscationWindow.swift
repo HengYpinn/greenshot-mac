@@ -27,8 +27,8 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
 
     private let panel: NSPanel
     private let searchField = NSTextField()
-    private let regexBox = NSButton(checkboxWithTitle: "Regular expression", target: nil, action: nil)
-    private let caseBox = NSButton(checkboxWithTitle: "Case sensitive", target: nil, action: nil)
+    private let regexBox = NSButton(checkboxWithTitle: String(localized: "Regular expression"), target: nil, action: nil)
+    private let caseBox = NSButton(checkboxWithTitle: String(localized: "Case sensitive"), target: nil, action: nil)
     private let scopePopup = NSPopUpButton()
     private let effectPopup = NSPopUpButton()
     private let pixelSize: SliderField
@@ -44,24 +44,27 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
     private let offsetY: SliderField
     private let statusLabel = NSTextField(wrappingLabelWithString: "")
     private let matchLabel = NSTextField(labelWithString: "")
-    private let searchButton = NSButton(title: "Search", target: nil, action: nil)
+    private let searchButton = NSButton(title: String(localized: "Search"), target: nil, action: nil)
     private var debounce: Timer?
     /// Apply was clicked while the text was still being recognized.
     private var applyWhenRecognized = false
     /// Whether the user changed the highlight colour: it becomes a recent colour on Apply.
     private var highlightColorChanged = false
     private let spinner = NSProgressIndicator()
-    private let applyButton = NSButton(title: "Apply", target: nil, action: nil)
-    private let cancelButton = NSButton(title: "Cancel", target: nil, action: nil)
+    private let applyButton = NSButton(title: String(localized: "Apply"), target: nil, action: nil)
+    private let cancelButton = NSButton(title: String(localized: "Cancel"), target: nil, action: nil)
     private var lines: [RecognizedLine]?
     private var recognition: Task<Void, Never>?
     /// The sheet keeps itself alive while it is open.
     private var keepAlive: TextObfuscationSheet?
 
-    private static let scopes: [(TextObfuscationSettings.Scope, String)] = [(.words, "Words"), (.lines, "Lines")]
-    private static let effects: [(TextObfuscationSettings.Effect, String)] = [
-        (.pixelate, "Pixelate"), (.blur, "Blur"), (.highlight, "Highlight"), (.magnify, "Magnify"),
-    ]
+    private static var scopes: [(TextObfuscationSettings.Scope, String)] {
+        [(.words, String(localized: "Words")), (.lines, String(localized: "Lines"))]
+    }
+    private static var effects: [(TextObfuscationSettings.Effect, String)] {
+        [(.pixelate, String(localized: "Pixelate")), (.blur, String(localized: "Blur")),
+         (.highlight, String(localized: "Highlight")), (.magnify, String(localized: "Magnify"))]
+    }
 
     /// `lines` are text lines already recognized (for snapshots); without them the dialog recognizes the text itself.
     init(image: CGImage, settings: TextObfuscationSettings, language: String, lines: [RecognizedLine]? = nil) {
@@ -79,7 +82,7 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
                         backing: .buffered, defer: true)
         super.init()
         searchField.stringValue = settings.searchPattern
-        searchField.placeholderString = "Empty: all text"
+        searchField.placeholderString = String(localized: "Empty: all text")
         searchField.widthAnchor.constraint(equalToConstant: 240).isActive = true
         regexBox.state = settings.useRegex ? .on : .off
         caseBox.state = settings.caseSensitive ? .on : .off
@@ -143,11 +146,11 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
     // MARK: Layout
 
     private func buildLayout() {
-        panel.title = "Obfuscate Text"
-        let title = NSTextField(labelWithString: "Obfuscate Text")
+        panel.title = String(localized: "Obfuscate Text")
+        let title = NSTextField(labelWithString: panel.title)
         title.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         let info = NSTextField(wrappingLabelWithString:
-            "Finds text in the image and covers every match with an element you can still move or remove.")
+            String(localized: "Finds text in the image and covers every match with an element you can still move or remove."))
         info.textColor = .secondaryLabelColor
         info.preferredMaxLayoutWidth = 380
 
@@ -157,15 +160,15 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
         searchButton.action = #selector(search(_:))
         matchLabel.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         options = EffectSettingsDialog.form([
-            [EffectSettingsDialog.label("Search for:"), NSStackView(views: [searchField, searchButton])],
+            [EffectSettingsDialog.label(String(localized: "Search for:")), NSStackView(views: [searchField, searchButton])],
             [NSGridCell.emptyContentView, NSStackView(views: [regexBox, caseBox])],
-            [EffectSettingsDialog.label("Search in:"), scopePopup],
+            [EffectSettingsDialog.label(String(localized: "Search in:")), scopePopup],
             [NSGridCell.emptyContentView, matchLabel],
-            [EffectSettingsDialog.label("Effect:"), effectPopup],
-            pixelSize.row("Pixel size:"),
-            blurRadius.row("Blur radius:"),
-            [EffectSettingsDialog.label("Color:"), highlightColorWell],
-            magnification.row("Magnification:"),
+            [EffectSettingsDialog.label(String(localized: "Effect:")), effectPopup],
+            pixelSize.row(String(localized: "Pixel size:")),
+            blurRadius.row(String(localized: "Blur radius:")),
+            [EffectSettingsDialog.label(String(localized: "Color:")), highlightColorWell],
+            magnification.row(String(localized: "Magnification:")),
         ])
 
         advancedButton.bezelStyle = .disclosure
@@ -174,14 +177,14 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
         advancedButton.state = .off
         advancedButton.target = self
         advancedButton.action = #selector(toggleAdvanced(_:))
-        let advancedTitle = EffectSettingsDialog.label("Advanced")
+        let advancedTitle = EffectSettingsDialog.label(String(localized: "Advanced"))
         let advancedRow = NSStackView(views: [advancedButton, advancedTitle])
         advancedRow.spacing = 4
         advancedView = EffectSettingsDialog.form([
-            paddingHorizontal.row("Horizontal padding:"),
-            paddingVertical.row("Vertical padding:"),
-            offsetX.row("Horizontal offset:"),
-            offsetY.row("Vertical offset:"),
+            paddingHorizontal.row(String(localized: "Horizontal padding:")),
+            paddingVertical.row(String(localized: "Vertical padding:")),
+            offsetX.row(String(localized: "Horizontal offset:")),
+            offsetY.row(String(localized: "Vertical offset:")),
         ])
         advancedView.isHidden = true
 
@@ -288,7 +291,7 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
         let settings = settings
         do {
             let boxes = try TextObfuscation.matches(in: lines, settings: settings, within: bounds)
-            matchLabel.stringValue = "Matches found: \(boxes.count)"
+            matchLabel.stringValue = String(localized: "Matches found: \(boxes.count)")
             matchLabel.textColor = .labelColor
             onPreview?(TextObfuscation.annotations(for: boxes, settings: settings))
         } catch {
@@ -302,7 +305,7 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
 
     private func recognize() {
         setBusy(true)
-        show("Recognizing text…")
+        show(String(localized: "Recognizing text…"))
         matchLabel.stringValue = ""
         let image = image
         let language = language
@@ -319,12 +322,12 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
             switch result {
             case .success(let lines):
                 self.lines = lines
-                self.show(lines.isEmpty ? "No text found in the image." : "")
+                self.show(lines.isEmpty ? String(localized: "No text found in the image.") : "")
                 self.searchNow()
                 if self.applyWhenRecognized { self.apply(nil) }
             case .failure(let error):
                 self.applyWhenRecognized = false
-                self.show("The text could not be recognized: \(error.localizedDescription)")
+                self.show(String(localized: "The text could not be recognized: \(error.localizedDescription)"))
             }
         }
     }
@@ -351,13 +354,13 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
         }
         applyWhenRecognized = false
         guard !lines.isEmpty else {
-            show("No text found in the image.")
+            show(String(localized: "No text found in the image."))
             return
         }
         do {
             let boxes = try TextObfuscation.matches(in: lines, settings: settings, within: bounds)
             guard !boxes.isEmpty else {
-                show("No text matches “\(settings.searchPattern)”.")
+                show(String(localized: "No text matches “\(settings.searchPattern)”."))
                 return
             }
             onPreview?([])

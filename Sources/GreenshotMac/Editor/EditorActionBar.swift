@@ -34,24 +34,24 @@ final class EditorActionBar: NSObject {
 
     init(editor: EditorWindowController, imageItems: [NSView]) {
         self.editor = editor
-        deleteButton = EditorWindowController.iconButton("trash", "Delete the selected elements (⌫)")
-        cutButton = EditorWindowController.iconButton("scissors", "Cut the selected elements (⌘X)")
-        copyButton = EditorWindowController.iconButton("doc.on.doc", "Copy the selected elements (⌘C)")
-        pasteButton = EditorWindowController.iconButton("doc.on.clipboard", "Paste (⌘V)")
+        deleteButton = EditorWindowController.iconButton("trash", String(localized: "Delete the selected elements (⌫)"))
+        cutButton = EditorWindowController.iconButton("scissors", String(localized: "Cut the selected elements (⌘X)"))
+        copyButton = EditorWindowController.iconButton("doc.on.doc", String(localized: "Copy the selected elements (⌘C)"))
+        pasteButton = EditorWindowController.iconButton("doc.on.clipboard", String(localized: "Paste (⌘V)"))
         super.init()
         let file = [
-            button("square.and.arrow.down", "Save (⌘S)", #selector(EditorWindowController.saveImage(_:)), to: editor),
-            button("square.and.arrow.down.on.square", "Save As… (⇧⌘S)", #selector(EditorWindowController.saveImageAs(_:)), to: editor),
-            button("clipboard", "Copy the image to the clipboard (⇧⌘C)", #selector(EditorWindowController.copyImage(_:)), to: editor),
-            button("printer", "Print… (⌘P)", #selector(EditorWindowController.printImage(_:)), to: editor),
+            button("square.and.arrow.down", String(localized: "Save (⌘S)"), #selector(EditorWindowController.saveImage(_:)), to: editor),
+            button("square.and.arrow.down.on.square", String(localized: "Save As… (⇧⌘S)"), #selector(EditorWindowController.saveImageAs(_:)), to: editor),
+            button("clipboard", String(localized: "Copy the image to the clipboard (⇧⌘C)"), #selector(EditorWindowController.copyImage(_:)), to: editor),
+            button("printer", String(localized: "Print… (⌘P)"), #selector(EditorWindowController.printImage(_:)), to: editor),
         ]
         for (control, action) in [(deleteButton, #selector(deleteElements)), (cutButton, #selector(cutElements)),
                                   (copyButton, #selector(copyElements)), (pasteButton, #selector(pasteElements))] {
             control.target = self
             control.action = action
         }
-        let settings = button("gearshape", "Settings… (⌘,)", #selector(AppDelegate.showSettings(_:)), to: nil)
-        let help = button("questionmark.circle", "Greenshot Help", #selector(AppDelegate.openHelp(_:)), to: nil)
+        let settings = button("gearshape", String(localized: "Settings… (⌘,)"), #selector(AppDelegate.showSettings(_:)), to: nil)
+        let help = button("questionmark.circle", String(localized: "Greenshot Help"), #selector(AppDelegate.openHelp(_:)), to: nil)
         let destinations = destinationItems()
         lockable = file + [deleteButton, cutButton, copyButton, pasteButton] + destinations.compactMap { $0 as? NSControl }
 
@@ -108,13 +108,13 @@ final class EditorActionBar: NSObject {
             MainMenu.destinationItem(EditorWindowStatus.destinationName($0.displayName), .destination($0))
         }
         if !uploads.isEmpty {
-            items.append(pullDown("icloud.and.arrow.up", "Upload to Jira, Confluence, Box or Dropbox", items: uploads))
+            items.append(pullDown("icloud.and.arrow.up", String(localized: "Upload to Jira, Confluence, Box or Dropbox"), items: uploads))
         }
         if !settings.isDestinationExcluded(.openWith) {
-            items.append(pullDown("arrow.up.forward.app", "Open the image with another app", items: [], filler: openWithMenus))
+            items.append(pullDown("arrow.up.forward.app", String(localized: "Open the image with another app"), items: [], filler: openWithMenus))
         }
         if !settings.isDestinationExcluded(.externalCommand) {
-            items.append(pullDown("terminal", "Run an external command with the image", items: [], filler: externalCommandMenus))
+            items.append(pullDown("terminal", String(localized: "Run an external command with the image"), items: [], filler: externalCommandMenus))
         }
         return items
     }

@@ -66,19 +66,19 @@ extension EditorWindowController {
     }
 
     private func savedFileMenu() -> NSMenu {
-        let menu = NSMenu(title: "Saved file")
-        let copy = menu.addItem(withTitle: "Copy Path to Clipboard", action: #selector(copyFilePath(_:)), keyEquivalent: "")
+        let menu = NSMenu(title: String(localized: "Saved file"))
+        let copy = menu.addItem(withTitle: String(localized: "Copy Path to Clipboard"), action: #selector(copyFilePath(_:)), keyEquivalent: "")
         copy.target = self
-        let show = menu.addItem(withTitle: "Show in Finder", action: #selector(showInFinder(_:)), keyEquivalent: "")
+        let show = menu.addItem(withTitle: String(localized: "Show in Finder"), action: #selector(showInFinder(_:)), keyEquivalent: "")
         show.target = self
         return menu
     }
 
     private func uploadMenu() -> NSMenu {
-        let menu = NSMenu(title: "Upload")
-        let copy = menu.addItem(withTitle: "Copy Link", action: #selector(copyUploadLink(_:)), keyEquivalent: "")
+        let menu = NSMenu(title: String(localized: "Upload"))
+        let copy = menu.addItem(withTitle: String(localized: "Copy Link"), action: #selector(copyUploadLink(_:)), keyEquivalent: "")
         copy.target = self
-        let open = menu.addItem(withTitle: "Open Link", action: #selector(openUploadLink(_:)), keyEquivalent: "")
+        let open = menu.addItem(withTitle: String(localized: "Open Link"), action: #selector(openUploadLink(_:)), keyEquivalent: "")
         open.target = self
         return menu
     }
