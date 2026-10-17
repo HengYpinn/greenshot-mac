@@ -216,3 +216,94 @@ private extension CaseIterable where Self: RawRepresentable, Self.RawValue == St
         return allCases.first { $0.rawValue.lowercased() == key }
     }
 }
+
+// MARK: Names in Settings › Video
+
+extension VideoFormat {
+    public var displayName: String {
+        switch self {
+        case .mp4H264: return "MP4 with H.264 (plays everywhere)"
+        case .mp4HEVC: return "MP4 with HEVC (smaller files)"
+        }
+    }
+}
+
+extension VideoEncodingPreset {
+    public var displayName: String {
+        switch self {
+        case .smallSize: return "Small size"
+        case .balanced: return "Balanced"
+        case .highQuality: return "High quality"
+        case .highFrameRateGaming: return "High frame rate"
+        case .custom: return "Custom"
+        }
+    }
+}
+
+extension VideoColorMode {
+    public var displayName: String {
+        switch self {
+        case .fullColor: return "Full colour"
+        case .grayscale: return "Grayscale"
+        }
+    }
+}
+
+extension WindowResizeBehavior {
+    public var displayName: String {
+        switch self {
+        case .letterboxFixedCanvas: return "Keep its size, with black bars around it"
+        case .scaleToFit: return "Scale it to fill the video"
+        }
+    }
+}
+
+extension AudioCaptureSource {
+    public var displayName: String {
+        switch self {
+        case .none: return "None"
+        case .systemAudio: return "What the Mac plays"
+        case .microphone: return "Microphone"
+        case .systemAudioAndMicrophone: return "What the Mac plays and the microphone"
+        }
+    }
+}
+
+extension RecordingHotkeyTarget {
+    public var displayName: String {
+        switch self {
+        case .region: return "A region (Space: a window)"
+        case .window: return "A window"
+        case .screen: return "The screen with the mouse pointer"
+        }
+    }
+}
+
+extension VideoDestination {
+    public var displayName: String {
+        switch self {
+        case .picker: return "Ask every time"
+        case .showInFinder: return "Show in Finder"
+        case .open: return "Open in the default player"
+        case .share: return "Share…"
+        case .copyPath: return "Copy the file path"
+        }
+    }
+}
+
+extension VideoSettings {
+    /// Turns a destination on or off like `AppSettings.setDestination`: "Ask every time" excludes the others, and with
+    /// none left it comes back.
+    public mutating func setDestination(_ destination: VideoDestination, on: Bool) {
+        if on {
+            if destination == .picker {
+                destinations = [.picker]
+            } else if !destinations.contains(destination) {
+                destinations = destinations.filter { $0 != .picker } + [destination]
+            }
+        } else {
+            destinations.removeAll { $0 == destination }
+        }
+        if destinations.isEmpty { destinations = [.picker] }
+    }
+}
