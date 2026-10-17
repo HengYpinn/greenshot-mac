@@ -16,7 +16,7 @@ enum RecipeStepExports {
     /// The capture for the export; the destinations' own messages wait for the flow's Notification step from now on.
     static func begin(_ payload: RecipePayload, context: RecipeFlowContext, runtime: RecipeRuntime) -> Capture {
         let capture = payload.exportCapture()
-        runtime.flowState(context.executionId).holdMessages(of: capture, settings: runtime.app.settings)
+        runtime.flowState(context.executionId).beginExport(of: capture, settings: runtime.app.settings)
         return capture
     }
 
@@ -24,7 +24,9 @@ enum RecipeStepExports {
     static func finish(_ result: ExportResult, designation: String, context: RecipeFlowContext, runtime: RecipeRuntime) {
         var result = result
         if result.exportedBy == nil { result.exportedBy = designation }
-        runtime.flowState(context.executionId).record(result)
+        let state = runtime.flowState(context.executionId)
+        state.record(result)
+        state.endExport()
         guard result.status != .declined else { return }
         context.exports.add(RecipeExportOutcome(designation: designation, succeeded: result.isSucceeded,
                                                 target: result.fileURL?.path ?? result.target, uri: result.link,

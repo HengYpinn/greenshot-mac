@@ -57,11 +57,14 @@ struct RecipeAppExporter: RecipeExporting {
             return RecipeExportTarget(designation: "External \(command.name)", detail: DestinationTarget.externalCommand(command))
         case .printer:
             if let name = step?.string("PrinterName")?.trimmingCharacters(in: .whitespaces), !name.isEmpty {
-                return RecipeExportTarget(designation: designation, detail: DestinationTarget.printer(name))
+                return RecipeExportTarget(designation: "Printer", detail: DestinationTarget.printer(name))
             }
-            return RecipeExportTarget(designation: designation, detail: DestinationTarget.destination(.printer))
+            return RecipeExportTarget(designation: "Printer", detail: DestinationTarget.destination(.printer))
         default:
-            return RecipeExportTarget(designation: designation, detail: DestinationTarget.destination(destination))
+            // The destination's own designation ("Mail" → "EMail"): the automatic steps of a destination are stored
+            // under it (RMANAGER's scope), and the recipe may have used an alias.
+            return RecipeExportTarget(designation: RecipeDestinationDesignation.designation(for: destination),
+                                      detail: DestinationTarget.destination(destination))
         }
     }
 
@@ -108,8 +111,9 @@ struct RecipeAppExporter: RecipeExporting {
         let app = runtime.app
         let capture = payload.exportCapture()
         let state = runtime.flowState(context.executionId)
-        state.holdMessages(of: capture, settings: app.settings)
         guard let destinationTarget = target.detail as? DestinationTarget else { return .declined }
+        state.beginExport(of: capture, settings: app.settings)
+        defer { state.endExport() }
         var result: ExportResult
         switch destinationTarget {
         case .destination(.editor):
@@ -125,7 +129,16 @@ struct RecipeAppExporter: RecipeExporting {
         }
         if result.exportedBy == nil { result.exportedBy = destinationTarget.displayName }
         state.record(result)
+        // A file the flow saved, with the capture it shows now (the ExternalCommand step may hand it on while it's current).
+        if result.isSucceeded, let file = result.fileURL, Self.isFile(destinationTarget) { state.rememberSaved(file, payload: payload) }
         return result
+    }
+
+    private static func isFile(_ target: DestinationTarget) -> Bool {
+        switch target {
+        case .destination(.file), .destination(.fileAs): return true
+        default: return false
+        }
     }
 
     /// `OutputManager.perform` as an async call: its completion comes once.
@@ -178,14 +191,16 @@ struct RecipeAppExporter: RecipeExporting {
     // MARK: File
 
     /// `Destination.*` before the exports (upstream `ApplyCustomFileSettings`): the options, and with `SaveDirectory`
-    /// the folder and the file of this capture (the file name counts `${NUM}` here, once).
+    /// the folder and the file of this capture (the file name counts `${NUM}` here, once). Without `SaveDirectory` an
+    /// earlier step's folder and file are cleared: they are not this step's (a JPEG in another step's `.png`).
     @MainActor
     static func fileVariables(_ step: RecipeStepInvocation, payload: RecipePayload, runtime: RecipeRuntime) -> [String: JSONValue] {
         let options = RecipeFileExportOptions(step)
-        guard !options.isEmpty else { return [:] }
+        var values: [String: JSONValue] = ["Destination.SaveDirectory": .null, "Destination.Filename": .null]
+        guard !options.isEmpty else { return values }
         let settings = runtime.app.settings
         let s = settings.value
-        var values = options.variables(defaultFormat: s.outputFormat, defaultQuality: s.jpegQuality, defaultReduceColors: s.reduceColors)
+        values.merge(options.variables(defaultFormat: s.outputFormat, defaultQuality: s.jpegQuality, defaultReduceColors: s.reduceColors)) { $1 }
         if let directory = options.saveDirectory {
             _ = payload.exportCapture()
             let folder = DestinationSupport.outputFolder(directory, context: settings.patternContext(title: payload.title,
@@ -209,15 +224,25 @@ struct RecipeAppExporter: RecipeExporting {
         let saver = runtime.app.saver
         let s = settings.value
         let format = options.format ?? s.outputFormat
+        let pattern = options.filenamePattern ?? s.filenamePattern
+        let plannedFolder = context[variable: "Destination.SaveDirectory"]?.asString.flatMap { $0.isEmpty ? nil : URL(fileURLWithPath: $0) }
         var url: URL
+        let folder: URL
         if let planned = context[variable: "Destination.Filename"]?.asString, !planned.isEmpty {
             url = URL(fileURLWithPath: planned)
+            folder = plannedFolder ?? url.deletingLastPathComponent()
         } else {
-            let folder = saver.outputFolderURL(title: capture.title, date: capture.date)
-            let name = FilenamePattern.fileName(options.filenamePattern ?? s.filenamePattern,
-                                                context: settings.patternContext(title: capture.title, date: capture.date))
-            let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : folder.appendingPathComponent(name)
+            folder = plannedFolder ?? saver.outputFolderURL(title: capture.title, date: capture.date)
+            let name = FilenamePattern.fileName(pattern, context: settings.patternContext(title: capture.title, date: capture.date))
+            let absolute = name.hasPrefix("/") || name.hasPrefix("~")
+            let base = absolute ? URL(fileURLWithPath: (name as NSString).expandingTildeInPath) : folder.appendingPathComponent(name)
             url = base.appendingPathExtension(format.fileExtension)
+        }
+        // A file name whose values climb out of the folder (a page title with "../") isn't written (CWE-22); a pattern
+        // that is an absolute path goes where its author put it.
+        guard RecipeFileExportOptions.isAbsolutePattern(pattern) || RecipeFileExportOptions.isInside(url, folder: folder) else {
+            log.warn("A recipe's file name leaves its folder; nothing was saved.")
+            return .failed("The file name leaves the folder \(folder.lastPathComponent); nothing was saved.", target: folder.lastPathComponent)
         }
         if !(options.allowOverwrite ?? s.allowOverwrite) { url = DestinationSupport.uniqueURL(for: url) }
         do {
@@ -266,10 +291,10 @@ struct RecipeAppExporter: RecipeExporting {
             log.warn("The print options of the recipe could not be used.", error: error)
             return await body()
         }
-        let previous = Printing.settings
         Printing.settings = SettingsStore(fileURL: file)
         defer {
-            Printing.settings = previous
+            // The app's own settings again (not the store this replaced, which may be another recipe print's).
+            Printing.settings = runtime.app.settings
             try? FileManager.default.removeItem(at: file)
         }
         return await body()
@@ -342,7 +367,8 @@ struct RecipeClipboardStepExecutor: RecipeStepExecutor {
         let result = await MainActor.run { () -> ExportResult in
             let capture = image.exportCapture()
             let state = runtime.flowState(context.executionId)
-            state.holdMessages(of: capture, settings: runtime.app.settings)
+            state.beginExport(of: capture, settings: runtime.app.settings)
+            defer { state.endExport() }
             RecipePasteboard.write(plan.mode == .textOnly ? nil : capture, formats: plan.formats, text: copied)
             var result = ExportResult.succeeded(target: "Clipboard", clearsModified: false)
             result.exportedBy = "Clipboard"
