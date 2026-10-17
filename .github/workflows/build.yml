@@ -17,6 +17,9 @@ jobs:
       - name: Build the app (universal)
         run: ARCHS="arm64 x86_64" VERSION="0.1.0" BUILD_NUMBER="${{ github.run_number }}" scripts/build-app.sh
 
+      - name: Package the browser extension
+        run: scripts/package-browser-extension.sh
+
       - name: Render UI snapshots
         run: |
           swift build
@@ -30,4 +33,5 @@ jobs:
           name: GreenshotMac
           path: |
             build/GreenshotMac.zip
+            build/browser-extension/*.zip
             build/snapshots
