@@ -128,3 +128,14 @@ public enum RecipeEditorDiagnostics {
         return missing.isEmpty ? .run : .saveFirst(missing)
     }
 }
+
+/// File helpers of the recipe editor.
+public enum RecipeEditorFiles {
+    /// The path as the library and the trust store keep it (absolute, symbolic links resolved).
+    public static func standardized(_ url: URL) -> URL { URL(fileURLWithPath: RecipeTrustStore.standardized(url.path)) }
+}
+
+extension LoadedRecipe {
+    /// The file the recipe was loaded from; nil for a built-in recipe.
+    public var sourceFile: URL? { fileURL }
+}

@@ -90,7 +90,7 @@ public struct RecipeEditorField: Sendable, Equatable, Identifiable {
 
 /// Forms generated from `StepContract` and `TriggerContract` (the reason the contracts were built first: upstream's
 /// StepNodeViewModel.cs is 4000 hand-written lines).
-public enum RecipeEditorForm {
+public enum RecipeParameterForm {
     /// The object parameters with their own editor.
     static let objectKinds: [String: RecipeEditorFieldKind] = [
         "branches": .branchTable, "choices": .choiceTable, "patterns": .stringList, "variables": .keyValueTable,
@@ -285,4 +285,13 @@ public enum RecipeEditorForm {
         if !decimal, let number = Int(trimmed) { return .number(Double(number)) }
         return .string(trimmed)
     }
+}
+
+/// Colour texts of recipe parameters for the editor's colour fields (`RecipeColor` is the steps' parser).
+public enum RecipeEditorColors {
+    /// "#RRGGBB", "#AARRGGBB", "rgba(…)" or a .NET colour name; nil when it isn't one (an expression, a typo).
+    public static func parse(_ text: String) -> RGBAColor? { RecipeColor.parse(text) }
+
+    /// "#RRGGBB" or "#AARRGGBB" (upstream `FormatColor`).
+    public static func format(_ color: RGBAColor) -> String { RecipeAnnotationExport.format(color) }
 }

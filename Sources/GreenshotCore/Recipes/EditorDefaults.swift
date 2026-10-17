@@ -233,6 +233,9 @@ public enum RecipeEditorCatalog {
         return ext
     }
 
+    /// The slot names (upstream `RecipeSlots.All`): where an automatic step goes.
+    public static var slotNames: [String] { RecipeSlots.all }
+
     // MARK: Triggers, error routes, options
 
     /// The trigger types the Triggers tab adds, in upstream's order (xaml:3311-3330), with their button titles.

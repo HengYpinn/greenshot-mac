@@ -26,7 +26,7 @@ public enum RecipeAnnotationSchema {
 
     private static func field(_ name: String, _ kind: RecipeEditorFieldKind, _ help: String = "", label: String? = nil,
                               default value: JSONValue? = nil) -> RecipeEditorField {
-        RecipeEditorField(name: name, label: label ?? RecipeEditorForm.label(for: name), help: help, kind: kind, defaultValue: value)
+        RecipeEditorField(name: name, label: label ?? RecipeParameterForm.label(for: name), help: help, kind: kind, defaultValue: value)
     }
 
     /// Where it goes: anchors, offsets, absolute position, size, margins.
@@ -37,7 +37,7 @@ public enum RecipeAnnotationSchema {
         field("OffsetY", .integer, "Moves it down (points)", label: "Offset Y / Top"),
         field("Width", .integer, "Width in points"),
         field("Height", .integer, "Height in points"),
-        field("Margin", .integer, "Distance from the anchored edge (default 10)"),
+        field("Margin", .integer, "Distance from the anchored edge (default 10); a QR code's quiet zone too (0-10)"),
         field("LockAspectRatio", .boolean, "Keep the picture's proportions when a size is given")
     ]
 
@@ -104,8 +104,7 @@ public enum RecipeAnnotationSchema {
             return placement + [field("Format", .choice(barcodeFormats), "Barcode format", default: .string("QR_CODE")),
                                 field("QrType", .choice(qrTypes), "What the QR code holds", default: .string("Text")),
                                 field("Size", .integer, "Size of a square code (points)"), field("ForeColor", .color, "Code color"),
-                                field("BackColor", .color, "Background"), field("RoundedDots", .boolean, "Rounded dots"),
-                                field("Margin", .integer, "Quiet zone margin (0-10)", label: "Quiet Zone Margin")]
+                                field("BackColor", .color, "Background"), field("RoundedDots", .boolean, "Rounded dots")]
         case "crop":
             return placement
         default:
@@ -143,6 +142,33 @@ public enum RecipeAnnotationSchema {
         default:
             return [field("Text", .multilineText, "Text or link")]
         }
+    }
+
+    /// Every key an annotation can have (lowercased): a node's own annotation parameters are not "other parameters".
+    public static let knownKeys: Set<String> = {
+        var keys: Set<String> = ["type", "tailx", "taily", "marginleft", "marginright", "margintop", "marginbottom", "left", "top",
+                                 "right", "bottom"]
+        for type in types { keys.formUnion(fields(forType: type).map { $0.name.lowercased() }) }
+        for type in qrTypes { keys.formUnion(qrFields(forType: type).map { $0.name.lowercased() }) }
+        return keys
+    }()
+
+    /// The annotations of an Annotation node: its `Annotations` list, or its own parameters as one annotation.
+    public static func annotations(of node: RecipeNode) -> [JSONObject] {
+        if let list = node.parameters["Annotations"]?.arrayValue { return list.compactMap(\.objectValue) }
+        var own: JSONObject = [:]
+        for member in node.parameters where knownKeys.contains(member.key.lowercased()) { own[member.key] = member.value }
+        return own.isEmpty ? [] : [own]
+    }
+
+    /// The node with `annotations` as its `Annotations` list (its own annotation parameters move into the list).
+    public static func setting(_ annotations: [JSONObject], in node: RecipeNode) -> RecipeNode {
+        var changed = node
+        if changed.parameters["Annotations"] == nil {
+            for key in changed.parameters.keys where knownKeys.contains(key.lowercased()) { changed.parameters[key] = nil }
+        }
+        changed.parameters["Annotations"] = .array(annotations.map { .object($0) })
+        return changed
     }
 
     /// A short line for the list of annotations: "Text: Captured: ${now}", "QRCode: WiFi".

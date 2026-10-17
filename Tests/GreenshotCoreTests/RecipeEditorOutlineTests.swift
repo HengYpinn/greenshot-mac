@@ -84,6 +84,27 @@ enum EditorFixtures {
         #expect(branch.kind == .branch(from: "decide", key: "A", expression: "${payload.width > 800}", label: nil))
     }
 
+    /// The step after a decision is where every path meets, not merely a step every branch can reach.
+    @Test func nestedDecisionsMeetWhereEveryPathMeets() {
+        let recipe = EditorFixtures.recipe(["source:Source", "decide:Conditional", "confirm:UserPrompt", "large:Editor", "small:Clipboard",
+                                            "notify:Notification"], ["source>decide", "large>notify", "small>notify"],
+                                           conditional: ["decide>A>confirm", "decide>B>small", "confirm>Yes>large", "confirm>No>small"])
+        #expect(EditorFixtures.describe(RecipeOutline(recipe))
+                == ["step source@0", "step decide@0", "branch A@1", "step confirm@2", "branch Yes@3", "step large@4", "branch No@3",
+                    "step small@4", "branch B@1", "continues small@2", "step notify@0"])
+    }
+
+    @Test func aBranchThatEndsMeansNoMeetingPoint() {
+        let recipe = EditorFixtures.recipe(["d:Conditional", "x:Editor", "y:Clipboard", "z:Notification"], ["x>z", "y>z"],
+                                           conditional: ["d>A>x", "d>B>y", "d>C>x"])
+        var withEmpty = recipe
+        withEmpty.nodes[0].parameters["Branches"] = .array([.object(["key": .string("A")]), .object(["key": .string("B")]),
+                                                            .object(["key": .string("C")]), .object(["key": .string("D")])])
+        let rows = EditorFixtures.describe(RecipeOutline(withEmpty))
+        #expect(rows.last == "branch D@1")
+        #expect(rows.contains("step z@2"))
+    }
+
     @Test func userPromptChoicesAreBranches() {
         var recipe = EditorFixtures.recipe(["a:Source", "ask:UserPrompt", "yes:Editor"], ["a>ask"], conditional: ["ask>Yes>yes"])
         recipe.nodes[1].parameters["Choices"] = .array([.object(["Key": .string("Yes"), "Label": .string("Yes, Proceed")]),

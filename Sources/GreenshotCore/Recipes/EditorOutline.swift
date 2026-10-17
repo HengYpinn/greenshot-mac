@@ -58,6 +58,7 @@ public struct RecipeOutline: Sendable {
     private let recipe: CaptureRecipe
     private var nodesById: [String: RecipeNode] = [:]
     private var rank: [String: Int] = [:]
+    private var postDominators: [String: Set<String>] = [:]
     private var emitted = Set<String>()
     private var counter = 0
     private let isExtension: Bool
@@ -69,6 +70,7 @@ public struct RecipeOutline: Sendable {
             nodesById[node.id.lowercased()] = node
         }
         rank = RecipeOutline.topologicalRanks(recipe)
+        postDominators = RecipeOutline.postDominators(recipe, ids: Set(nodesById.keys))
         build()
     }
 
@@ -78,7 +80,7 @@ public struct RecipeOutline: Sendable {
     // MARK: Graph
 
     /// A decision step: its next steps follow its branches.
-    static func isDecision(_ node: RecipeNode) -> Bool {
+    public static func isDecision(_ node: RecipeNode) -> Bool {
         recipeEquals(node.stepType, WellKnownStepType.conditional) || recipeEquals(node.stepType, WellKnownStepType.userPrompt)
     }
 
@@ -155,25 +157,39 @@ public struct RecipeOutline: Sendable {
         return ranks
     }
 
-    /// The nodes reachable from `start` (itself included), over all transitions.
-    private func reachable(from start: String) -> Set<String> {
-        var seen = Set<String>()
-        var stack = [start.lowercased()]
-        while let id = stack.popLast() {
-            guard node(id) != nil, seen.insert(id).inserted else { continue }
-            stack += allTargets(id).map { $0.lowercased() }
+    /// For each node the nodes every path from it to an end passes through (itself included): post-dominators over all
+    /// transitions, by iteration to a fixed point (loops of an invalid recipe converge too).
+    static func postDominators(_ recipe: CaptureRecipe, ids: Set<String>) -> [String: Set<String>] {
+        let transitions = recipe.flow.unifiedTransitions
+        func successors(_ id: String) -> [String] { (transitions[id] ?? []).map { $0.lowercased() }.filter { ids.contains($0) } }
+        var result: [String: Set<String>] = [:]
+        for id in ids { result[id] = successors(id).isEmpty ? [id] : ids }
+        var changed = true
+        while changed {
+            changed = false
+            for id in ids.sorted() {
+                let next = successors(id)
+                guard !next.isEmpty else { continue }
+                var common = result[next[0]] ?? []
+                for item in next.dropFirst() { common.formIntersection(result[item] ?? []) }
+                common.insert(id)
+                if common != result[id] {
+                    result[id] = common
+                    changed = true
+                }
+            }
         }
-        return seen
+        return result
     }
 
-    /// Where lanes starting at `targets` all meet: the earliest node (by rank) reachable from every one; nil when they
-    /// never meet.
+    /// Where lanes starting at `targets` all meet: the earliest node (by rank) every path from every lane passes through;
+    /// nil when they never meet.
     private func meetingPoint(of targets: [String]) -> String? {
         guard targets.count > 1 else { return nil }
         var common: Set<String>?
         for target in targets {
-            let reach = reachable(from: target)
-            common = common.map { $0.intersection(reach) } ?? reach
+            let must = postDominators[target.lowercased()] ?? []
+            common = common.map { $0.intersection(must) } ?? must
         }
         guard let common, !common.isEmpty else { return nil }
         return common.min { (rank[$0] ?? .max, $0) < (rank[$1] ?? .max, $1) }.flatMap { node($0)?.id }
@@ -285,7 +301,9 @@ public struct RecipeOutline: Sendable {
     private mutating func decision(_ item: RecipeNode, depth: Int, join outer: String?, stop: Set<String>) -> String? {
         let branches = RecipeOutline.branches(of: item, in: recipe.flow)
         let all = branches.flatMap { branchTargets(item.id, $0.key) }
-        let met = Set(branches.map(\.key)).count > 1 ? meetingPoint(of: all) : nil
+        // A branch that leads nowhere ends the flow there: the branches don't all meet.
+        let everyBranchGoesOn = branches.allSatisfy { !branchTargets(item.id, $0.key).isEmpty }
+        let met = branches.count > 1 && everyBranchGoesOn ? meetingPoint(of: all) : nil
         var inner = stop
         if let met { inner.insert(met.lowercased()) }
         for branch in branches {
