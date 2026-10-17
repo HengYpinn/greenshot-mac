@@ -193,6 +193,14 @@ final class CaptureOverlayController {
         overlayWindows.forEach { $0.marksView.needsDisplay = true }
     }
 
+    /// Another window took the keyboard (⌘Tab, a notification, a dialog of another app) while the capture screen stays
+    /// on top: the next mouse move gives the keys back, so Esc, Enter and the other keys work again (upstream
+    /// `CaptureWindow.xaml.cs` `_lostFocus`). The panels don't activate the app, so neither does this.
+    func takeKeysBack(to window: NSWindow) {
+        guard !finished, !overlayWindows.contains(where: \.isKeyWindow) else { return }
+        window.makeKeyAndOrderFront(nil)
+    }
+
     // MARK: Mouse
 
     func mouseMoved(to point: CGPoint) {
@@ -646,6 +654,7 @@ final class OverlayMarksView: NSView {
 
     override func mouseMoved(with event: NSEvent) {
         NSCursor.crosshair.set()
+        if let window { controller?.takeKeysBack(to: window) }
         controller?.mouseMoved(to: global(event))
     }
 
