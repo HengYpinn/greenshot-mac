@@ -1,0 +1,275 @@
+// Greenshot for Mac (Community) - an unofficial macOS port of Greenshot
+// Copyright (C) 2026 Greenshot for Mac (Community) contributors
+// Based on Greenshot, Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import Foundation
+
+/// The outcome of parsing a command line (upstream `CliParseResult`).
+public struct IPCParseResult: Equatable, Sendable {
+    /// The command to dispatch; nil when parsing failed.
+    public var envelope: IPCEnvelope?
+    /// The message for stderr when parsing failed.
+    public var error: String?
+    /// `--json` was given (also for errors, so they are reported as JSON).
+    public var json: Bool
+
+    public static func ok(_ envelope: IPCEnvelope) -> IPCParseResult {
+        IPCParseResult(envelope: envelope, error: nil, json: envelope.json)
+    }
+
+    public static func fail(_ detail: String, json: Bool, usageHint: Bool = true) -> IPCParseResult {
+        IPCParseResult(envelope: nil, error: "Error: " + detail + (usageHint ? "\nUse 'greenshot-cli --help' for usage." : ""), json: json)
+    }
+
+    public var isSuccess: Bool { envelope != nil }
+}
+
+/// The command line syntax of greenshot-cli, also used for the command after the startup options of the app itself
+/// (upstream `Ipc/Cli/CliCommandParser.cs`). greenshot-cli sends the arguments unparsed; the app parses them here, for
+/// the source of the connection.
+public enum IPCCommandLine {
+    /// One option of greenshot-cli: its spellings, its line in the help and how it turns the arguments into a command.
+    /// Wave 4 replaces the recipe verbs with the real ones (upstream `ParseRunRecipe`, `--info`, `--list-recipes`).
+    public struct Verb: Sendable {
+        public var flags: [String]
+        /// The left column of the help, e.g. "--file, -f <file...>".
+        public var synopsis: String
+        public var help: String
+        /// Shown in the help.
+        public var listed: Bool
+        /// The arguments (the flag first), the working directory and whether `--json` was given.
+        public var parse: @Sendable (_ argv: [String], _ cwd: String?, _ json: Bool) -> IPCParseResult
+
+        public init(flags: [String], synopsis: String, help: String, listed: Bool = true,
+                    parse: @escaping @Sendable ([String], String?, Bool) -> IPCParseResult) {
+            self.flags = flags
+            self.synopsis = synopsis
+            self.help = help
+            self.listed = listed
+            self.parse = parse
+        }
+
+        func matches(_ argument: String) -> Bool {
+            flags.contains { $0.caseInsensitiveCompare(argument) == .orderedSame }
+        }
+    }
+
+    /// The message of the recipe options until the recipe engine is wired to the command line (wave 4).
+    public static let recipesUnavailable = "Error: recipes are not available yet in Greenshot for Mac."
+
+    public static let verbs: [Verb] = [
+        Verb(flags: ["--file", "-f"], synopsis: "--file, -f <file...>", help: "Open one or more image files in the editor") { argv, cwd, json in
+            guard argv.count >= 2 else { return .fail("missing file argument after '\(argv[0])'.", json: json) }
+            var envelope = make(IPCCommand.openFile, cwd: cwd)
+            envelope.files = Array(argv.dropFirst())
+            return .ok(envelope)
+        },
+        Verb(flags: ["--capture", "-c"], synopsis: "--capture, -c <mode>",
+             help: "Take a screenshot: \(AutomationCaptureMode.namesForHelp)") { argv, cwd, json in
+            guard argv.count >= 2 else { return .fail("missing capture mode after '\(argv[0])'.", json: json) }
+            guard let mode = AutomationCaptureMode(name: argv[1]) else {
+                return .fail("unknown capture mode '\(argv[1])'. Use \(AutomationCaptureMode.namesForHelp).", json: json)
+            }
+            if argv.count > 2 { return .fail("unexpected argument '\(argv[2])'.", json: json) }
+            var envelope = make(IPCCommand.capture, cwd: cwd)
+            envelope.setParameter("mode", mode.rawValue)
+            return .ok(envelope)
+        },
+        single(["--reload"], help: "Reload the settings of the running app", command: IPCCommand.reloadConfig),
+        single(["--exit"], help: "Quit the running app", command: IPCCommand.exit),
+        single(["--version", "-v"], help: "Show the version", command: IPCCommand.version),
+        // Upstream's recipe options: known, so they get a clear answer instead of "unrecognized option".
+        Verb(flags: ["--recipe", "-r"], synopsis: "--recipe, -r <cmd|id> [arguments]", help: "Run a recipe", listed: false) { argv, cwd, json in
+            guard argv.count >= 2 else { return .fail("missing recipe identifier after '\(argv[0])'.", json: json) }
+            var envelope = make(IPCCommand.runRecipe, cwd: cwd)
+            envelope.recipe = argv[1]
+            envelope.json = json
+            return .ok(envelope)
+        },
+        Verb(flags: ["--list-recipes", "-l"], synopsis: "--list-recipes, -l [--json]", help: "List the recipes", listed: false) { _, cwd, json in
+            var envelope = make(IPCCommand.listRecipes, cwd: cwd)
+            envelope.json = json
+            return .ok(envelope)
+        },
+        Verb(flags: ["--info", "-i"], synopsis: "--info, -i <id> [--json]", help: "Describe a recipe", listed: false) { argv, cwd, json in
+            guard argv.count >= 2 else { return .fail("missing recipe identifier after '\(argv[0])'.", json: json) }
+            var envelope = make(IPCCommand.describeRecipe, cwd: cwd)
+            envelope.recipe = argv[1]
+            envelope.json = json
+            return .ok(envelope)
+        },
+    ]
+
+    /// An option without arguments.
+    private static func single(_ flags: [String], help: String, command: String) -> Verb {
+        Verb(flags: flags, synopsis: flags.joined(separator: ", "), help: help) { argv, cwd, json in
+            if argv.count > 1 { return .fail("unexpected argument '\(argv[1])'.", json: json) }
+            return .ok(make(command, cwd: cwd))
+        }
+    }
+
+    private static func make(_ command: String, cwd: String?) -> IPCEnvelope {
+        var envelope = IPCEnvelope(command: command)
+        envelope.cwd = cwd
+        return envelope
+    }
+
+    /// Parses a forwarded command line for its source: `cli` the full syntax, `url_scheme` exactly one link, `open_with`
+    /// file paths (optionally after `--file`). The command still has to pass the whitelist of the source.
+    public static func parse(_ argv: [String], source: IPCSource, cwd: String?) -> IPCParseResult {
+        switch source {
+        case .cli:
+            return parseCommandLine(argv, cwd: cwd)
+        case .urlScheme:
+            guard argv.count == 1, URLActionParser.isActionLink(argv[0]) else {
+                return .fail("expected exactly one greenshotmac: link.", json: false, usageHint: false)
+            }
+            var envelope = make(IPCCommand.urlScheme, cwd: cwd)
+            envelope.rawInput = argv[0]
+            return .ok(envelope)
+        case .openWith:
+            let startsWithFlag = argv.first.map { $0.caseInsensitiveCompare("--file") == .orderedSame || $0 == "-f" } ?? false
+            let first = startsWithFlag ? 1 : 0
+            guard argv.count > first else { return .fail("no file to open.", json: false, usageHint: false) }
+            var envelope = make(IPCCommand.openFile, cwd: cwd)
+            envelope.files = Array(argv.dropFirst(first))
+            return .ok(envelope)
+        default:
+            return .fail("command lines are not accepted from source '\(source.rawValue)'.", json: false, usageHint: false)
+        }
+    }
+
+    private static func parseCommandLine(_ argv: [String], cwd: String?) -> IPCParseResult {
+        let json = argv.contains { $0.caseInsensitiveCompare("--json") == .orderedSame }
+        guard let first = argv.first else { return .fail("no command given.", json: json) }
+        if let verb = verbs.first(where: { $0.matches(first) }) {
+            return verb.parse(argv, cwd, json)
+        }
+        if URLActionParser.isActionLink(first) {
+            if argv.count > 1 { return .fail("unexpected argument '\(argv[1])' after the link.", json: json) }
+            var envelope = make(IPCCommand.urlScheme, cwd: cwd)
+            envelope.rawInput = first
+            return .ok(envelope)
+        }
+        if first.hasPrefix("-") { return .fail("unrecognized option '\(first)'.", json: json) }
+        // Default: file paths
+        var envelope = make(IPCCommand.openFile, cwd: cwd)
+        envelope.files = argv
+        return .ok(envelope)
+    }
+
+    // MARK: Help
+
+    /// greenshot-cli's help (upstream `main_cli.c` `Usage`), from the verbs; `installedPath` is the tool's own path for
+    /// the line that puts it on the PATH.
+    public static func cliUsage(installedPath: String?) -> String {
+        let listed = verbs.filter(\.listed)
+        let rows = listed.map { ($0.synopsis, $0.help) } + [
+            ("--help, -h", "Show this help text"),
+            ("greenshotmac://<link>", "Run a link, e.g. greenshotmac://settings?tab=editor"),
+        ]
+        let width = (rows.map(\.0.count).max() ?? 0) + 3
+        let options = rows.map { "  " + $0.0.padding(toLength: width, withPad: " ", startingAt: 0) + $0.1 }.joined(separator: "\n")
+        var text = """
+            Greenshot for Mac (Community) command line
+
+            Usage:
+              greenshot-cli [options]
+              greenshot-cli <file...>
+
+            Options:
+            \(options)
+
+            The running app does the work; when it isn't running, greenshot-cli starts it.
+
+            Exit codes:
+              0 success, 1 failure, 2 invalid command line, 3 Greenshot for Mac not available.
+
+            """
+        if let installedPath {
+            text += """
+
+                Put it on your PATH:
+                  sudo ln -sf '\(installedPath)' /usr/local/bin/greenshot-cli
+
+                """
+        }
+        return text
+    }
+
+    // MARK: The app's own command line
+
+    /// The app's startup options and the command after them (upstream `Helpers/GreenshotCommandLine.cs`).
+    public struct StartupOptions: Equatable, Sendable {
+        public var help = false
+        /// Started by greenshot-cli or a script: no "is running" message, and end silently when the app runs already
+        /// (the Mac's counterpart of upstream's `--autostart`).
+        public var background = false
+        public var snapshot = false
+        /// The arguments after the startup options: a command in greenshot-cli's syntax; empty when there is none.
+        public var command: [String] = []
+
+        public init() {}
+    }
+
+    /// Startup options with a value.
+    private static let optionsWithValue = ["--settings-dir", "--snapshot"]
+    private static let flags = ["--background", "--help", "-h", "-?"]
+
+    /// Splits the arguments (without the program path) into startup options and the command. Also skipped: the process
+    /// serial number LaunchServices added in old macOS versions (`-psn_…`) and user-defaults arguments like
+    /// `-NSDocumentRevisionsDebugMode YES` or `-AppleLanguages (de)` (one dash, a capital letter, a value).
+    public static func scanStartup(_ arguments: [String]) -> StartupOptions {
+        var options = StartupOptions()
+        var index = 0
+        while index < arguments.count {
+            let argument = arguments[index]
+            let lowered = argument.lowercased()
+            if optionsWithValue.contains(lowered) {
+                if lowered == "--snapshot" { options.snapshot = true }
+                index = min(index + 2, arguments.count)
+            } else if optionsWithValue.contains(where: { lowered.hasPrefix($0 + "=") }) {
+                if lowered.hasPrefix("--snapshot=") { options.snapshot = true }
+                index += 1
+            } else if flags.contains(lowered) {
+                if lowered == "--background" { options.background = true } else { options.help = true }
+                index += 1
+            } else if argument.hasPrefix("-psn_") {
+                index += 1
+            } else if isDefaultsArgument(argument) {
+                index = min(index + 2, arguments.count)
+            } else {
+                break
+            }
+        }
+        options.command = Array(arguments[index...])
+        return options
+    }
+
+    private static func isDefaultsArgument(_ argument: String) -> Bool {
+        let scalars = Array(argument.unicodeScalars)
+        guard scalars.count > 1, scalars[0] == "-" else { return false }
+        return CharacterSet.uppercaseLetters.contains(scalars[1])
+    }
+
+    /// The app's help (upstream `GreenshotCommandLine.BuildRootCommand`).
+    public static let appUsage = """
+        Greenshot for Mac (Community) - an unofficial macOS port of Greenshot
+
+        Usage: GreenshotMac [startup options] [command]
+
+        Startup options:
+          --settings-dir <folder>   Keep the settings in <folder>/settings.json instead of the user defaults
+          --background              Start without the "is running" message; end silently when the app runs already
+          --snapshot <folder>       Render the windows to PNG files and quit (for development)
+          --help, -h, -?            Show this help text
+
+        The command has the same syntax as for greenshot-cli (see greenshot-cli --help), e.g.
+          GreenshotMac image.png            open a file in the editor
+          GreenshotMac --reload / --exit    reload the settings / quit the app
+        The command is sent to the running app; if none is running, the app starts and runs it.
+        Unlike greenshot-cli, GreenshotMac shows no output of the command.
+
+        """
+}
