@@ -131,7 +131,9 @@ struct BarcodePayloadTests {
         #expect(BarcodeSymbology.dataMatrix.upstreamIndex == 2)
         #expect(QRPayloadType(upstreamIndex: 8) == .geo)
         #expect(QRPayloadType.epcTransfer.upstreamIndex == 3)
-        #expect(BarcodeSymbology.allCases.filter(\.is2D) == [.qrCode, .aztec, .dataMatrix, .pdf417])
+        let twoDimensional: [BarcodeSymbology] = BarcodeSymbology.allCases.filter(\.is2D)
+        let expected2D: [BarcodeSymbology] = [.qrCode, .aztec, .dataMatrix, .pdf417]
+        #expect(twoDimensional == expected2D)
     }
 
     @Test func specsRoundTrip() throws {

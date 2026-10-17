@@ -37,8 +37,10 @@ struct ImageFormatsTests {
         #expect(bytes[12] == 10 && bytes[13] == 0 && bytes[14] == 4 && bytes[15] == 0)
         #expect(bytes[16] == 32 && bytes[17] == 0x28)
         // First row: a run of 5 red pixels (B G R A), then 5 blue ones with straight alpha.
-        #expect(Array(bytes[18..<23]) == [0x84, 0, 0, 255, 255])
-        #expect(Array(bytes[23..<28]) == [0x84, 255, 0, 0, 128])
+        let redRun: [UInt8] = [0x84, 0, 0, 255, 255]
+        let blueRun: [UInt8] = [0x84, 255, 0, 0, 128]
+        #expect(Array(bytes[18..<23]) == redRun)
+        #expect(Array(bytes[23..<28]) == blueRun)
         #expect(String(decoding: bytes.suffix(18).prefix(17), as: UTF8.self) == "TRUEVISION-XFILE.")
         let decoded = try decode(data)
         #expect(decoded.width == 10 && decoded.height == 4)
