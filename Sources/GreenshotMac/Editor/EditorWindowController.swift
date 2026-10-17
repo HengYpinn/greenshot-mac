@@ -120,6 +120,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         window.delegate = self
         buildUI()
         wireCanvas()
+        // The colours used last, as a palette in the colour panel the wells open (upstream's recent colours).
+        EditorRecentColors.shared.install(settings: settings)
         // Hide the properties that don't apply before sizing: with all of them shown the property bar is wider than a
         // laptop screen.
         refreshAll()
@@ -658,8 +660,18 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     // MARK: Property actions
 
-    @objc private func lineColorChanged() { applyStyle { $0.lineColor = RGBAColor(lineColorWell.color) } }
-    @objc private func fillColorChanged() { applyStyle { $0.fillColor = RGBAColor(fillColorWell.color) } }
+    @objc private func lineColorChanged() {
+        let color = RGBAColor(lineColorWell.color)
+        applyStyle { $0.lineColor = color }
+        EditorRecentColors.shared.picked(color)
+    }
+
+    @objc private func fillColorChanged() {
+        let color = RGBAColor(fillColorWell.color)
+        applyStyle { $0.fillColor = color }
+        EditorRecentColors.shared.picked(color)
+    }
+
     @objc private func clearLine() { applyStyle { $0.lineColor = .clear } }
     @objc private func clearFill() { applyStyle { $0.fillColor = .clear } }
     @objc private func shadowChanged() { applyStyle { $0.shadow = shadowCheckbox.state == .on } }

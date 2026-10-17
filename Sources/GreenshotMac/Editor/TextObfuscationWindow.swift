@@ -48,6 +48,8 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
     private var debounce: Timer?
     /// Apply was clicked while the text was still being recognized.
     private var applyWhenRecognized = false
+    /// Whether the user changed the highlight colour: it becomes a recent colour on Apply.
+    private var highlightColorChanged = false
     private let spinner = NSProgressIndicator()
     private let applyButton = NSButton(title: "Apply", target: nil, action: nil)
     private let cancelButton = NSButton(title: "Cancel", target: nil, action: nil)
@@ -263,6 +265,7 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
     }
 
     @objc private func optionChanged(_ sender: Any?) {
+        if sender as? NSColorWell === highlightColorWell { highlightColorChanged = true }
         scheduleSearch()
     }
 
@@ -336,6 +339,10 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
     @objc private func apply(_ sender: Any?) {
         let settings = settings
         onSaveSettings?(settings)
+        if highlightColorChanged {
+            highlightColorChanged = false
+            EditorRecentColors.shared.remember(settings.highlightColor)
+        }
         guard let lines else {
             // Still recognizing: apply as soon as the text is there.
             applyWhenRecognized = true
