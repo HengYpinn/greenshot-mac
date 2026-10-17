@@ -110,10 +110,11 @@ public struct RecipeDescriber: Sendable {
 
     public func describeSteps(_ recipe: CaptureRecipe) -> [RecipeDescriptionLine] {
         var lines: [RecipeDescriptionLine] = []
+        let recipeVariables = RecipeGates.variablesSet(by: recipe, contracts: contracts)
         for node in recipe.nodes {
             var actions: [RecipeGatedAction] = []
-            for action in contracts.contract(for: node.stepType)?.gates(node, gates) ?? [] where !actions.contains(action) {
-                actions.append(action)
+            if let contract = contracts.contract(for: node.stepType) {
+                actions = RecipeGates.actions(of: node, contract: contract, environment: gates, recipeSets: recipeVariables)
             }
             var text = describeStep(node)
             switch node.enabled {
@@ -141,7 +142,9 @@ public struct RecipeDescriber: Sendable {
     public func describe(_ action: RecipeGatedAction) -> String {
         switch action.gateType {
         case .networkAccess: return "Uploads to \(action.target)"
-        case .externalCommand: return "Runs the program \(action.target)"
+        case .externalCommand:
+            // A command decided when the recipe runs isn't a program anyone can name yet.
+            return action.target.hasPrefix("a command ") ? "Runs \(action.target)" : "Runs the program \(action.target)"
         case .fileSystemAccess, .custom: return action.target
         }
     }
@@ -167,8 +170,11 @@ public struct RecipeDescriber: Sendable {
             if let custom = parameters.string("CustomDestinationId")?.trimmingCharacters(in: .whitespaces), !custom.isEmpty {
                 designations.append(custom)
             }
-            return designations.isEmpty ? "Sends the result to the destinations from the settings"
-                : "Sends the result to \(designations.map { RecipeDestinationDesignation($0).displayName }.joined(separator: ", "))"
+            let names = designations.map { designation in
+                RecipeGateValue.isRunTime(designation) ? "a destination decided when the recipe runs (\(designation))"
+                    : RecipeDestinationDesignation(designation).displayName
+            }
+            return names.isEmpty ? "Sends the result to the destinations from the settings" : "Sends the result to \(names.joined(separator: ", "))"
         }
         if isType(WellKnownStepType.processors) {
             let processors = parameters.strings("ProcessorIds") ?? []
@@ -188,8 +194,11 @@ public struct RecipeDescriber: Sendable {
         if isType(WellKnownStepType.printer) { return "Prints the result" }
         if isType(WellKnownStepType.email) { return "Creates an email with the result" }
         if isType(WellKnownStepType.saveFile) {
-            let directory = parameters.string("SaveDirectory")?.trimmingCharacters(in: .whitespaces) ?? ""
-            return directory.isEmpty ? "Saves the result to the output folder from the settings" : "Saves the result to \(directory)"
+            switch RecipeGateValue(node, "SaveDirectory") {
+            case .unset: return "Saves the result to the output folder from the settings"
+            case .literal(let directory): return "Saves the result to \(directory)"
+            case .runTime(let text): return "Saves the result to a folder decided when the recipe runs (\(text))"
+            }
         }
         if isType(WellKnownStepType.interactiveSelection) { return "Lets you select a region" }
         if isType(WellKnownStepType.userPrompt) { return "Asks you a question" }
@@ -224,8 +233,11 @@ public struct RecipeDescriber: Sendable {
         case "fullscreen": what = "Captures the screen"
         case "clipboard": what = "Takes the image from the clipboard"
         case "file":
-            let filename = parameters.string("Filename")?.trimmingCharacters(in: .whitespaces) ?? ""
-            what = filename.isEmpty ? "Loads an image file" : "Loads the image file \(filename)"
+            switch RecipeGateValue(node, "Filename") {
+            case .unset: what = "Loads an image file"
+            case .literal(let filename): what = "Loads the image file \(filename)"
+            case .runTime(let text): what = "Loads an image file named when the recipe runs (\(text))"
+            }
         case "currenteditor": what = "Takes the image from the open editor"
         case "lastregion": what = "Captures the last region again"
         default: what = "Captures (\(sourceType))"

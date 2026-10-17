@@ -93,12 +93,38 @@ enum BuiltInStepContracts {
         ],
         outputVariables: [output("SelectedWindow", .object, "The window of the last region (SourceType LastRegion)", conditional: true)],
         payload: PayloadContract(rawCapture: .created, surface: .created),
-        gates: { node, _ in
-            guard recipeEquals(node.parameters.string("SourceType") ?? "", "File") else { return [] }
-            let filename = node.parameters.string("Filename")?.trimmingCharacters(in: .whitespaces) ?? ""
-            return [RecipeGatedAction(.fileSystemAccess, target: filename.isEmpty
-                ? "Reads the image file named in the variable Filename" : "Reads the image file \(filename)")]
-        })
+        gates: { node, _ in sourceGates(node) })
+
+    /// The source types that read no file. Any other value (File, a number, an unknown name, a `${...}`) may load a
+    /// file: upstream's `Enum.TryParse` takes numbers too, so only these names are safe to skip.
+    private static let sourceTypesWithoutFile: Set<String> = ["region", "window", "activewindow", "fullscreen", "lastregion",
+                                                              "clipboard", "textocr", "currenteditor", "extension"]
+
+    /// Upstream `SourceAcquisitionStep.GetGatedActions`, conservative: file system access unless the source surely
+    /// reads no file.
+    static func sourceGates(_ node: RecipeNode) -> [RecipeGatedAction] {
+        var because = ""
+        switch RecipeGateValue(node, "SourceType") {
+        case .unset:
+            return []
+        case .literal(let name) where recipeEquals(name, "File"):
+            break
+        case .literal(let name):
+            guard !sourceTypesWithoutFile.contains(name.lowercased()) else { return [] }
+            because = "source type \"\(name)\""
+        case .runTime(let text):
+            because = "the source type is decided when the recipe runs (\(text))"
+        }
+        guard because.isEmpty else { return [RecipeGatedAction(.fileSystemAccess, target: "May read an image file (\(because))")] }
+        switch RecipeGateValue(node, "Filename") {
+        case .unset:
+            return [RecipeGatedAction(.fileSystemAccess, target: "Reads the image file named in the variable Filename")]
+        case .literal(let filename):
+            return [RecipeGatedAction(.fileSystemAccess, target: "Reads the image file \(filename)")]
+        case .runTime(let text):
+            return [RecipeGatedAction(.fileSystemAccess, target: "Reads an image file named when the recipe runs (\(text))")]
+        }
+    }
 
     static let interactiveSelection = StepContract(
         stepType: WellKnownStepType.interactiveSelection, displayName: "Interactive Selection",
@@ -218,11 +244,19 @@ enum BuiltInStepContracts {
 
     private static func destinationGates(_ node: RecipeNode, _ environment: GateEnvironment) -> [RecipeGatedAction] {
         var actions: [RecipeGatedAction] = []
-        if let directory = node.parameters.string("SaveDirectory")?.trimmingCharacters(in: .whitespaces), !directory.isEmpty {
-            actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes files to \(directory)"))
+        switch RecipeGateValue(node, "SaveDirectory") {
+        case .unset: break
+        case .literal(let directory): actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes files to \(directory)"))
+        case .runTime(let text):
+            actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes files to a folder decided when the recipe runs (\(text))"))
         }
         for designation in designations(of: node, environment) where !designation.trimmingCharacters(in: .whitespaces).isEmpty {
-            if let action = RecipeDestinationDesignation(designation).gatedAction(environment) { actions.append(action) }
+            // A destination decided when the recipe runs may be any: assume a command and an upload.
+            if RecipeGateValue.isRunTime(designation) {
+                actions += RecipeGates.anyDestination(designation.trimmingCharacters(in: .whitespaces))
+            } else if let action = RecipeDestinationDesignation(designation).gatedAction(environment) {
+                actions.append(action)
+            }
         }
         return actions
     }
@@ -421,9 +455,14 @@ enum BuiltInStepContracts {
             output("VideoRecordingResult", .object, "Details of the recording")
         ],
         gates: { node, _ in
-            let target = node.parameters.string("OutputFilePath") ?? node.parameters.string("OutputDirectory") ?? ""
-            guard !target.trimmingCharacters(in: .whitespaces).isEmpty else { return [] }
-            return [RecipeGatedAction(.fileSystemAccess, target: "Writes the video to \(target)")]
+            var target = RecipeGateValue(node, "OutputFilePath")
+            if target == .unset { target = RecipeGateValue(node, "OutputDirectory") }
+            switch target {
+            case .unset: return []
+            case .literal(let path): return [RecipeGatedAction(.fileSystemAccess, target: "Writes the video to \(path)")]
+            case .runTime(let text):
+                return [RecipeGatedAction(.fileSystemAccess, target: "Writes the video to a place decided when the recipe runs (\(text))")]
+            }
         })
 
     static let stdout = StepContract(
@@ -492,13 +531,31 @@ enum BuiltInStepContracts {
             output("{Parameter:SetExitCodeVariable}", .integer, "The command's exit code", conditional: true)
         ],
         payload: PayloadContract(rawCapture: .required, surface: .required),
-        gates: { node, environment in
-            let name = node.parameters.string("Command")?.trimmingCharacters(in: .whitespaces) ?? ""
-            var commandLine = node.parameters.string("CommandLine")?.trimmingCharacters(in: .whitespaces) ?? ""
-            if commandLine.isEmpty, !name.isEmpty { commandLine = environment.commandLine(name) ?? "" }
-            let target = commandLine.isEmpty ? name : (name.isEmpty ? commandLine : "\(name) (\(commandLine))")
-            return [RecipeGatedAction(.externalCommand, target: target)]
-        })
+        gates: { node, environment in [RecipeGatedAction(.externalCommand, target: externalCommandTarget(node, environment))] })
+
+    /// The command of an ExternalCommand node: the executable, or the configured command's name and its command line;
+    /// "a command given when the recipe runs" when the one that decides contains `${...}`, and the arguments when they
+    /// do.
+    static func externalCommandTarget(_ node: RecipeNode, _ environment: GateEnvironment) -> String {
+        var target: String
+        switch (RecipeGateValue(node, "CommandLine"), RecipeGateValue(node, "Command")) {
+        case (.runTime(let text), _), (.unset, .runTime(let text)):
+            target = RecipeGateValue.command(text)
+        case (.literal(let commandLine), .literal(let name)):
+            target = "\(name) (\(commandLine))"
+        case (.literal(let commandLine), _):
+            target = commandLine
+        case (.unset, .literal(let name)):
+            let commandLine = environment.commandLine(name) ?? ""
+            target = commandLine.isEmpty ? name : "\(name) (\(commandLine))"
+        case (.unset, .unset):
+            target = ""
+        }
+        if case .runTime(let arguments) = RecipeGateValue(node, "Arguments") {
+            target += " with arguments given when the recipe runs (\(arguments))"
+        }
+        return target
+    }
 
     private static func upload(_ stepType: String, _ displayName: String, _ description: String, target: String,
                                parameters: [ParameterContract] = [], inputs: [VariableContract] = [],

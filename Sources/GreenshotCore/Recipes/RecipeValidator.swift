@@ -54,8 +54,9 @@ public struct RecipeValidator: Sendable {
             return result
         }
         var seen = Set<String>()
+        let recipeVariables = RecipeGates.variablesSet(by: recipe, contracts: contracts)
         for (index, node) in recipe.nodes.enumerated() {
-            validateNode(node, index: index, seen: &seen, &result)
+            validateNode(node, index: index, seen: &seen, recipeVariables: recipeVariables, &result)
             if isExtension { validateExtensionNode(node, recipe, &result) }
         }
         validateOptions(recipe, &result)
@@ -148,7 +149,8 @@ public struct RecipeValidator: Sendable {
         return names.contains { recipeEquals($0, trimmed) } || Int(trimmed) != nil
     }
 
-    private func validateNode(_ node: RecipeNode, index: Int, seen: inout Set<String>, _ result: inout RecipeValidationResult) {
+    private func validateNode(_ node: RecipeNode, index: Int, seen: inout Set<String>, recipeVariables: Set<String>,
+                              _ result: inout RecipeValidationResult) {
         let id = node.id.trimmingCharacters(in: .whitespaces)
         if id.isEmpty {
             result.errors.append("Node at index \(index) is missing required 'id'.")
@@ -202,7 +204,8 @@ public struct RecipeValidator: Sendable {
                 result.errors.append("Node '\(node.id)' [Slot]: 'accept' must be \"all\", \"none\" or a list of extension ids.")
             }
         }
-        for action in contract.gates(node, gates) where !result.gatedActions.contains(action) {
+        for action in RecipeGates.actions(of: node, contract: contract, environment: gates, recipeSets: recipeVariables)
+        where !result.gatedActions.contains(action) {
             result.gatedActions.append(action)
         }
     }
@@ -262,6 +265,7 @@ public struct RecipeValidator: Sendable {
                 result.errors.append("Option '\(option.key)': 'enabledWhen' must be the key of another Boolean option of the recipe.")
             }
         }
+        let recipeVariables = RecipeGates.variablesSet(by: recipe, contracts: contracts)
         for node in recipe.nodes {
             if case .expression(let expression) = node.enabled, !expression.contains("${") {
                 result.errors.append("Node '\(node.id)': 'enabled' must be true, false or an expression like \"${option.key}\".")
@@ -276,7 +280,8 @@ public struct RecipeValidator: Sendable {
             }
             // A text the user types must not end up in a command line, an upload address or a file path.
             let textOptions = parameterReferences.sorted().filter { declared[$0.lowercased()]?.type == .string }
-            if !textOptions.isEmpty, let contract = contracts.contract(for: node.stepType), !contract.gates(node, gates).isEmpty {
+            if !textOptions.isEmpty, let contract = contracts.contract(for: node.stepType),
+               !RecipeGates.actions(of: node, contract: contract, environment: gates, recipeSets: recipeVariables).isEmpty {
                 let list = textOptions.map { "'\($0)'" }.joined(separator: ", ")
                 result.errors.append("Node '\(node.id)' needs an approval and can't use the text option(s) \(list).")
             }
