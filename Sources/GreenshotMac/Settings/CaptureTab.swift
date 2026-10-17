@@ -19,6 +19,8 @@ struct CaptureSettings: View {
                 Toggle("Use interactive window capture mode", isOn: store.binding(\.interactiveWindowCapture))
                     .help("The window hotkey opens the capture screen in window mode instead of capturing the active window.")
                 Toggle("Keep the window shadow in window captures", isOn: store.binding(\.includeWindowShadow))
+                WindowAreasSetting(store: store)
+                HDRSetting(store: store)
                 Toggle("Show the zoomer on the capture screen", isOn: store.binding(\.zoomerEnabled))
                 ZoomerOpacitySetting(store: store)
                 Toggle("Look for QR codes on the capture screen", isOn: store.binding(\.scanQRCodesOnCapture))
@@ -34,6 +36,70 @@ struct CaptureSettings: View {
             NotificationSettings(store: store)
         }
         .formStyle(.grouped)
+    }
+}
+
+/// "Select areas inside windows" (upstream: window mode for beta testers, `WindowCaptureTool.SelectsAreas`). Turning it
+/// on asks macOS for the Accessibility permission; without it window mode selects whole windows, as with the setting off.
+struct WindowAreasSetting: View {
+    @ObservedObject var store: SettingsStore
+    @StateObject private var accessibility: AccessibilityStatus
+
+    /// `accessibility` is given by the snapshots, to show the row without the permission.
+    @MainActor
+    init(store: SettingsStore, accessibility: AccessibilityStatus? = nil) {
+        self.store = store
+        _accessibility = StateObject(wrappedValue: accessibility ?? AccessibilityStatus())
+    }
+
+    var body: some View {
+        Toggle("Select areas inside windows", isOn: enabled)
+            .help("In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a "
+                  + "part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.")
+        if store.value.windowCaptureSelectsAreas && !accessibility.isAllowed {
+            LabeledContent {
+                HStack {
+                    Button("Allow…") {
+                        Permissions.requestAccessibility()
+                        accessibility.refresh()
+                    }
+                    Button("Open System Settings") { NSWorkspace.shared.open(Permissions.accessibilitySettingsURL) }
+                }
+            } label: {
+                Text("Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole "
+                     + "windows. A rebuilt or moved copy of the app has to be allowed again.")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+        }
+    }
+
+    /// Turning it on asks for the permission at once, while the user is looking at it (never during a capture, where
+    /// the question would be hidden behind the capture screen).
+    private var enabled: Binding<Bool> {
+        Binding(get: { store.value.windowCaptureSelectsAreas },
+                set: { on in
+                    store.update { $0.windowCaptureSelectsAreas = on }
+                    if on && !Permissions.hasAccessibility { Permissions.requestAccessibility() }
+                    accessibility.refresh()
+                })
+    }
+}
+
+/// HDR screens (upstream tone maps HDR captures since 1.4, `HdrContent`): bright parts of HDR videos and photos are tone
+/// mapped instead of cut off. ScreenCaptureKit captures HDR from macOS 15 on.
+struct HDRSetting: View {
+    @ObservedObject var store: SettingsStore
+
+    var body: some View {
+        if #available(macOS 15, *) {
+            Toggle("Tone map HDR content on HDR screens", isOn: store.binding(\.toneMapHDRCaptures))
+                .help("While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead "
+                      + "of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.")
+        } else {
+            Toggle("Tone map HDR content on HDR screens (macOS 15 or later)", isOn: .constant(false))
+                .disabled(true)
+        }
     }
 }
 

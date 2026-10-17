@@ -167,3 +167,98 @@ struct HotkeySequenceMatcherTests {
         #expect(r13 == .ignored)
     }
 }
+
+/// Left and right modifier keys (CAP-034, upstream `ModifierLocation`).
+struct HotkeySidesTests {
+    private let rightCommand = ModifierSides(command: .right)
+
+    @Test func todaysSettingsLoadWithEitherSide() throws {
+        let combo = try JSONDecoder().decode(KeyCombo.self, from: Data(#"{"keyCode":21,"modifiers":6400}"#.utf8))
+        #expect(combo.sides.isAny)
+        #expect(!combo.usesSides)
+        let object = try JSONSerialization.jsonObject(with: JSONEncoder().encode(combo)) as? [String: Any]
+        #expect(object?["sides"] == nil)
+    }
+
+    @Test func sidesRoundTrip() throws {
+        let second = KeyChord(keyCode: UInt32(kVK_ANSI_C), modifiers: KeyCombo.shift, sides: ModifierSides(shift: .left))
+        let combo = KeyCombo(keyCode: UInt32(kVK_ANSI_K), modifiers: ctrlOptCmd, sides: rightCommand, followingChords: [second])
+        let decoded = try JSONDecoder().decode(KeyCombo.self, from: JSONEncoder().encode(combo))
+        #expect(decoded == combo)
+        #expect(decoded.sides.command == .right)
+        #expect(decoded.followingChords.first?.sides.shift == .left)
+        #expect(decoded.usesSides)
+    }
+
+    @Test func damagedOrUnknownSidesAreEitherSide() throws {
+        let unknown = #"{"keyCode":21,"modifiers":6400,"sides":{"command":"middle","control":"left"}}"#
+        let combo = try JSONDecoder().decode(KeyCombo.self, from: Data(unknown.utf8))
+        #expect(combo.sides == ModifierSides(control: .left))
+        let damaged = #"{"keyCode":21,"modifiers":6400,"sides":"nonsense"}"#
+        #expect(try JSONDecoder().decode(KeyCombo.self, from: Data(damaged.utf8)) == .defaultRegion)
+    }
+
+    @Test func aModifierTheStepDoesntUseHasNoSide() {
+        let combo = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: KeyCombo.control | KeyCombo.option,
+                             sides: ModifierSides(option: .left, command: .right))
+        #expect(combo.sides == ModifierSides(option: .left))
+    }
+
+    @Test func theSidesAreShownInWords() {
+        let combo = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: ModifierSides(control: .left, command: .right))
+        #expect(combo.displayString == "⌃⌥⌘4 (left ⌃, right ⌘)")
+        #expect(combo.ignoringSides == .defaultRegion)
+        #expect(KeyCombo.defaultRegion.displayString == "⌃⌥⌘4")
+    }
+
+    @Test func eitherSideAndOneSideClash() {
+        let right = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: rightCommand)
+        let left = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: ModifierSides(command: .left))
+        let clash = KeyCombo.conflict(of: right, with: [("Capture region", .defaultRegion)])
+        #expect(clash?.contains("same keys with either side") == true)
+        #expect(KeyCombo.conflict(of: right, with: [("Capture window", left)]) == nil)
+        #expect(KeyCombo.conflict(of: right, with: [("Capture window", right)]) == "“Capture window” has the same hotkey.")
+    }
+
+    @Test func theDeviceFlagsTellTheSides() {
+        let chord = KeyChord(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: ModifierSides(control: .right, command: .left))
+        let rightControlLeftCommand = DeviceModifierFlags.rightControl | DeviceModifierFlags.leftCommand
+        let leftControlLeftCommand = DeviceModifierFlags.leftControl | DeviceModifierFlags.leftCommand
+        let both = rightControlLeftCommand | DeviceModifierFlags.leftControl
+        #expect(chord.sidesMatch(deviceFlags: rightControlLeftCommand))
+        #expect(!chord.sidesMatch(deviceFlags: leftControlLeftCommand))
+        #expect(chord.sidesMatch(deviceFlags: both))
+        #expect(!chord.sidesMatch(deviceFlags: 0))
+        #expect(KeyCombo.defaultRegion.firstChord.sidesMatch(deviceFlags: 0))
+    }
+
+    @Test func recordingKeepsTheSideOnlyWhereOneWasChosen() {
+        let pressed = DeviceModifierFlags.rightCommand | DeviceModifierFlags.leftOption | DeviceModifierFlags.leftControl
+        let chosen = ModifierSides(control: .any, command: .left)
+        let sides = ModifierSides.recorded(chosen: chosen, modifiers: ctrlOptCmd, deviceFlags: pressed)
+        #expect(sides == ModifierSides(command: .right))
+        // Both keys held: the side chosen before stays.
+        let bothCommands = pressed | DeviceModifierFlags.leftCommand
+        #expect(ModifierSides.recorded(chosen: chosen, modifiers: ctrlOptCmd, deviceFlags: bothCommands) == ModifierSides(command: .left))
+    }
+
+    @Test func theMatcherChecksTheSidesOfTappedKeys() {
+        let right = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: rightCommand)
+        var matcher = HotkeySequenceMatcher(hotkeys: [right])
+        let pressed = chord(kVK_ANSI_4, ctrlOptCmd)
+        let now = Date()
+        #expect(matcher.feed(pressed, deviceFlags: DeviceModifierFlags.leftCommand, at: now) == .ignored)
+        #expect(matcher.feed(pressed, deviceFlags: DeviceModifierFlags.rightCommand, at: now) == .completed(0))
+        // Carbon doesn't know the sides.
+        #expect(matcher.feed(pressed, at: now) == .completed(0))
+    }
+
+    @Test func aSidedSequenceCompletes() {
+        let second = KeyChord(keyCode: UInt32(kVK_ANSI_C), modifiers: KeyCombo.shift, sides: ModifierSides(shift: .right))
+        let combo = KeyCombo(keyCode: UInt32(kVK_ANSI_K), modifiers: ctrlOptCmd, followingChords: [second])
+        var matcher = HotkeySequenceMatcher(hotkeys: [combo])
+        let now = Date()
+        #expect(matcher.feed(ctrlOptCmdK, deviceFlags: DeviceModifierFlags.leftCommand, at: now) == .pending)
+        #expect(matcher.feed(chord(kVK_ANSI_C, KeyCombo.shift), deviceFlags: DeviceModifierFlags.rightShift, at: now) == .completed(0))
+    }
+}

@@ -34,7 +34,7 @@ extension OverlayMarksView {
         let selection = controller.selection.map { local($0) }
         // While a window selection slides, the frame is on its way; the labels belong to where it goes.
         let shownSelection = controller.displayedSelection(at: now).map { local($0) }
-        if controller.selectionMoves(at: now) { controller.animator.requestFrame() }
+        if controller.selectionMoves(at: now) || controller.readsAreas { controller.animator.requestFrame() }
 
         // Dim everything outside the selection a little, so the capture screen is recognizable.
         let dim = CGMutablePath()
@@ -72,6 +72,7 @@ extension OverlayMarksView {
             return
         }
         drawPanelsAndZoomer(controller, cursor: cursor, selection: selection, showsPosition: !showsCrosshair, now: now, in: context)
+        if controller.showsAreaSpinner(at: now) { drawAreaSpinner(at: cursor, angle: controller.areaSpinnerAngle(at: now), in: context) }
         drawStatus(controller)
         drawBarcodeHint(controller)
         drawBarcodeMenu(controller)
@@ -280,7 +281,7 @@ extension OverlayMarksView {
         }
         if controller.mode == .window, let window = controller.hoveredWindow {
             text = window.menuTitle
-            if controller.windowDetailsVisible { text += "\n" + Self.details(of: window) }
+            if controller.windowDetailsVisible { text += "\n" + Self.details(of: window, area: controller.hoveredArea) }
         }
         guard !text.isEmpty else { return }
         let string = label(text)
@@ -292,13 +293,36 @@ extension OverlayMarksView {
         drawBubble(string, at: origin)
     }
 
-    /// D in window mode: what identifies the window, for reporting a problem with an app.
-    static func details(of window: WindowInfo) -> String {
+    /// D in window mode: what identifies the window, for reporting a problem with an app, and for an area its kind and
+    /// name (upstream adds the UI Automation control type and name).
+    static func details(of window: WindowInfo, area: WindowArea? = nil) -> String {
         let f = window.frame
         let title = window.title.isEmpty ? "(no title)" : window.title
         let level = window.level == 0 ? "" : " · level \(window.level)"
-        return "Window \(window.id) · \(window.appName) (pid \(window.pid))\(level)\n\(title)\n"
+        var text = "Window \(window.id) · \(window.appName) (pid \(window.pid))\(level)\n\(title)\n"
             + "\(Int(f.minX)), \(Int(f.minY))  \(Int(f.width)) × \(Int(f.height)) pt"
+        if let area {
+            let a = area.frame
+            text += "\nArea: \(area.name) (\(area.role)) · \(Int(a.minX)), \(Int(a.minY))  \(Int(a.width)) × \(Int(a.height)) pt"
+        }
+        return text
+    }
+
+    /// The turning mark while the areas of a window are read (upstream `WindowCaptureTool.Draw`): an arc of three
+    /// quarters that turns once a second, next to the mouse, on a ring in the panels' colour so it shows on any content.
+    private func drawAreaSpinner(at cursor: CGPoint, angle: CGFloat, in context: CGContext) {
+        let radius: CGFloat = 6
+        let center = CGPoint(x: cursor.x + 20, y: cursor.y + 20)
+        context.saveGState()
+        context.setStrokeColor(NSColor.black.withAlphaComponent(0.72).cgColor)
+        context.setLineWidth(4)
+        context.strokeEllipse(in: CGRect(x: center.x - radius, y: center.y - radius, width: 2 * radius, height: 2 * radius))
+        context.setStrokeColor(accent.cgColor)
+        context.setLineWidth(2)
+        context.setLineCap(.round)
+        context.addArc(center: center, radius: radius, startAngle: angle, endAngle: angle + 1.5 * .pi, clockwise: false)
+        context.strokePath()
+        context.restoreGState()
     }
 
     /// "Recognising text…" while the text mode waits for the text recognition.
@@ -462,7 +486,9 @@ extension CaptureOverlayController {
                      ("Shift", "keep a drag to one direction"), ("Z", "zoomer on or off")]
             if !barcodes.isEmpty { lines.append(("Click a QR code", "copy or open what it says")) }
         case .window:
-            lines = [("Click, Enter", "capture the window"), ("D", "window details on or off")]
+            lines = [("Click, Enter", areasAllowed ? "capture the window or area" : "capture the window")]
+            if areasAllowed { lines.append(("PgUp PgDn", "larger or smaller area")) }
+            lines.append(("D", "window details on or off"))
         case .fixedSize:
             lines = [("Click, Enter", "capture the area"), ("1 – 9", "pick a size"), ("PgUp PgDn, [ ]", "previous or next size"),
                      ("C", "hold it at another corner"), ("⌥", "hold to place it without snapping"), arrows, ("Z", "zoomer on or off")]
@@ -504,6 +530,7 @@ extension CaptureOverlayController {
         let title = windowUnderCursor?.menuTitle ?? "–"
         lines.append(("Window", title.count > 48 ? String(title.prefix(47)) + "…" : title))
         lines.append(("Mouse", "\(Int(cursor.x.rounded(.down))), \(Int(cursor.y.rounded(.down)))"))
+        if mode == .window, selectsAreas, !areasAllowed { lines.append(("Areas", "allow Accessibility in Settings › Capture")) }
         if pointerScreens != nil { lines.append(("Pointer", pointerVisible ? "in the capture" : "not in the capture")) }
         return lines
     }

@@ -12,7 +12,9 @@ import Foundation
 ///
 /// Upstream sees every key through a keyboard hook. Carbon's `RegisterEventHotKey` only reports registered keys, so
 /// the app registers `pendingChords` for as long as `isPending` is true, and calls `expire(at:)` after
-/// `chordTimeout`: a key that doesn't belong to the hotkey can't cancel it, only Esc and the timeout can.
+/// `chordTimeout`: a key that doesn't belong to the hotkey can't cancel it, only Esc and the timeout can. Hotkeys that
+/// need the left or right key of a modifier come from the app's event tap instead, which sees every key and passes
+/// the event's device flags (`feed(_:deviceFlags:at:)`).
 public struct HotkeySequenceMatcher: Sendable {
     /// The time allowed between two steps (upstream `ChordTimeout`).
     public static let chordTimeout: TimeInterval = 2.5
@@ -66,8 +68,9 @@ public struct HotkeySequenceMatcher: Sendable {
         return result
     }
 
-    /// A registered key was pressed at `time`.
-    public mutating func feed(_ chord: KeyChord, at time: Date) -> Result {
+    /// A registered key was pressed at `time`. `deviceFlags` (from an event tap) tell the left modifier keys from the right
+    /// ones; nil (Carbon) matches either side.
+    public mutating func feed(_ chord: KeyChord, deviceFlags: UInt64? = nil, at time: Date) -> Result {
         _ = expire(at: time)
         if isPending {
             if chord.keyCode == Self.escape.keyCode {
@@ -76,7 +79,7 @@ public struct HotkeySequenceMatcher: Sendable {
             }
             let next = candidates.filter { index in
                 let steps = hotkeys[index].chords
-                return step < steps.count && Self.matches(chord, steps[step], previous: steps[step - 1])
+                return step < steps.count && Self.matches(chord, steps[step], previous: steps[step - 1], deviceFlags: deviceFlags)
             }
             if !next.isEmpty {
                 candidates = next
@@ -91,10 +94,14 @@ public struct HotkeySequenceMatcher: Sendable {
             // Not the next step of any candidate: start again, the key may begin another hotkey.
             reset()
         }
-        if let single = hotkeys.indices.first(where: { hotkeys[$0].chords.count == 1 && Self.matches(chord, hotkeys[$0].firstChord) }) {
+        if let single = hotkeys.indices.first(where: {
+            hotkeys[$0].chords.count == 1 && Self.matches(chord, hotkeys[$0].firstChord, deviceFlags: deviceFlags)
+        }) {
             return .completed(single)
         }
-        let starts = hotkeys.indices.filter { hotkeys[$0].isSequence && Self.matches(chord, hotkeys[$0].firstChord) }
+        let starts = hotkeys.indices.filter {
+            hotkeys[$0].isSequence && Self.matches(chord, hotkeys[$0].firstChord, deviceFlags: deviceFlags)
+        }
         guard !starts.isEmpty else { return .ignored }
         candidates = starts
         step = 1
@@ -115,9 +122,11 @@ public struct HotkeySequenceMatcher: Sendable {
         lastStepAt = nil
     }
 
-    /// The key and the modifiers of `chord`; a modifier it doesn't have may still be held from the step before.
-    static func matches(_ pressed: KeyChord, _ chord: KeyChord, previous: KeyChord? = nil) -> Bool {
+    /// The key and the modifiers of `chord`; a modifier it doesn't have may still be held from the step before. With
+    /// `deviceFlags` also the sides `chord` needs.
+    static func matches(_ pressed: KeyChord, _ chord: KeyChord, previous: KeyChord? = nil, deviceFlags: UInt64? = nil) -> Bool {
         guard pressed.keyCode == chord.keyCode, pressed.modifiers & chord.modifiers == chord.modifiers else { return false }
+        if let deviceFlags, !chord.sidesMatch(deviceFlags: deviceFlags) { return false }
         let allowed = chord.modifiers | (previous?.modifiers ?? 0)
         return pressed.modifiers & ~allowed == 0
     }

@@ -182,7 +182,11 @@ final class ShortcutRecorderButton: NSButton {
     }
 
     private func record(_ event: NSEvent) {
-        let typed = KeyCombo(event: event).firstChord
+        var typed = KeyCombo(event: event).firstChord
+        // A modifier whose left or right key was chosen takes the key pressed now (upstream `SetCapturedKey`).
+        let chosen = appending ? ModifierSides.any : (combo?.firstChord.sides ?? .any)
+        typed.sides = ModifierSides.recorded(chosen: chosen, modifiers: typed.modifiers,
+                                             deviceFlags: UInt64(event.modifierFlags.rawValue))
         switch Int(event.keyCode) {
         case kVK_Escape where typed.modifiers == 0:
             onProblem?(nil)
