@@ -183,6 +183,7 @@ enum CrashReporting {
             var report = CodeSignature.check(url)
             if report.notarization == .checking { report.notarization = CodeSignature.isNotarized(url) ? .notarized : .notNotarized }
             print(report.reportText)
+            removeMarker()
             exit(0)
         default:
             switch previousRun {
