@@ -64,4 +64,96 @@ public enum DestinationSupport {
         components.queryItems = query.isEmpty ? nil : query
         return components.url
     }
+
+    // MARK: Folders
+
+    /// The output folder with the pattern variables filled in and `~` expanded (upstream `FileDestination`
+    /// `FillVariables(OutputFilePath, false)`). `context` should not count `${NUM}` up (`consumeNumber: false`), so the
+    /// file name's `${NUM}` counts once. An empty folder is the Desktop.
+    public static func outputFolder(_ folder: String, context: FilenamePattern.Context) -> URL {
+        let trimmed = folder.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return context.homeDirectory.appendingPathComponent("Desktop", isDirectory: true) }
+        let filled = FilenamePattern.fill(trimmed, context: context, filenameSafe: false)
+        let path = filled.hasPrefix("~") ? context.homeDirectory.path + filled.dropFirst() : filled
+        return URL(fileURLWithPath: path, isDirectory: true)
+    }
+
+    /// The folder part of a filled file name pattern ("2026-10-17/000001 - Safari" → "2026-10-17"), nil without one.
+    public static func subfolder(ofFileName name: String) -> String? {
+        guard let slash = name.lastIndex(of: "/"), !name.hasPrefix("/") else { return nil }
+        let folder = String(name[..<slash]).trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        return folder.isEmpty ? nil : folder
+    }
+
+    /// Where the Save As dialog starts (upstream `SaveImageFileDialog.Init` and `ApplySuggestedValues`): the folder of
+    /// the file the editor shows, else the pattern's sub folder of the output folder, else the folder of the last saved
+    /// file when it still exists, else the output folder.
+    public static func saveAsFolder(editorFile: URL?, patternSubfolder: URL?, lastSavedFile: String?, outputFolder: URL,
+                                    folderExists: (URL) -> Bool) -> URL {
+        if let editorFile { return editorFile.deletingLastPathComponent() }
+        if let patternSubfolder { return patternSubfolder }
+        if let lastSavedFile, !lastSavedFile.isEmpty {
+            let folder = URL(fileURLWithPath: lastSavedFile).deletingLastPathComponent()
+            if folderExists(folder) { return folder }
+        }
+        return outputFolder
+    }
+
+    /// Whether a folder created for the Save As dialog can go again: nothing was saved in it (upstream
+    /// `SaveImageFileDialog.CleanUp`). Finder's `.DS_Store` doesn't count.
+    public static func isUnused(folderContents: [String]) -> Bool {
+        folderContents.allSatisfy { $0 == ".DS_Store" }
+    }
+
+    // MARK: Temporary files
+
+    /// How long the temporary files of mail, share, external commands and "Open with" are kept.
+    public static let temporaryFileLifetime: TimeInterval = 24 * 60 * 60
+
+    /// The temporary capture folders to delete: those last changed longer than `maxAge` ago (upstream
+    /// `SharingFiles.CleanupOldShareFiles` deletes the previous share files; another app may still have a recent one open).
+    public static func staleTemporaryFolders(_ folders: [(url: URL, modified: Date)], now: Date,
+                                             maxAge: TimeInterval = temporaryFileLifetime) -> [URL] {
+        folders.filter { now.timeIntervalSince($0.modified) > maxAge }.map(\.url)
+    }
+
+    // MARK: Printers
+
+    /// The printers for the picker: the default printer first, then by name (upstream `PrinterDestination`).
+    public static func sortedPrinters(_ names: [String], defaultPrinter: String?) -> [String] {
+        var unique: [String] = []
+        for name in names where !unique.contains(name) { unique.append(name) }
+        return unique.sorted { a, b in
+            if a == defaultPrinter { return true }
+            if b == defaultPrinter { return false }
+            return a.unicodeScalars.lexicographicallyPrecedes(b.unicodeScalars)
+        }
+    }
+
+    // MARK: Quality dialog
+
+    /// Whether the quality slider of the quality dialog matters for `format` (upstream enables it for JPEG only).
+    public static func usesQuality(_ format: ImageFormat) -> Bool {
+        format == .jpg || format.rawValue == "webp"
+    }
+
+    /// Whether "Reduce colours" changes a file of `format` (`ImageExporter` reduces PNG and GIF images).
+    public static func reducesColors(_ format: ImageFormat) -> Bool {
+        format == .png || format == .gif
+    }
+
+    /// Whether the quality dialog has anything to ask for `format`: the JPEG quality or the colour reduction.
+    public static func asksQuality(_ format: ImageFormat) -> Bool {
+        usesQuality(format) || reducesColors(format)
+    }
+}
+
+extension AppSettings {
+    /// "Save as default quality and do not ask again" in the quality dialog (upstream `QualityWindow.Apply`): the
+    /// choices become the settings and the dialog stops asking.
+    public mutating func rememberQualityChoice(jpegQuality: Int, reduceColors: Bool) {
+        self.jpegQuality = min(max(jpegQuality, 1), 100)
+        self.reduceColors = reduceColors
+        promptJpegQuality = false
+    }
 }

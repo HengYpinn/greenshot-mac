@@ -157,7 +157,7 @@ struct JiraClientTests {
         let request = http.last
         #expect(request.url?.path == "/rest/api/3/search/jql")
         #expect(request.query("jql") == "text ~ \"login\" ORDER BY updated DESC")
-        #expect(request.query("maxResults") == "20" && request.query("fields") == "summary")
+        #expect(request.query("maxResults") == "20" && request.query("fields") == "summary,issuetype,created,assignee,reporter")
         #expect(request.value(forHTTPHeaderField: "Accept") == "application/json")
     }
 

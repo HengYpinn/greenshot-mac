@@ -47,6 +47,9 @@ public enum FilenamePattern {
         /// Called once per `${NUM}`: increments and returns the persisted counter (upstream `OutputFileIncrementingNumber`).
         public var nextNumber: () -> UInt
         public var randomIndex: (Int) -> Int
+        /// Values the capture brought along, by variable name (upstream `CaptureDetails.MetaData`): `windowtitle`, and
+        /// later `url`, `browser` and `source`.
+        public var metadata: [String: String]
 
         public init(captureTime: Date,
                     title: String?,
@@ -57,7 +60,8 @@ public enum FilenamePattern {
                     locale: Locale = .current,
                     timeZone: TimeZone = .current,
                     nextNumber: @escaping () -> UInt = { 1 },
-                    randomIndex: @escaping (Int) -> Int = { Int.random(in: 0..<$0) }) {
+                    randomIndex: @escaping (Int) -> Int = { Int.random(in: 0..<$0) },
+                    metadata: [String: String] = [:]) {
             self.captureTime = captureTime
             self.title = title
             self.environment = environment
@@ -68,6 +72,7 @@ public enum FilenamePattern {
             self.timeZone = timeZone
             self.nextNumber = nextNumber
             self.randomIndex = randomIndex
+            self.metadata = metadata
         }
 
         public static func shortHostName() -> String {
@@ -75,6 +80,11 @@ public enum FilenamePattern {
             return name.split(separator: ".").first.map(String.init) ?? name
         }
     }
+
+    /// The variables `evaluate` knows besides the environment and the metadata (the help text lists them all).
+    static let builtInVariables = ["domain", "user", "hostname", "YYYY", "MM", "DD", "hh", "mm", "ss", "now", "capturetime",
+                                   "NUM", "title", "windowtitle", "MyPictures", "MyMusic", "MyDocuments", "Personal", "Desktop",
+                                   "ApplicationData", "LocalApplicationData", "RRRR"]
 
     private static let variableRegex = try! NSRegularExpression(pattern: #"\$\{([^:}]+):?([^}]*)\}"#)
 
@@ -151,6 +161,9 @@ public enum FilenamePattern {
         var value = ""
         if let env = context.environment[variable] {
             value = filenameSafe ? makePathSafe(env) : env
+        } else if variable != "windowtitle", let meta = context.metadata[variable] {
+            // After the environment, like upstream `FilenameHelper.MatchVarEvaluatorInternal`.
+            value = filenameSafe ? makePathSafe(meta) : meta
         } else if variable.allSatisfy({ $0 == "R" }) {
             let chars = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
             value = String((0..<variable.count).map { _ in chars[context.randomIndex(chars.count)] })
@@ -187,6 +200,11 @@ public enum FilenamePattern {
                 if padWidth == 0 { padWidth = -6; padChar = "0" }
             case "title":
                 value = filenameSafe ? makeFilenameSafe(title) : title
+            case "windowtitle":
+                // The window's own title (upstream sets it as metadata); cleaned like ${title}, so a '/' in it doesn't
+                // make sub folders.
+                let windowTitle = context.metadata["windowtitle"] ?? context.title ?? "Greenshot"
+                value = filenameSafe ? makeFilenameSafe(windowTitle) : windowTitle
             case "MyPictures": value = home.appendingPathComponent("Pictures").path
             case "MyMusic": value = home.appendingPathComponent("Music").path
             case "MyDocuments", "Personal": value = home.appendingPathComponent("Documents").path
@@ -359,12 +377,15 @@ public enum DotNetDateFormat {
 extension FilenamePattern {
     /// The variables and options of a pattern, for Settings › Output.
     public static let helpText = """
-        ${capturetime:d"yyyy-MM-dd HH_mm_ss"}  capture time, .NET date format
-        ${title}  window title    ${user}  user name    ${hostname}  computer name
+        ${capturetime:d"yyyy-MM-dd HH_mm_ss"}  capture time, .NET date format    ${now}  the time of saving
+        ${title}  window title    ${windowtitle}  the window's own title    ${user}  user name
+        ${hostname} ${domain}  computer name
         ${YYYY} ${MM} ${DD} ${hh} ${mm} ${ss}  date and time parts
         ${NUM}  counter (000001)    ${RRRR}  random characters
-        ${Desktop} ${MyPictures} ${MyDocuments}  folders    ${HOME} or any environment variable
-        Options after a colon, separated by ';': p<width>[,char] pad, s<start>[,length] substring, r<old>,<new> replace
-        A '/' in the pattern makes sub folders, e.g. ${YYYY}/${MM}/${title}
+        ${Desktop} ${MyPictures} ${MyDocuments} ${Personal} ${MyMusic} ${ApplicationData} ${LocalApplicationData}  folders
+        ${HOME} or any environment variable
+        Options after a colon, separated by ';': p<width>[,char] pad, s<start>[,length] substring, r<old>,<new> replace,
+        d<format> date format (for capturetime and now)
+        A '/' in the pattern makes sub folders, e.g. ${YYYY}/${MM}/${title}. The folder can use the variables too.
         """
 }
