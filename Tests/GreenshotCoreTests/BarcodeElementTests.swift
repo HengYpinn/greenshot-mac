@@ -54,35 +54,55 @@ struct BarcodeElementTests {
 
     // MARK: Round trips
 
-    @Test(arguments: [
-        (GreenshotCore.BarcodeSymbology.qrCode, "https://getgreenshot.org", VNBarcodeSymbology.qr, "https://getgreenshot.org"),
-        (.aztec, "Greenshot for Mac", .aztec, "Greenshot for Mac"),
-        (.pdf417, "Greenshot PDF-417 1234567890", .pdf417, "Greenshot PDF-417 1234567890"),
-        (.code128, "Greenshot-128", .code128, "Greenshot-128"),
-        (.ean13, "590123412345", .ean13, "5901234123457"),
-        (.ean8, "9638507", .ean8, "96385074"),
-        (.code39, "HELLO-39", .code39, "HELLO-39"),
-        (.code93, "TEST93", .code93, "TEST93"),
-        (.itf, "12345678", .i2of5, "12345678"),
-        (.msi, "1234567", .msiPlessey, "12345674"),
-    ])
-    func visionReadsTheElement(_ symbology: GreenshotCore.BarcodeSymbology, _ text: String, _ vision: VNBarcodeSymbology, _ expected: String) throws {
-        let payloads = try Self.decoded(Self.spec(symbology, text), as: [vision])
+    /// What Vision calls each format (it has no UK Plessey; it reads UPC-A as EAN-13).
+    static func vision(_ symbology: GreenshotCore.BarcodeSymbology) -> [VNBarcodeSymbology] {
+        switch symbology {
+        case .qrCode: return [.qr]
+        case .aztec: return [.aztec]
+        case .dataMatrix: return [.dataMatrix]
+        case .pdf417: return [.pdf417]
+        case .code128: return [.code128]
+        case .code39: return [.code39]
+        case .code93: return [.code93]
+        case .ean13, .upcA: return [.ean13]
+        case .ean8: return [.ean8]
+        case .upcE: return [.upce]
+        case .codabar: return [.codabar]
+        case .itf: return [.i2of5]
+        case .msi: return [.msiPlessey]
+        case .plessey: return []
+        }
+    }
+
+    /// Format, text, and what Vision reads: with the check digit, UPC-A as EAN-13, Codabar with its guards.
+    static let readable: [(GreenshotCore.BarcodeSymbology, String, String)] = [
+        (.qrCode, "https://getgreenshot.org", "https://getgreenshot.org"),
+        (.aztec, "Greenshot for Mac", "Greenshot for Mac"),
+        (.pdf417, "Greenshot PDF-417 1234567890", "Greenshot PDF-417 1234567890"),
+        (.code128, "Greenshot-128", "Greenshot-128"),
+        (.ean13, "590123412345", "5901234123457"),
+        (.ean8, "9638507", "96385074"),
+        (.upcA, "03600029145", "0036000291452"),
+        (.upcE, "0425261", "04252614"),
+        (.code39, "HELLO-39", "HELLO-39"),
+        (.code93, "TEST93", "TEST93"),
+        (.codabar, "12345", "A12345A"),
+        (.codabar, "b40156d", "B40156D"),
+        (.itf, "12345678", "12345678"),
+        (.msi, "1234567", "12345674"),
+    ]
+
+    @Test(arguments: readable)
+    func visionReadsTheElement(_ symbology: GreenshotCore.BarcodeSymbology, _ text: String, _ expected: String) throws {
+        let payloads = try Self.decoded(Self.spec(symbology, text), as: Self.vision(symbology))
         #expect(payloads == [expected], "\(symbology)")
     }
 
-    @Test(arguments: [
-        (GreenshotCore.BarcodeSymbology.upcA, "03600029145", VNBarcodeSymbology.ean13, "0036000291452"),
-        (.upcE, "0425261", .upce, "04252614"),
-        (.codabar, "12345", .codabar, "A12345A"),
-        (.codabar, "b40156d", .codabar, "B40156D"),
-        (.code39, "Hello, world!", .code39FullASCII, "Hello, world!"),
-        (.code93, "Hello, world!", .code93i, "Hello, world!"),
-    ])
-    func visionReadsTheOtherForms(_ symbology: GreenshotCore.BarcodeSymbology, _ text: String, _ vision: VNBarcodeSymbology,
-                                  _ expected: String) throws {
-        let payloads = try Self.decoded(Self.spec(symbology, text), as: [vision])
-        #expect(payloads == [expected], "\(symbology)")
+    @Test func visionReadsFullASCII() throws {
+        let code39 = try Self.decoded(Self.spec(.code39, "Hello, world!"), as: [.code39FullASCII])
+        #expect(code39 == ["Hello, world!"])
+        let code93 = try Self.decoded(Self.spec(.code93, "Hello, world!"), as: [.code93i])
+        #expect(code93 == ["Hello, world!"])
     }
 
     @Test func roundDotsColoursAndMarginsStillRead() throws {
@@ -103,9 +123,8 @@ struct BarcodeElementTests {
     /// Text beyond ASCII: UTF-8 in QR codes, UTF-8 with its ECI in Data Matrix, ISO 8859-1 in Aztec and PDF-417.
     @Test(arguments: [GreenshotCore.BarcodeSymbology.qrCode, .dataMatrix, .aztec, .pdf417])
     func accentsReadBack(_ symbology: GreenshotCore.BarcodeSymbology) throws {
-        let vision: [GreenshotCore.BarcodeSymbology: VNBarcodeSymbology] = [.qrCode: .qr, .dataMatrix: .dataMatrix, .aztec: .aztec, .pdf417: .pdf417]
         let spec = Self.spec(symbology, "Grüße, café")
-        let payloads = try Self.decoded(spec, as: [try #require(vision[symbology])], size: CGSize(width: 400, height: 400))
+        let payloads = try Self.decoded(spec, as: Self.vision(symbology), size: CGSize(width: 400, height: 400))
         #expect(payloads == ["Grüße, café"], "\(symbology)")
         #expect(spec.characterSetWarning == nil)
         let japanese = Self.spec(symbology, "日本語")

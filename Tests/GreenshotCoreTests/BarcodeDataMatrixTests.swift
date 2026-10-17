@@ -61,15 +61,19 @@ struct BarcodeDataMatrixTests {
         #expect((0..<10).map { matrix[9, $0] } == (0..<10).map { $0 % 2 == 1 || $0 == 9 })
     }
 
-    /// One symbol of each kind of layout, read back by Vision from the element drawing.
-    @Test(arguments: [
+    /// One symbol of each kind of layout: one region, 4 regions, 2 interleaved blocks, 16 regions, and the 144 × 144
+    /// symbol with its unequal blocks.
+    static let layouts: [(String, Int)] = [
         ("123456", 10),
         ("Greenshot for Mac", 18),
         (String(repeating: "Greenshot ", count: 5), 32),
         (String(repeating: "Data Matrix 0123456789 ", count: 10), 52),
         (String(repeating: "Greenshot 64 ", count: 20), 64),
         (String(repeating: "0123456789", count: 300), 144),
-    ])
+    ]
+
+    /// Read back by Vision from the element drawing.
+    @Test(arguments: layouts)
     func visionReadsTheSymbol(_ text: String, _ side: Int) throws {
         let matrix = try BarcodeGenerator.matrix(.dataMatrix, payload: text)
         #expect(matrix.width == side)

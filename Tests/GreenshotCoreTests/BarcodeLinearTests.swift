@@ -74,11 +74,12 @@ struct BarcodeLinearTests {
     @Test func code39CharactersAreFramedByAsterisks() throws {
         let bars = try row(.code39, "A")
         // * = narrow bar, wide space, narrow bar, narrow space, wide bar, narrow space, wide bar, narrow space, narrow bar.
-        let asterisk = "100101101101"
-        #expect(bars.hasPrefix(asterisk + "0"))
-        #expect(bars.hasSuffix("0" + asterisk))
+        let asterisk: String = "100101101101"
+        #expect(bars.hasPrefix(asterisk))
+        #expect(bars.hasSuffix(asterisk))
         // A = wide bar, n, n, wide space, n, n, n, n, wide bar.
-        #expect(bars == asterisk + "0" + "110101001011" + "0" + asterisk)
+        let expected: String = [asterisk, "110101001011", asterisk].joined(separator: "0")
+        #expect(bars == expected)
     }
 
     @Test func code39FullASCII() throws {
@@ -124,7 +125,8 @@ struct BarcodeLinearTests {
     @Test func itf() throws {
         let bars = try row(.itf, "12")
         // Start 1010; 1 (wide n n n wide) in the bars and 2 (n wide n n wide) in the spaces; stop wide bar, n, n.
-        #expect(bars == "1010" + "111010001010111000" + "11101")
+        let expected: String = ["1010", "111010001010111000", "11101"].joined()
+        #expect(bars == expected)
         #expect(throws: BarcodeError.wrongLength("ITF takes an even number of digits; this is 3.")) {
             try BarcodeGenerator.matrix(.itf, payload: "123")
         }
@@ -136,7 +138,8 @@ struct BarcodeLinearTests {
         #expect(LinearBarcode.msiCheckDigit([8, 0, 5, 2, 3]) == 4)
         let bars = try row(.msi, "1")
         // Start 110, the digit 1 and its check digit 8 as four bits each (1 = 110, 0 = 100), stop 1001.
-        #expect(bars == "110" + "100100100110" + "110100100100" + "1001")
+        let expected: String = ["110", "100100100110", "110100100100", "1001"].joined()
+        #expect(bars == expected)
     }
 
     @Test func plesseyCRCMatchesPolynomialDivision() {
@@ -165,10 +168,13 @@ struct BarcodeLinearTests {
     @Test func plesseyLayout() throws {
         let bars = try row(.plessey, "1")
         // Start 1101, data bits 1000 (lowest first), 8 check bits, termination bar, end pattern: 5 modules per bit.
-        #expect(bars.count == (4 + 4 + 8) * 5 + 5 + 20)
-        let start = "11100" + "11100" + "10000" + "11100"
-        #expect(bars.hasPrefix(start + "11100" + "10000"))
-        #expect(bars.hasSuffix("11111" + "00001" + "00001" + "00011" + "00011"))
+        let bits: Int = 4 + 4 + 8
+        let modules: Int = bits * 5 + 25
+        #expect(bars.count == modules)
+        let start: String = ["11100", "11100", "10000", "11100", "11100", "10000"].joined()
+        #expect(bars.hasPrefix(start))
+        let end: String = ["11111", "00001", "00001", "00011", "00011"].joined()
+        #expect(bars.hasSuffix(end))
         #expect(try row(.plessey, "ab") == row(.plessey, "AB"))
         #expect(throws: (any Error).self) { try BarcodeGenerator.matrix(.plessey, payload: "G") }
     }

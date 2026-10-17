@@ -19,14 +19,16 @@ extension BarcodeSpec {
         case .vCard:
             guard ![vCardFirstName, vCardLastName, vCardCompany, vCardPhone, vCardEmail].allSatisfy(Self.isBlank) else { return "" }
             let fullName = "FN:\(vCardFirstName) \(vCardLastName)".trimmingCharacters(in: .whitespacesAndNewlines)
-            return "BEGIN:VCARD\r\nVERSION:3.0\r\n" + "N:\(vCardLastName);\(vCardFirstName)\r\n" + fullName + "\r\n"
-                + "ORG:\(vCardCompany)\r\n" + "TEL;TYPE=CELL:\(vCardPhone)\r\n" + "EMAIL:\(vCardEmail)\r\n"
-                + "URL:\(vCardURL)\r\nEND:VCARD"
+            let lines: [String] = ["BEGIN:VCARD", "VERSION:3.0", "N:\(vCardLastName);\(vCardFirstName)", fullName,
+                                   "ORG:\(vCardCompany)", "TEL;TYPE=CELL:\(vCardPhone)", "EMAIL:\(vCardEmail)",
+                                   "URL:\(vCardURL)", "END:VCARD"]
+            return lines.joined(separator: "\r\n")
         case .epcTransfer:
             guard !(Self.isBlank(epcIBAN) && Self.isBlank(epcName)) else { return "" }
             // The European Payments Council's QR code: version 002, UTF-8, SEPA credit transfer.
-            return "BCD\n002\n1\nSCT\n\(epcBIC)\n\(epcName)\n\(epcIBAN)\n\(Self.epcAmountField(epcAmount))\n\n"
-                + "\(epcReference)\n\(epcMessage)\n"
+            let lines: [String] = ["BCD", "002", "1", "SCT", epcBIC, epcName, epcIBAN, Self.epcAmountField(epcAmount), "",
+                                   epcReference, epcMessage, ""]
+            return lines.joined(separator: "\n")
         case .email:
             guard ![emailTo, emailSubject, emailBody].allSatisfy(Self.isBlank) else { return "" }
             var query: [String] = []
@@ -35,11 +37,12 @@ extension BarcodeSpec {
             return "mailto:\(emailTo)" + (query.isEmpty ? "" : "?" + query.joined(separator: "&"))
         case .calendarEvent:
             guard !Self.isBlank(eventTitle) else { return "" }
-            let start = eventStart.isEmpty ? "" : "DTSTART:\(eventStart)\r\n"
-            let end = eventEnd.isEmpty ? "" : "DTEND:\(eventEnd)\r\n"
-            return "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nBEGIN:VEVENT\r\n" + "SUMMARY:\(eventTitle)\r\n"
-                + "LOCATION:\(eventLocation)\r\n" + "DESCRIPTION:\(eventDescription)\r\n" + start + end
-                + "END:VEVENT\r\nEND:VCALENDAR"
+            var lines: [String] = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", "SUMMARY:\(eventTitle)",
+                                   "LOCATION:\(eventLocation)", "DESCRIPTION:\(eventDescription)"]
+            if !eventStart.isEmpty { lines.append("DTSTART:\(eventStart)") }
+            if !eventEnd.isEmpty { lines.append("DTEND:\(eventEnd)") }
+            lines += ["END:VEVENT", "END:VCALENDAR"]
+            return lines.joined(separator: "\r\n")
         case .phone:
             return Self.isBlank(phoneNumber) ? "" : "tel:\(phoneNumber)"
         case .sms:
