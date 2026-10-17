@@ -171,6 +171,26 @@ struct OfficeScriptsTests {
         }
     }
 
+    @Test func browserScriptsAreFixedText() {
+        #expect(ScriptableBrowser.all.count == 7)
+        for browser in ScriptableBrowser.all {
+            let call = browser.tabURLsScript
+            #expect(call.arguments.isEmpty)
+            #expect(call.bundleID == browser.bundleID)
+            #expect(call.source.contains("tell application id \"\(browser.bundleID)\""))
+            let ascii = call.source.unicodeScalars.allSatisfy { $0.isASCII }
+            #expect(ascii)
+        }
+    }
+
+    @Test(.enabled(if: canCompile))
+    func browserScriptsCompileAgainstTheInstalledBrowsers() throws {
+        for browser in ScriptableBrowser.all where isInstalled(browser.bundleID) {
+            let error = try compileError(browser.tabURLsScript.source)
+            #expect(error == nil, "\(browser.name): \(error ?? "")")
+        }
+    }
+
     @Test(.enabled(if: canCompile && isInstalled("com.microsoft.Powerpoint")))
     func everySlideLayoutIsInPowerPointsDictionary() throws {
         let names = OfficeSettings.SlideLayout.allCases.map { "slide layout " + $0.appleScriptName }.joined(separator: ", ")

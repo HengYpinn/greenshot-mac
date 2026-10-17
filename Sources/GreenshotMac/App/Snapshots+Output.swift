@@ -22,6 +22,8 @@ extension Snapshots {
         try write(uploadPanel(jira()), to: folder.appendingPathComponent("dialog-upload-jira.png"))
         try write(uploadPanel(confluence()), to: folder.appendingPathComponent("dialog-upload-confluence.png"))
         try write(uploadPanel(confluence(browse: true)), to: folder.appendingPathComponent("dialog-upload-confluence-browse.png"))
+        try write(uploadPanel(confluence(open: true)), to: folder.appendingPathComponent("dialog-upload-confluence-open.png"))
+        try write(uploadPanel(confluence(open: false)), to: folder.appendingPathComponent("dialog-upload-confluence-ask.png"))
         try write(uploadPanel(atlassianLogin()), to: folder.appendingPathComponent("dialog-atlassian-login.png"))
         try write(serverSections(), to: folder.appendingPathComponent("settings-destinations-servers.png"))
         try write(officeSection(), to: folder.appendingPathComponent("settings-destinations-office.png"))
@@ -61,13 +63,14 @@ extension Snapshots {
     }
 
     /// The Confluence dialog with a space chosen and made-up pages, or its page tree.
-    private static func confluence(browse: Bool = false) -> NSView? {
+    private static func confluence(browse: Bool = false, open: Bool? = nil) -> NSView? {
         let defaults = UserDefaults(suiteName: "greenshot-mac-snapshots-output")!
         defaults.removePersistentDomain(forName: "greenshot-mac-snapshots-output")
         let store = SettingsStore(defaults: defaults)
         let client = ConfluenceClient(site: AtlassianSite(url: "https://example.atlassian.net/wiki", email: "", apiToken: "")!,
                                       http: URLSession.shared)
-        let picker = ConfluencePicker(client: client, settings: store, filename: "2026-10-17 12_00_00-Safari.png")
+        // No browser is read: the open pages come from `previewOpenPages`.
+        let picker = ConfluencePicker(client: client, settings: store, filename: "2026-10-17 12_00_00-Safari.png") { _ in [] }
         let pages = [
             ConfluencePage(id: "1", title: "Release checklist", spaceName: "Engineering", url: URL(string: "https://example.atlassian.net/wiki/1")!),
             ConfluencePage(id: "2", title: "Release notes 2026", spaceName: "Engineering", url: URL(string: "https://example.atlassian.net/wiki/2")!),
@@ -75,6 +78,9 @@ extension Snapshots {
         let spaces = [ConfluenceSpace(key: "ENG", name: "Engineering", homepageID: "10"),
                       ConfluenceSpace(key: "HR", name: "People", homepageID: "20")]
         picker.preview(pages: pages, spaces: spaces, selected: "ENG")
+        if let open {
+            picker.previewOpenPages(open ? [pages[1]] : nil)
+        }
         if browse {
             let home = ConfluencePage(id: "10", title: "Engineering Home", spaceName: "Engineering", url: URL(string: "https://example.atlassian.net/wiki/10")!)
             picker.previewBrowse(spaces: spaces, homepage: home, children: pages)

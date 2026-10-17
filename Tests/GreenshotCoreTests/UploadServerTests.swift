@@ -145,6 +145,23 @@ struct UploadServerTests {
         #expect(http.last.query("limit") == "1")
     }
 
+    @Test func openPagesFromBrowserAddresses() {
+        let cloud = AtlassianSite(url: "yourco.atlassian.net/wiki", email: "me@x.test", apiToken: "t")!
+        let urls = [
+            "https://yourco.atlassian.net/wiki/spaces/DEV/pages/123/Release+notes",
+            "https://YOURCO.atlassian.net/wiki/pages/viewpage.action?spaceKey=DEV&pageId=456",
+            "https://yourco.atlassian.net/wiki/display/OPS/Run+book%20%C3%BCber#section",
+            "https://yourco.atlassian.net/wiki/spaces/DEV/pages/123/Release+notes?focused=1",
+            "https://other.atlassian.net/wiki/spaces/X/pages/999/Elsewhere",
+            "https://yourco.atlassian.net/wiki/spaces/DEV/overview",
+            "not a url",
+        ]
+        #expect(ConfluencePageReference.references(in: urls, site: cloud)
+                == [.id("123"), .id("456"), .title(space: "OPS", title: "Run book über")])
+        #expect(ConfluencePageReference.reference(in: "https://wiki.example.test/display/OPS/") == nil)
+        #expect(ConfluencePageReference.reference(in: "https://wiki.example.test/x?notpageId=5") == nil)
+    }
+
     @Test func loginsDecodeToleratingUnknownValues() throws {
         let json = #"{"url":"https://jira.example.test","email":"alex","login":"kerberos"}"#
         let jira = try JSONDecoder().decode(JiraSettings.self, from: Data(json.utf8))

@@ -614,6 +614,53 @@ public struct ConfluenceClient: Sendable {
     }
 }
 
+/// A Confluence page found by its address in a browser (upstream `ConfluenceUtils.GetCurrentPagesAsync`).
+public enum ConfluencePageReference: Equatable, Hashable, Sendable {
+    /// `…?pageId=123` (Server, Data Center) or `…/spaces/KEY/pages/123/…` (Cloud, Data Center 7 and later).
+    case id(String)
+    /// `…/display/KEY/Page+title` (Server, Data Center).
+    case title(space: String, title: String)
+
+    private static let pageID = try! NSRegularExpression(pattern: #"[?&]pageId=(\d+)"#)
+    private static let spacesPage = try! NSRegularExpression(pattern: #"/spaces/[^/]+/pages/(\d+)"#)
+    private static let display = try! NSRegularExpression(pattern: #"/display/([^/]+)/([^#?]+)"#)
+
+    /// The pages of this site among the addresses, each once, in order. Addresses of other sites don't count.
+    public static func references(in urls: [String], site: AtlassianSite) -> [ConfluencePageReference] {
+        let host = site.baseURL.host?.lowercased()
+        var found: [ConfluencePageReference] = []
+        for text in urls {
+            guard let url = URL(string: text.trimmingCharacters(in: .whitespaces)), url.host?.lowercased() == host,
+                  let reference = reference(in: text), !found.contains(reference) else { continue }
+            found.append(reference)
+        }
+        return found
+    }
+
+    /// The page an address points at, nil when it isn't a page.
+    public static func reference(in url: String) -> ConfluencePageReference? {
+        let range = NSRange(url.startIndex..., in: url)
+        func group(_ match: NSTextCheckingResult, _ index: Int) -> String? {
+            Range(match.range(at: index), in: url).map { String(url[$0]) }
+        }
+        if let match = pageID.firstMatch(in: url, range: range) ?? spacesPage.firstMatch(in: url, range: range),
+           let id = group(match, 1) {
+            return .id(id)
+        }
+        // Upstream unescapes the address and reads "+" as a space.
+        if let match = display.firstMatch(in: url, range: range), let space = group(match, 1), let title = group(match, 2) {
+            func plain(_ text: String) -> String {
+                (text.replacingOccurrences(of: "+", with: " ").removingPercentEncoding ?? text)
+                    .trimmingCharacters(in: .whitespaces)
+            }
+            let name = plain(title)
+            guard !name.isEmpty, !space.isEmpty else { return nil }
+            return .title(space: plain(space), title: name)
+        }
+        return nil
+    }
+}
+
 extension URL {
     func appending(queryItem name: String, value: String) -> URL {
         var components = URLComponents(url: self, resolvingAgainstBaseURL: false)!

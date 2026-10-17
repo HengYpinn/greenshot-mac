@@ -238,7 +238,9 @@ enum ConfluenceDestination {
         if let givenPage {
             page = givenPage
         } else {
-            let picker = ConfluencePicker(client: client, settings: settings, filename: filename)
+            let picker = ConfluencePicker(client: client, settings: settings, filename: filename) { ask in
+                try await BrowserPages.openPages(client: client, ask: ask)
+            }
             guard let choice = picker.run() else {
                 completion(.declined)
                 return
