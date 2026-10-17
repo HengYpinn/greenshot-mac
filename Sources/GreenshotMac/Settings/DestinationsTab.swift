@@ -112,18 +112,18 @@ struct DestinationsSettings: View {
         } header: {
             Text("External commands")
         } footer: {
-            Text("Each command is a destination of its own (\u{201C}External: name\u{201D}). {0} in the arguments is the screenshot's file.")
+            Text("Each command is a destination of its own (\u{201C}External: name\u{201D}). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
 
     private func add() {
-        guard let command = ExternalCommandEditor.edit(nil) else { return }
+        guard let command = ExternalCommandEditor.edit(nil, others: store.value.externalCommands) else { return }
         store.update { $0.externalCommands.append(command) }
     }
 
     private func edit(_ command: ExternalCommand) {
-        guard let changed = ExternalCommandEditor.edit(command) else { return }
+        guard let changed = ExternalCommandEditor.edit(command, others: store.value.externalCommands) else { return }
         store.update { settings in
             if let index = settings.externalCommands.firstIndex(where: { $0.id == command.id }) {
                 settings.externalCommands[index] = changed
@@ -152,10 +152,17 @@ private struct ExternalCommandRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(command.name).fontWeight(.medium)
+                HStack(spacing: 6) {
+                    if let icon = ExternalCommandRunner.icon(for: command) { Image(nsImage: icon) }
+                    Text(command.name).fontWeight(.medium)
+                }
                 Text("\(command.command) \(command.arguments)")
                     .font(.caption).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)
                 Text(options).font(.caption2).foregroundStyle(.secondary)
+                if !ExternalCommandRunner.isAvailable(command) {
+                    // Upstream drops such commands at startup; here the entry stays, in case the program comes back.
+                    Text("Program not found").font(.caption).foregroundStyle(.red)
+                }
             }
             Spacer()
             Button("Edit…", action: edit)
@@ -166,9 +173,21 @@ private struct ExternalCommandRow: View {
     }
 
     private var options: String {
-        var parts: [String] = [command.runInBackground ? "In the background" : "Waits, errors in a dialog"]
+        var parts: [String] = [command.format.displayName, command.runInBackground ? "In the background" : "Waits, errors in a dialog"]
         if command.copyURLFromOutput { parts.append("copies a URL") }
         if command.copyOutputToClipboard { parts.append("copies the output") }
         return parts.joined(separator: " · ")
+    }
+}
+
+extension DestinationsSettings {
+    /// The sections below the destination list, for the snapshots (the tab's own snapshot shows its top only).
+    var commandsAndUploadsForSnapshot: some View {
+        Form {
+            externalCommandsSection
+            JiraSettingsSection(store: store)
+            ConfluenceSettingsSection(store: store)
+        }
+        .formStyle(.grouped)
     }
 }
