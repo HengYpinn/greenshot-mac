@@ -88,7 +88,7 @@ public enum RecipeSourceValues {
     }
 
     /// A region in Quartz global points (top-left origin, like `list_windows`): "x,y,width,height" (what a Region argument
-    /// binds), an object `{x, y, width, height}` (also left/top), or a host `CGRect`. Nil when it isn't one or is empty.
+    /// binds) or an object `{x, y, width, height}` (also left/top). Nil when it isn't one or is empty.
     public static func region(_ value: JSONValue?) -> CGRect? {
         guard let value, !value.isNull else { return nil }
         var rect: CGRect?
@@ -131,7 +131,8 @@ public enum RecipeSourceValues {
         return .other(value)
     }
 
-    /// What `SelectedWindow` and `TargetWindow` hold for expressions: `${SelectedWindow.Title}` and the like.
+    /// What the variable `SelectedWindow` holds: the window's id (CGWindowID), title, app, process id and frame (Quartz
+    /// global points), as an object (upstream holds the window itself).
     public static func windowValue(id: CGWindowID, title: String, app: String, pid: Int32, frame: CGRect) -> JSONValue {
         .object(["Id": .number(Double(id)), "Title": .string(title), "App": .string(app), "Pid": .number(Double(pid)),
                  "X": .number(Double(frame.minX)), "Y": .number(Double(frame.minY)),
