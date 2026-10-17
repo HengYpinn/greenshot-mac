@@ -82,6 +82,16 @@ import Testing
         #expect(RecipeRecordVideoPlan.ending(of: kept) == .whenStopped)
     }
 
+    /// Upstream `ShowCaptureBorder` (default off): Greenshot frames what is recorded.
+    @Test func captureBorder() {
+        let plain = RecipeRecordVideoPlan.options(step(), target: .display(1), outputURL: url)
+        #expect(!plain.showCaptureBorder)
+        let framed = RecipeRecordVideoPlan.options(step(["ShowCaptureBorder": .bool(true)]), target: .region(.zero), outputURL: url)
+        #expect(framed.showCaptureBorder)
+        let off = RecipeRecordVideoPlan.options(step(["ShowCaptureBorder": .bool(false)]), target: .window(7), outputURL: url)
+        #expect(!off.showCaptureBorder)
+    }
+
     @Test func windowQuery() {
         let query = RecipeRecordVideoPlan.windowQuery(step(["WindowTitlePattern": .string("^Untitled"), "ProcessName": .string(" TextEdit "),
                                                             "MatchCase": .bool(true)]))

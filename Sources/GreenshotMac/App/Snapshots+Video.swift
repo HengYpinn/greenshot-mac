@@ -7,13 +7,16 @@ import GreenshotCore
 import SwiftUI
 
 extension Snapshots {
-    /// Renders of the screen recording: Settings › Video, the menu bar indicator and the countdown. A recording itself
-    /// needs the screen recording permission; `recording-menu.txt` and `video-picker-menu.txt` list the menus.
+    /// Renders of the screen recording: Settings › Video, the menu bar indicator, the countdown and a recipe's frame
+    /// around what is recorded. A recording itself needs the screen recording permission; `recording-menu.txt` and
+    /// `video-picker-menu.txt` list the menus.
     static func renderVideoExtras(to folder: URL, sample: CGImage, settings: SettingsStore) throws {
         try write(settingsTab(SettingsPane.video.rawValue, settings: settings), to: folder.appendingPathComponent("settings-video.png"))
         try write(customVideoSettings(), to: folder.appendingPathComponent("settings-video-custom.png"))
         try write(recordingIndicators(), to: folder.appendingPathComponent("recording-indicator.png"))
         try write(recordingCountdown(sample: sample), to: folder.appendingPathComponent("recording-countdown.png"))
+        try write(recordingBorder(sample: sample), to: folder.appendingPathComponent("recording-border.png"))
+        try write(recordingBorderDisplays(sample: sample), to: folder.appendingPathComponent("recording-border-displays.png"))
         try writeText(recordingMenus(settings: settings), to: folder.appendingPathComponent("recording-menu.txt"))
         let file = URL(fileURLWithPath: "/Users/me/Movies/Greenshot/Greenshot_Recording_20261017_143005.mp4")
         try writeText(menuText(VideoOutput.pickerMenu(for: file)), to: folder.appendingPathComponent("video-picker-menu.txt"))
@@ -79,6 +82,57 @@ extension Snapshots {
         let countdown = RecordingCountdownView(frame: NSRect(x: size.width / 2 - 80, y: size.height / 2 - 80, width: 160, height: 160))
         countdown.seconds = 3
         container.addSubview(countdown)
+        let window = NSWindow(contentRect: container.frame, styleMask: [.borderless], backing: .buffered, defer: false)
+        window.contentView = container
+        return capture(container)
+    }
+
+    /// A recipe's `ShowCaptureBorder`: the frame around a region on the sample screen (the panels' views where
+    /// `RecordingBorder` puts them).
+    private static func recordingBorder(sample: CGImage) -> NSBitmapImageRep? {
+        let display = CGRect(x: 0, y: 0, width: 640, height: 400)
+        let region = CGRect(x: 120, y: 80, width: 320, height: 200)
+        return borderScreens([display], sample: sample, framing: [region])
+    }
+
+    /// Two displays side by side: a window over both (no line where it goes on to the right display), a region in the
+    /// left display's top left corner and one in the right display's bottom right corner (the lines inside on the
+    /// displays' edges).
+    private static func recordingBorderDisplays(sample: CGImage) -> NSBitmapImageRep? {
+        let displays = [CGRect(x: 0, y: 0, width: 480, height: 300), CGRect(x: 480, y: 0, width: 480, height: 300)]
+        let areas = [CGRect(x: 380, y: 60, width: 220, height: 140), CGRect(x: 0, y: 0, width: 150, height: 90),
+                     CGRect(x: 840, y: 220, width: 120, height: 80)]
+        return borderScreens(displays, sample: sample, framing: areas)
+    }
+
+    /// `displays` (Quartz points from the top left of the picture) showing the sample, with the frame's panels around
+    /// each of `areas`; a dark line between the displays.
+    private static func borderScreens(_ displays: [CGRect], sample: CGImage, framing areas: [CGRect]) -> NSBitmapImageRep? {
+        let bounds = displays.reduce(CGRect.null) { $0.union($1) }
+        let container = NSView(frame: NSRect(origin: .zero, size: bounds.size))
+        func appKit(_ rect: CGRect) -> NSRect {
+            NSRect(x: rect.minX - bounds.minX, y: bounds.maxY - rect.maxY, width: rect.width, height: rect.height)
+        }
+        for display in displays {
+            let picture = NSImageView(frame: appKit(display))
+            picture.image = NSImage(cgImage: sample, size: display.size)
+            picture.imageScaling = .scaleAxesIndependently
+            container.addSubview(picture)
+        }
+        for display in displays.dropFirst() {
+            let seam = NSBox(frame: appKit(CGRect(x: display.minX, y: display.minY, width: 1, height: display.height)))
+            seam.boxType = .custom
+            seam.fillColor = .black
+            seam.borderWidth = 0
+            container.addSubview(seam)
+        }
+        for area in areas {
+            for piece in RecordingBorderGeometry.pieces(around: area, displays: displays) {
+                let view = RecordingBorderView(frame: appKit(piece.frame))
+                view.piece = piece
+                container.addSubview(view)
+            }
+        }
         let window = NSWindow(contentRect: container.frame, styleMask: [.borderless], backing: .buffered, defer: false)
         window.contentView = container
         return capture(container)

@@ -121,9 +121,7 @@ struct RecipeAppExporter: RecipeExporting {
         case .destination(.file) where !RecipeFileExportOptions(step).isEmpty:
             result = saveFile(capture, options: RecipeFileExportOptions(step), context: context, runtime: runtime)
         case .destination(.printer), .printer:
-            result = await withPrintOptions(step, runtime: runtime) {
-                await perform(destinationTarget, capture: capture, output: app.output)
-            }
+            result = await printWithOptions(capture, to: destinationTarget, step: step, runtime: runtime)
         default:
             result = await perform(destinationTarget, capture: capture, output: app.output)
         }
@@ -275,56 +273,29 @@ struct RecipeAppExporter: RecipeExporting {
 
     // MARK: Printer
 
-    /// The step's print options for this one print (upstream `PrintOptions` of `DestinationExportStep`): the printing
-    /// code reads `Printing.settings`, so it gets a copy of the settings with the options for the call.
+    /// The printer with the step's print options (upstream `PrinterDestination(printerName, printOptions)`,
+    /// DestinationExportStep.cs:167-191): `Printing.print` gets them for this print, the settings stay as they are.
+    /// Without options it goes through `OutputManager.perform` like any destination; with them the call does what
+    /// `perform` does for a printer (the organisation's policy, then `Printing.print`).
     @MainActor
-    static func withPrintOptions(_ step: RecipeStepInvocation, runtime: RecipeRuntime,
-                                 _ body: () async -> ExportResult) async -> ExportResult {
-        let base = runtime.app.settings.value
-        guard let printing = printOptions(step, base: base.printing) else { return await body() }
-        var copy = base
-        copy.printing = printing
-        let file = FileManager.default.temporaryDirectory.appendingPathComponent("greenshot-recipe-print-\(UUID().uuidString).json")
-        do {
-            try SettingsStorage.save(copy, toFile: file)
-        } catch {
-            log.warn("The print options of the recipe could not be used.", error: error)
-            return await body()
+    static func printWithOptions(_ capture: Capture, to target: DestinationTarget, step: RecipeStepInvocation,
+                                 runtime: RecipeRuntime) async -> ExportResult {
+        let settings = runtime.app.settings.value
+        guard let options = RecipePrintOptions.apply(step, to: settings.printing) else {
+            return await perform(target, capture: capture, output: runtime.app.output)
         }
-        Printing.settings = SettingsStore(fileURL: file)
-        defer {
-            // The app's own settings again (not the store this replaced, which may be another recipe print's).
-            Printing.settings = runtime.app.settings
-            try? FileManager.default.removeItem(at: file)
+        if let refusal = ManagedHooks.refusal(for: target, settings: settings) { return refusal }
+        var printer: String?
+        if case .printer(let name) = target { printer = name }
+        return await withCheckedContinuation { continuation in
+            var resumed = false
+            Printing.print(capture.image, scale: capture.scale, window: nil, title: capture.title, date: capture.date,
+                           printer: printer, options: options) { result in
+                guard !resumed else { return }
+                resumed = true
+                continuation.resume(returning: result)
+            }
         }
-        return await body()
-    }
-
-    /// The print settings with the step's options; nil when the step sets none.
-    static func printOptions(_ step: RecipeStepInvocation, base: PrintSettings) -> PrintSettings? {
-        var options = base
-        var changed = false
-        func flag(_ name: String, _ keyPath: WritableKeyPath<PrintSettings, Bool>) {
-            guard step.isSet(name), let value = step.bool(name) else { return }
-            options[keyPath: keyPath] = value
-            changed = true
-        }
-        flag("ShowPrintDialog", \.promptOptions)
-        flag("AllowRotate", \.allowRotate)
-        flag("AllowEnlarge", \.allowEnlarge)
-        flag("AllowShrink", \.allowShrink)
-        flag("Center", \.center)
-        flag("PrintFooter", \.footer)
-        if step.isSet("FooterPattern"), let pattern = step.string("FooterPattern") {
-            options.footerPattern = pattern
-            changed = true
-        }
-        if step.isSet("ColorMode"), let mode = step.string("ColorMode")?.lowercased() {
-            options.grayscale = mode == "grayscale"
-            options.monochrome = mode == "monochrome"
-            changed = true
-        }
-        return changed ? options : nil
     }
 }
 

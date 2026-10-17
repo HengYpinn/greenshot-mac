@@ -12,9 +12,10 @@ private let log = Log("Recipes")
 /// Upstream `RecordVideoRecipeStep` (Greenshot/Recipes/Steps/RecordVideoRecipeStep.cs) on the Mac's recorder
 /// (`VideoRecordingController.record`, the menu bar indicator with its Stop): the active window (the one in front when
 /// the flow started), a window by `WindowHandle` or by title/process, a region, or a display; the recording's options
-/// from the step (`RecipeRecordVideoPlan`). It ends after `DurationSeconds`, when the window closes, or when it is
-/// stopped from the menu bar (upstream stops a recording without either right away). `VideoFilePath` and
-/// `VideoRecordingResult` go into the flow; the capture is the video's first frame when there was none.
+/// from the step (`RecipeRecordVideoPlan`; `ShowCaptureBorder` frames what is recorded, `RecordingBorder`). It ends
+/// after `DurationSeconds`, when the window closes, or when it is stopped from the menu bar (upstream stops a recording
+/// without either right away). `VideoFilePath` and `VideoRecordingResult` go into the flow; the capture is the video's
+/// first frame when there was none.
 struct RecipeRecordVideoExecutor: RecipeStepExecutor {
     let runtime: RecipeRuntime
 
@@ -123,7 +124,6 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
             log.warn("Recording without the microphone: Greenshot may not use it.")
             options.audioSource = options.audioSource == .systemAudioAndMicrophone ? .systemAudio : .none
         }
-        if step.bool("ShowCaptureBorder") == true { context.log("ShowCaptureBorder: the Mac shows the recording in the menu bar instead.") }
         log.info("Recipe '\(context.recipe.id)' records \(title)")
         return try await runtime.app.video.record(options, countdown: 0, area: area, deliver: false)
     }

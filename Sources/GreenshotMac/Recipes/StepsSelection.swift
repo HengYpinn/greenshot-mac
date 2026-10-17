@@ -9,7 +9,7 @@ import GreenshotCore
 private let log = Log("Recipes")
 
 /// Upstream `InteractiveSelectionStep` (Greenshot/Recipes/Steps/InteractiveSelectionStep.cs) on the Mac's capture
-/// screen: the frozen displays of the Source before it, the selection mode of the step, the window snapping; the
+/// screen: the frozen displays of the Source before it, the selection mode or tool of the step, the window snapping; the
 /// selection crops the capture and is remembered (last region, recent and fixed sizes) like `CaptureCoordinator` does.
 /// A capture handed to the flow, or one not taken from the screen, is used as a whole (Text: its OCR text).
 struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
@@ -36,11 +36,14 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
         }
         context.state = .selecting
         var mode = Self.mode(modeName)
-        if let tool = step.string("SelectionTool")?.trimmingCharacters(in: .whitespaces), !tool.isEmpty {
-            if recipeEquals(tool, "FixedSize") {
-                mode = .fixedSize
+        // The tool with the id wins over the selection mode (upstream CaptureWindow.xaml.cs:466-469). Upstream's
+        // plug-ins can add tools with their own ids (ICaptureToolProvider); the Mac has no plug-ins, so only the
+        // built-in Region, Window, Text and FixedSize can be there.
+        if let id = step.string("SelectionTool")?.trimmingCharacters(in: .whitespaces), !id.isEmpty {
+            if let tool = RecipeSelectionTool(id: id) {
+                mode = Self.mode(tool)
             } else {
-                log.info("Capture tool '\(tool)' isn't there on the Mac; the capture screen starts in the selection mode.")
+                log.info("Capture tool '\(id)' isn't there on the Mac; the capture screen starts in the selection mode.")
             }
         }
         let snapping = step.bool("AllowWindowSnapping") ?? true
@@ -80,6 +83,15 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
         case "window": return .window
         case "text": return .text
         default: return .region
+        }
+    }
+
+    static func mode(_ tool: RecipeSelectionTool) -> CaptureOverlayController.Mode {
+        switch tool {
+        case .region: return .region
+        case .window: return .window
+        case .text: return .text
+        case .fixedSize: return .fixedSize
         }
     }
 

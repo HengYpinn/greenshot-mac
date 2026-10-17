@@ -141,6 +141,39 @@ public struct RecipeFileExportOptions: Equatable, Sendable {
     }
 }
 
+/// The print options of a destination step's printer (upstream `DestinationExportStep.cs:167-191`, its `PrintOptions`):
+/// for this one print, the settings stay as they are. Unset values come from the settings.
+public enum RecipePrintOptions {
+    /// `base` (the settings' print options) with the step's `ShowPrintDialog`, `AllowRotate`, `AllowEnlarge`,
+    /// `AllowShrink`, `Center`, `PrintFooter`, `FooterPattern` and `ColorMode` (Color, Grayscale or Monochrome) over it;
+    /// nil when the step sets none of them.
+    public static func apply(_ step: RecipeStepInvocation, to base: PrintSettings) -> PrintSettings? {
+        var options = base
+        var changed = false
+        func flag(_ name: String, _ keyPath: WritableKeyPath<PrintSettings, Bool>) {
+            guard step.isSet(name), let value = step.bool(name) else { return }
+            options[keyPath: keyPath] = value
+            changed = true
+        }
+        flag("ShowPrintDialog", \.promptOptions)
+        flag("AllowRotate", \.allowRotate)
+        flag("AllowEnlarge", \.allowEnlarge)
+        flag("AllowShrink", \.allowShrink)
+        flag("Center", \.center)
+        flag("PrintFooter", \.footer)
+        if step.isSet("FooterPattern"), let pattern = step.string("FooterPattern") {
+            options.footerPattern = pattern
+            changed = true
+        }
+        if step.isSet("ColorMode"), let mode = step.string("ColorMode")?.lowercased() {
+            options.grayscale = mode == "grayscale"
+            options.monochrome = mode == "monochrome"
+            changed = true
+        }
+        return changed ? options : nil
+    }
+}
+
 /// The Clipboard step (upstream `ExecuteClipboardExportAsync`): what goes on the clipboard and in which formats.
 public struct RecipeClipboardPlan: Equatable, Sendable {
     public enum Mode: Equatable, Sendable {

@@ -59,6 +59,8 @@ public enum RecipeRecordVideoPlan {
         if let scale = step.double("ScaleFactor"), scale > 0, scale <= 2 { options.scaleFactor = max(scale, 0.1) }
         if let name = step.string("ColorMode"), let mode = VideoColorMode(upstreamName: name) { options.colorMode = mode }
         options.captureCursor = step.bool("CaptureMouseCursor") ?? true
+        // Upstream's Windows capture border; the Mac draws its own frame, left out of the video.
+        options.showCaptureBorder = step.bool("ShowCaptureBorder") ?? false
         if let name = step.string("WindowResizeBehavior"), let behavior = WindowResizeBehavior(upstreamName: name) {
             options.windowResizeBehavior = behavior
         }

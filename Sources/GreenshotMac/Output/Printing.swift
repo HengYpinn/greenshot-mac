@@ -8,7 +8,8 @@ import GreenshotCore
 
 /// Prints a screenshot on one page: port of upstream `Greenshot/Helpers/PrintHelper.cs` and
 /// `Greenshot/Destinations/PrinterDestination.cs`. The print options (colours, footer, shrink, enlarge, rotate,
-/// center) come from Settings › Printer, and are asked first when "Show print options" is on.
+/// center) come from Settings › Printer, or a recipe's for its print, and are asked first when "Show print options" is
+/// on.
 @MainActor
 enum Printing {
     /// Set by the app delegate at launch; the editor calls `print` without settings.
@@ -20,9 +21,11 @@ enum Printing {
     }
 
     /// `title` and `date` fill the footer; without them an editor window's screenshot gives them. With `printer` it
-    /// prints there without the print panel (upstream `PrintHelper.PrintTo`). `completion` says whether it was printed.
+    /// prints there without the print panel (upstream `PrintHelper.PrintTo`). `options` are the print options of this
+    /// print only (a recipe's, upstream `PrintHelper`'s `PrintOptions`); without them Settings › Printer's.
+    /// `completion` says whether it was printed.
     static func print(_ image: CGImage, scale: CGFloat, window: NSWindow?, title: String? = nil, date: Date? = nil,
-                      printer: String? = nil, completion: ((ExportResult) -> Void)? = nil) {
+                      printer: String? = nil, options given: PrintSettings? = nil, completion: ((ExportResult) -> Void)? = nil) {
         let store = settings ?? SettingsStore()
         var title = title
         var date = date
@@ -31,13 +34,23 @@ enum Printing {
             date = date ?? editor.editorDocument.captureDate
         }
         NSApp.activate()
-        if store.value.printing.promptOptions {
-            guard PrintOptionsDialog.run(settings: store, window: window) else {
-                completion?(.declined)
-                return
+        var options = given ?? store.value.printing
+        if options.promptOptions {
+            if given != nil {
+                // This print's options: asked, not saved.
+                guard let asked = PrintOptionsDialog.ask(options, window: window) else {
+                    completion?(.declined)
+                    return
+                }
+                options = asked
+            } else {
+                guard PrintOptionsDialog.run(settings: store, window: window) else {
+                    completion?(.declined)
+                    return
+                }
+                options = store.value.printing
             }
         }
-        let options = store.value.printing
         var footer: String?
         if options.footer {
             let context = store.patternContext(title: title, date: date ?? Date(), consumeNumber: false)
