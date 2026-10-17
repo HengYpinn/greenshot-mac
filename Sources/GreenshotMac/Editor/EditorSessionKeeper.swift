@@ -19,18 +19,19 @@ import GreenshotCore
 @MainActor
 final class EditorSessionKeeper {
     static let autosaveDelay: TimeInterval = 5
+    /// How long a restored editor has to stay open before its file counts as safe to restore again: until then a crash
+    /// (e.g. while it is first drawn) sends the file to the Trash at the next start instead of reopening it.
+    static let settleDelay: TimeInterval = 30
 
-    let store: EditorSessionStore
-    private let queue = DispatchQueue(label: "Greenshot unsaved editors", qos: .utility)
-    /// The change count written (or about to be) for each document that has a file.
-    private var written: [UUID: Int] = [:]
+    let book: EditorSessionBook
+    private var store: EditorSessionStore { book.store }
     private var pending: [UUID: DispatchWorkItem] = [:]
     private var poweringOffSince: Date?
     private var powerOffObserver: NSObjectProtocol?
     private let log = Log("Unsaved editors")
 
     init(store: EditorSessionStore) {
-        self.store = store
+        book = EditorSessionBook(store: store)
         powerOffObserver = NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.willPowerOffNotification, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.poweringOffSince = Date() }
@@ -56,12 +57,12 @@ final class EditorSessionKeeper {
             forget(document.id)
             return
         }
-        guard written[document.id] != document.changeCount, pending[document.id] == nil else { return }
+        guard book.needsWrite(document), pending[document.id] == nil else { return }
         let item = DispatchWorkItem { [weak self, weak document] in
             MainActor.assumeIsolated {
                 guard let self, let document else { return }
                 self.pending[document.id] = nil
-                self.write(document, reason: .autosave)
+                self.book.write(document, reason: .autosave)
             }
         }
         pending[document.id] = item
@@ -71,33 +72,7 @@ final class EditorSessionKeeper {
     /// The editor closed or its changes were saved or discarded: its file goes.
     func forget(_ id: UUID) {
         pending.removeValue(forKey: id)?.cancel()
-        guard written.removeValue(forKey: id) != nil else { return }
-        let store = store
-        queue.async { store.remove(id) }
-    }
-
-    /// Writes the document now; `wait` until it is on disk (at quit).
-    private func write(_ document: EditorDocument, reason: GreenshotFile.Session.Reason, wait: Bool = false) {
-        pending.removeValue(forKey: document.id)?.cancel()
-        guard document.isModified else {
-            forget(document.id)
-            return
-        }
-        let session = GreenshotFile.Session(reason: reason, originalFile: document.fileURL?.path,
-                                            isWindowsGreenshotFile: document.isWindowsGreenshotFile)
-        let contents = GreenshotFile.Contents(of: document, session: session)
-        let id = document.id
-        written[id] = document.changeCount
-        let store = store
-        let log = log
-        let work: @Sendable () -> Void = {
-            do {
-                try store.write(try contents.encoded(), for: id)
-            } catch {
-                log.error("Keeping an unsaved editor failed", error: error)
-            }
-        }
-        if wait { queue.sync(execute: work) } else { queue.async(execute: work) }
+        book.forget(id)
     }
 
     // MARK: Quitting
@@ -124,19 +99,23 @@ final class EditorSessionKeeper {
 
     /// Writes every unsaved document for the next start and waits until they are on disk.
     func keep(_ documents: [EditorDocument]) {
-        for document in documents where document.isModified {
-            write(document, reason: .quit, wait: true)
+        cancelPending()
+        let unsaved = documents.filter(\.isModified)
+        for document in unsaved {
+            book.write(document, reason: .quit, wait: true)
         }
-        log.info("Kept \(documents.filter(\.isModified).count) unsaved editors for the next start")
+        log.info("Kept \(unsaved.count) unsaved editors for the next start")
     }
 
     /// Every editor was saved or discarded: nothing is kept. Waits until the files are gone.
     func forgetAll() {
+        cancelPending()
+        book.forgetAll()
+    }
+
+    private func cancelPending() {
         for item in pending.values { item.cancel() }
         pending.removeAll()
-        written.removeAll()
-        let store = store
-        queue.sync { store.removeAll() }
     }
 
     // MARK: Next start
@@ -148,7 +127,7 @@ final class EditorSessionKeeper {
     }
 
     /// The kept editors, the oldest first. A file whose restore didn't finish last time (the app ended while it
-    /// opened) goes to the Trash instead, so it can't end every start the same way.
+    /// opened, or in the first seconds after) goes to the Trash instead, so it can't end every start the same way.
     func keptFiles() -> [URL] {
         let unfinished = store.unfinishedRestores()
         if !unfinished.isEmpty {
@@ -172,14 +151,21 @@ final class EditorSessionKeeper {
         return Kept(contents: contents, file: claimed)
     }
 
-    /// The restored editor's document keeps the file it came from until it is written again, saved or closed.
+    /// The restored editor's document keeps the file it came from until it is written again, saved or closed. The
+    /// file stays marked as being restored for `settleDelay` seconds (see `settleRestoredEditors`).
     func adopt(_ kept: Kept, for document: EditorDocument) {
         // Opening scheduled a write; the kept file already holds this state.
         pending.removeValue(forKey: document.id)?.cancel()
-        if store.adopt(kept.file, as: document.id) {
-            written[document.id] = document.changeCount
-        } else {
+        if !book.adopt(kept.file, for: document) {
             try? FileManager.default.removeItem(at: kept.file)
+        }
+    }
+
+    /// After the restored editors opened: once the app ran `settleDelay` seconds with them, their files are restored
+    /// again after a crash.
+    func settleRestoredEditors() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.settleDelay) { [weak self] in
+            MainActor.assumeIsolated { self?.book.settle() }
         }
     }
 }

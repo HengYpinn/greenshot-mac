@@ -69,6 +69,7 @@ final class EditorManager {
             }
             controller.showStatusMessage(message)
         }
+        sessions.settleRestoredEditors()
     }
 
     /// The editor a new capture goes to with "reuse the editor": like upstream `EditorDestination`, the front-most one

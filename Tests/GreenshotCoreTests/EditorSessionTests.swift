@@ -58,7 +58,7 @@ struct EditorSessionTests {
         #expect(FileManager.default.fileExists(atPath: note.path))
     }
 
-    @Test func claimedFileIsAnUnfinishedRestoreUntilAdopted() throws {
+    @Test func restoredFileStaysUnfinishedUntilSettled() throws {
         let store = Self.temporaryStore()
         defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
         let id = UUID()
@@ -68,8 +68,47 @@ struct EditorSessionTests {
         #expect(store.unfinishedRestores() == [claimed])
         let newID = UUID()
         #expect(store.adopt(claimed, as: newID))
+        // Opened, but a crash now (e.g. while it is first drawn) must not reopen it at the next start.
+        #expect(store.saved().isEmpty)
+        #expect(store.unfinishedRestores() == [store.restoringURL(for: newID)])
+        store.settle(newID)
         #expect(store.unfinishedRestores().isEmpty)
         #expect(store.saved() == [store.url(for: newID)])
+    }
+
+    @Test func writingARestoredDocumentSettlesIt() throws {
+        let store = Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
+        let id = UUID()
+        try store.write(try Self.sessionFile(), for: id)
+        let claimed = try #require(store.claim(store.url(for: id)))
+        let newID = UUID()
+        #expect(store.adopt(claimed, as: newID))
+        try store.write(try Self.sessionFile(), for: newID)
+        #expect(store.unfinishedRestores().isEmpty)
+        #expect(store.saved() == [store.url(for: newID)])
+        store.remove(newID)
+        #expect(store.saved().isEmpty)
+    }
+
+    @MainActor @Test func bookSettlesRestoredDocumentsLater() throws {
+        let store = Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
+        try store.write(try Self.sessionFile(), for: UUID())
+        let kept = try #require(store.saved().first)
+        let claimed = try #require(store.claim(kept))
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Restored")
+        #expect(book.adopt(claimed, for: document))
+        #expect(book.hasFile(document.id))
+        #expect(!book.needsWrite(document))
+        #expect(store.saved().isEmpty)
+        book.settle()
+        book.waitForDisk()
+        #expect(store.saved() == [store.url(for: document.id)])
+        book.forget(document.id)
+        book.waitForDisk()
+        #expect(store.saved().isEmpty)
     }
 
     @Test func oldestFirst() throws {

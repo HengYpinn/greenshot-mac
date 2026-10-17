@@ -7,8 +7,9 @@ import Foundation
 
 /// The unsaved editors kept for the next start of the app, one `.greenshot` file each (with `GreenshotFile.Session`),
 /// named after the document's id like upstream's `Surface.ID + ".greenshot"` (`Greenshot/Helpers/RestartManagerHelper.cs`
-/// keeps them in %TEMP%\Greenshot\RestartState). A file that is being restored is renamed to `.restoring` first, so a
-/// file that makes the app crash while it opens is not opened again at every start.
+/// keeps them in %TEMP%\Greenshot\RestartState). A file that is being restored is renamed to `.restoring` first and
+/// stays so until the app has run for a while with it open (`settle`): a file that makes the app crash while it opens
+/// or is first drawn is not opened again at every start.
 public struct EditorSessionStore: Sendable {
     public static let folderName = "Unsaved Editors"
     static let restoringExtension = "restoring"
@@ -30,6 +31,11 @@ public struct EditorSessionStore: Sendable {
         folder.appendingPathComponent(id.uuidString).appendingPathExtension(GreenshotFile.fileExtension)
     }
 
+    /// The file of the document `id` while it is restored and not settled yet.
+    func restoringURL(for id: UUID) -> URL {
+        folder.appendingPathComponent(id.uuidString).appendingPathExtension(Self.restoringExtension)
+    }
+
     /// Writes the file of the document `id`, readable by the user only (it is a screenshot).
     public func write(_ data: Data, for id: UUID) throws {
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true,
@@ -37,10 +43,13 @@ public struct EditorSessionStore: Sendable {
         let url = url(for: id)
         try data.write(to: url, options: .atomic)
         try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
+        // Written again after it was restored: this file is its state now.
+        try? FileManager.default.removeItem(at: restoringURL(for: id))
     }
 
     public func remove(_ id: UUID) {
         try? FileManager.default.removeItem(at: url(for: id))
+        try? FileManager.default.removeItem(at: restoringURL(for: id))
     }
 
     /// Removes the kept editors (and nothing else that may be in the folder).
@@ -72,9 +81,22 @@ public struct EditorSessionStore: Sendable {
     }
 
     /// A restored editor keeps its file as the one of its new document `id` until it is saved, closed or written again.
+    /// It stays `.restoring` until `settle(_:)`.
     @discardableResult
     public func adopt(_ claimed: URL, as id: UUID) -> Bool {
-        (try? FileManager.default.moveItem(at: claimed, to: url(for: id))) != nil
+        (try? FileManager.default.moveItem(at: claimed, to: restoringURL(for: id))) != nil
+    }
+
+    /// The app ran for a while with the restored document `id` open: its file is a kept editor again, restored at the
+    /// next start if the app ends without quitting.
+    public func settle(_ id: UUID) {
+        let restoring = restoringURL(for: id)
+        guard FileManager.default.fileExists(atPath: restoring.path) else { return }
+        if FileManager.default.fileExists(atPath: url(for: id).path) {
+            try? FileManager.default.removeItem(at: restoring)
+        } else {
+            try? FileManager.default.moveItem(at: restoring, to: url(for: id))
+        }
     }
 
     private func files(withExtension fileExtension: String) -> [URL] {
