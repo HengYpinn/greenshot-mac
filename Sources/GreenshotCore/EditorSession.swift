@@ -10,14 +10,20 @@ import Foundation
 /// keeps them in %TEMP%\Greenshot\RestartState). A file that is being restored is renamed to `.restoring` first and
 /// stays so until the app has run for a while with it open (`settle`): a file that makes the app crash while it opens
 /// or is first drawn is not opened again at every start.
+///
+/// The names also carry the process that wrote the file (`<document id>.<process id>.greenshot`): when two copies of the
+/// app run (e.g. two builds), neither restores nor removes the files of the other one while it runs.
 public struct EditorSessionStore: Sendable {
     public static let folderName = "Unsaved Editors"
     static let restoringExtension = "restoring"
 
     public let folder: URL
+    /// The process this store writes for.
+    public let process: Int32
 
-    public init(folder: URL) {
+    public init(folder: URL, process: Int32 = ProcessInfo.processInfo.processIdentifier) {
         self.folder = folder
+        self.process = process
     }
 
     /// In the folder of `--settings-dir` when there is one (a portable setup keeps its screenshots with it), else in
@@ -28,12 +34,25 @@ public struct EditorSessionStore: Sendable {
     }
 
     public func url(for id: UUID) -> URL {
-        folder.appendingPathComponent(id.uuidString).appendingPathExtension(GreenshotFile.fileExtension)
+        folder.appendingPathComponent("\(id.uuidString).\(process)").appendingPathExtension(GreenshotFile.fileExtension)
     }
 
     /// The file of the document `id` while it is restored and not settled yet.
     func restoringURL(for id: UUID) -> URL {
-        folder.appendingPathComponent(id.uuidString).appendingPathExtension(Self.restoringExtension)
+        folder.appendingPathComponent("\(id.uuidString).\(process)").appendingPathExtension(Self.restoringExtension)
+    }
+
+    /// The process that wrote a file of the store, from its name; nil for a name without one.
+    public static func owner(of url: URL) -> Int32? {
+        let parts = url.deletingPathExtension().lastPathComponent.split(separator: ".")
+        guard parts.count == 2 else { return nil }
+        return Int32(parts[1])
+    }
+
+    /// Whether the file belongs to another copy of the app that is running now (`isRunning` tells for a process id).
+    func ownedByAnotherRunningCopy(_ url: URL, isRunning: (Int32) -> Bool) -> Bool {
+        guard let owner = Self.owner(of: url), owner != process else { return false }
+        return isRunning(owner)
     }
 
     /// Writes the file of the document `id`, readable by the user only (it is a screenshot).
@@ -52,26 +71,28 @@ public struct EditorSessionStore: Sendable {
         try? FileManager.default.removeItem(at: restoringURL(for: id))
     }
 
-    /// Removes the kept editors (and nothing else that may be in the folder).
-    public func removeAll() {
-        for url in files(withExtension: GreenshotFile.fileExtension) + files(withExtension: Self.restoringExtension) {
-            try? FileManager.default.removeItem(at: url)
-        }
+    /// Removes the files of these documents (of this process; another copy's files stay).
+    public func remove(_ ids: Set<UUID>) {
+        for id in ids { remove(id) }
     }
 
-    /// The kept editors, the oldest first (they open in that order, so the newest ends up in front).
-    public func saved() -> [URL] {
-        files(withExtension: GreenshotFile.fileExtension)
+    /// The kept editors, the oldest first (they open in that order, so the newest ends up in front); without those of
+    /// another copy of the app that is running (`isRunning` tells for a process id).
+    public func saved(isRunning: (Int32) -> Bool = { _ in false }) -> [URL] {
+        files(withExtension: GreenshotFile.fileExtension).filter { !ownedByAnotherRunningCopy($0, isRunning: isRunning) }
     }
 
-    /// Files whose restore did not finish: the app ended while one of them opened.
-    public func unfinishedRestores() -> [URL] {
-        files(withExtension: Self.restoringExtension)
+    /// Files whose restore did not finish: the app ended while one of them opened or soon after. Not those another
+    /// running copy is restoring.
+    public func unfinishedRestores(isRunning: (Int32) -> Bool = { _ in false }) -> [URL] {
+        files(withExtension: Self.restoringExtension).filter { !ownedByAnotherRunningCopy($0, isRunning: isRunning) }
     }
 
-    /// Marks a kept editor as being restored (renamed to `.restoring`); the new name, nil when that failed.
+    /// Marks a kept editor as being restored by this process (renamed to `.restoring`); the new name, nil when that
+    /// failed (e.g. another copy claimed it first).
     public func claim(_ url: URL) -> URL? {
-        let claimed = url.deletingPathExtension().appendingPathExtension(Self.restoringExtension)
+        let stem = url.deletingPathExtension().lastPathComponent.split(separator: ".").first.map(String.init) ?? "restore"
+        let claimed = folder.appendingPathComponent("\(stem).\(process)").appendingPathExtension(Self.restoringExtension)
         do {
             try FileManager.default.moveItem(at: url, to: claimed)
             return claimed

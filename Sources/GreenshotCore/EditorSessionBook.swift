@@ -82,13 +82,15 @@ public final class EditorSessionBook {
         queue.async { store.remove(id) }
     }
 
-    /// Every editor was saved or discarded: none of this run's files is kept. Done when this returns.
+    /// Every editor was saved or discarded: none of this run's files is kept (another running copy's files stay).
+    /// Done when this returns.
     public func forgetAll() {
+        let ids = filed
         filed.removeAll()
         written.removeAll()
         unsettled.removeAll()
         let store = store
-        queue.sync { store.removeAll() }
+        queue.sync { store.remove(ids) }
     }
 
     /// The restored document keeps the file it was restored from (`claimed`), unsettled. False when that failed.

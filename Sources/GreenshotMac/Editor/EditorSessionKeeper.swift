@@ -129,14 +129,23 @@ final class EditorSessionKeeper {
     /// The kept editors, the oldest first. A file whose restore didn't finish last time (the app ended while it
     /// opened, or in the first seconds after) goes to the Trash instead, so it can't end every start the same way.
     func keptFiles() -> [URL] {
-        let unfinished = store.unfinishedRestores()
+        let unfinished = store.unfinishedRestores(isRunning: Self.isAnotherRunningCopy)
         if !unfinished.isEmpty {
             log.warn("\(unfinished.count) unsaved editors did not finish opening last time, they go to the Trash")
             NSWorkspace.shared.recycle(unfinished) { [log] _, error in
                 if let error { log.error("Moving unfinished restores to the Trash failed", error: error) }
             }
         }
-        return store.saved()
+        return store.saved(isRunning: Self.isAnotherRunningCopy)
+    }
+
+    /// Whether `process` is another copy of this app that runs now (its kept editors are its own).
+    static func isAnotherRunningCopy(_ process: Int32) -> Bool {
+        guard process != ProcessInfo.processInfo.processIdentifier,
+              let app = NSRunningApplication(processIdentifier: process), !app.isTerminated else { return false }
+        if let mine = Bundle.main.bundleIdentifier { return app.bundleIdentifier == mine }
+        guard let theirs = app.executableURL, let own = Bundle.main.executableURL else { return false }
+        return theirs.resolvingSymlinksInPath() == own.resolvingSymlinksInPath()
     }
 
     /// Claims a kept editor for restoring (renamed while it opens) and reads it; nil when it can't be read (it is
