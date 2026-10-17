@@ -42,6 +42,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             }
         }
         startLogging()
+        // A --language of this start is kept in the settings (L10N).
+        LanguageStartup.saveCommandLineChoice(into: settings)
         CrashReporting.install()
         let previousRun = CrashReporting.checkPreviousRun()
         previousRunEndedAbnormally = previousRun.endedAbnormally
@@ -52,6 +54,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         applyTheme()
         settings.onChange(of: \.theme) { [weak self] _ in self?.applyTheme() }
         Printing.settings = settings
+        // Recent Jira issues from the window titles (PARTIALS-DST, DST-088).
+        JiraTitleMonitor.shared.start(settings: settings)
         Clipboard.formats = { [settings] in settings.value.clipboardFormats }
         editors.onWindowsChange = { [weak self] in self?.updateDockIcon() }
         settingsWindow.onOpenChange = { [weak self] in self?.updateDockIcon() }
@@ -267,7 +271,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     }
 
     @objc func openHelp(_ sender: Any?) {
-        NSWorkspace.shared.open(AppInfo.helpURL)
+        HelpOpener.open()
     }
 
     @objc func reportIssue(_ sender: Any?) {

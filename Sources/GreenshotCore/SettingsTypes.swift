@@ -297,10 +297,13 @@ public struct ExternalCommand: Codable, Equatable, Identifiable, Sendable {
     public var copyOutputToClipboard = false
     /// The format of the file the command gets (upstream `OutputFormat`, per command); one of `ImageFormat.imageFormats`.
     public var format: ImageFormat = .png
+    /// Write the command's output to the log (upstream `ShowStandardOutputInLog`, per command
+    /// `ShowStandardOutputInLogCommand`, default off); its errors are always logged as warnings, like upstream.
+    public var showOutputInLog = false
 
     public init(id: UUID = UUID(), name: String, command: String, arguments: String = "\"{0}\"",
                 runInBackground: Bool = true, copyURLFromOutput: Bool = true, copyOutputToClipboard: Bool = false,
-                format: ImageFormat = .png) {
+                format: ImageFormat = .png, showOutputInLog: Bool = false) {
         self.id = id
         self.name = name
         self.command = command
@@ -309,13 +312,14 @@ public struct ExternalCommand: Codable, Equatable, Identifiable, Sendable {
         self.copyURLFromOutput = copyURLFromOutput
         self.copyOutputToClipboard = copyOutputToClipboard
         self.format = format
+        self.showOutputInLog = showOutputInLog
     }
 
     /// Upstream ships Paint and Paint.NET; the Mac's built-in image app is Preview.
     public static let defaults = [ExternalCommand(name: "Preview", command: "/usr/bin/open", arguments: "-a Preview \"{0}\"")]
 
     enum CodingKeys: String, CodingKey {
-        case id, name, command, arguments, runInBackground, copyURLFromOutput, copyOutputToClipboard, format
+        case id, name, command, arguments, runInBackground, copyURLFromOutput, copyOutputToClipboard, format, showOutputInLog
     }
 
     /// Every value falls back to its default, so commands saved before a new option still load.
@@ -333,6 +337,7 @@ public struct ExternalCommand: Codable, Equatable, Identifiable, Sendable {
         copyOutputToClipboard = value(.copyOutputToClipboard, false)
         // A command gets a plain image, never a .greenshot file.
         format = value(.format, ImageFormat.png).plainImage
+        showOutputInLog = value(.showOutputInLog, false)
     }
 }
 

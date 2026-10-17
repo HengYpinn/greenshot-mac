@@ -30,12 +30,12 @@ extension Snapshots {
         credits.sizeToFit()
         try write(form(credits), to: folder.appendingPathComponent("app-about-credits.png"))
 
-        try renderDiagnostics(to: folder)
+        try renderDiagnostics(to: folder, settings: settings)
     }
 
     /// The log viewer, Self-Service, bug report, welcome and About windows, from fixed sample data (no live timers, no
     /// network, nothing of this Mac's state that changes between runs).
-    private static func renderDiagnostics(to folder: URL) throws {
+    private static func renderDiagnostics(to folder: URL, settings: SettingsStore) throws {
         let logFile = FileManager.default.temporaryDirectory.appendingPathComponent("greenshot-snapshot-\(UUID().uuidString).log")
         try Data(sampleLog.utf8).write(to: logFile)
         defer { try? FileManager.default.removeItem(at: logFile) }
@@ -65,6 +65,8 @@ extension Snapshots {
         let welcome = WelcomeModel(basics: WelcomeContent.basics(HotkeySettings()),
                                    setup: SetupModel(sample: welcomeFacts, loginOn: true),
                                    tips: WelcomeContent.tips(appName: AppInfo.name, showsCaptures: false), tipIndex: 2)
+        // The first page with its language row (L10N-INFRA).
+        welcome.languageStore = settings
         for step in WelcomeModel.Step.allCases {
             welcome.show(step)
             try write(window(WelcomeView(model: welcome), size: NSSize(width: 620, height: 520)),

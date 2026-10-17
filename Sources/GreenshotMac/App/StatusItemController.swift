@@ -168,7 +168,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         let settingsItems = Self.settingsItems(store: app.settings) { [unowned app] in app.showSettings(nil) }
         settingsItems.forEach(menu.addItem)
         if !settingsItems.isEmpty { menu.addItem(.separator()) }
-        menu.addItem(ClosureMenuItem(title: "Help") { NSWorkspace.shared.open(AppInfo.helpURL) })
+        menu.addItem(ClosureMenuItem(title: "Help") { HelpOpener.open() })
         menu.addItem(ClosureMenuItem(title: "About \(AppInfo.name)") { [unowned app] in app.showAbout(nil) })
         menu.addItem(.separator())
         menu.addItem(ClosureMenuItem(title: "Quit", keyEquivalent: "q") { NSApp.terminate(nil) })

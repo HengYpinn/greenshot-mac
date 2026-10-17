@@ -109,6 +109,7 @@ public enum ManagedSettingKeys {
         t.add("lastCapturedRegion", \AppSettings.lastCapturedRegion)
         t.add("editorStyles", \AppSettings.editorStyles)
         t.add("recentEmoji", \AppSettings.recentEmoji)
+        t.add("recentColors", \AppSettings.recentColors)
         t.add("fixedCaptureSizes", \AppSettings.fixedCaptureSizes)
         t.add("recentCaptureSizes", \AppSettings.recentCaptureSizes)
         t.add("fixedCaptureSize", \AppSettings.fixedCaptureSize)
@@ -158,6 +159,7 @@ public enum ManagedSettingKeys {
         t.add("maxMenuItemLength", \AppSettings.maxMenuItemLength)
         t.add("theme", \AppSettings.theme)
         t.add("checkForUnstable", \AppSettings.checkForUnstable)
+        t.add("language", \AppSettings.language)
     }
 
     private static func addHotkeys(to t: inout Table) {
@@ -175,6 +177,7 @@ public enum ManagedSettingKeys {
         t.add("office.wordLockAspectRatio", \AppSettings.office.wordLockAspectRatio)
         t.add("office.powerpointLockAspectRatio", \AppSettings.office.powerpointLockAspectRatio)
         t.add("office.powerpointSlideLayout", \AppSettings.office.powerpointSlideLayout)
+        t.add("office.outlookAllowExportInMeetings", \AppSettings.office.outlookAllowExportInMeetings)
     }
 
     private static func addVideo(to t: inout Table) {

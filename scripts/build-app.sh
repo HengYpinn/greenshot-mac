@@ -64,6 +64,14 @@ ditto Resources/RecipeExamples "$APP/Contents/Resources/RecipeExamples"
 if [[ -d Extensions/Browser ]]; then ditto Extensions/Browser "$APP/Contents/Resources/BrowserExtension"; fi
 sed -e "s/__VERSION__/$VERSION/g" -e "s/__BUILD__/$BUILD_NUMBER/g" -e "s/__BUNDLE_ID__/$BUNDLE_ID/g" \
   Resources/Info.plist > "$APP/Contents/Info.plist"
+# The translations (docs/translations.md): one <language>.lproj each, listed in CFBundleLocalizations so macOS offers
+# them in System Settings › General › Language & Region › Applications; the help pages by language.
+if [[ -d Resources/Localizations ]]; then
+  ditto Resources/Localizations "$APP/Contents/Resources"
+  LOCALIZATIONS="$(cd Resources/Localizations && for d in *.lproj; do printf '"%s",' "${d%.lproj}"; done)"
+  plutil -replace CFBundleLocalizations -json "[${LOCALIZATIONS%,}]" "$APP/Contents/Info.plist"
+fi
+if [[ -d Resources/Help ]]; then ditto Resources/Help "$APP/Contents/Resources/Help"; fi
 plutil -lint "$APP/Contents/Info.plist" >/dev/null
 if ! sdef "$APP" >/dev/null; then
   echo "error: the AppleScript dictionary Resources/GreenshotMac.sdef doesn't load" >&2

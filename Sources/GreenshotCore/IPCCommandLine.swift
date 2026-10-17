@@ -286,6 +286,8 @@ public enum IPCCommandLine {
         /// `--diagnostics-test <test> [path]` of debug builds (`CrashReporting.runDebugTest`): like `--snapshot`, a
         /// development run that skips the single-instance guard.
         public var diagnostics = false
+        /// `--language <code>`: the language of the app's texts, kept in the settings (upstream `--language`).
+        public var language: String?
         /// The arguments after the startup options: a command in greenshot-cli's syntax; empty when there is none.
         public var command: [String] = []
 
@@ -293,7 +295,7 @@ public enum IPCCommandLine {
     }
 
     /// Startup options with a value.
-    private static let optionsWithValue = ["--settings-dir", "--snapshot"]
+    private static let optionsWithValue = ["--settings-dir", "--snapshot", "--language"]
     private static let flags = ["--background", "--help", "-h", "-?"]
 
     /// Splits the arguments (without the program path) into startup options and the command. Also skipped: the process
@@ -307,9 +309,11 @@ public enum IPCCommandLine {
             let lowered = argument.lowercased()
             if optionsWithValue.contains(lowered) {
                 if lowered == "--snapshot" { options.snapshot = true }
+                if lowered == "--language", index + 1 < arguments.count { options.language = arguments[index + 1] }
                 index = min(index + 2, arguments.count)
             } else if optionsWithValue.contains(where: { lowered.hasPrefix($0 + "=") }) {
                 if lowered.hasPrefix("--snapshot=") { options.snapshot = true }
+                if lowered.hasPrefix("--language=") { options.language = String(argument.dropFirst("--language=".count)) }
                 index += 1
             } else if lowered == "--diagnostics-test" {
                 // A test name, and for `signature` an optional path
@@ -346,6 +350,7 @@ public enum IPCCommandLine {
 
         Startup options:
           --settings-dir <folder>   Keep the settings in <folder>/settings.json instead of the user defaults
+          --language <code>         Use this language for the texts and keep it (e.g. de-DE; system = as macOS)
           --background              Start without the "is running" message; end silently when the app runs already
           --snapshot <folder>       Render the windows to PNG files and quit (for development)
           --help, -h, -?            Show this help text

@@ -14,6 +14,12 @@ final class EditorWindowScrollView: NSScrollView {
     /// Upstream waits 100 ms before the next zoom step.
     private static let wheelZoomInterval: TimeInterval = 0.1
 
+    /// Image coordinates: the scroller, the origin and the canvas stay left to right in a right-to-left language (L10N).
+    override var userInterfaceLayoutDirection: NSUserInterfaceLayoutDirection {
+        get { .leftToRight }
+        set {}
+    }
+
     override func scrollWheel(with event: NSEvent) {
         guard event.modifierFlags.contains(.command), let onWheelZoom, let documentView else {
             super.scrollWheel(with: event)

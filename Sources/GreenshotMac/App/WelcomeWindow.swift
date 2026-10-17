@@ -23,6 +23,8 @@ final class WelcomeModel: ObservableObject {
     let setup: SetupModel
     var openSettings: () -> Void = {}
     var close: () -> Void = {}
+    /// The settings for the first page's language row (L10N-INFRA, APP-043); nil: no row.
+    var languageStore: SettingsStore?
 
     init(basics: [WelcomeContent.Basic], setup: SetupModel, tips: [String], tipIndex: Int? = nil) {
         self.basics = basics

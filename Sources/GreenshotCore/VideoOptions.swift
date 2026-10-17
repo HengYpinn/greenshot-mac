@@ -92,6 +92,9 @@ public struct VideoCaptureOptions: Equatable, Sendable {
     public var scaleFactor: Double?
     public var colorMode: VideoColorMode = .fullColor
     public var captureCursor = true
+    /// Greenshot draws a frame around what is recorded, kept out of the video (upstream recipe `ShowCaptureBorder`, the
+    /// Windows capture border, default off).
+    public var showCaptureBorder = false
     public var windowResizeBehavior: WindowResizeBehavior = .letterboxFixedCanvas
     public var audioSource: AudioCaptureSource = .none
     public var preventSleep = true

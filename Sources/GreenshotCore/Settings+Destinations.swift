@@ -112,11 +112,14 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
     /// `PowerpointSlideLayout`; the title goes into its first shape and the picture into its second (the picture
     /// placeholder); a layout PowerPoint refuses falls back to blank.
     public var powerpointSlideLayout: SlideLayout = .pictureWithCaption
+    /// `OutlookAllowExportInMeetings` (upstream default false): the picker also lists the open meeting windows of Outlook
+    /// the user organises, and the picture is attached to the meeting (upstream `OutlookEmailExporter.cs:72,121`).
+    public var outlookAllowExportInMeetings = false
 
     public init() {}
 
     enum CodingKeys: String, CodingKey {
-        case outlookEmailFormat, wordLockAspectRatio, powerpointLockAspectRatio, powerpointSlideLayout
+        case outlookEmailFormat, wordLockAspectRatio, powerpointLockAspectRatio, powerpointSlideLayout, outlookAllowExportInMeetings
     }
 
     /// Every value falls back to its default, so settings written by another version (or an unknown layout) still load.
@@ -130,5 +133,6 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
         wordLockAspectRatio = value(.wordLockAspectRatio, d.wordLockAspectRatio)
         powerpointLockAspectRatio = value(.powerpointLockAspectRatio, d.powerpointLockAspectRatio)
         powerpointSlideLayout = value(.powerpointSlideLayout, d.powerpointSlideLayout)
+        outlookAllowExportInMeetings = value(.outlookAllowExportInMeetings, d.outlookAllowExportInMeetings)
     }
 }

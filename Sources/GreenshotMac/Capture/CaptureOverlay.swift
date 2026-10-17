@@ -642,6 +642,8 @@ final class OverlayWindow: NSPanel {
         marksView.autoresizingMask = [.width, .height]
         container.addSubview(imageView)
         container.addSubview(marksView)
+        // Screen geometry: left to right also in a right-to-left language (L10N).
+        container.userInterfaceLayoutDirection = .leftToRight
         contentView = container
         initialFirstResponder = marksView
         makeFirstResponder(marksView)

@@ -154,6 +154,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var editorStyles: [String: AnnotationStyle] = [:]
     /// The emoji new emoji elements get: the last one picked (upstream `IEditorConfiguration.RecentEmoji`).
     public var recentEmoji = "🙂"
+    /// The colours last picked for elements, newest first, at most 12 (upstream `IEditorConfiguration.RecentColors`).
+    public var recentColors: [RGBAColor] = []
 
     // Capture screen (upstream `FixedCaptureSizes`, `RecentCaptureSizes`, `FixedCaptureSize`, `FixedCaptureAnchor`,
     // `ScreenCaptureMode`, `ScreenToCapture`, `CaptureHelpVisible`, `CaptureInfoVisible`,
@@ -246,6 +248,10 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var checkForUnstable = false
     /// The welcome window was shown; it is shown once, at the first start (upstream `WelcomeShown`).
     public var welcomeShown = false
+    /// The language of the app's texts (upstream `Language`): an upstream language code from `LanguagePacks.all`
+    /// ("de-DE"); empty: as macOS chooses (System Settings › General › Language & Region › Applications, else the
+    /// preferred languages). Read at the start (`LanguageStartup`); a change takes effect after a relaunch.
+    public var language = ""
 
     // Destinations (upstream `IOfficeConfiguration`, `AllowedUntrustedCertificateHosts`, `AllowedCertificateThumbprints`).
     /// The Office plugin's options (Word, PowerPoint, Outlook); To, CC, BCC and the subject are `email`'s.
@@ -314,7 +320,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case video, recipes, automationAllowCaptureLinks, aiTools, browserExtensionEnabled
         case disableSettings, disableQuickSettings, hideExpertSettings, excludeDestinations
         case playCameraSound, notificationSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
-        case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
+        case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji, recentColors
         case fixedCaptureSizes, recentCaptureSizes, fixedCaptureSize, fixedCaptureAnchor, screenCaptureMode, screenToCapture
         case captureHelpVisible, captureInfoVisible, captureSelectionPreviewVisible, zoomerShowsPreview, zoomerOpacity, ocrLanguage
         case alwaysRunOCROnCapture, scanQRCodesOnCapture
@@ -324,7 +330,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case allowOverwrite, promptJpegQuality, reduceColors, reduceColorsTo, autoReduceColors, clipboardFormats, printing, email, externalCommands, pdf
         case jira, confluence, box, dropbox
         case updateCheckIntervalDays, lastUpdateCheck, lastSavedFile
-        case leftClickAction, doubleClickAction, hideMenuBarIcon, thumbnailPreview, maxMenuItemLength, theme, checkForUnstable
+        case leftClickAction, doubleClickAction, hideMenuBarIcon, thumbnailPreview, maxMenuItemLength, theme, checkForUnstable, language
     }
 
     // Every value falls back to its default, so settings written by another version still load.
@@ -370,6 +376,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         lastCapturedRegion = value(.lastCapturedRegion, d.lastCapturedRegion)
         editorStyles = value(.editorStyles, d.editorStyles)
         recentEmoji = value(.recentEmoji, d.recentEmoji)
+        recentColors = value(.recentColors, d.recentColors)
         fixedCaptureSizes = value(.fixedCaptureSizes, d.fixedCaptureSizes)
         recentCaptureSizes = value(.recentCaptureSizes, d.recentCaptureSizes)
         fixedCaptureSize = value(.fixedCaptureSize, d.fixedCaptureSize)
@@ -419,6 +426,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         maxMenuItemLength = value(.maxMenuItemLength, d.maxMenuItemLength)
         theme = value(.theme, d.theme)
         checkForUnstable = value(.checkForUnstable, d.checkForUnstable)
+        language = value(.language, d.language)
     }
 }
 

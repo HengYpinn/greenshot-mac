@@ -9,7 +9,8 @@ import SwiftUI
 
 /// The About window: upstream `Greenshot/Views/AboutWindow.xaml(.cs)` with the credits of `AppAboutCredits` and its
 /// "Self-Service" button. Keys like upstream: S opens Self-Service, E its System section, L or I its Files and Log;
-/// Esc and Return close. (Upstream's animated logo, edition badges and translation credits have no counterpart here.)
+/// Esc and Return close. The credit of the translation in use comes from its language pack (`about_translation`).
+/// (Upstream's animated logo and edition badges have no counterpart here.)
 struct AboutView: View {
     var openSelfService: (SelfServiceSection?) -> Void
     var close: () -> Void
@@ -23,6 +24,10 @@ struct AboutView: View {
             Text("Version \(UpdateChecker.currentVersion) (\(AppAboutCredits.versionDetail))").foregroundStyle(.secondary)
                 .textSelection(.enabled)
             CreditsText().frame(width: Self.textWidth, height: CreditsText.height(width: Self.textWidth))
+            if let credit = L10nText.translationCredit() {
+                Text(verbatim: credit).font(.callout).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                    .frame(width: Self.textWidth)
+            }
             HStack {
                 Button("Self-Service…") { openSelfService(nil) }
                     .help("Check the setup, read the log and the system information (S)")

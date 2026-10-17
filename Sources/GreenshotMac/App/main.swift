@@ -5,6 +5,8 @@
 import AppKit
 
 MainActor.assumeIsolated {
+    // The language of the texts, before the first text is looked up (L10N).
+    LanguageStartup.apply()
     // --help, the command after the startup options and one running instance per user; quits when this start only
     // forwards its command or another copy runs already.
     AutomationStartup.run()
