@@ -229,6 +229,8 @@ struct RecipeApprovalView: View {
             Spacer()
             buttons
         }
+        // Under a viewer the buttons are covered: Esc and Return belong to the viewer then.
+        .disabled(model.overlay != nil)
     }
 
     @ViewBuilder private var buttons: some View {
