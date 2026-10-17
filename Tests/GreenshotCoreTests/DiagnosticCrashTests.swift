@@ -90,7 +90,8 @@ struct DiagnosticCrashTests {
     @Test func hashIsTwelveHexDigitsAndStable() {
         let first = IssueLinks.hash(of: "NSRangeException\nat GreenshotMac!f()")
         #expect(first.count == 12)
-        #expect(first.allSatisfy { "0123456789abcdef".contains($0) })
+        let hex = first.allSatisfy { "0123456789abcdef".contains($0) }
+        #expect(hex)
         #expect(first == IssueLinks.hash(of: "  NSRangeException\nat GreenshotMac!f()\n"))
         #expect(first != IssueLinks.hash(of: "NSRangeException\nat GreenshotMac!g()"))
         #expect(IssueLinks.hash(of: "  ").isEmpty)
