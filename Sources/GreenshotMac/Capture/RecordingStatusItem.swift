@@ -10,6 +10,8 @@ import GreenshotCore
 enum RecordingIndicatorState: Equatable {
     /// Seconds until the recording starts.
     case countdown(Int)
+    /// The stream and the file are being set up.
+    case starting
     case recording(TimeInterval)
     case paused(TimeInterval)
     /// The file is being finished.
@@ -32,6 +34,9 @@ enum RecordingMenus {
         switch state {
         case .countdown:
             return [item("Cancel Recording", hotkey, actions.cancelCountdown)]
+        case .starting:
+            // Done as soon as the recording runs.
+            return [item("Stop Recording", hotkey, actions.stop), item("Discard Recording", nil, actions.discard)]
         case .recording(let elapsed), .paused(let elapsed):
             let paused: Bool
             if case .paused = state { paused = true } else { paused = false }
@@ -102,6 +107,11 @@ final class RecordingStatusItem: NSObject {
             color = .systemOrange
             text = "\(seconds)"
             help = "The recording starts in \(seconds) s. Click to cancel."
+        case .starting:
+            symbol = "record.circle"
+            color = .systemRed
+            text = "Starting…"
+            help = "The recording is starting. Click to stop it as soon as it runs."
         case .recording(let elapsed):
             symbol = "record.circle.fill"
             color = .systemRed
@@ -142,7 +152,7 @@ final class RecordingStatusItem: NSObject {
         }
         switch state {
         case .countdown: actions.cancelCountdown()
-        case .recording, .paused: actions.stop()
+        case .starting, .recording, .paused: actions.stop()
         case .saving: break
         }
     }

@@ -12,14 +12,46 @@ public enum RecordingOutputPath {
     public static let fileExtension = "mp4"
 
     /// Settings › Video: the folder (its pattern variables filled in, `~` expanded, empty = the default folder) and the
-    /// filled file name pattern plus ".mp4". A file that exists gets " (2)", " (3)", …: a recording never overwrites one.
+    /// filled file name pattern plus ".mp4". A file that exists, or that another recording has reserved and not yet
+    /// written, gets " (2)", " (3)", …: a recording never overwrites one. The path is reserved until `release`.
     public static func url(folder: String, pattern: String, context: FilenamePattern.Context,
                            exists: (URL) -> Bool = { FileManager.default.fileExists(atPath: $0.path) }) -> URL {
         let trimmed = folder.trimmingCharacters(in: .whitespaces)
         let folderURL = DestinationSupport.outputFolder(trimmed.isEmpty ? defaultFolder : trimmed, context: previewing(context))
         let name = FilenamePattern.fileName(pattern, context: context)
         let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : folderURL.appendingPathComponent(name)
-        return DestinationSupport.uniqueURL(for: base.appendingPathExtension(fileExtension), exists: exists)
+        return reserved.reserve { taken in
+            DestinationSupport.uniqueURL(for: base.appendingPathExtension(fileExtension),
+                                         exists: { taken.contains($0.standardizedFileURL.path) || exists($0) })
+        }
+    }
+
+    /// The recording of `url` ended (or never started): another one may take the path.
+    public static func release(_ url: URL) {
+        reserved.release(url)
+    }
+
+    /// The paths `url` gave out whose recordings haven't ended.
+    private static let reserved = ReservedPaths()
+
+    private final class ReservedPaths: @unchecked Sendable {
+        private let lock = NSLock()
+        private var paths: Set<String> = []
+
+        /// `choose` picks a path that is not in the set it gets; it is added in the same step.
+        func reserve(_ choose: (Set<String>) -> URL) -> URL {
+            lock.lock()
+            defer { lock.unlock() }
+            let url = choose(paths)
+            paths.insert(url.standardizedFileURL.path)
+            return url
+        }
+
+        func release(_ url: URL) {
+            lock.lock()
+            paths.remove(url.standardizedFileURL.path)
+            lock.unlock()
+        }
     }
 
     /// The context with `${NUM}` only previewed, for the folder: the file name counts it once.
