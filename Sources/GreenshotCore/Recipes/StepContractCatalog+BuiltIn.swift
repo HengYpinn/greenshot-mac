@@ -231,7 +231,7 @@ enum BuiltInStepContracts {
         stepType: WellKnownStepType.destinations, displayName: "Export Destinations",
         description: "Exports the capture to one or more destinations (file, clipboard, editor, printer, email, plugins).",
         category: "Export", parameters: destinationParameters, inputVariables: destinationInputs, outputVariables: destinationOutputs,
-        payload: PayloadContract(rawCapture: .required, surface: .required, extractedText: .optional), gates: destinationGates)
+        payload: PayloadContract(rawCapture: .required, surface: .required, extractedText: .optional), gates: { destinationGates($0, $1) })
 
     /// Upstream registers `DestinationExportStep` under these step types too (`CapturePipeline.RegisterBuiltInStepFactories`).
     static var destinationAliases: [StepContract] {

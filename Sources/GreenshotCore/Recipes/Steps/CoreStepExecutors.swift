@@ -78,6 +78,8 @@ extension CoreStepExecutors {
     static func imageExecutors(clipboard: (any RecipeClipboardWriting)?, cursorImages: (any RecipeCursorImageProviding)?) -> [(String, any RecipeStepExecutor)] {
         [
             (WellKnownStepType.effect, EffectExecutor()),
+            (WellKnownStepType.annotation, AnnotationExecutor(cursorImages: cursorImages)),
+            (WellKnownStepType.textEffect, TextEffectExecutor()),
             (WellKnownStepType.processors, ProcessorsExecutor()),
             (WellKnownStepType.barcodeScan, BarcodeScanExecutor(clipboard: clipboard))
         ]
