@@ -19,6 +19,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
     private var updateTimer: Timer?
 
+    /// The last run of the app ended without quitting (a crash or a forced quit): the restore of open editors and the bug
+    /// report use it. Package D fills it in.
+    var previousRunEndedAbnormally: Bool { false }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         if let folder = Snapshots.requestedFolder {
             do {
