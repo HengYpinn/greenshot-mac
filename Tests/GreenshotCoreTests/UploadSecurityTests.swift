@@ -45,4 +45,65 @@ struct UploadSecurityTests {
         #expect(!withPort.isSameOrigin(noPort))
         #expect(!withPort.isSameOrigin(otherScheme))
     }
+
+    // MARK: Secrets bound to their host
+
+    @Test func aTokenIsOnlyForTheHostItWasSavedFor() throws {
+        let store = InMemorySecretStore()
+        let secrets = AtlassianSecrets(store: store)
+        try secrets.setSecret("tok", for: "jira.apiToken", host: "Jira.Example.TEST")
+        #expect(try secrets.secret(for: "jira.apiToken", host: "jira.example.test") == "tok")
+        // The URL changed to another server: the token stays where it was and isn't given out.
+        #expect(try secrets.secret(for: "jira.apiToken", host: "evil.example.test", claim: true) == nil)
+        #expect(try secrets.secret(for: "jira.apiToken", host: nil) == nil)
+        #expect(try store.secret(for: "jira.apiToken") == "tok")
+        // Removing it removes the host too.
+        try secrets.setSecret("", for: "jira.apiToken", host: "jira.example.test")
+        #expect(store.keys.isEmpty)
+    }
+
+    @Test func aTokenOfAnOlderVersionIsBoundAtItsFirstUse() throws {
+        let store = InMemorySecretStore(["confluence.apiToken": "old"])
+        let secrets = AtlassianSecrets(store: store)
+        // The settings show it whatever the URL; only a use binds it.
+        #expect(try secrets.secret(for: "confluence.apiToken", host: "wiki.example.test") == "old")
+        #expect(try secrets.secret(for: "confluence.apiToken", host: "other.example.test") == "old")
+        #expect(try secrets.secret(for: "confluence.apiToken", host: "wiki.example.test", claim: true) == "old")
+        #expect(try secrets.secret(for: "confluence.apiToken", host: "other.example.test", claim: true) == nil)
+        // Saved before the URL was entered: no host yet, bound like an older one.
+        try secrets.setSecret("new", for: "jira.apiToken", host: nil)
+        #expect(try store.secret(for: "jira.apiToken.host") == nil)
+        #expect(try secrets.secret(for: "jira.apiToken", host: "jira.example.test", claim: true) == "new")
+        #expect(try store.secret(for: "jira.apiToken.host") == "jira.example.test")
+    }
+
+    @Test func theHostOfASettingsURL() {
+        #expect(AtlassianSite.host(ofURL: "Jira.Example.test/") == "jira.example.test")
+        #expect(AtlassianSite.host(ofURL: "https://x.atlassian.net/wiki") == "x.atlassian.net")
+        #expect(AtlassianSite.host(ofURL: "  ") == nil)
+    }
+
+    // MARK: Links and URLs
+
+    @Test func onlyWebPagesOnTheSiteAreOpened() throws {
+        let wiki = try #require(AtlassianSite(url: "https://wiki.example.test/wiki", login: .serverToken, user: "", secret: "t"))
+        let page = try #require(URL(string: "https://WIKI.example.test/wiki/spaces/DEV/pages/1"))
+        let plain = try #require(URL(string: "http://wiki.example.test/display/DEV/x"))
+        let file = try #require(URL(string: "file:///Applications/Calculator.app"))
+        let otherApp = try #require(URL(string: "x-apple.systempreferences:com.apple.preference.security"))
+        let otherHost = try #require(URL(string: "https://evil.example.test/wiki"))
+        #expect(wiki.isOnSite(page))
+        #expect(wiki.isOnSite(plain))
+        #expect(!wiki.isOnSite(file))
+        #expect(!wiki.isOnSite(otherApp))
+        #expect(!wiki.isOnSite(otherHost))
+    }
+
+    @Test func anHttpURLIsUnencrypted() {
+        #expect(AtlassianSite.isUnencrypted(url: "http://jira.corp.internal:8080"))
+        #expect(AtlassianSite.isUnencrypted(url: "HTTP://jira.corp.internal"))
+        #expect(!AtlassianSite.isUnencrypted(url: "jira.corp.internal"))
+        #expect(!AtlassianSite.isUnencrypted(url: "https://jira.corp.internal"))
+        #expect(!AtlassianSite.isUnencrypted(url: ""))
+    }
 }

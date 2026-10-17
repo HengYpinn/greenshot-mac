@@ -12,20 +12,35 @@ import SwiftUI
 /// A secret in the Keychain, edited like a setting.
 @MainActor
 final class SecretFieldModel: ObservableObject {
+    /// Whose secret it is: the app's, or that of the Jira or Confluence site on a host (nil while the URL has none),
+    /// which is shown and kept for that host only (see `AtlassianSecrets`).
+    enum Owner: Equatable {
+        case app
+        case site(host: String?)
+    }
+
     @Published var text: String {
         didSet { if text != oldValue { save() } }
     }
     @Published var error: String?
     private let key: String
+    private let owner: Owner
 
-    init(key: String) {
+    init(key: String, owner: Owner = .app) {
         self.key = key
-        text = (try? Uploads.secrets.secret(for: key)) ?? ""
+        self.owner = owner
+        switch owner {
+        case .app: text = (try? Uploads.secrets.secret(for: key)) ?? ""
+        case .site(let host): text = (try? AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host)) ?? ""
+        }
     }
 
     private func save() {
         do {
-            try Uploads.secrets.setSecret(text, for: key)
+            switch owner {
+            case .app: try Uploads.secrets.setSecret(text, for: key)
+            case .site(let host): try AtlassianSecrets(store: Uploads.secrets).setSecret(text, for: key, host: host)
+            }
             error = nil
         } catch {
             self.error = error.localizedDescription
@@ -37,9 +52,9 @@ struct SecretField: View {
     let title: String
     @StateObject private var model: SecretFieldModel
 
-    init(_ title: String, key: String) {
+    init(_ title: String, key: String, owner: SecretFieldModel.Owner = .app) {
         self.title = title
-        _model = StateObject(wrappedValue: SecretFieldModel(key: key))
+        _model = StateObject(wrappedValue: SecretFieldModel(key: key, owner: owner))
     }
 
     var body: some View {
@@ -129,10 +144,13 @@ struct JiraSettingsSection: View {
             }
             TextField("URL", text: store.binding(\.jira.url),
                       prompt: Text(login.isCloud ? "https://yourcompany.atlassian.net" : "https://jira.yourcompany.com"))
+            UnencryptedURLWarning(url: store.value.jira.url)
             if let userLabel = login.userLabel {
                 TextField(userLabel, text: store.binding(\.jira.email))
             }
-            SecretField(login.secretLabel, key: SecretKey.jiraToken)
+            let host = AtlassianSite.host(ofURL: store.value.jira.url)
+            SecretField(login.secretLabel, key: SecretKey.jiraToken, owner: .site(host: host))
+                .id(host ?? "")
             UploadFormatRow(format: store.binding(\.jira.uploadFormat), quality: store.binding(\.jira.jpegQuality),
                             reduceColors: store.binding(\.jira.reduceColors))
             ConnectionTestRow(test: test) { test.run(confluence: false, settings: store.value) }
@@ -157,10 +175,13 @@ struct ConfluenceSettingsSection: View {
             }
             TextField("URL", text: store.binding(\.confluence.url),
                       prompt: Text(login.isCloud ? "https://yourcompany.atlassian.net/wiki" : "https://confluence.yourcompany.com"))
+            UnencryptedURLWarning(url: store.value.confluence.url)
             if let userLabel = login.userLabel {
                 TextField(userLabel, text: store.binding(\.confluence.email))
             }
-            SecretField(login.secretLabel, key: SecretKey.confluenceToken)
+            let host = AtlassianSite.host(ofURL: store.value.confluence.url)
+            SecretField(login.secretLabel, key: SecretKey.confluenceToken, owner: .site(host: host))
+                .id(host ?? "")
             UploadFormatRow(format: store.binding(\.confluence.uploadFormat), quality: store.binding(\.confluence.jpegQuality),
                             reduceColors: store.binding(\.confluence.reduceColors))
             Toggle("Open the page after the upload", isOn: store.binding(\.confluence.openPageAfterUpload))
@@ -174,6 +195,18 @@ struct ConfluenceSettingsSection: View {
         } footer: {
             Text((login.isCloud ? "Cloud sites end in /wiki. " : "") + AtlassianFooter.text(login, service: "Confluence") + " The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.")
                 .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+}
+
+/// Under a Jira or Confluence URL that starts with `http://`: the credentials would travel unencrypted.
+struct UnencryptedURLWarning: View {
+    let url: String
+
+    var body: some View {
+        if AtlassianSite.isUnencrypted(url: url) {
+            Text("This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.")
+                .font(.caption).foregroundStyle(.orange)
         }
     }
 }
