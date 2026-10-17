@@ -306,6 +306,12 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         let shown = try #require(fixture.approver.validationErrors.first)
         #expect(shown.errorMessage == "The recipe file is larger than 1 MB: \(path)")
         #expect(fixture.box.settings.files.isEmpty)
+        // At most 50 recipes in one file.
+        let many = (0..<51).map { libraryRecipe(id: "r\($0)") }
+        let crowded = fixture.folder.appendingPathComponent("many.gsrecipe.json")
+        try Data(JSONValue.array(many.map { RecipeSerializer.json(of: $0) }).serialized(indented: true).utf8).write(to: crowded)
+        let refused = await fixture.library.loadFile(crowded, interactive: false)
+        #expect(refused.errors == ["The recipe file holds 51 recipes; at most 50 are allowed."])
         // Not a file: a folder, or a device that never ends.
         #expect(RecipeFileReader.read(fixture.folder) == .failure(.notAFile))
         #expect(RecipeFileReader.read(URL(fileURLWithPath: "/dev/zero")) == .failure(.notAFile))

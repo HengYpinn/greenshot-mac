@@ -36,10 +36,26 @@ public struct RecipeValidator: Sendable {
         self.gates = gates
     }
 
+    /// Security review: a recipe is checked before anyone approved it, and the flow analysis grows with the square of
+    /// the nodes (seconds at a thousand, minutes at twenty thousand). No real recipe comes near these limits; upstream
+    /// has none.
+    static let maxNodes = 200
+    static let maxTriggers = 50
+
     public func validate(_ recipe: CaptureRecipe) -> RecipeValidationResult {
         var result = RecipeValidationResult()
         let isExtension = recipe.kind == .extension
         validateHeader(recipe, what: isExtension ? "Extension" : "Recipe", &result)
+        guard recipe.nodes.count <= Self.maxNodes, recipe.triggers.count <= Self.maxTriggers else {
+            let what = isExtension ? "The extension" : "The recipe"
+            if recipe.nodes.count > Self.maxNodes {
+                result.errors.append("\(what) has \(recipe.nodes.count) nodes; at most \(Self.maxNodes) are allowed.")
+            }
+            if recipe.triggers.count > Self.maxTriggers {
+                result.errors.append("\(what) has \(recipe.triggers.count) triggers; at most \(Self.maxTriggers) are allowed.")
+            }
+            return result
+        }
         if isExtension {
             validateExtensionHeader(recipe, &result)
         }
@@ -360,26 +376,32 @@ public struct RecipeValidator: Sendable {
             state[node.id.lowercased()] = 0
             if names[node.id.lowercased()] == nil { names[node.id.lowercased()] = node.id }
         }
-        var path: [String] = []
-        func visit(_ id: String) -> [String]? {
-            state[id] = 1
-            path.append(id)
-            for next in transitions[id] ?? [] {
-                let key = next.lowercased()
+        // An explicit stack instead of recursion: a long chain of nodes must not overflow the thread's stack.
+        var stack: [(id: String, next: Int)] = []
+        let order = starts.map { $0.lowercased() } + recipe.nodes.map { $0.id.lowercased() }
+        for root in order where state[root] == 0 {
+            state[root] = 1
+            stack.append((root, 0))
+            while let top = stack.last {
+                let targets = transitions[top.id] ?? []
+                guard top.next < targets.count else {
+                    state[top.id] = 2
+                    stack.removeLast()
+                    continue
+                }
+                stack[stack.count - 1].next += 1
+                let key = targets[top.next].lowercased()
                 guard let nextState = state[key] else { continue }
                 if nextState == 1 {
+                    let path = stack.map(\.id)
                     let start = path.firstIndex(of: key) ?? 0
                     return (path[start...] + [key]).map { names[$0] ?? $0 }
                 }
-                if nextState == 0, let cycle = visit(key) { return cycle }
+                if nextState == 0 {
+                    state[key] = 1
+                    stack.append((key, 0))
+                }
             }
-            path.removeLast()
-            state[id] = 2
-            return nil
-        }
-        let order = starts.map { $0.lowercased() } + recipe.nodes.map { $0.id.lowercased() }
-        for id in order where state[id] == 0 {
-            if let cycle = visit(id) { return cycle }
         }
         return nil
     }

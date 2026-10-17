@@ -11,6 +11,8 @@ import Foundation
 enum RecipeFileReader {
     /// The largest recipe file Greenshot reads.
     static let maxBytes = 1024 * 1024
+    /// The most recipes one file may hold (each is validated before it is approved).
+    static let maxRecipes = 50
 
     enum Failure: Error, Equatable {
         case unreadable

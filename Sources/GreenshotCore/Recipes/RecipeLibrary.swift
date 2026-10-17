@@ -308,6 +308,12 @@ public final class RecipeLibrary {
             if interactive { await approver?.showValidationError(validationErrorRequest(fileURL, content, hash, recipe: nil, message: message)) }
             return result
         }
+        if definitions.count > RecipeFileReader.maxRecipes {
+            let message = "The recipe file holds \(definitions.count) recipes; at most \(RecipeFileReader.maxRecipes) are allowed."
+            result.errors.append(message)
+            if interactive { await approver?.showValidationError(validationErrorRequest(fileURL, content, hash, recipe: nil, message: message)) }
+            return result
+        }
         if definitions.contains(where: { $0.kind == .extension }) {
             let message = "This file is an automatic step (\"kind\": \"extension\"), not a recipe. Automatic steps aren't available in this version yet."
             result.errors.append(message)
