@@ -16,6 +16,7 @@ struct TextOptionsTests {
         style.horizontalAlignment = h
         style.verticalAlignment = v
         style.shadow = false
+        style.lineWidth = 0
         return style
     }
 

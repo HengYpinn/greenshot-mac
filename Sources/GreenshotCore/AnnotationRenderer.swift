@@ -18,8 +18,8 @@ public enum AnnotationRenderer {
     /// The base image with `annotations` drawn on it, at the pixel size of `base`.
     /// - Parameters:
     ///   - scale: pixels per point of the capture; style sizes are multiplied with it.
-    ///   - hiddenID: the element whose text is being edited in place. A text element is left out; a speech bubble
-    ///     is drawn without its text, as the frame around the text field.
+    ///   - hiddenID: the element whose text is being edited in place: it is drawn without its text (its frame, fill
+    ///     and a speech bubble's shape stay around the text field).
     ///   - counterStart: the number of the first counter.
     public static func flatten(base: CGImage, annotations: [Annotation], scale: CGFloat, hiding hiddenID: UUID? = nil,
                                counterStart: Int = 1) -> CGImage? {
@@ -38,7 +38,7 @@ public enum AnnotationRenderer {
             if annotation.kind == .counter { counter += 1 }
             var shown = annotation
             if annotation.id == hiddenID {
-                guard annotation.kind == .speechBubble else { continue }
+                guard annotation.kind.hasEditableText else { continue }
                 shown.text = ""
             }
             context.saveGState()
@@ -311,21 +311,41 @@ public enum AnnotationRenderer {
         return path
     }
 
+    /// Upstream `TextContainer.Draw`: the box like a rectangle (`RectangleContainer.DrawRectangle`: fill, a frame of
+    /// the line width in the line colour, the shadow of both), then the text, with a shadow only when there is no fill.
     static func drawText(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         let style = a.style
-        if style.fillColor.isVisible {
-            context.setFillColor(style.fillColor.cgColor)
-            context.fill(a.bounds)
-        }
-        drawAlignedText(a.text, style: style, in: textRect(for: a, scale: scale), context: context, scale: scale)
+        drawShape(CGPath(rect: a.bounds, transform: nil), style: style, lineWidth: CGFloat(style.lineWidth) * scale,
+                  in: context, scale: scale)
+        var textStyle = style
+        if style.fillColor.isVisible { textStyle.shadow = false }
+        drawAlignedText(a.text, style: textStyle, in: textRect(for: a, scale: scale), context: context, scale: scale)
     }
 
-    /// The area the text of a text element or speech bubble is laid out in. A bubble's text stays inside its
-    /// outline, like upstream `TextContainer.DrawText` (which moves it in by half the line width).
+    /// How far the text of a text element or speech bubble is inside its box: a little, plus half the frame, like
+    /// upstream `TextContainer.DrawText` (which moves it in by half the line width).
+    static func textInset(of style: AnnotationStyle, scale: CGFloat) -> CGFloat {
+        2 * scale + ceil(CGFloat(max(style.lineWidth, 0)) * scale / 2)
+    }
+
+    /// The area the text of a text element or speech bubble is laid out in, inside its frame.
     public static func textRect(for a: Annotation, scale: CGFloat) -> CGRect {
-        var inset = 2 * scale
-        if a.kind == .speechBubble { inset += ceil(CGFloat(a.style.lineWidth) * scale / 2) }
+        let inset = textInset(of: a.style, scale: scale)
         return a.bounds.insetBy(dx: inset, dy: inset)
+    }
+
+    /// The box a text element needs to show `text` in one go (upstream `TextContainer.FitToText`), at most `maxWidth`
+    /// pixels wide; longer lines wrap. Pixels.
+    public static func textBoxSize(_ text: String, style: AnnotationStyle, scale: CGFloat, maxWidth: CGFloat) -> CGSize {
+        let inset = textInset(of: style, scale: scale)
+        let string = attributedText(text, style: style, pixelsPerPoint: scale)
+        let room = max(maxWidth - 2 * inset, scale)
+        let measured = string.boundingRect(with: CGSize(width: room, height: .greatestFiniteMagnitude),
+                                           options: [.usesLineFragmentOrigin, .usesFontLeading])
+        // A pixel to spare, so the same text doesn't wrap when it is drawn into exactly this width.
+        let width = min(ceil(measured.width) + scale, room) + 2 * inset
+        let height = ceil(measured.height) + scale + 2 * inset
+        return CGSize(width: width, height: height)
     }
 
     /// Where `text` is drawn in `rect`: wrapped at its width, placed by the style's vertical alignment
@@ -501,6 +521,31 @@ public enum AnnotationRenderer {
         if let result { drawUpright(result, in: rect, context: context) }
     }
 
+    /// What the area highlight does to the image outside its area: blurred with `blurRadius` pixels (upstream
+    /// `BlurFilter`) and made darker by adding brightness − 1 to every channel (upstream `BrightnessFilter` with
+    /// `ImageHelper.CreateAdjustAttributes`, 0.9 by default).
+    static func areaHighlightOutside(_ image: CGImage, blurRadius: CGFloat, brightness: CGFloat) -> CGImage? {
+        filtered(image) { input in
+            var output = input
+            if blurRadius > 0 {
+                let blur = CIFilter.gaussianBlur()
+                blur.inputImage = output
+                blur.radius = Float(blurRadius)
+                output = blur.outputImage ?? output
+            }
+            // Upstream adds the offset to the stored (sRGB) values; Core Image works on linear light, so convert around it.
+            let offset = brightness - 1
+            let toSRGB = CIFilter.linearToSRGBToneCurve()
+            toSRGB.inputImage = output
+            let adjust = CIFilter.colorMatrix()
+            adjust.inputImage = toSRGB.outputImage ?? output
+            adjust.biasVector = CIVector(x: offset, y: offset, z: offset, w: 0)
+            let toLinear = CIFilter.sRGBToneCurveToLinear()
+            toLinear.inputImage = adjust.outputImage ?? output
+            return toLinear.outputImage ?? output
+        }
+    }
+
     static func drawHighlight(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         let canvas = canvasBounds(context)
         let rect = a.bounds.integral.intersection(canvas)
@@ -532,17 +577,8 @@ public enum AnnotationRenderer {
         case .area:
             // Upstream: an inverted brightness and blur filter, everything outside the area gets darker and blurred.
             guard let whole = context.makeImage(), let inside = whole.cropping(to: rect),
-                  let dimmed = filtered(whole, { input in
-                      let blur = CIFilter.gaussianBlur()
-                      blur.inputImage = input
-                      blur.radius = Float(3 * scale)
-                      let dim = CIFilter.colorMatrix()
-                      dim.inputImage = blur.outputImage ?? input
-                      dim.rVector = CIVector(x: 0.7, y: 0, z: 0, w: 0)
-                      dim.gVector = CIVector(x: 0, y: 0.7, z: 0, w: 0)
-                      dim.bVector = CIVector(x: 0, y: 0, z: 0.7, w: 0)
-                      return dim.outputImage ?? input
-                  }) else { return }
+                  let dimmed = areaHighlightOutside(whole, blurRadius: CGFloat(style.blurRadius) * scale,
+                                                    brightness: CGFloat(style.brightness)) else { return }
             drawUpright(dimmed, in: canvas, context: context)
             drawUpright(inside, in: rect, context: context)
         }

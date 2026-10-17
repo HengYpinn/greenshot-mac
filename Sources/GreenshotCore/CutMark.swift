@@ -153,6 +153,40 @@ extension Annotation {
 }
 
 extension CutMark {
-    /// A small picture of `style` for the cut-edge pop-ups (upstream `ImageEditorForm.CreateCutMarkPreview`).
-    public static func previewImage(_ style: CutMarkStyle, pointSize: CGFloat = 16, scale: CGFloat = 2) -> CGImage? { nil }
+    /// A small picture of `style` for the cut-edge pop-ups (upstream `ImageEditorForm.CreateCutMarkPreview`): two parts
+    /// of an image with the style's edges and the gap between them showing a transparency checkerboard, inside a
+    /// transparent border so the pictures in a menu don't touch. `pointSize` is the side in points, `scale` pixels per
+    /// point.
+    public static func previewImage(_ style: CutMarkStyle, pointSize: CGFloat = 16, scale: CGFloat = 2) -> CGImage? {
+        let side = Int((pointSize * scale).rounded())
+        guard side > 0, let context = AnnotationRenderer.makeContext(width: side, height: side) else { return nil }
+        // Upstream draws 16 px: a 2 px border, the gap from 2 to 10 px down with 2 px teeth, 4 px apart.
+        let unit = pointSize * scale / 16
+        let inner = 12 * unit
+        context.translateBy(x: 0, y: CGFloat(side))
+        context.scaleBy(x: 1, y: -1)
+        context.translateBy(x: 2 * unit, y: 2 * unit)
+        let square = CGRect(x: 0, y: 0, width: inner, height: inner)
+        context.setFillColor(CGColor(gray: 1, alpha: 1))
+        context.fill(square)
+        context.setFillColor(CGColor(srgbRed: 192 / 255, green: 192 / 255, blue: 192 / 255, alpha: 1))
+        for row in 0..<6 {
+            for column in stride(from: row % 2 * 2, to: 12, by: 4) {
+                context.fill(CGRect(x: CGFloat(column) * unit, y: CGFloat(row * 2) * unit, width: 2 * unit, height: 2 * unit))
+            }
+        }
+        // .NET SteelBlue.
+        context.setFillColor(CGColor(srgbRed: 70 / 255, green: 130 / 255, blue: 180 / 255, alpha: 1))
+        guard let shape = CutMark.shape(band: CGRect(x: 0, y: 2 * unit, width: inner, height: 8 * unit), style: style,
+                                        toothHeight: 2 * unit, toothRange: 4 * unit, seed: 16) else {
+            context.fill(square)
+            return context.makeImage()
+        }
+        let parts = CGMutablePath()
+        parts.addRect(square)
+        parts.addPath(shape.gap)
+        context.addPath(parts)
+        context.fillPath(using: .evenOdd)
+        return context.makeImage()
+    }
 }
