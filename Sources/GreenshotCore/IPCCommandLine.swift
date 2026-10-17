@@ -209,6 +209,9 @@ public enum IPCCommandLine {
         /// (the Mac's counterpart of upstream's `--autostart`).
         public var background = false
         public var snapshot = false
+        /// `--diagnostics-test <test> [path]` of debug builds (`CrashReporting.runDebugTest`): like `--snapshot`, a
+        /// development run that skips the single-instance guard.
+        public var diagnostics = false
         /// The arguments after the startup options: a command in greenshot-cli's syntax; empty when there is none.
         public var command: [String] = []
 
@@ -234,6 +237,12 @@ public enum IPCCommandLine {
             } else if optionsWithValue.contains(where: { lowered.hasPrefix($0 + "=") }) {
                 if lowered.hasPrefix("--snapshot=") { options.snapshot = true }
                 index += 1
+            } else if lowered == "--diagnostics-test" {
+                // A test name, and for `signature` an optional path
+                options.diagnostics = true
+                let test = index + 1 < arguments.count ? arguments[index + 1].lowercased() : ""
+                index = min(index + 2, arguments.count)
+                if test == "signature", index < arguments.count, !arguments[index].hasPrefix("-") { index += 1 }
             } else if flags.contains(lowered) {
                 if lowered == "--background" { options.background = true } else { options.help = true }
                 index += 1
