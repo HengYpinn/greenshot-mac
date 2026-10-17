@@ -26,14 +26,14 @@ final class ServicesProvider: NSObject {
             Task { @MainActor in
                 let reply = await app.automation.perform(envelope, source: .services)
                 if reply.isError {
-                    ErrorPresenter.show(message: "The image could not be opened",
+                    ErrorPresenter.show(message: String(localized: "The image could not be opened"),
                                         detail: AutomationCommands.refusedFileNames(reply, files: envelope.files))
                 }
             }
             return
         }
         guard let image = ImagePasteboard.image(from: pasteboard) else {
-            error.pointee = "There is no image to open." as NSString
+            error.pointee = String(localized: "There is no image to open.") as NSString
             return
         }
         log.info("Opening an image from the Services menu")

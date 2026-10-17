@@ -59,8 +59,12 @@ extension VideoEncodingPreset {
     /// "30 fps, 2.5 Mbps, at most 1920 × 1080" for Settings › Video; empty for `.custom`.
     public var summary: String {
         guard let values else { return "" }
-        var parts = ["\(values.frameRate) fps", VideoBitrateText.text(values.bitrate)]
-        if let size = values.maximumSize { parts.append("at most \(size.width) × \(size.height)") }
+        var parts = [String(localized: "\(values.frameRate) fps"), VideoBitrateText.text(values.bitrate)]
+        if let size = values.maximumSize {
+            // Pixel sizes as strings: an Int in a localized text gets the locale's grouping ("1,920")
+            let width = String(size.width), height = String(size.height)
+            parts.append(String(localized: "at most \(width) × \(height)"))
+        }
         return parts.joined(separator: ", ")
     }
 }
@@ -68,11 +72,12 @@ extension VideoEncodingPreset {
 /// "2.5 Mbps", "800 kbps".
 public enum VideoBitrateText {
     public static func text(_ bitsPerSecond: Int) -> String {
-        if bitsPerSecond < 1_000_000 { return "\(bitsPerSecond / 1000) kbps" }
+        if bitsPerSecond < 1_000_000 { return String(localized: "\(bitsPerSecond / 1000) kbps") }
         let megabits = Double(bitsPerSecond) / 1_000_000
         let rounded = (megabits * 10).rounded() / 10
-        let whole = rounded == rounded.rounded()
-        return whole ? "\(Int(rounded)) Mbps" : "\(rounded) Mbps"
+        // Formatted here on purpose ("2.5", "8"): a Double in the localized text would be "%lf" ("2.500000")
+        let number = rounded == rounded.rounded() ? "\(Int(rounded))" : "\(rounded)"
+        return String(localized: "\(number) Mbps")
     }
 }
 

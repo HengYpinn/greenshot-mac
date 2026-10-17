@@ -49,8 +49,8 @@ enum CaptureError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .windowNotFound: return "The window is no longer on the screen."
-        case .nothingToCapture: return "There was nothing on the screen to capture."
+        case .windowNotFound: return String(localized: "The window is no longer on the screen.")
+        case .nothingToCapture: return String(localized: "There was nothing on the screen to capture.")
         }
     }
 }

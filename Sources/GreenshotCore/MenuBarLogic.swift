@@ -64,14 +64,14 @@ public enum ScreenPosition {
         let all = frames.dropFirst().reduce(frames[0]) { $0.union($1) }
         var words: [String] = []
         if frame.minY == all.minY && frame.maxY != all.maxY {
-            words.append("top")
+            words.append(String(localized: "top", comment: "Position of a display among all displays, after its name: Studio Display (top left)"))
         } else if frame.minY != all.minY && frame.maxY == all.maxY {
-            words.append("bottom")
+            words.append(String(localized: "bottom", comment: "Position of a display among all displays, after its name: Studio Display (top left)"))
         }
         if frame.minX == all.minX && frame.maxX != all.maxX {
-            words.append("left")
+            words.append(String(localized: "left", comment: "Position of a display among all displays, after its name: Studio Display (top left)"))
         } else if frame.minX != all.minX && frame.maxX == all.maxX {
-            words.append("right")
+            words.append(String(localized: "right", comment: "Position of a display among all displays, after its name: Studio Display (top left)"))
         }
         return words
     }

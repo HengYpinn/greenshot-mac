@@ -23,15 +23,16 @@ extension OverlayMarksView {
         context.saveGState()
         context.setAlpha(alpha)
         context.beginTransparencyLayer(auxiliaryInfo: nil)
-        let widthText = rulerLabel("\(width)")
-        let heightText = rulerLabel("\(height)")
+        // The numbers keep their order in right-to-left languages
+        let widthText = rulerLabel(BidiText.isolatedLTR("\(width)"))
+        let heightText = rulerLabel(BidiText.isolatedLTR("\(height)"))
         if let ruler = CaptureSelectionLabels.widthRuler(for: selection, labelSize: widthText.size(), display: bounds) {
             drawRuler(ruler, text: widthText, horizontal: true, in: context)
         }
         if let ruler = CaptureSelectionLabels.heightRuler(for: selection, labelSize: heightText.size(), display: bounds) {
             drawRuler(ruler, text: heightText, horizontal: false, in: context)
         }
-        let sizeText = "\(width) × \(height)"
+        let sizeText = BidiText.isolatedLTR("\(width) × \(height)")
         let measured = NSAttributedString(string: sizeText, attributes: [.font: Self.sizeFont(CaptureSelectionLabels.measureSize)]).size()
         if let fontSize = CaptureSelectionLabels.sizeFontSize(for: selection.size, measured: measured) {
             let shadow = NSShadow()
@@ -115,7 +116,7 @@ extension OverlayMarksView {
         context.strokePath()
         context.restoreGState()
 
-        let text = rulerLabel("\(Int(pixel.x)), \(Int(pixel.y))")
+        let text = rulerLabel(BidiText.isolatedLTR("\(Int(pixel.x)), \(Int(pixel.y))"))
         let size = text.size()
         var box = CGRect(x: cursor.x + 5.5, y: cursor.y + 5.5, width: size.width + 4, height: size.height)
         // Next to the mouse, on the other side at the edges of the display.

@@ -86,9 +86,13 @@ extension OverlayMarksView {
         let previewAtZoomer = controller.previewPlacement == .zoomer && controller.showsZoomer
         var panels: [OverlayPanel] = []
         if controller.mode == .fixedSize { panels.append(sizesPanel(controller)) }
-        if controller.helpVisible { panels.append(tablePanel(id: "help", title: "Keys", rows: controller.helpLines())) }
+        if controller.helpVisible {
+            let title = String(localized: "Keys", comment: "Title of the capture screen's panel of keys")
+            panels.append(tablePanel(id: "help", title: title, rows: controller.helpLines()))
+        }
         if controller.infoVisible {
-            var info = tablePanel(id: "info", title: "Info", rows: controller.infoLines())
+            let title = String(localized: "Info", comment: "Title of the capture screen's info panel")
+            var info = tablePanel(id: "info", title: title, rows: controller.infoLines())
             info.growsOnly = true
             panels.append(info)
         }
@@ -159,7 +163,7 @@ extension OverlayMarksView {
         enum Row { case header(String), size(Int, FixedSizeEntry) }
         var rows: [Row] = []
         for (index, entry) in controller.fixedSizes.enumerated() {
-            if entry.isRecent && (index == 0 || !controller.fixedSizes[index - 1].isRecent) { rows.append(.header("Recently captured")) }
+            if entry.isRecent && (index == 0 || !controller.fixedSizes[index - 1].isRecent) { rows.append(.header(String(localized: "Recently captured"))) }
             rows.append(.size(index, entry))
         }
         let font = NSFont.monospacedDigitSystemFont(ofSize: 12, weight: .regular)
@@ -167,7 +171,7 @@ extension OverlayMarksView {
         let small = NSFont.systemFont(ofSize: 11)
         let lineHeight: CGFloat = 18
         let anchorText = controller.fixedAnchor.displayName
-        let hint = "Hold ⌥ to place it without snapping"
+        let hint = String(localized: "Hold ⌥ to place it without snapping")
         let width = max(Self.width(hint, small), 150, Self.width(anchorText, font) + 70) + 24
         let height = CGFloat(rows.count + 1) * lineHeight + 32 + 22 + 20
         let accent = self.accent
@@ -176,7 +180,7 @@ extension OverlayMarksView {
         return OverlayPanel(id: "sizes", size: CGSize(width: width.rounded(.up), height: height)) { [weak self] box in
             self?.panelBackground(box)
             let x = box.minX + 12
-            NSAttributedString(string: "Sizes", attributes: [.font: NSFont.systemFont(ofSize: 12, weight: .bold), .foregroundColor: NSColor.white])
+            NSAttributedString(string: String(localized: "Sizes"), attributes: [.font: NSFont.systemFont(ofSize: 12, weight: .bold), .foregroundColor: NSColor.white])
                 .draw(at: CGPoint(x: x, y: box.minY + 9))
             var y = box.minY + 32
             for row in rows {
@@ -187,7 +191,7 @@ extension OverlayMarksView {
                     let key = index < 9 ? "\(index + 1)" : ""
                     NSAttributedString(string: key, attributes: [.font: bold, .foregroundColor: accent]).draw(at: CGPoint(x: x, y: y))
                     let highlighted = index == current
-                    let text = "\(entry.size.width) × \(entry.size.height)"
+                    let text = BidiText.isolatedLTR("\(entry.size.width) × \(entry.size.height)")
                     NSAttributedString(string: text, attributes: [.font: highlighted ? bold : font,
                                                                   .foregroundColor: highlighted ? accent : NSColor.white])
                         .draw(at: CGPoint(x: x + 22, y: y))
@@ -229,8 +233,9 @@ extension OverlayMarksView {
         let shown = CGSize(width: max(1, (pixels.width * scale / screenScale).rounded()),
                            height: max(1, (pixels.height * scale / screenScale).rounded()))
         let font = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .regular)
-        let sizeText = "\(Int(pixels.width)) × \(Int(pixels.height))"
-        let zoomText = SelectionPreviewLayout.percentText(scale)
+        // The numbers keep their order in right-to-left languages
+        let sizeText = BidiText.isolatedLTR("\(Int(pixels.width)) × \(Int(pixels.height))")
+        let zoomText = BidiText.isolatedLTR(SelectionPreviewLayout.percentText(scale))
         let textWidth = Self.width(sizeText, font) + 12 + Self.width(zoomText, font)
         let contentWidth = max(shown.width, textWidth)
         let size = CGSize(width: (contentWidth + 20).rounded(.up), height: shown.height + 42)
@@ -277,7 +282,8 @@ extension OverlayMarksView {
         guard let controller else { return }
         var text = ""
         if controller.mode == .fixedSize, let size = controller.currentFixedSize, size.width != pixels.width || size.height != pixels.height {
-            text = "Cut off from \(size.width) × \(size.height)"
+            let requested = BidiText.isolatedLTR("\(size.width) × \(size.height)")
+            text = String(localized: "Cut off from \(requested)", comment: "The fixed size asked for, e.g. Cut off from 1280 × 720")
         }
         if controller.mode == .window, let window = controller.hoveredWindow {
             text = window.menuTitle
@@ -297,13 +303,21 @@ extension OverlayMarksView {
     /// name (upstream adds the UI Automation control type and name).
     static func details(of window: WindowInfo, area: WindowArea? = nil) -> String {
         let f = window.frame
-        let title = window.title.isEmpty ? "(no title)" : window.title
-        let level = window.level == 0 ? "" : " · level \(window.level)"
-        var text = "Window \(window.id) · \(window.appName) (pid \(window.pid))\(level)\n\(title)\n"
-            + "\(Int(f.minX)), \(Int(f.minY))  \(Int(f.width)) × \(Int(f.height)) pt"
+        let title = window.title.isEmpty ? String(localized: "(no title)") : window.title
+        // Numbers as strings (an Int in a localized text gets the locale's grouping); positions and sizes read left to
+        // right in right-to-left languages
+        let id = String(window.id), pid = String(window.pid)
+        var first = String(localized: "Window \(id) · \(window.appName) (pid \(pid))")
+        if window.level != 0 {
+            let level = String(window.level)
+            first += " · " + String(localized: "level \(level)", comment: "The window level of a window (macOS)")
+        }
+        var text = first + "\n" + title + "\n"
+            + BidiText.isolatedLTR("\(Int(f.minX)), \(Int(f.minY))  \(Int(f.width)) × \(Int(f.height)) pt")
         if let area {
             let a = area.frame
-            text += "\nArea: \(area.name) (\(area.role)) · \(Int(a.minX)), \(Int(a.minY))  \(Int(a.width)) × \(Int(a.height)) pt"
+            let place = BidiText.isolatedLTR("\(Int(a.minX)), \(Int(a.minY))  \(Int(a.width)) × \(Int(a.height)) pt")
+            text += "\n" + String(localized: "Area: \(area.name) (\(area.role)) · \(place)")
         }
         return text
     }
@@ -330,9 +344,9 @@ extension OverlayMarksView {
         guard controller.mode == .text else { return }
         let text: String
         if controller.recognizingText {
-            text = "Recognising text…"
+            text = String(localized: "Recognising text…")
         } else if controller.textLines?.isEmpty == true {
-            text = "No text found"
+            text = String(localized: "No text found")
         } else {
             return
         }
@@ -383,7 +397,8 @@ extension OverlayMarksView {
     private func drawBarcodeHint(_ controller: CaptureOverlayController) {
         guard controller.barcodeMenu == nil, let barcode = controller.hoveredBarcode else { return }
         let box = local(barcode.bounds)
-        let string = label("\(barcode.symbology): \(BarcodeMenu.shortened(barcode.payload)) – click for actions", size: 11)
+        let string = label(String(localized: "\(barcode.symbology): \(BarcodeMenu.shortened(barcode.payload)) – click for actions",
+                                  comment: "The kind of a code under the mouse and its text, e.g. QR Code: https://…"), size: 11)
         let size = string.size()
         var origin = CGPoint(x: box.minX, y: box.maxY + 6)
         if origin.y + size.height + 8 > bounds.maxY { origin.y = box.minY - size.height - 12 }
@@ -468,7 +483,7 @@ extension OverlayMarksView {
 
         // The crosshair shows the position next to the mouse; without it (fixed size, while dragging) it is below the zoomer.
         guard showsPosition else { return }
-        let coordinates = label("\(Int(pixel.x)), \(Int(pixel.y))", size: 11)
+        let coordinates = label(BidiText.isolatedLTR("\(Int(pixel.x)), \(Int(pixel.y))"), size: 11)
         let size = coordinates.size()
         drawBubble(coordinates, at: CGPoint(x: zoom.midX - size.width / 2 - 6, y: zoom.maxY + 4))
     }
@@ -476,62 +491,93 @@ extension OverlayMarksView {
 
 /// The texts of the keys and the info panel (upstream `HelpOverlay.cs`, `InfoOverlay.cs`).
 extension CaptureOverlayController {
-    /// The keys that work now: those of the mode first, then those of every mode.
+    /// The keys that work now: those of the mode first, then those of every mode. Keys shown as symbols or letters keep
+    /// their order in right-to-left languages; the named ones (Enter, Space, …) are translated.
     func helpLines() -> [(String, String)] {
+        let key = BidiText.isolatedLTR
+        let drag = String(localized: "Drag", comment: "Panel of keys of the capture screen: dragging with the mouse")
+        let enter = String(localized: "Enter", comment: "Key name")
+        let shift = String(localized: "Shift", comment: "Key name")
+        let click = String(localized: "Click, Enter", comment: "Panel of keys of the capture screen: a click or the Enter key")
+        let arrows = (key("← → ↑ ↓"), String(localized: "move one pixel, with ⌃ ten"))
+        let selectWithKeys = (enter, String(localized: "start and finish a selection with the keys"))
+        let oneDirection = (shift, String(localized: "keep a drag to one direction"))
+        let zoomer = (key("Z"), String(localized: "zoomer on or off"))
         var lines: [(String, String)] = []
-        let arrows = ("← → ↑ ↓", "move one pixel, with ⌃ ten")
         switch mode {
         case .region:
-            lines = [("Drag", "select a region"), ("Enter", "start and finish a selection with the keys"), arrows,
-                     ("Shift", "keep a drag to one direction"), ("Z", "zoomer on or off")]
-            if !barcodes.isEmpty { lines.append(("Click a QR code", "copy or open what it says")) }
+            lines = [(drag, String(localized: "select a region")), selectWithKeys, arrows, oneDirection, zoomer]
+            if !barcodes.isEmpty { lines.append((String(localized: "Click a QR code"), String(localized: "copy or open what it says"))) }
         case .window:
-            lines = [("Click, Enter", areasAllowed ? "capture the window or area" : "capture the window")]
-            if areasAllowed { lines.append(("PgUp PgDn", "larger or smaller area")) }
-            lines.append(("D", "window details on or off"))
+            let capture = areasAllowed ? String(localized: "capture the window or area") : String(localized: "capture the window")
+            lines = [(click, capture)]
+            if areasAllowed { lines.append((key("PgUp PgDn"), String(localized: "larger or smaller area"))) }
+            lines.append((key("D"), String(localized: "window details on or off")))
         case .fixedSize:
-            lines = [("Click, Enter", "capture the area"), ("1 – 9", "pick a size"), ("PgUp PgDn, [ ]", "previous or next size"),
-                     ("C", "hold it at another corner"), ("⌥", "hold to place it without snapping"), arrows, ("Z", "zoomer on or off")]
+            lines = [(click, String(localized: "capture the area")), (key("1 – 9"), String(localized: "pick a size")),
+                     (key("PgUp PgDn, [ ]"), String(localized: "previous or next size")),
+                     (key("C"), String(localized: "hold it at another corner")),
+                     (key("⌥"), String(localized: "hold to place it without snapping")), arrows, zoomer]
         case .text:
-            lines = [("Click a line", "copy its text"), ("Drag", "select words, copy their text"),
-                     ("Enter", "start and finish a selection with the keys"), arrows, ("Shift", "keep a drag to one direction"),
-                     ("Z", "zoomer on or off")]
+            lines = [(String(localized: "Click a line"), String(localized: "copy its text")),
+                     (drag, String(localized: "select words, copy their text")), selectWithKeys, arrows, oneDirection, zoomer]
         }
-        lines.append(("Space", mode == .region || mode == .window ? "switch between region and window" : "back to region"))
-        if mode != .fixedSize { lines.append(("F", "capture a fixed size")) }
-        if mode != .text { lines.append(("T", "capture text")) }
-        if pointerScreens != nil { lines.append(("M", pointerVisible ? "leave out the mouse pointer" : "include the mouse pointer")) }
-        lines += [("H, F1", "hide the keys"), ("I", infoVisible ? "hide the info" : "show the info"),
-                  ("P", "preview: in a corner, at the zoomer, off"), ("Esc", "cancel")]
+        let space = mode == .region || mode == .window ? String(localized: "switch between region and window") : String(localized: "back to region")
+        lines.append((String(localized: "Space", comment: "Key name"), space))
+        if mode != .fixedSize { lines.append((key("F"), String(localized: "capture a fixed size"))) }
+        if mode != .text { lines.append((key("T"), String(localized: "capture text"))) }
+        if pointerScreens != nil {
+            let pointer = pointerVisible ? String(localized: "leave out the mouse pointer") : String(localized: "include the mouse pointer")
+            lines.append((key("M"), pointer))
+        }
+        let info = infoVisible ? String(localized: "hide the info") : String(localized: "show the info")
+        lines += [(key("H, F1"), String(localized: "hide the keys")), (key("I"), info),
+                  (key("P"), String(localized: "preview: in a corner, at the zoomer, off")),
+                  (String(localized: "Esc", comment: "Key name"), String(localized: "cancel", comment: "Panel of keys of the capture screen: Esc cancels the capture"))]
         return lines
     }
 
     /// The display with the mouse, all displays, the selection, the window under the mouse and the mouse position.
-    /// Positions and display sizes in points, as macOS counts them, the selection in pixels like its label.
+    /// Positions and display sizes in points, as macOS counts them, the selection in pixels like its label. The numbers
+    /// keep their order in right-to-left languages (the names may be in another script).
     func infoLines() -> [(String, String)] {
         var lines: [(String, String)] = []
         if let screen = cursorScreen {
-            let name = NSScreen.screens.first { $0.displayID == screen.displayID }?.localizedName ?? "Display \(screen.displayID)"
+            let id = String(screen.displayID)
+            let name = NSScreen.screens.first { $0.displayID == screen.displayID }?.localizedName ?? String(localized: "Display \(id)")
             let f = screen.frame
-            lines.append(("Screen", "\(name), \(Int(f.width)) × \(Int(f.height)) (\(screen.image.width) × \(screen.image.height) px)"))
+            let size = BidiText.isolatedLTR("\(Int(f.width)) × \(Int(f.height)) (\(screen.image.width) × \(screen.image.height) px)")
+            lines.append((String(localized: "Screen", comment: "Info panel of the capture screen: the display with the mouse"), "\(name), \(size)"))
         }
         if screens.count > 1 {
             let all = desktopBounds
-            lines.append(("All screens", "\(Int(all.width)) × \(Int(all.height))"))
+            lines.append((String(localized: "All screens"), BidiText.isolatedLTR("\(Int(all.width)) × \(Int(all.height))")))
         }
+        let selectionName = String(localized: "Selection", comment: "Info panel of the capture screen: the selected area")
         if let rect = selection {
             let scale = cursorScreen?.scale ?? 1
             let width = Int((rect.width * scale).rounded())
             let height = Int((rect.height * scale).rounded())
-            lines.append(("Selection", "\(width) × \(height) px at \(Int(rect.minX.rounded())), \(Int(rect.minY.rounded()))"))
+            let size = BidiText.isolatedLTR("\(width) × \(height) px")
+            let position = BidiText.isolatedLTR("\(Int(rect.minX.rounded())), \(Int(rect.minY.rounded()))")
+            lines.append((selectionName, String(localized: "\(size) at \(position)",
+                                                comment: "Info panel of the capture screen: the selection's size at its position, e.g. 941 × 621 px at 120, 80")))
         } else {
-            lines.append(("Selection", "None"))
+            lines.append((selectionName, String(localized: "None", comment: "Info panel of the capture screen: nothing is selected")))
         }
         let title = windowUnderCursor?.menuTitle ?? "–"
-        lines.append(("Window", title.count > 48 ? String(title.prefix(47)) + "…" : title))
-        lines.append(("Mouse", "\(Int(cursor.x.rounded(.down))), \(Int(cursor.y.rounded(.down)))"))
-        if mode == .window, selectsAreas, !areasAllowed { lines.append(("Areas", "allow Accessibility in Settings › Capture")) }
-        if pointerScreens != nil { lines.append(("Pointer", pointerVisible ? "in the capture" : "not in the capture")) }
+        lines.append((String(localized: "Window", comment: "Info panel of the capture screen: the window under the mouse"),
+                      title.count > 48 ? String(title.prefix(47)) + "…" : title))
+        let mouse = BidiText.isolatedLTR("\(Int(cursor.x.rounded(.down))), \(Int(cursor.y.rounded(.down)))")
+        lines.append((String(localized: "Mouse", comment: "Info panel of the capture screen: the mouse position"), mouse))
+        if mode == .window, selectsAreas, !areasAllowed {
+            lines.append((String(localized: "Areas", comment: "Info panel of the capture screen: the areas inside a window"),
+                          String(localized: "allow Accessibility in Settings › Capture")))
+        }
+        if pointerScreens != nil {
+            let pointer = pointerVisible ? String(localized: "in the capture") : String(localized: "not in the capture")
+            lines.append((String(localized: "Pointer", comment: "Info panel of the capture screen: the mouse pointer"), pointer))
+        }
         return lines
     }
 }

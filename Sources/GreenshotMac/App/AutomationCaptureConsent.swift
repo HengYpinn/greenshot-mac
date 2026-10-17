@@ -43,10 +43,10 @@ enum AutomationCaptureConsent {
         let caller = callerName(peer: peer)
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "\(caller) asks \(AppInfo.name) to run the recipe \u{201C}\(recipe)\u{201D}, which takes \(subject)."
-        alert.informativeText = "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it."
-        alert.addButton(withTitle: "Don't Allow")
-        alert.addButton(withTitle: "Allow")
+        alert.messageText = recipeQuestion(caller: caller, recipe: recipe, subject: subject)
+        alert.informativeText = String(localized: "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.")
+        alert.addButton(withTitle: String(localized: "Don't Allow"))
+        alert.addButton(withTitle: String(localized: "Allow"))
         let allowed = run(alert)
         log.info("The command line recipe '\(recipe)' (\(subject)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
         return allowed
@@ -92,11 +92,47 @@ enum AutomationCaptureConsent {
     static func makeAlert(caller: String, mode: AutomationCaptureMode) -> NSAlert {
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "\(caller) asks \(AppInfo.name) to take a screenshot of \(AutomationConsent.subject(of: mode))."
-        alert.informativeText = "The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations."
-        alert.addButton(withTitle: "Don't Allow")
-        alert.addButton(withTitle: "Allow")
+        alert.messageText = captureQuestion(caller: caller, mode: mode)
+        alert.informativeText = String(localized: "The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.")
+        alert.addButton(withTitle: String(localized: "Don't Allow"))
+        alert.addButton(withTitle: String(localized: "Allow"))
         return alert
+    }
+
+    /// "<program> asks Greenshot for Mac to take a screenshot of the whole screen.", a sentence per mode
+    /// (`AutomationConsent.subject(of:)` words the same in English, for the log).
+    private static func captureQuestion(caller: String, mode: AutomationCaptureMode) -> String {
+        let app = AppInfo.name
+        switch mode {
+        case .region: return String(localized: "\(caller) asks \(app) to take a screenshot of a region.")
+        case .window: return String(localized: "\(caller) asks \(app) to take a screenshot of a window.")
+        case .fullScreen: return String(localized: "\(caller) asks \(app) to take a screenshot of the whole screen.")
+        case .lastRegion: return String(localized: "\(caller) asks \(app) to take a screenshot of the last captured region.")
+        case .text: return String(localized: "\(caller) asks \(app) to take a screenshot of the text in a region.")
+        }
+    }
+
+    /// "<program> asks Greenshot for Mac to run the recipe “<name>”, which takes a screenshot of the whole screen.", a
+    /// sentence per subject. The subjects come in English from Core (`AutomationConsent.recipeCaptureSubject`,
+    /// `RecipeCaptureConsent`), where they are also compared; an unknown one is shown as it is.
+    private static func recipeQuestion(caller: String, recipe: String, subject: String) -> String {
+        let app = AppInfo.name
+        switch subject {
+        case "a screen recording":
+            return String(localized: "\(caller) asks \(app) to run the recipe \u{201C}\(recipe)\u{201D}, which takes a screen recording.")
+        case "a screenshot of the whole screen":
+            return String(localized: "\(caller) asks \(app) to run the recipe \u{201C}\(recipe)\u{201D}, which takes a screenshot of the whole screen.")
+        case "a screenshot of the active window":
+            return String(localized: "\(caller) asks \(app) to run the recipe \u{201C}\(recipe)\u{201D}, which takes a screenshot of the active window.")
+        case "a screenshot of the last captured region":
+            return String(localized: "\(caller) asks \(app) to run the recipe \u{201C}\(recipe)\u{201D}, which takes a screenshot of the last captured region.")
+        case "a screenshot of a window":
+            return String(localized: "\(caller) asks \(app) to run the recipe \u{201C}\(recipe)\u{201D}, which takes a screenshot of a window.")
+        case "a screenshot of a region":
+            return String(localized: "\(caller) asks \(app) to run the recipe \u{201C}\(recipe)\u{201D}, which takes a screenshot of a region.")
+        default:
+            return String(localized: "\(caller) asks \(app) to run the recipe \u{201C}\(recipe)\u{201D}, which takes \(subject).")
+        }
     }
 
     /// The program behind the request: the processes above the requester (greenshot-cli or a second start of the

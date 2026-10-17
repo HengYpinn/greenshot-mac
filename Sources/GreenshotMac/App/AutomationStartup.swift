@@ -91,14 +91,16 @@ enum AutomationStartup {
     /// The alert (also for the snapshots).
     static func alreadyRunningAlert(path: String?) -> NSAlert {
         let alert = NSAlert()
-        alert.messageText = "An instance of \(AppInfo.name) is already running."
+        alert.messageText = String(localized: "An instance of \(AppInfo.name) is already running.")
+        let quit = String(localized: "Quit it first to start this copy.")
         if let path {
-            alert.informativeText = "It runs from \(DiagnosticReport.abbreviatingHome(bundlePath(ofExecutable: path))). Quit it first to start this copy."
+            let bundle = BidiText.isolatedLTR(DiagnosticReport.abbreviatingHome(bundlePath(ofExecutable: path)))
+            alert.informativeText = String(localized: "It runs from \(bundle).") + " " + quit
         } else {
-            alert.informativeText = "Quit it first to start this copy."
+            alert.informativeText = quit
         }
-        alert.addButton(withTitle: "OK")
-        if path != nil { alert.addButton(withTitle: "Show in Finder") }
+        alert.addButton(withTitle: String(localized: "OK"))
+        if path != nil { alert.addButton(withTitle: String(localized: "Show in Finder")) }
         return alert
     }
 

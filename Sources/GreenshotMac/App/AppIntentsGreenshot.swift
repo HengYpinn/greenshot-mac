@@ -19,9 +19,9 @@ struct AutomationIntentError: Error, CustomLocalizedStringResourceConvertible {
 @MainActor
 enum AutomationIntents {
     static func run(_ envelope: IPCEnvelope) async throws {
-        guard let app = NSApp.delegate as? AppDelegate else { throw AutomationIntentError(message: "Greenshot for Mac isn't ready.") }
+        guard let app = NSApp.delegate as? AppDelegate else { throw AutomationIntentError(message: String(localized: "Greenshot for Mac isn't ready.")) }
         let reply = await app.automation.perform(envelope, source: .shortcuts)
-        if reply.isError { throw AutomationIntentError(message: reply.stderr ?? "The action failed.") }
+        if reply.isError { throw AutomationIntentError(message: reply.stderr ?? String(localized: "The action failed.")) }
     }
 
     static func capture(_ mode: AutomationCaptureMode) async throws {
@@ -139,7 +139,7 @@ struct OpenImageIntent: AppIntent {
             return .result()
         }
         guard let loaded = ImageFileLoader.load(data: image.data), let app = NSApp.delegate as? AppDelegate else {
-            throw AutomationIntentError(message: "The image could not be opened.")
+            throw AutomationIntentError(message: String(localized: "The image could not be opened."))
         }
         let title = (image.filename as NSString).deletingPathExtension
         app.editors.open(Capture(image: loaded.image, scale: loaded.scale, title: title.isEmpty ? "Shortcuts" : title))

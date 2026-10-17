@@ -42,8 +42,8 @@ final class SettingsStore: ObservableObject {
         let loaded = fileURL.map { url in
             SettingsStorage.load(fromFile: url) { aside in
                 DispatchQueue.main.async {
-                    ErrorPresenter.show(message: "The settings file could not be read",
-                                        detail: "It was renamed to \(aside.lastPathComponent) and Greenshot started with the default settings.")
+                    ErrorPresenter.show(message: String(localized: "The settings file could not be read"),
+                                        detail: String(localized: "It was renamed to \(aside.lastPathComponent) and Greenshot started with the default settings."))
                 }
             }
         } ?? SettingsStorage.load(from: defaults)

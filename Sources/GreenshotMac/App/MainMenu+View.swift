@@ -9,7 +9,7 @@ import GreenshotCore
 /// The View menu: upstream's zoom menu (`ImageEditorForm` `zoomMenuStrip`), also behind the status bar's zoom button.
 extension MainMenu {
     static func addViewMenu(to main: NSMenu) {
-        let view = submenu(in: main, title: "View")
+        let view = submenu(in: main, title: String(localized: "View"))
         zoomItems(target: nil, withKeys: true).forEach(view.addItem)
     }
 
@@ -24,16 +24,16 @@ extension MainMenu {
             items.append(item)
             return item
         }
-        _ = add("Zoom In", #selector(EditorWindowController.zoomIn(_:)), key: "=")
+        _ = add(String(localized: "Zoom In"), #selector(EditorWindowController.zoomIn(_:)), key: "=")
         if withKeys {
             // ⌘+ (Shift-=) zooms in too, without a second visible item.
-            let zoomInPlus = add("Zoom In", #selector(EditorWindowController.zoomIn(_:)), key: "+")
+            let zoomInPlus = add(String(localized: "Zoom In"), #selector(EditorWindowController.zoomIn(_:)), key: "+")
             zoomInPlus.isHidden = true
             zoomInPlus.allowsKeyEquivalentWhenHidden = true
         }
-        _ = add("Zoom Out", #selector(EditorWindowController.zoomOut(_:)), key: "-")
+        _ = add(String(localized: "Zoom Out"), #selector(EditorWindowController.zoomOut(_:)), key: "-")
         items.append(.separator())
-        _ = add("Zoom to Fit", #selector(EditorWindowController.zoomToFit(_:)), key: "9")
+        _ = add(String(localized: "Zoom to Fit"), #selector(EditorWindowController.zoomToFit(_:)), key: "9")
         for percent in EditorWindowController.zoomPresets {
             if percent == 25 || percent == 100 || percent == 200 { items.append(.separator()) }
             _ = add("\(percent) %", #selector(EditorWindowController.zoomPreset(_:)), key: percent == 100 ? "0" : "", tag: percent)

@@ -121,7 +121,7 @@ struct WelcomeView: View {
                 }
                 ForEach(model.basics, id: \.keys) { basic in
                     HStack(spacing: 12) {
-                        Text(basic.keys).font(.system(.body, design: .monospaced).weight(.semibold))
+                        Text(verbatim: BidiText.isolatedLTR(basic.keys)).font(.system(.body, design: .monospaced).weight(.semibold))
                             .padding(.horizontal, 8).padding(.vertical, 3)
                             .background(RoundedRectangle(cornerRadius: 5).fill(Color(nsColor: .quaternaryLabelColor).opacity(0.4)))
                             .frame(width: 110, alignment: .leading)

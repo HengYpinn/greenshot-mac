@@ -98,18 +98,18 @@ final class VideoRecordingController {
         }
         let target = settings.value.video.hotkeyTarget
         menu.addItem(screenItem(hotkey: target == .screen ? hotkey : nil))
-        menu.addItem(RecordingMenus.item("Record Window…", target == .window ? hotkey : nil) { [weak self] in self?.recordWindow() })
-        menu.addItem(RecordingMenus.item("Record Region…", target == .region ? hotkey : nil) { [weak self] in self?.recordRegion() })
+        menu.addItem(RecordingMenus.item(String(localized: "Record Window…"), target == .window ? hotkey : nil) { [weak self] in self?.recordWindow() })
+        menu.addItem(RecordingMenus.item(String(localized: "Record Region…"), target == .region ? hotkey : nil) { [weak self] in self?.recordRegion() })
     }
 
     /// "Record Screen"; with several displays a submenu with each one (named like "Capture Full Screen"'s).
     private func screenItem(hotkey: KeyCombo?) -> NSMenuItem {
         let screens = NSScreen.screens
         guard screens.count > 1 else {
-            return RecordingMenus.item("Record Screen", hotkey) { [weak self] in self?.recordScreen() }
+            return RecordingMenus.item(String(localized: "Record Screen"), hotkey) { [weak self] in self?.recordScreen() }
         }
-        let item = NSMenuItem(title: "Record Screen", action: nil, keyEquivalent: "")
-        let submenu = NSMenu(title: "Record Screen")
+        let item = NSMenuItem(title: String(localized: "Record Screen"), action: nil, keyEquivalent: "")
+        let submenu = NSMenu(title: String(localized: "Record Screen"))
         submenu.autoenablesItems = false
         let frames = screens.map { CGDisplayBounds($0.displayID) }
         for (screen, frame) in zip(screens, frames) {
@@ -188,7 +188,7 @@ final class VideoRecordingController {
                 slot.release()
             } catch {
                 slot.release()
-                ErrorPresenter.show(error, title: "The recording could not be started")
+                ErrorPresenter.show(error, title: String(localized: "The recording could not be started"))
             }
         }
     }
@@ -213,11 +213,11 @@ final class VideoRecordingController {
         guard wanted.includesMicrophone else { return wanted }
         if await MicrophoneCapture.authorize() { return wanted }
         let alert = NSAlert()
-        alert.messageText = "\(AppInfo.name) may not use the microphone"
-        alert.informativeText = "Allow it in System Settings › Privacy & Security › Microphone, or record without it."
-        alert.addButton(withTitle: "Record Without Microphone")
-        alert.addButton(withTitle: "Open System Settings")
-        alert.addButton(withTitle: "Cancel")
+        alert.messageText = String(localized: "\(AppInfo.name) may not use the microphone")
+        alert.informativeText = String(localized: "Allow it in System Settings › Privacy & Security › Microphone, or record without it.")
+        alert.addButton(withTitle: String(localized: "Record Without Microphone"))
+        alert.addButton(withTitle: String(localized: "Open System Settings"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         switch alert.runModal() {
         case .alertFirstButtonReturn:
@@ -294,9 +294,9 @@ final class VideoRecordingController {
         recorder.onDuration = { [weak self] elapsed in self?.indicator?.state = .recording(elapsed) }
         recorder.onError = { [weak self] error, fatal in
             if fatal {
-                ErrorPresenter.show(error, title: "The recording failed")
+                ErrorPresenter.show(error, title: String(localized: "The recording failed"))
             } else {
-                self?.saver.notify("A problem while recording", detail: error.localizedDescription, kind: .warning)
+                self?.saver.notify(String(localized: "A problem while recording"), detail: error.localizedDescription, kind: .warning)
             }
         }
         Task { @MainActor [weak self] in
@@ -338,7 +338,7 @@ final class VideoRecordingController {
         guard recorder.state.isActive else { return }
         Task {
             await recorder.cancel()
-            saver.notify("The recording was discarded")
+            saver.notify(String(localized: "The recording was discarded"))
         }
     }
 

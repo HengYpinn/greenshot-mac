@@ -91,7 +91,7 @@ final class RecordingCountdownView: NSView {
         ])
         let size = number.size()
         number.draw(at: NSPoint(x: bounds.midX - size.width / 2, y: bounds.midY - size.height / 2 + 10))
-        let caption = NSAttributedString(string: "Recording starts", attributes: [
+        let caption = NSAttributedString(string: String(localized: "Recording starts", comment: "Below the countdown's seconds"), attributes: [
             .font: NSFont.systemFont(ofSize: 13, weight: .medium), .foregroundColor: NSColor(white: 1, alpha: 0.85),
         ])
         let captionSize = caption.size()

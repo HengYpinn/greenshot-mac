@@ -54,7 +54,8 @@ public enum AutomationConsent {
         return nil
     }
 
-    /// What the question names: "the whole screen", ...
+    /// What the question names: "the whole screen", ... English: the log, and the alert words its sentences by `mode`
+    /// (`AutomationCaptureConsent`). The subjects of `recipeCaptureSubject` are compared as they are (`RecipeCaptureConsent`).
     public static func subject(of mode: AutomationCaptureMode) -> String {
         switch mode {
         case .region: return "a region"
@@ -70,10 +71,11 @@ public enum AutomationConsent {
     public static func callerName(processNames: [String?], appName: String?) -> String {
         let first = processNames.first.flatMap { $0 }.flatMap { $0.isEmpty ? nil : $0 }
         switch (first, appName) {
-        case let (process?, app?) where process.caseInsensitiveCompare(app) != .orderedSame: return "\(process) in \(app)"
+        case let (process?, app?) where process.caseInsensitiveCompare(app) != .orderedSame:
+            return String(localized: "\(process) in \(app)", comment: "The program that asks for a capture and the app it runs in, e.g. zsh in Terminal")
         case let (_, app?): return app
         case let (process?, nil): return process
-        default: return "A program"
+        default: return String(localized: "A program", comment: "Starts the sentence of a capture question when the program that asks is unknown")
         }
     }
 }

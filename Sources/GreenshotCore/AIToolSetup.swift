@@ -43,14 +43,14 @@ public enum AIToolSetupClient: String, CaseIterable, Sendable {
     /// Where it goes.
     public var instructions: String {
         switch self {
-        case .claudeCode: return "Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp."
-        case .claudeDesktop: return "Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude."
-        case .cursor: return "In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project)."
-        case .vsCode: return "Run \"MCP: Add Server\" (Command (stdio)), or put it in .vscode/mcp.json of the workspace."
-        case .geminiCLI: return "Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp."
-        case .codex: return "Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml."
-        case .windsurf: return "In ~/.codeium/windsurf/mcp_config.json."
-        case .antigravity: return "In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh."
+        case .claudeCode: return String(localized: "Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.")
+        case .claudeDesktop: return String(localized: "Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.")
+        case .cursor: return String(localized: "In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).")
+        case .vsCode: return String(localized: "Run \"MCP: Add Server\" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.")
+        case .geminiCLI: return String(localized: "Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.")
+        case .codex: return String(localized: "Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.")
+        case .windsurf: return String(localized: "In ~/.codeium/windsurf/mcp_config.json.")
+        case .antigravity: return String(localized: "In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.")
         }
     }
 
@@ -74,17 +74,25 @@ public struct AIToolApprovedRecipe: Equatable, Sendable {
     public init(recipeId: String, name: String, isExtension: Bool, details: RecipeDetails?) {
         self.recipeId = recipeId
         self.isExtension = isExtension
-        let by = details?.proposedBy.map { " · written by \(AIToolText.displayed($0, limit: 80))" } ?? ""
-        let state: String
+        var parts: [String] = []
         if let approvedAt = details?.approvedAt {
-            state = (details?.isApprovalCurrent ?? false) ? "approved \(Self.day(approvedAt))" : "changed since its approval"
+            parts.append((details?.isApprovalCurrent ?? false) ? String(localized: "approved \(Self.day(approvedAt))")
+                                                                : String(localized: "changed since its approval"))
         } else {
-            state = "not approved"
+            parts.append(String(localized: "not approved"))
         }
+        if let proposedBy = details?.proposedBy {
+            parts.append(String(localized: "written by \(AIToolText.displayed(proposedBy, limit: 80))"))
+        }
+        // The label of a trigger made in Core's recipe texts (English by design), not a text of this list
         let off = details?.triggers.filter { $0.label.hasSuffix("(off, not approved)") }.count ?? 0
-        let offText = off == 0 ? "" : off == 1 ? " · 1 trigger off" : " · \(off) triggers off"
-        title = isExtension ? "Automatic step: \(name)" : name
-        subtitle = "\(state)\(by)\(offText)"
+        if off == 1 {
+            parts.append(String(localized: "1 trigger off"))
+        } else if off > 1 {
+            parts.append(String(localized: "\(off) triggers off"))
+        }
+        title = isExtension ? String(localized: "Automatic step: \(name)") : name
+        subtitle = parts.joined(separator: " · ")
         needsAttention = details?.approvedAt == nil || !(details?.isApprovalCurrent ?? false) || off > 0
     }
 

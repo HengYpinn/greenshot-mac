@@ -13,16 +13,16 @@ enum MainMenu {
         let main = NSMenu()
 
         let app = submenu(in: main, title: AppInfo.name)
-        app.addItem(withTitle: "About \(AppInfo.name)", action: #selector(AppDelegate.showAbout(_:)), keyEquivalent: "")
+        app.addItem(withTitle: String(localized: "About \(AppInfo.name)"), action: #selector(AppDelegate.showAbout(_:)), keyEquivalent: "")
         app.addItem(.separator())
-        app.addItem(withTitle: "Settings…", action: #selector(AppDelegate.showSettings(_:)), keyEquivalent: ",")
+        app.addItem(withTitle: String(localized: "Settings…"), action: #selector(AppDelegate.showSettings(_:)), keyEquivalent: ",")
         app.addItem(.separator())
-        app.addItem(withTitle: "Hide \(AppInfo.name)", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
-        let hideOthers = app.addItem(withTitle: "Hide Others", action: #selector(NSApplication.hideOtherApplications(_:)), keyEquivalent: "h")
+        app.addItem(withTitle: String(localized: "Hide \(AppInfo.name)"), action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
+        let hideOthers = app.addItem(withTitle: String(localized: "Hide Others"), action: #selector(NSApplication.hideOtherApplications(_:)), keyEquivalent: "h")
         hideOthers.keyEquivalentModifierMask = [.command, .option]
-        app.addItem(withTitle: "Show All", action: #selector(NSApplication.unhideAllApplications(_:)), keyEquivalent: "")
+        app.addItem(withTitle: String(localized: "Show All"), action: #selector(NSApplication.unhideAllApplications(_:)), keyEquivalent: "")
         app.addItem(.separator())
-        app.addItem(withTitle: "Quit \(AppInfo.name)", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        app.addItem(withTitle: String(localized: "Quit \(AppInfo.name)"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
 
         addFileMenu(to: main)
 
@@ -35,22 +35,24 @@ enum MainMenu {
 
         addViewMenu(to: main)
 
-        let window = submenu(in: main, title: "Window")
-        window.addItem(withTitle: "Minimize", action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
-        window.addItem(withTitle: "Zoom", action: #selector(NSWindow.performZoom(_:)), keyEquivalent: "")
+        let window = submenu(in: main, title: String(localized: "Window"))
+        window.addItem(withTitle: String(localized: "Minimize"), action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
+        let zoom = String(localized: "menu.window.zoom", defaultValue: "Zoom",
+                          comment: "Window menu: makes the window as large as it fits (macOS's Zoom), not the image zoom")
+        window.addItem(withTitle: zoom, action: #selector(NSWindow.performZoom(_:)), keyEquivalent: "")
         window.addItem(.separator())
-        window.addItem(withTitle: "Bring All to Front", action: #selector(NSApplication.arrangeInFront(_:)), keyEquivalent: "")
+        window.addItem(withTitle: String(localized: "Bring All to Front"), action: #selector(NSApplication.arrangeInFront(_:)), keyEquivalent: "")
         NSApp.windowsMenu = window
 
-        let help = submenu(in: main, title: "Help")
-        help.addItem(withTitle: "Greenshot Help", action: #selector(AppDelegate.openHelp(_:)), keyEquivalent: "?")
-        help.addItem(withTitle: "Greenshot Website", action: #selector(AppDelegate.openUpstreamWebsite(_:)), keyEquivalent: "")
-        help.addItem(withTitle: "Welcome Guide…", action: #selector(AppDelegate.showWelcomeGuide(_:)), keyEquivalent: "")
+        let help = submenu(in: main, title: String(localized: "Help"))
+        help.addItem(withTitle: String(localized: "Greenshot Help"), action: #selector(AppDelegate.openHelp(_:)), keyEquivalent: "?")
+        help.addItem(withTitle: String(localized: "Greenshot Website"), action: #selector(AppDelegate.openUpstreamWebsite(_:)), keyEquivalent: "")
+        help.addItem(withTitle: String(localized: "Welcome Guide…"), action: #selector(AppDelegate.showWelcomeGuide(_:)), keyEquivalent: "")
         help.addItem(.separator())
-        help.addItem(withTitle: "Self-Service…", action: #selector(AppDelegate.showSelfService(_:)), keyEquivalent: "")
-        help.addItem(withTitle: "Log Viewer…", action: #selector(AppDelegate.showLogViewer(_:)), keyEquivalent: "")
+        help.addItem(withTitle: String(localized: "Self-Service…"), action: #selector(AppDelegate.showSelfService(_:)), keyEquivalent: "")
+        help.addItem(withTitle: String(localized: "Log Viewer…"), action: #selector(AppDelegate.showLogViewer(_:)), keyEquivalent: "")
         help.addItem(.separator())
-        help.addItem(withTitle: "Report an Issue…", action: #selector(AppDelegate.reportIssue(_:)), keyEquivalent: "")
+        help.addItem(withTitle: String(localized: "Report an Issue…"), action: #selector(AppDelegate.reportIssue(_:)), keyEquivalent: "")
         NSApp.helpMenu = help
 
         return main

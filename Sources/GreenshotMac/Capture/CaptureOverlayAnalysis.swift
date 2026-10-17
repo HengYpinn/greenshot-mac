@@ -28,8 +28,8 @@ struct BarcodeMenu {
     /// The menu with its top left corner at `point`, kept inside `display`.
     init(barcode: DetectedBarcode, at point: CGPoint, display: CGRect) {
         self.barcode = barcode
-        var entries: [(String, BarcodeAction)] = [("Copy “\(Self.shortened(barcode.payload))”", .copy(barcode.payload))]
-        if let url = barcode.url { entries.append(("Open \(Self.shortened(url.absoluteString))", .open(url))) }
+        var entries: [(String, BarcodeAction)] = [(String(localized: "Copy “\(Self.shortened(barcode.payload))”", comment: "Menu item for a QR code: copies its text"), .copy(barcode.payload))]
+        if let url = barcode.url { entries.append((String(localized: "Open \(Self.shortened(url.absoluteString))", comment: "Menu item for a QR code: opens its link"), .open(url))) }
         let width = entries.map { NSAttributedString(string: $0.0, attributes: [.font: Self.font]).size().width }.max() ?? 0
         var frame = CGRect(x: point.x + 2, y: point.y + 2, width: max(width + 28, 160),
                            height: CGFloat(entries.count) * Self.itemHeight + 8)

@@ -9,46 +9,46 @@ import GreenshotCore
 /// The Image menu: upstream's Effects split button and the image operations (resize, rotate, canvas).
 extension MainMenu {
     static func addImageMenu(to main: NSMenu) {
-        let image = submenu(in: main, title: "Image")
+        let image = submenu(in: main, title: String(localized: "Image"))
 
         // Upstream's Effects menu. Drop Shadow and Torn Edges apply their last settings; with ⌥ they ask first (a right
         // click upstream).
         for item in EditorWindowController.effectMenuItems(keyEquivalents: true) {
             image.addItem(item)
         }
-        image.addItem(withTitle: "Adjust…", action: #selector(EditorWindowController.adjustImage(_:)), keyEquivalent: "")
+        image.addItem(withTitle: String(localized: "Adjust…"), action: #selector(EditorWindowController.adjustImage(_:)), keyEquivalent: "")
 
         image.addItem(.separator())
         // Upstream's Resize button (key Z there; single letters choose the tools in the canvas, so ⌥⌘R here).
-        image.addItem(withTitle: "Resize…", action: #selector(EditorWindowController.resizeImage(_:)), keyEquivalent: "r")
+        image.addItem(withTitle: String(localized: "Resize…"), action: #selector(EditorWindowController.resizeImage(_:)), keyEquivalent: "r")
             .keyEquivalentModifierMask = [.option, .command]
         // Upstream Ctrl+. and Ctrl+,; ⌘, opens the Settings on a Mac, so the arrows with ⌥⌘.
-        image.addItem(withTitle: "Rotate Clockwise", action: #selector(EditorWindowController.rotateClockwise(_:)),
+        image.addItem(withTitle: String(localized: "Rotate Clockwise"), action: #selector(EditorWindowController.rotateClockwise(_:)),
                       keyEquivalent: arrow(NSRightArrowFunctionKey)).keyEquivalentModifierMask = [.option, .command]
-        image.addItem(withTitle: "Rotate Counter-Clockwise", action: #selector(EditorWindowController.rotateCounterClockwise(_:)),
+        image.addItem(withTitle: String(localized: "Rotate Counter-Clockwise"), action: #selector(EditorWindowController.rotateCounterClockwise(_:)),
                       keyEquivalent: arrow(NSLeftArrowFunctionKey)).keyEquivalentModifierMask = [.option, .command]
 
         image.addItem(.separator())
         // Upstream Ctrl+Shift+Plus / Minus; ⌘+ and ⌘- zoom here, so with ⌥⌘ (which only clash with the
         // system's Zoom when its keyboard shortcuts are turned on in the Accessibility settings).
-        image.addItem(withTitle: "Enlarge Canvas", action: #selector(EditorWindowController.enlargeCanvas(_:)),
+        image.addItem(withTitle: String(localized: "Enlarge Canvas"), action: #selector(EditorWindowController.enlargeCanvas(_:)),
                       keyEquivalent: "=").keyEquivalentModifierMask = [.option, .command]
-        image.addItem(withTitle: "Shrink Canvas", action: #selector(EditorWindowController.shrinkCanvas(_:)),
+        image.addItem(withTitle: String(localized: "Shrink Canvas"), action: #selector(EditorWindowController.shrinkCanvas(_:)),
                       keyEquivalent: "-").keyEquivalentModifierMask = [.option, .command]
         // Upstream Ctrl+Delete; ⌘⌫ is the Mac's delete key with Command.
-        image.addItem(withTitle: "Clear Background", action: #selector(EditorWindowController.clearBackground(_:)),
+        image.addItem(withTitle: String(localized: "Clear Background"), action: #selector(EditorWindowController.clearBackground(_:)),
                       keyEquivalent: "\u{8}")
-        image.addItem(withTitle: "Remove Transparency…", action: #selector(EditorWindowController.removeTransparency(_:)),
+        image.addItem(withTitle: String(localized: "Remove Transparency…"), action: #selector(EditorWindowController.removeTransparency(_:)),
                       keyEquivalent: "")
 
         // Upstream's "Apply to the image" button of the selected cut edges and torn edges (property bar there).
         image.addItem(.separator())
-        image.addItem(withTitle: "Apply Cut Edges to the Image", action: #selector(EditorWindowController.applySelectionToImage(_:)),
+        image.addItem(withTitle: String(localized: "Apply Cut Edges to the Image"), action: #selector(EditorWindowController.applySelectionToImage(_:)),
                       keyEquivalent: "")
 
         // Upstream's text obfuscation (Edit menu there).
         image.addItem(.separator())
-        image.addItem(withTitle: "Obfuscate Text…", action: #selector(EditorWindowController.obfuscateText(_:)), keyEquivalent: "")
+        image.addItem(withTitle: String(localized: "Obfuscate Text…"), action: #selector(EditorWindowController.obfuscateText(_:)), keyEquivalent: "")
 
         // Upstream's crop modes. ⇧⌘A is taken, so Auto Crop is ⌥⌘A. The other two need a selection of the crop tool.
         image.addItem(.separator())

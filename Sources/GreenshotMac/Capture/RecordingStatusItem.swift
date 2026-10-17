@@ -33,18 +33,18 @@ enum RecordingMenus {
     static func items(for state: RecordingIndicatorState, hotkey: KeyCombo?, actions: RecordingActions) -> [NSMenuItem] {
         switch state {
         case .countdown:
-            return [item("Cancel Recording", hotkey, actions.cancelCountdown)]
+            return [item(String(localized: "Cancel Recording"), hotkey, actions.cancelCountdown)]
         case .starting:
             // Done as soon as the recording runs.
-            return [item("Stop Recording", hotkey, actions.stop), item("Discard Recording", nil, actions.discard)]
+            return [item(String(localized: "Stop Recording"), hotkey, actions.stop), item(String(localized: "Discard Recording"), nil, actions.discard)]
         case .recording(let elapsed), .paused(let elapsed):
             let paused: Bool
             if case .paused = state { paused = true } else { paused = false }
-            return [item("Stop Recording (\(RecordingText.elapsed(elapsed)))", hotkey, actions.stop),
-                    paused ? item("Resume Recording", nil, actions.resume) : item("Pause Recording", nil, actions.pause),
-                    item("Discard Recording", nil, actions.discard)]
+            return [item(String(localized: "Stop Recording (\(RecordingText.elapsed(elapsed)))"), hotkey, actions.stop),
+                    paused ? item(String(localized: "Resume Recording"), nil, actions.resume) : item(String(localized: "Pause Recording"), nil, actions.pause),
+                    item(String(localized: "Discard Recording"), nil, actions.discard)]
         case .saving:
-            let saving = NSMenuItem(title: "Saving the Recording…", action: nil, keyEquivalent: "")
+            let saving = NSMenuItem(title: String(localized: "Saving the Recording…"), action: nil, keyEquivalent: "")
             saving.isEnabled = false
             return [saving]
         }
@@ -106,33 +106,33 @@ final class RecordingStatusItem: NSObject {
             symbol = "timer"
             color = .systemOrange
             text = "\(seconds)"
-            help = "The recording starts in \(seconds) s. Click to cancel."
+            help = String(localized: "The recording starts in \(seconds) s. Click to cancel.")
         case .starting:
             symbol = "record.circle"
             color = .systemRed
-            text = "Starting…"
-            help = "The recording is starting. Click to stop it as soon as it runs."
+            text = String(localized: "Starting…")
+            help = String(localized: "The recording is starting. Click to stop it as soon as it runs.")
         case .recording(let elapsed):
             symbol = "record.circle.fill"
             color = .systemRed
             text = RecordingText.elapsed(elapsed)
-            help = "Recording. Click to stop; ⌃-click to pause or discard."
+            help = String(localized: "Recording. Click to stop; ⌃-click to pause or discard.")
         case .paused(let elapsed):
             symbol = "pause.circle.fill"
             color = .systemOrange
             text = RecordingText.elapsed(elapsed)
-            help = "The recording is paused. Click to stop; ⌃-click to go on or discard."
+            help = String(localized: "The recording is paused. Click to stop; ⌃-click to go on or discard.")
         case .saving:
             symbol = "arrow.down.circle"
             color = .secondaryLabelColor
-            text = "Saving…"
-            help = "The recording is being saved."
+            text = String(localized: "Saving…")
+            help = String(localized: "The recording is being saved.")
         }
         // A filled symbol: a white mark (dot, pause bars) on the coloured circle.
         let colors: [NSColor] = symbol.hasSuffix(".fill") ? [.white, color] : [color]
         let configuration = NSImage.SymbolConfiguration(pointSize: 13, weight: .regular)
             .applying(NSImage.SymbolConfiguration(paletteColors: colors))
-        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Recording")?.withSymbolConfiguration(configuration)
+        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: String(localized: "Recording"))?.withSymbolConfiguration(configuration)
         image?.isTemplate = false
         button.image = image
         button.imagePosition = .imageLeading

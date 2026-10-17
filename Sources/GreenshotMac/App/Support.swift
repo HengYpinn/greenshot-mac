@@ -88,8 +88,8 @@ enum Permissions {
 
     static func explainScreenCapture() {
         let alert = NSAlert()
-        alert.messageText = "Allow \(AppInfo.name) to record your screen"
-        alert.informativeText = """
+        alert.messageText = String(localized: "Allow \(AppInfo.name) to record your screen")
+        alert.informativeText = String(localized: """
             macOS asks every app that takes screenshots for this permission.
 
             Open System Settings › Privacy & Security › Screen & System Audio Recording, turn on \
@@ -99,9 +99,9 @@ enum Permissions {
 
             Already on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen \
             \(AppInfo.name) and allow it again.
-            """
-        alert.addButton(withTitle: "Open System Settings")
-        alert.addButton(withTitle: "Later")
+            """)
+        alert.addButton(withTitle: String(localized: "Open System Settings"))
+        alert.addButton(withTitle: String(localized: "Later"))
         NSApp.activate()
         if alert.runModal() == .alertFirstButtonReturn {
             NSWorkspace.shared.open(screenCaptureSettingsURL)
@@ -119,7 +119,7 @@ enum Permissions {
 enum ErrorPresenter {
     private static let log = Log("Alert")
 
-    static func show(_ error: Error, title: String = "The screenshot could not be taken") {
+    static func show(_ error: Error, title: String = String(localized: "The screenshot could not be taken")) {
         log.error(title, error: error)
         if Permissions.isPermissionError(error) {
             Permissions.explainScreenCapture()

@@ -17,7 +17,9 @@ enum VideoOutput {
         let url = result.fileURL
         let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
         let facts = "\(RecordingText.elapsed(result.duration)), \(RecordingText.fileSize(result.fileSize))"
-        saver.notify("Saved \(url.lastPathComponent)", detail: "\(facts) in \(folder) – click to show in Finder") {
+        let place = BidiText.isolatedLTR(folder)
+        saver.notify(String(localized: "Saved \(url.lastPathComponent)"),
+                     detail: String(localized: "\(facts) in \(place) – click to show in Finder", comment: "The length and size of a recording in its folder")) {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }
         guard destinations else { return }
@@ -44,16 +46,16 @@ enum VideoOutput {
         title.isEnabled = false
         menu.addItem(title)
         menu.addItem(.separator())
-        menu.addItem(ClosureMenuItem(title: "Show in Finder") { perform(.showInFinder, url: url) })
-        menu.addItem(ClosureMenuItem(title: "Open") { perform(.open, url: url) })
-        let openWith = NSMenuItem(title: "Open With", action: nil, keyEquivalent: "")
-        let apps = NSMenu(title: "Open With")
+        menu.addItem(ClosureMenuItem(title: String(localized: "Show in Finder")) { perform(.showInFinder, url: url) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Open", comment: "Verb: opens the recording")) { perform(.open, url: url) })
+        let openWith = NSMenuItem(title: String(localized: "Open With"), action: nil, keyEquivalent: "")
+        let apps = NSMenu(title: String(localized: "Open With"))
         apps.autoenablesItems = false
         openWithItems(for: url).forEach(apps.addItem)
         openWith.submenu = apps
         menu.addItem(openWith)
-        menu.addItem(ClosureMenuItem(title: "Share…") { perform(.share, url: url) })
-        menu.addItem(ClosureMenuItem(title: "Copy File Path") { perform(.copyPath, url: url) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Share…")) { perform(.share, url: url) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Copy File Path")) { perform(.copyPath, url: url) })
         return menu
     }
 
@@ -78,10 +80,10 @@ enum VideoOutput {
             return item
         }
         if !items.isEmpty { items.append(.separator()) }
-        items.append(ClosureMenuItem(title: "Other…") {
+        items.append(ClosureMenuItem(title: String(localized: "Other…")) {
             let panel = NSOpenPanel()
-            panel.title = "Open the Recording With"
-            panel.prompt = "Open"
+            panel.title = String(localized: "Open the Recording With")
+            panel.prompt = String(localized: "Open", comment: "Verb: opens the recording")
             panel.directoryURL = URL(fileURLWithPath: "/Applications")
             panel.allowedContentTypes = [.application]
             NSApp.activate()
@@ -97,7 +99,7 @@ enum VideoOutput {
             guard let error else { return }
             DispatchQueue.main.async {
                 MainActor.assumeIsolated {
-                    ErrorPresenter.show(error, title: "\(OpenWithDestination.name(of: app)) could not open the recording")
+                    ErrorPresenter.show(error, title: String(localized: "\(OpenWithDestination.name(of: app)) could not open the recording"))
                 }
             }
         }

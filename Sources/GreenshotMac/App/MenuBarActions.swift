@@ -56,7 +56,7 @@ enum MenuBarActions {
     static func captureClipboard(app: AppDelegate) {
         if RecipeRuntime.shared?.interceptBuiltIn(.clipboard, destinations: app.settings.value.destinations) == true { return }
         guard let pasted = Clipboard.image() else {
-            ErrorPresenter.show(message: "There is no image on the clipboard", detail: "Copy an image first, then try again.")
+            ErrorPresenter.show(message: String(localized: "There is no image on the clipboard"), detail: String(localized: "Copy an image first, then try again."))
             return
         }
         app.output.handle(Capture(image: pasted.image, scale: pasted.scale, title: "Clipboard"))
@@ -77,7 +77,7 @@ enum MenuBarActions {
                 continue
             }
             guard let loaded = ImageLoader.load(url) else {
-                ErrorPresenter.show(message: "The image could not be opened", detail: url.lastPathComponent)
+                ErrorPresenter.show(message: String(localized: "The image could not be opened"), detail: url.lastPathComponent)
                 continue
             }
             app.output.handle(Capture(image: loaded.image, scale: loaded.scale, title: url.deletingPathExtension().lastPathComponent))

@@ -74,13 +74,13 @@ struct BrowserExtensionSettingsSection: View {
 
     private func install() {
         let failed = integration.installAll()
-        message = failed.isEmpty ? nil : "Couldn't register the extension's connection for \(failed.joined(separator: ", ")); see the log."
+        message = failed.isEmpty ? nil : String(localized: "Couldn't register the extension's connection for \(failed.joined(separator: ", ")); see the log.")
         refresh()
     }
 
     private func remove() {
         let failed = integration.removeAll()
-        message = failed.isEmpty ? nil : "Couldn't remove the registration for \(failed.joined(separator: ", ")); see the log."
+        message = failed.isEmpty ? nil : String(localized: "Couldn't remove the registration for \(failed.joined(separator: ", ")); see the log.")
         refresh()
     }
 
@@ -89,17 +89,17 @@ struct BrowserExtensionSettingsSection: View {
             _ = try integration.revealExtensionFolder()
             message = nil
         } catch {
-            message = "The extension folder couldn't be copied: \(error.localizedDescription)"
+            message = String(localized: "The extension folder couldn't be copied: \(error.localizedDescription)")
         }
     }
 
     static func stateText(_ state: BrowserHostManifest.State) -> String {
         switch state {
-        case .notInstalled: return "Not installed"
-        case .installed: return "Installed"
-        case .otherCopy: return "Installed for another copy of the app"
-        case .stale: return "Points to a missing app: click Install"
-        case .unreadable: return "Unreadable registration: click Install"
+        case .notInstalled: return String(localized: "Not installed")
+        case .installed: return String(localized: "Installed")
+        case .otherCopy: return String(localized: "Installed for another copy of the app")
+        case .stale: return String(localized: "Points to a missing app: click Install")
+        case .unreadable: return String(localized: "Unreadable registration: click Install")
         }
     }
 
