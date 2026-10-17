@@ -37,6 +37,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             window?.invalidateCursorRects(for: self)
             needsDisplay = true
             onToolChange?()
+            if tool == .crop && cropMode == .auto {
+                // Upstream `BtnCropClick` → `InitCropMode`: the crop tool in its Auto mode crops at once.
+                DispatchQueue.main.async { [weak self] in self?.runAutoCrop() }
+            }
         }
     }
 
@@ -66,20 +70,66 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         didSet { needsDisplay = true; onToolChange?() }
     }
 
-    /// Chooses a crop mode (the crop bar's buttons).
-    func selectCropMode(_ mode: CropMode) { cropMode = mode }
+    /// Chooses a crop mode (the crop bar's buttons; upstream `SelectCropMode`): another mode drops the drawn area,
+    /// Auto crops at once (within the drawn area, if there is one).
+    func selectCropMode(_ mode: CropMode) {
+        guard mode != cropMode || mode == .auto else { return }
+        cropMode = mode
+        if mode == .auto {
+            runAutoCrop()
+        } else {
+            cropRect = nil
+        }
+    }
+
+    /// Upstream `CycleCropMode`: Crop, Crop Out Vertically, Crop Out Horizontally, Auto Crop, and round again.
+    func cycleCropMode() {
+        let modes = CropMode.allCases
+        let index = modes.firstIndex(of: cropMode) ?? 0
+        selectCropMode(modes[(index + 1) % modes.count])
+    }
+
+    /// Upstream `InitCropMode(AutoCrop)`: auto crops with the editor window's Auto Crop; when that isn't possible the
+    /// crop tool stays, back in its Crop mode.
+    private func runAutoCrop() {
+        guard tool == .crop, cropMode == .auto, let controller = editorWindowController else { return }
+        controller.autoCrop(nil)
+        if tool == .crop {
+            cropMode = .crop
+            cropRect = nil
+        }
+    }
+
+    /// Shows a crop area as if it was drawn, for the snapshots.
+    func showCropArea(_ rect: CGRect?) {
+        cropRect = rect
+    }
+
+    /// The editor window the canvas is in: its settings, and the image operations the crop modes and the Z key use.
+    private var editorWindowController: EditorWindowController? {
+        window?.windowController as? EditorWindowController
+    }
+
+    /// The app settings (the defaults when the canvas is not in an editor window).
+    private var appSettings: AppSettings {
+        editorWindowController?.settings.value ?? AppSettings()
+    }
 
     private enum Drag {
         case create(id: UUID, origin: CGPoint)
         case move(originals: [Annotation], origin: CGPoint)
         case resize(original: Annotation, handle: Handle)
         case crop(origin: CGPoint)
+        /// A handle of the crop area being dragged.
+        case cropResize(original: CGRect, handle: Handle)
         /// A rubber band drawn on empty canvas with the Select tool; `kept` are the elements selected before, which
         /// stay selected with Shift or Command.
         case rubberBand(origin: CGPoint, kept: [UUID])
     }
 
     private var drag: Drag?
+    /// How far apart the points of the freehand drawing being drawn are at least, image pixels.
+    private var freehandSpacing: CGFloat = 6
     /// The rubber band being drawn, image pixels.
     private var rubberBand: CGRect? {
         didSet { needsDisplay = true }
@@ -94,8 +144,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         self.document = document
         super.init(frame: .zero)
         setFrameSize(pointSize)
-        // Image files dropped on the canvas become image elements.
-        registerForDraggedTypes([.fileURL])
+        // Image files, pictures and links to pictures dropped on the canvas become image elements.
+        registerForDraggedTypes([.fileURL, .URL, .string] + NSImage.imageTypes.map { NSPasteboard.PasteboardType($0) })
     }
 
     required init?(coder: NSCoder) {
@@ -224,24 +274,44 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         context.restoreGState()
     }
 
+    /// The crop area: what goes is shaded, outside it when cropping, inside it when cutting rows or columns out
+    /// (upstream `CropContainer.Draw`), with its handles and a hint.
     private func drawCrop(in context: CGContext) {
         guard tool == .crop, let crop = cropRect else { return }
         let rect = viewRect(crop)
         let line = 1 / magnification
+        let cutsOut = cropMode == .vertical || cropMode == .horizontal
         context.saveGState()
-        let path = CGMutablePath()
-        path.addRect(bounds)
-        path.addRect(rect)
-        context.addPath(path)
-        context.setFillColor(NSColor.black.withAlphaComponent(0.5).cgColor)
-        context.fillPath(using: .evenOdd)
+        if cutsOut {
+            context.setFillColor(NSColor.black.withAlphaComponent(0.5).cgColor)
+            context.fill(rect)
+        } else {
+            let path = CGMutablePath()
+            path.addRect(bounds)
+            path.addRect(rect)
+            context.addPath(path)
+            context.setFillColor(NSColor.black.withAlphaComponent(0.5).cgColor)
+            context.fillPath(using: .evenOdd)
+        }
         context.setLineWidth(line)
         context.setStrokeColor(NSColor.white.cgColor)
         context.setLineDash(phase: 0, lengths: [5 * line, 4 * line])
         context.stroke(rect)
+        context.setLineDash(phase: 0, lengths: [])
+        let size = 8 * line
+        let box = Annotation(kind: .rectangle, start: crop.origin, end: CGPoint(x: crop.maxX, y: crop.maxY))
+        for handle in cropMode.handles {
+            let p = viewPoint(handle.position(in: box))
+            let square = CGRect(x: p.x - size / 2, y: p.y - size / 2, width: size, height: size)
+            context.setFillColor(NSColor.white.cgColor)
+            context.fill(square)
+            context.setStrokeColor(NSColor.controlAccentColor.cgColor)
+            context.stroke(square)
+        }
         context.restoreGState()
 
-        let label = NSAttributedString(string: "\(Int(crop.width)) × \(Int(crop.height))  ↩ crop  ⎋ cancel", attributes: [
+        let action = cutsOut ? "cut out" : "crop"
+        let label = NSAttributedString(string: "\(Int(crop.width)) × \(Int(crop.height))  ↩ \(action)  ⎋ cancel", attributes: [
             .font: NSFont.systemFont(ofSize: 11 / magnification, weight: .medium),
             .foregroundColor: NSColor.white,
             .backgroundColor: NSColor.black.withAlphaComponent(0.7),
@@ -331,6 +401,11 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             drag = .move(originals: selectedAnnotations, origin: p)
 
         case .crop:
+            // A handle of the drawn area adjusts it (upstream `CropContainer`'s grippers); anywhere else starts anew.
+            if let crop = cropRect, let handle = cropMode.handle(at: p, of: crop, reach: 6 * pixelsPerScreenPoint) {
+                drag = .cropResize(original: crop, handle: handle)
+                return
+            }
             drag = .crop(origin: p)
             cropRect = nil
 
@@ -356,7 +431,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
                 return
             }
             var a = Annotation(kind: kind, start: p, end: p, style: styleProvider(kind))
-            if kind == .freehand { a.points = [p] }
+            if kind == .freehand {
+                a.points = [p]
+                freehandSpacing = Geometry.freehandSpacing(sensitivity: appSettings.freehandSensitivity, scale: document.scale)
+            }
             if kind == .speechBubble { a.tail = drawnTail(origin: p, end: p) }
             document.beginChange()
             document.add(a)
@@ -370,21 +448,25 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         guard let drag else { return }
         let p = imagePoint(event)
         let shift = event.modifierFlags.contains(.shift)
+        // Upstream Ctrl (`ScaleOptions.Centered`); Option is the Mac's "from the centre" key.
+        let centered = event.modifierFlags.contains(.option)
         switch drag {
         case .create(let id, let origin):
             guard var a = document.annotation(id) else { return }
             if a.kind == .freehand {
-                // Upstream FreehandSensitivity: skip points closer than a few pixels.
-                if let last = a.points.last, Geometry.distance(last, p) < 3 * pixelsPerScreenPoint / 2 { return }
+                // Upstream `FreehandSensitivity`: a point only when it is far enough from the last one.
+                if let last = a.points.last, Geometry.distance(last, p) < freehandSpacing { return }
                 a.points.append(p)
             } else {
                 var end = p
                 if shift {
-                    end = (a.kind == .line || a.kind == .arrow) ? Geometry.snap45(from: origin, to: p) : Geometry.squareEnd(from: origin, to: p)
+                    // Lines snap to 15 degrees (upstream `LineAngleRoundBehavior`), boxes become squares.
+                    end = (a.kind == .line || a.kind == .arrow) ? Geometry.snapAngle(from: origin, to: p, degrees: 15)
+                        : Geometry.squareEnd(from: origin, to: p)
                 }
-                a.start = origin
+                a.start = centered ? Geometry.mirrored(end, around: origin) : origin
                 a.end = end
-                if a.kind == .speechBubble { a.tail = drawnTail(origin: origin, end: end) }
+                if a.kind == .speechBubble { a.tail = drawnTail(origin: a.start, end: end) }
             }
             document.update(a)
         case .move(let originals, let origin):
@@ -400,13 +482,19 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         case .resize(let original, let handle):
             var target = p
             if shift && (original.kind == .line || original.kind == .arrow) {
-                target = Geometry.snap45(from: handle == .start ? original.end : original.start, to: p)
+                target = Geometry.snapAngle(from: handle == .start ? original.end : original.start, to: p, degrees: 15)
             }
-            // Shift keeps the aspect ratio of an image element.
-            document.update(handle.drag(original, to: target, keepAspect: shift && original.kind == .image))
+            // Shift keeps the aspect ratio of a box (upstream `ScaleOptions.Rational`), Option resizes around the centre.
+            document.update(handle.drag(original, to: target, keepAspect: shift && original.kind.isBoxShaped, centered: centered))
         case .crop(let origin):
             guard tool == .crop else { return }
-            cropRect = Geometry.rect(from: origin, to: p).intersection(CGRect(origin: .zero, size: document.imageSize))
+            cropRect = Geometry.cropSelection(cropMode, from: origin, to: p, imageSize: document.imageSize)
+            autoscroll(with: event)
+            return
+        case .cropResize(let original, let handle):
+            guard tool == .crop else { return }
+            let resized = handle.drag(original, to: p).intersection(CGRect(origin: .zero, size: document.imageSize))
+            cropRect = resized.isNull ? nil : resized
             autoscroll(with: event)
             return
         case .rubberBand(let origin, let kept):
@@ -428,9 +516,17 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         drag = nil
         switch current {
         case .create(let id, _):
-            guard let a = document.annotation(id) else {
+            guard var a = document.annotation(id) else {
                 document.endChange()
                 return
+            }
+            if a.kind == .freehand, let last = a.points.last {
+                // Upstream `FreehandContainer.HandleMouseUp` keeps the end point unless it is very close.
+                let end = imagePoint(event)
+                if Geometry.distance(last, end) >= freehandSpacing / 2 {
+                    a.points.append(end)
+                    document.update(a)
+                }
             }
             let minimum = 3 * pixelsPerScreenPoint
             if a.kind == .cutMark {
@@ -475,7 +571,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             document.endChange()
         case .move, .resize:
             document.endChange()
-        case .crop:
+        case .crop, .cropResize:
             if let crop = cropRect, crop.width < 2 || crop.height < 2 { cropRect = nil }
             return
         case .rubberBand:
@@ -518,14 +614,74 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         menu.addItem(withTitle: "Cut", action: #selector(cut(_:)), keyEquivalent: "")
         menu.addItem(withTitle: "Copy", action: #selector(copy(_:)), keyEquivalent: "")
         menu.addItem(withTitle: "Duplicate", action: #selector(duplicate(_:)), keyEquivalent: "")
+        menu.addItem(.separator())
+        // Upstream's Push out, Fit and Snap submenus (`DrawableContainerList.GetPushOutSubMenu` and the others).
+        menu.addItem(submenu("Expand Capture and Move Outside", items: ElementEdge.allCases.map { edge in
+            ClosureMenuItem(title: edge.title) { [weak self] in self?.pushOutSelection(to: edge) }
+        }))
+        menu.addItem(submenu("Stretch", items: [
+            ClosureMenuItem(title: "Width") { [weak self] in self?.layoutSelection { self?.document.stretch($0, width: true) } },
+            ClosureMenuItem(title: "Height") { [weak self] in self?.layoutSelection { self?.document.stretch($0, width: false) } },
+        ]))
+        menu.addItem(submenu("Dock to Edge", items: ElementEdge.allCases.map { edge in
+            ClosureMenuItem(title: edge.title) { [weak self] in self?.layoutSelection { self?.document.dock($0, to: edge) } }
+        }))
+        menu.addItem(.separator())
         menu.addItem(ClosureMenuItem(title: "Delete") { [weak self] in self?.deleteSelection() })
+        if document.canResetSize(selectedSet) {
+            menu.addItem(ClosureMenuItem(title: "Reset Size") { [weak self] in self?.resetSelectionSize() })
+        }
         return menu
+    }
+
+    private func submenu(_ title: String, items: [NSMenuItem]) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        let menu = NSMenu(title: title)
+        items.forEach(menu.addItem)
+        item.submenu = menu
+        return item
+    }
+
+    /// Docks or stretches the selected elements as one undo step; upstream deselects them afterwards.
+    private func layoutSelection(_ body: (Set<UUID>) -> Void) {
+        commitEditing()
+        let ids = selectedSet
+        guard !ids.isEmpty else { return }
+        document.change { body(ids) }
+        documentChanged()
+        selectedIDs = []
+    }
+
+    /// Upstream "Expand capture and move outside" of the (primary) selected element, one undo step.
+    private func pushOutSelection(to edge: ElementEdge) {
+        commitEditing()
+        guard let id = selectedID else { return }
+        var done = false
+        document.change { done = document.pushOut(id, to: edge) }
+        documentChanged()
+        if done {
+            selectedIDs = []
+        } else {
+            NSSound.beep()
+        }
+    }
+
+    /// Upstream "Reset size": image elements go back to the size of their picture, one undo step.
+    private func resetSelectionSize() {
+        commitEditing()
+        let ids = selectedSet
+        document.change { document.resetSize(ids) }
+        documentChanged()
     }
 
     // MARK: Keys
 
     override func keyDown(with event: NSEvent) {
         let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        if flags.contains(.control), flags.isDisjoint(with: [.command, .option]),
+           styleShortcut(keyCode: Int(event.keyCode), shift: flags.contains(.shift)) {
+            return
+        }
         switch Int(event.keyCode) {
         case kVK_Delete, kVK_ForwardDelete:
             deleteSelection()
@@ -565,13 +721,91 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         default:
             break
         }
-        if flags.isDisjoint(with: [.command, .control, .option]),
-           let char = event.charactersIgnoringModifiers?.lowercased().first,
-           let match = EditorTool.allCases.first(where: { $0.shortcut == char }) {
-            tool = match
-            return
+        if flags.isDisjoint(with: [.command, .control, .option]), let char = event.charactersIgnoringModifiers?.lowercased().first {
+            if char == "z" {
+                // Upstream's Z: the resize dialog (Image › Resize…).
+                NSApp.sendAction(#selector(EditorWindowController.resizeImage(_:)), to: nil, from: self)
+                return
+            }
+            if let match = EditorTool.allCases.first(where: { $0.shortcut == char }) {
+                choose(match)
+                return
+            }
         }
         super.keyDown(with: event)
+    }
+
+    /// Chooses a tool; C again while cropping goes to the next crop mode (upstream `ImageEditorFormKeyDown`).
+    private func choose(_ chosen: EditorTool) {
+        if chosen == .crop && tool == .crop {
+            cycleCropMode()
+        } else {
+            tool = chosen
+        }
+    }
+
+    /// The digit keys of the main row and the keypad.
+    private static let digitKeys: [Int: Int] = [
+        kVK_ANSI_0: 0, kVK_ANSI_1: 1, kVK_ANSI_2: 2, kVK_ANSI_3: 3, kVK_ANSI_4: 4,
+        kVK_ANSI_5: 5, kVK_ANSI_6: 6, kVK_ANSI_7: 7, kVK_ANSI_8: 8, kVK_ANSI_9: 9,
+        kVK_ANSI_Keypad0: 0, kVK_ANSI_Keypad1: 1, kVK_ANSI_Keypad2: 2, kVK_ANSI_Keypad3: 3, kVK_ANSI_Keypad4: 4,
+        kVK_ANSI_Keypad5: 5, kVK_ANSI_Keypad6: 6, kVK_ANSI_Keypad7: 7, kVK_ANSI_Keypad8: 8, kVK_ANSI_Keypad9: 9,
+    ]
+
+    /// Upstream `Surface.ProcessCmdKey` with Ctrl: 0–9 the fill colour (with Shift the line colour), plus and minus
+    /// the line width (with Shift by 5), slash the shadow, of the selected elements. Keys, not characters, so Shift
+    /// and the keyboard layout don't change them; the main row's = and - stand in for a missing keypad.
+    private func styleShortcut(keyCode: Int, shift: Bool) -> Bool {
+        guard !selectedIDs.isEmpty else { return false }
+        if let digit = Self.digitKeys[keyCode], let color = ElementShortcuts.color(digit: digit, line: shift) {
+            if shift {
+                changeSelectionStyle(.lineColor) { $0.lineColor = color }
+            } else {
+                changeSelectionStyle(.fillColor) { $0.fillColor = color }
+            }
+            return true
+        }
+        let step: Double = shift ? 5 : 1
+        switch keyCode {
+        case kVK_ANSI_KeypadPlus, kVK_ANSI_Equal:
+            changeSelectionStyle(.lineWidth) { $0.lineWidth = ElementShortcuts.lineWidth($0.lineWidth, changedBy: step) }
+        case kVK_ANSI_KeypadMinus, kVK_ANSI_Minus:
+            changeSelectionStyle(.lineWidth) { $0.lineWidth = ElementShortcuts.lineWidth($0.lineWidth, changedBy: -step) }
+        case kVK_ANSI_KeypadDivide where !shift, kVK_ANSI_Slash where !shift:
+            changeSelectionStyle(.shadow) { $0.shadow.toggle() }
+        default:
+            return false
+        }
+        return true
+    }
+
+    /// Changes `property` of the selected elements that have it (upstream `DrawableContainerList.SetForegroundColor`,
+    /// `SetBackgroundColor`, `IncreaseLineThickness`, `FlipShadow`) as one undo step. The new value is remembered for
+    /// new elements of those kinds, like upstream's field aggregator does, and the property bar shows it.
+    private func changeSelectionStyle(_ property: AnnotationStyleProperty, _ change: (inout AnnotationStyle) -> Void) {
+        let targets = selectedAnnotations.filter { $0.kind.has(property) }
+        guard !targets.isEmpty else {
+            NSSound.beep()
+            return
+        }
+        var changed: [UUID: AnnotationStyle] = [:]
+        document.change {
+            for var element in targets {
+                change(&element.style)
+                document.update(element)
+                changed[element.id] = element.style
+            }
+        }
+        let shown = selectedID.flatMap { changed[$0] } ?? targets.last.flatMap { changed[$0.id] }
+        if let shown, let store = editorWindowController?.settings {
+            for kind in Set(targets.map(\.kind)) {
+                var remembered = store.value.style(for: kind)
+                remembered.copy(property, from: shown)
+                store.update { $0.editorStyles[kind.rawValue] = remembered }
+            }
+        }
+        documentChanged()
+        onSelectionChange?()
     }
 
     /// Moves the selected elements one point (Shift: ten).
@@ -585,7 +819,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         case kVK_UpArrow: delta.dy = -step
         default: delta.dy = step
         }
-        document.change { document.move(selectedSet, by: delta) }
+        // Pressing the arrow keys again moves the same elements in the same undo step (upstream
+        // `MakeBoundsChangeUndoable(true)`).
+        let key = "nudge " + selectedIDs.map(\.uuidString).sorted().joined(separator: " ")
+        document.change(merging: key) { document.move(selectedSet, by: delta) }
         documentChanged()
     }
 
@@ -597,12 +834,21 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         documentChanged()
     }
 
+    /// Confirms the crop area (Return, the crop bar's Crop button): crops to it, or in the cut-out modes cuts its
+    /// columns or rows out with the editor window's operations (upstream `Surface.ConfirmCrop`).
     func applyCrop() {
         guard let crop = cropRect else { return }
-        document.change { document.crop(to: crop) }
-        cropRect = nil
-        tool = .select
-        documentChanged()
+        switch cropMode {
+        case .vertical:
+            editorWindowController?.cutOutSelectedColumns(nil)
+        case .horizontal:
+            editorWindowController?.cutOutSelectedRows(nil)
+        case .crop, .auto:
+            document.change { document.crop(to: crop) }
+            cropRect = nil
+            tool = .select
+            documentChanged()
+        }
     }
 
     func cancelCrop() {
@@ -713,6 +959,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         deleteSelection()
     }
 
+    /// Upstream `Surface.PasteElementFromClipboard`: copied elements, else image files, else a picture, else the
+    /// pictures of pasted HTML (downloaded), else text as a text element.
     @objc func paste(_ sender: Any?) {
         commitEditing()
         let pasteboard = NSPasteboard.general
@@ -722,12 +970,72 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             insert(pasted)
             return
         }
+        // Image files copied in the Finder (upstream reads the file list). Before the picture: the Finder puts the
+        // file's icon on the clipboard too.
+        let files = imageFileURLs(on: pasteboard)
+        if !files.isEmpty {
+            let elements = pictureElements(files.compactMap(ElementPictures.load), at: mouseImagePoint())
+            if elements.isEmpty { NSSound.beep() } else { insert(elements) }
+            return
+        }
         // An image on the clipboard becomes an image element (upstream pastes it as an `ImageContainer`).
         if let pasted = Clipboard.image(), let a = pictureElement(pasted.image, scale: pasted.scale, at: mouseImagePoint()) {
             insert([a])
             return
         }
+        let text = pasteboard.string(forType: .string).flatMap { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : $0 }
+        if let html = pasteboard.string(forType: .html) {
+            let urls = ElementClipboard.htmlImageURLs(in: html)
+            if !urls.isEmpty {
+                // Upstream adds nothing when no picture downloads; the text is more useful than nothing.
+                addDownloadedPicture(from: urls, at: mouseImagePoint()) { [weak self] in
+                    if let text { self?.insertPastedText(text) } else { NSSound.beep() }
+                }
+                return
+            }
+        }
+        if let text {
+            insertPastedText(text)
+            return
+        }
         NSSound.beep()
+    }
+
+    /// Pasted text as a text element at the mouse, else 40 % into the visible part of the image (upstream
+    /// `GetPasteLocation(0.4f, 0.4f)`), selected.
+    private func insertPastedText(_ text: String) {
+        let visible = visibleRect.intersection(bounds)
+        let origin = mouseImagePoint() ?? CGPoint(x: (visible.minX + visible.width * 0.4) * document.scale,
+                                                  y: (visible.minY + visible.height * 0.4) * document.scale)
+        insert([ElementClipboard.textElement(text, at: origin, base: styleProvider(.text), scale: document.scale,
+                                             maxWidth: document.imageSize.width)])
+    }
+
+    /// Image elements for `pictures`, the first with its top left at `point`, each next one 10 points further.
+    private func pictureElements(_ pictures: [(image: CGImage, scale: CGFloat)], at point: CGPoint?) -> [Annotation] {
+        var origin = point
+        var elements: [Annotation] = []
+        for picture in pictures {
+            guard let a = pictureElement(picture.image, scale: picture.scale, at: origin) else { continue }
+            elements.append(a)
+            origin = CGPoint(x: a.bounds.minX + 10 * document.scale, y: a.bounds.minY + 10 * document.scale)
+        }
+        return elements
+    }
+
+    /// Downloads the first of `urls` that is a picture and adds it at `point` (upstream `AddDownloadedOrFallbackAsync`);
+    /// `fallback` runs when none is. Nothing happens when the window was closed meanwhile.
+    private func addDownloadedPicture(from urls: [URL], at point: CGPoint?, fallback: @escaping () -> Void) {
+        Task { [weak self] in
+            let picture = await CanvasDownload.firstPicture(from: urls)
+            guard let self, self.window != nil else { return }
+            if let picture, let a = self.pictureElement(picture.image, scale: picture.scale, at: point) {
+                self.commitEditing()
+                self.insert([a])
+            } else {
+                fallback()
+            }
+        }
     }
 
     /// An image element for `picture`, its top left at `point`, else 10 points into the visible part of the image.
@@ -745,28 +1053,53 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         .urlReadingContentsConformToTypes: [UTType.image.identifier],
     ]
 
-    private func droppedImageURLs(_ info: NSDraggingInfo) -> [URL] {
-        info.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: Self.imageFileOptions) as? [URL] ?? []
+    private func imageFileURLs(on pasteboard: NSPasteboard) -> [URL] {
+        pasteboard.readObjects(forClasses: [NSURL.self], options: Self.imageFileOptions) as? [URL] ?? []
+    }
+
+    /// A web link on the pasteboard: a URL, or text starting with "http" (upstream `OnDragDrop`).
+    private func webURL(on pasteboard: NSPasteboard) -> URL? {
+        let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] ?? []
+        if let url = urls.first(where: { ["http", "https"].contains($0.scheme?.lowercased() ?? "") }) { return url }
+        guard let text = pasteboard.string(forType: .string)?.trimmingCharacters(in: .whitespacesAndNewlines),
+              text.lowercased().hasPrefix("http"), let url = URL(string: text),
+              ["http", "https"].contains(url.scheme?.lowercased() ?? "") else { return nil }
+        return url
+    }
+
+    private func dropOperation(_ info: NSDraggingInfo) -> NSDragOperation {
+        let pasteboard = info.draggingPasteboard
+        let usable = !imageFileURLs(on: pasteboard).isEmpty || NSImage.canInit(with: pasteboard) || webURL(on: pasteboard) != nil
+        return usable ? .copy : []
     }
 
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        droppedImageURLs(sender).isEmpty ? [] : .copy
+        dropOperation(sender)
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        droppedImageURLs(sender).isEmpty ? [] : .copy
+        dropOperation(sender)
     }
 
-    /// Dropped image files become image elements where they were dropped, each a little below the one before.
+    /// Dropped image files and pictures become image elements where they were dropped, each a little below the one
+    /// before. A dropped link is downloaded first, so the picture comes in its original form; the dropped files or
+    /// picture are the fallback (upstream `OnDragDrop`).
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         commitEditing()
+        let pasteboard = sender.draggingPasteboard
         let drop = convert(sender.draggingLocation, from: nil)
-        var origin = CGPoint(x: drop.x * document.scale, y: drop.y * document.scale)
-        var elements: [Annotation] = []
-        for url in droppedImageURLs(sender) {
-            guard let loaded = ImageLoader.load(url), let a = pictureElement(loaded.image, scale: loaded.scale, at: origin) else { continue }
-            elements.append(a)
-            origin = CGPoint(x: origin.x + 10 * document.scale, y: origin.y + 10 * document.scale)
+        let origin = CGPoint(x: drop.x * document.scale, y: drop.y * document.scale)
+        // The pasteboard is only readable during the drop: read everything now.
+        var pictures = imageFileURLs(on: pasteboard).compactMap(ElementPictures.load)
+        if pictures.isEmpty, let image = NSImage(pasteboard: pasteboard), let bitmap = ImageLoader.bitmap(of: image) {
+            pictures = [bitmap]
+        }
+        let elements = pictureElements(pictures, at: origin)
+        if let link = webURL(on: pasteboard) {
+            addDownloadedPicture(from: [link], at: origin) { [weak self] in
+                if elements.isEmpty { NSSound.beep() } else { self?.insert(elements) }
+            }
+            return true
         }
         insert(elements)
         return !elements.isEmpty
@@ -806,7 +1139,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
     /// An item of the Object menu choosing a tool; its tag is the tool's index.
     @objc func selectTool(_ sender: NSMenuItem) {
         guard EditorTool.allCases.indices.contains(sender.tag) else { return }
-        tool = EditorTool.allCases[sender.tag]
+        choose(EditorTool.allCases[sender.tag])
     }
 
     /// Adds elements as one undo step and selects them.
@@ -840,10 +1173,15 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
     }
 
     private var canPaste: Bool {
-        pasteboardHasElements || NSImage.canInit(with: .general)
+        let pasteboard = NSPasteboard.general
+        return pasteboardHasElements || NSImage.canInit(with: pasteboard) || pasteboard.availableType(from: [.string, .html]) != nil
+            || !imageFileURLs(on: pasteboard).isEmpty
     }
 
     func validateMenuItem(_ item: NSMenuItem) -> Bool {
+        // While a crop waits for Return or Esc only the tools stay (upstream disables the rest for a confirmable
+        // element, `ToolStripItemEndisabler`).
+        if tool == .crop, cropRect != nil, item.action != #selector(selectTool(_:)) { return false }
         switch item.action {
         case #selector(undo(_:)): return textView?.undoManager?.canUndo ?? document.canUndo
         case #selector(redo(_:)): return textView?.undoManager?.canRedo ?? document.canRedo
@@ -870,8 +1208,10 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         select(a.id)
         textUndoManager = UndoManager()
         let style = a.style
-        // A text element is replaced by the text field; a speech bubble stays drawn around it.
-        let frame = a.kind == .speechBubble ? AnnotationRenderer.textRect(for: a, scale: document.scale) : a.bounds
+        // The element stays drawn without its text (frame, fill, a bubble's shape) around the text field; a box too
+        // small for its frame gets the field over all of it.
+        let inside = AnnotationRenderer.textRect(for: a, scale: document.scale)
+        let frame = inside.isNull || inside.width < document.scale || inside.height < document.scale ? a.bounds : inside
         let textView = AlignedTextView(frame: viewRect(frame))
         textView.string = a.text
         // The same font and alignment as the renderer, so the text doesn't jump when editing ends.
@@ -882,8 +1222,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         textView.verticalAlignment = style.verticalAlignment
         textView.isRichText = false
         textView.allowsUndo = true
-        textView.drawsBackground = a.kind == .text && style.fillColor.isVisible
-        textView.backgroundColor = NSColor(cgColor: style.fillColor.cgColor) ?? .clear
+        textView.drawsBackground = false
         textView.textContainerInset = NSSize(width: 0, height: 2)
         textView.delegate = self
         textView.wantsLayer = true
@@ -926,9 +1265,20 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         textUndoManager
     }
 
+    /// Esc, and Return without a modifier, finish the text; Shift-, Option- or Control-Return start a new line
+    /// (upstream `TextContainer.textBox_KeyDown`).
     func textView(_ textView: NSTextView, doCommandBy selector: Selector) -> Bool {
         if selector == #selector(NSResponder.cancelOperation(_:)) {
             commitEditing()
+            return true
+        }
+        if selector == #selector(NSResponder.insertNewline(_:)) {
+            let modifiers = NSApp.currentEvent?.modifierFlags.intersection([.shift, .option, .control, .command]) ?? []
+            if modifiers.isEmpty {
+                commitEditing()
+            } else {
+                textView.insertNewlineIgnoringFieldEditor(nil)
+            }
             return true
         }
         return false
