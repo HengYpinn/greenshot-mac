@@ -33,19 +33,32 @@ public struct RecipeStepInvocation: Sendable {
     }
 
     /// The parameter, or the contract's default when it isn't set.
-    public func value(_ name: String) -> JSONValue? { rcoreStub() }
+    public func value(_ name: String) -> JSONValue? {
+        if let value = parameters[name], !value.isNull { return value }
+        return contract?.parameter(name)?.defaultValue
+    }
     public func string(_ name: String) -> String? { value(name)?.asString }
     public func int(_ name: String) -> Int? { value(name)?.asInt }
     public func double(_ name: String) -> Double? { value(name)?.asDouble }
     public func bool(_ name: String) -> Bool? { value(name)?.asBool }
     public func strings(_ name: String) -> [String]? { value(name)?.asStrings }
     /// "#RRGGBB", "#AARRGGBB", "rgba(r,g,b,a)" with a = 0-255, or a .NET color name (upstream `ColorTranslator`).
-    public func color(_ name: String) -> RGBAColor? { rcoreStub() }
+    public func color(_ name: String) -> RGBAColor? {
+        value(name)?.asString.flatMap(RecipeColor.parse)
+    }
+
     /// Set on the node (not the default).
-    public func isSet(_ name: String) -> Bool { rcoreStub() }
+    public func isSet(_ name: String) -> Bool {
+        guard let value = parameters[name], !value.isNull else { return false }
+        if let text = value.stringValue { return !text.trimmingCharacters(in: .whitespaces).isEmpty }
+        return true
+    }
     /// The three-tier precedence of docs/capture-recipes.md section 5: the run-time override in the flow variable
     /// `overrideVariable` (trigger, command line), then the node parameter; nil means "use the live setting".
-    public func resolved(_ name: String, overrideVariable: String?, in context: RecipeFlowContext) -> JSONValue? { rcoreStub() }
+    public func resolved(_ name: String, overrideVariable: String?, in context: RecipeFlowContext) -> JSONValue? {
+        if let overrideVariable, let value = context[variable: overrideVariable], !value.isNull { return value }
+        return isSet(name) ? parameters[name] : nil
+    }
 }
 
 /// An error with a type name that error transitions can match (`errorType`; upstream matches the .NET exception type,
@@ -68,16 +81,40 @@ public struct RecipeStepError: Error, LocalizedError, Sendable {
 /// The executors by step type (case-insensitive). The contracts come from the catalog; registering an executor for a
 /// step type without a contract needs `register(contract:executor:)`.
 public final class RecipeStepRegistry: @unchecked Sendable {
-    public init(contracts: StepContractCatalog = .builtIn) { rcoreStub() }
-    public var contracts: StepContractCatalog { rcoreStub() }
-    public func register(_ stepType: String, executor: any RecipeStepExecutor) { rcoreStub() }
-    public func register(contract: StepContract, executor: any RecipeStepExecutor) { rcoreStub() }
-    public func executor(for stepType: String) -> (any RecipeStepExecutor)? { rcoreStub() }
+    private let lock = NSLock()
+    private var catalog: StepContractCatalog
+    private var executors: [String: any RecipeStepExecutor] = [:]
+
+    public init(contracts: StepContractCatalog = .builtIn) {
+        catalog = contracts
+    }
+
+    public var contracts: StepContractCatalog { lock.withLock { catalog } }
+
+    public func register(_ stepType: String, executor: any RecipeStepExecutor) {
+        lock.withLock { executors[stepType.lowercased()] = executor }
+    }
+
+    public func register(contract: StepContract, executor: any RecipeStepExecutor) {
+        lock.withLock {
+            catalog = catalog.adding(contract)
+            executors[contract.stepType.lowercased()] = executor
+        }
+    }
+
+    public func executor(for stepType: String) -> (any RecipeStepExecutor)? {
+        lock.withLock { executors[stepType.lowercased()] }
+    }
+
     /// Registers RCORE's executors: SetVariable, Conditional, Slot, Stdout, Stderr, Effect, Annotation, TextEffect,
     /// Processors (OCR), BarcodeScan. `clipboard` is for BarcodeScan's `CopyToClipboard` (nil: not copied, logged);
     /// `cursorImages` draws the Annotation step's `CursorName` presets (nil: presets are skipped, logged).
     public func registerCoreExecutors(clipboard: (any RecipeClipboardWriting)? = nil,
-                                      cursorImages: (any RecipeCursorImageProviding)? = nil) { rcoreStub() }
+                                      cursorImages: (any RecipeCursorImageProviding)? = nil) {
+        for (stepType, executor) in CoreStepExecutors.all(clipboard: clipboard, cursorImages: cursorImages) {
+            register(stepType, executor: executor)
+        }
+    }
 }
 
 /// The pictures of the cursor presets of the Annotation step ("Arrow", "Hand", "IBeam", "Cross", "Wait", ...;

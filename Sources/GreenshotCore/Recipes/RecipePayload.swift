@@ -39,7 +39,14 @@ public struct RecipePayload: @unchecked Sendable {
         self.captureDate = captureDate
     }
 
-    public var metrics: PayloadMetrics { rcoreStub() }
+    public var metrics: PayloadMetrics {
+        let pixelsPerPoint = scale > 0 ? Double(scale) : 1
+        return PayloadMetrics(width: Double(image.width) / pixelsPerPoint, height: Double(image.height) / pixelsPerPoint,
+                              extractedText: extractedText ?? "", title: title, filename: fileURL?.path ?? "", metadata: metadata)
+    }
+
     /// The image with the annotations drawn on it (`AnnotationRenderer.flatten`).
-    public func flattened() -> CGImage? { rcoreStub() }
+    public func flattened() -> CGImage? {
+        annotations.isEmpty ? image : AnnotationRenderer.flatten(base: image, annotations: annotations, scale: scale)
+    }
 }
