@@ -1281,6 +1281,11 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             }
             return true
         }
+        if selector == #selector(NSResponder.insertLineBreak(_:)) || selector == #selector(NSResponder.insertParagraphSeparator(_:)) {
+            // Control-Return and friends: a plain new line, not a Unicode line or paragraph separator in the text.
+            textView.insertNewlineIgnoringFieldEditor(nil)
+            return true
+        }
         return false
     }
 
