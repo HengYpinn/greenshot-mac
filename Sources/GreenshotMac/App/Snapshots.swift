@@ -88,7 +88,8 @@ enum Snapshots {
         }
     }
 
-    /// The editor after Effects › Torn Edges, with the elements moved along.
+    /// The editor after the torn edge effect drawn into the pixels (Effects › Torn Edges now adds an element instead),
+    /// with the elements moved along.
     private static func effectsEditor(sample: CGImage, settings: SettingsStore) -> NSBitmapImageRep? {
         let doc = EditorDocument(image: sample, scale: 2, title: "Snapshot")
         doc.add(Annotation(kind: .speechBubble, start: CGPoint(x: 1500, y: 1180), end: CGPoint(x: 2300, y: 1400),

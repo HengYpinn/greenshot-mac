@@ -176,7 +176,7 @@ final class WelcomeWindowController: DiagnosticsWindowController {
             return
         }
         let setup = SetupModel(app: app, firstWelcome: firstLaunch)
-        let tips = WelcomeContent.tips(appName: AppInfo.name, showsCaptures: false)
+        let tips = WelcomeContent.tips(appName: AppInfo.name, showsCaptures: NotificationService.showsCaptures)
         let model = WelcomeModel(basics: WelcomeContent.basics(app.settings.value.hotkeys), setup: setup, tips: tips)
         model.openSettings = { [weak app] in app?.showSettings(nil) }
         let controller = WelcomeWindowController(model: model)
