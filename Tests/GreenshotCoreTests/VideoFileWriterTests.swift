@@ -220,6 +220,41 @@ struct VideoFileWriterTests {
         #expect(abs(second - third) <= 3)
     }
 
+    /// A crash or power loss while recording: the file as it is on the disk then plays up to the last movie fragment.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func anAbandonedFileStaysReadable() async throws {
+        let url = temporaryFile("crash.mp4")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, fragmentInterval: 0.5))
+        for second in 0..<3 { appendSecond(video, start: Double(second)) }
+        // What the disk holds at the "crash", once the encoder caught up; the writer never finishes it.
+        let copy = url.deletingLastPathComponent().appendingPathComponent("copy.mp4")
+        var length: Double = 0
+        for _ in 0..<50 where length <= 0 {
+            try await Task.sleep(nanoseconds: 100_000_000)
+            try? FileManager.default.removeItem(at: copy)
+            try FileManager.default.copyItem(at: url, to: copy)
+            length = (try? await duration(copy)) ?? 0
+        }
+        video.cancel()
+        #expect(length > 0.4)
+        let info = try #require(try await track(copy, .video))
+        #expect(info.codec == "avc1")
+    }
+
+    /// With fragments written on the way, a finished recording is still a complete video.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aFragmentedFileFinishesNormally() async throws {
+        let url = temporaryFile("fragments.mp4")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, fragmentInterval: 0.5))
+        for second in 0..<3 { appendSecond(video, start: Double(second)) }
+        let result = try await video.finish(at: seconds(3))
+        let length = try await duration(url)
+        #expect(abs(length - 3) < 0.05)
+        #expect(abs(result.duration - 3) < 0.05)
+    }
+
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func cancelDeletesTheFile() throws {
         let url = temporaryFile("cancel.mp4")

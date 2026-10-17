@@ -120,16 +120,36 @@ struct RecordingOutputPathTests {
     @Test func settingsFolderAndPattern() {
         let url = RecordingOutputPath.url(folder: "~/Movies/Greenshot", pattern: VideoSettings().filenamePattern,
                                           context: context(), exists: { _ in false })
+        defer { RecordingOutputPath.release(url) }
         #expect(url.path == "/Users/tester/Movies/Greenshot/Greenshot_Recording_20261017_143005.mp4")
         let titled = RecordingOutputPath.url(folder: "", pattern: "${title}", context: context(), exists: { _ in false })
+        defer { RecordingOutputPath.release(titled) }
         #expect(titled.path == "/Users/tester/Movies/Greenshot/Safari.mp4")
     }
 
     @Test func anExistingFileIsKept() {
-        let taken = "/Users/tester/Movies/Greenshot/Safari.mp4"
-        let url = RecordingOutputPath.url(folder: "~/Movies/Greenshot", pattern: "${title}", context: context(),
+        let taken = "/Users/tester/Movies/Greenshot/Mail.mp4"
+        let url = RecordingOutputPath.url(folder: "~/Movies/Greenshot", pattern: "${title}", context: context(title: "Mail"),
                                           exists: { $0.path == taken })
-        #expect(url.path == "/Users/tester/Movies/Greenshot/Safari (2).mp4")
+        defer { RecordingOutputPath.release(url) }
+        #expect(url.path == "/Users/tester/Movies/Greenshot/Mail (2).mp4")
+    }
+
+    /// Two recordings asked for in the same second don't get the same file: the first one's path is reserved until
+    /// its recording ended.
+    @Test func aPathIsReservedUntilReleased() {
+        let first = RecordingOutputPath.url(folder: "~/Clips", pattern: "${title}", context: context(title: "Notes"),
+                                            exists: { _ in false })
+        let second = RecordingOutputPath.url(folder: "~/Clips", pattern: "${title}", context: context(title: "Notes"),
+                                             exists: { _ in false })
+        #expect(first.path == "/Users/tester/Clips/Notes.mp4")
+        #expect(second.path == "/Users/tester/Clips/Notes (2).mp4")
+        RecordingOutputPath.release(first)
+        let third = RecordingOutputPath.url(folder: "~/Clips", pattern: "${title}", context: context(title: "Notes"),
+                                            exists: { _ in false })
+        #expect(third.path == "/Users/tester/Clips/Notes.mp4")
+        RecordingOutputPath.release(second)
+        RecordingOutputPath.release(third)
     }
 
     @Test func recipePaths() {

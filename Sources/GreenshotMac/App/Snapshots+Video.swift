@@ -48,8 +48,8 @@ extension Snapshots {
 
     /// The indicator's four looks side by side on a menu bar coloured strip.
     private static func recordingIndicators() -> NSBitmapImageRep? {
-        let states: [RecordingIndicatorState] = [.countdown(3), .recording(42), .paused(3725), .saving]
-        let strip = NSView(frame: NSRect(x: 0, y: 0, width: 440, height: 24))
+        let states: [RecordingIndicatorState] = [.countdown(3), .starting, .recording(42), .paused(3725), .saving]
+        let strip = NSView(frame: NSRect(x: 0, y: 0, width: 540, height: 24))
         strip.wantsLayer = true
         strip.layer?.backgroundColor = NSColor(white: 0.93, alpha: 1).cgColor
         var x: CGFloat = 8
@@ -91,7 +91,8 @@ extension Snapshots {
         controller.addMenuItems(to: idle)
         var text = "Menu bar menu, no recording:\n" + menuText(idle)
         let hotkey = KeyCombo(keyCode: 15, modifiers: KeyCombo.control | KeyCombo.option | KeyCombo.command)
-        let states: [(String, RecordingIndicatorState)] = [("counting down", .countdown(3)), ("recording", .recording(42)),
+        let states: [(String, RecordingIndicatorState)] = [("counting down", .countdown(3)), ("starting", .starting),
+                                                           ("recording", .recording(42)),
                                                            ("paused", .paused(42)), ("saving", .saving)]
         for (name, state) in states {
             let menu = NSMenu()

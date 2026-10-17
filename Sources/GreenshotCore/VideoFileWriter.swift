@@ -45,10 +45,13 @@ public final class VideoFileWriter: @unchecked Sendable {
         public var hasAudio: Bool
         /// Live recording: a frame the encoder has no room for is dropped. Off (tests, files): appending waits.
         public var realTime: Bool
+        /// Seconds between the parts written so far being made readable (movie fragments): after a crash, a force quit
+        /// or a power loss the file plays up to the last part. `finish` still writes a normal MP4. 0: none.
+        public var fragmentInterval: TimeInterval
 
         public init(url: URL, format: VideoFormat, width: Int, height: Int, frameRate: Int, bitrate: Int,
                     colorMode: VideoColorMode = .fullColor, resizeBehavior: WindowResizeBehavior = .letterboxFixedCanvas,
-                    hasAudio: Bool = false, realTime: Bool = true) {
+                    hasAudio: Bool = false, realTime: Bool = true, fragmentInterval: TimeInterval = 10) {
             self.url = url
             self.format = format
             self.width = width
@@ -59,6 +62,7 @@ public final class VideoFileWriter: @unchecked Sendable {
             self.resizeBehavior = resizeBehavior
             self.hasAudio = hasAudio
             self.realTime = realTime
+            self.fragmentInterval = fragmentInterval
         }
     }
 
@@ -83,6 +87,9 @@ public final class VideoFileWriter: @unchecked Sendable {
         let folder = configuration.url.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         writer = try AVAssetWriter(outputURL: configuration.url, fileType: .mp4)
+        if configuration.fragmentInterval > 0 {
+            writer.movieFragmentInterval = CMTime(seconds: configuration.fragmentInterval, preferredTimescale: 600)
+        }
         let settings = VideoEncoderSettings.video(format: configuration.format, width: configuration.width,
                                                   height: configuration.height, frameRate: configuration.frameRate,
                                                   bitrate: configuration.bitrate)
