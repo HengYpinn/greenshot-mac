@@ -23,7 +23,8 @@ enum AutomationStartup {
     /// Called first in main.swift; returns only when this process runs the app.
     static func run(arguments: [String] = CommandLine.arguments) {
         options = IPCCommandLine.scanStartup(Array(arguments.dropFirst()))
-        if options.snapshot { return }
+        // Development runs that quit by themselves: no single-instance guard, no automation server
+        if options.snapshot || options.diagnostics { return }
         if options.help {
             FileHandle.standardOutput.write(Data(IPCCommandLine.appUsage.utf8))
             exit(0)

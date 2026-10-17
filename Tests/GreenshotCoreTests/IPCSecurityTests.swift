@@ -69,6 +69,45 @@ struct IPCPathValidatorTests {
         #expect(message("pipe.png", cwd: folder.path)?.contains("Not a regular file") == true)
     }
 
+    @Test func finderOpensTheGoodFilesAndReportsTheBadOnes() throws {
+        let folder = try makeFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try Data([1]).write(to: folder.appendingPathComponent("a.png"))
+        try Data([1]).write(to: folder.appendingPathComponent("b.jpg"))
+        try Data("text".utf8).write(to: folder.appendingPathComponent("notes.txt"))
+        let paths = ["a.png", "missing.png", "notes.txt", "b.jpg"]
+        let finder = IPCPathValidator.resolve(paths, cwd: folder.path, allowedExtensions: allowed, lenient: true)
+        #expect(finder.accepted.map(\.lastPathComponent) == ["a.png", "b.jpg"])
+        #expect(finder.refused.map(\.path) == ["missing.png", "notes.txt"])
+
+        // greenshot-cli: the first refused path refuses the request
+        let cli = IPCPathValidator.resolve(paths, cwd: folder.path, allowedExtensions: allowed, lenient: false)
+        #expect(cli.accepted.isEmpty)
+        #expect(cli.refused.map(\.path) == ["missing.png"])
+    }
+
+    @Test func imageWithoutItsExtensionOpensFromFinderOnly() throws {
+        let folder = try makeFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let image = TestImage.solid(width: 4, height: 4, .red)
+        let png = folder.appendingPathComponent("shot.png")
+        try ImageExporter.write(image, to: png, format: .png)
+        let bare = folder.appendingPathComponent("shot")
+        try FileManager.default.moveItem(at: png, to: bare)
+        #expect(IPCPathValidator.isReadableImage(bare))
+        let finder = IPCPathValidator.resolve(["shot"], cwd: folder.path, allowedExtensions: allowed, lenient: true)
+        #expect(finder.accepted.map(\.lastPathComponent) == ["shot"])
+        let cli = IPCPathValidator.resolve(["shot"], cwd: folder.path, allowedExtensions: allowed, lenient: false)
+        #expect(cli.accepted.isEmpty)
+        #expect(cli.refused.first?.message.contains("not permitted") == true)
+        // Finder still refuses what isn't an image, and control characters
+        try Data("#!/bin/sh".utf8).write(to: folder.appendingPathComponent("run"))
+        #expect(!IPCPathValidator.isReadableImage(folder.appendingPathComponent("run")))
+        let script = IPCPathValidator.resolve(["run", "a\u{202E}gnp"], cwd: folder.path, allowedExtensions: allowed, lenient: true)
+        #expect(script.accepted.isEmpty)
+        #expect(script.refused.count == 2)
+    }
+
     @Test func editorExtensionsComeFromImageIO() {
         let extensions = IPCPathValidator.editorImageExtensions
         for name in ["png", "jpg", "jpeg", "tiff", "gif", "heic", "greenshot"] {

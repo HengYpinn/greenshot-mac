@@ -16,6 +16,13 @@ extension Snapshots {
         hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 210)
         try write(form(hosting), to: folder.appendingPathComponent("aut-settings-automation.png"))
 
+        // The question before a command line capture without the user
+        let consent = AutomationCaptureConsent.makeAlert(caller: "zsh in Terminal", mode: .fullScreen)
+        consent.layout()
+        if let content = consent.window.contentView {
+            try write(form(content), to: folder.appendingPathComponent("aut-capture-consent.png"))
+        }
+
         // The second start of a copy while another runs
         let alert = AutomationStartup.alreadyRunningAlert(path: "/Applications/Greenshot for Mac (Community).app/Contents/MacOS/GreenshotMac")
         alert.layout()

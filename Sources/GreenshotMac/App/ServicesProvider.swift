@@ -27,7 +27,7 @@ final class ServicesProvider: NSObject {
                 let reply = await app.automation.perform(envelope, source: .services)
                 if reply.isError {
                     ErrorPresenter.show(message: "The image could not be opened",
-                                        detail: files.map(\.lastPathComponent).joined(separator: ", "))
+                                        detail: AutomationCommands.refusedFileNames(reply, files: envelope.files))
                 }
             }
             return

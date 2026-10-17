@@ -143,6 +143,17 @@ struct AppStartupOptionsTests {
         #expect(options.command.isEmpty)
     }
 
+    @Test func diagnosticsTestIsAStartupOption() {
+        let crash = IPCCommandLine.scanStartup(["--diagnostics-test", "crash"])
+        #expect(crash.command.isEmpty)
+        #expect(crash.diagnostics)
+        #expect(IPCCommandLine.scanStartup(["--diagnostics-test", "check"]).command.isEmpty)
+        #expect(IPCCommandLine.scanStartup(["--diagnostics-test", "signature", "/Applications/X.app"]).command.isEmpty)
+        #expect(IPCCommandLine.scanStartup(["--diagnostics-test", "signature"]).command.isEmpty)
+        #expect(IPCCommandLine.scanStartup(["--diagnostics-test", "signature", "--reload"]).command == ["--reload"])
+        #expect(IPCCommandLine.scanStartup(["--diagnostics-test", "crash", "a.png"]).command == ["a.png"])
+    }
+
     @Test func systemArgumentsAreSkipped() {
         let options = IPCCommandLine.scanStartup(["-psn_0_12345", "-NSDocumentRevisionsDebugMode", "YES",
                                                   "-AppleLanguages", "(de)", "--reload"])

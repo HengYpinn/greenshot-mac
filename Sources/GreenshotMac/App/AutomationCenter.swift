@@ -122,9 +122,9 @@ final class AutomationCenter {
             guard reply.isError else { return }
             log.warn("\(source.rawValue) request failed: \(reply.stderr ?? "")")
             if source == .openWith {
-                // Finder users see what they saw before: the file can't be opened
-                let names = envelope.files.map { ($0 as NSString).lastPathComponent }.joined(separator: ", ")
-                ErrorPresenter.show(message: "The image could not be opened", detail: names)
+                // Finder users see what they saw before: which file can't be opened (the others open)
+                ErrorPresenter.show(message: "The image could not be opened",
+                                    detail: AutomationCommands.refusedFileNames(reply, files: envelope.files))
             }
         }
     }

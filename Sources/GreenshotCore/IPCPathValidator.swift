@@ -32,8 +32,19 @@ public enum IPCPathValidator {
         imageExtensions(typeIdentifiers: (CGImageSourceCopyTypeIdentifiers() as? [String]) ?? [])
     }
 
-    /// The absolute, standardized path of `raw`; relative paths are taken from `cwd`.
-    public static func resolve(_ raw: String, cwd: String?, allowedExtensions: Set<String>) -> Result<URL, Failure> {
+    /// A `.greenshot` file, or a file ImageIO reads whatever its name says (Finder may hand over an image without its
+    /// extension).
+    public static func isReadableImage(_ url: URL) -> Bool {
+        if GreenshotFile.isGreenshotFile(url) { return true }
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return false }
+        return CGImageSourceGetType(source) != nil && CGImageSourceGetCount(source) > 0
+    }
+
+    /// The absolute, standardized path of `raw`; relative paths are taken from `cwd`. With `acceptsContent`, an existing
+    /// regular file whose extension isn't allowed still passes when it accepts the file (the user's own files from
+    /// Finder: an image the editor reads, whatever its name).
+    public static func resolve(_ raw: String, cwd: String?, allowedExtensions: Set<String>,
+                               acceptsContent: ((URL) -> Bool)? = nil) -> Result<URL, Failure> {
         if raw.trimmingCharacters(in: .whitespaces).isEmpty { return .failure(Failure(message: "Path is empty or whitespace.")) }
         for scalar in raw.unicodeScalars {
             if scalar.value < 0x20 || scalar.value == 0x7F {
@@ -56,9 +67,9 @@ public enum IPCPathValidator {
         let url = URL(fileURLWithPath: absolute).standardizedFileURL
 
         let ext = url.pathExtension.lowercased()
-        guard !ext.isEmpty, allowedExtensions.contains(ext) else {
-            return .failure(Failure(message: "File extension '\(url.pathExtension.isEmpty ? "" : "." + url.pathExtension)' is not permitted."))
-        }
+        let extensionAllowed = !ext.isEmpty && allowedExtensions.contains(ext)
+        let extensionRefusal = Failure(message: "File extension '\(url.pathExtension.isEmpty ? "" : "." + url.pathExtension)' is not permitted.")
+        if !extensionAllowed, acceptsContent == nil { return .failure(extensionRefusal) }
 
         var info = stat()
         guard stat(url.path, &info) == 0 else {
@@ -67,7 +78,43 @@ public enum IPCPathValidator {
         guard info.st_mode & S_IFMT == S_IFREG else {
             return .failure(Failure(message: "Not a regular file: '\(url.path)'"))
         }
+        if !extensionAllowed, let acceptsContent, !acceptsContent(url) { return .failure(extensionRefusal) }
         return .success(url)
+    }
+
+    /// The files of one OPEN_FILE request. Strict (greenshot-cli, AppleScript, Shortcuts; upstream
+    /// `HandleOpenFileAsync`): the first refused path refuses the request. Lenient (Finder, the Dock, the Services menu:
+    /// files the user picked): every file that passes opens, files the editor reads pass whatever their extension, and
+    /// only the refused ones are reported.
+    public struct Batch: Equatable, Sendable {
+        public var accepted: [URL] = []
+        /// The refused paths as given, with the reason.
+        public var refused: [Refusal] = []
+
+        public struct Refusal: Equatable, Sendable {
+            public var path: String
+            public var message: String
+        }
+
+        public init() {}
+    }
+
+    public static func resolve(_ paths: [String], cwd: String?, allowedExtensions: Set<String>, lenient: Bool,
+                               acceptsContent: @escaping (URL) -> Bool = isReadableImage) -> Batch {
+        var batch = Batch()
+        for path in paths {
+            switch resolve(path, cwd: cwd, allowedExtensions: allowedExtensions, acceptsContent: lenient ? acceptsContent : nil) {
+            case .success(let url):
+                batch.accepted.append(url)
+            case .failure(let failure):
+                batch.refused.append(Batch.Refusal(path: path, message: failure.message))
+                if !lenient {
+                    batch.accepted.removeAll()
+                    return batch
+                }
+            }
+        }
+        return batch
     }
 
     /// U+200B..U+200F (zero-width characters and marks), U+202A..U+202E (bidi embeddings and overrides), U+2066..U+2069

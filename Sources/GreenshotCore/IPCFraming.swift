@@ -12,6 +12,9 @@ public enum IPCFrame {
     public static let minimumJSONLength = 2
     /// 64 MB per frame (upstream `MAX_PAYLOAD_SIZE`, ADR 003).
     public static let maximumLength = 64 * 1024 * 1024
+    /// The largest frame before a connection's HELLO was accepted: a HELLO is a few hundred bytes, and an unverified
+    /// program gets no more.
+    public static let maximumHelloLength = 64 * 1024
 
     /// The length prefix and the payload.
     public static func encode(_ payload: Data) -> Data {
@@ -113,18 +116,26 @@ public enum IPCIOError: Error, Equatable {
 
 /// Blocking frame I/O on a socket.
 public enum IPCFrameIO {
-    /// Reads exactly `count` bytes; nil when the connection ended cleanly before the first byte.
-    public static func readExact(_ fd: Int32, count: Int) throws -> Data? {
-        var buffer = [UInt8](repeating: 0, count: count)
-        var done = 0
-        while done < count {
-            let result = buffer.withUnsafeMutableBytes { raw in
-                Darwin.read(fd, raw.baseAddress! + done, count - done)
-            }
+    /// How much a read takes at a time: a frame's buffer grows with what arrives, so a length a client announces is
+    /// never allocated up front.
+    public static let chunkSize = 64 * 1024
+
+    /// Reads exactly `count` bytes; nil when the connection ended cleanly before the first byte. With a deadline the
+    /// whole read must be done by then (a client sending a byte now and then can't keep it going), else it throws
+    /// `timedOut`.
+    public static func readExact(_ fd: Int32, count: Int, deadline: Date? = nil) throws -> Data? {
+        guard count > 0 else { return Data() }
+        var data = Data()
+        data.reserveCapacity(min(count, chunkSize))
+        var chunk = [UInt8](repeating: 0, count: min(count, chunkSize))
+        while data.count < count {
+            if let deadline { try waitUntilReadable(fd, deadline: deadline) }
+            let wanted = min(chunk.count, count - data.count)
+            let result = chunk.withUnsafeMutableBytes { raw in Darwin.read(fd, raw.baseAddress!, wanted) }
             if result > 0 {
-                done += result
+                data.append(contentsOf: chunk[0..<result])
             } else if result == 0 {
-                if done == 0 { return nil }
+                if data.isEmpty { return nil }
                 throw IPCIOError.truncated
             } else {
                 let code = errno
@@ -134,16 +145,35 @@ public enum IPCFrameIO {
                 throw IPCIOError.system(code)
             }
         }
-        return Data(buffer)
+        return data
     }
 
-    /// The next frame's payload; nil at a clean end of the connection. A length below `minimum` or above the maximum
-    /// throws `invalidLength` without reading the payload.
-    public static func readFrame(_ fd: Int32, minimum: Int = 1) throws -> Data? {
-        guard let prefix = try readExact(fd, count: 4) else { return nil }
+    /// Waits until the socket has data (or is closed), at most until `deadline`.
+    static func waitUntilReadable(_ fd: Int32, deadline: Date) throws {
+        while true {
+            let remaining = deadline.timeIntervalSinceNow
+            guard remaining > 0 else { throw IPCIOError.timedOut }
+            let milliseconds = Int32(min(remaining * 1000, 600_000).rounded(.up))
+            var descriptor = pollfd(fd: fd, events: Int16(POLLIN), revents: 0)
+            let ready = poll(&descriptor, 1, max(milliseconds, 1))
+            if ready > 0 { return }
+            if ready == 0 { throw IPCIOError.timedOut }
+            let code = errno
+            if code == EINTR { continue }
+            throw IPCIOError.system(code)
+        }
+    }
+
+    /// The next frame's payload; nil at a clean end of the connection. A length below `minimum` or above `maximum`
+    /// throws `invalidLength` without reading the payload; with a deadline, prefix and payload must arrive by then.
+    public static func readFrame(_ fd: Int32, minimum: Int = 1, maximum: Int = IPCFrame.maximumLength,
+                                 deadline: Date? = nil) throws -> Data? {
+        guard let prefix = try readExact(fd, count: 4, deadline: deadline) else { return nil }
         let length = IPCFrame.length(ofPrefix: prefix)
-        guard Int(length) >= minimum, Int(length) <= IPCFrame.maximumLength else { throw IPCIOError.invalidLength(length) }
-        guard let payload = try readExact(fd, count: Int(length)) else { throw IPCIOError.truncated }
+        guard Int(length) >= minimum, Int(length) <= min(maximum, IPCFrame.maximumLength) else {
+            throw IPCIOError.invalidLength(length)
+        }
+        guard let payload = try readExact(fd, count: Int(length), deadline: deadline) else { throw IPCIOError.truncated }
         return payload
     }
 

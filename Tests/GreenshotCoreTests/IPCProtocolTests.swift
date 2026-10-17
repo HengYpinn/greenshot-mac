@@ -2,6 +2,7 @@
 // Copyright (C) 2026 Greenshot for Mac (Community) contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import Darwin
 import Foundation
 import Testing
 @testable import GreenshotCore
@@ -73,6 +74,72 @@ struct IPCFramingTests {
         let end = try IPCFrameIO.readFrame(fds[1], minimum: 2)
         #expect(end == nil)
         close(fds[1])
+    }
+}
+
+/// Frames of clients that send slowly or announce more than they send (same-user denial of service).
+struct IPCFrameLimitTests {
+    private func pair() -> [Int32] {
+        var fds: [Int32] = [-1, -1]
+        _ = socketpair(AF_UNIX, SOCK_STREAM, 0, &fds)
+        IPCSocket.setNoSigPipe(fds[0])
+        IPCSocket.setNoSigPipe(fds[1])
+        IPCSocket.setTimeout(fds[1], option: SO_RCVTIMEO, seconds: 5)
+        return fds
+    }
+
+    @Test func lengthAboveTheCapIsRefusedBeforeReading() throws {
+        let fds = pair()
+        defer { fds.forEach { close($0) } }
+        let announced = UInt32(100_000)
+        let prefix: [UInt8] = [UInt8(truncatingIfNeeded: announced), UInt8(truncatingIfNeeded: announced >> 8),
+                               UInt8(truncatingIfNeeded: announced >> 16), 0]
+        try IPCFrameIO.writeAll(fds[0], Data(prefix))
+        #expect(throws: IPCIOError.invalidLength(100_000)) {
+            try IPCFrameIO.readFrame(fds[1], minimum: 2, maximum: IPCFrame.maximumHelloLength)
+        }
+    }
+
+    @Test func deadlineCoversTheWholeFrameNotEachRead() throws {
+        let fds = pair()
+        defer { fds.forEach { close($0) } }
+        // A byte every 50 ms: each read gets data in time, the frame never completes
+        let writer = fds[0]
+        let trickle = Thread {
+            let frame = IPCFrame.encode(Data(repeating: 0x20, count: 40))
+            for byte in frame {
+                var value = byte
+                if Darwin.write(writer, &value, 1) != 1 { return }
+                usleep(50_000)
+            }
+        }
+        trickle.start()
+        let started = Date()
+        #expect(throws: IPCIOError.timedOut) {
+            try IPCFrameIO.readFrame(fds[1], minimum: 2, deadline: Date().addingTimeInterval(0.3))
+        }
+        let elapsed = Date().timeIntervalSince(started)
+        #expect(elapsed < 1.5)
+        shutdown(fds[1], SHUT_RDWR)
+    }
+
+    @Test func largeFrameArrivesInPieces() throws {
+        let fds = pair()
+        defer { fds.forEach { close($0) } }
+        let payload = Data((0..<300_000).map { UInt8(truncatingIfNeeded: $0) })
+        let frame = IPCFrame.encode(payload)
+        let writer = fds[0]
+        let sender = Thread {
+            var offset = 0
+            while offset < frame.count {
+                let end = min(offset + 7_000, frame.count)
+                try? IPCFrameIO.writeAll(writer, frame.subdata(in: offset..<end))
+                offset = end
+            }
+        }
+        sender.start()
+        let received = try IPCFrameIO.readFrame(fds[1], minimum: 2)
+        #expect(received == payload)
     }
 }
 
