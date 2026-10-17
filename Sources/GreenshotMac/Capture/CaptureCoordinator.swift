@@ -59,13 +59,13 @@ final class CaptureCoordinator {
         let showsCursor = settings.value.captureMousePointer
         run {
             let windows = ScreenCapturer.onScreenWindows()
-            let screens = try await ScreenCapturer.freezeScreens(showsCursor: showsCursor)
-            let chosen = choose(screens)
-            guard let result = ScreenComposer.image(of: ScreenComposer.union(of: chosen), from: chosen) else {
-                throw CaptureError.nothingToCapture
-            }
-            return Capture(image: result.image, scale: result.scale,
-                           title: ScreenCapturer.frontWindow(in: windows)?.displayTitle ?? "Full screen")
+            let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor)
+            let chosen = choose(frozen.screens(withPointer: showsCursor))
+            let title = ScreenCapturer.frontWindow(in: windows)?.displayTitle ?? "Full screen"
+            guard let capture = frozen.capture(of: ScreenComposer.union(of: chosen), withPointer: showsCursor, title: title,
+                                               only: Set(chosen.map(\.displayID)))
+            else { throw CaptureError.nothingToCapture }
+            return capture
         }
     }
 
@@ -83,9 +83,11 @@ final class CaptureCoordinator {
         let showsCursor = settings.value.captureMousePointer
         run {
             let windows = ScreenCapturer.onScreenWindows()
-            let screens = try await ScreenCapturer.freezeScreens(showsCursor: showsCursor)
-            guard let result = ScreenComposer.image(of: region, from: screens) else { throw CaptureError.nothingToCapture }
-            return Capture(image: result.image, scale: result.scale, title: ScreenCapturer.title(for: region, in: windows))
+            let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor)
+            guard let capture = frozen.capture(of: region, withPointer: showsCursor,
+                                               title: ScreenCapturer.title(for: region, in: windows))
+            else { throw CaptureError.nothingToCapture }
+            return capture
         }
     }
 
@@ -114,7 +116,7 @@ final class CaptureCoordinator {
     private func interactive(_ mode: CaptureOverlayController.Mode) {
         run { [settings] in
             let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
-            let frozen = try await ScreenCapturer.freezeScreensWithAndWithoutPointer()
+            let frozen = try await ScreenCapturer.freeze(withPointer: true)
             guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
                                                                         windows: windows, mode: mode, settings: settings)
             else { return nil }
@@ -122,14 +124,16 @@ final class CaptureCoordinator {
                 Self.perform(action)
                 return nil
             }
-            let screens = selection.includesPointer ? frozen.pointer : frozen.plain
-            guard let result = ScreenComposer.image(of: selection.rect, from: screens) else { return nil }
             let title = selection.window?.displayTitle ?? ScreenCapturer.title(for: selection.rect, in: windows)
-            // Text captures don't change the last region or the recent sizes.
+            // Text captures don't change the last region or the recent sizes, and have no pointer of their own.
             if let text = selection.text {
+                guard let result = ScreenComposer.image(of: selection.rect, from: frozen.screens(withPointer: selection.includesPointer))
+                else { return nil }
                 return Capture(image: result.image, scale: result.scale, title: title, text: text)
             }
-            let size = CaptureSize(width: result.image.width, height: result.image.height)
+            guard let capture = frozen.capture(of: selection.rect, withPointer: selection.includesPointer, title: title)
+            else { return nil }
+            let size = CaptureSize(width: capture.image.width, height: capture.image.height)
             settings.update { values in
                 values.lastCapturedRegion = selection.rect
                 if selection.mode == .region || selection.mode == .fixedSize {
@@ -137,7 +141,7 @@ final class CaptureCoordinator {
                 }
                 if let fixed = selection.fixedSize { values.fixedCaptureSize = fixed }
             }
-            return Capture(image: result.image, scale: result.scale, title: title)
+            return capture
         }
     }
 
