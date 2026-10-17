@@ -53,6 +53,22 @@ final class OpenedInEditor {
         #expect(fixture.library.effectiveRecipe(recipe) == recipe)
     }
 
+    /// CAP-012's routing: a stock capture recipe stays `==` itself while no automatic step is switched on.
+    @Test func stockRecipesStayUnchangedUntilAnAutomaticStepIsOn() throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        var region = ComposerFixture.recipe("recipe_region", slots: [])
+        RecipeSlotNodes.addStandardSlots(to: &region, afterCaptureBefore: "export", exportNode: "export")
+        let stock = fixture.library.effectiveRecipe(region)
+        #expect(stock == region)
+        fixture.library.setExtensionEnabled(true, id: RecipeBuiltInExtensions.borderId)
+        let composed = fixture.library.effectiveRecipe(region)
+        #expect(composed != region)
+        let chains = try #require(composed.composition?.destinationChains)
+        #expect(chains.map(\.extensionId) == ["ext_border"])
+        #expect(fixture.library.effectiveRecipe(composed) == composed)
+    }
+
     @Test func aRejectedFileIsNotUsed() async throws {
         let fixture = LibraryFixture(approver: StubApprover { _ in nil }, builtIns: [ComposerFixture.recipe()])
         defer { fixture.cleanUp() }

@@ -79,6 +79,26 @@ enum ComposerFixture {
         #expect(!RecipeComposer.canExtend(F.ext("e", slot: "AfterExport"), F.recipe()))
     }
 
+    /// Upstream `RecipeStepConfig.AddStandardSlots`: the four slots of the built-in capture recipes.
+    @Test func standardSlotsGoAroundTheExport() {
+        var recipe = F.recipe(slots: [])
+        recipe.nodes.insert(RecipeNode(id: "scan", stepType: "SetVariable"), at: 1)
+        recipe.flow = RecipeFlow(startNodes: ["source"])
+        recipe.flow.addTransition(from: "source", to: "scan")
+        recipe.flow.addTransition(from: "scan", to: "export")
+        RecipeSlotNodes.addStandardSlots(to: &recipe, afterCaptureBefore: "scan", exportNode: "export")
+        #expect(F.ids(recipe) == ["source", "after_capture", "scan", "before_export", "before_destination", "export", "after_export"])
+        #expect(recipe.flow.targets(from: "source") == ["after_capture"])
+        #expect(recipe.flow.targets(from: "after_capture") == ["scan"])
+        #expect(recipe.flow.targets(from: "scan") == ["before_export"])
+        #expect(recipe.flow.targets(from: "before_export") == ["before_destination"])
+        #expect(recipe.flow.targets(from: "before_destination") == ["export"])
+        #expect(recipe.flow.targets(from: "export") == ["after_export"])
+        let errors = RecipeValidator().validate(recipe).errors
+        #expect(errors.isEmpty)
+        #expect(RecipeComposer.slotName(of: recipe.nodes[1]) == "AfterCapture")
+    }
+
     // MARK: Composing
 
     @Test func nothingApplicableReturnsTheRecipeItself() {
