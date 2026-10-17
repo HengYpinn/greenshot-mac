@@ -7,9 +7,11 @@ import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 
-/// The file formats Greenshot writes (upstream `OutputFileFormat`).
+/// The file formats Greenshot writes (upstream `OutputFileFormat` and the formats of its file format handlers:
+/// `DefaultFileFormatHandler`, `ImageSharpFileFormatHandler` (TGA, PBM), `IconFileFormatHandler` and the PDF plugin's
+/// `PdfFileFormatHandler`).
 public enum ImageFormat: String, Codable, CaseIterable, Sendable {
-    case png, jpg, bmp, gif, tiff
+    case png, jpg, bmp, gif, tiff, ico, tga, pbm, pdf
 
     public var fileExtension: String { rawValue }
 
@@ -20,6 +22,10 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return .bmp
         case .gif: return .gif
         case .tiff: return .tiff
+        case .ico: return .ico
+        case .tga: return UTType("com.truevision.tga-image") ?? UTType(filenameExtension: "tga") ?? .image
+        case .pbm: return UTType("public.pbm") ?? UTType(filenameExtension: "pbm") ?? .image
+        case .pdf: return .pdf
         }
     }
 
@@ -30,11 +36,35 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return "BMP"
         case .gif: return "GIF"
         case .tiff: return "TIFF"
+        case .ico: return "ICO (icon)"
+        case .tga: return "TGA (Targa)"
+        case .pbm: return "PBM (Netpbm)"
+        case .pdf: return "PDF"
         }
     }
 
-    /// Formats without transparency get a white background.
-    var supportsAlpha: Bool { self == .png || self == .tiff || self == .gif }
+    /// The MIME type (upstream's `RegisterFileFormat`).
+    public var mimeType: String {
+        switch self {
+        case .png: return "image/png"
+        case .jpg: return "image/jpeg"
+        case .bmp: return "image/bmp"
+        case .gif: return "image/gif"
+        case .tiff: return "image/tiff"
+        case .ico: return "image/x-icon"
+        case .tga: return "image/x-tga"
+        case .pbm: return "image/x-portable-bitmap"
+        case .pdf: return "application/pdf"
+        }
+    }
+
+    /// Formats without transparency get a white background (a PDF page is white under the image anyway).
+    var supportsAlpha: Bool {
+        switch self {
+        case .png, .tiff, .gif, .ico, .tga, .pdf: return true
+        case .jpg, .bmp, .pbm: return false
+        }
+    }
 
     public init?(fileExtension: String) {
         switch fileExtension.lowercased() {
@@ -43,6 +73,10 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case "bmp": self = .bmp
         case "gif": self = .gif
         case "tif", "tiff": self = .tiff
+        case "ico": self = .ico
+        case "tga": self = .tga
+        case "pbm": self = .pbm
+        case "pdf": self = .pdf
         default: return nil
         }
     }
@@ -74,6 +108,13 @@ public enum ImageExporter {
     /// resolution, the JPEG quality and the "Software" tag.
     public static func data(for image: CGImage, options: ImageOutputOptions) throws -> Data {
         let format = options.format
+        switch format {
+        case .pdf: return try ImageFormatEncoders.pdf(image, options: options)
+        case .tga: return try ImageFormatEncoders.tga(prepared(image, options: options))
+        case .pbm: return try ImageFormatEncoders.pbm(prepared(image, options: options))
+        case .ico: return try ImageFormatEncoders.ico(prepared(image, options: options))
+        default: break
+        }
         let data = NSMutableData()
         guard let destination = CGImageDestinationCreateWithData(data, format.utType.identifier as CFString, 1, nil) else {
             throw ImageExportError.encodingFailed(format)
@@ -99,8 +140,11 @@ public enum ImageExporter {
         return data as Data
     }
 
-    /// Writes the image as `options` say, creating missing folders on the way.
+    /// Writes the image as `options` say, creating missing folders on the way. A PDF without a title gets the file's
+    /// name as its title.
     public static func write(_ image: CGImage, to url: URL, options: ImageOutputOptions) throws {
+        var options = options
+        if options.title.isEmpty { options.title = url.deletingPathExtension().lastPathComponent }
         let encoded = try data(for: image, options: options)
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try encoded.write(to: url, options: .atomic)
@@ -170,8 +214,8 @@ public enum ImageExporter {
 }
 
 extension ImageFormat {
-    /// Whether "Reduce colours" applies: not to JPEG, whose compression brings the colours back.
-    var reducesColors: Bool { self != .jpg }
+    /// Whether "Reduce colours" applies: not to JPEG, whose compression brings the colours back, nor to PDF.
+    var reducesColors: Bool { self != .jpg && self != .pdf }
 
     /// Whether ImageIO writes an 8-bit palette image as a palette file (BMP comes out with 24 bits anyway).
     var writesPalette: Bool { self == .png || self == .gif || self == .tiff }

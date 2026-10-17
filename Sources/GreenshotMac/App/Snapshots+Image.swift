@@ -14,6 +14,20 @@ extension Snapshots {
         try write(form(removeTransparency.view), to: folder.appendingPathComponent("dialog-remove-transparency.png"))
         try renderObfuscationPreview(to: folder, sample: sample, settings: settings)
         try renderPixelation(to: folder, sample: sample)
+        try renderRoundTrips(to: folder, sample: sample)
+    }
+
+    /// The sample written with the formats that have their own encoder, read back with ImageIO and saved as PNG to look
+    /// at: `export-roundtrip-<format>.png`.
+    private static func renderRoundTrips(to folder: URL, sample: CGImage) throws {
+        for format in [ImageFormat.tga, .pbm, .ico] {
+            let data = try ImageExporter.data(for: sample, options: ImageOutputOptions(format: format, scale: 2))
+            guard let decoded = ImageFileLoader.load(data: data) else {
+                throw CocoaError(.fileReadCorruptFile, userInfo: [NSLocalizedDescriptionKey: "\(format) did not read back"])
+            }
+            try ImageExporter.write(decoded.image, to: folder.appendingPathComponent("export-roundtrip-\(format.rawValue).png"),
+                                    format: .png, scale: decoded.scale)
+        }
     }
 
     /// The Obfuscate Text dialog after a search, and the editor with its preview elements. The sample's text lines
