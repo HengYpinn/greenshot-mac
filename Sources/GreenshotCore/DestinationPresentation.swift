@@ -27,31 +27,31 @@ public struct DestinationShortcut: Equatable, Sendable {
 /// How the destinations show in the picker: upstream `DestinationDescriptor` (name, priority, icon, shortcut) of each
 /// destination, with SF Symbols for upstream's icons.
 extension CaptureDestination {
-    /// The picker's name of the destination.
+    /// The picker's name of the destination, in the app's language.
     public var pickerTitle: String {
         switch self {
-        case .picker: return "Ask Every Time"
-        case .editor: return "Open in Image Editor"
-        case .clipboard: return "Copy to Clipboard"
-        case .file: return "Save Directly"
-        case .fileAs: return "Save As…"
-        case .printer: return "Print…"
-        case .email: return "Email…"
-        case .share: return "Share…"
-        case .ocr: return "Copy Text (OCR)"
-        case .externalCommand: return "External Command"
-        case .pdf: return "Save as PDF…"
-        case .openWith: return "Open With"
-        case .word: return "Microsoft Word"
-        case .excel: return "Microsoft Excel"
-        case .powerpoint: return "Microsoft PowerPoint"
-        case .outlook: return "Microsoft Outlook"
-        case .notes: return "Notes"
-        case .qrCode: return "QR Code"
-        case .jira: return "Upload to Jira…"
-        case .confluence: return "Upload to Confluence…"
-        case .box: return "Upload to Box"
-        case .dropbox: return "Upload to Dropbox"
+        case .picker: return String(localized: "Ask Every Time")
+        case .editor: return String(localized: "Open in Image Editor")
+        case .clipboard: return String(localized: "Copy to Clipboard")
+        case .file: return String(localized: "Save Directly")
+        case .fileAs: return String(localized: "Save As…")
+        case .printer: return String(localized: "Print…")
+        case .email: return String(localized: "Email…")
+        case .share: return String(localized: "Share…")
+        case .ocr: return String(localized: "Copy Text (OCR)")
+        case .externalCommand: return String(localized: "External Command")
+        case .pdf: return String(localized: "Save as PDF…")
+        case .openWith: return String(localized: "Open With", comment: "The destination that opens the capture in another app")
+        case .word: return String(localized: "Microsoft Word")
+        case .excel: return String(localized: "Microsoft Excel")
+        case .powerpoint: return String(localized: "Microsoft PowerPoint")
+        case .outlook: return String(localized: "Microsoft Outlook")
+        case .notes: return String(localized: "Notes", comment: "Apple's Notes app as a destination")
+        case .qrCode: return String(localized: "QR Code", comment: "The destination that reads QR codes in the capture")
+        case .jira: return String(localized: "Upload to Jira…")
+        case .confluence: return String(localized: "Upload to Confluence…")
+        case .box: return String(localized: "Upload to Box")
+        case .dropbox: return String(localized: "Upload to Dropbox")
         }
     }
 
