@@ -19,6 +19,12 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
     let runtime: RecipeRuntime
 
     func execute(_ step: RecipeStepInvocation, in context: RecipeFlowContext) async throws {
+        // A run of greenshot-cli asks before it records (SM-M1; RUN_RECIPE asked already when it saw the step).
+        if let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent,
+           !(await consent.allows("a screen recording")) {
+            context.abort("The screen recording wasn't allowed.")
+            return
+        }
         let delay = RecipeSourceValues.clampedDelay(step.int("DelayMs") ?? 0)
         if delay > 0 { try await Task.sleep(nanoseconds: UInt64(delay) * 1_000_000) }
         let source = RecipeRecordVideoPlan.source(step, in: context)

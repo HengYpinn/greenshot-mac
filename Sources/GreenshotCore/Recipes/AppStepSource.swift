@@ -144,3 +144,95 @@ public enum RecipeSourceValues {
         min(max(milliseconds, 0), 60_000)
     }
 }
+
+// MARK: Captures started from the command line
+
+/// A recipe started by greenshot-cli asks before it takes something from the screen without the user on the capture
+/// screen (Mac only; `AutomationConsent`): any local program can run greenshot-cli, so the app's screen recording
+/// permission must not be borrowed silently (CWE-441). RUN_RECIPE puts it into the run as the host object
+/// `objectKey`; the Source step asks it when the capture happens, for what the flow really does (a region from a
+/// variable, a capture whose path to an export has no selection), so a question decided before the run can't miss it.
+public final class RecipeCaptureConsent: @unchecked Sendable {
+    public static let objectKey = "CaptureConsent"
+
+    private let lock = NSLock()
+    private var granted: Set<String>
+    private let ask: @Sendable (String) async -> Bool
+
+    /// - Parameters:
+    ///   - granted: what the user already allowed for this run (RUN_RECIPE's question before the start).
+    ///   - ask: shows the question for a subject ("a screenshot of the whole screen"); true when allowed.
+    public init(granted: [String] = [], ask: @escaping @Sendable (String) async -> Bool) {
+        self.granted = Set(granted)
+        self.ask = ask
+    }
+
+    /// Whether the run may take `subject`; asks once per subject.
+    public func allows(_ subject: String) async -> Bool {
+        if lock.withLock({ granted.contains(subject) }) { return true }
+        guard await ask(subject) else { return false }
+        lock.withLock { _ = granted.insert(subject) }
+        return true
+    }
+}
+
+extension RecipeSourceValues {
+    /// What a Source takes from the screen without the user selecting it, in `AutomationConsent`'s words; nil when the
+    /// user makes the capture on the capture screen (`selectionFollows`) or it doesn't come from the screen.
+    /// - Parameters:
+    ///   - named: a Window source with a window given (WindowHandle, title, process, TargetWindow).
+    ///   - region: a region was given (PreSuppliedRegion).
+    public static func unattendedSubject(_ type: SourceType, region: Bool, named: Bool, selectionFollows: Bool) -> String? {
+        if region { return "a screenshot of a region" }
+        switch type {
+        case .fullScreen: return "a screenshot of the whole screen"
+        case .activeWindow: return "a screenshot of the active window"
+        case .lastRegion: return "a screenshot of the last captured region"
+        case .window where named: return "a screenshot of a window"
+        case .region, .window, .textOcr: return selectionFollows ? nil : "a screenshot of the whole screen"
+        case .clipboard, .file, .currentEditor, .extension: return nil
+        }
+    }
+
+    /// Whether every way on from `nodeId` reaches a switched-on InteractiveSelection before the flow ends or leaves the
+    /// recipe: only then does the user choose what a screen Source's picture of every display becomes. A selection
+    /// switched on by an expression, an error route to another recipe or a loop without a selection count as none.
+    public static func selectionFollows(_ recipe: CaptureRecipe, from nodeId: String) -> Bool {
+        let transitions = recipe.flow.unifiedTransitions
+        var known: [String: Bool] = [:]
+        var onPath = Set<String>()
+        func next(_ id: String) -> [String]? {
+            guard let node = recipe.node(id) else { return [] }
+            if let recipeId = node.onErrorRecipeId, !recipeId.trimmingCharacters(in: .whitespaces).isEmpty { return nil }
+            var targets = transitions[id.lowercased()] ?? []
+            if let errorNode = node.onErrorNodeId, !errorNode.isEmpty { targets.append(errorNode) }
+            for transition in recipe.flow.errorTransitions {
+                let from = transition.from ?? "*"
+                guard from == "*" || from.isEmpty || recipeEquals(from, id) else { continue }
+                if let to = transition.to, !to.isEmpty { targets.append(to) }
+                if let other = transition.targetRecipeId, !other.isEmpty { return nil }
+            }
+            return targets
+        }
+        func reaches(_ id: String) -> Bool {
+            let key = id.lowercased()
+            if let result = known[key] { return result }
+            // Back on the way here: a loop that can go round without a selection.
+            guard onPath.insert(key).inserted else { return false }
+            defer { onPath.remove(key) }
+            var result = false
+            if let targets = next(id), !targets.isEmpty {
+                result = targets.allSatisfy { target in
+                    if let node = recipe.node(target), recipeEquals(node.stepType, WellKnownStepType.interactiveSelection),
+                       node.enabled == .value(true) {
+                        return true
+                    }
+                    return reaches(target)
+                }
+            }
+            known[key] = result
+            return result
+        }
+        return reaches(nodeId)
+    }
+}

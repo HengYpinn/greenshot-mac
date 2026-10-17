@@ -32,6 +32,18 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
         let captureMouse = RecipeSourceValues.bool(step, "CaptureMouseCursor", variable: "CaptureMouseCursor", in: context,
                                                    setting: settings.captureMousePointer)
         let region = RecipeSourceValues.region(context[variable: "PreSuppliedRegion"])
+        // A run of greenshot-cli asks before it takes what the user doesn't select on the capture screen (SM-M1).
+        if let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent {
+            let follows = RecipeSourceValues.selectionFollows(context.recipe, from: step.node.id)
+            if let subject = RecipeSourceValues.unattendedSubject(type, region: region != nil, named: Self.namesWindow(step, context: context),
+                                                                  selectionFollows: follows),
+               !(await consent.allows(subject)) {
+                context.abort("The screenshot wasn't allowed (\(subject)).")
+                return
+            }
+        }
+        // An AI tool doesn't see the titles of the apps excluded from AI tools either (SM-L1).
+        let hidden: (@Sendable (WindowInfo) -> Bool)? = isAITool ? services.aiGuard.map { guardian in { guardian.refusal(for: $0) != nil } } : nil
         let fromScreen = region != nil || type.isScreen
         if fromScreen {
             let allowed = await MainActor.run { () -> Bool in
@@ -56,11 +68,11 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
         var payload: RecipePayload
         if let region {
-            payload = try await captureRegion(region, withPointer: captureMouse, settings: settings)
+            payload = try await captureRegion(region, withPointer: captureMouse, settings: settings, hidden: hidden)
         } else {
             switch type {
             case .region, .textOcr:
-                payload = try await freezeScreens(withPointer: captureMouse, settings: settings)
+                payload = try await freezeScreens(withPointer: captureMouse, settings: settings, hidden: hidden)
             case .window:
                 payload = try await windowSource(step, context: context, services: services, captureMouse: captureMouse,
                                                  interactive: true)
@@ -68,7 +80,7 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
                 payload = try await windowSource(step, context: context, services: services, captureMouse: captureMouse,
                                                  interactive: false)
             case .fullScreen:
-                payload = try await fullScreen(step, context: context, withPointer: captureMouse, settings: settings)
+                payload = try await fullScreen(step, context: context, withPointer: captureMouse, settings: settings, hidden: hidden)
             case .lastRegion:
                 guard let last = settings.lastCapturedRegion, !last.isEmpty else {
                     // Upstream `LastRegionCaptureSource` aborts; the Mac beeps like its own Capture Last Region.
@@ -76,8 +88,8 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
                     context.abort("There is no last region to capture.")
                     return
                 }
-                payload = try await captureRegion(last, withPointer: captureMouse, settings: settings)
-                if let window = await MainActor.run(body: { Self.window(under: last) }) {
+                payload = try await captureRegion(last, withPointer: captureMouse, settings: settings, hidden: hidden)
+                if let window = await MainActor.run(body: { Self.window(under: last, hidden: hidden) }) {
                     context[variable: "SelectedWindow"] = RecipeSourceValues.windowValue(id: window.id, title: window.displayTitle,
                                                                                          app: window.appName, pid: window.pid,
                                                                                          frame: window.frame)
@@ -108,14 +120,14 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
     /// Region, Window (to select), TextOcr: every display frozen with and without the pointer for the selection after
     /// it; the payload is the union of the displays until then (upstream captures the full screen first).
     @MainActor
-    private func freezeScreens(withPointer: Bool, settings: AppSettings) async throws -> RecipePayload {
-        let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
+    private func freezeScreens(withPointer: Bool, settings: AppSettings, hidden: ((WindowInfo) -> Bool)?) async throws -> RecipePayload {
+        let windows = ScreenCapturer.onScreenWindows(includingPanels: true).filter { !(hidden?($0) ?? false) }
         let frozen = try await ScreenCapturer.freeze(withPointer: true, toneMapHDR: settings.toneMapHDRCaptures)
         let bounds = ScreenComposer.union(of: frozen.plain)
         guard let picture = ScreenComposer.image(of: bounds, from: frozen.screens(withPointer: withPointer)) else {
             throw CaptureError.nothingToCapture
         }
-        var payload = RecipePayload(image: picture.image, scale: picture.scale, title: ScreenCapturer.title(for: bounds, in: windows))
+        var payload = RecipePayload(image: picture.image, scale: picture.scale, title: Self.title(for: bounds, in: windows, hidden: hidden))
         payload.metadata["source"] = .string("Screen")
         payload.attachments[RecipeFrozenScreens.key] = RecipeFrozenScreens(frozen: frozen, windows: windows, withPointer: withPointer,
                                                                            bounds: bounds)
@@ -124,10 +136,11 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
     /// A part of the screen (PreSuppliedRegion, LastRegion).
     @MainActor
-    private func captureRegion(_ rect: CGRect, withPointer: Bool, settings: AppSettings) async throws -> RecipePayload {
-        let windows = ScreenCapturer.onScreenWindows()
+    private func captureRegion(_ rect: CGRect, withPointer: Bool, settings: AppSettings,
+                               hidden: ((WindowInfo) -> Bool)?) async throws -> RecipePayload {
+        let windows = ScreenCapturer.onScreenWindows().filter { !(hidden?($0) ?? false) }
         let frozen = try await ScreenCapturer.freeze(withPointer: withPointer, toneMapHDR: settings.toneMapHDRCaptures)
-        guard let capture = frozen.capture(of: rect, withPointer: withPointer, title: ScreenCapturer.title(for: rect, in: windows)) else {
+        guard let capture = frozen.capture(of: rect, withPointer: withPointer, title: Self.title(for: rect, in: windows, hidden: hidden)) else {
             throw CaptureError.nothingToCapture
         }
         var payload = RecipePayload(capture: capture, sourceType: "Region")
@@ -140,10 +153,10 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
     /// number `screenToCapture` (Fixed), or the menu bar's display (`TargetDisplay`).
     @MainActor
     private func fullScreen(_ step: RecipeStepInvocation, context: RecipeFlowContext, withPointer: Bool,
-                            settings: AppSettings) async throws -> RecipePayload {
+                            settings: AppSettings, hidden: ((WindowInfo) -> Bool)?) async throws -> RecipePayload {
         let mode = RecipeSourceValues.screenCaptureMode(step, in: context, setting: settings.screenCaptureMode)
         let target = (context.object(forKey: "TargetDisplay") as? RecipeDisplayObject)?.displayID
-        let windows = ScreenCapturer.onScreenWindows()
+        let windows = ScreenCapturer.onScreenWindows().filter { !(hidden?($0) ?? false) }
         let frozen = try await ScreenCapturer.freeze(withPointer: withPointer, toneMapHDR: settings.toneMapHDRCaptures)
         let order = NSScreen.screens.map(\.displayID)
         let ordered = frozen.screens(withPointer: withPointer).sorted {
@@ -157,7 +170,7 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
             chosen = CaptureScreenChoice.screens(for: mode, screenNumber: settings.screenToCapture, mouse: mouse,
                                                  frames: ordered.map(\.frame)).map { ordered[$0] }
         }
-        let title = ScreenCapturer.frontWindow(in: windows)?.displayTitle ?? "Full screen"
+        let title = ScreenCapturer.frontWindow(in: windows)?.displayTitle ?? (hidden == nil ? "Full screen" : "Screen")
         let union = ScreenComposer.union(of: chosen)
         guard !chosen.isEmpty,
               let capture = frozen.capture(of: union, withPointer: withPointer, title: title, only: Set(chosen.map(\.displayID)))
@@ -191,10 +204,11 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
             windowID = id
         }
         let query = Self.windowQuery(step, context: context)
-        if windowID == nil, query.isEmpty, interactive, context.object(forKey: "TargetWindow") == nil {
-            return try await freezeScreens(withPointer: captureMouse, settings: services.settings)
-        }
         let isAITool = recipeEquals(context.trigger?.triggerType ?? "", WellKnownTriggerType.aiTool)
+        if windowID == nil, query.isEmpty, interactive, context.object(forKey: "TargetWindow") == nil {
+            let hidden: (@Sendable (WindowInfo) -> Bool)? = isAITool ? services.aiGuard.map { guardian in { guardian.refusal(for: $0) != nil } } : nil
+            return try await freezeScreens(withPointer: captureMouse, settings: services.settings, hidden: hidden)
+        }
         let target = (context.object(forKey: "TargetWindow") as? RecipeWindowObject)?.window
         let frontPID = context.trigger?.frontmostProcessID
         let wantedID = windowID
@@ -249,9 +263,26 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
     /// The normal window under the middle of `rect` (LastRegion's `SelectedWindow`).
     @MainActor
-    static func window(under rect: CGRect) -> WindowInfo? {
+    static func window(under rect: CGRect, hidden: ((WindowInfo) -> Bool)? = nil) -> WindowInfo? {
         let center = CGPoint(x: rect.midX, y: rect.midY)
-        return ScreenCapturer.onScreenWindows().first { $0.level == 0 && $0.frame.contains(center) }
+        return ScreenCapturer.onScreenWindows().first { $0.level == 0 && $0.frame.contains(center) && !(hidden?($0) ?? false) }
+    }
+
+    /// The title of a part of the screen: the window under its middle, else the app in front (`ScreenCapturer.title`).
+    /// An AI tool's capture (`hidden` set; `windows` without the hidden ones) never names an app it may not see:
+    /// "Screen" when no window is under the middle.
+    @MainActor
+    static func title(for rect: CGRect, in windows: [WindowInfo], hidden: ((WindowInfo) -> Bool)?) -> String {
+        guard hidden != nil else { return ScreenCapturer.title(for: rect, in: windows) }
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        return windows.first { $0.level == 0 && $0.frame.contains(center) }?.displayTitle ?? "Screen"
+    }
+
+    /// A Window source names its window (no capture screen needed): `WindowHandle`, a title, pattern or process, or the
+    /// menu's `TargetWindow`.
+    static func namesWindow(_ step: RecipeStepInvocation, context: RecipeFlowContext) -> Bool {
+        if step.isSet("WindowHandle") || context.object(forKey: "TargetWindow") != nil { return true }
+        return !windowQuery(step, context: context).isEmpty
     }
 
     // MARK: Clipboard, file, editor
@@ -323,7 +354,7 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
     /// The windows of apps excluded from AI tools blacked out of a screen capture (upstream `RedactForAiTool`), off the
     /// main thread.
-    private static func redacted(_ payload: RecipePayload, guard guardian: any RecipeAIToolCaptureGuard,
+    static func redacted(_ payload: RecipePayload, guard guardian: any RecipeAIToolCaptureGuard,
                                  context: RecipeFlowContext) -> RecipePayload {
         var changed = payload
         let origin = (payload.attachments[originKey] as? RecipeScreenOrigin)?.origin
