@@ -19,6 +19,32 @@ public enum AtlassianLogin: String, Codable, CaseIterable, Sendable {
     case serverPassword
 
     public var isCloud: Bool { self == .cloudAPIToken }
+
+    public var displayName: String {
+        switch self {
+        case .cloudAPIToken: return "Cloud: email and API token"
+        case .serverToken: return "Server or Data Center: personal access token"
+        case .serverPassword: return "Server or Data Center: user name and password"
+        }
+    }
+
+    /// The label of the user field; nil when the login has none (a personal access token).
+    public var userLabel: String? {
+        switch self {
+        case .cloudAPIToken: return "Email"
+        case .serverToken: return nil
+        case .serverPassword: return "User name"
+        }
+    }
+
+    /// The label of the secret, which is kept in the Keychain.
+    public var secretLabel: String {
+        switch self {
+        case .cloudAPIToken: return "API token"
+        case .serverToken: return "Personal access token"
+        case .serverPassword: return "Password"
+        }
+    }
 }
 
 /// Upstream Office plugin settings (`IOfficeConfiguration.cs`). To, CC, BCC and the subject pattern are `EmailSettings`'
@@ -27,6 +53,8 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
     /// Upstream `EmailFormat`: the body of a new Outlook mail.
     public enum EmailFormat: String, Codable, CaseIterable, Sendable {
         case html, text
+
+        public var displayName: String { self == .html ? "HTML" : "Text" }
     }
 
     /// Upstream `PpSlideLayout` without `ppLayoutMixed` (values 1–36, PowerPoint's `slide layout …` enumerators).
@@ -37,6 +65,42 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
         case verticalText, clipartAndVerticalText, verticalTitleAndText, verticalTitleAndTextOverChart, twoObjects
         case objectAndTwoObjects, twoObjectsAndObject, custom, sectionHeader, comparison, contentWithCaption
         case pictureWithCaption
+
+        /// The words after "slide layout " of PowerPoint's AppleScript enumerator (`EPPSlideLayout`, codes 0x00cd0001–24
+        /// like upstream's values 1–36).
+        public var appleScriptName: String {
+            switch self {
+            case .title: return "title slide"
+            case .text: return "text slide"
+            case .textAndMediaClip: return "media clip"
+            default: return words
+            }
+        }
+
+        /// "Picture with caption" etc.
+        public var displayName: String {
+            switch self {
+            case .title: return "Title"
+            case .text: return "Text"
+            case .textAndMediaClip: return "Text and media clip"
+            default:
+                let text = words
+                return text.prefix(1).uppercased() + text.dropFirst()
+            }
+        }
+
+        /// The case name in words: `twoColumnText` → "two column text".
+        private var words: String {
+            var result = ""
+            for character in rawValue {
+                if character.isUppercase {
+                    result += " " + character.lowercased()
+                } else {
+                    result.append(character)
+                }
+            }
+            return result
+        }
     }
 
     /// `OutlookEmailFormat`, default HTML.
@@ -45,7 +109,8 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
     public var wordLockAspectRatio = true
     /// `PowerpointLockAspectRatio`.
     public var powerpointLockAspectRatio = true
-    /// `PowerpointSlideLayout`; a layout without a caption and a picture placeholder falls back to blank.
+    /// `PowerpointSlideLayout`; the title goes into its first shape and the picture into its second (the picture
+    /// placeholder); a layout PowerPoint refuses falls back to blank.
     public var powerpointSlideLayout: SlideLayout = .pictureWithCaption
 
     public init() {}

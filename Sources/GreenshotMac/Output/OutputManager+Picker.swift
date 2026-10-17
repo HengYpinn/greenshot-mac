@@ -93,7 +93,29 @@ extension OutputManager {
         add(.clipboard)
         add(.ocr)
         addGroup(.printer, title: "Print", Printing.printerNames().map { name in item(name, .printer(name), symbol: "printer") })
-        if EmailDestination.isAvailable { add(.email) }
+        if EmailDestination.isAvailable {
+            // Mail's messages being written, to add the capture to (the Mac's stand-in for Outlook's open inspectors).
+            if EmailDestination.defaultAppIsMail, OfficeDestination.isRunning(.mail) {
+                let group = officeGroup(.mail, title: CaptureDestination.email.pickerTitle, newTarget: .destination(.email), item)
+                group.image = Self.symbol(CaptureDestination.email.symbolName)
+                entries.append((CaptureDestination.email.pickerPriority, group.title, group))
+            } else {
+                add(.email)
+            }
+        }
+        // The Office apps (upstream `Greenshot.Plugin.Office`) and Notes, when installed; a running app lists its open
+        // documents.
+        for app in OfficeDestination.applications where OfficeDestination.isInstalled(app) {
+            let destination = app.destination
+            let entry: NSMenuItem
+            if app.hasOpenItems, OfficeDestination.isRunning(app) {
+                entry = officeGroup(app, title: destination.pickerTitle, newTarget: .office(app, nil), item)
+            } else {
+                entry = item(destination.pickerTitle, .office(app, nil), symbol: destination.symbolName)
+            }
+            entry.image = OfficeDestination.icon(app)
+            entries.append((destination.pickerPriority, destination.pickerTitle, entry))
+        }
         add(.share)
         if DestinationAvailability.isSetUp(.jira, in: s) {
             addGroup(.jira, title: "Upload to Jira", jiraIssueItems(item))
@@ -145,9 +167,9 @@ extension OutputManager {
             summary.isEmpty ? key : "\(key): \(FilenamePattern.menuTitle(summary))"
         }
         let items = keys.map { key in item(JiraSummaries.known[key].map { title(key, $0) } ?? key, .jiraIssue(key), "checklist", nil) }
-        // The email first: without it the Keychain isn't asked for the token.
-        guard !items.isEmpty, !s.jira.email.trimmingCharacters(in: .whitespaces).isEmpty,
-              let site = Uploads.jiraSite(s), !site.apiToken.isEmpty else { return items }
+        // The user first: without it the Keychain isn't asked for the token (a personal access token needs none).
+        let hasUser = s.jira.login == .serverToken || !s.jira.email.trimmingCharacters(in: .whitespaces).isEmpty
+        guard !items.isEmpty, hasUser, let site = Uploads.jiraSite(s), site.hasCredentials else { return items }
         let client = JiraClient(site: site, http: Uploads.http)
         for (key, entry) in zip(keys, items) where JiraSummaries.known[key] == nil {
             Task { @MainActor [weak entry] in
@@ -165,6 +187,46 @@ extension OutputManager {
             }
         }
         return items
+    }
+
+    /// An Office app (or Mail) with a sub-menu: a new document first, then its open documents or messages once the app
+    /// answered (upstream `GetDynamicDestinationsAsync`); asking never starts the app or a permission prompt.
+    private func officeGroup(_ app: OfficeApplication, title: String, newTarget: DestinationTarget,
+                             _ item: @escaping (String, DestinationTarget, String?, DestinationShortcut?) -> NSMenuItem) -> NSMenuItem {
+        let group = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        let submenu = NSMenu(title: title)
+        submenu.autoenablesItems = false
+        let destination = app.destination
+        let new = item(OfficeDestination.newItemTitle(app), newTarget, destination.symbolName,
+                       app == .mail ? destination.shortcut : nil)
+        new.image = OfficeDestination.icon(app)
+        submenu.addItem(new)
+        let separator = NSMenuItem.separator()
+        let looking = NSMenuItem(title: "Looking for open \(app == .mail || app == .outlook ? "messages" : "documents")…",
+                                 action: nil, keyEquivalent: "")
+        looking.isEnabled = false
+        submenu.addItem(separator)
+        group.submenu = submenu
+        if let known = OfficeDestination.openItemsOverride[app] {
+            for open in known {
+                submenu.addItem(item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), nil, nil))
+            }
+            return group
+        }
+        submenu.addItem(looking)
+        Task { @MainActor [weak submenu] in
+            let items = await OfficeDestination.openItems(app)
+            guard let submenu else { return }
+            submenu.removeItem(looking)
+            if items.isEmpty {
+                submenu.removeItem(separator)
+                return
+            }
+            for open in items {
+                submenu.addItem(item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), nil, nil))
+            }
+        }
+        return group
     }
 
     static func symbol(_ name: String) -> NSImage? {

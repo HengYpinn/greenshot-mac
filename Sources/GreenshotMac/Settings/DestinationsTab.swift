@@ -17,10 +17,12 @@ struct DestinationsSettings: View {
         Form {
             afterCaptureSection
             emailSection
+            OfficeSettingsSection(store: store)
             pdfSection
             externalCommandsSection
             JiraSettingsSection(store: store)
             ConfluenceSettingsSection(store: store)
+            CertificateExceptionsSection(store: store)
             BoxSettingsSection(store: store)
             DropboxSettingsSection(store: store)
         }
@@ -31,7 +33,7 @@ struct DestinationsSettings: View {
         Section {
             Toggle("Ask every time (destination menu)", isOn: destination(.picker))
             // Never disabled: with the menu on and nothing else chosen, there would be no way to switch.
-            ForEach(Self.choices, id: \.self) { candidate in
+            ForEach(Self.choices.filter(Self.isOffered), id: \.self) { candidate in
                 Toggle(candidate.displayName, isOn: destination(candidate))
             }
         } header: {
@@ -40,6 +42,13 @@ struct DestinationsSettings: View {
             Text("Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.")
                 .font(.caption).foregroundStyle(.secondary)
         }
+    }
+
+    /// The Office destinations only when their app is installed (or already chosen).
+    @MainActor
+    private static func isOffered(_ destination: CaptureDestination) -> Bool {
+        guard let app = OfficeApplication(destination: destination) else { return true }
+        return OfficeDestination.isInstalled(app)
     }
 
     private var emailSection: some View {
@@ -51,7 +60,7 @@ struct DestinationsSettings: View {
         } header: {
             Text("Email")
         } footer: {
-            Text("Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. The macOS mail service fills in To and the subject; CC and BCC are shown to add by hand.")
+            Text("Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
@@ -143,6 +152,36 @@ struct DestinationsSettings: View {
     }
 }
 
+/// Upstream's Office settings (`OfficeConfigurationView`): Word and PowerPoint pictures, the Outlook mail format; the
+/// subject and recipients are the Email section's.
+struct OfficeSettingsSection: View {
+    @ObservedObject var store: SettingsStore
+
+    var body: some View {
+        Section {
+            Toggle("Word: lock aspect ratio of the image", isOn: store.binding(\.office.wordLockAspectRatio))
+            Toggle("PowerPoint: lock aspect ratio of the image", isOn: store.binding(\.office.powerpointLockAspectRatio))
+            Picker("PowerPoint: slide layout for exported captures", selection: store.binding(\.office.powerpointSlideLayout)) {
+                ForEach(OfficeSettings.SlideLayout.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            Picker("Outlook: email format for new emails", selection: store.binding(\.office.outlookEmailFormat)) {
+                ForEach(OfficeSettings.EmailFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            HStack {
+                Text("Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.")
+                    .font(.caption).foregroundStyle(.secondary)
+                Spacer()
+                Button("Privacy Settings…") { AppleScriptRunner.openAutomationSettings() }
+            }
+        } header: {
+            Text("Microsoft Office and Notes")
+        } footer: {
+            Text("Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+}
+
 /// One external command in Settings › Destinations.
 private struct ExternalCommandRow: View {
     let command: ExternalCommand
@@ -187,6 +226,25 @@ extension DestinationsSettings {
             externalCommandsSection
             JiraSettingsSection(store: store)
             ConfluenceSettingsSection(store: store)
+        }
+        .formStyle(.grouped)
+    }
+
+    /// The Email and Office sections, for the snapshots.
+    var officeForSnapshot: some View {
+        Form {
+            emailSection
+            OfficeSettingsSection(store: store)
+        }
+        .formStyle(.grouped)
+    }
+
+    /// Jira, Confluence and Your own servers, for the snapshots.
+    var serversForSnapshot: some View {
+        Form {
+            JiraSettingsSection(store: store)
+            ConfluenceSettingsSection(store: store)
+            CertificateExceptionsSection(store: store)
         }
         .formStyle(.grouped)
     }

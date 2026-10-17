@@ -61,6 +61,11 @@ final class ConnectionTest: ObservableObject {
             result = "Enter the URL first."
             return
         }
+        guard site.hasCredentials else {
+            result = site.login == .serverPassword ? "Enter the user name and password first (or test at the first upload)."
+                : "Enter the \(site.login.userLabel.map { "\($0.lowercased()) and " } ?? "")\(site.login.secretLabel.lowercased()) first."
+            return
+        }
         running = true
         Task { @MainActor in
             switch await Uploads.testAtlassian(site, confluence: confluence) {
@@ -117,17 +122,24 @@ struct JiraSettingsSection: View {
     @StateObject private var test = ConnectionTest()
 
     var body: some View {
+        let login = store.value.jira.login
         Section {
-            TextField("URL", text: store.binding(\.jira.url), prompt: Text("https://yourcompany.atlassian.net"))
-            TextField("Email", text: store.binding(\.jira.email))
-            SecretField("API token", key: SecretKey.jiraToken)
+            Picker("Sign in with", selection: store.binding(\.jira.login)) {
+                ForEach(AtlassianLogin.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            TextField("URL", text: store.binding(\.jira.url),
+                      prompt: Text(login.isCloud ? "https://yourcompany.atlassian.net" : "https://jira.yourcompany.com"))
+            if let userLabel = login.userLabel {
+                TextField(userLabel, text: store.binding(\.jira.email))
+            }
+            SecretField(login.secretLabel, key: SecretKey.jiraToken)
             UploadFormatRow(format: store.binding(\.jira.uploadFormat), quality: store.binding(\.jira.jpegQuality),
                             reduceColors: store.binding(\.jira.reduceColors))
             ConnectionTestRow(test: test) { test.run(confluence: false, settings: store.value) }
         } header: {
             Text("Jira")
         } footer: {
-            Text("Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens). The token is kept in your Keychain. The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.")
+            Text(AtlassianFooter.text(login, service: "Jira") + " The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
@@ -138,23 +150,97 @@ struct ConfluenceSettingsSection: View {
     @StateObject private var test = ConnectionTest()
 
     var body: some View {
+        let login = store.value.confluence.login
         Section {
-            TextField("URL", text: store.binding(\.confluence.url), prompt: Text("https://yourcompany.atlassian.net/wiki"))
-            TextField("Email", text: store.binding(\.confluence.email))
-            SecretField("API token", key: SecretKey.confluenceToken)
+            Picker("Sign in with", selection: store.binding(\.confluence.login)) {
+                ForEach(AtlassianLogin.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            TextField("URL", text: store.binding(\.confluence.url),
+                      prompt: Text(login.isCloud ? "https://yourcompany.atlassian.net/wiki" : "https://confluence.yourcompany.com"))
+            if let userLabel = login.userLabel {
+                TextField(userLabel, text: store.binding(\.confluence.email))
+            }
+            SecretField(login.secretLabel, key: SecretKey.confluenceToken)
             UploadFormatRow(format: store.binding(\.confluence.uploadFormat), quality: store.binding(\.confluence.jpegQuality),
                             reduceColors: store.binding(\.confluence.reduceColors))
             Toggle("Open the page after the upload", isOn: store.binding(\.confluence.openPageAfterUpload))
             Picker("Copy to the clipboard", selection: store.binding(\.confluence.clipboardContent)) {
                 ForEach(ConfluenceSettings.ClipboardContent.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            Toggle("Include personal spaces in search and browsing", isOn: store.binding(\.confluence.includePersonalSpaces))
             ConnectionTestRow(test: test) { test.run(confluence: true, settings: store.value) }
         } header: {
             Text("Confluence")
         } footer: {
-            Text("Cloud sites end in /wiki. The same kind of API token as for Jira (one token works for both). The upload asks for the page: one of the last ten, or a search by title in one space or all. The last ten are in the destination menu too.")
+            Text((login.isCloud ? "Cloud sites end in /wiki. " : "") + AtlassianFooter.text(login, service: "Confluence") + " The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.")
                 .font(.caption).foregroundStyle(.secondary)
         }
+    }
+}
+
+/// How the sign-in of Jira and Confluence works, for the sections' footers.
+private enum AtlassianFooter {
+    static func text(_ login: AtlassianLogin, service: String) -> String {
+        switch login {
+        case .cloudAPIToken:
+            return "Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain."
+        case .serverToken:
+            return "Create a personal access token in \(service) under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain."
+        case .serverPassword:
+            return "Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers."
+        }
+    }
+}
+
+/// "Your own servers": certificate exceptions for self-hosted Jira and Confluence with a self-signed certificate or a
+/// private CA (upstream `AllowedUntrustedCertificateHosts`, `AllowedCertificateThumbprints`, only in greenshot.ini there).
+struct CertificateExceptionsSection: View {
+    @ObservedObject var store: SettingsStore
+
+    var body: some View {
+        Section {
+            LinesField(title: "Trust these hosts despite certificate errors", prompt: "jira.mycompany.local\n*.mycompany.local",
+                       lines: store.binding(\.allowedUntrustedCertificateHosts))
+            LinesField(title: "Trust certificates with these fingerprints", prompt: "SHA-256 or SHA-1, e.g. 2F:D2:CC:…",
+                       lines: store.binding(\.allowedCertificateThumbprints))
+        } header: {
+            Text("Your own servers")
+        } footer: {
+            Text("Only for Jira and Confluence servers whose certificate macOS doesn't trust. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+}
+
+/// A list of strings edited as text, one per line; empty lines are dropped when saved.
+struct LinesField: View {
+    let title: String
+    let prompt: String
+    @Binding var lines: [String]
+    @State private var text = ""
+    @State private var loaded = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+            TextField(title, text: $text, prompt: Text(prompt), axis: .vertical)
+                .labelsHidden()
+                .lineLimit(2...6)
+                .font(.system(.body, design: .monospaced))
+                .onChange(of: text) { _, new in
+                    let parsed = Self.lines(of: new)
+                    if parsed != lines { lines = parsed }
+                }
+        }
+        .onAppear {
+            guard !loaded else { return }
+            loaded = true
+            text = lines.joined(separator: "\n")
+        }
+    }
+
+    static func lines(of text: String) -> [String] {
+        text.split(whereSeparator: \.isNewline).map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
     }
 }
 

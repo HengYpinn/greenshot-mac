@@ -26,6 +26,9 @@ enum DestinationTarget: Equatable {
     case jiraIssue(String)
     /// Attach to this Confluence page without asking (upstream `ConfluenceDestination(page)`).
     case confluencePage(ConfluencePage)
+    /// A new document of an Office app (nil) or an open one, without asking (upstream `WordDestination(caption)`,
+    /// `OutlookDestination(inspector)`, …); Mail's open messages too.
+    case office(OfficeApplication, OfficeOpenItem?)
 
     /// The destination's name for messages ("Exported to: …").
     var displayName: String {
@@ -39,6 +42,9 @@ enum DestinationTarget: Equatable {
         case .printer(let name): return "Print – \(name)"
         case .jiraIssue(let key): return "Upload to Jira – \(key)"
         case .confluencePage(let page): return "Upload to Confluence – \(page.title)"
+        case .office(let app, let item):
+            let name = app == .mail ? "Email" : app.name
+            return item.map { "\(name) – \($0.title)" } ?? name
         }
     }
 }
@@ -111,6 +117,8 @@ final class OutputManager {
             JiraDestination.upload(capture, settings: settings, saver: saver, issueKey: key, completion: finish)
         case .confluencePage(let page):
             ConfluenceDestination.upload(capture, settings: settings, saver: saver, page: page, completion: finish)
+        case .office(let app, let item):
+            OfficeDestination.export(app, item: item, capture: capture, settings: settings, saver: saver, completion: finish)
         }
     }
 
@@ -134,7 +142,7 @@ final class OutputManager {
             Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date,
                            completion: completion)
         case .email:
-            completion(EmailDestination.send(capture, settings: settings, saver: saver))
+            EmailDestination.send(capture, settings: settings, saver: saver, completion: completion)
         case .share:
             ShareDestination.share(capture, settings: settings, window: window, completion: completion)
         case .ocr:
@@ -163,7 +171,9 @@ final class OutputManager {
         case .box, .dropbox:
             CloudDestination.upload(destination, capture, settings: settings, saver: saver, completion: completion)
         case .word, .excel, .powerpoint, .outlook, .notes:
-            completion(.failed("\(destination.displayName) is not available yet."))
+            guard let app = OfficeApplication(destination: destination) else { return completion(.declined) }
+            OfficeDestination.exportAutomatically(app, capture: capture, settings: settings, saver: saver,
+                                                  popUp: { [weak self] menu in self?.popUp(menu) }, completion: completion)
         }
     }
 

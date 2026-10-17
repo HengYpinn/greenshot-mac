@@ -66,30 +66,37 @@ enum JiraPicker {
     }
 }
 
-/// The Confluence page chooser of the upload dialog: upstream `ConfluenceSearchPage` (a space, the title words)
-/// with the recent pages in the place of upstream's "open pages" tab.
+/// The Confluence page chooser of the upload dialog: upstream `ConfluenceUploadWindow` with its tabs "Open pages"
+/// (`ConfluencePagePickerPage`), "Search pages" (`ConfluenceSearchPage`: a space, the title words; the recent pages
+/// before a search) and "Browse pages" (`ConfluenceTreePickerPage`: spaces, home pages, child pages).
 @MainActor
 final class ConfluencePicker {
     struct Choice {
         var page: ConfluencePage
         var filename: String
         var comment: String
+        /// The page is open in the browser already (upstream `IsOpenPageSelected`: it isn't opened again).
+        var isOpenPage: Bool
     }
 
     private let panel: UploadPickerPanel
     private let found = FoundPages()
     private let recent: [ConfluencePage]
 
-    init(client: ConfluenceClient, settings: SettingsStore, filename: String) {
+    /// `openPages` finds the pages open in the browsers: nil when that would need asking for a permission first
+    /// (`ask: false`), see `BrowserPages`.
+    init(client: ConfluenceClient, settings: SettingsStore, filename: String,
+         openPages: ((_ ask: Bool) async throws -> [ConfluencePage]?)? = nil) {
         let s = settings.value
         recent = s.confluence.recentPages
         let found = self.found
+        let includePersonal = s.confluence.includePersonalSpaces
+        let columns = [UploadPickerPanel.Column(title: "Page", width: 260), UploadPickerPanel.Column(title: "Space", width: 180)]
         var configuration = UploadPickerPanel.Configuration(
             title: "Upload to Confluence", keyLabel: nil, searchPlaceholder: "Words in the page title, or CQL",
-            columns: [UploadPickerPanel.Column(title: "Page", width: 260), UploadPickerPanel.Column(title: "Space", width: 180)],
-            recent: recent.map(Self.row), filename: filename, showsComment: true,
+            columns: columns, recent: recent.map(Self.row), filename: filename, showsComment: true,
             search: { text, space in
-                let result = try await client.searchPages(title: text, spaceKey: space?.id ?? "")
+                let result = try await client.searchPages(title: text, spaceKey: space?.id ?? "", includePersonalSpaces: includePersonal)
                 found.pages += result
                 return result.map(Self.row)
             })
@@ -97,15 +104,69 @@ final class ConfluencePicker {
         configuration.noScopeTitle = "All spaces"
         configuration.initialScopeID = s.confluence.searchSpaceKey.isEmpty ? nil : s.confluence.searchSpaceKey
         configuration.loadScopes = {
-            try await client.spaces().map { UploadPickerPanel.Scope(id: $0.key, title: $0.name) }
+            ConfluenceClient.filtered(try await client.spaces(), includePersonal: includePersonal)
+                .map { UploadPickerPanel.Scope(id: $0.key, title: $0.name) }
         }
         // Upstream remembers the space of the last search (`SearchSpaceKey`).
         configuration.scopeChanged = { scope in settings.update { $0.confluence.searchSpaceKey = scope?.id ?? "" } }
+        configuration.browse = Self.browse(client: client, includePersonal: includePersonal, found: found)
+        if let openPages {
+            configuration.openRows = UploadPickerPanel.OpenRows(
+                title: "Open pages", columns: columns,
+                load: {
+                    guard let pages = try await openPages(false) else { return nil }
+                    found.pages += pages
+                    return pages.map(Self.row)
+                },
+                askTitle: "Look in Safari and Chrome",
+                ask: {
+                    let pages = try await openPages(true) ?? []
+                    found.pages += pages
+                    return pages.map(Self.row)
+                },
+                emptyText: "No page of this Confluence is open in Safari or Chrome.")
+        }
         panel = UploadPickerPanel(configuration)
+    }
+
+    /// The tree: spaces, each with its home page, the pages with their children.
+    private static func browse(client: ConfluenceClient, includePersonal: Bool, found: FoundPages) -> UploadPickerBrowser.Configuration {
+        UploadPickerBrowser.Configuration(
+            loadRoots: {
+                ConfluenceClient.filtered(try await client.spaces(), includePersonal: includePersonal).map { space in
+                    SpaceNode(space)
+                }
+            },
+            loadChildren: { node in
+                let pages: [ConfluencePage]
+                if let space = node as? SpaceNode {
+                    guard let homepage = space.space.homepageID else { return [] }
+                    pages = [try await client.page(id: homepage, spaceName: space.space.name)]
+                } else {
+                    let spaceName = node.row?.values.last ?? ""
+                    pages = try await client.childPages(of: node.id, spaceName: spaceName)
+                }
+                found.pages += pages
+                return pages.map(pageNode)
+            })
     }
 
     nonisolated static func row(_ page: ConfluencePage) -> UploadPickerPanel.Row {
         UploadPickerPanel.Row(id: page.id, values: [page.title, page.spaceName])
+    }
+
+    static func pageNode(_ page: ConfluencePage) -> UploadPickerBrowser.Node {
+        UploadPickerBrowser.Node(id: page.id, title: page.title, row: row(page))
+    }
+
+    /// A space in the tree; its child is its home page.
+    final class SpaceNode: UploadPickerBrowser.Node {
+        let space: ConfluenceSpace
+
+        init(_ space: ConfluenceSpace) {
+            self.space = space
+            super.init(id: "space:" + space.key, title: space.name, row: nil, mayHaveChildren: space.homepageID != nil)
+        }
     }
 
     var contentView: NSView? { panel.contentView }
@@ -115,13 +176,28 @@ final class ConfluencePicker {
                       selectedScope: selected)
     }
 
-    func run() -> Choice? {
-        guard let choice = panel.run(), let id = choice.row?.id,
-              let page = (recent + found.pages).first(where: { $0.id == id }) else { return nil }
-        return Choice(page: page, filename: choice.filename, comment: choice.comment)
+    /// The browse tab with a tree, for the snapshots.
+    func previewBrowse(spaces: [ConfluenceSpace], homepage: ConfluencePage, children: [ConfluencePage]) {
+        let nodes = spaces.map(SpaceNode.init)
+        guard let first = nodes.first else { return }
+        let home = Self.pageNode(homepage)
+        home.children = children.map(Self.pageNode)
+        first.children = [home]
+        panel.previewBrowse(nodes, expand: [first, home], select: home.children?.first)
     }
 
-    /// The search results, so the picked row can become a page again.
+    /// The open pages tab, for the snapshots; nil shows the button that asks first.
+    func previewOpenPages(_ pages: [ConfluencePage]?) {
+        panel.previewOpenRows(pages?.map(Self.row))
+    }
+
+    func run() -> Choice? {
+        guard let choice = panel.run(), let id = choice.row?.id,
+              let page = (found.pages + recent).first(where: { $0.id == id }) else { return nil }
+        return Choice(page: page, filename: choice.filename, comment: choice.comment, isOpenPage: choice.fromOpenRows)
+    }
+
+    /// The pages of the searches, the tree and the browsers, so the picked row can become a page again.
     private final class FoundPages: @unchecked Sendable {
         var pages: [ConfluencePage] = []
     }

@@ -33,6 +33,23 @@ struct DestinationPresentationTests {
         #expect(CaptureDestination.jira.pickerPriority == 10 && CaptureDestination.externalCommand.pickerPriority == 10)
     }
 
+    @Test func officeDestinationsFollowUpstreamsDescriptors() {
+        #expect(CaptureDestination.outlook.pickerPriority == 3)
+        #expect(CaptureDestination.word.pickerPriority == 4)
+        #expect(CaptureDestination.powerpoint.pickerPriority == 4)
+        #expect(CaptureDestination.notes.pickerPriority == 4)
+        #expect(CaptureDestination.excel.pickerPriority == 5)
+        #expect(CaptureDestination.word.pickerTitle == "Microsoft Word")
+        // Email keeps ⌘E; Outlook has none (upstream gives both Ctrl+E).
+        for office in [CaptureDestination.word, .excel, .powerpoint, .outlook, .notes] {
+            #expect(office.shortcut == nil)
+        }
+        let sorted = DestinationOrder.sorted([CaptureDestination.excel, .word, .outlook, .email, .powerpoint]) {
+            ($0.pickerPriority, $0.pickerTitle)
+        }
+        #expect(sorted == [.email, .outlook, .powerpoint, .word, .excel])
+    }
+
     @Test func shortcutsMatchTheFileMenu() {
         #expect(CaptureDestination.file.shortcut == DestinationShortcut("s"))
         #expect(CaptureDestination.fileAs.shortcut == DestinationShortcut("s", shift: true))

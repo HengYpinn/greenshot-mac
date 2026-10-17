@@ -6,11 +6,28 @@
 import AppKit
 import GreenshotCore
 
+private let log = Log("Uploads")
+
 /// What the upload destinations share: the network, the Keychain, the encoded file and how an upload runs.
 @MainActor
 enum Uploads {
-    static let http: HTTPClient = URLSession.shared
+    /// The certificate exceptions of Settings › Destinations › Your own servers (upstream `NetworkHelper`).
+    static let trust = TLSExceptionSessionDelegate()
+    static let http: HTTPClient = URLSession(configuration: .default, delegate: trust, delegateQueue: nil)
     static let secrets: SecretStore = KeychainSecretStore.shared
+
+    /// Takes the certificate exceptions of the settings for the next requests.
+    static func applyCertificateExceptions(_ settings: AppSettings) {
+        trust.update(TLSExceptionPolicy(settings: settings))
+    }
+
+    /// A certificate error with the server's fingerprint and where to allow it; other errors as they are.
+    static func explained(_ error: Error) -> Error {
+        guard UntrustedCertificateError.isCertificateError(error), let url = error as? URLError,
+              let host = url.failingURL?.host ?? (url.userInfo[NSURLErrorFailingURLStringErrorKey] as? String).flatMap({ URL(string: $0)?.host })
+        else { return error }
+        return UntrustedCertificateError(host: host, fingerprint: trust.rejectedFingerprint(for: host), underlying: url.localizedDescription)
+    }
 
     /// The file name the pattern gives, with the upload format's extension.
     static func suggestedName(for capture: Capture, settings: SettingsStore, format: UploadFormat) -> String {
@@ -31,6 +48,7 @@ enum Uploads {
     /// panel with Cancel comes up when it takes longer than 300 ms (upstream `RunWithProgressAsync` with
     /// `communication_wait`).
     static func run(_ failureTitle: String, progress message: String, completion: @escaping ExportCompletion = { _ in },
+                    showError: (@MainActor (Error) -> Void)? = nil,
                     _ operation: @escaping @MainActor () async throws -> ExportResult) {
         let upload = Task { @MainActor in try await operation() }
         let progress = ProgressHolder()
@@ -52,8 +70,10 @@ enum Uploads {
                 if isCancellation(error) {
                     completion(.declined)
                 } else {
-                    ErrorPresenter.show(error, title: failureTitle)
-                    completion(.failed(error.localizedDescription))
+                    log.error(failureTitle, error: error)
+                    let shown = explained(error)
+                    if let showError { showError(shown) } else { ErrorPresenter.show(shown, title: failureTitle) }
+                    completion(.failed(shown.localizedDescription))
                 }
                 return
             }
@@ -94,15 +114,19 @@ enum Uploads {
         }
     }
 
+    /// The Jira site of the settings with its token or password (see `AtlassianSignIn`).
     static func jiraSite(_ settings: AppSettings) -> AtlassianSite? {
-        AtlassianSite(url: settings.jira.url, email: settings.jira.email, apiToken: (try? secrets.secret(for: SecretKey.jiraToken)) ?? "")
+        applyCertificateExceptions(settings)
+        return AtlassianSignIn.site(.jira, settings: settings)
     }
 
     static func confluenceSite(_ settings: AppSettings) -> AtlassianSite? {
-        AtlassianSite(url: settings.confluence.url, email: settings.confluence.email, apiToken: (try? secrets.secret(for: SecretKey.confluenceToken)) ?? "")
+        applyCertificateExceptions(settings)
+        return AtlassianSignIn.site(.confluence, settings: settings)
     }
 
     static func oauthClient(for destination: CaptureDestination, settings: AppSettings) -> OAuthClient {
+        applyCertificateExceptions(settings)
         switch destination {
         case .box:
             return OAuthClient(provider: .box, clientID: settings.box.clientID,
@@ -116,12 +140,12 @@ enum Uploads {
 
     /// Checks the credentials of an Atlassian site: the current user's name, or the error.
     static func testAtlassian(_ site: AtlassianSite, confluence: Bool) async -> Result<String, Error> {
-        let request = site.request("GET", path: confluence ? "rest/api/user/current" : "rest/api/3/myself")
+        let request = confluence ? site.request("GET", path: "rest/api/user/current") : JiraClient(site: site, http: http).myselfRequest()
         do {
             let object = try HTTPSupport.json(try await HTTPSupport.send(request, with: http))
             return .success(object["displayName"] as? String ?? object["publicName"] as? String ?? object["emailAddress"] as? String ?? "OK")
         } catch {
-            return .failure(error)
+            return .failure(explained(error))
         }
     }
 }
@@ -133,12 +157,18 @@ enum Uploads {
 enum JiraDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, issueKey: String? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
-        let s = settings.value
-        guard let site = Uploads.jiraSite(s), !site.email.isEmpty, !site.apiToken.isEmpty else {
-            Uploads.explainMissingSetup("Jira", detail: "Enter the Jira URL, your email and an API token in Settings › Destinations.")
-            completion(.declined)
-            return
+        Task { @MainActor in
+            guard let site = await AtlassianSignIn.ready(.jira, settings: settings) else {
+                completion(.declined)
+                return
+            }
+            upload(capture, to: site, settings: settings, saver: saver, issueKey: issueKey, completion: completion)
         }
+    }
+
+    private static func upload(_ capture: Capture, to site: AtlassianSite, settings: SettingsStore, saver: ImageSaver,
+                               issueKey: String?, completion: @escaping ExportCompletion) {
+        let s = settings.value
         let client = JiraClient(site: site, http: Uploads.http)
         let format = s.jira.uploadFormat
         var key: String
@@ -187,21 +217,30 @@ enum JiraDestination {
 enum ConfluenceDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, page givenPage: ConfluencePage? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
-        let s = settings.value
-        guard let site = Uploads.confluenceSite(s), !site.email.isEmpty, !site.apiToken.isEmpty else {
-            Uploads.explainMissingSetup("Confluence", detail: "Enter the Confluence URL, your email and an API token in Settings › Destinations.")
-            completion(.declined)
-            return
+        Task { @MainActor in
+            guard let site = await AtlassianSignIn.ready(.confluence, settings: settings) else {
+                completion(.declined)
+                return
+            }
+            upload(capture, to: site, settings: settings, saver: saver, page: givenPage, completion: completion)
         }
+    }
+
+    private static func upload(_ capture: Capture, to site: AtlassianSite, settings: SettingsStore, saver: ImageSaver,
+                               page givenPage: ConfluencePage?, completion: @escaping ExportCompletion) {
+        let s = settings.value
         let client = ConfluenceClient(site: site, http: Uploads.http)
         let format = s.confluence.uploadFormat
         var filename = Uploads.suggestedName(for: capture, settings: settings, format: format)
         var comment = ""
+        var isOpenPage = false
         let page: ConfluencePage
         if let givenPage {
             page = givenPage
         } else {
-            let picker = ConfluencePicker(client: client, settings: settings, filename: filename)
+            let picker = ConfluencePicker(client: client, settings: settings, filename: filename) { ask in
+                try await BrowserPages.openPages(client: client, ask: ask)
+            }
             guard let choice = picker.run() else {
                 completion(.declined)
                 return
@@ -209,6 +248,7 @@ enum ConfluenceDestination {
             page = choice.page
             filename = choice.filename
             comment = choice.comment
+            isOpenPage = choice.isOpenPage
         }
         let file: UploadFile
         do {
@@ -219,8 +259,8 @@ enum ConfluenceDestination {
             completion(.failed(error.localizedDescription))
             return
         }
-        // Upstream opens the page only after a page was chosen in the dialog.
-        let openPage = givenPage == nil && s.confluence.openPageAfterUpload
+        // Upstream opens the page only after a page was chosen in the dialog, and not when it is open already.
+        let openPage = givenPage == nil && !isOpenPage && s.confluence.openPageAfterUpload
         Uploads.run("The upload to Confluence failed", progress: "Transferring data to Confluence, please wait…", completion: completion) {
             let attachments = try await client.attach(file, toPage: page.id, comment: comment)
             settings.update { $0.confluence.remember(page: page) }
