@@ -50,7 +50,7 @@ final class UploadPickerBrowser: NSObject, NSOutlineViewDataSource, NSOutlineVie
         self.configuration = configuration
         super.init()
         let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("title"))
-        column.title = "Page"
+        column.title = String(localized: "Page", comment: "Column: a Confluence page")
         outline.addTableColumn(column)
         outline.outlineTableColumn = column
         outline.headerView = nil
@@ -92,13 +92,13 @@ final class UploadPickerBrowser: NSObject, NSOutlineViewDataSource, NSOutlineVie
     func start() {
         guard !started else { return }
         started = true
-        status.stringValue = "Loading the spaces…"
+        status.stringValue = String(localized: "Loading the spaces…")
         Task { @MainActor [weak self] in
             guard let self else { return }
             do {
                 roots = try await configuration.loadRoots()
                 outline.reloadData()
-                status.stringValue = roots.isEmpty ? "No spaces" : "\(roots.count) spaces"
+                status.stringValue = roots.isEmpty ? String(localized: "No spaces") : String(localized: "\(roots.count) spaces")
             } catch {
                 log.error("Loading the spaces failed", error: error)
                 status.stringValue = Uploads.explained(error).localizedDescription
@@ -116,7 +116,7 @@ final class UploadPickerBrowser: NSObject, NSOutlineViewDataSource, NSOutlineVie
             let row = outline.row(forItem: select)
             if row >= 0 { outline.selectRowIndexes([row], byExtendingSelection: false) }
         }
-        status.stringValue = "\(nodes.count) spaces"
+        status.stringValue = String(localized: "\(nodes.count) spaces")
     }
 
     @objc private func doubleClick() {
@@ -133,7 +133,7 @@ final class UploadPickerBrowser: NSObject, NSOutlineViewDataSource, NSOutlineVie
     private func load(_ node: Node) {
         guard node.children == nil, !node.loading else { return }
         node.loading = true
-        status.stringValue = "Loading \(node.title)…"
+        status.stringValue = String(localized: "Loading \(node.title)…")
         Task { @MainActor [weak self] in
             guard let self else { return }
             do {

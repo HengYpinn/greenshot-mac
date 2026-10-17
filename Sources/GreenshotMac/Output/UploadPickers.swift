@@ -9,14 +9,17 @@ import GreenshotCore
 /// The Jira issue list of the upload dialog: port of upstream `Greenshot.Plugin.Jira/Views/JiraUploadWindow.xaml`
 /// (a favourite filter, then the columns type, key, created, assignee, reporter and summary).
 enum JiraPicker {
-    static let columns = [
-        UploadPickerPanel.Column(title: "Type", width: 100, showsIcon: true),
-        UploadPickerPanel.Column(title: "Key", width: 90),
-        UploadPickerPanel.Column(title: "Created", width: 90),
-        UploadPickerPanel.Column(title: "Assignee", width: 110),
-        UploadPickerPanel.Column(title: "Reporter", width: 110),
-        UploadPickerPanel.Column(title: "Summary", width: 260),
-    ]
+    static var columns: [UploadPickerPanel.Column] {
+        [
+            UploadPickerPanel.Column(title: String(localized: "Type", comment: "Column: the type of a Jira issue"), width: 100, showsIcon: true),
+            UploadPickerPanel.Column(title: String(localized: "upload.jira.key", defaultValue: "Key", comment: "Column: the key of a Jira issue (PROJ-123)"),
+                                     width: 90),
+            UploadPickerPanel.Column(title: String(localized: "Created", comment: "Column: when a Jira issue was created"), width: 90),
+            UploadPickerPanel.Column(title: String(localized: "Assignee"), width: 110),
+            UploadPickerPanel.Column(title: String(localized: "Reporter"), width: 110),
+            UploadPickerPanel.Column(title: String(localized: "Summary", comment: "Column: the summary of a Jira issue"), width: 260),
+        ]
+    }
 
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -46,12 +49,13 @@ enum JiraPicker {
         var filters: [String: JiraFilter] = [:]
         let recent = JiraTitleMonitor.shared.keys(uploadedTo: settings.jira.recentIssueKeys)
         var configuration = UploadPickerPanel.Configuration(
-            title: "Upload to Jira", keyLabel: "Issue key", searchPlaceholder: "Words in the summary, or JQL",
+            title: String(localized: "Upload to Jira"), keyLabel: String(localized: "Issue key:"),
+            searchPlaceholder: String(localized: "Words in the summary, or JQL"),
             columns: columns, recent: recent.map(recentRow), filename: filename, showsComment: true,
             acceptsKey: JiraClient.isIssueKey,
             search: { text, _ in try await client.search(text).map(row) })
-        configuration.scopeLabel = "Filter"
-        configuration.noScopeTitle = "Recent issues"
+        configuration.scopeLabel = String(localized: "Filter:", comment: "Label of the popup of the user's Jira filters")
+        configuration.noScopeTitle = String(localized: "Recent issues")
         configuration.loadScopes = {
             let found = try await client.favouriteFilters()
             for filter in found { filters[filter.id] = filter }
@@ -95,17 +99,22 @@ final class ConfluencePicker {
         recent = s.confluence.recentPages
         let found = self.found
         let includePersonal = s.confluence.includePersonalSpaces
-        let columns = [UploadPickerPanel.Column(title: "Page", width: 260), UploadPickerPanel.Column(title: "Space", width: 180)]
+        let columns = [
+            UploadPickerPanel.Column(title: String(localized: "Page", comment: "Column: a Confluence page"), width: 260),
+            UploadPickerPanel.Column(title: String(localized: "upload.confluence.space", defaultValue: "Space",
+                                                   comment: "Column: the Confluence space of a page"), width: 180),
+        ]
         var configuration = UploadPickerPanel.Configuration(
-            title: "Upload to Confluence", keyLabel: nil, searchPlaceholder: "Words in the page title, or CQL",
+            title: String(localized: "Upload to Confluence"), keyLabel: nil,
+            searchPlaceholder: String(localized: "Words in the page title, or CQL"),
             columns: columns, recent: recent.map(Self.row), filename: filename, showsComment: true,
             search: { text, space in
                 let result = try await client.searchPages(title: text, spaceKey: space?.id ?? "", includePersonalSpaces: includePersonal)
                 found.pages += result
                 return result.map(Self.row)
             })
-        configuration.scopeLabel = "Space"
-        configuration.noScopeTitle = "All spaces"
+        configuration.scopeLabel = String(localized: "Space:", comment: "Label of the popup of the Confluence spaces to search in")
+        configuration.noScopeTitle = String(localized: "All spaces")
         configuration.initialScopeID = s.confluence.searchSpaceKey.isEmpty ? nil : s.confluence.searchSpaceKey
         configuration.loadScopes = {
             ConfluenceClient.filtered(try await client.spaces(), includePersonal: includePersonal)
@@ -116,19 +125,19 @@ final class ConfluencePicker {
         configuration.browse = Self.browse(client: client, includePersonal: includePersonal, found: found)
         if let openPages {
             configuration.openRows = UploadPickerPanel.OpenRows(
-                title: "Open pages", columns: columns,
+                title: String(localized: "Open pages"), columns: columns,
                 load: {
                     guard let pages = try await openPages(false) else { return nil }
                     found.pages += pages
                     return pages.map(Self.row)
                 },
-                askTitle: "Look in Safari and Chrome",
+                askTitle: String(localized: "Look in Safari and Chrome"),
                 ask: {
                     let pages = try await openPages(true) ?? []
                     found.pages += pages
                     return pages.map(Self.row)
                 },
-                emptyText: "No page of this Confluence is open in Safari or Chrome.")
+                emptyText: String(localized: "No page of this Confluence is open in Safari or Chrome."))
         }
         panel = UploadPickerPanel(configuration)
     }

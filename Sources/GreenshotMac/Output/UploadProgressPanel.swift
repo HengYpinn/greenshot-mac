@@ -26,7 +26,7 @@ final class UploadProgressPanel: NSObject {
         spinner.style = .bar
         spinner.isIndeterminate = true
         spinner.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        let cancel = NSButton(title: "Cancel", target: nil, action: nil)
+        let cancel = NSButton(title: String(localized: "Cancel"), target: nil, action: nil)
         cancel.keyEquivalent = "\u{1b}"
         let buttons = NSStackView(views: [NSView(), cancel])
         let stack = NSStackView(views: [label, spinner, buttons])

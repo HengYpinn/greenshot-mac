@@ -107,10 +107,10 @@ enum Uploads {
     /// "X is not set up" with a button to Settings › Destinations.
     static func explainMissingSetup(_ service: String, detail: String) {
         let alert = NSAlert()
-        alert.messageText = "\(service) is not set up"
+        alert.messageText = String(localized: "\(service) is not set up")
         alert.informativeText = detail
-        alert.addButton(withTitle: "Open Settings")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Open Settings"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         if alert.runModal() == .alertFirstButtonReturn {
             (NSApp.delegate as? AppDelegate)?.showSettings(nil)
@@ -198,16 +198,19 @@ enum JiraDestination {
         do {
             file = try Uploads.file(capture, name: filename, format: format, quality: s.jira.jpegQuality, reduceColors: s.jira.reduceColors)
         } catch {
-            ErrorPresenter.show(error, title: "The screenshot could not be encoded")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be encoded"))
             completion(.failed(error.localizedDescription))
             return
         }
-        Uploads.run("The upload to Jira failed", progress: "Transferring data to Jira, please wait…", completion: completion) {
+        Uploads.run(String(localized: "The upload to Jira failed"), progress: String(localized: "Transferring data to Jira, please wait…"),
+                    completion: completion) {
             _ = try await client.attach(file, to: key)
             if !comment.isEmpty { try await client.addComment(comment, to: key) }
             settings.update { $0.jira.remember(issueKey: key) }
             let url = client.browseURL(for: key)
-            saver.notify("Attached \(file.name) to \(key)", detail: "Click to open the issue") { NSWorkspace.shared.open(url) }
+            saver.notify(String(localized: "Attached \(file.name) to \(key)"), detail: String(localized: "Click to open the issue")) {
+                NSWorkspace.shared.open(url)
+            }
             return .succeeded(link: url, target: key)
         }
     }
@@ -258,32 +261,35 @@ enum ConfluenceDestination {
             file = try Uploads.file(capture, name: filename, format: format, quality: s.confluence.jpegQuality,
                                     reduceColors: s.confluence.reduceColors)
         } catch {
-            ErrorPresenter.show(error, title: "The screenshot could not be encoded")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be encoded"))
             completion(.failed(error.localizedDescription))
             return
         }
         // Upstream opens the page only after a page was chosen in the dialog, and not when it is open already.
         let openPage = givenPage == nil && !isOpenPage && s.confluence.openPageAfterUpload
-        Uploads.run("The upload to Confluence failed", progress: "Transferring data to Confluence, please wait…", completion: completion) {
+        Uploads.run(String(localized: "The upload to Confluence failed"),
+                    progress: String(localized: "Transferring data to Confluence, please wait…"), completion: completion) {
             let attachments = try await client.attach(file, toPage: page.id, comment: comment)
             // The links come from the server: only web pages on the site are opened (no file:// or another app's URL).
             let pageURL = site.isOnSite(page.url) ? page.url : nil
             let download = attachments.first?.downloadURL.flatMap { site.isOnSite($0) ? $0 : nil }
             settings.update { $0.confluence.remember(page: page) }
-            var detail = "Click to open the page"
+            var detail = String(localized: "Click to open the page")
             switch s.confluence.clipboardContent {
             case .nothing: break
             case .wikiMarkup:
                 Clipboard.copy(text: ConfluenceClient.wikiMarkup(for: file.name))
-                detail = "Wiki markup copied – click to open the page"
+                detail = String(localized: "Wiki markup copied – click to open the page")
             case .imageLink:
                 if let link = attachments.first?.downloadURL {
                     Clipboard.copy(text: link.absoluteString)
-                    detail = "Image link copied – click to open the page"
+                    detail = String(localized: "Image link copied – click to open the page")
                 }
             }
             if openPage, let pageURL { NSWorkspace.shared.open(pageURL) }
-            saver.notify("Attached \(file.name) to “\(page.title)”", detail: detail) { if let pageURL { NSWorkspace.shared.open(pageURL) } }
+            saver.notify(String(localized: "Attached \(file.name) to “\(page.title)”"), detail: detail) {
+                if let pageURL { NSWorkspace.shared.open(pageURL) }
+            }
             return .succeeded(link: download ?? pageURL, target: page.title)
         }
     }
@@ -302,7 +308,10 @@ enum CloudDestination {
         let quality = isBox ? s.box.jpegQuality : s.dropbox.jpegQuality
         let appKey = isBox ? s.box.clientID : s.dropbox.appKey
         guard !appKey.trimmingCharacters(in: .whitespaces).isEmpty else {
-            Uploads.explainMissingSetup(name, detail: "Register your own \(name) app and enter its \(isBox ? "client ID and secret" : "app key") in Settings › Destinations.")
+            let detail = isBox
+                ? String(localized: "Register your own Box app and enter its client ID and secret in Settings › Destinations.")
+                : String(localized: "Register your own Dropbox app and enter its app key in Settings › Destinations.")
+            Uploads.explainMissingSetup(name, detail: detail)
             completion(.declined)
             return
         }
@@ -310,18 +319,23 @@ enum CloudDestination {
         do {
             file = try Uploads.file(capture, name: Uploads.suggestedName(for: capture, settings: settings, format: format), format: format, quality: quality)
         } catch {
-            ErrorPresenter.show(error, title: "The screenshot could not be encoded")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be encoded"))
             completion(.failed(error.localizedDescription))
             return
         }
         let oauth = Uploads.oauthClient(for: destination, settings: s)
         let copyLink = isBox ? s.box.copyLinkToClipboard : s.dropbox.copyLinkToClipboard
         let sharedLink = isBox ? s.box.useSharedLink && copyLink : copyLink
-        Uploads.run("The upload to \(name) failed", progress: "Communicating with \(name), please wait…", completion: completion) {
+        // One text per service: upstream has them per plug-in (`communication_wait`).
+        let failure = isBox ? String(localized: "The upload to Box failed") : String(localized: "The upload to Dropbox failed")
+        let progress = isBox ? String(localized: "Communicating with Box, please wait…")
+            : String(localized: "Communicating with Dropbox, please wait…")
+        Uploads.run(failure, progress: progress, completion: completion) {
             let result = try await send(file, isBox: isBox, settings: s, oauth: oauth, sharedLink: sharedLink)
             if copyLink { Clipboard.copy(text: result.link.absoluteString) }
-            let detail = copyLink ? "Link copied – click to open" : "Click to open"
-            saver.notify("Uploaded \(file.name) to \(name)", detail: detail) { NSWorkspace.shared.open(result.link) }
+            let detail = copyLink ? String(localized: "Link copied – click to open") : String(localized: "Click to open")
+            let uploaded = isBox ? String(localized: "Uploaded \(file.name) to Box") : String(localized: "Uploaded \(file.name) to Dropbox")
+            saver.notify(uploaded, detail: detail) { NSWorkspace.shared.open(result.link) }
             return .succeeded(link: result.link, target: name)
         }
     }
