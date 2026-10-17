@@ -43,7 +43,10 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | QR / barcode generator, editable torn edges, SVG and mouse pointer elements | ✅ | ✅ |
 | .greenshot files (also from Windows), unsaved screenshots kept across restarts | ✅ | ✅ (Mac files open in Windows as the image only) |
 | Areas inside windows, HDR capture, left/right modifier hotkeys | ✅ | ✅ (Accessibility / Input Monitoring permissions) |
-| Recipes, MCP server, browser extension, video recording, translations | ✅ | not yet |
+| Command line tool, links, AppleScript, Shortcuts, Services menu, one running copy | ✅ (greenshot-cli, `greenshot:` links) | ✅ ([below](#command-line-and-automation)) |
+| Admin policy: locked settings, defaults, hidden Settings and destinations | ✅ (greenshot-fixed.ini) | ✅ by managed preferences ([below](#managed-settings-administrators)) |
+| Screen recording to MP4 (screen, window, region; sound and microphone; pause; countdown) | only in recipes | ✅ |
+| Recipes, MCP server, browser extension, translations | ✅ | not yet (the recipe engine is in, without a user interface) |
 
 The row-by-row comparison with Greenshot for Windows (992 features, what is done and what is planned) is in
 [docs/feature-parity.md](docs/feature-parity.md). Contributions for the missing parts are welcome; see
@@ -205,14 +208,92 @@ the default `${capturetime:d"yyyy-MM-dd HH_mm_ss"}-${title}` gives `2026-10-16 1
 Options follow a colon, separated by `;`: `p<width>[,<char>]` pads, `s<start>[,<length>]` takes a substring,
 `r<old>,<new>` replaces. A `/` in the pattern makes sub folders, e.g. `${YYYY}/${MM}/${title}`.
 
+## Command line and automation
+
+`greenshot-cli` is in the app bundle (Contents/Helpers). It sends its arguments to the running app, starting the app
+when it isn't running, and prints the reply:
+
+    greenshot-cli <file...>                Open image files in the editor (also --file, -f)
+    greenshot-cli --capture <mode>         Take a screenshot: region, window, fullscreen, last or text (-c)
+    greenshot-cli --reload                 Reload the settings
+    greenshot-cli --exit                   Quit the app
+    greenshot-cli greenshotmac://<link>    Run a link
+    greenshot-cli --version / --help
+
+Any program on your Mac can run greenshot-cli, so a screenshot of the full screen, a window or the last region asks
+you first: "<program> asks Greenshot for Mac to take a screenshot of …" with Allow and Don't Allow (Don't Allow is
+the default; without an answer nothing is captured). Region and text captures don't ask, as you select the area.
+
+Exit codes: 0 success, 1 failure (also a screenshot you didn't allow), 2 invalid command line, 3 the app isn't
+available. To put it on your PATH, use Settings › Expert › Automation › Copy Install Command, or:
+
+    sudo ln -sf "/Applications/Greenshot for Mac (Community).app/Contents/Helpers/greenshot-cli" /usr/local/bin/greenshot-cli
+
+(no sudo needed for ~/.local/bin or /opt/homebrew/bin).
+
+Links (from a browser, Alfred, Raycast, `open`):
+- `greenshotmac://settings?tab=general|capture|output|destinations|editor|printer|expert|video` (`plugin=<name>` opens Destinations)
+- `greenshotmac://about`, `greenshotmac://self-service?section=system|setup|files|clipboard|hotkeys|integrity`
+- `greenshotmac://log?search=<text>`
+- `greenshotmac://capture/region|window|fullscreen|last|text` and `greenshotmac://clipboard`, only when
+  "Allow links to take screenshots" is on in Settings › Expert › Automation (any web page can open a link)
+
+AppleScript: `tell application "Greenshot for Mac (Community)" to capture full screen` (also capture region, window,
+last region, text; open clipboard; show settings pane "editor"; show about; reload settings).
+Shortcuts: Take Screenshot, Capture Region, Capture Window, Capture Full Screen, Open Clipboard in Greenshot, Open Image
+in Greenshot. Services menu: "Open in Greenshot for Mac" for image files and selected images.
+
+## Managed settings (administrators)
+
+Greenshot for Mac reads managed preferences: the Mac's counterpart of Greenshot's `greenshot-fixed.ini` and
+`greenshot-defaults.ini`. Install a configuration profile for the app's bundle identifier,
+`io.github.greenshot-mac.GreenshotMac` (or the `BUNDLE_ID` your build of `scripts/build-app.sh` uses), through your MDM
+or by hand. A sample with comments is in [docs/admin/GreenshotMac.mobileconfig](docs/admin/GreenshotMac.mobileconfig).
+It uses Apple's `com.apple.ManagedClient.preferences` payload with `Forced`; a payload with the bundle identifier as its
+`PayloadType` and the keys directly in it works the same.
+
+- **Keys.** Every setting is `Greenshot.` + its name in the settings file. To see the names, start the app once with
+  `--settings-dir <folder>` and read `settings.json`. Examples: `Greenshot.outputFormat` = `jpg`, `Greenshot.jira.url`. A
+  member of a group uses a dot (`Greenshot.printing.footer`), or a dictionary for the group (`Greenshot.printing` =
+  {footer = true}) sets only the members in it.
+- **Locked.** Keys the profile forces are locked. Settings shows the control disabled with a lock, "Set by your
+  organisation". The value wins at every start and every change and is never saved, so the user's own values come back
+  when the profile is removed. Locked quick settings are left out of the menu bar menu.
+- **Defaults.** `Greenshot.defaults` (a dictionary of settings by name) and keys that are not forced (for example
+  `sudo defaults write /Library/Preferences/io.github.greenshot-mac.GreenshotMac Greenshot.outputFormat jpg`) fill in
+  settings a user doesn't have yet: at the first start, or a setting added by an update. Users can change them.
+- **Values.** Switches as `<true/>` / `<false/>`; numbers; texts (a text is also read as a number, a switch or a
+  comma-separated list); lists; dictionaries. An empty text clears a hotkey. A hotkey is `{keyCode, modifiers}` with the
+  Carbon key code and modifier flags (control 4096, option 2048, shift 512, command 256); ⌃⌥⌘4 is
+  `{keyCode = 21, modifiers = 6400}`. A value of the wrong type or an unknown key is ignored and logged (Log Viewer,
+  category Managed).
+
+| Upstream (greenshot.ini) | Mac key | Effect |
+|---|---|---|
+| `DisableSettings` | `Greenshot.disableSettings` | Settings… is left out of the menus; any other way to Settings says it is turned off |
+| `DisableQuickSettings` | `Greenshot.disableQuickSettings` | no Quick Settings in the menu bar menu |
+| `HideExpertSettings` | `Greenshot.hideExpertSettings` | no Expert tab |
+| `HideTrayicon` | `Greenshot.hideMenuBarIcon` | no menu bar icon (opening the app again shows Settings) |
+| `ExcludeDestinations`, `ExcludePlugins` | `Greenshot.excludeDestinations` | these destinations are left out of every list and menu and refused; Mac names (`clipboard`, `file`, `fileAs`, `jira`, …), upstream's (`FileNoDialog`, `EMail`, `Windows10Share`, …) and plugin names (`Office Plugin`, `Jira Plugin`, …) |
+| `WelcomeShown` | `Greenshot.welcomeShown` | true: no welcome window |
+| `IncludePlugins` | — | not ported: list what to exclude instead |
+
+The profile is read at the start, and again when Settings or the menu bar menu opens. Destination buttons in an editor's
+toolbar are set when the editor opens; an excluded destination is refused either way. Settings changed outside the
+Settings window (editor dialogs, keys on the capture screen) show no lock but keep the locked value. Launch at login and
+the Keychain sign-ins can't be locked here. Don't force `welcomeShown` to false (the welcome window would show at every
+start) or `incrementingNumber` (`${NUM}` would stop counting).
+
 ## Contributing
 
-The project is a Swift package with two targets:
+The project is a Swift package with three targets:
 
 - `Sources/GreenshotCore`: everything without windows — filename patterns, settings, the annotation model,
-  the renderer, joining displays. Covered by tests in `Tests/GreenshotCoreTests`.
-- `Sources/GreenshotMac`: the app — hotkeys (`App`), the capture screen (`Capture`), destinations (`Output`),
-  the editor (`Editor`) and the settings window (`Settings`).
+  the renderer, joining displays, the automation protocol and the recipe engine (`Recipes`). Covered by tests in
+  `Tests/GreenshotCoreTests`.
+- `Sources/GreenshotMac`: the app — hotkeys (`App`), the capture screen and screen recording (`Capture`),
+  destinations (`Output`), the editor (`Editor`) and the settings window (`Settings`).
+- `Sources/greenshot-cli`: the command line tool that `scripts/build-app.sh` puts in `Contents/Helpers`.
 
 ```bash
 swift test                     # the core tests

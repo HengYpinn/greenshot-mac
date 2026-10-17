@@ -1,6 +1,6 @@
 # Feature parity with Greenshot for Windows
 
-This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 2, packages B1–B11 and B13). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
+This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 3: automation, screen recording, managed preferences and the recipe engine). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
 
 ## How it was made
 
@@ -12,15 +12,15 @@ This is the checklist for bringing everything Greenshot for Windows does to this
 
 | Area | ✅ | 🟡 | ❌ | 🍎 | ➖ | ➕ | Rows |
 |---|---|---|---|---|---|---|---|
-| [Capture](parity/cap.md) | 90 | 1 | 22 | 4 | 10 | 0 | 127 |
+| [Capture](parity/cap.md) | 108 | 3 | 3 | 3 | 10 | 0 | 127 |
 | [Editor](parity/edt.md) | 141 | 2 | 0 | 13 | 10 | 0 | 168 |
 | [Image operations and file formats](parity/img.md) | 64 | 1 | 2 | 6 | 6 | 0 | 80 |
-| [Destinations and plugins](parity/dst.md) | 117 | 3 | 2 | 14 | 12 | 0 | 148 |
-| [App shell, settings, notifications](parity/app.md) | 125 | 4 | 16 | 11 | 27 | 0 | 185 |
-| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 1 | 4 | 51 | 8 | 6 | 4 | 74 |
-| [Recipes](parity/rcp.md) | 0 | 38 | 151 | 10 | 4 | 0 | 203 |
+| [Destinations and plugins](parity/dst.md) | 119 | 3 | 0 | 14 | 12 | 0 | 148 |
+| [App shell, settings, notifications](parity/app.md) | 129 | 3 | 13 | 11 | 27 | 0 | 185 |
+| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 31 | 1 | 33 | 3 | 6 | 0 | 74 |
+| [Recipes](parity/rcp.md) | 0 | 91 | 101 | 7 | 4 | 0 | 203 |
 | Found by the checks | 3 | 1 | 3 | 0 | 0 | 0 | 7 |
-| **All** | **541** | **54** | **247** | **66** | **75** | **4** | **992** |
+| **All** | **595** | **105** | **155** | **57** | **75** | **0** | **992** |
 
 ➕ marks Mac-only additions with no upstream counterpart (AppleScript, Shortcuts, the Services menu, extra `greenshotmac://` actions).
 
@@ -44,7 +44,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
 | [B1. Native notifications: thumbnail, buttons, one summary per capture](#b1) | ✅ | 14 | 4-5 |
-| [B2. Diagnostics: logging, log viewer, Self-Service, bug report, setup checks](#b2) | 1 | 18 | 5-6 |
+| [B2. Diagnostics: logging, log viewer, Self-Service, bug report, setup checks](#b2) | ✅ | 18 | 5-6 |
 | [B3. Welcome wizard, tips and About](#b3) | ✅ | 5 | 2 |
 | [B4. Torn edges and cut marks as editable elements with Apply to image](#b4) | ✅ | 4 | 3-4 |
 | [B5. .greenshot files: open upstream files, save editable documents](#b5) | ✅ | 4 | 5-8 |
@@ -54,7 +54,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 | [B9. Window mode: inner windows and areas via Accessibility](#b9) | ✅ | 3 | 3-5 |
 | [B10. HDR / wide-colour capture](#b10) | ✅ | 1 | 1-2 |
 | [B11. Mouse pointer and SVG as editable elements](#b11) | 1 | 4 | 2-3 |
-| [B12. Admin policy via managed preferences (locked settings, hidden items)](#b12) | 5 | 5 | 3-4 |
+| [B12. Admin policy via managed preferences (locked settings, hidden items)](#b12) | ✅ | 5 | 3-4 |
 | [B13. Restore open editors after quit, log out or crash](#b13) | ✅ | 5 | 2-3 |
 
 ### C. Large subsystems
@@ -62,12 +62,12 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
 | [C1. Translations: localisation plumbing + upstream language packs](#c1) | 10 | 10 | 7-10 (+ review by native speakers) |
-| [C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services](#c2) | 33 | 39 | 6-8 |
+| [C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services](#c2) | 3 | 39 | 6-8 |
 | [C3. MCP server for AI tools (capture, list windows, consent)](#c3) | 18 | 18 | 4-6 |
 | [C4. Browser extension (Chrome/Edge/Firefox, then Safari)](#c4) | 9 | 9 | 4-6 |
-| [C5. Video recording (screen, window, region to MP4)](#c5) | 20 | 22 | 5 reduced / 10 full |
-| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | 96 | 98 | 15-20 |
-| [C7. Recipes: editor, manager, options, extensions](#c7) | 128 | 130 | 25-40 (list editor); node graph +25-40 |
+| [C5. Video recording (screen, window, region to MP4)](#c5) | 2 | 22 | 5 reduced / 10 full |
+| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | 154 | 156 | 15-20 |
+| [C7. Recipes: editor, manager, options, extensions](#c7) | 70 | 72 | 25-40 (list editor); node graph +25-40 |
 
 ### D. Optional
 
@@ -285,7 +285,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `APP-142` ✅ Log viewer window: tail of the log (64 KB chunks), Load Earlier (+64 KB), Load Entire Log, Wrap text, Copy Log, Refresh (F5), live-appended new entries while open (250 ms), status/empty/error lines, keys Esc/F5/Ctrl+F/T
 - `APP-143` ✅ Log search: shows only entries (not lines) containing the text, ignoring case, from the whole log; exception lines stay with their entry; "N of M log entries contain ..."; 300 ms debounce
 - `APP-144` ✅ Log level drop-down (Error/Warn/Info/Debug) changes how much is written until restart; the change itself is logged first
-- `APP-145` 🟡 `greenshot://log?search=<text>` opens the log viewer filtered (max 200 chars, only filters, never changes level; link from web pages allowed, `greenshot://exit` refused)
+- `APP-145` ✅ `greenshot://log?search=<text>` opens the log viewer filtered (max 200 chars, only filters, never changes level; link from web pages allowed, `greenshot://exit` refused)
 - `APP-201` ✅ "Log viewer in Self-Service": read/copy the log, search, live entries, log level, `greenshot://log?search=`
 - `CAP-040` ✅ Self-service "Hotkeys and conflicts" page: status per hotkey (registered/failed/disabled), re-register button, detect OneDrive / Windows Snipping Tool / Dropbox / ShareX / Snagit grabbing PrintScreen, one-click disable
 
@@ -372,11 +372,11 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="b12"></a>
 ### B12. Admin policy via managed preferences (locked settings, hidden items)
 
-- `APP-064` ❌ Controls locked by admin (`greenshot-fixed.ini`) are disabled (`FixedToEnabledConverter`)
-- `APP-094` ❌ Admin policy: values locked by `greenshot-fixed.ini` (controls disabled, quick settings hidden), defaults by `greenshot-defaults.ini`; `DisableSettings`, `DisableQuickSettings`, `HideExpertSettings`, `HideTrayicon`
-- `APP-187` ❌ `DisableSettings` `DisableQuickSettings` `HideTrayicon` `HideExpertSettings`
-- `DST-009` ❌ Hide destinations by configuration (`ExcludeDestinations`) and plugins (`IncludePlugins` / `ExcludePlugins`); admin-only `.ini` values
-- `DST-010` ❌ Lock destination settings via `greenshot-fixed.ini` (the Destinations tab checkboxes are disabled when fixed)
+- `APP-064` ✅ Controls locked by admin (`greenshot-fixed.ini`) are disabled (`FixedToEnabledConverter`)
+- `APP-094` ✅ Admin policy: values locked by `greenshot-fixed.ini` (controls disabled, quick settings hidden), defaults by `greenshot-defaults.ini`; `DisableSettings`, `DisableQuickSettings`, `HideExpertSettings`, `HideTrayicon`
+- `APP-187` ✅ `DisableSettings` `DisableQuickSettings` `HideTrayicon` `HideExpertSettings`
+- `DST-009` ✅ Hide destinations by configuration (`ExcludeDestinations`) and plugins (`IncludePlugins` / `ExcludePlugins`); admin-only `.ini` values
+- `DST-010` ✅ Lock destination settings via `greenshot-fixed.ini` (the Destinations tab checkboxes are disabled when fixed)
 
 <a id="b13"></a>
 ### B13. Restore open editors after quit, log out or crash
@@ -406,43 +406,43 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 - `AUT-001` ➖ `--language <code>` startup option: set UI language and save config
 - `AUT-003` ➖ `--no-run`: exit immediately without starting or showing Greenshot (used by installer/scripts)
-- `AUT-004` 🍎 `--restore` (hidden): started by Windows Restart Manager after update/reboot; ends silently if already running
-- `AUT-005` 🍎 `--autostart`: started at logon; ends silently if another instance runs
+- `AUT-004` ✅ `--restore` (hidden): started by Windows Restart Manager after update/reboot; ends silently if already running
+- `AUT-005` ✅ `--autostart`: started at logon; ends silently if another instance runs
 - `AUT-006` ➖ `-Embedding` (hidden): added by Windows COM when a toast click starts Greenshot; accepted and ignored
-- `AUT-007` ❌ `--help` / `-h` / `-?` print usage and the command syntax (attaches or allocates a console)
-- `AUT-008` ❌ Startup command after the options: `Greenshot.exe <file>`, `--file`, `--recipe`, `--reload`, `--exit` are forwarded to the running instance, or Greenshot starts and runs it itself; `--exit`/`--reload` do nothing if not running; invalid command prints an error on the caller's console
-- `AUT-009` 🟡 Single-instance guard: second start shows "Greenshot is already running" window (InstanceRunningWindow, owned by APP) and exits; arguments are forwarded first (AUT-008)
-- `AUT-020` ❌ `greenshot-cli` terminal binary (console subsystem, prints output of the command, exit codes 0/1/2/3, starts Greenshot when not running, UTF-8 output, works with pipes/redirects)
-- `AUT-021` ❌ `--help`/`-h` and `--version`/`-v` answered by the CLI itself, work without Greenshot running
-- `AUT-028` 🟡 `--file` / `-f <file...>` and positional file paths: open one or more files (OpenFile triggers / editor), relative paths resolved against the caller's cwd, extension whitelist, no ADS/control chars/bidi/device names, must exist
-- `AUT-029` ❌ `--reload`: reload configuration in the running instance
-- `AUT-030` ❌ `--exit`: quit the running instance
-- `AUT-031` ❌ `--version` against the running Greenshot (VERSION IPC command returns the product version)
-- `AUT-032` ❌ Exit codes of the CLI (0 ok, 1 failure, 2 invalid command line, 3 Greenshot not available, or the recipe's Stderr-step code) and stderr/stdout streaming frames (O/E/X)
-- `AUT-033` ❌ `greenshot:` URL given as the only argument is executed like a URL-scheme link
-- `AUT-040` ❌ Local IPC server in the running app: named pipe `Greenshot_IPC`, length-prefixed JSON frames, HELLO handshake with source/reply_format/client/version, replacing the old WM_COPYDATA (c602070c)
-- `AUT-041` ❌ Per-source command whitelists: `cli` (everything), `url_scheme` (CLI, URL_SCHEME, RUN_RECIPE, SETTINGS, ABOUT, SELF_SERVICE, LOG_VIEWER, RECIPE_EDITOR, RECIPE_MANAGER), `open_with` (CLI, OPEN_FILE), `native_messaging` (HANDSHAKE, IMPORT_CAPTURE, TAB_CHANGED, VERSION, LIST/DESCRIBE/RUN_RECIPE), `mcp`; source bound by HELLO and overwritten on every envelope
-- `AUT-042` 🍎 Client verification: only Greenshot.exe, greenshot-cli, greenshot-proxy, greenshot-mcp from Greenshot's own directory may connect (process path of pipe client); pipe refuses network logons
-- `AUT-043` 🍎 Path hardening for IPC file arguments: control chars, null bytes, bidi override, alternate data streams, reserved device names, UNC, canonicalization, extension whitelist
-- `AUT-044` ❌ Cold start: if Greenshot is not running the proxy/CLI starts it (global mutex against start storms, 10 s timeout, 250 ms pipe polling)
-- `AUT-045` ❌ IPC notifications/events: server pushes events to watch connections (`{"event":"tools_changed"}`, `shutdown` with reason exit/update/session_end) without waiting for the client to read (out buffer, 2 min reply write timeout) (9bba94ef)
-- `AUT-046` ❌ Reply protocol: JSON for json sources; text frames O/E/X for terminal; one final reply per request even on handler failure
+- `AUT-007` ✅ `--help` / `-h` / `-?` print usage and the command syntax (attaches or allocates a console)
+- `AUT-008` ✅ Startup command after the options: `Greenshot.exe <file>`, `--file`, `--recipe`, `--reload`, `--exit` are forwarded to the running instance, or Greenshot starts and runs it itself; `--exit`/`--reload` do nothing if not running; invalid command prints an error on the caller's console
+- `AUT-009` ✅ Single-instance guard: second start shows "Greenshot is already running" window (InstanceRunningWindow, owned by APP) and exits; arguments are forwarded first (AUT-008)
+- `AUT-020` ✅ `greenshot-cli` terminal binary (console subsystem, prints output of the command, exit codes 0/1/2/3, starts Greenshot when not running, UTF-8 output, works with pipes/redirects)
+- `AUT-021` ✅ `--help`/`-h` and `--version`/`-v` answered by the CLI itself, work without Greenshot running
+- `AUT-028` ✅ `--file` / `-f <file...>` and positional file paths: open one or more files (OpenFile triggers / editor), relative paths resolved against the caller's cwd, extension whitelist, no ADS/control chars/bidi/device names, must exist
+- `AUT-029` ✅ `--reload`: reload configuration in the running instance
+- `AUT-030` ✅ `--exit`: quit the running instance
+- `AUT-031` ✅ `--version` against the running Greenshot (VERSION IPC command returns the product version)
+- `AUT-032` ✅ Exit codes of the CLI (0 ok, 1 failure, 2 invalid command line, 3 Greenshot not available, or the recipe's Stderr-step code) and stderr/stdout streaming frames (O/E/X)
+- `AUT-033` ✅ `greenshot:` URL given as the only argument is executed like a URL-scheme link
+- `AUT-040` ✅ Local IPC server in the running app: named pipe `Greenshot_IPC`, length-prefixed JSON frames, HELLO handshake with source/reply_format/client/version, replacing the old WM_COPYDATA (c602070c)
+- `AUT-041` ✅ Per-source command whitelists: `cli` (everything), `url_scheme` (CLI, URL_SCHEME, RUN_RECIPE, SETTINGS, ABOUT, SELF_SERVICE, LOG_VIEWER, RECIPE_EDITOR, RECIPE_MANAGER), `open_with` (CLI, OPEN_FILE), `native_messaging` (HANDSHAKE, IMPORT_CAPTURE, TAB_CHANGED, VERSION, LIST/DESCRIBE/RUN_RECIPE), `mcp`; source bound by HELLO and overwritten on every envelope
+- `AUT-042` ✅ Client verification: only Greenshot.exe, greenshot-cli, greenshot-proxy, greenshot-mcp from Greenshot's own directory may connect (process path of pipe client); pipe refuses network logons
+- `AUT-043` ✅ Path hardening for IPC file arguments: control chars, null bytes, bidi override, alternate data streams, reserved device names, UNC, canonicalization, extension whitelist
+- `AUT-044` ✅ Cold start: if Greenshot is not running the proxy/CLI starts it (global mutex against start storms, 10 s timeout, 250 ms pipe polling)
+- `AUT-045` ✅ IPC notifications/events: server pushes events to watch connections (`{"event":"tools_changed"}`, `shutdown` with reason exit/update/session_end) without waiting for the client to read (out buffer, 2 min reply write timeout) (9bba94ef)
+- `AUT-046` ✅ Reply protocol: JSON for json sources; text frames O/E/X for terminal; one final reply per request even on handler failure
 - `AUT-047` ➖ Plugin seam `IIpcCommandExtension` / `GreenshotModule`: optional parts (browser extension, AI tools) add commands, source whitelists, access checks (also 6aa9af56 plugin seams for capture tools)
 - `AUT-048` 🍎 `greenshot-proxy` native bridge (GUI subsystem: no console flash) used as native-messaging host, URL protocol handler and Explorer "Open with" target
-- `AUT-050` 🟡 URL protocol registered (`greenshot:` and `greenshot://`), opaque and hierarchical forms both accepted; web pages can open it, so a whitelist applies
-- `AUT-051` ❌ `greenshot://settings[?tab=general\|capture\|output\|destination\|editor\|printer\|plugins\|recipes\|expert][&plugin=<Name>]` opens Settings at a tab / plugin
-- `AUT-052` ❌ `greenshot://about` opens About
-- `AUT-053` ❌ `greenshot://self-service[?section=system\|setup\|files\|clipboard\|hotkeys\|checksum\|imgur\|debug_integration]` opens Diagnostics & Self-Service
-- `AUT-054` ❌ `greenshot://log[?search=<text>]` opens log viewer filtered by search text (max 200 chars; never changes log level) - new in 0aedcf04
+- `AUT-050` ✅ URL protocol registered (`greenshot:` and `greenshot://`), opaque and hierarchical forms both accepted; web pages can open it, so a whitelist applies
+- `AUT-051` ✅ `greenshot://settings[?tab=general\|capture\|output\|destination\|editor\|printer\|plugins\|recipes\|expert][&plugin=<Name>]` opens Settings at a tab / plugin
+- `AUT-052` ✅ `greenshot://about` opens About
+- `AUT-053` ✅ `greenshot://self-service[?section=system\|setup\|files\|clipboard\|hotkeys\|checksum\|imgur\|debug_integration]` opens Diagnostics & Self-Service
+- `AUT-054` ✅ `greenshot://log[?search=<text>]` opens log viewer filtered by search text (max 200 chars; never changes log level) - new in 0aedcf04
 - `AUT-055` ❌ `greenshot://recipe-editor[?recipe=<id>]` and `greenshot://recipe-manager`
-- `AUT-057` ➕ Mac-only URL actions worth adding (no upstream row): `greenshotmac://capture/region\|window\|fullscreen\|last`, `greenshotmac://open?file=` (must NOT be allowed from a URL, upstream forbids file opening from web pages), `greenshotmac://clipboard`
-- `AUT-060` 🟡 "Open with Greenshot" for images (ProgID Greenshot.Image for png/jpg/bmp/gif/tif/webp/ico/svg/jxr/emf/wmf/tga) and Greenshot as default app for `.greenshot`
+- `AUT-057` ✅ Mac-only URL actions worth adding (no upstream row): `greenshotmac://capture/region\|window\|fullscreen\|last`, `greenshotmac://open?file=` (must NOT be allowed from a URL, upstream forbids file opening from web pages), `greenshotmac://clipboard`
+- `AUT-060` ✅ "Open with Greenshot" for images (ProgID Greenshot.Image for png/jpg/bmp/gif/tif/webp/ico/svg/jxr/emf/wmf/tga) and Greenshot as default app for `.greenshot`
 - `AUT-088` ➖ Greenshot Light / edition gating of AI tools and extension (GreenshotModule)
-- `AUT-090` 🍎 Installer registers `greenshot:` URL protocol, native messaging host manifests (Chrome/Edge/Firefox), Open-with ProgIDs, RegisteredApplications (`includes\url-protocol.iss`, `browser-extension.iss`); self-service debug page registers for current user
+- `AUT-090` 🟡 Installer registers `greenshot:` URL protocol, native messaging host manifests (Chrome/Edge/Firefox), Open-with ProgIDs, RegisteredApplications (`includes\url-protocol.iss`, `browser-extension.iss`); self-service debug page registers for current user
 - `AUT-091` ➖ Windows toast activation COM class (ToastActivator)
-- `AUT-100` ➕ AppleScript dictionary (`.sdef`) so `tell application "GreenshotMac" to capture region` works, replacing COM/`greenshot-cli` scripting on Windows
-- `AUT-101` ➕ Shortcuts / Siri / Spotlight actions via App Intents (capture region/window/full screen, open file)
-- `AUT-102` ➕ NSServices (Services menu: "Open in Greenshot" for images/files)
+- `AUT-100` ✅ AppleScript dictionary (`.sdef`) so `tell application "GreenshotMac" to capture region` works, replacing COM/`greenshot-cli` scripting on Windows
+- `AUT-101` ✅ Shortcuts / Siri / Spotlight actions via App Intents (capture region/window/full screen, open file)
+- `AUT-102` ✅ NSServices (Services menu: "Open in Greenshot" for images/files)
 
 <a id="c3"></a>
 ### C3. MCP server for AI tools (capture, list windows, consent)
@@ -482,38 +482,38 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="c5"></a>
 ### C5. Video recording (screen, window, region to MP4)
 
-- `CAP-200` ❌ Record video via recipe step RecordVideo (experimental); output MP4 path put in the flow (VideoFilePath, VideoRecordingResult with path, duration, size, width, height, fps, format, hasAudio)
-- `CAP-201` ❌ Record target: monitor (index), window (active window, by title, title regex, process name, case option, pre-supplied handle), or region (x,y,w,h or pre-supplied)
-- `CAP-202` ❌ Delay before recording starts (DelayMs)
-- `CAP-203` ❌ Stop conditions: DurationSeconds, record until the window closes (default for window targets without duration), cancel
-- `CAP-204` ❌ Container/codec: MP4 with H.264 (AVC) + AAC, or MP4 with H.265 (HEVC) + AAC (VideoFormat Mp4_H264, Mp4_HEVC)
-- `CAP-205` ❌ Quality presets: SmallSize (15 fps, 0.8 Mbps, 1280x720), Balanced (30 fps, 2.5 Mbps), HighQuality (60 fps, 8 Mbps), HighFrameRateGaming (144 fps, 25 Mbps), Custom
-- `CAP-206` ❌ Frame rate (default 30, any e.g. 15/30/60/144) and bitrate (default auto: max(1.5 Mbps, w*h*fps/20))
-- `CAP-207` ❌ Output size: TargetWidth/TargetHeight or ScaleFactor (0..2, e.g. 0.5/0.75), GPU scaling; even dimensions forced for H.264/HEVC
-- `CAP-208` ❌ Colour mode FullColor or Grayscale
-- `CAP-209` ❌ Record the mouse cursor (CaptureMouseCursor, default true)
+- `CAP-200` 🟡 Record video via recipe step RecordVideo (experimental); output MP4 path put in the flow (VideoFilePath, VideoRecordingResult with path, duration, size, width, height, fps, format, hasAudio)
+- `CAP-201` ✅ Record target: monitor (index), window (active window, by title, title regex, process name, case option, pre-supplied handle), or region (x,y,w,h or pre-supplied)
+- `CAP-202` ✅ Delay before recording starts (DelayMs)
+- `CAP-203` ✅ Stop conditions: DurationSeconds, record until the window closes (default for window targets without duration), cancel
+- `CAP-204` ✅ Container/codec: MP4 with H.264 (AVC) + AAC, or MP4 with H.265 (HEVC) + AAC (VideoFormat Mp4_H264, Mp4_HEVC)
+- `CAP-205` ✅ Quality presets: SmallSize (15 fps, 0.8 Mbps, 1280x720), Balanced (30 fps, 2.5 Mbps), HighQuality (60 fps, 8 Mbps), HighFrameRateGaming (144 fps, 25 Mbps), Custom
+- `CAP-206` ✅ Frame rate (default 30, any e.g. 15/30/60/144) and bitrate (default auto: max(1.5 Mbps, w*h*fps/20))
+- `CAP-207` ✅ Output size: TargetWidth/TargetHeight or ScaleFactor (0..2, e.g. 0.5/0.75), GPU scaling; even dimensions forced for H.264/HEVC
+- `CAP-208` ✅ Colour mode FullColor or Grayscale
+- `CAP-209` ✅ Record the mouse cursor (CaptureMouseCursor, default true)
 - `CAP-210` ➖ Show OS capture border during recording (Windows 11 yellow border, default off)
-- `CAP-211` ❌ What happens when the target window is resized: LetterboxFixedCanvas (default, keeps canvas size) or ScaleToFit
-- `CAP-212` ❌ Audio: None / system audio (loopback) / microphone / both mixed, AAC 192 kbps, custom audio provider
-- `CAP-213` ❌ Pause and resume the recording (API; used for auto-pause)
-- `CAP-214` ❌ Prevent system sleep during recording (default on)
-- `CAP-215` ❌ Auto-pause when the workstation is locked (default on), resume on unlock; auto-finalise the file before system suspend
-- `CAP-216` ❌ Output file: OutputFilePath, OutputDirectory, FilenamePattern (supports %VAR% and {yyyyMMdd_HHmmss}); default Videos\Greenshot\Greenshot_Recording_<timestamp>.mp4; file system access gated by recipe authorisation
-- `CAP-217` ❌ Recording events: state changes (Unstarted, Recording, Paused, Finalizing, Stopped, Cancelled, Failed), duration ticks, errors
-- `CAP-218` 🍎 Hardware-accelerated pipeline: D3D11 staging ring buffer, GPU crop for region/window, Media Foundation transcoder; first-frame wait of 2 s
+- `CAP-211` ✅ What happens when the target window is resized: LetterboxFixedCanvas (default, keeps canvas size) or ScaleToFit
+- `CAP-212` ✅ Audio: None / system audio (loopback) / microphone / both mixed, AAC 192 kbps, custom audio provider
+- `CAP-213` ✅ Pause and resume the recording (API; used for auto-pause)
+- `CAP-214` ✅ Prevent system sleep during recording (default on)
+- `CAP-215` ✅ Auto-pause when the workstation is locked (default on), resume on unlock; auto-finalise the file before system suspend
+- `CAP-216` ✅ Output file: OutputFilePath, OutputDirectory, FilenamePattern (supports %VAR% and {yyyyMMdd_HHmmss}); default Videos\Greenshot\Greenshot_Recording_<timestamp>.mp4; file system access gated by recipe authorisation
+- `CAP-217` ✅ Recording events: state changes (Unstarted, Recording, Paused, Finalizing, Stopped, Cancelled, Failed), duration ticks, errors
+- `CAP-218` ✅ Hardware-accelerated pipeline: D3D11 staging ring buffer, GPU crop for region/window, Media Foundation transcoder; first-frame wait of 2 s
 - `CAP-219` ➖ HDR in video
-- `CAP-220` ❌ Recorded video flows into destinations (Save/Share/Upload)
-- `CAP-221` ❌ Permissions needed: Screen Recording (shared), Microphone (only for mic audio)
+- `CAP-220` 🟡 Recorded video flows into destinations (Save/Share/Upload)
+- `CAP-221` ✅ Permissions needed: Screen Recording (shared), Microphone (only for mic audio)
 
 <a id="c6"></a>
 ### C6. Recipes: engine, triggers, steps, approval (MVP)
 
-98 rows; see the area files. By section: 1. Tray icon menu (TrayMenu.cs) -> status item menu (2); 4. Settings window - shell (1); 7. Settings window - other tabs (1); greenshot-cli command line (CliCommandParser.cs, main_cli.c) (6); greenshot: URL scheme (1); File association (1); MCP server and AI tools (greenshot-mcp, Greenshot/Ai) (3); Starting a capture (entry points, tray menu, hotkeys) (2); External command plugin (1); QR code (1); Effects (whole-image operations) (2); Text redaction (Obfuscate text, OCR based) (1); A. Core model: recipe file, flow, graph engine (25); B. Expressions, variables, configuration precedence (14); C. Triggers (16); F. Approval, trust and consent (17); J. Interaction with other slices (4).
+156 rows; see the area files. By section: 1. Tray icon menu (TrayMenu.cs) -> status item menu (2); 4. Settings window - shell (1); 7. Settings window - other tabs (1); greenshot-cli command line (CliCommandParser.cs, main_cli.c) (6); greenshot: URL scheme (1); File association (1); MCP server and AI tools (greenshot-mcp, Greenshot/Ai) (3); Starting a capture (entry points, tray menu, hotkeys) (2); External command plugin (1); QR code (1); Effects (whole-image operations) (2); Text redaction (Obfuscate text, OCR based) (1); A. Core model: recipe file, flow, graph engine (25); B. Expressions, variables, configuration precedence (14); C. Triggers (16); D. Steps (each step type and its options) (58); F. Approval, trust and consent (17); J. Interaction with other slices (4).
 
 <a id="c7"></a>
 ### C7. Recipes: editor, manager, options, extensions
 
-130 rows; see the area files. By section: D. Steps (each step type and its options) (58); E. Recipe options (settings a recipe offers) (8); G. Extensions (automatic steps): slots, composer, built-ins (14); H. Recipe manager (tray menu and window) (16); I. Recipe editor (Recipe Editor plugin, node graph) (31); New rows (3).
+72 rows; see the area files. By section: E. Recipe options (settings a recipe offers) (8); G. Extensions (automatic steps): slots, composer, built-ins (14); H. Recipe manager (tray menu and window) (16); I. Recipe editor (Recipe Editor plugin, node graph) (31); New rows (3).
 
 <a id="d1"></a>
 ### D1. Left/right ⌘⌥⌃⇧ in hotkeys (needs the Input Monitoring permission)

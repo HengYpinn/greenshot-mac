@@ -7,6 +7,33 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Screen recording: Record Screen, Record Window… and Record Region… in the menu bar menu record to an MP4 (H.264 or
+  HEVC) with what the Mac plays, the microphone, or both. A "Start or stop recording" hotkey; a countdown; a menu bar indicator
+  with the recorded time (click to stop, ⌃-click to pause, resume or discard). A window recording follows the window,
+  keeps its size or scales when the window is resized, and ends when the window closes. While recording the Mac stays
+  awake, the recording pauses while the screen is locked, and the file is finished before the Mac sleeps or Greenshot
+  quits. Settings › Video: quality presets or custom frame rate, bit rate and size, grayscale, the mouse pointer,
+  sound, a length limit, the folder (~/Movies/Greenshot) and file name pattern, and what happens with a finished
+  recording (show in Finder, open, open with, share, copy the path, or ask every time).
+- Command line tool `greenshot-cli` in the app bundle (Contents/Helpers): open images, take screenshots, reload the
+  settings, quit the app and run links, with exit codes; it starts the app when needed. Screenshots of the full
+  screen, a window or the last region it asks for wait for you to allow them (Don't Allow is the default).
+- `greenshotmac://` links open Settings (on a tab), About, Self-Service and the log viewer (filtered by a search text);
+  capture and clipboard links work when allowed in Settings › Expert › Automation (off by default).
+- Only one copy of the app runs: a second start passes its command to the running one, or says that it runs and where.
+  `GreenshotMac --help` and `--background`.
+- AppleScript (capture, open clipboard, show settings, show about, reload settings); Shortcuts, Siri and Spotlight
+  actions (Take Screenshot, Capture Region, Window or Full Screen, Open Clipboard, Open Image); a Services menu entry
+  "Open in Greenshot for Mac" for image files and images.
+- Administrators can lock settings and set defaults with a configuration profile (managed preferences, like upstream's
+  greenshot-fixed.ini and greenshot-defaults.ini): locked controls show a lock, "Set by your organisation", and
+  Settings, Quick Settings, the Expert tab and single destinations can be turned off. A sample profile is in
+  docs/admin.
+- Recipes engine, without a user interface yet: recipe files load and validate as upstream's do and run as flows with
+  branches, joins, conditions and error routes, with expressions such as `${now:yyyy-MM-dd}`. A recipe file runs only
+  after you approve that exact content; approvals are signed, and a changed file is asked about again. Image effects,
+  OCR, QR/barcode scanning, text effects and annotations already work as steps.
+
 - Notifications: after a capture, one macOS notification lists where it went, with a thumbnail. Click it within an
   hour to send the capture somewhere else (also after a restart); Edit, Show in Finder and Copy Link buttons; QR codes
   found in the capture are listed (look-alike web addresses show their real host). Settings › Capture › Notifications
