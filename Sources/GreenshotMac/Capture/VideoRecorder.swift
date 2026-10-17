@@ -18,10 +18,10 @@ enum VideoRecorderError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .displayNotFound: return "The display is no longer connected."
-        case .windowNotFound: return "The window is no longer on the screen."
-        case .regionOffScreen: return "The area is not on a display."
-        case .notRecording: return "Nothing is being recorded."
+        case .displayNotFound: return String(localized: "The display is no longer connected.")
+        case .windowNotFound: return String(localized: "The window is no longer on the screen.")
+        case .regionOffScreen: return String(localized: "The area is not on a display.")
+        case .notRecording: return String(localized: "Nothing is being recorded.")
         }
     }
 }

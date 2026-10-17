@@ -17,6 +17,9 @@ public enum VideoWriterError: LocalizedError, Equatable {
     case noFrames
     case failed(String)
 
+    /// The reason when macOS gives none.
+    static var unknownReason: String { String(localized: "unknown", comment: "The reason of a video file error when macOS gives none") }
+
     public var errorDescription: String? {
         switch self {
         case .cannotAddInput: return String(localized: "The video file could not be set up.")
@@ -115,7 +118,7 @@ public final class VideoFileWriter: @unchecked Sendable {
         processor = VideoFrameProcessor(width: configuration.width, height: configuration.height,
                                         colorMode: configuration.colorMode, behavior: configuration.resizeBehavior)
         guard writer.startWriting() else {
-            throw VideoWriterError.cannotStart(writer.error?.localizedDescription ?? "unknown")
+            throw VideoWriterError.cannotStart(writer.error?.localizedDescription ?? VideoWriterError.unknownReason)
         }
     }
 
@@ -214,7 +217,7 @@ public final class VideoFileWriter: @unchecked Sendable {
         let endTime = try endSession(at: end)
         await writer.finishWriting()
         guard writer.status == .completed else {
-            throw VideoWriterError.failed(writer.error?.localizedDescription ?? "unknown")
+            throw VideoWriterError.failed(writer.error?.localizedDescription ?? VideoWriterError.unknownReason)
         }
         let attributes = try? FileManager.default.attributesOfItem(atPath: configuration.url.path)
         let size = (attributes?[.size] as? NSNumber)?.int64Value ?? 0
@@ -232,7 +235,7 @@ public final class VideoFileWriter: @unchecked Sendable {
         done = true
         guard let lastVideoTime, writer.status == .writing else {
             let failed = writer.status == .failed
-            let reason = writer.error?.localizedDescription ?? "unknown"
+            let reason = writer.error?.localizedDescription ?? VideoWriterError.unknownReason
             writer.cancelWriting()
             try? FileManager.default.removeItem(at: configuration.url)
             if failed { throw VideoWriterError.failed(reason) }

@@ -15,8 +15,8 @@ enum MicrophoneError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .noMicrophone: return "This Mac has no microphone."
-        case .cannotUse: return "The microphone could not be used."
+        case .noMicrophone: return String(localized: "This Mac has no microphone.")
+        case .cannotUse: return String(localized: "The microphone could not be used.")
         }
     }
 }
