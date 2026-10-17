@@ -118,6 +118,13 @@ public enum RecipeInvocationSource: Sendable, Equatable {
     case aiTool(client: String)
 }
 
+extension RecipeInvocationSource {
+    var isAITool: Bool {
+        if case .aiTool = self { return true }
+        return false
+    }
+}
+
 /// The outcome of loading files (upstream `RecipeValidationResult` of `LoadRecipeFromFile`).
 public struct RecipeLoadResult: Sendable, Equatable {
     public var errors: [String] = []
@@ -264,7 +271,7 @@ public final class RecipeLibrary {
                     result.warnings.append("Configured recipe file '\(url.path)' was not found.")
                     continue
                 }
-                let loaded = await loadFile(url, interactive: true)
+                let loaded = await load(url, interactive: true, forcePrompt: false, skippingUnloaded: true)
                 result.errors += loaded.errors
                 result.warnings += loaded.warnings
                 result.loadedRecipeIds += loaded.loadedRecipeIds
@@ -277,7 +284,13 @@ public final class RecipeLibrary {
 
     /// Reads the file once, hashes the bytes, validates each recipe and asks for the approval of those not approved for
     /// this content (`interactive`); approved and allowed ones replace what was loaded and the file joins the settings.
+    /// A load the user asked for (import, the manager's Load, opening it in the editor) brings back the recipes of the
+    /// file that were unloaded, reset or revoked before; Greenshot's own loads (reload, a changed file, a review) skip them.
     public func loadFile(_ url: URL, interactive: Bool = true, forcePrompt: Bool = false) async -> RecipeLoadResult {
+        await load(url, interactive: interactive, forcePrompt: forcePrompt, skippingUnloaded: false)
+    }
+
+    private func load(_ url: URL, interactive: Bool, forcePrompt: Bool, skippingUnloaded: Bool) async -> RecipeLoadResult {
         var result = RecipeLoadResult()
         let fileURL = URL(fileURLWithPath: RecipeTrustStore.standardized(url.path))
         let path = fileURL.path
@@ -324,7 +337,13 @@ public final class RecipeLibrary {
         }
         var anyChanged = false
         let validator = RecipeValidator(contracts: contracts, gates: gates())
+        let unloaded = unloadedIds(inFile: path)
         for recipe in definitions {
+            // W-M4: a recipe the user unloaded, reset or revoked stays out while the file is loaded for its others.
+            if skippingUnloaded, unloaded.contains(recipe.id.lowercased()) {
+                log.info("Recipe '\(recipe.id)' of '\(path)' was unloaded by the user; it isn't loaded again.")
+                continue
+            }
             let validation = validator.validate(recipe)
             guard validation.isValid else {
                 result.errors += validation.errors.map { "[\(recipe.id.isEmpty ? "unknown" : recipe.id)]: \($0)" }
@@ -381,6 +400,7 @@ public final class RecipeLibrary {
                                   approval: approval, proposedBy: trustStore.record(forFile: path)?.proposedBy, validation: validation))
             result.loadedRecipeIds.append(recipe.id)
             addFileToSettings(path)
+            forgetUnloaded(recipe.id, inFile: path)
             anyChanged = true
         }
         if anyChanged, !loadingConfiguredFiles { notify() }
@@ -402,23 +422,42 @@ public final class RecipeLibrary {
         askedForChangedFile[path.lowercased()] = hash
         log.info("Recipe file '\(path)' was changed outside Greenshot, asking for approval.")
         if extensionFile { dropExtensions(ofFile: path) }
-        _ = await loadFile(URL(fileURLWithPath: path), interactive: true)
+        _ = await load(URL(fileURLWithPath: path), interactive: true, forcePrompt: false, skippingUnloaded: true)
     }
 
     /// Before a run: the recipe as it may run (its file still approved, or approved again), nil when not
     /// (upstream `EnsureRecipeApprovedAndUpToDateAsync`). The runner's `preflight`.
+    ///
+    /// The recipe handed in may be a copy (the editor's Test Run of unsaved changes, or a file opened in the editor that
+    /// reuses the id of an approved recipe or a built-in): it runs only when each of its gated actions is an action of
+    /// the approved version too (the loaded recipe, else the built-in, else none at all). Security review S-M2, R-F12.
     public func ensureApprovedAndCurrent(_ recipe: CaptureRecipe) async -> CaptureRecipe? {
-        guard let loaded = fileRecipes[recipe.id.lowercased()], let url = loaded.fileURL else { return recipe }
+        guard let loaded = fileRecipes[recipe.id.lowercased()], let url = loaded.fileURL else {
+            return runnable(recipe, approvedVersion: builtIns[recipe.id.lowercased()])
+        }
         guard let data = RecipeFileReader.data(url) else {
             log.warn("Recipe file '\(url.path)' no longer exists or can't be read.")
             return nil
         }
         let hash = RecipeHash.sha256Hex(data)
-        if trustStore.approval(forFile: url.path, sha256: hash, recipeId: recipe.id) != nil { return recipe }
+        if trustStore.approval(forFile: url.path, sha256: hash, recipeId: recipe.id) != nil {
+            return runnable(recipe, approvedVersion: loaded.recipe)
+        }
         log.info("Recipe file '\(url.path)' was changed or isn't approved; asking before it runs.")
-        let result = await loadFile(url, interactive: true)
+        let result = await load(url, interactive: true, forcePrompt: false, skippingUnloaded: true)
         guard result.isValid else { return nil }
         return fileRecipes[recipe.id.lowercased()]?.recipe
+    }
+
+    /// `recipe` when it is the approved version, or a copy without gated actions beyond it; nil (logged) otherwise.
+    private func runnable(_ recipe: CaptureRecipe, approvedVersion: CaptureRecipe?) -> CaptureRecipe? {
+        if let approvedVersion, recipe == approvedVersion { return recipe }
+        let changes = RecipeGates.unapprovedChanges(of: recipe, comparedWith: approvedVersion, contracts: contracts, environment: gates())
+        guard changes.isEmpty else {
+            log.warn("Recipe '\(recipe.id)' was not run: this copy does what its approved version doesn't (\(changes.joined(separator: "; "))). Save it to approve it.")
+            return nil
+        }
+        return recipe
     }
 
     // MARK: Saving
@@ -477,10 +516,16 @@ public final class RecipeLibrary {
         }
         askedForChangedFile[path.lowercased()] = hash
         monitor?.watch(fileURL)
+        // Saved to another file (Save As): the recipe moves there. The old file keeps its other recipes, without this one
+        // after a reload too, or leaves the settings when it held only this one.
+        if let previous = fileRecipes[recipe.id.lowercased()]?.fileURL, !recipeEquals(previous.path, path) {
+            removeFileRecipe(recipe.id)
+        }
         // Without an approval (an invalid recipe, saved as work in progress) none of its triggers is active.
         register(LoadedRecipe(recipe: recipe, source: .file(fileURL), replacesBuiltIn: builtIns[recipe.id.lowercased()] != nil,
                               approval: approval, validation: validation))
         addFileToSettings(path)
+        forgetUnloaded(recipe.id, inFile: path)
         result.loadedRecipeIds.append(recipe.id)
         result.warnings += validation.warnings + validation.errors
         notify()
@@ -571,6 +616,7 @@ public final class RecipeLibrary {
         register(LoadedRecipe(recipe: recipe, source: .file(fileURL), replacesBuiltIn: approval.replacesBuiltIn, approval: approval,
                               proposedBy: proposedBy, validation: validation))
         addFileToSettings(fileURL.path)
+        forgetUnloaded(recipe.id, inFile: fileURL.path)
         result.loadedRecipeIds.append(recipe.id)
         notify()
         return result
@@ -637,7 +683,7 @@ public final class RecipeLibrary {
             result.errors.append("Recipe '\(recipeId)' has no approval to review.")
             return result
         }
-        return await loadFile(url, interactive: true, forcePrompt: true)
+        return await load(url, interactive: true, forcePrompt: true, skippingUnloaded: true)
     }
 
     public func details(recipeId: String) -> RecipeDetails? {
@@ -710,7 +756,9 @@ public final class RecipeLibrary {
                     guard trigger.isType(WellKnownTriggerType.commandline) else { continue }
                     if source == .browser, !loaded.isBrowserInvocationApproved(at: index) { continue }
                 }
-                let name = isAITool ? (trigger.toolName ?? loaded.recipe.id) : (trigger.command ?? loaded.recipe.id)
+                // Trimmed like AIToolCatalog offers the tools, so the name offered is the name that runs (MC-M1).
+                let named = (isAITool ? trigger.toolName : trigger.command)?.trimmingCharacters(in: .whitespaces) ?? ""
+                let name = named.isEmpty ? loaded.recipe.id : named
                 result.append(RecipeCommand(recipeId: loaded.recipe.id, command: name,
                                             description: trigger.commandDescription ?? loaded.recipe.description,
                                             arguments: trigger.arguments, fireAndForget: trigger.fireAndForget, stdout: trigger.stdout,
@@ -726,26 +774,47 @@ public final class RecipeLibrary {
     public func runRequest(command: String, arguments: [String: String], source: RecipeInvocationSource,
                            resolvePath: (String, ContractDataType) throws -> String) throws -> RecipeRunRequest {
         let available = commands(for: source)
-        guard let match = available.first(where: { recipeEquals($0.command, command) })
-                ?? available.first(where: { recipeEquals($0.recipeId, command) }),
-              let loaded = recipe(id: match.recipeId) else {
-            if source == .browser, commands(for: .commandLine).contains(where: { recipeEquals($0.command, command) || recipeEquals($0.recipeId, command) }) {
-                throw RecipeStepError("[SECURITY] Recipe '\(command)' does not allow invocation from a browser. Set 'AllowBrowserInvocation' on its Commandline trigger to enable this.",
-                                      errorType: "UnauthorizedAccessException")
+        let wanted = command.trimmingCharacters(in: .whitespaces)
+        var match = available.first(where: { recipeEquals($0.command, wanted) })
+        // The command line may name the recipe by its id; an AI tool is only ever its tool name.
+        if match == nil, source.isAITool == false { match = available.first(where: { recipeEquals($0.recipeId, wanted) }) }
+        guard let match else {
+            if source == .browser, commands(for: .commandLine).contains(where: { recipeEquals($0.command, wanted) || recipeEquals($0.recipeId, wanted) }) {
+                throw Self.browserRefusal(command)
             }
             throw RecipeStepError("Error: unknown recipe command '\(command)'.", errorType: "ArgumentException")
         }
+        return try runRequest(match: match, arguments: arguments, source: source, resolvePath: resolvePath)
+    }
+
+    /// A run request for exactly the recipe and trigger of `match` (an entry of `commands(for: source)`), without
+    /// searching the command again: two recipes may share a command or tool name, and the one that was matched (and
+    /// checked: browser approval, arguments, capture consent) is the one that runs (security review MC-M1). Throws like
+    /// `runRequest(command:)` when the entry isn't available to the source any more.
+    public func runRequest(match: RecipeCommand, arguments: [String: String], source: RecipeInvocationSource,
+                           resolvePath: (String, ContractDataType) throws -> String) throws -> RecipeRunRequest {
+        func same(_ command: RecipeCommand) -> Bool { recipeEquals(command.recipeId, match.recipeId) && command.triggerIndex == match.triggerIndex }
+        guard let current = commands(for: source).first(where: same),
+              let loaded = recipe(id: current.recipeId), current.triggerIndex < loaded.recipe.triggers.count else {
+            if source == .browser, commands(for: .commandLine).contains(where: same) { throw Self.browserRefusal(match.command) }
+            throw RecipeStepError("Error: unknown recipe command '\(match.command)'.", errorType: "ArgumentException")
+        }
         let variables: [String: JSONValue]
-        switch RecipeArgumentBinder.bind(declared: match.arguments, supplied: arguments, recipeName: match.command, resolvePath: resolvePath) {
+        switch RecipeArgumentBinder.bind(declared: current.arguments, supplied: arguments, recipeName: current.command, resolvePath: resolvePath) {
         case .success(let bound): variables = bound
         case .failure(let error): throw error
         }
-        let trigger = loaded.recipe.triggers[match.triggerIndex]
+        let trigger = loaded.recipe.triggers[current.triggerIndex]
         var request = RecipeRunRequest(recipe: loaded.recipe, trigger: RecipeTriggerInfo(triggerType: trigger.triggerType, triggerName: trigger.name,
-                                                                                         triggerIndex: match.triggerIndex))
+                                                                                         triggerIndex: current.triggerIndex))
         request.variables = variables
         request.optionValues = optionValues
         return request
+    }
+
+    private static func browserRefusal(_ command: String) -> RecipeStepError {
+        RecipeStepError("[SECURITY] Recipe '\(command)' does not allow invocation from a browser. Set 'AllowBrowserInvocation' on its Commandline trigger to enable this.",
+                        errorType: "UnauthorizedAccessException")
     }
 
     /// A run request for a recipe by id (menu entry, test run, forwarding) with a trigger info of this type; the runner
@@ -776,14 +845,51 @@ public final class RecipeLibrary {
                                         : "Registered recipe '\(loaded.recipe.id)' from '\(loaded.fileURL?.path ?? "")'")
     }
 
-    /// Unloads a file recipe; its file leaves the settings when no other recipe of it is loaded.
+    /// Unloads a file recipe; its file leaves the settings when no other recipe of it is loaded. While it stays for the
+    /// others, the recipe is remembered as unloaded so that a reload doesn't bring it back (W-M4).
     private func removeFileRecipe(_ recipeId: String) {
         let key = recipeId.lowercased()
         guard let loaded = fileRecipes.removeValue(forKey: key) else { return }
         fileOrder.removeAll { $0 == key }
         guard let path = loaded.fileURL?.path else { return }
         let stillUsed = fileRecipes.values.contains { $0.fileURL.map { recipeEquals($0.path, path) } ?? false }
-        if !stillUsed { removeFileFromSettings(path) }
+        if stillUsed {
+            rememberUnloaded(loaded.recipe.id, inFile: path)
+        } else {
+            removeFileFromSettings(path)
+            forgetUnloaded(nil, inFile: path)
+        }
+    }
+
+    /// The recipe ids (lower case) a reload skips in the file.
+    private func unloadedIds(inFile path: String) -> Set<String> {
+        let settings = loadSettings()
+        guard let key = unloadedKey(settings, path) else { return [] }
+        return Set((settings.unloadedRecipes[key] ?? []).map { $0.lowercased() })
+    }
+
+    private func unloadedKey(_ settings: RecipeSettings, _ path: String) -> String? {
+        settings.unloadedRecipes.keys.first { recipeEquals(RecipeTrustStore.standardized($0), path) }
+    }
+
+    private func rememberUnloaded(_ recipeId: String, inFile path: String) {
+        var settings = loadSettings()
+        let key = unloadedKey(settings, path) ?? path
+        var ids = settings.unloadedRecipes[key] ?? []
+        guard !ids.contains(where: { recipeEquals($0, recipeId) }) else { return }
+        ids.append(recipeId.lowercased())
+        settings.unloadedRecipes[key] = ids
+        saveSettings(settings)
+    }
+
+    /// Brings `recipeId` (nil: every recipe) of the file back for reloads.
+    private func forgetUnloaded(_ recipeId: String?, inFile path: String) {
+        var settings = loadSettings()
+        guard let key = unloadedKey(settings, path) else { return }
+        var ids = settings.unloadedRecipes[key] ?? []
+        if let recipeId { ids.removeAll { recipeEquals($0, recipeId) } } else { ids = [] }
+        settings.unloadedRecipes[key] = ids.isEmpty ? nil : ids
+        saveSettings(settings)
     }
 
     func addFileToSettings(_ path: String) {
@@ -860,3 +966,45 @@ public final class RecipeLibrary {
 }
 
 private let log = Log("Recipes")
+
+/// The preflight's comparison of a copy with its approved version (`RecipeLibrary.ensureApprovedAndCurrent`).
+extension RecipeGates {
+    /// Every gated action of the recipe's nodes, as the validator collects them.
+    static func actions(of recipe: CaptureRecipe, contracts: StepContractCatalog, environment: GateEnvironment) -> [RecipeGatedAction] {
+        let variables = variablesSet(by: recipe, contracts: contracts)
+        var result: [RecipeGatedAction] = []
+        for node in recipe.nodes {
+            guard let contract = contracts.contract(for: node.stepType) else { continue }
+            for action in actions(of: node, contract: contract, environment: environment, recipeSets: variables)
+            where !result.contains(action) {
+                result.append(action)
+            }
+        }
+        return result
+    }
+
+    /// What `recipe` does with permissions that `approved` doesn't (empty: it may run under the approval of `approved`):
+    /// - a gated action `approved` lacks: same kind and exactly the same target text, so another command line, folder or
+    ///   upload target is another action (case counts, as it may on disk);
+    /// - a node with gated actions whose step and parameters aren't those of a node of `approved`, so other arguments, a
+    ///   working folder or a file format of the same program count too.
+    /// Each entry is a line for the log.
+    static func unapprovedChanges(of recipe: CaptureRecipe, comparedWith approved: CaptureRecipe?, contracts: StepContractCatalog,
+                                  environment: GateEnvironment) -> [String] {
+        let allowed = approved.map { actions(of: $0, contracts: contracts, environment: environment) } ?? []
+        let describer = RecipeDescriber(contracts: contracts, gates: environment)
+        var changes: [String] = []
+        for action in actions(of: recipe, contracts: contracts, environment: environment)
+        where !allowed.contains(where: { $0.gateType == action.gateType && $0.target == action.target }) {
+            changes.append(describer.describe(action))
+        }
+        let variables = variablesSet(by: recipe, contracts: contracts)
+        for node in recipe.nodes {
+            guard let contract = contracts.contract(for: node.stepType),
+                  !actions(of: node, contract: contract, environment: environment, recipeSets: variables).isEmpty else { continue }
+            let same = approved?.nodes.contains { recipeEquals($0.stepType, node.stepType) && $0.parameters == node.parameters } ?? false
+            if !same { changes.append("node '\(node.id)' (\(node.stepType)) differs from the approved recipe") }
+        }
+        return changes
+    }
+}

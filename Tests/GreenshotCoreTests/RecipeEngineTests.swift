@@ -242,15 +242,20 @@ enum RecipeEngineHarness {
             if step.node.id == "recover" {
                 seen.add(context[variable: "FailedNodeId"]?.asString ?? "")
                 seen.add(context.payload?.title ?? "")
+                seen.add(context.executionId.uuidString)
+                seen.add(context.trigger?.triggerType ?? "no trigger")
                 context.exitCode = 5
             }
         }
         var recipe = failingRecipe()
         recipe.nodes[1].onErrorRecipeId = "recovery"
         let recovery = RecipeEngineHarness.recipe(["recover"], start: ["recover"], [])
-        let context = await RecipeEngineHarness.run(recipe, registry) { id in id == "recovery" ? recovery : nil }
+        let outer = RecipeFlowContext(recipe: recipe, trigger: RecipeTriggerInfo(triggerType: "AiTool"), environment: FixedRecipeEnvironment())
+        outer.payload = RecipePayload(image: TestImage.solid(width: 10, height: 10, .white), scale: 1, title: "Original")
+        let context = await RecipeEngineHarness.run(recipe, registry, context: outer) { id in id == "recovery" ? recovery : nil }
         #expect(recorder.all == ["a", "b", "recover"])
-        #expect(seen.all == ["b", "Original"])
+        // The forwarded recipe is the same flow: same execution id, same trigger (security review R-F1, SM-L5).
+        #expect(seen.all == ["b", "Original", outer.executionId.uuidString, "AiTool"])
         #expect(context.exitCode == 5)
     }
 

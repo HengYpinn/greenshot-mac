@@ -303,8 +303,11 @@ private final class FlowRun: @unchecked Sendable {
                 context.fail("Target error recipe '\(targetRecipe)' not found.", error: error)
                 return
             }
-            let forwarded = RecipeFlowContext(recipe: target, trigger: nil, environment: context.environment,
-                                              optionValues: context.optionValues, output: context.output)
+            // The same flow goes on in the other recipe: its execution id (the app keeps a flow's state under it and
+            // finishes it once) and its trigger (an AI tool's run keeps its exclusions and redaction).
+            let forwarded = RecipeFlowContext(recipe: target, trigger: context.trigger, environment: context.environment,
+                                              optionValues: context.optionValues, output: context.output,
+                                              executionId: context.executionId)
             forwarded.payload = context.payload
             for member in context.variables { forwarded[variable: member.key] = member.value }
             for (key, object) in context.objects { forwarded.setObject(object, forKey: key) }

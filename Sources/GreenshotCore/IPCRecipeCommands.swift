@@ -156,7 +156,8 @@ public enum IPCRecipeCommands {
         }
         var request: RecipeRunRequest
         do {
-            request = try library.runRequest(command: match.command, arguments: supplied, source: browser ? .browser : .commandLine) { raw, _ in
+            // Exactly the recipe and trigger matched above (MC-M1): the command isn't searched again.
+            request = try library.runRequest(match: match, arguments: supplied, source: browser ? .browser : .commandLine) { raw, _ in
                 switch IPCPathValidator.sanitize(raw, cwd: context.source == .cli ? envelope.cwd : nil) {
                 case .success(let url): return url.path
                 case .failure(let failure): throw RecipeStepError("[SECURITY] \(failure.message)")
