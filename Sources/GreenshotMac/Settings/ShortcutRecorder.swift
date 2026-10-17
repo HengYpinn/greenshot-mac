@@ -156,7 +156,6 @@ final class ShortcutRecorderButton: NSButton {
 
     /// Starts recording the whole hotkey, or (`appending`) the next step of it.
     func startRecording(appending: Bool) {
-        recording = false
         self.appending = appending && combo != nil
         recording = true
         window?.makeFirstResponder(self)
