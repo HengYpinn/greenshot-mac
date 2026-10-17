@@ -114,7 +114,7 @@ final class CutEdgeApplyButton: NSButton {
         bezelStyle = .rounded
         controlSize = .small
         font = .systemFont(ofSize: NSFont.smallSystemFontSize)
-        toolTip = "Draw the selected cut edges or torn edges into the image; they can't be changed afterwards"
+        toolTip = String(localized: "Draw the selected cut edges or torn edges into the image; they can't be changed afterwards")
         self.target = target
         self.action = action
         NotificationCenter.default.addObserver(self, selector: #selector(selectionChanged(_:)), name: .canvasSelectionDidChange,
