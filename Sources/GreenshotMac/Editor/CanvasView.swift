@@ -311,8 +311,12 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         }
         context.restoreGState()
 
-        let action = cutsOut ? "cut out" : "crop"
-        let label = NSAttributedString(string: "\(Int(crop.width)) × \(Int(crop.height))  ↩ \(action)  ⎋ cancel", attributes: [
+        let width = Int(crop.width)
+        let height = Int(crop.height)
+        let text = cutsOut
+            ? String(localized: "\(width) × \(height)  ↩ cut out  ⎋ cancel", comment: "Crop selection size; Return cuts the area out, Escape cancels")
+            : String(localized: "\(width) × \(height)  ↩ crop  ⎋ cancel", comment: "Crop selection size; Return crops, Escape cancels")
+        let label = NSAttributedString(string: text, attributes: [
             .font: NSFont.systemFont(ofSize: 11 / magnification, weight: .medium),
             .foregroundColor: NSColor.white,
             .backgroundColor: NSColor.black.withAlphaComponent(0.7),
@@ -596,57 +600,57 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         if !selectedIDs.contains(a.id) { select(a.id) }
         let menu = NSMenu()
         if a.kind.hasEditableText && selectedIDs.count == 1 {
-            menu.addItem(ClosureMenuItem(title: "Edit Text") { [weak self] in self?.beginEditing(a, isNew: false) })
+            menu.addItem(ClosureMenuItem(title: String(localized: "Edit Text")) { [weak self] in self?.beginEditing(a, isNew: false) })
         }
         if AnnotationKind.cutEdgeKinds.contains(a.kind) {
             // Upstream `CutMarkContainer` / `TornEdgeContainer.AddContextMenuItems`: new random edges, the settings, and
             // Apply to the image (of every selected cut mark and torn edges, like the property bar's button).
             if selectedIDs.count == 1 {
-                menu.addItem(ClosureMenuItem(title: "New Random Edges") { [weak self] in
+                menu.addItem(ClosureMenuItem(title: String(localized: "New Random Edges")) { [weak self] in
                     self?.editorWindowController?.newRandomEdges(a.id)
                 })
-                let settingsTitle = a.kind == .tornEdge ? "Torn Edge Settings…" : "Cut Edge Settings…"
+                let settingsTitle = a.kind == .tornEdge ? String(localized: "Torn Edge Settings…") : String(localized: "Cut Edge Settings…")
                 menu.addItem(ClosureMenuItem(title: settingsTitle) { [weak self] in
                     self?.editorWindowController?.showCutEdgeSettings(for: a.id)
                 })
             }
-            menu.addItem(ClosureMenuItem(title: "Apply to the Image") { [weak self] in
+            menu.addItem(ClosureMenuItem(title: String(localized: "Apply to the Image")) { [weak self] in
                 guard let controller = self?.editorWindowController else { return }
                 controller.applyToImage(controller.selectedCutEdgeIDs)
             })
         }
         if a.kind == .emoji && selectedIDs.count == 1 {
-            let item = NSMenuItem(title: "Emoji", action: nil, keyEquivalent: "")
+            let item = NSMenuItem(title: String(localized: "Emoji"), action: nil, keyEquivalent: "")
             item.submenu = emojiMenu()
             menu.addItem(item)
         }
         if a.kind == .barcode && selectedIDs.count == 1 {
-            menu.addItem(ClosureMenuItem(title: "Edit QR / Barcode…") { [weak self] in self?.editBarcode(a) })
+            menu.addItem(ClosureMenuItem(title: String(localized: "Edit QR / Barcode…")) { [weak self] in self?.editBarcode(a) })
         }
-        menu.addItem(withTitle: "Bring to Front", action: #selector(bringToFront(_:)), keyEquivalent: "")
-        menu.addItem(withTitle: "Bring Forward", action: #selector(bringForward(_:)), keyEquivalent: "")
-        menu.addItem(withTitle: "Send Backward", action: #selector(sendBackward(_:)), keyEquivalent: "")
-        menu.addItem(withTitle: "Send to Back", action: #selector(sendToBack(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: String(localized: "Bring to Front"), action: #selector(bringToFront(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: String(localized: "Bring Forward"), action: #selector(bringForward(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: String(localized: "Send Backward"), action: #selector(sendBackward(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: String(localized: "Send to Back"), action: #selector(sendToBack(_:)), keyEquivalent: "")
         menu.addItem(.separator())
-        menu.addItem(withTitle: "Cut", action: #selector(cut(_:)), keyEquivalent: "")
-        menu.addItem(withTitle: "Copy", action: #selector(copy(_:)), keyEquivalent: "")
-        menu.addItem(withTitle: "Duplicate", action: #selector(duplicate(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: String(localized: "Cut"), action: #selector(cut(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: String(localized: "Copy"), action: #selector(copy(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: String(localized: "Duplicate"), action: #selector(duplicate(_:)), keyEquivalent: "")
         menu.addItem(.separator())
         // Upstream's Push out, Fit and Snap submenus (`DrawableContainerList.GetPushOutSubMenu` and the others).
-        menu.addItem(submenu("Expand Capture and Move Outside", items: ElementEdge.allCases.map { edge in
+        menu.addItem(submenu(String(localized: "Expand Capture and Move Outside"), items: ElementEdge.allCases.map { edge in
             ClosureMenuItem(title: edge.title) { [weak self] in self?.pushOutSelection(to: edge) }
         }))
-        menu.addItem(submenu("Stretch", items: [
-            ClosureMenuItem(title: "Width") { [weak self] in self?.layoutSelection { self?.document.stretch($0, width: true) } },
-            ClosureMenuItem(title: "Height") { [weak self] in self?.layoutSelection { self?.document.stretch($0, width: false) } },
+        menu.addItem(submenu(String(localized: "Stretch"), items: [
+            ClosureMenuItem(title: String(localized: "Width", comment: "Stretch the element to the width of the image")) { [weak self] in self?.layoutSelection { self?.document.stretch($0, width: true) } },
+            ClosureMenuItem(title: String(localized: "Height", comment: "Stretch the element to the height of the image")) { [weak self] in self?.layoutSelection { self?.document.stretch($0, width: false) } },
         ]))
-        menu.addItem(submenu("Dock to Edge", items: ElementEdge.allCases.map { edge in
+        menu.addItem(submenu(String(localized: "Dock to Edge"), items: ElementEdge.allCases.map { edge in
             ClosureMenuItem(title: edge.title) { [weak self] in self?.layoutSelection { self?.document.dock($0, to: edge) } }
         }))
         menu.addItem(.separator())
-        menu.addItem(ClosureMenuItem(title: "Delete") { [weak self] in self?.deleteSelection() })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Delete")) { [weak self] in self?.deleteSelection() })
         if document.canResetSize(selectedSet) {
-            menu.addItem(ClosureMenuItem(title: "Reset Size") { [weak self] in self?.resetSelectionSize() })
+            menu.addItem(ClosureMenuItem(title: String(localized: "Reset Size")) { [weak self] in self?.resetSelectionSize() })
         }
         return menu
     }
@@ -894,7 +898,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             menu.addItem(ClosureMenuItem(title: emoji) { [weak self] in self?.onPickEmoji?(emoji) })
         }
         menu.addItem(.separator())
-        menu.addItem(ClosureMenuItem(title: "More Emoji…") { [weak self] in self?.showEmojiPalette() })
+        menu.addItem(ClosureMenuItem(title: String(localized: "More Emoji…")) { [weak self] in self?.showEmojiPalette() })
         return menu
     }
 

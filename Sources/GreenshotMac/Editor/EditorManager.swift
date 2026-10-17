@@ -56,9 +56,9 @@ final class EditorManager {
             sessions.adopt(kept, for: document)
             let message: String
             switch session.reason {
-            case .quit: message = "Reopened after the last logout or restart, not saved yet."
-            case .autosave where crashed: message = "Restored after Greenshot quit unexpectedly, not saved yet."
-            case .autosave: message = "Restored, not saved yet."
+            case .quit: message = String(localized: "Reopened after the last logout or restart, not saved yet.")
+            case .autosave where crashed: message = String(localized: "Restored after Greenshot quit unexpectedly, not saved yet.")
+            case .autosave: message = String(localized: "Restored, not saved yet.")
             }
             controller.showStatusMessage(message)
         }
@@ -104,7 +104,7 @@ final class EditorManager {
             return
         }
         guard let loaded = ImageLoader.load(fileURL) else {
-            ErrorPresenter.show(message: "The image could not be opened", detail: fileURL.lastPathComponent)
+            ErrorPresenter.show(message: String(localized: "The image could not be opened"), detail: fileURL.lastPathComponent)
             return
         }
         open(EditorDocument(image: loaded.image, scale: loaded.scale, title: fileURL.deletingPathExtension().lastPathComponent,
@@ -115,7 +115,7 @@ final class EditorManager {
     /// editable. A file of Greenshot for Windows shows the elements this editor has; the status bar names the others.
     private func openGreenshotFile(_ url: URL) {
         guard let contents = GreenshotFile.read(contentsOf: url) else {
-            ErrorPresenter.show(message: "The Greenshot file could not be opened", detail: url.lastPathComponent)
+            ErrorPresenter.show(message: String(localized: "The Greenshot file could not be opened"), detail: url.lastPathComponent)
             return
         }
         log.info("Opened a .greenshot file (\(contents.origin)) with \(contents.elements.count) elements, "
@@ -134,7 +134,8 @@ final class EditorManager {
         }
         Task { @MainActor [weak self] in
             guard let downloaded = await ImageLoader.downloadedHTMLImage() else {
-                ErrorPresenter.show(message: "There is no image on the clipboard", detail: "Copy an image first, then try again.")
+                ErrorPresenter.show(message: String(localized: "There is no image on the clipboard"),
+                                    detail: String(localized: "Copy an image first, then try again."))
                 return
             }
             self?.open(EditorDocument(image: downloaded.image, scale: downloaded.scale, title: "Clipboard"))

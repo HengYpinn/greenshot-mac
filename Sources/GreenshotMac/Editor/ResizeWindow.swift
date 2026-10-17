@@ -19,7 +19,7 @@ final class ResizeForm: NSObject, NSTextFieldDelegate {
     private let heightField = NSTextField()
     private let widthUnit = NSPopUpButton()
     private let heightUnit = NSPopUpButton()
-    private let keepAspectRatio = NSButton(checkboxWithTitle: "Keep aspect ratio", target: nil, action: nil)
+    private let keepAspectRatio = NSButton(checkboxWithTitle: String(localized: "Keep aspect ratio"), target: nil, action: nil)
     private(set) var view = NSView()
 
     /// `size` is the image's current size in pixels.
@@ -32,7 +32,8 @@ final class ResizeForm: NSObject, NSTextFieldDelegate {
             field.delegate = self
             field.alignment = .right
             field.widthAnchor.constraint(equalToConstant: 80).isActive = true
-            popup.addItems(withTitles: ["pixels", "percent"])
+            popup.addItems(withTitles: [String(localized: "pixels", comment: "Unit of the new width or height"),
+                                        String(localized: "percent", comment: "Unit of the new width or height")])
             popup.target = self
             popup.action = #selector(unitChanged(_:))
         }
@@ -41,11 +42,11 @@ final class ResizeForm: NSObject, NSTextFieldDelegate {
         keepAspectRatio.action = #selector(aspectChanged(_:))
         display(widthField)
         display(heightField)
-        let current = EffectSettingsDialog.label("Now \(Int(size.width)) × \(Int(size.height)) pixels")
+        let current = EffectSettingsDialog.label(String(localized: "Now \(Int(size.width)) × \(Int(size.height)) pixels"))
         current.textColor = .secondaryLabelColor
         view = EffectSettingsDialog.form([
-            [EffectSettingsDialog.label("Width:"), NSStackView(views: [widthField, widthUnit])],
-            [EffectSettingsDialog.label("Height:"), NSStackView(views: [heightField, heightUnit])],
+            [EffectSettingsDialog.label(String(localized: "Width:")), NSStackView(views: [widthField, widthUnit])],
+            [EffectSettingsDialog.label(String(localized: "Height:")), NSStackView(views: [heightField, heightUnit])],
             [NSGridCell.emptyContentView, keepAspectRatio],
             [NSGridCell.emptyContentView, current],
         ])

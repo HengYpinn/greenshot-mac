@@ -31,7 +31,7 @@ final class EditorStatusBar: NSStackView {
         zoomButton.controlSize = .small
         zoomButton.font = font
         zoomButton.isBordered = false
-        zoomButton.toolTip = "Zoom"
+        zoomButton.toolTip = String(localized: "Zoom")
         zoomButton.addItem(withTitle: "100%")
         zoomItems.forEach { zoomButton.menu?.addItem($0) }
         zoomButton.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -62,7 +62,7 @@ final class EditorStatusBar: NSStackView {
     func setMessage(_ text: String, isError: Bool, menu: NSMenu?) {
         messageLabel.stringValue = text
         messageLabel.textColor = isError ? .systemRed : .secondaryLabelColor
-        messageLabel.toolTip = menu == nil ? text : "\(text)\nClick for more"
+        messageLabel.toolTip = menu == nil ? text : text + "\n" + String(localized: "Click for more")
         messageLabel.clickMenu = menu
     }
 

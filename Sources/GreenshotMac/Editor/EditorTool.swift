@@ -30,40 +30,40 @@ enum EditorTool: CaseIterable {
 
     var title: String {
         switch self {
-        case .select: return "Select"
-        case .rectangle: return "Rectangle"
-        case .ellipse: return "Ellipse"
-        case .line: return "Line"
-        case .arrow: return "Arrow"
-        case .freehand: return "Freehand"
-        case .text: return "Text"
-        case .speechBubble: return "Speech Bubble"
-        case .highlight: return "Highlight"
-        case .obfuscate: return "Obfuscate"
-        case .counter: return "Counter"
-        case .emoji: return "Emoji"
-        case .cutMark: return "Cut Mark"
-        case .crop: return "Crop"
+        case .select: return String(localized: "Select", comment: "The selection tool")
+        case .rectangle: return String(localized: "Rectangle")
+        case .ellipse: return String(localized: "Ellipse")
+        case .line: return String(localized: "Line", comment: "The Line tool, draws a line")
+        case .arrow: return String(localized: "Arrow")
+        case .freehand: return String(localized: "Freehand")
+        case .text: return String(localized: "Text", comment: "The Text tool, adds a text")
+        case .speechBubble: return String(localized: "Speech Bubble")
+        case .highlight: return String(localized: "Highlight")
+        case .obfuscate: return String(localized: "Obfuscate")
+        case .counter: return String(localized: "Counter")
+        case .emoji: return String(localized: "Emoji")
+        case .cutMark: return String(localized: "Cut Mark")
+        case .crop: return String(localized: "Crop", comment: "The Crop tool")
         }
     }
 
     /// The title in the Object menu (upstream's Object menu items).
     var menuTitle: String {
         switch self {
-        case .select: return "Select"
-        case .rectangle: return "Add Rectangle"
-        case .ellipse: return "Add Ellipse"
-        case .line: return "Draw Line"
-        case .arrow: return "Draw Arrow"
-        case .freehand: return "Draw Freehand"
-        case .text: return "Add Text"
-        case .speechBubble: return "Add Speech Bubble"
-        case .counter: return "Add Counter"
-        case .emoji: return "Add Emoji"
-        case .cutMark: return "Add Cut Mark"
-        case .highlight: return "Highlight"
-        case .obfuscate: return "Obfuscate"
-        case .crop: return "Crop"
+        case .select: return String(localized: "Select", comment: "The selection tool")
+        case .rectangle: return String(localized: "Add Rectangle")
+        case .ellipse: return String(localized: "Add Ellipse")
+        case .line: return String(localized: "Draw Line")
+        case .arrow: return String(localized: "Draw Arrow")
+        case .freehand: return String(localized: "Draw Freehand")
+        case .text: return String(localized: "Add Text")
+        case .speechBubble: return String(localized: "Add Speech Bubble")
+        case .counter: return String(localized: "Add Counter")
+        case .emoji: return String(localized: "Add Emoji")
+        case .cutMark: return String(localized: "Add Cut Mark")
+        case .highlight: return String(localized: "Highlight")
+        case .obfuscate: return String(localized: "Obfuscate")
+        case .crop: return String(localized: "Crop", comment: "The Crop tool")
         }
     }
 
