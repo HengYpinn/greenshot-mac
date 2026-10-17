@@ -76,6 +76,10 @@ struct StderrExecutor: RecipeStepExecutor {
 extension CoreStepExecutors {
     /// Filled by the image steps (Effect, Annotation, TextEffect, Processors, BarcodeScan).
     static func imageExecutors(clipboard: (any RecipeClipboardWriting)?, cursorImages: (any RecipeCursorImageProviding)?) -> [(String, any RecipeStepExecutor)] {
-        []
+        [
+            (WellKnownStepType.effect, EffectExecutor()),
+            (WellKnownStepType.processors, ProcessorsExecutor()),
+            (WellKnownStepType.barcodeScan, BarcodeScanExecutor(clipboard: clipboard))
+        ]
     }
 }
