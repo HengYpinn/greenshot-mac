@@ -86,9 +86,13 @@ extension OverlayMarksView {
         let previewAtZoomer = controller.previewPlacement == .zoomer && controller.showsZoomer
         var panels: [OverlayPanel] = []
         if controller.mode == .fixedSize { panels.append(sizesPanel(controller)) }
-        if controller.helpVisible { panels.append(tablePanel(id: "help", title: String(localized: "Keys", comment: "Title of the capture screen's panel of keys"), rows: controller.helpLines())) }
+        if controller.helpVisible {
+            let title = String(localized: "Keys", comment: "Title of the capture screen's panel of keys")
+            panels.append(tablePanel(id: "help", title: title, rows: controller.helpLines()))
+        }
         if controller.infoVisible {
-            var info = tablePanel(id: "info", title: String(localized: "Info", comment: "Title of the capture screen's info panel"), rows: controller.infoLines())
+            let title = String(localized: "Info", comment: "Title of the capture screen's info panel")
+            var info = tablePanel(id: "info", title: title, rows: controller.infoLines())
             info.growsOnly = true
             panels.append(info)
         }
