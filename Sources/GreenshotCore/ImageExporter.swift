@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 /// `DefaultFileFormatHandler`, `ImageSharpFileFormatHandler` (TGA, PBM), `IconFileFormatHandler` and the PDF plugin's
 /// `PdfFileFormatHandler`).
 public enum ImageFormat: String, Codable, CaseIterable, Sendable {
-    case png, jpg, bmp, gif, tiff, ico, tga, pbm, pdf
+    case png, jpg, bmp, gif, tiff, webp, ico, tga, pbm, pdf
 
     public var fileExtension: String { rawValue }
 
@@ -22,6 +22,7 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return .bmp
         case .gif: return .gif
         case .tiff: return .tiff
+        case .webp: return .webP
         case .ico: return .ico
         case .tga: return UTType("com.truevision.tga-image") ?? UTType(filenameExtension: "tga") ?? .image
         case .pbm: return UTType("public.pbm") ?? UTType(filenameExtension: "pbm") ?? .image
@@ -36,6 +37,7 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return "BMP"
         case .gif: return "GIF"
         case .tiff: return "TIFF"
+        case .webp: return "WebP (lossless)"
         case .ico: return "ICO (icon)"
         case .tga: return "TGA (Targa)"
         case .pbm: return "PBM (Netpbm)"
@@ -51,6 +53,7 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return "image/bmp"
         case .gif: return "image/gif"
         case .tiff: return "image/tiff"
+        case .webp: return "image/webp"
         case .ico: return "image/x-icon"
         case .tga: return "image/x-tga"
         case .pbm: return "image/x-portable-bitmap"
@@ -61,7 +64,7 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
     /// Formats without transparency get a white background (a PDF page is white under the image anyway).
     var supportsAlpha: Bool {
         switch self {
-        case .png, .tiff, .gif, .ico, .tga, .pdf: return true
+        case .png, .tiff, .gif, .webp, .ico, .tga, .pdf: return true
         case .jpg, .bmp, .pbm: return false
         }
     }
@@ -73,6 +76,7 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case "bmp": self = .bmp
         case "gif": self = .gif
         case "tif", "tiff": self = .tiff
+        case "webp": self = .webp
         case "ico": self = .ico
         case "tga": self = .tga
         case "pbm": self = .pbm
@@ -84,10 +88,14 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
 
 public enum ImageExportError: Error, LocalizedError {
     case encodingFailed(ImageFormat)
+    /// The format can't store an image this big (WebP: 16384 pixels a side, TGA: 65535).
+    case tooLarge(ImageFormat, maxSide: Int)
 
     public var errorDescription: String? {
         switch self {
         case .encodingFailed(let format): return "The image could not be encoded as \(format.displayName)."
+        case let .tooLarge(format, maxSide):
+            return "The image is too big for \(format.displayName): it can be at most \(maxSide) pixels wide and high."
         }
     }
 }
@@ -113,6 +121,7 @@ public enum ImageExporter {
         case .tga: return try ImageFormatEncoders.tga(prepared(image, options: options))
         case .pbm: return try ImageFormatEncoders.pbm(prepared(image, options: options))
         case .ico: return try ImageFormatEncoders.ico(prepared(image, options: options))
+        case .webp: return try ImageWebPEncoder.encode(prepared(image, options: options))
         default: break
         }
         let data = NSMutableData()

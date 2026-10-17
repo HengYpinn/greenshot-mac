@@ -20,7 +20,7 @@ extension Snapshots {
     /// The sample written with the formats that have their own encoder, read back with ImageIO and saved as PNG to look
     /// at: `export-roundtrip-<format>.png`.
     private static func renderRoundTrips(to folder: URL, sample: CGImage) throws {
-        for format in [ImageFormat.tga, .pbm, .ico] {
+        for format in [ImageFormat.tga, .pbm, .ico, .webp] {
             let data = try ImageExporter.data(for: sample, options: ImageOutputOptions(format: format, scale: 2))
             guard let decoded = ImageFileLoader.load(data: data) else {
                 throw CocoaError(.fileReadCorruptFile, userInfo: [NSLocalizedDescriptionKey: "\(format) did not read back"])

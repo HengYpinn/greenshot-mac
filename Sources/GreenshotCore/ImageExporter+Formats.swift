@@ -18,9 +18,8 @@ enum ImageFormatEncoders {
     static func tga(_ image: CGImage) throws -> Data {
         let width = image.width
         let height = image.height
-        guard width <= 0xFFFF, height <= 0xFFFF, let pixels = straightBGRA(image) else {
-            throw ImageExportError.encodingFailed(.tga)
-        }
+        guard width <= 0xFFFF, height <= 0xFFFF else { throw ImageExportError.tooLarge(.tga, maxSide: 0xFFFF) }
+        guard let pixels = straightBGRA(image) else { throw ImageExportError.encodingFailed(.tga) }
         var data = Data([0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         data.append(contentsOf: le16(width) + le16(height) + [32, 0x28])
         data.reserveCapacity(18 + width * height * 2)
