@@ -85,6 +85,24 @@ final class CaptureOverlayController {
     /// The front window under the mouse, in every mode (for the info and for snapping).
     private(set) var windowUnderCursor: WindowInfo?
 
+    // Areas inside windows (CaptureOverlay+Areas.swift)
+    /// "Select areas inside windows" is on (upstream: for beta testers).
+    let selectsAreas: Bool
+    /// The areas can be read: the setting is on and Accessibility is allowed.
+    var areasAllowed = false
+    var areaReader: WindowAreaReader?
+    /// The areas of the windows the mouse was over; the screen doesn't change while the capture screen shows.
+    var windowAreas: [CGWindowID: WindowArea] = [:]
+    /// Windows whose app told no areas: selected as a whole.
+    var windowsWithoutAreas: Set<CGWindowID> = []
+    /// The window whose areas are being read, and since when (for the turning mark).
+    var areaReading: (window: CGWindowID, since: Date)?
+    var areaLevel = WindowAreaLevel()
+    /// The window the level belongs to.
+    var areaWindow: CGWindowID?
+    /// The selected area, nil when the whole window is selected.
+    var hoveredArea: WindowArea?
+
     // Fixed size
     private(set) var fixedSizes: [FixedSizeEntry]
     private(set) var fixedSizeIndex: Int
@@ -157,6 +175,7 @@ final class CaptureOverlayController {
         self.scanBarcodes = values.scanQRCodesOnCapture
         self.recognizesTextAtOnce = values.alwaysRunOCROnCapture
         self.zoomerOpacity = CGFloat(min(max(values.zoomerOpacity, 0), 1))
+        self.selectsAreas = values.windowCaptureSelectsAreas
         self.completion = completion
     }
 
@@ -200,6 +219,7 @@ final class CaptureOverlayController {
         NSCursor.crosshair.set()
         if scanBarcodes { startBarcodeDetection() }
         if mode == .text || recognizesTextAtOnce { startTextRecognition() }
+        startAreas()
         updateSelection()
     }
 
@@ -207,6 +227,7 @@ final class CaptureOverlayController {
         guard !finished else { return }
         finished = true
         stopMoving()
+        areaReader?.finish()
         overlayWindows.forEach { $0.orderOut(nil) }
         overlayWindows.removeAll()
         NSCursor.arrow.set()
@@ -317,9 +338,9 @@ final class CaptureOverlayController {
         case kVK_F1:
             toggleHelp()
         case kVK_PageUp:
-            stepFixedSize(by: -1)
+            mode == .window ? stepArea(by: 1) : stepFixedSize(by: -1)
         case kVK_PageDown:
-            stepFixedSize(by: 1)
+            mode == .window ? stepArea(by: -1) : stepFixedSize(by: 1)
         default:
             if mode == .fixedSize, let index = Self.digitIndex(keyCode: keyCode) {
                 pickFixedSize(index)
@@ -412,6 +433,7 @@ final class CaptureOverlayController {
         shiftStart = nil
         shiftAxis = nil
         windowDetailsVisible = false
+        if newMode == .window { resetAreaLevel() }
         ignoresMouseUp = NSEvent.pressedMouseButtons & 1 != 0
         if mode == .text { startTextRecognition() }
         updateSelection()
@@ -474,6 +496,7 @@ final class CaptureOverlayController {
         windowUnderCursor = windows.first { $0.frame.contains(cursor) }
         hoveredLine = nil
         hoveredWindow = nil
+        hoveredArea = nil
         switch mode {
         case .region, .text:
             if let anchor {
@@ -486,7 +509,7 @@ final class CaptureOverlayController {
             hoveredWindow = windowUnderCursor
             if let window = hoveredWindow {
                 let visible = window.frame.intersection(desktopBounds)
-                selection = visible.isEmpty ? nil : visible
+                selection = visible.isEmpty ? nil : areaSelection(in: window, visible: visible)
             } else {
                 // Over the desktop: the display under the mouse.
                 selection = screen(at: cursor)?.frame
