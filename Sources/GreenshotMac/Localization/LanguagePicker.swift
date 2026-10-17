@@ -11,9 +11,10 @@ import SwiftUI
 /// `LanguageWindow`): "Same as macOS" or one of the packs by its name. The setting takes effect after a relaunch.
 @MainActor
 enum LanguageOptions {
-    /// The pack the setting asks for: the setting's, else macOS's choice, else English.
+    /// The pack the setting asks for: the setting's, else macOS's choice, else (a build without translations) the one
+    /// in use.
     static func wanted(_ setting: String) -> LanguagePack {
-        LanguagePacks.resolve(setting) ?? LanguageStartup.macOSChoice ?? LanguagePacks.english
+        LanguagePacks.resolve(setting) ?? LanguageStartup.macOSChoice ?? LanguageStartup.current
     }
 
     /// The setting changed since the start and asks for another language than the one in use: a relaunch shows it.
