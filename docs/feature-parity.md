@@ -1,6 +1,6 @@
 # Feature parity with Greenshot for Windows
 
-This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`. To update it later, start from `git log 0aedcf04..HEAD` upstream.
+This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 1, packages A1–A6). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
 
 ## How it was made
 
@@ -12,15 +12,15 @@ This is the checklist for bringing everything Greenshot for Windows does to this
 
 | Area | ✅ | 🟡 | ❌ | 🍎 | ➖ | ➕ | Rows |
 |---|---|---|---|---|---|---|---|
-| [Capture](parity/cap.md) | 58 | 21 | 35 | 4 | 9 | 0 | 127 |
-| [Editor](parity/edt.md) | 75 | 43 | 24 | 15 | 9 | 0 | 168 |
-| [Image operations and file formats](parity/img.md) | 32 | 20 | 15 | 7 | 5 | 0 | 80 |
-| [Destinations and plugins](parity/dst.md) | 56 | 34 | 27 | 20 | 11 | 0 | 148 |
-| [App shell, settings, notifications](parity/app.md) | 62 | 21 | 56 | 17 | 27 | 0 | 185 |
-| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 0 | 4 | 51 | 9 | 6 | 4 | 74 |
+| [Capture](parity/cap.md) | 81 | 4 | 28 | 4 | 10 | 0 | 127 |
+| [Editor](parity/edt.md) | 135 | 3 | 3 | 15 | 10 | 0 | 168 |
+| [Image operations and file formats](parity/img.md) | 58 | 1 | 7 | 7 | 6 | 0 | 80 |
+| [Destinations and plugins](parity/dst.md) | 95 | 7 | 13 | 21 | 12 | 0 | 148 |
+| [App shell, settings, notifications](parity/app.md) | 87 | 13 | 39 | 17 | 27 | 0 | 185 |
+| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 1 | 4 | 51 | 8 | 6 | 4 | 74 |
 | [Recipes](parity/rcp.md) | 0 | 38 | 151 | 10 | 4 | 0 | 203 |
-| Found by the checks | 0 | 3 | 4 | 0 | 0 | 0 | 7 |
-| **All** | **283** | **184** | **363** | **82** | **71** | **4** | **992** |
+| Found by the checks | 3 | 1 | 3 | 0 | 0 | 0 | 7 |
+| **All** | **460** | **71** | **295** | **82** | **75** | **4** | **992** |
 
 ➕ marks Mac-only additions with no upstream counterpart (AppleScript, Shortcuts, the Services menu, extra `greenshotmac://` actions).
 
@@ -30,89 +30,85 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 ### A. Smaller gaps in what the port already has
 
-| Package | Rows | Estimate (days) |
-|---|---|---|
-| [A1. Capture screen and hotkeys polish](#a1) | 33 | 4-5 |
-| [A2. Editor canvas: elements, styles, selection, paste and drop](#a2) | 47 | 5-6 |
-| [A3. Editor window: toolbar, status bar, zoom, colour dialog, add to editor](#a3) | 26 | 3-4 |
-| [A4. Image operations, file formats and output options](#a4) | 35 | 4-5 |
-| [A5. Destinations, picker, saving and upload polish](#a5) | 35 | 4-5 |
-| [A6. Menu bar icon, app shell and settings polish](#a6) | 23 | 3-4 |
+| Package | Open | Rows | Estimate (days) |
+|---|---|---|---|
+| [A1. Capture screen and hotkeys polish](#a1) | 2 | 29 | 4-5 |
+| [A2. Editor canvas: elements, styles, selection, paste and drop](#a2) | 1 | 47 | 5-6 |
+| [A3. Editor window: toolbar, status bar, zoom, colour dialog, add to editor](#a3) | ✅ | 16 | 3-4 |
+| [A4. Image operations, file formats and output options](#a4) | ✅ | 36 | 4-5 |
+| [A5. Destinations, picker, saving and upload polish](#a5) | 2 | 39 | 4-5 |
+| [A6. Menu bar icon, app shell and settings polish](#a6) | 2 | 27 | 3-4 |
 
 ### B. Medium features with a clear Mac design
 
-| Package | Rows | Estimate (days) |
-|---|---|---|
-| [B1. Native notifications: thumbnail, buttons, one summary per capture](#b1) | 14 | 4-5 |
-| [B2. Diagnostics: logging, log viewer, Self-Service, bug report, setup checks](#b2) | 18 | 5-6 |
-| [B3. Welcome wizard, tips and About](#b3) | 5 | 2 |
-| [B4. Torn edges and cut marks as editable elements with Apply to image](#b4) | 4 | 3-4 |
-| [B5. .greenshot files: open upstream files, save editable documents](#b5) | 4 | 5-8 |
-| [B6. QR code and barcode generator (editable element)](#b6) | 4 | 4-5 |
-| [B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)](#b7) | 10 | 4-6 |
-| [B8. Jira/Confluence Server and Data Center, TLS exceptions, Confluence browsing](#b8) | 7 | 3 |
-| [B9. Window mode: inner windows and areas via Accessibility](#b9) | 3 | 3-5 |
-| [B10. HDR / wide-colour capture](#b10) | 1 | 1-2 |
-| [B11. Mouse pointer and SVG as editable elements](#b11) | 4 | 2-3 |
-| [B12. Admin policy via managed preferences (locked settings, hidden items)](#b12) | 5 | 3-4 |
-| [B13. Restore open editors after quit, log out or crash](#b13) | 4 | 2-3 |
+| Package | Open | Rows | Estimate (days) |
+|---|---|---|---|
+| [B1. Native notifications: thumbnail, buttons, one summary per capture](#b1) | 14 | 14 | 4-5 |
+| [B2. Diagnostics: logging, log viewer, Self-Service, bug report, setup checks](#b2) | 18 | 18 | 5-6 |
+| [B3. Welcome wizard, tips and About](#b3) | 5 | 5 | 2 |
+| [B4. Torn edges and cut marks as editable elements with Apply to image](#b4) | 4 | 4 | 3-4 |
+| [B5. .greenshot files: open upstream files, save editable documents](#b5) | 3 | 4 | 5-8 |
+| [B6. QR code and barcode generator (editable element)](#b6) | 4 | 4 | 4-5 |
+| [B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)](#b7) | 12 | 12 | 4-6 |
+| [B8. Jira/Confluence Server and Data Center, TLS exceptions, Confluence browsing](#b8) | 7 | 7 | 3 |
+| [B9. Window mode: inner windows and areas via Accessibility](#b9) | 3 | 3 | 3-5 |
+| [B10. HDR / wide-colour capture](#b10) | 1 | 1 | 1-2 |
+| [B11. Mouse pointer and SVG as editable elements](#b11) | 4 | 4 | 2-3 |
+| [B12. Admin policy via managed preferences (locked settings, hidden items)](#b12) | 5 | 5 | 3-4 |
+| [B13. Restore open editors after quit, log out or crash](#b13) | 5 | 5 | 2-3 |
 
 ### C. Large subsystems
 
-| Package | Rows | Estimate (days) |
-|---|---|---|
-| [C1. Translations: localisation plumbing + upstream language packs](#c1) | 10 | 7-10 (+ review by native speakers) |
-| [C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services](#c2) | 39 | 6-8 |
-| [C3. MCP server for AI tools (capture, list windows, consent)](#c3) | 18 | 4-6 |
-| [C4. Browser extension (Chrome/Edge/Firefox, then Safari)](#c4) | 9 | 4-6 |
-| [C5. Video recording (screen, window, region to MP4)](#c5) | 22 | 5 reduced / 10 full |
-| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | 96 | 15-20 |
-| [C7. Recipes: editor, manager, options, extensions](#c7) | 130 | 25-40 (list editor); node graph +25-40 |
+| Package | Open | Rows | Estimate (days) |
+|---|---|---|---|
+| [C1. Translations: localisation plumbing + upstream language packs](#c1) | 10 | 10 | 7-10 (+ review by native speakers) |
+| [C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services](#c2) | 33 | 39 | 6-8 |
+| [C3. MCP server for AI tools (capture, list windows, consent)](#c3) | 18 | 18 | 4-6 |
+| [C4. Browser extension (Chrome/Edge/Firefox, then Safari)](#c4) | 9 | 9 | 4-6 |
+| [C5. Video recording (screen, window, region to MP4)](#c5) | 20 | 22 | 5 reduced / 10 full |
+| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | 96 | 98 | 15-20 |
+| [C7. Recipes: editor, manager, options, extensions](#c7) | 128 | 130 | 25-40 (list editor); node graph +25-40 |
 
 ### D. Optional
 
-| Package | Rows | Estimate (days) |
-|---|---|---|
-| [D1. Left/right ⌘⌥⌃⇧ in hotkeys (needs the Input Monitoring permission)](#d1) | 1 | 3-4 |
+| Package | Open | Rows | Estimate (days) |
+|---|---|---|---|
+| [D1. Left/right ⌘⌥⌃⇧ in hotkeys (needs the Input Monitoring permission)](#d1) | 1 | 1 | 3-4 |
 
 ## Package contents
 
 <a id="a1"></a>
 ### A1. Capture screen and hotkeys polish
 
-- `APP-002` 🟡 Menu: Capture last region, hotkey shown, item greyed out while no region was captured yet
-- `APP-004` 🟡 Menu: Capture full screen; with several displays a submenu "all" + one entry per display, named with its position (top/bottom/left/right)
-- `APP-076` ❌ Hotkeys that are key sequences (chords, e.g. "Ctrl+K then P") for recipes
-- `APP-118` 🟡 Custom camera sound file (`NotificationSound` = path of a .wav, default embedded camera sound)
-- `CAP-005` 🟡 Capture last region hotkey: same area again without the capture screen (default Shift+PrintScreen)
-- `CAP-008` 🟡 Tray "Capture full screen" submenu with all monitors or one monitor (upstream labels all/left/right/top/bottom by position)
-- `CAP-010` 🟡 Capture a given file ("capture" from a file path: CaptureFile)
-- `CAP-013` 🟡 Built-in "OCR text to clipboard" recipe starts the capture screen in text mode and copies only the text (own hotkey/menu entry)
-- `CAP-017` 🟡 Camera sound after a capture; custom wav (NotificationSound)
-- `CAP-020` 🟡 Capture details: title, date/time, DPI, filename, capture mode, crop offset, metadata dictionary (capture method) used by filename patterns and destinations
-- `CAP-032` 🟡 Hotkey validation: a trigger key is required, Esc/Enter/Tab/CapsLock reserved, non-function keys need a modifier, Shift alone not allowed with letters/digits
-- `CAP-033` ❌ Multi-chord hotkey sequences (e.g. "Ctrl+K, C"), 2.5 s chord timeout
-- `CAP-035` 🟡 Standalone keys as hotkeys (PrintScreen, ScrollLock, Pause, F1-F24 without modifier)
-- `CAP-038` 🟡 "Register Hotkeys" on/off setting ("registerhotkeys", tooltip: reserve Prnt/Ctrl+Print/Alt+Prnt at startup)
-- `CAP-053` 🟡 Selection frame with width/height rulers (width above, height left) and the size in the middle as large as fits
-- `CAP-054` 🟡 Crosshair: two dotted lines across the whole screen at the mouse with the position next to it, region and text modes, hidden while dragging
-- `CAP-055` 🟡 Region size is exactly the capture: the pixel under the mouse belongs to it (corner pixel inclusive)
-- `CAP-063` 🟡 Keys that work while another window has taken focus: moving the mouse restores key input
-- `CAP-065` ❌ Selection animates (slides) from window to window; selection rectangle animation
-- `CAP-066` ❌ Panels slide to their new corner (0.35 s) and fade in/out; panel only grows while shown
+- `APP-076` ✅ Hotkeys that are key sequences (chords, e.g. "Ctrl+K then P") for recipes
+- `APP-118` ✅ Custom camera sound file (`NotificationSound` = path of a .wav, default embedded camera sound)
+- `CAP-005` ✅ Capture last region hotkey: same area again without the capture screen (default Shift+PrintScreen)
+- `CAP-010` ✅ Capture a given file ("capture" from a file path: CaptureFile)
+- `CAP-013` ✅ Built-in "OCR text to clipboard" recipe starts the capture screen in text mode and copies only the text (own hotkey/menu entry)
+- `CAP-017` ✅ Camera sound after a capture; custom wav (NotificationSound)
+- `CAP-032` ✅ Hotkey validation: a trigger key is required, Esc/Enter/Tab/CapsLock reserved, non-function keys need a modifier, Shift alone not allowed with letters/digits
+- `CAP-033` ✅ Multi-chord hotkey sequences (e.g. "Ctrl+K, C"), 2.5 s chord timeout
+- `CAP-035` ✅ Standalone keys as hotkeys (PrintScreen, ScrollLock, Pause, F1-F24 without modifier)
+- `CAP-038` ➖ "Register Hotkeys" on/off setting ("registerhotkeys", tooltip: reserve Prnt/Ctrl+Print/Alt+Prnt at startup)
+- `CAP-053` ✅ Selection frame with width/height rulers (width above, height left) and the size in the middle as large as fits
+- `CAP-054` ✅ Crosshair: two dotted lines across the whole screen at the mouse with the position next to it, region and text modes, hidden while dragging
+- `CAP-055` ✅ Region size is exactly the capture: the pixel under the mouse belongs to it (corner pixel inclusive)
+- `CAP-063` ✅ Keys that work while another window has taken focus: moving the mouse restores key input
+- `CAP-065` ✅ Selection animates (slides) from window to window; selection rectangle animation
+- `CAP-066` ✅ Panels slide to their new corner (0.35 s) and fade in/out; panel only grows while shown
 - `CAP-071` 🟡 Window mode: selection follows the window under the mouse, click or Enter captures it; only the visible part (cut at screen edges)
-- `CAP-076` 🟡 Window capture contains only the window (not what covers it); minimised window restored first
-- `CAP-085` 🟡 Fixed size: snaps edges to the window under the mouse, the windows around it and the monitor (a few px); hold Alt places freely
-- `CAP-091` 🟡 Text mode result as text to clipboard via Windows OCR destination; also copy only the text
-- `CAP-093` ❌ "Text recognition: Always run OCR on every capture" (AlwaysRunOCROnCapture)
-- `CAP-101` ❌ Zoomer shows the selection edges (so you see whether a pixel is in or out)
-- `CAP-102` ❌ Zoomer size = one fifth of the smaller side of the monitor
-- `CAP-103` ❌ ZoomerOpacity setting (0..1, ini only)
-- `CAP-110` 🟡 Panel placement: always in a corner of the monitor with the mouse, farthest free corner, moves only if mouse is close, overlaps another panel, or covers >25 % of the selection (selection counts after 0.3 s stable)
-- `CAP-130` 🟡 ScreenCaptureMode: Auto (monitor with mouse) / FullScreen / Fixed + ScreenToCapture
-- `DST-065` 🟡 Always run OCR on every capture so text lines show as hotspots in the capture window
+- `CAP-076` ✅ Window capture contains only the window (not what covers it); minimised window restored first
+- `CAP-085` ✅ Fixed size: snaps edges to the window under the mouse, the windows around it and the monitor (a few px); hold Alt places freely
+- `CAP-091` 🍎 Text mode result as text to clipboard via Windows OCR destination; also copy only the text
+- `CAP-093` ✅ "Text recognition: Always run OCR on every capture" (AlwaysRunOCROnCapture)
+- `CAP-101` ✅ Zoomer shows the selection edges (so you see whether a pixel is in or out)
+- `CAP-102` ✅ Zoomer size = one fifth of the smaller side of the monitor
+- `CAP-103` ✅ ZoomerOpacity setting (0..1, ini only)
+- `CAP-110` ✅ Panel placement: always in a corner of the monitor with the mouse, farthest free corner, moves only if mouse is close, overlaps another panel, or covers >25 % of the selection (selection counts after 0.3 s stable)
+- `CAP-130` ✅ ScreenCaptureMode: Auto (monitor with mouse) / FullScreen / Fixed + ScreenToCapture
+- `DST-065` ✅ Always run OCR on every capture so text lines show as hotspots in the capture window
 - `R2-004` 🟡 Hotkey editor dialog ("Configure Hotkey: <action>"): Ctrl/Alt/Shift/Win checkboxes, a capture field ("Click here to focus and press shortcut keys"), a live "Preview:", "+ Add Step" to build a key sequence (each step removable with an X), inline validation error, Clear / Reset (back to a single chord), Save / Apply, Cancel. The settings row shows a read-only hotkey chip with an "Edit" button (tooltip "Change Hotkey") that opens this dialog; admin-locked hotkeys are disabled
-- `R3-003` ❌ Capture screen keeps working after another window took the keyboard focus (Alt+Tab, a message box of another program): the screen stays on top and the next mouse move gives the keys back
+- `R3-003` ✅ Capture screen keeps working after another window took the keyboard focus (Alt+Tab, a message box of another program): the screen stays on top and the next mouse move gives the keys back
 
 <a id="a2"></a>
 ### A2. Editor canvas: elements, styles, selection, paste and drop
@@ -122,137 +118,136 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="a3"></a>
 ### A3. Editor window: toolbar, status bar, zoom, colour dialog, add to editor
 
-- `DST-011` 🟡 After every export the editor status bar / notification says "Exported to: <target>" (or "Error while exporting to <target>: ...")
-- `DST-014` 🟡 Exported file / URL is remembered on the surface (`LastSaveFullPath`, `UploadUrl`), clears the "modified" flag after a save
-- `DST-016` ❌ "Add to editor - <title>" sub-destinations: place the capture as an image element in an already open editor
-- `DST-039` ❌ Editor "Copy path to clipboard" for the saved file
-- `EDT-121` 🟡 Window placement remembered (position/size/maximized) and reset if off-screen; MatchSizeToCapture
-- `EDT-123` ❌ Default editor size when opened without capture (500x500)
-- `EDT-132` 🟡 Destination toolbar buttons (save, copy to clipboard, print + dynamic destination split buttons with drop-downs, icon-only)
-- `EDT-133` ❌ "Add to editor" dynamic destination: add this capture as image to another open editor; editor-with-title drop-down
-- `EDT-135` 🟡 Edit > Insert window submenu (live list of windows with icons + thumbnail preview on hover) inserts a window capture as image element
-- `EDT-141` 🟡 Zoom drop-down button in status bar ("100%")
-- `EDT-142` 🟡 Ctrl+mouse wheel zooms (100 ms throttle); step through fixed zoom values
-- `EDT-143` 🟡 Zoom keeps selection/centre in view
-- `EDT-145` ❌ Status bar message after save/export ("Image saved to {0}", time stamp, error in red with warning sign)
-- `EDT-146` ❌ Status bar context menu after save: Copy path to clipboard, Open directory in Explorer
-- `EDT-149` 🟡 Toolbar: Print, Delete, Cut, Copy, Paste, Undo, Redo, Settings, Help buttons
-- `EDT-160` 🟡 Effects drop-down: Border, Drop shadow, Torn edge, Grayscale, Invert, Remove transparency (only when image has alpha), Redact text (beta)
-- `EDT-161` 🟡 Drop shadow: click applies stored settings, right-click opens settings dialog
-- `EDT-162` 🟡 Torn edges: click applies, right-click settings
-- `EDT-163` 🟡 Resize (Z key, toolbar): resize dialog
-- `EDT-168` 🟡 Remove transparency with colour dialog
-- `EDT-183` 🟡 HTML hex entry and R/G/B/Alpha numeric boxes, "Transparent" button, Apply/Cancel
-- `EDT-184` 🟡 Colour picker used by Remove-transparency and other colour needs
-- `EDT-203` 🟡 Window placement (Flags, ShowCommand, Min/Max/Normal position)
-- `EDT-208` ❌ DefaultEditorSize
-- `IMG-003` 🟡 Drop shadow settings dialog: thickness 1-20 px, offset X and Y -20..20, darkness 1-40; OK/Cancel; right-click on the button opens it, left-click applies the stored settings
-- `IMG-071` 🟡 Editor opens the capture / "Add capture to open editor" destination, reuse editor, match size
+- `DST-011` ✅ After every export the editor status bar / notification says "Exported to: <target>" (or "Error while exporting to <target>: ...")
+- `DST-014` ✅ Exported file / URL is remembered on the surface (`LastSaveFullPath`, `UploadUrl`), clears the "modified" flag after a save
+- `DST-039` ✅ Editor "Copy path to clipboard" for the saved file
+- `EDT-121` ✅ Window placement remembered (position/size/maximized) and reset if off-screen; MatchSizeToCapture
+- `EDT-123` ✅ Default editor size when opened without capture (500x500)
+- `EDT-132` ✅ Destination toolbar buttons (save, copy to clipboard, print + dynamic destination split buttons with drop-downs, icon-only)
+- `EDT-141` ✅ Zoom drop-down button in status bar ("100%")
+- `EDT-142` ✅ Ctrl+mouse wheel zooms (100 ms throttle); step through fixed zoom values
+- `EDT-143` ✅ Zoom keeps selection/centre in view
+- `EDT-145` ✅ Status bar message after save/export ("Image saved to {0}", time stamp, error in red with warning sign)
+- `EDT-146` ✅ Status bar context menu after save: Copy path to clipboard, Open directory in Explorer
+- `EDT-149` ✅ Toolbar: Print, Delete, Cut, Copy, Paste, Undo, Redo, Settings, Help buttons
+- `EDT-183` ✅ HTML hex entry and R/G/B/Alpha numeric boxes, "Transparent" button, Apply/Cancel
+- `EDT-203` ✅ Window placement (Flags, ShowCommand, Min/Max/Normal position)
+- `EDT-208` ✅ DefaultEditorSize
+- `IMG-071` ✅ Editor opens the capture / "Add capture to open editor" destination, reuse editor, match size
 
 <a id="a4"></a>
 ### A4. Image operations, file formats and output options
 
-- `APP-212` 🟡 Output tab: Copy file path to clipboard every time an image is saved
-- `APP-099` ❌ Expert: auto reduce colours when image has fewer than 256 colours
-- `DST-030` 🟡 Copy file path to clipboard after saving (`OutputFileCopyPathToClipboard`)
-- `DST-033` ❌ Quality dialog also has a "Reduce colors" checkbox that is saved with "Don't ask again"
-- `DST-034` 🟡 Reduce colours to N (default 256) and auto-reduce when fewer than 256 colours are used
-- `DST-048` 🟡 Open image from clipboard: images in many formats, copied files (CF_HDROP), virtual files (Outlook attachments), HTML `<img>` URLs downloaded, Greenshot objects (drawables)
-- `DST-087` ❌ Jira upload "Reduce colors" setting
-- `DST-101` 🟡 Confluence settings: URL, session timeout, upload format, JPEG quality, reduce colours
-- `DST-110` 🟡 Box/Dropbox/Confluence/Jira: upload format and JPEG quality; reduce colours (Confluence/Jira)
-- `DST-115` 🟡 PDF as a normal file format (primary output format, Save As filter)
-- `IMG-001` 🟡 Border effect (default 2 px, black; the canvas grows by the width)
-- `IMG-010` 🟡 Monochrome effect (threshold 0-255)
-- `IMG-011` 🟡 Reduce colors effect (Wu quantizer, N colours)
-- `IMG-014` 🟡 Resize canvas effect (left/right/top/bottom + background colour; empty = default for format)
-- `IMG-016` 🟡 Shrink canvas (auto-crop of the border)
-- `IMG-018` 🟡 Remove transparency with a chosen colour (colour dialog, default white)
-- `IMG-042` ❌ Search button, Auto Search (live), live match count "Matches found: N" and yellow preview boxes before applying
-- `IMG-050` ❌ Pixelate that cannot be reversed: secret (AES-CBC) noise per block, stable for repaint/export (1aa2febb)
-- `IMG-061` 🟡 Open WebP, TGA, PBM
-- `IMG-062` 🟡 Open ICO (all sizes)
-- `IMG-067` ❌ EXIF orientation applied when reading files/clipboard (`ProcessEXIFOrientation`, default true)
-- `IMG-069` 🟡 File type registration / "Open with Greenshot" for images, .greenshot association
-- `IMG-070` 🟡 Image from clipboard on open: formats PNG, DIBv5, JPEG, JFIF, TIFF, GIF, DIB, file drop, HTML with img (downloaded)
-- `IMG-081` ❌ Save WebP (quality = JPEG quality), TGA, PBM
-- `IMG-082` ❌ Save ICO (multi-size icon from image)
-- `IMG-085` 🟡 Saveable formats registry / unsupported-format failure surfaced to user (b73acc3f)
-- `IMG-089` 🟡 Ask for quality before saving ("Show quality dialog every time"), with "Reduce colours" checkbox in the dialog and "Don't ask again"
-- `IMG-090` 🟡 Reduce colours to 256 on save (`OutputFileReduceColors`), target count `OutputFileReduceColorsTo`
-- `IMG-091` 🟡 Force colour reduction for GIF (GIF always quantised)
-- `IMG-092` ❌ Auto reduce colours (`OutputFileAutoReduceColors`: count colours, 8-bit if < 256)
-- `IMG-094` 🟡 Copy file path to clipboard after save (`OutputFileCopyPathToClipboard`)
-- `IMG-096` ❌ Optimise PNG with an external command (`OptimizePNGCommand` + arguments {0}), also on upload
-- `IMG-097` ❌ Greenshot "Software" tag in output (PNG tEXt Software, EXIF Software, JPEG tag)
-- `IMG-102` 🟡 Upload format + JPEG quality + reduce colours per upload plugin (Box, Dropbox, Jira, Confluence, ...)
-- `IMG-103` 🟡 Clipboard copy formats setting (PNG, HTML, HTMLDATAURL, DIB, BITMAP) and DIBv5 with alpha
+- `APP-099` ✅ Expert: auto reduce colours when image has fewer than 256 colours
+- `DST-034` ✅ Reduce colours to N (default 256) and auto-reduce when fewer than 256 colours are used
+- `DST-048` ✅ Open image from clipboard: images in many formats, copied files (CF_HDROP), virtual files (Outlook attachments), HTML `<img>` URLs downloaded, Greenshot objects (drawables)
+- `DST-087` ✅ Jira upload "Reduce colors" setting
+- `DST-101` ✅ Confluence settings: URL, session timeout, upload format, JPEG quality, reduce colours
+- `DST-110` ✅ Box/Dropbox/Confluence/Jira: upload format and JPEG quality; reduce colours (Confluence/Jira)
+- `DST-115` ✅ PDF as a normal file format (primary output format, Save As filter)
+- `EDT-160` ✅ Effects drop-down: Border, Drop shadow, Torn edge, Grayscale, Invert, Remove transparency (only when image has alpha), Redact text (beta)
+- `EDT-161` ✅ Drop shadow: click applies stored settings, right-click opens settings dialog
+- `EDT-162` ✅ Torn edges: click applies, right-click settings
+- `EDT-163` ✅ Resize (Z key, toolbar): resize dialog
+- `EDT-168` ✅ Remove transparency with colour dialog
+- `EDT-184` ✅ Colour picker used by Remove-transparency and other colour needs
+- `IMG-003` ✅ Drop shadow settings dialog: thickness 1-20 px, offset X and Y -20..20, darkness 1-40; OK/Cancel; right-click on the button opens it, left-click applies the stored settings
+- `IMG-010` ✅ Monochrome effect (threshold 0-255)
+- `IMG-011` ✅ Reduce colors effect (Wu quantizer, N colours)
+- `IMG-014` ✅ Resize canvas effect (left/right/top/bottom + background colour; empty = default for format)
+- `IMG-016` ✅ Shrink canvas (auto-crop of the border)
+- `IMG-018` ✅ Remove transparency with a chosen colour (colour dialog, default white)
+- `IMG-042` ✅ Search button, Auto Search (live), live match count "Matches found: N" and yellow preview boxes before applying
+- `IMG-050` ✅ Pixelate that cannot be reversed: secret (AES-CBC) noise per block, stable for repaint/export (1aa2febb)
+- `IMG-061` ✅ Open WebP, TGA, PBM
+- `IMG-062` ✅ Open ICO (all sizes)
+- `IMG-067` ✅ EXIF orientation applied when reading files/clipboard (`ProcessEXIFOrientation`, default true)
+- `IMG-069` ✅ File type registration / "Open with Greenshot" for images, .greenshot association
+- `IMG-070` ✅ Image from clipboard on open: formats PNG, DIBv5, JPEG, JFIF, TIFF, GIF, DIB, file drop, HTML with img (downloaded)
+- `IMG-081` ✅ Save WebP (quality = JPEG quality), TGA, PBM
+- `IMG-082` ✅ Save ICO (multi-size icon from image)
+- `IMG-085` ✅ Saveable formats registry / unsupported-format failure surfaced to user (b73acc3f)
+- `IMG-090` ✅ Reduce colours to 256 on save (`OutputFileReduceColors`), target count `OutputFileReduceColorsTo`
+- `IMG-091` ✅ Force colour reduction for GIF (GIF always quantised)
+- `IMG-092` ✅ Auto reduce colours (`OutputFileAutoReduceColors`: count colours, 8-bit if < 256)
+- `IMG-096` ➖ Optimise PNG with an external command (`OptimizePNGCommand` + arguments {0}), also on upload
+- `IMG-097` ✅ Greenshot "Software" tag in output (PNG tEXt Software, EXIF Software, JPEG tag)
+- `IMG-102` ✅ Upload format + JPEG quality + reduce colours per upload plugin (Box, Dropbox, Jira, Confluence, ...)
+- `IMG-103` ✅ Clipboard copy formats setting (PNG, HTML, HTMLDATAURL, DIB, BITMAP) and DIBv5 with alpha
 
 <a id="a5"></a>
 ### A5. Destinations, picker, saving and upload polish
 
-- `APP-010` 🟡 Menu: Open last capture location (opens the last saved file in the file manager; falls back to the output folder when the file is gone)
-- `DST-004` ❌ Picker re-shows after the picked export failed or was cancelled, until one succeeds or the user closes it
-- `DST-005` 🟡 Picker lists only destinations that are available (Jira/Confluence only with a configured URL, Email only with a MAPI client, QR only when codes were found, excluded ones hidden)
-- `DST-006` 🟡 Picker items sorted by priority then name; each destination has an icon and a shortcut hint ("Ctrl+S", "Ctrl+Shift+C")
-- `DST-007` 🟡 Dynamic sub-destinations in the picker/File menu (printers, open Word documents, open editors, recent Jira issues, open Confluence pages, external commands) loaded in the background with a "..." placeholder
-- `DST-012` ❌ Long uploads show a progress dialog with a Cancel button, only after 300 ms (no flicker for quick ones)
-- `DST-019` 🟡 Output folder setting with a folder browser; pattern variables also work in the folder (`FillVariables` on `OutputFilePath`)
-- `DST-021` 🟡 File name pattern setting with a help window listing every variable
-- `DST-024` ❌ Pattern variables from capture metadata: `${windowtitle}`, `${url}`, `${browser}` (browser extension), `${source}`, capture method
-- `DST-026` 🟡 Overwrite setting: when the generated file exists, upstream shows a Save-As dialog; allowed overwrite replaces it
-- `DST-027` 🟡 When saving fails (no write access, bad path) upstream tells the user and falls back to Save As
-- `DST-028` 🟡 Invalid filename pattern: error text, opens Settings so the user can fix it, retries
-- `DST-029` 🟡 Save of an already saved capture / opened file overwrites that file in place (uses `captureDetails.Filename`)
-- `DST-031` 🟡 Save As dialog starts in the folder of the last Save As (`OutputFileAsFullpath`), else the output folder
-- `DST-037` 🟡 Temporary named files cleaned up (share files, Excel tmp)
-- `DST-038` 🟡 Open the folder of the last saved file in the file manager ("Open directory in Explorer", tray "Open last capture in explorer")
-- `DST-051` 🟡 E-Mail settings: To, CC, BCC
-- `DST-057` 🟡 Print footer with date/time and title, footer pattern, uses UI language for dates (#820)
-- `DST-059` ❌ One print destination per installed printer (default printer first); prints straight to that printer without a dialog
-- `DST-060` ❌ Notification after printing ("Print job was sent to '{0}'")
-- `DST-066` ❌ Window-title fixes: regex per browser to strip " - Mozilla Firefox" / " - Google Chrome" from the title used in file names (`ActiveTitleFixes`, `TitleFixMatcher`, `TitleFixReplacer`; ini only)
-- `DST-069` 🟡 Duplicate command names rejected with a tooltip
-- `DST-071` ❌ Per-command output image format (png, jpg, ... c3198f43)
-- `DST-075` ❌ Environment/pattern variables in the command line and arguments (`${...}`, `%windir%`)
-- `DST-076` 🟡 Command works on the capture's saved file when it has one (`captureDetails.Filename`), else a temp file
-- `DST-079` 🍎 Built-in default commands: MS Paint, Paint.NET (not recreated once deleted: `DeletedBuildInCommands`)
-- `DST-080` 🟡 Invalid commands (program no longer exists) removed from the configuration at startup
-- `DST-081` 🟡 Icon of the command's program shown in menus (`IconCache`, also for UWP/Store apps via `WindowsAppHelper`)
+- `APP-212` ✅ Output tab: Copy file path to clipboard every time an image is saved
+- `DST-004` ✅ Picker re-shows after the picked export failed or was cancelled, until one succeeds or the user closes it
+- `DST-005` ✅ Picker lists only destinations that are available (Jira/Confluence only with a configured URL, Email only with a MAPI client, QR only when codes were found, excluded ones hidden)
+- `DST-006` ✅ Picker items sorted by priority then name; each destination has an icon and a shortcut hint ("Ctrl+S", "Ctrl+Shift+C")
+- `DST-007` ✅ Dynamic sub-destinations in the picker/File menu (printers, open Word documents, open editors, recent Jira issues, open Confluence pages, external commands) loaded in the background with a "..." placeholder
+- `DST-012` ✅ Long uploads show a progress dialog with a Cancel button, only after 300 ms (no flicker for quick ones)
+- `DST-016` ✅ "Add to editor - <title>" sub-destinations: place the capture as an image element in an already open editor
+- `DST-019` ✅ Output folder setting with a folder browser; pattern variables also work in the folder (`FillVariables` on `OutputFilePath`)
+- `DST-021` ✅ File name pattern setting with a help window listing every variable
+- `DST-024` 🟡 Pattern variables from capture metadata: `${windowtitle}`, `${url}`, `${browser}` (browser extension), `${source}`, capture method
+- `DST-026` 🍎 Overwrite setting: when the generated file exists, upstream shows a Save-As dialog; allowed overwrite replaces it
+- `DST-027` ✅ When saving fails (no write access, bad path) upstream tells the user and falls back to Save As
+- `DST-028` 🍎 Invalid filename pattern: error text, opens Settings so the user can fix it, retries
+- `DST-029` ✅ Save of an already saved capture / opened file overwrites that file in place (uses `captureDetails.Filename`)
+- `DST-030` ✅ Copy file path to clipboard after saving (`OutputFileCopyPathToClipboard`)
+- `DST-031` ✅ Save As dialog starts in the folder of the last Save As (`OutputFileAsFullpath`), else the output folder
+- `DST-033` ✅ Quality dialog also has a "Reduce colors" checkbox that is saved with "Don't ask again"
+- `DST-037` ✅ Temporary named files cleaned up (share files, Excel tmp)
+- `DST-038` ✅ Open the folder of the last saved file in the file manager ("Open directory in Explorer", tray "Open last capture in explorer")
+- `DST-057` ✅ Print footer with date/time and title, footer pattern, uses UI language for dates (#820)
+- `DST-059` ✅ One print destination per installed printer (default printer first); prints straight to that printer without a dialog
+- `DST-060` ✅ Notification after printing ("Print job was sent to '{0}'")
+- `DST-066` ➖ Window-title fixes: regex per browser to strip " - Mozilla Firefox" / " - Google Chrome" from the title used in file names (`ActiveTitleFixes`, `TitleFixMatcher`, `TitleFixReplacer`; ini only)
+- `DST-069` ✅ Duplicate command names rejected with a tooltip
+- `DST-071` ✅ Per-command output image format (png, jpg, ... c3198f43)
+- `DST-075` ✅ Environment/pattern variables in the command line and arguments (`${...}`, `%windir%`)
+- `DST-076` ✅ Command works on the capture's saved file when it has one (`captureDetails.Filename`), else a temp file
+- `DST-079` ✅ Built-in default commands: MS Paint, Paint.NET (not recreated once deleted: `DeletedBuildInCommands`)
+- `DST-080` ✅ Invalid commands (program no longer exists) removed from the configuration at startup
+- `DST-081` ✅ Icon of the command's program shown in menus (`IconCache`, also for UWP/Store apps via `WindowsAppHelper`)
 - `DST-088` 🟡 Recent Jira issues offered as destinations: the app watches window titles for issue keys (`ABC-123`) and lists issues the user recently looked at
-- `DST-089` 🟡 Issue list from a Jira favourite filter (dropdown), sortable columns: type icon, key, created, assignee, reporter, summary
-- `DST-090` ❌ Issue-type icons and the server favicon on Jira destinations
-- `DST-095` 🟡 Page chooser tab "Search pages" (title text, optional space)
-- `DST-097` 🍎 Page chooser tab "Open pages": pages currently open in a browser, found from window titles/URLs
-- `DST-105` ❌ Dynamic "Upload to Confluence: <open page title>" entries in the picker
-- `R3-001` 🟡 Save As with a filename pattern that expands to a sub-folder (e.g. `${YYYY}-${MM}-${DD}/${NUM} - ${title}`): the dialog opens inside that sub-folder, which is created on the fly and removed again when the dialog is cancelled and the folder is still empty
+- `DST-089` ✅ Issue list from a Jira favourite filter (dropdown), sortable columns: type icon, key, created, assignee, reporter, summary
+- `DST-090` ✅ Issue-type icons and the server favicon on Jira destinations
+- `DST-095` ✅ Page chooser tab "Search pages" (title text, optional space)
+- `DST-105` ✅ Dynamic "Upload to Confluence: <open page title>" entries in the picker
+- `EDT-133` ✅ "Add to editor" dynamic destination: add this capture as image to another open editor; editor-with-title drop-down
+- `IMG-089` ✅ Ask for quality before saving ("Show quality dialog every time"), with "Reduce colours" checkbox in the dialog and "Don't ask again"
+- `IMG-094` ✅ Copy file path to clipboard after save (`OutputFileCopyPathToClipboard`)
+- `R3-001` ✅ Save As with a filename pattern that expands to a sub-folder (e.g. `${YYYY}-${MM}-${DD}/${NUM} - ${title}`): the dialog opens inside that sub-folder, which is created on the fly and removed again when the dialog is cancelled and the folder is still empty
 
 <a id="a6"></a>
 ### A6. Menu bar icon, app shell and settings polish
 
-- `APP-006` ❌ Window list titles cut to `MaxMenuItemLength` (default 25) so the menu does not get too wide
-- `APP-007` ❌ Hover over a window-list entry shows a live thumbnail of that window beside the menu (`ThumnailPreview`, default on)
+- `APP-002` ✅ Menu: Capture last region, hotkey shown, item greyed out while no region was captured yet
+- `APP-004` ✅ Menu: Capture full screen; with several displays a submenu "all" + one entry per display, named with its position (top/bottom/left/right)
+- `APP-006` ✅ Window list titles cut to `MaxMenuItemLength` (default 25) so the menu does not get too wide
+- `APP-007` ✅ Hover over a window-list entry shows a live thumbnail of that window beside the menu (`ThumnailPreview`, default on)
+- `APP-010` ✅ Menu: Open last capture location (opens the last saved file in the file manager; falls back to the output folder when the file is gone)
 - `APP-019` 🟡 Menu: Help (opens the offline help file in the UI language)
-- `APP-031` ❌ Left click on the tray icon runs `LeftClickAction` (default show menu); choices: open last in explorer, open last in editor, open settings, show menu, capture clipboard, open clipboard in editor, open file in editor, capture region, capture screen, capture window, open empty editor, do nothing
-- `APP-032` ❌ Double click on the tray icon runs `DoubleClickAction` (default open last capture in explorer); the single click is then delayed by the system double-click time
-- `APP-033` ❌ Click action: Open empty editor (a blank image to draw on)
-- `APP-034` ❌ `HideTrayicon` (ini `DisableTrayicon`): run without a tray icon
-- `APP-046` 🟡 Update check at startup after 20 s and then every `UpdateCheckInterval` days while running (re-checked every 30 min when not due)
-- `APP-062` ❌ Open Settings on a given tab or plugin (`SelectTab("general"/"capture"/.../"expert"/plugin name)`), from `greenshot://settings?tab=` and the "More..." quick-setting
-- `APP-071` ❌ Theme drop-down: same as Windows / Light / Dark, applied immediately
-- `APP-101` ❌ Expert: window thumbnails in context menu
-- `APP-102` ❌ Expert: check for unstable updates
-- `APP-105` 🟡 Expert: `${NUM}` counter - editable number
+- `APP-031` ✅ Left click on the tray icon runs `LeftClickAction` (default show menu); choices: open last in explorer, open last in editor, open settings, show menu, capture clipboard, open clipboard in editor, open file in editor, capture region, capture screen, capture window, open empty editor, do nothing
+- `APP-032` ✅ Double click on the tray icon runs `DoubleClickAction` (default open last capture in explorer); the single click is then delayed by the system double-click time
+- `APP-033` ✅ Click action: Open empty editor (a blank image to draw on)
+- `APP-034` ✅ `HideTrayicon` (ini `DisableTrayicon`): run without a tray icon
+- `APP-046` ✅ Update check at startup after 20 s and then every `UpdateCheckInterval` days while running (re-checked every 30 min when not due)
+- `APP-062` ✅ Open Settings on a given tab or plugin (`SelectTab("general"/"capture"/.../"expert"/plugin name)`), from `greenshot://settings?tab=` and the "More..." quick-setting
+- `APP-071` ✅ Theme drop-down: same as Windows / Light / Dark, applied immediately
+- `APP-101` ✅ Expert: window thumbnails in context menu
+- `APP-102` ✅ Expert: check for unstable updates
+- `APP-105` ✅ Expert: `${NUM}` counter - editable number
 - `APP-119` 🍎 Notification when the OS has notifications off: nothing shown, no capture kept
 - `APP-120` 🟡 About window: product name + version + bitness, GPL text with link, hosted-by-GitHub, bug-report and donate links (carry `?version=`), Fugue icon credits, translation credits, PORTABLE/BETA badges, animated logo, Self-Service button, keys S/E/L/I/T
-- `APP-152` ❌ Beta/unstable update notices (`CheckForUnstable`, `LatestBetaVersion`)
-- `APP-186` 🟡 `UpdateCheckInterval` `LastUpdateCheck` `CheckForUnstable`
-- `APP-188` ❌ `ThumnailPreview`
-- `APP-190` ❌ `LeftClickAction` `DoubleClickAction`
-- `APP-192` ❌ `MaxMenuItemLength`
-- `APP-194` ❌ `Theme`
-- `AUT-002` 🍎 `--ini-directory <dir>`: read/write greenshot.ini from another folder (portable/side-by-side config)
-- `CAP-041` 🍎 Tray icon left-click / double-click action (LeftClickAction)
+- `APP-152` ✅ Beta/unstable update notices (`CheckForUnstable`, `LatestBetaVersion`)
+- `APP-186` ✅ `UpdateCheckInterval` `LastUpdateCheck` `CheckForUnstable`
+- `APP-188` ✅ `ThumnailPreview`
+- `APP-190` ✅ `LeftClickAction` `DoubleClickAction`
+- `APP-192` ✅ `MaxMenuItemLength`
+- `APP-194` ✅ `Theme`
+- `AUT-002` ✅ `--ini-directory <dir>`: read/write greenshot.ini from another folder (portable/side-by-side config)
+- `CAP-008` ✅ Tray "Capture full screen" submenu with all monitors or one monitor (upstream labels all/left/right/top/bottom by position)
+- `CAP-041` ✅ Tray icon left-click / double-click action (LeftClickAction)
 
 <a id="b1"></a>
 ### B1. Native notifications: thumbnail, buttons, one summary per capture
@@ -331,6 +326,8 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 ### B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)
 
 - `DST-050` 🟡 E-Mail destination: new message with the screenshot attached, subject = capture title, To/CC/BCC from settings
+- `DST-051` 🟡 E-Mail settings: To, CC, BCC
+- `DST-097` 🍎 Page chooser tab "Open pages": pages currently open in a browser, found from window titles/URLs
 - `DST-121` 🍎 Word: insert into a new document, or into any open document (sub-destinations, picker asks new vs open when auto-exporting)
 - `DST-122` ❌ Word: lock aspect ratio of the image
 - `DST-123` 🍎 Excel: insert into a new workbook or an open one
@@ -387,6 +384,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `APP-048` 🍎 Restart Manager: when Windows Update/installer closes Greenshot, open editors are saved to temp `.greenshot` files and reopened after restart (`--restore`)
 - `APP-205` 🍎 Windows Restart Manager integration (`--restore`)
 - `EDT-130` 🍎 Save open editors to temp .greenshot files on OS shutdown/restart manager and reopen after restart
+- `EDT-135` 🟡 Edit > Insert window submenu (live list of windows with icons + thumbnail preview on hover) inserts a window capture as image element
 - `IMG-107` 🍎 Editor destination: save modified editors to temp `.greenshot` when Windows shuts down
 
 <a id="c1"></a>
@@ -510,7 +508,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="c6"></a>
 ### C6. Recipes: engine, triggers, steps, approval (MVP)
 
-96 rows; see the area files. By section: 1. Tray icon menu (TrayMenu.cs) -> status item menu (2); 4. Settings window - shell (1); 7. Settings window - other tabs (1); greenshot-cli command line (CliCommandParser.cs, main_cli.c) (6); greenshot: URL scheme (1); File association (1); MCP server and AI tools (greenshot-mcp, Greenshot/Ai) (3); Starting a capture (entry points, tray menu, hotkeys) (1); External command plugin (1); QR code (1); Effects (whole-image operations) (1); Text redaction (Obfuscate text, OCR based) (1); A. Core model: recipe file, flow, graph engine (25); B. Expressions, variables, configuration precedence (14); C. Triggers (16); F. Approval, trust and consent (17); J. Interaction with other slices (4).
+98 rows; see the area files. By section: 1. Tray icon menu (TrayMenu.cs) -> status item menu (2); 4. Settings window - shell (1); 7. Settings window - other tabs (1); greenshot-cli command line (CliCommandParser.cs, main_cli.c) (6); greenshot: URL scheme (1); File association (1); MCP server and AI tools (greenshot-mcp, Greenshot/Ai) (3); Starting a capture (entry points, tray menu, hotkeys) (2); External command plugin (1); QR code (1); Effects (whole-image operations) (2); Text redaction (Obfuscate text, OCR based) (1); A. Core model: recipe file, flow, graph engine (25); B. Expressions, variables, configuration precedence (14); C. Triggers (16); F. Approval, trust and consent (17); J. Interaction with other slices (4).
 
 <a id="c7"></a>
 ### C7. Recipes: editor, manager, options, extensions
@@ -524,5 +522,5 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 ## Not applicable on a Mac
 
-71 rows are Windows-only with no Mac meaning (installer, registry, Active Setup, Restart Manager, DPI manifests, DIB clipboard formats, Windows OCR engine choice, …); each says why in its area file. Upstream also removed some features, which are not to be ported: the Imgur upload plugin (#1529; the Self-Service page that deletes old Imgur uploads is not needed here either), the Flickr, Google Photos/Picasa and Photobucket plugins (#928), Office before 2013 (#1485), Internet Explorer capture, the WM_COPYDATA messages (replaced by named pipes) and the XML language files.
+75 rows are Windows-only with no Mac meaning (installer, registry, Active Setup, Restart Manager, DPI manifests, DIB clipboard formats, Windows OCR engine choice, …); each says why in its area file. Upstream also removed some features, which are not to be ported: the Imgur upload plugin (#1529; the Self-Service page that deletes old Imgur uploads is not needed here either), the Flickr, Google Photos/Picasa and Photobucket plugins (#928), Office before 2013 (#1485), Internet Explorer capture, the WM_COPYDATA messages (replaced by named pipes) and the XML language files.
 

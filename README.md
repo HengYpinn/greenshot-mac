@@ -34,12 +34,16 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Print options (colours, footer, shrink/enlarge/rotate/center) | ✅ | ✅ |
 | Destinations: email, share, OCR to clipboard, external command, PDF, QR code actions | ✅ | ✅ |
 | Office destinations (Word, Excel, PowerPoint, Outlook, OneNote) | ✅ | "Open with…" any app instead |
-| Output options: no overwrite, JPEG quality prompt, reduce colours, clipboard formats | ✅ | ✅ |
+| Output options: no overwrite, quality dialog, reduce colours (8-bit palette files), clipboard formats | ✅ | ✅ |
+| File formats: PNG, JPEG, GIF, TIFF, BMP, WebP, ICO, TGA, PBM, PDF | ✅ | ✅ (WebP is saved lossless) |
+| Hotkeys of several steps, menu bar icon click actions, light/dark appearance | ✅ | ✅ |
 | Quick settings in the menu, open recent capture, update check | ✅ | ✅ |
 | Upload plugins (Jira, Confluence, Box, Dropbox) | ✅ | ✅ (Atlassian API token; Box and Dropbox need your own app registration) |
 | Recipes, MCP server, browser extension, video recording, translations | ✅ | not yet |
 
-Contributions for the missing parts are welcome; see [Contributing](#contributing).
+The row-by-row comparison with Greenshot for Windows (992 features, what is done and what is planned) is in
+[docs/feature-parity.md](docs/feature-parity.md). Contributions for the missing parts are welcome; see
+[Contributing](#contributing).
 
 ## Install
 
@@ -123,7 +127,9 @@ Like Greenshot, the app freezes the screen first, so menus and tooltips stay whe
 | Freehand | F | | Crop | C |
 | Text | T | | Cut mark | K |
 
-Shift draws squares, circles and lines at 45°. Delete removes the selected element, the arrow keys move it
+Shift draws squares, circles and lines at 15° steps, and keeps the aspect ratio while resizing; Option draws and
+resizes from the centre. With elements selected, ⌃0–9 sets the fill colour, ⌃⇧0–9 the line colour, ⌃+ / ⌃− the line
+width and ⌃/ the shadow. Delete removes the selected element, the arrow keys move it
 (Shift: ten points), Esc deselects. Double-click a text to edit it. Right-click an element to bring it to the front or
 send it to the back. ⌘S saves, ⇧⌘S saves as, ⇧⌘C copies the image, ⌘P prints, ⌘Z / ⇧⌘Z undo and redo.
 

@@ -7,6 +7,51 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Capture screen: width and height rulers around the selection with its size in the middle, a dotted crosshair with
+  the mouse position, a larger zoomer (a fifth of the display) that shows the selection's edges and can be made
+  see-through, and a selection that slides from window to window while panels slide and fade. Window mode also picks
+  floating palettes, panels and open menus. A dragged region includes the pixel under the mouse.
+- Hotkeys of several steps, like ⌃⌥⌘K then C; Settings › General explains why a key can't be used and warns when two
+  hotkeys clash. A "Capture text" hotkey and menu item (the capture screen in text mode, the text to the clipboard).
+- Settings › Capture: the sound played after a capture, the zoomer's opacity, and recognising text as soon as the
+  capture screen opens.
+- Menu bar icon: a click (and a double-click) can run an action you choose, such as capture region or open Settings;
+  right-click always shows the menu. The icon can be hidden (open the app again to get to Settings). Capture Window
+  from List shows a picture of the window and cuts long titles; Capture Full Screen names each display's position;
+  Capture Last Region is greyed out until there is one; Help in the menu.
+- Settings › General › Appearance (same as macOS, light or dark); Settings › Expert: beta updates, window thumbnails,
+  window title length and an editable next file number. `--settings-dir <folder>` keeps the settings in a JSON file.
+- Editor: a two-row toolbar with Delete, Cut, Copy, Paste, Settings, Help and a button per destination; a status bar
+  with the last save or export (click it to copy the path or show it in Finder) and a zoom menu; File › New Image
+  (size in Settings › Editor), Show in Finder and Copy Path. Editor windows open where the last one was closed, sized
+  to the capture.
+- Editor: ⌃0–9 sets the fill colour and ⌃⇧0–9 the line colour of the selection, ⌃+ / ⌃− the line width (⇧ by 5),
+  ⌃/ the shadow. Shift keeps the aspect ratio of any element while resizing, Option draws or resizes from the centre,
+  lines snap to 15°. Z opens Resize.
+- Editor: crop modes (Crop, Crop Out Vertically, Crop Out Horizontally, Auto Crop; C cycles them) and handles on the
+  crop area. The element context menu has Expand Capture and Move Outside, Stretch, Dock to Edge and Reset Size.
+- Editor: paste text as a text element, paste image files copied in Finder and pictures from copied web content, drop
+  pictures and web links; icons use their largest size. Number fields for line width, font size, pixel size, blur and
+  the area highlight's brightness; cut-edge styles with previews; fonts shown in their own face; colours can be partly
+  transparent.
+- Image: save as WebP (lossless), ICO, TGA, PBM and PDF. "Reduce the number of colours" writes real 8-bit palette
+  PNG, TIFF and GIF files, GIF is always reduced, and an option saves with 256 colours when an image has fewer. PNG,
+  JPEG and TIFF files carry a Software tag.
+- Image: Drop Shadow and Torn Edges apply their last settings (hold ⌥ to change them first); Remove Transparency asks
+  for the background colour; the Effects button also offers Remove Transparency and Obfuscate Text, which now shows
+  its matches live with a count.
+- Destinations: the menu after a capture comes back when a save, upload or print was cancelled or failed; it is sorted
+  like Greenshot's, with icons and keys, and only lists uploads that are set up. New sub-menus: add the capture to an
+  open editor, print to a given printer, upload to a recent or on-screen Jira issue or a recent Confluence page.
+  Uploads show a progress window with Cancel.
+- Saving: the quality dialog (JPEG quality, reduce colours, "don't ask again"), Save As opens in the pattern's sub
+  folder or the last folder used, the output folder can hold pattern variables, a failed save opens Save As, and the
+  file path is copied after every save. New pattern variable `${windowtitle}`.
+- Jira: favourite filters and sortable columns with issue-type icons; Confluence: search in one space; both can reduce
+  colours. External commands: an image format per command, `${…}` variables, the saved file when there is one, icons,
+  and a warning when the program is missing.
+
+
 - Capture screen: the mouse pointer is in interactive captures when "Capture the mouse pointer" is on, and M shows or
   hides it for one capture. An info panel (I: screen, selection, window, mouse), a preview of the selection (P: in a
   corner, at the zoomer, off) and window details (D). The panels move out of the way of the mouse and the selection,
@@ -83,6 +128,16 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- Pixelate can no longer be reversed: blocks vary in size and carry noise from a key that is never stored, like
+  Greenshot 1.4. Shrink Canvas trims any border of one colour, not only a transparent one.
+- Text elements get Greenshot's 2 pt frame in the text colour (set Width to 0 for none); Return finishes a text and
+  Shift-Return adds a line. The area highlight uses Greenshot's brightness and blur radius. Undo is limited by the
+  memory of earlier images (256 MB) instead of 100 steps, and arrow-key moves undo together.
+- "Capture last region" with nothing stored beeps instead of opening the capture screen; ⌘↩ and similar keys are no
+  longer accepted as hotkeys. New installs capture the screen with the mouse for the full screen hotkey.
+- Zoom steps through Greenshot's zoom values, ⌘-scroll zooms, and zooming in goes to the selection.
+- Reusing the editor picks one without unsaved changes first.
+
 - The Reuse editor, Suppress save dialog at close and Match size to capture settings take effect; with Match size
   off the window keeps the last editor's frame.
 - Printing follows the Printer settings: a wide screenshot prints on portrait paper, shrunk to fit, unless "Rotate"
@@ -91,6 +146,10 @@ All notable changes to this project are documented here. The format follows
 - The 28 pt font size is now 27 pt, the Mac size of the speech bubble's 20 pt on Windows.
 
 ### Fixed
+
+- Open Image from Clipboard after copying a file in Finder opened the file's icon instead of the image. Opened images
+  are now turned upright by their EXIF orientation.
+- After ⌘Tab or a notification took the keyboard, moving the mouse gives the keys back to the capture screen.
 
 - Settings › Output: the destinations can be turned on while "Ask every time" is on (turning one on turns the menu
   off). Before, they were greyed out and "Ask every time" couldn't be turned off, so captures couldn't go straight to
