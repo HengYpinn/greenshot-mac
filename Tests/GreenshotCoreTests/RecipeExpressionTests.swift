@@ -204,6 +204,48 @@ struct FixedRecipeEnvironment: RecipeEnvironment {
         #expect(ExpressionEvaluator.syntaxProblem(in: "${now:yyyy-MM-dd} ${a + b}") == nil)
     }
 
+    /// Recipe files are validated before they are approved: a deep or huge `${...}` is a syntax problem, never a crash.
+    @Test func deepOrLongExpressionsAreRefused() {
+        let hugeParentheses = String(repeating: "(", count: 100_000) + "1" + String(repeating: ")", count: 100_000)
+        let huge = ExpressionEvaluator.syntaxProblem(in: "${" + hugeParentheses + "}") ?? ""
+        #expect(huge.hasSuffix("The expression is longer than 16 KB"))
+        #expect(huge.count < 200)
+        let deepParentheses = String(repeating: "(", count: 8_000) + "1" + String(repeating: ")", count: 8_000)
+        let deep = ExpressionEvaluator.syntaxProblem(in: "${" + deepParentheses + "}") ?? ""
+        #expect(deep.hasSuffix("The expression is nested more than 64 levels deep"))
+        let minus = ExpressionEvaluator.syntaxProblem(in: "${" + String(repeating: "-", count: 10_000) + "1}") ?? ""
+        #expect(minus.hasSuffix("nested more than 64 levels deep"))
+        let plus = ExpressionEvaluator.syntaxProblem(in: "${" + String(repeating: "+", count: 10_000) + "1}") ?? ""
+        #expect(plus.hasSuffix("nested more than 64 levels deep"))
+        let chain = Array(repeating: "1", count: 5_000).joined(separator: "+")
+        let longChain = ExpressionEvaluator.syntaxProblem(in: "${" + chain + "}") ?? ""
+        #expect(longChain.hasSuffix("nested more than 64 levels deep"))
+        let ternaries = String(repeating: "a ? b : ", count: 2_000) + "c"
+        let manyTernaries = ExpressionEvaluator.syntaxProblem(in: "${" + ternaries + "}") ?? ""
+        #expect(manyTernaries.hasSuffix("nested more than 64 levels deep"))
+        // Evaluating them doesn't crash either: what doesn't parse is read as one name, which is unset.
+        #expect(evaluator.evaluate("${" + deepParentheses + "}", in: scope()) == .null)
+        #expect(evaluator.evaluate("${" + hugeParentheses + "}", in: scope()) == .null)
+    }
+
+    @Test func reasonableNestingStillWorks() {
+        let nested = String(repeating: "(", count: 60) + "2 * 3" + String(repeating: ")", count: 60)
+        #expect(evaluator.evaluate("${" + nested + "}", in: scope()) == .number(6))
+        let sum = Array(repeating: "1", count: 60).joined(separator: " + ")
+        #expect(evaluator.evaluate("${" + sum + "}", in: scope()) == .number(60))
+        #expect(evaluator.evaluate("${--3}", in: scope()) == .number(3))
+    }
+
+    /// The validator runs before approval: a recipe full of parentheses gives a warning.
+    @Test func validatorSurvivesHugeExpressions() {
+        let hugeParentheses = String(repeating: "(", count: 100_000) + "1" + String(repeating: ")", count: 100_000)
+        var recipe = CaptureRecipe(id: "deep", name: "Deep")
+        recipe.nodes = [RecipeNode(id: "print", stepType: "Stdout", parameters: ["Text": .string("${" + hugeParentheses + "}")])]
+        recipe.flow.startNodes = ["print"]
+        let result = RecipeValidator().validate(recipe)
+        #expect(result.warnings.contains { $0.contains("longer than 16 KB") })
+    }
+
     @Test func optionValueStore() {
         var width = RecipeOption(key: "width", type: .integer, defaultValue: .number(2))
         width.max = 50

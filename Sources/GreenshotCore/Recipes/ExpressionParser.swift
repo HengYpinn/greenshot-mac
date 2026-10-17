@@ -9,6 +9,10 @@ import Foundation
 /// the right-most operator of the lowest precedence; this recursive descent gives the same grouping: ternary (right
 /// associative) < `||` < `&&` < comparisons < `+ -` < `* / %`, each left associative, then unary minus, literals,
 /// names and parentheses.
+///
+/// Recipe text comes from files that are checked before anyone approved them, so the parser has limits upstream
+/// doesn't: at most `maxLength` UTF-8 bytes and a tree at most `maxDepth` levels deep (parentheses, unary operators,
+/// ternaries and chains of binary operators all count). Deeper input is a syntax error, never a deep recursion.
 indirect enum ExpressionNode: Equatable {
     case literal(JSONValue)
     case name(String)
@@ -29,19 +33,51 @@ struct ExpressionParser {
         case symbol(String)
     }
 
+    /// The longest expression (UTF-8 bytes) the parser reads.
+    static let maxLength = 16 * 1024
+    /// The deepest tree the parser builds: nesting of parentheses, unary operators and ternaries, and chains of
+    /// binary operators (`a + b + c` is two levels).
+    static let maxDepth = 64
+
+    /// A node and the depth of its tree (a name or literal is 1).
+    private typealias Parsed = (node: ExpressionNode, depth: Int)
+
     private var tokens: [Token] = []
     private var position = 0
+    /// How deep the parse functions are nested right now (parentheses, unary operators, ternary branches).
+    private var nesting = 0
 
     /// Parses the inside of a `${...}` (without the `now:` / `utcnow:` forms, which the evaluator handles first).
     static func parse(_ expression: String) throws -> ExpressionNode {
+        guard expression.utf8.count <= maxLength else {
+            throw ExpressionSyntaxError(message: "The expression is longer than \(maxLength / 1024) KB")
+        }
         var parser = ExpressionParser()
         parser.tokens = try tokenize(expression)
         guard !parser.tokens.isEmpty else { throw ExpressionSyntaxError(message: "The expression is empty") }
-        let node = try parser.parseTernary()
+        let parsed = try parser.parseTernary()
         guard parser.position == parser.tokens.count else {
             throw ExpressionSyntaxError(message: "Unexpected '\(parser.describe(parser.tokens[parser.position]))'")
         }
-        return node
+        return parsed.node
+    }
+
+    private static var tooDeep: ExpressionSyntaxError {
+        ExpressionSyntaxError(message: "The expression is nested more than \(maxDepth) levels deep")
+    }
+
+    /// `node` with its depth, refused when the tree is too deep.
+    private func checked(_ node: ExpressionNode, depth: Int) throws -> Parsed {
+        guard depth <= Self.maxDepth else { throw Self.tooDeep }
+        return (node, depth)
+    }
+
+    /// Runs `body` one nesting level deeper; refuses before the recursion gets deep.
+    private mutating func nested(_ body: (inout ExpressionParser) throws -> Parsed) throws -> Parsed {
+        nesting += 1
+        defer { nesting -= 1 }
+        guard nesting <= Self.maxDepth else { throw Self.tooDeep }
+        return try body(&self)
     }
 
     private func describe(_ token: Token) -> String {
@@ -55,7 +91,8 @@ struct ExpressionParser {
 
     // MARK: Tokens
 
-    private static let symbols = ["==", "!=", "<=", ">=", "&&", "||", "<", ">", "+", "-", "*", "/", "%", "?", ":", "(", ")"]
+    private static let pairSymbols: Set<String> = ["==", "!=", "<=", ">=", "&&", "||"]
+    private static let singleSymbols: Set<Character> = ["<", ">", "+", "-", "*", "/", "%", "?", ":", "(", ")"]
 
     private static func tokenize(_ text: String) throws -> [Token] {
         let characters = Array(text)
@@ -104,15 +141,21 @@ struct ExpressionParser {
                 index = end
                 continue
             }
-            let rest = String(characters[index...])
-            guard let symbol = symbols.first(where: { rest.hasPrefix($0) }) else {
-                throw ExpressionSyntaxError(message: "'\(character)' can't be used here")
-            }
-            if symbol == "?", rest.hasPrefix("??") {
+            // Only the next two characters are looked at: copying the rest for each symbol is quadratic.
+            let next: Character? = index + 1 < characters.count ? characters[index + 1] : nil
+            if character == "?", next == "?" {
                 throw ExpressionSyntaxError(message: "'??' is not supported")
             }
-            tokens.append(.symbol(symbol))
-            index += symbol.count
+            if let next, pairSymbols.contains(String([character, next])) {
+                tokens.append(.symbol(String([character, next])))
+                index += 2
+                continue
+            }
+            guard singleSymbols.contains(character) else {
+                throw ExpressionSyntaxError(message: "'\(character)' can't be used here")
+            }
+            tokens.append(.symbol(String(character)))
+            index += 1
         }
         return tokens
     }
@@ -132,54 +175,56 @@ struct ExpressionParser {
         position += 1
     }
 
-    private mutating func parseTernary() throws -> ExpressionNode {
+    private mutating func parseTernary() throws -> Parsed {
         let condition = try parseBinary(level: 0)
         guard peekSymbol() == "?" else { return condition }
         position += 1
-        let whenTrue = try parseTernary()
+        let whenTrue = try nested { try $0.parseTernary() }
         try expect(":")
-        let whenFalse = try parseTernary()
-        return .ternary(condition, whenTrue, whenFalse)
+        let whenFalse = try nested { try $0.parseTernary() }
+        let depth = max(condition.depth, whenTrue.depth, whenFalse.depth) + 1
+        return try checked(.ternary(condition.node, whenTrue.node, whenFalse.node), depth: depth)
     }
 
     private static let levels: [[String]] = [["||"], ["&&"], ["==", "!=", "<=", ">=", "<", ">"], ["+", "-"], ["*", "/", "%"]]
 
-    private mutating func parseBinary(level: Int) throws -> ExpressionNode {
+    private mutating func parseBinary(level: Int) throws -> Parsed {
         guard level < Self.levels.count else { return try parseUnary() }
-        var node = try parseBinary(level: level + 1)
+        var parsed = try parseBinary(level: level + 1)
         while let symbol = peekSymbol(), Self.levels[level].contains(symbol) {
             position += 1
             let right = try parseBinary(level: level + 1)
-            node = .binary(symbol, node, right)
+            parsed = try checked(.binary(symbol, parsed.node, right.node), depth: max(parsed.depth, right.depth) + 1)
         }
-        return node
+        return parsed
     }
 
-    private mutating func parseUnary() throws -> ExpressionNode {
+    private mutating func parseUnary() throws -> Parsed {
         if peekSymbol() == "-" {
             position += 1
-            return .negate(try parseUnary())
+            let operand = try nested { try $0.parseUnary() }
+            return try checked(.negate(operand.node), depth: operand.depth + 1)
         }
         if peekSymbol() == "+" {
             position += 1
-            return try parseUnary()
+            return try nested { try $0.parseUnary() }
         }
         return try parsePrimary()
     }
 
-    private mutating func parsePrimary() throws -> ExpressionNode {
+    private mutating func parsePrimary() throws -> Parsed {
         guard position < tokens.count else { throw ExpressionSyntaxError(message: "The expression ends too early") }
         let token = tokens[position]
         position += 1
         switch token {
         case .number(let number):
-            return .literal(.number(number))
+            return (.literal(.number(number)), 1)
         case .text(let text):
-            return .literal(.string(text))
+            return (.literal(.string(text)), 1)
         case .name(let name):
-            return .name(name)
+            return (.name(name), 1)
         case .symbol("("):
-            let inner = try parseTernary()
+            let inner = try nested { try $0.parseTernary() }
             try expect(")")
             return inner
         case .symbol(let symbol):

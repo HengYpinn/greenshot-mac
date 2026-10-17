@@ -281,8 +281,17 @@ public final class RecipeLibrary {
             result.errors.append("Recipes are switched off.")
             return result
         }
-        guard let data = try? Data(contentsOf: fileURL) else {
-            result.errors.append("File not found: \(path)")
+        let data: Data
+        switch RecipeFileReader.read(fileURL) {
+        case .success(let bytes):
+            data = bytes
+        case .failure(let failure):
+            let message = RecipeFileReader.message(failure, path: path)
+            result.errors.append(message)
+            if failure != .unreadable {
+                log.warn(message)
+                if interactive { await approver?.showValidationError(validationErrorRequest(fileURL, "", "", recipe: nil, message: message)) }
+            }
             return result
         }
         monitor?.watch(fileURL)
@@ -296,6 +305,12 @@ public final class RecipeLibrary {
             let message = (error as? RecipeFormatError)?.message ?? error.localizedDescription
             log.warn("Failed to read recipe file '\(path)': \(message)")
             result.errors.append("Exception reading recipe file: \(message)")
+            if interactive { await approver?.showValidationError(validationErrorRequest(fileURL, content, hash, recipe: nil, message: message)) }
+            return result
+        }
+        if definitions.count > RecipeFileReader.maxRecipes {
+            let message = "The recipe file holds \(definitions.count) recipes; at most \(RecipeFileReader.maxRecipes) are allowed."
+            result.errors.append(message)
             if interactive { await approver?.showValidationError(validationErrorRequest(fileURL, content, hash, recipe: nil, message: message)) }
             return result
         }
@@ -377,7 +392,7 @@ public final class RecipeLibrary {
     public func fileDidChange(_ url: URL) async {
         let path = RecipeTrustStore.standardized(url.path)
         let inUse = fileRecipes.values.contains { $0.fileURL.map { recipeEquals($0.path, path) } ?? false }
-        guard inUse, let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return }
+        guard inUse, let data = RecipeFileReader.data(URL(fileURLWithPath: path)) else { return }
         let hash = RecipeHash.sha256Hex(data)
         if let record = trustStore.record(forFile: path), recipeEquals(record.sha256, hash) { return }
         guard askedForChangedFile[path.lowercased()] != hash else { return }
@@ -390,8 +405,8 @@ public final class RecipeLibrary {
     /// (upstream `EnsureRecipeApprovedAndUpToDateAsync`). The runner's `preflight`.
     public func ensureApprovedAndCurrent(_ recipe: CaptureRecipe) async -> CaptureRecipe? {
         guard let loaded = fileRecipes[recipe.id.lowercased()], let url = loaded.fileURL else { return recipe }
-        guard let data = try? Data(contentsOf: url) else {
-            log.warn("Recipe file '\(url.path)' no longer exists.")
+        guard let data = RecipeFileReader.data(url) else {
+            log.warn("Recipe file '\(url.path)' no longer exists or can't be read.")
             return nil
         }
         let hash = RecipeHash.sha256Hex(data)
@@ -481,7 +496,7 @@ public final class RecipeLibrary {
         let previous = record?.approval(for: recipe.id)
         var approvedContent = record?.approvedContent
         // A record without the content: the file on disk while it is still the approved one.
-        if approvedContent == nil, let record, let path, let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+        if approvedContent == nil, let record, let path, let data = RecipeFileReader.data(URL(fileURLWithPath: path)),
            recipeEquals(RecipeHash.sha256Hex(data), record.sha256) {
             approvedContent = RecipeSerializer.text(of: data)
         }
@@ -495,6 +510,11 @@ public final class RecipeLibrary {
     public func propose(content: String, proposedBy: String, aiRequest: String?, aiExplanation: String?, saveTo url: URL) async -> RecipeLoadResult {
         var result = RecipeLoadResult()
         let fileURL = URL(fileURLWithPath: RecipeTrustStore.standardized(url.path))
+        // The same limit as for files: the text is read and validated before anyone approved it.
+        guard content.utf8.count <= RecipeFileReader.maxBytes else {
+            result.errors.append("The proposed recipe is larger than \(RecipeFileReader.maxBytes / 1024 / 1024) MB.")
+            return result
+        }
         let data = Data(content.utf8)
         let hash = RecipeHash.sha256Hex(data)
         let definitions: [CaptureRecipe]
@@ -633,7 +653,7 @@ public final class RecipeLibrary {
         if let url = loaded.fileURL, let record = trustStore.record(forFile: url.path) {
             details.approvedAt = record.approvedAt
             details.approvedHash = record.sha256
-            if let data = try? Data(contentsOf: url) {
+            if let data = RecipeFileReader.data(url) {
                 details.isApprovalCurrent = recipeEquals(RecipeHash.sha256Hex(data), record.sha256)
             }
             details.permissions = record.approval(for: loaded.recipe.id)?.allowedGates ?? []
@@ -649,7 +669,7 @@ public final class RecipeLibrary {
         guard let loaded = recipe(id: recipeId) else { return nil }
         let validator = RecipeValidator(contracts: contracts, gates: gates())
         var request: RecipeApprovalRequest
-        if let url = loaded.fileURL, let data = try? Data(contentsOf: url) {
+        if let url = loaded.fileURL, let data = RecipeFileReader.data(url) {
             let content = RecipeSerializer.text(of: data) ?? ""
             let fileRecipe = ((try? RecipeSerializer.decode(text: content)) ?? []).first { recipeEquals($0.id, recipeId) } ?? loaded.recipe
             request = approvalRequest(fileRecipe, url, content, RecipeHash.sha256Hex(data), validator.validate(fileRecipe), mode: .reVerify)

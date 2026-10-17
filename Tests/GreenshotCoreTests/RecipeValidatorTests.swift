@@ -209,4 +209,35 @@ func testRecipe(_ nodes: [RecipeNode] = [RecipeNode(id: "a", stepType: "Source")
         #expect(result.errors.contains("Node 'decide' [Conditional]: in an extension a decision needs an \"else\" branch, so the recipe always goes on."))
         #expect(result.errors.contains("Node 'decide' [Conditional]: branch 'big' leads nowhere; route it to a node or to \"Out\"."))
     }
+
+    /// A chain of `count` Stdout nodes; with `loop`, the last one leads back to the first.
+    static func chain(_ count: Int, loop: Bool = false) -> CaptureRecipe {
+        var recipe = CaptureRecipe(id: "chain", name: "Chain")
+        recipe.nodes = (0..<count).map { RecipeNode(id: "n\($0)", stepType: "Stdout") }
+        recipe.flow.startNodes = ["n0"]
+        // Built directly: addTransition looks for the source first, which is slow for twenty thousand nodes.
+        recipe.flow.transitions = (1..<count).map { RecipeTransition(from: "n\($0 - 1)", to: ["n\($0)"]) }
+        if loop { recipe.flow.transitions.append(RecipeTransition(from: "n\(count - 1)", to: ["n0"])) }
+        return recipe
+    }
+
+    /// Security review: the cycle search used one recursion per node and overflowed the stack of a background thread at a
+    /// few hundred nodes; the flow analysis takes minutes at twenty thousand. Both run before approval.
+    @Test func longFlowsDontCrashOrHang() async {
+        let long = Self.chain(20_000)
+        let ids = Set(long.nodes.map { $0.id.lowercased() })
+        let none = await Task.detached { RecipeValidator.findCycle(long, starts: ["n0"], ids: ids) }.value
+        #expect(none == nil)
+        let looped = Self.chain(20_000, loop: true)
+        let cycle = await Task.detached { RecipeValidator.findCycle(looped, starts: ["n0"], ids: ids) }.value
+        #expect(cycle?.count == 20_001)
+        #expect(cycle?.first == "n0")
+        let refused = await Task.detached { RecipeValidator().validate(long) }.value
+        #expect(refused.errors == ["The recipe has 20000 nodes; at most 200 are allowed."])
+        let largest = await Task.detached { RecipeValidator().validate(Self.chain(200)) }.value
+        #expect(largest.isValid)
+        var noisy = testRecipe()
+        noisy.triggers = Array(repeating: TriggerConfig(triggerType: "Clipboard"), count: 51)
+        #expect(validator.validate(noisy).errors == ["The recipe has 51 triggers; at most 50 are allowed."])
+    }
 }
