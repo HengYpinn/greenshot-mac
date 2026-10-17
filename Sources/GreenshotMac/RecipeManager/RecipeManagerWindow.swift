@@ -77,7 +77,8 @@ final class RecipeManagerModel: ObservableObject {
     /// Upstream `ExecuteTestRunAsync`: runs it for real with the manual trigger.
     func testRun(_ item: RecipeManagerItem) {
         guard !item.isExtension, let runtime, let loaded = library.recipe(id: item.id) else { return }
-        let validation = loaded.validation.isValid ? RecipeValidator().validate(loaded.recipe) : loaded.validation
+        // Checked when it was loaded, with the settings' external commands and destinations.
+        let validation = loaded.validation
         guard validation.isValid else {
             Self.alert("Validation Error", "Cannot test run recipe. Fix validation errors first:\n\n" + validation.errors.joined(separator: "\n"))
             return
