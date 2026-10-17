@@ -19,7 +19,7 @@ final class StubApprover: RecipeApprover {
     }
 
     /// Every trigger and every permission the recipe needs.
-    static func approveAll(_ request: RecipeApprovalRequest) -> RecipeApprovalDecision? {
+    nonisolated static func approveAll(_ request: RecipeApprovalRequest) -> RecipeApprovalDecision? {
         RecipeApprovalDecision(approval: RecipeApproval(recipeId: request.recipe?.id ?? "", approvedTriggers: request.triggers.map(\.key),
                                                         allowedGates: request.gates))
     }
