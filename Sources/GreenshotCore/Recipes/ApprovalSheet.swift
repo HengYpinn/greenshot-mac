@@ -106,18 +106,23 @@ public struct RecipeApprovalSheet: Sendable {
         }
         self.style = style
 
-        let fallbackName = request.fileURL?.lastPathComponent ?? "Unnamed Recipe"
+        let fallbackName = request.fileURL?.lastPathComponent ?? String(localized: "Unnamed Recipe")
         let name = recipe?.name.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         recipeName = name.isEmpty ? fallbackName : name
         let version = recipe?.version.trimmingCharacters(in: .whitespaces) ?? ""
         recipeVersion = version.isEmpty ? "" : "v\(version)"
         let description = recipe?.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        recipeDescription = description.isEmpty
-            ? (isValidationError ? "\(isExtension ? "Automatic step" : "Recipe") configuration failed validation." : "No description provided.")
-            : description
-        recipeId = recipe?.id ?? "unknown"
-        fileText = request.fileURL?.path ?? "Built into Greenshot"
-        fileHash = request.contentHash.isEmpty ? "Unknown" : request.contentHash
+        if !description.isEmpty {
+            recipeDescription = description
+        } else if isValidationError {
+            recipeDescription = isExtension ? String(localized: "Automatic step configuration failed validation.")
+                : String(localized: "Recipe configuration failed validation.")
+        } else {
+            recipeDescription = String(localized: "No description provided.")
+        }
+        recipeId = recipe?.id ?? String(localized: "unknown", comment: "The recipe file has no readable ID")
+        fileText = request.fileURL?.path ?? String(localized: "Built into Greenshot")
+        fileHash = request.contentHash.isEmpty ? String(localized: "Unknown", comment: "The checksum of the recipe file is not known") : request.contentHash
         if let record = request.previousRecord, style == .modified || style == .review || style == .ownEdit || style == .details {
             previousApprovedAt = record.approvedAt
             previousHash = record.sha256
@@ -127,27 +132,26 @@ public struct RecipeApprovalSheet: Sendable {
         }
 
         let texts = Self.texts(style: style, request: request, isExtension: isExtension)
-        windowTitle = "Greenshot — " + texts.subtitle
+        windowTitle = String(localized: "Greenshot — \(texts.subtitle)", comment: "Window title; %@ is e.g. \"Recipe Details\"")
         headerTitle = texts.title
         headerDescription = texts.description
         badge = texts.badge
         badgeTone = texts.tone
         icon = texts.icon
         approveTitle = texts.approve
-        rejectTitle = style == .review ? "Revoke Approval" : "Reject / Block"
+        rejectTitle = style == .review ? String(localized: "Revoke Approval") : String(localized: "Reject / Block")
 
         // What changed: against the replaced recipe (built-in) or the previously approved version.
         if let replaced = request.replacedRecipe {
-            let noun = isExtension ? "automatic step" : "recipe"
-            changesTitle = request.replacesBuiltIn ? "Replaces the built-in \(noun) “\(replaced.name)”" : "Changes the \(noun) “\(replaced.name)”"
+            changesTitle = Self.changesTitle(replacing: replaced.name, builtIn: request.replacesBuiltIn, isExtension: isExtension)
         } else if request.mode == .modified || (style == .ownEdit && request.previousContent != nil) {
-            changesTitle = request.previousContent != nil ? "What changed since the last approval"
-                : "The previous version is not known, review the whole recipe"
+            changesTitle = request.previousContent != nil ? String(localized: "What changed since the last approval")
+                : String(localized: "The previous version is not known, review the whole recipe")
         } else {
             changesTitle = nil
         }
         if changesTitle != nil, request.previousContent != nil, !isValidationError {
-            changeLines = request.changes.isEmpty ? ["No change in what the recipe does (only details like names or layout)."] : request.changes
+            changeLines = request.changes.isEmpty ? [String(localized: "No change in what the recipe does (only details like names or layout).")] : request.changes
         } else {
             changeLines = []
         }
@@ -173,16 +177,15 @@ public struct RecipeApprovalSheet: Sendable {
                     isOn = !startOff
                 }
                 triggerSwitches.append(TriggerSwitch(id: trigger.key,
-                                                     title: trigger.isDisabled ? "\(trigger.label) (disabled in the recipe)" : trigger.label,
+                                                     title: trigger.isDisabled ? Self.disabledTitle(trigger.label) : trigger.label,
                                                      explanation: trigger.risk, isDisabledInRecipe: trigger.isDisabled, isOn: isOn))
             }
         }
         triggers = triggerSwitches
         let switchedOffHint = request.suggestedApproval == nil && startOff
         triggerHint = switchedOffHint
-            ? "The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off "
-                + "(you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list."
-            : "Switch off the triggers you don't want."
+            ? String(localized: "The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.")
+            : String(localized: "Switch off the triggers you don't want.")
         triggerHintIsWarning = switchedOffHint
 
         // Permissions (upstream :420-440): a review keeps what was allowed; otherwise external programs and custom actions
@@ -209,7 +212,7 @@ public struct RecipeApprovalSheet: Sendable {
                     let text = describer.describe(action)
                     if !targets.contains(text) { targets.append(text) }
                 }
-                gateSwitches.append(GateSwitch(gate: gate, question: Self.question(for: gate, noun: isExtension ? "automatic step" : "recipe"), explanation: Self.explanation(for: gate),
+                gateSwitches.append(GateSwitch(gate: gate, question: Self.question(for: gate, isExtension: isExtension), explanation: Self.explanation(for: gate),
                                                targets: targets, isOn: isOn))
             }
         }
@@ -222,7 +225,7 @@ public struct RecipeApprovalSheet: Sendable {
                 messages = (request.errorMessage ?? "").components(separatedBy: "\n")
                     .map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
             }
-            if messages.isEmpty { messages = ["The recipe file could not be read."] }
+            if messages.isEmpty { messages = [String(localized: "The recipe file could not be read.")] }
             problems = messages.map { Problem(message: $0, hint: RecipeValidationHints.hint(for: $0)) }
         }
         self.problems = problems
@@ -284,23 +287,45 @@ public struct RecipeApprovalSheet: Sendable {
     public var leftOffText: String? {
         let off = leftOffTriggers
         guard !off.isEmpty else { return nil }
-        let intro = off.count == 1 ? "This trigger stays off, so it won't start the recipe:" : "These triggers stay off, so they won't start the recipe:"
-        return intro + "\n\n" + off.map { "• " + $0 }.joined(separator: "\n")
-            + "\n\nYou can switch triggers on later with Permissions, and run the recipe from the recipe list."
+        let intro = off.count == 1 ? String(localized: "This trigger stays off, so it won't start the recipe:")
+            : String(localized: "These triggers stay off, so they won't start the recipe:")
+        let closing = String(localized: "You can switch triggers on later with Permissions, and run the recipe from the recipe list.")
+        return intro + "\n\n" + off.map { "• " + $0 }.joined(separator: "\n") + "\n\n" + closing
     }
 
-    /// "recipe", or "automatic step" for an extension file, in the window's texts.
-    public var noun: String { isExtension ? "automatic step" : "recipe" }
+    /// "recipe", or "automatic step" for an extension file, in the window's texts (in the app's language; prefer whole
+    /// sentences per `isExtension` to building them from this word).
+    public var noun: String {
+        isExtension ? String(localized: "automatic step", comment: "What the approval window is about, inside a sentence")
+            : String(localized: "recipe", comment: "What the approval window is about, inside a sentence")
+    }
     /// "Recipe" / "Automatic Step" for titles and buttons.
-    public var titleNoun: String { isExtension ? "Automatic Step" : "Recipe" }
+    public var titleNoun: String {
+        isExtension ? String(localized: "Automatic Step", comment: "What the approval window is about, in a title or button")
+            : String(localized: "Recipe", comment: "What the approval window is about, in a title or button")
+    }
 
     /// The question before "Revoke Approval" (upstream `OnRejectClicked`).
     public var revokeText: String {
-        "Revoke the approval of “\(recipeName)”? It stops running right away and isn't loaded again. Its file stays where it is: "
-            + "open it again to review and approve it."
+        String(localized: "Revoke the approval of “\(recipeName)”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.")
     }
 
     // MARK: Texts
+
+    /// "Replaces the built-in recipe “Region”", "Changes the automatic step “Border”".
+    static func changesTitle(replacing name: String, builtIn: Bool, isExtension: Bool) -> String {
+        switch (builtIn, isExtension) {
+        case (true, false): return String(localized: "Replaces the built-in recipe “\(name)”")
+        case (true, true): return String(localized: "Replaces the built-in automatic step “\(name)”")
+        case (false, false): return String(localized: "Changes the recipe “\(name)”")
+        case (false, true): return String(localized: "Changes the automatic step “\(name)”")
+        }
+    }
+
+    /// A trigger the recipe itself switches off.
+    static func disabledTitle(_ label: String) -> String {
+        String(localized: "\(label) (disabled in the recipe)", comment: "%@ is a trigger of a recipe")
+    }
 
     static func isAIProposal(_ request: RecipeApprovalRequest) -> Bool {
         guard nonEmpty(request.proposedBy) != nil, !request.isReadOnly, request.mode != .reVerify else { return false }
@@ -329,123 +354,127 @@ public struct RecipeApprovalSheet: Sendable {
         var texts: Texts
         switch style {
         case .validationError:
-            texts = Texts(subtitle: "Recipe Validation Failed", title: "Recipe Validation Failed",
-                          description: "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:",
-                          badge: "VALIDATION ERROR", tone: .error, icon: "xmark.octagon", approve: "Close")
+            texts = Texts(subtitle: String(localized: "Recipe Validation Failed"), title: String(localized: "Recipe Validation Failed"),
+                          description: String(localized: "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:"),
+                          badge: String(localized: "VALIDATION ERROR"), tone: .error, icon: "xmark.octagon", approve: String(localized: "Close"))
         case .details:
             let builtIn = request.fileURL == nil
-            texts = Texts(subtitle: "Recipe Details", title: "Recipe Details",
-                          description: builtIn ? "What this built-in recipe does and which triggers start it."
-                              : "What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.",
-                          badge: builtIn ? "BUILT-IN" : "APPROVED", tone: .neutral, icon: "doc.text", approve: "Close")
+            texts = Texts(subtitle: String(localized: "Recipe Details"), title: String(localized: "Recipe Details"),
+                          description: builtIn ? String(localized: "What this built-in recipe does and which triggers start it.")
+                              : String(localized: "What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that."),
+                          badge: builtIn ? String(localized: "BUILT-IN") : String(localized: "APPROVED"), tone: .neutral, icon: "doc.text", approve: String(localized: "Close"))
         case .aiProposal:
-            texts = Texts(subtitle: "Recipe Proposed by an AI Tool",
-                          title: request.replacedRecipe != nil ? "An AI Tool Wants to Change a Recipe" : "An AI Tool Proposes a Recipe",
-                          description: "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.",
-                          badge: "PROPOSED BY AI", tone: .warning, icon: "sparkles", approve: "Save Recipe")
+            texts = Texts(subtitle: String(localized: "Recipe Proposed by an AI Tool"),
+                          title: request.replacedRecipe != nil ? String(localized: "An AI Tool Wants to Change a Recipe") : String(localized: "An AI Tool Proposes a Recipe"),
+                          description: String(localized: "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want."),
+                          badge: String(localized: "PROPOSED BY AI"), tone: .warning, icon: "sparkles", approve: String(localized: "Save Recipe"))
         case .ownEdit:
-            texts = Texts(subtitle: "Approve Your Changes", title: "Your Change Needs a Decision",
-                          description: "You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: " + reasons,
-                          badge: "YOUR CHANGE", tone: .accent, icon: "checkmark.shield", approve: "Approve & Save")
+            texts = Texts(subtitle: String(localized: "Approve Your Changes"), title: String(localized: "Your Change Needs a Decision"),
+                          description: String(localized: "You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: \(reasons)"),
+                          badge: String(localized: "YOUR CHANGE"), tone: .accent, icon: "checkmark.shield", approve: String(localized: "Approve & Save"))
         case .modified:
-            texts = Texts(subtitle: "Recipe Modification Detected", title: "Recipe Changed Outside Greenshot",
-                          description: "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.",
-                          badge: "MODIFIED ON DISK", tone: .warning, icon: "exclamationmark.triangle", approve: "Approve Changes")
+            texts = Texts(subtitle: String(localized: "Recipe Modification Detected"), title: String(localized: "Recipe Changed Outside Greenshot"),
+                          description: String(localized: "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them."),
+                          badge: String(localized: "MODIFIED ON DISK"), tone: .warning, icon: "exclamationmark.triangle", approve: String(localized: "Approve Changes"))
         case .review:
-            texts = Texts(subtitle: "Recipe Security Review", title: "Capture Recipe Review",
-                          description: "Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.",
-                          badge: "ALREADY APPROVED", tone: .neutral, icon: "checkmark.shield", approve: "Save Changes")
+            texts = Texts(subtitle: String(localized: "Recipe Security Review"), title: String(localized: "Capture Recipe Review"),
+                          description: String(localized: "Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing."),
+                          badge: String(localized: "ALREADY APPROVED"), tone: .neutral, icon: "checkmark.shield", approve: String(localized: "Save Changes"))
         case .newRecipe:
-            texts = Texts(subtitle: "Recipe Security Approval", title: "External Capture Recipe Detected",
-                          description: "A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.",
-                          badge: "NEW RECIPE", tone: .accent, icon: "checkmark.shield", approve: "Approve & Enable")
+            texts = Texts(subtitle: String(localized: "Recipe Security Approval"), title: String(localized: "External Capture Recipe Detected"),
+                          description: String(localized: "A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving."),
+                          badge: String(localized: "NEW RECIPE"), tone: .accent, icon: "checkmark.shield", approve: String(localized: "Approve & Enable"))
         }
         guard isExtension else { return texts }
         switch style {
         case .validationError:
-            texts.subtitle = "Automatic Step Validation Failed"
-            texts.title = "Automatic Step Validation Failed"
-            texts.description = "Greenshot could not use this automatic step because it contains errors. Review the details below:"
+            texts.subtitle = String(localized: "Automatic Step Validation Failed")
+            texts.title = String(localized: "Automatic Step Validation Failed")
+            texts.description = String(localized: "Greenshot could not use this automatic step because it contains errors. Review the details below:")
         case .details:
-            texts.subtitle = "Automatic Step Details"
-            texts.title = "Automatic Step Details"
-            texts.description = "What this automatic step does, which recipes it changes and what you approved for it."
+            texts.subtitle = String(localized: "Automatic Step Details")
+            texts.title = String(localized: "Automatic Step Details")
+            texts.description = String(localized: "What this automatic step does, which recipes it changes and what you approved for it.")
         case .aiProposal:
-            texts.subtitle = "Automatic Step Proposed by an AI Tool"
-            texts.title = "An AI Tool Proposes an Automatic Step"
-            texts.description = "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes."
+            texts.subtitle = String(localized: "Automatic Step Proposed by an AI Tool")
+            texts.title = String(localized: "An AI Tool Proposes an Automatic Step")
+            texts.description = String(localized: "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.")
         case .modified:
-            texts.subtitle = "Automatic Step Modification Detected"
-            texts.title = "Automatic Step Changed Outside Greenshot"
-            texts.description = "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe."
+            texts.subtitle = String(localized: "Automatic Step Modification Detected")
+            texts.title = String(localized: "Automatic Step Changed Outside Greenshot")
+            texts.description = String(localized: "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.")
         case .review:
-            texts.subtitle = "Automatic Step Review"
-            texts.title = "Automatic Step Review"
-            texts.description = "Change what this automatic step may do. “Keep as Is” or closing the window changes nothing."
+            texts.subtitle = String(localized: "Automatic Step Review")
+            texts.title = String(localized: "Automatic Step Review")
+            texts.description = String(localized: "Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.")
         case .ownEdit:
-            texts.description = "You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: " + reasons
+            texts.description = String(localized: "You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: \(reasons)")
         case .newRecipe:
-            texts.subtitle = "Automatic Step Approval"
-            texts.title = "Automatic Step File Detected"
-            texts.description = "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving."
-            texts.badge = "NEW AUTOMATIC STEP"
+            texts.subtitle = String(localized: "Automatic Step Approval")
+            texts.title = String(localized: "Automatic Step File Detected")
+            texts.description = String(localized: "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.")
+            texts.badge = String(localized: "NEW AUTOMATIC STEP")
         }
         return texts
     }
 
-    /// Upstream `GetGateQuestion`.
-    static func question(for gate: RecipeGateType, noun: String = "recipe") -> String {
-        switch gate {
-        case .externalCommand: return "Allow this \(noun) to run programs on this Mac"
-        case .networkAccess: return "Allow this \(noun) to upload captures to the internet"
-        case .fileSystemAccess: return "Allow this \(noun) to read or write these files and folders"
-        case .custom: return "Allow these actions"
+    /// Upstream `GetGateQuestion`, for a recipe or an automatic step (`isExtension`).
+    static func question(for gate: RecipeGateType, isExtension: Bool = false) -> String {
+        switch (gate, isExtension) {
+        case (.externalCommand, false): return String(localized: "Allow this recipe to run programs on this Mac")
+        case (.externalCommand, true): return String(localized: "Allow this automatic step to run programs on this Mac")
+        case (.networkAccess, false): return String(localized: "Allow this recipe to upload captures to the internet")
+        case (.networkAccess, true): return String(localized: "Allow this automatic step to upload captures to the internet")
+        case (.fileSystemAccess, false): return String(localized: "Allow this recipe to read or write these files and folders")
+        case (.fileSystemAccess, true): return String(localized: "Allow this automatic step to read or write these files and folders")
+        case (.custom, _): return String(localized: "Allow these actions")
         }
     }
 
     /// Upstream `GetGateExplanation`.
     static func explanation(for gate: RecipeGateType) -> String? {
         switch gate {
-        case .externalCommand: return "A program started by a recipe can do anything you can do on this Mac."
-        case .networkAccess: return "What is uploaded leaves this Mac, the service decides who can see it."
-        case .fileSystemAccess: return "The recipe works with files outside Greenshot's usual output folder."
+        case .externalCommand: return String(localized: "A program started by a recipe can do anything you can do on this Mac.")
+        case .networkAccess: return String(localized: "What is uploaded leaves this Mac, the service decides who can see it.")
+        case .fileSystemAccess: return String(localized: "The recipe works with files outside Greenshot's usual output folder.")
         case .custom: return nil
         }
     }
 }
 
-/// What to change for a validation error (upstream `RecipeValidationErrorViewModel.Create`, with the Mac's messages).
+/// What to change for a validation error (upstream `RecipeValidationErrorViewModel.Create`, with the Mac's messages). The
+/// validator's messages are English (recipe-file data), so the patterns stay English; the hints are in the app's language.
 public enum RecipeValidationHints {
     public static func hint(for message: String) -> String? {
         func has(_ text: String) -> Bool { message.range(of: text, options: .caseInsensitive) != nil }
         if has("not valid JSON") || (has("line") && has("position")) {
-            return "Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets."
+            return String(localized: "Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.")
         }
         if has("which is not available in this version") {
-            return "Use a step type this version of Greenshot for Mac has, or update Greenshot."
+            return String(localized: "Use a step type this version of Greenshot for Mac has, or update Greenshot.")
         }
         if has("which is not available because the required") || has("requires the extension") {
-            return "The recipe needs a plug-in Greenshot for Mac doesn't have."
+            return String(localized: "The recipe needs a plug-in Greenshot for Mac doesn't have.")
         }
         if has("Unknown SourceType") {
-            return "Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension."
+            return String(localized: "Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.")
         }
         if has("does not exist in 'nodes'") || has("does not match any defined node id") {
-            return "Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list."
+            return String(localized: "Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.")
         }
-        if has("Duplicate node id") { return "Each node in the recipe must have a unique 'id'." }
+        if has("Duplicate node id") { return String(localized: "Each node in the recipe must have a unique 'id'.") }
         if has("Cycle/loop") {
-            return "Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes."
+            return String(localized: "Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.")
         }
         if has("'id' is required") || has("'name' is required") {
-            return "Every recipe requires a unique 'id' and a descriptive 'name' property."
+            return String(localized: "Every recipe requires a unique 'id' and a descriptive 'name' property.")
         }
         if has("invalid hotkey") || has("missing required 'Hotkey'") {
-            return "Write the hotkey like \"Ctrl + Shift + B\"; on the Mac Ctrl is ⌘ and Win is ⌃."
+            return String(localized: "Write the hotkey like \"Ctrl + Shift + B\"; on the Mac Ctrl is ⌘ and Win is ⌃.")
         }
-        if has("in its Filter") { return "Write the extensions with their dot, separated by ';', e.g. \".png;.jpg\"." }
-        if has("'ToolName'") { return "Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'." }
-        if has("Option key") || has("Option '") { return "Check the recipe's 'options': keys, types, defaults and choices." }
+        if has("in its Filter") { return String(localized: "Write the extensions with their dot, separated by ';', e.g. \".png;.jpg\".") }
+        if has("'ToolName'") { return String(localized: "Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.") }
+        if has("Option key") || has("Option '") { return String(localized: "Check the recipe's 'options': keys, types, defaults and choices.") }
         return nil
     }
 }
