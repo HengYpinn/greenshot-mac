@@ -250,6 +250,32 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         #expect(refused.errors == ["The recipe was not saved, its changes were not approved."])
     }
 
+    /// Security review: a file is read before it is approved, so its size is limited (1 MB) and only regular files count.
+    @Test func oversizedFilesAreNotRead() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        // A valid recipe padded with spaces: it would load without the limit.
+        let text = RecipeSerializer.encode(libraryRecipe()) + String(repeating: " ", count: RecipeFileReader.maxBytes)
+        let url = fixture.folder.appendingPathComponent("huge.gsrecipe.json")
+        try Data(text.utf8).write(to: url)
+        let path = RecipeTrustStore.standardized(url.path)
+        let quiet = await fixture.library.loadFile(url, interactive: false)
+        #expect(quiet.errors == ["The recipe file is larger than 1 MB: \(path)"])
+        #expect(fixture.library.recipes.isEmpty)
+        let imported = await fixture.library.importFile(url)
+        #expect(imported.errors.count == 1)
+        #expect(fixture.approver.requests.isEmpty)
+        let shown = try #require(fixture.approver.validationErrors.first)
+        #expect(shown.errorMessage == "The recipe file is larger than 1 MB: \(path)")
+        #expect(fixture.box.settings.files.isEmpty)
+        // Not a file: a folder, or a device that never ends.
+        #expect(RecipeFileReader.read(fixture.folder) == .failure(.notAFile))
+        #expect(RecipeFileReader.read(URL(fileURLWithPath: "/dev/zero")) == .failure(.notAFile))
+        let small = try fixture.write(libraryRecipe())
+        let read = RecipeFileReader.read(small)
+        #expect((try? read.get())?.isEmpty == false)
+    }
+
     @Test func extensionAndInvalidFiles() async throws {
         let fixture = LibraryFixture()
         defer { fixture.cleanUp() }
