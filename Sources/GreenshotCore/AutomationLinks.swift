@@ -16,6 +16,8 @@ public enum AutomationLinks {
     /// "an unknown tab name is taken as a plugin name") and `plugin=` go to Destinations. Nil (the tab shown last) for
     /// none or an unknown name.
     public static func settingsPane(tab: String?, plugin: String?) -> SettingsPane? {
+        // Upstream's RecipeEditor plug-in settings are the recipe switch and files: Settings › Recipes on the Mac
+        if [plugin, tab].contains(where: { $0?.trimmingCharacters(in: .whitespaces).lowercased() == "recipeeditor" }) { return .recipes }
         if let plugin, !plugin.trimmingCharacters(in: .whitespaces).isEmpty { return .destinations }
         guard let tab = tab?.trimmingCharacters(in: .whitespaces), !tab.isEmpty else { return nil }
         if let pane = SettingsPane(name: tab) { return pane }

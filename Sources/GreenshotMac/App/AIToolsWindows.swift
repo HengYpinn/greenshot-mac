@@ -78,12 +78,11 @@ enum AIToolsWindows {
     /// The displays: index, primary, bounds in global points and their scale (pixels per point).
     @MainActor
     static func displays() -> [JSONValue] {
-        var count: UInt32 = 0
-        guard CGGetActiveDisplayList(0, nil, &count) == .success, count > 0 else { return [] }
-        var ids = [CGDirectDisplayID](repeating: 0, count: Int(count))
-        guard CGGetActiveDisplayList(count, &ids, &count) == .success else { return [] }
+        // The active displays; while they sleep (none active) the connected ones
+        var ids = displayIDs(CGGetActiveDisplayList)
+        if ids.isEmpty { ids = displayIDs(CGGetOnlineDisplayList) }
         let main = CGMainDisplayID()
-        return ids.prefix(Int(count)).enumerated().map { index, id in
+        return ids.enumerated().map { index, id in
             let bounds = CGDisplayBounds(id)
             let screen = NSScreen.screens.first { ($0.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?.uint32Value == id }
             let display: JSONObject = ["index": .number(Double(index)), "primary": .bool(id == main),
@@ -92,6 +91,14 @@ enum AIToolsWindows {
                                        "scale": .number(Double(screen?.backingScaleFactor ?? 1))]
             return .object(display)
         }
+    }
+
+    private static func displayIDs(_ list: (UInt32, UnsafeMutablePointer<CGDirectDisplayID>?, UnsafeMutablePointer<UInt32>?) -> CGError) -> [CGDirectDisplayID] {
+        var count: UInt32 = 0
+        guard list(0, nil, &count) == .success, count > 0 else { return [] }
+        var ids = [CGDirectDisplayID](repeating: 0, count: Int(count))
+        guard list(count, &ids, &count) == .success else { return [] }
+        return Array(ids.prefix(Int(count)))
     }
 
     /// LIST_WINDOWS's reply: the windows with ids of this AI tool (the excluded applications' only counted) and the

@@ -247,6 +247,9 @@ struct AutomationLinksTests {
         #expect(AutomationLinks.settingsPane(tab: nil, plugin: "Box") == .destinations)
         #expect(AutomationLinks.settingsPane(tab: "general", plugin: "Dropbox") == .destinations)
         #expect(AutomationLinks.settingsPane(tab: "video", plugin: nil) == .video)
+        #expect(AutomationLinks.settingsPane(tab: nil, plugin: "RecipeEditor") == .recipes)
+        #expect(AutomationLinks.settingsPane(tab: "recipeeditor", plugin: nil) == .recipes)
+        #expect(AutomationLinks.settingsPane(tab: "aitools", plugin: nil) == .aiTools)
     }
 
     @Test func noOrUnknownTabKeepsTheLastOne() {
