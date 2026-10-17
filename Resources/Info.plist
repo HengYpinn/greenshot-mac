@@ -40,11 +40,46 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>Greenshot OAuth callback</string>
+			<string>Greenshot for Mac link</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>greenshotmac</string>
 			</array>
+		</dict>
+	</array>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
+	<key>OSAScriptingDefinition</key>
+	<string>GreenshotMac.sdef</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Open in Greenshot for Mac</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>openInGreenshot</string>
+			<key>NSPortName</key>
+			<string>Greenshot for Mac (Community)</string>
+			<key>NSSendFileTypes</key>
+			<array>
+				<string>public.image</string>
+				<string>io.github.greenshot-mac.greenshot</string>
+			</array>
+			<key>NSSendTypes</key>
+			<array>
+				<string>public.tiff</string>
+				<string>public.png</string>
+			</array>
+		</dict>
+	</array>
+	<key>INAlternativeAppNames</key>
+	<array>
+		<dict>
+			<key>INAlternativeAppName</key>
+			<string>Greenshot</string>
 		</dict>
 	</array>
 	<key>CFBundleDocumentTypes</key>

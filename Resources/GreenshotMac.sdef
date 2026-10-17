@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<!-- Greenshot for Mac (Community) - an unofficial macOS port of Greenshot. SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- The AppleScript dictionary (Mac only): the Standard Suite gives open, quit and version; the Greenshot Suite runs the
+     same commands as greenshot-cli and greenshotmac: links, with the source "applescript". -->
+<dictionary title="Greenshot for Mac (Community) Terminology" xmlns:xi="http://www.w3.org/2003/XInclude">
+	<xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
+
+	<suite name="Greenshot Suite" code="GrSh" description="Screenshots with Greenshot for Mac (Community).">
+		<enumeration name="capture mode" code="GrCm">
+			<enumerator name="region" code="GCrg" description="Select a region of the screen."/>
+			<enumerator name="window" code="GCwi" description="Pick a window (or the active one, as the hotkey does)."/>
+			<enumerator name="full screen" code="GCfs" description="The whole screen."/>
+			<enumerator name="last region" code="GClr" description="The region captured last time."/>
+			<enumerator name="text" code="GCtx" description="Select a region and copy the text in it."/>
+		</enumeration>
+
+		<command name="capture" code="GrShCapt" description="Takes a screenshot; it goes to your destinations, as with the hotkeys.">
+			<cocoa class="GreenshotCaptureCommand"/>
+			<direct-parameter type="capture mode" optional="yes" description="What to capture (default: region)."/>
+		</command>
+
+		<command name="open clipboard" code="GrShOClp" description="Opens the image on the clipboard in the editor.">
+			<cocoa class="GreenshotOpenClipboardCommand"/>
+		</command>
+
+		<command name="show settings" code="GrShSett" description="Opens Settings.">
+			<cocoa class="GreenshotShowSettingsCommand"/>
+			<parameter name="pane" code="Pane" type="text" optional="yes" description="The tab: general, capture, output, destinations, editor, printer, expert or video.">
+				<cocoa key="pane"/>
+			</parameter>
+		</command>
+
+		<command name="show about" code="GrShAbou" description="Opens the About window.">
+			<cocoa class="GreenshotShowAboutCommand"/>
+		</command>
+
+		<command name="reload settings" code="GrShRlod" description="Reads the settings again and registers the hotkeys again.">
+			<cocoa class="GreenshotReloadSettingsCommand"/>
+		</command>
+	</suite>
+</dictionary>

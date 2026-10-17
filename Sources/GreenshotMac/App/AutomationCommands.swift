@@ -1,0 +1,122 @@
+// Greenshot for Mac (Community) - an unofficial macOS port of Greenshot
+// Copyright (C) 2026 Greenshot for Mac (Community) contributors
+// Based on Greenshot, Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import AppKit
+import GreenshotCore
+
+/// The handlers of the automation commands (upstream `IpcSecurityDispatcher.Handle*Async`). Requests arrive off the
+/// main thread; every handler runs on it. The replies use upstream's texts.
+@MainActor
+enum AutomationCommands {
+    static var appVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "development build"
+    }
+
+    static func register(in table: IPCCommandTable, app: AppDelegate) {
+        func on(_ command: String, _ body: @escaping @MainActor @Sendable (AppDelegate, IPCReplyContext) -> IPCReply?) {
+            // The app delegate lives as long as the process
+            table.register(command) { [app] context in
+                await MainActor.run { body(app, context) }
+            }
+        }
+
+        on(IPCCommand.version) { _, _ in version() }
+        on(IPCCommand.settings) { settings($0, $1) }
+        on(IPCCommand.about) { app, _ in
+            app.showAbout(nil)
+            return .ok("About window displayed.")
+        }
+        on(IPCCommand.selfService) { app, context in
+            app.showSelfService(section: context.envelope.parameter("section").flatMap(SelfServiceSection.init(name:)))
+            return .ok("Self-Service window displayed.")
+        }
+        on(IPCCommand.logViewer) { app, context in
+            app.showLogViewer(search: context.envelope.parameter("search"))
+            return .ok("Log viewer displayed.")
+        }
+        on(IPCCommand.firstLaunch) { app, _ in
+            app.showWelcome()
+            return .ok("First launch completed.")
+        }
+        on(IPCCommand.openFile) { openFiles($0, $1) }
+        on(IPCCommand.reloadConfig) { app, _ in
+            // Upstream ReloadConfig: read the configuration again and register the hotkeys again
+            app.settings.reloadFromDisk()
+            app.reregisterHotkeys()
+            return .ok("Greenshot configuration reloaded.")
+        }
+        on(IPCCommand.exit) { _, _ in
+            // The reply goes out first; quitting may still ask about unsaved screenshots
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { NSApp.terminate(nil) }
+            return .ok("Greenshot exiting.")
+        }
+        on(IPCCommand.capture) { capture($0, $1) }
+        on(IPCCommand.openClipboard) { app, _ in
+            DispatchQueue.main.async { app.editors.openClipboard() }
+            return .ok("Opening the clipboard in the editor.")
+        }
+        table.registerUnavailable([IPCCommand.runRecipe, IPCCommand.listRecipes, IPCCommand.describeRecipe,
+                                   IPCCommand.recipeEditor, IPCCommand.recipeManager],
+                                  message: IPCCommandLine.recipesUnavailable)
+    }
+
+    /// Upstream `HandleVersionAsync`.
+    static func version() -> IPCReply {
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "0"
+        return .ok("\(AppInfo.name) version \(appVersion)",
+                   extra: ["version": .string(appVersion), "build": .string(build),
+                           "protocol_version": .number(Double(ipcProtocolVersion))])
+    }
+
+    /// Upstream `HandleSettingsAsync` (`ShowSetting(plugin, tab)`).
+    private static func settings(_ app: AppDelegate, _ context: IPCReplyContext) -> IPCReply {
+        let pane = AutomationLinks.settingsPane(tab: context.envelope.parameter("tab"), plugin: context.envelope.parameter("plugin"))
+        app.showSettings(pane: pane)
+        return .ok("Settings window displayed.")
+    }
+
+    /// Upstream `HandleOpenFileAsync`: every path is checked first; then the files open in the editor. Wave 4 runs the
+    /// recipes of OpenFile triggers here.
+    private static func openFiles(_ app: AppDelegate, _ context: IPCReplyContext) -> IPCReply {
+        let raw = context.envelope.files
+        guard !raw.isEmpty else { return .error("OPEN_FILE rejected: No file path provided.") }
+        let allowed = IPCPathValidator.editorImageExtensions
+        var files: [URL] = []
+        for path in raw {
+            switch IPCPathValidator.resolve(path, cwd: context.envelope.cwd, allowedExtensions: allowed) {
+            case .success(let url):
+                files.append(url)
+            case .failure(let failure):
+                Log("Automation").warn("[SECURITY] OPEN_FILE rejected '\(DiagnosticReport.abbreviatingHome(path))': \(failure.message)")
+                return .error("OPEN_FILE rejected: \(failure.message)")
+            }
+        }
+        files.forEach(app.editors.open(fileURL:))
+        return .ok("Opened \(files.count) file(s).")
+    }
+
+    /// The Mac's CAPTURE: the hotkeys' captures, started after the reply went out.
+    private static func capture(_ app: AppDelegate, _ context: IPCReplyContext) -> IPCReply {
+        let mode: AutomationCaptureMode
+        if let name = context.envelope.parameter("mode"), !name.isEmpty {
+            guard let named = AutomationCaptureMode(name: name) else {
+                return .error("Unknown capture mode '\(name)'. Use \(AutomationCaptureMode.namesForHelp).")
+            }
+            mode = named
+        } else {
+            mode = .region
+        }
+        DispatchQueue.main.async {
+            switch mode {
+            case .region: app.capture.captureRegion()
+            case .window: app.capture.captureWindowFromHotkey()
+            case .fullScreen: app.capture.captureFullScreenFromHotkey()
+            case .lastRegion: app.capture.captureLastRegion()
+            case .text: app.capture.captureText()
+            }
+        }
+        return .ok("Capture started.")
+    }
+}

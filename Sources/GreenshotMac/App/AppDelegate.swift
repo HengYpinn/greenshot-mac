@@ -19,6 +19,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private var statusItem: StatusItemController?
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
     private var updateTimer: Timer?
+    /// greenshot-cli, `greenshotmac:` links, files from Finder, AppleScript, Services and Shortcuts.
+    let automation = AutomationCenter()
+    private lazy var services = ServicesProvider(app: self)
     private let log = Log("App")
 
     /// The last run of the app ended without quitting (a crash or a forced quit): the restore of open editors and the bug
@@ -74,6 +77,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             showWelcomeOnFirstLaunch()
         }
         scheduleUpdateChecks()
+        NSApp.servicesProvider = services
+        NSUpdateDynamicServices()
+        automation.start(app: self)
     }
 
     /// The log file in ~/Library/Logs, and its first entry (upstream `GreenshotMain.Main`: "Starting: " and the
@@ -116,6 +122,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        automation.shutdown()
         statusItem?.showIconForNextLaunch()
         log.info("Exiting")
         CrashReporting.removeMarker()
@@ -135,9 +142,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         return true
     }
 
-    /// Images dropped on the app or opened with it go to the editor.
+    /// Images dropped on the app or opened with it go to the editor (checked like greenshot-cli's files), and
+    /// `greenshotmac:` links run their command (upstream `greenshot:` URL protocol).
     func application(_ application: NSApplication, open urls: [URL]) {
-        urls.forEach(editors.open(fileURL:))
+        automation.open(urls)
     }
 
     /// A Dock icon (with the menu bar and a place in ⌘Tab) while an editor or Settings is open, if the setting is on;
@@ -265,7 +273,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         UserDefaults.standard.removeObject(forKey: "didShowWelcome")
         UserDefaults.standard.removeObject(forKey: "didOfferLaunchAtLogin")
         if settings.value.welcomeShown {
-            showRunningMessage()
+            // Started by greenshot-cli or a script (`--background`): nobody needs to be told
+            if !AutomationStartup.options.background { showRunningMessage() }
         } else {
             settings.update { $0.welcomeShown = true }
             WelcomeWindowController.show(app: self, firstLaunch: true)

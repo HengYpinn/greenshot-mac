@@ -223,3 +223,22 @@ struct URLActionParserTests {
         #expect(!URLActionParser.isActionLink("a.png"))
     }
 }
+
+/// Upstream `HandleSettingsAsync` / `ShowSetting(plugin, tab)`.
+struct AutomationLinksTests {
+    @Test func settingsTabsAndPlugins() {
+        #expect(AutomationLinks.settingsPane(tab: "editor", plugin: nil) == .editor)
+        #expect(AutomationLinks.settingsPane(tab: "destination", plugin: nil) == .destinations)
+        #expect(AutomationLinks.settingsPane(tab: "plugins", plugin: nil) == .destinations)
+        #expect(AutomationLinks.settingsPane(tab: "Jira", plugin: nil) == .destinations)
+        #expect(AutomationLinks.settingsPane(tab: nil, plugin: "Box") == .destinations)
+        #expect(AutomationLinks.settingsPane(tab: "general", plugin: "Dropbox") == .destinations)
+        #expect(AutomationLinks.settingsPane(tab: "video", plugin: nil) == .video)
+    }
+
+    @Test func noOrUnknownTabKeepsTheLastOne() {
+        #expect(AutomationLinks.settingsPane(tab: nil, plugin: nil) == nil)
+        #expect(AutomationLinks.settingsPane(tab: "recipes", plugin: nil) == nil)
+        #expect(AutomationLinks.settingsPane(tab: "nonsense", plugin: " ") == nil)
+    }
+}
