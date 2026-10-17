@@ -28,14 +28,18 @@ struct OutputSettings: View {
                     Button("Choose…", action: chooseFolder)
                 }
             }
+            .managed(\.outputFolder)
             TextField("File name pattern", text: store.binding(\.filenamePattern))
+                .managed(\.filenamePattern)
             Text("Example: \(example)").font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
             DisclosureGroup("Pattern variables") {
                 Text(FilenamePattern.helpText).font(.caption).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
             }
             Toggle("Overwrite a file with the same name", isOn: store.binding(\.allowOverwrite))
                 .help("Off: “Save directly” adds (2), (3), … to the name instead.")
+                .managed(\.allowOverwrite)
             Toggle("Copy the file path to the clipboard every time an image is saved", isOn: store.binding(\.copyPathToClipboard))
+                .managed(\.copyPathToClipboard)
         }
     }
 
@@ -44,6 +48,7 @@ struct OutputSettings: View {
             Picker("Format", selection: store.binding(\.outputFormat)) {
                 ForEach(ImageFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.outputFormat)
             if store.value.outputFormat == .greenshot {
                 // Upstream's "Greenshot" output format (5172972a): the file of its editor.
                 Text("The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.")
@@ -54,20 +59,25 @@ struct OutputSettings: View {
                 Slider(value: jpegQuality, in: 10...100, step: 5) {
                     Text("JPEG quality: \(store.value.jpegQuality)")
                 }
+                .managed(\.jpegQuality)
             }
             Toggle("Show the quality dialog every time an image is saved", isOn: store.binding(\.promptJpegQuality))
+                .managed(\.promptJpegQuality)
             // Upstream `settings_reducecolors` and `OutputFileReduceColorsTo`; GIF files are always reduced.
             Toggle("Reduce the number of colours", isOn: store.binding(\.reduceColors))
                 .help("Not for JPEG. GIF files always get at most this many colours.")
+                .managed(\.reduceColors)
             if store.value.reduceColors || store.value.outputFormat == .gif {
                 Stepper(value: store.binding(\.reduceColorsTo), in: 2...256) {
                     Text("At most \(store.value.reduceColorsTo) colours")
                 }
+                .managed(\.reduceColorsTo)
             }
             // Upstream's Expert setting `expert_autoreducecolors` (`OutputFileAutoReduceColors`).
             Toggle("Save with 256 colours when the image has fewer", isOn: store.binding(\.autoReduceColors))
                 .help("An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: "
                     + "the same picture in a smaller file.")
+                .managed(\.autoReduceColors)
         }
     }
 

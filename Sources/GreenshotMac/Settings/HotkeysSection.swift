@@ -32,8 +32,10 @@ struct HotkeysSection: View {
     var body: some View {
         Section {
             ForEach(Self.rows, id: \.title) { row in
-                HotkeyRow(title: row.title, combo: store.binding((\AppSettings.hotkeys).appending(path: row.keyPath)),
+                let keyPath = (\AppSettings.hotkeys).appending(path: row.keyPath)
+                HotkeyRow(title: row.title, combo: store.binding(keyPath),
                           conflict: conflict(for: row.title), initialProblem: initialProblems[row.title], access: access)
+                    .managed(keyPath)
             }
         } header: {
             Text("Hotkeys")

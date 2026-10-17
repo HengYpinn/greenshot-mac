@@ -43,7 +43,8 @@ extension OutputManager {
         }
     }
 
-    /// The picker's entries; `pick` gets the chosen target.
+    /// The picker's entries; `pick` gets the chosen target. Destinations an administrator turned off are left out
+    /// (upstream `PickerDestination`: `IsAvailableFor`, `ExcludeDestinations`).
     func pickerItems(for capture: Capture, pick: @escaping (DestinationTarget) -> Void) -> [NSMenuItem] {
         let s = settings.value
         var entries: [(priority: Int, title: String, item: NSMenuItem)] = []
@@ -61,6 +62,7 @@ extension OutputManager {
             return entry
         }
         func add(_ destination: CaptureDestination, title: String? = nil, _ target: DestinationTarget? = nil) {
+            if s.isDestinationExcluded(destination) { return }
             let title = title ?? destination.pickerTitle
             entries.append((destination.pickerPriority, title,
                             item(title, target ?? .destination(destination), symbol: destination.symbolName,
@@ -69,6 +71,7 @@ extension OutputManager {
         /// An entry with a sub-menu: the destination itself first, then its dynamic destinations (upstream
         /// `DestinationPicker.AddDynamicDestinationsAsync`).
         func addGroup(_ destination: CaptureDestination, title: String, _ subItems: [NSMenuItem]) {
+            if s.isDestinationExcluded(destination) { return }
             guard !subItems.isEmpty else { return add(destination) }
             let group = NSMenuItem(title: title, action: nil, keyEquivalent: "")
             group.image = Self.symbol(destination.symbolName)
@@ -85,15 +88,17 @@ extension OutputManager {
         let folder = (saver.outputFolderURL(title: capture.title, date: capture.date).path as NSString).abbreviatingWithTildeInPath
         add(.file, title: "Save Directly (\(folder))")
         add(.fileAs)
-        entries.append((CaptureDestination.pdf.pickerPriority, "Save as PDF…",
-                        item("Save as PDF…", .pdfAs, symbol: CaptureDestination.pdf.symbolName, shortcut: CaptureDestination.pdf.shortcut)))
+        if !s.isDestinationExcluded(.pdf) {
+            entries.append((CaptureDestination.pdf.pickerPriority, "Save as PDF…",
+                            item("Save as PDF…", .pdfAs, symbol: CaptureDestination.pdf.symbolName, shortcut: CaptureDestination.pdf.shortcut)))
+        }
         addGroup(.editor, title: "Open in Image Editor", editors.openEditors.map { editor in
             item("Add to Editor – \(FilenamePattern.menuTitle(editor.title))", .addToEditor(editor.id), symbol: "plus.rectangle.on.rectangle")
         })
         add(.clipboard)
         add(.ocr)
         addGroup(.printer, title: "Print", Printing.printerNames().map { name in item(name, .printer(name), symbol: "printer") })
-        if EmailDestination.isAvailable {
+        if EmailDestination.isAvailable, !s.isDestinationExcluded(.email) {
             // Mail's messages being written, to add the capture to (the Mac's stand-in for Outlook's open inspectors).
             if EmailDestination.defaultAppIsMail, OfficeDestination.isRunning(.mail) {
                 let group = officeGroup(.mail, title: CaptureDestination.email.pickerTitle, newTarget: .destination(.email), item)
@@ -105,7 +110,7 @@ extension OutputManager {
         }
         // The Office apps (upstream `Greenshot.Plugin.Office`) and Notes, when installed; a running app lists its open
         // documents.
-        for app in OfficeDestination.applications where OfficeDestination.isInstalled(app) {
+        for app in OfficeDestination.applications where OfficeDestination.isInstalled(app) && !s.isDestinationExcluded(app.destination) {
             let destination = app.destination
             let entry: NSMenuItem
             if app.hasOpenItems, OfficeDestination.isRunning(app) {
@@ -129,28 +134,32 @@ extension OutputManager {
             add(upload)
         }
 
-        let openWith = NSMenuItem(title: CaptureDestination.openWith.pickerTitle, action: nil, keyEquivalent: "")
-        openWith.image = Self.symbol(CaptureDestination.openWith.symbolName)
-        openWith.submenu = NSMenu(title: "Open With")
-        openWith.submenu?.autoenablesItems = false
-        OpenWithDestination.menuItems(format: s.outputFormat) { app in pick(.application(app)) }.forEach { openWith.submenu?.addItem($0) }
-        entries.append((CaptureDestination.openWith.pickerPriority, openWith.title, openWith))
+        if !s.isDestinationExcluded(.openWith) {
+            let openWith = NSMenuItem(title: CaptureDestination.openWith.pickerTitle, action: nil, keyEquivalent: "")
+            openWith.image = Self.symbol(CaptureDestination.openWith.symbolName)
+            openWith.submenu = NSMenu(title: "Open With")
+            openWith.submenu?.autoenablesItems = false
+            OpenWithDestination.menuItems(format: s.outputFormat) { app in pick(.application(app)) }.forEach { openWith.submenu?.addItem($0) }
+            entries.append((CaptureDestination.openWith.pickerPriority, openWith.title, openWith))
+        }
 
         // Commands whose program is gone are left out (upstream removes them from the settings at startup).
-        for command in s.externalCommands where ExternalCommandRunner.isAvailable(command) {
+        for command in s.externalCommands where ExternalCommandRunner.isAvailable(command) && !s.isDestinationExcluded(.externalCommand) {
             let entry = item("External: \(command.name)", .externalCommand(command))
             entry.image = ExternalCommandRunner.icon(for: command)
             entries.append((CaptureDestination.externalCommand.pickerPriority, entry.title, entry))
         }
 
-        let qrCode = NSMenuItem(title: CaptureDestination.qrCode.pickerTitle, action: nil, keyEquivalent: "")
-        qrCode.image = Self.symbol(CaptureDestination.qrCode.symbolName)
-        // Upstream offers QR code actions only when codes were found: the entry goes once the search finds none.
-        qrCode.submenu = QRCodeDestination.pickerSubmenu(for: capture, saver: saver) { [weak qrCode] in
-            guard let qrCode, let menu = qrCode.menu else { return }
-            menu.removeItem(qrCode)
+        if !s.isDestinationExcluded(.qrCode) {
+            let qrCode = NSMenuItem(title: CaptureDestination.qrCode.pickerTitle, action: nil, keyEquivalent: "")
+            qrCode.image = Self.symbol(CaptureDestination.qrCode.symbolName)
+            // Upstream offers QR code actions only when codes were found: the entry goes once the search finds none.
+            qrCode.submenu = QRCodeDestination.pickerSubmenu(for: capture, saver: saver) { [weak qrCode] in
+                guard let qrCode, let menu = qrCode.menu else { return }
+                menu.removeItem(qrCode)
+            }
+            entries.append((CaptureDestination.qrCode.pickerPriority, qrCode.title, qrCode))
         }
-        entries.append((CaptureDestination.qrCode.pickerPriority, qrCode.title, qrCode))
 
         return DestinationOrder.sorted(entries) { ($0.priority, $0.title) }.map(\.item)
     }

@@ -25,10 +25,12 @@ struct NotificationSettings: View {
             Picker("Show notifications", selection: level) {
                 ForEach(NotificationLevel.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.notificationLevel, \.showNotifications)
             // Only notifications that can show the capture offer the thumbnail (upstream `CanShowNotificationThumbnail`).
             if status.state == .allowed || status.state == .notAsked {
                 Toggle("Show a thumbnail of the capture in the notification", isOn: store.binding(\.showNotificationThumbnail))
                     .disabled(level.wrappedValue == .none)
+                    .managed(\.showNotificationThumbnail)
             }
             LabeledContent("macOS notifications") {
                 HStack {

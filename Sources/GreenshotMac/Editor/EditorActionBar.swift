@@ -93,20 +93,29 @@ final class EditorActionBar: NSObject {
     /// Office applications, here Open With, and the external commands).
     private func destinationItems() -> [NSView] {
         var items: [NSView] = []
-        for (symbol, destination) in [("envelope", CaptureDestination.email), ("square.and.arrow.up", .share),
-                                      ("text.viewfinder", .ocr), ("qrcode", .qrCode)] {
+        // Destinations an administrator turned off are left out (upstream `ImageEditorForm`: `IsAvailableFor`).
+        let settings = editor?.settings.value ?? AppSettings()
+        let buttons: [(String, CaptureDestination)] = [("envelope", .email), ("square.and.arrow.up", .share),
+                                                       ("text.viewfinder", .ocr), ("qrcode", .qrCode)]
+        for (symbol, destination) in buttons where !settings.isDestinationExcluded(destination) {
             let item = DestinationButton(destination: .destination(destination), symbol: symbol,
                                          tooltip: EditorWindowStatus.destinationName(destination.displayName))
             item.target = self
             item.action = #selector(sendToDestination(_:))
             items.append(item)
         }
-        let uploads = [CaptureDestination.jira, .confluence, .box, .dropbox].map {
+        let uploads = [CaptureDestination.jira, .confluence, .box, .dropbox].filter { !settings.isDestinationExcluded($0) }.map {
             MainMenu.destinationItem(EditorWindowStatus.destinationName($0.displayName), .destination($0))
         }
-        items.append(pullDown("icloud.and.arrow.up", "Upload to Jira, Confluence, Box or Dropbox", items: uploads))
-        items.append(pullDown("arrow.up.forward.app", "Open the image with another app", items: [], filler: openWithMenus))
-        items.append(pullDown("terminal", "Run an external command with the image", items: [], filler: externalCommandMenus))
+        if !uploads.isEmpty {
+            items.append(pullDown("icloud.and.arrow.up", "Upload to Jira, Confluence, Box or Dropbox", items: uploads))
+        }
+        if !settings.isDestinationExcluded(.openWith) {
+            items.append(pullDown("arrow.up.forward.app", "Open the image with another app", items: [], filler: openWithMenus))
+        }
+        if !settings.isDestinationExcluded(.externalCommand) {
+            items.append(pullDown("terminal", "Run an external command with the image", items: [], filler: externalCommandMenus))
+        }
         return items
     }
 

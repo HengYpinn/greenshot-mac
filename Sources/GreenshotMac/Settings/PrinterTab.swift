@@ -17,6 +17,7 @@ struct PrinterSettings: View {
         Form {
             Section {
                 Toggle("Show print options every time before printing", isOn: store.binding(\.printing.promptOptions))
+                    .managed(\.printing.promptOptions)
             }
             layoutSection
             colorSection
@@ -28,9 +29,13 @@ struct PrinterSettings: View {
     private var layoutSection: some View {
         Section("Layout") {
             Toggle("Shrink to fit the paper", isOn: store.binding(\.printing.allowShrink))
+                .managed(\.printing.allowShrink)
             Toggle("Enlarge to fit the paper", isOn: store.binding(\.printing.allowEnlarge))
+                .managed(\.printing.allowEnlarge)
             Toggle("Rotate to the page orientation", isOn: store.binding(\.printing.allowRotate))
+                .managed(\.printing.allowRotate)
             Toggle("Center on the page", isOn: store.binding(\.printing.center))
+                .managed(\.printing.center)
         }
     }
 
@@ -42,20 +47,25 @@ struct PrinterSettings: View {
                 Text("Black and white").tag(ColorMode.monochrome)
             }
             .pickerStyle(.radioGroup)
+            .managed(\.printing.grayscale, \.printing.monochrome)
             if store.value.printing.monochrome {
                 Slider(value: threshold, in: 0...255, step: 1) {
                     Text("Black and white threshold: \(store.value.printing.monochromeThreshold)")
                 }
+                .managed(\.printing.monochromeThreshold)
             }
             Toggle("Inverted colours", isOn: store.binding(\.printing.inverted))
+                .managed(\.printing.inverted)
         }
     }
 
     private var footerSection: some View {
         Section {
             Toggle("Print a footer", isOn: store.binding(\.printing.footer))
+                .managed(\.printing.footer)
             TextField("Footer pattern", text: store.binding(\.printing.footerPattern))
                 .disabled(!store.value.printing.footer)
+                .managed(\.printing.footerPattern)
             Text("Example: \(footerExample)").font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
         } header: {
             Text("Footer")

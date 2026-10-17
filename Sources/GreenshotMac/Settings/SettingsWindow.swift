@@ -11,8 +11,10 @@ import SwiftUI
 final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     /// The tab shown; `show(pane:)` switches it.
     private let navigation = SettingsNavigation()
+    private let settings: SettingsStore
 
     init(settings: SettingsStore) {
+        self.settings = settings
         let hosting = NSHostingController(rootView: SettingsView(store: settings, status: SystemStatus(), navigation: navigation))
         hosting.sizingOptions = .preferredContentSize
         let window = NSWindow(contentViewController: hosting)
@@ -26,6 +28,14 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         super.init(window: window)
         window.delegate = self
         window.center()
+        // An administrator can turn Settings or its Expert tab off while it is open.
+        settings.onChange(of: \.disableSettings) { [weak self] off in
+            if off { self?.close() }
+        }
+        settings.onChange(of: \.hideExpertSettings) { [weak self] hidden in
+            guard let self, hidden, self.navigation.tab == SettingsPane.expert.rawValue else { return }
+            self.navigation.tab = SettingsPane.general.rawValue
+        }
     }
 
     /// A backstop for the shortcut recorder: whatever happened, the hotkeys are on again once Settings closes.
@@ -43,9 +53,20 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private(set) var isOpen = false
     var onOpenChange: (() -> Void)?
 
-    /// Opens the window, on `pane` when given (upstream `SettingsWindow.SelectTab`), else on the tab shown last.
+    /// Opens the window, on `pane` when given (upstream `SettingsWindow.SelectTab`), else on the tab shown last. With
+    /// Settings turned off by an administrator (upstream `DisableSettings`) it says so instead: every way to Settings
+    /// (⌘,, the editor's button, a link, opening the app again) ends here.
     func show(pane: SettingsPane? = nil) {
+        settings.refreshManaged()
+        guard !settings.value.disableSettings else {
+            Self.sayTurnedOff()
+            return
+        }
         if let pane { navigation.tab = pane.rawValue }
+        // Upstream `HideExpertSettings`: the Expert tab is gone.
+        if settings.value.hideExpertSettings && navigation.tab == SettingsPane.expert.rawValue {
+            navigation.tab = SettingsPane.general.rawValue
+        }
         if !isOpen {
             isOpen = true
             onOpenChange?()
@@ -53,6 +74,14 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         NSApp.activate()
         showWindow(nil)
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    private static func sayTurnedOff() {
+        let alert = NSAlert()
+        alert.messageText = "Settings are turned off"
+        alert.informativeText = "Your organisation manages \(AppInfo.name) on this Mac and turned off its settings."
+        NSApp.activate()
+        alert.runModal()
     }
 }
 
@@ -75,6 +104,8 @@ struct SettingsView: View {
         }
         .frame(width: 620, height: 600)
         .padding(.vertical, 8)
+        // The administrator's locks for `.managed(\.keyPath)` on every tab.
+        .environment(\.managedPolicy, store.policy)
     }
 
     @ViewBuilder private var tabs: some View {
@@ -85,7 +116,9 @@ struct SettingsView: View {
         DestinationsSettings(store: store).tabItem { Label("Destinations", systemImage: "paperplane") }.tag(SettingsPane.destinations.rawValue)
         EditorSettings(store: store).tabItem { Label("Editor", systemImage: "pencil.and.outline") }.tag(SettingsPane.editor.rawValue)
         PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(SettingsPane.printer.rawValue)
-        ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(SettingsPane.expert.rawValue)
+        if !store.value.hideExpertSettings {
+            ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(SettingsPane.expert.rawValue)
+        }
     }
 }
 

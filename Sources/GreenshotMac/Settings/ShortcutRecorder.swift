@@ -19,11 +19,14 @@ struct ShortcutRecorder: NSViewRepresentable {
     func makeNSView(context: Context) -> ShortcutRecorderView {
         let view = ShortcutRecorderView()
         update(view)
+        view.isEnabled = context.environment.isEnabled
         return view
     }
 
     func updateNSView(_ view: ShortcutRecorderView, context: Context) {
         update(view)
+        // `.disabled` (a hotkey an administrator locked, `.managed`) doesn't reach an AppKit view by itself.
+        view.isEnabled = context.environment.isEnabled
     }
 
     private func update(_ view: ShortcutRecorderView) {
@@ -38,6 +41,15 @@ final class ShortcutRecorderView: NSStackView {
     let button = ShortcutRecorderButton()
     private let addStep = NSButton()
     private let reset = NSButton()
+    /// Off: nothing can be recorded or changed.
+    var isEnabled = true {
+        didSet {
+            guard oldValue != isEnabled else { return }
+            button.isEnabled = isEnabled
+            reset.isEnabled = isEnabled
+            updateButtons()
+        }
+    }
 
     init() {
         super.init(frame: .zero)
@@ -67,7 +79,7 @@ final class ShortcutRecorderView: NSStackView {
 
     private func updateButtons() {
         let combo = button.combo
-        addStep.isEnabled = combo != nil && (combo?.chords.count ?? 0) < KeyCombo.maximumSteps
+        addStep.isEnabled = isEnabled && combo != nil && (combo?.chords.count ?? 0) < KeyCombo.maximumSteps
         reset.isHidden = combo?.isSequence != true
     }
 

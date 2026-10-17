@@ -17,10 +17,13 @@ struct EditorSettings: View {
         Form {
             Section {
                 Toggle("Match the editor window size to the capture", isOn: store.binding(\.matchSizeToCapture))
+                    .managed(\.matchSizeToCapture)
                 Toggle("Reuse the editor if possible", isOn: store.binding(\.reuseEditor))
                     .help("A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.")
+                    .managed(\.reuseEditor)
                 Toggle("Don't ask to save when closing an editor", isOn: store.binding(\.suppressSaveDialogAtClose))
                     .help("Closing an editor with changes discards them without a question.")
+                    .managed(\.suppressSaveDialogAtClose)
             } header: {
                 Text("Editor windows")
             }
@@ -38,10 +41,12 @@ struct EditorSettings: View {
                     .textFieldStyle(.roundedBorder)
                 }
                 .help("The size of File › New Image, a white image to draw on.")
+                .managed(\.defaultEditorSize)
                 Stepper(value: store.binding(\.freehandSensitivity), in: 1...100) {
                     LabeledContent("Freehand smoothing", value: "\(store.value.freehandSensitivity)")
                 }
                 .help("Smaller keeps more detail of a freehand line, larger makes it smoother.")
+                .managed(\.freehandSensitivity)
             } header: {
                 Text("Drawing")
             }
