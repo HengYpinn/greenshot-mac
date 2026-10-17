@@ -175,7 +175,7 @@ final class CaptureCoordinator {
         let lines = text.split(whereSeparator: \.isNewline)
         let first = lines.first.map(String.init) ?? text
         let shortened = first.count > 60 ? String(first.prefix(59)) + "…" : first
-        Toast.show(lines.count > 1 ? "Copied \(lines.count) lines of text" : "Copied the text", detail: shortened)
+        Toast.show(lines.count > 1 ? String(localized: "Copied \(lines.count) lines of text") : String(localized: "Copied the text"), detail: shortened)
     }
 
     /// Waits the capture delay, runs `body` and sends its capture to the destinations. One capture at a time.
