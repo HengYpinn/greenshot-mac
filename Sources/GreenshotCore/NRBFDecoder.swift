@@ -172,9 +172,23 @@ struct NRBFDecoder {
 
     /// Reads one record (and the BinaryLibrary records in front of it).
     private mutating func item() throws -> Item {
-        records += 1
-        guard records <= Self.maxRecords else { throw NRBFError.tooManyRecords }
-        let type = try byte()
+        // A loop, not a recursion, for the BinaryLibrary records: a stream of thousands of them in a row must not use up
+        // the stack. Each counts as a record.
+        while true {
+            records += 1
+            guard records <= Self.maxRecords else { throw NRBFError.tooManyRecords }
+            let type = try byte()
+            if type == 12 { // BinaryLibrary: its id and name, then the record it comes with
+                _ = try int32()
+                _ = try string()
+                continue
+            }
+            return try record(type)
+        }
+    }
+
+    /// The record of `type` (not a BinaryLibrary), its type byte read.
+    private mutating func record(_ type: UInt8) throws -> Item {
         switch type {
         case 1: // ClassWithId
             let id = try int32()
@@ -207,10 +221,6 @@ struct NRBFDecoder {
             return .nulls(1)
         case 11: // MessageEnd
             return .end
-        case 12: // BinaryLibrary
-            _ = try int32()
-            _ = try string()
-            return try item()
         case 13: // ObjectNullMultiple256
             return .nulls(Int(try byte()))
         case 14: // ObjectNullMultiple
