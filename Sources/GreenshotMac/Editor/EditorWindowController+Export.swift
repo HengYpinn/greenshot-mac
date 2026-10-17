@@ -31,7 +31,9 @@ extension EditorWindowController {
         guard result.status != .declined else { return }
         var menu: NSMenu?
         if result.isSucceeded {
-            if let file = result.fileURL {
+            // Only a save counts as this editor's file (upstream `LastSaveFullPath`): mail, Open With and the external
+            // commands report the temporary file they were given, which must not end up behind Show in Finder.
+            if let file = result.fileURL, result.clearsModified {
                 lastSavedURL = file
                 menu = savedFileMenu()
             }
