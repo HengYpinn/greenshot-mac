@@ -141,17 +141,17 @@ final class StatusItemController: NSObject, NSMenuDelegate {
 
         // Editors hide when another app is clicked; this brings them back.
         if app.editors.hasEditors {
-            menu.addItem(ClosureMenuItem(title: "Show Open Screenshots") { [unowned app] in app.editors.showEditors() })
+            menu.addItem(ClosureMenuItem(title: String(localized: "Show Open Screenshots")) { [unowned app] in app.editors.showEditors() })
             menu.addItem(.separator())
         }
 
-        menu.addItem(item("Capture Region", hotkeys.region) { capture.captureRegion() })
-        let lastRegion = item("Capture Last Region", hotkeys.lastRegion) { capture.captureLastRegion() }
+        menu.addItem(item(String(localized: "Capture Region"), hotkeys.region) { capture.captureRegion() })
+        let lastRegion = item(String(localized: "Capture Last Region"), hotkeys.lastRegion) { capture.captureLastRegion() }
         // Upstream greys it out until a region was captured (TrayMenu.cs).
         lastRegion.isEnabled = settings.lastCapturedRegion != nil
         menu.addItem(lastRegion)
-        menu.addItem(item("Capture Window", hotkeys.window) { capture.captureWindowInteractively() })
-        menu.addItem(item("Capture Text", hotkeys.text) { capture.captureText() })
+        menu.addItem(item(String(localized: "Capture Window"), hotkeys.window) { capture.captureWindowInteractively() })
+        menu.addItem(item(String(localized: "Capture Text"), hotkeys.text) { capture.captureText() })
         menu.addItem(fullScreenItem(hotkey: hotkeys.fullScreen))
         menu.addItem(windowList.makeItem())
         app.video.addMenuItems(to: menu)
@@ -159,19 +159,19 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         menu.addItem(.separator())
         // Upstream TrayMenu.cs: the Recipes submenu (RUI) after the window list, before the clipboard; none with recipes off.
         if let recipes = RecipeMenus.statusMenuItem(app: app) { menu.addItem(recipes) }
-        let clipboard = item("Open Image from Clipboard", hotkeys.clipboard) { [unowned app] in app.editors.openClipboard() }
+        let clipboard = item(String(localized: "Open Image from Clipboard"), hotkeys.clipboard) { [unowned app] in app.editors.openClipboard() }
         clipboard.isEnabled = NSImage.canInit(with: .general)
         menu.addItem(clipboard)
-        menu.addItem(ClosureMenuItem(title: "Open Image from File…") { [unowned app] in MenuBarActions.openFilesToDestinations(app: app) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Open Image from File…")) { [unowned app] in MenuBarActions.openFilesToDestinations(app: app) })
         menu.addItem(recentCaptureItem())
         menu.addItem(.separator())
         let settingsItems = Self.settingsItems(store: app.settings) { [unowned app] in app.showSettings(nil) }
         settingsItems.forEach(menu.addItem)
         if !settingsItems.isEmpty { menu.addItem(.separator()) }
-        menu.addItem(ClosureMenuItem(title: "Help") { HelpOpener.open() })
-        menu.addItem(ClosureMenuItem(title: "About \(AppInfo.name)") { [unowned app] in app.showAbout(nil) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Help")) { HelpOpener.open() })
+        menu.addItem(ClosureMenuItem(title: String(localized: "About \(AppInfo.name)")) { [unowned app] in app.showAbout(nil) })
         menu.addItem(.separator())
-        menu.addItem(ClosureMenuItem(title: "Quit", keyEquivalent: "q") { NSApp.terminate(nil) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Quit"), keyEquivalent: "q") { NSApp.terminate(nil) })
     }
 
     /// "Capture Full Screen"; with several displays a submenu with all of them and each one, named with upstream's
@@ -180,11 +180,11 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         let capture = app.capture
         let screens = NSScreen.screens
         guard screens.count > 1 else {
-            return item("Capture Full Screen", hotkey) { capture.captureFullScreen() }
+            return item(String(localized: "Capture Full Screen"), hotkey) { capture.captureFullScreen() }
         }
-        let fullScreen = NSMenuItem(title: "Capture Full Screen", action: nil, keyEquivalent: "")
+        let fullScreen = NSMenuItem(title: String(localized: "Capture Full Screen"), action: nil, keyEquivalent: "")
         let submenu = NSMenu()
-        submenu.addItem(item("All Screens", hotkey) { capture.captureFullScreen() })
+        submenu.addItem(item(String(localized: "All Screens"), hotkey) { capture.captureFullScreen() })
         submenu.addItem(.separator())
         let frames = screens.map { CGDisplayBounds($0.displayID) }
         for (screen, frame) in zip(screens, frames) {
@@ -199,7 +199,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
     /// Upstream's "Open last capture location": the last saved file in Finder, else its folder or the output folder.
     private func recentCaptureItem() -> NSMenuItem {
         let settings = app.settings
-        let entry = ClosureMenuItem(title: "Open Last Capture Location") { MenuBarActions.openLastCaptureLocation(settings: settings) }
+        let entry = ClosureMenuItem(title: String(localized: "Open Last Capture Location")) { MenuBarActions.openLastCaptureLocation(settings: settings) }
         if let path = settings.value.lastSavedFile {
             entry.toolTip = (path as NSString).abbreviatingWithTildeInPath
         }
@@ -212,7 +212,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         var items: [NSMenuItem] = []
         if let quickSettings = quickSettingsItem(store: store) { items.append(quickSettings) }
         if !store.value.disableSettings {
-            items.append(ClosureMenuItem(title: "Settings…", keyEquivalent: ",", handler: openSettings))
+            items.append(ClosureMenuItem(title: String(localized: "Settings…"), keyEquivalent: ",", handler: openSettings))
         }
         return items
     }
@@ -223,32 +223,34 @@ final class StatusItemController: NSObject, NSMenuDelegate {
     static func quickSettingsItem(store: SettingsStore) -> NSMenuItem? {
         let s = store.value
         guard !s.disableQuickSettings else { return nil }
-        let menu = NSMenu(title: "Quick Settings")
+        let menu = NSMenu(title: String(localized: "Quick Settings"))
         menu.autoenablesItems = false
         if !store.isLocked(\.captureMousePointer) {
-            menu.addItem(toggle("Capture Mouse Pointer", s.captureMousePointer) { store.update { $0.captureMousePointer.toggle() } })
+            menu.addItem(toggle(String(localized: "Capture Mouse Pointer"), s.captureMousePointer) { store.update { $0.captureMousePointer.toggle() } })
         }
 
         if !store.isLocked(\.destinations) {
-            let destinations = NSMenu(title: "Destinations")
+            let destinations = NSMenu(title: String(localized: "Destinations"))
             destinations.autoenablesItems = false
             for destination in CaptureDestination.allCases where !s.isDestinationExcluded(destination) {
                 let on = s.destinations.contains(destination)
                 destinations.addItem(toggle(destination.displayName, on) { store.update { $0.setDestination(destination, on: !on) } })
                 if destination == .picker { destinations.addItem(.separator()) }
             }
-            let destinationsItem = NSMenuItem(title: "After a Capture", action: nil, keyEquivalent: "")
+            let destinationsItem = NSMenuItem(title: String(localized: "After a Capture"), action: nil, keyEquivalent: "")
             destinationsItem.submenu = destinations
             menu.addItem(destinationsItem)
         }
 
-        let printing = NSMenu(title: "Print Options")
+        let printing = NSMenu(title: String(localized: "Print Options"))
         printing.autoenablesItems = false
         let p = s.printing
         let printToggles: [(String, WritableKeyPath<PrintSettings, Bool>)] = [
-            ("Ask Every Time", \.promptOptions), ("Shrink to Fit", \.allowShrink), ("Enlarge to Fit", \.allowEnlarge),
-            ("Rotate to Page", \.allowRotate), ("Center on Page", \.center), ("Footer with Date and Title", \.footer),
-            ("Inverted Colours", \.inverted), ("Grayscale", \.grayscale), ("Black and White", \.monochrome),
+            (String(localized: "Ask Every Time"), \.promptOptions), (String(localized: "Shrink to Fit"), \.allowShrink),
+            (String(localized: "Enlarge to Fit"), \.allowEnlarge), (String(localized: "Rotate to Page"), \.allowRotate),
+            (String(localized: "Center on Page"), \.center), (String(localized: "Footer with Date and Title"), \.footer),
+            (String(localized: "Inverted Colours"), \.inverted), (String(localized: "Grayscale"), \.grayscale),
+            (String(localized: "Black and White"), \.monochrome),
         ]
         for (title, keyPath) in printToggles {
             let setting: AnyKeyPath = (\AppSettings.printing).appending(path: keyPath)
@@ -266,24 +268,24 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         }
         trimSeparators(printing)
         if !printing.items.isEmpty {
-            let printingItem = NSMenuItem(title: "Print Options", action: nil, keyEquivalent: "")
+            let printingItem = NSMenuItem(title: String(localized: "Print Options"), action: nil, keyEquivalent: "")
             printingItem.submenu = printing
             menu.addItem(printingItem)
         }
 
         menu.addItem(.separator())
         if !store.isLocked(\.playCameraSound) {
-            menu.addItem(toggle("Play Camera Sound", s.playCameraSound) { store.update { $0.playCameraSound.toggle() } })
+            menu.addItem(toggle(String(localized: "Play Camera Sound"), s.playCameraSound) { store.update { $0.playCameraSound.toggle() } })
         }
         if !store.isLocked(\.showNotifications) && !store.isLocked(\.notificationLevel) {
-            menu.addItem(toggle("Show Notifications", s.showNotifications) { store.update { $0.showNotifications.toggle() } })
+            menu.addItem(toggle(String(localized: "Show Notifications"), s.showNotifications) { store.update { $0.showNotifications.toggle() } })
         }
         // Upstream `AddRecipeQuickSettings`: the automatic steps' switches come last (RMANAGER).
         RecipeQuickSettingsMenu.append(to: menu, store: store)
         trimSeparators(menu)
         guard !menu.items.isEmpty else { return nil }
 
-        let item = NSMenuItem(title: "Quick Settings", action: nil, keyEquivalent: "")
+        let item = NSMenuItem(title: String(localized: "Quick Settings"), action: nil, keyEquivalent: "")
         item.submenu = menu
         return item
     }

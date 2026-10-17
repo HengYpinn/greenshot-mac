@@ -25,8 +25,8 @@ final class MenuBarWindowList: NSObject, NSMenuDelegate {
 
     /// The menu item with the window list; the list is made when it opens.
     func makeItem() -> NSMenuItem {
-        let item = NSMenuItem(title: "Capture Window from List", action: nil, keyEquivalent: "")
-        let menu = NSMenu(title: "Windows")
+        let item = NSMenuItem(title: String(localized: "Capture Window from List"), action: nil, keyEquivalent: "")
+        let menu = NSMenu(title: String(localized: "Windows", comment: "The submenu of the window list"))
         menu.autoenablesItems = false
         menu.delegate = self
         // A placeholder, so the item has a submenu (upstream does the same).
@@ -39,7 +39,7 @@ final class MenuBarWindowList: NSObject, NSMenuDelegate {
         menu.removeAllItems()
         let windows = ScreenCapturer.onScreenWindows()
         if windows.isEmpty {
-            menu.addItem(withTitle: "No Windows", action: nil, keyEquivalent: "").isEnabled = false
+            menu.addItem(withTitle: String(localized: "No Windows"), action: nil, keyEquivalent: "").isEnabled = false
         }
         let maxLength = app.settings.value.maxMenuItemLength
         let capture = app.capture
