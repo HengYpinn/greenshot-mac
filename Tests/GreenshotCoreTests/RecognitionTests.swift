@@ -50,7 +50,8 @@ struct RecognitionTests {
 
     @Test func wordRangesSplitOnWhitespace() {
         let text = "a  bc\td"
-        #expect(TextRecognizer.wordRanges(in: text).map { String(text[$0]) } == ["a", "bc", "d"])
+        let words: [String] = TextRecognizer.wordRanges(in: text).map { String(text[$0]) }
+        #expect(words == ["a", "bc", "d"])
     }
 
     @Test func detectsAQRCodeAndItsURL() throws {
