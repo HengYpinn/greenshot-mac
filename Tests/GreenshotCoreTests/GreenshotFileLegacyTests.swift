@@ -275,11 +275,13 @@ struct GreenshotFileLegacyTests {
     @Test func deepNestingIsRefused() {
         // A class whose only member is the same class, inline, 200 times.
         var payload = NRBFTestStream.header()
-        payload.append(contentsOf: [12] + NRBFTestStream.int32(2) + NRBFTestStream.string("Lib"))
-        payload.append(contentsOf: [5] + NRBFTestStream.int32(1) + NRBFTestStream.string("Nested") + NRBFTestStream.int32(1)
-                       + NRBFTestStream.string("child") + [2] + NRBFTestStream.int32(2))
+        payload.append(contentsOf: NRBFTestStream.bytes([12], NRBFTestStream.int32(2), NRBFTestStream.string("Lib")))
+        payload.append(contentsOf: NRBFTestStream.bytes([5], NRBFTestStream.int32(1), NRBFTestStream.string("Nested"),
+                                                        NRBFTestStream.int32(1), NRBFTestStream.string("child"), [2],
+                                                        NRBFTestStream.int32(2)))
         for id in 2...200 {
-            payload.append(contentsOf: [1] + NRBFTestStream.int32(Int32(id)) + NRBFTestStream.int32(1))
+            payload.append(contentsOf: NRBFTestStream.bytes([1], NRBFTestStream.int32(Int32(id)),
+                                                            NRBFTestStream.int32(1)))
         }
         #expect(throws: NRBFError.tooDeep) { try NRBFDecoder.decode(payload) }
     }
@@ -383,6 +385,11 @@ struct GreenshotFileLegacyTests {
 
 /// Hand-made BinaryFormatter streams for the decoder's limits.
 enum NRBFTestStream {
+    /// The parts one after the other (a `+` chain of byte arrays is too slow for older compilers to type-check).
+    static func bytes(_ parts: [UInt8]...) -> [UInt8] {
+        parts.flatMap { $0 }
+    }
+
     static func int32(_ value: Int32) -> [UInt8] {
         withUnsafeBytes(of: value.littleEndian) { Array($0) }
     }
@@ -401,15 +408,16 @@ enum NRBFTestStream {
     /// A List<object> (root, id 1) with one instance of `typeName` that has an int member "left".
     static func list(of typeName: String) -> Data {
         var data = header()
-        data.append(contentsOf: [12] + int32(2) + string("Evil, Version=1.0.0.0"))
+        data.append(contentsOf: NRBFTestStream.bytes([12], int32(2), string("Evil, Version=1.0.0.0")))
         // The list: _items (object[]), _size (int).
-        data.append(contentsOf: [5] + int32(1) + string("System.Collections.Generic.List`1") + int32(2)
-                    + string("_items") + string("_size") + [5, 0, 8] + int32(2))
+        data.append(contentsOf: NRBFTestStream.bytes([5], int32(1), string("System.Collections.Generic.List`1"),
+                                                     int32(2), string("_items"), string("_size"), [5, 0, 8], int32(2)))
         data.append(contentsOf: [9] + int32(3))   // _items: reference to the array
         data.append(contentsOf: int32(1))         // _size
         // The array (id 3) with one inline instance (id 4).
-        data.append(contentsOf: [16] + int32(3) + int32(1))
-        data.append(contentsOf: [5] + int32(4) + string(typeName) + int32(1) + string("left") + [0, 8] + int32(2))
+        data.append(contentsOf: NRBFTestStream.bytes([16], int32(3), int32(1)))
+        data.append(contentsOf: NRBFTestStream.bytes([5], int32(4), string(typeName), int32(1), string("left"), [0, 8],
+                                                     int32(2)))
         data.append(contentsOf: int32(42))
         data.append(11)
         return data

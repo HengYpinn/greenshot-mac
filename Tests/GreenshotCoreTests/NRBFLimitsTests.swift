@@ -58,14 +58,16 @@ struct NRBFLimitsTests {
         // A class whose 3 members are primitives of type 17 (Null), which take no bytes: a layout of millions of them,
         // used again by 9-byte ClassWithId records, made millions of values from nothing.
         var layout = NRBFTestStream.header()
-        layout.append(contentsOf: [4] + NRBFTestStream.int32(1) + NRBFTestStream.string("Nulls") + NRBFTestStream.int32(3))
+        layout.append(contentsOf: NRBFTestStream.bytes([4], NRBFTestStream.int32(1), NRBFTestStream.string("Nulls"),
+                                                       NRBFTestStream.int32(3)))
         for name in ["a", "b", "c"] { layout.append(contentsOf: NRBFTestStream.string(name)) }
         layout.append(contentsOf: [0, 0, 0, 17, 17, 17])
         layout.append(11)
         #expect(throws: NRBFError.unsupportedType(17)) { try NRBFDecoder.decode(layout) }
         // An array of them: ArraySinglePrimitive of type 17.
         var array = NRBFTestStream.header()
-        array.append(contentsOf: [15] + NRBFTestStream.int32(1) + NRBFTestStream.int32(1 << 22) + [17])
+        array.append(contentsOf: NRBFTestStream.bytes([15], NRBFTestStream.int32(1), NRBFTestStream.int32(1 << 22),
+                                                      [17]))
         array.append(11)
         #expect(throws: NRBFError.unsupportedType(17)) { try NRBFDecoder.decode(array) }
     }

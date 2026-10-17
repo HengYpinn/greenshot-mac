@@ -91,30 +91,36 @@ struct GreenshotFileLegacyBarcodeTests {
     @Test func theReaderFindsTheModelsBackingFields() throws {
         typealias S = NRBFTestStream
         var data = S.header()
-        data.append(contentsOf: [12] + S.int32(2) + S.string("Greenshot.Plugin.Zxing, Version=1.0.0.0"))
-        data.append(contentsOf: [5] + S.int32(1) + S.string("System.Collections.Generic.List`1") + S.int32(2)
-                    + S.string("_items") + S.string("_size") + [5, 0, 8] + S.int32(2))
-        data.append(contentsOf: [9] + S.int32(3) + S.int32(1))
-        data.append(contentsOf: [16] + S.int32(3) + S.int32(1))
+        data.append(contentsOf: NRBFTestStream.bytes([12], S.int32(2),
+                                                     S.string("Greenshot.Plugin.Zxing, Version=1.0.0.0")))
+        data.append(contentsOf: NRBFTestStream.bytes([5], S.int32(1), S.string("System.Collections.Generic.List`1"),
+                                                     S.int32(2), S.string("_items"), S.string("_size"), [5, 0, 8],
+                                                     S.int32(2)))
+        data.append(contentsOf: NRBFTestStream.bytes([9], S.int32(3), S.int32(1)))
+        data.append(contentsOf: NRBFTestStream.bytes([16], S.int32(3), S.int32(1)))
         // The container (id 4): its box, _margin and _model.
         let containerMembers = ["left", "top", "width", "height", "_margin", "_model"]
-        data.append(contentsOf: [5] + S.int32(4) + S.string("Greenshot.Plugin.Zxing.Drawing.BarcodeContainer")
-                    + S.int32(Int32(containerMembers.count)))
+        data.append(contentsOf: NRBFTestStream.bytes([5], S.int32(4),
+                                                     S.string("Greenshot.Plugin.Zxing.Drawing.BarcodeContainer"),
+                                                     S.int32(Int32(containerMembers.count))))
         for name in containerMembers { data.append(contentsOf: S.string(name)) }
-        data.append(contentsOf: [0, 0, 0, 0, 0, 2] + [8, 8, 8, 8, 8] + S.int32(2))
+        data.append(contentsOf: NRBFTestStream.bytes([0, 0, 0, 0, 0, 2], [8, 8, 8, 8, 8], S.int32(2)))
         for value: Int32 in [10, 20, 90, 90, 2] { data.append(contentsOf: S.int32(value)) }
         // The model (id 5), inline.
         let modelMembers = ["FormatIndex", "QrCategoryIndex", "RawText", "RoundedDots", "ForeColor"]
-        data.append(contentsOf: [5] + S.int32(5) + S.string("Greenshot.Plugin.Zxing.Drawing.ZxingModel")
-                    + S.int32(Int32(modelMembers.count)))
+        data.append(contentsOf: NRBFTestStream.bytes([5], S.int32(5),
+                                                     S.string("Greenshot.Plugin.Zxing.Drawing.ZxingModel"),
+                                                     S.int32(Int32(modelMembers.count))))
         for name in modelMembers { data.append(contentsOf: S.string("<\(name)>k__BackingField")) }
-        data.append(contentsOf: [0, 0, 1, 0, 3] + [8, 8, 1] + S.string("System.Drawing.Color") + S.int32(2))
+        data.append(contentsOf: NRBFTestStream.bytes([0, 0, 1, 0, 3], [8, 8, 1], S.string("System.Drawing.Color"),
+                                                     S.int32(2)))
         data.append(contentsOf: S.int32(1) + S.int32(0))
-        data.append(contentsOf: [6] + S.int32(6) + S.string("https://example.org"))
+        data.append(contentsOf: NRBFTestStream.bytes([6], S.int32(6), S.string("https://example.org")))
         data.append(1)
         // ForeColor (id 7): an ARGB System.Drawing.Color.
-        data.append(contentsOf: [4] + S.int32(7) + S.string("System.Drawing.Color") + S.int32(4)
-                    + S.string("name") + S.string("value") + S.string("knownColor") + S.string("state") + [1, 0, 0, 0, 9, 7, 7])
+        data.append(contentsOf: NRBFTestStream.bytes([4], S.int32(7), S.string("System.Drawing.Color"), S.int32(4),
+                                                     S.string("name"), S.string("value"), S.string("knownColor"),
+                                                     S.string("state"), [1, 0, 0, 0, 9, 7, 7]))
         data.append(10)
         let argb: UInt64 = 0xFF00_8000
         data.append(contentsOf: withUnsafeBytes(of: argb.littleEndian) { Array($0) })
