@@ -1,6 +1,6 @@
 # Feature parity with Greenshot for Windows
 
-This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 1, packages A1–A6). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
+This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 2, packages B1–B11 and B13). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
 
 ## How it was made
 
@@ -12,15 +12,15 @@ This is the checklist for bringing everything Greenshot for Windows does to this
 
 | Area | ✅ | 🟡 | ❌ | 🍎 | ➖ | ➕ | Rows |
 |---|---|---|---|---|---|---|---|
-| [Capture](parity/cap.md) | 81 | 4 | 28 | 4 | 10 | 0 | 127 |
-| [Editor](parity/edt.md) | 135 | 3 | 3 | 15 | 10 | 0 | 168 |
-| [Image operations and file formats](parity/img.md) | 58 | 1 | 7 | 7 | 6 | 0 | 80 |
-| [Destinations and plugins](parity/dst.md) | 95 | 7 | 13 | 21 | 12 | 0 | 148 |
-| [App shell, settings, notifications](parity/app.md) | 87 | 13 | 39 | 17 | 27 | 0 | 185 |
+| [Capture](parity/cap.md) | 90 | 1 | 22 | 4 | 10 | 0 | 127 |
+| [Editor](parity/edt.md) | 141 | 2 | 0 | 13 | 10 | 0 | 168 |
+| [Image operations and file formats](parity/img.md) | 64 | 1 | 2 | 6 | 6 | 0 | 80 |
+| [Destinations and plugins](parity/dst.md) | 117 | 3 | 2 | 14 | 12 | 0 | 148 |
+| [App shell, settings, notifications](parity/app.md) | 125 | 4 | 16 | 11 | 27 | 0 | 185 |
 | [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 1 | 4 | 51 | 8 | 6 | 4 | 74 |
 | [Recipes](parity/rcp.md) | 0 | 38 | 151 | 10 | 4 | 0 | 203 |
 | Found by the checks | 3 | 1 | 3 | 0 | 0 | 0 | 7 |
-| **All** | **460** | **71** | **295** | **82** | **75** | **4** | **992** |
+| **All** | **541** | **54** | **247** | **66** | **75** | **4** | **992** |
 
 ➕ marks Mac-only additions with no upstream counterpart (AppleScript, Shortcuts, the Services menu, extra `greenshotmac://` actions).
 
@@ -32,30 +32,30 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
-| [A1. Capture screen and hotkeys polish](#a1) | 2 | 29 | 4-5 |
+| [A1. Capture screen and hotkeys polish](#a1) | 1 | 29 | 4-5 |
 | [A2. Editor canvas: elements, styles, selection, paste and drop](#a2) | 1 | 47 | 5-6 |
 | [A3. Editor window: toolbar, status bar, zoom, colour dialog, add to editor](#a3) | ✅ | 16 | 3-4 |
 | [A4. Image operations, file formats and output options](#a4) | ✅ | 36 | 4-5 |
 | [A5. Destinations, picker, saving and upload polish](#a5) | 2 | 39 | 4-5 |
-| [A6. Menu bar icon, app shell and settings polish](#a6) | 2 | 27 | 3-4 |
+| [A6. Menu bar icon, app shell and settings polish](#a6) | 1 | 27 | 3-4 |
 
 ### B. Medium features with a clear Mac design
 
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
-| [B1. Native notifications: thumbnail, buttons, one summary per capture](#b1) | 14 | 14 | 4-5 |
-| [B2. Diagnostics: logging, log viewer, Self-Service, bug report, setup checks](#b2) | 18 | 18 | 5-6 |
-| [B3. Welcome wizard, tips and About](#b3) | 5 | 5 | 2 |
-| [B4. Torn edges and cut marks as editable elements with Apply to image](#b4) | 4 | 4 | 3-4 |
-| [B5. .greenshot files: open upstream files, save editable documents](#b5) | 3 | 4 | 5-8 |
-| [B6. QR code and barcode generator (editable element)](#b6) | 4 | 4 | 4-5 |
-| [B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)](#b7) | 12 | 12 | 4-6 |
-| [B8. Jira/Confluence Server and Data Center, TLS exceptions, Confluence browsing](#b8) | 7 | 7 | 3 |
-| [B9. Window mode: inner windows and areas via Accessibility](#b9) | 3 | 3 | 3-5 |
-| [B10. HDR / wide-colour capture](#b10) | 1 | 1 | 1-2 |
-| [B11. Mouse pointer and SVG as editable elements](#b11) | 4 | 4 | 2-3 |
+| [B1. Native notifications: thumbnail, buttons, one summary per capture](#b1) | ✅ | 14 | 4-5 |
+| [B2. Diagnostics: logging, log viewer, Self-Service, bug report, setup checks](#b2) | 1 | 18 | 5-6 |
+| [B3. Welcome wizard, tips and About](#b3) | ✅ | 5 | 2 |
+| [B4. Torn edges and cut marks as editable elements with Apply to image](#b4) | ✅ | 4 | 3-4 |
+| [B5. .greenshot files: open upstream files, save editable documents](#b5) | ✅ | 4 | 5-8 |
+| [B6. QR code and barcode generator (editable element)](#b6) | ✅ | 4 | 4-5 |
+| [B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)](#b7) | 1 | 12 | 4-6 |
+| [B8. Jira/Confluence Server and Data Center, TLS exceptions, Confluence browsing](#b8) | ✅ | 7 | 3 |
+| [B9. Window mode: inner windows and areas via Accessibility](#b9) | ✅ | 3 | 3-5 |
+| [B10. HDR / wide-colour capture](#b10) | ✅ | 1 | 1-2 |
+| [B11. Mouse pointer and SVG as editable elements](#b11) | 1 | 4 | 2-3 |
 | [B12. Admin policy via managed preferences (locked settings, hidden items)](#b12) | 5 | 5 | 3-4 |
-| [B13. Restore open editors after quit, log out or crash](#b13) | 5 | 5 | 2-3 |
+| [B13. Restore open editors after quit, log out or crash](#b13) | ✅ | 5 | 2-3 |
 
 ### C. Large subsystems
 
@@ -73,7 +73,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
-| [D1. Left/right ⌘⌥⌃⇧ in hotkeys (needs the Input Monitoring permission)](#d1) | 1 | 1 | 3-4 |
+| [D1. Left/right ⌘⌥⌃⇧ in hotkeys (needs the Input Monitoring permission)](#d1) | ✅ | 1 | 3-4 |
 
 ## Package contents
 
@@ -96,7 +96,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `CAP-063` ✅ Keys that work while another window has taken focus: moving the mouse restores key input
 - `CAP-065` ✅ Selection animates (slides) from window to window; selection rectangle animation
 - `CAP-066` ✅ Panels slide to their new corner (0.35 s) and fade in/out; panel only grows while shown
-- `CAP-071` 🟡 Window mode: selection follows the window under the mouse, click or Enter captures it; only the visible part (cut at screen edges)
+- `CAP-071` ✅ Window mode: selection follows the window under the mouse, click or Enter captures it; only the visible part (cut at screen edges)
 - `CAP-076` ✅ Window capture contains only the window (not what covers it); minimised window restored first
 - `CAP-085` ✅ Fixed size: snaps edges to the window under the mouse, the windows around it and the monitor (a few px); hold Alt places freely
 - `CAP-091` 🍎 Text mode result as text to clipboard via Windows OCR destination; also copy only the text
@@ -237,8 +237,8 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `APP-101` ✅ Expert: window thumbnails in context menu
 - `APP-102` ✅ Expert: check for unstable updates
 - `APP-105` ✅ Expert: `${NUM}` counter - editable number
-- `APP-119` 🍎 Notification when the OS has notifications off: nothing shown, no capture kept
-- `APP-120` 🟡 About window: product name + version + bitness, GPL text with link, hosted-by-GitHub, bug-report and donate links (carry `?version=`), Fugue icon credits, translation credits, PORTABLE/BETA badges, animated logo, Self-Service button, keys S/E/L/I/T
+- `APP-119` ✅ Notification when the OS has notifications off: nothing shown, no capture kept
+- `APP-120` ✅ About window: product name + version + bitness, GPL text with link, hosted-by-GitHub, bug-report and donate links (carry `?version=`), Fugue icon credits, translation credits, PORTABLE/BETA badges, animated logo, Self-Service button, keys S/E/L/I/T
 - `APP-152` ✅ Beta/unstable update notices (`CheckForUnstable`, `LatestBetaVersion`)
 - `APP-186` ✅ `UpdateCheckInterval` `LastUpdateCheck` `CheckForUnstable`
 - `APP-188` ✅ `ThumnailPreview`
@@ -252,122 +252,122 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="b1"></a>
 ### B1. Native notifications: thumbnail, buttons, one summary per capture
 
-- `APP-035` 🟡 Balloon notification API: title, text, level icon (info/warning/error), click and closed callbacks, hide
-- `APP-084` ❌ "Show a thumbnail of the capture in the notification" (only offered where the service can show captures)
-- `APP-110` ❌ Native OS notifications with fallback to a simple balloon (provider list by priority; toast registration with app id and icon; disabled-by-user/policy detection)
-- `APP-111` ❌ Thumbnail (364x180) of the capture inside the notification, switchable with `ShowNotificationThumbnail`
-- `APP-112` ❌ One notification per capture summarising every export ("Exported to: Clipboard"), title = captured window title, one row per destination with its icon, error/warning kind
-- `APP-113` ❌ Notification buttons: Edit (open kept capture in editor), Show in folder (saved file), Copy link (upload link; drop-down to choose when several links)
-- `APP-114` ❌ Click a notification to re-offer the capture (destination flyout), also after Greenshot was closed; capture kept as `.greenshot` + thumbnail and cleaned up after 1 h / on click / at startup
-- `APP-115` 🟡 A failed export names which destination failed and why; failed flow lists successes and the failure
-- `APP-116` ❌ Error/warning icon on the notification (and per-destination icons)
-- `APP-117` ❌ QR/barcode rows in the notification ("QR code: ..."), up to 3; http(s) links shown fully with IDN host as punycode and copyable, other text shortened and not a link
-- `APP-184` 🟡 `PlayCameraSound` `ShowTrayNotification` `NotificationLevel` `ShowNotificationThumbnail` `NotificationSound`
-- `APP-200` 🟡 "Better notifications" (#1516): one notification with preview and destinations, click to send elsewhere even after Greenshot closed, buttons Edit / folder / copy link, failed-export detail, QR codes, appears once in notification settings, level choice + preview choice
-- `CAP-136` 🟡 Notification after a capture (tray balloon/toast, thumbnail, click to send elsewhere, QR link copy)
-- `DST-139` ❌ Notification thumbnail of the capture
+- `APP-035` ✅ Balloon notification API: title, text, level icon (info/warning/error), click and closed callbacks, hide
+- `APP-084` ✅ "Show a thumbnail of the capture in the notification" (only offered where the service can show captures)
+- `APP-110` ✅ Native OS notifications with fallback to a simple balloon (provider list by priority; toast registration with app id and icon; disabled-by-user/policy detection)
+- `APP-111` ✅ Thumbnail (364x180) of the capture inside the notification, switchable with `ShowNotificationThumbnail`
+- `APP-112` ✅ One notification per capture summarising every export ("Exported to: Clipboard"), title = captured window title, one row per destination with its icon, error/warning kind
+- `APP-113` ✅ Notification buttons: Edit (open kept capture in editor), Show in folder (saved file), Copy link (upload link; drop-down to choose when several links)
+- `APP-114` ✅ Click a notification to re-offer the capture (destination flyout), also after Greenshot was closed; capture kept as `.greenshot` + thumbnail and cleaned up after 1 h / on click / at startup
+- `APP-115` ✅ A failed export names which destination failed and why; failed flow lists successes and the failure
+- `APP-116` ✅ Error/warning icon on the notification (and per-destination icons)
+- `APP-117` ✅ QR/barcode rows in the notification ("QR code: ..."), up to 3; http(s) links shown fully with IDN host as punycode and copyable, other text shortened and not a link
+- `APP-184` ✅ `PlayCameraSound` `ShowTrayNotification` `NotificationLevel` `ShowNotificationThumbnail` `NotificationSound`
+- `APP-200` ✅ "Better notifications" (#1516): one notification with preview and destinations, click to send elsewhere even after Greenshot closed, buttons Edit / folder / copy link, failed-export detail, QR codes, appears once in notification settings, level choice + preview choice
+- `CAP-136` ✅ Notification after a capture (tray balloon/toast, thumbnail, click to send elsewhere, QR link copy)
+- `DST-139` ✅ Notification thumbnail of the capture
 
 <a id="b2"></a>
 ### B2. Diagnostics: logging, log viewer, Self-Service, bug report, setup checks
 
-- `APP-052` ❌ Unhandled exception -> bug report window (see APP-126)
-- `APP-126` ❌ Bug report window on an unhandled exception: type, message, expandable stack trace, hash `[XXXXXXXX]`, "Search GitHub for this error", "Report issue" with the hash, copy details/stack trace, outdated-version warning with upgrade button, Self-Service link; shown on a separate STA thread when the process is dying
-- `APP-130` 🟡 Setup checks with one-click fixes (version up to date; tray icon visible; Print key not taken by Snipping Tool / OneDrive); same lines in Welcome step 3 and Self-Service "Your setup"
-- `APP-131` ❌ Self-Service window shell: sidebar of diagnostic categories (System, Setup, Files, Clipboard, Hotkeys, Integrity, Imgur when keys exist, DEBUG: Integration), keys 1-5/E/F/L/I/C/H/K/V/T/F5/Esc, theme toggle, minimize/maximize, opened from About, bug report, `greenshot://self-service?section=`
-- `APP-132` ❌ Self-Service > System & Hardware: OS, display scaling, process/GC/physical memory, runtime, uptime, screens layout; "Copy System Info"
-- `APP-133` ❌ Diagnostic report text (version+edition, OS, hardware, settings dump without secrets) used by Copy System Info and bug reports
-- `APP-134` ❌ Self-Service > Files: config file path with exists/not-found, Copy Path, open; log file path; quick-glance + "Open Log Viewer"
-- `APP-135` 🍎 Self-Service > Clipboard diagnostics: live list of clipboard formats, which process locks/owns the clipboard, monitor loop (600 ms), test now
-- `APP-136` 🍎 Self-Service > Hotkeys & conflicts: status of each configured hotkey (registered / conflict / disabled), re-register, detect OneDrive, Windows 11 Snipping Tool, Dropbox, ShareX, Snagit, Lightshot, PicPick
-- `APP-137` 🍎 Self-Service > Installation integrity: verify files against `checksum.SHA256` (filters, search, copy report)
-- `APP-140` ❌ Log file `greenshot.log` (rolls over at 1 MB) with an entry layout that indents continuation lines; log4net config variants (debug/release/portable/zip)
-- `APP-141` ❌ Log sanitising: control and bidi/invisible characters escaped as `\uXXXX`, entries over 64 KB cut with a note
-- `APP-142` ❌ Log viewer window: tail of the log (64 KB chunks), Load Earlier (+64 KB), Load Entire Log, Wrap text, Copy Log, Refresh (F5), live-appended new entries while open (250 ms), status/empty/error lines, keys Esc/F5/Ctrl+F/T
-- `APP-143` ❌ Log search: shows only entries (not lines) containing the text, ignoring case, from the whole log; exception lines stay with their entry; "N of M log entries contain ..."; 300 ms debounce
-- `APP-144` ❌ Log level drop-down (Error/Warn/Info/Debug) changes how much is written until restart; the change itself is logged first
-- `APP-145` ❌ `greenshot://log?search=<text>` opens the log viewer filtered (max 200 chars, only filters, never changes level; link from web pages allowed, `greenshot://exit` refused)
-- `APP-201` ❌ "Log viewer in Self-Service": read/copy the log, search, live entries, log level, `greenshot://log?search=`
-- `CAP-040` ❌ Self-service "Hotkeys and conflicts" page: status per hotkey (registered/failed/disabled), re-register button, detect OneDrive / Windows Snipping Tool / Dropbox / ShareX / Snagit grabbing PrintScreen, one-click disable
+- `APP-052` ✅ Unhandled exception -> bug report window (see APP-126)
+- `APP-126` ✅ Bug report window on an unhandled exception: type, message, expandable stack trace, hash `[XXXXXXXX]`, "Search GitHub for this error", "Report issue" with the hash, copy details/stack trace, outdated-version warning with upgrade button, Self-Service link; shown on a separate STA thread when the process is dying
+- `APP-130` ✅ Setup checks with one-click fixes (version up to date; tray icon visible; Print key not taken by Snipping Tool / OneDrive); same lines in Welcome step 3 and Self-Service "Your setup"
+- `APP-131` ✅ Self-Service window shell: sidebar of diagnostic categories (System, Setup, Files, Clipboard, Hotkeys, Integrity, Imgur when keys exist, DEBUG: Integration), keys 1-5/E/F/L/I/C/H/K/V/T/F5/Esc, theme toggle, minimize/maximize, opened from About, bug report, `greenshot://self-service?section=`
+- `APP-132` ✅ Self-Service > System & Hardware: OS, display scaling, process/GC/physical memory, runtime, uptime, screens layout; "Copy System Info"
+- `APP-133` ✅ Diagnostic report text (version+edition, OS, hardware, settings dump without secrets) used by Copy System Info and bug reports
+- `APP-134` ✅ Self-Service > Files: config file path with exists/not-found, Copy Path, open; log file path; quick-glance + "Open Log Viewer"
+- `APP-135` ✅ Self-Service > Clipboard diagnostics: live list of clipboard formats, which process locks/owns the clipboard, monitor loop (600 ms), test now
+- `APP-136` ✅ Self-Service > Hotkeys & conflicts: status of each configured hotkey (registered / conflict / disabled), re-register, detect OneDrive, Windows 11 Snipping Tool, Dropbox, ShareX, Snagit, Lightshot, PicPick
+- `APP-137` ✅ Self-Service > Installation integrity: verify files against `checksum.SHA256` (filters, search, copy report)
+- `APP-140` ✅ Log file `greenshot.log` (rolls over at 1 MB) with an entry layout that indents continuation lines; log4net config variants (debug/release/portable/zip)
+- `APP-141` ✅ Log sanitising: control and bidi/invisible characters escaped as `\uXXXX`, entries over 64 KB cut with a note
+- `APP-142` ✅ Log viewer window: tail of the log (64 KB chunks), Load Earlier (+64 KB), Load Entire Log, Wrap text, Copy Log, Refresh (F5), live-appended new entries while open (250 ms), status/empty/error lines, keys Esc/F5/Ctrl+F/T
+- `APP-143` ✅ Log search: shows only entries (not lines) containing the text, ignoring case, from the whole log; exception lines stay with their entry; "N of M log entries contain ..."; 300 ms debounce
+- `APP-144` ✅ Log level drop-down (Error/Warn/Info/Debug) changes how much is written until restart; the change itself is logged first
+- `APP-145` 🟡 `greenshot://log?search=<text>` opens the log viewer filtered (max 200 chars, only filters, never changes level; link from web pages allowed, `greenshot://exit` refused)
+- `APP-201` ✅ "Log viewer in Self-Service": read/copy the log, search, live entries, log level, `greenshot://log?search=`
+- `CAP-040` ✅ Self-service "Hotkeys and conflicts" page: status per hotkey (registered/failed/disabled), re-register button, detect OneDrive / Windows Snipping Tool / Dropbox / ShareX / Snagit grabbing PrintScreen, one-click disable
 
 <a id="b3"></a>
 ### B3. Welcome wizard, tips and About
 
-- `APP-045` 🟡 Start: welcome window when `WelcomeShown` is false (see APP-125)
-- `APP-125` 🟡 Welcome window wizard shown once: (1) welcome, (2) basics with the user's four hotkeys, (3) setup checks with fix buttons, (5) done + settings button + random tip with "Another tip"; Back/Next/"Let's go!", dots, Esc; re-open by pipe `FIRST_LAUNCH`
-- `APP-127` ❌ Tips: 10 tips + one about notifications, random start, "Another tip"
-- `APP-183` 🟡 `WelcomeShown`
-- `APP-208` 🟡 Welcome window (9794710c), per-user autostart (a4996c33), theme following (878a3c2c), memory dial (377dcfa6), Greenshot Light (fac2f115), WPF tray menu (0a728ffa), OCR language setting (2869a69a) - landed after the changelog was last updated (2026-03-14), so they are not in it
+- `APP-045` ✅ Start: welcome window when `WelcomeShown` is false (see APP-125)
+- `APP-125` ✅ Welcome window wizard shown once: (1) welcome, (2) basics with the user's four hotkeys, (3) setup checks with fix buttons, (5) done + settings button + random tip with "Another tip"; Back/Next/"Let's go!", dots, Esc; re-open by pipe `FIRST_LAUNCH`
+- `APP-127` ✅ Tips: 10 tips + one about notifications, random start, "Another tip"
+- `APP-183` ✅ `WelcomeShown`
+- `APP-208` ✅ Welcome window (9794710c), per-user autostart (a4996c33), theme following (878a3c2c), memory dial (377dcfa6), Greenshot Light (fac2f115), WPF tray menu (0a728ffa), OCR language setting (2869a69a) - landed after the changelog was last updated (2026-03-14), so they are not in it
 
 <a id="b4"></a>
 ### B4. Torn edges and cut marks as editable elements with Apply to image
 
-- `EDT-024` ❌ Cut mark: "Apply to the image" button and context item
-- `EDT-025` 🟡 Torn edge as an editable element (TornEdgeContainer), selectable, re-seed, settings, apply to image; commit 9f6726c0
-- `IMG-006` ❌ Torn edges as an editable ELEMENT (TornEdgeContainer): added to the surface, can be moved/resized/changed later, "New random edge" (reseed), "Apply to the image" button, Ctrl+T shortcut
-- `IMG-036` ❌ Cut edge settings dialog + "Apply to the image" (bake cut mark/torn edge into the pixels)
+- `EDT-024` ✅ Cut mark: "Apply to the image" button and context item
+- `EDT-025` ✅ Torn edge as an editable element (TornEdgeContainer), selectable, re-seed, settings, apply to image; commit 9f6726c0
+- `IMG-006` ✅ Torn edges as an editable ELEMENT (TornEdgeContainer): added to the surface, can be moved/resized/changed later, "New random edge" (reseed), "Apply to the image" button, Ctrl+T shortcut
+- `IMG-036` ✅ Cut edge settings dialog + "Apply to the image" (bake cut mark/torn edge into the pixels)
 
 <a id="b5"></a>
 ### B5. .greenshot files: open upstream files, save editable documents
 
 - `EDT-012` ✅ Step label start value (counter start) setting in toolbar; stored in .greenshot file; commit ca4af519 translation
-- `EDT-034` 🍎 Unknown/foreign containers on load: backwards-compatible deserialization of old .greenshot elements (BinaryFormatter)
-- `IMG-068` ❌ Open a `.greenshot` file (PNG + serialized elements) as editable document
-- `IMG-084` ❌ Save .greenshot (PNG + elements + footer) from editor/Save As/file destination (5172972a); "Save background only"
+- `EDT-034` ✅ Unknown/foreign containers on load: backwards-compatible deserialization of old .greenshot elements (BinaryFormatter)
+- `IMG-068` ✅ Open a `.greenshot` file (PNG + serialized elements) as editable document
+- `IMG-084` ✅ Save .greenshot (PNG + elements + footer) from editor/Save As/file destination (5172972a); "Save background only"
 
 <a id="b6"></a>
 ### B6. QR code and barcode generator (editable element)
 
-- `DST-133` ❌ Insert a generated QR code / barcode into the editor ("Insert QR / Barcode..."): QR, Aztec, DataMatrix, PDF417, Code128/39/93, EAN-8/13, UPC-A/E, Codabar, ITF, MSI, Plessey
-- `DST-134` ❌ QR payload wizard: Text/URL, WiFi (SSID, password, encryption), vCard, EPC payment (IBAN/BIC/amount), e-mail, calendar event, phone, SMS, geo
-- `DST-135` ❌ QR look: foreground/background colour, rounded dots, margin, live preview, Insert/Cancel
-- `DST-136` ❌ Generated code stays editable as an element (`BarcodeContainer`, model in `Tag`; re-edit)
+- `DST-133` ✅ Insert a generated QR code / barcode into the editor ("Insert QR / Barcode..."): QR, Aztec, DataMatrix, PDF417, Code128/39/93, EAN-8/13, UPC-A/E, Codabar, ITF, MSI, Plessey
+- `DST-134` ✅ QR payload wizard: Text/URL, WiFi (SSID, password, encryption), vCard, EPC payment (IBAN/BIC/amount), e-mail, calendar event, phone, SMS, geo
+- `DST-135` ✅ QR look: foreground/background colour, rounded dots, margin, live preview, Insert/Cancel
+- `DST-136` ✅ Generated code stays editable as an element (`BarcodeContainer`, model in `Tag`; re-edit)
 
 <a id="b7"></a>
 ### B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)
 
-- `DST-050` 🟡 E-Mail destination: new message with the screenshot attached, subject = capture title, To/CC/BCC from settings
-- `DST-051` 🟡 E-Mail settings: To, CC, BCC
-- `DST-097` 🍎 Page chooser tab "Open pages": pages currently open in a browser, found from window titles/URLs
-- `DST-121` 🍎 Word: insert into a new document, or into any open document (sub-destinations, picker asks new vs open when auto-exporting)
-- `DST-122` ❌ Word: lock aspect ratio of the image
-- `DST-123` 🍎 Excel: insert into a new workbook or an open one
-- `DST-124` 🍎 PowerPoint: new presentation or open presentation, one slide per capture, picture centred, title as slide text
-- `DST-125` ❌ PowerPoint settings: lock aspect ratio; slide layout (`PowerpointSlideLayout`, default picture with caption, falls back to blank)
-- `DST-126` 🍎 Outlook: new e-mail with the image inline (HTML) or attached (text), subject pattern, default To/CC/BCC
-- `DST-127` 🍎 Outlook: insert into an open message/inspector window (and meeting items when allowed)
-- `DST-128` 🍎 OneNote: new page in the default notebook, or an existing page (dynamic list of notebooks/sections/pages)
-- `DST-130` 🟡 Office settings window (Outlook format, subject, To/CC/BCC, allow meetings, Word/PowerPoint options)
+- `DST-050` ✅ E-Mail destination: new message with the screenshot attached, subject = capture title, To/CC/BCC from settings
+- `DST-051` ✅ E-Mail settings: To, CC, BCC
+- `DST-097` ✅ Page chooser tab "Open pages": pages currently open in a browser, found from window titles/URLs
+- `DST-121` ✅ Word: insert into a new document, or into any open document (sub-destinations, picker asks new vs open when auto-exporting)
+- `DST-122` ✅ Word: lock aspect ratio of the image
+- `DST-123` ✅ Excel: insert into a new workbook or an open one
+- `DST-124` ✅ PowerPoint: new presentation or open presentation, one slide per capture, picture centred, title as slide text
+- `DST-125` ✅ PowerPoint settings: lock aspect ratio; slide layout (`PowerpointSlideLayout`, default picture with caption, falls back to blank)
+- `DST-126` ✅ Outlook: new e-mail with the image inline (HTML) or attached (text), subject pattern, default To/CC/BCC
+- `DST-127` 🟡 Outlook: insert into an open message/inspector window (and meeting items when allowed)
+- `DST-128` ✅ OneNote: new page in the default notebook, or an existing page (dynamic list of notebooks/sections/pages)
+- `DST-130` ✅ Office settings window (Outlook format, subject, To/CC/BCC, allow meetings, Word/PowerPoint options)
 
 <a id="b8"></a>
 ### B8. Jira/Confluence Server and Data Center, TLS exceptions, Confluence browsing
 
-- `APP-197` ❌ `AllowedUntrustedCertificateHosts` `AllowedCertificateThumbprints`
-- `DST-091` 🟡 Jira Server / Data Center support (default URL `https://jira`, user + password login dialog, `login_error`)
-- `DST-096` ❌ Page chooser tab "Browse pages": tree of spaces and their pages
-- `DST-098` ❌ Include personal spaces in search and browsing
-- `DST-103` 🟡 Confluence Server / Data Center and `/rest/api` v1 content calls
-- `DST-142` ❌ TLS certificate validation re-enabled; per-host exceptions for self-signed servers (`AllowedUntrustedCertificateHosts`, wildcards such as `*.mycompany.local`)
-- `DST-143` ❌ Trust specific certificates by thumbprint (`AllowedCertificateThumbprints`, SHA-1/SHA-256, colon/space tolerant)
+- `APP-197` ✅ `AllowedUntrustedCertificateHosts` `AllowedCertificateThumbprints`
+- `DST-091` ✅ Jira Server / Data Center support (default URL `https://jira`, user + password login dialog, `login_error`)
+- `DST-096` ✅ Page chooser tab "Browse pages": tree of spaces and their pages
+- `DST-098` ✅ Include personal spaces in search and browsing
+- `DST-103` ✅ Confluence Server / Data Center and `/rest/api` v1 content calls
+- `DST-142` ✅ TLS certificate validation re-enabled; per-host exceptions for self-signed servers (`AllowedUntrustedCertificateHosts`, wildcards such as `*.mycompany.local`)
+- `DST-143` ✅ Trust specific certificates by thumbprint (`AllowedCertificateThumbprints`, SHA-1/SHA-256, colon/space tolerant)
 
 <a id="b9"></a>
 ### B9. Window mode: inner windows and areas via Accessibility
 
-- `CAP-072` ❌ Window mode selects the innermost window (child windows, e.g. a panel or toolbar inside a program); move to outer edge for the whole window
-- `CAP-073` ❌ Window mode (beta): UI Automation "areas" inside windows (menu, sidebar, part of a web page), smallest area under the mouse, areas under 64 px skipped; PgUp/PgDn larger/smaller area; spinner while the areas are read (>200 ms)
-- `CAP-106` ❌ Keys panel lists PgUp/PgDn area keys in window mode (beta)
+- `CAP-072` ✅ Window mode selects the innermost window (child windows, e.g. a panel or toolbar inside a program); move to outer edge for the whole window
+- `CAP-073` ✅ Window mode (beta): UI Automation "areas" inside windows (menu, sidebar, part of a web page), smallest area under the mouse, areas under 64 px skipped; PgUp/PgDn larger/smaller area; spinner while the areas are read (>200 ms)
+- `CAP-106` ✅ Keys panel lists PgUp/PgDn area keys in window mode (beta)
 
 <a id="b10"></a>
 ### B10. HDR / wide-colour capture
 
-- `CAP-120` 🟡 HDR screens: bright parts are tone mapped instead of cut off; SDR content keeps its exact colours on HDR screens
+- `CAP-120` ✅ HDR screens: bright parts are tone mapped instead of cut off; SDR content keeps its exact colours on HDR screens
 
 <a id="b11"></a>
 ### B11. Mouse pointer and SVG as editable elements
 
-- `CAP-019` ❌ Mouse cursor is captured as its own object (icon, hotspot, position) and stays an editable/movable/removable element in the editor; CursorVisible flag
-- `EDT-027` ❌ Mouse cursor as separate movable element from capture (CursorContainer)
-- `EDT-030` ❌ SVG vector element (drop/paste SVG stays scalable)
-- `IMG-064` ❌ Open SVG (rasterised; as SvgContainer element when inserted)
+- `CAP-019` ✅ Mouse cursor is captured as its own object (icon, hotspot, position) and stays an editable/movable/removable element in the editor; CursorVisible flag
+- `EDT-027` ✅ Mouse cursor as separate movable element from capture (CursorContainer)
+- `EDT-030` 🟡 SVG vector element (drop/paste SVG stays scalable)
+- `IMG-064` ✅ Open SVG (rasterised; as SvgContainer element when inserted)
 
 <a id="b12"></a>
 ### B12. Admin policy via managed preferences (locked settings, hidden items)
@@ -381,11 +381,11 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="b13"></a>
 ### B13. Restore open editors after quit, log out or crash
 
-- `APP-048` 🍎 Restart Manager: when Windows Update/installer closes Greenshot, open editors are saved to temp `.greenshot` files and reopened after restart (`--restore`)
-- `APP-205` 🍎 Windows Restart Manager integration (`--restore`)
-- `EDT-130` 🍎 Save open editors to temp .greenshot files on OS shutdown/restart manager and reopen after restart
-- `EDT-135` 🟡 Edit > Insert window submenu (live list of windows with icons + thumbnail preview on hover) inserts a window capture as image element
-- `IMG-107` 🍎 Editor destination: save modified editors to temp `.greenshot` when Windows shuts down
+- `APP-048` ✅ Restart Manager: when Windows Update/installer closes Greenshot, open editors are saved to temp `.greenshot` files and reopened after restart (`--restore`)
+- `APP-205` ✅ Windows Restart Manager integration (`--restore`)
+- `EDT-130` ✅ Save open editors to temp .greenshot files on OS shutdown/restart manager and reopen after restart
+- `EDT-135` ✅ Edit > Insert window submenu (live list of windows with icons + thumbnail preview on hover) inserts a window capture as image element
+- `IMG-107` ✅ Editor destination: save modified editors to temp `.greenshot` when Windows shuts down
 
 <a id="c1"></a>
 ### C1. Translations: localisation plumbing + upstream language packs
@@ -518,7 +518,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="d1"></a>
 ### D1. Left/right ⌘⌥⌃⇧ in hotkeys (needs the Input Monitoring permission)
 
-- `CAP-034` ❌ Left/right modifier distinction in hotkeys (ModifierLocation Any/Left/Right)
+- `CAP-034` ✅ Left/right modifier distinction in hotkeys (ModifierLocation Any/Left/Right)
 
 ## Not applicable on a Mac
 

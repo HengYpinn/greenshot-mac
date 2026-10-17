@@ -33,12 +33,16 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Fixed-size and text (OCR) capture modes, QR codes on the capture screen | ✅ | ✅ (Vision instead of Windows OCR / Zxing) |
 | Print options (colours, footer, shrink/enlarge/rotate/center) | ✅ | ✅ |
 | Destinations: email, share, OCR to clipboard, external command, PDF, QR code actions | ✅ | ✅ |
-| Office destinations (Word, Excel, PowerPoint, Outlook, OneNote) | ✅ | "Open with…" any app instead |
+| Office destinations (Word, Excel, PowerPoint, Outlook, OneNote) | ✅ | ✅ by AppleScript (Notes instead of OneNote) |
 | Output options: no overwrite, quality dialog, reduce colours (8-bit palette files), clipboard formats | ✅ | ✅ |
 | File formats: PNG, JPEG, GIF, TIFF, BMP, WebP, ICO, TGA, PBM, PDF | ✅ | ✅ (WebP is saved lossless) |
 | Hotkeys of several steps, menu bar icon click actions, light/dark appearance | ✅ | ✅ |
 | Quick settings in the menu, open recent capture, update check | ✅ | ✅ |
-| Upload plugins (Jira, Confluence, Box, Dropbox) | ✅ | ✅ (Atlassian API token; Box and Dropbox need your own app registration) |
+| Upload plugins (Jira, Confluence, Box, Dropbox) | ✅ | ✅ (Cloud and Server/Data Center; Box and Dropbox need your own app registration) |
+| Notifications with thumbnail and buttons, log viewer, Self-Service, bug report, welcome window | ✅ | ✅ |
+| QR / barcode generator, editable torn edges, SVG and mouse pointer elements | ✅ | ✅ |
+| .greenshot files (also from Windows), unsaved screenshots kept across restarts | ✅ | ✅ (Mac files open in Windows as the image only) |
+| Areas inside windows, HDR capture, left/right modifier hotkeys | ✅ | ✅ (Accessibility / Input Monitoring permissions) |
 | Recipes, MCP server, browser extension, video recording, translations | ✅ | not yet |
 
 The row-by-row comparison with Greenshot for Windows (992 features, what is done and what is planned) is in
@@ -64,6 +68,12 @@ the app again from Spotlight brings up Settings, which has a Quit button.
 Like Greenshot on Windows, it can open when you log in, so the hotkeys work right after a restart: the welcome window
 offers it (ticked by default), and Settings › General › Launch at login turns it on or off. If macOS asks you to approve
 it, turn the app on in System Settings › General › Login Items & Extensions.
+
+Some features ask macOS for more permissions, only when you use them: **Notifications** (the message after a capture),
+**Accessibility** (areas inside windows, hotkeys that need the left or right key of a modifier; Input Monitoring is
+enough for the hotkeys to only listen) and **Automation** (the Office, Mail and Notes destinations, Confluence pages
+open in a browser). Keep one copy of the app: two copies with the same identifier (e.g. one in build/ and one in
+Applications) can make a click on a notification open the other one.
 
 The first time you take a screenshot, macOS asks you to allow **screen recording**: turn on the app in
 System Settings › Privacy & Security › Screen & System Audio Recording, then quit and reopen it.

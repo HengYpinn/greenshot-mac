@@ -7,6 +7,45 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Notifications: after a capture, one macOS notification lists where it went, with a thumbnail. Click it within an
+  hour to send the capture somewhere else (also after a restart); Edit, Show in Finder and Copy Link buttons; QR codes
+  found in the capture are listed (look-alike web addresses show their real host). Settings › Capture › Notifications
+  turns the thumbnail on or off and shows whether macOS allows the notifications. Without macOS notifications the
+  message in the corner shows an icon per kind and wraps longer texts.
+- Diagnostics: a log file in ~/Library/Logs/Greenshot for Mac (Community) and a log viewer (search, log level, live
+  entries, load earlier). A Self-Service window (system, your setup with one-click fixes, files and log, clipboard,
+  hotkeys and conflicts with the macOS screenshot shortcuts, code signature). A bug report with an issue identifier
+  and GitHub links, after an error or, at the next start, after a crash.
+- A welcome window with your hotkeys, setup checks and tips replaces the welcome message (existing users see it once);
+  an About window with a Self-Service button; Help › Welcome Guide, Self-Service and Log Viewer.
+- Editor: torn edges are an element (new random edges, settings, remove later; the canvas grows for their shadow);
+  cut marks and torn edges can be drawn into the image with Apply to the Image; cut marks have Cut Edge Settings…;
+  cropping with a "Cut edges" style tears the sides the crop cut off; cut marks and torn edges cast one shared shadow.
+- Editor: SVG pictures stay sharp at any size as elements, and SVG files open. The mouse pointer of a capture is an
+  element you can move, resize or delete.
+- Editor: Edit › Insert QR / Barcode… in 15 formats (QR, Aztec, Data Matrix, PDF-417, Code 128/39/93, EAN-13/8,
+  UPC-A/E, Codabar, ITF, MSI, Plessey), QR codes for WiFi, contacts, SEPA transfers, email, events, phone, SMS and
+  places; colours, round dots and margin with a live preview; double-click to change a code later.
+- .greenshot files: open those of Greenshot for Windows 1.2–1.4 with their elements (and .gst element files with
+  Object › Load Elements); Save keeps a .greenshot editable; File › Save as Greenshot File… and the output format
+  "Greenshot (editable)". Unsaved screenshots are kept when you log out, restart or shut down, or if the app quits
+  unexpectedly, and reopen at the next start.
+- Edit › Insert Window: shorter titles and a picture of the window while you point at it.
+- Capture: window mode can select the areas inside a window (a sidebar, a toolbar, part of a web page; Settings ›
+  Capture, needs the Accessibility permission), with PgUp/PgDn for a larger or smaller area. On HDR screens (macOS 15,
+  Apple silicon) bright HDR content is tone mapped instead of cut off; screenshots without HDR content keep their
+  exact colours. The mouse pointer is also captured on its own for the editor.
+- Hotkeys can require the left or the right key of a modifier, e.g. only the right ⌘ (needs Accessibility, or Input
+  Monitoring to only listen; otherwise either key works).
+- Destinations: Microsoft Word, Excel, PowerPoint and Outlook, and Notes in OneNote's place (AppleScript): a new
+  document, slide or mail, or one already open (listed in the destination menu); Settings › Destinations › Microsoft
+  Office and Notes. Email with CC or BCC writes the mail in Mail.
+- Jira and Confluence Server and Data Center: personal access token or user name and password (asked at upload and
+  kept in the Keychain); the Confluence dialog can browse spaces and pages, pick pages open in Safari or Chrome, and
+  include personal spaces. Settings › Destinations › Your own servers trusts a self-hosted server's certificate by
+  host or fingerprint.
+
+
 - Capture screen: width and height rulers around the selection with its size in the middle, a dotted crosshair with
   the mouse position, a larger zoomer (a fifth of the display) that shows the selection's edges and can be made
   see-through, and a selection that slides from window to window while panels slide and fade. Window mode also picks
@@ -128,6 +167,12 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- New text is 11 pt and speech bubbles 20 pt by default, pasted text 12 pt: the same size as in Greenshot for Windows
+  (it was a third bigger). Cut marks use Greenshot's shadow.
+- The duplicate Messages section of Settings › Output is gone; the notification options are on the Capture tab, like
+  upstream.
+- The app is signed with the Apple Events entitlement, for the Office, Mail and Notes destinations.
+
 - Pixelate can no longer be reversed: blocks vary in size and carry noise from a key that is never stored, like
   Greenshot 1.4. Shrink Canvas trims any border of one colour, not only a transparent one.
 - Text elements get Greenshot's 2 pt frame in the text colour (set Width to 0 for none); Return finishes a text and
@@ -146,6 +191,12 @@ All notable changes to this project are documented here. The format follows
 - The 28 pt font size is now 27 pt, the Mac size of the speech bubble's 20 pt on Windows.
 
 ### Fixed
+
+- Security: crafted Greenshot for Windows files can no longer crash the app or fill the memory; elements with
+  impossible positions (from files or the clipboard) are left out; Jira icons get your credentials only from the
+  site's own address; certificate exceptions apply only to your Jira and Confluence servers; tokens are only sent to
+  the host they were saved for; only pages on the Confluence site are opened; bug reports no longer show free text
+  from the settings; http:// Jira or Confluence URLs get a warning.
 
 - Open Image from Clipboard after copying a file in Finder opened the file's icon instead of the image. Opened images
   are now turned upright by their EXIF orientation.
