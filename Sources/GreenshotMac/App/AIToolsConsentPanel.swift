@@ -9,7 +9,9 @@ import GreenshotCore
 /// The question the first time a program uses Greenshot through greenshot-mcp (upstream `AiToolAccess.ShowConsentPromptAsync`).
 /// The user is probably typing in the AI tool, and a keystroke meant for it must not answer the question: it stays on
 /// top without taking the keyboard (a non-activating panel that never becomes key), has no default button, ignores
-/// Escape and Return, and its buttons react only after a second. Closing it counts as "Don't Allow".
+/// Escape and Return, and its buttons react only a second after it was last shown unchanged (`ConsentArming`). "Allow"
+/// counts only when no other program's window lies over it, and it opens at a slightly random place (security review
+/// SM-M2). Closing it counts as "Don't Allow". The program's texts are shown cleaned (SM-L4).
 @MainActor
 enum AIToolsConsentPanel {
     static let armDelay: TimeInterval = 1
@@ -28,10 +30,13 @@ enum AIToolsConsentPanel {
             }
             open.append(panel)
             panel.center()
+            // Not always at the same place: harder to prepare a window over it
+            var origin = panel.frame.origin
+            origin.x += CGFloat.random(in: -60...60)
+            origin.y += CGFloat.random(in: -40...40)
+            panel.setFrameOrigin(origin)
             panel.orderFrontRegardless()
-            DispatchQueue.main.asyncAfter(deadline: .now() + armDelay) {
-                MainActor.assumeIsolated { (panel as? ConsentPanel)?.arm() }
-            }
+            (panel as? ConsentPanel)?.startArming()
         }
     }
 
@@ -57,14 +62,17 @@ enum AIToolsConsentPanel {
         icon.widthAnchor.constraint(equalToConstant: 48).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 48).isActive = true
 
-        let title = NSTextField(wrappingLabelWithString: "\(client.displayName) wants to use \(AppInfo.name) to list your windows and take screenshots, and to run Greenshot recipes.")
+        let name = AIToolText.displayed(client.displayName, limit: 80)
+        let title = NSTextField(wrappingLabelWithString: "\(name) wants to use \(AppInfo.name) to list your windows and take screenshots, and to run Greenshot recipes.")
         title.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
-        let program = NSTextField(wrappingLabelWithString: "Program: \(client.path)\n\(client.signerText)")
-        program.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
-        program.textColor = .secondaryLabelColor
-        program.isSelectable = true
-        let body = NSTextField(wrappingLabelWithString: "Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.\n\nAllow \(client.displayName) to use \(AppInfo.name)?")
-        for label in [title, program, body] { label.preferredMaxLayoutWidth = 380 }
+        // Each part on its own line, cut in the middle: a long or tricky path can't push the rest out of sight
+        var details = [line("Program: " + client.path)]
+        if let script = client.identity.script { details.append(line("Script: " + script)) }
+        for note in client.identity.notes { details.append(line(note)) }
+        details.append(line(client.signerText))
+        let runtime = client.identity.script == nil ? "" : " It is a runtime that runs scripts: only this script is allowed, not every script it runs."
+        let body = NSTextField(wrappingLabelWithString: "Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.\(runtime)\n\nAllow \(name) to use \(AppInfo.name)?")
+        for label in [title, body] { label.preferredMaxLayoutWidth = 380 }
 
         let deny = FirstClickButton(title: "Don't Allow", target: panel, action: #selector(ConsentPanel.deny))
         let allow = FirstClickButton(title: "Allow", target: panel, action: #selector(ConsentPanel.allow))
@@ -76,7 +84,11 @@ enum AIToolsConsentPanel {
         let buttons = NSStackView(views: [NSView(), deny, allow])
         buttons.orientation = .horizontal
         buttons.spacing = 12
-        let text = NSStackView(views: [title, program, body, buttons])
+        let detailStack = NSStackView(views: details)
+        detailStack.orientation = .vertical
+        detailStack.alignment = .leading
+        detailStack.spacing = 2
+        let text = NSStackView(views: [title, detailStack, body, buttons])
         text.orientation = .vertical
         text.alignment = .leading
         text.spacing = 10
@@ -95,11 +107,25 @@ enum AIToolsConsentPanel {
             row.topAnchor.constraint(equalTo: content.topAnchor),
             row.bottomAnchor.constraint(equalTo: content.bottomAnchor),
             text.widthAnchor.constraint(equalToConstant: 380),
+            detailStack.widthAnchor.constraint(equalTo: text.widthAnchor),
             buttons.widthAnchor.constraint(equalTo: text.widthAnchor),
         ])
         panel.contentView = content
         panel.setContentSize(content.fittingSize)
         return panel
+    }
+
+    /// One line of the program's details: cleaned, small, cut in the middle, the whole text as its tooltip.
+    private static func line(_ text: String) -> NSTextField {
+        let cleaned = AIToolText.displayed(text, limit: 1000)
+        let label = NSTextField(labelWithString: cleaned)
+        label.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
+        label.textColor = .secondaryLabelColor
+        label.lineBreakMode = .byTruncatingMiddle
+        label.maximumNumberOfLines = 1
+        label.toolTip = cleaned
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return label
     }
 }
 
@@ -107,6 +133,7 @@ enum AIToolsConsentPanel {
 private final class ConsentPanel: NSPanel {
     var onAnswer: ((Bool?) -> Void)?
     var buttons: [NSButton] = []
+    private var arming: ConsentArming?
 
     override var canBecomeKey: Bool { false }
     override var canBecomeMain: Bool { false }
@@ -115,11 +142,17 @@ private final class ConsentPanel: NSPanel {
         // Escape: not an answer
     }
 
-    func arm() {
-        buttons.forEach { $0.isEnabled = true }
+    func startArming() {
+        let arming = ConsentArming(window: self, buttons: buttons)
+        self.arming = arming
+        arming.start()
     }
 
-    @objc func allow() { answer(true) }
+    @objc func allow() {
+        // Only an armed, uncovered question counts (SM-M2)
+        if let arming, !arming.confirmAllow() { return }
+        answer(true)
+    }
     @objc func deny() { answer(false) }
 
     override func close() {
@@ -130,6 +163,7 @@ private final class ConsentPanel: NSPanel {
     private func answer(_ value: Bool?) {
         guard let handler = onAnswer else { return }
         onAnswer = nil
+        arming?.stop()
         orderOut(nil)
         handler(value)
         MainActor.assumeIsolated { AIToolsConsentPanel.closed(self) }

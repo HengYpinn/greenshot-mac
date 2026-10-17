@@ -52,24 +52,40 @@ enum AutomationCaptureConsent {
         return allowed
     }
 
-    /// Runs the alert with the arming delay and the time limit; true for Allow.
+    /// Runs the alert with the arming delay and the time limit; true for Allow. "Allow" reacts a second after the alert
+    /// was last shown unchanged and only when no other program's window lies over it (`ConsentArming`, SM-M2).
     private static func run(_ alert: NSAlert) -> Bool {
         alert.window.level = .floating
         let allow = alert.buttons[1]
-        allow.isEnabled = false
-        let enable = Timer(timeInterval: 1, repeats: false) { _ in
-            MainActor.assumeIsolated { allow.isEnabled = true }
-        }
+        let arming = ConsentArming(window: alert.window, buttons: [allow])
+        let handler = AllowHandler(arming: arming)
+        allow.target = handler
+        allow.action = #selector(AllowHandler.allow(_:))
         let expire = Timer(timeInterval: answerTimeout, repeats: false) { _ in
             MainActor.assumeIsolated { NSApp.abortModal() }
         }
-        RunLoop.main.add(enable, forMode: .modalPanel)
         RunLoop.main.add(expire, forMode: .modalPanel)
         NSApp.activate()
-        let response = alert.runModal()
-        enable.invalidate()
+        arming.start()
+        let response = withExtendedLifetime(handler) { alert.runModal() }
+        arming.stop()
         expire.invalidate()
         return response == .alertSecondButtonReturn
+    }
+
+    /// "Allow" of the alert: ends it only when the click counts.
+    private final class AllowHandler: NSObject {
+        let arming: ConsentArming
+
+        init(arming: ConsentArming) {
+            self.arming = arming
+        }
+
+        @objc func allow(_ sender: Any?) {
+            MainActor.assumeIsolated {
+                if arming.confirmAllow() { NSApp.stopModal(withCode: .alertSecondButtonReturn) }
+            }
+        }
     }
 
     /// The alert (also for the snapshots).
