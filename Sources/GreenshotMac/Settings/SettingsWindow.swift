@@ -18,7 +18,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
         let hosting = NSHostingController(rootView: SettingsView(store: settings, status: SystemStatus(), navigation: navigation))
         hosting.sizingOptions = .preferredContentSize
         let window = NSWindow(contentViewController: hosting)
-        window.title = "\(AppInfo.name) Settings"
+        window.title = String(localized: "\(AppInfo.name) Settings")
         window.styleMask = [.titled, .closable]
         window.isReleasedWhenClosed = false
         // Like the editors: come to the Space the user is on (also over a full screen app) and hide when another
@@ -78,8 +78,8 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
 
     private static func sayTurnedOff() {
         let alert = NSAlert()
-        alert.messageText = "Settings are turned off"
-        alert.informativeText = "Your organisation manages \(AppInfo.name) on this Mac and turned off its settings."
+        alert.messageText = String(localized: "Settings are turned off")
+        alert.informativeText = String(localized: "Your organisation manages \(AppInfo.name) on this Mac and turned off its settings.")
         NSApp.activate()
         alert.runModal()
     }

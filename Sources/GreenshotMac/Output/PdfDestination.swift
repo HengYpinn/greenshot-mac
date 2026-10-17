@@ -18,7 +18,7 @@ enum PdfDestination {
         var url: URL
         if ask {
             let panel = NSSavePanel()
-            panel.title = "Save Screenshot as PDF"
+            panel.title = String(localized: "Save Screenshot as PDF")
             panel.allowedContentTypes = [.pdf]
             guard let chosen = saver.runSavePanel(panel, title: capture.title, date: capture.date, fileExtension: "pdf") else {
                 return .declined
@@ -31,7 +31,7 @@ enum PdfDestination {
         do {
             try PdfLayout.write(capture.image, scale: capture.scale, settings: settings.value.pdf, title: capture.title, to: url)
         } catch {
-            ErrorPresenter.show(error, title: "The PDF could not be saved")
+            ErrorPresenter.show(error, title: String(localized: "The PDF could not be saved"))
             return .failed(error.localizedDescription)
         }
         // Upstream's PDF destination doesn't copy the path.

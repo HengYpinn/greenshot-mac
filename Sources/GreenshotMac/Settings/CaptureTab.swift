@@ -61,8 +61,10 @@ struct WindowAreasSetting: View {
 
     var body: some View {
         Toggle("Select areas inside windows", isOn: enabled)
-            .help("In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a "
-                  + "part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.")
+            .help("""
+                In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a \
+                part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.
+                """)
             .managed(\.windowCaptureSelectsAreas)
         if store.value.windowCaptureSelectsAreas && !accessibility.isAllowed {
             LabeledContent {
@@ -74,8 +76,10 @@ struct WindowAreasSetting: View {
                     Button("Open System Settings") { NSWorkspace.shared.open(Permissions.accessibilitySettingsURL) }
                 }
             } label: {
-                Text("Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole "
-                     + "windows. A rebuilt or moved copy of the app has to be allowed again.")
+                Text("""
+                    Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole \
+                    windows. A rebuilt or moved copy of the app has to be allowed again.
+                    """)
                     .font(.caption)
                     .foregroundStyle(.orange)
             }
@@ -102,8 +106,10 @@ struct HDRSetting: View {
     var body: some View {
         if #available(macOS 15, *) {
             Toggle("Tone map HDR content on HDR screens", isOn: store.binding(\.toneMapHDRCaptures))
-                .help("While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead "
-                      + "of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.")
+                .help("""
+                    While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead \
+                    of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.
+                    """)
                 .managed(\.toneMapHDRCaptures)
         } else {
             Toggle("Tone map HDR content on HDR screens (macOS 15 or later)", isOn: .constant(false))
@@ -155,8 +161,9 @@ private struct CameraSoundSetting: View {
     }
 
     private var name: String {
-        guard let url = CameraSound.url(of: store.value.notificationSound) else { return "Camera (macOS)" }
-        return FileManager.default.fileExists(atPath: url.path) ? url.lastPathComponent : "\(url.lastPathComponent) (missing, the camera plays)"
+        guard let url = CameraSound.url(of: store.value.notificationSound) else { return String(localized: "Camera (macOS)") }
+        let file = url.lastPathComponent
+        return FileManager.default.fileExists(atPath: url.path) ? file : String(localized: "\(file) (missing, the camera plays)")
     }
 
     private func choose() {
@@ -165,7 +172,7 @@ private struct CameraSoundSetting: View {
         panel.allowsMultipleSelection = false
         panel.directoryURL = CameraSound.url(of: store.value.notificationSound)?.deletingLastPathComponent()
             ?? URL(fileURLWithPath: "/System/Library/Sounds", isDirectory: true)
-        panel.message = "Choose the sound to play after a capture."
+        panel.message = String(localized: "Choose the sound to play after a capture.")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         store.update { $0.notificationSound = url.path }
     }
@@ -183,17 +190,20 @@ private struct FullScreenSettings: View {
             .managed(\.screenCaptureMode)
             if store.value.screenCaptureMode == .fixed {
                 Stepper(value: store.binding(\.screenToCapture), in: 1...9) {
-                    Text("Screen \(store.value.screenToCapture)\(screenName)")
+                    Text(screenLabel)
                 }
                 .managed(\.screenToCapture)
             }
         }
     }
 
-    private var screenName: String {
+    /// "Screen 2: Studio Display", or "Screen 3 (not connected)".
+    private var screenLabel: String {
         let screens = NSScreen.screens
-        let index = store.value.screenToCapture - 1
-        return screens.indices.contains(index) ? ": \(screens[index].localizedName)" : " (not connected)"
+        let number = store.value.screenToCapture
+        guard screens.indices.contains(number - 1) else { return String(localized: "Screen \(number) (not connected)") }
+        let name = screens[number - 1].localizedName
+        return String(localized: "Screen \(number): \(name)")
     }
 }
 

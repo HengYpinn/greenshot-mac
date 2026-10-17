@@ -42,6 +42,8 @@ final class LogViewerModel: ObservableObject {
     private var searchTimer: Timer?
     private var liveTimer: Timer?
     private var liveTail: LogLiveTail?
+    /// The text is the note that the log file is missing or empty, not the log: the first live entry loads the file.
+    private var showsMissingOrEmpty = false
     private let log = Log("LogViewer")
 
     init(fileURL: URL?, followsLog: Bool, search: String = "") {
@@ -91,17 +93,18 @@ final class LogViewerModel: ObservableObject {
             chunkStatus = ""
             replace(text: result.text, scroll: .end)
             info = LogSearch.matchesText(result, search: search)
-            status = "Searched at \(Self.time(Date())) | Last modified: \(lastModified)"
+            status = String(localized: "Searched at \(Self.time(Date()))") + " | " + String(localized: "Last modified: \(lastModified)")
         } catch {
             log.error("Error searching the log file", error: error)
-            status = "Error: \(error.localizedDescription)"
+            status = String(localized: "Error: \(error.localizedDescription)")
         }
     }
 
     private func loadTail() {
         guard let url = fileURL, fileExists else {
-            replace(text: "Log file does not currently exist at:\n\(path)", scroll: .end)
-            info = "File not found"
+            replace(text: String(localized: "Log file does not currently exist at:\n\(path)"), scroll: .end)
+            showsMissingOrEmpty = true
+            info = String(localized: "File not found")
             status = info
             chunkStatus = ""
             canLoadEarlier = false
@@ -116,20 +119,21 @@ final class LogViewerModel: ObservableObject {
             startOffset = chunk.startOffset
             canLoadEarlier = chunk.hasEarlier
             if chunk.fileLength == 0 {
-                replace(text: "(Log file is empty)", scroll: .end)
-                info = "Size: 0 KB | 0 lines"
+                replace(text: String(localized: "(Log file is empty)"), scroll: .end)
+                showsMissingOrEmpty = true
+                info = String(localized: "Size: 0 KB") + " | " + String(localized: "0 lines")
                 chunkStatus = ""
-                status = "Empty log file | Last modified: \(lastModified)"
+                status = String(localized: "Empty log file") + " | " + String(localized: "Last modified: \(lastModified)")
                 return
             }
-            let shown = chunk.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "(No log entries in chunk)" : chunk.text
+            let shown = chunk.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? String(localized: "(No log entries in chunk)") : chunk.text
             replace(text: shown, scroll: .end)
             updateMetrics()
         } catch {
             log.error("Error reading the log file", error: error)
-            replace(text: "Error reading log file:\n\(error.localizedDescription)", scroll: .end)
-            info = "Read error"
-            status = "Error: \(error.localizedDescription)"
+            replace(text: String(localized: "Error reading log file:\n\(error.localizedDescription)"), scroll: .end)
+            info = String(localized: "Read error")
+            status = String(localized: "Error: \(error.localizedDescription)")
             chunkStatus = ""
             canLoadEarlier = false
         }
@@ -148,32 +152,34 @@ final class LogViewerModel: ObservableObject {
             let earlier = LogSanitizer.escapeUnsafeCharacters(chunk.text)
             replace(text: earlier + text, scroll: .offset(earlier.utf16.count), escaped: true)
             updateMetrics()
-            status = all ? "Complete log loaded at \(Self.time(Date()))" : "Loaded earlier chunk at \(Self.time(Date()))"
+            let time = Self.time(Date())
+            status = all ? String(localized: "Complete log loaded at \(time)") : String(localized: "Loaded earlier chunk at \(time)")
         } catch {
             log.error("Error loading earlier log entries", error: error)
-            status = "Error loading earlier chunk: \(error.localizedDescription)"
+            status = String(localized: "Error loading earlier chunk: \(error.localizedDescription)")
         }
     }
 
     /// Replaces the shown text; the log of an older version can contain control characters, shown as `\uXXXX`.
     private func replace(text newText: String, scroll: LogScrollTarget, escaped: Bool = false) {
         text = escaped ? newText : LogSanitizer.escapeUnsafeCharacters(newText)
+        showsMissingOrEmpty = false
         scrollTarget = scroll
         generation += 1
     }
 
     private func updateMetrics() {
-        let lines = text.utf8.reduce(0) { $1 == 0x0A ? $0 + 1 : $0 }
+        let lines = LogSanitizer.groupedNumber(text.utf8.reduce(0) { $1 == 0x0A ? $0 + 1 : $0 })
         let total = Self.size(fileLength)
         let loaded = Self.size(max(0, fileLength - startOffset))
         if startOffset > 0 {
-            info = "Showing ~\(LogSanitizer.groupedNumber(lines)) lines (\(loaded) of \(total))"
-            chunkStatus = "Showing tail \(loaded) of \(total) total. Earlier log lines available."
+            info = String(localized: "Showing ~\(lines) lines (\(loaded) of \(total))")
+            chunkStatus = String(localized: "Showing tail \(loaded) of \(total) total. Earlier log lines available.")
         } else {
-            info = "Complete log: ~\(LogSanitizer.groupedNumber(lines)) lines (\(total))"
-            chunkStatus = "All \(total) loaded."
+            info = String(localized: "Complete log: ~\(lines) lines (\(total))")
+            chunkStatus = String(localized: "All \(total) loaded.")
         }
-        status = "Loaded at \(Self.time(Date())) | Last modified: \(lastModified)"
+        status = String(localized: "Loaded at \(Self.time(Date()))") + " | " + String(localized: "Last modified: \(lastModified)")
     }
 
     // MARK: Search, level, copy
@@ -203,7 +209,8 @@ final class LogViewerModel: ObservableObject {
         guard !text.isEmpty else { return }
         // Through Clipboard: the write is recorded as Greenshot's own (recipe Clipboard triggers ignore it).
         Clipboard.copy(text: text)
-        status = "Copied entire log content to clipboard (\(LogSanitizer.groupedNumber(text.count)) characters)"
+        let characters = LogSanitizer.groupedNumber(text.count)
+        status = String(localized: "Copied entire log content to clipboard (\(characters) characters)")
     }
 
     // MARK: Live entries
@@ -231,7 +238,7 @@ final class LogViewerModel: ObservableObject {
         guard let added = liveTail?.take(), !added.isEmpty else { return }
         if search.isEmpty {
             guard fileExists || fileURL == nil else { return }
-            if text.hasPrefix("Log file does not currently exist") || text == "(Log file is empty)" {
+            if showsMissingOrEmpty {
                 loadTail()
                 return
             }
@@ -305,7 +312,7 @@ struct LogViewerView: View {
 
     private var toolbar: some View {
         HStack(spacing: 10) {
-            LogSearchField(text: $model.search, placeholder: "Search") { model.searchField = $0 }
+            LogSearchField(text: $model.search, placeholder: String(localized: "Search")) { model.searchField = $0 }
                 .frame(minWidth: 160, maxWidth: 260)
                 .help("Shows only the log entries that contain this text, from the whole log file (⌘F)")
             Picker("Log level", selection: Binding(get: { model.level }, set: { model.setLevel($0) })) {
@@ -335,7 +342,7 @@ final class LogViewerWindowController: DiagnosticsWindowController {
 
     init(model: LogViewerModel) {
         self.model = model
-        super.init(title: "\(AppInfo.name) Log Viewer", content: LogViewerView(model: model),
+        super.init(title: String(localized: "\(AppInfo.name) Log Viewer"), content: LogViewerView(model: model),
                    size: NSSize(width: 900, height: 600), resizable: true, autosaveName: "GreenshotLogViewer")
         keyWindow?.onKey = { [weak self] event in self?.handleKey(event) ?? false }
     }

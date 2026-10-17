@@ -61,8 +61,9 @@ enum Printing {
         let info = (NSPrintInfo.shared.copy() as? NSPrintInfo) ?? NSPrintInfo()
         if let printer {
             guard let chosen = NSPrinter(name: printer) else {
-                ErrorPresenter.show(message: "The printer “\(printer)” is not there any more", detail: "Choose another one.")
-                completion?(.failed("The printer “\(printer)” is not there any more.", target: printer))
+                ErrorPresenter.show(message: String(localized: "The printer “\(printer)” is not there any more"),
+                                    detail: String(localized: "Choose another one.", comment: "Choose another printer"))
+                completion?(.failed(String(localized: "The printer “\(printer)” is not there any more."), target: printer))
                 return
             }
             info.printer = chosen
@@ -96,7 +97,7 @@ enum Printing {
             }
             // Upstream `senttoprinter`.
             let name = operation.printInfo.printer.name
-            ImageSaver(settings: store).notify("Sent to the printer “\(name)”")
+            ImageSaver(settings: store).notify(String(localized: "Sent to the printer “\(name)”"))
             completion?(.succeeded(target: name))
         }
         if let window {

@@ -73,18 +73,21 @@ final class ConnectionTest: ObservableObject {
 
     func run(confluence: Bool, settings: AppSettings) {
         guard let site = confluence ? Uploads.confluenceSite(settings) : Uploads.jiraSite(settings) else {
-            result = "Enter the URL first."
+            result = String(localized: "Enter the URL first.")
             return
         }
         guard site.hasCredentials else {
-            result = site.login == .serverPassword ? "Enter the user name and password first (or test at the first upload)."
-                : "Enter the \(site.login.userLabel.map { "\($0.lowercased()) and " } ?? "")\(site.login.secretLabel.lowercased()) first."
+            switch site.login {
+            case .serverPassword: result = String(localized: "Enter the user name and password first (or test at the first upload).")
+            case .cloudAPIToken: result = String(localized: "Enter the email and API token first.")
+            case .serverToken: result = String(localized: "Enter the personal access token first.")
+            }
             return
         }
         running = true
         Task { @MainActor in
             switch await Uploads.testAtlassian(site, confluence: confluence) {
-            case .success(let name): result = "Connected as \(name)."
+            case .success(let name): result = String(localized: "Connected as \(name).")
             case .failure(let error): result = error.localizedDescription
             }
             running = false
@@ -115,7 +118,7 @@ final class CloudAccount: ObservableObject {
         Task { @MainActor in
             do {
                 try await client.signIn(with: BrowserAuthorizer.shared)
-                message = "Signed in."
+                message = String(localized: "Signed in.")
             } catch UploadError.cancelled {
             } catch {
                 message = error.localizedDescription
@@ -159,7 +162,8 @@ struct JiraSettingsSection: View {
         } header: {
             Text("Jira")
         } footer: {
-            Text(AtlassianFooter.text(login, service: "Jira") + " The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.")
+            Text(AtlassianFooter.text(login, service: "Jira") + " "
+                 + String(localized: "The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu."))
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
@@ -201,9 +205,19 @@ struct ConfluenceSettingsSection: View {
         } header: {
             Text("Confluence")
         } footer: {
-            Text((login.isCloud ? "Cloud sites end in /wiki. " : "") + AtlassianFooter.text(login, service: "Confluence") + " The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.")
+            Text(footer(login))
                 .font(.caption).foregroundStyle(.secondary)
         }
+    }
+}
+
+extension ConfluenceSettingsSection {
+    /// The footer: where the sign-in comes from, then how the upload finds the page.
+    fileprivate func footer(_ login: AtlassianLogin) -> String {
+        let signIn = AtlassianFooter.text(login, service: "Confluence")
+        let upload = String(localized: "The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.")
+        guard login.isCloud else { return signIn + " " + upload }
+        return String(localized: "Cloud sites end in /wiki.") + " " + signIn + " " + upload
     }
 }
 
@@ -224,11 +238,11 @@ private enum AtlassianFooter {
     static func text(_ login: AtlassianLogin, service: String) -> String {
         switch login {
         case .cloudAPIToken:
-            return "Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain."
+            return String(localized: "Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.")
         case .serverToken:
-            return "Create a personal access token in \(service) under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain."
+            return String(localized: "Create a personal access token in \(service) under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.")
         case .serverPassword:
-            return "Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers."
+            return String(localized: "Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.")
         }
     }
 }
@@ -240,10 +254,11 @@ struct CertificateExceptionsSection: View {
 
     var body: some View {
         Section {
-            LinesField(title: "Trust these hosts despite certificate errors", prompt: "jira.mycompany.local\n*.mycompany.local",
+            LinesField(title: String(localized: "Trust these hosts despite certificate errors"), prompt: "jira.mycompany.local\n*.mycompany.local",
                        lines: store.binding(\.allowedUntrustedCertificateHosts))
                 .managed(\.allowedUntrustedCertificateHosts)
-            LinesField(title: "Trust certificates with these fingerprints", prompt: "SHA-256 or SHA-1, e.g. 2F:D2:CC:…",
+            LinesField(title: String(localized: "Trust certificates with these fingerprints"),
+                       prompt: String(localized: "SHA-256 or SHA-1, e.g. 2F:D2:CC:…"),
                        lines: store.binding(\.allowedCertificateThumbprints))
                 .managed(\.allowedCertificateThumbprints)
         } header: {
@@ -295,7 +310,7 @@ struct BoxSettingsSection: View {
         Section {
             TextField("Client ID", text: store.binding(\.box.clientID))
                 .managed(\.box.clientID)
-            SecretField("Client secret", key: SecretKey.boxClientSecret)
+            SecretField(String(localized: "Client secret"), key: SecretKey.boxClientSecret)
             TextField("Folder ID", text: store.binding(\.box.folderID), prompt: Text("0 = All Files"))
                 .managed(\.box.folderID)
             UploadFormatRow(store: store, format: \.box.uploadFormat, quality: \.box.jpegQuality)
@@ -390,7 +405,7 @@ private struct CloudAccountRow: View {
 
     var body: some View {
         HStack {
-            Text(account.message ?? (account.signedIn ? "Signed in." : "Not signed in; the first upload asks."))
+            Text(account.message ?? (account.signedIn ? String(localized: "Signed in.") : String(localized: "Not signed in; the first upload asks.")))
                 .font(.caption).foregroundStyle(.secondary).lineLimit(2)
             Spacer()
             if account.signedIn {

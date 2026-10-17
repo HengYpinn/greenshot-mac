@@ -43,7 +43,7 @@ struct LogTextView: NSViewRepresentable {
             textView.textColor = .textColor
             textView.backgroundColor = .textBackgroundColor
             textView.textContainerInset = NSSize(width: 6, height: 6)
-            textView.setAccessibilityLabel("Log")
+            textView.setAccessibilityLabel(String(localized: "Log", comment: "The text of the log file"))
         }
         return scrollView
     }

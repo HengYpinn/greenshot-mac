@@ -118,13 +118,13 @@ struct GeneralSettings: View {
 
     private func confirmHidingIcon() {
         let alert = NSAlert()
-        alert.messageText = "Hide the menu bar icon?"
-        alert.informativeText = """
+        alert.messageText = String(localized: "Hide the menu bar icon?")
+        alert.informativeText = String(localized: """
             The hotkeys keep working. To come back to Settings, open \(AppInfo.name) again from Spotlight, Launchpad or \
             the Applications folder.
-            """
-        alert.addButton(withTitle: "Hide Icon")
-        alert.addButton(withTitle: "Cancel")
+            """)
+        alert.addButton(withTitle: String(localized: "Hide Icon"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         let hide = { [store] in store.update { $0.hideMenuBarIcon = true } }
         if let window = NSApp.keyWindow {
             alert.beginSheetModal(for: window) { if $0 == .alertFirstButtonReturn { hide() } }
@@ -134,9 +134,10 @@ struct GeneralSettings: View {
     }
 
     private var lastCheck: String {
-        guard let date = store.value.lastUpdateCheck else { return "Not checked yet. You have version \(UpdateChecker.currentVersion)." }
+        let version = UpdateChecker.currentVersion
+        guard let date = store.value.lastUpdateCheck else { return String(localized: "Not checked yet. You have version \(version).") }
         let when = date.formatted(date: .abbreviated, time: .shortened)
-        return "Last checked \(when). You have version \(UpdateChecker.currentVersion)."
+        return String(localized: "Last checked \(when). You have version \(version).")
     }
 
     private func checkNow() {

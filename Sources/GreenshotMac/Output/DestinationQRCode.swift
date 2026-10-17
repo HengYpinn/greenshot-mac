@@ -25,12 +25,13 @@ enum QRCodeDestination {
         var items: [NSMenuItem] = []
         for code in codes {
             let payload = code.payload
-            items.append(ClosureMenuItem(title: "Copy: \(shortened(payload))") {
+            items.append(ClosureMenuItem(title: String(localized: "Copy: \(shortened(payload))")) {
                 Clipboard.copy(text: payload)
-                saver.notify("Copied the QR code's text", detail: shortened(payload))
+                saver.notify(String(localized: "Copied the QR code's text"), detail: shortened(payload))
             })
             if let url = code.url {
-                items.append(ClosureMenuItem(title: "Open: \(shortened(url.absoluteString))") { NSWorkspace.shared.open(url) })
+                let title = String(localized: "Open: \(shortened(url.absoluteString))", comment: "Opens the link of a QR code")
+                items.append(ClosureMenuItem(title: title) { NSWorkspace.shared.open(url) })
             }
         }
         return items
@@ -39,9 +40,9 @@ enum QRCodeDestination {
     /// The picker's submenu: filled once the codes are found (an open menu updates). Without codes `noCodes` runs
     /// (the picker then removes its entry, like upstream offers QR code actions only when codes were found).
     static func pickerSubmenu(for capture: Capture, saver: ImageSaver, noCodes: @escaping () -> Void = {}) -> NSMenu {
-        let menu = NSMenu(title: "QR Code")
+        let menu = NSMenu(title: String(localized: "QR Code"))
         menu.autoenablesItems = false
-        let searching = NSMenuItem(title: "Looking for QR codes…", action: nil, keyEquivalent: "")
+        let searching = NSMenuItem(title: String(localized: "Looking for QR codes…"), action: nil, keyEquivalent: "")
         searching.isEnabled = false
         menu.addItem(searching)
         detect(in: capture.image) { [weak menu] codes in
@@ -49,7 +50,7 @@ enum QRCodeDestination {
             menu.removeAllItems()
             let found = items(for: codes, saver: saver)
             if found.isEmpty {
-                let none = NSMenuItem(title: "No QR code found", action: nil, keyEquivalent: "")
+                let none = NSMenuItem(title: String(localized: "No QR code found"), action: nil, keyEquivalent: "")
                 none.isEnabled = false
                 menu.addItem(none)
                 noCodes()
@@ -65,11 +66,11 @@ enum QRCodeDestination {
                      completion: @escaping ExportCompletion = { _ in }) {
         detect(in: capture.image) { codes in
             guard !codes.isEmpty else {
-                saver.notify("No QR code found", detail: "Nothing in the screenshot could be read as a QR code.", kind: .warning)
+                saver.notify(String(localized: "No QR code found"), detail: String(localized: "Nothing in the screenshot could be read as a QR code."), kind: .warning)
                 completion(.succeeded(clearsModified: false))
                 return
             }
-            let menu = NSMenu(title: "QR Code")
+            let menu = NSMenu(title: String(localized: "QR Code"))
             menu.autoenablesItems = false
             items(for: codes, saver: saver).forEach(menu.addItem)
             popUp(menu)

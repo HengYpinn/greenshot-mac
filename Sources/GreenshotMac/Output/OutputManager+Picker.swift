@@ -14,7 +14,7 @@ extension OutputManager {
     /// Shows the picker until an export succeeds or the user closes it (upstream `PickerDestination.ExportAsync`): a
     /// cancelled or failed export (its problem was shown already) brings the picker back.
     func showPicker(for capture: Capture, completion: ExportCompletion? = nil) {
-        let menu = NSMenu(title: "Send screenshot to")
+        let menu = NSMenu(title: String(localized: "Send screenshot to"))
         menu.autoenablesItems = false
         let header = NSMenuItem(title: "\(capture.image.width) × \(capture.image.height) – \(capture.title)", action: nil, keyEquivalent: "")
         header.isEnabled = false
@@ -24,7 +24,7 @@ extension OutputManager {
         var picked: DestinationTarget?
         pickerItems(for: capture) { picked = $0 }.forEach(menu.addItem)
         menu.addItem(.separator())
-        let discard = ClosureMenuItem(title: "Discard") {}
+        let discard = ClosureMenuItem(title: String(localized: "Discard", comment: "Picker entry: sends the screenshot nowhere")) {}
         discard.image = Self.symbol("xmark")
         menu.addItem(discard)
         popUp(menu)
@@ -86,18 +86,20 @@ extension OutputManager {
         }
 
         let folder = (saver.outputFolderURL(title: capture.title, date: capture.date).path as NSString).abbreviatingWithTildeInPath
-        add(.file, title: "Save Directly (\(folder))")
+        add(.file, title: String(localized: "Save Directly (\(folder))"))
         add(.fileAs)
         if !s.isDestinationExcluded(.pdf) {
-            entries.append((CaptureDestination.pdf.pickerPriority, "Save as PDF…",
-                            item("Save as PDF…", .pdfAs, symbol: CaptureDestination.pdf.symbolName, shortcut: CaptureDestination.pdf.shortcut)))
+            let title = String(localized: "Save as PDF…")
+            entries.append((CaptureDestination.pdf.pickerPriority, title,
+                            item(title, .pdfAs, symbol: CaptureDestination.pdf.symbolName, shortcut: CaptureDestination.pdf.shortcut)))
         }
-        addGroup(.editor, title: "Open in Image Editor", editors.openEditors.map { editor in
-            item("Add to Editor – \(FilenamePattern.menuTitle(editor.title))", .addToEditor(editor.id), symbol: "plus.rectangle.on.rectangle")
+        addGroup(.editor, title: String(localized: "Open in Image Editor"), editors.openEditors.map { editor in
+            let title = String(localized: "Add to Editor – \(FilenamePattern.menuTitle(editor.title))")
+            return item(title, .addToEditor(editor.id), symbol: "plus.rectangle.on.rectangle")
         })
         add(.clipboard)
         add(.ocr)
-        addGroup(.printer, title: "Print", Printing.printerNames().map { name in item(name, .printer(name), symbol: "printer") })
+        addGroup(.printer, title: String(localized: "Print", comment: "Picker entry: prints the screenshot"), Printing.printerNames().map { name in item(name, .printer(name), symbol: "printer") })
         if EmailDestination.isAvailable, !s.isDestinationExcluded(.email) {
             // Mail's messages being written, to add the capture to (the Mac's stand-in for Outlook's open inspectors).
             if EmailDestination.defaultAppIsMail, OfficeDestination.isRunning(.mail) {
@@ -123,11 +125,12 @@ extension OutputManager {
         }
         add(.share)
         if DestinationAvailability.isSetUp(.jira, in: s) {
-            addGroup(.jira, title: "Upload to Jira", jiraIssueItems(item))
+            addGroup(.jira, title: String(localized: "Upload to Jira"), jiraIssueItems(item))
         }
         if DestinationAvailability.isSetUp(.confluence, in: s) {
-            addGroup(.confluence, title: "Upload to Confluence", s.confluence.recentPages.map { page in
-                item("Upload to Confluence: “\(FilenamePattern.menuTitle(page.title, length: 40))”", .confluencePage(page), symbol: "doc.text")
+            addGroup(.confluence, title: String(localized: "Upload to Confluence"), s.confluence.recentPages.map { page in
+                let title = String(localized: "Upload to Confluence: “\(FilenamePattern.menuTitle(page.title, length: 40))”")
+                return item(title, .confluencePage(page), symbol: "doc.text")
             })
         }
         for upload in [CaptureDestination.box, .dropbox] where DestinationAvailability.isSetUp(upload, in: s) {
@@ -137,7 +140,7 @@ extension OutputManager {
         if !s.isDestinationExcluded(.openWith) {
             let openWith = NSMenuItem(title: CaptureDestination.openWith.pickerTitle, action: nil, keyEquivalent: "")
             openWith.image = Self.symbol(CaptureDestination.openWith.symbolName)
-            openWith.submenu = NSMenu(title: "Open With")
+            openWith.submenu = NSMenu(title: String(localized: "Open With"))
             openWith.submenu?.autoenablesItems = false
             OpenWithDestination.menuItems(format: s.outputFormat) { app in pick(.application(app)) }.forEach { openWith.submenu?.addItem($0) }
             entries.append((CaptureDestination.openWith.pickerPriority, openWith.title, openWith))
@@ -145,7 +148,7 @@ extension OutputManager {
 
         // Commands whose program is gone are left out (upstream removes them from the settings at startup).
         for command in s.externalCommands where ExternalCommandRunner.isAvailable(command) && !s.isDestinationExcluded(.externalCommand) {
-            let entry = item("External: \(command.name)", .externalCommand(command))
+            let entry = item(String(localized: "External: \(command.name)"), .externalCommand(command))
             entry.image = ExternalCommandRunner.icon(for: command)
             entries.append((CaptureDestination.externalCommand.pickerPriority, entry.title, entry))
         }
@@ -213,8 +216,9 @@ extension OutputManager {
         new.image = OfficeDestination.icon(app)
         submenu.addItem(new)
         let separator = NSMenuItem.separator()
-        let looking = NSMenuItem(title: "Looking for open \(app == .mail || app == .outlook ? "messages" : "documents")…",
-                                 action: nil, keyEquivalent: "")
+        let lookingTitle = app == .mail || app == .outlook ? String(localized: "Looking for open messages…")
+            : String(localized: "Looking for open documents…")
+        let looking = NSMenuItem(title: lookingTitle, action: nil, keyEquivalent: "")
         looking.isEnabled = false
         submenu.addItem(separator)
         group.submenu = submenu

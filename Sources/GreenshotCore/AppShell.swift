@@ -64,23 +64,23 @@ public enum SelfServiceSection: String, CaseIterable, Sendable {
 
     public var title: String {
         switch self {
-        case .system: return "System"
-        case .setup: return "Your Setup"
-        case .files: return "Files and Log"
-        case .clipboard: return "Clipboard"
-        case .hotkeys: return "Hotkeys"
-        case .integrity: return "Integrity"
+        case .system: return String(localized: "System", comment: "Self-Service section: macOS, the Mac, memory and screens")
+        case .setup: return String(localized: "Your Setup")
+        case .files: return String(localized: "Files and Log")
+        case .clipboard: return String(localized: "Clipboard")
+        case .hotkeys: return String(localized: "Hotkeys")
+        case .integrity: return String(localized: "Integrity", comment: "Self-Service section: the code signature of the app")
         }
     }
 
     public var subtitle: String {
         switch self {
-        case .system: return "macOS, the Mac, memory, screens and scaling"
-        case .setup: return "What the app needs to work as expected, with a fix where something is off"
-        case .files: return "The settings file, the log and crash reports"
-        case .clipboard: return "What is on the clipboard now, and when it changes"
-        case .hotkeys: return "Your hotkeys, the screenshot shortcuts of macOS and other capture apps"
-        case .integrity: return "The code signature of the app, notarization and quarantine"
+        case .system: return String(localized: "macOS, the Mac, memory, screens and scaling")
+        case .setup: return String(localized: "What the app needs to work as expected, with a fix where something is off")
+        case .files: return String(localized: "The settings file, the log and crash reports")
+        case .clipboard: return String(localized: "What is on the clipboard now, and when it changes")
+        case .hotkeys: return String(localized: "Your hotkeys, the screenshot shortcuts of macOS and other capture apps")
+        case .integrity: return String(localized: "The code signature of the app, notarization and quarantine")
         }
     }
 

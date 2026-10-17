@@ -24,6 +24,10 @@ struct SignatureReport: Equatable {
     var notarization: Notarization
     var quarantined: Bool
     var translocated: Bool
+    /// `validity` and `signer` as the window shows them, in the user's language; nil: as they are. `reportText` keeps
+    /// the English, like the other support reports.
+    var shownValidity: String?
+    var shownSigner: String?
 
     /// Problems worth a badge: a broken signature, a translocated copy.
     var problemCount: Int {
@@ -53,6 +57,16 @@ struct SignatureReport: Equatable {
         case .notApplicable: return "not applicable (not signed with a Developer ID)"
         }
     }
+
+    /// `notarizationText` as the window shows it.
+    var shownNotarization: String {
+        switch notarization {
+        case .checking: return String(localized: "checking…", comment: "Whether Apple notarized the app is being checked")
+        case .notarized: return String(localized: "yes, Apple checked this build")
+        case .notNotarized: return String(localized: "no", comment: "Apple didn't notarize the app")
+        case .notApplicable: return String(localized: "not applicable (not signed with a Developer ID)")
+        }
+    }
 }
 
 enum CodeSignature {
@@ -66,7 +80,9 @@ enum CodeSignature {
         var report = SignatureReport(location: location, isAppBundle: url.pathExtension == "app", valid: nil,
                                      validity: "Could not be checked", signer: "Unknown", identifier: nil, teamID: nil,
                                      hardenedRuntime: false, cdHash: nil, notarization: .notApplicable,
-                                     quarantined: isQuarantined(url), translocated: url.path.contains("/AppTranslocation/"))
+                                     quarantined: isQuarantined(url), translocated: url.path.contains("/AppTranslocation/"),
+                                     shownValidity: String(localized: "Could not be checked"),
+                                     shownSigner: String(localized: "Unknown", comment: "Who signed the app could not be found out"))
         var staticCode: SecStaticCode?
         guard SecStaticCodeCreateWithPath(url as CFURL, [], &staticCode) == errSecSuccess, let code = staticCode else { return report }
 
@@ -77,13 +93,16 @@ enum CodeSignature {
         case errSecSuccess:
             report.valid = true
             report.validity = "Valid: no file of the app was changed"
+            report.shownValidity = String(localized: "Valid: no file of the app was changed")
         case errSecCSUnsigned:
             report.valid = nil
             report.validity = "Not signed"
+            report.shownValidity = String(localized: "Not signed")
         default:
             report.valid = false
             let message = errors?.takeRetainedValue().localizedDescription ?? (SecCopyErrorMessageString(status, nil) as String? ?? "error \(status)")
             report.validity = "Broken: \(message)"
+            report.shownValidity = String(localized: "Broken: \(message)", comment: "The code signature of the app is broken, with the reason")
         }
 
         var information: CFDictionary?
@@ -97,13 +116,17 @@ enum CodeSignature {
         let certificates = info[kSecCodeInfoCertificates as String] as? [SecCertificate] ?? []
         if let leaf = certificates.first, let summary = SecCertificateCopySubjectSummary(leaf) as String? {
             report.signer = summary
+            report.shownSigner = nil
             report.notarization = report.teamID == nil ? .notApplicable : .checking
         } else if codeFlags & 0x20000 != 0 {
             report.signer = "Signed by the linker (a development build)"
+            report.shownSigner = String(localized: "Signed by the linker (a development build)")
         } else if codeFlags & 0x2 != 0 {
             report.signer = "Ad-hoc (no certificate: a local build)"
+            report.shownSigner = String(localized: "Ad-hoc (no certificate: a local build)")
         } else if status == errSecCSUnsigned {
             report.signer = "Nobody"
+            report.shownSigner = String(localized: "Nobody", comment: "Nobody signed the app")
         }
         return report
     }

@@ -249,7 +249,7 @@ final class SelfServiceWindowController: DiagnosticsWindowController {
 
     init(model: SelfServiceModel) {
         self.model = model
-        super.init(title: "\(AppInfo.name) Self-Service", content: SelfServiceView(model: model),
+        super.init(title: String(localized: "\(AppInfo.name) Self-Service"), content: SelfServiceView(model: model),
                    size: NSSize(width: 900, height: 640), resizable: true, autosaveName: "GreenshotSelfService")
         keyWindow?.onKey = { [weak self] event in self?.handleKey(event) ?? false }
     }

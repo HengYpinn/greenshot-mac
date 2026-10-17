@@ -75,8 +75,10 @@ struct OutputSettings: View {
             }
             // Upstream's Expert setting `expert_autoreducecolors` (`OutputFileAutoReduceColors`).
             Toggle("Save with 256 colours when the image has fewer", isOn: store.binding(\.autoReduceColors))
-                .help("An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: "
-                    + "the same picture in a smaller file.")
+                .help("""
+                    An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: \
+                    the same picture in a smaller file.
+                    """)
                 .managed(\.autoReduceColors)
         }
     }

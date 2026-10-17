@@ -71,8 +71,10 @@ enum UpdateChecker {
             let page = release.pageURL
             // A warning, so "Show a message after saving or copying" doesn't hide it; the message level does
             // (after "Check Now" it counts as an error, shown at every level but None).
-            let name = release.isPrerelease ? "Beta version" : "Version"
-            saver.notify("\(name) \(release.version) is available – click to download", detail: "You have \(current).",
+            let version = release.version
+            let title = release.isPrerelease ? String(localized: "Beta version \(version) is available – click to download")
+                : String(localized: "Version \(version) is available – click to download")
+            saver.notify(title, detail: String(localized: "You have \(current).", comment: "The version of the app the user has"),
                          kind: userAsked ? .error : .warning) {
                 NSWorkspace.shared.open(page)
             }
@@ -80,9 +82,9 @@ enum UpdateChecker {
         }
         guard userAsked else { return }
         if failed {
-            saver.notify("Could not check for updates", detail: "GitHub could not be reached.", kind: .warning)
+            saver.notify(String(localized: "Could not check for updates"), detail: String(localized: "GitHub could not be reached."), kind: .warning)
         } else {
-            Toast.show("\(AppInfo.name) is up to date", detail: "Version \(current).")
+            Toast.show(String(localized: "\(AppInfo.name) is up to date"), detail: String(localized: "Version \(current).", comment: "The version of the app"))
         }
     }
 }

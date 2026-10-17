@@ -91,8 +91,8 @@ public struct ModifierSides: Codable, Hashable, Sendable {
             guard let symbol = symbols[modifier] else { return nil }
             switch self[modifier] {
             case .any: return nil
-            case .left: return "left \(symbol)"
-            case .right: return "right \(symbol)"
+            case .left: return String(localized: "left \(symbol)", comment: "Only the left key of a modifier counts, e.g. left ⌘")
+            case .right: return String(localized: "right \(symbol)", comment: "Only the right key of a modifier counts, e.g. right ⌘")
             }
         }.joined(separator: ", ")
     }
@@ -163,7 +163,7 @@ public struct KeyChord: Codable, Hashable, Sendable {
         if modifiers & KeyCombo.option != 0 { result += "⌥" }
         if modifiers & KeyCombo.shift != 0 { result += "⇧" }
         if modifiers & KeyCombo.command != 0 { result += "⌘" }
-        result += KeyCombo.keyName(for: keyCode)
+        result += KeyCombo.displayKeyName(for: keyCode)
         return sides.isAny ? result : "\(result) (\(sides.displayString))"
     }
 
@@ -314,15 +314,20 @@ public struct KeyCombo: Codable, Hashable, Sendable {
     public var validationProblem: String? {
         let steps = chords
         for (index, chord) in steps.enumerated() {
-            let prefix = steps.count > 1 ? "Step \(index + 1): " : ""
+            // A hotkey of several steps names the step: one whole sentence for each case, so it can be translated.
+            let step = steps.count > 1 ? index + 1 : nil
             if Self.reservedKeys.contains(Int(chord.keyCode)) {
-                return "\(prefix)\(Self.keyName(for: chord.keyCode)) is a reserved key and can't be used in a hotkey."
+                let key = Self.displayKeyName(for: chord.keyCode)
+                guard let step else { return String(localized: "\(key) is a reserved key and can't be used in a hotkey.") }
+                return String(localized: "Step \(step): \(key) is a reserved key and can't be used in a hotkey.")
             }
             guard index == 0, !chord.isFunctionKey, chord.modifiers & (Self.control | Self.option | Self.command) == 0 else { continue }
             if chord.modifiers & Self.shift != 0 {
-                return "\(prefix)⇧ can't be the only modifier, except for F1–F20."
+                guard let step else { return String(localized: "⇧ can't be the only modifier, except for F1–F20.") }
+                return String(localized: "Step \(step): ⇧ can't be the only modifier, except for F1–F20.")
             }
-            return "\(prefix)Keys other than F1–F20 need ⌃, ⌥ or ⌘."
+            guard let step else { return String(localized: "Keys other than F1–F20 need ⌃, ⌥ or ⌘.") }
+            return String(localized: "Step \(step): Keys other than F1–F20 need ⌃, ⌥ or ⌘.")
         }
         return nil
     }
@@ -338,12 +343,12 @@ public struct KeyCombo: Codable, Hashable, Sendable {
         let steps = combo.chords
         for other in others {
             let otherSteps = other.combo.chords
-            if otherSteps == steps { return "“\(other.name)” has the same hotkey." }
+            if otherSteps == steps { return String(localized: "“\(other.name)” has the same hotkey.") }
             if otherSteps.count == steps.count, overlap(steps, otherSteps) {
-                return "“\(other.name)” (\(other.combo.displayString)) has the same keys with either side, so both would fire."
+                return String(localized: "“\(other.name)” (\(other.combo.displayString)) has the same keys with either side, so both would fire.")
             }
             if otherSteps.count < steps.count, overlap(Array(steps.prefix(otherSteps.count)), otherSteps) {
-                return "“\(other.name)” (\(other.combo.displayString)) is the beginning of this hotkey, so this one never fires."
+                return String(localized: "“\(other.name)” (\(other.combo.displayString)) is the beginning of this hotkey, so this one never fires.")
             }
         }
         return nil
@@ -359,8 +364,19 @@ public struct KeyCombo: Codable, Hashable, Sendable {
     static let functionKeys: Set<Int> = [kVK_F1, kVK_F2, kVK_F3, kVK_F4, kVK_F5, kVK_F6, kVK_F7, kVK_F8, kVK_F9, kVK_F10,
                                          kVK_F11, kVK_F12, kVK_F13, kVK_F14, kVK_F15, kVK_F16, kVK_F17, kVK_F18, kVK_F19, kVK_F20]
 
+    /// The name of a key as data: English (recipe hotkey texts fall back to it, see `RecipeHotkeyText`).
     public static func keyName(for keyCode: UInt32) -> String {
         names[Int(keyCode)] ?? "Key \(keyCode)"
+    }
+
+    /// The name of a key as the user sees it (hotkeys in Settings, menus and messages): `keyName(for:)` with its words
+    /// translated.
+    public static func displayKeyName(for keyCode: UInt32) -> String {
+        if Int(keyCode) == kVK_Space { return String(localized: "Space", comment: "The space bar, in a hotkey such as ⌃⌥Space") }
+        guard let name = names[Int(keyCode)] else {
+            return String(localized: "Key \(keyCode)", comment: "A key without a name in a hotkey, by its key code")
+        }
+        return name
     }
 
     private static let names: [Int: String] = [

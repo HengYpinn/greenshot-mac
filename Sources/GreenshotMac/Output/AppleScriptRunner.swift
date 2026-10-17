@@ -97,7 +97,7 @@ enum AppleScriptRunner {
         timer.cancel()
         if box.cancelled { throw CancellationError() }
         if timedOut.withLock({ $0 }) {
-            throw AppleScriptFailure(number: -1712, message: "The script took longer than \(Int(timeout)) seconds.")
+            throw AppleScriptFailure(number: -1712, message: String(localized: "The script took longer than \(Int(timeout)) seconds."))
         }
         guard process.terminationStatus == 0 else {
             let failure = AppleScriptFailure.parse(String(decoding: errData, as: UTF8.self))
@@ -157,8 +157,8 @@ enum AppleScriptRunner {
         alert.informativeText = message ?? failure.explanation(appName: appName)
         let permission = failure.kind == .notAllowed || failure.kind == .needsConsent
         if permission {
-            alert.addButton(withTitle: "Open Privacy Settings")
-            alert.addButton(withTitle: "Cancel")
+            alert.addButton(withTitle: String(localized: "Open Privacy Settings"))
+            alert.addButton(withTitle: String(localized: "Cancel"))
         }
         NSApp.activate()
         if alert.runModal() == .alertFirstButtonReturn, permission {

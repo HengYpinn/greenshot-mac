@@ -29,15 +29,15 @@ enum PrintOptionsDialog {
     private static func present(_ options: PrintSettings, forThisPrintOnly: Bool) -> (form: PrintOptionsForm, dontAsk: Bool)? {
         let form = PrintOptionsForm(options: options)
         let alert = NSAlert()
-        alert.messageText = "Print Options"
+        alert.messageText = String(localized: "Print Options")
         alert.informativeText = forThisPrintOnly ? String(localized: "These are for this print only.")
-                                                 : "These can be changed later in Settings › Printer."
+                                                 : String(localized: "These can be changed later in Settings › Printer.")
         alert.accessoryView = form.view
         // "Don't ask again" changes the settings; a print with its own options doesn't.
         alert.showsSuppressionButton = !forThisPrintOnly
-        alert.suppressionButton?.title = "Don't ask again"
-        alert.addButton(withTitle: "Print")
-        alert.addButton(withTitle: "Cancel")
+        alert.suppressionButton?.title = String(localized: "Don't ask again")
+        alert.addButton(withTitle: String(localized: "Print", comment: "Button: prints the screenshot"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         guard alert.runModal() == .alertFirstButtonReturn else { return nil }
         return (form, alert.suppressionButton?.state == .on)
@@ -48,15 +48,15 @@ enum PrintOptionsDialog {
 @MainActor
 final class PrintOptionsForm: NSObject {
     let view: NSView
-    private let inverted = NSButton(checkboxWithTitle: "Inverted colours", target: nil, action: nil)
-    private let color = NSButton(radioButtonWithTitle: "Colour", target: nil, action: nil)
-    private let grayscale = NSButton(radioButtonWithTitle: "Grayscale", target: nil, action: nil)
-    private let monochrome = NSButton(radioButtonWithTitle: "Black and white (monochrome)", target: nil, action: nil)
-    private let footer = NSButton(checkboxWithTitle: "Print date / time and title at the bottom of the page", target: nil, action: nil)
-    private let shrink = NSButton(checkboxWithTitle: "Shrink to fit the paper", target: nil, action: nil)
-    private let enlarge = NSButton(checkboxWithTitle: "Enlarge to fit the paper", target: nil, action: nil)
-    private let rotate = NSButton(checkboxWithTitle: "Rotate to the page orientation", target: nil, action: nil)
-    private let center = NSButton(checkboxWithTitle: "Center on the page", target: nil, action: nil)
+    private let inverted = NSButton(checkboxWithTitle: String(localized: "Inverted colours"), target: nil, action: nil)
+    private let color = NSButton(radioButtonWithTitle: String(localized: "Colour", comment: "Print in colour"), target: nil, action: nil)
+    private let grayscale = NSButton(radioButtonWithTitle: String(localized: "Grayscale"), target: nil, action: nil)
+    private let monochrome = NSButton(radioButtonWithTitle: String(localized: "Black and white (monochrome)"), target: nil, action: nil)
+    private let footer = NSButton(checkboxWithTitle: String(localized: "Print date / time and title at the bottom of the page"), target: nil, action: nil)
+    private let shrink = NSButton(checkboxWithTitle: String(localized: "Shrink to fit the paper"), target: nil, action: nil)
+    private let enlarge = NSButton(checkboxWithTitle: String(localized: "Enlarge to fit the paper"), target: nil, action: nil)
+    private let rotate = NSButton(checkboxWithTitle: String(localized: "Rotate to the page orientation"), target: nil, action: nil)
+    private let center = NSButton(checkboxWithTitle: String(localized: "Center on the page"), target: nil, action: nil)
 
     init(options: PrintSettings) {
         func heading(_ text: String) -> NSTextField {
@@ -68,7 +68,9 @@ final class PrintOptionsForm: NSObject {
         radios.orientation = .vertical
         radios.alignment = .leading
         radios.spacing = 4
-        let stack = NSStackView(views: [heading("Colours"), radios, inverted, heading("Layout"), shrink, enlarge, rotate, center, footer])
+        let colours = heading(String(localized: "Colours"))
+        let layout = heading(String(localized: "Layout", comment: "How the screenshot is placed on the page"))
+        let stack = NSStackView(views: [colours, radios, inverted, layout, shrink, enlarge, rotate, center, footer])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 6

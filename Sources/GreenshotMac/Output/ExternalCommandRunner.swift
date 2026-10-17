@@ -29,16 +29,16 @@ enum ExternalCommandRunner {
             do {
                 file = try TemporaryCaptureFile.write(capture, settings: settings, format: command.format)
             } catch {
-                ErrorPresenter.show(error, title: "The screenshot could not be written for \(command.name)")
+                ErrorPresenter.show(error, title: String(localized: "The screenshot could not be written for \(command.name)"))
                 completion(.failed(error.localizedDescription, target: command.name))
                 return
             }
         }
         let fill = filler(for: capture, settings: settings)
         guard let (executable, arguments) = resolve(command, file: file.path, fill: fill) else {
-            ErrorPresenter.show(message: "\(command.name): the program was not found",
-                                detail: "“\(command.command)” is not an executable file. Check it in Settings › Destinations.")
-            completion(.failed("The program was not found.", target: command.name))
+            ErrorPresenter.show(message: String(localized: "\(command.name): the program was not found"),
+                                detail: String(localized: "“\(command.command)” is not an executable file. Check it in Settings › Destinations."))
+            completion(.failed(String(localized: "The program was not found."), target: command.name))
             return
         }
         let process = Process()
@@ -52,7 +52,7 @@ enum ExternalCommandRunner {
         do {
             try process.run()
         } catch {
-            ErrorPresenter.show(error, title: "\(command.name) could not be started")
+            ErrorPresenter.show(error, title: String(localized: "\(command.name) could not be started"))
             completion(.failed(error.localizedDescription, target: command.name))
             return
         }
@@ -163,11 +163,12 @@ enum ExternalCommandRunner {
         logOutput(of: command.name, output: output, errors: errors, showOutput: command.showOutputInLog)
         let trimmedErrors = errors.trimmingCharacters(in: .whitespacesAndNewlines)
         guard status == 0 else {
-            let detail = trimmedErrors.isEmpty ? "It ended with exit code \(status)." : String(trimmedErrors.prefix(600))
+            let detail = trimmedErrors.isEmpty ? String(localized: "It ended with exit code \(status).") : String(trimmedErrors.prefix(600))
+            let failed = String(localized: "\(command.name) failed")
             if command.runInBackground && status != notFoundStatus {
-                saver.notify("\(command.name) failed", detail: detail, kind: .error)
+                saver.notify(failed, detail: detail, kind: .error)
             } else {
-                ErrorPresenter.show(message: "\(command.name) failed", detail: detail)
+                ErrorPresenter.show(message: failed, detail: detail)
             }
             return .failed(detail, target: command.name)
         }
@@ -176,17 +177,17 @@ enum ExternalCommandRunner {
         var copied: String?
         if command.copyOutputToClipboard, !trimmed.isEmpty {
             Clipboard.copy(text: trimmed)
-            copied = "Copied its output"
+            copied = String(localized: "Copied its output")
         }
         if command.copyURLFromOutput, let url = ExternalCommandLine.firstURL(in: output) {
             Clipboard.copy(text: url)
-            saver.notify("\(command.name): copied the URL", detail: url) {
+            saver.notify(String(localized: "\(command.name): copied the URL"), detail: url) {
                 if let link = URL(string: url) { NSWorkspace.shared.open(link) }
             }
             return .succeeded(fileURL: file, link: URL(string: url), target: command.name, clearsModified: false)
         }
         if let copied {
-            saver.notify("\(command.name) finished", detail: copied)
+            saver.notify(String(localized: "\(command.name) finished"), detail: copied)
         }
         return .succeeded(fileURL: file, target: command.name, clearsModified: false)
     }

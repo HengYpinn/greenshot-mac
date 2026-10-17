@@ -16,7 +16,7 @@ struct OfficeExportError: LocalizedError {
     var errorDescription: String? {
         var text = failure.explanation(appName: app.name)
         if app == .outlook, failure.kind == .notSupported {
-            text += " New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…"
+            text += " " + String(localized: "New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…")
         }
         return text
     }
@@ -59,11 +59,11 @@ enum OfficeDestination {
     /// "New Document" and the like: the first entry of an app's sub-menu.
     static func newItemTitle(_ app: OfficeApplication) -> String {
         switch app {
-        case .word: return "New Document"
-        case .excel: return "New Workbook"
-        case .powerpoint: return "New Presentation"
-        case .outlook, .mail: return "New Email"
-        case .notes: return "New Note"
+        case .word: return String(localized: "New Document")
+        case .excel: return String(localized: "New Workbook")
+        case .powerpoint: return String(localized: "New Presentation")
+        case .outlook, .mail: return String(localized: "New Email")
+        case .notes: return String(localized: "New Note")
         }
     }
 
@@ -122,8 +122,9 @@ enum OfficeDestination {
     static func export(_ app: OfficeApplication, item: OfficeOpenItem?, capture: Capture, settings: SettingsStore,
                        saver: ImageSaver, completion: @escaping ExportCompletion) {
         guard isInstalled(app) else {
-            ErrorPresenter.show(message: "\(app.name) is not installed", detail: "Install it, or choose another destination in Settings › Destinations.")
-            completion(.failed("\(app.name) is not installed."))
+            ErrorPresenter.show(message: String(localized: "\(app.name) is not installed"),
+                                detail: String(localized: "Install it, or choose another destination in Settings › Destinations."))
+            completion(.failed(String(localized: "\(app.name) is not installed.")))
             return
         }
         let s = settings.value
@@ -135,12 +136,13 @@ enum OfficeDestination {
                                                   in: isOffice ? TemporaryCaptureFile.officeRoot : nil)
         } catch {
             log.error("The screenshot could not be written for \(app.name)", error: error)
-            ErrorPresenter.show(error, title: "The screenshot could not be written")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be written"))
             completion(.failed(error.localizedDescription))
             return
         }
-        let title = "The screenshot could not be sent to \(app.name)"
-        Uploads.run(title, progress: "Sending the screenshot to \(app.name)…", completion: completion, showError: { error in
+        let title = String(localized: "The screenshot could not be sent to \(app.name)")
+        let progress = String(localized: "Sending the screenshot to \(app.name)…")
+        Uploads.run(title, progress: progress, completion: completion, showError: { error in
             if let office = error as? OfficeExportError {
                 AppleScriptRunner.present(office.failure, appName: app.name, title: title, message: office.localizedDescription)
             } else {
@@ -175,7 +177,7 @@ enum OfficeDestination {
                                                                                        layout: s.office.powerpointSlideLayout,
                                                                                        title: capture.title))
             guard let slide = PowerPointSlide(output: answer) else {
-                throw AppleScriptFailure(number: nil, message: "PowerPoint gave an unexpected answer: \(answer)")
+                throw AppleScriptFailure(number: nil, message: String(localized: "PowerPoint gave an unexpected answer: \(answer)"))
             }
             let frame = OfficeLayout.pictureFrame(imageSize: size, slide: slide)
             return try await AppleScriptRunner.run(OfficeScripts.powerPointPicture(

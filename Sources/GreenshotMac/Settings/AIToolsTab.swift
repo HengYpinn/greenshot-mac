@@ -108,7 +108,7 @@ struct AIToolsSettingsTab: View {
                 let entry = AIToolAllowedEntry(parsing: line)
                 HStack(alignment: .top) {
                     programLabel(executable: entry.executable, script: entry.script,
-                                 signer: entry.teamID.map { "Team ID: \($0)" } ?? "No developer signature kept")
+                                 signer: entry.teamID.map { String(localized: "Team ID: \($0)") } ?? String(localized: "No developer signature kept"))
                     Spacer()
                     Button {
                         store.update { $0.aiTools.allowedClients.removeAll { $0 == line } }
@@ -153,7 +153,7 @@ struct AIToolsSettingsTab: View {
             Text(AIToolText.displayed(DiagnosticReport.abbreviatingHome(executable), limit: 300)).font(.caption).foregroundStyle(.secondary)
                 .lineLimit(1).truncationMode(.middle).help(AIToolText.displayed(executable, limit: 1000))
             if let script {
-                Text("Script: " + AIToolText.displayed(DiagnosticReport.abbreviatingHome(script), limit: 300)).font(.caption)
+                Text(String(localized: "Script: \(AIToolText.displayed(DiagnosticReport.abbreviatingHome(script), limit: 300))")).font(.caption)
                     .foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle).help(AIToolText.displayed(script, limit: 1000))
             }
             Text(signer).font(.caption).foregroundStyle(.secondary)
@@ -319,7 +319,7 @@ final class AIToolsTabModel: ObservableObject {
         guard let recipes = RecipeRuntime.shared else { return }
         let library = recipes.library
         guard let request = row.isExtension ? library.extensionDetailsRequest(id: row.recipeId) : library.detailsRequest(recipeId: row.recipeId) else {
-            Self.alert("The details of \u{201C}\(row.title)\u{201D} aren't available: it isn't loaded any more.")
+            Self.alert(String(localized: "The details of \u{201C}\(row.title)\u{201D} aren't available: it isn't loaded any more."))
             return
         }
         Task { _ = await recipes.approver.requestApproval(request) }
@@ -342,20 +342,22 @@ final class AIToolsTabModel: ObservableObject {
         guard let recipes = RecipeRuntime.shared else { return }
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "Revoke the approval of \u{201C}\(row.title)\u{201D}?"
-        alert.informativeText = "It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it."
-        alert.addButton(withTitle: "Keep")
-        alert.addButton(withTitle: "Revoke")
+        alert.messageText = String(localized: "Revoke the approval of \u{201C}\(row.title)\u{201D}?")
+        alert.informativeText = String(localized: "It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.")
+        alert.addButton(withTitle: String(localized: "Keep", comment: "Keeps the approval of a recipe"))
+        alert.addButton(withTitle: String(localized: "Revoke"))
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         let revoked = row.isExtension ? recipes.library.revokeExtensionApproval(id: row.recipeId)
                                       : recipes.library.revokeApproval(recipeId: row.recipeId)
-        if !revoked { Self.alert("The approval of \u{201C}\(row.title)\u{201D} could not be revoked. It is unchanged; see the log for why.") }
+        if !revoked {
+            Self.alert(String(localized: "The approval of \u{201C}\(row.title)\u{201D} could not be revoked. It is unchanged; see the log for why."))
+        }
         refresh(store: store)
     }
 
     private static func alert(_ text: String) {
         let alert = NSAlert()
-        alert.messageText = "Approved recipes"
+        alert.messageText = String(localized: "Approved recipes")
         alert.informativeText = text
         alert.runModal()
     }

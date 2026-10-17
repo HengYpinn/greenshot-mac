@@ -32,7 +32,7 @@ final class ShareDestination: NSObject, @preconcurrency NSSharingServicePickerDe
         do {
             file = try TemporaryCaptureFile.write(capture, settings: settings)
         } catch {
-            ErrorPresenter.show(error, title: "The screenshot could not be shared")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be shared"))
             completion(.failed(error.localizedDescription))
             return
         }
@@ -109,7 +109,7 @@ final class ShareDestination: NSObject, @preconcurrency NSSharingServicePickerDe
             return
         }
         close(.failed(error.localizedDescription))
-        ErrorPresenter.show(error, title: "The screenshot could not be shared")
+        ErrorPresenter.show(error, title: String(localized: "The screenshot could not be shared"))
     }
 
     /// Ends the share; the result goes out once.
