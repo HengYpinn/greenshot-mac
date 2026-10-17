@@ -789,7 +789,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         canvas.commitEditing()
         if let url = editorDocument.fileURL, GreenshotFile.isGreenshotFile(url) {
             // The image with its elements, editable again later (EditorWindowController+Files.swift).
-            return saveGreenshotFile(to: url)
+            return saveGreenshotFile()
         }
         if let url = editorDocument.fileURL, ImageFormat(fileExtension: url.pathExtension) == nil {
             // Opened from a format this app can't write (HEIC, WebP, ...): never overwrite it, ask for a new file.
@@ -980,6 +980,26 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         NSApp.activate()
         window.makeKeyAndOrderFront(nil)
         return resolveChanges(makeSaveAlert().runModal())
+    }
+
+    /// Before quitting: asks about a changed screenshot. Save saves at once (Cancel when that fails); "Don't Save" is
+    /// only an answer here, the changes go with `discardChanges()` once every editor agreed to quit (`QuitReview`).
+    func askBeforeQuit() -> QuitAnswer {
+        canvas.commitEditing()
+        guard editorDocument.isModified, !settings.value.suppressSaveDialogAtClose, let window else { return .proceed }
+        NSApp.activate()
+        window.makeKeyAndOrderFront(nil)
+        switch makeSaveAlert().runModal() {
+        case .alertFirstButtonReturn: return save() ? .proceed : .cancel
+        case .alertSecondButtonReturn: return .discard
+        default: return .cancel
+        }
+    }
+
+    /// "Don't Save" at quit, after every editor agreed: its kept file goes too (via `onDocumentStateChange`).
+    func discardChanges() {
+        editorDocument.markSaved()
+        refreshDocumentState()
     }
 
     /// Before another screenshot replaces this one (reuse editor): true when it may go. Asks to save a changed one;

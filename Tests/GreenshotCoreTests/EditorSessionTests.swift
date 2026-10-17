@@ -46,19 +46,59 @@ struct EditorSessionTests {
         #expect(permissions.intValue == 0o600)
     }
 
-    @Test func otherFilesStay() throws {
-        let store = Self.temporaryStore()
-        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
-        try store.write(try Self.sessionFile(), for: UUID())
-        let note = store.folder.appendingPathComponent("note.txt")
+    /// Two copies of the app (process 100 and 200) with the same folder.
+    static func twoCopies() -> (first: EditorSessionStore, second: EditorSessionStore) {
+        let first = EditorSessionStore(folder: temporaryStore().folder, process: 100)
+        return (first, EditorSessionStore(folder: first.folder, process: 200))
+    }
+
+    @MainActor @Test func forgetAllLeavesTheFilesOfAnotherCopy() throws {
+        let (mine, other) = Self.twoCopies()
+        defer { try? FileManager.default.removeItem(at: mine.folder.deletingLastPathComponent()) }
+        try other.write(try Self.sessionFile(), for: UUID())
+        let note = mine.folder.appendingPathComponent("note.txt")
         try Data("keep".utf8).write(to: note)
-        #expect(store.saved().count == 1)
-        store.removeAll()
-        #expect(store.saved().isEmpty)
+        let book = EditorSessionBook(store: mine)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Mine")
+        #expect(book.write(document, reason: .autosave, wait: true))
+        #expect(mine.saved().count == 2)
+        book.forgetAll()
+        let left = mine.saved()
+        #expect(left.count == 1)
+        #expect(left.first.flatMap(EditorSessionStore.owner(of:)) == 200)
         #expect(FileManager.default.fileExists(atPath: note.path))
     }
 
-    @Test func claimedFileIsAnUnfinishedRestoreUntilAdopted() throws {
+    @Test func filesOfARunningCopyAreNotRestored() throws {
+        let (mine, other) = Self.twoCopies()
+        defer { try? FileManager.default.removeItem(at: mine.folder.deletingLastPathComponent()) }
+        let id = UUID()
+        try other.write(try Self.sessionFile(), for: id)
+        let claimed = try #require(other.claim(other.url(for: id)))
+        try other.write(try Self.sessionFile(), for: UUID())
+        let running: (Int32) -> Bool = { $0 == 200 }
+        #expect(mine.saved(isRunning: running).isEmpty)
+        #expect(mine.unfinishedRestores(isRunning: running).isEmpty)
+        // Once that copy ended, its files are this one's to restore (or to send to the Trash).
+        #expect(mine.saved().count == 1)
+        #expect(mine.unfinishedRestores() == [claimed])
+    }
+
+    @Test func namesCarryTheProcess() throws {
+        let store = EditorSessionStore(folder: Self.temporaryStore().folder, process: 4321)
+        let id = UUID()
+        #expect(store.url(for: id).lastPathComponent == "\(id.uuidString).4321.greenshot")
+        #expect(EditorSessionStore.owner(of: store.url(for: id)) == 4321)
+        #expect(EditorSessionStore.owner(of: URL(fileURLWithPath: "/x/\(id.uuidString).greenshot")) == nil)
+        // A claimed file is this process's while it is restored.
+        let other = EditorSessionStore(folder: store.folder, process: 99)
+        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
+        try other.write(try Self.sessionFile(), for: id)
+        let claimed = try #require(store.claim(other.url(for: id)))
+        #expect(EditorSessionStore.owner(of: claimed) == 4321)
+    }
+
+    @Test func restoredFileStaysUnfinishedUntilSettled() throws {
         let store = Self.temporaryStore()
         defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
         let id = UUID()
@@ -68,8 +108,91 @@ struct EditorSessionTests {
         #expect(store.unfinishedRestores() == [claimed])
         let newID = UUID()
         #expect(store.adopt(claimed, as: newID))
+        // Opened, but a crash now (e.g. while it is first drawn) must not reopen it at the next start.
+        #expect(store.saved().isEmpty)
+        #expect(store.unfinishedRestores() == [store.restoringURL(for: newID)])
+        store.settle(newID)
         #expect(store.unfinishedRestores().isEmpty)
         #expect(store.saved() == [store.url(for: newID)])
+    }
+
+    @Test func writingARestoredDocumentSettlesIt() throws {
+        let store = Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
+        let id = UUID()
+        try store.write(try Self.sessionFile(), for: id)
+        let claimed = try #require(store.claim(store.url(for: id)))
+        let newID = UUID()
+        #expect(store.adopt(claimed, as: newID))
+        try store.write(try Self.sessionFile(), for: newID)
+        #expect(store.unfinishedRestores().isEmpty)
+        #expect(store.saved() == [store.url(for: newID)])
+        store.remove(newID)
+        #expect(store.saved().isEmpty)
+    }
+
+    @MainActor @Test func restoredDocumentIsWrittenWhenItCantKeepItsFile() throws {
+        let store = Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Restored")
+        let missing = store.folder.appendingPathComponent("gone.restoring")
+        #expect(!book.adopt(missing, for: document))
+        book.waitForDisk()
+        #expect(store.saved() == [store.url(for: document.id)])
+        #expect(book.hasFile(document.id))
+    }
+
+    /// A store whose folder can't be made (it would be inside a file).
+    static func unwritableStore() throws -> (store: EditorSessionStore, blocker: URL) {
+        let blocker = FileManager.default.temporaryDirectory.appendingPathComponent("EditorSessionTests-\(UUID().uuidString)")
+        try Data("not a folder".utf8).write(to: blocker)
+        return (EditorSessionStore(folder: blocker.appendingPathComponent(EditorSessionStore.folderName)), blocker)
+    }
+
+    @MainActor @Test func failedWriteAtQuitIsReported() throws {
+        let (store, blocker) = try Self.unwritableStore()
+        defer { try? FileManager.default.removeItem(at: blocker) }
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Unsaved")
+        let written = book.write(document, reason: .quit, wait: true)
+        #expect(!written)
+        #expect(book.needsWrite(document))
+    }
+
+    @MainActor @Test func failedAutosaveIsTriedAgain() async throws {
+        let (store, blocker) = try Self.unwritableStore()
+        defer { try? FileManager.default.removeItem(at: blocker) }
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Unsaved")
+        book.write(document, reason: .autosave)
+        #expect(!book.needsWrite(document))
+        book.waitForDisk()
+        // The failure comes back on the main actor.
+        for _ in 0..<100 where !book.needsWrite(document) {
+            try await Task.sleep(nanoseconds: 10_000_000)
+        }
+        #expect(book.needsWrite(document))
+    }
+
+    @MainActor @Test func bookSettlesRestoredDocumentsLater() throws {
+        let store = Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
+        try store.write(try Self.sessionFile(), for: UUID())
+        let kept = try #require(store.saved().first)
+        let claimed = try #require(store.claim(kept))
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Restored")
+        #expect(book.adopt(claimed, for: document))
+        #expect(book.hasFile(document.id))
+        #expect(!book.needsWrite(document))
+        #expect(store.saved().isEmpty)
+        book.settle()
+        book.waitForDisk()
+        #expect(store.saved() == [store.url(for: document.id)])
+        book.forget(document.id)
+        book.waitForDisk()
+        #expect(store.saved().isEmpty)
     }
 
     @Test func oldestFirst() throws {
@@ -123,5 +246,24 @@ struct EditorSessionTests {
 
     @Test func keepWindowsSettingKeeps() {
         #expect(EditorSessionPolicy.keepsEditors(quitReason: nil, poweringOffSince: nil, now: Date(), keepsWindows: true))
+    }
+
+    // MARK: Questions before quitting
+
+    @Test func dontSaveCountsOnlyWhenNobodyCancels() {
+        var asked: [Int] = []
+        let cancelled = QuitReview.run([1, 2, 3]) { editor -> QuitAnswer in
+            asked.append(editor)
+            return editor == 1 ? .discard : .cancel
+        }
+        #expect(cancelled == nil)
+        // Editor 3 isn't asked after the Cancel, and editor 1's "Don't Save" is not applied.
+        #expect(asked == [1, 2])
+    }
+
+    @Test func discardedEditorsWhenEveryoneAgreed() {
+        let answers: [Int: QuitAnswer] = [1: .discard, 2: .proceed, 3: .discard]
+        let discarded = QuitReview.run([1, 2, 3]) { answers[$0] ?? .cancel }
+        #expect(discarded == [1, 3])
     }
 }

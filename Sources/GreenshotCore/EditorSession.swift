@@ -7,16 +7,23 @@ import Foundation
 
 /// The unsaved editors kept for the next start of the app, one `.greenshot` file each (with `GreenshotFile.Session`),
 /// named after the document's id like upstream's `Surface.ID + ".greenshot"` (`Greenshot/Helpers/RestartManagerHelper.cs`
-/// keeps them in %TEMP%\Greenshot\RestartState). A file that is being restored is renamed to `.restoring` first, so a
-/// file that makes the app crash while it opens is not opened again at every start.
+/// keeps them in %TEMP%\Greenshot\RestartState). A file that is being restored is renamed to `.restoring` first and
+/// stays so until the app has run for a while with it open (`settle`): a file that makes the app crash while it opens
+/// or is first drawn is not opened again at every start.
+///
+/// The names also carry the process that wrote the file (`<document id>.<process id>.greenshot`): when two copies of the
+/// app run (e.g. two builds), neither restores nor removes the files of the other one while it runs.
 public struct EditorSessionStore: Sendable {
     public static let folderName = "Unsaved Editors"
     static let restoringExtension = "restoring"
 
     public let folder: URL
+    /// The process this store writes for.
+    public let process: Int32
 
-    public init(folder: URL) {
+    public init(folder: URL, process: Int32 = ProcessInfo.processInfo.processIdentifier) {
         self.folder = folder
+        self.process = process
     }
 
     /// In the folder of `--settings-dir` when there is one (a portable setup keeps its screenshots with it), else in
@@ -27,7 +34,25 @@ public struct EditorSessionStore: Sendable {
     }
 
     public func url(for id: UUID) -> URL {
-        folder.appendingPathComponent(id.uuidString).appendingPathExtension(GreenshotFile.fileExtension)
+        folder.appendingPathComponent("\(id.uuidString).\(process)").appendingPathExtension(GreenshotFile.fileExtension)
+    }
+
+    /// The file of the document `id` while it is restored and not settled yet.
+    func restoringURL(for id: UUID) -> URL {
+        folder.appendingPathComponent("\(id.uuidString).\(process)").appendingPathExtension(Self.restoringExtension)
+    }
+
+    /// The process that wrote a file of the store, from its name; nil for a name without one.
+    public static func owner(of url: URL) -> Int32? {
+        let parts = url.deletingPathExtension().lastPathComponent.split(separator: ".")
+        guard parts.count == 2 else { return nil }
+        return Int32(parts[1])
+    }
+
+    /// Whether the file belongs to another copy of the app that is running now (`isRunning` tells for a process id).
+    func ownedByAnotherRunningCopy(_ url: URL, isRunning: (Int32) -> Bool) -> Bool {
+        guard let owner = Self.owner(of: url), owner != process else { return false }
+        return isRunning(owner)
     }
 
     /// Writes the file of the document `id`, readable by the user only (it is a screenshot).
@@ -37,32 +62,37 @@ public struct EditorSessionStore: Sendable {
         let url = url(for: id)
         try data.write(to: url, options: .atomic)
         try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
+        // Written again after it was restored: this file is its state now.
+        try? FileManager.default.removeItem(at: restoringURL(for: id))
     }
 
     public func remove(_ id: UUID) {
         try? FileManager.default.removeItem(at: url(for: id))
+        try? FileManager.default.removeItem(at: restoringURL(for: id))
     }
 
-    /// Removes the kept editors (and nothing else that may be in the folder).
-    public func removeAll() {
-        for url in files(withExtension: GreenshotFile.fileExtension) + files(withExtension: Self.restoringExtension) {
-            try? FileManager.default.removeItem(at: url)
-        }
+    /// Removes the files of these documents (of this process; another copy's files stay).
+    public func remove(_ ids: Set<UUID>) {
+        for id in ids { remove(id) }
     }
 
-    /// The kept editors, the oldest first (they open in that order, so the newest ends up in front).
-    public func saved() -> [URL] {
-        files(withExtension: GreenshotFile.fileExtension)
+    /// The kept editors, the oldest first (they open in that order, so the newest ends up in front); without those of
+    /// another copy of the app that is running (`isRunning` tells for a process id).
+    public func saved(isRunning: (Int32) -> Bool = { _ in false }) -> [URL] {
+        files(withExtension: GreenshotFile.fileExtension).filter { !ownedByAnotherRunningCopy($0, isRunning: isRunning) }
     }
 
-    /// Files whose restore did not finish: the app ended while one of them opened.
-    public func unfinishedRestores() -> [URL] {
-        files(withExtension: Self.restoringExtension)
+    /// Files whose restore did not finish: the app ended while one of them opened or soon after. Not those another
+    /// running copy is restoring.
+    public func unfinishedRestores(isRunning: (Int32) -> Bool = { _ in false }) -> [URL] {
+        files(withExtension: Self.restoringExtension).filter { !ownedByAnotherRunningCopy($0, isRunning: isRunning) }
     }
 
-    /// Marks a kept editor as being restored (renamed to `.restoring`); the new name, nil when that failed.
+    /// Marks a kept editor as being restored by this process (renamed to `.restoring`); the new name, nil when that
+    /// failed (e.g. another copy claimed it first).
     public func claim(_ url: URL) -> URL? {
-        let claimed = url.deletingPathExtension().appendingPathExtension(Self.restoringExtension)
+        let stem = url.deletingPathExtension().lastPathComponent.split(separator: ".").first.map(String.init) ?? "restore"
+        let claimed = folder.appendingPathComponent("\(stem).\(process)").appendingPathExtension(Self.restoringExtension)
         do {
             try FileManager.default.moveItem(at: url, to: claimed)
             return claimed
@@ -72,9 +102,22 @@ public struct EditorSessionStore: Sendable {
     }
 
     /// A restored editor keeps its file as the one of its new document `id` until it is saved, closed or written again.
+    /// It stays `.restoring` until `settle(_:)`.
     @discardableResult
     public func adopt(_ claimed: URL, as id: UUID) -> Bool {
-        (try? FileManager.default.moveItem(at: claimed, to: url(for: id))) != nil
+        (try? FileManager.default.moveItem(at: claimed, to: restoringURL(for: id))) != nil
+    }
+
+    /// The app ran for a while with the restored document `id` open: its file is a kept editor again, restored at the
+    /// next start if the app ends without quitting.
+    public func settle(_ id: UUID) {
+        let restoring = restoringURL(for: id)
+        guard FileManager.default.fileExists(atPath: restoring.path) else { return }
+        if FileManager.default.fileExists(atPath: url(for: id).path) {
+            try? FileManager.default.removeItem(at: restoring)
+        } else {
+            try? FileManager.default.moveItem(at: restoring, to: url(for: id))
+        }
     }
 
     private func files(withExtension fileExtension: String) -> [URL] {
@@ -119,5 +162,34 @@ public enum EditorSessionPolicy {
         if let poweringOffSince, now.timeIntervalSince(poweringOffSince) >= 0,
            now.timeIntervalSince(poweringOffSince) <= powerOffWindow { return true }
         return keepsWindows
+    }
+}
+
+/// What the user answered about one editor with unsaved changes when the app quits.
+public enum QuitAnswer: Sendable {
+    /// Saved, or nothing to ask: it may go.
+    case proceed
+    /// "Don't Save".
+    case discard
+    /// "Cancel" (or saving failed): the app keeps running.
+    case cancel
+}
+
+/// The questions before quitting: each editor is asked in turn, and "Don't Save" only counts once every editor agreed
+/// to quit. Discarding at once would lose the changes of an editor that was answered "Don't Save" before another one
+/// was cancelled.
+public enum QuitReview {
+    /// Asks about each editor in order and stops at the first Cancel. The editors whose changes go are returned when
+    /// nobody cancelled; nil when the quit is cancelled.
+    public static func run<Editor>(_ editors: [Editor], ask: (Editor) -> QuitAnswer) -> [Editor]? {
+        var discarded: [Editor] = []
+        for editor in editors {
+            switch ask(editor) {
+            case .proceed: continue
+            case .discard: discarded.append(editor)
+            case .cancel: return nil
+            }
+        }
+        return discarded
     }
 }

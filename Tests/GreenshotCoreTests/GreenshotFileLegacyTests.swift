@@ -216,6 +216,7 @@ struct GreenshotFileLegacyTests {
         #expect(contents.elements.isEmpty)
         #expect(contents.origin == .windows(marker: "Greenshot01.03"))
         #expect(!contents.elementsFailed)
+        #expect(contents.savesToNewFile)
     }
 
     @Test func wholeFileWithElements() throws {
