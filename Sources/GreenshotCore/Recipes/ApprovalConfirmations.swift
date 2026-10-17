@@ -20,15 +20,15 @@ public struct RecipeConfirmation: Sendable, Equatable {
 
     /// Settings › Recipes "Unload", with the recipe manager's words (upstream `RecipeManagerViewModel.cs:255-259`).
     public static func unload(name: String, appName: String) -> RecipeConfirmation {
-        RecipeConfirmation(title: "Unload Recipe",
-                           message: "Are you sure you want to unload '\(name)'? It will be unregistered from \(appName).",
-                           button: "Unload")
+        RecipeConfirmation(title: String(localized: "Unload Recipe"),
+                           message: String(localized: "Are you sure you want to unload '\(name)'? It will be unregistered from \(appName)."),
+                           button: String(localized: "Unload"))
     }
 
     /// Settings › Recipes "Reset Default", with the recipe manager's words (upstream `RecipeManagerViewModel.cs:255-259`).
     public static func resetToDefault(name: String) -> RecipeConfirmation {
-        RecipeConfirmation(title: "Reset Recipe to Default",
-                           message: "Are you sure you want to revert '\(name)' back to its default built-in definition?",
-                           button: "Reset")
+        RecipeConfirmation(title: String(localized: "Reset Recipe to Default"),
+                           message: String(localized: "Are you sure you want to revert '\(name)' back to its default built-in definition?"),
+                           button: String(localized: "Reset", comment: "Button: bring back the built-in version of a recipe"))
     }
 }

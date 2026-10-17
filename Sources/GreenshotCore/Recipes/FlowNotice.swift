@@ -30,10 +30,10 @@ public struct RecipeFlowNotice: Sendable, Equatable {
         }
         let name = result.recipeName.trimmingCharacters(in: .whitespaces).isEmpty ? result.recipeId : result.recipeName
         let reason = [result.reason, result.errorDescription].compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .first { !$0.isEmpty } ?? "Capture flow failed."
+            .first { !$0.isEmpty } ?? String(localized: "Capture flow failed.")
         var lines = [reason]
         lines.append(contentsOf: unannouncedExports(of: result).map(describe))
-        return RecipeFlowNotice(title: "Recipe “\(name)” failed", detail: lines.joined(separator: "\n"))
+        return RecipeFlowNotice(title: String(localized: "Recipe “\(name)” failed"), detail: lines.joined(separator: "\n"))
     }
 
     /// The exports no Notification step announced; without the step's count only the failed ones (an export that

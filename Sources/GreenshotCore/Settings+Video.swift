@@ -222,8 +222,8 @@ private extension CaseIterable where Self: RawRepresentable, Self.RawValue == St
 extension VideoFormat {
     public var displayName: String {
         switch self {
-        case .mp4H264: return "MP4 with H.264 (plays everywhere)"
-        case .mp4HEVC: return "MP4 with HEVC (smaller files)"
+        case .mp4H264: return String(localized: "MP4 with H.264 (plays everywhere)")
+        case .mp4HEVC: return String(localized: "MP4 with HEVC (smaller files)")
         }
     }
 }
@@ -231,11 +231,11 @@ extension VideoFormat {
 extension VideoEncodingPreset {
     public var displayName: String {
         switch self {
-        case .smallSize: return "Small size"
-        case .balanced: return "Balanced"
-        case .highQuality: return "High quality"
-        case .highFrameRateGaming: return "High frame rate"
-        case .custom: return "Custom"
+        case .smallSize: return String(localized: "Small size")
+        case .balanced: return String(localized: "Balanced", comment: "Video encoding preset between small files and high quality (Settings › Video)")
+        case .highQuality: return String(localized: "High quality")
+        case .highFrameRateGaming: return String(localized: "High frame rate")
+        case .custom: return String(localized: "video.preset.custom", defaultValue: "Custom", comment: "Video encoding preset with the user's own values (Settings › Video)")
         }
     }
 }
@@ -243,8 +243,8 @@ extension VideoEncodingPreset {
 extension VideoColorMode {
     public var displayName: String {
         switch self {
-        case .fullColor: return "Full colour"
-        case .grayscale: return "Grayscale"
+        case .fullColor: return String(localized: "Full colour")
+        case .grayscale: return String(localized: "Grayscale")
         }
     }
 }
@@ -252,8 +252,8 @@ extension VideoColorMode {
 extension WindowResizeBehavior {
     public var displayName: String {
         switch self {
-        case .letterboxFixedCanvas: return "Keep its size, with black bars around it"
-        case .scaleToFit: return "Scale it to fill the video"
+        case .letterboxFixedCanvas: return String(localized: "Keep its size, with black bars around it")
+        case .scaleToFit: return String(localized: "Scale it to fill the video")
         }
     }
 }
@@ -261,10 +261,10 @@ extension WindowResizeBehavior {
 extension AudioCaptureSource {
     public var displayName: String {
         switch self {
-        case .none: return "None"
-        case .systemAudio: return "What the Mac plays"
-        case .microphone: return "Microphone"
-        case .systemAudioAndMicrophone: return "What the Mac plays and the microphone"
+        case .none: return String(localized: "video.audio.none", defaultValue: "None", comment: "Sound of a screen recording: no sound (Settings › Video)")
+        case .systemAudio: return String(localized: "What the Mac plays")
+        case .microphone: return String(localized: "Microphone")
+        case .systemAudioAndMicrophone: return String(localized: "What the Mac plays and the microphone")
         }
     }
 }
@@ -272,9 +272,9 @@ extension AudioCaptureSource {
 extension RecordingHotkeyTarget {
     public var displayName: String {
         switch self {
-        case .region: return "A region (Space: a window)"
-        case .window: return "A window"
-        case .screen: return "The screen with the mouse pointer"
+        case .region: return String(localized: "A region (Space: a window)")
+        case .window: return String(localized: "A window")
+        case .screen: return String(localized: "The screen with the mouse pointer")
         }
     }
 }
@@ -282,11 +282,11 @@ extension RecordingHotkeyTarget {
 extension VideoDestination {
     public var displayName: String {
         switch self {
-        case .picker: return "Ask every time"
-        case .showInFinder: return "Show in Finder"
-        case .open: return "Open in the default player"
-        case .share: return "Share…"
-        case .copyPath: return "Copy the file path"
+        case .picker: return String(localized: "Ask every time")
+        case .showInFinder: return String(localized: "Show in Finder")
+        case .open: return String(localized: "Open in the default player")
+        case .share: return String(localized: "Share…")
+        case .copyPath: return String(localized: "Copy the file path")
         }
     }
 }

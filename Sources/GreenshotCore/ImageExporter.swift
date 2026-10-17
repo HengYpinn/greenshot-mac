@@ -46,12 +46,12 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return "BMP"
         case .gif: return "GIF"
         case .tiff: return "TIFF"
-        case .webp: return "WebP (lossless)"
-        case .ico: return "ICO (icon)"
-        case .tga: return "TGA (Targa)"
-        case .pbm: return "PBM (Netpbm)"
+        case .webp: return String(localized: "WebP (lossless)")
+        case .ico: return String(localized: "ICO (icon)")
+        case .tga: return String(localized: "TGA (Targa)")
+        case .pbm: return String(localized: "PBM (Netpbm)")
         case .pdf: return "PDF"
-        case .greenshot: return "Greenshot (editable)"
+        case .greenshot: return String(localized: "Greenshot (editable)")
         }
     }
 
@@ -113,9 +113,9 @@ public enum ImageExportError: Error, LocalizedError {
 
     public var errorDescription: String? {
         switch self {
-        case .encodingFailed(let format): return "The image could not be encoded as \(format.displayName)."
+        case .encodingFailed(let format): return String(localized: "The image could not be encoded as \(format.displayName).")
         case let .tooLarge(format, maxSide):
-            return "The image is too big for \(format.displayName): it can be at most \(maxSide) pixels wide and high."
+            return String(localized: "The image is too big for \(format.displayName): it can be at most \(maxSide) pixels wide and high.")
         }
     }
 }

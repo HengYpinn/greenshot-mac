@@ -43,11 +43,11 @@ public enum FixedCaptureAnchor: String, Codable, CaseIterable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .topLeft: return "Top left"
-        case .topRight: return "Top right"
-        case .bottomRight: return "Bottom right"
-        case .bottomLeft: return "Bottom left"
-        case .center: return "Center"
+        case .topLeft: return String(localized: "Top left")
+        case .topRight: return String(localized: "Top right")
+        case .bottomRight: return String(localized: "Bottom right")
+        case .bottomLeft: return String(localized: "Bottom left")
+        case .center: return String(localized: "Center", comment: "The centre of the fixed-size capture rectangle follows the mouse")
         }
     }
 
@@ -69,9 +69,9 @@ public enum ScreenCaptureMode: String, Codable, CaseIterable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .auto: return "The screen with the mouse"
-        case .fullScreen: return "All screens"
-        case .fixed: return "One screen"
+        case .auto: return String(localized: "The screen with the mouse")
+        case .fullScreen: return String(localized: "All screens")
+        case .fixed: return String(localized: "One screen")
         }
     }
 }
@@ -82,10 +82,10 @@ public enum NotificationLevel: String, Codable, CaseIterable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .all: return "All"
-        case .warnings: return "Warnings and errors"
-        case .errors: return "Errors only"
-        case .none: return "None"
+        case .all: return String(localized: "notifications.level.all", defaultValue: "All", comment: "Which messages are shown: all of them (Settings › Notifications)")
+        case .warnings: return String(localized: "Warnings and errors")
+        case .errors: return String(localized: "Errors only")
+        case .none: return String(localized: "notifications.level.none", defaultValue: "None", comment: "Which messages are shown: none of them (Settings › Notifications)")
         }
     }
 }
@@ -246,7 +246,7 @@ public enum ClipboardFormat: String, Codable, CaseIterable, Sendable {
         case .png: return "PNG"
         case .tiff: return "TIFF"
         case .jpeg: return "JPEG"
-        case .html: return "HTML (image embedded)"
+        case .html: return String(localized: "HTML (image embedded)")
         }
     }
 
@@ -348,13 +348,13 @@ public struct PDFSettings: Codable, Equatable, Sendable {
 
         public var displayName: String {
             switch self {
-            case .image: return "Image size"
-            case .custom: return "Custom"
+            case .image: return String(localized: "Image size", comment: "PDF page size: the size of the image")
+            case .custom: return String(localized: "pdf.pageSize.custom", defaultValue: "Custom", comment: "PDF page size: a width and height the user enters")
             case .a3: return "A3"
             case .a4: return "A4"
             case .a5: return "A5"
             case .a6: return "A6"
-            case .letter: return "Letter"
+            case .letter: return String(localized: "Letter", comment: "PDF page size: US Letter paper")
             }
         }
     }
@@ -362,7 +362,9 @@ public struct PDFSettings: Codable, Equatable, Sendable {
     public enum Unit: String, Codable, CaseIterable, Sendable {
         case mm, cm, inch
 
-        public var displayName: String { rawValue }
+        public var displayName: String {
+            self == .inch ? String(localized: "inch", comment: "Unit of the PDF page size") : rawValue
+        }
         /// PDF points per unit.
         public var points: Double {
             switch self {
@@ -378,8 +380,8 @@ public struct PDFSettings: Codable, Equatable, Sendable {
 
         public var displayName: String {
             switch self {
-            case .shrinkToFit: return "Only shrink to fit"
-            case .fitToPage: return "Fit to page"
+            case .shrinkToFit: return String(localized: "Only shrink to fit")
+            case .fitToPage: return String(localized: "Fit to page")
             }
         }
     }
@@ -450,9 +452,9 @@ public struct ConfluenceSettings: Codable, Equatable, Sendable {
 
         public var displayName: String {
             switch self {
-            case .nothing: return "Nothing"
-            case .wikiMarkup: return "Wiki markup (!name!)"
-            case .imageLink: return "Link to the image"
+            case .nothing: return String(localized: "Nothing", comment: "What goes to the clipboard after a Confluence upload: nothing")
+            case .wikiMarkup: return String(localized: "Wiki markup (!name!)")
+            case .imageLink: return String(localized: "Link to the image")
             }
         }
     }

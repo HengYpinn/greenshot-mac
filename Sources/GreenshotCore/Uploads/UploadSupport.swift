@@ -110,13 +110,16 @@ public enum UploadError: Error, LocalizedError, Equatable {
 
     public var errorDescription: String? {
         switch self {
-        case .notConfigured(let what): return "\(what) is not set up. Add it in Settings › Destinations."
-        case .invalidURL(let url): return "“\(url)” is not a valid URL."
+        case .notConfigured(let what):
+            return String(localized: "\(what) is not set up. Add it in Settings › Destinations.", comment: "%@ names a setting, e.g. \"The Dropbox app key\"")
+        case .invalidURL(let url): return String(localized: "“\(url)” is not a valid URL.")
         case .http(let status, let message):
-            return message.isEmpty ? "The server answered with HTTP \(status)." : "HTTP \(status): \(message)"
-        case .unexpectedResponse(let detail): return "Unexpected answer from the server: \(detail)"
-        case .notSignedIn(let service): return "Not signed in to \(service). Sign in under Settings › Destinations."
-        case .cancelled: return "Cancelled."
+            return message.isEmpty ? String(localized: "The server answered with HTTP \(status).") : "HTTP \(status): \(message)"
+        case .unexpectedResponse(let detail):
+            return String(localized: "Unexpected answer from the server: \(detail)", comment: "%@ is a technical detail in English")
+        case .notSignedIn(let service):
+            return String(localized: "Not signed in to \(service). Sign in under Settings › Destinations.", comment: "%@ is a service: Box or Dropbox")
+        case .cancelled: return String(localized: "Cancelled.")
         case .oauth(let detail): return detail
         }
     }

@@ -48,13 +48,23 @@ public struct RecipeManagerItem: Identifiable, Equatable, Sendable {
         self.hasUnapprovedTriggers = hasUnapprovedTriggers
     }
 
-    /// "OVERRIDDEN", "BUILT-IN" or "CUSTOM" (upstream `RecipeTypeBadge`).
-    public var typeBadge: String { isOverridden ? "OVERRIDDEN" : (isBuiltIn ? "BUILT-IN" : "CUSTOM") }
-    public var statusBadge: String { isEnabled ? "ACTIVE" : "DEACTIVATED" }
+    /// "OVERRIDDEN", "BUILT-IN" or "CUSTOM" (upstream `RecipeTypeBadge`), in the app's language.
+    public var typeBadge: String {
+        if isOverridden { return String(localized: "OVERRIDDEN", comment: "Badge of a recipe whose file replaces a built-in recipe") }
+        return isBuiltIn ? String(localized: "BUILT-IN", comment: "Badge of a built-in recipe")
+            : String(localized: "CUSTOM", comment: "Badge of a recipe from a file")
+    }
+    public var statusBadge: String {
+        isEnabled ? String(localized: "ACTIVE", comment: "Badge of a recipe that is switched on")
+            : String(localized: "DEACTIVATED", comment: "Badge of a recipe that is switched off")
+    }
     public var isAICreated: Bool { !(proposedBy ?? "").isEmpty }
     /// Unload (a file recipe or automatic step) or Reset Default (a file which replaces a built-in recipe).
     public var canUnload: Bool { isExtension ? filePath != nil : (!isBuiltIn || isOverridden) }
-    public var unloadTitle: String { isOverridden && !isExtension ? "Reset Default" : "Unload" }
+    public var unloadTitle: String {
+        isOverridden && !isExtension ? String(localized: "Reset Default", comment: "Button: bring back the built-in version of a recipe")
+            : String(localized: "Unload")
+    }
     /// Permissions: only what came from a file has an approval.
     public var hasFile: Bool { filePath != nil }
 }
@@ -67,6 +77,18 @@ public enum RecipeManagerFilter: String, CaseIterable, Sendable {
     case builtIn = "Built-in"
     case custom = "Custom"
     case ai = "AI"
+
+    /// The chip's name, in the app's language (the raw value is the English name).
+    public var displayName: String {
+        switch self {
+        case .all: return String(localized: "recipeManager.filter.all", defaultValue: "All", comment: "Recipe manager filter: every recipe")
+        case .active: return String(localized: "Active", comment: "Recipe manager filter: the recipes that are switched on")
+        case .deactivated: return String(localized: "Deactivated", comment: "Recipe manager filter: the recipes that are switched off")
+        case .builtIn: return String(localized: "Built-in", comment: "Recipe manager filter: the built-in recipes")
+        case .custom: return String(localized: "recipeManager.filter.custom", defaultValue: "Custom", comment: "Recipe manager filter: the recipes from files")
+        case .ai: return String(localized: "AI", comment: "Recipe manager filter: the recipes written by AI tools")
+        }
+    }
 
     public func matches(_ item: RecipeManagerItem) -> Bool {
         switch self {
@@ -103,19 +125,21 @@ public enum RecipeManagerList {
     public static func triggersSummary(_ loaded: LoadedRecipe) -> String {
         let recipe = loaded.recipe
         guard !recipe.triggers.isEmpty else {
-            return recipe.showInContextMenu ? "Recipes menu (default)" : "No triggers (recipe editor only)"
+            return recipe.showInContextMenu ? String(localized: "Recipes menu (default)") : String(localized: "No triggers (recipe editor only)")
         }
         var parts: [String] = []
         for (index, trigger) in recipe.triggers.enumerated() {
             var label = describe(trigger, of: recipe)
             if trigger.isType(WellKnownTriggerType.commandline), trigger.allowsBrowserInvocation {
                 let key = RecipeApprovalPolicy.browserInvocationKey(index: index, trigger: trigger)
-                label += loaded.isBuiltIn || loaded.approval?.isTriggerApproved(key) == true ? " (+ web pages)" : " (web pages: not approved)"
+                let approved = loaded.isBuiltIn || loaded.approval?.isTriggerApproved(key) == true
+                label = approved ? String(localized: "\(label) (+ web pages)", comment: "%@ is a trigger of a recipe")
+                    : String(localized: "\(label) (web pages: not approved)", comment: "%@ is a trigger of a recipe")
             }
             if !trigger.enabled {
-                label += " (disabled)"
+                label = String(localized: "\(label) (disabled)", comment: "%@ is a trigger of a recipe")
             } else if !isApproved(loaded, index: index) {
-                label += " (off, not approved)"
+                label = String(localized: "\(label) (off, not approved)", comment: "%@ is a trigger of a recipe")
             }
             parts.append(label)
         }
@@ -137,18 +161,24 @@ public enum RecipeManagerList {
         let menuText = trigger.menuItemText ?? recipe.name
         switch trigger.triggerType.lowercased() {
         case WellKnownTriggerType.hotkey.lowercased():
-            guard let text = trigger.hotkey?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return "Hotkey" }
-            return "Hotkey " + (RecipeHotkeyText.parse(text)?.displayString ?? text)
+            guard let text = trigger.hotkey?.trimmingCharacters(in: .whitespaces), !text.isEmpty else { return String(localized: "Hotkey") }
+            let hotkey = RecipeHotkeyText.parse(text)?.displayString ?? text
+            return String(localized: "Hotkey \(hotkey)", comment: "A recipe's hotkey trigger; %@ is the hotkey, e.g. ⇧⌘R")
         case WellKnownTriggerType.contextMenu.lowercased(), WellKnownTriggerType.systray.lowercased():
-            return "Recipes menu (“\(menuText)”)"
-        case WellKnownTriggerType.editor.lowercased(): return "Editor (“\(menuText)”)"
-        case WellKnownTriggerType.clipboard.lowercased(): return "Clipboard monitor"
-        case WellKnownTriggerType.commandline.lowercased(): return "Command line: \(trigger.command ?? recipe.id)"
-        case WellKnownTriggerType.aiTool.lowercased(): return "AI tool “\(trigger.toolName ?? trigger.name ?? recipe.id)”"
-        case WellKnownTriggerType.openFile.lowercased(): return "Open file"
-        case WellKnownTriggerType.extension.lowercased(): return "Browser extension"
-        case WellKnownTriggerType.schedule.lowercased(): return "Schedule"
-        case WellKnownTriggerType.manual.lowercased(): return "Manual"
+            return String(localized: "Recipes menu (“\(menuText)”)", comment: "A recipe's menu trigger; %@ is the menu item")
+        case WellKnownTriggerType.editor.lowercased():
+            return String(localized: "Editor (“\(menuText)”)", comment: "A recipe's trigger in the editor; %@ is the menu item")
+        case WellKnownTriggerType.clipboard.lowercased(): return String(localized: "Clipboard monitor")
+        case WellKnownTriggerType.commandline.lowercased():
+            let command = trigger.command ?? recipe.id
+            return String(localized: "Command line: \(command)")
+        case WellKnownTriggerType.aiTool.lowercased():
+            let tool = trigger.toolName ?? trigger.name ?? recipe.id
+            return String(localized: "AI tool “\(tool)”")
+        case WellKnownTriggerType.openFile.lowercased(): return String(localized: "Open file", comment: "A recipe's trigger: a file opened with Greenshot")
+        case WellKnownTriggerType.extension.lowercased(): return String(localized: "Browser extension")
+        case WellKnownTriggerType.schedule.lowercased(): return String(localized: "Schedule", comment: "A recipe's trigger: at set times")
+        case WellKnownTriggerType.manual.lowercased(): return String(localized: "Manual", comment: "A recipe's trigger: started by hand")
         default: return trigger.name ?? trigger.triggerType
         }
     }
@@ -173,10 +203,15 @@ extension RecipeLibrary {
                                      version: Self.version(ext), isExtension: true, isBuiltIn: loaded.isBuiltIn,
                                      isOverridden: loaded.replacesBuiltIn, proposedBy: loaded.proposedBy, isEnabled: loaded.isEnabled,
                                      canToggle: ext.extensionEnabledOption != nil,
-                                     triggersSummary: "Automatic step at \(ext.extensionSlotName ?? ext.extends?.slot ?? "?"), fits \(fits) recipe(s)",
+                                     triggersSummary: Self.extensionSummary(slot: ext.extensionSlotName ?? ext.extends?.slot ?? "?", fits: fits),
                                      stepCount: ext.nodes.count, filePath: loaded.fileURL?.path)
         }
         return (recipeRows, extensionRows)
+    }
+
+    /// "Automatic step at BeforeExport, fits 3 recipe(s)" in the automatic step's row.
+    private static func extensionSummary(slot: String, fits: Int) -> String {
+        String(localized: "Automatic step at \(slot), fits \(fits) recipe(s)", comment: "%@ is a slot name (BeforeExport), %lld a number")
     }
 
     private static func version(_ recipe: CaptureRecipe) -> String {

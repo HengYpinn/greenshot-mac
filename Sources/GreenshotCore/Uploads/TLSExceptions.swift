@@ -217,9 +217,10 @@ public struct UntrustedCertificateError: Error, LocalizedError, Equatable {
     public var errorDescription: String? {
         var text = underlying
         if let fingerprint {
-            text += "\n\nThe certificate of \(host) has the SHA-256 fingerprint \(TLSExceptionPolicy.displayFingerprint(fingerprint))."
+            let shown = TLSExceptionPolicy.displayFingerprint(fingerprint)
+            text += "\n\n" + String(localized: "The certificate of \(host) has the SHA-256 fingerprint \(shown).")
         }
-        text += " If this is your own server, add \(host) or the fingerprint under Settings › Destinations › Your own servers."
+        text += " " + String(localized: "If this is your own server, add \(host) or the fingerprint under Settings › Destinations › Your own servers.")
         return text
     }
 }

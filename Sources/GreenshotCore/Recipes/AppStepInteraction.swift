@@ -44,16 +44,17 @@ public struct RecipePrompt: Equatable, Sendable {
     public var cancelKey: String
 
     public init(_ step: RecipeStepInvocation) {
-        title = Self.text(step.string("Title")) ?? "Decision Required"
-        message = Self.text(step.string("Message")) ?? "Please select how you would like to proceed with this capture:"
+        title = Self.text(step.string("Title")) ?? String(localized: "Decision Required")
+        message = Self.text(step.string("Message")) ?? String(localized: "Please select how you would like to proceed with this capture:")
         showPreview = step.bool("ShowPreview") ?? true
         timeoutSeconds = max(step.int("TimeoutSeconds") ?? 0, 0)
         var choices = Self.choices(step.value("Choices"))
         var defaultKey = choices.first(where: \.isDefault)?.key
         var cancelKey = choices.first(where: \.isCancel)?.key
         if choices.isEmpty {
-            choices = [RecipePromptChoice(key: "Yes", label: "Yes, Proceed", style: .primary, isDefault: true),
-                       RecipePromptChoice(key: "No", label: "No, Cancel", style: .secondary, isCancel: true)]
+            // The keys are data (`UserChoice.<node id>`, the conditional transitions); only the labels are shown.
+            choices = [RecipePromptChoice(key: "Yes", label: String(localized: "Yes, Proceed"), style: .primary, isDefault: true),
+                       RecipePromptChoice(key: "No", label: String(localized: "No, Cancel"), style: .secondary, isCancel: true)]
             defaultKey = "Yes"
             cancelKey = "No"
         }
@@ -98,7 +99,7 @@ public struct RecipePrompt: Equatable, Sendable {
 
     /// "Auto-selecting default choice in 5s..." while the countdown runs.
     public static func countdownText(_ seconds: Int) -> String {
-        seconds > 0 ? "Auto-selecting default choice in \(seconds)s..." : ""
+        seconds > 0 ? String(localized: "Auto-selecting default choice in \(seconds)s...") : ""
     }
 
     private static func text(_ value: String?) -> String? {
@@ -183,7 +184,7 @@ public struct RecipeFlyout: Equatable, Sendable {
     public init(_ step: RecipeStepInvocation, lastError: String?, available: [(designation: String, name: String)],
                 recipes: [RecipeForwardChoice], runningRecipeId: String) {
         let given = step.string("Title")?.trimmingCharacters(in: .whitespaces) ?? ""
-        title = given.isEmpty ? "Export Capture" : given
+        title = given.isEmpty ? String(localized: "Export Capture") : given
         showPreview = step.bool("ShowPreview") ?? true
         timeoutSeconds = max(step.int("TimeoutSeconds") ?? 0, 0)
         let error = lastError?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -192,13 +193,13 @@ public struct RecipeFlyout: Equatable, Sendable {
         var list = available.filter { !RecipeDestinationPlan.isPicker($0.designation) }
         if !wanted.isEmpty { list = list.filter { item in wanted.contains { recipeEquals($0, item.designation) } } }
         if !list.contains(where: { recipeEquals($0.designation, "Editor") }) {
-            list.insert((designation: "Editor", name: "Open in Editor"), at: 0)
+            list.insert((designation: "Editor", name: String(localized: "Open in Editor")), at: 0)
         }
         let hasError = errorMessage != nil
         let tiles = list.map { item -> RecipeFlyoutTile in
             let names = Self.names(item.designation, fallback: item.name)
             return RecipeFlyoutTile(designation: item.designation, title: names.title, subtitle: names.subtitle,
-                                    badge: hasError && recipeEquals(item.designation, "Clipboard") ? "Retry" : nil,
+                                    badge: hasError && recipeEquals(item.designation, "Clipboard") ? String(localized: "Retry") : nil,
                                     isCore: Self.isCore(item.designation))
         }
         let core = tiles.filter(\.isCore).enumerated().sorted { lhs, rhs in
@@ -220,7 +221,7 @@ public struct RecipeFlyout: Equatable, Sendable {
     }
 
     public static func countdownText(_ seconds: Int) -> String {
-        seconds > 0 ? "Auto-closing in \(seconds)s..." : ""
+        seconds > 0 ? String(localized: "Auto-closing in \(seconds)s...") : ""
     }
 
     /// Upstream `IsCoreDestination`.
@@ -244,31 +245,37 @@ public struct RecipeFlyout: Equatable, Sendable {
         }
     }
 
-    /// Upstream `FormatDestinationNames`, with the Mac's names.
+    /// Upstream `FormatDestinationNames`, with the Mac's names, in the app's language (the designations are data).
     static func names(_ designation: String, fallback: String) -> (title: String, subtitle: String) {
         switch designation.lowercased() {
-        case "clipboard": return ("Clipboard", "Copy image to clipboard")
-        case "editor": return ("Editor", "Annotate and export")
-        case "filenodialog", "file": return ("Save Directly", "Save to folder")
-        case "filedialog", "fileas": return ("Save As…", "Choose folder & format")
-        case "printer": return ("Printer", "Send to printer")
-        case "windows10ocr", "ocr": return ("OCR Text", "Extract text from image")
-        case "windows10share", "share": return ("Share", "Share with apps & contacts")
-        case "email", "mail": return ("Email", "New email attachment")
-        case "word": return ("Microsoft Word", "Insert into document")
-        case "excel": return ("Microsoft Excel", "Insert into workbook")
-        case "powerpoint": return ("Microsoft PowerPoint", "Insert into presentation")
-        case "outlook": return ("Microsoft Outlook", "New email attachment")
-        case "onenote", "notes": return ("Notes", "Add to a note")
-        case "pdf": return ("PDF", "Save as PDF document")
-        case "jira": return ("Jira", "Attach to an issue")
-        case "confluence": return ("Confluence", "Attach to a page")
-        case "box": return ("Box", "Upload to Box")
-        case "dropbox": return ("Dropbox", "Upload to Dropbox")
-        case "zxingqrdestination", "qrcode": return ("QR Code", "Read the QR code")
-        case "openwith": return ("Open With", "Open in another app")
+        case "clipboard": return (String(localized: "Clipboard"), String(localized: "Copy image to clipboard"))
+        case "editor": return (String(localized: "Editor"), String(localized: "Annotate and export"))
+        case "filenodialog", "file": return (String(localized: "Save Directly"), String(localized: "Save to folder"))
+        case "filedialog", "fileas": return (String(localized: "Save As…"), String(localized: "Choose folder & format"))
+        case "printer": return (String(localized: "Printer"), String(localized: "Send to printer"))
+        case "windows10ocr", "ocr": return (String(localized: "OCR Text"), String(localized: "Extract text from image"))
+        case "windows10share", "share":
+            return (String(localized: "Share", comment: "Destination tile: the macOS share menu"), String(localized: "Share with apps & contacts"))
+        case "email", "mail":
+            return (String(localized: "Email", comment: "Destination tile: a new email with the capture"), String(localized: "New email attachment"))
+        case "word": return (String(localized: "Microsoft Word"), String(localized: "Insert into document"))
+        case "excel": return (String(localized: "Microsoft Excel"), String(localized: "Insert into workbook"))
+        case "powerpoint": return (String(localized: "Microsoft PowerPoint"), String(localized: "Insert into presentation"))
+        case "outlook": return (String(localized: "Microsoft Outlook"), String(localized: "New email attachment"))
+        case "onenote", "notes": return (String(localized: "Notes", comment: "Apple's Notes app as a destination"), String(localized: "Add to a note"))
+        case "pdf": return ("PDF", String(localized: "Save as PDF document"))
+        case "jira": return ("Jira", String(localized: "Attach to an issue"))
+        case "confluence": return ("Confluence", String(localized: "Attach to a page"))
+        case "box": return ("Box", String(localized: "Upload to Box"))
+        case "dropbox": return ("Dropbox", String(localized: "Upload to Dropbox"))
+        case "zxingqrdestination", "qrcode":
+            return (String(localized: "QR Code", comment: "The destination that reads QR codes in the capture"), String(localized: "Read the QR code"))
+        case "openwith":
+            return (String(localized: "Open With", comment: "The destination that opens the capture in another app"), String(localized: "Open in another app"))
         default:
-            if designation.lowercased().hasPrefix("external ") { return (String(designation.dropFirst("external ".count)), "External command") }
+            if designation.lowercased().hasPrefix("external ") {
+                return (String(designation.dropFirst("external ".count)), String(localized: "External command"))
+            }
             return (fallback, designation)
         }
     }
