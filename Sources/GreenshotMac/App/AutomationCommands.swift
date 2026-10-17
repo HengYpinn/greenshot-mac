@@ -63,11 +63,9 @@ enum AutomationCommands {
             DispatchQueue.main.async { app.editors.openClipboard() }
             return .ok("Opening the clipboard in the editor.")
         }
-        // Wave 4: a recipe started by greenshot-cli or a link that captures without the user on the capture screen must
-        // ask first, like CAPTURE does (`AutomationConsent`, `AutomationCaptureConsent`).
-        table.registerUnavailable([IPCCommand.runRecipe, IPCCommand.listRecipes, IPCCommand.describeRecipe,
-                                   IPCCommand.recipeEditor, IPCCommand.recipeManager],
-                                  message: IPCCommandLine.recipesUnavailable)
+        // The recipes of greenshot-cli and links; a recipe started by greenshot-cli that captures without the user on the
+        // capture screen asks first, like CAPTURE does (`AutomationConsent`, `AutomationCaptureConsent`).
+        AutomationRecipes.register(in: table, app: app)
         // The browser extension's commands, for the native messaging host only (BROWSER).
         BrowserExtensionCommands.register(in: table, app: app)
     }

@@ -106,7 +106,9 @@ struct IPCCommandLineTests {
         }
         #expect(usage.contains("Exit codes"))
         #expect(usage.contains("/usr/local/bin/greenshot-cli"))
-        #expect(!usage.contains("--recipe"))
+        #expect(usage.contains("--recipe, -r <cmd|id> [arguments]"))
+        #expect(usage.contains("--list-recipes, -l [--json]"))
+        #expect(usage.contains("--info, -i <recipe> [--json]"))
         #expect(!IPCCommandLine.cliUsage(installedPath: nil).contains("/usr/local/bin"))
     }
 
@@ -245,6 +247,9 @@ struct AutomationLinksTests {
         #expect(AutomationLinks.settingsPane(tab: nil, plugin: "Box") == .destinations)
         #expect(AutomationLinks.settingsPane(tab: "general", plugin: "Dropbox") == .destinations)
         #expect(AutomationLinks.settingsPane(tab: "video", plugin: nil) == .video)
+        #expect(AutomationLinks.settingsPane(tab: nil, plugin: "RecipeEditor") == .recipes)
+        #expect(AutomationLinks.settingsPane(tab: "recipeeditor", plugin: nil) == .recipes)
+        #expect(AutomationLinks.settingsPane(tab: "aitools", plugin: nil) == .aiTools)
     }
 
     @Test func noOrUnknownTabKeepsTheLastOne() {

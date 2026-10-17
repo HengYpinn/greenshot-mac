@@ -68,6 +68,23 @@ public enum IPCCommand {
     public static let capture = "CAPTURE"
     /// Mac only: the image on the clipboard in the editor.
     public static let openClipboard = "OPEN_CLIPBOARD"
+    // AI tools, only for greenshot-mcp (upstream `AiToolsIpcExtension.AiToolCommands`).
+    /// The windows and displays, with window ids for Window arguments.
+    public static let listWindows = "LIST_WINDOWS"
+    /// The recipes with an AI tool trigger: greenshot-mcp's tools.
+    public static let listAITools = "LIST_AI_TOOLS"
+    /// Runs such a recipe and replies with its result and image.
+    public static let runAITool = "RUN_AI_TOOL"
+    /// What recipes can use here, or the JSON of one recipe.
+    public static let recipeCatalog = "RECIPE_CATALOG"
+    /// Checks a recipe without saving or showing it.
+    public static let validateRecipe = "VALIDATE_RECIPE"
+    /// Shows a new or changed recipe for the user's approval.
+    public static let proposeRecipe = "PROPOSE_RECIPE"
+
+    /// The commands only greenshot-mcp may use (upstream `AiToolsIpcExtension.IsAllowedForSource`).
+    public static let aiToolCommands: Set<String> = [listWindows, listAITools, runAITool, recipeCatalog, validateRecipe,
+                                                     proposeRecipe]
 }
 
 /// Exit codes of greenshot-cli (upstream `greenshot-proxy/protocol.h`, docs §2.1 "Command line").

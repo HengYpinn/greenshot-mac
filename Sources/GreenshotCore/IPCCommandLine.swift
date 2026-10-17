@@ -30,7 +30,6 @@ public struct IPCParseResult: Equatable, Sendable {
 /// the source of the connection.
 public enum IPCCommandLine {
     /// One option of greenshot-cli: its spellings, its line in the help and how it turns the arguments into a command.
-    /// Wave 4 replaces the recipe verbs with the real ones (upstream `ParseRunRecipe`, `--info`, `--list-recipes`).
     public struct Verb: Sendable {
         public var flags: [String]
         /// The left column of the help, e.g. "--file, -f <file...>".
@@ -55,8 +54,7 @@ public enum IPCCommandLine {
         }
     }
 
-    /// The message of the recipe options until the recipe engine is wired to the command line (wave 4, which must ask
-    /// before captures without the user like CAPTURE does, see `AutomationConsent`).
+    /// The answer of the recipe commands while the app has no recipe runtime (it is still starting, or a test).
     public static let recipesUnavailable = "Error: recipes are not available yet in Greenshot for Mac."
 
     public static let verbs: [Verb] = [
@@ -80,27 +78,103 @@ public enum IPCCommandLine {
         single(["--reload"], help: "Reload the settings of the running app", command: IPCCommand.reloadConfig),
         single(["--exit"], help: "Quit the running app", command: IPCCommand.exit),
         single(["--version", "-v"], help: "Show the version", command: IPCCommand.version),
-        // Upstream's recipe options: known, so they get a clear answer instead of "unrecognized option".
-        Verb(flags: ["--recipe", "-r"], synopsis: "--recipe, -r <cmd|id> [arguments]", help: "Run a recipe", listed: false) { argv, cwd, json in
-            guard argv.count >= 2 else { return .fail("missing recipe identifier after '\(argv[0])'.", json: json) }
-            var envelope = make(IPCCommand.runRecipe, cwd: cwd)
-            envelope.recipe = argv[1]
-            envelope.json = json
-            return .ok(envelope)
+        // Upstream's recipe options (CliCommandParser.ParseCommandLine)
+        Verb(flags: ["--recipe", "-r"], synopsis: "--recipe, -r <cmd|id> [arguments]",
+             help: "Run a recipe: key=value or --key value; --json, --query <expr>, --async") { argv, cwd, json in
+            parseRunRecipe(argv, cwd: cwd, json: json)
         },
-        Verb(flags: ["--list-recipes", "-l"], synopsis: "--list-recipes, -l [--json]", help: "List the recipes", listed: false) { _, cwd, json in
-            var envelope = make(IPCCommand.listRecipes, cwd: cwd)
-            envelope.json = json
-            return .ok(envelope)
+        Verb(flags: ["--list-recipes", "-l"], synopsis: "--list-recipes, -l [--json]",
+             help: "List the recipes of the command line") { argv, cwd, _ in
+            parseJSONFlagOnly(argv, from: 1, envelope: make(IPCCommand.listRecipes, cwd: cwd))
         },
-        Verb(flags: ["--info", "-i"], synopsis: "--info, -i <id> [--json]", help: "Describe a recipe", listed: false) { argv, cwd, json in
+        Verb(flags: ["--info", "-i"], synopsis: "--info, -i <recipe> [--json]",
+             help: "Describe a recipe: its arguments, steps and warnings") { argv, cwd, json in
             guard argv.count >= 2 else { return .fail("missing recipe identifier after '\(argv[0])'.", json: json) }
             var envelope = make(IPCCommand.describeRecipe, cwd: cwd)
             envelope.recipe = argv[1]
-            envelope.json = json
-            return .ok(envelope)
+            return parseJSONFlagOnly(argv, from: 2, envelope: envelope)
         },
     ]
+
+    /// Upstream `ParseJsonFlagOnly`: only a trailing `--json` (for `--list-recipes` and `--info`).
+    private static func parseJSONFlagOnly(_ argv: [String], from first: Int, envelope: IPCEnvelope) -> IPCParseResult {
+        var envelope = envelope
+        for index in first..<max(first, argv.count) {
+            if argv[index].caseInsensitiveCompare("--json") == .orderedSame {
+                envelope.json = true
+            } else {
+                let json = envelope.json || argv[index...].contains { $0.caseInsensitiveCompare("--json") == .orderedSame }
+                return .fail("unexpected argument '\(argv[index])'.", json: json)
+            }
+        }
+        return .ok(envelope)
+    }
+
+    /// Upstream `ParseRunRecipe`: `--recipe <id>` and the recipe's arguments (`key=value`, `--key=value`, `--key value`,
+    /// `-k value`; values are taken as they are, also when they start with `-`), and the options `--json`, `--query`/`-q`
+    /// (`--query=`), `--async` and `--`, after which everything is an argument.
+    static func parseRunRecipe(_ argv: [String], cwd: String?, json: Bool) -> IPCParseResult {
+        guard argv.count >= 2 else { return .fail("missing recipe identifier after '\(argv[0])'.", json: json) }
+        var envelope = make(IPCCommand.runRecipe, cwd: cwd)
+        envelope.recipe = argv[1]
+        var optionsEnded = false
+        var index = 2
+        while index < argv.count {
+            let argument = argv[index]
+            if !optionsEnded {
+                if argument == "--" {
+                    optionsEnded = true
+                    index += 1
+                    continue
+                }
+                if argument.caseInsensitiveCompare("--json") == .orderedSame {
+                    envelope.json = true
+                    index += 1
+                    continue
+                }
+                if argument.caseInsensitiveCompare("--async") == .orderedSame {
+                    envelope.async = true
+                    index += 1
+                    continue
+                }
+                if argument.caseInsensitiveCompare("--query") == .orderedSame || argument.caseInsensitiveCompare("-q") == .orderedSame {
+                    guard index + 1 < argv.count else { return .fail("'\(argument)' requires an expression.", json: json) }
+                    envelope.query = argv[index + 1]
+                    index += 2
+                    continue
+                }
+                if argument.lowercased().hasPrefix("--query=") {
+                    envelope.query = String(argument.dropFirst("--query=".count))
+                    index += 1
+                    continue
+                }
+                if argument.hasPrefix("-") {
+                    // --key=value, --key value (also -k value)
+                    let name = argument.hasPrefix("--") ? String(argument.dropFirst(2)) : String(argument.dropFirst())
+                    let equals = name.firstIndex(of: "=")
+                    let key = equals.map { String(name[..<$0]) } ?? name
+                    guard !key.isEmpty else { return .fail("invalid argument '\(argument)'.", json: json) }
+                    if let equals {
+                        envelope.setParameter(key, String(name[name.index(after: equals)...]))
+                        index += 1
+                    } else {
+                        guard index + 1 < argv.count else { return .fail("missing value for argument '\(argument)'.", json: json) }
+                        envelope.setParameter(key, argv[index + 1])
+                        index += 2
+                    }
+                    continue
+                }
+            }
+            // key=value
+            guard let separator = argument.firstIndex(of: "="), separator != argument.startIndex else {
+                return .fail("unexpected argument '\(argument)'. Pass recipe arguments as key=value, --key=value or --key value.",
+                             json: json)
+            }
+            envelope.setParameter(String(argument[..<separator]), String(argument[argument.index(after: separator)...]))
+            index += 1
+        }
+        return .ok(envelope)
+    }
 
     /// An option without arguments.
     private static func single(_ flags: [String], help: String, command: String) -> Verb {

@@ -17,7 +17,8 @@ public enum IPCWhitelist {
         IPCCommand.exit: [.cli],
         IPCCommand.reloadConfig: [.cli, .appleScript],
         IPCCommand.firstLaunch: [.cli],
-        IPCCommand.version: [.cli],
+        // greenshot-mcp's version check also works while AI tools are switched off
+        IPCCommand.version: [.cli, .mcp],
         IPCCommand.settings: [.cli, .urlScheme, .appleScript],
         IPCCommand.about: [.cli, .urlScheme, .appleScript],
         IPCCommand.selfService: [.cli, .urlScheme],
@@ -29,6 +30,14 @@ public enum IPCWhitelist {
         IPCCommand.recipeManager: [.cli, .urlScheme],
         IPCCommand.listRecipes: [.cli],
         IPCCommand.describeRecipe: [.cli],
+        // AI tools: greenshot-mcp only, never the command line, a web page or the browser extension (docs/mcp-server.md
+        // "Safety"); AI tools can't run command line recipes (no RUN_RECIPE for mcp).
+        IPCCommand.listWindows: [.mcp],
+        IPCCommand.listAITools: [.mcp],
+        IPCCommand.runAITool: [.mcp],
+        IPCCommand.recipeCatalog: [.mcp],
+        IPCCommand.validateRecipe: [.mcp],
+        IPCCommand.proposeRecipe: [.mcp],
     ]
 
     /// Commands a link from a web page may only run with the capture-link setting on (Mac only).

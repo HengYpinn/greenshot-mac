@@ -26,6 +26,33 @@ public enum AutomationConsent {
         }
     }
 
+    /// RUN_RECIPE (Mac only): what a recipe started by greenshot-cli takes from the screen without the user on the
+    /// capture screen, for the question ("a screenshot of the whole screen"); nil when it captures nothing, or only what
+    /// the user selects. `recipe` is the recipe as it runs (`RecipeTriggerPreparer` added the trigger's Source);
+    /// `variables` are the bound arguments (a pre-supplied region needs no selection).
+    public static func recipeCaptureSubject(_ recipe: CaptureRecipe, variables: [String: JSONValue], source: IPCSource) -> String? {
+        guard source == .cli else { return nil }
+        if recipe.firstNode(ofType: WellKnownStepType.recordVideo) != nil { return "a screen recording" }
+        let hasRegion = variables.keys.contains { $0.caseInsensitiveCompare("PreSuppliedRegion") == .orderedSame }
+        for node in recipe.nodes where node.stepType.caseInsensitiveCompare(WellKnownStepType.source) == .orderedSame {
+            let type = (node.parameters.string("SourceType") ?? "Region").trimmingCharacters(in: .whitespaces).lowercased()
+            switch type {
+            case "fullscreen": return "a screenshot of the whole screen"
+            case "activewindow": return "a screenshot of the active window"
+            case "lastregion": return "a screenshot of the last captured region"
+            case "window":
+                let named = ["WindowHandle", "WindowTitle", "WindowTitlePattern", "ProcessName", "TargetWindow"]
+                    .contains { node.parameters.string($0)?.isEmpty == false }
+                if named { return "a screenshot of a window" }
+            case "region":
+                if hasRegion || node.parameters.string("PreSuppliedRegion")?.isEmpty == false { return "a screenshot of a region" }
+            default:
+                continue
+            }
+        }
+        return nil
+    }
+
     /// What the question names: "the whole screen", ...
     public static func subject(of mode: AutomationCaptureMode) -> String {
         switch mode {

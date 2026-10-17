@@ -241,9 +241,10 @@ struct IPCWhitelistTests {
         return table
     }()
 
-    @Test func commandLineMayUseEveryCommand() {
+    @Test func commandLineMayUseEveryCommandButTheAIToolsOnes() {
         for command in IPCWhitelist.standard.keys {
-            #expect(table.isAllowed(command, for: .cli))
+            let isAITool = IPCCommand.aiToolCommands.contains(command)
+            #expect(table.isAllowed(command, for: .cli) == !isAITool)
         }
     }
 
@@ -259,10 +260,27 @@ struct IPCWhitelistTests {
         #expect(allowed == ["OPEN_FILE"])
     }
 
-    @Test func browserExtensionAndAIToolsHaveNothingYet() {
+    /// The browser extension registers its own commands (BROWSER); nothing of the standard table is its.
+    @Test func browserExtensionHasNothingOfTheStandardTable() {
         for command in IPCWhitelist.standard.keys {
             #expect(!table.isAllowed(command, for: .nativeMessaging))
-            #expect(!table.isAllowed(command, for: .mcp))
+        }
+    }
+
+    /// Upstream `AiToolsIpcExtension.SourceCommands[mcp]`: the version check and the AI tool commands, nothing else (no
+    /// EXIT, OPEN_FILE, settings, command line recipes).
+    @Test func greenshotMCPGetsTheAIToolCommandsAndTheVersion() {
+        let allowed = Set(IPCWhitelist.standard.keys.filter { table.isAllowed($0, for: .mcp) })
+        let expected: Set<String> = ["VERSION", "LIST_WINDOWS", "LIST_AI_TOOLS", "RUN_AI_TOOL", "RECIPE_CATALOG", "VALIDATE_RECIPE",
+                                     "PROPOSE_RECIPE"]
+        #expect(allowed == expected)
+    }
+
+    @Test func theAIToolCommandsAreOnlyForGreenshotMCP() {
+        for command in IPCCommand.aiToolCommands {
+            for source in IPCSource.allCases where source != .mcp {
+                #expect(!table.isAllowed(command, for: source))
+            }
         }
     }
 

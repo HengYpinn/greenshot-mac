@@ -82,6 +82,27 @@ public enum IPCPathValidator {
         return .success(url)
     }
 
+    /// A path argument of a recipe (FilePath, DirectoryPath; upstream `TrySanitizeAndResolvePath`): no control or invisible
+    /// formatting characters; a relative path only with the caller's working directory (the command line); standardized.
+    /// Unlike `resolve` the file need not exist (an output folder or file).
+    public static func sanitize(_ raw: String, cwd: String?) -> Result<URL, Failure> {
+        if raw.trimmingCharacters(in: .whitespaces).isEmpty { return .failure(Failure(message: "Path is empty or whitespace.")) }
+        for scalar in raw.unicodeScalars {
+            if scalar.value < 0x20 || scalar.value == 0x7F {
+                return .failure(Failure(message: "Path contains illegal control characters."))
+            }
+            if isInvisibleFormatting(scalar.value) {
+                return .failure(Failure(message: "Path contains forbidden Unicode formatting or bidirectional override characters."))
+            }
+        }
+        let expanded = raw.hasPrefix("~/") ? (raw as NSString).expandingTildeInPath : raw
+        if expanded.hasPrefix("/") { return .success(URL(fileURLWithPath: expanded).standardizedFileURL) }
+        guard let cwd, cwd.hasPrefix("/") else {
+            return .failure(Failure(message: "Relative path without the caller's working directory."))
+        }
+        return .success(URL(fileURLWithPath: (cwd as NSString).appendingPathComponent(expanded)).standardizedFileURL)
+    }
+
     /// The files of one OPEN_FILE request. Strict (greenshot-cli, AppleScript, Shortcuts; upstream
     /// `HandleOpenFileAsync`): the first refused path refuses the request. Lenient (Finder, the Dock, the Services menu:
     /// files the user picked): every file that passes opens, files the editor reads pass whatever their extension, and
