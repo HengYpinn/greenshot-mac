@@ -139,19 +139,25 @@ extension OutputManager {
     private func jiraIssueItems(_ item: (String, DestinationTarget, String?, DestinationShortcut?) -> NSMenuItem) -> [NSMenuItem] {
         let s = settings.value
         let seen = JiraClient.issueKeys(inTitles: ScreenCapturer.onScreenWindows().map(\.title))
+            .filter { !JiraSummaries.unknown.contains($0) }
         let keys = Array((seen + s.jira.recentIssueKeys.filter { !seen.contains($0) }).prefix(JiraSettings.maxRecentIssueKeys))
-        let items = keys.map { key in item(key, .jiraIssue(key), "checklist", nil) }
+        func title(_ key: String, _ summary: String) -> String {
+            summary.isEmpty ? key : "\(key): \(FilenamePattern.menuTitle(summary))"
+        }
+        let items = keys.map { key in item(JiraSummaries.known[key].map { title(key, $0) } ?? key, .jiraIssue(key), "checklist", nil) }
         // The email first: without it the Keychain isn't asked for the token.
         guard !items.isEmpty, !s.jira.email.trimmingCharacters(in: .whitespaces).isEmpty,
               let site = Uploads.jiraSite(s), !site.apiToken.isEmpty else { return items }
         let client = JiraClient(site: site, http: Uploads.http)
-        for (key, entry) in zip(keys, items) {
+        for (key, entry) in zip(keys, items) where JiraSummaries.known[key] == nil {
             Task { @MainActor [weak entry] in
                 do {
                     let issue = try await client.issue(key)
-                    entry?.title = issue.summary.isEmpty ? key : "\(key): \(FilenamePattern.menuTitle(issue.summary))"
+                    JiraSummaries.known[key] = issue.summary
+                    entry?.title = title(key, issue.summary)
                 } catch UploadError.http(let status, _) where status == 404 {
                     // Not an issue of this Jira (e.g. "UTF-8" in a title).
+                    JiraSummaries.unknown.insert(key)
                     if let entry, let menu = entry.menu { menu.removeItem(entry) }
                 } catch {
                     // Offline or not allowed: keep the key.
@@ -164,4 +170,13 @@ extension OutputManager {
     static func symbol(_ name: String) -> NSImage? {
         NSImage(systemSymbolName: name, accessibilityDescription: nil)
     }
+}
+
+/// The summaries of the Jira issues the picker asked about while the app runs, so each key is fetched once (upstream
+/// `JiraMonitor` keeps its recent issues in memory too).
+@MainActor
+private enum JiraSummaries {
+    static var known: [String: String] = [:]
+    /// Keys the server doesn't know (text in a title that only looks like a key).
+    static var unknown: Set<String> = []
 }

@@ -36,6 +36,8 @@ enum Uploads {
         let progress = ProgressHolder()
         let delayed = Task { @MainActor in
             try await Task.sleep(nanoseconds: UInt64(UploadProgressPanel.delay * 1_000_000_000))
+            // The upload may have ended while this waited to run after the sleep.
+            guard !Task.isCancelled else { return }
             let panel = UploadProgressPanel(message: message) { upload.cancel() }
             progress.panel = panel
             panel.show()
