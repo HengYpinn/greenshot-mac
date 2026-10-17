@@ -42,7 +42,10 @@ final class ResizeForm: NSObject, NSTextFieldDelegate {
         keepAspectRatio.action = #selector(aspectChanged(_:))
         display(widthField)
         display(heightField)
-        let current = EffectSettingsDialog.label(String(localized: "Now \(Int(size.width)) × \(Int(size.height)) pixels"))
+        // Pixel sizes as plain digits (an interpolated Int would be grouped: "2,560").
+        let currentWidth = String(Int(size.width))
+        let currentHeight = String(Int(size.height))
+        let current = EffectSettingsDialog.label(String(localized: "Now \(currentWidth) × \(currentHeight) pixels"))
         current.textColor = .secondaryLabelColor
         view = EffectSettingsDialog.form([
             [EffectSettingsDialog.label(String(localized: "Width:")), NSStackView(views: [widthField, widthUnit])],

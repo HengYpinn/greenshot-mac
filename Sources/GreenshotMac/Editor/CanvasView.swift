@@ -311,8 +311,9 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         }
         context.restoreGState()
 
-        let width = Int(crop.width)
-        let height = Int(crop.height)
+        // Pixel sizes as plain digits (an interpolated Int would be grouped: "1,280").
+        let width = String(Int(crop.width))
+        let height = String(Int(crop.height))
         let text = cutsOut
             ? String(localized: "\(width) × \(height)  ↩ cut out  ⎋ cancel", comment: "Crop selection size; Return cuts the area out, Escape cancels")
             : String(localized: "\(width) × \(height)  ↩ crop  ⎋ cancel", comment: "Crop selection size; Return crops, Escape cancels")
