@@ -51,6 +51,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             guard oldValue != selectedIDs else { return }
             needsDisplay = true
             onSelectionChange?()
+            NotificationCenter.default.post(name: .canvasSelectionDidChange, object: self)
         }
     }
 
@@ -597,13 +598,21 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         if a.kind.hasEditableText && selectedIDs.count == 1 {
             menu.addItem(ClosureMenuItem(title: "Edit Text") { [weak self] in self?.beginEditing(a, isNew: false) })
         }
-        if a.kind == .cutMark && selectedIDs.count == 1 {
-            // Upstream `CutMarkContainer.AddContextMenuItems`: "new random edges".
-            menu.addItem(ClosureMenuItem(title: "New Random Edges") { [weak self] in
-                guard let self, var mark = self.document.annotation(a.id) else { return }
-                mark.seed = .random(in: .min ... .max)
-                self.document.change { self.document.update(mark) }
-                self.documentChanged()
+        if AnnotationKind.cutEdgeKinds.contains(a.kind) {
+            // Upstream `CutMarkContainer` / `TornEdgeContainer.AddContextMenuItems`: new random edges, the settings, and
+            // Apply to the image (of every selected cut mark and torn edges, like the property bar's button).
+            if selectedIDs.count == 1 {
+                menu.addItem(ClosureMenuItem(title: "New Random Edges") { [weak self] in
+                    self?.editorWindowController?.newRandomEdges(a.id)
+                })
+                let settingsTitle = a.kind == .tornEdge ? "Torn Edge Settings…" : "Cut Edge Settings…"
+                menu.addItem(ClosureMenuItem(title: settingsTitle) { [weak self] in
+                    self?.editorWindowController?.showCutEdgeSettings(for: a.id)
+                })
+            }
+            menu.addItem(ClosureMenuItem(title: "Apply to the Image") { [weak self] in
+                guard let controller = self?.editorWindowController else { return }
+                controller.applyToImage(controller.selectedCutEdgeIDs)
             })
         }
         if a.kind == .emoji && selectedIDs.count == 1 {
@@ -852,7 +861,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         case .horizontal:
             editorWindowController?.cutOutSelectedRows(nil)
         case .crop, .auto:
-            document.change { document.crop(to: crop) }
+            document.change { document.cropKeepingEdges(to: crop) }
             cropRect = nil
             tool = .select
             documentChanged()

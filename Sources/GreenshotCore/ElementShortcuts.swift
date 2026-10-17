@@ -17,14 +17,16 @@ extension AnnotationKind {
     public func has(_ property: AnnotationStyleProperty) -> Bool {
         switch property {
         case .lineColor:
-            return [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble, .cutMark].contains(self)
+            return [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble, .cutMark, .tornEdge].contains(self)
         case .fillColor:
-            return [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble, .cutMark].contains(self)
+            return [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble, .cutMark, .tornEdge].contains(self)
         case .lineWidth:
-            return [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .counter, .cutMark].contains(self)
+            return [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .counter, .cutMark, .tornEdge]
+                .contains(self)
         case .shadow:
-            // Every kind offers a shadow.
-            return true
+            // Every kind offers a shadow but SVG and pointer elements, which have no fields upstream
+            // (`SvgContainer`, `CursorContainer`).
+            return self != .svg && self != .cursor
         }
     }
 }

@@ -28,7 +28,8 @@ extension Annotation {
     /// height) gets its start on the left (top) and its end on the right (bottom), like upstream setting `Width`.
     public func withBounds(_ rect: CGRect) -> Annotation {
         let old = bounds
-        guard rect != old else { return self }
+        // Torn edges always cover the whole image (upstream `TornEdgeContainer.ApplyBounds` → `SpanImage`).
+        guard rect != old, kind != .tornEdge else { return self }
         if rect.size == old.size {
             var moved = self
             moved.move(by: CGVector(dx: rect.minX - old.minX, dy: rect.minY - old.minY))
@@ -113,7 +114,8 @@ extension EditorDocument {
     /// strip. False when the element has no size in that direction.
     @discardableResult
     public func pushOut(_ id: UUID, to edge: ElementEdge) -> Bool {
-        guard let element = annotation(id) else { return false }
+        // Torn edges always cover the whole image.
+        guard let element = annotation(id), element.kind != .tornEdge else { return false }
         let box = element.bounds
         let width = Int(box.width.rounded(.up))
         let height = Int(box.height.rounded(.up))

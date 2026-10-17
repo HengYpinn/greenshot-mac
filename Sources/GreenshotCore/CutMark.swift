@@ -135,9 +135,15 @@ extension Annotation {
         return result
     }
 
-    /// A cut mark across the whole image: the full width, or the full height of a vertical cut (upstream
-    /// `SpanImage`). Other elements come back as they are.
+    /// A cut mark across the whole image: the full width, or the full height of a vertical cut; torn edges over the
+    /// whole image (upstream `SpanImage`). Other elements come back as they are.
     public func spanning(_ imageSize: CGSize) -> Annotation {
+        if kind == .tornEdge {
+            var result = self
+            result.start = .zero
+            result.end = CGPoint(x: imageSize.width, y: imageSize.height)
+            return result
+        }
         guard kind == .cutMark else { return self }
         var result = self
         let band = bounds

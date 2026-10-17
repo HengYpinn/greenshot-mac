@@ -70,7 +70,8 @@ extension EditorWindowController {
     }
 
     /// An item of the Effects menu (in the window and the main menu); its tag is the effect's index. The drop shadow
-    /// and the torn edges apply with their last settings, like a click on upstream's buttons.
+    /// and the torn edges apply with their last settings, like a click on upstream's buttons. Torn edges become an
+    /// element that can be changed or removed later (upstream `AddTornEdges`, commit 9f6726c0).
     @objc func applyEffect(_ sender: NSMenuItem) {
         guard ImageEffect.allCases.indices.contains(sender.tag) else { return }
         applyWithSettings(ImageEffect.allCases[sender.tag])
@@ -102,11 +103,15 @@ extension EditorWindowController {
         EffectSettingsDialog.run(title: "Torn Edges", message: "Tears the chosen edges of the image.", content: form.view,
                                  owner: form, for: window) { [weak self] in
             self?.settings.update { $0.tornEdgeSettings = form.settings }
-            self?.applyWithSettings(.tornEdge)
+            self?.addTornEdges()
         }
     }
 
     private func applyWithSettings(_ effect: ImageEffect) {
+        guard effect != .tornEdge else {
+            addTornEdges()
+            return
+        }
         let shadow = settings.value.dropShadowSettings
         let torn = settings.value.tornEdgeSettings
         performImageOperation { $0.apply(effect, dropShadow: shadow, tornEdge: torn) }
@@ -288,6 +293,8 @@ extension EditorWindowController {
             return TransparencyCheck.hasTransparency(editorDocument.baseImage)
         case #selector(cutOutSelectedRows(_:)), #selector(cutOutSelectedColumns(_:)):
             return canvas.tool == .crop && canvas.cropRect != nil
+        case #selector(applySelectionToImage(_:)):
+            return !selectedCutEdgeIDs.isEmpty
         case #selector(clearBackground(_:)):
             // ⌘⌫ deletes to the start of the line while a text element is being typed.
             return !canvas.isEditingText
