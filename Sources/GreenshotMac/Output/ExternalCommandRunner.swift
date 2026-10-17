@@ -6,6 +6,8 @@
 import AppKit
 import GreenshotCore
 
+private let log = Log("ExternalCommand")
+
 /// Runs a configured external command with the screenshot as a file: port of upstream
 /// `Greenshot.Plugin.ExternalCommand/Destinations/ExternalCommandDestination.cs`. The command runs off the main
 /// thread; its output can put a URL (e.g. from an upload script) or all of it on the clipboard.
@@ -146,8 +148,19 @@ enum ExternalCommandRunner {
         return folders.map { ($0 as NSString).appendingPathComponent(file) }.first { FileManager.default.fileExists(atPath: $0) }
     }
 
+    /// What a command wrote, in the log (upstream `ExternalCommandDestination.RunCommandAsync`): its errors always, as a
+    /// warning; its output only when "Write the output to the log" is on (upstream `ShowStandardOutputInLog`). The log
+    /// makes the text harmless (`LogSanitizer`) and limits its length; nothing else of the command is logged.
+    nonisolated static func logOutput(of name: String, output: String, errors: String, showOutput: Bool) {
+        let shownOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
+        if showOutput, !shownOutput.isEmpty { log.info("\(name) wrote:\n\(shownOutput)") }
+        let shownErrors = errors.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !shownErrors.isEmpty { log.warn("\(name) wrote errors:\n\(shownErrors)") }
+    }
+
     private static func finish(_ command: ExternalCommand, status: Int32, output: String, errors: String, file: URL,
                                saver: ImageSaver) -> ExportResult {
+        logOutput(of: command.name, output: output, errors: errors, showOutput: command.showOutputInLog)
         let trimmedErrors = errors.trimmingCharacters(in: .whitespacesAndNewlines)
         guard status == 0 else {
             let detail = trimmedErrors.isEmpty ? "It ended with exit code \(status)." : String(trimmedErrors.prefix(600))

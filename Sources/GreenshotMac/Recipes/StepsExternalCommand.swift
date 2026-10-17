@@ -27,7 +27,12 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
             context.log("ExternalCommandStep: No command line or executable configured for command '\(step.string("Command") ?? step.node.id)'.")
             return
         }
-        if let verb = plan.verb { context.log("ExternalCommandStep: the shell verb '\(verb)' has no meaning on the Mac, ignored.") }
+        // Upstream sets `Verb` with `UseShellExecute = false` (ExternalCommandStep.cs:333-343), where .NET doesn't use it
+        // (only its ShellExecute start reads `Verb`): the verb has no effect there either.
+        if let verb = plan.verb { context.log("ExternalCommandStep: the shell verb '\(verb)' has no effect (upstream runs the command without the shell too), ignored.") }
+        // "Write the output to the log" of the configured command (upstream `ShowStandardOutputInLog`); errors always.
+        let commandName = step.string("Command")?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let showOutput = !commandName.isEmpty && (commands.first { recipeEquals($0.name, commandName) }?.showOutputInLog ?? false)
         let designation = "External \(plan.name)"
         let file = try await Self.file(payload, plan: plan, context: context, runtime: runtime)
         // Before the arguments are filled: `${ExternalCommand.TargetFile}` in them is this file (upstream's example).
@@ -46,7 +51,12 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
         context.log("Executing external command: \(prepared.executable.lastPathComponent)")
         if plan.runInBackground {
             // The flow doesn't wait for it; the output variables aren't set (upstream).
-            Task.detached { _ = try? await RecipeProcess.run(prepared.executable, arguments: prepared.arguments, in: prepared.workingDirectory) }
+            let name = plan.name
+            Task.detached {
+                guard let ran = try? await RecipeProcess.run(prepared.executable, arguments: prepared.arguments, in: prepared.workingDirectory)
+                else { return }
+                ExternalCommandRunner.logOutput(of: name, output: ran.output, errors: ran.error, showOutput: showOutput)
+            }
             await MainActor.run {
                 RecipeStepExports.finish(.succeeded(fileURL: prepared.file, target: plan.name, clearsModified: false), designation: designation,
                                          context: context, runtime: runtime)
@@ -66,6 +76,7 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
             }
             throw RecipeStepError("\(plan.name) could not be started: \(error.localizedDescription)", errorType: "Win32Exception")
         }
+        ExternalCommandRunner.logOutput(of: plan.name, output: ran.output, errors: ran.error, showOutput: showOutput)
         for (name, value) in plan.outputs(exitCode: ran.status, output: ran.output, error: ran.error) { context[variable: name] = value }
         let result = plan.result(exitCode: ran.status, output: ran.output, error: ran.error, file: prepared.file)
         await MainActor.run {
