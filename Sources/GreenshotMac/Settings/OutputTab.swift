@@ -46,7 +46,7 @@ struct OutputSettings: View {
             }
             if store.value.outputFormat == .greenshot {
                 // Upstream's "Greenshot" output format (5172972a): the file of its editor.
-                Text("The elements stay editable when the file is opened in the editor again. Other apps get a PNG.")
+                Text("The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
