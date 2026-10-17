@@ -508,7 +508,8 @@ enum BuiltInStepContracts {
         parameters: [
             parameter("Command", "Name of an external command configured in the settings"),
             parameter("CommandLine", .filePath, "Executable to run, instead of a configured command"),
-            parameter("Arguments", "Arguments, {0} is replaced by the file"),
+            // Split into arguments before its `${...}` are filled (RSTEPS): a value can't add an argument or an option.
+            parameter("Arguments", "Arguments, {0} is replaced by the file; ${...} are filled in each argument", expressions: false),
             parameter("WorkingDirectory", .directoryPath, "Working directory of the command"),
             parameter("Verb", "Shell verb to use instead of running the executable (e.g. open, print)"),
             fileFormats("Format of the file handed to the command"),

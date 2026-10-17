@@ -29,9 +29,21 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
         }
         if let verb = plan.verb { context.log("ExternalCommandStep: the shell verb '\(verb)' has no meaning on the Mac, ignored.") }
         let designation = "External \(plan.name)"
-        let prepared = try await Self.prepare(payload, plan: plan, context: context, runtime: runtime)
-        context[variable: "ExternalCommand.TargetFile"] = .string(prepared.file.path)
-        context.log("Executing external command: \(prepared.executable.path) \(prepared.arguments.joined(separator: " "))")
+        let file = try await Self.file(payload, plan: plan, context: context, runtime: runtime)
+        // Before the arguments are filled: `${ExternalCommand.TargetFile}` in them is this file (upstream's example).
+        context[variable: "ExternalCommand.TargetFile"] = .string(file.path)
+        let prepared: Prepared
+        do {
+            prepared = try await Self.command(plan, file: file, payload: payload, context: context, runtime: runtime)
+        } catch {
+            await MainActor.run {
+                RecipeStepExports.finish(.failed(error.localizedDescription, target: plan.name), designation: designation, context: context,
+                                         runtime: runtime)
+            }
+            throw error
+        }
+        // The program only: the arguments may hold a page's address or an AI tool's values (S-N5).
+        context.log("Executing external command: \(prepared.executable.lastPathComponent)")
         if plan.runInBackground {
             // The flow doesn't wait for it; the output variables aren't set (upstream).
             Task.detached { _ = try? await RecipeProcess.run(prepared.executable, arguments: prepared.arguments, in: prepared.workingDirectory) }
@@ -80,25 +92,58 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
         var workingDirectory: URL?
     }
 
-    /// The file and the command line (`ExternalCommandRunner.resolve`: a path, an app bundle with `open -a`, a name in
-    /// the PATH), with the pattern variables filled in.
+    /// The file for the command: the one the flow saved when it still shows the capture as it is now, else a temporary
+    /// file of the capture as it is now. Never the file the capture was loaded from (the user's original: the command
+    /// would get the picture without the flow's changes, and a reload or an in-place tool would rewrite it).
     @MainActor
-    private static func prepare(_ payload: RecipePayload, plan: RecipeExternalCommandPlan, context: RecipeFlowContext,
-                                runtime: RecipeRuntime) throws -> Prepared {
-        let settings = runtime.app.settings
+    private static func file(_ payload: RecipePayload, plan: RecipeExternalCommandPlan, context: RecipeFlowContext,
+                             runtime: RecipeRuntime) throws -> URL {
+        let state = runtime.flowState(context.executionId)
         let capture = RecipeStepExports.begin(payload, context: context, runtime: runtime)
-        let candidates = [payload.fileURL?.path, context[variable: "Destination.Filename"]?.asString]
-        let file = try plan.reusableFile(candidates, exists: { FileManager.default.fileExists(atPath: $0) })
-            ?? writeFile(capture, format: plan.format, quality: plan.jpegQuality, settings: settings)
-        let fill = ExternalCommandRunner.filler(for: capture, settings: settings)
-        let command = ExternalCommand(name: plan.name, command: plan.commandLine, arguments: plan.arguments, format: plan.format)
-        guard let (executable, arguments) = ExternalCommandRunner.resolve(command, file: file.path, fill: fill) else {
+        let saved = context[variable: "Destination.Filename"]?.asString
+        let current = saved.map { state.savedFileShows($0, payload: payload) } ?? false
+        if let reused = plan.reusableFile(saved, unchangedSinceSaved: current, exists: { FileManager.default.fileExists(atPath: $0) }) {
+            return reused
+        }
+        do {
+            return try writeFile(capture, format: plan.format, quality: plan.jpegQuality, settings: runtime.app.settings)
+        } catch {
+            state.endExport()
+            throw error
+        }
+    }
+
+    /// The program and its arguments (`ExternalCommandRunner.resolve`'s ways: a path, an app bundle with `open -a`, a name
+    /// in the PATH). The arguments are split before they are filled (`argumentList`); the step's own values are not
+    /// filled twice (S-L1, S-N1).
+    @MainActor
+    private static func command(_ plan: RecipeExternalCommandPlan, file: URL, payload: RecipePayload, context: RecipeFlowContext,
+                                runtime: RecipeRuntime) throws -> Prepared {
+        let capture = payload.exportCapture()
+        let fill = ExternalCommandRunner.filler(for: capture, settings: runtime.app.settings)
+        let scope = context.scope()
+        let arguments = plan.argumentList(file: file.path, evaluate: { context.evaluator.evaluate($0, in: scope).interpolationText },
+                                          fill: fill)
+        let executable: URL
+        var argv: [String]
+        switch plan.program(fill: fill) {
+        case .application(let path)?:
+            executable = URL(fileURLWithPath: "/usr/bin/open")
+            argv = ["-a", path] + arguments
+        case .executable(let path)? where FileManager.default.isExecutableFile(atPath: path):
+            executable = URL(fileURLWithPath: path)
+            argv = arguments
+        case .searchPath(let name)?:
+            executable = URL(fileURLWithPath: "/usr/bin/env")
+            argv = [name] + arguments
+        default:
             throw RecipeStepError("\(plan.name): the program “\(plan.commandLine)” was not found.", errorType: "FileNotFoundException")
         }
-        let directory = plan.workingDirectory.map { URL(fileURLWithPath: (fill($0) as NSString).expandingTildeInPath, isDirectory: true) }
+        // The step's own folder as the flow evaluated it; ~ expanded.
+        let directory = plan.workingDirectory.map { URL(fileURLWithPath: ($0 as NSString).expandingTildeInPath, isDirectory: true) }
         var isFolder: ObjCBool = false
         let usable = directory.flatMap { FileManager.default.fileExists(atPath: $0.path, isDirectory: &isFolder) && isFolder.boolValue ? $0 : nil }
-        return Prepared(file: file, executable: executable, arguments: arguments, workingDirectory: usable)
+        return Prepared(file: file, executable: executable, arguments: argv, workingDirectory: usable)
     }
 
     /// The capture as a file for the command, named by the filename pattern in a folder of its own

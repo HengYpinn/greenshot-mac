@@ -59,12 +59,70 @@ import Testing
         #expect(RecipeExternalCommandPlan(step([:]), commands: commands) == nil)
     }
 
-    @Test func fileOfAStepBeforeInTheCommandsFormat() throws {
+    @Test func onlyAFileTheFlowSavedOfTheCaptureAsItIs() throws {
         let plan = try #require(RecipeExternalCommandPlan(step(["CommandLine": .string("/bin/echo")]), commands: []))
         let existing: Set<String> = ["/tmp/shot.png", "/tmp/shot.jpg"]
-        let reused = plan.reusableFile([nil, "/tmp/missing.png", "/tmp/shot.jpg", "/tmp/shot.png"], exists: existing.contains)
+        let reused = plan.reusableFile("/tmp/shot.png", unchangedSinceSaved: true, exists: existing.contains)
         #expect(reused?.path == "/tmp/shot.png")
-        #expect(plan.reusableFile(["/tmp/shot.jpg"], exists: existing.contains) == nil)
+        // Changed since it was saved (an effect, a blur): a new file of the capture as it is (R-F3).
+        #expect(plan.reusableFile("/tmp/shot.png", unchangedSinceSaved: false, exists: existing.contains) == nil)
+        // Another format, gone, none.
+        #expect(plan.reusableFile("/tmp/shot.jpg", unchangedSinceSaved: true, exists: existing.contains) == nil)
+        #expect(plan.reusableFile("/tmp/missing.png", unchangedSinceSaved: true, exists: existing.contains) == nil)
+        #expect(plan.reusableFile(nil, unchangedSinceSaved: true, exists: existing.contains) == nil)
+    }
+
+    // MARK: Arguments split before they are filled (S-L1, SM-M5, S-N1)
+
+    @Test func argumentsAreSplitBeforeTheirValuesAreFilled() throws {
+        let parameters: JSONObject = ["CommandLine": .string("/usr/bin/curl"), "Arguments": .string("-F \"file=@{0}\" --title ${Title} ${Empty}")]
+        let plan = try #require(RecipeExternalCommandPlan(step(parameters), commands: []))
+        #expect(plan.argumentsFromRecipe)
+        #expect(plan.commandLineFromRecipe)
+        let values = ["${Title}": "a --output=/Users/me/.zshrc x.png", "${Empty}": ""]
+        let arguments = plan.argumentList(file: "/tmp/shot png.png", evaluate: { values[$0] ?? $0 }, fill: { _ in "FILLED" })
+        #expect(arguments == ["-F", "file=@/tmp/shot png.png", "--title", "a --output=/Users/me/.zshrc x.png"])
+    }
+
+    @Test func aConfiguredCommandsArgumentsGetTheFilePatterns() throws {
+        let plan = try #require(RecipeExternalCommandPlan(step(["Command": .string("Optimize")]), commands: commands))
+        #expect(!plan.argumentsFromRecipe)
+        #expect(!plan.commandLineFromRecipe)
+        let arguments = plan.argumentList(file: "/tmp/a.png", evaluate: { _ in "EVALUATED" }, fill: { $0.replacingOccurrences(of: "-o2", with: "-o7") })
+        #expect(arguments == ["-o7", "/tmp/a.png"])
+        // As its destination runs it: an argument filled empty stays an (empty) argument.
+        let emptied = plan.argumentList(file: "/tmp/a.png", evaluate: { $0 }, fill: { $0 == "-o2" ? "" : $0 })
+        #expect(emptied == ["", "/tmp/a.png"])
+    }
+
+    @Test func theStepsOwnProgramIsNotFilledAgain() throws {
+        // The flow evaluated CommandLine already: a value with ${HOME} in it stays as it is.
+        let own = try #require(RecipeExternalCommandPlan(step(["CommandLine": .string("/opt/${HOME}/tool")]), commands: []))
+        #expect(own.program(fill: { _ in "/bin/rm" }) == .executable("/opt/${HOME}/tool"))
+        let configured = try #require(RecipeExternalCommandPlan(step(["Command": .string("Optimize")]), commands: commands))
+        #expect(configured.program(fill: { $0.replacingOccurrences(of: "local", with: "other") }) == .executable("/usr/other/bin/optipng"))
+    }
+
+    @Test func theFlowDoesntFillTheArgumentsBeforeTheStep() async {
+        let contract = StepContractCatalog.builtIn.contract(for: WellKnownStepType.externalCommand)
+        #expect(contract?.parameter("Arguments")?.supportsExpressions == false)
+        // Through the engine: the step gets "${Title}" as written.
+        let seen = RecipeRecorder()
+        let registry = RecipeStepRegistry()
+        registry.register(WellKnownStepType.externalCommand, executor: ClosureExecutor { step, _ in
+            seen.add(step.string("Arguments") ?? "")
+            seen.add(step.string("WorkingDirectory") ?? "")
+        })
+        var recipe = CaptureRecipe(id: "args", name: "Args")
+        recipe.nodes = [RecipeNode(id: "cmd", stepType: WellKnownStepType.externalCommand,
+                                   parameters: ["CommandLine": .string("/bin/echo"), "Arguments": .string("{0} ${Title}"),
+                                                "WorkingDirectory": .string("/tmp/${Folder}")])]
+        recipe.flow.startNodes = ["cmd"]
+        let context = RecipeEngineHarness.context(recipe)
+        context[variable: "Title"] = .string("a b")
+        context[variable: "Folder"] = .string("x")
+        _ = await RecipeEngineHarness.run(recipe, registry, context: context)
+        #expect(seen.all == ["{0} ${Title}", "/tmp/x"])
     }
 
     @Test func variablesAfterTheRun() throws {
