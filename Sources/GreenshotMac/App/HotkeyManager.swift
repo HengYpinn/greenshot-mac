@@ -7,6 +7,7 @@ import Carbon.HIToolbox
 import GreenshotCore
 
 private let hotKeySignature: OSType = 0x4753_4D43 // "GSMC"
+private let log = Log("Hotkeys")
 
 /// Global hotkeys through Carbon's `RegisterEventHotKey` (upstream `HotkeyManager`). Unlike an event tap this
 /// needs no Accessibility permission.
@@ -14,6 +15,11 @@ private let hotKeySignature: OSType = 0x4753_4D43 // "GSMC"
 /// A hotkey can have several steps ("⌃⌥⌘K, C", upstream `HotkeySequence`). Carbon only reports registered keys, so
 /// the first step of every hotkey is registered all the time, and while a hotkey is half typed the keys that may come
 /// next (and Esc) are registered too, for at most `HotkeySequenceMatcher.chordTimeout` seconds.
+///
+/// A hotkey that needs the left or the right key of a modifier (upstream `ModifierLocation`) goes through a keyboard
+/// event tap instead (`HotkeyEventTap`), only such hotkeys. Without the permission for the tap (Accessibility, or Input
+/// Monitoring to only listen) it is registered on Carbon and works with either key; when the permission changes, the
+/// hotkeys are registered again.
 @MainActor
 final class HotkeyManager {
     private struct Registration {
@@ -31,6 +37,16 @@ final class HotkeyManager {
     private var nextID: UInt32 = 1
     private var handlerRef: EventHandlerRef?
 
+    // The hotkeys with a left or right side.
+    private var tap: HotkeyEventTap?
+    private var tapMatcher = HotkeySequenceMatcher(hotkeys: [])
+    private var tapActions: [() -> Void] = []
+    /// What is registered now, to register it again when the permission for the tap changes; nil while the hotkeys
+    /// are off (a shortcut is being recorded).
+    private var registered: (hotkeys: [KeyCombo], actions: [() -> Void])?
+    private var registeredNames: [String]?
+    private var permissionObservers: [(center: NotificationCenter, token: NSObjectProtocol)] = []
+
     init() {
         var spec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         InstallEventHandler(GetApplicationEventTarget(), { _, event, userData in
@@ -47,6 +63,7 @@ final class HotkeyManager {
             }
             return noErr
         }, 1, &spec, Unmanaged.passUnretained(self).toOpaque(), &handlerRef)
+        observePermissions()
     }
 
     /// Registers `hotkeys` with their actions, replacing the ones before. Returns the indices of the hotkeys macOS
@@ -54,8 +71,13 @@ final class HotkeyManager {
     @discardableResult
     func register(_ hotkeys: [KeyCombo], actions: [() -> Void]) -> [Int] {
         unregisterAll()
-        matcher = HotkeySequenceMatcher(hotkeys: hotkeys)
-        self.actions = actions
+        registered = (hotkeys, actions)
+        let tapped = startTap(for: hotkeys, actions: actions)
+        // Carbon: every other hotkey; one with sides that has no tap works with either key.
+        let carbonIndices = hotkeys.indices.filter { !tapped.contains($0) }
+        let carbonHotkeys = carbonIndices.map { hotkeys[$0].ignoringSides }
+        matcher = HotkeySequenceMatcher(hotkeys: carbonHotkeys)
+        self.actions = carbonIndices.map { actions[$0] }
         var refused: Set<KeyChord> = []
         for chord in matcher.firstChords {
             if let registration = carbonRegister(chord) {
@@ -64,7 +86,7 @@ final class HotkeyManager {
                 refused.insert(chord)
             }
         }
-        return hotkeys.indices.filter { refused.contains(hotkeys[$0].firstChord) }
+        return carbonIndices.indices.filter { refused.contains(carbonHotkeys[$0].firstChord) }.map { carbonIndices[$0] }
     }
 
     func unregisterAll() {
@@ -73,6 +95,77 @@ final class HotkeyManager {
         registrations.removeAll()
         matcher = HotkeySequenceMatcher(hotkeys: [])
         actions = []
+        tap?.stop()
+        tap = nil
+        tapMatcher = HotkeySequenceMatcher(hotkeys: [])
+        tapActions = []
+        registered = nil
+        registeredNames = nil
+    }
+
+    // MARK: Left and right modifier keys
+
+    /// Starts the event tap for the hotkeys with sides when the permissions allow it; returns their indices.
+    private func startTap(for hotkeys: [KeyCombo], actions: [() -> Void]) -> Set<Int> {
+        let sided = hotkeys.indices.filter { hotkeys[$0].usesSides }
+        guard !sided.isEmpty else { return [] }
+        guard let mode = HotkeyEventTap.availableMode,
+              let tap = HotkeyEventTap(mode: mode, handler: { [weak self] chord, flags in self?.tapped(chord, deviceFlags: flags) ?? false })
+        else {
+            log.info("No permission for left/right hotkeys: \(sided.count) of them work with either key")
+            return []
+        }
+        self.tap = tap
+        tapMatcher = HotkeySequenceMatcher(hotkeys: sided.map { hotkeys[$0] })
+        tapActions = sided.map { actions[$0] }
+        return Set(sided)
+    }
+
+    /// A key the tap saw; true when it belongs to a hotkey with sides (the tap then keeps it from the app in front).
+    private func tapped(_ chord: KeyChord, deviceFlags: UInt64) -> Bool {
+        switch tapMatcher.feed(chord, deviceFlags: deviceFlags, at: Date()) {
+        case .completed(let index):
+            guard tapActions.indices.contains(index) else { return true }
+            let action = tapActions[index]
+            // After the event is handled, like the Carbon hotkeys.
+            DispatchQueue.main.async { action() }
+            return true
+        case .pending, .cancelled:
+            return true
+        case .ignored:
+            return false
+        }
+    }
+
+    /// Accessibility and Input Monitoring post no notification of their own: look again when the app becomes active
+    /// and when any app's Accessibility permission changed.
+    private func observePermissions() {
+        let local = NotificationCenter.default
+        permissionObservers.append((local, local.addObserver(forName: NSApplication.didBecomeActiveNotification, object: nil,
+                                                             queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated { self?.permissionsMayHaveChanged() }
+        }))
+        let distributed = DistributedNotificationCenter.default()
+        permissionObservers.append((distributed, distributed.addObserver(forName: Notification.Name("com.apple.accessibility.api"),
+                                                                         object: nil, queue: .main) { [weak self] _ in
+            // The new value takes a moment to arrive.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                MainActor.assumeIsolated { self?.permissionsMayHaveChanged() }
+            }
+        }))
+    }
+
+    /// Registers the hotkeys again when the tap the permissions allow is another one than the one running.
+    private func permissionsMayHaveChanged() {
+        guard let registered, registered.hotkeys.contains(where: \.usesSides),
+              HotkeyEventTap.availableMode != tap?.mode else { return }
+        let names = registeredNames
+        log.info("The permission for left/right hotkeys changed: registering the hotkeys again")
+        let refused = register(registered.hotkeys, actions: registered.actions)
+        if let names {
+            registeredNames = names
+            HotkeyDiagnostics.recordRegistration(names: names, combos: registered.hotkeys, refused: refused)
+        }
     }
 
     /// Registers the hotkeys from the settings, replacing the ones registered before, and tells the user about those
@@ -94,6 +187,7 @@ final class HotkeyManager {
         bind(hotkeys.text, "Capture text") { [weak capture] in capture?.captureText() }
         bind(hotkeys.clipboard, "Open clipboard") { [weak editors] in editors?.openClipboard() }
         let refused = register(combos, actions: actions)
+        registeredNames = names
         HotkeyDiagnostics.recordRegistration(names: names, combos: combos, refused: refused)
         let failed = refused.map { "\(names[$0]): \(combos[$0].displayString)" }
         if !failed.isEmpty {
@@ -183,7 +277,8 @@ extension KeyCombo {
     /// The key equivalent to show the shortcut in a menu, when the key can be shown there. A hotkey of several steps
     /// has none: a menu can only show one.
     var menuKeyEquivalent: String? {
-        guard !isSequence else { return nil }
+        // A menu can show neither several steps nor the side of a modifier.
+        guard !isSequence, !usesSides else { return nil }
         let name = KeyCombo.keyName(for: keyCode)
         if name.count == 1, let char = name.lowercased().first, char.isLetter || char.isNumber || char.isPunctuation {
             return String(char)
