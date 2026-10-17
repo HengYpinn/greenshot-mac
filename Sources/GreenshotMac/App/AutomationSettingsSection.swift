@@ -49,12 +49,16 @@ struct AutomationSettingsSection: View {
         copied = true
     }
 
+    static let snapshotToolPath = "/Applications/Greenshot for Mac (Community).app/Contents/Helpers/greenshot-cli"
+
     static func installCommand(for path: String) -> String {
         "sudo ln -sf '\(path.replacingOccurrences(of: "'", with: "'\\''"))' /usr/local/bin/greenshot-cli"
     }
 
     /// `Contents/Helpers/greenshot-cli` of the app bundle, or `greenshot-cli` next to a bare build.
     static var installedToolPath: String? {
+        // Snapshots show the installed app's path, not the build folder of the Mac rendering them
+        if Snapshots.requestedFolder != nil { return snapshotToolPath }
         let executable = IPCEndpoint.currentExecutablePath
         let path: String
         if let bundle = IPCPeerPolicy.appBundle(ofExecutable: executable) {
