@@ -304,9 +304,13 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
         let image = image
         let language = language
         recognition = Task { [weak self] in
-            let result = await Task.detached(priority: .userInitiated) {
-                Result { try TextRecognizer.recognizeLines(in: image, language: language) }
-            }.value
+            // The async call: Vision runs on its own queue, never blocking a thread of the cooperative pool.
+            let result: Result<[RecognizedLine], Error>
+            do {
+                result = .success(try await TextRecognizer.recognizeLines(in: image, language: language))
+            } catch {
+                result = .failure(error)
+            }
             guard let self, !Task.isCancelled else { return }
             self.setBusy(false)
             switch result {
