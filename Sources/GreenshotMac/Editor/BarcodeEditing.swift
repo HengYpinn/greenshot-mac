@@ -6,13 +6,44 @@
 import AppKit
 import GreenshotCore
 
+private let log = Log("Barcode")
+
 extension CanvasView {
     /// A double click on a barcode element opens the QR / barcode dialog for it (upstream
-    /// `BarcodeContainer.OnDoubleClick`). Package E2 fills it in.
-    func editBarcode(_ a: Annotation) {}
+    /// `BarcodeContainer.OnDoubleClick` → `ZxingModel.OnDoubleClick`); Apply changes the element as one undo step.
+    func editBarcode(_ a: Annotation) {
+        guard let window else { return }
+        commitEditing()
+        let sheet = BarcodeSheet(spec: a.barcode ?? BarcodeSpec(), editing: true)
+        sheet.onApply = { [weak self] spec in
+            guard let self, var element = self.document.annotation(a.id) else { return }
+            let box = spec.editedBox(from: element.bounds, old: element.barcode, scale: self.document.scale)
+            element.barcode = spec
+            element.start = box.origin
+            element.end = CGPoint(x: box.maxX, y: box.maxY)
+            self.document.change { self.document.update(element) }
+            self.documentChanged()
+            log.info("Changed a barcode element to \(spec.symbology.rawValue)")
+        }
+        sheet.begin(for: window)
+    }
 }
 
 extension EditorWindowController {
-    /// Edit › Insert QR / Barcode… (upstream `ZxingEditorPlugin`). Package E2 fills it in.
-    @objc func insertBarcode(_ sender: Any?) {}
+    /// Edit › Insert QR / Barcode… (upstream `ZxingEditorPlugin`): the dialog, then the code as an element near the top
+    /// left of the image, selected, as one undo step.
+    @objc func insertBarcode(_ sender: Any?) {
+        guard let window else { return }
+        canvas.commitEditing()
+        let sheet = BarcodeSheet()
+        sheet.onApply = { [weak self] spec in
+            guard let self else { return }
+            let document = self.editorDocument
+            var element = Annotation.insertedBarcode(spec, imageSize: document.imageSize, scale: document.scale)
+            element.style = self.canvas.styleProvider(.barcode)
+            self.canvas.insert([element])
+            log.info("Inserted a \(spec.symbology.rawValue) element")
+        }
+        sheet.begin(for: window)
+    }
 }
