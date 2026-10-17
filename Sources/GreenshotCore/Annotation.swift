@@ -50,6 +50,10 @@ public enum AnnotationKind: String, Codable, CaseIterable, Sendable {
 /// Upstream `PreparedFilter` values of the highlight container.
 public enum HighlightMode: String, Codable, CaseIterable, Sendable {
     case text, area, grayscale, magnify
+
+    /// Whether the highlight changes the image outside its area, not inside (upstream's filters with `Invert`: the
+    /// area highlight's brightness and blur, the grayscale highlight's grayscale).
+    public var changesOutside: Bool { self == .area || self == .grayscale }
 }
 
 /// Upstream `PreparedFilter` values of the obfuscate container.

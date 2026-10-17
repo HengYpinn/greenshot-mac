@@ -183,14 +183,16 @@ struct RendererTests {
         #expect(p.r > 60 && p.r < 200)
     }
 
-    @Test func grayscaleRemovesColor() throws {
+    @Test func grayscaleGreysOutsideTheArea() throws {
         let base = TestImage.solid(width: 50, height: 50, .red)
         var style = AnnotationStyle.defaults(for: .highlight)
         style.highlightMode = .grayscale
         let image = try render([Annotation(kind: .highlight, start: .zero, end: CGPoint(x: 20, y: 20), style: style)], on: base)
-        let p = TestImage.pixel(image, 10, 10)
-        #expect(abs(Int(p.r) - Int(p.g)) < 8 && abs(Int(p.g) - Int(p.b)) < 8)
-        #expect(TestImage.pixel(image, 40, 40).isClose(to: .red))
+        // Upstream GrayscaleFilter { Invert = true }: the area keeps its colour, everything outside turns grey.
+        #expect(TestImage.pixel(image, 10, 10).isClose(to: .red))
+        let p = TestImage.pixel(image, 40, 40)
+        #expect(abs(Int(p.r) - Int(p.g)) < 8)
+        #expect(abs(Int(p.g) - Int(p.b)) < 8)
     }
 
     @Test func counterIsAFilledCircle() throws {

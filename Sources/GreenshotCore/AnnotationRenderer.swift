@@ -39,6 +39,10 @@ public enum AnnotationRenderer {
         let cuts = cutSource.contains { AnnotationKind.cutEdgeKinds.contains($0.kind) }
             ? CutShadow(cutSource, canvas: CGRect(x: 0, y: 0, width: base.width, height: base.height), scale: scale)
             : nil
+        let canvas = CGRect(x: 0, y: 0, width: base.width, height: base.height)
+        let inverted = invertedHighlightAreas(annotations.filter { $0.id != hiddenID || $0.kind.hasEditableText },
+                                              canvas: canvas)
+        var invertedDrawn: Set<HighlightMode> = []
         var counter = counterStart - 1
         for annotation in annotations {
             if annotation.kind == .counter { counter += 1 }
@@ -47,11 +51,30 @@ public enum AnnotationRenderer {
                 guard annotation.kind.hasEditableText else { continue }
                 shown.text = ""
             }
+            let mode = annotation.style.highlightMode
+            if annotation.kind == .highlight, let areas = inverted[mode], invertedDrawn.insert(mode).inserted {
+                context.saveGState()
+                drawInvertedHighlight(mode, style: annotation.style, sparing: areas, in: context, scale: scale)
+                context.restoreGState()
+            }
             context.saveGState()
             draw(shown, number: counter, in: context, scale: scale, cuts: cuts)
             context.restoreGState()
         }
         return context.makeImage()
+    }
+
+    /// The areas of the highlights that change the image outside their area (area and grayscale, upstream's filters
+    /// with `Invert`), by mode: whole pixels on the canvas, in drawing order. A mode whose highlights are all off the
+    /// canvas is missing.
+    static func invertedHighlightAreas(_ annotations: [Annotation], canvas: CGRect) -> [HighlightMode: [CGRect]] {
+        var areas: [HighlightMode: [CGRect]] = [:]
+        for a in annotations where a.kind == .highlight && a.style.highlightMode.changesOutside {
+            let rect = a.bounds.integral.intersection(canvas)
+            guard !rect.isEmpty else { continue }
+            areas[a.style.highlightMode, default: []].append(rect)
+        }
+        return areas
     }
 
     /// The font of a text element; `size` in pixels.
@@ -659,6 +682,8 @@ public enum AnnotationRenderer {
         }
     }
 
+    /// A highlight element. The area and grayscale highlights change the image outside their area; `flatten` draws
+    /// that once for all highlights of a mode (`drawInvertedHighlight`), so here they only add their shadow.
     static func drawHighlight(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         let canvas = canvasBounds(context)
         let rect = a.bounds.integral.intersection(canvas)
@@ -671,15 +696,6 @@ public enum AnnotationRenderer {
             context.setBlendMode(.darken)
             context.setFillColor(style.fillColor.cgColor)
             context.fill(rect)
-        case .grayscale:
-            guard let source = snapshot(context, rect: rect),
-                  let gray = filtered(source, { input in
-                      let filter = CIFilter.colorControls()
-                      filter.inputImage = input
-                      filter.saturation = 0
-                      return filter.outputImage ?? input
-                  }) else { return }
-            drawUpright(gray, in: rect, context: context)
         case .magnify:
             let factor = max(CGFloat(style.magnification), 1)
             let sourceRect = CGRect(x: rect.midX - rect.width / factor / 2, y: rect.midY - rect.height / factor / 2,
@@ -687,13 +703,51 @@ public enum AnnotationRenderer {
             guard !sourceRect.isEmpty, let source = snapshot(context, rect: sourceRect) else { return }
             context.interpolationQuality = .high
             drawUpright(source, in: rect, context: context)
+        case .area, .grayscale:
+            break
+        }
+    }
+
+    /// Upstream `DrawableContainerList.Draw` since 4b3d9dee: the highlights whose filter works outside their area are
+    /// drawn once per mode, where the first of them is in the drawing order, with every one of their `areas` left out
+    /// (`AbstractFilter.ApplyWithClipping` with `Invert`: the whole bitmap, `ExcludeClip` of each area). So a second
+    /// area highlight doesn't darken the first one's area, and elements drawn between them stay on top. `style` is the
+    /// first highlight's; upstream takes the selected one's when one is selected, which the renderer doesn't know.
+    /// - Area: everything outside darker and blurred (upstream `BrightnessFilter` and `BlurFilter`, `Invert = true`).
+    /// - Grayscale: everything outside grey (upstream `GrayscaleFilter { Invert = true }`, `HighlightContainer.cs`).
+    static func drawInvertedHighlight(_ mode: HighlightMode, style: AnnotationStyle, sparing areas: [CGRect],
+                                      in context: CGContext, scale: CGFloat) {
+        guard !areas.isEmpty, let whole = context.makeImage() else { return }
+        let changed: CGImage?
+        switch mode {
         case .area:
-            // Upstream: an inverted brightness and blur filter, everything outside the area gets darker and blurred.
-            guard let whole = context.makeImage(), let inside = whole.cropping(to: rect),
-                  let dimmed = areaHighlightOutside(whole, blurRadius: CGFloat(style.blurRadius) * scale,
-                                                    brightness: CGFloat(style.brightness)) else { return }
-            drawUpright(dimmed, in: canvas, context: context)
-            drawUpright(inside, in: rect, context: context)
+            changed = areaHighlightOutside(whole, blurRadius: CGFloat(style.blurRadius) * scale,
+                                           brightness: CGFloat(style.brightness))
+        case .grayscale:
+            changed = grayscale(whole)
+        case .text, .magnify:
+            changed = nil
+        }
+        guard let changed else { return }
+        let holes = CGMutablePath()
+        for area in areas { holes.addRect(area) }
+        // The canvas without the areas; subtracting their union also leaves out where two areas overlap (an even-odd
+        // clip would bring the overlap back).
+        let outside = CGPath(rect: canvasBounds(context), transform: nil).subtracting(holes)
+        context.addPath(outside)
+        context.clip()
+        // Replaces the pixels, so half transparent ones aren't laid over themselves.
+        context.setBlendMode(.copy)
+        drawUpright(changed, in: canvasBounds(context), context: context)
+    }
+
+    /// The image without colour.
+    static func grayscale(_ image: CGImage) -> CGImage? {
+        filtered(image) { input in
+            let filter = CIFilter.colorControls()
+            filter.inputImage = input
+            filter.saturation = 0
+            return filter.outputImage ?? input
         }
     }
 }
