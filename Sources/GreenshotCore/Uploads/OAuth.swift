@@ -157,8 +157,8 @@ public enum OAuthFlow {
             if error == "access_denied" { throw UploadError.cancelled }
             throw UploadError.oauth(value("error_description") ?? error)
         }
-        guard value("state") == expectedState else { throw UploadError.oauth("The sign-in answer did not match the request (state).") }
-        guard let code = value("code"), !code.isEmpty else { throw UploadError.oauth("The sign-in answer had no code.") }
+        guard value("state") == expectedState else { throw UploadError.oauth(String(localized: "The sign-in answer did not match the request (state).")) }
+        guard let code = value("code"), !code.isEmpty else { throw UploadError.oauth(String(localized: "The sign-in answer had no code.")) }
         return code
     }
 
@@ -234,7 +234,7 @@ public struct OAuthClient: Sendable {
 
     /// A usable access token: the stored one, a refreshed one, or (with an authorizer) a new sign-in.
     public func accessToken(authorizer: OAuthAuthorizer?) async throws -> String {
-        guard !clientID.isEmpty else { throw UploadError.notConfigured("The \(provider.name) app key") }
+        guard !clientID.isEmpty else { throw UploadError.notConfigured(String(localized: "The \(provider.name) app key", comment: "%@ is a service: Box or Dropbox")) }
         if let current = tokens {
             if current.isUsable(at: now()) { return current.accessToken }
             if let refresh = current.refreshToken {
@@ -257,7 +257,7 @@ public struct OAuthClient: Sendable {
     /// The whole flow: PKCE values, the sign-in page, the code, the tokens (stored).
     @discardableResult
     public func signIn(with authorizer: OAuthAuthorizer) async throws -> OAuthTokens {
-        guard !clientID.isEmpty else { throw UploadError.notConfigured("The \(provider.name) app key") }
+        guard !clientID.isEmpty else { throw UploadError.notConfigured(String(localized: "The \(provider.name) app key", comment: "%@ is a service: Box or Dropbox")) }
         let verifier = PKCE.verifier()
         let state = PKCE.verifier(length: 24)
         let url = OAuthFlow.authorizationURL(provider: provider, clientID: clientID, redirect: provider.redirect,
