@@ -310,15 +310,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     /// A menu bar app opens no window, and macOS can hide its icon (behind the notch), so starting it would look
     /// like nothing happened. Say that it runs; a click opens Settings.
     private func showRunningMessage() {
-        let region = settings.value.hotkeys.region.map { "Press \($0.displayString) to capture." }
+        let region = settings.value.hotkeys.region.map { String(localized: "Press \(BidiText.isolatedLTR($0.displayString)) to capture.") }
         let detail: String
         if settings.value.hideMenuBarIcon {
             // Without the icon, opening the app again is the way to Settings.
-            detail = [region, "Open the app again or click here for Settings."].compactMap { $0 }.joined(separator: " ")
+            detail = [region, String(localized: "Open the app again or click here for Settings.")].compactMap { $0 }.joined(separator: " ")
         } else {
-            detail = "\(region ?? "It's in the menu bar.") Click here for Settings."
+            detail = [region ?? String(localized: "It's in the menu bar."), String(localized: "Click here for Settings.")].joined(separator: " ")
         }
-        saver.notify("\(AppInfo.name) is running", detail: detail) { [weak self] in
+        saver.notify(String(localized: "\(AppInfo.name) is running"), detail: detail) { [weak self] in
             self?.showSettings(nil)
         }
     }

@@ -131,7 +131,7 @@ final class AutomationCenter {
             log.warn("\(source.rawValue) request failed: \(reply.stderr ?? "")")
             if source == .openWith {
                 // Finder users see what they saw before: which file can't be opened (the others open)
-                ErrorPresenter.show(message: "The image could not be opened",
+                ErrorPresenter.show(message: String(localized: "The image could not be opened"),
                                     detail: AutomationCommands.refusedFileNames(reply, files: envelope.files))
             }
         }
@@ -152,8 +152,8 @@ final class AutomationCenter {
         log.warn("[SECURITY] A capture link was refused: capture links are off")
         if !captureLinkNoticeShown {
             captureLinkNoticeShown = true
-            app.saver.notify("A link wanted to take a screenshot",
-                             detail: "Capture links are off. Turn them on in Settings › Expert › Automation.") { [weak app] in
+            app.saver.notify(String(localized: "A link wanted to take a screenshot"),
+                             detail: String(localized: "Capture links are off. Turn them on in Settings › Expert › Automation.")) { [weak app] in
                 app?.showSettings(pane: .expert)
             }
         }

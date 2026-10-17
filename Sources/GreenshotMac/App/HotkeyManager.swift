@@ -180,22 +180,23 @@ final class HotkeyManager {
             names.append(name)
             actions.append(action)
         }
-        bind(hotkeys.region, "Capture region") { [weak capture] in capture?.captureRegion() }
-        bind(hotkeys.window, "Capture window") { [weak capture] in capture?.captureWindowFromHotkey() }
-        bind(hotkeys.fullScreen, "Capture full screen") { [weak capture] in capture?.captureFullScreenFromHotkey() }
-        bind(hotkeys.lastRegion, "Capture last region") { [weak capture] in capture?.captureLastRegion() }
-        bind(hotkeys.text, "Capture text") { [weak capture] in capture?.captureText() }
-        bind(hotkeys.recordVideo, "Start or stop recording") { [weak video] in video?.hotkeyPressed() }
-        bind(hotkeys.clipboard, "Open clipboard") { [weak editors] in editors?.openClipboard() }
+        bind(hotkeys.region, String(localized: "Capture region")) { [weak capture] in capture?.captureRegion() }
+        bind(hotkeys.window, String(localized: "Capture window")) { [weak capture] in capture?.captureWindowFromHotkey() }
+        bind(hotkeys.fullScreen, String(localized: "Capture full screen")) { [weak capture] in capture?.captureFullScreenFromHotkey() }
+        bind(hotkeys.lastRegion, String(localized: "Capture last region")) { [weak capture] in capture?.captureLastRegion() }
+        bind(hotkeys.text, String(localized: "Capture text")) { [weak capture] in capture?.captureText() }
+        bind(hotkeys.recordVideo, String(localized: "Start or stop recording")) { [weak video] in video?.hotkeyPressed() }
+        bind(hotkeys.clipboard, String(localized: "Open clipboard")) { [weak editors] in editors?.openClipboard() }
         // The Hotkey triggers of the recipes (RUI), after the app's own, which win a clash.
         for recipe in RecipeHotkeyBindings.current(excluding: combos) { bind(recipe.combo, recipe.name, recipe.action) }
         let refused = register(combos, actions: actions)
         registeredNames = names
         HotkeyDiagnostics.recordRegistration(names: names, combos: combos, refused: refused)
-        let failed = refused.map { "\(names[$0]): \(combos[$0].displayString)" }
+        let failed = refused.map { "\(names[$0]): \(BidiText.isolatedLTR(combos[$0].displayString))" }
         if !failed.isEmpty {
-            ErrorPresenter.show(message: "Some hotkeys could not be registered",
-                                detail: failed.joined(separator: "\n") + "\n\nAnother app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.")
+            let advice = String(localized: "Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.")
+            ErrorPresenter.show(message: String(localized: "Some hotkeys could not be registered"),
+                                detail: failed.joined(separator: "\n") + "\n\n" + advice)
         }
     }
 

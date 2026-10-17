@@ -32,7 +32,7 @@ enum ManagedHooks {
     static func refusal(for target: DestinationTarget, settings: AppSettings) -> ExportResult? {
         let destination = target.policyDestination
         guard settings.isDestinationExcluded(destination) else { return nil }
-        return .failed("\(destination.displayName) is turned off by your organisation.")
+        return .failed(String(localized: "\(destination.displayName) is turned off by your organisation."))
     }
 }
 

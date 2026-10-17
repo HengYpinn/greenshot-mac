@@ -22,7 +22,7 @@ enum LaunchAtLogin {
         }
     }
 
-    static let approvalHint = "Turn on \(AppInfo.name) in System Settings › General › Login Items & Extensions."
+    static var approvalHint: String { String(localized: "Turn on \(AppInfo.name) in System Settings › General › Login Items & Extensions.") }
 
     /// Turns it on or off. Returns what the user still has to do or what went wrong, or nil when it is done.
     /// When macOS wants the user to approve the login item, its settings page is opened.
@@ -59,6 +59,6 @@ enum LaunchAtLogin {
     }
 
     static var moveToApplicationsTip: String {
-        isInApplicationsFolder ? "" : "\n\nTip: move the app to your Applications folder first, so it keeps opening at login."
+        isInApplicationsFolder ? "" : "\n\n" + String(localized: "Tip: move the app to your Applications folder first, so it keeps opening at login.")
     }
 }

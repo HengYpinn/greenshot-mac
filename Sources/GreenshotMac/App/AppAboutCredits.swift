@@ -14,7 +14,7 @@ enum AppAboutCredits {
     /// The build and the processor it runs on, after the version (upstream shows the bitness).
     static var versionDetail: String {
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
-        return [build.map { "build \($0)" }, architecture].compactMap { $0 }.joined(separator: ", ")
+        return [build.map { String(localized: "build \($0)") }, architecture].compactMap { $0 }.joined(separator: ", ")
     }
 
     static var architecture: String {
@@ -40,28 +40,29 @@ enum AppAboutCredits {
             attributes[.link] = url
             text.append(NSAttributedString(string: title, attributes: attributes))
         }
+        /// A sentence with a link in it: `name` (not translated) is the link.
+        func sentence(_ string: String, link name: String, _ url: URL) {
+            let sentence = NSMutableAttributedString(string: string, attributes: base)
+            let range = (string as NSString).range(of: name)
+            if range.location != NSNotFound { sentence.addAttribute(.link, value: url, range: range) }
+            text.append(sentence)
+        }
 
-        add("""
-            An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. \
-            It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.
-
-            """)
-        link("Source code", AppInfo.repositoryURL)
+        add(String(localized: "An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.") + "\n")
+        link(String(localized: "Source code"), AppInfo.repositoryURL)
         add(" · ")
-        link("Report a bug", AppInfo.issuesURL)
+        link(String(localized: "Report a bug"), AppInfo.issuesURL)
         add("\nGreenshot: ")
         link("getgreenshot.org", AppInfo.upstreamURL)
-        add(" · hosted by ")
-        link("GitHub", AppInfo.upstreamSourceURL)
-        add("""
-
-            Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.
-            This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it \
-            under certain conditions: the
-            """)
-        add(" ")
-        link("GNU General Public License version 3", licenseURL)
-        add(" or later.")
+        add(" · ")
+        let host = "GitHub"
+        sentence(String(localized: "hosted by \(host)", comment: "Greenshot's source code is hosted by GitHub (a link)"),
+                 link: host, AppInfo.upstreamSourceURL)
+        add("\n" + String(localized: "Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.") + "\n")
+        let license = "GNU General Public License version 3"
+        sentence(String(localized: "This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the \(license) or later.",
+                        comment: "The license's name is a link"),
+                 link: license, licenseURL)
         return text
     }
 }
