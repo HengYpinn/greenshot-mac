@@ -67,10 +67,13 @@ public struct HotkeySettings: Codable, Equatable, Sendable {
     public var lastRegion: KeyCombo? = .defaultLastRegion
     /// Upstream has no default for opening the clipboard either.
     public var clipboard: KeyCombo? = nil
+    /// "Capture text": the capture screen in text mode, the text goes to the clipboard (upstream's built-in recipe
+    /// "OCR text to clipboard"). No default, like upstream.
+    public var text: KeyCombo? = nil
 
     public init() {}
 
-    enum CodingKeys: String, CodingKey { case region, window, fullScreen, lastRegion, clipboard }
+    enum CodingKeys: String, CodingKey { case region, window, fullScreen, lastRegion, clipboard, text }
 
     // A cleared hotkey is stored as null; a missing key (older settings) gets the default.
     public init(from decoder: Decoder) throws {
@@ -84,6 +87,7 @@ public struct HotkeySettings: Codable, Equatable, Sendable {
         fullScreen = combo(.fullScreen, .defaultFullScreen)
         lastRegion = combo(.lastRegion, .defaultLastRegion)
         clipboard = combo(.clipboard, nil)
+        text = combo(.text, nil)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -93,6 +97,7 @@ public struct HotkeySettings: Codable, Equatable, Sendable {
         try c.encode(fullScreen, forKey: .fullScreen)
         try c.encode(lastRegion, forKey: .lastRegion)
         try c.encode(clipboard, forKey: .clipboard)
+        try c.encode(text, forKey: .text)
     }
 }
 
@@ -108,6 +113,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     /// Milliseconds to wait before taking the picture, so menus and the hotkey's own effects are gone.
     public var captureDelayMilliseconds = 100
     public var playCameraSound = false
+    /// The sound file played after a capture (upstream `NotificationSound`); empty plays the built-in camera sound.
+    public var notificationSound = ""
     public var showNotifications = true
     /// Show a Dock icon (and be in ⌘Tab) while an editor or Settings is open. Without windows Greenshot is a menu bar
     /// app either way, like its tray icon on Windows. Off: never a Dock icon, and opening an editor from a full screen
@@ -137,7 +144,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
     /// The size the fixed-size mode last used.
     public var fixedCaptureSize: CaptureSize?
     public var fixedCaptureAnchor: FixedCaptureAnchor = .topLeft
-    public var screenCaptureMode: ScreenCaptureMode = .fullScreen
+    public var screenCaptureMode: ScreenCaptureMode = .auto
     /// 1-based, for `screenCaptureMode == .fixed`.
     public var screenToCapture = 1
     public var captureHelpVisible = true
@@ -145,8 +152,13 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var captureSelectionPreviewVisible = true
     /// The preview of the selection is in the place of the zoomer instead of a corner (upstream `ZoomerShowsPreview`).
     public var zoomerShowsPreview = false
+    /// How see-through the zoomer is, from 0 (invisible) to 1 (solid) (upstream `ZoomerOpacity`).
+    public var zoomerOpacity: Double = 1
     /// A BCP 47 language for text recognition; empty means automatic.
     public var ocrLanguage = ""
+    /// Recognise the text of the screens as soon as the capture screen opens, so the text mode (T) has its lines at
+    /// once (upstream `AlwaysRunOCROnCapture`).
+    public var alwaysRunOCROnCapture = false
     /// Look for QR codes on the capture screen.
     public var scanQRCodesOnCapture = true
     /// Colour difference (0–255) that auto crop treats as the same colour.
@@ -162,12 +174,20 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var textObfuscation = TextObfuscationSettings()
     /// How the joint is marked after cutting rows or columns out (upstream's `CUT_MARK_STYLE` field of the crop).
     public var cutOutMarkStyle: CutMarkStyle = .none
+    /// Freehand smoothing: a drawn point is kept when it is at least twice this many points from the last one; smaller
+    /// is more detailed (upstream `FreehandSensitivity`, 1–100).
+    public var freehandSensitivity = 3
+    /// The size of File › New Image, in points (upstream `DefaultEditorSize`).
+    public var defaultEditorSize = CaptureSize(width: 500, height: 500)
 
     // Output (upstream `OutputFile*`, `ClipboardFormats`, `OutputPrint*`, mail and the plugins).
     public var allowOverwrite = true
     public var promptJpegQuality = false
     public var reduceColors = false
     public var reduceColorsTo = 256
+    /// Write an 8-bit (palette) image when an opaque image has fewer than 256 colours (upstream
+    /// `OutputFileAutoReduceColors`).
+    public var autoReduceColors = false
     public var clipboardFormats: [ClipboardFormat] = ClipboardFormat.defaults
     public var printing = PrintSettings()
     public var email = EmailSettings()
@@ -182,6 +202,24 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var lastUpdateCheck: Date?
     /// The last file "Save directly" or "Save as" wrote, for "Open recent capture".
     public var lastSavedFile: String?
+
+    // Menu bar icon and app (upstream `LeftClickAction`, `DoubleClickAction`, `HideTrayicon`, `ThumnailPreview`,
+    // `MaxMenuItemLength`, `Theme`, `CheckForUnstable`).
+    /// What a click on the menu bar icon does; right-click and ⌃-click always show the menu.
+    public var leftClickAction: ClickAction = .showMenu
+    /// What a double-click on the menu bar icon does; only when a click doesn't show the menu, and then a click waits
+    /// for the double-click time.
+    public var doubleClickAction: ClickAction = .openLastInFinder
+    /// Run without the menu bar icon; opening the app again shows Settings.
+    public var hideMenuBarIcon = false
+    /// Show a picture of the window while pointing at it in a window list menu.
+    public var thumbnailPreview = true
+    /// Window titles in menus are cut to this many characters.
+    public var maxMenuItemLength = 25
+    /// The colours of the app's windows: as macOS, light or dark.
+    public var theme: AppTheme = .system
+    /// Also offer pre-release (beta) updates.
+    public var checkForUnstable = false
 
     public init() {}
 
@@ -210,16 +248,18 @@ public struct AppSettings: Codable, Equatable, Sendable {
 
     enum CodingKeys: String, CodingKey {
         case hotkeys, destinations, captureMousePointer, interactiveWindowCapture, includeWindowShadow, captureDelayMilliseconds
-        case playCameraSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
+        case playCameraSound, notificationSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
         case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
         case fixedCaptureSizes, recentCaptureSizes, fixedCaptureSize, fixedCaptureAnchor, screenCaptureMode, screenToCapture
-        case captureHelpVisible, captureInfoVisible, captureSelectionPreviewVisible, zoomerShowsPreview, ocrLanguage, scanQRCodesOnCapture
+        case captureHelpVisible, captureInfoVisible, captureSelectionPreviewVisible, zoomerShowsPreview, zoomerOpacity, ocrLanguage
+        case alwaysRunOCROnCapture, scanQRCodesOnCapture
         case autoCropDifference, notificationLevel
         case reuseEditor, suppressSaveDialogAtClose, matchSizeToCapture, dropShadowSettings, tornEdgeSettings, textObfuscation
-        case cutOutMarkStyle
-        case allowOverwrite, promptJpegQuality, reduceColors, reduceColorsTo, clipboardFormats, printing, email, externalCommands, pdf
+        case cutOutMarkStyle, freehandSensitivity, defaultEditorSize
+        case allowOverwrite, promptJpegQuality, reduceColors, reduceColorsTo, autoReduceColors, clipboardFormats, printing, email, externalCommands, pdf
         case jira, confluence, box, dropbox
         case updateCheckIntervalDays, lastUpdateCheck, lastSavedFile
+        case leftClickAction, doubleClickAction, hideMenuBarIcon, thumbnailPreview, maxMenuItemLength, theme, checkForUnstable
     }
 
     // Every value falls back to its default, so settings written by another version still load.
@@ -236,6 +276,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         includeWindowShadow = value(.includeWindowShadow, d.includeWindowShadow)
         captureDelayMilliseconds = value(.captureDelayMilliseconds, d.captureDelayMilliseconds)
         playCameraSound = value(.playCameraSound, d.playCameraSound)
+        notificationSound = value(.notificationSound, d.notificationSound)
         showNotifications = value(.showNotifications, d.showNotifications)
         dockIconWhileWindowOpen = value(.dockIconWhileWindowOpen, d.dockIconWhileWindowOpen)
         zoomerEnabled = value(.zoomerEnabled, d.zoomerEnabled)
@@ -258,7 +299,9 @@ public struct AppSettings: Codable, Equatable, Sendable {
         captureInfoVisible = value(.captureInfoVisible, d.captureInfoVisible)
         captureSelectionPreviewVisible = value(.captureSelectionPreviewVisible, d.captureSelectionPreviewVisible)
         zoomerShowsPreview = value(.zoomerShowsPreview, d.zoomerShowsPreview)
+        zoomerOpacity = value(.zoomerOpacity, d.zoomerOpacity)
         ocrLanguage = value(.ocrLanguage, d.ocrLanguage)
+        alwaysRunOCROnCapture = value(.alwaysRunOCROnCapture, d.alwaysRunOCROnCapture)
         scanQRCodesOnCapture = value(.scanQRCodesOnCapture, d.scanQRCodesOnCapture)
         autoCropDifference = value(.autoCropDifference, d.autoCropDifference)
         notificationLevel = value(.notificationLevel, d.notificationLevel)
@@ -269,10 +312,13 @@ public struct AppSettings: Codable, Equatable, Sendable {
         tornEdgeSettings = value(.tornEdgeSettings, d.tornEdgeSettings)
         textObfuscation = value(.textObfuscation, d.textObfuscation)
         cutOutMarkStyle = value(.cutOutMarkStyle, d.cutOutMarkStyle)
+        freehandSensitivity = value(.freehandSensitivity, d.freehandSensitivity)
+        defaultEditorSize = value(.defaultEditorSize, d.defaultEditorSize)
         allowOverwrite = value(.allowOverwrite, d.allowOverwrite)
         promptJpegQuality = value(.promptJpegQuality, d.promptJpegQuality)
         reduceColors = value(.reduceColors, d.reduceColors)
         reduceColorsTo = value(.reduceColorsTo, d.reduceColorsTo)
+        autoReduceColors = value(.autoReduceColors, d.autoReduceColors)
         clipboardFormats = value(.clipboardFormats, d.clipboardFormats)
         printing = value(.printing, d.printing)
         email = value(.email, d.email)
@@ -285,6 +331,13 @@ public struct AppSettings: Codable, Equatable, Sendable {
         updateCheckIntervalDays = value(.updateCheckIntervalDays, d.updateCheckIntervalDays)
         lastUpdateCheck = value(.lastUpdateCheck, d.lastUpdateCheck)
         lastSavedFile = value(.lastSavedFile, d.lastSavedFile)
+        leftClickAction = value(.leftClickAction, d.leftClickAction)
+        doubleClickAction = value(.doubleClickAction, d.doubleClickAction)
+        hideMenuBarIcon = value(.hideMenuBarIcon, d.hideMenuBarIcon)
+        thumbnailPreview = value(.thumbnailPreview, d.thumbnailPreview)
+        maxMenuItemLength = value(.maxMenuItemLength, d.maxMenuItemLength)
+        theme = value(.theme, d.theme)
+        checkForUnstable = value(.checkForUnstable, d.checkForUnstable)
     }
 }
 

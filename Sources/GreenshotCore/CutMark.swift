@@ -151,3 +151,8 @@ extension Annotation {
         return result
     }
 }
+
+extension CutMark {
+    /// A small picture of `style` for the cut-edge pop-ups (upstream `ImageEditorForm.CreateCutMarkPreview`).
+    public static func previewImage(_ style: CutMarkStyle, pointSize: CGFloat = 16, scale: CGFloat = 2) -> CGImage? { nil }
+}

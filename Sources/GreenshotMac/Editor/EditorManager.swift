@@ -139,4 +139,49 @@ final class EditorManager {
         if let spaceObserver { NSWorkspace.shared.notificationCenter.removeObserver(spaceObserver) }
         spaceObserver = nil
     }
+
+    /// The open editors, sorted by title like upstream's `ImageEditorForm.Editors`.
+    var openEditors: [OpenEditor] {
+        controllers.map { OpenEditor(id: $0.editorDocument.id, title: $0.editorDocument.title) }
+            .sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+    }
+
+    /// Adds a capture to an open editor as an image element 10 points from the top left (upstream
+    /// `Surface.AddImageContainer(image, 10, 10)`), selects it and brings that editor to the front. False when the
+    /// editor was closed meanwhile or the image could not be added.
+    @discardableResult
+    func addImage(_ capture: Capture, toEditor id: UUID) -> Bool {
+        guard let editor = controllers.first(where: { $0.editorDocument.id == id }) else { return false }
+        let document = editor.editorDocument
+        editor.canvas.commitEditing()
+        let origin = CGPoint(x: 10 * document.scale, y: 10 * document.scale)
+        let room = CGSize(width: max(document.imageSize.width - origin.x, 1), height: max(document.imageSize.height - origin.y, 1))
+        guard let element = Annotation.picture(capture.image, pictureScale: capture.scale, at: origin,
+                                               documentScale: document.scale, fitting: room) else { return false }
+        editor.canvas.insert([element])
+        editor.window?.makeKeyAndOrderFront(nil)
+        NSApp.activate()
+        return true
+    }
+
+    /// An editor with a blank white image (upstream `TrayActions.OpenEmptyEditor`, `IEditorConfiguration.DefaultEditorSize`
+    /// 500×500).
+    func openEmptyEditor() {
+        let size = 500
+        guard let space = CGColorSpace(name: CGColorSpace.sRGB),
+              let context = CGContext(data: nil, width: size, height: size, bitsPerComponent: 8, bytesPerRow: 0, space: space,
+                                      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return }
+        context.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
+        context.fill(CGRect(x: 0, y: 0, width: size, height: size))
+        guard let image = context.makeImage() else { return }
+        open(EditorDocument(image: image, scale: 1, title: "Untitled", isModified: false))
+    }
+}
+
+/// An open editor, for upstream's "Add to editor - <title>" destinations (`EditorDestination(IImageEditor)`; upstream
+/// shows the first 20 characters of the title).
+struct OpenEditor: Equatable {
+    /// `EditorDocument.id`: stays the same while the window is open, also when a reused editor gets a new capture.
+    let id: UUID
+    let title: String
 }

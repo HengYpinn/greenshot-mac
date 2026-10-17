@@ -32,11 +32,11 @@ struct OutputSettings: View {
             TextField("File name pattern", text: store.binding(\.filenamePattern))
             Text("Example: \(example)").font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
             DisclosureGroup("Pattern variables") {
-                Text(Self.patternHelp).font(.caption).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+                Text(FilenamePattern.helpText).font(.caption).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
             }
             Toggle("Overwrite a file with the same name", isOn: store.binding(\.allowOverwrite))
                 .help("Off: “Save directly” adds (2), (3), … to the name instead.")
-            Toggle("Copy the file path to the clipboard after “Save directly”", isOn: store.binding(\.copyPathToClipboard))
+            Toggle("Copy the file path to the clipboard every time an image is saved", isOn: store.binding(\.copyPathToClipboard))
         }
     }
 
@@ -50,7 +50,7 @@ struct OutputSettings: View {
                     Text("JPEG quality: \(store.value.jpegQuality)")
                 }
             }
-            Toggle("Ask for the JPEG quality every time", isOn: store.binding(\.promptJpegQuality))
+            Toggle("Show the quality dialog every time an image is saved", isOn: store.binding(\.promptJpegQuality))
             Toggle("Reduce the colours of PNG and GIF files", isOn: store.binding(\.reduceColors))
             if store.value.reduceColors {
                 Stepper(value: store.binding(\.reduceColorsTo), in: 2...256) {
@@ -89,14 +89,4 @@ struct OutputSettings: View {
         guard panel.runModal() == .OK, let url = panel.url else { return }
         store.update { $0.outputFolder = (url.path as NSString).abbreviatingWithTildeInPath }
     }
-
-    private static let patternHelp = """
-        ${capturetime:d"yyyy-MM-dd HH_mm_ss"}  capture time, .NET date format
-        ${title}  window title    ${user}  user name    ${hostname}  computer name
-        ${YYYY} ${MM} ${DD} ${hh} ${mm} ${ss}  date and time parts
-        ${NUM}  counter (000001)    ${RRRR}  random characters
-        ${Desktop} ${MyPictures} ${MyDocuments}  folders    ${HOME} or any environment variable
-        Options after a colon, separated by ';': p<width>[,char] pad, s<start>[,length] substring, r<old>,<new> replace
-        A '/' in the pattern makes sub folders, e.g. ${YYYY}/${MM}/${title}
-        """
 }

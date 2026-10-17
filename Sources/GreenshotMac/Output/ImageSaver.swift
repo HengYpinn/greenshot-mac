@@ -84,8 +84,9 @@ final class ImageSaver {
             quality = chosen
         }
         do {
-            try ImageExporter.write(image, to: url, format: format, quality: quality, scale: scale,
-                                    maxColors: s.reduceColors ? s.reduceColorsTo : nil)
+            var options = ImageOutputOptions(settings: s, format: format, scale: scale)
+            options.jpegQuality = quality
+            try ImageExporter.write(image, to: url, options: options)
             return true
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be saved")

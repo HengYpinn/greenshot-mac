@@ -312,3 +312,27 @@ public final class EditorDocument {
         AnnotationRenderer.flatten(base: baseImage, annotations: annotations, scale: scale, counterStart: counterStart) ?? baseImage
     }
 }
+
+/// The crop tool's modes (upstream `CropContainer.CropModes`): crop to the area, cut the columns or rows of the area
+/// out, or auto crop.
+public enum CropMode: String, CaseIterable, Sendable {
+    case crop, vertical, horizontal, auto
+
+    public var title: String {
+        switch self {
+        case .crop: return "Crop"
+        case .vertical: return "Crop Out Vertically"
+        case .horizontal: return "Crop Out Horizontally"
+        case .auto: return "Auto Crop"
+        }
+    }
+
+    public var symbolName: String {
+        switch self {
+        case .crop: return "crop"
+        case .vertical: return "rectangle.split.3x1"
+        case .horizontal: return "rectangle.split.1x3"
+        case .auto: return "wand.and.rays"
+        }
+    }
+}

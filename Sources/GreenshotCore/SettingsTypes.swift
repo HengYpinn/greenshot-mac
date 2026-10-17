@@ -295,9 +295,12 @@ public struct ExternalCommand: Codable, Equatable, Identifiable, Sendable {
     public var copyURLFromOutput = true
     /// Put the whole output on the clipboard (upstream `OutputToClipboard`).
     public var copyOutputToClipboard = false
+    /// The format of the file the command gets (upstream `OutputFormat`, per command).
+    public var format: ImageFormat = .png
 
     public init(id: UUID = UUID(), name: String, command: String, arguments: String = "\"{0}\"",
-                runInBackground: Bool = true, copyURLFromOutput: Bool = true, copyOutputToClipboard: Bool = false) {
+                runInBackground: Bool = true, copyURLFromOutput: Bool = true, copyOutputToClipboard: Bool = false,
+                format: ImageFormat = .png) {
         self.id = id
         self.name = name
         self.command = command
@@ -305,10 +308,31 @@ public struct ExternalCommand: Codable, Equatable, Identifiable, Sendable {
         self.runInBackground = runInBackground
         self.copyURLFromOutput = copyURLFromOutput
         self.copyOutputToClipboard = copyOutputToClipboard
+        self.format = format
     }
 
     /// Upstream ships Paint and Paint.NET; the Mac's built-in image app is Preview.
     public static let defaults = [ExternalCommand(name: "Preview", command: "/usr/bin/open", arguments: "-a Preview \"{0}\"")]
+
+    enum CodingKeys: String, CodingKey {
+        case id, name, command, arguments, runInBackground, copyURLFromOutput, copyOutputToClipboard, format
+    }
+
+    /// Every value falls back to its default, so commands saved before a new option still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        id = value(.id, UUID())
+        name = value(.name, "")
+        command = value(.command, "")
+        arguments = value(.arguments, "\"{0}\"")
+        runInBackground = value(.runInBackground, true)
+        copyURLFromOutput = value(.copyURLFromOutput, true)
+        copyOutputToClipboard = value(.copyOutputToClipboard, false)
+        format = value(.format, .png)
+    }
 }
 
 /// Upstream PDF plugin settings (`IPdfConfiguration.cs`).
@@ -379,10 +403,29 @@ public struct JiraSettings: Codable, Equatable, Sendable {
     public var jpegQuality = 80
     /// The issues uploaded to, newest first (upstream remembers the issues seen in browser titles).
     public var recentIssueKeys: [String] = []
+    /// Reduce the uploaded image to at most 256 colours (upstream `UploadReduceColors`).
+    public var reduceColors = false
 
     public static let maxRecentIssueKeys = 10
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey { case url, email, uploadFormat, jpegQuality, recentIssueKeys, reduceColors }
+
+    /// Every value falls back to its default, so settings written before a new option still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = JiraSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        url = value(.url, d.url)
+        email = value(.email, d.email)
+        uploadFormat = value(.uploadFormat, d.uploadFormat)
+        jpegQuality = value(.jpegQuality, d.jpegQuality)
+        recentIssueKeys = value(.recentIssueKeys, d.recentIssueKeys)
+        reduceColors = value(.reduceColors, d.reduceColors)
+    }
 
     public mutating func remember(issueKey: String) {
         recentIssueKeys.removeAll { $0 == issueKey }
@@ -415,10 +458,36 @@ public struct ConfluenceSettings: Codable, Equatable, Sendable {
     public var clipboardContent: ClipboardContent = .wikiMarkup
     /// The pages uploaded to, newest first.
     public var recentPages: [ConfluencePage] = []
+    /// The space the page search was limited to last time; empty searches every space (upstream `SearchSpaceKey`).
+    public var searchSpaceKey = ""
+    /// Reduce the uploaded image to at most 256 colours (upstream `UploadReduceColors`).
+    public var reduceColors = false
 
     public static let maxRecentPages = 10
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey {
+        case url, email, uploadFormat, jpegQuality, openPageAfterUpload, clipboardContent, recentPages, searchSpaceKey, reduceColors
+    }
+
+    /// Every value falls back to its default, so settings written before a new option still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = ConfluenceSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        url = value(.url, d.url)
+        email = value(.email, d.email)
+        uploadFormat = value(.uploadFormat, d.uploadFormat)
+        jpegQuality = value(.jpegQuality, d.jpegQuality)
+        openPageAfterUpload = value(.openPageAfterUpload, d.openPageAfterUpload)
+        clipboardContent = value(.clipboardContent, d.clipboardContent)
+        recentPages = value(.recentPages, d.recentPages)
+        searchSpaceKey = value(.searchSpaceKey, d.searchSpaceKey)
+        reduceColors = value(.reduceColors, d.reduceColors)
+    }
 
     public mutating func remember(page: ConfluencePage) {
         recentPages.removeAll { $0.id == page.id }

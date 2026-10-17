@@ -83,22 +83,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     // MARK: Hotkeys
 
     private func registerHotkeys() {
-        hotkeys.unregisterAll()
-        let h = settings.value.hotkeys
-        var failed: [String] = []
-        func bind(_ combo: KeyCombo?, _ name: String, _ action: @escaping () -> Void) {
-            guard let combo else { return }
-            if !hotkeys.register(combo, action: action) { failed.append("\(name): \(combo.displayString)") }
-        }
-        bind(h.region, "Capture region") { [weak self] in self?.capture.captureRegion() }
-        bind(h.window, "Capture window") { [weak self] in self?.capture.captureWindowFromHotkey() }
-        bind(h.fullScreen, "Capture full screen") { [weak self] in self?.capture.captureFullScreenFromHotkey() }
-        bind(h.lastRegion, "Capture last region") { [weak self] in self?.capture.captureLastRegion() }
-        bind(h.clipboard, "Open clipboard") { [weak self] in self?.editors.openClipboard() }
-        if !failed.isEmpty {
-            ErrorPresenter.show(message: "Some hotkeys could not be registered",
-                                detail: failed.joined(separator: "\n") + "\n\nAnother app may use them. Choose others in Settings › General.")
-        }
+        hotkeys.registerAll(settings.value.hotkeys, capture: capture, editors: editors)
     }
 
     // MARK: Menu actions

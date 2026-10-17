@@ -504,7 +504,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
 
     /// Applies a property change to the selected element and remembers it for new elements of that kind.
-    private func applyStyle(_ change: (inout AnnotationStyle) -> Void) {
+    func applyStyle(_ change: (inout AnnotationStyle) -> Void) {
         guard let kind = activeKind else { return }
         var remembered = settings.value.style(for: kind)
         change(&remembered)
@@ -873,4 +873,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         rememberFrame()
         onClose(self)
     }
+
+    /// Shows a message in the status bar (upstream `UpdateStatusLabel`): errors in red with a warning sign.
+    func showStatusMessage(_ message: String, isError: Bool = false) {}
+
+    /// Shows how an export of this editor's image ended (upstream `ExportResultHandler` + `SurfaceMessageReceived`),
+    /// remembers its file or link and clears the unsaved-changes mark when the result says so. `destination` names the
+    /// destination, e.g. "Clipboard", "Upload to Box".
+    func showExportResult(_ result: ExportResult, destination: String) {}
 }

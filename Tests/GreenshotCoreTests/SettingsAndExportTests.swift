@@ -134,7 +134,7 @@ struct ImageExporterTests {
     @Test func formatFromExtension() {
         #expect(ImageFormat(fileExtension: "JPEG") == .jpg)
         #expect(ImageFormat(fileExtension: "tif") == .tiff)
-        #expect(ImageFormat(fileExtension: "webp") == nil)
+        #expect(ImageFormat(fileExtension: "psd") == nil)
     }
 
     @Test func reduceColorsLeavesAtMostNColours() throws {

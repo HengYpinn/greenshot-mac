@@ -61,6 +61,13 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             onToolChange?()
         }
     }
+    /// The crop tool's mode; C cycles it while cropping (upstream `CycleCropMode`).
+    private(set) var cropMode: CropMode = .crop {
+        didSet { needsDisplay = true; onToolChange?() }
+    }
+
+    /// Chooses a crop mode (the crop bar's buttons).
+    func selectCropMode(_ mode: CropMode) { cropMode = mode }
 
     private enum Drag {
         case create(id: UUID, origin: CGPoint)

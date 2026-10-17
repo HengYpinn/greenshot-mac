@@ -52,43 +52,6 @@ enum ScreenSpace {
     static var mouseLocation: CGPoint { quartz(NSEvent.mouseLocation) }
 }
 
-extension KeyCombo {
-    init(event: NSEvent) {
-        self.init(keyCode: UInt32(event.keyCode), modifiers: KeyCombo.carbonModifiers(from: event.modifierFlags))
-    }
-
-    static func carbonModifiers(from flags: NSEvent.ModifierFlags) -> UInt32 {
-        var result: UInt32 = 0
-        if flags.contains(.control) { result |= control }
-        if flags.contains(.option) { result |= option }
-        if flags.contains(.shift) { result |= shift }
-        if flags.contains(.command) { result |= command }
-        return result
-    }
-
-    var modifierFlags: NSEvent.ModifierFlags {
-        var flags: NSEvent.ModifierFlags = []
-        if modifiers & KeyCombo.control != 0 { flags.insert(.control) }
-        if modifiers & KeyCombo.option != 0 { flags.insert(.option) }
-        if modifiers & KeyCombo.shift != 0 { flags.insert(.shift) }
-        if modifiers & KeyCombo.command != 0 { flags.insert(.command) }
-        return flags
-    }
-
-    /// The key equivalent to show the shortcut in a menu, when the key can be shown there.
-    var menuKeyEquivalent: String? {
-        let name = KeyCombo.keyName(for: keyCode)
-        if name.count == 1, let char = name.lowercased().first, char.isLetter || char.isNumber || char.isPunctuation {
-            return String(char)
-        }
-        if name.hasPrefix("F"), let number = Int(name.dropFirst()), (1...20).contains(number),
-           let scalar = UnicodeScalar(NSF1FunctionKey + number - 1) {
-            return String(Character(scalar))
-        }
-        return nil
-    }
-}
-
 @MainActor
 enum Permissions {
     static let screenCaptureSettingsURL =
@@ -166,10 +129,3 @@ enum ErrorPresenter {
     }
 }
 
-enum CameraSound {
-    static func play() {
-        let path = "/System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds/system/Screen Capture.aif"
-        let sound = NSSound(contentsOfFile: path, byReference: true) ?? NSSound(named: "Tink")
-        sound?.play()
-    }
-}

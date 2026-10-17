@@ -70,6 +70,9 @@ final class CaptureCoordinator {
     }
 
     /// The same area as the last capture again, without the capture screen.
+    /// Upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode.
+    func captureText() { interactive(.text) }
+
     func captureLastRegion() {
         guard let region = settings.value.lastCapturedRegion else {
             captureRegion()

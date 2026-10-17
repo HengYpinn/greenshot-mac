@@ -19,7 +19,9 @@ enum TemporaryCaptureFile {
             .appendingPathComponent("Greenshot", isDirectory: true)
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         let url = folder.appendingPathComponent(name).appendingPathExtension(format.fileExtension)
-        try ImageExporter.write(capture.image, to: url, format: format, quality: settings.value.jpegQuality, scale: capture.scale)
+        try ImageExporter.write(capture.image, to: url,
+                                options: ImageOutputOptions(settings: settings.value, format: format, scale: capture.scale,
+                                                            title: capture.title))
         return url
     }
 }

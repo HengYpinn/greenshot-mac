@@ -466,16 +466,6 @@ public enum AnnotationRenderer {
         return ciContext.createCGImage(output, from: input.extent, format: .RGBA8, colorSpace: sRGB)
     }
 
-    static func pixelated(_ image: CGImage, blockSize: CGFloat) -> CGImage? {
-        filtered(image) { input in
-            let filter = CIFilter.pixellate()
-            filter.inputImage = input
-            filter.scale = Float(max(blockSize, 1))
-            filter.center = .zero
-            return filter.outputImage ?? input
-        }
-    }
-
     static func blurred(_ image: CGImage, radius: CGFloat) -> CGImage? {
         filtered(image) { input in
             let filter = CIFilter.gaussianBlur()
@@ -505,7 +495,7 @@ public enum AnnotationRenderer {
         if a.style.shadow { drawOuterShadow(of: rect, in: context, scale: scale) }
         let result: CGImage?
         switch a.style.obfuscateMode {
-        case .pixelate: result = pixelated(source, blockSize: CGFloat(a.style.pixelSize) * scale)
+        case .pixelate: result = ImagePixelation.pixelated(source, blockSize: CGFloat(a.style.pixelSize) * scale, element: a.id)
         case .blur: result = blurred(source, radius: CGFloat(a.style.blurRadius) * scale)
         }
         if let result { drawUpright(result, in: rect, context: context) }

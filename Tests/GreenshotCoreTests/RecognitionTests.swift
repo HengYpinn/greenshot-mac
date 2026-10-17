@@ -81,7 +81,7 @@ struct NewSettingsTests {
     @Test func newFieldsHaveUpstreamDefaults() {
         let s = AppSettings()
         #expect(s.fixedCaptureSizes == CaptureSize.defaults)
-        #expect(s.fixedCaptureAnchor == .topLeft && s.screenCaptureMode == .fullScreen && s.screenToCapture == 1)
+        #expect(s.fixedCaptureAnchor == .topLeft && s.screenCaptureMode == .auto && s.screenToCapture == 1)
         #expect(s.captureHelpVisible && s.captureInfoVisible && s.captureSelectionPreviewVisible)
         #expect(s.ocrLanguage.isEmpty && s.scanQRCodesOnCapture && s.autoCropDifference == 10)
         #expect(s.notificationLevel == .all)

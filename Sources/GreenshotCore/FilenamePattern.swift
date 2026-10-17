@@ -355,3 +355,16 @@ public enum DotNetDateFormat {
         return out
     }
 }
+
+extension FilenamePattern {
+    /// The variables and options of a pattern, for Settings › Output.
+    public static let helpText = """
+        ${capturetime:d"yyyy-MM-dd HH_mm_ss"}  capture time, .NET date format
+        ${title}  window title    ${user}  user name    ${hostname}  computer name
+        ${YYYY} ${MM} ${DD} ${hh} ${mm} ${ss}  date and time parts
+        ${NUM}  counter (000001)    ${RRRR}  random characters
+        ${Desktop} ${MyPictures} ${MyDocuments}  folders    ${HOME} or any environment variable
+        Options after a colon, separated by ';': p<width>[,char] pad, s<start>[,length] substring, r<old>,<new> replace
+        A '/' in the pattern makes sub folders, e.g. ${YYYY}/${MM}/${title}
+        """
+}

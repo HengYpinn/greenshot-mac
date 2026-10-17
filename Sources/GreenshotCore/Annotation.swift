@@ -116,6 +116,8 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
     public var fontFamily: String
     public var horizontalAlignment: HorizontalTextAlignment
     public var verticalAlignment: VerticalTextAlignment
+    /// How bright the area outside an area highlight is, 0–2 (upstream `BRIGHTNESS`, 0.9).
+    public var brightness: Double
 
     public init(lineColor: RGBAColor = .red, fillColor: RGBAColor = .clear, lineWidth: Double = 2, shadow: Bool = true,
                 fontSize: Double = 15, bold: Bool = false, italic: Bool = false, arrowHeads: ArrowHeads = .end,
@@ -123,7 +125,7 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
                 pixelSize: Double = 5, blurRadius: Double = 6, magnification: Double = 2,
                 cutMarkStyle: CutMarkStyle = .torn, toothHeight: Double = 12, toothRange: Double = 20,
                 fontFamily: String = "", horizontalAlignment: HorizontalTextAlignment = .center,
-                verticalAlignment: VerticalTextAlignment = .center) {
+                verticalAlignment: VerticalTextAlignment = .center, brightness: Double = 0.9) {
         self.lineColor = lineColor
         self.fillColor = fillColor
         self.lineWidth = lineWidth
@@ -143,6 +145,7 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         self.fontFamily = fontFamily
         self.horizontalAlignment = horizontalAlignment
         self.verticalAlignment = verticalAlignment
+        self.brightness = brightness
     }
 
     /// Every property falls back to its default, so the styles remembered by an older version (without the newer
@@ -172,6 +175,7 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         fontFamily = value(.fontFamily, d.fontFamily)
         horizontalAlignment = value(.horizontalAlignment, d.horizontalAlignment)
         verticalAlignment = value(.verticalAlignment, d.verticalAlignment)
+        brightness = value(.brightness, d.brightness)
     }
 
     /// The defaults of upstream's `InitializeFields` per container. Font sizes are converted from Windows points

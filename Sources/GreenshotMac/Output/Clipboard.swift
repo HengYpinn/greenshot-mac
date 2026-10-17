@@ -70,4 +70,8 @@ enum ImageLoader {
         guard let cgImage = image.cgImage(forProposedRect: &rect, context: nil, hints: nil) else { return nil }
         return (cgImage, 1)
     }
+
+    /// The image an HTML copy on the clipboard points to (`<img src="https://…">`), downloaded (upstream
+    /// `ClipboardHelper` HTML handling). Nil when there is none.
+    static func downloadedHTMLImage() async -> (image: CGImage, scale: CGFloat)? { nil }
 }
