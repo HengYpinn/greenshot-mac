@@ -48,15 +48,48 @@ public enum Geometry {
         return CGPoint(x: start.x + (dx < 0 ? -side : side), y: start.y + (dy < 0 ? -side : side))
     }
 
-    /// Snaps the line from `start` to `end` to the nearest multiple of 45 degrees (Shift while drawing a line or arrow).
+    /// Snaps the line from `start` to `end` to the nearest multiple of 45 degrees.
     public static func snap45(from start: CGPoint, to end: CGPoint) -> CGPoint {
+        snapAngle(from: start, to: end, degrees: 45)
+    }
+
+    /// Snaps the line from `start` to `end` to the nearest multiple of `degrees`, keeping its length (Shift while
+    /// drawing a line or arrow: 15 degrees, upstream `LineAngleRoundBehavior`).
+    public static func snapAngle(from start: CGPoint, to end: CGPoint, degrees: CGFloat) -> CGPoint {
         let dx = end.x - start.x
         let dy = end.y - start.y
         let length = (dx * dx + dy * dy).squareRoot()
-        guard length > 0 else { return end }
-        let step = CGFloat.pi / 4
+        guard length > 0, degrees > 0 else { return end }
+        let step = degrees * .pi / 180
         let angle = (atan2(dy, dx) / step).rounded() * step
         return CGPoint(x: start.x + cos(angle) * length, y: start.y + sin(angle) * length)
+    }
+
+    /// `point` mirrored around `center`: the other corner of a box drawn from its centre (Option while drawing,
+    /// upstream Ctrl = `ScaleOptions.Centered`).
+    public static func mirrored(_ point: CGPoint, around center: CGPoint) -> CGPoint {
+        CGPoint(x: 2 * center.x - point.x, y: 2 * center.y - point.y)
+    }
+
+    /// The crop area dragged from `origin` to `point` (image pixels) in a crop mode, within the image: cutting
+    /// columns out spans the whole height, cutting rows out the whole width (upstream `CropContainer.HandleMouseMove`).
+    public static func cropSelection(_ mode: CropMode, from origin: CGPoint, to point: CGPoint, imageSize: CGSize) -> CGRect {
+        let image = CGRect(origin: .zero, size: imageSize)
+        var rect = self.rect(from: origin, to: point)
+        switch mode {
+        case .vertical: rect = CGRect(x: rect.minX, y: 0, width: rect.width, height: imageSize.height)
+        case .horizontal: rect = CGRect(x: 0, y: rect.minY, width: imageSize.width, height: rect.height)
+        case .crop, .auto: break
+        }
+        let clipped = rect.intersection(image)
+        return clipped.isNull ? .zero : clipped
+    }
+
+    /// How far apart the points of a freehand drawing are at least, image pixels: twice the sensitivity in points
+    /// (upstream `FreehandContainer.HandleMouseMove`, `FreehandSensitivity` 1–100). The last point is kept when it is
+    /// half of that away.
+    public static func freehandSpacing(sensitivity: Int, scale: CGFloat) -> CGFloat {
+        CGFloat(2 * min(max(sensitivity, 1), 100)) * scale
     }
 
     public static func distance(_ a: CGPoint, _ b: CGPoint) -> CGFloat {
