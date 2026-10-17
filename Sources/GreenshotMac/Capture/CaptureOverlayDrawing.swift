@@ -25,30 +25,36 @@ extension OverlayMarksView {
 
     func drawMarks() {
         guard let controller, let context = NSGraphicsContext.current?.cgContext else { return }
+        let now = Date()
         let cursor = local(controller.cursor)
         let cursorHere = bounds.contains(cursor)
         let selection = controller.selection.map { local($0) }
+        // While a window selection slides, the frame is on its way; the labels belong to where it goes.
+        let shownSelection = controller.displayedSelection(at: now).map { local($0) }
+        if controller.selectionMoves(at: now) { controller.animator.requestFrame() }
 
         // Dim everything outside the selection a little, so the capture screen is recognizable.
         let dim = CGMutablePath()
         dim.addRect(bounds)
-        if let selection { dim.addRect(selection) }
+        if let shownSelection { dim.addRect(shownSelection) }
         context.addPath(dim)
-        context.setFillColor(NSColor.black.withAlphaComponent(selection == nil ? 0.12 : 0.35).cgColor)
+        context.setFillColor(NSColor.black.withAlphaComponent(shownSelection == nil ? 0.12 : 0.35).cgColor)
         context.fillPath(using: .evenOdd)
 
         if controller.mode == .text { drawTextLines(controller, in: context) }
         if controller.mode == .region { drawBarcodes(controller, in: context) }
 
-        if let selection, selection.intersects(bounds) {
+        if let shownSelection, shownSelection.intersects(bounds), shownSelection.width > 0 || shownSelection.height > 0 {
             context.setStrokeColor(accent.cgColor)
             context.setLineWidth(1)
-            context.stroke(selection.insetBy(dx: 0.5, dy: 0.5))
-            if controller.mode != .text {
-                let pixels = CaptureSelection.pixelSize(of: selection, scale: frozen.scale)
-                drawSelectionLabels(for: selection, width: pixels.width, height: pixels.height, alpha: 1, in: context)
-                drawSelectionNote(for: selection, pixels: pixels)
-            }
+            context.stroke(shownSelection.insetBy(dx: 0.5, dy: 0.5))
+        }
+        if let selection, selection.intersects(bounds), controller.mode != .text {
+            let pixels = CaptureSelection.pixelSize(of: selection, scale: frozen.scale)
+            let alpha = controller.labelsOpacity(at: now)
+            if alpha < 1 { controller.animator.requestFrame() }
+            drawSelectionLabels(for: selection, width: pixels.width, height: pixels.height, alpha: alpha, in: context)
+            if alpha >= 1 { drawSelectionNote(for: selection, pixels: pixels) }
         }
 
         // In the region and text modes, until a drag starts (upstream: dotted, with the position next to it).
@@ -57,12 +63,12 @@ extension OverlayMarksView {
         if showsCrosshair { drawCrosshair(at: cursor, in: context) }
 
         guard cursorHere else {
-            panelFrames = [:]
+            resetPanels()
             zoomerOffset = nil
             drawBarcodeMenu(controller)
             return
         }
-        drawPanelsAndZoomer(controller, cursor: cursor, selection: selection, showsPosition: !showsCrosshair, in: context)
+        drawPanelsAndZoomer(controller, cursor: cursor, selection: selection, showsPosition: !showsCrosshair, now: now, in: context)
         drawStatus(controller)
         drawBarcodeHint(controller)
         drawBarcodeMenu(controller)
@@ -71,7 +77,7 @@ extension OverlayMarksView {
     // MARK: Panels
 
     private func drawPanelsAndZoomer(_ controller: CaptureOverlayController, cursor: CGPoint, selection: CGRect?,
-                                     showsPosition: Bool, in context: CGContext) {
+                                     showsPosition: Bool, now: Date, in context: CGContext) {
         let preview = controller.previewPlacement == .off ? nil : previewPanel(controller)
         let previewAtZoomer = controller.previewPlacement == .zoomer && controller.showsZoomer
         var panels: [OverlayPanel] = []
@@ -80,17 +86,10 @@ extension OverlayMarksView {
         if controller.infoVisible { panels.append(tablePanel(id: "info", title: "Info", rows: controller.infoLines())) }
         if let preview, !previewAtZoomer { panels.append(preview) }
 
-        var placed: [CGRect] = []
-        var frames: [String: CGRect] = [:]
-        let loose = selection.map { [$0] } ?? []
-        for panel in panels {
-            let box = CapturePanelPlacement.place(size: panel.size, monitor: bounds, cursor: cursor, current: panelFrames[panel.id],
-                                                  avoid: placed, avoidLoosely: loose)
-            placed.append(box)
-            frames[panel.id] = box
-            panel.draw(box)
-        }
-        panelFrames = frames
+        // The panels avoid the selection only once it stopped changing for a moment (upstream `IsSelectionSettled`), so they
+        // don't jump around while you drag or move over windows.
+        let loose = controller.selectionSettled(at: now) ? selection.map { [$0] } ?? [] : []
+        let placed = placeAndDrawPanels(panels, cursor: cursor, avoidLoosely: loose, now: now, in: context)
 
         guard controller.showsZoomer else {
             zoomerOffset = nil
@@ -101,7 +100,7 @@ extension OverlayMarksView {
         // The magnifier with room for the position below it.
         let size = inZoomer?.size ?? CGSize(width: diameter, height: diameter + (showsPosition ? 24 : 0))
         let offset = CaptureZoomerPlacement.offset(cursor: cursor, current: zoomerOffset, size: size, monitor: bounds,
-                                                   avoid: placed + loose)
+                                                   avoid: placed + (selection.map { [$0] } ?? []))
         zoomerOffset = offset
         let slot = CGRect(origin: CGPoint(x: cursor.x + offset.x, y: cursor.y + offset.y), size: size)
         if let inZoomer {

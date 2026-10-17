@@ -116,6 +116,23 @@ final class CaptureOverlayController {
     private var ignoresMouseUp = false
     private var previewCache: (rect: CGRect, pointer: Bool, image: CGImage, scale: CGFloat)?
 
+    // Movement (CaptureOverlayAnimator.swift). Only while the capture screen is on the screen: the snapshots draw the
+    // end state.
+    /// The capture screen is on the screen.
+    private(set) var isShown = false
+    /// Things slide and fade; not with Reduce motion (upstream: not in a remote session).
+    private(set) var animates = false
+    /// When the selection last changed: the panels avoid it only once it stayed the same for a moment.
+    var selectionChangedAt = Date.distantPast
+    var settleTimer: Timer?
+    /// The window selection sliding from window to window.
+    var selectionMotion: CaptureMotion?
+    /// When the labels of the window selection started to fade in.
+    var labelsAppearedAt: Date?
+    /// The next window selection grows out of the mouse.
+    var growsFromCursor = false
+    lazy var animator = CaptureOverlayAnimator { [weak self] in self?.redraw() }
+
     init(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool, settings: SettingsStore? = nil,
          pointerScreens: [FrozenScreen]? = nil, pointerVisible: Bool = false,
          completion: @escaping (OverlaySelection?) -> Void) {
@@ -175,6 +192,9 @@ final class CaptureOverlayController {
         // No NSApp.activate(): since macOS 14 another app may refuse to give up the focus, and activating can switch
         // to the Space of an open editor. The panels show over the current app, even a full screen one, and take
         // the mouse and keys without activating this app.
+        isShown = true
+        animates = !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        growsFromCursor = mode == .window
         overlayWindows.forEach { $0.orderFrontRegardless() }
         (overlayWindows.first { $0.frozen.frame.contains(cursor) } ?? overlayWindows[0]).makeKeyAndOrderFront(nil)
         NSCursor.crosshair.set()
@@ -186,6 +206,7 @@ final class CaptureOverlayController {
     func finish(_ result: OverlaySelection?) {
         guard !finished else { return }
         finished = true
+        stopMoving()
         overlayWindows.forEach { $0.orderOut(nil) }
         overlayWindows.removeAll()
         NSCursor.arrow.set()
@@ -385,6 +406,7 @@ final class CaptureOverlayController {
 
     func switchMode(to newMode: Mode) {
         guard newMode != mode else { return }
+        modeWillChange(from: mode, to: newMode)
         mode = newMode
         anchor = nil
         shiftStart = nil
@@ -447,6 +469,8 @@ final class CaptureOverlayController {
     // MARK: Selection
 
     private func updateSelection(shift: Bool = false) {
+        let previous = selection
+        defer { if selection != previous { selectionDidChange(from: previous) } }
         windowUnderCursor = windows.first { $0.frame.contains(cursor) }
         hoveredLine = nil
         hoveredWindow = nil
@@ -625,6 +649,15 @@ final class OverlayMarksView: NSView {
     var panelFrames: [String: CGRect] = [:]
     /// The zoomer's offset from the mouse.
     var zoomerOffset: CGPoint?
+    // The panels' movement (CaptureOverlayAnimator.swift).
+    var panelMotions: [String: CaptureMotion] = [:]
+    var panelAppearedAt: [String: Date] = [:]
+    /// The size of each panel while it is shown: it only grows.
+    var panelSizes: [String: CGSize] = [:]
+    /// The panels of the last drawing, where they were drawn.
+    var drawnPanels: [String: (panel: OverlayPanel, frame: CGRect)] = [:]
+    /// Panels that were hidden, fading out.
+    var fadingPanels: [String: (panel: OverlayPanel, frame: CGRect, start: Date)] = [:]
 
     init(frame: NSRect, frozen: FrozenScreen, controller: CaptureOverlayController) {
         self.frozen = frozen
