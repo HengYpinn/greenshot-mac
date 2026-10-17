@@ -228,9 +228,11 @@ public final class AIRecipeProposals {
     /// rejected one isn't shown again until the app restarts, and the rejection is the user's answer, not an error
     /// (MC-M3); the reply says whether it is switched on (SM-M3).
     private func proposeExtension(_ draft: AIRecipeDraft, _ proposal: Proposal) async -> Outcome {
-        // TODO(merge): before the sheet, refuse a step without a Boolean "enabled" option with RMANAGER's
-        // `RecipeExtensionNames.aiProposalProblem(draft.recipe)` (SM-M3): the AI tool gets the reason without a sheet. Its
-        // `proposeExtension` refuses such a step itself; VALIDATE_RECIPE reports it already (`AIRecipeCatalog`).
+        // A step without a Boolean "enabled" option is refused before any sheet (SM-M3): the AI tool gets the reason.
+        // The library's `proposeExtension` refuses it too; VALIDATE_RECIPE reports it already (`AIRecipeCatalog`).
+        if let problem = AIRecipeCatalog.aiProposalProblem(draft.recipe) {
+            return Outcome(reply: .error(problem), openInEditor: nil)
+        }
         var step = draft.recipe
         var content = draft.content
         let replacedId = proposal.replaces?.trimmingCharacters(in: .whitespaces) ?? ""

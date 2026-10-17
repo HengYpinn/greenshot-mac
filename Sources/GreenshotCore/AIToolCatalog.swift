@@ -104,7 +104,14 @@ public enum AIToolCatalog {
     public static func runRequest(_ tool: AIToolEntry, arguments: [String: String], library: RecipeLibrary,
                                   client: String) -> Result<RecipeRunRequest, AIToolError> {
         do {
-            let request = try library.runRequest(command: tool.toolName, arguments: arguments, source: .aiTool(client: client)) { raw, _ in
+            // Exactly the recipe and trigger the catalog offered (MC-M1), not a search by tool name again
+            let source = RecipeInvocationSource.aiTool(client: client)
+            guard let match = library.commands(for: source).first(where: {
+                recipeEquals($0.recipeId, tool.recipeId) && $0.triggerIndex == tool.triggerIndex
+            }) else {
+                return .failure(AIToolError("The AI tool '\(tool.toolName)' is not available any more."))
+            }
+            let request = try library.runRequest(match: match, arguments: arguments, source: source) { raw, _ in
                 switch IPCPathValidator.sanitize(raw, cwd: nil) {
                 case .success(let url): return url.path
                 case .failure(let failure): throw RecipeStepError("[SECURITY] \(failure.message)")

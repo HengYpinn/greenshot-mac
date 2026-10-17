@@ -47,13 +47,12 @@ public enum AIRecipeCatalog {
     }
 
     /// Why an AI tool may not propose this automatic step: it needs a Boolean option "enabled", its switch in
-    /// Settings › Recipes, so it can start switched off (security review SM-M3); nil for a recipe or a fine step.
-    /// TODO(merge): the same check is RMANAGER's `RecipeExtensionNames.aiProposalProblem(_:)` on wave4/integration; use it
-    /// there and drop this copy.
+    /// Settings › Recipes, so it can start switched off (security review SM-M3); nil for a recipe or a fine step. The
+    /// library's rule (`RecipeExtensionNames.aiProposalProblem`), with an example for the AI tool.
     public static func aiProposalProblem(_ recipe: CaptureRecipe) -> String? {
-        guard recipe.kind == .extension else { return nil }
-        if let option = recipe.option("enabled"), option.type == .boolean { return nil }
-        return "An automatic step from an AI tool needs a Boolean option \"enabled\" (its switch in Settings › Recipes), e.g. \"options\": [{ \"key\": \"enabled\", \"type\": \"Boolean\", \"default\": false }], and its nodes should use it (\"enabled\": \"${option.enabled}\")."
+        RecipeExtensionNames.aiProposalProblem(recipe).map {
+            $0 + " Example: \"options\": [{ \"key\": \"enabled\", \"type\": \"Boolean\", \"default\": false }], and the nodes use it (\"enabled\": \"${option.enabled}\")."
+        }
     }
 
     // MARK: RECIPE_CATALOG
