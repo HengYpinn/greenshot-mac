@@ -22,7 +22,14 @@ final class SettingsStore: ObservableObject {
     init(defaults: UserDefaults = .standard, fileURL: URL? = nil) {
         self.defaults = defaults
         self.fileURL = fileURL
-        value = fileURL.map(SettingsStorage.load(fromFile:)) ?? SettingsStorage.load(from: defaults)
+        value = fileURL.map { url in
+            SettingsStorage.load(fromFile: url) { aside in
+                DispatchQueue.main.async {
+                    ErrorPresenter.show(message: "The settings file could not be read",
+                                        detail: "It was renamed to \(aside.lastPathComponent) and Greenshot started with the default settings.")
+                }
+            }
+        } ?? SettingsStorage.load(from: defaults)
     }
 
     func update(_ body: (inout AppSettings) -> Void) {

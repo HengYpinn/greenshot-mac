@@ -52,6 +52,13 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         statusItem.isVisible = !s.hideMenuBarIcon
     }
 
+    /// Before quitting, the icon is made visible again: macOS stores its visibility under the autosave name, and an
+    /// older build of the app (without the setting) would otherwise start without an icon and no way to get it back.
+    /// This build applies the setting again at launch.
+    func showIconForNextLaunch() {
+        statusItem.isVisible = true
+    }
+
     // MARK: Clicks
 
     @objc private func iconClicked(_ sender: Any?) {

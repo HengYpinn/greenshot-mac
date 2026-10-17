@@ -63,11 +63,15 @@ public struct AppLaunchOptions: Equatable, Sendable {
 
 extension SettingsStorage {
     /// The settings from a JSON file; the defaults when the file is missing or broken (single values fall back like
-    /// they do from the user defaults).
-    public static func load(fromFile url: URL) -> AppSettings {
-        guard let data = try? Data(contentsOf: url),
-              let settings = try? JSONDecoder().decode(AppSettings.self, from: data) else { return AppSettings() }
-        return settings
+    /// they do from the user defaults). A file that isn't JSON at all is renamed to `<name>.bad` first, so the next save
+    /// doesn't overwrite what the user wrote; `movedAside` then names it.
+    public static func load(fromFile url: URL, movedAside: ((URL) -> Void)? = nil) -> AppSettings {
+        guard let data = try? Data(contentsOf: url) else { return AppSettings() }
+        if let settings = try? JSONDecoder().decode(AppSettings.self, from: data) { return settings }
+        let aside = url.appendingPathExtension("bad")
+        try? FileManager.default.removeItem(at: aside)
+        if (try? FileManager.default.moveItem(at: url, to: aside)) != nil { movedAside?(aside) }
+        return AppSettings()
     }
 
     /// Writes the settings as readable JSON, creating the folder when needed.

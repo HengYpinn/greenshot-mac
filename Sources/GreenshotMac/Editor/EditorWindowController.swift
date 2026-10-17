@@ -40,7 +40,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     // Window placement, see +Placement.
     /// The window's frame when it was last neither zoomed nor minimised: what is remembered for the next editor.
     var normalFrame: NSRect?
-    /// Whether the window was zoomed when last seen (upstream `ShowWindowCommand` Maximize).
+    /// Whether the user zoomed the window with the zoom button (upstream `ShowWindowCommand` Maximize); not AppKit's
+    /// `isZoomed`, which is also true for a window fitted to a screen-sized capture.
     var wasZoomed = false
     /// Zoom the window once it is on screen (the remembered editor was zoomed).
     var zoomsWhenShown = false

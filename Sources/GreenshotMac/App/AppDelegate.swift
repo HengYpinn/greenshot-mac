@@ -83,6 +83,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         false
     }
 
+    func applicationWillTerminate(_ notification: Notification) {
+        statusItem?.showIconForNextLaunch()
+    }
+
     /// Quitting doesn't close the editor windows one by one, so ask about unsaved screenshots here.
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         editors.confirmQuit() ? .terminateNow : .terminateCancel

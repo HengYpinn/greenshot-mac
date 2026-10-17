@@ -42,7 +42,9 @@ extension EditorWindowController {
         guard let window else { return }
         let remembered = Self.rememberedFrame()
         if let remembered, !settings.value.matchSizeToCapture {
-            window.setFrame(remembered, display: false)
+            let screen = EditorWindowPlacement.screen(for: remembered, screens: Self.visibleScreens)
+                ?? (NSScreen.main ?? NSScreen.screens[0]).visibleFrame
+            window.setFrame(EditorWindowPlacement.moved(remembered, onto: screen), display: false)
         } else {
             let topLeft = remembered.map { NSPoint(x: $0.minX, y: $0.maxY) }
             let screen = remembered.flatMap { EditorWindowPlacement.screen(for: $0, screens: Self.visibleScreens) }
@@ -72,7 +74,7 @@ extension EditorWindowController {
     /// A reused editor got a new screenshot: with "match size to capture" it is sized to it, keeping its top left.
     func refitWindowForNewImage() {
         guard let window else { return }
-        if settings.value.matchSizeToCapture, !window.isZoomed {
+        if settings.value.matchSizeToCapture, !wasZoomed {
             fitWindowToImage(topLeft: NSPoint(x: window.frame.minX, y: window.frame.maxY), screen: window.screen?.visibleFrame)
         }
         window.layoutIfNeeded()
@@ -85,25 +87,32 @@ extension EditorWindowController {
     func refitWindowIfImageResized() {
         guard let fitted = fittedImageSize, fitted != editorDocument.imageSize, let window else { return }
         fittedImageSize = editorDocument.imageSize
-        guard settings.value.matchSizeToCapture, window.isVisible, !window.isZoomed, !window.inLiveResize else { return }
+        guard settings.value.matchSizeToCapture, window.isVisible, !wasZoomed, !window.inLiveResize else { return }
         fitWindowToImage(topLeft: NSPoint(x: window.frame.minX, y: window.frame.maxY), screen: window.screen?.visibleFrame)
     }
 
-    /// Keeps the frame the window has when it is neither zoomed nor minimised, for the next editor.
+    /// The frame the zoom button gives the window: the screen without menu bar and Dock (AppKit's standard frame).
+    private var zoomedFrame: NSRect? { window?.screen?.visibleFrame }
+
+    /// Keeps the frame the window has when it is neither zoomed nor minimised, for the next editor. "Zoomed" is only
+    /// what the zoom button did: a window fitted to a screen-sized capture is as large as the screen, and AppKit's
+    /// `isZoomed` would call it zoomed, so every later editor would open zoomed. Moving or resizing a zoomed window
+    /// un-zooms it.
     func rememberNormalFrame() {
         guard let window, window.isVisible, !window.isMiniaturized, !isZoomAnimating else { return }
-        wasZoomed = window.isZoomed
+        if wasZoomed, window.frame != zoomedFrame { wasZoomed = false }
         if !wasZoomed { normalFrame = window.frame }
     }
 
     @objc func windowShouldZoom(_ window: NSWindow, toFrame newFrame: NSRect) -> Bool {
-        if !window.isZoomed { normalFrame = window.frame }
+        if !wasZoomed { normalFrame = window.frame }
+        let zooming = newFrame == zoomedFrame
         isZoomAnimating = true
         DispatchQueue.main.asyncAfter(deadline: .now() + window.animationResizeTime(newFrame) + 0.1) { [weak self] in
             MainActor.assumeIsolated {
                 guard let self else { return }
                 self.isZoomAnimating = false
-                self.wasZoomed = self.window?.isZoomed ?? false
+                self.wasZoomed = zooming
             }
         }
         return true
@@ -113,7 +122,7 @@ extension EditorWindowController {
     func restoreZoomIfNeeded() {
         guard zoomsWhenShown, let window else { return }
         zoomsWhenShown = false
-        if !window.isZoomed { window.zoom(nil) }
+        if window.frame == zoomedFrame { wasZoomed = true } else { window.zoom(nil) }
     }
 
     /// Remembers this window's place for the next editor (upstream stores the placement when the editor closes). Uses

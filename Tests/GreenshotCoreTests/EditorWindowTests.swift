@@ -123,6 +123,14 @@ struct EditorWindowPlacementTests {
         #expect(frame == CGRect(x: 590, y: 0, width: 850, height: 620))
     }
 
+    @Test func aRememberedFrameLargerThanTheScreenIsMovedOnto() {
+        let screen = CGRect(x: 0, y: 0, width: 1440, height: 875)
+        let remembered = CGRect(x: 100, y: -500, width: 2400, height: 1400)
+        let moved = EditorWindowPlacement.moved(remembered, onto: screen)
+        #expect(screen.contains(moved))
+        #expect(moved.size == screen.size)
+    }
+
     @Test func fittedFrameWithoutRememberedPlaceIsCentred() {
         let frame = EditorWindowPlacement.fittedFrame(contentSize: CGSize(width: 800, height: 500), chrome: CGSize(width: 50, height: 120),
                                                       topLeft: nil, screen: external)

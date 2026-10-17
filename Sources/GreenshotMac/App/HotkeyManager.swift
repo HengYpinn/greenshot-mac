@@ -123,9 +123,13 @@ final class HotkeyManager {
             if let registration = carbonRegister(chord) { pendingRegistrations[registration.id] = registration.value }
         }
         timeout?.invalidate()
-        timeout = Timer.scheduledTimer(withTimeInterval: HotkeySequenceMatcher.chordTimeout, repeats: false) { [weak self] _ in
+        // In the common modes, so the time also runs out while a menu or a modal window is open: until it does, the
+        // next steps (Esc among them) belong to Greenshot system-wide.
+        let timer = Timer(timeInterval: HotkeySequenceMatcher.chordTimeout, repeats: false) { [weak self] _ in
             MainActor.assumeIsolated { self?.endPending() }
         }
+        RunLoop.main.add(timer, forMode: .common)
+        timeout = timer
     }
 
     private func endPending() {

@@ -106,3 +106,26 @@ struct AppSettingsMenuBarDecodingTests {
         #expect(decoded == s)
     }
 }
+
+struct BrokenSettingsFileTests {
+    @Test func aBrokenFileIsMovedAsideNotOverwritten() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("settings.json")
+        try Data("{ \"jpegQuality\": 50, oops".utf8).write(to: file)
+        var aside: URL?
+        let settings = SettingsStorage.load(fromFile: file) { aside = $0 }
+        #expect(settings == AppSettings())
+        #expect(aside?.lastPathComponent == "settings.json.bad")
+        #expect(!FileManager.default.fileExists(atPath: file.path))
+        #expect(try String(contentsOf: folder.appendingPathComponent("settings.json.bad"), encoding: .utf8).contains("oops"))
+    }
+
+    @Test func aMissingFileGivesTheDefaultsWithoutAnythingMoved() {
+        var moved = false
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".json")
+        #expect(SettingsStorage.load(fromFile: file) { _ in moved = true } == AppSettings())
+        #expect(!moved)
+    }
+}
