@@ -179,7 +179,7 @@ final class CaptureCoordinator {
                     self.returnFocus(to: previousApp)
                     return
                 }
-                if self.settings.value.playCameraSound { CameraSound.play() }
+                if self.settings.value.playCameraSound { CameraSound.play(file: self.settings.value.notificationSound) }
                 if let text = capture.text {
                     self.deliverText(text)
                 } else {

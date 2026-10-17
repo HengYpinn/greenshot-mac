@@ -20,8 +20,10 @@ struct CaptureSettings: View {
                     .help("The window hotkey opens the capture screen in window mode instead of capturing the active window.")
                 Toggle("Keep the window shadow in window captures", isOn: store.binding(\.includeWindowShadow))
                 Toggle("Show the zoomer on the capture screen", isOn: store.binding(\.zoomerEnabled))
+                ZoomerOpacitySetting(store: store)
                 Toggle("Look for QR codes on the capture screen", isOn: store.binding(\.scanQRCodesOnCapture))
                 Toggle("Play the camera sound", isOn: store.binding(\.playCameraSound))
+                CameraSoundSetting(store: store)
                 Stepper(value: store.binding(\.captureDelayMilliseconds), in: 0...10_000, step: 100) {
                     Text("Wait before capturing: \(store.value.captureDelayMilliseconds) ms")
                 }
@@ -32,6 +34,63 @@ struct CaptureSettings: View {
             NotificationSettings(store: store)
         }
         .formStyle(.grouped)
+    }
+}
+
+/// How see-through the zoomer is (upstream `ZoomerOpacity`, only in greenshot.ini there; the Mac has no ini file).
+private struct ZoomerOpacitySetting: View {
+    @ObservedObject var store: SettingsStore
+
+    var body: some View {
+        LabeledContent("Zoomer opacity") {
+            HStack {
+                Slider(value: store.binding(\.zoomerOpacity), in: 0.1...1)
+                    .frame(width: 160)
+                Text("\(Int((store.value.zoomerOpacity * 100).rounded())) %").monospacedDigit().frame(width: 44, alignment: .trailing)
+            }
+        }
+        .disabled(!store.value.zoomerEnabled)
+        .help("Below 100 % the screen shows through the zoomer.")
+    }
+}
+
+/// The sound after a capture (upstream `NotificationSound`): the camera sound of macOS, or a sound file.
+private struct CameraSoundSetting: View {
+    @ObservedObject var store: SettingsStore
+
+    var body: some View {
+        LabeledContent("Sound") {
+            HStack {
+                Text(name).lineLimit(1).truncationMode(.middle).foregroundStyle(.secondary)
+                Button {
+                    CameraSound.play(file: store.value.notificationSound)
+                } label: {
+                    Image(systemName: "play.fill")
+                }
+                .help("Play the sound")
+                Button("Choose…", action: choose)
+                if !store.value.notificationSound.isEmpty {
+                    Button("Default") { store.update { $0.notificationSound = "" } }
+                }
+            }
+        }
+        .disabled(!store.value.playCameraSound)
+    }
+
+    private var name: String {
+        guard let url = CameraSound.url(of: store.value.notificationSound) else { return "Camera (macOS)" }
+        return FileManager.default.fileExists(atPath: url.path) ? url.lastPathComponent : "\(url.lastPathComponent) (missing, the camera plays)"
+    }
+
+    private func choose() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.audio]
+        panel.allowsMultipleSelection = false
+        panel.directoryURL = CameraSound.url(of: store.value.notificationSound)?.deletingLastPathComponent()
+            ?? URL(fileURLWithPath: "/System/Library/Sounds", isDirectory: true)
+        panel.message = "Choose the sound to play after a capture."
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        store.update { $0.notificationSound = url.path }
     }
 }
 
@@ -121,6 +180,8 @@ private struct TextRecognitionSettings: View {
 
     var body: some View {
         Section("Text recognition (OCR)") {
+            Toggle("Recognise the text as soon as the capture screen opens", isOn: store.binding(\.alwaysRunOCROnCapture))
+                .help("The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.")
             Picker("Language of the text", selection: store.binding(\.ocrLanguage)) {
                 Text("Automatic").tag("")
                 ForEach(Self.languages, id: \.self) { Text(Self.name(of: $0)).tag($0) }
