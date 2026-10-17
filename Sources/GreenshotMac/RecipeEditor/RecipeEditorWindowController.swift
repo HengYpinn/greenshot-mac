@@ -85,7 +85,7 @@ final class RecipeEditorWindowController: NSWindowController, NSWindowDelegate {
         let window = RecipeEditorWindow(contentRect: NSRect(x: 0, y: 0, width: 1120, height: 740),
                                         styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: true)
         window.model = model
-        window.title = "Recipe Editor"
+        window.title = String(localized: "Recipe Editor")
         window.minSize = NSSize(width: 860, height: 540)
         window.isReleasedWhenClosed = false
         window.contentView = NSHostingView(rootView: RecipeEditorView(model: model))

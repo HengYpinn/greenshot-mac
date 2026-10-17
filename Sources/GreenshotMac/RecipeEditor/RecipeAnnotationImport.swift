@@ -167,7 +167,7 @@ struct RecipeAnnotationImportForm: View {
                                              set: { on in if on { included.insert(item.id) } else { included.remove(item.id) } })) {
                             VStack(alignment: .leading, spacing: 1) {
                                 Text(item.description).lineLimit(1)
-                                Text(item.dimensions + (item.canSaveAsFile ? " · picture" : "")).font(.caption).foregroundStyle(.secondary)
+                                Text(details(of: item)).font(.caption).foregroundStyle(.secondary)
                             }
                         }
                     }
@@ -187,7 +187,7 @@ struct RecipeAnnotationImportForm: View {
                         .pickerStyle(.radioGroup)
                         if saveToFile {
                             HStack {
-                                Text(folder?.path ?? "No folder").lineLimit(1).truncationMode(.middle).foregroundStyle(.secondary)
+                                Text(folder?.path ?? String(localized: "No folder")).lineLimit(1).truncationMode(.middle).foregroundStyle(.secondary)
                                 Button("Choose…") { chooseFolder() }
                             }
                             TextField("file name prefix", text: $prefix).textFieldStyle(.roundedBorder)
@@ -212,6 +212,12 @@ struct RecipeAnnotationImportForm: View {
         .onAppear(perform: load)
     }
 
+    /// "120 × 60" or "120 × 60 · picture".
+    private func details(of item: RecipeAnnotationImportItem) -> String {
+        guard item.canSaveAsFile else { return item.dimensions }
+        return [item.dimensions, String(localized: "picture", comment: "An imported element is a picture")].joined(separator: " · ")
+    }
+
     private func load() {
         items = RecipeAnnotationExport.items(of: editor.elements, scale: editor.scale)
         included = Set(items.map(\.id))
@@ -234,7 +240,9 @@ struct RecipeAnnotationImportForm: View {
             try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
             try data.write(to: url, options: .atomic)
         }.compactMap(\.objectValue)
-        model.editNode(nodeId, "Imported \(imported.count) annotations from \(editor.title)") { node in
+        let count = imported.count
+        let title = editor.title
+        model.editNode(nodeId, String(localized: "Imported \(count) annotations from \(title)")) { node in
             let existing = replace ? [] : RecipeAnnotationSchema.annotations(of: node)
             node = RecipeAnnotationSchema.setting(existing + imported, in: node)
         }

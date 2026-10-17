@@ -99,20 +99,20 @@ private struct RecipeNodeHeader: View {
             if let description = contract?.description, !description.isEmpty {
                 Text(description).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
-            RecipeLabeled("Node ID") {
+            RecipeLabeled(String(localized: "Node ID")) {
                 TextField("id", text: $idText)
                     .textFieldStyle(.roundedBorder)
                     .focused($idFocused)
                     .onSubmit { commitId() }
                     .help("Unique identifier for this step. Editing this ID updates all references.")
             }
-            RecipeLabeled("Display Name") {
-                TextField(contract?.displayName ?? "name", text: Binding(
+            RecipeLabeled(String(localized: "Display Name")) {
+                TextField(contract?.displayName ?? String(localized: "name"), text: Binding(
                     get: { node?.name ?? "" },
                     set: { text in model.editNode(nodeId) { $0.name = text.isEmpty ? nil : text } }))
                     .textFieldStyle(.roundedBorder)
             }
-            RecipeLabeled("Runs") {
+            RecipeLabeled(String(localized: "Runs")) {
                 RecipeEnabledControl(model: model, nodeId: nodeId)
             }
         }
@@ -217,7 +217,7 @@ private struct RecipeOtherParameters: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("OTHER PARAMETERS").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                 ForEach(keys, id: \.self) { key in
-                    RecipeFieldRow(field: RecipeEditorField(name: key, label: key, help: "Not a parameter of this step", kind: .json),
+                    RecipeFieldRow(field: RecipeEditorField(name: key, label: key, help: String(localized: "Not a parameter of this step"), kind: .json),
                                    value: model.parameterBinding(node.id, key))
                 }
             }
@@ -239,7 +239,8 @@ private struct RecipeSlotPlugins: View {
                 Text("None").foregroundStyle(.tertiary)
             }
             ForEach(Array(plugged.enumerated()), id: \.offset) { _, item in
-                Text(item.isOn ? item.loaded.recipe.name : "\(item.loaded.recipe.name) (off)").foregroundStyle(.secondary)
+                let name = item.loaded.recipe.name
+                Text(item.isOn ? name : String(localized: "\(name) (off)")).foregroundStyle(.secondary)
             }
         }
     }
@@ -271,7 +272,7 @@ private struct RecipeOnErrorSection: View {
         })
         VStack(alignment: .leading, spacing: 8) {
             Text("STEP ERROR HANDLING").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
-            RecipeLabeled("On Error / Failure") {
+            RecipeLabeled(String(localized: "On Error / Failure")) {
                 Picker("", selection: mode) {
                     Text("Default (Use Recipe Fallback / Terminate)").tag("default")
                     Text("Route to Step in this Recipe…").tag("step")
@@ -281,13 +282,13 @@ private struct RecipeOnErrorSection: View {
                 .frame(maxWidth: 320)
             }
             if mode.wrappedValue == "step" {
-                RecipeLabeled("Fallback Step") {
+                RecipeLabeled(String(localized: "Fallback Step")) {
                     RecipeNodePicker(model: model, selection: Binding(get: { node.onErrorNodeId ?? "" },
                                                                       set: { id in model.editNode(node.id) { $0.onErrorNodeId = id } }),
                                      excluding: node.id)
                 }
             } else if mode.wrappedValue == "recipe" {
-                RecipeLabeled("Fallback Recipe") {
+                RecipeLabeled(String(localized: "Fallback Recipe")) {
                     RecipeRecipePicker(model: model, selection: Binding(get: { node.onErrorRecipeId ?? "" },
                                                                         set: { id in model.editNode(node.id) { $0.onErrorRecipeId = id } }))
                 }

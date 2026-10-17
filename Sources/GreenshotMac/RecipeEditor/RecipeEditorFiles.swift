@@ -34,14 +34,15 @@ extension RecipeEditorModel {
     }
 
     func tell(_ message: String, detail: String, style: NSAlert.Style = .warning) async {
-        _ = await ask(message, detail: detail, buttons: ["OK"], style: style)
+        _ = await ask(message, detail: detail, buttons: [String(localized: "OK")], style: style)
     }
 
     /// Upstream `ConfirmDiscardChanges`: Save, Don't Save or Cancel; true when the editor may go on.
     func confirmDiscardChanges() async -> Bool {
         guard isDirty || jsonDraft != nil, let recipe else { return true }
-        let answer = await ask("Unsaved Changes", detail: "\"\(recipe.name)\" has unsaved changes. Do you want to save them?",
-                               buttons: ["Save", "Don't Save", "Cancel"])
+        let answer = await ask(String(localized: "Unsaved Changes"),
+                               detail: String(localized: "\"\(recipe.name)\" has unsaved changes. Do you want to save them?"),
+                               buttons: [String(localized: "Save"), String(localized: "Don't Save"), String(localized: "Cancel")])
         switch answer {
         case 0: return await save()
         case 1:
@@ -54,13 +55,14 @@ extension RecipeEditorModel {
     /// Unapplied text in the JSON tab when saving: apply it, discard it, or don't save.
     func applyJSONDraftBeforeSaving() async -> Bool {
         guard let draft = jsonDraft else { return true }
-        let answer = await ask("Apply the JSON Changes?", detail: "The JSON tab has changes that aren't applied to the recipe yet.",
-                               buttons: ["Apply", "Discard", "Cancel"])
+        let answer = await ask(String(localized: "Apply the JSON Changes?"),
+                               detail: String(localized: "The JSON tab has changes that aren't applied to the recipe yet."),
+                               buttons: [String(localized: "Apply"), String(localized: "Discard"), String(localized: "Cancel")])
         switch answer {
         case 0:
             if let problem = applyJSON(draft) {
                 tab = .json
-                await tell("JSON Error", detail: problem)
+                await tell(String(localized: "JSON Error"), detail: problem)
                 return false
             }
             return true
@@ -97,7 +99,7 @@ extension RecipeEditorModel {
     /// Upstream `OpenRecipeDialog`: a recipe file is loaded (and approved) by the library, then opened as a copy.
     func openFileAsking() async {
         let panel = NSOpenPanel()
-        panel.title = "Open Greenshot Recipe"
+        panel.title = String(localized: "Open Greenshot Recipe")
         panel.allowedContentTypes = [.json]
         panel.allowsMultipleSelection = false
         if let folder = environment.runtime()?.recipesFolder, FileManager.default.fileExists(atPath: folder.path) {
@@ -117,22 +119,25 @@ extension RecipeEditorModel {
         let read: [CaptureRecipe]
         do {
             guard let data = try? Data(contentsOf: fileURL), let text = RecipeSerializer.text(of: data) else {
-                await tell("Error Loading Recipe", detail: "The file \(name) could not be read.")
+                await tell(String(localized: "Error Loading Recipe"), detail: String(localized: "The file \(name) could not be read."))
                 return
             }
             read = try RecipeSerializer.decode(text: text)
         } catch {
-            await tell("Error Loading Recipe", detail: "\(name) is not a recipe:\n\((error as? RecipeFormatError)?.message ?? error.localizedDescription)")
+            let problem = (error as? RecipeFormatError)?.message ?? error.localizedDescription
+            await tell(String(localized: "Error Loading Recipe"), detail: String(localized: "\(name) is not a recipe:\n\(problem)"))
             return
         }
         guard let first = read.first else {
-            await tell("Error Loading Recipe", detail: "\(name) holds no recipe.")
+            await tell(String(localized: "Error Loading Recipe"), detail: String(localized: "\(name) holds no recipe."))
             return
         }
         let validation = RecipeValidator(contracts: contracts, gates: environment.gates()).validate(first)
         guard let library, validation.isValid else {
             openUnapproved(first, fileURL: fileURL)
-            status = validation.isValid ? "Loaded: \(name)" : "\(name) has problems: \(validation.errors.count) to fix before it can run."
+            let problems = validation.errors.count
+            status = validation.isValid ? String(localized: "Loaded: \(name)")
+                : String(localized: "\(name) has problems: \(problems) to fix before it can run.")
             return
         }
         let result = await library.loadFile(fileURL)
@@ -140,12 +145,12 @@ extension RecipeEditorModel {
             ?? library.extensions.first { $0.sourceFile?.path == fileURL.path }
         if let loaded {
             open(loaded.recipe, fileURL: loaded.sourceFile, saved: true)
-            status = "Loaded and registered: \(name)"
+            status = String(localized: "Loaded and registered: \(name)")
         } else {
             openUnapproved(first, fileURL: fileURL)
-            status = "Opened \(name); it isn't loaded in Greenshot."
+            status = String(localized: "Opened \(name); it isn't loaded in Greenshot.")
             if !result.errors.isEmpty {
-                await tell("Recipe Not Loaded", detail: result.errors.joined(separator: "\n"), style: .informational)
+                await tell(String(localized: "Recipe Not Loaded"), detail: result.errors.joined(separator: "\n"), style: .informational)
             }
         }
     }
@@ -167,7 +172,7 @@ extension RecipeEditorModel {
         guard let recipe else { return false }
         let fileManager = FileManager.default
         let panel = NSSavePanel()
-        panel.title = recipe.kind == .extension ? "Save Automatic Step As…" : "Save Greenshot Recipe As…"
+        panel.title = recipe.kind == .extension ? String(localized: "Save Automatic Step As…") : String(localized: "Save Greenshot Recipe As…")
         panel.allowedContentTypes = [.json]
         panel.isExtensionHidden = false
         let folder = fileURL?.deletingLastPathComponent() ?? environment.runtime()?.recipesFolder
@@ -185,9 +190,11 @@ extension RecipeEditorModel {
         let url = RecipeEditorFiles.recipeFileURL(for: chosen)
         // The panel asked about the name it saw; a different final name that exists is asked about here.
         if url.path != chosen.path, fileManager.fileExists(atPath: url.path) {
-            let answer = await ask("“\(url.lastPathComponent)” already exists. Do you want to replace it?",
-                                   detail: "Recipe files end in \(RecipeSerializer.fileExtension), so the recipe is saved as \(url.lastPathComponent).",
-                                   buttons: ["Replace", "Cancel"])
+            let fileName = url.lastPathComponent
+            let fileExtension = RecipeSerializer.fileExtension
+            let answer = await ask(String(localized: "“\(fileName)” already exists. Do you want to replace it?"),
+                                   detail: String(localized: "Recipe files end in \(fileExtension), so the recipe is saved as \(fileName)."),
+                                   buttons: [String(localized: "Replace"), String(localized: "Cancel")])
             guard answer == 0 else { return false }
         }
         return await save(to: url)
@@ -197,7 +204,8 @@ extension RecipeEditorModel {
     private func save(to url: URL) async -> Bool {
         guard let recipe else { return false }
         guard let library else {
-            await tell("Recipe Not Saved", detail: "Recipes aren't running in Greenshot right now, so the recipe can't be saved.")
+            await tell(String(localized: "Recipe Not Saved"),
+                       detail: String(localized: "Recipes aren't running in Greenshot right now, so the recipe can't be saved."))
             return false
         }
         let target = RecipeEditorFiles.standardized(url)
@@ -209,18 +217,23 @@ extension RecipeEditorModel {
             break
         case .removes(let names):
             let list = names.map { "\"\($0)\"" }.joined(separator: ", ")
-            let answer = await ask("Saving Replaces Other Recipes",
-                                   detail: "\(target.lastPathComponent) also holds \(list). Saving writes only \"\(recipe.name)\" to it, so \(names.count == 1 ? "it is" : "they are") removed from the file and from Greenshot.",
-                                   buttons: ["Save As…", "Replace File", "Cancel"])
+            let file = target.lastPathComponent
+            let name = recipe.name
+            let detail = names.count == 1
+                ? String(localized: "\(file) also holds \(list). Saving writes only \"\(name)\" to it, so it is removed from the file and from Greenshot.")
+                : String(localized: "\(file) also holds \(list). Saving writes only \"\(name)\" to it, so they are removed from the file and from Greenshot.")
+            let answer = await ask(String(localized: "Saving Replaces Other Recipes"), detail: detail,
+                                   buttons: [String(localized: "Save As…"), String(localized: "Replace File"), String(localized: "Cancel")])
             switch answer {
             case 0: return await saveAs(freshName: true)
             case 1: break
             default: return false
             }
         case .notARecipe:
-            let answer = await ask("Replace a File That Isn't a Recipe?",
-                                   detail: "\(target.lastPathComponent) is not a recipe file. Saving replaces its content with the recipe.",
-                                   buttons: ["Replace", "Cancel"])
+            let file = target.lastPathComponent
+            let answer = await ask(String(localized: "Replace a File That Isn't a Recipe?"),
+                                   detail: String(localized: "\(file) is not a recipe file. Saving replaces its content with the recipe."),
+                                   buttons: [String(localized: "Replace"), String(localized: "Cancel")])
             guard answer == 0 else { return false }
         }
         // What the file held before: no longer in it after the save, so no longer loaded.
@@ -237,8 +250,8 @@ extension RecipeEditorModel {
         let written = RecipeSerializer.encode(recipe)
         let result = recipe.kind == .extension ? await library.saveExtension(recipe, to: target) : await library.save(recipe, to: target)
         guard result.isValid else {
-            await tell("Recipe Not Saved", detail: result.errors.joined(separator: "\n"))
-            status = "The recipe was not saved."
+            await tell(String(localized: "Recipe Not Saved"), detail: result.errors.joined(separator: "\n"))
+            status = String(localized: "The recipe was not saved.")
             return false
         }
         for loaded in previous {
@@ -250,13 +263,14 @@ extension RecipeEditorModel {
             log.info("Recipe '\(loaded.recipe.id)' is no longer in its file after the recipe editor saved over it; unloaded.")
         }
         markSaved(at: target, savedText: written)
-        status = "Saved recipe to \(target.lastPathComponent)"
+        let file = target.lastPathComponent
+        status = String(localized: "Saved recipe to \(file)")
         log.info("Saved recipe '\(recipe.id)' from the recipe editor.")
         if reviewAfterSaving {
             let review = recipe.kind == .extension ? await library.reviewExtensionApproval(id: recipe.id)
                 : await library.reviewApproval(recipeId: recipe.id)
             if !review.isValid, !review.errors.isEmpty {
-                await tell("Recipe Permissions", detail: review.errors.joined(separator: "\n"), style: .informational)
+                await tell(String(localized: "Recipe Permissions"), detail: review.errors.joined(separator: "\n"), style: .informational)
             }
             refreshNotice()
         }
@@ -269,7 +283,7 @@ extension RecipeEditorModel {
         guard await confirmDiscardChanges() else { return }
         let result = await library.reviewApproval(recipeId: recipe.id)
         if !result.isValid, !result.errors.isEmpty {
-            await tell("Recipe Permissions", detail: result.errors.joined(separator: "\n"))
+            await tell(String(localized: "Recipe Permissions"), detail: result.errors.joined(separator: "\n"))
         }
         if let loaded = library.recipe(id: recipe.id) { open(loaded.recipe, fileURL: loaded.sourceFile, saved: true) }
         refreshNotice()
@@ -279,9 +293,12 @@ extension RecipeEditorModel {
     func unloadAsking() async {
         guard let library, let recipe, let loaded = library.recipe(id: recipe.id), !loaded.isBuiltIn else { return }
         let reset = loaded.replacesBuiltIn
-        var detail = reset ? "Revert '\(recipe.name)' to default built-in definition?" : "Unload '\(recipe.name)' from Greenshot?"
-        if isDirty { detail += "\n\nYour unsaved changes are discarded." }
-        guard await ask(reset ? "Reset Recipe to Default" : "Unload Recipe", detail: detail, buttons: ["Yes", "No"], style: .informational) == 0 else {
+        let name = recipe.name
+        var detail = reset ? String(localized: "Revert '\(name)' to default built-in definition?")
+            : String(localized: "Unload '\(name)' from Greenshot?")
+        if isDirty { detail += "\n\n" + String(localized: "Your unsaved changes are discarded.") }
+        let title = reset ? String(localized: "Reset Recipe to Default") : String(localized: "Unload Recipe")
+        guard await ask(title, detail: detail, buttons: [String(localized: "Yes"), String(localized: "No")], style: .informational) == 0 else {
             return
         }
         discardChanges()
@@ -297,14 +314,16 @@ extension RecipeEditorModel {
         } else {
             newRecipe()
         }
-        status = "Unloaded recipe '\(recipe.id)'."
+        let id = recipe.id
+        status = String(localized: "Unloaded recipe '\(id)'.")
     }
 
     /// The header's "(Deactivated)" switch (upstream `ToggleActiveRecipeEnabledCommand`).
     func toggleActive() {
         guard let library, let recipe, let loaded = library.recipe(id: recipe.id) else { return }
         library.setEnabled(!loaded.isEnabled, recipeId: recipe.id)
-        status = loaded.isEnabled ? "Deactivated '\(recipe.name)'." : "Activated '\(recipe.name)'."
+        let name = recipe.name
+        status = loaded.isEnabled ? String(localized: "Deactivated '\(name)'.") : String(localized: "Activated '\(name)'.")
     }
 
     private func present(_ panel: NSSavePanel) async -> NSApplication.ModalResponse {
@@ -321,7 +340,7 @@ extension RecipeEditorModel {
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
         OwnPasteboardWrites.recordWrite(pasteboard)
-        status = "Copied Mermaid DSL to clipboard."
+        status = String(localized: "Copied Mermaid DSL to clipboard.")
     }
 
     /// Upstream `CopyRecipeIdCommand`.
@@ -331,6 +350,6 @@ extension RecipeEditorModel {
         pasteboard.clearContents()
         pasteboard.setString(id, forType: .string)
         OwnPasteboardWrites.recordWrite(pasteboard)
-        status = "Copied recipe ID '\(id)' to the clipboard."
+        status = String(localized: "Copied recipe ID '\(id)' to the clipboard.")
     }
 }

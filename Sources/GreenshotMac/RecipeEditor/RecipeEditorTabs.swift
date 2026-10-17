@@ -19,21 +19,21 @@ struct RecipeInfoTab: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text(model.isExtension ? "AUTOMATIC STEP" : "RECIPE CONFIGURATION").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                 RecipeDiagnosticList(diagnostics: model.diagnostics(for: .recipe))
-                RecipeLabeled(model.isExtension ? "Automatic Step ID" : "Recipe ID") {
+                RecipeLabeled(model.isExtension ? String(localized: "Automatic Step ID") : String(localized: "Recipe ID")) {
                     HStack {
                         TextField("id", text: text(\.id)).textFieldStyle(.roundedBorder)
                         Button("Copy") { model.copyRecipeId() }.help("Copy Recipe ID to Clipboard")
                     }
                 }
-                RecipeLabeled("Name") { TextField("name", text: text(\.name)).textFieldStyle(.roundedBorder) }
-                RecipeLabeled("Description") {
+                RecipeLabeled(String(localized: "Name")) { TextField("name", text: text(\.name)).textFieldStyle(.roundedBorder) }
+                RecipeLabeled(String(localized: "Description")) {
                     TextField("what it does", text: optionalText(\.description), axis: .vertical).lineLimit(2...6).textFieldStyle(.roundedBorder)
                 }
-                RecipeLabeled("Version") { TextField("1.0", text: text(\.version)).textFieldStyle(.roundedBorder).frame(width: 100) }
+                RecipeLabeled(String(localized: "Version")) { TextField("1.0", text: text(\.version)).textFieldStyle(.roundedBorder).frame(width: 100) }
                 if model.isExtension {
                     RecipeExtensionTarget(model: model)
                 } else {
-                    RecipeLabeled("When it runs again") {
+                    RecipeLabeled(String(localized: "When it runs again")) {
                         Picker("", selection: Binding(get: { model.recipe?.concurrency?.rawValue ?? "" },
                                                       set: { raw in model.edit { $0.concurrency = FlowConcurrency(rawValue: raw) } })) {
                             Text("Default (in parallel)").tag("")
@@ -43,7 +43,7 @@ struct RecipeInfoTab: View {
                         }
                         .labelsHidden().frame(width: 220)
                     }
-                    RecipeLabeled("Menus") {
+                    RecipeLabeled(String(localized: "Menus")) {
                         Toggle("Show in the Recipes menu", isOn: Binding(get: { model.recipe?.showInContextMenu ?? true },
                                                                          set: { on in model.edit { $0.showInContextMenu = on } }))
                     }
@@ -73,7 +73,7 @@ private struct RecipeExtensionTarget: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.")
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-            RecipeLabeled("Recipes") {
+            RecipeLabeled(String(localized: "Recipes")) {
                 TextField("ids, * or *capture", text: Binding(get: { target.recipes.joined(separator: ", ") }, set: { text in
                     let ids = text.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
                     model.edit { recipe in
@@ -85,7 +85,7 @@ private struct RecipeExtensionTarget: View {
                 .textFieldStyle(.roundedBorder)
                 .help("Recipes: ids, * (every recipe with the slot) or *capture, separated by commas")
             }
-            RecipeLabeled("Slot") {
+            RecipeLabeled(String(localized: "Slot")) {
                 Picker("", selection: Binding(get: { target.slot ?? "" }, set: { slot in
                     model.edit { recipe in
                         var changed = recipe.extends ?? ExtensionTarget()
@@ -97,7 +97,7 @@ private struct RecipeExtensionTarget: View {
                 }
                 .labelsHidden().frame(width: 200)
             }
-            RecipeLabeled("Order") {
+            RecipeLabeled(String(localized: "Order", comment: "The order of automatic steps on the same slot")) {
                 TextField("0", value: Binding(get: { target.order }, set: { order in
                     model.edit { recipe in
                         var changed = recipe.extends ?? ExtensionTarget()
@@ -108,7 +108,7 @@ private struct RecipeExtensionTarget: View {
                 .textFieldStyle(.roundedBorder).frame(width: 100)
                 .help("Several on one slot run by order, then by id")
             }
-            RecipeLabeled("When") {
+            RecipeLabeled(String(localized: "When")) {
                 TextField("${payload.width > 800}", text: Binding(get: { model.recipe?.when ?? "" }, set: { text in
                     model.edit { $0.when = text.isEmpty ? nil : text }
                 }))
@@ -160,7 +160,7 @@ struct RecipeTriggersTab: View {
     private func addTrigger(_ type: String) {
         guard let recipe = model.recipe else { return }
         let trigger = RecipeEditorCatalog.newTrigger(type, for: recipe)
-        model.edit("Added \(type) trigger") { $0.triggers.append(trigger) }
+        model.edit(String(localized: "Added \(type) trigger")) { $0.triggers.append(trigger) }
     }
 }
 
@@ -181,7 +181,7 @@ private struct RecipeTriggerBox: View {
                         TextField("Trigger Name", text: Binding(get: { trigger.name ?? "" }, set: { text in edit { $0.name = text.isEmpty ? nil : text } }))
                             .textFieldStyle(.roundedBorder)
                         Button(role: .destructive) {
-                            model.edit("Trigger removed") { recipe in
+                            model.edit(String(localized: "Trigger removed")) { recipe in
                                 if recipe.triggers.indices.contains(index) { recipe.triggers.remove(at: index) }
                             }
                         } label: { Image(systemName: "trash") }
@@ -193,7 +193,7 @@ private struct RecipeTriggerBox: View {
                         RecipeFieldRow(field: field, value: parameter(field.name))
                     }
                     if contract == nil {
-                        RecipeFieldRow(field: RecipeEditorField(name: "parameters", label: "Parameters", kind: .json),
+                        RecipeFieldRow(field: RecipeEditorField(name: "parameters", label: String(localized: "Parameters"), kind: .json),
                                        value: Binding(get: { .object(trigger.parameters) },
                                                       set: { value in edit { $0.parameters = value?.objectValue ?? [:] } }))
                     }
@@ -245,7 +245,8 @@ struct RecipeOptionsTab: View {
     private func add() {
         guard let recipe = model.recipe else { return }
         let option = RecipeEditorCatalog.newOption(for: recipe)
-        model.edit("Added option '\(option.key)': the steps read it with ${option.\(option.key)}") { recipe in
+        let key = option.key
+        model.edit(String(localized: "Added option '\(key)': the steps read it with ${option.\(key)}")) { recipe in
             recipe.options = (recipe.options ?? []) + [option]
         }
     }
@@ -276,37 +277,38 @@ private struct RecipeOptionBox: View {
                         Button(role: .destructive) { remove() } label: { Image(systemName: "trash") }.help("Remove the option")
                     }
                     RecipeDiagnosticList(diagnostics: model.diagnostics(for: .option(option.key)))
-                    RecipeLabeled("Label") { textField("Label", \.label) }
-                    RecipeLabeled("Description") { textField("Description", \.description) }
-                    RecipeFieldRow(field: RecipeEditorField(name: "default", label: "Default", kind: defaultKind(option)),
+                    RecipeLabeled(String(localized: "Label")) { textField(String(localized: "Label"), \.label) }
+                    RecipeLabeled(String(localized: "Description")) { textField(String(localized: "Description"), \.description) }
+                    RecipeFieldRow(field: RecipeEditorField(name: "default", label: String(localized: "Default"),
+                                                            kind: defaultKind(option)),
                                    value: Binding(get: { option.defaultValue }, set: { value in edit { $0.defaultValue = value } }))
                     if option.type == .integer || option.type == .decimal {
-                        RecipeLabeled("Range") {
+                        RecipeLabeled(String(localized: "Range")) {
                             HStack {
-                                numberField("Smallest value", \.min)
+                                numberField(String(localized: "Smallest value"), \.min)
                                 Text("to")
-                                numberField("Largest value", \.max)
+                                numberField(String(localized: "Largest value"), \.max)
                             }
                         }
                     }
                     if option.type == .enumeration {
-                        RecipeLabeled("Choices") {
+                        RecipeLabeled(String(localized: "Choices")) {
                             TextField("One per line: value, or value = label", text: choicesText(option), axis: .vertical)
                                 .lineLimit(2...8).textFieldStyle(.roundedBorder)
                         }
                     }
                     if option.type == .string {
-                        RecipeLabeled("Template") {
+                        RecipeLabeled(String(localized: "Template")) {
                             Toggle("The value is a template (${…} work in it)", isOn: Binding(
                                 get: { option.isTemplate }, set: { on in edit { $0.format = on ? RecipeOption.formatTemplate : nil } }))
                         }
                     }
-                    RecipeLabeled("Quick settings") {
+                    RecipeLabeled(String(localized: "Quick settings")) {
                         Toggle("Show in the menu bar's Quick Settings", isOn: Binding(get: { option.quickSettings },
                                                                                        set: { on in edit { $0.quickSettings = on } }))
                             .disabled(option.type != .boolean && option.type != .enumeration)
                     }
-                    RecipeLabeled("Only when") {
+                    RecipeLabeled(String(localized: "Only when")) {
                         Picker("", selection: Binding(get: { option.enabledWhen ?? "" },
                                                       set: { key in edit { $0.enabledWhen = key.isEmpty ? nil : key } })) {
                             Text("Always").tag("")
@@ -341,7 +343,7 @@ private struct RecipeOptionBox: View {
     }
 
     private func remove() {
-        model.edit("Removed an option") { recipe in
+        model.edit(String(localized: "Removed an option")) { recipe in
             guard var options = recipe.options, options.indices.contains(index) else { return }
             options.remove(at: index)
             recipe.options = options.isEmpty ? nil : options
@@ -408,7 +410,7 @@ struct RecipeErrorRoutesTab: View {
     private func add() {
         guard let recipe = model.recipe else { return }
         let route = RecipeEditorCatalog.newErrorTransition(for: recipe)
-        model.edit("Added recipe error fallback route") { $0.flow.errorTransitions.append(route) }
+        model.edit(String(localized: "Added recipe error fallback route")) { $0.flow.errorTransitions.append(route) }
     }
 }
 
@@ -423,24 +425,24 @@ private struct RecipeErrorRouteBox: View {
             let toRecipe = route.targetRecipeId != nil
             GroupBox {
                 VStack(alignment: .leading, spacing: 8) {
-                    RecipeLabeled("From") {
+                    RecipeLabeled(String(localized: "From")) {
                         HStack {
                             RecipeNodePicker(model: model, selection: Binding(get: { route.from ?? "*" }, set: { id in edit { $0.from = id } }),
                                              allowAny: true)
                             Spacer()
                             Button(role: .destructive) {
-                                model.edit("Removed recipe error fallback route") { recipe in
+                                model.edit(String(localized: "Removed recipe error fallback route")) { recipe in
                                     if recipe.flow.errorTransitions.indices.contains(index) { recipe.flow.errorTransitions.remove(at: index) }
                                 }
                             } label: { Image(systemName: "trash") }
                             .help("Remove this error route")
                         }
                     }
-                    RecipeLabeled("Error Filter") {
+                    RecipeLabeled(String(localized: "Error Filter")) {
                         TextField("* = all errors", text: Binding(get: { route.errorType }, set: { text in edit { $0.errorType = text.isEmpty ? "*" : text } }))
                             .textFieldStyle(.roundedBorder).frame(width: 220)
                     }
-                    RecipeLabeled("Route To") {
+                    RecipeLabeled(String(localized: "Route To")) {
                         Picker("", selection: Binding(get: { toRecipe }, set: { recipe in
                             edit { route in
                                 if recipe {
@@ -457,7 +459,8 @@ private struct RecipeErrorRouteBox: View {
                         }
                         .pickerStyle(.segmented).labelsHidden().frame(width: 280)
                     }
-                    RecipeLabeled(toRecipe ? "Recipe" : "Step") {
+                    RecipeLabeled(toRecipe ? String(localized: "Recipe")
+                                   : String(localized: "Step")) {
                         if toRecipe {
                             RecipeRecipePicker(model: model, selection: Binding(get: { route.targetRecipeId ?? "" },
                                                                                 set: { id in edit { $0.targetRecipeId = id } }))

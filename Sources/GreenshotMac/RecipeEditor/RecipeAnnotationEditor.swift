@@ -112,11 +112,12 @@ struct RecipeAnnotationsEditor: View {
 
     private func importFromFile() {
         let panel = NSOpenPanel()
-        panel.title = "Import Annotations from a Greenshot File"
+        panel.title = String(localized: "Import Annotations from a Greenshot File")
         panel.allowedContentTypes = [UTType(filenameExtension: GreenshotFile.fileExtension) ?? .data]
         guard panel.runModal() == .OK, let url = panel.url else { return }
         guard let contents = GreenshotFile.read(contentsOf: url) else {
-            model.status = "\(url.lastPathComponent) could not be read as a Greenshot file."
+            let name = url.lastPathComponent
+            model.status = String(localized: "\(name) could not be read as a Greenshot file.")
             return
         }
         importing = .file(RecipeAnnotationImportSource.Editor(id: UUID(), title: url.lastPathComponent, image: contents.image,
@@ -226,11 +227,17 @@ private struct RecipeEmbedControl: View {
     var body: some View {
         let bytes = value?.asString.flatMap { Data(base64Encoded: $0, options: .ignoreUnknownCharacters) }?.count ?? 0
         HStack {
-            Text(bytes > 0 ? ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file) + " embedded" : "Nothing embedded")
+            Text(embedded(bytes))
                 .foregroundStyle(.secondary)
             Button("Embed File…") { embed() }
             if bytes > 0 { Button("Remove") { value = nil } }
         }
+    }
+
+    private func embedded(_ bytes: Int) -> String {
+        guard bytes > 0 else { return String(localized: "Nothing embedded") }
+        let size = ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)
+        return String(localized: "\(size) embedded", comment: "The size of a picture embedded in a recipe")
     }
 
     private func embed() {
