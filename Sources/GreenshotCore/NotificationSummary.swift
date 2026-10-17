@@ -46,9 +46,9 @@ public enum NotificationAction: String, CaseIterable, Sendable {
 
     public var title: String {
         switch self {
-        case .edit: return "Edit"
-        case .showInFolder: return "Show in Finder"
-        case .copyLink: return "Copy Link"
+        case .edit: return String(localized: "Edit", comment: "Notification button: opens the capture in the editor")
+        case .showInFolder: return String(localized: "Show in Finder")
+        case .copyLink: return String(localized: "Copy Link")
         }
     }
 
@@ -170,7 +170,7 @@ public enum NotificationSummary {
         }
         for code in codes {
             let display = barcodeDisplay(code.text)
-            let text = (code.isQRCode ? "QR code: " : "Barcode: ") + display.text
+            let text = code.isQRCode ? String(localized: "QR code: \(display.text)") : String(localized: "Barcode: \(display.text)")
             lines.append(text)
             if let link = display.link {
                 // What is copied is what is shown, with the host in punycode.

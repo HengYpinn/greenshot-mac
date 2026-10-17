@@ -69,43 +69,48 @@ public enum SetupCheck {
     public static func lines(_ facts: SetupFacts) -> [SetupLine] {
         let app = facts.appName
         var lines: [SetupLine] = [versionLine(facts)]
-        lines.append(facts.canRecordScreen
-            ? SetupLine(id: "screen", state: .ok, text: "\(app) may record the screen, so it can take screenshots.")
-            : SetupLine(id: "screen", state: .problem,
-                        text: "macOS doesn't let \(app) record the screen yet. Screenshots need this permission: turn on \(app) under Privacy & Security › Screen & System Audio Recording.",
-                        fix: .openScreenRecordingSettings, fixTitle: "Open System Settings"))
+        if facts.canRecordScreen {
+            lines.append(SetupLine(id: "screen", state: .ok, text: String(localized: "\(app) may record the screen, so it can take screenshots.")))
+        } else {
+            lines.append(SetupLine(id: "screen", state: .problem,
+                                   text: String(localized: "macOS doesn't let \(app) record the screen yet. Screenshots need this permission: turn on \(app) under Privacy & Security › Screen & System Audio Recording."),
+                                   fix: .openScreenRecordingSettings, fixTitle: String(localized: "Open System Settings")))
+        }
         if facts.menuBarIconSwitchedOff {
             lines.append(SetupLine(id: "icon", state: .problem,
-                                   text: "The menu bar icon is switched off in Settings › General. Its menu is the way to most of \(app).",
-                                   fix: .showMenuBarIcon, fixTitle: "Show It"))
+                                   text: String(localized: "The menu bar icon is switched off in Settings › General. Its menu is the way to most of \(app)."),
+                                   fix: .showMenuBarIcon, fixTitle: String(localized: "Show It")))
         } else if facts.menuBarIconVisible == false {
             lines.append(SetupLine(id: "icon", state: .problem,
-                                   text: "macOS hides the \(app) icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.",
-                                   fix: .openMenuBarSettings, fixTitle: "Open Menu Bar Settings"))
+                                   text: String(localized: "macOS hides the \(app) icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar."),
+                                   fix: .openMenuBarSettings, fixTitle: String(localized: "Open Menu Bar Settings")))
         } else {
-            lines.append(SetupLine(id: "icon", state: .ok, text: "The \(app) icon is shown in the menu bar."))
+            lines.append(SetupLine(id: "icon", state: .ok, text: String(localized: "The \(app) icon is shown in the menu bar.")))
         }
         if !facts.refusedHotkeys.isEmpty {
+            let refused = facts.refusedHotkeys.joined(separator: ", ")
             lines.append(SetupLine(id: "hotkeys", state: .problem,
-                                   text: "macOS refused these hotkeys, another app may use them: \(facts.refusedHotkeys.joined(separator: ", ")).",
-                                   fix: .registerHotkeys, fixTitle: "Register Again"))
+                                   text: String(localized: "macOS refused these hotkeys, another app may use them: \(refused)."),
+                                   fix: .registerHotkeys, fixTitle: String(localized: "Register Again")))
         } else if facts.hotkeyCount > 0 {
-            lines.append(SetupLine(id: "hotkeys", state: .ok,
-                                   text: facts.hotkeyCount == 1 ? "Your hotkey works." : "Your \(facts.hotkeyCount) hotkeys work."))
+            let text = facts.hotkeyCount == 1 ? String(localized: "Your hotkey works.")
+                : String(localized: "Your \(facts.hotkeyCount) hotkeys work.")
+            lines.append(SetupLine(id: "hotkeys", state: .ok, text: text))
         }
         if facts.systemShortcutConflicts.isEmpty {
             if facts.hotkeyCount > 0 {
-                lines.append(SetupLine(id: "system", state: .ok, text: "The screenshot shortcuts of macOS don't use your hotkeys."))
+                lines.append(SetupLine(id: "system", state: .ok, text: String(localized: "The screenshot shortcuts of macOS don't use your hotkeys.")))
             }
         } else {
+            let shortcuts = facts.systemShortcutConflicts.joined(separator: ", ")
             lines.append(SetupLine(id: "system", state: .problem,
-                                   text: "macOS uses \(facts.systemShortcutConflicts.joined(separator: ", ")) for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.",
-                                   fix: .openKeyboardShortcuts, fixTitle: "Open Keyboard Shortcuts"))
+                                   text: String(localized: "macOS uses \(shortcuts) for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys."),
+                                   fix: .openKeyboardShortcuts, fixTitle: String(localized: "Open Keyboard Shortcuts")))
         }
         if facts.loginItem == .needsApproval {
             lines.append(SetupLine(id: "login", state: .problem,
-                                   text: "\(app) should open at login, but macOS waits for you to allow it under Login Items & Extensions.",
-                                   fix: .openLoginItems, fixTitle: "Open Login Items"))
+                                   text: String(localized: "\(app) should open at login, but macOS waits for you to allow it under Login Items & Extensions."),
+                                   fix: .openLoginItems, fixTitle: String(localized: "Open Login Items")))
         }
         return lines
     }
@@ -114,15 +119,15 @@ public enum SetupCheck {
         let app = facts.appName
         switch facts.version {
         case .checking:
-            return SetupLine(id: "version", state: .pending, text: "\(app) is checking for a newer version…")
+            return SetupLine(id: "version", state: .pending, text: String(localized: "\(app) is checking for a newer version…"))
         case .checked(.failed):
-            return SetupLine(id: "version", state: .pending, text: "\(app) couldn't check for a newer version right now.")
+            return SetupLine(id: "version", state: .pending, text: String(localized: "\(app) couldn't check for a newer version right now."))
         case .checked(.upToDate):
-            return SetupLine(id: "version", state: .ok, text: "You have the latest version of \(app), \(facts.currentVersion).")
+            return SetupLine(id: "version", state: .ok, text: String(localized: "You have the latest version of \(app), \(facts.currentVersion)."))
         case .checked(.newer(let release)):
             return SetupLine(id: "version", state: .problem,
-                             text: "\(app) \(release.version) is available, you have \(facts.currentVersion).",
-                             fix: .download(release.pageURL), fixTitle: "Download It")
+                             text: String(localized: "\(app) \(release.version) is available, you have \(facts.currentVersion)."),
+                             fix: .download(release.pageURL), fixTitle: String(localized: "Download It"))
         }
     }
 

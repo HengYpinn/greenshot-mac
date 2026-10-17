@@ -37,9 +37,13 @@ public struct HotkeyStatusRow: Equatable, Identifiable, Sendable {
 public enum HotkeyStatus {
     /// The hotkeys in the order of Settings › General, with their names (upstream's tray menu names).
     public static func slots(_ hotkeys: HotkeySettings) -> [(id: String, name: String, combo: KeyCombo?)] {
-        [("region", "Capture region", hotkeys.region), ("window", "Capture window", hotkeys.window),
-         ("fullScreen", "Capture full screen", hotkeys.fullScreen), ("lastRegion", "Capture last region", hotkeys.lastRegion),
-         ("text", "Capture text", hotkeys.text), ("recordVideo", "Start or stop recording", hotkeys.recordVideo), ("clipboard", "Open image from clipboard", hotkeys.clipboard)]
+        [("region", String(localized: "Capture region"), hotkeys.region),
+         ("window", String(localized: "Capture window"), hotkeys.window),
+         ("fullScreen", String(localized: "Capture full screen"), hotkeys.fullScreen),
+         ("lastRegion", String(localized: "Capture last region"), hotkeys.lastRegion),
+         ("text", String(localized: "Capture text"), hotkeys.text),
+         ("recordVideo", String(localized: "Start or stop recording"), hotkeys.recordVideo),
+         ("clipboard", String(localized: "Open image from clipboard"), hotkeys.clipboard)]
     }
 
     /// `registered`: the hotkeys of the last registration (nil: none yet); `refused`: those macOS refused.
@@ -85,11 +89,11 @@ public struct SystemScreenshotShortcut: Equatable, Sendable {
         let shiftCommand = KeyCombo.shift | KeyCombo.command
         let controlShiftCommand = KeyCombo.control | shiftCommand
         return [
-            .init(id: 28, name: "Save picture of screen as a file", combo: KeyCombo(keyCode: UInt32(kVK_ANSI_3), modifiers: shiftCommand), enabled: true),
-            .init(id: 29, name: "Copy picture of screen to the clipboard", combo: KeyCombo(keyCode: UInt32(kVK_ANSI_3), modifiers: controlShiftCommand), enabled: true),
-            .init(id: 30, name: "Save picture of selected area as a file", combo: KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: shiftCommand), enabled: true),
-            .init(id: 31, name: "Copy picture of selected area to the clipboard", combo: KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: controlShiftCommand), enabled: true),
-            .init(id: 184, name: "Screenshot and recording options", combo: KeyCombo(keyCode: UInt32(kVK_ANSI_5), modifiers: shiftCommand), enabled: true),
+            .init(id: 28, name: String(localized: "Save picture of screen as a file"), combo: KeyCombo(keyCode: UInt32(kVK_ANSI_3), modifiers: shiftCommand), enabled: true),
+            .init(id: 29, name: String(localized: "Copy picture of screen to the clipboard"), combo: KeyCombo(keyCode: UInt32(kVK_ANSI_3), modifiers: controlShiftCommand), enabled: true),
+            .init(id: 30, name: String(localized: "Save picture of selected area as a file"), combo: KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: shiftCommand), enabled: true),
+            .init(id: 31, name: String(localized: "Copy picture of selected area to the clipboard"), combo: KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: controlShiftCommand), enabled: true),
+            .init(id: 184, name: String(localized: "Screenshot and recording options"), combo: KeyCombo(keyCode: UInt32(kVK_ANSI_5), modifiers: shiftCommand), enabled: true),
         ]
     }()
 
@@ -140,17 +144,17 @@ public struct CaptureAppContender: Equatable, Sendable {
     }
 
     public static let known: [CaptureAppContender] = [
-        .init(name: "CleanShot X", bundlePrefixes: ["pl.maketheweb.cleanshotx"], note: "Screenshot app with its own global shortcuts"),
-        .init(name: "Shottr", bundlePrefixes: ["cc.ffitch.shottr"], note: "Screenshot app with its own global shortcuts"),
-        .init(name: "Snagit", bundlePrefixes: ["com.TechSmith.Snagit"], note: "TechSmith Snagit screen capture"),
-        .init(name: "Lightshot", bundlePrefixes: ["com.skillbrains.lightshot"], note: "Lightshot screenshot tool"),
-        .init(name: "Monosnap", bundlePrefixes: ["com.monosnap"], note: "Monosnap screenshot tool"),
+        .init(name: "CleanShot X", bundlePrefixes: ["pl.maketheweb.cleanshotx"], note: String(localized: "Screenshot app with its own global shortcuts")),
+        .init(name: "Shottr", bundlePrefixes: ["cc.ffitch.shottr"], note: String(localized: "Screenshot app with its own global shortcuts")),
+        .init(name: "Snagit", bundlePrefixes: ["com.TechSmith.Snagit"], note: String(localized: "TechSmith Snagit screen capture")),
+        .init(name: "Lightshot", bundlePrefixes: ["com.skillbrains.lightshot"], note: String(localized: "Lightshot screenshot tool")),
+        .init(name: "Monosnap", bundlePrefixes: ["com.monosnap"], note: String(localized: "Monosnap screenshot tool")),
         .init(name: "Dropbox", bundlePrefixes: ["com.getdropbox.dropbox"],
-              note: "\u{201C}Share screenshots using Dropbox\u{201D} takes the macOS screenshot keys"),
-        .init(name: "Skitch", bundlePrefixes: ["com.skitch", "com.evernote.Skitch"], note: "Skitch screenshot tool"),
-        .init(name: "Xnapper", bundlePrefixes: ["com.xnapper"], note: "Screenshot app with its own global shortcuts"),
-        .init(name: "Flameshot", bundlePrefixes: ["org.flameshot"], note: "Flameshot screenshot tool"),
-        .init(name: "Zight", bundlePrefixes: ["com.linebreak.CloudAppMacOSX"], note: "Zight (CloudApp) screen capture"),
+              note: String(localized: "\u{201C}Share screenshots using Dropbox\u{201D} takes the macOS screenshot keys")),
+        .init(name: "Skitch", bundlePrefixes: ["com.skitch", "com.evernote.Skitch"], note: String(localized: "Skitch screenshot tool")),
+        .init(name: "Xnapper", bundlePrefixes: ["com.xnapper"], note: String(localized: "Screenshot app with its own global shortcuts")),
+        .init(name: "Flameshot", bundlePrefixes: ["org.flameshot"], note: String(localized: "Flameshot screenshot tool")),
+        .init(name: "Zight", bundlePrefixes: ["com.linebreak.CloudAppMacOSX"], note: String(localized: "Zight (CloudApp) screen capture")),
     ]
 
     /// Whether one of `apps` (bundle identifier and name) is this contender.
