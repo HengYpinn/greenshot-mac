@@ -386,6 +386,13 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         #expect(fixture.store.record(forFile: url.path)?.origin == "ai:Claude")
         let written = try String(contentsOf: url, encoding: .utf8)
         #expect(written == content)
+        // Security review: a proposal has the size limit of a file.
+        let padded = RecipeSerializer.encode(libraryRecipe(id: "huge_ai")) + String(repeating: " ", count: RecipeFileReader.maxBytes)
+        let hugeURL = fixture.folder.appendingPathComponent("huge-ai.gsrecipe.json")
+        let huge = await fixture.library.propose(content: padded, proposedBy: "Claude", aiRequest: nil, aiExplanation: nil, saveTo: hugeURL)
+        #expect(huge.errors == ["The proposed recipe is larger than 1 MB."])
+        #expect(fixture.approver.requests.count == 1)
+        #expect(!FileManager.default.fileExists(atPath: hugeURL.path))
     }
 
     @Test func detailsAndRequests() async throws {

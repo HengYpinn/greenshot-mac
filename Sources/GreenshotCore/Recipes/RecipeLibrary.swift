@@ -510,6 +510,11 @@ public final class RecipeLibrary {
     public func propose(content: String, proposedBy: String, aiRequest: String?, aiExplanation: String?, saveTo url: URL) async -> RecipeLoadResult {
         var result = RecipeLoadResult()
         let fileURL = URL(fileURLWithPath: RecipeTrustStore.standardized(url.path))
+        // The same limit as for files: the text is read and validated before anyone approved it.
+        guard content.utf8.count <= RecipeFileReader.maxBytes else {
+            result.errors.append("The proposed recipe is larger than \(RecipeFileReader.maxBytes / 1024 / 1024) MB.")
+            return result
+        }
         let data = Data(content.utf8)
         let hash = RecipeHash.sha256Hex(data)
         let definitions: [CaptureRecipe]
