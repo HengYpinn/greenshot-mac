@@ -28,11 +28,14 @@ if [[ -z "${SIGN_IDENTITY:-}" ]]; then
   fi
 fi
 
-args=(-c release --product GreenshotMac)
+args=(-c release)
 for arch in ${ARCHS:-}; do args+=(--arch "$arch"); done
 # A multi-arch build uses another build system; its own folder keeps `swift test` in .build working.
-if [[ -n "${ARCHS:-}" ]]; then args+=(--scratch-path .build/universal); fi
-swift build "${args[@]}"
+SCRATCH=.build
+if [[ -n "${ARCHS:-}" ]]; then SCRATCH=.build/universal; args+=(--scratch-path "$SCRATCH"); fi
+# The app and greenshot-cli, its command line tool.
+swift build "${args[@]}" --product GreenshotMac
+swift build "${args[@]}" --product greenshot-cli
 BIN_DIR="$(swift build "${args[@]}" --show-bin-path)"
 
 if [[ ! -f Resources/AppIcon.icns ]]; then
@@ -43,13 +46,83 @@ fi
 
 APP="$ROOT/build/$APP_NAME.app"
 rm -rf "$APP"
-mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
+mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Helpers" "$APP/Contents/Resources"
 cp "$BIN_DIR/GreenshotMac" "$APP/Contents/MacOS/GreenshotMac"
+cp "$BIN_DIR/greenshot-cli" "$APP/Contents/Helpers/greenshot-cli"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
+# The AppleScript dictionary (Info.plist OSAScriptingDefinition).
+cp Resources/GreenshotMac.sdef "$APP/Contents/Resources/GreenshotMac.sdef"
 sed -e "s/__VERSION__/$VERSION/g" -e "s/__BUILD__/$BUILD_NUMBER/g" -e "s/__BUNDLE_ID__/$BUNDLE_ID/g" \
   Resources/Info.plist > "$APP/Contents/Info.plist"
 plutil -lint "$APP/Contents/Info.plist" >/dev/null
+if ! sdef "$APP" >/dev/null; then
+  echo "error: the AppleScript dictionary Resources/GreenshotMac.sdef doesn't load" >&2
+  exit 1
+fi
 
+# Shortcuts, Siri and Spotlight find the app's actions (App Intents) in Contents/Resources/Metadata.appintents, which
+# Xcode's build system extracts with appintentsmetadataprocessor from the compiler's constant values. SwiftPM's Swift
+# Build backend writes those values itself; older backends get the flags in a second build. Every failure here only
+# warns: the app works without its Shortcuts actions.
+warn_intents() { echo "warning: no Shortcuts actions in the app: $*" >&2; }
+find_const_values() {
+  find "$SCRATCH" -name 'GreenshotMac*.swiftconstvalues' -ipath '*release*' 2>/dev/null | sort
+}
+extract_app_intents() {
+  if ! xcrun --find appintentsmetadataprocessor >/dev/null 2>&1; then
+    warn_intents "appintentsmetadataprocessor not found (it comes with Xcode)"
+    return
+  fi
+  local consts
+  consts="$(find_const_values)"
+  if [[ -z "$consts" ]]; then
+    local protocols
+    protocols="$(mktemp -t appintents-protocols).json"
+    echo '["AnyResolverProviding","AppEntity","AppEnum","AppExtension","AppIntent","AppIntentsPackage","AppShortcutProviding",'\
+'"AppShortcutsProvider","AppUnionValue","AppUnionValueCasesProviding","DynamicOptionsProvider","EntityQuery",'\
+'"ExtensionPointDefining","IntentValueQuery","Resolver","TransientEntity","_AssistantIntentsProvider",'\
+'"_GenerativeFunctionExtractable","_IntentValueRepresentable"]' > "$protocols"
+    if ! swift build "${args[@]}" --product GreenshotMac -Xswiftc -emit-const-values \
+        -Xswiftc -Xfrontend -Xswiftc -const-gather-protocols-file -Xswiftc -Xfrontend -Xswiftc "$protocols"; then
+      warn_intents "the build with constant values failed"
+      return
+    fi
+    consts="$(find_const_values)"
+  fi
+  if [[ -z "$consts" ]]; then
+    warn_intents "the compiler wrote no constant values"
+    return
+  fi
+  # The metadata doesn't depend on the architecture: the values of one are enough.
+  local const_file arch
+  const_file="$(echo "$consts" | grep -m1 arm64 || echo "$consts" | head -n1)"
+  arch="$(echo "$const_file" | grep -q x86_64 && echo x86_64 || echo arm64)"
+  local lists
+  lists="$(mktemp -d)"
+  echo "$const_file" > "$lists/const-values.txt"
+  find "$ROOT/Sources/GreenshotMac" -name '*.swift' | sort > "$lists/sources.txt"
+  local toolchain xcode_build
+  toolchain="$(dirname "$(dirname "$(dirname "$(xcrun --find swiftc)")")")"
+  xcode_build="$(xcodebuild -version 2>/dev/null | awk '/Build version/ {print $3}')"
+  if ! xcrun appintentsmetadataprocessor --toolchain-dir "$toolchain" --module-name GreenshotMac \
+      --sdk-root "$(xcrun --sdk macosx --show-sdk-path)" --xcode-version "${xcode_build:-unknown}" \
+      --platform-family macOS --deployment-target 14.0 --bundle-identifier "$BUNDLE_ID" \
+      --output "$APP/Contents/Resources" --target-triple "$arch-apple-macos14.0" \
+      --binary-file "$APP/Contents/MacOS/GreenshotMac" --source-file-list "$lists/sources.txt" \
+      --swift-const-vals-list "$lists/const-values.txt" --compile-time-extraction --deployment-aware-processing \
+      >"$lists/processor.log" 2>&1; then
+    warn_intents "appintentsmetadataprocessor failed (see $lists/processor.log)"
+    return
+  fi
+  if [[ ! -f "$APP/Contents/Resources/Metadata.appintents/extract.actionsdata" ]]; then
+    warn_intents "appintentsmetadataprocessor wrote no metadata"
+  fi
+}
+extract_app_intents
+
+# Nested code is signed first (inside out), with its own identifier; then the bundle seals it.
+codesign --force --options runtime --identifier "$BUNDLE_ID.cli" --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/greenshot-cli"
 # The hardened runtime needs the Apple Events entitlement for the Office, Mail and Notes destinations.
 codesign --force --options runtime --entitlements "$ROOT/Resources/GreenshotMac.entitlements" --sign "$SIGN_IDENTITY" "$APP"
 echo "Built $APP (signed: $([[ "$SIGN_IDENTITY" == "-" ]] && echo "ad hoc" || echo "$SIGN_IDENTITY"))"
+echo "Command line tool: sudo ln -sf '$APP/Contents/Helpers/greenshot-cli' /usr/local/bin/greenshot-cli"
