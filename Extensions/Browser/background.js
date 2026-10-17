@@ -7,7 +7,9 @@
  *
  * Mac changes: the native host is io.github.greenshot_mac.host (greenshot-native-host in the app); IMPORT_CAPTURE and
  * TAB_CHANGED also send "browser" (upstream sends it only in HANDSHAKE), and IMPORT_CAPTURE the tab's width in CSS pixels
- * ("tab_width", so Greenshot knows the Retina scale).
+ * ("tab_width", so Greenshot knows the Retina scale). manifest.json asks for no host permissions (upstream: <all_urls>):
+ * "activeTab" lets captureVisibleTab take the tab the user clicked the button in (Firefox 126 and later), "tabs" gives
+ * the tab's address and title for the tab tracking.
  */
 
 /**

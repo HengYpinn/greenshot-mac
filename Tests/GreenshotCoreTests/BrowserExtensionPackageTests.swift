@@ -29,6 +29,11 @@ struct BrowserExtensionPackageTests {
         let gecko = try #require(settings["gecko"] as? [String: Any])
         #expect(gecko["id"] as? String == BrowserOriginPolicy.firefoxExtensionID)
         #expect(manifest["manifest_version"] as? Int == 3)
+        // Review S-N4: activeTab and tabs are enough; no access to every site (Firefox needs 126 for captureVisibleTab
+        // with activeTab)
+        #expect(manifest["host_permissions"] == nil)
+        #expect(manifest["permissions"] as? [String] == ["activeTab", "tabs", "nativeMessaging", "storage"])
+        #expect(gecko["strict_min_version"] as? String == "126.0")
         let description = try #require(manifest["description"] as? String)
         // Chrome's limit for the description
         #expect(description.count <= 132)

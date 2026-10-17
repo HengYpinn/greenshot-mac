@@ -14,6 +14,10 @@ What it does:
   `${Browser.Title}` and `${Browser.Ticket}` (a key like `PROJ-1234` from the title or the address), e.g. an output
   folder pattern `${Browser.Ticket}` sorts screenshots by ticket. The app keeps only the last tab, in memory, and never
   writes addresses or titles into its log.
+- These values come from web pages, so in file names and folders they are cleaned like `${title}`: `/`, `:` and the
+  other characters a file name can't have become `_` (`https://x.org/a` gives `https___x.org_a`). A page can't choose
+  the folder a screenshot goes to: a file name that would leave the output folder is made one name inside it, and an
+  output folder pattern like `~/Shots/${title}` that would end up outside `~/Shots` saves to `~/Shots`.
 - The toolbar button shows ON while the app is connected. When the app isn't running the extension tries again (after
   5 s, then up to every minute); it never starts the app.
 
@@ -29,11 +33,17 @@ What it does:
 3. Chrome, Edge, Brave, Vivaldi: open the Extensions page (`chrome://extensions`, `edge://extensions`), turn on
    Developer mode, click **Load unpacked** and choose that folder. The extension's id is
    `phnpiifkcghdmpcgjilfkdlaidfjjjea` in every Chromium browser (fixed by the `key` in its manifest).
-4. Firefox: `about:debugging` › This Firefox › **Load Temporary Add-on…** and choose `manifest.json` in that folder.
-   Firefox keeps an add-on that isn't signed by Mozilla only until it quits (Firefox Developer Edition and Nightly can
-   keep it with `xpinstall.signatures.required` set to false).
+4. Firefox 126 or later: `about:debugging` › This Firefox › **Load Temporary Add-on…** and choose `manifest.json` in
+   that folder. Firefox keeps an add-on that isn't signed by Mozilla only until it quits (Firefox Developer Edition and
+   Nightly can keep it with `xpinstall.signatures.required` set to false).
 
-The extension isn't in the Chrome Web Store or on addons.mozilla.org. `scripts/package-browser-extension.sh` zips it
+The extension asks for no access to the sites you visit: "activeTab" lets it capture the tab you clicked its button in,
+"tabs" gives it the active tab's address and title for the tab tracking (upstream also asks for `<all_urls>`).
+
+The extension isn't in the Chrome Web Store or on addons.mozilla.org. Its Firefox id `companion@greenshot-mac.github.io`
+isn't reserved on addons.mozilla.org yet, so someone else could publish a signed add-on with the same id, and the app
+would accept it like this one (it could send screenshots and tab addresses; the checks above still apply). Reserving the
+id (an unlisted, signed listing) is up to the project's maintainers. `scripts/package-browser-extension.sh` zips it
 into `build/browser-extension/greenshot-mac-companion-<version>.zip` (manifest.json at the root), e.g. for a release.
 
 ## How it connects
@@ -59,6 +69,7 @@ extension ──native messaging (stdin/stdout)──> greenshot-native-host ─
 Differences from upstream's extension (each marked in the source):
 - the host name `io.github.greenshot_mac.host`, the Firefox id `companion@greenshot-mac.github.io` and the Chromium
   `key`;
+- no `host_permissions` (`<all_urls>`): `activeTab` and `tabs` are enough, so Firefox needs version 126;
 - `IMPORT_CAPTURE` and `TAB_CHANGED` also send `browser` (upstream sends it only with `HANDSHAKE`, so its `${browser}`
   stays empty), and `IMPORT_CAPTURE` the tab's width, so the app knows a Retina capture's scale;
 - the app's `HANDSHAKE` answer leaves out `capture_format` and `track_tab_urls`: upstream always answers PNG and
