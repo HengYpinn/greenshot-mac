@@ -35,6 +35,15 @@ public enum RecipeExtensionNames {
     /// The settings every extension has, stored like its options (they can't be declared as options).
     public static let scopeOptions = [applyToOption, onlyRecipesOption, exceptRecipesOption, onlyDestinationsOption]
 
+    /// Why an AI tool may not propose this automatic step, nil when it may: it needs a Boolean `enabled` option, so it can
+    /// start switched off until the user switches it on (an automatic step without one is always on once approved).
+    /// The library's `proposeExtension` refuses it; MCP's validate_recipe can tell the AI tool before it proposes.
+    public static func aiProposalProblem(_ ext: CaptureRecipe) -> String? {
+        guard ext.kind == .extension, ext.extensionEnabledOption == nil else { return nil }
+        return "An automatic step an AI tool proposes needs a Boolean option \"\(enabledOptionKey)\" (for example \"default\": false): "
+            + "it starts switched off, and the user switches it on in Settings › Recipes."
+    }
+
     /// Splits a comma or semicolon separated list of ids (upstream `RecipeSlots.SplitList`).
     public static func splitList(_ text: String?) -> [String] {
         (text ?? "").split(whereSeparator: { $0 == "," || $0 == ";" })

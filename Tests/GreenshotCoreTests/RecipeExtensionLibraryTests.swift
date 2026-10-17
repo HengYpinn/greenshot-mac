@@ -179,6 +179,74 @@ final class OpenedInEditor {
         #expect(recipe.errors == ["An AI tool can propose one automatic step at a time."])
     }
 
+    /// Security review S-N3 / SM-M3: what an AI tool proposes starts switched off, so it needs the `enabled` switch.
+    @Test func anAIProposalWithoutASwitchIsRefused() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let url = fixture.folder.appendingPathComponent("AI/always.gsrecipe.json")
+        let result = await fixture.library.proposeExtension(content: RecipeSerializer.encode(ComposerFixture.ext("always")), proposedBy: "Claude",
+                                                            aiRequest: nil, aiExplanation: nil, saveTo: url)
+        let problem = try #require(RecipeExtensionNames.aiProposalProblem(ComposerFixture.ext("always")))
+        #expect(result.errors == [problem])
+        #expect(fixture.approver.requests.isEmpty)
+        #expect(!FileManager.default.fileExists(atPath: url.path))
+        #expect(RecipeExtensionNames.aiProposalProblem(fileExtension()) == nil)
+        #expect(RecipeExtensionNames.aiProposalProblem(libraryRecipe()) == nil)
+        #expect(RecipeBuiltInExtensions.all.allSatisfy { RecipeExtensionNames.aiProposalProblem($0) == nil })
+    }
+
+    /// An AI tool's file changed on disk to drop its switch isn't approved again (S-N3).
+    @Test func anAIFileThatLostItsSwitchIsRefused() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let url = fixture.folder.appendingPathComponent("AI/step.gsrecipe.json")
+        _ = await fixture.library.proposeExtension(content: RecipeSerializer.encode(fileExtension()), proposedBy: "Claude",
+                                                   aiRequest: nil, aiExplanation: nil, saveTo: url)
+        var changed = fileExtension()
+        changed.options = nil
+        try Data(RecipeSerializer.encode(changed).utf8).write(to: url)
+        let result = await fixture.library.loadFile(url)
+        #expect(result.errors.first?.contains("needs a Boolean option") == true)
+        #expect(fixture.approver.validationErrors.last?.errorMessage?.contains("needs a Boolean option") == true)
+        #expect(fixture.approver.requests.count == 1)
+    }
+
+    /// Security review SM-M4: a proposal onto a file which holds an automatic step shows what changes, and replaces it.
+    @Test func aProposalOntoAnExistingFileShowsWhatChanges() async throws {
+        let fixture = LibraryFixture(builtIns: [ComposerFixture.recipe()])
+        defer { fixture.cleanUp() }
+        let url = fixture.folder.appendingPathComponent("AI/step.gsrecipe.json")
+        let first = RecipeSerializer.encode(fileExtension())
+        _ = await fixture.library.proposeExtension(content: first, proposedBy: "Claude", aiRequest: nil, aiExplanation: nil, saveTo: url)
+        let firstRequest = try #require(fixture.approver.requests.last)
+        #expect(firstRequest.mode == .newRecipe)
+        #expect(firstRequest.previousContent == nil)
+
+        var update = ComposerFixture.ext("lib_ext", nodes: ["a", "b"])
+        update.name = "Ext lib_ext, longer"
+        update.options = fileExtension().options
+        let result = await fixture.library.proposeExtension(content: RecipeSerializer.encode(update), proposedBy: "Claude",
+                                                            aiRequest: nil, aiExplanation: nil, saveTo: url)
+        #expect(result.errors.isEmpty)
+        let request = try #require(fixture.approver.requests.last)
+        #expect(request.mode == .modified)
+        #expect(request.previousContent == first)
+        #expect(request.diff != nil)
+        #expect(request.replacedRecipe?.name == "Ext lib_ext")
+        #expect(!request.changes.isEmpty)
+        #expect(request.startSwitchedOff)
+        #expect(fixture.library.loadedExtension(id: "lib_ext")?.recipe.name == "Ext lib_ext, longer")
+
+        // Another id written over the file: the old automatic step is gone.
+        var other = fileExtension("other_ext")
+        other.name = "Other"
+        _ = await fixture.library.proposeExtension(content: RecipeSerializer.encode(other), proposedBy: "Claude",
+                                                   aiRequest: nil, aiExplanation: nil, saveTo: url)
+        #expect(fixture.library.loadedExtension(id: "lib_ext") == nil)
+        #expect(fixture.library.loadedExtension(id: "other_ext") != nil)
+        #expect(fixture.box.settings.files.count == 1)
+    }
+
     @Test func savingAsksOnlyWhenTheReachOrPermissionsChange() async throws {
         let fixture = LibraryFixture()
         defer { fixture.cleanUp() }

@@ -211,6 +211,7 @@ final class WaitingApprover: RecipeApprover {
         step.extends = ExtensionTarget(recipes: ["*"], slot: "BeforeExport", order: 0)
         step.nodes = [RecipeNode(id: "border", stepType: "Effect", parameters: ["EffectType": .string("Border")])]
         step.flow.startNodes = ["border"]
+        step.options = [RecipeOption(key: "enabled", type: .boolean, defaultValue: .bool(false))]
         let outcome = await proposals(fixture).propose(proposal(step))
         // RMANAGER's library asks for the automatic step like for a recipe, everything switched off
         #expect(outcome.reply.status == "ok")
