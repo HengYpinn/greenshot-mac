@@ -15,7 +15,9 @@ public enum RecipeApprovalPolicy {
         triggerKey(index: index, trigger: trigger) + browserInvocationSuffix
     }
     /// The gate types the approval doesn't allow; the recipe isn't loaded while there are any.
-    public static func missingGates(_ validation: RecipeValidationResult, approval: RecipeApproval?) -> [RecipeGateType] { rcoreStub() }
+    public static func missingGates(_ validation: RecipeValidationResult, approval: RecipeApproval?) -> [RecipeGateType] {
+        validation.gateTypes.filter { approval?.isGateAllowed($0) != true }
+    }
 }
 
 /// Why the approval sheet is shown (upstream `RecipeApprovalMode`).
@@ -119,8 +121,55 @@ public struct RecipeEditDecision: Sendable, Equatable {
 public enum RecipeEditApproval {
     public static func create(edited: CaptureRecipe, validation: RecipeValidationResult, approvedVersion: CaptureRecipe?,
                               previousApproval: RecipeApproval?, replacesBuiltIn: Bool) -> (approval: RecipeApproval, decision: RecipeEditDecision) {
-        rcoreStub()
+        var decision = RecipeEditDecision()
+        var approval = RecipeApproval(recipeId: edited.id)
+        approval.replacesBuiltIn = replacesBuiltIn
+        if replacesBuiltIn, previousApproval == nil {
+            decision.reasons.append("It replaces the built-in recipe \"\(edited.id)\".")
+        }
+        // Triggers: unchanged ones keep their switch, new harmless ones are on, new ones which start the recipe on their
+        // own or from outside need a decision. Without the approved version every risky trigger counts as new.
+        let oldTriggers = approvedVersion?.triggers ?? []
+        var used = Set<Int>()
+        var matches: [Int: Int] = [:]
+        for (index, trigger) in edited.triggers.enumerated() {
+            if let match = oldTriggers.indices.first(where: { !used.contains($0) && oldTriggers[$0] == trigger }) {
+                used.insert(match)
+                matches[index] = match
+            }
+        }
+        for description in RecipeDescriber().describeTriggers(edited) {
+            let isBrowser = description.key.hasSuffix(RecipeApprovalPolicy.browserInvocationSuffix)
+            let index = Int(description.key.prefix { $0 != ":" }) ?? -1
+            if let previousApproval, let oldIndex = matches[index] {
+                let oldTrigger = oldTriggers[oldIndex]
+                let oldKey = isBrowser ? RecipeApprovalPolicy.browserInvocationKey(index: oldIndex, trigger: oldTrigger)
+                                       : RecipeApprovalPolicy.triggerKey(index: oldIndex, trigger: oldTrigger)
+                if previousApproval.isTriggerApproved(oldKey) { approval.approvedTriggers.append(description.key) }
+                continue
+            }
+            if description.risk == nil || description.isDisabled {
+                // Harmless (hotkey, menu entry) or switched off in the recipe: the user added it themselves
+                approval.approvedTriggers.append(description.key)
+                continue
+            }
+            decision.reasons.append(description.label)
+            decision.triggerKeys.append(description.key)
+        }
+        // Gated actions: what was allowed stays allowed, a new kind needs a decision
+        for gate in validation.gateTypes {
+            if previousApproval?.isGateAllowed(gate) == true {
+                approval.allowedGates.append(gate)
+            } else {
+                decision.reasons.append("It needs \(gate.displayName).")
+            }
+        }
+        return (approval, decision)
     }
+
     /// The recipe with the id in an approved content.
-    public static func findRecipe(in content: String?, id: String) -> CaptureRecipe? { rcoreStub() }
+    public static func findRecipe(in content: String?, id: String) -> CaptureRecipe? {
+        guard let content, !content.isEmpty, let recipes = try? RecipeSerializer.decode(text: content) else { return nil }
+        return recipes.first { recipeEquals($0.id, id) }
+    }
 }
