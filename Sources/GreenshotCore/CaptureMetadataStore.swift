@@ -48,8 +48,11 @@ public final class CaptureMetadataStore: @unchecked Sendable {
     }
 
     /// The pattern variables of the capture taken at `date`: what was recorded for it, and the browser's active tab
-    /// (`Browser.*`, read now). The capture's own values win.
+    /// (`Browser.*`, read now). The capture's own values win. Every value is cleaned like `${title}` (no "/" or ":",
+    /// never "." or ".."): they come from what was captured, e.g. a web page's address and title, and the output folder
+    /// pattern is filled without that cleaning. The recipe payload keeps the values as they are.
     public func patternMetadata(forCaptureAt date: Date) -> [String: String] {
         browser.patternVariables.merging(metadata(forCaptureAt: date)) { _, own in own }
+            .mapValues(FilenamePattern.makeFilenameSafe)
     }
 }

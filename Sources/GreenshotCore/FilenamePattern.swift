@@ -116,6 +116,36 @@ public enum FilenamePattern {
         return folder + fill(fallbackPattern, context: context)
     }
 
+    /// The file of a filled file name `name` in `folder`: an absolute name (the pattern starts with "/" or a folder
+    /// variable) is kept; a relative one must stay inside `folder` after "." and ".." are resolved, else the whole name
+    /// becomes one file name in `folder` (a value that brought in "../" can't write elsewhere).
+    public static func file(named name: String, in folder: URL) -> URL {
+        if name.hasPrefix("/") { return URL(fileURLWithPath: name) }
+        let file = folder.appendingPathComponent(name)
+        if isInside(file, folder: folder), file.standardizedFileURL.path != folder.standardizedFileURL.path { return file }
+        return folder.appendingPathComponent(makeFilenameSafe(name))
+    }
+
+    /// True when `url` is `folder` or inside it, after "." and ".." are resolved (no file system access).
+    public static func isInside(_ url: URL, folder: URL) -> Bool {
+        let path = url.standardizedFileURL.path
+        let root = folder.standardizedFileURL.path
+        if path == root || root == "/" { return true }
+        return path.hasPrefix(root.hasSuffix("/") ? root : root + "/")
+    }
+
+    /// The fixed start of an output folder pattern: its text before the first variable, up to the last "/" (with "~" as
+    /// the home folder). Nil when the pattern starts with a variable (e.g. `${MyPictures}/Greenshot`) or has no "/"
+    /// before one: then nothing fixed is there to stay in.
+    public static func literalRoot(ofFolderPattern pattern: String, home: URL) -> URL? {
+        var literal = pattern.trimmingCharacters(in: .whitespaces)
+        if let variable = literal.range(of: "${") { literal = String(literal[..<variable.lowerBound]) }
+        if literal.hasPrefix("~") { literal = home.path + literal.dropFirst() }
+        guard literal.hasPrefix("/"), let slash = literal.lastIndex(of: "/") else { return nil }
+        let root = String(literal[...slash])
+        return URL(fileURLWithPath: root, isDirectory: true)
+    }
+
     public static func makeFilenameSafe(_ value: String) -> String {
         let safe = String(value.map { invalidFilenameCharacters.contains($0) ? Character(unsafeReplacement) : $0 })
         // "." and ".." would be the folder itself or its parent once a pattern puts a "/" after them.
@@ -164,8 +194,10 @@ public enum FilenamePattern {
         if let env = context.environment[variable] {
             value = filenameSafe ? makePathSafe(env) : env
         } else if variable != "windowtitle", let meta = context.metadata[variable] {
-            // After the environment, like upstream `FilenameHelper.MatchVarEvaluatorInternal`.
-            value = filenameSafe ? makePathSafe(meta) : meta
+            // After the environment, like upstream `FilenameHelper.MatchVarEvaluatorInternal`. Cleaned like ${title}, not
+            // only path-safe as upstream does: the values come from what was captured (a web page's address and title),
+            // and a "/" or ".." in them must not choose the folder a file is written to.
+            value = filenameSafe ? makeFilenameSafe(meta) : meta
         } else if variable.allSatisfy({ $0 == "R" }) {
             let chars = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
             value = String((0..<variable.count).map { _ in chars[context.randomIndex(chars.count)] })

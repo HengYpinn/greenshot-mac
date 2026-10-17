@@ -8,7 +8,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "companion@greenshot-mac.github.io",
-      "strict_min_version": "121.0"
+      "strict_min_version": "126.0"
     }
   },
   "permissions": [
@@ -16,9 +16,6 @@
     "tabs",
     "nativeMessaging",
     "storage"
-  ],
-  "host_permissions": [
-    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js",

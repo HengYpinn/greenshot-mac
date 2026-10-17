@@ -28,9 +28,18 @@ final class ImageSaver {
     }
 
     /// The output folder with its pattern variables filled in (upstream `FillVariables(OutputFilePath)`).
+    /// A folder that a value (a window or page title, a page's address) moved out of the pattern's fixed start, e.g.
+    /// `~/Shots/${title}` with the title "../../Library", is refused: the files go to the fixed start instead.
     func outputFolderURL(title: String, date: Date) -> URL {
-        DestinationSupport.outputFolder(settings.value.outputFolder,
-                                        context: settings.patternContext(title: title, date: date, consumeNumber: false))
+        let pattern = settings.value.outputFolder
+        let context = settings.patternContext(title: title, date: date, consumeNumber: false)
+        let folder = DestinationSupport.outputFolder(pattern, context: context)
+        if let root = FilenamePattern.literalRoot(ofFolderPattern: pattern, home: context.homeDirectory),
+           !FilenamePattern.isInside(folder, folder: root) {
+            log.warn("[SECURITY] The output folder pattern filled in to a folder outside \(root.path); saving there instead.")
+            return root
+        }
+        return folder
     }
 
     /// The file "Save directly" writes to: the output folder plus the filled filename pattern.
@@ -44,7 +53,12 @@ final class ImageSaver {
         // The folder first: it only previews ${NUM}, the name counts it up.
         let folder = outputFolderURL(title: title, date: date)
         let name = FilenamePattern.fileName(s.filenamePattern, context: settings.patternContext(title: title, date: date))
-        let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : folder.appendingPathComponent(name)
+        // A relative name stays in the output folder ("../" can't come from a value, but may from an environment
+        // variable); only a pattern that is itself absolute writes elsewhere
+        let base = FilenamePattern.file(named: name, in: folder)
+        if !name.hasPrefix("/"), base.lastPathComponent != (name as NSString).lastPathComponent {
+            log.warn("[SECURITY] The file name pattern filled in to a path outside the output folder; the name was flattened.")
+        }
         return base.appendingPathExtension(fileExtension)
     }
 
