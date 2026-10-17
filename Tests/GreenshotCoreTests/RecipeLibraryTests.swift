@@ -159,6 +159,44 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         #expect(refused == nil)
     }
 
+    /// Security review: permissions are kept per kind (command, upload, files), but the approval is pinned to the file's
+    /// SHA-256, so another command or upload target in the file asks again before the recipe runs.
+    @Test func anotherTargetOfTheSameKindAsksAgain() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let harmless = RecipeNode(id: "run", stepType: "ExternalCommand", parameters: ["CommandLine": .string("/usr/bin/true")])
+        let url = try fixture.write(libraryRecipe(extraNode: harmless))
+        _ = await fixture.library.loadFile(url)
+        let loaded = try #require(fixture.library.recipe(id: "lib_recipe"))
+        let approved = await fixture.library.ensureApprovedAndCurrent(loaded.recipe)
+        #expect(approved == loaded.recipe)
+        #expect(fixture.approver.requests.count == 1)
+
+        let other = RecipeNode(id: "run", stepType: "ExternalCommand", parameters: ["CommandLine": .string("/bin/rm")])
+        _ = try fixture.write(libraryRecipe(extraNode: other))
+        fixture.approver.answer = { _ in nil }
+        let refused = await fixture.library.ensureApprovedAndCurrent(loaded.recipe)
+        #expect(refused == nil)
+        let request = try #require(fixture.approver.requests.last)
+        #expect(request.mode == .modified)
+        #expect(request.changes.contains("Adds: Runs the program /bin/rm"))
+        #expect(request.changes.contains("Removes: Runs the program /usr/bin/true"))
+        let quiet = await fixture.library.loadFile(url, interactive: false)
+        #expect(!quiet.isValid)
+
+        // The same for an upload that goes elsewhere.
+        let uploads = LibraryFixture()
+        defer { uploads.cleanUp() }
+        let jira = try uploads.write(libraryRecipe(extraNode: RecipeNode(id: "up", stepType: "Jira")))
+        _ = await uploads.library.loadFile(jira)
+        let uploading = try #require(uploads.library.recipe(id: "lib_recipe"))
+        _ = try uploads.write(libraryRecipe(extraNode: RecipeNode(id: "up", stepType: "Confluence")))
+        uploads.approver.answer = { _ in nil }
+        let elsewhere = await uploads.library.ensureApprovedAndCurrent(uploading.recipe)
+        #expect(elsewhere == nil)
+        #expect(uploads.approver.requests.last?.changes.contains("Adds: Uploads to Confluence") == true)
+    }
+
     @Test func reviewKeepsOrRevokes() async throws {
         let fixture = LibraryFixture()
         defer { fixture.cleanUp() }
