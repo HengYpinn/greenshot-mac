@@ -120,6 +120,8 @@ final class RecipePromptPanel: NSObject, NSWindowDelegate {
     private let panel: RecipeKeyPanel
     private let model: RecipePromptModel
     private var timer: Timer?
+    /// The window is closing by its close button: it mustn't be closed again.
+    private var closing = false
     private var done: ((RecipePrompt.Answer) -> Void)?
 
     static func show(_ prompt: RecipePrompt, preview: CGImage?, done: @escaping (RecipePrompt.Answer) -> Void) -> RecipePromptPanel {
@@ -176,11 +178,12 @@ final class RecipePromptPanel: NSObject, NSWindowDelegate {
         self.done = nil
         done(answer)
         panel.delegate = nil
-        panel.close()
+        if !closing { panel.close() }
         Self.open.removeAll { $0 === self }
     }
 
     func windowWillClose(_ notification: Notification) {
+        closing = true
         finish(.closed)
     }
 }

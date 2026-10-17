@@ -112,7 +112,7 @@ struct RecipeAppExporter: RecipeExporting {
         guard let destinationTarget = target.detail as? DestinationTarget else { return .declined }
         var result: ExportResult
         switch destinationTarget {
-        case .destination(.editor), .addToEditor:
+        case .destination(.editor):
             result = openInEditor(payload, step: step, context: context, runtime: runtime)
         case .destination(.file) where !RecipeFileExportOptions(step).isEmpty:
             result = saveFile(capture, options: RecipeFileExportOptions(step), context: context, runtime: runtime)
@@ -323,7 +323,8 @@ struct RecipeClipboardStepExecutor: RecipeStepExecutor {
         if plan.needsText {
             var found = payload.extractedText ?? ""
             if found.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                found = (try? await RecipeVision.text(of: payload.flattened() ?? payload.image)) ?? ""
+                let language = context.environment.configValue("ocrLanguage")?.asString ?? ""
+                found = (try? await RecipeVision.text(of: payload.flattened() ?? payload.image, language: language)) ?? ""
                 if !found.isEmpty {
                     payload.extractedText = found
                     context.payload = payload

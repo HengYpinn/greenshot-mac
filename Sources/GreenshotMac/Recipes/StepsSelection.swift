@@ -27,7 +27,8 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
         let modeName = step.string("SelectionMode")?.trimmingCharacters(in: .whitespaces) ?? "Region"
         guard !context.isPayloadPreSupplied, let screens = payload.attachments[RecipeFrozenScreens.key] as? RecipeFrozenScreens else {
             if recipeEquals(modeName, "Text") {
-                let text = try await RecipeVision.text(of: payload.flattened() ?? payload.image)
+                let language = context.environment.configValue("ocrLanguage")?.asString ?? ""
+                let text = try await RecipeVision.text(of: payload.flattened() ?? payload.image, language: language)
                 payload.extractedText = text
                 context.payload = payload
             }

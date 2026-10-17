@@ -299,6 +299,8 @@ final class RecipeFlyoutPanel: NSObject, NSWindowDelegate {
     private let panel: RecipeKeyPanel
     private let model: RecipeFlyoutModel
     private var timer: Timer?
+    /// The window is closing by its close button: it mustn't be closed again.
+    private var closing = false
     private var done: ((RecipeFlyout.Choice) -> Void)?
 
     static func show(_ flyout: RecipeFlyout, preview: CGImage?, done: @escaping (RecipeFlyout.Choice) -> Void) -> RecipeFlyoutPanel {
@@ -381,11 +383,12 @@ final class RecipeFlyoutPanel: NSObject, NSWindowDelegate {
         log.debug("Flyout choice: \(choice)")
         done(choice)
         panel.delegate = nil
-        panel.close()
+        if !closing { panel.close() }
         Self.open.removeAll { $0 === self }
     }
 
     func windowWillClose(_ notification: Notification) {
+        closing = true
         finish(.dismissed)
     }
 }
