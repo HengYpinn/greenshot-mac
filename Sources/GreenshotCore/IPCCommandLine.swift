@@ -55,7 +55,8 @@ public enum IPCCommandLine {
         }
     }
 
-    /// The message of the recipe options until the recipe engine is wired to the command line (wave 4).
+    /// The message of the recipe options until the recipe engine is wired to the command line (wave 4, which must ask
+    /// before captures without the user like CAPTURE does, see `AutomationConsent`).
     public static let recipesUnavailable = "Error: recipes are not available yet in Greenshot for Mac."
 
     public static let verbs: [Verb] = [
@@ -182,6 +183,7 @@ public enum IPCCommandLine {
             \(options)
 
             The running app does the work; when it isn't running, greenshot-cli starts it.
+            Screenshots of the full screen, a window or the last region ask you to allow them first.
 
             Exit codes:
               0 success, 1 failure, 2 invalid command line, 3 Greenshot for Mac not available.

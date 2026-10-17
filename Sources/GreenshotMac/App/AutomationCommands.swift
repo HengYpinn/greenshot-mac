@@ -57,6 +57,8 @@ enum AutomationCommands {
             DispatchQueue.main.async { app.editors.openClipboard() }
             return .ok("Opening the clipboard in the editor.")
         }
+        // Wave 4: a recipe started by greenshot-cli or a link that captures without the user on the capture screen must
+        // ask first, like CAPTURE does (`AutomationConsent`, `AutomationCaptureConsent`).
         table.registerUnavailable([IPCCommand.runRecipe, IPCCommand.listRecipes, IPCCommand.describeRecipe,
                                    IPCCommand.recipeEditor, IPCCommand.recipeManager],
                                   message: IPCCommandLine.recipesUnavailable)
@@ -97,7 +99,8 @@ enum AutomationCommands {
         return .ok("Opened \(files.count) file(s).")
     }
 
-    /// The Mac's CAPTURE: the hotkeys' captures, started after the reply went out.
+    /// The Mac's CAPTURE: the hotkeys' captures, started after the reply went out. From the command line, a capture
+    /// without the user on the capture screen asks first (`AutomationConsent`): any program could run greenshot-cli.
     private static func capture(_ app: AppDelegate, _ context: IPCReplyContext) -> IPCReply {
         let mode: AutomationCaptureMode
         if let name = context.envelope.parameter("mode"), !name.isEmpty {
@@ -107,6 +110,10 @@ enum AutomationCommands {
             mode = named
         } else {
             mode = .region
+        }
+        if AutomationConsent.captureNeedsConfirmation(mode, source: context.source),
+           !AutomationCaptureConsent.ask(mode, peer: context.peer) {
+            return .error("The screenshot wasn't taken: it wasn't allowed.")
         }
         DispatchQueue.main.async {
             switch mode {
