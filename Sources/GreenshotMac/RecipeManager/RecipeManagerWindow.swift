@@ -305,7 +305,7 @@ struct RecipeManagerView: View {
                 Spacer()
                 Picker("Show", selection: $model.filter) {
                     ForEach(RecipeManagerFilter.allCases, id: \.self) { filter in
-                        Text(filter.title).tag(filter)
+                        Text(filter.displayName).tag(filter)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -466,24 +466,10 @@ final class RecipeManagerWindowController: DiagnosticsWindowController {
     }
 }
 
-/// The manager's texts of an item and a filter chip.
+/// The manager's texts of an item.
 private extension RecipeManagerItem {
     /// A built-in recipe's or automatic step's name is English data: shown in the language of the app where upstream has
     /// the text (`L10nText.display`); a file's name is shown as it is.
     var shownName: String { isBuiltIn && !isOverridden ? L10nText.display(name) : name }
     var shownDescription: String { isBuiltIn && !isOverridden ? L10nText.display(description) : description }
-}
-
-private extension RecipeManagerFilter {
-    /// The chip's title (the raw value is the filter's identifier).
-    var title: String {
-        switch self {
-        case .all: return String(localized: "All", comment: "Recipe manager filter: every recipe")
-        case .active: return String(localized: "Active", comment: "Recipe manager filter: the recipes that are switched on")
-        case .deactivated: return String(localized: "Deactivated", comment: "Recipe manager filter: the recipes that are switched off")
-        case .builtIn: return String(localized: "Built-in", comment: "Recipe manager filter: the recipes built into the app")
-        case .custom: return String(localized: "Custom", comment: "Recipe manager filter: the recipes from files")
-        case .ai: return String(localized: "AI", comment: "Recipe manager filter: the recipes written by AI tools")
-        }
-    }
 }
