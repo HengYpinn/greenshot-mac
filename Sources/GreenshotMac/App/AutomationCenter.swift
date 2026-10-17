@@ -20,6 +20,7 @@ final class AutomationCenter {
     private var rebindTimer: Timer?
     private var sessionEnding = false
     private var captureLinkNoticeShown = false
+    private var aiTools: AIToolsCenter?
     private let log = Log("Automation")
 
     /// Starts listening and runs what waited for the launch: requests that came before it, and the command the app was
@@ -27,6 +28,10 @@ final class AutomationCenter {
     func start(app: AppDelegate) {
         self.app = app
         AutomationCommands.register(in: dispatcher.table, app: app)
+        // greenshot-mcp's commands, consent and capture rules (AI tools)
+        let aiTools = AIToolsCenter(app: app) { [weak self] event in self?.broadcast(event) }
+        aiTools.start(table: dispatcher.table)
+        self.aiTools = aiTools
         dispatcher.accessCheck = { [weak self] command, context in
             await self?.refusal(of: command, context: context)
         }
@@ -136,7 +141,12 @@ final class AutomationCenter {
 
     /// Capture links from web pages only with the setting on (Mac only; upstream gates browser-started recipes with
     /// `AllowBrowserInvocation`).
-    private func refusal(of command: String, context: IPCReplyContext) -> String? {
+    private func refusal(of command: String, context: IPCReplyContext) async -> String? {
+        // AI tools: the opt-in switches and the consent for the program behind greenshot-mcp
+        if context.source == .mcp || IPCCommand.aiToolCommands.contains(command) {
+            guard let aiTools else { return AIToolAccess.disabledMessage }
+            if let refusal = await aiTools.refusal(of: command, context: context) { return refusal }
+        }
         guard context.source == .urlScheme, IPCWhitelist.captureLinkCommands.contains(command),
               let app, !app.settings.value.automationAllowCaptureLinks else { return nil }
         log.warn("[SECURITY] A capture link was refused: capture links are off")

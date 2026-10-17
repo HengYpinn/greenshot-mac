@@ -26,7 +26,34 @@ enum AutomationCaptureConsent {
         asking = true
         defer { asking = false }
         let caller = callerName(peer: peer)
-        let alert = makeAlert(caller: caller, mode: mode)
+        let allowed = run(makeAlert(caller: caller, mode: mode))
+        log.info("A command line capture of \(AutomationConsent.subject(of: mode)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
+        return allowed
+    }
+
+    /// RUN_RECIPE from greenshot-cli: "<program> asks Greenshot for Mac to run the recipe '<name>', which takes
+    /// <subject>." The same rules as for CAPTURE.
+    static func ask(recipe: String, subject: String, peer: IPCPeer?) -> Bool {
+        guard !asking else {
+            log.warn("[SECURITY] A command line recipe was refused: another question waits for an answer")
+            return false
+        }
+        asking = true
+        defer { asking = false }
+        let caller = callerName(peer: peer)
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = "\(caller) asks \(AppInfo.name) to run the recipe \u{201C}\(recipe)\u{201D}, which takes \(subject)."
+        alert.informativeText = "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it."
+        alert.addButton(withTitle: "Don't Allow")
+        alert.addButton(withTitle: "Allow")
+        let allowed = run(alert)
+        log.info("The command line recipe '\(recipe)' (\(subject)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
+        return allowed
+    }
+
+    /// Runs the alert with the arming delay and the time limit; true for Allow.
+    private static func run(_ alert: NSAlert) -> Bool {
         alert.window.level = .floating
         let allow = alert.buttons[1]
         allow.isEnabled = false
@@ -42,9 +69,7 @@ enum AutomationCaptureConsent {
         let response = alert.runModal()
         enable.invalidate()
         expire.invalidate()
-        let allowed = response == .alertSecondButtonReturn
-        log.info("A command line capture of \(AutomationConsent.subject(of: mode)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
-        return allowed
+        return response == .alertSecondButtonReturn
     }
 
     /// The alert (also for the snapshots).

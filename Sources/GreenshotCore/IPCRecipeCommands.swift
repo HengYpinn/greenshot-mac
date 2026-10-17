@@ -289,12 +289,12 @@ public enum IPCRecipeCommands {
 
 /// What a run wrote with Stdout and Stderr steps: streamed to the caller as it comes (plain runs) and collected for the
 /// final reply (upstream's StdoutWriter / StderrWriter of `HandleRunRecipeAsync`).
-final class RecipeRunOutput: RecipeOutputSink, @unchecked Sendable {
-    struct Collected {
-        var stdout: [String] = []
-        var stderr: [String] = []
-        var streamedStdout = false
-        var streamedStderr = false
+public final class RecipeRunOutput: RecipeOutputSink, @unchecked Sendable {
+    public struct Collected: Sendable {
+        public var stdout: [String] = []
+        public var stderr: [String] = []
+        public var streamedStdout = false
+        public var streamedStderr = false
     }
 
     private let context: IPCReplyContext?
@@ -303,15 +303,16 @@ final class RecipeRunOutput: RecipeOutputSink, @unchecked Sendable {
     private let lock = NSLock()
     private var state = Collected()
 
-    init(context: IPCReplyContext?, streamStdout: Bool, streamStderr: Bool) {
+    /// `context`: where streamed text goes (nil: only collected).
+    public init(context: IPCReplyContext?, streamStdout: Bool, streamStderr: Bool) {
         self.context = context
         self.streamStdout = streamStdout
         self.streamStderr = streamStderr
     }
 
-    var collected: Collected { lock.withLock { state } }
+    public var collected: Collected { lock.withLock { state } }
 
-    func writeStdout(_ text: String) async {
+    public func writeStdout(_ text: String) async {
         lock.withLock {
             state.stdout.append(text)
             if streamStdout { state.streamedStdout = true }
@@ -319,7 +320,7 @@ final class RecipeRunOutput: RecipeOutputSink, @unchecked Sendable {
         if streamStdout { context?.stream(text, to: .stdout) }
     }
 
-    func writeStderr(_ text: String) async {
+    public func writeStderr(_ text: String) async {
         lock.withLock {
             state.stderr.append(text)
             if streamStderr { state.streamedStderr = true }
