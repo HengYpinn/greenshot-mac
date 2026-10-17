@@ -118,6 +118,13 @@ public enum RecipeInvocationSource: Sendable, Equatable {
     case aiTool(client: String)
 }
 
+extension RecipeInvocationSource {
+    var isAITool: Bool {
+        if case .aiTool = self { return true }
+        return false
+    }
+}
+
 /// The outcome of loading files (upstream `RecipeValidationResult` of `LoadRecipeFromFile`).
 public struct RecipeLoadResult: Sendable, Equatable {
     public var errors: [String] = []
@@ -744,7 +751,9 @@ public final class RecipeLibrary {
                     guard trigger.isType(WellKnownTriggerType.commandline) else { continue }
                     if source == .browser, !loaded.isBrowserInvocationApproved(at: index) { continue }
                 }
-                let name = isAITool ? (trigger.toolName ?? loaded.recipe.id) : (trigger.command ?? loaded.recipe.id)
+                // Trimmed like AIToolCatalog offers the tools, so the name offered is the name that runs (MC-M1).
+                let named = (isAITool ? trigger.toolName : trigger.command)?.trimmingCharacters(in: .whitespaces) ?? ""
+                let name = named.isEmpty ? loaded.recipe.id : named
                 result.append(RecipeCommand(recipeId: loaded.recipe.id, command: name,
                                             description: trigger.commandDescription ?? loaded.recipe.description,
                                             arguments: trigger.arguments, fireAndForget: trigger.fireAndForget, stdout: trigger.stdout,
@@ -760,26 +769,47 @@ public final class RecipeLibrary {
     public func runRequest(command: String, arguments: [String: String], source: RecipeInvocationSource,
                            resolvePath: (String, ContractDataType) throws -> String) throws -> RecipeRunRequest {
         let available = commands(for: source)
-        guard let match = available.first(where: { recipeEquals($0.command, command) })
-                ?? available.first(where: { recipeEquals($0.recipeId, command) }),
-              let loaded = recipe(id: match.recipeId) else {
-            if source == .browser, commands(for: .commandLine).contains(where: { recipeEquals($0.command, command) || recipeEquals($0.recipeId, command) }) {
-                throw RecipeStepError("[SECURITY] Recipe '\(command)' does not allow invocation from a browser. Set 'AllowBrowserInvocation' on its Commandline trigger to enable this.",
-                                      errorType: "UnauthorizedAccessException")
+        let wanted = command.trimmingCharacters(in: .whitespaces)
+        var match = available.first(where: { recipeEquals($0.command, wanted) })
+        // The command line may name the recipe by its id; an AI tool is only ever its tool name.
+        if match == nil, source.isAITool == false { match = available.first(where: { recipeEquals($0.recipeId, wanted) }) }
+        guard let match else {
+            if source == .browser, commands(for: .commandLine).contains(where: { recipeEquals($0.command, wanted) || recipeEquals($0.recipeId, wanted) }) {
+                throw Self.browserRefusal(command)
             }
             throw RecipeStepError("Error: unknown recipe command '\(command)'.", errorType: "ArgumentException")
         }
+        return try runRequest(match: match, arguments: arguments, source: source, resolvePath: resolvePath)
+    }
+
+    /// A run request for exactly the recipe and trigger of `match` (an entry of `commands(for: source)`), without
+    /// searching the command again: two recipes may share a command or tool name, and the one that was matched (and
+    /// checked: browser approval, arguments, capture consent) is the one that runs (security review MC-M1). Throws like
+    /// `runRequest(command:)` when the entry isn't available to the source any more.
+    public func runRequest(match: RecipeCommand, arguments: [String: String], source: RecipeInvocationSource,
+                           resolvePath: (String, ContractDataType) throws -> String) throws -> RecipeRunRequest {
+        func same(_ command: RecipeCommand) -> Bool { recipeEquals(command.recipeId, match.recipeId) && command.triggerIndex == match.triggerIndex }
+        guard let current = commands(for: source).first(where: same),
+              let loaded = recipe(id: current.recipeId), current.triggerIndex < loaded.recipe.triggers.count else {
+            if source == .browser, commands(for: .commandLine).contains(where: same) { throw Self.browserRefusal(match.command) }
+            throw RecipeStepError("Error: unknown recipe command '\(match.command)'.", errorType: "ArgumentException")
+        }
         let variables: [String: JSONValue]
-        switch RecipeArgumentBinder.bind(declared: match.arguments, supplied: arguments, recipeName: match.command, resolvePath: resolvePath) {
+        switch RecipeArgumentBinder.bind(declared: current.arguments, supplied: arguments, recipeName: current.command, resolvePath: resolvePath) {
         case .success(let bound): variables = bound
         case .failure(let error): throw error
         }
-        let trigger = loaded.recipe.triggers[match.triggerIndex]
+        let trigger = loaded.recipe.triggers[current.triggerIndex]
         var request = RecipeRunRequest(recipe: loaded.recipe, trigger: RecipeTriggerInfo(triggerType: trigger.triggerType, triggerName: trigger.name,
-                                                                                         triggerIndex: match.triggerIndex))
+                                                                                         triggerIndex: current.triggerIndex))
         request.variables = variables
         request.optionValues = optionValues
         return request
+    }
+
+    private static func browserRefusal(_ command: String) -> RecipeStepError {
+        RecipeStepError("[SECURITY] Recipe '\(command)' does not allow invocation from a browser. Set 'AllowBrowserInvocation' on its Commandline trigger to enable this.",
+                        errorType: "UnauthorizedAccessException")
     }
 
     /// A run request for a recipe by id (menu entry, test run, forwarding) with a trigger info of this type; the runner

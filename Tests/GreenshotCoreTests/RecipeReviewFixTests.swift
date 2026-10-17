@@ -186,4 +186,47 @@ import Testing
         #expect(fixture.library.recipe(id: "recipe_a")?.recipe.name == "Built-in A")
         #expect(fixture.library.recipe(id: "recipe_b") != nil)
     }
+
+    // MARK: MC-M1: the matched recipe and trigger run
+
+    @Test func theMatchedCommandRuns() async throws {
+        let harness = RecipeCommandHarness()
+        defer { harness.cleanUp() }
+        try await harness.load(commandLineRecipe(id: "recipe_a", command: "shot", sourceType: "FullScreen"))
+        try await harness.load(commandLineRecipe(id: "recipe_b", command: "shot", sourceType: "Clipboard"))
+        let library = harness.fixture.library
+        let listed = library.commands(for: .commandLine)
+        #expect(listed.map(\.recipeId) == ["recipe_a", "recipe_b"])
+        let second = try #require(listed.last)
+        let request = try library.runRequest(match: second, arguments: ["name": "Ann"], source: .commandLine) { raw, _ in raw }
+        #expect(request.recipe.id == "recipe_b")
+        #expect(request.trigger?.triggerIndex == 0)
+        let byId = try library.runRequest(command: "recipe_b", arguments: ["name": "Ann"], source: .commandLine) { raw, _ in raw }
+        #expect(byId.recipe.id == "recipe_b")
+
+        // greenshot-cli -r recipe_b runs recipe_b, not the first recipe with the command "shot".
+        let envelope = try #require(IPCCommandLine.parse(["-r", "recipe_b", "name=Ann"], source: .cli, cwd: "/Users/me").envelope)
+        let (reply, _, asked) = await harness.run(envelope)
+        #expect(!reply.isError)
+        #expect(harness.recorder.all.contains("Source:Clipboard"))
+        #expect(!harness.recorder.all.contains("Source:FullScreen"))
+        #expect(asked.allSatisfy { $0.hasPrefix("Greeter recipe_b") })
+    }
+
+    /// A file with a padded ToolName doesn't validate; a built-in recipe isn't validated, so the library trims too.
+    @Test func aiToolNamesAreTrimmedAndNeverIds() async throws {
+        var tool = libraryRecipe(id: "recipe_tool")
+        tool.triggers = [TriggerConfig(triggerType: "AiTool", parameters: ["ToolName": .string(" snap_screen "), "Description": .string("Snap")])]
+        let fixture = LibraryFixture(builtIns: [tool])
+        defer { fixture.cleanUp() }
+        let source = RecipeInvocationSource.aiTool(client: "Test")
+        let offered = fixture.library.commands(for: source)
+        #expect(offered.map(\.command) == ["snap_screen"])
+        let request = try fixture.library.runRequest(command: "snap_screen", arguments: [:], source: source) { raw, _ in raw }
+        #expect(request.recipe.id == "recipe_tool")
+        // An AI tool is its tool name only: the recipe id doesn't run it.
+        #expect(throws: RecipeStepError.self) {
+            try fixture.library.runRequest(command: "recipe_tool", arguments: [:], source: source) { raw, _ in raw }
+        }
+    }
 }
