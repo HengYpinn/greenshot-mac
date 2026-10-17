@@ -111,7 +111,7 @@ public enum AnnotationRenderer {
         case .tornEdge:
             drawTornEdge(a, in: context, scale: scale)
         case .svg:
-            break // package E1 fills this in
+            drawSvg(a, in: context, scale: scale)
         case .barcode:
             drawBarcode(a, in: context, scale: scale)
         }
