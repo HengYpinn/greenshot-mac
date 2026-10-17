@@ -127,8 +127,9 @@ public final class RecordingAudioConverter: @unchecked Sendable {
                                      channels: AVAudioChannelCount(channels), interleaved: true)!
     }
 
-    /// The samples of `buffer` and the time of its first one (seconds); nil when it can't be read.
-    public func convert(_ buffer: CMSampleBuffer) -> (samples: [Float], time: Double)? {
+    /// The samples of `buffer` and the time of its first one (seconds); nil when it can't be read. `time` replaces the
+    /// buffer's own time (the microphone's, moved to the host clock).
+    public func convert(_ buffer: CMSampleBuffer, time: Double? = nil) -> (samples: [Float], time: Double)? {
         guard let description = CMSampleBufferGetFormatDescription(buffer),
               let format = Optional(AVAudioFormat(cmAudioFormatDescription: description)) else { return nil }
         let frames = AVAudioFrameCount(CMSampleBufferGetNumSamples(buffer))
@@ -136,7 +137,7 @@ public final class RecordingAudioConverter: @unchecked Sendable {
         input.frameLength = frames
         guard CMSampleBufferCopyPCMDataIntoAudioBufferList(buffer, at: 0, frameCount: Int32(frames),
                                                            into: input.mutableAudioBufferList) == noErr else { return nil }
-        let time = CMSampleBufferGetPresentationTimeStamp(buffer).seconds
+        let time = time ?? CMSampleBufferGetPresentationTimeStamp(buffer).seconds
         guard let samples = convert(input) else { return nil }
         // The converter holds a few frames back, so the time of its output follows from the frames sent so far; a gap
         // in the input (sound that stopped and came back) starts counting again.
