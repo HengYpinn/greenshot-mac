@@ -43,7 +43,7 @@ public final class EditorSessionBook {
             return true
         }
         let session = GreenshotFile.Session(reason: reason, originalFile: document.fileURL?.path,
-                                            isWindowsGreenshotFile: document.isWindowsGreenshotFile)
+                                            savesToNewFile: document.savesToNewFile)
         let contents = GreenshotFile.Contents(of: document, session: session)
         let id = document.id
         written[id] = document.changeCount

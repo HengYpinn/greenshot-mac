@@ -83,13 +83,14 @@ struct GreenshotFileTests {
     }
 
     @Test func sessionIsKept() throws {
-        let session = GreenshotFile.Session(reason: .quit, originalFile: "/tmp/x.png", isWindowsGreenshotFile: true)
+        let session = GreenshotFile.Session(reason: .quit, originalFile: "/tmp/x.png", savesToNewFile: true)
         let contents = try #require(GreenshotFile.read(try Self.written(session: session)))
         #expect(contents.session == session)
     }
 
-    @Test func elementOfANewerVersionIsLeftOut() throws {
-        let data = try Self.written()
+    /// A file of this app with an element of a kind this version doesn't know.
+    static func newerVersionFile() throws -> Data {
+        let data = try written()
         let trailer = try #require(GreenshotFileTrailer.locate(in: data))
         let json = String(decoding: data.subdata(in: trailer.elements), as: UTF8.self)
         let changed = Data(json.replacingOccurrences(of: "\"kind\":\"rectangle\"", with: "\"kind\":\"hologram\"").utf8)
@@ -98,9 +99,68 @@ struct GreenshotFileTests {
         var length = Int64(changed.count).littleEndian
         withUnsafeBytes(of: &length) { file.append(contentsOf: $0) }
         file.append(contentsOf: Array("GreenshotMac01".utf8))
-        let contents = try #require(GreenshotFile.read(file))
+        return file
+    }
+
+    @Test func elementOfANewerVersionIsLeftOut() throws {
+        let contents = try #require(GreenshotFile.read(try Self.newerVersionFile()))
         #expect(contents.elements.count == (try Self.sampleElements()).count - 1)
         #expect(contents.unreadable.count == 1)
+        #expect(contents.savesToNewFile)
+    }
+
+    @Test func fileWithUnreadElementsIsNotOverwritten() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("GreenshotFileTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let url = folder.appendingPathComponent("Newer.greenshot")
+        let original = try Self.newerVersionFile()
+        try original.write(to: url)
+        let contents = try #require(GreenshotFile.read(contentsOf: url))
+        let document = EditorDocument(opening: contents, from: url)
+        #expect(document.savesToNewFile)
+        document.change { document.add(Annotation(kind: .ellipse, start: .zero, end: CGPoint(x: 9, y: 9))) }
+        // Save asks for a new file: nothing is written over the one with the element this version can't read.
+        let savedInPlace = try GreenshotFile.saveInPlace(document)
+        let bytes = try Data(contentsOf: url)
+        #expect(!savedInPlace)
+        #expect(bytes == original)
+        #expect(contents.openStatus?.contains("Save asks for a new file") == true)
+    }
+
+    @Test func readableFileIsSavedInPlace() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("GreenshotFileTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let url = folder.appendingPathComponent("Mine.greenshot")
+        try Self.written().write(to: url)
+        let contents = try #require(GreenshotFile.read(contentsOf: url))
+        #expect(!contents.savesToNewFile)
+        #expect(contents.openStatus == nil)
+        let document = EditorDocument(opening: contents, from: url)
+        document.change { document.add(Annotation(kind: .ellipse, start: .zero, end: CGPoint(x: 9, y: 9))) }
+        let savedInPlace = try GreenshotFile.saveInPlace(document)
+        #expect(savedInPlace)
+        let saved = try #require(GreenshotFile.read(contentsOf: url))
+        #expect(saved.elements.count == contents.elements.count + 1)
+    }
+
+    @Test func restoredEditorStaysCareful() throws {
+        let session = GreenshotFile.Session(reason: .autosave, originalFile: "/tmp/Newer.greenshot", savesToNewFile: true)
+        let contents = try #require(GreenshotFile.read(try Self.written(session: session)))
+        let document = EditorDocument(restoring: contents) { _ in true }
+        #expect(document.savesToNewFile)
+        #expect(document.isModified)
+        #expect(document.fileURL?.path == "/tmp/Newer.greenshot")
+        let gone = EditorDocument(restoring: contents) { _ in false }
+        #expect(gone.fileURL == nil)
+    }
+
+    @Test func sessionOfTheFirstFilesStillReads() throws {
+        let json = Data(#"{"reason":"quit","originalFile":"/tmp/a.greenshot","isWindowsGreenshotFile":true}"#.utf8)
+        let session = try JSONDecoder().decode(GreenshotFile.Session.self, from: json)
+        #expect(session.savesToNewFile)
+        #expect(session.originalFile == "/tmp/a.greenshot")
     }
 
     @Test func plainImageWithTheName() throws {
@@ -189,10 +249,10 @@ struct EditorDocumentOpenedTests {
         #expect(counts == [0, 1, 2, 3, 3, 4])
     }
 
-    @Test func newScreenshotIsNoWindowsFile() {
+    @Test func newScreenshotSavesWhereItLikes() {
         let document = EditorDocument(image: GreenshotFileTests.background, scale: 1, title: "x")
-        document.isWindowsGreenshotFile = true
+        document.savesToNewFile = true
         document.reset(image: GreenshotFileTests.background, scale: 1, title: "y")
-        #expect(!document.isWindowsGreenshotFile)
+        #expect(!document.savesToNewFile)
     }
 }

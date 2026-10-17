@@ -51,14 +51,7 @@ final class EditorManager {
         log.info("Restoring \(files.count) unsaved editors (the last run ended abnormally: \(crashed))")
         for file in files {
             guard let kept = sessions.claim(file), let session = kept.contents.session else { continue }
-            let contents = kept.contents
-            let original = session.originalFile.map { URL(fileURLWithPath: $0) }
-            let document = EditorDocument(image: contents.image, scale: contents.scale, title: contents.title ?? "Screenshot",
-                                          captureDate: contents.captureDate ?? Date(),
-                                          fileURL: original.flatMap { FileManager.default.fileExists(atPath: $0.path) ? $0 : nil })
-            document.addOpened(contents.elements)
-            document.counterStart = contents.counterStart
-            document.isWindowsGreenshotFile = session.isWindowsGreenshotFile
+            let document = EditorDocument(restoring: kept.contents) { FileManager.default.fileExists(atPath: $0.path) }
             let controller = open(document)
             sessions.adopt(kept, for: document)
             let message: String
@@ -127,14 +120,8 @@ final class EditorManager {
         }
         log.info("Opened a .greenshot file (\(contents.origin)) with \(contents.elements.count) elements, "
                  + "\(contents.unreadable.count) left out")
-        let document = EditorDocument(image: contents.image, scale: contents.scale,
-                                      title: url.deletingPathExtension().lastPathComponent,
-                                      captureDate: contents.captureDate ?? Date(), fileURL: url, isModified: false)
-        document.addOpened(contents.elements)
-        document.counterStart = contents.counterStart
-        if case .windows = contents.origin { document.isWindowsGreenshotFile = true }
-        let controller = open(document)
-        if let message = contents.openMessage { controller.showStatusMessage(message, isError: contents.elementsFailed) }
+        let controller = open(EditorDocument(opening: contents, from: url))
+        if let message = contents.openStatus { controller.showStatusMessage(message, isError: contents.elementsFailed) }
     }
 
     /// Opens the image on the clipboard; for a copied web page part, the image it shows is downloaded first (upstream

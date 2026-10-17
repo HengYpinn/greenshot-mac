@@ -36,39 +36,43 @@ extension EditorWindowController {
         let name = current.map { $0.deletingPathExtension().lastPathComponent + "." + GreenshotFile.fileExtension }
         guard let url = saver.runSavePanel(panel, title: document.title, date: document.captureDate,
                                            fileExtension: GreenshotFile.fileExtension, editorFile: current, fileName: name) else { return }
-        writeGreenshotFile(to: url, destination: "Save as Greenshot File")
-    }
-
-    /// Save of a document whose file is a `.greenshot`: written in place; a file of Greenshot for Windows is never
-    /// overwritten (Greenshot for Windows would only show the image of this app's file), the save dialog asks instead.
-    func saveGreenshotFile(to url: URL) -> Bool {
-        guard !editorDocument.isWindowsGreenshotFile else {
-            saveAsGreenshotFile(nil)
-            return !editorDocument.isModified
+        do {
+            try GreenshotFile.write(document, to: url)
+        } catch {
+            saveFailed(url, destination: "Save as Greenshot File", error: error)
+            return
         }
-        return writeGreenshotFile(to: url, destination: "Save")
+        saved(url, destination: "Save as Greenshot File")
     }
 
-    @discardableResult
-    private func writeGreenshotFile(to url: URL, destination: String) -> Bool {
+    /// Save of a document whose file is a `.greenshot`: written over it, unless the document `savesToNewFile` (a file
+    /// of Greenshot for Windows, or one with elements this version could not read); the save dialog asks then.
+    func saveGreenshotFile() -> Bool {
         let document = editorDocument
         do {
-            let data = try GreenshotFile.Contents(of: document).encoded()
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            try data.write(to: url, options: .atomic)
+            guard try GreenshotFile.saveInPlace(document), let url = document.fileURL else {
+                saveAsGreenshotFile(nil)
+                return !document.isModified
+            }
+            saved(url, destination: "Save")
+            return true
         } catch {
-            Self.log.error("Saving \(url.lastPathComponent) failed", error: error)
-            ErrorPresenter.show(message: "The screenshot could not be saved to \(url.lastPathComponent)",
-                                detail: error.localizedDescription)
-            showExportResult(.failed(error.localizedDescription), destination: destination)
+            saveFailed(document.fileURL, destination: "Save", error: error)
             return false
         }
-        Self.log.info("Saved a .greenshot file with \(document.annotations.count) elements")
-        document.fileURL = url
-        document.isWindowsGreenshotFile = false
+    }
+
+    private func saved(_ url: URL, destination: String) {
+        Self.log.info("Saved a .greenshot file with \(editorDocument.annotations.count) elements")
         saver.notifySaved(url)
         showExportResult(.succeeded(fileURL: url), destination: destination)
-        return true
+    }
+
+    private func saveFailed(_ url: URL?, destination: String, error: Error) {
+        let name = url?.lastPathComponent ?? "the file"
+        Self.log.error("Saving \(name) failed", error: error)
+        ErrorPresenter.show(message: "The screenshot could not be saved to \(name)", detail: error.localizedDescription)
+        showExportResult(.failed(error.localizedDescription), destination: destination)
     }
 
     /// The elements of a Greenshot for Windows `.gst` file (Object › Load Elements), for this image, with the message

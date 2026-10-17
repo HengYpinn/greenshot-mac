@@ -50,13 +50,37 @@ public enum GreenshotFile {
         public var reason: Reason
         /// The file the editor showed (opened from or saved to), so Save goes there again.
         public var originalFile: String?
-        /// The editor showed a `.greenshot` file of Greenshot for Windows.
-        public var isWindowsGreenshotFile: Bool
+        /// Save must not write over `originalFile` (see `EditorDocument.savesToNewFile`).
+        public var savesToNewFile: Bool
 
-        public init(reason: Reason, originalFile: String? = nil, isWindowsGreenshotFile: Bool = false) {
+        public init(reason: Reason, originalFile: String? = nil, savesToNewFile: Bool = false) {
             self.reason = reason
             self.originalFile = originalFile
-            self.isWindowsGreenshotFile = isWindowsGreenshotFile
+            self.savesToNewFile = savesToNewFile
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case reason, originalFile, savesToNewFile
+            /// The name of `savesToNewFile` in the first files, which set it only for files of Greenshot for Windows.
+            case isWindowsGreenshotFile
+        }
+
+        public init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            reason = try c.decode(Reason.self, forKey: .reason)
+            originalFile = try c.decodeIfPresent(String.self, forKey: .originalFile)
+            if let saves = try c.decodeIfPresent(Bool.self, forKey: .savesToNewFile) {
+                savesToNewFile = saves
+            } else {
+                savesToNewFile = try c.decodeIfPresent(Bool.self, forKey: .isWindowsGreenshotFile) ?? false
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var c = encoder.container(keyedBy: CodingKeys.self)
+            try c.encode(reason, forKey: .reason)
+            try c.encodeIfPresent(originalFile, forKey: .originalFile)
+            try c.encode(savesToNewFile, forKey: .savesToNewFile)
         }
     }
 

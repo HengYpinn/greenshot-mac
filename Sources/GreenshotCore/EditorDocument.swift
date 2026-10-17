@@ -27,9 +27,10 @@ public final class EditorDocument {
     public private(set) var isModified: Bool
     /// The number of the first counter; the others count on from it (upstream `Surface.CounterStart`).
     public var counterStart = 1
-    /// Opened from a `.greenshot` file of Greenshot for Windows: saving must not overwrite it, Greenshot for Windows
-    /// would only show the image of a file this app writes.
-    public var isWindowsGreenshotFile = false
+    /// Save asks for a new file instead of writing over `fileURL`: it is a `.greenshot` file of Greenshot for Windows
+    /// (which would only show the image of a file this app writes), or one with elements this version could not read
+    /// (they would be lost).
+    public var savesToNewFile = false
     /// Counts the changes of the image and the elements (each change, undo, redo, new screenshot): an unchanged count
     /// means nothing needs to be written again, e.g. by the autosave of unsaved editors.
     public private(set) var changeCount = 0
@@ -167,7 +168,7 @@ public final class EditorDocument {
         undoStack.removeAll()
         redoStack.removeAll()
         mergeKey = nil
-        isWindowsGreenshotFile = false
+        savesToNewFile = false
         changeCount += 1
         isModified = true
     }

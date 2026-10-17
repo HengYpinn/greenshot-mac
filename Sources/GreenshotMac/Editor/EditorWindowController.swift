@@ -789,7 +789,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         canvas.commitEditing()
         if let url = editorDocument.fileURL, GreenshotFile.isGreenshotFile(url) {
             // The image with its elements, editable again later (EditorWindowController+Files.swift).
-            return saveGreenshotFile(to: url)
+            return saveGreenshotFile()
         }
         if let url = editorDocument.fileURL, ImageFormat(fileExtension: url.pathExtension) == nil {
             // Opened from a format this app can't write (HEIC, WebP, ...): never overwrite it, ask for a new file.
