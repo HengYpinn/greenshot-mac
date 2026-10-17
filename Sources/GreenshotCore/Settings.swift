@@ -29,6 +29,9 @@ public enum CaptureDestination: String, Codable, CaseIterable, Sendable {
     case pdf
     /// Open the image file with another application (the Mac's stand-in for the Office destinations).
     case openWith
+    /// The Office plugin on the Mac (AppleScript): insert into Word, Excel or PowerPoint, a new mail in Outlook, and Notes
+    /// as the stand-in for OneNote.
+    case word, excel, powerpoint, outlook, notes
     /// The Zxing plugin's QR code actions: copy or open what a QR code in the image says.
     case qrCode
     /// The upload plugins: attach to a Jira issue or a Confluence page, upload to Box or Dropbox.
@@ -51,6 +54,11 @@ public enum CaptureDestination: String, Codable, CaseIterable, Sendable {
         case .externalCommand: return "External command"
         case .pdf: return "Save as PDF"
         case .openWith: return "Open with…"
+        case .word: return "Insert into Microsoft Word"
+        case .excel: return "Insert into Microsoft Excel"
+        case .powerpoint: return "Insert into Microsoft PowerPoint"
+        case .outlook: return "New email in Microsoft Outlook"
+        case .notes: return "New note in Notes"
         case .qrCode: return "QR code actions"
         case .jira: return "Upload to Jira…"
         case .confluence: return "Upload to Confluence…"
@@ -110,6 +118,14 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var interactiveWindowCapture = false
     /// macOS only: keep the window shadow (with transparency) in window captures.
     public var includeWindowShadow = false
+    /// Window mode also selects the areas inside a window, like a sidebar, a toolbar or a part of a web page, read with
+    /// the Accessibility permission; PgUp and PgDn select the larger or smaller area (upstream: for beta testers,
+    /// `IsBetaTester` turns on `WindowCaptureTool.SelectsAreas`).
+    public var windowCaptureSelectsAreas = false
+    /// HDR screens (macOS 15 or later): the bright parts of HDR videos, photos and games are tone mapped into the
+    /// screenshot instead of cut off; captures without HDR content keep their colours exactly (upstream
+    /// `UseGraphicsCapture`, which upstream needs for HDR screens).
+    public var toneMapHDRCaptures = true
     /// Milliseconds to wait before taking the picture, so menus and the hotkey's own effects are gone.
     public var captureDelayMilliseconds = 100
     public var playCameraSound = false
@@ -164,6 +180,9 @@ public struct AppSettings: Codable, Equatable, Sendable {
     /// Colour difference (0–255) that auto crop treats as the same colour.
     public var autoCropDifference = 10
     public var notificationLevel: NotificationLevel = .all
+    /// Show a thumbnail of the capture in the macOS notification after a capture (upstream `ShowNotificationThumbnail`,
+    /// only offered where notifications can show captures). The capture is kept for a click on the notification either way.
+    public var showNotificationThumbnail = true
 
     // Editor (upstream `IEditorConfiguration`).
     public var reuseEditor = false
@@ -220,6 +239,18 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var theme: AppTheme = .system
     /// Also offer pre-release (beta) updates.
     public var checkForUnstable = false
+    /// The welcome window was shown; it is shown once, at the first start (upstream `WelcomeShown`).
+    public var welcomeShown = false
+
+    // Destinations (upstream `IOfficeConfiguration`, `AllowedUntrustedCertificateHosts`, `AllowedCertificateThumbprints`).
+    /// The Office plugin's options (Word, PowerPoint, Outlook); To, CC, BCC and the subject are `email`'s.
+    public var office = OfficeSettings()
+    /// Servers whose certificate is accepted although macOS doesn't trust it (self-signed Jira or Confluence servers);
+    /// `*.example.com` matches the subdomains (upstream `AllowedUntrustedCertificateHosts`).
+    public var allowedUntrustedCertificateHosts: [String] = []
+    /// Certificates accepted by their SHA-1 or SHA-256 fingerprint, colons and spaces allowed (upstream
+    /// `AllowedCertificateThumbprints`).
+    public var allowedCertificateThumbprints: [String] = []
 
     public init() {}
 
@@ -248,6 +279,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
 
     enum CodingKeys: String, CodingKey {
         case hotkeys, destinations, captureMousePointer, interactiveWindowCapture, includeWindowShadow, captureDelayMilliseconds
+        case windowCaptureSelectsAreas, toneMapHDRCaptures, showNotificationThumbnail, welcomeShown
+        case office, allowedUntrustedCertificateHosts, allowedCertificateThumbprints
         case playCameraSound, notificationSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
         case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
         case fixedCaptureSizes, recentCaptureSizes, fixedCaptureSize, fixedCaptureAnchor, screenCaptureMode, screenToCapture
@@ -274,6 +307,13 @@ public struct AppSettings: Codable, Equatable, Sendable {
         captureMousePointer = value(.captureMousePointer, d.captureMousePointer)
         interactiveWindowCapture = value(.interactiveWindowCapture, d.interactiveWindowCapture)
         includeWindowShadow = value(.includeWindowShadow, d.includeWindowShadow)
+        windowCaptureSelectsAreas = value(.windowCaptureSelectsAreas, d.windowCaptureSelectsAreas)
+        toneMapHDRCaptures = value(.toneMapHDRCaptures, d.toneMapHDRCaptures)
+        showNotificationThumbnail = value(.showNotificationThumbnail, d.showNotificationThumbnail)
+        welcomeShown = value(.welcomeShown, d.welcomeShown)
+        office = value(.office, d.office)
+        allowedUntrustedCertificateHosts = value(.allowedUntrustedCertificateHosts, d.allowedUntrustedCertificateHosts)
+        allowedCertificateThumbprints = value(.allowedCertificateThumbprints, d.allowedCertificateThumbprints)
         captureDelayMilliseconds = value(.captureDelayMilliseconds, d.captureDelayMilliseconds)
         playCameraSound = value(.playCameraSound, d.playCameraSound)
         notificationSound = value(.notificationSound, d.notificationSound)

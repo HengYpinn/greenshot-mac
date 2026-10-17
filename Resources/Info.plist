@@ -32,6 +32,8 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Unofficial community port of Greenshot. Greenshot © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom. GPL-3.0-or-later.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Greenshot puts your screenshots into Word, Excel, PowerPoint, Outlook, Mail and Notes, and finds the Confluence pages open in Safari or Chrome.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

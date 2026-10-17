@@ -16,6 +16,12 @@ struct Capture {
     /// The text mode of the capture screen: the recognised text. A capture with text goes to the clipboard as text,
     /// not to the destinations; `image` is then the picture of the selected words.
     var text: String? = nil
+    /// The mouse pointer on its own, when the capture shows it (upstream `ICapture.Cursor` and `CursorLocation`, set only
+    /// while `CursorVisible`). `image` still has the pointer drawn in, so every destination but the editor needs nothing;
+    /// the editor opens `imageWithoutPointer` and puts the pointer on it as an element that can be moved or deleted.
+    var pointer: CapturedPointer? = nil
+    /// The capture without the mouse pointer; set together with `pointer`.
+    var imageWithoutPointer: CGImage? = nil
 }
 
 /// A normal on-screen window of another app.

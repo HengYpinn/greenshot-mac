@@ -405,12 +405,14 @@ public struct JiraSettings: Codable, Equatable, Sendable {
     public var recentIssueKeys: [String] = []
     /// Reduce the uploaded image to at most 256 colours (upstream `UploadReduceColors`).
     public var reduceColors = false
+    /// How Greenshot signs in: an Atlassian Cloud API token, or a Server/Data Center token or password.
+    public var login: AtlassianLogin = .cloudAPIToken
 
     public static let maxRecentIssueKeys = 10
 
     public init() {}
 
-    enum CodingKeys: String, CodingKey { case url, email, uploadFormat, jpegQuality, recentIssueKeys, reduceColors }
+    enum CodingKeys: String, CodingKey { case url, email, uploadFormat, jpegQuality, recentIssueKeys, reduceColors, login }
 
     /// Every value falls back to its default, so settings written before a new option still load.
     public init(from decoder: Decoder) throws {
@@ -425,6 +427,7 @@ public struct JiraSettings: Codable, Equatable, Sendable {
         jpegQuality = value(.jpegQuality, d.jpegQuality)
         recentIssueKeys = value(.recentIssueKeys, d.recentIssueKeys)
         reduceColors = value(.reduceColors, d.reduceColors)
+        login = value(.login, d.login)
     }
 
     public mutating func remember(issueKey: String) {
@@ -462,6 +465,10 @@ public struct ConfluenceSettings: Codable, Equatable, Sendable {
     public var searchSpaceKey = ""
     /// Reduce the uploaded image to at most 256 colours (upstream `UploadReduceColors`).
     public var reduceColors = false
+    /// How Greenshot signs in: an Atlassian Cloud API token, or a Server/Data Center token or password.
+    public var login: AtlassianLogin = .cloudAPIToken
+    /// Include personal spaces in the search and the browse tree (upstream `IncludePersonSpaces`).
+    public var includePersonalSpaces = false
 
     public static let maxRecentPages = 10
 
@@ -469,6 +476,7 @@ public struct ConfluenceSettings: Codable, Equatable, Sendable {
 
     enum CodingKeys: String, CodingKey {
         case url, email, uploadFormat, jpegQuality, openPageAfterUpload, clipboardContent, recentPages, searchSpaceKey, reduceColors
+        case login, includePersonalSpaces
     }
 
     /// Every value falls back to its default, so settings written before a new option still load.
@@ -487,6 +495,8 @@ public struct ConfluenceSettings: Codable, Equatable, Sendable {
         recentPages = value(.recentPages, d.recentPages)
         searchSpaceKey = value(.searchSpaceKey, d.searchSpaceKey)
         reduceColors = value(.reduceColors, d.reduceColors)
+        login = value(.login, d.login)
+        includePersonalSpaces = value(.includePersonalSpaces, d.includePersonalSpaces)
     }
 
     public mutating func remember(page: ConfluencePage) {

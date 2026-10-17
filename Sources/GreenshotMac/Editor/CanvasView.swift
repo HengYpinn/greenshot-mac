@@ -397,6 +397,11 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
                 showEmojiPalette()
                 return
             }
+            if event.clickCount == 2 && a.kind == .barcode {
+                // Upstream BarcodeContainer.OnDoubleClick opens the QR / barcode dialog again.
+                editBarcode(a)
+                return
+            }
             document.beginChange()
             drag = .move(originals: selectedAnnotations, origin: p)
 
@@ -605,6 +610,9 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             let item = NSMenuItem(title: "Emoji", action: nil, keyEquivalent: "")
             item.submenu = emojiMenu()
             menu.addItem(item)
+        }
+        if a.kind == .barcode && selectedIDs.count == 1 {
+            menu.addItem(ClosureMenuItem(title: "Edit QR / Barcode…") { [weak self] in self?.editBarcode(a) })
         }
         menu.addItem(withTitle: "Bring to Front", action: #selector(bringToFront(_:)), keyEquivalent: "")
         menu.addItem(withTitle: "Bring Forward", action: #selector(bringForward(_:)), keyEquivalent: "")

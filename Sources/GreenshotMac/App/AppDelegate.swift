@@ -29,6 +29,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
                 exit(1)
             }
         }
+        NotificationService.install(app: self)
         applyTheme()
         settings.onChange(of: \.theme) { [weak self] _ in self?.applyTheme() }
         Printing.settings = settings
@@ -47,6 +48,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             MainActor.assumeIsolated { self?.registerHotkeys() }
         }
         registerHotkeys()
+        editors.restoreSavedEditors()
         showWelcomeOnFirstLaunch()
         scheduleUpdateChecks()
     }

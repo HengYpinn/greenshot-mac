@@ -67,12 +67,15 @@ final class OutputManager {
     }
 
     func handle(_ capture: Capture) {
+        // One notification for all exports of this capture (upstream Notification step, `ExportNotification`).
+        let log = NotificationExportLog(capture: capture, settings: settings)
         let destinations = settings.value.destinations
         if destinations.isEmpty || destinations.contains(.picker) {
-            showPicker(for: capture)
+            showPicker(for: capture, completion: log.expect())
         } else {
-            destinations.forEach { perform(.destination($0), with: capture) }
+            destinations.forEach { perform(.destination($0), with: capture, completion: log.expect()) }
         }
+        log.close()
     }
 
     /// `window` is the editor the capture comes from, if any: dialogs and the share menu attach to it, and it shows how
@@ -81,6 +84,9 @@ final class OutputManager {
                  completion: ExportCompletion? = nil) {
         let editor = window?.windowController as? EditorWindowController
         let finish: ExportCompletion = { result in
+            var result = result
+            // The innermost destination names itself; the picker and menus pass its result on unchanged.
+            if result.exportedBy == nil { result.exportedBy = target.displayName }
             editor?.showExportResult(result, destination: target.displayName)
             completion?(result)
         }
@@ -156,6 +162,8 @@ final class OutputManager {
             ConfluenceDestination.upload(capture, settings: settings, saver: saver, completion: completion)
         case .box, .dropbox:
             CloudDestination.upload(destination, capture, settings: settings, saver: saver, completion: completion)
+        case .word, .excel, .powerpoint, .outlook, .notes:
+            completion(.failed("\(destination.displayName) is not available yet."))
         }
     }
 

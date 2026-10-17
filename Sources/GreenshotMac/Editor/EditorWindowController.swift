@@ -287,11 +287,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                       labels: ["Top", "Middle", "Bottom"], action: #selector(verticalAlignmentChanged))
         setUpCounterStart()
 
-        let lineKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .counter, .speechBubble, .cutMark]
-        let fillKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .text, .counter, .highlight, .speechBubble, .cutMark]
-        let widthKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .counter, .cutMark]
-        let shadowKinds: Set<AnnotationKind> = [.rectangle, .ellipse, .line, .arrow, .freehand, .text, .speechBubble, .highlight,
-                                                .obfuscate, .counter, .emoji, .image, .cutMark]
+        let lineKinds = AnnotationKind.kinds(with: .lineColor)
+        let fillKinds = AnnotationKind.kinds(with: .fillColor)
+        let widthKinds = AnnotationKind.kinds(with: .lineWidth)
+        let shadowKinds = AnnotationKind.kinds(with: .shadow)
         let pixelSize = group([label("Pixel size")] + pixelSizeField.views, for: [.obfuscate])
         let blurRadius = group([label("Blur")] + blurRadiusField.views, for: [.obfuscate, .highlight])
         let brightness = group([label("Brightness")] + brightnessField.views + [label("%")], for: [.highlight])
@@ -304,7 +303,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         groups.append(group([lineColorLabel, lineColorWell, transparentLine], for: lineKinds))
         groups.append(group([label("Fill"), fillColorWell, noFill], for: fillKinds))
         groups.append(group([label("Width")] + lineWidthField.views, for: widthKinds))
-        groups.append(group([cutMarkStylePopup, label("Teeth"), toothHeightPopup, label("Range"), toothRangePopup], for: [.cutMark]))
+        groups.append(group([cutMarkStylePopup, label("Teeth"), toothHeightPopup, label("Range"), toothRangePopup],
+                            for: AnnotationKind.cutEdgeKinds))
+        // Apply to the Image (upstream btnApplyToImage), EditorWindowController+Elements.swift.
+        groups.append(group(cutEdgeActionViews(), for: AnnotationKind.cutEdgeKinds))
         groups.append(group([arrowHeadsPopup], for: [.arrow]))
         groups.append(group([label("Size")] + fontSizeField.views, for: [.text, .counter, .speechBubble]))
         groups.append(group([boldButton, italicButton], for: [.text, .speechBubble]))
@@ -892,7 +894,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     /// The actions that wait while a crop is pending (upstream leaves Close, Help and Settings).
     private static let lockedWhileCropping: Set<Selector> = [
         #selector(saveImage(_:)), #selector(saveImageAs(_:)), #selector(copyImage(_:)), #selector(printImage(_:)),
-        #selector(saveElements(_:)), #selector(loadElements(_:)), #selector(insertWindow(_:)),
+        #selector(saveElements(_:)), #selector(loadElements(_:)), #selector(insertWindow(_:)), #selector(insertBarcode(_:)),
     ]
 
     func validateMenuItem(_ item: NSMenuItem) -> Bool {

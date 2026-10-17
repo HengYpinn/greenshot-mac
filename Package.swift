@@ -14,7 +14,7 @@ let package = Package(
         .target(name: "GreenshotCore"),
         // The menu bar app: hotkeys, capture overlay, editor window, settings window.
         .executableTarget(name: "GreenshotMac", dependencies: ["GreenshotCore"]),
-        .testTarget(name: "GreenshotCoreTests", dependencies: ["GreenshotCore"]),
+        .testTarget(name: "GreenshotCoreTests", dependencies: ["GreenshotCore"], resources: [.copy("Fixtures")]),
     ],
     swiftLanguageModes: [.v5]
 )

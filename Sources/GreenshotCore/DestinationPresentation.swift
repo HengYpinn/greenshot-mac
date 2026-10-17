@@ -42,6 +42,11 @@ extension CaptureDestination {
         case .externalCommand: return "External Command"
         case .pdf: return "Save as PDF…"
         case .openWith: return "Open With"
+        case .word: return "Microsoft Word"
+        case .excel: return "Microsoft Excel"
+        case .powerpoint: return "Microsoft PowerPoint"
+        case .outlook: return "Microsoft Outlook"
+        case .notes: return "Notes"
         case .qrCode: return "QR Code"
         case .jira: return "Upload to Jira…"
         case .confluence: return "Upload to Confluence…"
@@ -57,8 +62,9 @@ extension CaptureDestination {
         case .file, .fileAs, .pdf: return 0
         case .picker, .editor: return 1
         case .clipboard, .printer: return 2
-        case .email, .share, .ocr: return 3
-        case .qrCode, .openWith: return 4
+        case .email, .share, .ocr, .outlook: return 3
+        case .qrCode, .openWith, .word, .powerpoint, .notes: return 4
+        case .excel: return 5
         case .externalCommand, .jira, .confluence, .box, .dropbox: return 10
         }
     }
@@ -78,6 +84,11 @@ extension CaptureDestination {
         case .externalCommand: return "terminal"
         case .pdf: return "doc.richtext"
         case .openWith: return "arrow.up.forward.app"
+        case .word: return "w.square"
+        case .excel: return "x.square"
+        case .powerpoint: return "p.square"
+        case .outlook: return "o.square"
+        case .notes: return "note.text"
         case .qrCode: return "qrcode"
         case .jira: return "checklist"
         case .confluence: return "doc.text"

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import AppKit
+import GreenshotCore
 
 /// A short message in the top right corner (upstream shows a tray balloon). Needs no notification permission.
 @MainActor
@@ -10,7 +11,7 @@ enum Toast {
     private static var panel: NSPanel?
     private static var hideWork: DispatchWorkItem?
 
-    static func show(_ message: String, detail: String? = nil, action: (() -> Void)? = nil) {
+    static func show(_ message: String, detail: String? = nil, kind: MessageKind = .info, action: (() -> Void)? = nil) {
         dismiss()
         let content = ToastView(message: message, detail: detail) {
             action?()

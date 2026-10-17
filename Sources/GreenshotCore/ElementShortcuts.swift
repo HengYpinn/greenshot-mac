@@ -29,6 +29,17 @@ extension AnnotationKind {
     }
 }
 
+extension AnnotationKind {
+    /// The kinds that have `property`: the property bar shows its control for them.
+    public static func kinds(with property: AnnotationStyleProperty) -> Set<AnnotationKind> {
+        Set(allCases.filter { $0.has(property) })
+    }
+
+    /// The elements with cut edges: edge style, teeth and range, new random edges, the cut edge settings and Apply to the
+    /// image (upstream `CutMarkContainer`, `TornEdgeContainer`).
+    public static let cutEdgeKinds: Set<AnnotationKind> = [.cutMark, .tornEdge]
+}
+
 extension AnnotationStyle {
     /// Sets `property` to its value in `other`.
     public mutating func copy(_ property: AnnotationStyleProperty, from other: AnnotationStyle) {

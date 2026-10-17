@@ -43,6 +43,8 @@ enum Snapshots {
         try renderImageExtras(to: folder, sample: sample, settings: settings)
         try renderOutputExtras(to: folder, sample: sample, settings: settings)
         try renderAppExtras(to: folder, sample: sample, settings: settings)
+        try renderNotificationExtras(to: folder, sample: sample, settings: settings)
+        try renderBarcodeExtras(to: folder, sample: sample, settings: settings)
         if let editorDocument {
             try ImageExporter.write(editorDocument.flattened(), to: folder.appendingPathComponent("editor-export.png"), format: .png,
                                     scale: editorDocument.scale)

@@ -15,7 +15,6 @@ struct OutputSettings: View {
         Form {
             filesSection
             formatSection
-            messagesSection
         }
         .formStyle(.grouped)
     }
@@ -63,15 +62,6 @@ struct OutputSettings: View {
             Toggle("Save with 256 colours when the image has fewer", isOn: store.binding(\.autoReduceColors))
                 .help("An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: "
                     + "the same picture in a smaller file.")
-        }
-    }
-
-    private var messagesSection: some View {
-        Section("Messages") {
-            Toggle("Show a message after saving or copying", isOn: store.binding(\.showNotifications))
-            Picker("Show", selection: store.binding(\.notificationLevel)) {
-                ForEach(NotificationLevel.allCases, id: \.self) { Text($0.displayName).tag($0) }
-            }
         }
     }
 

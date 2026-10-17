@@ -234,7 +234,7 @@ final class ImageSaver {
     func notify(_ message: String, detail: String? = nil, kind: MessageKind = .info, action: (() -> Void)? = nil) {
         let s = settings.value
         guard s.notificationLevel.shows(kind), kind != .info || s.showNotifications else { return }
-        Toast.show(message, detail: detail, action: action)
+        Toast.show(message, detail: detail, kind: kind, action: action)
     }
 }
 

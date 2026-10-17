@@ -25,6 +25,9 @@ public struct ExportResult: Equatable, Sendable {
     public var error: String?
     /// A successful export counts as saved: the editor's unsaved-changes mark goes (upstream `ClearsModified`).
     public var clearsModified: Bool
+    /// The name of the destination which really exported, e.g. the entry picked in the destination picker (upstream
+    /// `ExportResult.ExportedBy`). Set by `OutputManager.perform`; the notification after a capture names it.
+    public var exportedBy: String? = nil
 
     public init(status: Status, fileURL: URL? = nil, link: URL? = nil, target: String? = nil, error: String? = nil,
                 clearsModified: Bool = true) {

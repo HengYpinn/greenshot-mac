@@ -93,7 +93,9 @@ final class HotkeyManager {
         bind(hotkeys.lastRegion, "Capture last region") { [weak capture] in capture?.captureLastRegion() }
         bind(hotkeys.text, "Capture text") { [weak capture] in capture?.captureText() }
         bind(hotkeys.clipboard, "Open clipboard") { [weak editors] in editors?.openClipboard() }
-        let failed = register(combos, actions: actions).map { "\(names[$0]): \(combos[$0].displayString)" }
+        let refused = register(combos, actions: actions)
+        HotkeyDiagnostics.recordRegistration(names: names, combos: combos, refused: refused)
+        let failed = refused.map { "\(names[$0]): \(combos[$0].displayString)" }
         if !failed.isEmpty {
             ErrorPresenter.show(message: "Some hotkeys could not be registered",
                                 detail: failed.joined(separator: "\n") + "\n\nAnother app may use them. Choose others in Settings › General.")

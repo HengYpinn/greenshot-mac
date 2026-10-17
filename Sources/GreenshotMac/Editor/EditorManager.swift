@@ -26,15 +26,21 @@ final class EditorManager {
 
     func open(_ capture: Capture) {
         if settings.value.reuseEditor, let editor = reusableEditor() {
-            editor.show(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
+            editor.show(capture.editorImage, scale: capture.scale, title: capture.title, date: capture.date)
+            editor.addCapturedPointer(of: capture)
             guard let window = editor.window else { return }
             window.makeKeyAndOrderFront(nil)
             window.orderFrontRegardless()
             NSApp.activate()
             return
         }
-        open(EditorDocument(image: capture.image, scale: capture.scale, title: capture.title, captureDate: capture.date))
+        open(EditorDocument(image: capture.editorImage, scale: capture.scale, title: capture.title, captureDate: capture.date))
+        controllers.last?.addCapturedPointer(of: capture)
     }
+
+    /// Opens the editors that were open when the app last quit, logged out or crashed (upstream Restart Manager
+    /// `--restore`). Package F fills it in.
+    func restoreSavedEditors() {}
 
     /// The editor a new capture goes to with "reuse the editor": like upstream `EditorDestination`, the front-most one
     /// without unsaved changes. A capture is unsaved until it is saved or exported, so often every editor has changes:

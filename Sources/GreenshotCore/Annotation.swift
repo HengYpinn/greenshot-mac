@@ -14,6 +14,14 @@ public enum AnnotationKind: String, Codable, CaseIterable, Sendable {
     /// Marks where a strip was cut out of the image: a band across the whole image between two edges
     /// (upstream `CutMarkContainer`).
     case cutMark
+    /// Torn edges of the whole image as an element that can be changed or removed later (upstream `TornEdgeContainer`).
+    case tornEdge
+    /// A picture that stays sharp at any size: the SVG it was made from (upstream `SvgContainer`).
+    case svg
+    /// The mouse pointer of the capture (upstream `CursorContainer`).
+    case cursor
+    /// A generated QR code or barcode, drawn from its `barcode` spec (upstream Zxing plugin `BarcodeContainer`).
+    case barcode
 
     /// Elements that are a box: they get resize handles. Lines and arrows get two end points, freehand none.
     public var isBoxShaped: Bool {
@@ -207,10 +215,13 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
             return AnnotationStyle(lineColor: .blue, fillColor: .white, lineWidth: 2, shadow: false, fontSize: 27, bold: true)
         case .emoji:
             return AnnotationStyle(shadow: false)
-        case .image:
+        case .image, .svg, .cursor:
             // Upstream ImageContainer: only a shadow field, off.
             return AnnotationStyle(lineWidth: 0, shadow: false)
-        case .cutMark:
+        case .barcode:
+            // Upstream BarcodeContainer is an ImageContainer: only a shadow field, off.
+            return AnnotationStyle(lineWidth: 0, shadow: false)
+        case .cutMark, .tornEdge:
             // Upstream CutMarkContainer.InitializeFields.
             return AnnotationStyle(lineColor: .dimGray, fillColor: .clear, lineWidth: 0, shadow: true,
                                    cutMarkStyle: .torn, toothHeight: 12, toothRange: 20)
@@ -232,13 +243,18 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     public var text: String
     /// Where the tail of a speech bubble points (upstream `TargetAdorner`). See `tailTip` for when it is nil.
     public var tail: CGPoint?
-    /// The picture of an image element, as PNG.
+    /// The picture of an image or pointer element as PNG; the SVG text of an SVG element.
     public var imageData: Data?
     /// The random parts of a cut mark's edges; nil takes them from the id.
     public var seed: UInt64?
     /// A cut mark across a vertical cut: it spans the whole height of the image and moves left and right. Nil or
     /// false is a mark across a horizontal cut, spanning the whole width (upstream `CutMarkContainer.IsHorizontal`).
     public var verticalCut: Bool?
+    /// The shadow of a cut mark or torn edges, and which sides torn edges tear with the room outside them for the shadow
+    /// (upstream `CutMarkContainer` / `TornEdgeContainer` private fields). Nil: the torn edge effect's defaults, all sides.
+    public var cutEdges: CutEdgeLayout?
+    /// What a barcode element shows (upstream `BarcodeContainer.Model`, the `ZxingModel` in its `Tag`); nil for other kinds.
+    public var barcode: BarcodeSpec?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
@@ -356,7 +372,9 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
                 return point.y >= 0 && point.x >= band.minX - tolerance / 2 && point.x <= band.maxX + tolerance / 2
             }
             return point.x >= 0 && point.y >= band.minY - tolerance / 2 && point.y <= band.maxY + tolerance / 2
-        case .text, .highlight, .obfuscate, .counter, .emoji, .image:
+        case .tornEdge:
+            return false // package E1 fills this in
+        case .text, .highlight, .obfuscate, .counter, .emoji, .image, .svg, .cursor, .barcode:
             return bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point)
         }
     }
@@ -384,6 +402,8 @@ public enum Handle: CaseIterable, Sendable {
         // A cut mark is only sized across the cut (upstream's top and bottom center grippers, left and right for a
         // vertical cut).
         case .cutMark: return annotation.isVerticalCutMark ? [.left, .right] : [.top, .bottom]
+        // A matrix code keeps its aspect ratio (upstream `BarcodeContainer.GetScaleOptions`: Rational for 2D codes).
+        case .barcode: return annotation.barcodeKeepsAspect ? cornerHandles : boxHandles
         default: return boxHandles
         }
     }
@@ -427,7 +447,8 @@ public enum Handle: CaseIterable, Sendable {
         default:
             break
         }
-        let rect = drag(original.bounds, to: point, keepAspect: keepAspect || original.kind == .emoji || original.kind == .counter,
+        let aspect = keepAspect || original.kind == .emoji || original.kind == .counter || original.barcodeKeepsAspect
+        let rect = drag(original.bounds, to: point, keepAspect: aspect,
                         square: original.kind == .emoji || original.kind == .counter, centered: centered)
         result.start = rect.origin
         result.end = CGPoint(x: rect.maxX, y: rect.maxY)

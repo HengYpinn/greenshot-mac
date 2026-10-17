@@ -37,6 +37,7 @@ extension MainMenu {
         for upload in [CaptureDestination.jira, .confluence, .box, .dropbox] {
             file.addItem(destinationItem(upload.displayName, .destination(upload)))
         }
+        OfficeMenus.fileMenuItems().forEach(file.addItem)
         let openWith = file.addItem(withTitle: "Open With", action: nil, keyEquivalent: "")
         openWith.submenu = NSMenu(title: "Open With")
         openWith.submenu?.delegate = DynamicFileMenus.openWith

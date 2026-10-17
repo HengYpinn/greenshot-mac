@@ -25,6 +25,8 @@ extension MainMenu {
         let windows = NSMenu(title: "Insert Window")
         windows.delegate = WindowInsertMenu.shared
         edit.addItem(withTitle: "Insert Window", action: nil, keyEquivalent: "").submenu = windows
+        // Upstream Plugins › Insert QR / Barcode... (ZxingEditorPlugin).
+        edit.addItem(withTitle: "Insert QR / Barcode…", action: #selector(EditorWindowController.insertBarcode(_:)), keyEquivalent: "")
 
         addObjectMenu(to: main)
     }

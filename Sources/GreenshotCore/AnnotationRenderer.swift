@@ -104,10 +104,14 @@ public enum AnnotationRenderer {
             drawSpeechBubble(a, in: context, scale: scale)
         case .emoji:
             drawEmoji(a, in: context, scale: scale)
-        case .image:
+        case .image, .cursor:
             drawPicture(a, in: context, scale: scale)
         case .cutMark:
             drawCutMark(a, in: context, scale: scale)
+        case .tornEdge, .svg:
+            break // package E1 fills these in
+        case .barcode:
+            drawBarcode(a, in: context, scale: scale)
         }
     }
 

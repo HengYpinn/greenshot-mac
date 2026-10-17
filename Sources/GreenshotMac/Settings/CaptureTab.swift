@@ -198,24 +198,3 @@ private struct TextRecognitionSettings: View {
 }
 
 /// Upstream `NotificationLevel`. "None" also turns off "Show a message after saving or copying".
-private struct NotificationSettings: View {
-    @ObservedObject var store: SettingsStore
-
-    var body: some View {
-        Section("Messages") {
-            Picker("Show messages", selection: level) {
-                ForEach(NotificationLevel.allCases, id: \.self) { Text($0.displayName).tag($0) }
-            }
-        }
-    }
-
-    private var level: Binding<NotificationLevel> {
-        Binding(get: { store.value.showNotifications ? store.value.notificationLevel : .none },
-                set: { newValue in
-                    store.update { values in
-                        values.notificationLevel = newValue
-                        values.showNotifications = newValue != .none
-                    }
-                })
-    }
-}
