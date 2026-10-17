@@ -32,7 +32,7 @@ extension EditorDocument {
         guard let pointer, let element = Annotation.pointer(pointer, documentScale: scale, imageSize: imageSize) else {
             return nil
         }
-        add(element)
+        addOpened([element])
         return element.id
     }
 }
