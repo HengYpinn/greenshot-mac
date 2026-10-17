@@ -31,8 +31,10 @@ All notable changes to this project are documented here. The format follows
   docs/admin.
 - Recipes engine, without a user interface yet: recipe files load and validate as upstream's do and run as flows with
   branches, joins, conditions and error routes, with expressions such as `${now:yyyy-MM-dd}`. A recipe file runs only
-  after you approve that exact content; approvals are signed, and a changed file is asked about again. Image effects,
-  OCR, QR/barcode scanning, text effects and annotations already work as steps.
+  after you approve that exact content; approvals are signed, and a changed file is asked about again. A command, file,
+  folder or destination the recipe decides only when it runs needs its permission too. Files over 1 MB or with more
+  than 200 steps, and very long or deeply nested expressions, are refused. Image effects, OCR, QR/barcode scanning,
+  text effects and annotations already work as steps.
 
 - Notifications: after a capture, one macOS notification lists where it went, with a thumbnail. Click it within an
   hour to send the capture somewhere else (also after a restart); Edit, Show in Finder and Copy Link buttons; QR codes
