@@ -407,18 +407,37 @@ public final class RecipeLibrary {
 
     /// Before a run: the recipe as it may run (its file still approved, or approved again), nil when not
     /// (upstream `EnsureRecipeApprovedAndUpToDateAsync`). The runner's `preflight`.
+    ///
+    /// The recipe handed in may be a copy (the editor's Test Run of unsaved changes, or a file opened in the editor that
+    /// reuses the id of an approved recipe or a built-in): it runs only when each of its gated actions is an action of
+    /// the approved version too (the loaded recipe, else the built-in, else none at all). Security review S-M2, R-F12.
     public func ensureApprovedAndCurrent(_ recipe: CaptureRecipe) async -> CaptureRecipe? {
-        guard let loaded = fileRecipes[recipe.id.lowercased()], let url = loaded.fileURL else { return recipe }
+        guard let loaded = fileRecipes[recipe.id.lowercased()], let url = loaded.fileURL else {
+            return runnable(recipe, approvedVersion: builtIns[recipe.id.lowercased()])
+        }
         guard let data = RecipeFileReader.data(url) else {
             log.warn("Recipe file '\(url.path)' no longer exists or can't be read.")
             return nil
         }
         let hash = RecipeHash.sha256Hex(data)
-        if trustStore.approval(forFile: url.path, sha256: hash, recipeId: recipe.id) != nil { return recipe }
+        if trustStore.approval(forFile: url.path, sha256: hash, recipeId: recipe.id) != nil {
+            return runnable(recipe, approvedVersion: loaded.recipe)
+        }
         log.info("Recipe file '\(url.path)' was changed or isn't approved; asking before it runs.")
         let result = await loadFile(url, interactive: true)
         guard result.isValid else { return nil }
         return fileRecipes[recipe.id.lowercased()]?.recipe
+    }
+
+    /// `recipe` when it is the approved version, or a copy without gated actions beyond it; nil (logged) otherwise.
+    private func runnable(_ recipe: CaptureRecipe, approvedVersion: CaptureRecipe?) -> CaptureRecipe? {
+        if let approvedVersion, recipe == approvedVersion { return recipe }
+        let changes = RecipeGates.unapprovedChanges(of: recipe, comparedWith: approvedVersion, contracts: contracts, environment: gates())
+        guard changes.isEmpty else {
+            log.warn("Recipe '\(recipe.id)' was not run: this copy does what its approved version doesn't (\(changes.joined(separator: "; "))). Save it to approve it.")
+            return nil
+        }
+        return recipe
     }
 
     // MARK: Saving
@@ -860,3 +879,45 @@ public final class RecipeLibrary {
 }
 
 private let log = Log("Recipes")
+
+/// The preflight's comparison of a copy with its approved version (`RecipeLibrary.ensureApprovedAndCurrent`).
+extension RecipeGates {
+    /// Every gated action of the recipe's nodes, as the validator collects them.
+    static func actions(of recipe: CaptureRecipe, contracts: StepContractCatalog, environment: GateEnvironment) -> [RecipeGatedAction] {
+        let variables = variablesSet(by: recipe, contracts: contracts)
+        var result: [RecipeGatedAction] = []
+        for node in recipe.nodes {
+            guard let contract = contracts.contract(for: node.stepType) else { continue }
+            for action in actions(of: node, contract: contract, environment: environment, recipeSets: variables)
+            where !result.contains(action) {
+                result.append(action)
+            }
+        }
+        return result
+    }
+
+    /// What `recipe` does with permissions that `approved` doesn't (empty: it may run under the approval of `approved`):
+    /// - a gated action `approved` lacks: same kind and exactly the same target text, so another command line, folder or
+    ///   upload target is another action (case counts, as it may on disk);
+    /// - a node with gated actions whose step and parameters aren't those of a node of `approved`, so other arguments, a
+    ///   working folder or a file format of the same program count too.
+    /// Each entry is a line for the log.
+    static func unapprovedChanges(of recipe: CaptureRecipe, comparedWith approved: CaptureRecipe?, contracts: StepContractCatalog,
+                                  environment: GateEnvironment) -> [String] {
+        let allowed = approved.map { actions(of: $0, contracts: contracts, environment: environment) } ?? []
+        let describer = RecipeDescriber(contracts: contracts, gates: environment)
+        var changes: [String] = []
+        for action in actions(of: recipe, contracts: contracts, environment: environment)
+        where !allowed.contains(where: { $0.gateType == action.gateType && $0.target == action.target }) {
+            changes.append(describer.describe(action))
+        }
+        let variables = variablesSet(by: recipe, contracts: contracts)
+        for node in recipe.nodes {
+            guard let contract = contracts.contract(for: node.stepType),
+                  !actions(of: node, contract: contract, environment: environment, recipeSets: variables).isEmpty else { continue }
+            let same = approved?.nodes.contains { recipeEquals($0.stepType, node.stepType) && $0.parameters == node.parameters } ?? false
+            if !same { changes.append("node '\(node.id)' (\(node.stepType)) differs from the approved recipe") }
+        }
+        return changes
+    }
+}
