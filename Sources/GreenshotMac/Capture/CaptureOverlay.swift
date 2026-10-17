@@ -46,6 +46,18 @@ final class CaptureOverlayController {
 
     private static var active: CaptureOverlayController?
 
+    /// The capture screen is open (the direct captures and the recipe runner allow one at a time).
+    static var isShowing: Bool { active != nil }
+
+    /// Brings the open capture screen to the front: a second interactive recipe started while it shows (upstream
+    /// `CaptureFlowRunner` brings the selection forward). Like `show()`, without activating the app.
+    static func bringToFront() {
+        guard let active, !active.overlayWindows.isEmpty else { return }
+        active.overlayWindows.forEach { $0.orderFrontRegardless() }
+        let underCursor = active.overlayWindows.first { $0.frozen.frame.contains(active.cursor) }
+        (underCursor ?? active.overlayWindows[0]).makeKeyAndOrderFront(nil)
+    }
+
     /// Shows the capture screen and returns the selection, or nil when it was cancelled.
     /// `screens` is the picture without the mouse pointer, `pointerScreens` the one with it (for M).
     static func select(screens: [FrozenScreen], pointerScreens: [FrozenScreen]?, windows: [WindowInfo], mode: Mode,

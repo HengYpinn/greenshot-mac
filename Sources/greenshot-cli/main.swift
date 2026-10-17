@@ -37,55 +37,6 @@ var version: String {
     return value
 }
 
-/// Starts the app: the bundle this tool belongs to (`open -g`: in the background), or for a bare `swift build` the
-/// GreenshotMac next to it, in a session of its own so it outlives the terminal.
-func launchApp() -> Bool {
-    if let bundle = endpoint.appBundlePath {
-        let open = Process()
-        open.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-        open.arguments = ["-g", "-a", bundle, "--args", "--background"]
-        open.standardOutput = FileHandle.nullDevice
-        open.standardError = FileHandle.nullDevice
-        do {
-            try open.run()
-        } catch {
-            return false
-        }
-        open.waitUntilExit()
-        return open.terminationStatus == 0
-    }
-    let app = ((executable as NSString).deletingLastPathComponent as NSString).appendingPathComponent("GreenshotMac")
-    guard FileManager.default.isExecutableFile(atPath: app) else { return false }
-    var attributes: posix_spawnattr_t?
-    posix_spawnattr_init(&attributes)
-    posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETSID))
-    var actions: posix_spawn_file_actions_t?
-    posix_spawn_file_actions_init(&actions)
-    for fd in [STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO] {
-        posix_spawn_file_actions_addopen(&actions, fd, "/dev/null", fd == STDIN_FILENO ? O_RDONLY : O_WRONLY, 0)
-    }
-    defer {
-        posix_spawn_file_actions_destroy(&actions)
-        posix_spawnattr_destroy(&attributes)
-    }
-    var pid: pid_t = 0
-    let argv: [UnsafeMutablePointer<CChar>?] = [strdup(app), strdup("--background"), nil]
-    defer { argv.forEach { free($0) } }
-    return posix_spawn(&pid, app, &actions, &attributes, argv, environ) == 0
-}
-
-/// Upstream `ConnectOrColdStart`: one client at a time starts the app (others wait for the lock and then find it
-/// running), then waits up to 10 seconds for its socket.
-func connectOrStartApp() -> IPCClient? {
-    if let client = try? IPCClient.connect(to: endpoint.socketPath) { return client }
-    let lock = IPCFileLock.wait(endpoint.coldStartLockURL, timeout: 8)
-    defer { lock?.release() }
-    // Another client may have started the app while this one waited
-    if let client = IPCClient.connect(to: endpoint.socketPath, waitingUpTo: 1) { return client }
-    guard launchApp() else { return nil }
-    return IPCClient.connect(to: endpoint.socketPath, waitingUpTo: 10, interval: 0.25)
-}
-
 let first = arguments.first?.lowercased()
 if first == nil || first == "--help" || first == "-h" {
     let usage = IPCCommandLine.cliUsage(installedPath: endpoint.appBundlePath == nil ? nil : executable)
@@ -104,7 +55,7 @@ if let client = try? IPCClient.connect(to: endpoint.socketPath) {
 } else if !IPCClient.startsApp(for: arguments) {
     // --exit and --reload: nothing to do when the app isn't running
     exit(IPCExitCode.ok)
-} else if let client = connectOrStartApp() {
+} else if let client = IPCAppLauncher.connectOrStart(endpoint: endpoint, executable: executable) {
     connection = client
 } else {
     fail(json: json, code: IPCExitCode.unavailable, "Error: Greenshot for Mac is not running and could not be started.")

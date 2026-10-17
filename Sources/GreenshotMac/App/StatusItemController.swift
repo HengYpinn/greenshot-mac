@@ -157,6 +157,8 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         app.video.addMenuItems(to: menu)
 
         menu.addItem(.separator())
+        // Upstream TrayMenu.cs: the Recipes submenu (RUI) after the window list, before the clipboard; none with recipes off.
+        if let recipes = RecipeMenus.statusMenuItem(app: app) { menu.addItem(recipes) }
         let clipboard = item("Open Image from Clipboard", hotkeys.clipboard) { [unowned app] in app.editors.openClipboard() }
         clipboard.isEnabled = NSImage.canInit(with: .general)
         menu.addItem(clipboard)
@@ -276,6 +278,8 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         if !store.isLocked(\.showNotifications) && !store.isLocked(\.notificationLevel) {
             menu.addItem(toggle("Show Notifications", s.showNotifications) { store.update { $0.showNotifications.toggle() } })
         }
+        // Upstream `AddRecipeQuickSettings`: the automatic steps' switches come last (RMANAGER).
+        RecipeQuickSettingsMenu.append(to: menu, store: store)
         trimSeparators(menu)
         guard !menu.items.isEmpty else { return nil }
 

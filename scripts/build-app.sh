@@ -33,9 +33,10 @@ for arch in ${ARCHS:-}; do args+=(--arch "$arch"); done
 # A multi-arch build uses another build system; its own folder keeps `swift test` in .build working.
 SCRATCH=.build
 if [[ -n "${ARCHS:-}" ]]; then SCRATCH=.build/universal; args+=(--scratch-path "$SCRATCH"); fi
-# The app and greenshot-cli, its command line tool.
+# The app, greenshot-cli (its command line tool) and the browser extension's native messaging host.
 swift build "${args[@]}" --product GreenshotMac
 swift build "${args[@]}" --product greenshot-cli
+swift build "${args[@]}" --product greenshot-native-host
 BIN_DIR="$(swift build "${args[@]}" --show-bin-path)"
 
 if [[ ! -f Resources/AppIcon.icns ]]; then
@@ -49,9 +50,12 @@ rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Helpers" "$APP/Contents/Resources"
 cp "$BIN_DIR/GreenshotMac" "$APP/Contents/MacOS/GreenshotMac"
 cp "$BIN_DIR/greenshot-cli" "$APP/Contents/Helpers/greenshot-cli"
+cp "$BIN_DIR/greenshot-native-host" "$APP/Contents/Helpers/greenshot-native-host"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 # The AppleScript dictionary (Info.plist OSAScriptingDefinition).
 cp Resources/GreenshotMac.sdef "$APP/Contents/Resources/GreenshotMac.sdef"
+# The browser extension, for Settings › Expert › Browser extension › Show Extension Folder.
+if [[ -d Extensions/Browser ]]; then ditto Extensions/Browser "$APP/Contents/Resources/BrowserExtension"; fi
 sed -e "s/__VERSION__/$VERSION/g" -e "s/__BUILD__/$BUILD_NUMBER/g" -e "s/__BUNDLE_ID__/$BUNDLE_ID/g" \
   Resources/Info.plist > "$APP/Contents/Info.plist"
 plutil -lint "$APP/Contents/Info.plist" >/dev/null
@@ -122,6 +126,7 @@ extract_app_intents
 
 # Nested code is signed first (inside out), with its own identifier; then the bundle seals it.
 codesign --force --options runtime --identifier "$BUNDLE_ID.cli" --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/greenshot-cli"
+codesign --force --options runtime --identifier "$BUNDLE_ID.nativehost" --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/greenshot-native-host"
 # The hardened runtime needs the Apple Events entitlement for the Office, Mail and Notes destinations.
 codesign --force --options runtime --entitlements "$ROOT/Resources/GreenshotMac.entitlements" --sign "$SIGN_IDENTITY" "$APP"
 echo "Built $APP (signed: $([[ "$SIGN_IDENTITY" == "-" ]] && echo "ad hoc" || echo "$SIGN_IDENTITY"))"

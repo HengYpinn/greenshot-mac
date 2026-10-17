@@ -57,6 +57,7 @@ public enum ManagedSettingKeys {
         addOffice(to: &t)
         addVideo(to: &t)
         addRecipes(to: &t)
+        addAITools(to: &t)
         addDropShadowSettings(to: &t)
         addTornEdgeSettings(to: &t)
         addTextObfuscation(to: &t)
@@ -88,6 +89,8 @@ public enum ManagedSettingKeys {
         t.group("video", \AppSettings.video)
         t.group("recipes", \AppSettings.recipes)
         t.add("automationAllowCaptureLinks", \AppSettings.automationAllowCaptureLinks)
+        t.group("aiTools", \AppSettings.aiTools)
+        t.add("browserExtensionEnabled", \AppSettings.browserExtensionEnabled)
         t.add("disableSettings", \AppSettings.disableSettings)
         t.add("disableQuickSettings", \AppSettings.disableQuickSettings)
         t.add("hideExpertSettings", \AppSettings.hideExpertSettings)
@@ -201,6 +204,14 @@ public enum ManagedSettingKeys {
         t.add("recipes.files", \AppSettings.recipes.files)
         t.add("recipes.disabledRecipeIds", \AppSettings.recipes.disabledRecipeIds)
         t.add("recipes.optionValues", \AppSettings.recipes.optionValues)
+    }
+
+    private static func addAITools(to t: inout Table) {
+        t.add("aiTools.enabled", \AppSettings.aiTools.enabled)
+        t.add("aiTools.allowRecipeProposals", \AppSettings.aiTools.allowRecipeProposals)
+        t.add("aiTools.allowedClients", \AppSettings.aiTools.allowedClients)
+        t.add("aiTools.excludedApplications", \AppSettings.aiTools.excludedApplications)
+        t.add("aiTools.notifyOnCapture", \AppSettings.aiTools.notifyOnCapture)
     }
 
     private static func addDropShadowSettings(to t: inout Table) {

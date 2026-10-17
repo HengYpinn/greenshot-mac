@@ -165,6 +165,8 @@ final class SettingsStore: ObservableObject {
         let current = value.incrementingNumber
         return FilenamePattern.Context(
             captureTime: date, title: title, environment: ProcessInfo.processInfo.environment,
-            nextNumber: consumeNumber ? { [weak self] in self?.nextIncrementingNumber() ?? current + 1 } : { current + 1 })
+            nextNumber: consumeNumber ? { [weak self] in self?.nextIncrementingNumber() ?? current + 1 } : { current + 1 },
+            // `${url}`, `${browser}`, `${Browser.*}` of a capture from the browser extension (BROWSER).
+            metadata: CaptureMetadataStore.shared.patternMetadata(forCaptureAt: date))
     }
 }

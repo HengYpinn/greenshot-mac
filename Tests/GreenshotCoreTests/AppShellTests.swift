@@ -20,14 +20,18 @@ struct SettingsPaneTests {
 
     @Test func tabsWithoutAMacTab() {
         #expect(SettingsPane(name: "plugins") == nil)
-        #expect(SettingsPane(name: "recipes") == nil)
+        #expect(SettingsPane(name: "recipes") == .recipes)
+        #expect(SettingsPane(name: "AI-Tools") == .aiTools)
+        #expect(SettingsPane(name: "mcp") == .aiTools)
         #expect(SettingsPane(name: "") == nil)
     }
 
     @Test func numberedLikeTheWindowsTabs() {
-        #expect(SettingsPane.allCases.map(\.rawValue) == Array(0...7))
+        #expect(SettingsPane.allCases.map(\.rawValue) == Array(0...9))
         #expect(SettingsPane.expert.rawValue == 6)
         #expect(SettingsPane.video.rawValue == 7)
+        #expect(SettingsPane.recipes.rawValue == 8)
+        #expect(SettingsPane.aiTools.rawValue == 9)
     }
 }
 

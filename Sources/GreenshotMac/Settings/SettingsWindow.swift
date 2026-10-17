@@ -102,7 +102,8 @@ struct SettingsView: View {
                 TabView(selection: $navigation.tab) { tabs }
             }
         }
-        .frame(width: 620, height: 600)
+        // Ten tabs: their names need about 700 pt.
+        .frame(width: 760, height: 600)
         .padding(.vertical, 8)
         // The administrator's locks for `.managed(\.keyPath)` on every tab.
         .environment(\.managedPolicy, store.policy)
@@ -116,6 +117,8 @@ struct SettingsView: View {
         DestinationsSettings(store: store).tabItem { Label("Destinations", systemImage: "paperplane") }.tag(SettingsPane.destinations.rawValue)
         EditorSettings(store: store).tabItem { Label("Editor", systemImage: "pencil.and.outline") }.tag(SettingsPane.editor.rawValue)
         PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(SettingsPane.printer.rawValue)
+        RecipesSettingsTab(store: store).tabItem { Label("Recipes", systemImage: "list.bullet.rectangle") }.tag(SettingsPane.recipes.rawValue)
+        AIToolsSettingsTab(store: store).tabItem { Label("AI Tools", systemImage: "sparkles") }.tag(SettingsPane.aiTools.rawValue)
         if !store.value.hideExpertSettings {
             ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(SettingsPane.expert.rawValue)
         }

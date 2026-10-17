@@ -240,8 +240,10 @@ public final class RecipeFlowContext: @unchecked Sendable {
         let values = optionValues
         return ExpressionScope(variables: snapshot.variables, payload: snapshot.payload?.metrics,
                                option: { key in
-                                   guard let option = recipe.option(key) else { return nil }
-                                   return (value: values.value(of: option, recipeId: recipe.id), isTemplate: option.isTemplate)
+                                   // `option.<key>` of the recipe, or of an automatic step it was composed with (RMANAGER).
+                                   guard let resolved = RecipeComposer.resolveOption(key, in: recipe) else { return nil }
+                                   return (value: values.value(of: resolved.option, recipeId: resolved.ownerId),
+                                           isTemplate: resolved.option.isTemplate)
                                },
                                extraVariables: extraVariables, recipeId: recipe.id, recipeName: recipe.name,
                                executionId: executionId.uuidString, state: snapshot.state.rawValue, abortReason: snapshot.abortReason)

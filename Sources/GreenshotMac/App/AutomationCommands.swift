@@ -40,7 +40,8 @@ enum AutomationCommands {
             app.showWelcome()
             return .ok("First launch completed.")
         }
-        on(IPCCommand.openFile) { openFiles($0, $1) }
+        // Async: the recipes of OpenFile triggers may run first (RUI's RecipeOpenFileTrigger).
+        table.register(IPCCommand.openFile) { [app] context in await openFiles(app, context) }
         on(IPCCommand.reloadConfig) { app, _ in
             // Upstream ReloadConfig: read the configuration again and register the hotkeys again. Settings that can't be
             // read change nothing; the CLI says why and exits with 1.
@@ -67,6 +68,8 @@ enum AutomationCommands {
         table.registerUnavailable([IPCCommand.runRecipe, IPCCommand.listRecipes, IPCCommand.describeRecipe,
                                    IPCCommand.recipeEditor, IPCCommand.recipeManager],
                                   message: IPCCommandLine.recipesUnavailable)
+        // The browser extension's commands, for the native messaging host only (BROWSER).
+        BrowserExtensionCommands.register(in: table, app: app)
     }
 
     /// Upstream `HandleVersionAsync`.
@@ -88,7 +91,7 @@ enum AutomationCommands {
     /// AppleScript and Shortcuts: one refused path refuses the request. Finder, the Dock and the Services menu: the
     /// files that pass open, an image the editor reads passes whatever its extension, and the reply names the refused
     /// ones (`refused`). Wave 4 runs the recipes of OpenFile triggers here.
-    private static func openFiles(_ app: AppDelegate, _ context: IPCReplyContext) -> IPCReply {
+    private static func openFiles(_ app: AppDelegate, _ context: IPCReplyContext) async -> IPCReply {
         let raw = context.envelope.files
         guard !raw.isEmpty else { return .error("OPEN_FILE rejected: No file path provided.") }
         let lenient = context.source == .openWith || context.source == .services
@@ -97,11 +100,15 @@ enum AutomationCommands {
         for refusal in batch.refused {
             Log("Automation").warn("[SECURITY] OPEN_FILE rejected '\(DiagnosticReport.abbreviatingHome(refusal.path))': \(refusal.message)")
         }
-        batch.accepted.forEach(app.editors.open(fileURL:))
+        // The recipes of OpenFile triggers take the files; nil: no recipe has one, the editor opens them.
+        var recipeReply: IPCReply?
+        if !batch.accepted.isEmpty { recipeReply = await RecipeOpenFileTrigger.open(batch.accepted, app: app) }
+        if recipeReply == nil { batch.accepted.forEach(app.editors.open(fileURL:)) }
         if !lenient, let refusal = batch.refused.first { return .error("OPEN_FILE rejected: \(refusal.message)") }
-        guard !batch.refused.isEmpty else { return .ok("Opened \(batch.accepted.count) file(s).") }
+        let opened = "Opened \(batch.accepted.count) file(s)."
+        guard !batch.refused.isEmpty else { return recipeReply ?? .ok(opened) }
         let stderr = batch.refused.map { "OPEN_FILE rejected '\($0.path)': \($0.message)" }.joined(separator: "\n")
-        return IPCReply(status: "error", exitCode: IPCExitCode.failure, stdout: "Opened \(batch.accepted.count) file(s).",
+        return IPCReply(status: "error", exitCode: IPCExitCode.failure, stdout: recipeReply?.stdout ?? opened,
                         stderr: stderr, extra: ["refused": .array(batch.refused.map { .string($0.path) })])
     }
 

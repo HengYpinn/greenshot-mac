@@ -30,6 +30,9 @@ enum MainMenu {
 
         addImageMenu(to: main)
 
+        // The editor's Recipes menu (RUI), upstream's order File, Edit, Object, Recipes.
+        RecipeMenus.addEditorMenu(to: main)
+
         addViewMenu(to: main)
 
         let window = submenu(in: main, title: "Window")

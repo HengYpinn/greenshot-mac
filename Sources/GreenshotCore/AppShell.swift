@@ -8,9 +8,10 @@ import Foundation
 /// The tabs of Settings, numbered like the window's tabs, found by upstream's names for them
 /// (`Greenshot/Settings/Views/SettingsWindow.xaml.cs` `SelectTab`, used by `greenshot://settings?tab=`).
 public enum SettingsPane: Int, CaseIterable, Sendable {
-    case general, capture, output, destinations, editor, printer, expert, video
+    case general, capture, output, destinations, editor, printer, expert, video, recipes, aiTools
 
-    /// Upstream's tab names and their aliases, any case; nil for a name without a tab here (plugins, recipes).
+    /// Upstream's tab names and their aliases, any case; nil for a name without a tab here (plugins). Upstream has no
+    /// name for its AI tools tab; the Mac's are its own.
     public init?(name: String) {
         switch name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
         case "general": self = .general
@@ -21,6 +22,8 @@ public enum SettingsPane: Int, CaseIterable, Sendable {
         case "printer", "print": self = .printer
         case "expert", "expertsettings": self = .expert
         case "video", "videos", "recording", "screenrecording": self = .video
+        case "recipes", "recipe": self = .recipes
+        case "aitools", "ai-tools", "ai_tools", "ai", "mcp": self = .aiTools
         default: return nil
         }
     }

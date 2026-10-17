@@ -48,6 +48,12 @@ enum Snapshots {
         try renderVideoExtras(to: folder, sample: sample, settings: settings)
         try renderAutomationExtras(to: folder, sample: sample, settings: settings)
         try renderAdminExtras(to: folder, sample: sample, settings: settings)
+        try renderRecipeStepExtras(to: folder, sample: sample, settings: settings)
+        try renderRecipeUIExtras(to: folder, sample: sample, settings: settings)
+        try renderRecipeEditorExtras(to: folder, sample: sample, settings: settings)
+        try renderRecipeManagerExtras(to: folder, sample: sample, settings: settings)
+        try renderAIToolsExtras(to: folder, sample: sample, settings: settings)
+        try renderBrowserExtras(to: folder, sample: sample, settings: settings)
         if let editorDocument {
             try ImageExporter.write(editorDocument.flattened(), to: folder.appendingPathComponent("editor-export.png"), format: .png,
                                     scale: editorDocument.scale)

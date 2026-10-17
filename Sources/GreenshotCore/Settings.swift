@@ -264,6 +264,11 @@ public struct AppSettings: Codable, Equatable, Sendable {
     /// Mac-only: greenshotmac://capture/… and greenshotmac://clipboard links (from web pages, Alfred, Raycast) may take a
     /// screenshot or open the clipboard; off, as any web page can open a link.
     public var automationAllowCaptureLinks = false
+    /// AI tools: greenshot-mcp, consent, excluded applications (Settings › AI Tools; upstream ICoreConfiguration AiTools*).
+    public var aiTools = AIToolsSettings()
+    /// The browser extension may connect (Settings › Expert › Browser extension). Off: every request of the native
+    /// messaging host is refused and the host can't be installed. Mac only (an administrator's off switch).
+    public var browserExtensionEnabled = true
 
     // Admin policy (upstream `ICoreConfiguration.DisableSettings`, `DisableQuickSettings`, `HideExpertSettings`,
     // `ExcludeDestinations`): no controls; set by a configuration profile, see docs/admin. Forced values are never saved.
@@ -306,7 +311,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case hotkeys, destinations, captureMousePointer, interactiveWindowCapture, includeWindowShadow, captureDelayMilliseconds
         case windowCaptureSelectsAreas, toneMapHDRCaptures, showNotificationThumbnail, welcomeShown
         case office, allowedUntrustedCertificateHosts, allowedCertificateThumbprints
-        case video, recipes, automationAllowCaptureLinks
+        case video, recipes, automationAllowCaptureLinks, aiTools, browserExtensionEnabled
         case disableSettings, disableQuickSettings, hideExpertSettings, excludeDestinations
         case playCameraSound, notificationSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
         case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
@@ -344,6 +349,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         video = value(.video, d.video)
         recipes = value(.recipes, d.recipes)
         automationAllowCaptureLinks = value(.automationAllowCaptureLinks, d.automationAllowCaptureLinks)
+        aiTools = value(.aiTools, d.aiTools)
+        browserExtensionEnabled = value(.browserExtensionEnabled, d.browserExtensionEnabled)
         disableSettings = value(.disableSettings, d.disableSettings)
         disableQuickSettings = value(.disableQuickSettings, d.disableQuickSettings)
         hideExpertSettings = value(.hideExpertSettings, d.hideExpertSettings)

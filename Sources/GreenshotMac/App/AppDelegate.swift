@@ -15,6 +15,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private(set) lazy var output = OutputManager(settings: settings, saver: saver, editors: editors)
     private(set) lazy var capture = CaptureCoordinator(settings: settings, output: output)
     private(set) lazy var video = VideoRecordingController(settings: settings, saver: saver)
+    /// The recipes: library, step executors, runner, trigger hub, approvals (RSTEPS). Started at launch; code that must
+    /// also work without it (windows, `--snapshot`, hooks) asks `RecipeRuntime.shared`, nil until started.
+    private(set) lazy var recipes = RecipeRuntime(app: self)
     private let hotkeys = HotkeyManager()
     private var statusItem: StatusItemController?
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
@@ -55,6 +58,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         AuxiliaryWindows.onChange = { [weak self] in self?.updateDockIcon() }
         updateDockIcon()
         NSApp.mainMenu = MainMenu.make()
+        // Before the menu bar icon, the hotkeys and the automation, which use the recipes. The approval sheet and the
+        // automatic steps are wired before the recipe files load (that waits until this method returns).
+        recipes.start()
+        RecipeAppUI.start(app: self)
+        RecipeAutomaticSteps.install(on: recipes)
         statusItem = StatusItemController(app: self)
         settings.onHotkeysChange = { [weak self] in self?.registerHotkeys() }
         settings.onDockChange = { [weak self] in self?.updateDockIcon() }
@@ -122,6 +130,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        recipes.shutdown()
         automation.shutdown()
         statusItem?.showIconForNextLaunch()
         log.info("Exiting")

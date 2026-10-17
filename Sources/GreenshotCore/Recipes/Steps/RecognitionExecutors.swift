@@ -21,7 +21,12 @@ struct ProcessorsExecutor: RecipeStepExecutor {
         let ids = step.strings("ProcessorIds") ?? []
         let explicit = recipeEquals(mode, "OCR") || ids.contains { $0.lowercased().contains("ocr") }
             || (recipeEquals(mode, "Selected") && (step.bool("RunOcr") ?? true))
-        let fromSettings = mode.isEmpty && ids.isEmpty && context.environment.configValue("alwaysRunOCROnCapture")?.asBool == true
+        // Upstream filters the processors by `Timing` (ProcessorExecutionStep.cs): the OCR processor is PreSelection, which
+        // on the Mac is the capture screen's own recognition, so the settings path runs only for Timing Any (or none).
+        let timing = step.string("Timing")?.trimmingCharacters(in: .whitespaces) ?? ""
+        let anyTiming = timing.isEmpty || recipeEquals(timing, "Any")
+        let fromSettings = mode.isEmpty && ids.isEmpty && anyTiming
+            && context.environment.configValue("alwaysRunOCROnCapture")?.asBool == true
         guard explicit || fromSettings else {
             context.log("Processors: nothing to run.")
             return

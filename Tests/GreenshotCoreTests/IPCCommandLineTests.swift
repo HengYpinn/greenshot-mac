@@ -249,7 +249,7 @@ struct AutomationLinksTests {
 
     @Test func noOrUnknownTabKeepsTheLastOne() {
         #expect(AutomationLinks.settingsPane(tab: nil, plugin: nil) == nil)
-        #expect(AutomationLinks.settingsPane(tab: "recipes", plugin: nil) == nil)
+        #expect(AutomationLinks.settingsPane(tab: "recipes", plugin: nil) == .recipes)
         #expect(AutomationLinks.settingsPane(tab: "nonsense", plugin: " ") == nil)
     }
 }

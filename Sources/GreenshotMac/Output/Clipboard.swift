@@ -33,12 +33,14 @@ enum Clipboard {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.writeObjects([item])
+        OwnPasteboardWrites.recordWrite(pasteboard)
     }
 
     static func copy(text: String) {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
+        OwnPasteboardWrites.recordWrite(pasteboard)
     }
 
     /// The image on the clipboard at its full resolution, with its pixels per point, upright: a copied image file,

@@ -14,7 +14,7 @@ public enum AutomationLinks {
 
     /// The tab of `settings?tab=<tab>&plugin=<name>`: upstream's tab names; `plugins`, a plugin name (also as the tab,
     /// "an unknown tab name is taken as a plugin name") and `plugin=` go to Destinations. Nil (the tab shown last) for
-    /// none or an unknown name, e.g. `recipes` before the recipe tab exists.
+    /// none or an unknown name.
     public static func settingsPane(tab: String?, plugin: String?) -> SettingsPane? {
         if let plugin, !plugin.trimmingCharacters(in: .whitespaces).isEmpty { return .destinations }
         guard let tab = tab?.trimmingCharacters(in: .whitespaces), !tab.isEmpty else { return nil }

@@ -52,6 +52,9 @@ final class AutomationCenter {
         guard AutomationStartup.instanceLock != nil else { return }
         var configuration = IPCServer.Configuration(socketPath: AutomationStartup.endpoint.socketPath)
         configuration.verifier = AutomationPeerVerifier.make(hostExecutable: IPCEndpoint.currentExecutablePath)
+        // greenshot-cli, greenshot-mcp (AI tools) and the browser extension's native messaging host; the peer policy
+        // decides which program may say which.
+        configuration.acceptedSources = [.cli, .mcp, .nativeMessaging]
         let server = IPCServer(configuration: configuration, dispatcher: dispatcher)
         do {
             try server.start()

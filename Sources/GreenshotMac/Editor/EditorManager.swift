@@ -69,7 +69,7 @@ final class EditorManager {
     /// without unsaved changes. A capture is unsaved until it is saved or exported, so often every editor has changes:
     /// then the front one asks to save first instead of opening another window (upstream would); Cancel opens a new
     /// editor.
-    private func reusableEditor() -> EditorWindowController? {
+    func reusableEditor() -> EditorWindowController? {
         let editors = editorsFrontToBack()
         for editor in editors {
             editor.canvas.commitEditing()
@@ -127,6 +127,7 @@ final class EditorManager {
     /// Opens the image on the clipboard; for a copied web page part, the image it shows is downloaded first (upstream
     /// `ClipboardHelper` reads `<img src>` from the HTML on the clipboard).
     func openClipboard() {
+        if RecipeRuntime.shared?.interceptBuiltIn(.clipboard) == true { return }
         if let pasted = Clipboard.image() {
             open(EditorDocument(image: pasted.image, scale: pasted.scale, title: "Clipboard"))
             return
@@ -186,7 +187,7 @@ final class EditorManager {
     }
 
     @discardableResult
-    private func open(_ document: EditorDocument) -> EditorWindowController {
+    func open(_ document: EditorDocument) -> EditorWindowController {
         let controller = EditorWindowController(document: document, settings: settings, saver: saver) { [weak self] closed in
             self?.controllers.removeAll { $0 === closed }
             self?.sessions.forget(closed.editorDocument.id)
@@ -231,6 +232,11 @@ final class EditorManager {
     private func stopFollowingSpaceSwitch() {
         if let spaceObserver { NSWorkspace.shared.notificationCenter.removeObserver(spaceObserver) }
         spaceObserver = nil
+    }
+
+    /// The document of the open editor with `id` (the recipe editor's annotation import); nil when it was closed.
+    func document(for id: UUID) -> EditorDocument? {
+        controllers.first { $0.editorDocument.id == id }?.editorDocument
     }
 
     /// The open editors, sorted by title like upstream's `ImageEditorForm.Editors`.

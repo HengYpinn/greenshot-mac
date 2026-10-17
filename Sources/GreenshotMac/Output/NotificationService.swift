@@ -127,6 +127,8 @@ final class NotificationService {
                     log.info("The capture of the clicked notification is gone (kept for an hour).")
                     return
                 }
+                // A changed built-in `recipe_notification` takes it (RSTEPS).
+                if RecipeRuntime.shared?.offerNotificationCapture(capture) == true { return }
                 app.output.showPicker(for: capture)
             } else {
                 native.runClickAction(of: click.identifier)

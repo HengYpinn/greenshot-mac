@@ -69,6 +69,9 @@ public struct RecipeApprovalRequest: Sendable {
     /// Validation-error mode: the problem and a hint what to change.
     public var errorMessage: String?
     public var hint: String?
+    /// An automatic step (`recipe?.kind == .extension`): "Changes other recipes" — which recipes now and later, where and
+    /// when (upstream `RecipeApprovalRequest.ExtensionReach`); nil for a recipe.
+    public var extensionReach: [String]?
 
     public init(mode: RecipeApprovalMode, recipe: CaptureRecipe?, fileURL: URL?, content: String, contentHash: String) {
         self.mode = mode

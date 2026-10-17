@@ -17,12 +17,15 @@ public enum IPCPeerPolicy {
         public var sources: Set<IPCSource>
     }
 
-    /// Wave 4 adds the native messaging host and the MCP server.
     public static let programs: [Program] = [
         // A second start of the app forwards its command line
         Program(name: "GreenshotMac", bundleFolder: "Contents/MacOS", sources: [.cli]),
         // The command line tool
         Program(name: "greenshot-cli", bundleFolder: "Contents/Helpers", sources: [.cli]),
+        // The MCP server for AI tools
+        Program(name: "greenshot-mcp", bundleFolder: "Contents/Helpers", sources: [.mcp]),
+        // The browser extension's native messaging host
+        Program(name: "greenshot-native-host", bundleFolder: "Contents/Helpers", sources: [.nativeMessaging]),
     ]
 
     /// The app bundle of an executable in its `Contents/MacOS` or `Contents/Helpers`; nil for a bare build.

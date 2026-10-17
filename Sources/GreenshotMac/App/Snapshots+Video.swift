@@ -102,8 +102,8 @@ extension Snapshots {
         return text
     }
 
-    /// One line per item, submenus indented; the key equivalent after a tab.
-    private static func menuText(_ menu: NSMenu, indent: String = "") -> String {
+    /// One line per item, submenus indented; the key equivalent after a tab. Also for the other areas' menu dumps.
+    static func menuText(_ menu: NSMenu, indent: String = "") -> String {
         var lines = ""
         for item in menu.items {
             if item.isSeparatorItem {
@@ -123,7 +123,7 @@ extension Snapshots {
         return lines
     }
 
-    private static func writeText(_ text: String, to url: URL) throws {
+    static func writeText(_ text: String, to url: URL) throws {
         try text.write(to: url, atomically: true, encoding: .utf8)
         print("Wrote \(url.path)")
     }

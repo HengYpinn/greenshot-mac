@@ -477,6 +477,9 @@ public struct CaptureRecipe: Sendable, Equatable {
     public var extends: ExtensionTarget?
     /// Extensions only: `${...}` evaluated at the slot.
     public var when: String?
+    /// Set by `RecipeComposer` on the recipe as it runs, never read from or written to a file: the automatic steps in its
+    /// slots and the chains the export steps run per destination (upstream `AppliedExtensions`, `DestinationChains`).
+    public var composition: RecipeComposition?
     public var extra: JSONObject = [:]
 
     public init(id: String, name: String, description: String? = nil) {

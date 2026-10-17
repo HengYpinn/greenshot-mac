@@ -381,6 +381,8 @@ extension FilenamePattern {
     public static let helpText = """
         ${capturetime:d"yyyy-MM-dd HH_mm_ss"}  capture time, .NET date format    ${now}  the time of saving
         ${title}  window title    ${windowtitle}  the window's own title    ${user}  user name
+        ${url} ${browser}  the page and browser of a capture from the browser extension
+        ${Browser.Url} ${Browser.Domain} ${Browser.Title} ${Browser.Ticket}  the browser's active tab
         ${hostname} ${domain}  computer name
         ${YYYY} ${MM} ${DD} ${hh} ${mm} ${ss}  date and time parts
         ${NUM}  counter (000001)    ${RRRR}  random characters

@@ -164,21 +164,24 @@ public final class RecipeLibrary {
         }
     }
 
-    private let loadSettings: @MainActor () -> RecipeSettings
-    private let saveSettings: @MainActor (RecipeSettings) -> Void
-    private let trustStore: any RecipeTrustStoring
+    // Internal, not private: RMANAGER's automatic-step loader (ExtensionFiles.swift) is an extension of this class.
+    let loadSettings: @MainActor () -> RecipeSettings
+    let saveSettings: @MainActor (RecipeSettings) -> Void
+    let trustStore: any RecipeTrustStoring
     /// Held strongly: the app may hand over a presenter that nothing else keeps.
-    private let approver: (any RecipeApprover)?
-    private let contracts: StepContractCatalog
-    private let gates: @MainActor () -> GateEnvironment
-    private var monitor: RecipeFileMonitor?
-    private var builtIns: [String: CaptureRecipe] = [:]
+    let approver: (any RecipeApprover)?
+    let contracts: StepContractCatalog
+    let gates: @MainActor () -> GateEnvironment
+    var monitor: RecipeFileMonitor?
+    var builtIns: [String: CaptureRecipe] = [:]
     private var builtInOrder: [String] = []
-    private var fileRecipes: [String: LoadedRecipe] = [:]
+    var fileRecipes: [String: LoadedRecipe] = [:]
     private var fileOrder: [String] = []
     /// The content a changed file was already asked for (upstream `_askedForChangedFile`).
-    private var askedForChangedFile: [String: String] = [:]
-    private var loadingConfiguredFiles = false
+    var askedForChangedFile: [String: String] = [:]
+    var loadingConfiguredFiles = false
+    /// Automatic steps (extensions): RMANAGER's ExtensionFiles.swift.
+    var extensionStore = RecipeExtensionStore()
 
     /// Called after recipes, approvals or the switch changed (resync triggers and menus).
     public var onChange: (@MainActor () -> Void)?
@@ -251,6 +254,7 @@ public final class RecipeLibrary {
         var result = RecipeLoadResult()
         fileRecipes = [:]
         fileOrder = []
+        forgetFileExtensions()
         if isFeatureEnabled {
             loadingConfiguredFiles = true
             for path in loadSettings().files where !path.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -315,10 +319,8 @@ public final class RecipeLibrary {
             return result
         }
         if definitions.contains(where: { $0.kind == .extension }) {
-            let message = "This file is an automatic step (\"kind\": \"extension\"), not a recipe. Automatic steps aren't available in this version yet."
-            result.errors.append(message)
-            if interactive { await approver?.showValidationError(validationErrorRequest(fileURL, content, hash, recipe: nil, message: message)) }
-            return result
+            return await loadExtensionFile(fileURL, content: content, hash: hash, definitions: definitions,
+                                           interactive: interactive, forcePrompt: forcePrompt)
         }
         var anyChanged = false
         let validator = RecipeValidator(contracts: contracts, gates: gates())
@@ -391,13 +393,15 @@ public final class RecipeLibrary {
     /// The file monitor saw a change: asks right away when a recipe in use lost its approval (upstream `CheckChangedFile`).
     public func fileDidChange(_ url: URL) async {
         let path = RecipeTrustStore.standardized(url.path)
-        let inUse = fileRecipes.values.contains { $0.fileURL.map { recipeEquals($0.path, path) } ?? false }
+        let extensionFile = isExtensionFile(path)
+        let inUse = fileRecipes.values.contains { $0.fileURL.map { recipeEquals($0.path, path) } ?? false } || extensionFile
         guard inUse, let data = RecipeFileReader.data(URL(fileURLWithPath: path)) else { return }
         let hash = RecipeHash.sha256Hex(data)
         if let record = trustStore.record(forFile: path), recipeEquals(record.sha256, hash) { return }
         guard askedForChangedFile[path.lowercased()] != hash else { return }
         askedForChangedFile[path.lowercased()] = hash
         log.info("Recipe file '\(path)' was changed outside Greenshot, asking for approval.")
+        if extensionFile { dropExtensions(ofFile: path) }
         _ = await loadFile(URL(fileURLWithPath: path), interactive: true)
     }
 
@@ -490,7 +494,7 @@ public final class RecipeLibrary {
         return editApproval(recipe, path: path, validation: validation).decision.reasons
     }
 
-    private func editApproval(_ recipe: CaptureRecipe, path: String?, validation: RecipeValidationResult)
+    func editApproval(_ recipe: CaptureRecipe, path: String?, validation: RecipeValidationResult)
         -> (approval: RecipeApproval, decision: RecipeEditDecision, approvedContent: String?) {
         let record = path.flatMap { trustStore.record(forFile: $0) }
         let previous = record?.approval(for: recipe.id)
@@ -782,26 +786,26 @@ public final class RecipeLibrary {
         if !stillUsed { removeFileFromSettings(path) }
     }
 
-    private func addFileToSettings(_ path: String) {
+    func addFileToSettings(_ path: String) {
         var settings = loadSettings()
         guard !settings.files.contains(where: { recipeEquals(RecipeTrustStore.standardized($0), path) }) else { return }
         settings.files.append(path)
         saveSettings(settings)
     }
 
-    private func removeFileFromSettings(_ path: String) {
+    func removeFileFromSettings(_ path: String) {
         var settings = loadSettings()
         let before = settings.files.count
         settings.files.removeAll { recipeEquals(RecipeTrustStore.standardized($0), path) }
         if settings.files.count != before { saveSettings(settings) }
     }
 
-    private func notify() {
+    func notify() {
         onChange?()
     }
 
-    private func approvalRequest(_ recipe: CaptureRecipe, _ url: URL, _ content: String, _ hash: String, _ validation: RecipeValidationResult,
-                                 mode: RecipeApprovalMode) -> RecipeApprovalRequest {
+    func approvalRequest(_ recipe: CaptureRecipe, _ url: URL, _ content: String, _ hash: String, _ validation: RecipeValidationResult,
+                         mode: RecipeApprovalMode) -> RecipeApprovalRequest {
         let describer = RecipeDescriber(contracts: contracts, gates: gates())
         var request = RecipeApprovalRequest(mode: mode, recipe: recipe, fileURL: url, content: content, contentHash: hash)
         request.validation = validation
@@ -833,7 +837,7 @@ public final class RecipeLibrary {
         return request
     }
 
-    private func validationErrorRequest(_ url: URL, _ content: String, _ hash: String, recipe: CaptureRecipe?, message: String) -> RecipeApprovalRequest {
+    func validationErrorRequest(_ url: URL, _ content: String, _ hash: String, recipe: CaptureRecipe?, message: String) -> RecipeApprovalRequest {
         var request = RecipeApprovalRequest(mode: .validationError, recipe: recipe, fileURL: url, content: content, contentHash: hash)
         request.errorMessage = message
         request.hint = Self.hint(for: message)
@@ -848,7 +852,6 @@ public final class RecipeLibrary {
         if message.contains("which is not available in this version") { return "Use a step type of this version of Greenshot, or update Greenshot." }
         if message.contains("invalid hotkey") { return "Write the hotkey like \"Ctrl + Shift + B\"; on the Mac Ctrl is ⌘ and Win is ⌃." }
         if message.contains("requires the extension") { return "The recipe needs a plug-in Greenshot for Mac doesn't have." }
-        if message.contains("automatic step") { return "Automatic steps (extensions) will come with a later version." }
         if message.contains("does not exist in 'nodes'") || message.contains("does not match any defined node id") {
             return "Check the node ids in 'flow': each must be the id of a node."
         }

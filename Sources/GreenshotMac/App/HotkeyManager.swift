@@ -187,13 +187,15 @@ final class HotkeyManager {
         bind(hotkeys.text, "Capture text") { [weak capture] in capture?.captureText() }
         bind(hotkeys.recordVideo, "Start or stop recording") { [weak video] in video?.hotkeyPressed() }
         bind(hotkeys.clipboard, "Open clipboard") { [weak editors] in editors?.openClipboard() }
+        // The Hotkey triggers of the recipes (RUI), after the app's own, which win a clash.
+        for recipe in RecipeHotkeyBindings.current(excluding: combos) { bind(recipe.combo, recipe.name, recipe.action) }
         let refused = register(combos, actions: actions)
         registeredNames = names
         HotkeyDiagnostics.recordRegistration(names: names, combos: combos, refused: refused)
         let failed = refused.map { "\(names[$0]): \(combos[$0].displayString)" }
         if !failed.isEmpty {
             ErrorPresenter.show(message: "Some hotkeys could not be registered",
-                                detail: failed.joined(separator: "\n") + "\n\nAnother app may use them. Choose others in Settings › General.")
+                                detail: failed.joined(separator: "\n") + "\n\nAnother app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.")
         }
     }
 

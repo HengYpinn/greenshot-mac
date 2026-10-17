@@ -61,12 +61,23 @@ final class NotificationExportLog {
         finishIfDone()
     }
 
+    /// Ends the log without its notification; the destinations' own messages show again (a recipe flow: its
+    /// Notification step shows the exports, RSTEPS).
+    func release() {
+        finished = true
+        Self.openSince[ObjectIdentifier(self)] = nil
+    }
+
     private func finishIfDone() {
         guard closed, !finished, !results.contains(where: { $0 == nil }) else { return }
         finished = true
         Self.openSince[ObjectIdentifier(self)] = nil
-        let exports = results.compactMap { $0 }
-        let capture = capture
+        Self.present(results.compactMap { $0 }, of: capture, settings: settings)
+    }
+
+    /// The notification of `exports` of `capture` as the log shows it once every export ended (settings, QR codes on
+    /// capture); also the recipes' Notification step (RSTEPS).
+    static func present(_ exports: [ExportResult], of capture: Capture, settings: SettingsStore) {
         let values = settings.value
         // Nothing to show: no need to look for codes (macOS notifications turned off, or the level None).
         guard values.showNotifications, values.notificationLevel != .none, NotificationService.shared.state != .off else { return }
