@@ -128,7 +128,7 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
     public var brightness: Double
 
     public init(lineColor: RGBAColor = .red, fillColor: RGBAColor = .clear, lineWidth: Double = 2, shadow: Bool = true,
-                fontSize: Double = 15, bold: Bool = false, italic: Bool = false, arrowHeads: ArrowHeads = .end,
+                fontSize: Double = 11, bold: Bool = false, italic: Bool = false, arrowHeads: ArrowHeads = .end,
                 highlightMode: HighlightMode = .text, obfuscateMode: ObfuscateMode = .pixelate,
                 pixelSize: Double = 5, blurRadius: Double = 6, magnification: Double = 2,
                 cutMarkStyle: CutMarkStyle = .torn, toothHeight: Double = 12, toothRange: Double = 20,
@@ -191,8 +191,9 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         brightness = limited(value(.brightness, d.brightness), 0...2, d.brightness)
     }
 
-    /// The defaults of upstream's `InitializeFields` per container. Font sizes are converted from Windows points
-    /// at 96 DPI (11 pt there is about 15 pt on the Mac).
+    /// The defaults of upstream's `InitializeFields` per container. Upstream's font sizes are pixels (its text fonts
+    /// are `GraphicsUnit.Pixel`, `TextContainer.CreateFont`), and a pixel of Windows at 100 % is a point here, so the
+    /// numbers stay: text 11, speech bubbles 20 (the `.greenshot` import keeps a file's sizes the same way).
     public static func defaults(for kind: AnnotationKind) -> AnnotationStyle {
         switch kind {
         case .rectangle, .ellipse, .line:
@@ -202,17 +203,20 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         case .freehand:
             return AnnotationStyle(lineWidth: 3, shadow: false)
         case .text:
-            return AnnotationStyle(lineColor: .red, fillColor: .clear, shadow: true, fontSize: 15)
+            // Upstream TextContainer: red, 11 px.
+            return AnnotationStyle(lineColor: .red, fillColor: .clear, shadow: true, fontSize: 11)
         case .highlight:
             // The area highlight blurs with radius 3 and darkens by 10 % (upstream `BlurFilter`, `BrightnessFilter`).
             return AnnotationStyle(fillColor: .yellow, shadow: false, highlightMode: .text, blurRadius: 3, brightness: 0.9)
         case .obfuscate:
             return AnnotationStyle(shadow: false, obfuscateMode: .pixelate)
         case .counter:
+            // Upstream StepLabelContainer has no font size: its number is sized from the circle, which starts 30 × 30
+            // (`DefaultSize`). Here the font size is the radius a new counter gets (CanvasView), so 15 makes that circle.
             return AnnotationStyle(lineColor: .white, fillColor: .darkRed, lineWidth: 0, shadow: false, fontSize: 15, bold: true)
         case .speechBubble:
-            // Upstream SpeechbubbleContainer: blue outline and text on white, 20 pt bold (about 27 pt here).
-            return AnnotationStyle(lineColor: .blue, fillColor: .white, lineWidth: 2, shadow: false, fontSize: 27, bold: true)
+            // Upstream SpeechbubbleContainer: blue outline and text on white, 20 px bold.
+            return AnnotationStyle(lineColor: .blue, fillColor: .white, lineWidth: 2, shadow: false, fontSize: 20, bold: true)
         case .emoji:
             return AnnotationStyle(shadow: false)
         case .image, .svg, .cursor:

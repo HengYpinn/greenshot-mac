@@ -23,7 +23,7 @@ struct ElementClipboardTests {
         let a = ElementClipboard.textElement("Hello", at: CGPoint(x: 10, y: 20), base: remembered, scale: 2, maxWidth: 1000)
         #expect(a.kind == .text && a.text == "Hello")
         #expect(a.style.lineColor == .black && a.style.lineWidth == 2 && !a.style.shadow && a.style.fillColor == .clear)
-        #expect(a.style.fontSize == 16 && !a.style.bold && !a.style.italic && a.style.fontFamily.isEmpty)
+        #expect(a.style.fontSize == 12 && !a.style.bold && !a.style.italic && a.style.fontFamily.isEmpty)
         // What upstream doesn't set comes from the remembered style.
         #expect(a.style.horizontalAlignment == .left)
         #expect(a.bounds.origin == CGPoint(x: 10, y: 20))

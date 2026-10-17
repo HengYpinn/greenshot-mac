@@ -9,15 +9,15 @@ import Foundation
 /// What a paste into the editor makes of clipboard content that isn't elements or an image (upstream
 /// `Surface.PasteElementFromClipboard` and `ClipboardHelper.GetHtmlImageUrls`).
 public enum ElementClipboard {
-    /// A text element for pasted text, its top left at `origin` (upstream `AddTextContainer` with a sans-serif 12 pt
+    /// A text element for pasted text, its top left at `origin` (upstream `AddTextContainer` with a sans-serif 12 px
     /// font, black text, a 2 px frame, no shadow, no fill, then `FitToText`). The other properties come from `base`,
-    /// the remembered text style. 12 pt on Windows is 16 pt here. The box is as big as the text, at most `maxWidth`
-    /// pixels wide (the text wraps then).
+    /// the remembered text style. Upstream's text sizes are pixels, which are points here. The box is as big as the
+    /// text, at most `maxWidth` pixels wide (the text wraps then).
     public static func textElement(_ text: String, at origin: CGPoint, base: AnnotationStyle, scale: CGFloat,
                                    maxWidth: CGFloat) -> Annotation {
         var style = base
         style.fontFamily = ""
-        style.fontSize = 16
+        style.fontSize = 12
         style.bold = false
         style.italic = false
         style.shadow = false

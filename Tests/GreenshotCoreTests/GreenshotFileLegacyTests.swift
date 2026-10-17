@@ -323,6 +323,26 @@ struct GreenshotFileLegacyTests {
         #expect(line.end == CGPoint(x: 110, y: 10))
     }
 
+    /// Upstream's font sizes are pixels (`GraphicsUnit.Pixel`) and a Windows pixel is a point here: the defaults are
+    /// upstream's numbers, and a file's text keeps its size.
+    @Test func textSizesArePixelsOfWindows() throws {
+        let text = AnnotationStyle.defaults(for: .text)
+        let bubble = AnnotationStyle.defaults(for: .speechBubble)
+        let counter = AnnotationStyle.defaults(for: .counter)
+        #expect(text.fontSize == 11)
+        #expect(bubble.fontSize == 20)
+        // A counter's font size is the radius of a new one: upstream's step labels start 30 × 30.
+        #expect(counter.fontSize == 15)
+
+        var sized = LegacyElement(typeName: "TextContainer", left: 0, top: 0, width: 100, height: 40)
+        sized.fields = [LegacyField(name: "FONT_SIZE", value: .number(11))]
+        let imported = try #require(GreenshotLegacyImport.annotation(sized, scale: 1))
+        #expect(imported.style.fontSize == text.fontSize)
+        let unsized = LegacyElement(typeName: "SpeechbubbleContainer", left: 0, top: 0, width: 100, height: 40)
+        let defaulted = try #require(GreenshotLegacyImport.annotation(unsized, scale: 1))
+        #expect(defaulted.style.fontSize == bubble.fontSize)
+    }
+
     @Test func countersAreOrderedByTheirNumbers() {
         func label(_ number: Int, left: Int) -> LegacyElement {
             var element = LegacyElement(typeName: "StepLabelContainer", left: left, top: 0, width: 30, height: 30)
