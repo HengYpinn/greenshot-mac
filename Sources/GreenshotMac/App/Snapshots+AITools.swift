@@ -27,7 +27,7 @@ extension Snapshots {
                                    identity: AIToolIdentity(executable: cursor, script: "/Users/me/.cursor/extensions/mcp/server.js",
                                                             notes: ["as Node.js (ELECTRON_RUN_AS_NODE)"]))
         let model = AIToolsTabModel(serverPath: AIToolsTabModel.snapshotServerPath, denied: [refused], approved: approved)
-        try write(tab(store: on, model: model, height: 1880), to: folder.appendingPathComponent("ai-tools-tab.png"))
+        try write(tab(store: on, model: model, height: 2200), to: folder.appendingPathComponent("ai-tools-tab.png"))
 
         // As installed, the switch locked off by an administrator
         let off = aiToolsStore("off", forced: ["Greenshot.aiTools.enabled": false])
@@ -37,8 +37,13 @@ extension Snapshots {
         // The question the first time a program connects: buttons still disarmed, then armed
         let client = AIToolClient(path: "/Applications/Claude.app/Contents/MacOS/Claude", displayName: "Claude",
                                   signer: "Developer ID Application: Anthropic PBC (Q6L2SF6YDW)")
-        for (name, armed) in [("ai-tools-consent.png", false), ("ai-tools-consent-armed.png", true)] {
-            let panel = AIToolsConsentPanel.makePanel(client: client, armed: armed) { _ in }
+        // A runtime: node and its script (security review SM-H1)
+        let node = AIToolClient(path: "/opt/homebrew/bin/node", displayName: "node",
+                                identity: AIToolIdentity(executable: "/opt/homebrew/bin/node",
+                                                         script: "/opt/homebrew/lib/node_modules/@google/gemini-cli/dist/index.js"))
+        for (name, asking, armed) in [("ai-tools-consent.png", client, false), ("ai-tools-consent-armed.png", client, true),
+                                      ("ai-tools-consent-runtime.png", node, true)] {
+            let panel = AIToolsConsentPanel.makePanel(client: asking, armed: armed) { _ in }
             if let content = panel.contentView {
                 content.appearance = NSAppearance(named: .aqua)
                 try write(capture(content), to: folder.appendingPathComponent(name))

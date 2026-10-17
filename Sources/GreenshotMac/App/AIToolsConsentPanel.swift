@@ -70,7 +70,7 @@ enum AIToolsConsentPanel {
         if let script = client.identity.script { details.append(line("Script: " + script)) }
         for note in client.identity.notes { details.append(line(note)) }
         details.append(line(client.signerText))
-        let runtime = client.identity.script == nil ? "" : " It is a runtime that runs scripts: only this script is allowed, not every script it runs."
+        let runtime = client.identity.script == nil ? "" : "\n\n\(name) runs scripts: only the script above is allowed, not every script \(name) runs."
         let body = NSTextField(wrappingLabelWithString: "Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.\(runtime)\n\nAllow \(name) to use \(AppInfo.name)?")
         for label in [title, body] { label.preferredMaxLayoutWidth = 380 }
 
