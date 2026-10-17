@@ -21,8 +21,10 @@ public enum AnnotationRenderer {
     ///   - hiddenID: the element whose text is being edited in place: it is drawn without its text (its frame, fill
     ///     and a speech bubble's shape stay around the text field).
     ///   - counterStart: the number of the first counter.
+    ///   - cutElements: the elements whose cut marks and torn edges cut the image, when not all of them are among
+    ///     `annotations` (Apply to the Image draws some of the document's): their shadow is shared (`CutShadow`).
     public static func flatten(base: CGImage, annotations: [Annotation], scale: CGFloat, hiding hiddenID: UUID? = nil,
-                               counterStart: Int = 1) -> CGImage? {
+                               counterStart: Int = 1, cutElements: [Annotation]? = nil) -> CGImage? {
         guard let context = makeContext(width: base.width, height: base.height) else { return nil }
         context.draw(base, in: CGRect(x: 0, y: 0, width: base.width, height: base.height))
         // From here on the origin is at the top left, like the annotation coordinates.
@@ -33,6 +35,10 @@ public enum AnnotationRenderer {
         NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: true)
         defer { NSGraphicsContext.current = previous }
 
+        let cutSource = cutElements ?? annotations
+        let cuts = cutSource.contains { AnnotationKind.cutEdgeKinds.contains($0.kind) }
+            ? CutShadow(cutSource, canvas: CGRect(x: 0, y: 0, width: base.width, height: base.height), scale: scale)
+            : nil
         var counter = counterStart - 1
         for annotation in annotations {
             if annotation.kind == .counter { counter += 1 }
@@ -42,7 +48,7 @@ public enum AnnotationRenderer {
                 shown.text = ""
             }
             context.saveGState()
-            draw(shown, number: counter, in: context, scale: scale)
+            draw(shown, number: counter, in: context, scale: scale, cuts: cuts)
             context.restoreGState()
         }
         return context.makeImage()
@@ -75,7 +81,7 @@ public enum AnnotationRenderer {
 
     // MARK: - Elements
 
-    static func draw(_ a: Annotation, number: Int, in context: CGContext, scale: CGFloat) {
+    static func draw(_ a: Annotation, number: Int, in context: CGContext, scale: CGFloat, cuts: CutShadow? = nil) {
         let style = a.style
         let lineWidth = CGFloat(style.lineWidth) * scale
         switch a.kind {
@@ -107,9 +113,9 @@ public enum AnnotationRenderer {
         case .image, .cursor:
             drawPicture(a, in: context, scale: scale)
         case .cutMark:
-            drawCutMark(a, in: context, scale: scale)
+            drawCutMark(a, in: context, scale: scale, cuts: cuts)
         case .tornEdge:
-            drawTornEdge(a, in: context, scale: scale)
+            drawTornEdge(a, in: context, scale: scale, cuts: cuts)
         case .svg:
             drawSvg(a, in: context, scale: scale)
         case .barcode:
@@ -119,14 +125,14 @@ public enum AnnotationRenderer {
 
     /// Upstream `CutMarkContainer.Draw`: the gap filled with the fill color or made transparent (upstream's export
     /// mode, so what is saved is what is shown), the shadow the rest of the image casts into it, and the line along
-    /// the edges.
-    static func drawCutMark(_ a: Annotation, in context: CGContext, scale: CGFloat) {
+    /// the edges. With other cut marks or torn edges in `cuts` the shadow is shared with them (upstream `CutShadow`).
+    static func drawCutMark(_ a: Annotation, in context: CGContext, scale: CGFloat, cuts: CutShadow? = nil) {
         let style = a.style
         let canvas = canvasBounds(context)
-        guard let shape = CutMark.shape(band: CutMark.band(of: a, imageSize: canvas.size), style: style.cutMarkStyle,
-                                        toothHeight: CGFloat(style.toothHeight) * scale,
-                                        toothRange: CGFloat(style.toothRange) * scale, seed: CutMark.seed(of: a),
-                                        vertical: a.isVerticalCutMark) else { return }
+        let shared = cuts.flatMap { $0.isAlone(a.id) ? nil : $0 }
+        guard let shape = cuts?.cut(a.id)?.cutMark ?? CutMark.shape(of: a, imageSize: canvas.size, scale: scale) else {
+            return
+        }
         context.saveGState()
         context.addPath(shape.gap)
         if style.fillColor.isVisible {
@@ -138,16 +144,22 @@ public enum AnnotationRenderer {
         context.restoreGState()
 
         if style.shadow {
-            // The parts of the image on both sides cast their shadow into the gap.
-            let outside = CGMutablePath()
-            outside.addRect(canvas)
-            outside.addPath(shape.gap)
-            drawCutShadow(into: shape.gap, areaRule: .winding, caster: outside, casterRule: .evenOdd,
-                          layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
+            if let shared {
+                shared.drawShadow(of: a.id, layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
+            } else {
+                // The parts of the image on both sides cast their shadow into the gap.
+                let outside = CGMutablePath()
+                outside.addRect(canvas)
+                outside.addPath(shape.gap)
+                drawCutShadow(into: shape.gap, areaRule: .winding, caster: outside, casterRule: .evenOdd,
+                              layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
+            }
         }
 
         let lineWidth = CGFloat(style.lineWidth) * scale
         if lineWidth > 0, style.lineColor.isVisible {
+            // The edges are part of the image: where another element cut it away they don't show.
+            shared?.clipOutOtherCuts(than: a.id, in: context)
             context.setStrokeColor(style.lineColor.cgColor)
             context.setLineWidth(lineWidth)
             context.setLineJoin(.round)
@@ -159,11 +171,15 @@ public enum AnnotationRenderer {
     }
 
     /// Upstream `TornEdgeContainer.Draw`: the torn off parts filled with the fill color or made transparent (export
-    /// mode, like cut marks), the shadow the part that stays casts into them, and the line along the torn sides.
-    static func drawTornEdge(_ a: Annotation, in context: CGContext, scale: CGFloat) {
+    /// mode, like cut marks), the shadow the part that stays casts into them, and the line along the torn sides. With
+    /// other cut marks or torn edges in `cuts` the shadow is shared with them (upstream `CutShadow`).
+    static func drawTornEdge(_ a: Annotation, in context: CGContext, scale: CGFloat, cuts: CutShadow? = nil) {
         let style = a.style
         let canvas = canvasBounds(context)
-        guard let shape = TornEdge.shape(of: a, imageSize: canvas.size, scale: scale) else { return }
+        let shared = cuts.flatMap { $0.isAlone(a.id) ? nil : $0 }
+        guard let shape = cuts?.cut(a.id)?.tornEdge ?? TornEdge.shape(of: a, imageSize: canvas.size, scale: scale) else {
+            return
+        }
         context.saveGState()
         context.addPath(shape.tornOff)
         if style.fillColor.isVisible {
@@ -175,12 +191,17 @@ public enum AnnotationRenderer {
         context.restoreGState()
 
         if style.shadow {
-            drawCutShadow(into: shape.tornOff, areaRule: .evenOdd, caster: shape.kept, casterRule: .winding,
-                          layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
+            if let shared {
+                shared.drawShadow(of: a.id, layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
+            } else {
+                drawCutShadow(into: shape.tornOff, areaRule: .evenOdd, caster: shape.kept, casterRule: .winding,
+                              layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
+            }
         }
 
         let lineWidth = CGFloat(style.lineWidth) * scale
         if lineWidth > 0, style.lineColor.isVisible {
+            shared?.clipOutOtherCuts(than: a.id, in: context)
             context.setStrokeColor(style.lineColor.cgColor)
             context.setLineWidth(lineWidth)
             context.setLineJoin(.round)
@@ -196,19 +217,24 @@ public enum AnnotationRenderer {
     /// shadow lies `1 - offset` points down right of what casts it (2 points with the default offset of -1).
     static func drawCutShadow(into area: CGPath, areaRule: CGPathFillRule, caster: CGPath, casterRule: CGPathFillRule,
                               layout: CutEdgeLayout, in context: CGContext, scale: CGFloat) {
-        let right = CGFloat(1 - layout.shadowOffsetX) * scale
-        let down = CGFloat(1 - layout.shadowOffsetY) * scale
-        let blur = CGFloat(max(1, layout.shadowSize)) * scale
         context.saveGState()
         context.addPath(area)
         context.clip(using: areaRule)
-        // Shadow offsets are in the bitmap's own space (y up) and ignore the flipped CTM, so "down" is negative.
-        context.setShadow(offset: CGSize(width: right, height: -down), blur: blur,
-                          color: CGColor(gray: 0, alpha: CGFloat(min(max(layout.shadowDarkness, 0), 1))))
+        setCutShadow(layout, in: context, scale: scale)
         context.addPath(caster)
         context.setFillColor(CGColor(gray: 0, alpha: 1))
         context.fillPath(using: casterRule)
         context.restoreGState()
+    }
+
+    /// The shadow of a cut mark or torn edges as `drawCutShadow` describes it, for what is drawn next.
+    static func setCutShadow(_ layout: CutEdgeLayout, in context: CGContext, scale: CGFloat) {
+        let right = CGFloat(1 - layout.shadowOffsetX) * scale
+        let down = CGFloat(1 - layout.shadowOffsetY) * scale
+        let blur = CGFloat(max(1, layout.shadowSize)) * scale
+        // Shadow offsets are in the bitmap's own space (y up) and ignore the flipped CTM, so "down" is negative.
+        context.setShadow(offset: CGSize(width: right, height: -down), blur: blur,
+                          color: CGColor(gray: 0, alpha: CGFloat(min(max(layout.shadowDarkness, 0), 1))))
     }
 
     /// Upstream `ImageContainer.Draw`: the picture stretched into the box, with an optional shadow.

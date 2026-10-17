@@ -17,7 +17,7 @@ struct SpeechBubbleTests {
     @Test func defaultsAreUpstreams() {
         let style = AnnotationStyle.defaults(for: .speechBubble)
         #expect(style.lineColor == .blue && style.fillColor == .white && style.lineWidth == 2)
-        #expect(style.bold && !style.italic && !style.shadow && style.fontSize == 27)
+        #expect(style.bold && !style.italic && !style.shadow && style.fontSize == 20)
         #expect(AnnotationKind.speechBubble.hasEditableText && AnnotationKind.text.hasEditableText)
         #expect(!AnnotationKind.emoji.hasEditableText)
     }

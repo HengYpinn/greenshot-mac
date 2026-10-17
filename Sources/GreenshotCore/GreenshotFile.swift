@@ -137,6 +137,13 @@ public enum GreenshotFile {
             return nil
         }
 
+        /// Writes the file to `url`, creating missing folders on the way.
+        public func write(to url: URL) throws {
+            let data = try encoded()
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try data.write(to: url, options: .atomic)
+        }
+
         /// The file this app writes (upstream `GreenshotFileFormatHandler.TrySaveToStream`).
         public func encoded() throws -> Data {
             var data = try ImageExporter.data(for: image, format: .png, scale: scale)

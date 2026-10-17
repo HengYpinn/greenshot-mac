@@ -12,10 +12,10 @@ import UniformTypeIdentifiers
 /// for other editors): one entry per app that opens images, with its icon.
 @MainActor
 enum OpenWithDestination {
-    /// The apps that open the output format (or PNG), the default app first, then by name.
+    /// The apps that open the output format (PNG for the Greenshot format), the default app first, then by name.
     static func applications(for format: ImageFormat) -> [URL] {
         let workspace = NSWorkspace.shared
-        let type = format.utType
+        let type = format.plainImage.utType
         let all = workspace.urlsForApplications(toOpen: type)
         let preferred = workspace.urlForApplication(toOpen: type)
         var seen = Set<String>()
@@ -48,7 +48,8 @@ enum OpenWithDestination {
         return items
     }
 
-    /// Writes the screenshot in the output format and opens it with `app`, or with an app chosen in a panel.
+    /// Writes the screenshot in the output format (a plain image: PNG for the Greenshot format) and opens it with `app`,
+    /// or with an app chosen in a panel.
     static func open(_ capture: Capture, with app: URL?, settings: SettingsStore, completion: @escaping ExportCompletion = { _ in }) {
         guard let app = app ?? chooseApplication() else {
             completion(.declined)
@@ -56,7 +57,7 @@ enum OpenWithDestination {
         }
         let file: URL
         do {
-            file = try TemporaryCaptureFile.write(capture, settings: settings, format: settings.value.outputFormat)
+            file = try TemporaryCaptureFile.write(capture, settings: settings, format: settings.value.outputFormat.plainImage)
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be written")
             completion(.failed(error.localizedDescription))

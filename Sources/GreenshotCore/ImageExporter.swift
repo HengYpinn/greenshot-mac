@@ -9,9 +9,13 @@ import UniformTypeIdentifiers
 
 /// The file formats Greenshot writes (upstream `OutputFileFormat` and the formats of its file format handlers:
 /// `DefaultFileFormatHandler`, `ImageSharpFileFormatHandler` (TGA, PBM), `IconFileFormatHandler` and the PDF plugin's
-/// `PdfFileFormatHandler`).
+/// `PdfFileFormatHandler`), and the `.greenshot` file of `GreenshotFileFormatHandler`.
 public enum ImageFormat: String, Codable, CaseIterable, Sendable {
     case png, jpg, bmp, gif, tiff, webp, ico, tga, pbm, pdf
+    /// A `.greenshot` file (`GreenshotFile`): the screenshot whose elements stay editable (upstream
+    /// `OutputFormat.greenshot`). Only files are saved in it; what goes to another app is a plain image (`plainImage`,
+    /// `imageFormats`).
+    case greenshot
 
     public var fileExtension: String { rawValue }
 
@@ -27,6 +31,11 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .tga: return UTType("com.truevision.tga-image") ?? UTType(filenameExtension: "tga") ?? .image
         case .pbm: return UTType("public.pbm") ?? UTType(filenameExtension: "pbm") ?? .image
         case .pdf: return .pdf
+        case .greenshot:
+            // The type declared in the app's Info.plist, or (in a `swift build` without the app bundle) the type macOS
+            // makes up for the extension.
+            return UTType(GreenshotFile.typeIdentifier)
+                ?? UTType(filenameExtension: GreenshotFile.fileExtension, conformingTo: .png) ?? .png
         }
     }
 
@@ -42,6 +51,7 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .tga: return "TGA (Targa)"
         case .pbm: return "PBM (Netpbm)"
         case .pdf: return "PDF"
+        case .greenshot: return "Greenshot (editable)"
         }
     }
 
@@ -58,13 +68,14 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .tga: return "image/x-tga"
         case .pbm: return "image/x-portable-bitmap"
         case .pdf: return "application/pdf"
+        case .greenshot: return "application/octet-stream"
         }
     }
 
     /// Formats without transparency get a white background (a PDF page is white under the image anyway).
     var supportsAlpha: Bool {
         switch self {
-        case .png, .tiff, .gif, .webp, .ico, .tga, .pdf: return true
+        case .png, .tiff, .gif, .webp, .ico, .tga, .pdf, .greenshot: return true
         case .jpg, .bmp, .pbm: return false
         }
     }
@@ -81,9 +92,18 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case "tga": self = .tga
         case "pbm": self = .pbm
         case "pdf": self = .pdf
+        case GreenshotFile.fileExtension: self = .greenshot
         default: return nil
         }
     }
+
+    /// The formats of plain images, all but `.greenshot`: what external commands, Open With and the other apps get.
+    public static var imageFormats: [ImageFormat] { allCases.filter { $0 != .greenshot } }
+
+    /// The format for a plain image: a `.greenshot` file is for this app (and opens as an image in Greenshot for
+    /// Windows), so another app gets PNG instead (upstream refuses the greenshot format where a rendered image is
+    /// needed, `ImageIO.SaveRenderedImage`).
+    public var plainImage: ImageFormat { self == .greenshot ? .png : self }
 }
 
 public enum ImageExportError: Error, LocalizedError {
@@ -117,6 +137,11 @@ public enum ImageExporter {
     public static func data(for image: CGImage, options: ImageOutputOptions) throws -> Data {
         let format = options.format
         switch format {
+        case .greenshot:
+            // Only the image: the background of a file without elements (a fresh capture). The editor writes its
+            // elements with `GreenshotFile.Contents(of:)`.
+            let title = options.title.isEmpty ? nil : options.title
+            return try GreenshotFile.Contents(image: image, scale: options.scale, title: title).encoded()
         case .pdf: return try ImageFormatEncoders.pdf(image, options: options)
         case .tga: return try ImageFormatEncoders.tga(prepared(image, options: options))
         case .pbm: return try ImageFormatEncoders.pbm(prepared(image, options: options))
@@ -224,7 +249,7 @@ public enum ImageExporter {
 
 extension ImageFormat {
     /// Whether "Reduce colours" applies: not to JPEG, whose compression brings the colours back, nor to PDF.
-    var reducesColors: Bool { self != .jpg && self != .pdf }
+    var reducesColors: Bool { self != .jpg && self != .pdf && self != .greenshot }
 
     /// Whether ImageIO writes an 8-bit palette image as a palette file (BMP comes out with 24 bits anyway).
     var writesPalette: Bool { self == .png || self == .gif || self == .tiff }

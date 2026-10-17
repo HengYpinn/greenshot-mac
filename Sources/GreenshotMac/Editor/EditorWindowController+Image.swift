@@ -214,6 +214,24 @@ extension EditorWindowController {
         cutOut(horizontal: false)
     }
 
+    /// Upstream `CropModes.Default` (and Auto Crop's area) confirmed: crops to the crop selection. With a cut edge
+    /// style chosen in the crop bar the sides it cut off get edges in that style (upstream `Surface.ApplyCrop`): torn
+    /// edges with the torn edge effect's teeth, shadow and background, selected afterwards so they can be changed.
+    /// One undo step.
+    func cropToSelection() {
+        guard let selection = canvas.cropRect else { NSSound.beep(); return }
+        let values = settings.value
+        let before = Set(editorDocument.annotations.map(\.id))
+        performImageOperation {
+            $0.cropKeepingEdges(to: selection, edgeStyle: values.cutOutMarkStyle, settings: values.tornEdgeSettings,
+                                style: values.style(for: .tornEdge))
+        }
+        canvas.tool = .select
+        if let edges = editorDocument.annotations.first(where: { $0.kind == .tornEdge && !before.contains($0.id) }) {
+            canvas.select(edges.id)
+        }
+    }
+
     /// The joint is marked with the cut mark style chosen in the crop bar (a cut mark element with the last used
     /// teeth, colors and shadow), which is selected afterwards so it can be changed.
     private func cutOut(horizontal: Bool) {

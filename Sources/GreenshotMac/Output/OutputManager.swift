@@ -135,9 +135,11 @@ final class OutputManager {
             saver.notify("Copied to the clipboard")
             completion(.succeeded())
         case .file:
-            completion(saver.exportDirectly(capture.image, scale: capture.scale, title: capture.title, date: capture.date))
+            completion(saver.exportDirectly(capture.image, scale: capture.scale, title: capture.title, date: capture.date,
+                                            editable: capture.editable))
         case .fileAs:
-            completion(saver.exportAs(capture.image, scale: capture.scale, title: capture.title, date: capture.date))
+            completion(saver.exportAs(capture.image, scale: capture.scale, title: capture.title, date: capture.date,
+                                      editable: capture.editable))
         case .printer:
             Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date,
                            completion: completion)

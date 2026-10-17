@@ -44,6 +44,12 @@ struct OutputSettings: View {
             Picker("Format", selection: store.binding(\.outputFormat)) {
                 ForEach(ImageFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            if store.value.outputFormat == .greenshot {
+                // Upstream's "Greenshot" output format (5172972a): the file of its editor.
+                Text("The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             if store.value.outputFormat.usesQuality {
                 Slider(value: jpegQuality, in: 10...100, step: 5) {
                     Text("JPEG quality: \(store.value.jpegQuality)")

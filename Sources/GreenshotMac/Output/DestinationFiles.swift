@@ -25,8 +25,9 @@ enum TemporaryCaptureFile {
     }
 
     /// Writes the capture with the file name pattern's name into a folder of its own under `folder` (the temporary
-    /// folder by default).
+    /// folder by default). Other apps get a plain image: PNG instead of the Greenshot format.
     static func write(_ capture: Capture, settings: SettingsStore, format: ImageFormat = .png, in folder: URL? = nil) throws -> URL {
+        let format = format.plainImage
         let base = folder ?? root
         removeOldFiles(in: base)
         let context = settings.patternContext(title: capture.title, date: capture.date, consumeNumber: false)

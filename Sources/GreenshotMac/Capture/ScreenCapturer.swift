@@ -22,6 +22,10 @@ struct Capture {
     var pointer: CapturedPointer? = nil
     /// The capture without the mouse pointer; set together with `pointer`.
     var imageWithoutPointer: CGImage? = nil
+    /// When the capture comes from an editor: its document as a `.greenshot` file keeps it (the image without the
+    /// elements, and the elements), for a save in the Greenshot format (upstream 5172972a `SaveSurface`). Nil for a
+    /// fresh capture, which is saved as the background of a file without elements.
+    var editable: GreenshotFile.Contents? = nil
 }
 
 /// A normal on-screen window of another app.

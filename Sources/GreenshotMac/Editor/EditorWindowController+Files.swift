@@ -15,9 +15,7 @@ extension EditorWindowController {
 
     /// The type of `.greenshot` files: the one in Info.plist, or (in a `swift build` without the app bundle) the type
     /// macOS makes up for the extension.
-    static var greenshotFileType: UTType {
-        UTType(GreenshotFile.typeIdentifier) ?? UTType(filenameExtension: GreenshotFile.fileExtension, conformingTo: .png) ?? .png
-    }
+    static var greenshotFileType: UTType { ImageFormat.greenshot.utType }
 
     /// The element files of Greenshot for Windows (`.gst`).
     static var windowsElementsFileType: UTType {

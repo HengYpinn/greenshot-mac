@@ -191,7 +191,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var dropShadowSettings = DropShadowSettings()
     public var tornEdgeSettings = TornEdgeSettings()
     public var textObfuscation = TextObfuscationSettings()
-    /// How the joint is marked after cutting rows or columns out (upstream's `CUT_MARK_STYLE` field of the crop).
+    /// The crop bar's "Cut edges": the edges of the sides a crop cuts off, and how the joint is marked after cutting
+    /// rows or columns out (upstream's `CUT_MARK_STYLE` field of the crop).
     public var cutOutMarkStyle: CutMarkStyle = .none
     /// Freehand smoothing: a drawn point is kept when it is at least twice this many points from the last one; smaller
     /// is more detailed (upstream `FreehandSensitivity`, 1–100).

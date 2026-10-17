@@ -11,6 +11,7 @@ import Foundation
 /// `InitializeFields`. Positions are image pixels on both sides; sizes stored in pixels (line thickness, pixel size,
 /// blur radius, teeth, font size: upstream's fonts are `GraphicsUnit.Pixel`) become points of the image's scale.
 /// Not kept: the rotation of emoji, SVG and metafile elements, and anything of an element type that isn't known here.
+/// A barcode becomes a barcode element when the file says what it shows (its `ZxingModel`), else a picture.
 enum GreenshotLegacyImport {
     struct Result {
         var elements: [Annotation]
@@ -61,7 +62,7 @@ enum GreenshotLegacyImport {
 
     /// The element as this editor has it; nil when it can't be shown here.
     static func annotation(_ element: LegacyElement, scale: CGFloat) -> Annotation? {
-        guard let kind = kind(of: element.typeName) else { return nil }
+        guard let kind = kind(of: element) else { return nil }
         let start = CGPoint(x: element.left, y: element.top)
         let end = CGPoint(x: element.left + element.width, y: element.top + element.height)
         var annotation = Annotation(kind: kind, start: start, end: end, style: style(element, kind: kind, scale: scale))
@@ -84,6 +85,13 @@ enum GreenshotLegacyImport {
         case .picture(let data, _):
             guard let png = pngData(data) else { return nil }
             annotation.imageData = png
+        case .barcode(let data, let model, let margin):
+            if let model {
+                annotation.barcode = barcodeSpec(model, margin: margin)
+            } else {
+                guard let png = pngData(data) else { return nil }
+                annotation.imageData = png
+            }
         case .svg(let data, _):
             guard let data, !data.isEmpty else { return nil }
             annotation.imageData = data
@@ -110,6 +118,12 @@ enum GreenshotLegacyImport {
             annotation.cutEdges = layout
         }
         return annotation
+    }
+
+    /// The kind of an element: a barcode that says what it shows is a barcode element, one that doesn't a picture.
+    private static func kind(of element: LegacyElement) -> AnnotationKind? {
+        if element.typeName == "BarcodeContainer", case .barcode(_, _?, _) = element.content { return .barcode }
+        return kind(of: element.typeName)
     }
 
     private static func kind(of typeName: String) -> AnnotationKind? {
@@ -220,6 +234,53 @@ enum GreenshotLegacyImport {
         let green = Double(argb >> 8 & 0xFF) / 255
         let blue = Double(argb & 0xFF) / 255
         return RGBAColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+
+    /// What a barcode shows (upstream `ZxingModel`): the format and QR type by their place in the dialog's lists (an
+    /// unknown format is a QR code, like `ZxingEditorWindow.MapFormatIndex`; an unknown QR type text), the texts (a
+    /// missing RawText keeps upstream's sample URL, which it draws then; other missing texts are empty, as its dialog
+    /// shows them), colors, round dots and the quiet zone (`margin`, the container's, else the model's).
+    static func barcodeSpec(_ model: LegacyElement.LegacyBarcodeModel, margin: Int?) -> BarcodeSpec {
+        var spec = BarcodeSpec()
+        spec.symbology = BarcodeSymbology(upstreamIndex: model.formatIndex) ?? .qrCode
+        spec.qrType = QRPayloadType(upstreamIndex: model.qrCategoryIndex) ?? .text
+        func text(_ name: String) -> String { String((model.texts[name] ?? "").prefix(BarcodeSpec.maxFieldLength)) }
+        if model.texts["RawText"] != nil { spec.text = text("RawText") }
+        spec.wifiSSID = text("WifiSsid")
+        spec.wifiPassword = text("WifiPassword")
+        // WPA/WPA2, WEP, unencrypted; upstream's payload takes anything else for WPA.
+        spec.wifiEncryption = model.wifiEncryptionIndex == 1 ? .wep : model.wifiEncryptionIndex == 2 ? .unencrypted : .wpa
+        spec.vCardFirstName = text("VcardFirstName")
+        spec.vCardLastName = text("VcardLastName")
+        spec.vCardPhone = text("VcardPhone")
+        spec.vCardEmail = text("VcardEmail")
+        spec.vCardCompany = text("VcardCompany")
+        spec.vCardURL = text("VcardUrl")
+        spec.epcName = text("EpcName")
+        spec.epcIBAN = text("EpcIban")
+        spec.epcBIC = text("EpcBic")
+        spec.epcAmount = text("EpcAmount")
+        spec.epcReference = text("EpcReference")
+        spec.epcMessage = text("EpcMessage")
+        spec.emailTo = text("EmailTo")
+        spec.emailSubject = text("EmailSubject")
+        spec.emailBody = text("EmailBody")
+        spec.eventTitle = text("EventTitle")
+        spec.eventLocation = text("EventLocation")
+        spec.eventStart = text("EventStart")
+        spec.eventEnd = text("EventEnd")
+        spec.eventDescription = text("EventDescription")
+        spec.phoneNumber = text("PhoneNumber")
+        spec.smsNumber = text("SmsNumber")
+        spec.smsMessage = text("SmsMessage")
+        spec.latitude = text("Latitude")
+        spec.longitude = text("Longitude")
+        if let color = model.foreColor { spec.foreground = rgba(color) }
+        if let color = model.backColor { spec.background = rgba(color) }
+        spec.roundedDots = model.roundedDots
+        let quietZone = margin ?? model.margin ?? spec.margin
+        spec.margin = min(max(quietZone, BarcodeSpec.marginRange.lowerBound), BarcodeSpec.marginRange.upperBound)
+        return spec
     }
 
     /// The shadow of a cut mark or torn edges; nil when the file has none (the effect's defaults then).
