@@ -189,6 +189,14 @@ struct BarcodeElementTests {
         #expect(small.bounds.size == CGSize(width: 200, height: 200))
     }
 
+    @Test func insertedElementsSitNearTheTopLeft() {
+        let big = Annotation.insertedBarcode(BarcodeSpec(), imageSize: CGSize(width: 2000, height: 1000), scale: 2)
+        #expect(big.bounds == CGRect(x: 100, y: 100, width: 420, height: 420))
+        // On a small image the code shrinks to fit and moves into the corner.
+        let small = Annotation.insertedBarcode(BarcodeSpec(), imageSize: CGSize(width: 300, height: 200), scale: 1)
+        #expect(small.bounds == CGRect(x: 50, y: 0, width: 200, height: 200))
+    }
+
     @Test func handlesFollowTheKindOfCode() {
         let qr = Annotation.barcodeElement(BarcodeSpec(), at: .zero, scale: 1)
         #expect(Handle.handles(for: qr) == Handle.cornerHandles)

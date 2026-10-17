@@ -102,6 +102,20 @@ extension Annotation {
     }
 }
 
+extension Annotation {
+    /// A barcode element as Insert QR / Barcode adds it: 50 points from the top left (upstream
+    /// `AddImageContainer(bitmap, 50, 50)`) at its default size; smaller, and nearer the corner, on a small image.
+    public static func insertedBarcode(_ spec: BarcodeSpec, imageSize: CGSize, scale: CGFloat) -> Annotation {
+        var element = barcodeElement(spec, at: .zero, scale: scale, fitting: imageSize)
+        let size = element.bounds.size
+        let inset = 50 * scale
+        let x = max(0, min(inset, imageSize.width - size.width))
+        let y = max(0, min(inset, imageSize.height - size.height))
+        element.move(by: CGVector(dx: x, dy: y))
+        return element
+    }
+}
+
 extension AnnotationRenderer {
     /// Draws a barcode element from its spec, at its bounds (upstream `BarcodeContainer.Draw`, which re-renders its
     /// bitmap at the new size; here the modules are drawn as shapes, so they stay sharp at any size).
