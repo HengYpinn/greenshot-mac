@@ -41,6 +41,11 @@ extension MainMenu {
         image.addItem(withTitle: "Remove Transparency…", action: #selector(EditorWindowController.removeTransparency(_:)),
                       keyEquivalent: "")
 
+        // Upstream's "Apply to the image" button of the selected cut edges and torn edges (property bar there).
+        image.addItem(.separator())
+        image.addItem(withTitle: "Apply Cut Edges to the Image", action: #selector(EditorWindowController.applySelectionToImage(_:)),
+                      keyEquivalent: "")
+
         // Upstream's text obfuscation (Edit menu there).
         image.addItem(.separator())
         image.addItem(withTitle: "Obfuscate Text…", action: #selector(EditorWindowController.obfuscateText(_:)), keyEquivalent: "")

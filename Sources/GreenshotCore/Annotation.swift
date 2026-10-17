@@ -298,10 +298,13 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         copy.end = scale(end)
         copy.points = points.map(scale)
         copy.tail = tail.map(scale)
+        if kind == .tornEdge { copy.cutEdges = cutEdges.map { $0.scaled(x: factor, y: factor) } }
         return copy
     }
 
     public mutating func move(by delta: CGVector) {
+        // Torn edges always cover the whole image (upstream `TornEdgeContainer.MoveBy` → `SpanImage`).
+        guard kind != .tornEdge else { return }
         start = CGPoint(x: start.x + delta.dx, y: start.y + delta.dy)
         end = CGPoint(x: end.x + delta.dx, y: end.y + delta.dy)
         points = points.map { CGPoint(x: $0.x + delta.dx, y: $0.y + delta.dy) }
@@ -373,7 +376,7 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
             }
             return point.x >= 0 && point.y >= band.minY - tolerance / 2 && point.y <= band.maxY + tolerance / 2
         case .tornEdge:
-            return false // package E1 fills this in
+            return hitsTornEdge(point, scale: scale)
         case .text, .highlight, .obfuscate, .counter, .emoji, .image, .svg, .cursor, .barcode:
             return bounds.insetBy(dx: -tolerance / 2, dy: -tolerance / 2).contains(point)
         }
@@ -402,6 +405,10 @@ public enum Handle: CaseIterable, Sendable {
         // A cut mark is only sized across the cut (upstream's top and bottom center grippers, left and right for a
         // vertical cut).
         case .cutMark: return annotation.isVerticalCutMark ? [.left, .right] : [.top, .bottom]
+        // Torn edges always cover the whole image (upstream: no adorners).
+        case .tornEdge: return []
+        // An SVG keeps its aspect ratio (upstream `VectorGraphicsContainer`'s corner grippers, `ScaleOptions.Rational`).
+        case .svg: return cornerHandles
         // A matrix code keeps its aspect ratio (upstream `BarcodeContainer.GetScaleOptions`: Rational for 2D codes).
         case .barcode: return annotation.barcodeKeepsAspect ? cornerHandles : boxHandles
         default: return boxHandles
@@ -448,7 +455,7 @@ public enum Handle: CaseIterable, Sendable {
             break
         }
         let aspect = keepAspect || original.kind == .emoji || original.kind == .counter || original.barcodeKeepsAspect
-        let rect = drag(original.bounds, to: point, keepAspect: aspect,
+        let rect = drag(original.bounds, to: point, keepAspect: aspect || original.kind == .svg,
                         square: original.kind == .emoji || original.kind == .counter, centered: centered)
         result.start = rect.origin
         result.end = CGPoint(x: rect.maxX, y: rect.maxY)

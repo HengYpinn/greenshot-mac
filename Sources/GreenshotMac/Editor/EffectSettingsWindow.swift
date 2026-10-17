@@ -135,7 +135,9 @@ final class DropShadowSettingsForm: NSObject {
 }
 
 /// Upstream `TornEdgeSettingsWindow`: the edges to tear (with "All"), the tooth size and ranges 0...40, the
-/// background color, and the shadow with its thickness, offset and darkness like the drop shadow dialog.
+/// background color, and the shadow with its thickness, offset and darkness like the drop shadow dialog. Without
+/// `showEdges` it is the cut edge settings of a cut mark, which only has the edges along its cut (upstream
+/// `TornEdgeSettingsWindow(settings, false)`).
 @MainActor
 final class TornEdgeSettingsForm: NSObject {
     let toothHeight: SliderField
@@ -154,7 +156,7 @@ final class TornEdgeSettingsForm: NSObject {
     private let shadow = NSButton(checkboxWithTitle: "With shadow", target: nil, action: nil)
     private(set) var view = NSView()
 
-    init(_ settings: TornEdgeSettings) {
+    init(_ settings: TornEdgeSettings, showEdges: Bool = true) {
         toothHeight = SliderField(range: 0...40, value: settings.toothHeight)
         horizontalRange = SliderField(range: 0...40, value: settings.horizontalToothRange)
         verticalRange = SliderField(range: 0...40, value: settings.verticalToothRange)
@@ -193,8 +195,8 @@ final class TornEdgeSettingsForm: NSObject {
         edges.rowSpacing = 4
         edges.columnSpacing = 12
         for column in 0..<3 { edges.column(at: column).xPlacement = .center }
-        view = EffectSettingsDialog.form([
-            [EffectSettingsDialog.label("Edges:"), edges],
+        let edgeRows: [[NSView]] = showEdges ? [[EffectSettingsDialog.label("Edges:"), edges]] : []
+        view = EffectSettingsDialog.form(edgeRows + [
             toothHeight.row("Tooth size:"),
             horizontalRange.row("Horizontal range:"),
             verticalRange.row("Vertical range:"),

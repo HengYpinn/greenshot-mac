@@ -28,7 +28,8 @@ extension Annotation {
     /// height) gets its start on the left (top) and its end on the right (bottom), like upstream setting `Width`.
     public func withBounds(_ rect: CGRect) -> Annotation {
         let old = bounds
-        guard rect != old else { return self }
+        // Torn edges always cover the whole image (upstream `TornEdgeContainer.ApplyBounds` → `SpanImage`).
+        guard rect != old, kind != .tornEdge else { return self }
         if rect.size == old.size {
             var moved = self
             moved.move(by: CGVector(dx: rect.minX - old.minX, dy: rect.minY - old.minY))
@@ -72,12 +73,17 @@ extension Annotation {
     }
 
     /// Whether "Reset size" applies: upstream `HasDefaultSize` (image, icon, SVG, metafile and cursor containers; the
-    /// Mac has image elements of those).
-    public var hasDefaultSize: Bool { kind == .image && imageData != nil }
+    /// Mac has image, SVG and pointer elements).
+    public var hasDefaultSize: Bool { [.image, .svg, .cursor].contains(kind) && imageData != nil }
 
-    /// The size of an image element's picture at its own pixels per point (from its resolution) on an image with
-    /// `documentScale` pixels per point (upstream `ImageContainer.DefaultSize`).
+    /// The size of an image or pointer element's picture at its own pixels per point (from its resolution), or of an
+    /// SVG at its own size, on an image with `documentScale` pixels per point (upstream `ImageContainer.DefaultSize`,
+    /// `SvgContainer.DefaultSize`, `CursorContainer.DefaultSize`).
     public func defaultSize(documentScale: CGFloat) -> CGSize? {
+        if kind == .svg {
+            guard let data = imageData, let size = ElementSvg.size(of: data) else { return nil }
+            return CGSize(width: size.width * documentScale, height: size.height * documentScale)
+        }
         guard hasDefaultSize, let data = imageData, let source = CGImageSourceCreateWithData(data as CFData, nil),
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
               let width = (properties[kCGImagePropertyPixelWidth] as? NSNumber)?.doubleValue,
@@ -113,7 +119,8 @@ extension EditorDocument {
     /// strip. False when the element has no size in that direction.
     @discardableResult
     public func pushOut(_ id: UUID, to edge: ElementEdge) -> Bool {
-        guard let element = annotation(id) else { return false }
+        // Torn edges always cover the whole image.
+        guard let element = annotation(id), element.kind != .tornEdge else { return false }
         let box = element.bounds
         let width = Int(box.width.rounded(.up))
         let height = Int(box.height.rounded(.up))

@@ -108,8 +108,10 @@ public enum AnnotationRenderer {
             drawPicture(a, in: context, scale: scale)
         case .cutMark:
             drawCutMark(a, in: context, scale: scale)
-        case .tornEdge, .svg:
-            break // package E1 fills these in
+        case .tornEdge:
+            drawTornEdge(a, in: context, scale: scale)
+        case .svg:
+            drawSvg(a, in: context, scale: scale)
         case .barcode:
             drawBarcode(a, in: context, scale: scale)
         }
@@ -136,19 +138,12 @@ public enum AnnotationRenderer {
         context.restoreGState()
 
         if style.shadow {
-            // Like upstream's CutShadow: the parts of the image cast a soft shadow into the gap. Everything but the gap
-            // is filled, clipped to the gap, so only the shadow of it shows.
-            context.saveGState()
-            context.addPath(shape.gap)
-            context.clip()
-            context.setShadow(offset: .zero, blur: 6 * scale, color: CGColor(gray: 0, alpha: 0.6))
+            // The parts of the image on both sides cast their shadow into the gap.
             let outside = CGMutablePath()
-            outside.addRect(canvas.insetBy(dx: -20 * scale, dy: -20 * scale))
+            outside.addRect(canvas)
             outside.addPath(shape.gap)
-            context.addPath(outside)
-            context.setFillColor(CGColor(gray: 0, alpha: 1))
-            context.fillPath(using: .evenOdd)
-            context.restoreGState()
+            drawCutShadow(into: shape.gap, areaRule: .winding, caster: outside, casterRule: .evenOdd,
+                          layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
         }
 
         let lineWidth = CGFloat(style.lineWidth) * scale
@@ -161,6 +156,59 @@ public enum AnnotationRenderer {
             context.addLines(between: shape.second)
             context.strokePath()
         }
+    }
+
+    /// Upstream `TornEdgeContainer.Draw`: the torn off parts filled with the fill color or made transparent (export
+    /// mode, like cut marks), the shadow the part that stays casts into them, and the line along the torn sides.
+    static func drawTornEdge(_ a: Annotation, in context: CGContext, scale: CGFloat) {
+        let style = a.style
+        let canvas = canvasBounds(context)
+        guard let shape = TornEdge.shape(of: a, imageSize: canvas.size, scale: scale) else { return }
+        context.saveGState()
+        context.addPath(shape.tornOff)
+        if style.fillColor.isVisible {
+            context.setFillColor(style.fillColor.cgColor)
+        } else {
+            context.setBlendMode(.clear)
+        }
+        context.fillPath(using: .evenOdd)
+        context.restoreGState()
+
+        if style.shadow {
+            drawCutShadow(into: shape.tornOff, areaRule: .evenOdd, caster: shape.kept, casterRule: .winding,
+                          layout: a.cutEdges ?? CutEdgeLayout(), in: context, scale: scale)
+        }
+
+        let lineWidth = CGFloat(style.lineWidth) * scale
+        if lineWidth > 0, style.lineColor.isVisible {
+            context.setStrokeColor(style.lineColor.cgColor)
+            context.setLineWidth(lineWidth)
+            context.setLineJoin(.round)
+            context.setLineCap(.round)
+            for side in shape.tornSides { context.addLines(between: side) }
+            context.strokePath()
+        }
+    }
+
+    /// Upstream `CutShadow`: the part of the image that stays (`caster`) casts a soft shadow into the cut `area`, as
+    /// dark, soft and far as the element's settings say. Upstream `ImageHelper.CreateShadow` puts the shadow `size`
+    /// pixels in and the image at `offset + size - 1`, and `CutShadow.Draw` draws the image back at its place, so the
+    /// shadow lies `1 - offset` points down right of what casts it (2 points with the default offset of -1).
+    static func drawCutShadow(into area: CGPath, areaRule: CGPathFillRule, caster: CGPath, casterRule: CGPathFillRule,
+                              layout: CutEdgeLayout, in context: CGContext, scale: CGFloat) {
+        let right = CGFloat(1 - layout.shadowOffsetX) * scale
+        let down = CGFloat(1 - layout.shadowOffsetY) * scale
+        let blur = CGFloat(max(1, layout.shadowSize)) * scale
+        context.saveGState()
+        context.addPath(area)
+        context.clip(using: areaRule)
+        // Shadow offsets are in the bitmap's own space (y up) and ignore the flipped CTM, so "down" is negative.
+        context.setShadow(offset: CGSize(width: right, height: -down), blur: blur,
+                          color: CGColor(gray: 0, alpha: CGFloat(min(max(layout.shadowDarkness, 0), 1))))
+        context.addPath(caster)
+        context.setFillColor(CGColor(gray: 0, alpha: 1))
+        context.fillPath(using: casterRule)
+        context.restoreGState()
     }
 
     /// Upstream `ImageContainer.Draw`: the picture stretched into the box, with an optional shadow.

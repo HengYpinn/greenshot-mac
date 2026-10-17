@@ -51,6 +51,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
             guard oldValue != selectedIDs else { return }
             needsDisplay = true
             onSelectionChange?()
+            NotificationCenter.default.post(name: .canvasSelectionDidChange, object: self)
         }
     }
 
@@ -597,13 +598,21 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         if a.kind.hasEditableText && selectedIDs.count == 1 {
             menu.addItem(ClosureMenuItem(title: "Edit Text") { [weak self] in self?.beginEditing(a, isNew: false) })
         }
-        if a.kind == .cutMark && selectedIDs.count == 1 {
-            // Upstream `CutMarkContainer.AddContextMenuItems`: "new random edges".
-            menu.addItem(ClosureMenuItem(title: "New Random Edges") { [weak self] in
-                guard let self, var mark = self.document.annotation(a.id) else { return }
-                mark.seed = .random(in: .min ... .max)
-                self.document.change { self.document.update(mark) }
-                self.documentChanged()
+        if AnnotationKind.cutEdgeKinds.contains(a.kind) {
+            // Upstream `CutMarkContainer` / `TornEdgeContainer.AddContextMenuItems`: new random edges, the settings, and
+            // Apply to the image (of every selected cut mark and torn edges, like the property bar's button).
+            if selectedIDs.count == 1 {
+                menu.addItem(ClosureMenuItem(title: "New Random Edges") { [weak self] in
+                    self?.editorWindowController?.newRandomEdges(a.id)
+                })
+                let settingsTitle = a.kind == .tornEdge ? "Torn Edge Settings…" : "Cut Edge Settings…"
+                menu.addItem(ClosureMenuItem(title: settingsTitle) { [weak self] in
+                    self?.editorWindowController?.showCutEdgeSettings(for: a.id)
+                })
+            }
+            menu.addItem(ClosureMenuItem(title: "Apply to the Image") { [weak self] in
+                guard let controller = self?.editorWindowController else { return }
+                controller.applyToImage(controller.selectedCutEdgeIDs)
             })
         }
         if a.kind == .emoji && selectedIDs.count == 1 {
@@ -852,7 +861,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         case .horizontal:
             editorWindowController?.cutOutSelectedRows(nil)
         case .crop, .auto:
-            document.change { document.crop(to: crop) }
+            document.change { document.cropKeepingEdges(to: crop) }
             cropRect = nil
             tool = .select
             documentChanged()
@@ -982,8 +991,13 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         // file's icon on the clipboard too.
         let files = imageFileURLs(on: pasteboard)
         if !files.isEmpty {
-            let elements = pictureElements(files.compactMap(ElementPictures.load), at: mouseImagePoint())
+            let elements = contentElements(files.compactMap(ElementPictures.content(of:)), at: mouseImagePoint())
             if elements.isEmpty { NSSound.beep() } else { insert(elements) }
+            return
+        }
+        // SVG on the clipboard stays an SVG element (upstream `SvgFileFormatHandler.LoadDrawablesFromStream`).
+        if let svg = svgElement(on: pasteboard, at: mouseImagePoint()) {
+            insert([svg])
             return
         }
         // An image on the clipboard becomes an image element (upstream pastes it as an `ImageContainer`).
@@ -1019,16 +1033,34 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
                                              maxWidth: document.imageSize.width)])
     }
 
-    /// Image elements for `pictures`, the first with its top left at `point`, each next one 10 points further.
-    private func pictureElements(_ pictures: [(image: CGImage, scale: CGFloat)], at point: CGPoint?) -> [Annotation] {
+    /// Image and SVG elements for `contents`, the first with its top left at `point`, each next one 10 points further.
+    private func contentElements(_ contents: [ElementPicture], at point: CGPoint?) -> [Annotation] {
         var origin = point
         var elements: [Annotation] = []
-        for picture in pictures {
-            guard let a = pictureElement(picture.image, scale: picture.scale, at: origin) else { continue }
+        for content in contents {
+            guard let a = contentElement(content, at: origin) else { continue }
             elements.append(a)
             origin = CGPoint(x: a.bounds.minX + 10 * document.scale, y: a.bounds.minY + 10 * document.scale)
         }
         return elements
+    }
+
+    /// An image element for a picture, an SVG element for an SVG.
+    private func contentElement(_ content: ElementPicture, at point: CGPoint?) -> Annotation? {
+        switch content {
+        case .picture(let image, let scale):
+            return pictureElement(image, scale: scale, at: point)
+        case .svg(let data):
+            return svgElement(data, at: point)
+        }
+    }
+
+    /// An SVG element for the SVG data on `pasteboard` (`public.svg-image`), nil when there is none.
+    private func svgElement(on pasteboard: NSPasteboard, at point: CGPoint?) -> Annotation? {
+        let type = NSPasteboard.PasteboardType(UTType.svg.identifier)
+        guard pasteboard.availableType(from: [type]) != nil, let data = pasteboard.data(forType: type),
+              ElementSvg.isSVG(data) else { return nil }
+        return svgElement(data, at: point)
     }
 
     /// Downloads the first of `urls` that is a picture and adds it at `point` (upstream `AddDownloadedOrFallbackAsync`);
@@ -1037,7 +1069,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         Task { [weak self] in
             let picture = await CanvasDownload.firstPicture(from: urls)
             guard let self, self.window != nil else { return }
-            if let picture, let a = self.pictureElement(picture.image, scale: picture.scale, at: point) {
+            if let picture, let a = self.contentElement(picture, at: point) {
                 self.commitEditing()
                 self.insert([a])
             } else {
@@ -1048,10 +1080,23 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
 
     /// An image element for `picture`, its top left at `point`, else 10 points into the visible part of the image.
     private func pictureElement(_ picture: CGImage, scale: CGFloat, at point: CGPoint?) -> Annotation? {
+        let (origin, room) = placement(at: point)
+        return Annotation.picture(picture, pictureScale: scale, at: origin, documentScale: document.scale, fitting: room)
+    }
+
+    /// An SVG element for `data` (upstream `SvgContainer`), placed like a picture, at its own size or smaller.
+    private func svgElement(_ data: Data, at point: CGPoint?) -> Annotation? {
+        let (origin, room) = placement(at: point)
+        return Annotation.svg(data, at: origin, documentScale: document.scale, fitting: room)
+    }
+
+    /// Where an inserted picture goes: its top left at `point`, else 10 points into the visible part of the image; and
+    /// the room from there to the bottom right of the image, which it is made smaller to fit in.
+    private func placement(at point: CGPoint?) -> (origin: CGPoint, room: CGSize) {
         let visible = visibleRect.intersection(bounds)
         let origin = point ?? CGPoint(x: (visible.minX + 10) * document.scale, y: (visible.minY + 10) * document.scale)
         let room = CGSize(width: max(document.imageSize.width - origin.x, 1), height: max(document.imageSize.height - origin.y, 1))
-        return Annotation.picture(picture, pictureScale: scale, at: origin, documentScale: document.scale, fitting: room)
+        return (origin, room)
     }
 
     // MARK: Drop
@@ -1098,11 +1143,16 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         let drop = convert(sender.draggingLocation, from: nil)
         let origin = CGPoint(x: drop.x * document.scale, y: drop.y * document.scale)
         // The pasteboard is only readable during the drop: read everything now.
-        var pictures = imageFileURLs(on: pasteboard).compactMap(ElementPictures.load)
-        if pictures.isEmpty, let image = NSImage(pasteboard: pasteboard), let bitmap = ImageLoader.bitmap(of: image) {
-            pictures = [bitmap]
+        var contents = imageFileURLs(on: pasteboard).compactMap(ElementPictures.content(of:))
+        let elements: [Annotation]
+        if contents.isEmpty, let svg = svgElement(on: pasteboard, at: origin) {
+            elements = [svg]
+        } else {
+            if contents.isEmpty, let image = NSImage(pasteboard: pasteboard), let bitmap = ImageLoader.bitmap(of: image) {
+                contents = [.picture(bitmap.image, scale: bitmap.scale)]
+            }
+            elements = contentElements(contents, at: origin)
         }
-        let elements = pictureElements(pictures, at: origin)
         if let link = webURL(on: pasteboard) {
             addDownloadedPicture(from: [link], at: origin) { [weak self] in
                 if elements.isEmpty { NSSound.beep() } else { self?.insert(elements) }

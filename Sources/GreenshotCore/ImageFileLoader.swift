@@ -11,9 +11,12 @@ import UniformTypeIdentifiers
 /// Reads image files and image data with ImageIO (upstream's file format handlers, `ImageIO.LoadImage`): every format
 /// macOS reads (PNG, JPEG, GIF, TIFF, BMP, HEIC, WebP, TGA, binary PBM/PPM, ICO, ...), upright by its EXIF orientation
 /// (upstream `ImageHelper.Orientate`, which `ProcessEXIFOrientation` turns off; here it is always on, like in Preview),
-/// with its pixels per point taken from its resolution (144 dpi screenshots are Retina, 2x).
+/// with its pixels per point taken from its resolution (144 dpi screenshots are Retina, 2x). SVG files are drawn at
+/// 2 pixels per point (`ElementSvg`).
 public enum ImageFileLoader {
     public static func load(_ url: URL) -> (image: CGImage, scale: CGFloat)? {
+        // ImageIO can't read SVG: macOS draws it (upstream `SvgFileFormatHandler`).
+        if ElementSvg.isSVGFile(url) { return ElementSvg.rasterizedFile(url) }
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
         return load(source)
     }

@@ -7,8 +7,32 @@ import CoreGraphics
 import Foundation
 import ImageIO
 
+/// What a dropped or pasted file or download becomes: an image element's picture, or an SVG element's SVG.
+public enum ElementPicture {
+    case picture(CGImage, scale: CGFloat)
+    case svg(Data)
+}
+
 /// Reads the pictures that are dropped or pasted on the editor as image elements.
 public enum ElementPictures {
+    /// The file at `url` as an SVG element's SVG (upstream `SvgFileFormatHandler.LoadDrawablesFromStream`) or an image
+    /// element's picture.
+    public static func content(of url: URL) -> ElementPicture? {
+        if ElementSvg.isSVGFile(url) {
+            guard let data = ElementSvg.data(ofFile: url), ElementSvg.size(of: data) != nil else { return nil }
+            return .svg(data)
+        }
+        return load(url).map { .picture($0.image, scale: $0.scale) }
+    }
+
+    /// `data` as an SVG element's SVG or an image element's picture.
+    public static func content(of data: Data) -> ElementPicture? {
+        if ElementSvg.isSVG(data) {
+            return ElementSvg.size(of: data) != nil ? .svg(data) : nil
+        }
+        return load(data: data).map { .picture($0.image, scale: $0.scale) }
+    }
+
     /// The image file at `url` (see `largestImage(in:)`).
     public static func load(_ url: URL) -> (image: CGImage, scale: CGFloat)? {
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }

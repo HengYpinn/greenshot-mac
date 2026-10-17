@@ -179,7 +179,10 @@ extension EditorDocument {
         let sx = target.width / old.width
         let sy = target.height / old.height
         return replaceImage(with: image) { annotation in
-            ImageOperations.mapPositions(of: annotation) { CGPoint(x: $0.x * sx, y: $0.y * sy) }
+            var scaled = ImageOperations.mapPositions(of: annotation) { CGPoint(x: $0.x * sx, y: $0.y * sy) }
+            // The room for the shadow of torn edges scales with the image.
+            if scaled.kind == .tornEdge { scaled.cutEdges = (scaled.cutEdges ?? CutEdgeLayout()).scaled(x: sx, y: sy) }
+            return scaled
         }
     }
 
@@ -192,6 +195,8 @@ extension EditorDocument {
         return replaceImage(with: image) { annotation in
             var turned = ImageOperations.mapPositions(of: annotation) { ImageOperations.rotated($0, imageSize: size, clockwise: clockwise) }
             if turned.kind == .cutMark { turned.verticalCut = !turned.isVerticalCutMark }
+            // Torn sides and their room turn with the image.
+            if turned.kind == .tornEdge { turned.cutEdges = (turned.cutEdges ?? CutEdgeLayout()).rotated(clockwise: clockwise) }
             return turned
         }
     }
@@ -218,7 +223,7 @@ extension EditorDocument {
     @discardableResult
     public func shrinkCanvas(difference: Int = 10) -> Bool {
         guard let content = AutoCrop.contentRect(of: flattened(), difference: difference) else { return false }
-        return crop(to: content)
+        return cropKeepingEdges(to: content)
     }
 
     /// Upstream "Clear": the image becomes fully transparent, its size and the elements stay.
@@ -241,7 +246,7 @@ extension EditorDocument {
     @discardableResult
     public func autoCrop(difference: Int, area: CGRect? = nil) -> Bool {
         guard let content = AutoCrop.contentRect(of: flattened(), difference: difference, area: area) else { return false }
-        return crop(to: content)
+        return cropKeepingEdges(to: content)
     }
 
     /// Upstream `Surface.ApplyCutOut` (the crop modes Horizontal and Vertical): cuts the rows (`horizontal`) or
@@ -300,6 +305,18 @@ extension EditorDocument {
             add(mark)
         }
         return true
+    }
+
+    /// Upstream `Surface.ApplyElementToImage` ("Apply to the image"): draws the cut marks and torn edges among `ids`
+    /// into the image, the way they are saved (cut out parts transparent or in their fill color, with their shadow and
+    /// line), and removes them. Returns false when none of `ids` is one.
+    @discardableResult
+    public func applyToImage(_ ids: Set<UUID>) -> Bool {
+        let elements = annotations(ids).filter { AnnotationKind.cutEdgeKinds.contains($0.kind) }
+        guard !elements.isEmpty,
+              let image = AnnotationRenderer.flatten(base: baseImage, annotations: elements, scale: scale) else { return false }
+        remove(Set(elements.map(\.id)))
+        return replaceImage(with: image)
     }
 
     /// Replaces the image with `transform`'s result of the same size (adjust, monochrome, reduce colors).

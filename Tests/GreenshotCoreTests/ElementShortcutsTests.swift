@@ -31,12 +31,20 @@ struct ElementShortcutsTests {
     }
 
     @Test func onlyElementsWithTheFieldChange() {
-        // Upstream `HasField`: lines, arrows and freehand drawings have no fill; every element has a shadow.
+        // Upstream `HasField`: lines, arrows and freehand drawings have no fill; every element has a shadow but SVG and
+        // pointer elements, which have no fields at all.
         #expect(!AnnotationKind.line.has(.fillColor) && !AnnotationKind.arrow.has(.fillColor) && !AnnotationKind.freehand.has(.fillColor))
         #expect(AnnotationKind.rectangle.has(.fillColor) && AnnotationKind.counter.has(.fillColor) && AnnotationKind.highlight.has(.fillColor))
         #expect(!AnnotationKind.highlight.has(.lineColor) && !AnnotationKind.image.has(.lineWidth))
         #expect(AnnotationKind.text.has(.lineWidth))
-        #expect(AnnotationKind.allCases.allSatisfy { $0.has(.shadow) })
+        let withShadow = AnnotationKind.kinds(with: .shadow)
+        #expect(withShadow == Set(AnnotationKind.allCases).subtracting([.svg, .cursor]))
+        for property in AnnotationStyleProperty.allCases {
+            #expect(!AnnotationKind.svg.has(property))
+            #expect(!AnnotationKind.cursor.has(property))
+            #expect(AnnotationKind.tornEdge.has(property))
+        }
+        #expect(AnnotationKind.cutEdgeKinds == [.cutMark, .tornEdge])
     }
 
     @Test func copyingAPropertyLeavesTheOthers() {
