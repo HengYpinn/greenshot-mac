@@ -37,7 +37,7 @@ public struct RecipeDestinationDesignation: Sendable, Equatable {
         "windows10share": .share, "share": .share,
         "windows10ocr": .ocr, "ocr": .ocr,
         "zxingqrdestination": .qrCode, "qrcode": .qrCode,
-        "pdf": .pdf, "openwith": .openWith,
+        "pdf": .pdf, "openwith": .openWith, "external": .externalCommand,
         "word": .word, "excel": .excel, "powerpoint": .powerpoint, "outlook": .outlook, "onenote": .notes, "notes": .notes,
         "jira": .jira, "confluence": .confluence, "box": .box, "dropbox": .dropbox
     ]

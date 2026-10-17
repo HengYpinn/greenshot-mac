@@ -56,7 +56,8 @@ struct BarcodeMenu {
 
 /// The background work of the capture screen: text recognition for the text mode (upstream
 /// `Greenshot/Capturing/Tools/TextCaptureTool.cs`) and QR codes (upstream
-/// `Greenshot.Plugin.Zxing/Processing/ZxingCaptureProcessor.cs`). Both run once per capture, off the main thread.
+/// `Greenshot.Plugin.Zxing/Processing/ZxingCaptureProcessor.cs`). Both run once per capture, off the main thread, with
+/// the async Vision calls (the sync ones would block a thread of the cooperative pool).
 extension CaptureOverlayController {
     /// Recognises the text of every display, once per capture; the lines show up when it is done.
     func startTextRecognition() {
@@ -68,7 +69,7 @@ extension CaptureOverlayController {
             let lines = await Task.detached(priority: .userInitiated) {
                 var lines: [RecognizedLine] = []
                 for job in jobs {
-                    guard let found = try? TextRecognizer.recognizeLines(in: job.image, language: language) else { continue }
+                    guard let found = try? await TextRecognizer.recognizeLines(in: job.image, language: language) else { continue }
                     lines += TextCaptureSelection.global(found, scale: job.scale, origin: job.origin)
                 }
                 return lines
@@ -92,7 +93,7 @@ extension CaptureOverlayController {
             let found = await Task.detached(priority: .utility) {
                 var found: [DetectedBarcode] = []
                 for job in jobs {
-                    guard let codes = try? BarcodeDetector.detect(in: job.image) else { continue }
+                    guard let codes = try? await BarcodeDetector.detect(in: job.image) else { continue }
                     for code in codes {
                         var global = code
                         global.bounds = Geometry.globalRect(fromPixels: code.bounds, scale: job.scale, origin: job.origin)

@@ -73,6 +73,18 @@ import Testing
         #expect(video.first?.target == "Writes the video to a place decided when the recipe runs (${Dir})")
     }
 
+    /// The plain "External" (the settings' external command, what `designation(for: .externalCommand)` gives) is an
+    /// external command too and needs its permission, as upstream.
+    @Test func plainExternalIsAnExternalCommand() {
+        let designation = RecipeDestinationDesignation("External")
+        #expect(designation.destination == .externalCommand)
+        #expect(designation.externalCommandName == nil)
+        let plain = gates(node("Destinations", ["DestinationDesignations": .array([.string("External")])]))
+        #expect(plain == [RecipeGatedAction(.externalCommand, target: "External")])
+        let named = RecipeDestinationDesignation(RecipeDestinationDesignation.designation(for: .externalCommand))
+        #expect(named.destination == .externalCommand)
+    }
+
     @Test func overrideDestinationsSetByTheRecipe() {
         let nodes = [RecipeNode(id: "a", stepType: "Source"), node("Destinations", ["DestinationDesignations": .array([.string("Clipboard")])])]
         var plain = testRecipe(nodes, transitions: [("a", ["n"])])

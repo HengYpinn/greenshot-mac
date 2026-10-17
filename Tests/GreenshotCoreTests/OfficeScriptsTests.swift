@@ -19,8 +19,13 @@ func isInstalled(_ bundleID: String) -> Bool {
 }
 
 /// Compiles a script with `osacompile` against the installed app's dictionary (nothing is sent to the app). nil when it
-/// compiles, else the error.
-func compileError(_ source: String) throws -> String? {
+/// compiles, else the error. Waits for the process off the cooperative pool: a test holding a pool thread for seconds
+/// starves the tests that need one (the pool has as many threads as cores, 3 on CI).
+func compileError(_ source: String) async throws -> String? {
+    try await offPool { try compileErrorBlocking(source) }
+}
+
+private func compileErrorBlocking(_ source: String) throws -> String? {
     let folder = FileManager.default.temporaryDirectory.appendingPathComponent("greenshot-osacompile-\(UUID().uuidString)")
     try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
     defer { try? FileManager.default.removeItem(at: folder) }
@@ -163,10 +168,10 @@ struct OfficeScriptsTests {
     // Compile checks: the scripts against the dictionaries of the installed apps.
 
     @Test(.enabled(if: canCompile), arguments: OfficeApplication.allCases)
-    func scriptsCompileAgainstTheInstalledApp(app: OfficeApplication) throws {
+    func scriptsCompileAgainstTheInstalledApp(app: OfficeApplication) async throws {
         guard isInstalled(app.bundleID) else { return }
         for call in Self.allCalls() where call.bundleID == app.bundleID {
-            let error = try compileError(call.source)
+            let error = try await compileError(call.source)
             #expect(error == nil, "\(app.name): \(error ?? "")\n\(call.source)")
         }
     }
@@ -184,18 +189,18 @@ struct OfficeScriptsTests {
     }
 
     @Test(.enabled(if: canCompile))
-    func browserScriptsCompileAgainstTheInstalledBrowsers() throws {
+    func browserScriptsCompileAgainstTheInstalledBrowsers() async throws {
         for browser in ScriptableBrowser.all where isInstalled(browser.bundleID) {
-            let error = try compileError(browser.tabURLsScript.source)
+            let error = try await compileError(browser.tabURLsScript.source)
             #expect(error == nil, "\(browser.name): \(error ?? "")")
         }
     }
 
     @Test(.enabled(if: canCompile && isInstalled("com.microsoft.Powerpoint")))
-    func everySlideLayoutIsInPowerPointsDictionary() throws {
+    func everySlideLayoutIsInPowerPointsDictionary() async throws {
         let names = OfficeSettings.SlideLayout.allCases.map { "slide layout " + $0.appleScriptName }.joined(separator: ", ")
         let source = "tell application id \"com.microsoft.Powerpoint\"\n    set layouts to {\(names)}\nend tell\n"
-        let error = try compileError(source)
+        let error = try await compileError(source)
         #expect(error == nil, "\(error ?? "")")
     }
 }
