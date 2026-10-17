@@ -191,7 +191,8 @@ final class RecipeApprovalModel: ObservableObject {
         Task { @MainActor in
             guard isArmed, let decision = sheet.approval(openInEditor: openInEditor) else { return }
             if let text = sheet.leftOffText, let confirm {
-                guard await confirm("Triggers Left Off", text, ["Go Back", "Approve"]) == 1 else { return }
+                let buttons = [String(localized: "Go Back"), String(localized: "Approve")]
+                guard await confirm(String(localized: "Triggers Left Off"), text, buttons) == 1 else { return }
             }
             onFinish?(decision)
         }
@@ -205,7 +206,8 @@ final class RecipeApprovalModel: ObservableObject {
         }
         Task { @MainActor in
             if let confirm {
-                guard await confirm("Revoke Approval", sheet.revokeText, ["Keep", "Revoke"]) == 1 else { return }
+                let buttons = [String(localized: "Keep"), String(localized: "Revoke")]
+                guard await confirm(String(localized: "Revoke Approval"), sheet.revokeText, buttons) == 1 else { return }
             }
             onFinish?(.revoked)
         }
