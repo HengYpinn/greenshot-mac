@@ -196,3 +196,58 @@ struct EditorDocumentOpenedTests {
         #expect(!document.isWindowsGreenshotFile)
     }
 }
+
+/// `.greenshot` as an output format (upstream `OutputFormat.greenshot`, commit 5172972a): Save directly and Save As
+/// write the editor's elements, a fresh capture is the background of a file without elements, and every destination
+/// that hands the screenshot to another app gets a plain image.
+struct GreenshotOutputFormatTests {
+    @Test func theFormatIsTheGreenshotFile() {
+        let format = ImageFormat.greenshot
+        #expect(format.fileExtension == GreenshotFile.fileExtension)
+        #expect(ImageFormat(fileExtension: "GREENSHOT") == .greenshot)
+        #expect(format.displayName == "Greenshot (editable)")
+        #expect(!format.usesQuality)
+        #expect(!DestinationSupport.asksQuality(format))
+    }
+
+    @Test func otherAppsGetAPlainImage() {
+        #expect(ImageFormat.greenshot.plainImage == .png)
+        #expect(ImageFormat.jpg.plainImage == .jpg)
+        #expect(!ImageFormat.imageFormats.contains(.greenshot))
+        #expect(ImageFormat.imageFormats.count == ImageFormat.allCases.count - 1)
+        #expect(OfficeLayout.fileFormat(for: .greenshot) == .png)
+    }
+
+    @Test func aCommandNeverGetsAGreenshotFile() throws {
+        let json = #"{"name":"Tool","command":"/usr/bin/true","format":"greenshot"}"#
+        let command = try JSONDecoder().decode(ExternalCommand.self, from: Data(json.utf8))
+        #expect(command.format == .png)
+        let jpeg = try JSONDecoder().decode(ExternalCommand.self, from: Data(#"{"format":"jpg"}"#.utf8))
+        #expect(jpeg.format == .jpg)
+    }
+
+    @Test func aCaptureIsTheBackgroundOfAFileWithoutElements() throws {
+        let options = ImageOutputOptions(format: .greenshot, scale: 2, title: "Safari")
+        let data = try ImageExporter.data(for: GreenshotFileTests.background, options: options)
+        let contents = try #require(GreenshotFile.read(data))
+        #expect(contents.origin == .mac)
+        #expect(contents.elements.isEmpty)
+        #expect(contents.scale == 2)
+        #expect(contents.title == "Safari")
+        #expect(contents.image.width == 40)
+        #expect(TestImage.pixel(contents.image, 30, 10) == .blue)
+    }
+
+    @Test func anEditorsDocumentKeepsItsElements() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let url = folder.appendingPathComponent("sub/Shot.greenshot")
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Editor")
+        document.add(Annotation(kind: .rectangle, start: CGPoint(x: 1, y: 1), end: CGPoint(x: 10, y: 8)))
+        try GreenshotFile.Contents(of: document).write(to: url)
+        let contents = try #require(GreenshotFile.read(contentsOf: url))
+        #expect(contents.elements.count == 1)
+        #expect(contents.elements.first?.kind == .rectangle)
+        #expect(contents.title == "Editor")
+    }
+}

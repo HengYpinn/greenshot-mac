@@ -51,10 +51,10 @@ extension EditorWindowController {
         statusBar.setMessage(line, isError: message.isError, menu: message.isError ? nil : menu)
     }
 
-    /// This editor's image as a capture for the destinations.
+    /// This editor's image as a capture for the destinations, with the document for a save as `.greenshot` file.
     var currentCapture: Capture {
         Capture(image: editorDocument.flattened(), scale: editorDocument.scale, title: editorDocument.title,
-                date: editorDocument.captureDate)
+                date: editorDocument.captureDate, editable: GreenshotFile.Contents(of: editorDocument))
     }
 
     /// Sends this editor's image to a destination (the toolbar's destination buttons, Print), the way the File menu's

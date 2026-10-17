@@ -223,9 +223,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     var frontEditor: (capture: Capture, window: NSWindow)? {
         guard let window = NSApp.keyWindow ?? NSApp.mainWindow,
               let editor = window.windowController as? EditorWindowController else { return nil }
-        let document = editor.editorDocument
-        let capture = Capture(image: document.flattened(), scale: document.scale, title: document.title, date: document.captureDate)
-        return (capture, window)
+        return (editor.currentCapture, window)
     }
 
     /// File menu entries of the destinations: the item's `representedObject` is a `DestinationTargetBox`.

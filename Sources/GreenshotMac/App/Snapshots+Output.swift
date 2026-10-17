@@ -22,6 +22,11 @@ extension Snapshots {
         try write(uploadPanel(jira()), to: folder.appendingPathComponent("dialog-upload-jira.png"))
         try write(uploadPanel(confluence()), to: folder.appendingPathComponent("dialog-upload-confluence.png"))
         try write(uploadPanel(confluence(browse: true)), to: folder.appendingPathComponent("dialog-upload-confluence-browse.png"))
+        // Settings › Output with the Greenshot format (upstream 5172972a): files keep their elements editable.
+        let format = settings.value.outputFormat
+        settings.update { $0.outputFormat = .greenshot }
+        try write(settingsTab(2, settings: settings), to: folder.appendingPathComponent("settings-output-greenshot.png"))
+        settings.update { $0.outputFormat = format }
         try write(uploadPanel(confluence(open: true)), to: folder.appendingPathComponent("dialog-upload-confluence-open.png"))
         try write(uploadPanel(confluence(open: false)), to: folder.appendingPathComponent("dialog-upload-confluence-ask.png"))
         try write(uploadPanel(atlassianLogin()), to: folder.appendingPathComponent("dialog-atlassian-login.png"))

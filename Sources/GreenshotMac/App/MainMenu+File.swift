@@ -97,8 +97,7 @@ final class DynamicFileMenus: NSObject, NSMenuDelegate {
             menu.addItem(.separator())
             menu.addItem(withTitle: "Set Up Commands…", action: #selector(AppDelegate.showSettings(_:)), keyEquivalent: "")
         case .openWith:
-            let format = app.settings.value.outputFormat
-            for application in OpenWithDestination.applications(for: format).prefix(30) {
+            for application in OpenWithDestination.applications(for: app.settings.value.outputFormat).prefix(30) {
                 let item = MainMenu.destinationItem(OpenWithDestination.name(of: application), .application(application))
                 let icon = NSWorkspace.shared.icon(forFile: application.path)
                 icon.size = NSSize(width: 16, height: 16)

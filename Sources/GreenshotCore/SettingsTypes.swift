@@ -295,7 +295,7 @@ public struct ExternalCommand: Codable, Equatable, Identifiable, Sendable {
     public var copyURLFromOutput = true
     /// Put the whole output on the clipboard (upstream `OutputToClipboard`).
     public var copyOutputToClipboard = false
-    /// The format of the file the command gets (upstream `OutputFormat`, per command).
+    /// The format of the file the command gets (upstream `OutputFormat`, per command); one of `ImageFormat.imageFormats`.
     public var format: ImageFormat = .png
 
     public init(id: UUID = UUID(), name: String, command: String, arguments: String = "\"{0}\"",
@@ -331,7 +331,8 @@ public struct ExternalCommand: Codable, Equatable, Identifiable, Sendable {
         runInBackground = value(.runInBackground, true)
         copyURLFromOutput = value(.copyURLFromOutput, true)
         copyOutputToClipboard = value(.copyOutputToClipboard, false)
-        format = value(.format, .png)
+        // A command gets a plain image, never a .greenshot file.
+        format = value(.format, ImageFormat.png).plainImage
     }
 }
 

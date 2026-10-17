@@ -58,11 +58,12 @@ final class ExternalCommandForm: NSObject {
         background.state = command.runInBackground ? .on : .off
         copyURL.state = command.copyURLFromOutput ? .on : .off
         copyOutput.state = command.copyOutputToClipboard ? .on : .off
-        for format in ImageFormat.allCases {
+        // A command gets a plain image, never a .greenshot file.
+        for format in ImageFormat.imageFormats {
             formatPopup.addItem(withTitle: format.displayName)
             formatPopup.lastItem?.representedObject = format.rawValue
         }
-        formatPopup.selectItem(at: ImageFormat.allCases.firstIndex(of: command.format) ?? 0)
+        formatPopup.selectItem(at: ImageFormat.imageFormats.firstIndex(of: command.format) ?? 0)
         message.textColor = .systemRed
         message.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
         let program = self.program

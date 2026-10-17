@@ -15,9 +15,7 @@ extension EditorWindowController {
 
     /// The type of `.greenshot` files: the one in Info.plist, or (in a `swift build` without the app bundle) the type
     /// macOS makes up for the extension.
-    static var greenshotFileType: UTType {
-        UTType(GreenshotFile.typeIdentifier) ?? UTType(filenameExtension: GreenshotFile.fileExtension, conformingTo: .png) ?? .png
-    }
+    static var greenshotFileType: UTType { ImageFormat.greenshot.utType }
 
     /// The element files of Greenshot for Windows (`.gst`).
     static var windowsElementsFileType: UTType {
@@ -53,9 +51,7 @@ extension EditorWindowController {
     private func writeGreenshotFile(to url: URL, destination: String) -> Bool {
         let document = editorDocument
         do {
-            let data = try GreenshotFile.Contents(of: document).encoded()
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            try data.write(to: url, options: .atomic)
+            try GreenshotFile.Contents(of: document).write(to: url)
         } catch {
             Self.log.error("Saving \(url.lastPathComponent) failed", error: error)
             ErrorPresenter.show(message: "The screenshot could not be saved to \(url.lastPathComponent)",

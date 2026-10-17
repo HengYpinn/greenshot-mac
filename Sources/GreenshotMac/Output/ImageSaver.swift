@@ -7,6 +7,8 @@ import AppKit
 import GreenshotCore
 import UniformTypeIdentifiers
 
+private let log = Log("Save")
+
 /// Writes images to files, with the output folder and filename pattern of the settings: port of upstream
 /// `Greenshot/Destinations/FileDestination.cs`, `FileWithDialogDestination.cs` and `SaveImageFileDialog.cs`.
 @MainActor
@@ -47,18 +49,21 @@ final class ImageSaver {
     }
 
     /// Upstream's "Save directly": no dialog. Returns the file, or nil after showing the error. Without "Allow
-    /// overwrite" an existing file's name gets " (2)", " (3)", ….
+    /// overwrite" an existing file's name gets " (2)", " (3)", …. `editable` is what a `.greenshot` file keeps (an
+    /// editor's document); without it such a file has `image` without elements.
     @discardableResult
-    func saveDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date) -> URL? {
-        exportDirectly(image, scale: scale, title: title, date: date).fileURL
+    func saveDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date,
+                      editable: GreenshotFile.Contents? = nil) -> URL? {
+        exportDirectly(image, scale: scale, title: title, date: date, editable: editable).fileURL
     }
 
     /// "Save directly" as an export (upstream `FileDestination.ExportAsync`): a file that can't be written shows the
     /// problem and then the Save As dialog.
-    func exportDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date) -> ExportResult {
+    func exportDirectly(_ image: CGImage, scale: CGFloat, title: String, date: Date,
+                        editable: GreenshotFile.Contents? = nil) -> ExportResult {
         var url = defaultURL(title: title, date: date)
         if !settings.value.allowOverwrite { url = DestinationSupport.uniqueURL(for: url) }
-        switch writeResult(image, scale: scale, to: url) {
+        switch writeResult(image, scale: scale, to: url, title: title, date: date, editable: editable) {
         case .written:
             notifySaved(url)
             return .succeeded(fileURL: url)
@@ -69,20 +74,22 @@ final class ImageSaver {
             let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
             ErrorPresenter.show(message: "The screenshot could not be saved, please choose another place",
                                 detail: "\(url.lastPathComponent) could not be written to \(folder): \(error.localizedDescription)")
-            return exportAs(image, scale: scale, title: title, date: date, fileName: url.lastPathComponent)
+            return exportAs(image, scale: scale, title: title, date: date, fileName: url.lastPathComponent,
+                            editable: editable)
         }
     }
 
     /// Asks for a file name and format. Returns the file, or nil when cancelled or failed.
     @discardableResult
-    func saveAs(_ image: CGImage, scale: CGFloat, title: String, date: Date, suggestedURL: URL? = nil) -> URL? {
-        exportAs(image, scale: scale, title: title, date: date, suggestedURL: suggestedURL).fileURL
+    func saveAs(_ image: CGImage, scale: CGFloat, title: String, date: Date, suggestedURL: URL? = nil,
+                editable: GreenshotFile.Contents? = nil) -> URL? {
+        exportAs(image, scale: scale, title: title, date: date, suggestedURL: suggestedURL, editable: editable).fileURL
     }
 
     /// "Save as" as an export (upstream `FileWithDialogDestination`). `suggestedURL` is the editor's own file: the dialog
-    /// starts there. `fileName` replaces the pattern's name.
+    /// starts there. `fileName` replaces the pattern's name. `editable` as for `saveDirectly`.
     func exportAs(_ image: CGImage, scale: CGFloat, title: String, date: Date, suggestedURL: URL? = nil,
-                  fileName: String? = nil) -> ExportResult {
+                  fileName: String? = nil, editable: GreenshotFile.Contents? = nil) -> ExportResult {
         let s = settings.value
         let writable = suggestedURL.flatMap { ImageFormat(fileExtension: $0.pathExtension) }
         let initialFormat = writable ?? s.outputFormat
@@ -107,7 +114,7 @@ final class ImageSaver {
             format = accessory.format
             url = url.appendingPathExtension(format.fileExtension)
         }
-        switch writeResult(image, scale: scale, to: url, format: format) {
+        switch writeResult(image, scale: scale, to: url, format: format, title: title, date: date, editable: editable) {
         case .written:
             notifySaved(url)
             return .succeeded(fileURL: url)
@@ -195,10 +202,25 @@ final class ImageSaver {
         }
     }
 
-    /// `write` without the error dialog.
-    func writeResult(_ image: CGImage, scale: CGFloat, to url: URL, format: ImageFormat? = nil) -> WriteOutcome {
+    /// `write` without the error dialog. A `.greenshot` file keeps `editable` (an editor's document), or else `image`
+    /// without elements with `title` and `date`.
+    func writeResult(_ image: CGImage, scale: CGFloat, to url: URL, format: ImageFormat? = nil, title: String = "",
+                     date: Date? = nil, editable: GreenshotFile.Contents? = nil) -> WriteOutcome {
         let s = settings.value
         let format = format ?? ImageFormat(fileExtension: url.pathExtension) ?? s.outputFormat
+        if format == .greenshot {
+            // Upstream 5172972a: the greenshot format is written from the surface (its elements), not the rendered image.
+            let contents = editable
+                ?? GreenshotFile.Contents(image: image, scale: scale, title: title.isEmpty ? nil : title, captureDate: date)
+            do {
+                try contents.write(to: url)
+                log.info("Saved a .greenshot file with \(contents.elements.count) elements")
+                return .written
+            } catch {
+                log.error("Saving \(url.lastPathComponent) failed", error: error)
+                return .failed(error)
+            }
+        }
         var options = ImageOutputOptions(settings: s, format: format, scale: scale)
         if s.promptJpegQuality, DestinationSupport.asksQuality(format) {
             // Upstream `QualityWindow` (FileDestination asks before every save when OutputFilePromptQuality is on).

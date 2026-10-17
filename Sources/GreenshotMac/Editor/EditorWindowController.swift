@@ -805,7 +805,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             saver.notifySaved(url)
             saved = url
         } else {
-            guard let url = saver.saveDirectly(image, scale: editorDocument.scale, title: editorDocument.title, date: editorDocument.captureDate) else { return false }
+            // With the output format Greenshot the file keeps the elements, and Save writes it again later.
+            guard let url = saver.saveDirectly(image, scale: editorDocument.scale, title: editorDocument.title,
+                                               date: editorDocument.captureDate,
+                                               editable: GreenshotFile.Contents(of: editorDocument)) else { return false }
             editorDocument.fileURL = url
             saved = url
         }
@@ -816,8 +819,11 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     @objc func saveImageAs(_ sender: Any?) {
         canvas.commitEditing()
         guard let url = saver.saveAs(editorDocument.flattened(), scale: editorDocument.scale, title: editorDocument.title,
-                                     date: editorDocument.captureDate, suggestedURL: editorDocument.fileURL) else { return }
+                                     date: editorDocument.captureDate, suggestedURL: editorDocument.fileURL,
+                                     editable: GreenshotFile.Contents(of: editorDocument)) else { return }
         editorDocument.fileURL = url
+        // A .greenshot file chosen in the format popup is this app's file now, which Save may overwrite.
+        if GreenshotFile.isGreenshotFile(url) { editorDocument.isWindowsGreenshotFile = false }
         showExportResult(.succeeded(fileURL: url), destination: "Save As")
     }
 
