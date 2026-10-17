@@ -12,7 +12,8 @@ extension Snapshots {
     static func renderOutputExtras(to folder: URL, sample: CGImage, settings: SettingsStore) throws {
         let quality = QualityForm(format: .jpg, quality: 80, reduceColors: false, reduceColorsTo: 256)
         let command = ExternalCommandForm(ExternalCommand(name: "Preview", command: "/usr/bin/open",
-                                                          arguments: "-a Preview \"{0}\" --args ${title}", format: .jpg))
+                                                          arguments: "-a Preview \"{0}\" --args ${title}", format: .jpg,
+                                                          showOutputInLog: true))
         command.showDuplicateName()
         let progress = UploadProgressPanel(message: "Transferring data to Jira, please wait…") {}
         keepAlive += [quality, command, progress]
@@ -193,6 +194,8 @@ extension Snapshots {
         OfficeDestination.openItemsOverride = [.word: [OfficeOpenItem(id: "Report.docx", title: "Report.docx")],
                                                .outlook: [OfficeOpenItem(id: "41", title: "Re: Budget 2026"),
                                                           OfficeOpenItem(id: "77", title: "Design review", isMeeting: true)]]
+        // An issue seen in a window title before the picker opened (DST-088), and one in a title that is no issue.
+        JiraTitleMonitor.shared.observeForSnapshots(["[SHOT-31] Crash when exporting to PDF - Jira", "UTF-8 settings"])
         defer {
             OfficeDestination.installedOverride = nil
             OfficeDestination.openItemsOverride = [:]

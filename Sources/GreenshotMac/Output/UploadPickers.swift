@@ -39,11 +39,15 @@ enum JiraPicker {
         UploadPickerPanel.Row(id: key, values: ["", key, "", "", "", ""])
     }
 
+    /// "Recent issues": the issues seen in window titles first (`JiraTitleMonitor`; upstream preselects the newest one
+    /// the monitor saw, `JiraUploadWindow.xaml.cs:196`), then the issues uploaded to last.
+    @MainActor
     static func configuration(client: JiraClient, settings: AppSettings, filename: String) -> UploadPickerPanel.Configuration {
         var filters: [String: JiraFilter] = [:]
+        let recent = JiraTitleMonitor.shared.keys(uploadedTo: settings.jira.recentIssueKeys)
         var configuration = UploadPickerPanel.Configuration(
             title: "Upload to Jira", keyLabel: "Issue key", searchPlaceholder: "Words in the summary, or JQL",
-            columns: columns, recent: settings.jira.recentIssueKeys.map(recentRow), filename: filename, showsComment: true,
+            columns: columns, recent: recent.map(recentRow), filename: filename, showsComment: true,
             acceptsKey: JiraClient.isIssueKey,
             search: { text, _ in try await client.search(text).map(row) })
         configuration.scopeLabel = "Filter"
