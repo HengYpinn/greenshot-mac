@@ -68,6 +68,14 @@ struct RecipeTriggersRoutingTests {
         #expect(!RecipeOpenFileRouting.definesOpenFileTrigger([LoadedRecipe(recipe: CaptureRecipe(id: "x", name: "X"), source: .builtIn)]))
     }
 
+    /// R-F11: only the stock "Open file" recipe took the files: they open as before.
+    @Test func onlyTheStockRecipeOpensAsBefore() {
+        #expect(RecipeOpenFileRouting.opensAsBefore(files: [Self.png, Self.jpeg], direct: [Self.jpeg, Self.png], recipeRuns: 0))
+        #expect(!RecipeOpenFileRouting.opensAsBefore(files: [Self.png, Self.jpeg], direct: [Self.png, Self.jpeg], recipeRuns: 1))
+        #expect(!RecipeOpenFileRouting.opensAsBefore(files: [Self.png, Self.jpeg], direct: [Self.png], recipeRuns: 0))
+        #expect(!RecipeOpenFileRouting.opensAsBefore(files: [], direct: [], recipeRuns: 0))
+    }
+
     @Test func fireAndForgetIsTheTriggers() {
         let plan = RecipeOpenFileRouting.plan(files: [Self.png], active: [Self.openFile("quick", fireAndForget: true)], anyDefined: true)
         let run = plan.runs.first

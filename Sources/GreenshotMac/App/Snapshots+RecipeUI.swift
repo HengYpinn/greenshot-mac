@@ -21,6 +21,8 @@ extension Snapshots {
         try write(approval(samples.reviewRequest()), to: out("recipe-approval-review.png"))
         try write(approval(samples.ownEditRequest()), to: out("recipe-approval-own-edit.png"))
         try write(approval(samples.aiRequest()), to: out("recipe-approval-ai.png"))
+        // Opened on its own: Approve can't be clicked for a moment (S-N2).
+        try write(approval(samples.modifiedRequest(), armed: false), to: out("recipe-approval-arming.png"))
         try write(approval(samples.builtInRequest()), to: out("recipe-approval-builtin.png"))
         try write(approval(samples.validationRequest()), to: out("recipe-approval-validation.png"))
         try write(approval(samples.detailsRequest()), to: out("recipe-approval-details.png"))
@@ -44,9 +46,11 @@ extension Snapshots {
         try writeText(recipeMenuText(editorMenu), to: out("editor-recipes-menu.txt"))
     }
 
-    private static func approval(_ request: RecipeApprovalRequest, overlay: RecipeApprovalModel.Overlay? = nil) -> NSBitmapImageRep? {
+    private static func approval(_ request: RecipeApprovalRequest, overlay: RecipeApprovalModel.Overlay? = nil,
+                                 armed: Bool = true) -> NSBitmapImageRep? {
         let model = RecipeApprovalModel(request: request)
         model.overlay = overlay
+        model.isArmed = armed
         guard overlay == nil else {
             return window(RecipeApprovalView(model: model), size: NSSize(width: 680, height: 760))
         }
