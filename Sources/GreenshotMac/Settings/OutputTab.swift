@@ -45,18 +45,24 @@ struct OutputSettings: View {
             Picker("Format", selection: store.binding(\.outputFormat)) {
                 ForEach(ImageFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
-            if store.value.outputFormat == .jpg {
+            if store.value.outputFormat.usesQuality {
                 Slider(value: jpegQuality, in: 10...100, step: 5) {
                     Text("JPEG quality: \(store.value.jpegQuality)")
                 }
             }
             Toggle("Show the quality dialog every time an image is saved", isOn: store.binding(\.promptJpegQuality))
-            Toggle("Reduce the colours of PNG and GIF files", isOn: store.binding(\.reduceColors))
-            if store.value.reduceColors {
+            // Upstream `settings_reducecolors` and `OutputFileReduceColorsTo`; GIF files are always reduced.
+            Toggle("Reduce the number of colours", isOn: store.binding(\.reduceColors))
+                .help("Not for JPEG. GIF files always get at most this many colours.")
+            if store.value.reduceColors || store.value.outputFormat == .gif {
                 Stepper(value: store.binding(\.reduceColorsTo), in: 2...256) {
                     Text("At most \(store.value.reduceColorsTo) colours")
                 }
             }
+            // Upstream's Expert setting `expert_autoreducecolors` (`OutputFileAutoReduceColors`).
+            Toggle("Save with 256 colours when the image has fewer", isOn: store.binding(\.autoReduceColors))
+                .help("An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: "
+                    + "the same picture in a smaller file.")
         }
     }
 
