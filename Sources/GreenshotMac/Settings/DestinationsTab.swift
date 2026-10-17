@@ -187,6 +187,10 @@ struct OfficeSettingsSection: View {
                 ForEach(OfficeSettings.EmailFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
             .managed(\.office.outlookEmailFormat)
+            // Upstream `OutlookAllowExportInMeetings` ("Allow export in meeting items").
+            Toggle("Outlook: allow export in meeting items", isOn: store.binding(\.office.outlookAllowExportInMeetings))
+                .managed(\.office.outlookAllowExportInMeetings)
+                .help("The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.")
             HStack {
                 Text("Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.")
                     .font(.caption).foregroundStyle(.secondary)
@@ -196,7 +200,7 @@ struct OfficeSettingsSection: View {
         } header: {
             Text("Microsoft Office and Notes")
         } footer: {
-            Text("Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.")
+            Text("Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }

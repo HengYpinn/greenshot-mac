@@ -102,6 +102,7 @@ extension Snapshots {
         store.update {
             $0.email.to = "team@example.com"
             $0.email.cc = "lead@example.com"
+            $0.office.outlookAllowExportInMeetings = true
         }
         let hosting = NSHostingView(rootView: DestinationsSettings(store: store).officeForSnapshot)
         hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 640)
@@ -190,7 +191,8 @@ extension Snapshots {
         // The same entries on every Mac: all Office apps installed, Word and Outlook running with open items.
         OfficeDestination.installedOverride = Set(OfficeDestination.applications)
         OfficeDestination.openItemsOverride = [.word: [OfficeOpenItem(id: "Report.docx", title: "Report.docx")],
-                                               .outlook: [OfficeOpenItem(id: "41", title: "Re: Budget 2026")]]
+                                               .outlook: [OfficeOpenItem(id: "41", title: "Re: Budget 2026"),
+                                                          OfficeOpenItem(id: "77", title: "Design review", isMeeting: true)]]
         defer {
             OfficeDestination.installedOverride = nil
             OfficeDestination.openItemsOverride = [:]

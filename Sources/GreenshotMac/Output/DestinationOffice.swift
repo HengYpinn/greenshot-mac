@@ -68,10 +68,12 @@ enum OfficeDestination {
     }
 
     /// The open documents or messages of the app, when it runs and Greenshot may already control it: never starts the
-    /// app or makes macOS ask (the picker builds its menu with it).
-    static func openItems(_ app: OfficeApplication) async -> [OfficeOpenItem] {
+    /// app or makes macOS ask (the picker builds its menu with it). `outlookMeetings`: Outlook also lists the meetings
+    /// the user organises (Settings › Destinations, upstream `OutlookAllowExportInMeetings`).
+    static func openItems(_ app: OfficeApplication, outlookMeetings: Bool = false) async -> [OfficeOpenItem] {
         if installedOverride != nil { return openItemsOverride[app] ?? [] }
-        guard app.hasOpenItems, isRunning(app), let call = OfficeScripts.openItems(of: app) else { return [] }
+        guard app.hasOpenItems, isRunning(app), let call = OfficeScripts.openItems(of: app, outlookMeetings: outlookMeetings)
+        else { return [] }
         guard await AppleScriptRunner.permission(for: app.bundleID) == .allowed else { return [] }
         do {
             return OfficeScripts.openItems(of: app, fromOutput: try await AppleScriptRunner.run(call, timeout: 10))
@@ -90,7 +92,7 @@ enum OfficeDestination {
             return
         }
         Task { @MainActor in
-            let items = await openItems(app)
+            let items = await openItems(app, outlookMeetings: settings.value.office.outlookAllowExportInMeetings)
             guard !items.isEmpty else {
                 export(app, item: nil, capture: capture, settings: settings, saver: saver, completion: completion)
                 return
@@ -103,7 +105,9 @@ enum OfficeDestination {
             menu.addItem(new)
             menu.addItem(.separator())
             for item in items {
-                menu.addItem(ClosureMenuItem(title: FilenamePattern.menuTitle(item.title, length: 40)) { chosen = .some(item) })
+                let entry = ClosureMenuItem(title: FilenamePattern.menuTitle(item.title, length: 40)) { chosen = .some(item) }
+                if item.isMeeting { entry.image = NSImage(systemSymbolName: "calendar", accessibilityDescription: nil) }
+                menu.addItem(entry)
             }
             popUp(menu)
             guard let choice = chosen else {
@@ -178,6 +182,10 @@ enum OfficeDestination {
                 presentationName: slide.presentationName, slideIndex: slide.index, imagePath: path, frame: frame,
                 lockAspectRatio: s.office.powerpointLockAspectRatio))
         case .outlook:
+            if let item, item.isMeeting {
+                // A meeting the user organises (upstream `OutlookAllowExportInMeetings`): the picture is attached to it.
+                return try await AppleScriptRunner.run(OfficeScripts.outlookAttachToEvent(imagePath: path, windowID: item.id))
+            }
             if let item {
                 return try await AppleScriptRunner.run(OfficeScripts.outlookAttach(imagePath: path, windowID: item.id))
             }

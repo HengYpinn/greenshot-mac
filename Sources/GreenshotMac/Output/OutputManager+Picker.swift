@@ -216,24 +216,25 @@ extension OutputManager {
         looking.isEnabled = false
         submenu.addItem(separator)
         group.submenu = submenu
+        // An Outlook meeting (upstream `OutlookAllowExportInMeetings`) shows a calendar.
+        func openItem(_ open: OfficeOpenItem) -> NSMenuItem {
+            item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), open.isMeeting ? "calendar" : nil, nil)
+        }
         if let known = OfficeDestination.openItemsOverride[app] {
-            for open in known {
-                submenu.addItem(item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), nil, nil))
-            }
+            known.map(openItem).forEach(submenu.addItem)
             return group
         }
         submenu.addItem(looking)
+        let meetings = settings.value.office.outlookAllowExportInMeetings
         Task { @MainActor [weak submenu] in
-            let items = await OfficeDestination.openItems(app)
+            let items = await OfficeDestination.openItems(app, outlookMeetings: meetings)
             guard let submenu else { return }
             submenu.removeItem(looking)
             if items.isEmpty {
                 submenu.removeItem(separator)
                 return
             }
-            for open in items {
-                submenu.addItem(item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), nil, nil))
-            }
+            items.map(openItem).forEach(submenu.addItem)
         }
         return group
     }
