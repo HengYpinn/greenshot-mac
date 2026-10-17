@@ -14,8 +14,15 @@ enum Printing {
     /// Set by the app delegate at launch; the editor calls `print` without settings.
     static var settings: SettingsStore?
 
-    /// `title` and `date` fill the footer; without them an editor window's screenshot gives them.
-    static func print(_ image: CGImage, scale: CGFloat, window: NSWindow?, title: String? = nil, date: Date? = nil) {
+    /// The installed printers, the default one first (upstream `PrinterDestination.GetDynamicDestinationsAsync`).
+    static func printerNames() -> [String] {
+        DestinationSupport.sortedPrinters(NSPrinter.printerNames, defaultPrinter: NSPrintInfo.defaultPrinter?.name)
+    }
+
+    /// `title` and `date` fill the footer; without them an editor window's screenshot gives them. With `printer` it
+    /// prints there without the print panel (upstream `PrintHelper.PrintTo`). `completion` says whether it was printed.
+    static func print(_ image: CGImage, scale: CGFloat, window: NSWindow?, title: String? = nil, date: Date? = nil,
+                      printer: String? = nil, completion: ((ExportResult) -> Void)? = nil) {
         let store = settings ?? SettingsStore()
         var title = title
         var date = date
@@ -25,7 +32,10 @@ enum Printing {
         }
         NSApp.activate()
         if store.value.printing.promptOptions {
-            guard PrintOptionsDialog.run(settings: store, window: window) else { return }
+            guard PrintOptionsDialog.run(settings: store, window: window) else {
+                completion?(.declined)
+                return
+            }
         }
         let options = store.value.printing
         var footer: String?
@@ -36,6 +46,14 @@ enum Printing {
 
         let view = PrintPageView(image: PrintColors.apply(image, options: options), scale: scale, footer: footer, options: options)
         let info = (NSPrintInfo.shared.copy() as? NSPrintInfo) ?? NSPrintInfo()
+        if let printer {
+            guard let chosen = NSPrinter(name: printer) else {
+                ErrorPresenter.show(message: "The printer “\(printer)” is not there any more", detail: "Choose another one.")
+                completion?(.failed("The printer “\(printer)” is not there any more.", target: printer))
+                return
+            }
+            info.printer = chosen
+        }
         // One page with the image placed by `PrintLayout`, inside the printer's printable area (like upstream).
         info.horizontalPagination = .clip
         info.verticalPagination = .clip
@@ -56,13 +74,46 @@ enum Printing {
         view.fit(to: info)
         let operation = NSPrintOperation(view: view, printInfo: info)
         operation.jobTitle = title ?? "Screenshot"
-        operation.showsPrintPanel = true
+        operation.showsPrintPanel = printer == nil
         operation.showsProgressPanel = true
-        if let window {
-            operation.runModal(for: window, delegate: nil, didRun: nil, contextInfo: nil)
-        } else {
-            operation.run()
+        let finish: (Bool) -> Void = { printed in
+            guard printed else {
+                completion?(.declined)
+                return
+            }
+            // Upstream `senttoprinter`.
+            let name = operation.printInfo.printer.name
+            ImageSaver(settings: store).notify("Sent to the printer “\(name)”")
+            completion?(.succeeded(target: name))
         }
+        if let window {
+            PrintRun.start(operation, for: window, finish: finish)
+        } else {
+            finish(operation.run())
+        }
+    }
+}
+
+/// Waits for a print operation run as a sheet.
+@MainActor
+private final class PrintRun: NSObject {
+    private static var running: Set<PrintRun> = []
+    private let finish: (Bool) -> Void
+
+    private init(finish: @escaping (Bool) -> Void) {
+        self.finish = finish
+    }
+
+    static func start(_ operation: NSPrintOperation, for window: NSWindow, finish: @escaping (Bool) -> Void) {
+        let run = PrintRun(finish: finish)
+        running.insert(run)
+        operation.runModal(for: window, delegate: run, didRun: #selector(printOperationDidRun(_:success:contextInfo:)),
+                           contextInfo: nil)
+    }
+
+    @objc private func printOperationDidRun(_ operation: NSPrintOperation, success: Bool, contextInfo: UnsafeMutableRawPointer?) {
+        Self.running.remove(self)
+        finish(success)
     }
 }
 

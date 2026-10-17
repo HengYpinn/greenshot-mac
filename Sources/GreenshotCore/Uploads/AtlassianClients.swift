@@ -58,10 +58,35 @@ public struct AtlassianSite: Equatable, Sendable {
 public struct JiraIssue: Equatable, Sendable, Codable {
     public var key: String
     public var summary: String
+    /// The issue type's name and icon (upstream's type column, `IssueTypeBitmapCache`).
+    public var type: String?
+    public var typeIconURL: URL?
+    public var created: Date?
+    public var assignee: String?
+    public var reporter: String?
 
-    public init(key: String, summary: String) {
+    public init(key: String, summary: String, type: String? = nil, typeIconURL: URL? = nil, created: Date? = nil,
+                assignee: String? = nil, reporter: String? = nil) {
         self.key = key
         self.summary = summary
+        self.type = type
+        self.typeIconURL = typeIconURL
+        self.created = created
+        self.assignee = assignee
+        self.reporter = reporter
+    }
+}
+
+/// A favourite filter of the Jira user (upstream `JiraConnector.GetFavoriteFiltersAsync`).
+public struct JiraFilter: Equatable, Sendable {
+    public var id: String
+    public var name: String
+    public var jql: String
+
+    public init(id: String, name: String, jql: String) {
+        self.id = id
+        self.name = name
+        self.jql = jql
     }
 }
 
@@ -118,6 +143,37 @@ public struct JiraClient: Sendable {
         site.baseURL.appendingPathComponent("browse").appendingPathComponent(issueKey)
     }
 
+    private static let issueKeyRegex = try! NSRegularExpression(pattern: #"\b[A-Z][A-Z0-9]+-[0-9]+\b"#)
+
+    /// The issue keys in window titles, first seen first, each once, at most `limit` (upstream `JiraMonitor` watches
+    /// the titles for `[A-Z][A-Z0-9]+-[0-9]+`). Text like "UTF-8" matches too; the API check drops those.
+    public static func issueKeys(inTitles titles: [String], limit: Int = 10) -> [String] {
+        var keys: [String] = []
+        for title in titles {
+            let ns = title as NSString
+            for match in issueKeyRegex.matches(in: title, range: NSRange(location: 0, length: ns.length)) {
+                let key = ns.substring(with: match.range)
+                if !keys.contains(key) { keys.append(key) }
+                if keys.count == limit { return keys }
+            }
+        }
+        return keys
+    }
+
+    /// An issue type icon as PNG: Jira Cloud's avatar URLs answer SVG unless asked for `format=png`, which `NSImage`
+    /// reads everywhere.
+    public static func pngIconURL(_ url: URL) -> URL {
+        guard url.path.contains("/universal_avatar/"),
+              var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return url }
+        var items = (components.queryItems ?? []).filter { $0.name != "format" }
+        items.append(URLQueryItem(name: "format", value: "png"))
+        components.queryItems = items
+        return components.url ?? url
+    }
+
+    /// The fields the issue list shows (upstream's columns: type, key, created, assignee, reporter, summary).
+    public static let listFields = "summary,issuetype,created,assignee,reporter"
+
     // Requests
 
     /// `POST /rest/api/3/issue/{key}/attachments` with the file as `multipart/form-data` (the `X-Atlassian-Token`
@@ -138,8 +194,13 @@ public struct JiraClient: Sendable {
         site.request("GET", path: "rest/api/3/search/jql", query: [
             URLQueryItem(name: "jql", value: jql),
             URLQueryItem(name: "maxResults", value: String(maxResults)),
-            URLQueryItem(name: "fields", value: "summary"),
+            URLQueryItem(name: "fields", value: Self.listFields),
         ])
+    }
+
+    /// `GET /rest/api/3/filter/favourite`: the filters the user starred.
+    public func favouriteFiltersRequest() -> URLRequest {
+        site.request("GET", path: "rest/api/3/filter/favourite")
     }
 
     public func issueRequest(key: String) -> URLRequest {
@@ -172,6 +233,18 @@ public struct JiraClient: Sendable {
         }
     }
 
+    /// The favourite filters answer (a JSON array), in the server's order; filters without JQL are left out.
+    public static func filters(fromJSON data: Data) throws -> [JiraFilter] {
+        guard let list = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            throw UploadError.unexpectedResponse("expected a list of filters")
+        }
+        return list.compactMap { item in
+            guard let id = item["id"].map({ "\($0)" }), let name = item["name"] as? String,
+                  let jql = item["jql"] as? String, !jql.isEmpty else { return nil }
+            return JiraFilter(id: id, name: name, jql: jql)
+        }
+    }
+
     public static func issues(fromJSON data: Data) throws -> [JiraIssue] {
         let object = try HTTPSupport.json(data)
         guard let issues = object["issues"] as? [[String: Any]] else {
@@ -190,7 +263,23 @@ public struct JiraClient: Sendable {
     private static func issue(from object: [String: Any]) -> JiraIssue? {
         guard let key = object["key"] as? String else { return nil }
         let fields = object["fields"] as? [String: Any]
-        return JiraIssue(key: key, summary: fields?["summary"] as? String ?? "")
+        let type = fields?["issuetype"] as? [String: Any]
+        func person(_ name: String) -> String? { (fields?[name] as? [String: Any])?["displayName"] as? String }
+        return JiraIssue(key: key, summary: fields?["summary"] as? String ?? "", type: type?["name"] as? String,
+                         typeIconURL: (type?["iconUrl"] as? String).flatMap(URL.init(string:)),
+                         created: (fields?["created"] as? String).flatMap(date(fromJira:)),
+                         assignee: person("assignee"), reporter: person("reporter"))
+    }
+
+    /// Jira's timestamps, e.g. "2026-10-01T12:34:56.789+0200".
+    static func date(fromJira text: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        for format in ["yyyy-MM-dd'T'HH:mm:ss.SSSZ", "yyyy-MM-dd'T'HH:mm:ssZ"] {
+            formatter.dateFormat = format
+            if let date = formatter.date(from: text) { return date }
+        }
+        return nil
     }
 
     // Calls
@@ -200,8 +289,24 @@ public struct JiraClient: Sendable {
     }
 
     public func search(_ text: String, maxResults: Int = 20) async throws -> [JiraIssue] {
-        let request = searchRequest(jql: Self.jql(forSearch: text), maxResults: maxResults)
+        try await search(jql: Self.jql(forSearch: text), maxResults: maxResults)
+    }
+
+    /// The issues of a JQL query as it is, e.g. a favourite filter's.
+    public func search(jql: String, maxResults: Int = 50) async throws -> [JiraIssue] {
+        let request = searchRequest(jql: jql, maxResults: maxResults)
         return try Self.issues(fromJSON: try await HTTPSupport.send(request, with: http))
+    }
+
+    public func favouriteFilters() async throws -> [JiraFilter] {
+        try Self.filters(fromJSON: try await HTTPSupport.send(favouriteFiltersRequest(), with: http))
+    }
+
+    /// An image of the site with the credentials (issue type icons need them).
+    public func imageData(at url: URL) async throws -> Data {
+        var request = URLRequest(url: url, timeoutInterval: 30)
+        if url.host == site.baseURL.host { request.setValue(site.authorizationHeader, forHTTPHeaderField: "Authorization") }
+        return try await HTTPSupport.send(request, with: http)
     }
 
     public func issue(_ key: String) async throws -> JiraIssue {
@@ -229,6 +334,17 @@ public struct ConfluencePage: Equatable, Sendable, Codable, Identifiable {
     }
 }
 
+/// A Confluence space for the search (upstream `Entities.Space`).
+public struct ConfluenceSpace: Equatable, Sendable {
+    public var key: String
+    public var name: String
+
+    public init(key: String, name: String) {
+        self.key = key
+        self.name = name
+    }
+}
+
 public struct ConfluenceAttachment: Equatable, Sendable {
     public var id: String
     public var title: String
@@ -251,11 +367,14 @@ public struct ConfluenceClient: Sendable {
         self.http = http
     }
 
-    /// Pages whose title contains the words, last changed first. Text that already is CQL (`=`, `~`) is used as it is.
-    public static func cql(forTitleSearch text: String) -> String {
+    /// Pages whose title contains the words, last changed first, in one space when `spaceKey` isn't empty (upstream
+    /// `SearchPagesAsync(query, space)`). Text that already is CQL (`=`, `~`) is used as it is.
+    public static func cql(forTitleSearch text: String, spaceKey: String = "") -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.contains("=") || trimmed.contains("~") { return trimmed }
-        return "type = page AND title ~ \"\(JiraClient.escaped(trimmed))\" ORDER BY lastmodified DESC"
+        let space = spaceKey.trimmingCharacters(in: .whitespaces)
+        let inSpace = space.isEmpty ? "" : "space = \"\(JiraClient.escaped(space))\" AND "
+        return "type = page AND \(inSpace)title ~ \"\(JiraClient.escaped(trimmed))\" ORDER BY lastmodified DESC"
     }
 
     /// Upstream puts `!name!` on the clipboard after the upload: the wiki markup that shows the attachment.
@@ -269,6 +388,12 @@ public struct ConfluenceClient: Sendable {
             URLQueryItem(name: "cql", value: cql),
             URLQueryItem(name: "limit", value: String(limit)),
         ])
+    }
+
+    /// The spaces: `GET /api/v2/spaces` on Cloud (the v1 space endpoints are going), `GET /rest/api/space` on older
+    /// servers. Both answer `results[]` with `key` and `name`.
+    public func spacesRequest(v2: Bool = true, limit: Int = 250) -> URLRequest {
+        site.request("GET", path: v2 ? "api/v2/spaces" : "rest/api/space", query: [URLQueryItem(name: "limit", value: String(limit))])
     }
 
     /// `POST /rest/api/content/{id}/child/attachment` as `multipart/form-data`, a minor edit (no notification).
@@ -309,6 +434,18 @@ public struct ConfluenceClient: Sendable {
         }
     }
 
+    /// The spaces of a v2 or v1 answer, sorted by name (upstream `GetSpaceSummariesAsync`).
+    public static func spaces(fromJSON data: Data) throws -> [ConfluenceSpace] {
+        let object = try HTTPSupport.json(data)
+        guard let results = object["results"] as? [[String: Any]] else {
+            throw UploadError.unexpectedResponse("no results in the answer")
+        }
+        return results.compactMap { item -> ConfluenceSpace? in
+            guard let key = item["key"] as? String, !key.isEmpty else { return nil }
+            return ConfluenceSpace(key: key, name: item["name"] as? String ?? key)
+        }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
+
     public func attachments(fromJSON data: Data) throws -> [ConfluenceAttachment] {
         let object = try HTTPSupport.json(data)
         guard let results = object["results"] as? [[String: Any]] else {
@@ -325,8 +462,18 @@ public struct ConfluenceClient: Sendable {
 
     // Calls
 
-    public func searchPages(title: String, limit: Int = 20) async throws -> [ConfluencePage] {
-        try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: Self.cql(forTitleSearch: title), limit: limit), with: http))
+    public func searchPages(title: String, spaceKey: String = "", limit: Int = 20) async throws -> [ConfluencePage] {
+        let request = searchRequest(cql: Self.cql(forTitleSearch: title, spaceKey: spaceKey), limit: limit)
+        return try pages(fromJSON: try await HTTPSupport.send(request, with: http))
+    }
+
+    /// The spaces, from the v2 API and from v1 when the server doesn't have v2 (404).
+    public func spaces() async throws -> [ConfluenceSpace] {
+        do {
+            return try Self.spaces(fromJSON: try await HTTPSupport.send(spacesRequest(v2: true), with: http))
+        } catch UploadError.http(let status, _) where status == 404 {
+            return try Self.spaces(fromJSON: try await HTTPSupport.send(spacesRequest(v2: false), with: http))
+        }
     }
 
     public func attach(_ file: UploadFile, toPage pageID: String, comment: String? = nil) async throws -> [ConfluenceAttachment] {

@@ -19,21 +19,66 @@ enum Uploads {
         return UploadFile.fileName(name, format: format)
     }
 
-    static func file(_ capture: Capture, name: String, format: UploadFormat, quality: Int) throws -> UploadFile {
-        let data = try ImageExporter.data(for: capture.image, format: format.imageFormat, quality: quality, scale: capture.scale)
+    /// The encoded file; `reduceColors` makes it at most 256 colours (upstream `UploadReduceColors`, PNG).
+    static func file(_ capture: Capture, name: String, format: UploadFormat, quality: Int, reduceColors: Bool = false) throws -> UploadFile {
+        let options = ImageOutputOptions(format: format.imageFormat, jpegQuality: quality, scale: capture.scale,
+                                         reduceColors: reduceColors, reduceColorsTo: 256)
+        let data = try ImageExporter.data(for: capture.image, options: options)
         return UploadFile(name: UploadFile.fileName(name, format: format), data: data, mimeType: format.mimeType)
     }
 
-    /// Runs the upload off the main thread's way and shows an error dialog when it fails (nothing when cancelled).
-    static func run(_ failureTitle: String, _ operation: @escaping @MainActor () async throws -> Void) {
-        Task { @MainActor in
-            do {
-                try await operation()
-            } catch UploadError.cancelled {
-            } catch {
-                ErrorPresenter.show(error, title: failureTitle)
-            }
+    /// Runs the upload and gives its result; shows an error dialog when it fails (nothing when cancelled). A progress
+    /// panel with Cancel comes up when it takes longer than 300 ms (upstream `RunWithProgressAsync` with
+    /// `communication_wait`).
+    static func run(_ failureTitle: String, progress message: String, completion: @escaping ExportCompletion = { _ in },
+                    _ operation: @escaping @MainActor () async throws -> ExportResult) {
+        let upload = Task { @MainActor in try await operation() }
+        let progress = ProgressHolder()
+        let delayed = Task { @MainActor in
+            try await Task.sleep(nanoseconds: UInt64(UploadProgressPanel.delay * 1_000_000_000))
+            // The upload may have ended while this waited to run after the sleep.
+            guard !Task.isCancelled else { return }
+            let panel = UploadProgressPanel(message: message) { upload.cancel() }
+            progress.panel = panel
+            panel.show()
         }
+        Task { @MainActor in
+            let result: ExportResult
+            do {
+                result = try await upload.value
+            } catch {
+                delayed.cancel()
+                progress.close()
+                if isCancellation(error) {
+                    completion(.declined)
+                } else {
+                    ErrorPresenter.show(error, title: failureTitle)
+                    completion(.failed(error.localizedDescription))
+                }
+                return
+            }
+            delayed.cancel()
+            progress.close()
+            completion(result)
+        }
+    }
+
+    /// The progress panel of a running upload, once it is shown.
+    @MainActor
+    private final class ProgressHolder {
+        var panel: UploadProgressPanel?
+
+        func close() {
+            panel?.close()
+            panel = nil
+        }
+    }
+
+    static func isCancellation(_ error: Error) -> Bool {
+        if error is CancellationError { return true }
+        if let upload = error as? UploadError, upload == .cancelled { return true }
+        if let url = error as? URLError, url.code == .cancelled { return true }
+        return false
     }
 
     /// "X is not set up" with a button to Settings › Destinations.
@@ -82,87 +127,102 @@ enum Uploads {
 }
 
 /// "Upload to Jira": port of upstream `Greenshot.Plugin.Jira/Destinations/JiraDestination.cs`. Asks for the issue
-/// (a key, a recent issue or a search), attaches the image and adds the comment.
+/// (a key, a recent issue or a search), attaches the image and adds the comment; with `issueKey` (a picker entry) it
+/// attaches right away.
 @MainActor
 enum JiraDestination {
-    static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver) {
+    static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, issueKey: String? = nil,
+                       completion: @escaping ExportCompletion = { _ in }) {
         let s = settings.value
         guard let site = Uploads.jiraSite(s), !site.email.isEmpty, !site.apiToken.isEmpty else {
             Uploads.explainMissingSetup("Jira", detail: "Enter the Jira URL, your email and an API token in Settings › Destinations.")
+            completion(.declined)
             return
         }
         let client = JiraClient(site: site, http: Uploads.http)
         let format = s.jira.uploadFormat
-        let panel = UploadPickerPanel(.init(
-            title: "Upload to Jira", keyLabel: "Issue key", searchPlaceholder: "Words in the summary, or JQL",
-            columns: ("Key", "Summary"),
-            recent: s.jira.recentIssueKeys.map { UploadPickerPanel.Row(id: $0, primary: $0, secondary: "") },
-            filename: Uploads.suggestedName(for: capture, settings: settings, format: format), showsComment: true,
-            acceptsKey: JiraClient.isIssueKey,
-            search: { text in
-                try await client.search(text).map { UploadPickerPanel.Row(id: $0.key, primary: $0.key, secondary: $0.summary) }
-            }))
-        guard let choice = panel.run() else { return }
-        let key = choice.row?.id ?? JiraClient.normalizedKey(choice.typedKey)
-        guard JiraClient.isIssueKey(key) else { return }
-        let file: UploadFile
-        do {
-            file = try Uploads.file(capture, name: choice.filename, format: format, quality: s.jira.jpegQuality)
-        } catch {
-            ErrorPresenter.show(error, title: "The screenshot could not be encoded")
+        var key: String
+        var filename = Uploads.suggestedName(for: capture, settings: settings, format: format)
+        var comment = ""
+        if let issueKey {
+            key = issueKey
+        } else {
+            let panel = UploadPickerPanel(JiraPicker.configuration(client: client, settings: s, filename: filename))
+            guard let choice = panel.run() else {
+                completion(.declined)
+                return
+            }
+            key = choice.row?.id ?? JiraClient.normalizedKey(choice.typedKey)
+            filename = choice.filename
+            comment = choice.comment.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        key = JiraClient.normalizedKey(key)
+        guard JiraClient.isIssueKey(key) else {
+            completion(.declined)
             return
         }
-        saver.notify("Uploading to \(key)…")
-        Uploads.run("The upload to Jira failed") {
+        let file: UploadFile
+        do {
+            file = try Uploads.file(capture, name: filename, format: format, quality: s.jira.jpegQuality, reduceColors: s.jira.reduceColors)
+        } catch {
+            ErrorPresenter.show(error, title: "The screenshot could not be encoded")
+            completion(.failed(error.localizedDescription))
+            return
+        }
+        Uploads.run("The upload to Jira failed", progress: "Transferring data to Jira, please wait…", completion: completion) {
             _ = try await client.attach(file, to: key)
-            let comment = choice.comment.trimmingCharacters(in: .whitespacesAndNewlines)
             if !comment.isEmpty { try await client.addComment(comment, to: key) }
             settings.update { $0.jira.remember(issueKey: key) }
             let url = client.browseURL(for: key)
             saver.notify("Attached \(file.name) to \(key)", detail: "Click to open the issue") { NSWorkspace.shared.open(url) }
+            return .succeeded(link: url, target: key)
         }
     }
 }
 
 /// "Upload to Confluence": port of upstream `Greenshot.Plugin.Confluence/Destinations/ConfluenceDestination.cs`.
-/// Finds the page by its title, attaches the image, copies the wiki markup or the image's link, opens the page.
+/// Finds the page by its title (in one space or all), attaches the image, copies the wiki markup or the image's
+/// link, opens the page. With `page` (a picker entry) it attaches right away and doesn't open the page.
 @MainActor
 enum ConfluenceDestination {
-    static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver) {
+    static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, page givenPage: ConfluencePage? = nil,
+                       completion: @escaping ExportCompletion = { _ in }) {
         let s = settings.value
         guard let site = Uploads.confluenceSite(s), !site.email.isEmpty, !site.apiToken.isEmpty else {
             Uploads.explainMissingSetup("Confluence", detail: "Enter the Confluence URL, your email and an API token in Settings › Destinations.")
+            completion(.declined)
             return
         }
         let client = ConfluenceClient(site: site, http: Uploads.http)
         let format = s.confluence.uploadFormat
-        var pages = s.confluence.recentPages
-        func row(_ page: ConfluencePage) -> UploadPickerPanel.Row {
-            UploadPickerPanel.Row(id: page.id, primary: page.title, secondary: page.spaceName)
+        var filename = Uploads.suggestedName(for: capture, settings: settings, format: format)
+        var comment = ""
+        let page: ConfluencePage
+        if let givenPage {
+            page = givenPage
+        } else {
+            let picker = ConfluencePicker(client: client, settings: settings, filename: filename)
+            guard let choice = picker.run() else {
+                completion(.declined)
+                return
+            }
+            page = choice.page
+            filename = choice.filename
+            comment = choice.comment
         }
-        let found = FoundPages()
-        let panel = UploadPickerPanel(.init(
-            title: "Upload to Confluence", keyLabel: nil, searchPlaceholder: "Words in the page title, or CQL",
-            columns: ("Page", "Space"), recent: pages.map(row),
-            filename: Uploads.suggestedName(for: capture, settings: settings, format: format), showsComment: true,
-            search: { text in
-                let result = try await client.searchPages(title: text)
-                found.pages = result
-                return result.map(row)
-            }))
-        guard let choice = panel.run(), let id = choice.row?.id else { return }
-        pages += found.pages
-        guard let page = pages.first(where: { $0.id == id }) else { return }
         let file: UploadFile
         do {
-            file = try Uploads.file(capture, name: choice.filename, format: format, quality: s.confluence.jpegQuality)
+            file = try Uploads.file(capture, name: filename, format: format, quality: s.confluence.jpegQuality,
+                                    reduceColors: s.confluence.reduceColors)
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be encoded")
+            completion(.failed(error.localizedDescription))
             return
         }
-        saver.notify("Uploading to “\(page.title)”…")
-        Uploads.run("The upload to Confluence failed") {
-            let attachments = try await client.attach(file, toPage: page.id, comment: choice.comment)
+        // Upstream opens the page only after a page was chosen in the dialog.
+        let openPage = givenPage == nil && s.confluence.openPageAfterUpload
+        Uploads.run("The upload to Confluence failed", progress: "Transferring data to Confluence, please wait…", completion: completion) {
+            let attachments = try await client.attach(file, toPage: page.id, comment: comment)
             settings.update { $0.confluence.remember(page: page) }
             var detail = "Click to open the page"
             switch s.confluence.clipboardContent {
@@ -176,14 +236,10 @@ enum ConfluenceDestination {
                     detail = "Image link copied – click to open the page"
                 }
             }
-            if s.confluence.openPageAfterUpload { NSWorkspace.shared.open(page.url) }
+            if openPage { NSWorkspace.shared.open(page.url) }
             saver.notify("Attached \(file.name) to “\(page.title)”", detail: detail) { NSWorkspace.shared.open(page.url) }
+            return .succeeded(link: attachments.first?.downloadURL ?? page.url, target: page.title)
         }
-    }
-
-    /// The search results, so the picked row can become a page again.
-    private final class FoundPages: @unchecked Sendable {
-        var pages: [ConfluencePage] = []
     }
 }
 
@@ -191,7 +247,8 @@ enum ConfluenceDestination {
 /// Signs in through the browser the first time, uploads, and puts the link on the clipboard.
 @MainActor
 enum CloudDestination {
-    static func upload(_ destination: CaptureDestination, _ capture: Capture, settings: SettingsStore, saver: ImageSaver) {
+    static func upload(_ destination: CaptureDestination, _ capture: Capture, settings: SettingsStore, saver: ImageSaver,
+                       completion: @escaping ExportCompletion = { _ in }) {
         let s = settings.value
         let isBox = destination == .box
         let name = isBox ? "Box" : "Dropbox"
@@ -200,6 +257,7 @@ enum CloudDestination {
         let appKey = isBox ? s.box.clientID : s.dropbox.appKey
         guard !appKey.trimmingCharacters(in: .whitespaces).isEmpty else {
             Uploads.explainMissingSetup(name, detail: "Register your own \(name) app and enter its \(isBox ? "client ID and secret" : "app key") in Settings › Destinations.")
+            completion(.declined)
             return
         }
         let file: UploadFile
@@ -207,16 +265,18 @@ enum CloudDestination {
             file = try Uploads.file(capture, name: Uploads.suggestedName(for: capture, settings: settings, format: format), format: format, quality: quality)
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be encoded")
+            completion(.failed(error.localizedDescription))
             return
         }
         let oauth = Uploads.oauthClient(for: destination, settings: s)
         let copyLink = isBox ? s.box.copyLinkToClipboard : s.dropbox.copyLinkToClipboard
         let sharedLink = isBox ? s.box.useSharedLink && copyLink : copyLink
-        Uploads.run("The upload to \(name) failed") {
+        Uploads.run("The upload to \(name) failed", progress: "Communicating with \(name), please wait…", completion: completion) {
             let result = try await send(file, isBox: isBox, settings: s, oauth: oauth, sharedLink: sharedLink)
             if copyLink { Clipboard.copy(text: result.link.absoluteString) }
             let detail = copyLink ? "Link copied – click to open" : "Click to open"
             saver.notify("Uploaded \(file.name) to \(name)", detail: detail) { NSWorkspace.shared.open(result.link) }
+            return .succeeded(link: result.link, target: name)
         }
     }
 

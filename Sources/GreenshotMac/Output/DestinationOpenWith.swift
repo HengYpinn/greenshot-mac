@@ -30,7 +30,7 @@ enum OpenWithDestination {
         }
     }
 
-    static func name(of app: URL) -> String {
+    nonisolated static func name(of app: URL) -> String {
         FileManager.default.displayName(atPath: app.path).replacingOccurrences(of: ".app", with: "")
     }
 
@@ -49,22 +49,30 @@ enum OpenWithDestination {
     }
 
     /// Writes the screenshot in the output format and opens it with `app`, or with an app chosen in a panel.
-    static func open(_ capture: Capture, with app: URL?, settings: SettingsStore) {
-        guard let app = app ?? chooseApplication() else { return }
+    static func open(_ capture: Capture, with app: URL?, settings: SettingsStore, completion: @escaping ExportCompletion = { _ in }) {
+        guard let app = app ?? chooseApplication() else {
+            completion(.declined)
+            return
+        }
         let file: URL
         do {
             file = try TemporaryCaptureFile.write(capture, settings: settings, format: settings.value.outputFormat)
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be written")
+            completion(.failed(error.localizedDescription))
             return
         }
         let configuration = NSWorkspace.OpenConfiguration()
         configuration.activates = true
         NSWorkspace.shared.open([file], withApplicationAt: app, configuration: configuration) { _, error in
-            guard let error else { return }
             DispatchQueue.main.async {
                 MainActor.assumeIsolated {
+                    guard let error else {
+                        completion(.succeeded(fileURL: file, target: name(of: app), clearsModified: false))
+                        return
+                    }
                     ErrorPresenter.show(error, title: "\(name(of: app)) could not open the screenshot")
+                    completion(.failed(error.localizedDescription, target: name(of: app)))
                 }
             }
         }

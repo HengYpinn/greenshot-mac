@@ -11,17 +11,35 @@ import GreenshotCore
 /// directory, so it can have the name of the filename pattern (that is what the other app shows) without clashes.
 @MainActor
 enum TemporaryCaptureFile {
+    static var root: URL {
+        FileManager.default.temporaryDirectory.appendingPathComponent("Greenshot", isDirectory: true)
+    }
+
     static func write(_ capture: Capture, settings: SettingsStore, format: ImageFormat = .png) throws -> URL {
+        removeOldFiles()
         let context = settings.patternContext(title: capture.title, date: capture.date, consumeNumber: false)
         var name = (FilenamePattern.fileName(settings.value.filenamePattern, context: context) as NSString).lastPathComponent
         if name.trimmingCharacters(in: .whitespaces).isEmpty { name = "Screenshot" }
-        let folder = FileManager.default.temporaryDirectory
-            .appendingPathComponent("Greenshot", isDirectory: true)
-            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let folder = root.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let url = folder.appendingPathComponent(name).appendingPathExtension(format.fileExtension)
         try ImageExporter.write(capture.image, to: url,
                                 options: ImageOutputOptions(settings: settings.value, format: format, scale: capture.scale,
                                                             title: capture.title))
         return url
+    }
+
+    /// Deletes the files of earlier exports that are older than a day (upstream `SharingFiles.CleanupOldShareFiles`
+    /// deletes the previous share files before each share; here another app may still use a recent one).
+    static func removeOldFiles(now: Date = Date()) {
+        let manager = FileManager.default
+        guard let folders = try? manager.contentsOfDirectory(at: root, includingPropertiesForKeys: [.contentModificationDateKey],
+                                                             options: [.skipsHiddenFiles]) else { return }
+        let dated = folders.compactMap { folder -> (url: URL, modified: Date)? in
+            guard let date = try? folder.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate else { return nil }
+            return (folder, date)
+        }
+        for folder in DestinationSupport.staleTemporaryFolders(dated, now: now) {
+            try? manager.removeItem(at: folder)
+        }
     }
 }

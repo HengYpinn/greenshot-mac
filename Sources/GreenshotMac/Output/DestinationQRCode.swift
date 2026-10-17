@@ -36,8 +36,9 @@ enum QRCodeDestination {
         return items
     }
 
-    /// The picker's submenu: filled once the codes are found (an open menu updates).
-    static func pickerSubmenu(for capture: Capture, saver: ImageSaver) -> NSMenu {
+    /// The picker's submenu: filled once the codes are found (an open menu updates). Without codes `noCodes` runs
+    /// (the picker then removes its entry, like upstream offers QR code actions only when codes were found).
+    static func pickerSubmenu(for capture: Capture, saver: ImageSaver, noCodes: @escaping () -> Void = {}) -> NSMenu {
         let menu = NSMenu(title: "QR Code")
         menu.autoenablesItems = false
         let searching = NSMenuItem(title: "Looking for QR codes…", action: nil, keyEquivalent: "")
@@ -51,23 +52,28 @@ enum QRCodeDestination {
                 let none = NSMenuItem(title: "No QR code found", action: nil, keyEquivalent: "")
                 none.isEnabled = false
                 menu.addItem(none)
+                noCodes()
             }
             found.forEach(menu.addItem)
         }
         return menu
     }
 
-    /// The destination: a menu at the mouse with the actions, or a message without codes.
-    static func show(_ capture: Capture, saver: ImageSaver, popUp: @escaping (NSMenu) -> Void) {
+    /// The destination: a menu at the mouse with the actions, or a message without codes (upstream counts both as
+    /// done).
+    static func show(_ capture: Capture, saver: ImageSaver, popUp: @escaping (NSMenu) -> Void,
+                     completion: @escaping ExportCompletion = { _ in }) {
         detect(in: capture.image) { codes in
             guard !codes.isEmpty else {
                 saver.notify("No QR code found", detail: "Nothing in the screenshot could be read as a QR code.", kind: .warning)
+                completion(.succeeded(clearsModified: false))
                 return
             }
             let menu = NSMenu(title: "QR Code")
             menu.autoenablesItems = false
             items(for: codes, saver: saver).forEach(menu.addItem)
             popUp(menu)
+            completion(.succeeded(clearsModified: false))
         }
     }
 

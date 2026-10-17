@@ -16,24 +16,28 @@ final class ShareDestination: NSObject, @preconcurrency NSSharingServicePickerDe
     private let picker: NSSharingServicePicker
     private var anchorWindow: NSWindow?
     private weak var sourceWindow: NSWindow?
+    private var completion: ExportCompletion?
+    private var serviceName: String?
 
-    private init(file: URL) {
+    private init(file: URL, completion: @escaping ExportCompletion) {
         picker = NSSharingServicePicker(items: [file])
+        self.completion = completion
         super.init()
         picker.delegate = self
     }
 
     /// Shows the share menu under the top of `window` (an editor), or at the mouse.
-    static func share(_ capture: Capture, settings: SettingsStore, window: NSWindow?) {
+    static func share(_ capture: Capture, settings: SettingsStore, window: NSWindow?, completion: @escaping ExportCompletion = { _ in }) {
         let file: URL
         do {
             file = try TemporaryCaptureFile.write(capture, settings: settings)
         } catch {
             ErrorPresenter.show(error, title: "The screenshot could not be shared")
+            completion(.failed(error.localizedDescription))
             return
         }
-        current?.close()
-        let share = ShareDestination(file: file)
+        current?.close(.declined)
+        let share = ShareDestination(file: file, completion: completion)
         current = share
         share.show(over: window)
     }
@@ -68,7 +72,11 @@ final class ShareDestination: NSObject, @preconcurrency NSSharingServicePickerDe
 
     func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, didChoose service: NSSharingService?) {
         // Cancelled: nothing more comes. Otherwise the service calls back when it is done.
-        if service == nil { close() }
+        guard let service else {
+            close(.declined)
+            return
+        }
+        serviceName = service.title
     }
 
     func sharingService(_ sharingService: NSSharingService, sourceWindowForShareItems items: [Any],
@@ -77,19 +85,26 @@ final class ShareDestination: NSObject, @preconcurrency NSSharingServicePickerDe
     }
 
     func sharingService(_ sharingService: NSSharingService, didShareItems items: [Any]) {
-        close()
+        close(.succeeded(target: serviceName ?? sharingService.title, clearsModified: false))
     }
 
     func sharingService(_ sharingService: NSSharingService, didFailToShareItems items: [Any], error: Error) {
-        close()
         let nsError = error as NSError
-        guard !(nsError.domain == NSCocoaErrorDomain && nsError.code == NSUserCancelledError) else { return }
+        guard !(nsError.domain == NSCocoaErrorDomain && nsError.code == NSUserCancelledError) else {
+            close(.declined)
+            return
+        }
+        close(.failed(error.localizedDescription))
         ErrorPresenter.show(error, title: "The screenshot could not be shared")
     }
 
-    private func close() {
+    /// Ends the share; the result goes out once.
+    private func close(_ result: ExportResult) {
         anchorWindow?.orderOut(nil)
         anchorWindow = nil
         if Self.current === self { Self.current = nil }
+        let completion = self.completion
+        self.completion = nil
+        completion?(result)
     }
 }
