@@ -100,7 +100,8 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         let fixture = LibraryFixture(approver: approver)
         defer { fixture.cleanUp() }
         let url = try fixture.write(libraryRecipe())
-        let result = await fixture.library.loadFile(url)
+        // Import is an interactive load.
+        let result = await fixture.library.importFile(url)
         #expect(result.isValid)
         let request = try #require(approver.requests.first)
         #expect(request.mode == .newRecipe)

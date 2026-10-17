@@ -370,6 +370,9 @@ public final class RecipeLibrary {
         return result
     }
 
+    /// Import: load interactively.
+    public func importFile(_ url: URL) async -> RecipeLoadResult { await loadFile(url) }
+
     /// The file monitor saw a change: asks right away when a recipe in use lost its approval (upstream `CheckChangedFile`).
     public func fileDidChange(_ url: URL) async {
         let path = RecipeTrustStore.standardized(url.path)

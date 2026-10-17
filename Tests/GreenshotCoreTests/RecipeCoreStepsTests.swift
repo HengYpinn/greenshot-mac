@@ -174,6 +174,16 @@ final class RecipeTestClipboard: RecipeClipboardWriting, @unchecked Sendable {
         #expect(text.contains("4711"))
     }
 
+    /// The app's settings reach the steps under their own names (Processors and TextEffect read these two).
+    @Test func ocrSettingsReachTheSteps() {
+        var settings = AppSettings()
+        settings.alwaysRunOCROnCapture = true
+        settings.ocrLanguage = "de-DE"
+        let environment = SystemRecipeEnvironment(settings: settings)
+        #expect(environment.configValue("alwaysRunOCROnCapture") == .bool(true))
+        #expect(environment.configValue("ocrLanguage") == .string("de-DE"))
+    }
+
     // MARK: TextEffect
 
     /// "Call 555-1234 now" with three words.
