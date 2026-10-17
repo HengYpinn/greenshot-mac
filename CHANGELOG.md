@@ -221,6 +221,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- Text recognition (OCR) and QR code reading, in recipe steps, on the capture screen and in Edit › Redact Text, no
+  longer freeze when several run at once or on Macs with few cores.
 - Security: crafted Greenshot for Windows files can no longer crash the app or fill the memory; elements with
   impossible positions (from files or the clipboard) are left out; Jira icons get your credentials only from the
   site's own address; certificate exceptions apply only to your Jira and Confluence servers; tokens are only sent to
