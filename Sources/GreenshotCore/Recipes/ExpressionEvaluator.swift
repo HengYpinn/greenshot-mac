@@ -187,12 +187,14 @@ public struct ExpressionEvaluator: Sendable {
             let trimmed = inner.trimmingCharacters(in: .whitespacesAndNewlines)
             let lower = trimmed.lowercased()
             if lower.hasPrefix("now:") || lower.hasPrefix("utcnow:") { continue }
+            // A long expression is shown by its start, so the warning stays readable.
+            let shown = inner.count > 80 ? String(inner.prefix(80)) + "…" : inner
             do {
                 _ = try ExpressionParser.parse(trimmed)
             } catch let error as ExpressionSyntaxError {
-                return "'${\(inner)}': \(error.message)"
+                return "'${\(shown)}': \(error.message)"
             } catch {
-                return "'${\(inner)}': \(error)"
+                return "'${\(shown)}': \(error)"
             }
         }
         return nil
