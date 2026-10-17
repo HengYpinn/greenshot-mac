@@ -56,8 +56,27 @@ let server = MCPServer(info: MCPServer.Info(name: MCPTools.serverName, title: MC
                        tools: MCPTools.fixedTools, resources: [MCPTools.schemaResource], backend: backend,
                        send: { output.write($0) })
 
-/// Ends greenshot-mcp: open subscriptions get their completion result first.
+/// Ends greenshot-mcp: open subscriptions get their completion result first. Once (MC-L5): stdin's end and the watch
+/// thread may both want to end it; the second caller waits for the first.
+final class ShutdownOnce: @unchecked Sendable {
+    private let lock = NSLock()
+    private var claimed = false
+
+    /// True for the first caller only.
+    func claim() -> Bool {
+        lock.withLock {
+            defer { claimed = true }
+            return !claimed
+        }
+    }
+}
+
+let shutdownOnce = ShutdownOnce()
 func shutDown(_ code: Int32, _ reason: String? = nil) -> Never {
+    guard shutdownOnce.claim() else {
+        // The first caller is ending the process
+        while true { pause() }
+    }
     if let reason { MCPLog.info(reason) }
     server.closeSubscriptions()
     output.flush()
@@ -70,7 +89,8 @@ GreenshotWatch(connection: connection, executable: executable, sync: sync, shutD
 // stdin: one JSON-RPC message per line; requests run concurrently (a tool call can wait for the user)
 let reader = Thread {
     while let line = readLine(strippingNewline: true) {
-        Task { await server.handle(line: line) }
+        // In order: a request is registered before a cancellation on a later line is read (MC-L4)
+        server.receive(line: line)
     }
     // The AI tool closed stdin: the graceful end (spec "Shutdown")
     shutDown(0)

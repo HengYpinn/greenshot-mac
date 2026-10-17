@@ -124,7 +124,7 @@ final class RecipeToolSync: @unchecked Sendable {
     private func sync(connection: GreenshotConnection, server: MCPServer) {
         let reply: JSONObject
         do {
-            reply = try connection.sendBlocking(["command": .string(IPCCommand.listAITools)], client: nil, startApp: false)
+            reply = try connection.sendBlocking(["command": .string(IPCCommand.listAITools)], client: nil, startApp: false, readTimeout: 30)
         } catch {
             // The app isn't running: keep the tools, calling one starts the app
             MCPLog.info("No AI tools from Greenshot for Mac: \(error.localizedDescription)")

@@ -64,11 +64,21 @@ final class GreenshotConnection: @unchecked Sendable {
         }
     }
 
-    /// The blocking part of `send`, also for greenshot-mcp's own threads (the tool sync).
-    func sendBlocking(_ request: JSONObject, client: String?, startApp: Bool, holder: ClientHolder = ClientHolder()) throws -> JSONObject {
-        let connection = try connect(startApp: startApp && !GreenshotState.shared.isClosedByUser)
-        holder.set(connection)
-        defer { connection.close() }
+    /// The blocking part of `send`, also for greenshot-mcp's own threads (the tool sync, with a `readTimeout` so a hung app
+    /// doesn't stop it for good, MC-L6).
+    func sendBlocking(_ request: JSONObject, client: String?, startApp: Bool, holder: ClientHolder = ClientHolder(),
+                      readTimeout: TimeInterval = 0) throws -> JSONObject {
+        let connection = try connect(startApp: startApp && !GreenshotState.shared.isClosedByUser, holder: holder)
+        guard holder.set(connection) else {
+            connection.close()
+            throw CancellationError()
+        }
+        // The holder lets go before the descriptor is closed: a late cancellation can't shut another socket (MC-L1)
+        defer {
+            holder.finish()
+            connection.close()
+        }
+        if readTimeout > 0 { connection.setReadTimeout(readTimeout) }
         try sendHello(connection, client: client)
         var message = request
         message["version"] = .number(Double(ipcProtocolVersion))
@@ -115,11 +125,20 @@ final class GreenshotConnection: @unchecked Sendable {
     /// or it doesn't know WATCH (`isRunning` true).
     func openWatch() -> (connection: IPCClient?, isRunning: Bool) {
         guard let connection = try? IPCClient.connect(to: endpoint.socketPath) else { return (nil, false) }
+        guard isGreenshot(connection) else {
+            connection.close()
+            return (nil, false)
+        }
         do {
             try sendHello(connection, client: "greenshot-mcp")
             try connection.send(object: ["version": .number(Double(ipcProtocolVersion)), "command": .string(IPCCommand.watch),
                                          "source": .string(IPCSource.mcp.rawValue)])
-            if let reply = try connection.readObject(), reply["watching"]?.boolValue == true { return (connection, true) }
+            // The handshake has a time limit (MC-L6); the events then come whenever they come
+            connection.setReadTimeout(10)
+            if let reply = try connection.readObject(), reply["watching"]?.boolValue == true {
+                connection.setReadTimeout(0)
+                return (connection, true)
+            }
         } catch {
             // Treated like an app without WATCH
         }
@@ -134,22 +153,40 @@ final class GreenshotConnection: @unchecked Sendable {
 
     /// Connects; starts the app from its bundle when allowed. A development build (no bundle) never starts the app: start
     /// GreenshotMac first (upstream: a Debug greenshot-mcp can't start Greenshot either).
-    private func connect(startApp: Bool) throws -> IPCClient {
-        if let client = try? IPCClient.connect(to: endpoint.socketPath) { return client }
+    private func connect(startApp: Bool, holder: ClientHolder) throws -> IPCClient {
+        if let client = try? IPCClient.connect(to: endpoint.socketPath) { return try verified(client) }
         guard startApp, endpoint.appBundlePath != nil else {
             if GreenshotState.shared.isClosedByUser {
                 throw GreenshotConnectionError(message: "Greenshot for Mac was closed by the user. Ask the user to start Greenshot for Mac to use these tools.")
             }
             throw GreenshotConnectionError(message: "Greenshot for Mac is not running. Please start Greenshot for Mac and try again.")
         }
-        guard let client = IPCAppLauncher.connectOrStart(endpoint: endpoint, executable: executable, timeout: 20) else {
+        // A cancelled call doesn't start the app or keep waiting for it (MC-L8)
+        guard let client = IPCAppLauncher.connectOrStart(endpoint: endpoint, executable: executable, timeout: 20,
+                                                         shouldStop: { holder.isCancelled }) else {
+            if holder.isCancelled { throw CancellationError() }
             throw GreenshotConnectionError(message: "Greenshot for Mac was started, but did not accept the connection in time. Please try again.")
+        }
+        return try verified(client)
+    }
+
+    private func verified(_ client: IPCClient) throws -> IPCClient {
+        guard isGreenshot(client) else {
+            client.close()
+            throw GreenshotConnectionError(message: "The program listening on Greenshot for Mac's socket isn't Greenshot for Mac, so nothing was sent to it.")
         }
         return client
     }
+
+    /// The app on the other end of the socket (security review note): the GreenshotMac this greenshot-mcp belongs to.
+    func isGreenshot(_ client: IPCClient) -> Bool {
+        IPCAppLauncher.isAppPeer(client, endpoint: endpoint, executable: executable)
+    }
 }
 
-/// The connection of a running request, so a cancellation can close it (and end its blocking read).
+/// The connection of a running request, so a cancellation can close it (and end its blocking read). The shutdown runs
+/// under the lock and only while the connection is set: `finish()` lets go before the descriptor is closed, so a late
+/// cancellation can't hit a descriptor number another connection got meanwhile (MC-L1).
 final class ClientHolder: @unchecked Sendable {
     private let lock = NSLock()
     private var client: IPCClient?
@@ -157,19 +194,23 @@ final class ClientHolder: @unchecked Sendable {
 
     var isCancelled: Bool { lock.withLock { cancelled } }
 
-    func set(_ client: IPCClient) {
-        let cancelNow: Bool = lock.withLock {
+    /// False when the call was cancelled already (the caller closes the connection).
+    func set(_ client: IPCClient) -> Bool {
+        lock.withLock {
+            guard !cancelled else { return false }
             self.client = client
-            return cancelled
+            return true
         }
-        if cancelNow { Darwin.shutdown(client.fd, SHUT_RDWR) }
+    }
+
+    func finish() {
+        lock.withLock { client = nil }
     }
 
     func cancel() {
-        let client: IPCClient? = lock.withLock {
+        lock.withLock {
             cancelled = true
-            return self.client
+            if let client { Darwin.shutdown(client.fd, SHUT_RDWR) }
         }
-        if let client { Darwin.shutdown(client.fd, SHUT_RDWR) }
     }
 }
