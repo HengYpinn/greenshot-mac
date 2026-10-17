@@ -88,7 +88,7 @@ struct RecipeAppExporter: RecipeExporting {
     static func pick(_ payload: RecipePayload, runtime: RecipeRuntime) async -> RecipeExportTarget? {
         let output = runtime.app.output
         let capture = payload.exportCapture()
-        let menu = NSMenu(title: "Send screenshot to")
+        let menu = NSMenu(title: String(localized: "Send screenshot to"))
         menu.autoenablesItems = false
         let header = NSMenuItem(title: "\(capture.image.width) × \(capture.image.height) – \(capture.title)", action: nil, keyEquivalent: "")
         header.isEnabled = false
@@ -97,7 +97,7 @@ struct RecipeAppExporter: RecipeExporting {
         var picked: DestinationTarget?
         output.pickerItems(for: capture) { picked = $0 }.forEach(menu.addItem)
         menu.addItem(.separator())
-        menu.addItem(ClosureMenuItem(title: "Discard") {})
+        menu.addItem(ClosureMenuItem(title: String(localized: "Discard")) {})
         output.popUp(menu)
         guard let picked else { return nil }
         return RecipeExportTarget(designation: designation(of: picked), detail: picked)
@@ -182,7 +182,8 @@ struct RecipeAppExporter: RecipeExporting {
             editors.open(payload.editorDocument())
         }
         var result = ExportResult.succeeded(clearsModified: false)
-        result.exportedBy = "Editor"
+        // The destination's name in the notification ("Exported to: Editor").
+        result.exportedBy = String(localized: "Editor", comment: "The image editor as the destination of an export")
         return result
     }
 
@@ -267,7 +268,7 @@ struct RecipeAppExporter: RecipeExporting {
         saver.notifySaved(url, copyPath: false)
         if options.copyPathToClipboard ?? s.copyPathToClipboard { Clipboard.copy(text: url.path) }
         var result = ExportResult.succeeded(fileURL: url)
-        result.exportedBy = "Save"
+        result.exportedBy = String(localized: "Save", comment: "Saving to a file as the destination of an export")
         return result
     }
 
@@ -341,8 +342,10 @@ struct RecipeClipboardStepExecutor: RecipeStepExecutor {
             state.beginExport(of: capture, settings: runtime.app.settings)
             defer { state.endExport() }
             RecipePasteboard.write(plan.mode == .textOnly ? nil : capture, formats: plan.formats, text: copied)
-            var result = ExportResult.succeeded(target: "Clipboard", clearsModified: false)
-            result.exportedBy = "Clipboard"
+            // The destination's name in the notification ("Exported to: Clipboard"); the outcome below keeps the designation.
+            let clipboard = String(localized: "Clipboard")
+            var result = ExportResult.succeeded(target: clipboard, clearsModified: false)
+            result.exportedBy = clipboard
             state.record(result)
             return result
         }
