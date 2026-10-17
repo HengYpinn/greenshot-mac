@@ -129,7 +129,7 @@ final class RecipeFlyoutModel: ObservableObject {
 
     func symbol(_ designation: String) -> String {
         if recipeEqualsDesignation(designation, "Editor") { return CaptureDestination.editor.symbolName }
-        return RecipeDestinationDesignation(designation).destination?.symbolName ?? "square.and.arrow.up"
+        return RecipeDestinationPlan.destination(of: designation).destination?.symbolName ?? "square.and.arrow.up"
     }
 
     private func recipeEqualsDesignation(_ lhs: String, _ rhs: String) -> Bool {

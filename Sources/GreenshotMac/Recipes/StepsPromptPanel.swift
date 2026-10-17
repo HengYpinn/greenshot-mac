@@ -69,14 +69,14 @@ struct RecipePromptView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color(nsColor: .separatorColor)))
             }
+            let countdown = RecipePrompt.countdownText(model.secondsLeft)
+            if !countdown.isEmpty {
+                Text(countdown)
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            }
             HStack(spacing: 8) {
-                let countdown = RecipePrompt.countdownText(model.secondsLeft)
-                if !countdown.isEmpty {
-                    Text(countdown)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
-                Spacer(minLength: 12)
+                Spacer(minLength: 0)
                 ForEach(model.prompt.choices, id: \.key) { choice in
                     button(choice)
                 }
@@ -84,6 +84,7 @@ struct RecipePromptView: View {
         }
         .padding(20)
         .frame(width: 440)
+        .background(Color(nsColor: .windowBackgroundColor))
     }
 
     @ViewBuilder

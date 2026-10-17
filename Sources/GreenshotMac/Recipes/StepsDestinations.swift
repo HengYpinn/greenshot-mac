@@ -39,21 +39,22 @@ struct RecipeAppExporter: RecipeExporting {
     /// `IsAvailableFor`).
     @MainActor
     static func target(for designation: String, step: RecipeStepInvocation?, settings: AppSettings) -> RecipeExportTarget? {
-        let parsed = RecipeDestinationDesignation(designation)
-        guard let destination = parsed.destination else { return nil }
+        guard let destination = RecipeDestinationPlan.destination(of: designation).destination else { return nil }
         if settings.isDestinationExcluded(destination) {
             log.info("The destination '\(designation)' is turned off by an administrator; the recipe skips it.")
             return nil
         }
         switch destination {
         case .externalCommand:
-            let name = parsed.externalCommandName ?? ""
-            guard !name.isEmpty else { return RecipeExportTarget(designation: designation, detail: DestinationTarget.destination(.externalCommand)) }
+            // The automatic steps of one command are stored for "External <command name>" (RMANAGER, upstream).
+            let named = RecipeDestinationPlan.externalCommandDesignation(designation, commands: settings.externalCommands.map(\.name))
+            let name = RecipeDestinationPlan.destination(of: named).commandName ?? ""
+            guard !name.isEmpty else { return RecipeExportTarget(designation: named, detail: DestinationTarget.destination(.externalCommand)) }
             guard let command = settings.externalCommands.first(where: { recipeEquals($0.name, name) }) else {
                 log.warn("There is no external command '\(name)' in the settings.")
                 return nil
             }
-            return RecipeExportTarget(designation: designation, detail: DestinationTarget.externalCommand(command))
+            return RecipeExportTarget(designation: "External \(command.name)", detail: DestinationTarget.externalCommand(command))
         case .printer:
             if let name = step?.string("PrinterName")?.trimmingCharacters(in: .whitespaces), !name.isEmpty {
                 return RecipeExportTarget(designation: designation, detail: DestinationTarget.printer(name))

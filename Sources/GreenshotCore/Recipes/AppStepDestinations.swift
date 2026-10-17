@@ -37,6 +37,27 @@ public enum RecipeDestinationPlan {
 
     public static func isPicker(_ designation: String) -> Bool { recipeEquals(designation, "Picker") }
 
+    /// An external command as the automatic steps name it (upstream's designation "External <command name>"): a plain
+    /// "External" (the settings' destination) is the one command when there is exactly one; with several the destination
+    /// asks which, so it stays "External". The command's name as written in the settings.
+    public static func externalCommandDesignation(_ designation: String, commands: [String]) -> String {
+        let parsed = destination(of: designation)
+        guard parsed.destination == .externalCommand else { return designation }
+        if let name = parsed.commandName, !name.isEmpty {
+            return "External \(commands.first { recipeEquals($0, name) } ?? name)"
+        }
+        return commands.count == 1 ? "External \(commands[0])" : designation
+    }
+
+    /// The Mac destination of a designation and, for "External <name>", the command's name. Also the plain "External"
+    /// that the settings' external command destination is called (`RecipeDestinationDesignation.designation(for:)`).
+    public static func destination(of designation: String) -> (destination: CaptureDestination?, commandName: String?) {
+        let trimmed = designation.trimmingCharacters(in: .whitespaces)
+        if recipeEquals(trimmed, "External") { return (.externalCommand, nil) }
+        let parsed = RecipeDestinationDesignation(trimmed)
+        return (parsed.destination, parsed.externalCommandName)
+    }
+
     /// `DestinationExportErrors`: "Designation: error; …" (upstream `DestinationDispatcher`).
     public static func errorsText(_ failures: [(designation: String, error: String)]) -> String {
         failures.map { "\($0.designation): \($0.error)" }.joined(separator: "; ")

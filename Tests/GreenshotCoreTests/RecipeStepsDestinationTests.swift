@@ -246,6 +246,36 @@ final class FakeExporter: RecipeExporting, @unchecked Sendable {
         #expect(exporter.exportedWidths == [10])
     }
 
+    @Test func externalCommandsAsTheAutomaticStepsNameThem() {
+        #expect(RecipeDestinationPlan.externalCommandDesignation("External", commands: ["Preview"]) == "External Preview")
+        #expect(RecipeDestinationPlan.externalCommandDesignation("External", commands: ["Preview", "Paint"]) == "External")
+        #expect(RecipeDestinationPlan.externalCommandDesignation("external paint", commands: ["Preview", "Paint"]) == "External Paint")
+        #expect(RecipeDestinationPlan.externalCommandDesignation("External Other", commands: ["Preview"]) == "External Other")
+        #expect(RecipeDestinationPlan.externalCommandDesignation("Clipboard", commands: ["Preview"]) == "Clipboard")
+        // The settings' destination is called "External".
+        #expect(RecipeDestinationPlan.destination(of: "External").destination == .externalCommand)
+        #expect(RecipeDestinationPlan.destination(of: "External Paint").commandName == "Paint")
+        #expect(RecipeDestinationPlan.destination(of: "FileNoDialog").destination == .file)
+        // A chain for one command runs for that command only; one without destinations for every one.
+        let copies = RecipeDestinationCopies(chains: [border("ext_preview", only: ["External Preview"]), border("ext_all")],
+                                             steps: RecipeStepRegistry())
+        #expect(copies.chains(for: "External Preview").map(\.extensionId) == ["ext_preview", "ext_all"])
+        #expect(copies.chains(for: "External Paint").map(\.extensionId) == ["ext_all"])
+        #expect(copies.chains(for: "External").map(\.extensionId) == ["ext_all"])
+    }
+
+    @Test func aChainForOneExternalCommandChangesItsCopyOnly() async throws {
+        let exporter = FakeExporter()
+        exporter.known.insert("external preview")
+        exporter.known.insert("external paint")
+        let context = context(width: 10)
+        let invocation = step("Destinations", ["DestinationDesignations": .array([.string("External Preview"), .string("External Paint")])])
+        try await dispatcher(exporter, chains: [border("ext_preview", only: ["External Preview"])], steps: chainRegistry())
+            .execute(invocation, in: context)
+        #expect(exporter.exported == ["External Preview", "External Paint"])
+        #expect(exporter.exportedWidths == [20, 10])
+    }
+
     @Test func chainKeysAndFilters() {
         let chains = [border("a", only: ["clipboard"]), border("b")]
         let copies = RecipeDestinationCopies(chains: chains, steps: RecipeStepRegistry())
