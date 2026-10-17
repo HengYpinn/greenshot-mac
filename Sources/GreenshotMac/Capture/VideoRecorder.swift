@@ -72,10 +72,12 @@ final class VideoRecorder {
     private var result: VideoRecordingResult?
     private var waiters: [CheckedContinuation<VideoRecordingResult?, Never>] = []
 
-    /// Starts recording (upstream `StartRecordingAsync`). `microphone` replaces the default microphone, like
-    /// upstream's `CustomAudioProvider`.
-    static func start(_ options: VideoCaptureOptions, microphone: RecordingAudioProvider? = nil) async throws -> VideoRecorder {
-        let setup = try await StreamSetup.make(for: options)
+    /// Starts recording (upstream `StartRecordingAsync`). A display or region recording leaves out the windows
+    /// `excludingWindows` (Greenshot's frame around the recording, `RecordingBorder`; they must be on the screen already).
+    /// `microphone` replaces the default microphone, like upstream's `CustomAudioProvider`.
+    static func start(_ options: VideoCaptureOptions, excludingWindows: [CGWindowID] = [],
+                      microphone: RecordingAudioProvider? = nil) async throws -> VideoRecorder {
+        let setup = try await StreamSetup.make(for: options, excluding: excludingWindows)
         let mic = options.audioSource.includesMicrophone ? (microphone ?? MicrophoneCapture()) : nil
         let recorder = try VideoRecorder(options: options, setup: setup, microphone: mic)
         try await recorder.begin()
@@ -349,8 +351,9 @@ private struct StreamSetup {
     var windowID: CGWindowID?
 
     @MainActor
-    static func make(for options: VideoCaptureOptions) async throws -> StreamSetup {
-        let content = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
+    static func make(for options: VideoCaptureOptions, excluding windowIDs: [CGWindowID]) async throws -> StreamSetup {
+        let content = try await shareableContent(listing: options.target.isWindow ? [] : windowIDs)
+        let excluded = content.windows.filter { windowIDs.contains($0.windowID) }
         let configuration = SCStreamConfiguration()
         let filter: SCContentFilter
         let points: CGSize
@@ -360,7 +363,7 @@ private struct StreamSetup {
             guard let display = content.displays.first(where: { $0.displayID == id }) else {
                 throw VideoRecorderError.displayNotFound
             }
-            filter = SCContentFilter(display: display, excludingWindows: [])
+            filter = SCContentFilter(display: display, excludingWindows: excluded)
             points = CGDisplayBounds(id).size
         case .region(let rect):
             let frames = content.displays.map { CGDisplayBounds($0.displayID) }
@@ -370,7 +373,7 @@ private struct StreamSetup {
             if part.globalRect.size != rect.standardized.integral.size {
                 log.info("The region is on several displays: recording the part on one of them")
             }
-            filter = SCContentFilter(display: content.displays[part.displayIndex], excludingWindows: [])
+            filter = SCContentFilter(display: content.displays[part.displayIndex], excludingWindows: excluded)
             configuration.sourceRect = part.sourceRect
             points = part.sourceRect.size
         case .window(let id):
@@ -405,6 +408,23 @@ private struct StreamSetup {
         }
         return StreamSetup(filter: filter, configuration: configuration, width: size.width, height: size.height,
                            windowID: windowID)
+    }
+
+    /// The displays and windows to record. Windows to leave out that were just put on the screen may be missing from
+    /// the first list: it is read once more after a moment, and a window still missing is logged (it would be recorded).
+    @MainActor
+    private static func shareableContent(listing windowIDs: [CGWindowID]) async throws -> SCShareableContent {
+        let first = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
+        guard !missing(windowIDs, in: first).isEmpty else { return first }
+        try await Task.sleep(nanoseconds: 150_000_000)
+        let content = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false)
+        let left = missing(windowIDs, in: content)
+        if !left.isEmpty { log.warn("The recording can't leave out the windows \(left) of the frame around it: the frame may be in the video") }
+        return content
+    }
+
+    private static func missing(_ windowIDs: [CGWindowID], in content: SCShareableContent) -> [CGWindowID] {
+        windowIDs.filter { id in !content.windows.contains { $0.windowID == id } }
     }
 }
 

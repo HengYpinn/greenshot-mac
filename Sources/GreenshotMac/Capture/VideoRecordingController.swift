@@ -12,9 +12,10 @@ private let log = Log("Video")
 typealias RecordingControllerError = RecordingSlotError
 
 /// Screen recordings: Record Screen / Window / Region… of the menu bar menu, the "Start or stop recording" hotkey, the
-/// countdown, the recording indicator and what happens with the file. Upstream records video only in its recipe step
-/// "Record Video" (`Greenshot/Recipes/Steps/RecordVideoRecipeStep.cs`); `record(_:countdown:area:deliver:)` is the
-/// entry for that step (wave 4), so its recordings get the indicator too. One recording at a time.
+/// countdown, the recording indicator, a recipe's frame around what is recorded (`RecordingBorder`) and what happens
+/// with the file. Upstream records video only in its recipe step "Record Video"
+/// (`Greenshot/Recipes/Steps/RecordVideoRecipeStep.cs`); `record(_:countdown:area:deliver:)` is the entry for that step
+/// (wave 4), so its recordings get the indicator too. One recording at a time.
 @MainActor
 final class VideoRecordingController {
     private let settings: SettingsStore
@@ -23,6 +24,8 @@ final class VideoRecordingController {
     private let slot = RecordingSlot<VideoRecorder>()
     private var countdown: RecordingCountdown?
     private var indicator: RecordingStatusItem?
+    /// The frame around what is recorded (a recipe's `ShowCaptureBorder`).
+    private var border: RecordingBorder?
     /// Quitting waits for the file.
     private var quitting = false
 
@@ -261,12 +264,15 @@ final class VideoRecordingController {
             }
             indicator.state = .starting
         }
+        // On the screen before the recording starts, so that the recording can leave it out.
+        let excluded = showBorder(for: options)
         do {
-            let recorder = try await slot.start { try await VideoRecorder.start(options) }
+            let recorder = try await slot.start { try await VideoRecorder.start(options, excludingWindows: excluded) }
             if recorder.state.isActive { indicator.state = .recording(recorder.duration) }
             follow(recorder, deliver: deliver)
             return recorder
         } catch {
+            hideBorder()
             hideIndicator()
             RecordingOutputPath.release(options.outputURL)
             throw error
@@ -279,7 +285,9 @@ final class VideoRecordingController {
             switch new {
             case .recording: self.indicator?.state = .recording(recorder.duration)
             case .paused: self.indicator?.state = .paused(recorder.duration)
-            case .finalizing: self.indicator?.state = .saving
+            case .finalizing:
+                self.indicator?.state = .saving
+                self.hideBorder()
             default: break
             }
         }
@@ -300,6 +308,7 @@ final class VideoRecordingController {
     private func ended(_ finished: VideoRecorder, result: VideoRecordingResult?, deliver: Bool) {
         guard recorder === finished else { return }
         let wasQuitting = quitting
+        hideBorder()
         hideIndicator()
         RecordingOutputPath.release(finished.outputURL)
         // Answers a quit that waited for the file.
@@ -374,5 +383,22 @@ final class VideoRecordingController {
     private func hideIndicator() {
         indicator?.remove()
         indicator = nil
+    }
+
+    // MARK: Frame
+
+    /// Shows the frame when the options ask for it; the window ids of its panels, for the recording to leave out.
+    private func showBorder(for options: VideoCaptureOptions) -> [CGWindowID] {
+        hideBorder()
+        guard options.showCaptureBorder else { return [] }
+        let border = RecordingBorder(target: options.target)
+        border.show()
+        self.border = border
+        return border.windowIDs
+    }
+
+    private func hideBorder() {
+        border?.hide()
+        border = nil
     }
 }
