@@ -8,7 +8,9 @@ import GreenshotCore
 
 /// Looks for a newer release on GitHub: port of upstream `Greenshot/Helpers/UpdateService.cs` (every
 /// `updateCheckIntervalDays` days, 0 never). A newer version shows a message that opens the release page; no
-/// release, an error or no network say nothing (unless the user asked) and count as checked.
+/// release, an error or no network say nothing (unless the user asked) and count as checked. With "Check for unstable
+/// updates" (upstream `CheckForUnstable`) pre-releases count too; upstream shows its beta whenever the feed has one,
+/// here only with that setting.
 @MainActor
 enum UpdateChecker {
     static var currentVersion: String {
@@ -23,12 +25,15 @@ enum UpdateChecker {
 
     /// `userAsked` (Settings › General › Check Now) also says when there is nothing new or the check failed.
     static func check(settings: SettingsStore, saver: ImageSaver, userAsked: Bool) {
-        var request = URLRequest(url: UpdateCheck.latestReleaseURL, timeoutInterval: 20)
+        let unstable = settings.value.checkForUnstable
+        var request = URLRequest(url: unstable ? UpdateCheck.releasesURL : UpdateCheck.latestReleaseURL, timeoutInterval: 20)
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         let version = currentVersion
         URLSession.shared.dataTask(with: request) { data, response, error in
             let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-            let release = status == 200 ? data.flatMap(UpdateCheck.release(fromJSON:)) : nil
+            let release = status == 200 ? data.flatMap { data in
+                unstable ? UpdateCheck.newestRelease(fromListJSON: data, includePrereleases: true) : UpdateCheck.release(fromJSON: data)
+            } : nil
             let failed = error != nil || (status != 200 && status != 404)
             DispatchQueue.main.async {
                 MainActor.assumeIsolated {
@@ -44,7 +49,8 @@ enum UpdateChecker {
             let page = release.pageURL
             // A warning, so "Show a message after saving or copying" doesn't hide it; the message level does
             // (after "Check Now" it counts as an error, shown at every level but None).
-            saver.notify("Version \(release.version) is available – click to download", detail: "You have \(current).",
+            let name = release.isPrerelease ? "Beta version" : "Version"
+            saver.notify("\(name) \(release.version) is available – click to download", detail: "You have \(current).",
                          kind: userAsked ? .error : .warning) {
                 NSWorkspace.shared.open(page)
             }

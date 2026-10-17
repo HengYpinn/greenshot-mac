@@ -7,7 +7,8 @@ import AppKit
 import GreenshotCore
 import SwiftUI
 
-/// Settings › General (upstream's General tab): hotkeys (`HotkeysSection`), startup, updates, permissions.
+/// Settings › General (upstream's General tab): hotkeys (`HotkeysSection`), the app (appearance, startup, Dock), the
+/// menu bar icon (upstream's ini-only `LeftClickAction`, `DoubleClickAction`, `HideTrayicon`), updates, permissions.
 struct GeneralSettings: View {
     @ObservedObject var store: SettingsStore
     @ObservedObject var status: SystemStatus
@@ -15,12 +16,16 @@ struct GeneralSettings: View {
     var body: some View {
         Form {
             HotkeysSection(store: store)
-            Section("Startup") {
+            Section("Application") {
+                // Upstream "Colors": Same as Windows / Light / Dark.
+                Picker("Appearance", selection: store.binding(\.theme)) {
+                    ForEach(AppTheme.allCases, id: \.self) { Text($0.displayName).tag($0) }
+                }
                 Toggle("Launch at login", isOn: Binding(get: { status.launchAtLogin }, set: { status.setLaunchAtLogin($0) }))
                 Toggle("Show in Dock while a window is open", isOn: store.binding(\.dockIconWhileWindowOpen))
                     .help("""
-                        A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is always \
-                        there. Off: opening an editor from a full screen app stays on its Space instead of switching to \
+                        A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there \
+                        either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to \
                         the desktop.
                         """)
                 if status.loginNeedsApproval {
@@ -33,6 +38,7 @@ struct GeneralSettings: View {
                     Text(loginError).font(.caption).foregroundStyle(.red)
                 }
             }
+            menuBarSection
             Section("Updates") {
                 Stepper(value: store.binding(\.updateCheckIntervalDays), in: 0...365) {
                     Text(store.value.updateCheckIntervalDays == 0
@@ -56,7 +62,7 @@ struct GeneralSettings: View {
                     }
                 }
             }
-            // The menu bar icon can be hidden (behind the notch, or by macOS's menu bar settings), and it is the
+            // The menu bar icon can be hidden (behind the notch, by macOS's menu bar settings or above), and it is the
             // only other way to quit; opening the app again from Spotlight or Finder shows this window.
             Section {
                 HStack {
@@ -68,6 +74,55 @@ struct GeneralSettings: View {
         }
         .formStyle(.grouped)
         .onAppear { status.refresh() }
+    }
+
+    private var menuBarSection: some View {
+        Section {
+            Toggle("Show the menu bar icon", isOn: showIcon)
+            Picker("Click", selection: store.binding(\.leftClickAction)) {
+                ForEach(ClickAction.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            Picker("Double-click", selection: store.binding(\.doubleClickAction)) {
+                ForEach(ClickAction.allCases, id: \.self) { Text($0.displayName).tag($0) }
+            }
+            .disabled(MenuBarClick.clickShowsMenu(store.value.leftClickAction))
+        } header: {
+            Text("Menu bar icon")
+        } footer: {
+            Text(MenuBarClick.clickShowsMenu(store.value.leftClickAction)
+                 ? "The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu."
+                 : "Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    /// Hiding the icon asks first and says how to come back (upstream's `HideTrayicon` is for admins in the ini file).
+    private var showIcon: Binding<Bool> {
+        Binding(get: { !store.value.hideMenuBarIcon }, set: { show in
+            if show {
+                store.update { $0.hideMenuBarIcon = false }
+            } else {
+                // After SwiftUI finished the toggle; it shows "on" until the user confirms.
+                DispatchQueue.main.async { confirmHidingIcon() }
+            }
+        })
+    }
+
+    private func confirmHidingIcon() {
+        let alert = NSAlert()
+        alert.messageText = "Hide the menu bar icon?"
+        alert.informativeText = """
+            The hotkeys keep working. To come back to Settings, open \(AppInfo.name) again from Spotlight, Launchpad or \
+            the Applications folder.
+            """
+        alert.addButton(withTitle: "Hide Icon")
+        alert.addButton(withTitle: "Cancel")
+        let hide = { [store] in store.update { $0.hideMenuBarIcon = true } }
+        if let window = NSApp.keyWindow {
+            alert.beginSheetModal(for: window) { if $0 == .alertFirstButtonReturn { hide() } }
+        } else if alert.runModal() == .alertFirstButtonReturn {
+            hide()
+        }
     }
 
     private var lastCheck: String {

@@ -1,0 +1,108 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import Foundation
+import Testing
+@testable import GreenshotCore
+
+struct SettingsPaneTests {
+    @Test func upstreamTabNames() {
+        #expect(SettingsPane(name: "general") == .general)
+        #expect(SettingsPane(name: "Capture") == .capture)
+        #expect(SettingsPane(name: " OUTPUT ") == .output)
+        #expect(SettingsPane(name: "destination") == .destinations)
+        #expect(SettingsPane(name: "destinations") == .destinations)
+        #expect(SettingsPane(name: "editor") == .editor)
+        #expect(SettingsPane(name: "print") == .printer)
+        #expect(SettingsPane(name: "printer") == .printer)
+        #expect(SettingsPane(name: "expert") == .expert)
+        #expect(SettingsPane(name: "ExpertSettings") == .expert)
+    }
+
+    @Test func tabsWithoutAMacTab() {
+        #expect(SettingsPane(name: "plugins") == nil)
+        #expect(SettingsPane(name: "recipes") == nil)
+        #expect(SettingsPane(name: "") == nil)
+    }
+
+    @Test func numberedLikeTheWindowsTabs() {
+        #expect(SettingsPane.allCases.map(\.rawValue) == Array(0...6))
+        #expect(SettingsPane.expert.rawValue == 6)
+    }
+}
+
+struct AppLaunchOptionsTests {
+    @Test func settingsFolderFromTheArguments() {
+        let options = AppLaunchOptions.parse(arguments: ["GreenshotMac", "--settings-dir", "/tmp/gs"], environment: [:])
+        #expect(options.settingsDirectory?.path == "/tmp/gs")
+        #expect(options.settingsFile?.path == "/tmp/gs/settings.json")
+        let joined = AppLaunchOptions.parse(arguments: ["GreenshotMac", "--settings-dir=/tmp/other"], environment: [:])
+        #expect(joined.settingsDirectory?.path == "/tmp/other")
+    }
+
+    @Test func environmentAndPrecedence() {
+        let env = [AppLaunchOptions.settingsDirectoryVariable: "/tmp/env"]
+        #expect(AppLaunchOptions.parse(arguments: ["GreenshotMac"], environment: env).settingsDirectory?.path == "/tmp/env")
+        #expect(AppLaunchOptions.parse(arguments: ["GreenshotMac", "--settings-dir", "/tmp/arg"], environment: env)
+            .settingsDirectory?.path == "/tmp/arg")
+    }
+
+    @Test func missingValuesAndTilde() {
+        #expect(AppLaunchOptions.parse(arguments: ["GreenshotMac", "--settings-dir"], environment: [:]).settingsDirectory == nil)
+        #expect(AppLaunchOptions.parse(arguments: ["GreenshotMac"], environment: [:]) == AppLaunchOptions())
+        #expect(AppLaunchOptions.parse(arguments: ["GreenshotMac", "--settings-dir="], environment: [:]).settingsDirectory == nil)
+        let home = FileManager.default.homeDirectoryForCurrentUser.standardizedFileURL.path
+        #expect(AppLaunchOptions.parse(arguments: ["x", "--settings-dir", "~/gs"], environment: [:]).settingsDirectory?.path == home + "/gs")
+    }
+}
+
+struct SettingsFileTests {
+    @Test func roundTripThroughAFile() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("gs-settings-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("settings.json")
+        var settings = AppSettings()
+        settings.theme = .dark
+        settings.leftClickAction = .captureRegion
+        settings.maxMenuItemLength = 40
+        try SettingsStorage.save(settings, toFile: file)
+        #expect(SettingsStorage.load(fromFile: file) == settings)
+    }
+
+    @Test func missingOrBrokenFileGivesDefaults() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("gs-settings-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("settings.json")
+        #expect(SettingsStorage.load(fromFile: file) == AppSettings())
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        try Data("not json".utf8).write(to: file)
+        #expect(SettingsStorage.load(fromFile: file) == AppSettings())
+    }
+}
+
+struct AppSettingsMenuBarDecodingTests {
+    @Test func brokenValuesFallBackToDefaults() throws {
+        let json = #"""
+            {"leftClickAction": "fly", "doubleClickAction": 3, "hideMenuBarIcon": "yes", "thumbnailPreview": null,
+             "maxMenuItemLength": "x", "theme": "purple", "checkForUnstable": "maybe"}
+            """#
+        let decoded = try JSONDecoder().decode(AppSettings.self, from: Data(json.utf8))
+        let d = AppSettings()
+        #expect(decoded.leftClickAction == d.leftClickAction && decoded.doubleClickAction == d.doubleClickAction)
+        #expect(decoded.hideMenuBarIcon == d.hideMenuBarIcon && decoded.thumbnailPreview == d.thumbnailPreview)
+        #expect(decoded.maxMenuItemLength == d.maxMenuItemLength && decoded.theme == d.theme)
+        #expect(decoded.checkForUnstable == d.checkForUnstable)
+    }
+
+    @Test func validValuesRoundTrip() throws {
+        var s = AppSettings()
+        s.leftClickAction = .openEmptyEditor
+        s.doubleClickAction = .doNothing
+        s.hideMenuBarIcon = true
+        s.thumbnailPreview = false
+        s.maxMenuItemLength = 60
+        s.theme = .light
+        s.checkForUnstable = true
+        let decoded = try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(s))
+        #expect(decoded == s)
+    }
+}

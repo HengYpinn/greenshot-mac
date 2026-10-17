@@ -15,22 +15,48 @@ final class SettingsStore: ObservableObject {
     /// Called after "Show in Dock while a window is open" changed.
     var onDockChange: (() -> Void)?
     private let defaults: UserDefaults
+    /// The settings file of `--settings-dir` (upstream `--ini-directory`); nil keeps them in the user defaults.
+    private let fileURL: URL?
+    private var observers: [(_ old: AppSettings, _ new: AppSettings) -> Void] = []
 
-    init(defaults: UserDefaults = .standard) {
+    init(defaults: UserDefaults = .standard, fileURL: URL? = nil) {
         self.defaults = defaults
-        value = SettingsStorage.load(from: defaults)
+        self.fileURL = fileURL
+        value = fileURL.map(SettingsStorage.load(fromFile:)) ?? SettingsStorage.load(from: defaults)
     }
 
     func update(_ body: (inout AppSettings) -> Void) {
         var changed = value
         body(&changed)
         guard changed != value else { return }
+        let old = value
         let hotkeysChanged = changed.hotkeys != value.hotkeys
         let dockChanged = changed.dockIconWhileWindowOpen != value.dockIconWhileWindowOpen
         value = changed
-        SettingsStorage.save(changed, to: defaults)
+        save(changed)
         if hotkeysChanged { onHotkeysChange?() }
         if dockChanged { onDockChange?() }
+        observers.forEach { $0(old, changed) }
+    }
+
+    /// Calls `handler` with the new value every time the setting at `keyPath` changed.
+    func onChange<T: Equatable>(of keyPath: KeyPath<AppSettings, T>, _ handler: @escaping (T) -> Void) {
+        observers.append { old, new in
+            let value = new[keyPath: keyPath]
+            if old[keyPath: keyPath] != value { handler(value) }
+        }
+    }
+
+    private func save(_ settings: AppSettings) {
+        guard let fileURL else {
+            SettingsStorage.save(settings, to: defaults)
+            return
+        }
+        do {
+            try SettingsStorage.save(settings, toFile: fileURL)
+        } catch {
+            FileHandle.standardError.write(Data("Settings could not be saved to \(fileURL.path): \(error)\n".utf8))
+        }
     }
 
     func binding<T>(_ keyPath: WritableKeyPath<AppSettings, T>) -> Binding<T> {
