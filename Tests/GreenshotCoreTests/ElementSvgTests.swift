@@ -68,6 +68,20 @@ struct ElementSvgTests {
         #expect(TestImage.pixel(image, 180, 40) == .white)
     }
 
+    @Test func itIsDrawnTheRightWayUp() throws {
+        // A green square only in the top left corner.
+        let corner = Data(##"<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="5" height="5" fill="#00ff00"/></svg>"##.utf8)
+        let doc = EditorDocument(image: TestImage.solid(width: 40, height: 40, .white), scale: 1, title: "test")
+        var element = try #require(Annotation.svg(corner, at: .zero, documentScale: 1))
+        element.end = CGPoint(x: 40, y: 40)
+        doc.add(element)
+        let image = doc.flattened()
+        let green = RGBA(r: 0, g: 255, b: 0, a: 255)
+        #expect(TestImage.pixel(image, 4, 4) == green)
+        #expect(TestImage.pixel(image, 4, 35) == .white)
+        #expect(TestImage.pixel(image, 35, 4) == .white)
+    }
+
     @Test func itKeepsItsAspectRatioAndCanGoBackToItsSize() throws {
         var element = try #require(Annotation.svg(Self.svg, at: .zero, documentScale: 2))
         #expect(Handle.handles(for: element) == Handle.cornerHandles)

@@ -133,8 +133,13 @@ public enum ElementSvg {
 
     /// The SVG of each element, read once; an element's SVG never changes.
     private static let decoded = NSCache<NSUUID, Decoded>()
-    /// The SVG of each element drawn at the size it was last shown, so redrawing the canvas doesn't draw it again.
-    private static let drawn = NSCache<NSString, Drawn>()
+    /// The SVG of each element drawn at the sizes it was last shown, so redrawing the canvas doesn't draw it again. A
+    /// resize draws it at every step, so only the newest few sizes are kept.
+    private static let drawn: NSCache<NSString, Drawn> = {
+        let cache = NSCache<NSString, Drawn>()
+        cache.countLimit = 32
+        return cache
+    }()
 
     /// The SVG of element `a` drawn at `pixelSize`.
     static func picture(of a: Annotation, pixelSize: CGSize) -> CGImage? {
