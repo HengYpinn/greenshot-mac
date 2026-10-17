@@ -1,0 +1,3883 @@
+{
+ "keys": [
+  {
+   "key": "${NUM} in the file name pattern counts up with every file, six digits with leading zeros.",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "${option.%@}",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "${option.key}",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "${payload.width > 800}",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "%@",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "%@ %@",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "%@ (missing)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "%@ (not installed)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "%@ (unknown)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "%@ JSON",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalOverlays.swift"
+   ]
+  },
+  {
+   "key": "%@ [%@]",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "%lld",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceWindow.swift",
+    "Sources/GreenshotMac/Settings/CaptureTab.swift",
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "%lld %%",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "%lld fps",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "%lld more parameters apply to other choices.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "%lld of %lld elements",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "%lld seconds",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "%lld steps",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "%lld × %lld px · %@",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "(%@)",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "(Deactivated)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "* (any step)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "* = all errors",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "+ Add Error Fallback Route",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "+ Add Trigger",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "+ Option",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "0",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "0 = All Files",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "1 step",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "1.0",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "1280x720",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "AI Tools",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "AI tool",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "AI: recipes written by AI tools",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "AUTOMATIC STEP",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Access",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Active",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Active: %lld",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Add",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift",
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift",
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Add Destination",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Add Variable",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Add this step as a parallel entry point",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Add…",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "After a capture",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "After a recording",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "All",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift",
+    "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift"
+   ]
+  },
+  {
+   "key": "All Lines",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalOverlays.swift"
+   ]
+  },
+  {
+   "key": "Allow",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Allow links to take screenshots",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Allow the browser extension to send screenshots",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Allowed",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Allowed programs",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Allow…",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift",
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift",
+    "Sources/GreenshotMac/Settings/NotificationsSection.swift"
+   ]
+  },
+  {
+   "key": "Also offer beta versions of %@ when it looks for updates.",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Always",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "An application's name or bundle identifier; Return adds it",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "An application, like KeePassXC or com.example.vault",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "An automatic step has no triggers: it runs in the recipes it extends.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Annotations",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "Another Recipe",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Another Tip",
+   "files": [
+    "Sources/GreenshotMac/App/WelcomeWindow.swift"
+   ]
+  },
+  {
+   "key": "Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "App key",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Appearance",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Append to the annotations",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Application",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift",
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Apply",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Apply Changes",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Approved recipes",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Ask Again",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Ask every time (destination menu)",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "At most %lld colours",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Automatic",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Automatic Steps",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift",
+    "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
+   ]
+  },
+  {
+   "key": "Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
+   ]
+  },
+  {
+   "key": "Automatic steps which plug in now (switched in Settings › Recipes):",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Automation",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Available in a moment: this window opened on its own.",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "A–Z",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "BCC",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Back",
+   "files": [
+    "Sources/GreenshotMac/App/WelcomeWindow.swift"
+   ]
+  },
+  {
+   "key": "Below 100 % the screen shows through the zoomer.",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Bit rate",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Black and white",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Black and white threshold: %lld",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Box",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Bring back the built-in recipe this file replaces",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Bring back the built-in version",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Bring back the built-in version of every recipe a file replaces",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Browser extension",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Browsers",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "CC",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Cancel",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift",
+    "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift",
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Cancel (Esc)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Cancel the running one",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Capture",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Capture Full Screen",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Capture Mode",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Capture Recipe Manager",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Capture Region",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Capture Window",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Capture a window with Greenshot for Mac.",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Capture the mouse pointer",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Capture the whole screen with Greenshot for Mac.",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Captures",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Capturing",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Center on the page",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Changed Lines",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalOverlays.swift"
+   ]
+  },
+  {
+   "key": "Changed recipes",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
+   ]
+  },
+  {
+   "key": "Changes (− before, + after)",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalOverlays.swift"
+   ]
+  },
+  {
+   "key": "Changes not applied yet",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Change…",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
+   ]
+  },
+  {
+   "key": "Check Now",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift",
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Check at least one destination.",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift"
+   ]
+  },
+  {
+   "key": "Check for unstable updates (pre-releases)",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Check for updates every %lld days",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Check the setup, read the log and the system information (S)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/AboutWindow.swift"
+   ]
+  },
+  {
+   "key": "Check the setup, the log and the system of %@",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Checking the code signature…",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceIntegrity.swift"
+   ]
+  },
+  {
+   "key": "Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Choose…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift",
+    "Sources/GreenshotMac/Settings/CaptureTab.swift",
+    "Sources/GreenshotMac/Settings/OutputTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Clear",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift"
+   ]
+  },
+  {
+   "key": "Click",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Click anywhere or press Esc to return",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Click to activate or deactivate",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Click to activate the recipe",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Click to deactivate the recipe",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Click to view full preview (Esc to exit)",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Client ID",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Clipboard formats",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Close",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift",
+    "Sources/GreenshotMac/Recipes/ApprovalOverlays.swift",
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift",
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift",
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Closing an editor with changes discards them without a question.",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Colour",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Colours",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Command line tool",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Configure QR…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "Confluence",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Connect an AI tool",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Continue At",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift"
+   ]
+  },
+  {
+   "key": "Copied",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift",
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Copies a Terminal command that links greenshot-cli into /usr/local/bin.",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Copy",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift",
+    "Sources/GreenshotMac/Recipes/ApprovalOverlays.swift",
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Copy File Path",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Copy Install Command",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Copy Log",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Copy Mermaid Code",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFlowView.swift"
+   ]
+  },
+  {
+   "key": "Copy Path",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceFiles.swift",
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Copy Recipe ID",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Copy Recipe ID to Clipboard",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Copy Report",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceIntegrity.swift"
+   ]
+  },
+  {
+   "key": "Copy System Info",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceSystem.swift"
+   ]
+  },
+  {
+   "key": "Copy a shared link to the clipboard",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Copy the file path to the clipboard every time an image is saved",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Copy the link to the clipboard",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Copy to the clipboard",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Core Destinations",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Countdown",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Create a new capture recipe in the recipe editor",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Custom size",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "DIAGNOSTICS",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceWindow.swift"
+   ]
+  },
+  {
+   "key": "Deactivated: %lld",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Default",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift",
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Default (%@)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Default (Return)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Default (Use Recipe Fallback / Terminate)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Default (in parallel)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Default (system font)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Delete Connection",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift"
+   ]
+  },
+  {
+   "key": "Delete Step",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Delete Trigger",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Destinations",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Destinations (%lld)",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Details",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift",
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Details for the report",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Details, permissions and the file of this recipe",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Details…",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Don't ask to save when closing an editor",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Double-click",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Download Update",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Drawing",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Dropbox",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "ERROR HANDLING & FALLBACK",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Edit",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Edit Recipe File",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "Edit the automatic step in the recipe editor",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Edit the code with live preview",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "Editor",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Editor windows",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Edit…",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Either key",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Email",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Embed (Base64)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Embed File…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "Enlarge to fit the paper",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Error message",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Esc: Close  |  F5: Refresh  |  1–6: Sections",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceWindow.swift"
+   ]
+  },
+  {
+   "key": "Example: %@",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift",
+    "Sources/GreenshotMac/Settings/PrinterTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Expert",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Expression",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "External command %@",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "External commands",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "File name counter",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "File name pattern",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Files",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Files: %@, …",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Fixed capture sizes",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Folder",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift",
+    "Sources/GreenshotMac/Settings/OutputTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Folder ID",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Footer",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Footer pattern",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Format",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift",
+    "Sources/GreenshotMac/Settings/OutputTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Forward to another Recipe…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Forward to recipe",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Frame rate",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Freehand smoothing",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "From .greenshot File…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "From Editor…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "Full Screen",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Full screen hotkey",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "General",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Grayscale",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Greenshot for Mac has no step '%@': its parameters are kept as they are.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Has its own error route",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift"
+   ]
+  },
+  {
+   "key": "Height",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Hotkeys",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "How much %@ writes to the log, until it restarts. Debug writes the most.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Image",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Image format",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Import",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Import Annotations from %@",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Import From This Editor",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Import Recipe…",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "In parallel",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Include personal spaces in search and browsing",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Install",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Installed version:",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Inverted colours",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Issue identifier (stack trace hash)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "JPEG quality",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "JPEG quality: %lld",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "JSON",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Jira",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Keep as Is",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "Keep the Mac awake while recording",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Keep the window shadow in window captures",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Language",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "Language of the text",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Last Region",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Later",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "Latest release:",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Launch at login",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Layout",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Left and right keys need the Accessibility permission. Until then this hotkey works with either key.",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Left key",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Left or right key",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Left or right modifier keys",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Left or right modifier keys: e.g. only the right ⌘",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Let AI tools propose recipes",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Let AI tools use Greenshot",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Let's Go!",
+   "files": [
+    "Sources/GreenshotMac/App/WelcomeWindow.swift"
+   ]
+  },
+  {
+   "key": "Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Load Earlier (+64 KB)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Load Entire Log",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Load Recipe…",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Load and register a .gsrecipe.json file",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Load the previous 64 KB of the log",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Log level",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Look for QR codes on the capture screen",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "M on the capture screen switches it for one capture.",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "MCP server",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Margins",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Mark as Start Step",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Match the editor window size to the capture",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Menu bar icon",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Menus",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Mermaid",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFlowView.swift"
+   ]
+  },
+  {
+   "key": "Microsoft Office and Notes",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Mode",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Move Down",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift"
+   ]
+  },
+  {
+   "key": "Move Up",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift"
+   ]
+  },
+  {
+   "key": "Never (switched off)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Never check for updates",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Never share these applications",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "New",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "New Automatic Step",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "New Recipe",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift",
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "New image size",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "New recipe (⌘N)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Next",
+   "files": [
+    "Sources/GreenshotMac/App/WelcomeWindow.swift"
+   ]
+  },
+  {
+   "key": "Next number",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "No Step Selected",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "No annotations yet.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "No automatic step changes a recipe; switch one on above.",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
+   ]
+  },
+  {
+   "key": "No image editor is open. Open a capture in the editor first.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "No program is allowed yet.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "No recipe matches.",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "No recipe open",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "No recipes from files.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "No recipes loaded",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "No recipes yet. Import a recipe file or create one in the recipe editor.",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "No trigger: the recipe runs from the recipe list, the command line or another recipe.",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "No triggers: the recipe starts only from the recipe manager, a test run or another recipe.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "None",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift",
+    "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Not allowed until Greenshot quits",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Not allowed yet",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Not approved, changed since its approval, or triggers left off",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Not for JPEG. GIF files always get at most this many colours.",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Not found next to the app",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Not loaded in Greenshot",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Not registered yet",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Not registered: another app has it",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Not running",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Not saved yet",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Not set",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift"
+   ]
+  },
+  {
+   "key": "Notification Settings…",
+   "files": [
+    "Sources/GreenshotMac/Settings/NotificationsSection.swift"
+   ]
+  },
+  {
+   "key": "Notifications",
+   "files": [
+    "Sources/GreenshotMac/Settings/NotificationsSection.swift"
+   ]
+  },
+  {
+   "key": "OK",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift",
+    "Sources/GreenshotMac/SelfService/AboutWindow.swift"
+   ]
+  },
+  {
+   "key": "OPTIONS",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "OTHER PARAMETERS",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Off",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Off: “Save directly” adds (2), (3), … to the name instead.",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "On",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "On a Mac no app can lock the clipboard, so no other app can keep %@ from it.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift"
+   ]
+  },
+  {
+   "key": "Once at a time",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "One per line: value, or value = label",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Open %@ at login",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceSetup.swift"
+   ]
+  },
+  {
+   "key": "Open Clipboard in Greenshot",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Open Image in Greenshot",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Open Keyboard Shortcuts",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Open Log Viewer",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceFiles.swift"
+   ]
+  },
+  {
+   "key": "Open Log Viewer…",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Open Login Items",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Open Self-Service…",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Open Settings",
+   "files": [
+    "Sources/GreenshotMac/App/WelcomeWindow.swift"
+   ]
+  },
+  {
+   "key": "Open System Settings",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift",
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Open in the recipe editor after saving",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "Open the page after the upload",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Open the recipe in the recipe editor",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Opens an image in the Greenshot for Mac editor.",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Opens the image on the clipboard in the Greenshot for Mac editor.",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Open…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Outlook: email format for new emails",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Output",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Overwrite a file with the same name",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "PDF",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Page size",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Paste it into Markdown, GitHub READMEs or pull requests.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFlowView.swift"
+   ]
+  },
+  {
+   "key": "Pattern variables",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Pause while the screen is locked",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Permissions",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift",
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Permissions…",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Pictures",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Play the camera sound",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Play the sound",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift",
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "PowerPoint: lock aspect ratio of the image",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "PowerPoint: slide layout for exported captures",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Preset",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Press 1–6 to switch sections, F5 to refresh.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceWindow.swift"
+   ]
+  },
+  {
+   "key": "Press Next to begin, or Esc to close this window at any time.",
+   "files": [
+    "Sources/GreenshotMac/App/WelcomeWindow.swift"
+   ]
+  },
+  {
+   "key": "Print a footer",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Print in",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Printer",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Privacy Settings…",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Program not found",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Quality",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Quit %@",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "RECIPE CONFIGURATION",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Read the log again (F5, ⌘R)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Read this section again (F5, ⌘R)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceWindow.swift"
+   ]
+  },
+  {
+   "key": "Recipe Editor…",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Recipe Manager…",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Recipe hotkeys not registered",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Recipes",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift",
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Recipes: ids, * (every recipe with the slot) or *capture, separated by commas",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Recognise the text as soon as the capture screen opens",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Record",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Record the mouse pointer",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Reduce the amount of colours to a maximum of 256",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Reduce the number of colours",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Refresh",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift",
+    "Sources/GreenshotMac/SelfService/SelfServiceWindow.swift"
+   ]
+  },
+  {
+   "key": "Region",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Register Again",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Register the hotkeys with macOS again, e.g. after another app gave a key back",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Registered",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Registered, but macOS takes it first (%@)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Relaunch %@ in %@?",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "Relaunch Now",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "Relaunch in %@",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "Reload All",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Reload Recipes",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Reload the configured recipe files from disk",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Remove",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift",
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift",
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Remove %@",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Remove Start Step",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Remove the option",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Remove the recipe from Greenshot",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Remove this error route",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Remove this step from the start steps",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Remove: the program is asked again the next time it connects.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Replace the annotations",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Report on GitHub…",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Required",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Reset",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Reset All",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Reset Default",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Reset to Default",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Reset to defaults",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
+   ]
+  },
+  {
+   "key": "Reuse the editor if possible",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Revert",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Review approval…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Review…",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Revoke",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Revoke Approval…",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Right key",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Rotate to the page orientation",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Route to Step in this Recipe…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Run the capture recipe now",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Running",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "STEP ERROR HANDLING",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "STEP PARAMETERS",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Same as macOS (%@)",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "Same keys as your hotkey",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "Save to File",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Save with 256 colours when the image has fewer",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Scaling",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Screen %lld%@",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Screen recording",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Search",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Search Existing Issues",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Search name, id, triggers, file",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Search, follow and copy the whole log in the log viewer.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceFiles.swift"
+   ]
+  },
+  {
+   "key": "Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Select Image Editor",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Select a region of the screen to capture with Greenshot for Mac.",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Select a step or an arrow first: the new step goes right after it, or into the arrow.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Select an alternative destination below, forward to another recipe, or retry:",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "Select an editor",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Select areas inside windows",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Self-Service",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceWindow.swift"
+   ]
+  },
+  {
+   "key": "Self-Service…",
+   "files": [
+    "Sources/GreenshotMac/SelfService/AboutWindow.swift",
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Set in the recipe",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Several on one slot run by order, then by id",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Shared link (anyone with the link), not the private one",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Show",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Show Extension Folder…",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "Show Welcome…",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Show a notification when an AI tool takes a screenshot",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Show a thumbnail of the capture in the notification",
+   "files": [
+    "Sources/GreenshotMac/Settings/NotificationsSection.swift"
+   ]
+  },
+  {
+   "key": "Show all parameters",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Show in Dock while a window is open",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Show in Finder",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift",
+    "Sources/GreenshotMac/Recipes/ApprovalOverlays.swift",
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift",
+    "Sources/GreenshotMac/SelfService/SelfServiceFiles.swift",
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Show in the Recipes menu",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Show in the menu bar's Quick Settings",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Show notifications",
+   "files": [
+    "Sources/GreenshotMac/Settings/NotificationsSection.swift"
+   ]
+  },
+  {
+   "key": "Show print options every time before printing",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Show the menu bar icon",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Show the quality dialog every time an image is saved",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "Show the zoomer on the capture screen",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Show window thumbnails in the window list",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Shows only the log entries that contain this text, from the whole log file (⌘F)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Shrink to fit the paper",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "Sign In…",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Sign Out",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Sign in with",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Size",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Smaller keeps more detail of a freehand line, larger makes it smoother.",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Sort the annotations by type",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationEditor.swift"
+   ]
+  },
+  {
+   "key": "Sound",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift",
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Stack trace",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "Start Watching",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift"
+   ]
+  },
+  {
+   "key": "Start step",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift"
+   ]
+  },
+  {
+   "key": "Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Starting and stopping",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Step %lld",
+   "files": [
+    "Sources/GreenshotMac/Settings/HotkeysSection.swift"
+   ]
+  },
+  {
+   "key": "Step in this Recipe",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Stop Watching",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift"
+   ]
+  },
+  {
+   "key": "Stop after",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Stop when the window closes",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Subject",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Switch the automatic step on or off (also in Settings › Recipes)",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Switch the recipe's triggers and permissions",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Switch the triggers and permissions of the approval on or off",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "TRIGGERS",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Take Screenshot",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Target step",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "Test Connection",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Test Run",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Text (OCR)",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Text recognition (OCR)",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "The %@ is only used with every permission it needs.",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.",
+   "files": [
+    "Sources/GreenshotMac/Browser/BrowserExtensionSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "The clipboard is empty.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift"
+   ]
+  },
+  {
+   "key": "The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.",
+   "files": [
+    "Sources/GreenshotMac/Settings/OutputTab.swift"
+   ]
+  },
+  {
+   "key": "The hotkey records",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "The key of a Boolean option: this option can only be changed while that one is on",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "The menu bar icon hidden? Quit from here.",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.",
+   "files": [
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "The new language shows after a relaunch.",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "The new language shows after a relaunch. Unsaved screenshots are asked about first.",
+   "files": [
+    "Sources/GreenshotMac/Localization/LanguagePicker.swift"
+   ]
+  },
+  {
+   "key": "The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "The recipe to edit",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "The recipes and automatic steps %@ knows.",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "The recipes start with Greenshot.",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "The same variables as the file name pattern, e.g. ${title} and ${capturetime:d\"D\"}.",
+   "files": [
+    "Sources/GreenshotMac/Settings/PrinterTab.swift"
+   ]
+  },
+  {
+   "key": "The size of File › New Image, a white image to draw on.",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "The value is a template (${…} work in it)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "The window hotkey opens the capture screen in window mode instead of capturing the active window.",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Then the hotkeys work right after you log in.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceSetup.swift"
+   ]
+  },
+  {
+   "key": "These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "These:",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift"
+   ]
+  },
+  {
+   "key": "This step has no parameters.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Tip: move the app to your Applications folder first, so it keeps opening at login.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceSetup.swift"
+   ]
+  },
+  {
+   "key": "To",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Tone map HDR content on HDR screens",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Tone map HDR content on HDR screens (macOS 15 or later)",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Total: %lld",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Trigger Name",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Troubleshooting",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Trust what Greenshot writes below about the %@, not these words.",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "URL",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Unique identifier for this step. Editing this ID updates all references.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Unit",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Unload",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift",
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Unload and forget the file",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Unsaved changes",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Updates",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift",
+    "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "Use Default",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Use Expression",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "Use interactive window capture mode",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "Use recipes",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Used for:",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
+   ]
+  },
+  {
+   "key": "Values the user sets in Settings › Recipes; steps read them as ${option.key}.",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "Version %@ (%@)",
+   "files": [
+    "Sources/GreenshotMac/SelfService/AboutWindow.swift"
+   ]
+  },
+  {
+   "key": "Video",
+   "files": [
+    "Sources/GreenshotMac/Settings/SettingsWindow.swift"
+   ]
+  },
+  {
+   "key": "View %@ JSON",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "View Changes",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "Wait before capturing: %lld ms",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "What AI tools may do",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "What it does, its triggers, its approval and the changes against the built-in version",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "What to change: %@",
+   "files": [
+    "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "When the window changes size",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "When…",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "Where %@ is used",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift"
+   ]
+  },
+  {
+   "key": "Width",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "Window",
+   "files": [
+    "Sources/GreenshotMac/App/AppIntentsGreenshot.swift"
+   ]
+  },
+  {
+   "key": "Window titles in menus: up to %lld characters",
+   "files": [
+    "Sources/GreenshotMac/Settings/ExpertTab.swift"
+   ]
+  },
+  {
+   "key": "Windows",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and \".app\" don't matter.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Word: lock aspect ratio of the image",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Wrap text",
+   "files": [
+    "Sources/GreenshotMac/SelfService/LogViewerWindow.swift"
+   ]
+  },
+  {
+   "key": "Written by an AI tool and approved by you",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "Written by an AI tool and approved by you: %@",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Your own servers",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Your recipes",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
+   ]
+  },
+  {
+   "key": "Zoomer opacity",
+   "files": [
+    "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "[%@]",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "[No Stack]",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "button label",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "continues at:",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeOutlineView.swift"
+   ]
+  },
+  {
+   "key": "default",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "default: the destinations of the settings",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "description",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "e.g. Screenshots; empty = the app's folder",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "expression, e.g. ${payload.width > 800} or else",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "ext_border, ext_caption",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "file name prefix",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
+   "key": "greenshot-mcp was not found next to the app",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
+   ]
+  },
+  {
+   "key": "https://confluence.yourcompany.com",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "https://jira.yourcompany.com",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "https://yourcompany.atlassian.net",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "https://yourcompany.atlassian.net/wiki",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "id",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "ids, * or *capture",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "key",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "macOS asks the first time whether %@ may use the microphone.",
+   "files": [
+    "Sources/GreenshotMac/Settings/VideoTab.swift"
+   ]
+  },
+  {
+   "key": "macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceHotkeys.swift"
+   ]
+  },
+  {
+   "key": "macOS has no crash report of %@.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceFiles.swift"
+   ]
+  },
+  {
+   "key": "macOS kept %lld crash report%@ of %@ in ~/Library/Logs/DiagnosticReports.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceFiles.swift"
+   ]
+  },
+  {
+   "key": "macOS notifications",
+   "files": [
+    "Sources/GreenshotMac/Settings/NotificationsSection.swift"
+   ]
+  },
+  {
+   "key": "macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/SelfServiceIntegrity.swift"
+   ]
+  },
+  {
+   "key": "name",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift",
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "not a colour",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "one per line",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "or a designation",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "points",
+   "files": [
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "recipe id",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeStepInspector.swift"
+   ]
+  },
+  {
+   "key": "to",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "v%@",
+   "files": [
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "value",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "variable (default: the name)",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeFieldEditors.swift"
+   ]
+  },
+  {
+   "key": "what it does",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
+   ]
+  },
+  {
+   "key": "|",
+   "files": [
+    "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
+   ]
+  },
+  {
+   "key": "×",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift",
+    "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "▶ Run Recipe",
+   "files": [
+    "Sources/GreenshotMac/Recipes/StepsFlyoutPanel.swift"
+   ]
+  },
+  {
+   "key": "⚠",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "✔",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "✘",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  }
+ ]
+}

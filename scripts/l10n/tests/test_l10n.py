@@ -1,0 +1,251 @@
+# Greenshot for Mac (Community) - an unofficial macOS port of Greenshot
+# Copyright (C) 2026 Greenshot for Mac (Community) contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""Tests of scripts/l10n/l10n.py: python3 -I -m unittest discover -s scripts/l10n/tests"""
+import json
+import os
+import shutil
+import sys
+import tempfile
+import unittest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import l10n  # noqa: E402
+
+ELLIPSIS = "\u2026"
+
+
+def upstream(values):
+    """An Upstream of {(module, ietf): {(section, key): value}}."""
+    return l10n.Upstream(values, {"en-US": "English", "de-DE": "Deutsch", "ja-JP": "Japanese"}, "test")
+
+
+def candidate(english_value, tokens, kind="exact", ref="core:Core.key"):
+    return l10n.Candidate(l10n.Ref.parse(ref), english_value, kind, tokens)
+
+
+class IniTests(unittest.TestCase):
+    def test_sections_escapes_and_comments(self):
+        data = l10n.parse_ini("\ufeff[__language__]\nDescription=Deutsch\n; a comment\n[Core]\n"
+                              "a=Eins\\nZwei\\tdrei\nb = x=y\npath=C:\\\\Temp\nempty=\n")
+        self.assertEqual(data[("__language__", "Description")], "Deutsch")
+        self.assertEqual(data[("Core", "a")], "Eins\nZwei\tdrei")
+        self.assertEqual(data[("Core", "b")], " x=y")
+        self.assertEqual(data[("Core", "path")], "C:\\Temp")
+        self.assertEqual(data[("Core", "empty")], "")
+
+    def test_pack_file_names(self):
+        self.assertEqual(l10n.pack_file_parts("greenshot.de-DE.ini"), ("core", "de-DE"))
+        self.assertEqual(l10n.pack_file_parts("greenshot.de-x-franconia.ini"), ("core", "de-x-franconia"))
+        self.assertEqual(l10n.pack_file_parts("greenshot.jira.pt-BR.ini"), ("jira", "pt-BR"))
+        self.assertIsNone(l10n.pack_file_parts("help-de-DE.html"))
+
+
+class NormaliseTests(unittest.TestCase):
+    def test_ellipsis_colon_case_spaces(self):
+        self.assertEqual(l10n.normalise_mac("Settings" + ELLIPSIS), l10n.normalise_upstream("settings..."))
+        self.assertEqual(l10n.normalise_mac("Width"), l10n.normalise_upstream("Width:"))
+        self.assertEqual(l10n.normalise_mac("Open  the\nfile"), l10n.normalise_upstream("Open the file"))
+
+    def test_placeholders_and_ampersand(self):
+        self.assertEqual(l10n.normalise_mac("Saved %lld files to %@"), l10n.normalise_upstream("Saved {0:N0} files to {1}"))
+        self.assertNotEqual(l10n.normalise_mac("System Hardware"), l10n.normalise_upstream("System & Hardware"))
+        self.assertEqual(l10n.normalise_mac("100%% of %@"), l10n.normalise_upstream("100% of {0}"))
+
+    def test_mac_specifiers(self):
+        self.assertEqual(l10n.mac_specs("%lld of %@ at %lf"), ["lld", "@", "lf"])
+        self.assertEqual(l10n.mac_specs("100%% done %@"), ["@"])
+        self.assertEqual(l10n.spec_signature("%2$@ and %1$lld"), [(1, "lld"), (2, "@")])
+        self.assertIsNone(l10n.spec_signature("50 % off %@"))
+
+
+class MatchTests(unittest.TestCase):
+    def setUp(self):
+        self.up = upstream({
+            ("core", "en-US"): {("Core", "settings"): "Settings...", ("Editor", "settings"): "Settings...",
+                                ("Core", "about"): "About Greenshot", ("Core", "explorer"): "Open in Explorer",
+                                ("Settings", "width"): "Width:"},
+            ("core", "de-DE"): {("Core", "settings"): "Einstellungen...", ("Editor", "settings"): "Optionen...",
+                                ("Core", "about"): "Über Greenshot", ("Settings", "width"): "Breite:"},
+        })
+
+    def test_exact_normalised_app_name(self):
+        matcher = l10n.Matcher(self.up, [])
+        found, _ = matcher.candidates("Settings" + ELLIPSIS)
+        self.assertEqual([str(c.ref) for c in found], ["core:Core.settings", "core:Editor.settings"])
+        self.assertEqual(found[0].kind, "normalised")
+        found, _ = matcher.candidates("About %@")
+        self.assertEqual([(str(c.ref), c.kind, c.tokens) for c in found], [("core:Core.about", "app name", [None])])
+        self.assertEqual(matcher.candidates("About Greenshot")[0][0].kind, "exact")
+        self.assertEqual(matcher.candidates("Height")[0], [])
+
+    def test_overrides(self):
+        reject = l10n.Override("Width", "reject", None, "")
+        self.assertEqual(l10n.Matcher(self.up, [reject]).candidates("Width")[0], [])
+        mapped = l10n.Override("Breadth", "map", l10n.Ref.parse("core:Settings.width"), "same meaning")
+        found, _ = l10n.Matcher(self.up, [mapped]).candidates("Breadth")
+        self.assertEqual([(str(c.ref), c.kind) for c in found], [("core:Settings.width", "override")])
+        pinned = l10n.Override("Settings" + ELLIPSIS, "pin", l10n.Ref.parse("core:Editor.settings"), "")
+        found, _ = l10n.Matcher(self.up, [pinned]).candidates("Settings" + ELLIPSIS)
+        self.assertEqual([str(c.ref) for c in found], ["core:Editor.settings"])
+
+    def test_override_with_windows_wording_is_refused(self):
+        windows = l10n.Override("Show in Finder", "map", l10n.Ref.parse("core:Core.explorer"), "")
+        with self.assertRaises(SystemExit):
+            l10n.Matcher(self.up, [windows])
+        allowed = l10n.Override("Show in Finder", "map", l10n.Ref.parse("core:Core.explorer"), "ok: reviewed")
+        self.assertEqual(len(l10n.Matcher(self.up, [allowed]).candidates("Show in Finder")[0]), 1)
+
+
+class ConvertTests(unittest.TestCase):
+    def test_positions_follow_the_upstream_indexes(self):
+        value, why = l10n.convert("{0}: {1} Dateien", "%lld files in %@", "%lld files in %@",
+                                  candidate("{1} files in {0}", [1, 0]), "de")
+        self.assertEqual((value, why), ("%2$@: %1$lld Dateien", ""))
+
+    def test_single_specifier_number_format_and_percent(self):
+        value, _ = l10n.convert("Qualität {0:N0} %", "Quality %lld%%", "Quality %lld%%",
+                                candidate("Quality {0}%", [0]), "de")
+        self.assertEqual(value, "Qualität %lld %%")
+        value, _ = l10n.convert("100 % fertig", "100% done", "100% done", candidate("100% done", []), "de")
+        self.assertEqual(value, "100 % fertig")
+
+    def test_punctuation_and_case(self):
+        self.assertEqual(l10n.align_punctuation("Einstellungen...", "Settings" + ELLIPSIS, "de"), "Einstellungen" + ELLIPSIS)
+        self.assertEqual(l10n.align_punctuation("Einstellungen" + ELLIPSIS, "Settings", "de"), "Einstellungen")
+        self.assertEqual(l10n.align_punctuation("Breite:", "Width", "de"), "Breite")
+        self.assertEqual(l10n.align_punctuation("Breite", "Width:", "de"), "Breite:")
+        self.assertEqual(l10n.align_punctuation("Largeur\u00a0:", "Width:", "fr"), "Largeur\u00a0:")
+        self.assertEqual(l10n.align_punctuation("\u5e45", "Width:", "ja"), "\u5e45\uff1a")
+        self.assertEqual(l10n.align_case("alle", "All"), "Alle")
+        self.assertEqual(l10n.align_case("iPhone", "phone"), "iPhone")
+
+    def test_app_name(self):
+        value, _ = l10n.convert("Über Greenshot", "About %@", "About %@", candidate("About Greenshot", [None]), "de")
+        self.assertEqual(value, "Über %@")
+        value, why = l10n.convert("حول جرين شوت", "About %@", "About %@", candidate("About Greenshot", [None]), "ar")
+        self.assertIsNone(value)
+        self.assertIn("app name", why)
+
+    def test_drops(self):
+        value, why = l10n.convert("Gespeichert", "Saved %@", "Saved %@", candidate("Saved {0}", [0]), "de")
+        self.assertIsNone(value)
+        self.assertEqual(why, "placeholders differ from the English")
+        value, why = l10n.convert("{1} gespeichert", "Saved %@", "Saved %@", candidate("Saved {0}", [0]), "de")
+        self.assertIsNone(value)
+        self.assertTrue(why)
+        self.assertEqual(l10n.convert("Settings...", "Settings", "Settings", candidate("Settings...", []), "de"),
+                         (None, ""))
+
+    def test_identifier_keys_use_the_default_value(self):
+        value, _ = l10n.convert("Öffnen {0}", "menu.open", "Open %@", candidate("Open {0}", [0]), "de")
+        self.assertEqual(value, "Öffnen %@")
+
+
+class MachineTests(unittest.TestCase):
+    def setUp(self):
+        self.folder = tempfile.mkdtemp()
+        self.up = upstream({
+            ("core", "en-US"): {("Core", "cancel"): "Cancel"},
+            ("core", "de-DE"): {("Core", "cancel"): "Abbrechen"},
+        })
+        with open(os.path.join(self.folder, "de.tsv"), "w", encoding="utf-8") as f:
+            f.write("# english\ttranslation\tsource\n"
+                    "Cancel\tStornieren\ttest model 2026-10-18\n"
+                    "Saved %@\tGespeichert: %@\ttest\n"
+                    "Copied %@\tKopiert\ttest\n"
+                    "Open the menu\tÖffne das Tray-Menü in Windows\ttest\n")
+        self.languages = [l10n.Language("en-US", "en", False), l10n.Language("de-DE", "de", False)]
+        self.keys = [l10n.MacKey(k, None, []) for k in ["Cancel", "Saved %@", "Copied %@", "Open the menu"]]
+
+    def tearDown(self):
+        shutil.rmtree(self.folder)
+
+    def test_off_by_default(self):
+        result = l10n.build(self.up, self.languages, self.keys, [], False, self.folder)
+        self.assertEqual([(e.key, e.value, e.comment) for e in result.entries["de"]], [("Cancel", "Abbrechen", "core:Core.cancel")])
+        self.assertEqual(result.machine_counts["de"], 0)
+
+    def test_on_fills_only_texts_without_an_upstream_key(self):
+        result = l10n.build(self.up, self.languages, self.keys, [], True, self.folder)
+        entries = {e.key: (e.value, e.comment) for e in result.entries["de"]}
+        self.assertEqual(entries["Cancel"], ("Abbrechen", "core:Core.cancel"))
+        self.assertEqual(entries["Saved %@"], ("Gespeichert: %@", "machine"))
+        self.assertNotIn("Copied %@", entries)
+        self.assertNotIn("Open the menu", entries)
+        self.assertEqual(result.machine_counts["de"], 1)
+        self.assertIn(("Copied %@", "machine: placeholders differ from the English"), result.drops)
+        self.assertIn(("Open the menu", "machine: Windows wording"), result.drops)
+
+
+class OutputTests(unittest.TestCase):
+    def test_strings_escaping(self):
+        text = l10n.strings_file([l10n.Entry("Say \"hi\"\n", "Sag \\ \"hallo\"", "core:Core.x */")], "header")
+        self.assertIn("\"Say \\\"hi\\\"\\n\" = \"Sag \\\\ \\\"hallo\\\"\";", text)
+        self.assertIn("/* core:Core.x * / */", text)
+
+    def test_help_page_becomes_utf8(self):
+        page = l10n.help_page_utf8("<html>\r\n<head>\r\n<title>Caf\xe9</title></head>".encode("cp1252"), "help-fr-FR.html")
+        self.assertIn("Caf\u00e9", page)
+        self.assertIn("<meta charset=\"utf-8\">", page)
+        self.assertNotIn("\r", page)
+        hu = l10n.help_page_utf8("<head>\u0151</head>".encode("cp1250"), "help-hu-HU.html")
+        self.assertIn("\u0151", hu)
+        old = l10n.help_page_utf8(b"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/></head>",
+                                  "help-zh-CN.html")
+        self.assertEqual(old.count("charset"), 1)
+
+
+class GenerateTests(unittest.TestCase):
+    """The real vendored packs with a few Mac texts, into a temporary root."""
+
+    def setUp(self):
+        self.root = tempfile.mkdtemp()
+        self.keys = os.path.join(self.root, "keys.json")
+        with open(self.keys, "w", encoding="utf-8") as f:
+            json.dump({"keys": [{"key": "Cancel", "files": []}, {"key": "Self-Service" + ELLIPSIS, "files": []},
+                                {"key": "A text only the Mac has", "files": []}]}, f)
+        self.machine = os.path.join(self.root, "machine")
+        os.makedirs(self.machine)
+
+    def tearDown(self):
+        shutil.rmtree(self.root)
+
+    def generate(self, out, machine):
+        return l10n.generate(out, machine, machine_folder=self.machine, keys_path=self.keys)
+
+    def read(self, root, relative):
+        with open(os.path.join(root, relative), encoding="utf-8") as f:
+            return f.read()
+
+    def test_output_and_check(self):
+        out = os.path.join(self.root, "a")
+        self.generate(out, False)
+        german = self.read(out, "Resources/Localizations/de.lproj/Localizable.strings")
+        self.assertIn("\"Cancel\" = \"Abbrechen\";", german)
+        self.assertIn("\"Self-Service" + ELLIPSIS + "\" = \"Fehlerbehebung" + ELLIPSIS + "\";", german)
+        self.assertNotIn("A text only the Mac has", german)
+        self.assertEqual(len([d for d in os.listdir(os.path.join(out, "Resources/Localizations"))]), 40)
+        self.assertIn("\"Cancel\"", self.read(out, "Resources/Localizations/ja.lproj/Upstream.strings"))
+        again = os.path.join(self.root, "b")
+        self.generate(again, False)
+        self.assertEqual(l10n.compare_trees(again, out), [])
+
+    def test_machine_table_changes_nothing_without_the_flag(self):
+        plain = os.path.join(self.root, "plain")
+        self.generate(plain, False)
+        with open(os.path.join(self.machine, "de.tsv"), "w", encoding="utf-8") as f:
+            f.write("A text only the Mac has\tEin Text nur vom Mac\ttest\n")
+        unflagged = os.path.join(self.root, "unflagged")
+        self.generate(unflagged, False)
+        self.assertEqual(l10n.compare_trees(unflagged, plain), [])
+        flagged = os.path.join(self.root, "flagged")
+        self.generate(flagged, True)
+        german = self.read(flagged, "Resources/Localizations/de.lproj/Localizable.strings")
+        self.assertIn("/* machine */\n\"A text only the Mac has\" = \"Ein Text nur vom Mac\";", german)
+        self.assertIn("| Machine |", self.read(flagged, "docs/translations.md"))
+        self.assertNotIn("Machine", self.read(plain, "docs/translations.md").split("## Coverage")[1].split("\n\n")[1])
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,8 @@
+# Reviewed decisions for scripts/l10n/l10n.py generate (docs/translations.md).
+# english<TAB>action<TAB>upstream key<TAB>note
+#   map     use this upstream key for a Mac text that is worded a little differently (a near match)
+#   pin     of several upstream keys with this English, use this one
+#   reject  don't use this upstream key (or, without a key, any) for the Mac text: the meaning differs on the Mac
+# The English is the Mac's text exactly as in scripts/l10n/mac-keys.json (\n for a line break); the key is
+# module:Section.key, e.g. core:Editor.tornedge_settings or jira:Jira.upload_menu_item. An upstream text with Windows
+# wording (Explorer, tray, Ctrl, ...) is refused unless the note starts with "ok:".
