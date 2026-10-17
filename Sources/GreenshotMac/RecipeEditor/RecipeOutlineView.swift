@@ -25,6 +25,8 @@ struct RecipeOutlineView: View {
             }
         }
         .listStyle(.sidebar)
+        // ⌫ / ⌦ on the list: delete the selected step or connection (upstream Delete/Backspace).
+        .onDeleteCommand { model.deleteSelection() }
     }
 }
 
