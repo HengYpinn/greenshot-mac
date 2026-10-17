@@ -12,12 +12,20 @@ struct ImageWebPTests {
         let data = try ImageWebPEncoder.encode(TestImage.solid(width: 300, height: 7, .red))
         let bytes = [UInt8](data)
         #expect(String(decoding: bytes[0..<4], as: UTF8.self) == "RIFF")
-        #expect(Int(bytes[4]) | Int(bytes[5]) << 8 | Int(bytes[6]) << 16 | Int(bytes[7]) << 24 == bytes.count - 8)
+        let riffSize = littleEndian(bytes, at: 4)
+        #expect(riffSize == bytes.count - 8)
         #expect(String(decoding: bytes[8..<16], as: UTF8.self) == "WEBPVP8L")
         #expect(bytes[20] == 0x2F)
         // 14 bits width - 1, 14 bits height - 1, alpha used, version 0.
-        let header = UInt32(bytes[21]) | UInt32(bytes[22]) << 8 | UInt32(bytes[23]) << 16 | UInt32(bytes[24]) << 24
-        #expect(header & 0x3FFF == 299 && header >> 14 & 0x3FFF == 6 && header >> 28 & 1 == 0 && header >> 29 == 0)
+        let header = UInt32(littleEndian(bytes, at: 21))
+        let width: UInt32 = header & 0x3FFF
+        let height: UInt32 = (header >> 14) & 0x3FFF
+        let alpha: UInt32 = (header >> 28) & 1
+        let version: UInt32 = header >> 29
+        #expect(width == 299)
+        #expect(height == 6)
+        #expect(alpha == 0)
+        #expect(version == 0)
         #expect(bytes.count % 2 == 0)
     }
 
@@ -134,4 +142,13 @@ struct ImageWebPTests {
         let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
         return try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))
     }
+}
+
+/// A 32-bit little-endian number in `bytes` (typed steps: Swift 6.1 can't type-check the one-line version in time).
+private func littleEndian(_ bytes: [UInt8], at index: Int) -> Int {
+    var value = 0
+    for offset in (0..<4).reversed() {
+        value = (value << 8) | Int(bytes[index + offset])
+    }
+    return value
 }

@@ -30,7 +30,8 @@ struct ElementLayoutTests {
         for (edge, rect) in expected {
             doc.update(a)
             doc.dock([a.id], to: edge)
-            #expect(try #require(doc.annotation(a.id)).bounds == rect, "\(edge)")
+            let required1 = try #require(doc.annotation(a.id))
+            #expect(required1.bounds == rect, "\(edge)")
         }
     }
 
@@ -41,13 +42,16 @@ struct ElementLayoutTests {
         let freehand = Annotation(kind: .freehand, start: .zero, end: .zero, points: [CGPoint(x: 10, y: 10), CGPoint(x: 30, y: 20)])
         doc.add([a, line, freehand])
         doc.stretch([a.id, line.id, freehand.id], width: true)
-        #expect(try #require(doc.annotation(a.id)).bounds == CGRect(x: 0, y: 30, width: 200, height: 10))
+        let required2 = try #require(doc.annotation(a.id))
+        #expect(required2.bounds == CGRect(x: 0, y: 30, width: 200, height: 10))
         // A vertical line has no width: it becomes a diagonal across the image, like upstream setting `Width`.
         let stretchedLine = try #require(doc.annotation(line.id))
         #expect(stretchedLine.start == CGPoint(x: 0, y: 10) && stretchedLine.end == CGPoint(x: 200, y: 40))
-        #expect(try #require(doc.annotation(freehand.id)).points == [CGPoint(x: 0, y: 10), CGPoint(x: 200, y: 20)])
+        let required3 = try #require(doc.annotation(freehand.id))
+        #expect(required3.points == [CGPoint(x: 0, y: 10), CGPoint(x: 200, y: 20)])
         doc.stretch([a.id], width: false)
-        #expect(try #require(doc.annotation(a.id)).bounds == CGRect(x: 0, y: 0, width: 200, height: 100))
+        let required4 = try #require(doc.annotation(a.id))
+        #expect(required4.bounds == CGRect(x: 0, y: 0, width: 200, height: 100))
     }
 
     @Test func pushingOutGrowsTheCanvasAndPutsTheElementInTheNewStrip() throws {
@@ -82,7 +86,8 @@ struct ElementLayoutTests {
             // One undo step brings the image and the element back.
             doc.undo()
             #expect(doc.imageSize == CGSize(width: 200, height: 100))
-            #expect(try #require(doc.annotation(a.id)).bounds == CGRect(x: 50, y: 30, width: 20, height: 10))
+            let required5 = try #require(doc.annotation(a.id))
+            #expect(required5.bounds == CGRect(x: 50, y: 30, width: 20, height: 10))
             #expect(!doc.canUndo)
         }
     }
@@ -111,8 +116,10 @@ struct ElementLayoutTests {
         #expect(doc.canResetSize([squeezed.id, shape.id]))
         #expect(!doc.canResetSize([shape.id]))
         doc.resetSize([squeezed.id, shape.id])
-        #expect(try #require(doc.annotation(squeezed.id)).bounds == CGRect(x: 5, y: 5, width: 40, height: 20))
-        #expect(try #require(doc.annotation(shape.id)).bounds == CGRect(x: 0, y: 0, width: 30, height: 30))
+        let required6 = try #require(doc.annotation(squeezed.id))
+        #expect(required6.bounds == CGRect(x: 5, y: 5, width: 40, height: 20))
+        let required7 = try #require(doc.annotation(shape.id))
+        #expect(required7.bounds == CGRect(x: 0, y: 0, width: 30, height: 30))
     }
 
     @Test func movingKeepsATailAlongButResizingDoesNot() {

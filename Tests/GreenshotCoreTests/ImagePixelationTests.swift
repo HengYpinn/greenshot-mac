@@ -26,7 +26,9 @@ struct ImagePixelationTests {
     @Test func aBlockOfOneColorHasNoNoise() throws {
         let solid = TestImage.solid(width: 30, height: 20, RGBA(r: 10, g: 200, b: 90, a: 255))
         let result = try #require(ImagePixelation.pixelated(solid, blockSize: 6, key: key))
-        #expect(Set(pixels(result)) == [UInt32(10) << 24 | UInt32(200) << 16 | UInt32(90) << 8 | 255])
+        let red: UInt32 = 10 << 24, green: UInt32 = 200 << 16, blue: UInt32 = 90 << 8
+        let expected: UInt32 = red | green | blue | 255
+        #expect(Set(pixels(result)) == [expected])
     }
 
     @Test func busyBlocksAreNoisyNotPlainAverages() throws {
@@ -66,7 +68,8 @@ struct ImagePixelationTests {
     }
 
     @Test func blockSizeOneChangesNothing() throws {
-        #expect(try #require(ImagePixelation.pixelated(busy, blockSize: 1, key: key)) === busy)
+        let required11 = try #require(ImagePixelation.pixelated(busy, blockSize: 1, key: key))
+        #expect(required11 === busy)
     }
 
     @Test func blocksHaveRandomSizesAroundTheBlockSize() {

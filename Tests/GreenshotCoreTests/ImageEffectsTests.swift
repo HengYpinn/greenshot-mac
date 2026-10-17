@@ -236,6 +236,7 @@ extension ImageEffectsTests {
         }
         // Few colors already: unchanged.
         let two = TestImage.make(width: 2, height: 1) { x, _ in x == 0 ? .red : .blue }
-        #expect(try #require(ImageEffects.reduceColors(two, to: 256)) === two)
+        let required10 = try #require(ImageEffects.reduceColors(two, to: 256))
+        #expect(required10 === two)
     }
 }

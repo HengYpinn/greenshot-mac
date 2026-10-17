@@ -44,8 +44,10 @@ struct ImageFileLoaderTests {
 
     @Test func resolutionGivesThePixelsPerPoint() throws {
         let data = try ImageExporter.data(for: upright, format: .png, scale: 2)
-        #expect(try #require(ImageFileLoader.load(data: data)).scale == 2)
-        #expect(try #require(ImageFileLoader.load(data: try ImageExporter.data(for: upright, format: .png))).scale == 1)
+        let required8 = try #require(ImageFileLoader.load(data: data))
+        #expect(required8.scale == 2)
+        let required9 = try #require(ImageFileLoader.load(data: try ImageExporter.data(for: upright, format: .png)))
+        #expect(required9.scale == 1)
     }
 
     @Test func iconsOpenAtTheirBiggestSize() throws {

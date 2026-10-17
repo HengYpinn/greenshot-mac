@@ -58,9 +58,11 @@ struct CanvasUndoTests {
         let a = Annotation(kind: .rectangle, start: .zero, end: CGPoint(x: 4, y: 4))
         doc.change { doc.add(a) }
         for _ in 0..<3 { doc.change(merging: "nudge a") { doc.move([a.id], by: CGVector(dx: 1, dy: 0)) } }
-        #expect(try #require(doc.annotation(a.id)).start == CGPoint(x: 3, y: 0))
+        let required13 = try #require(doc.annotation(a.id))
+        #expect(required13.start == CGPoint(x: 3, y: 0))
         doc.undo()
-        #expect(try #require(doc.annotation(a.id)).start == .zero)
+        let required14 = try #require(doc.annotation(a.id))
+        #expect(required14.start == .zero)
         // Another key, another change in between, or an undo starts a new step.
         doc.redo()
         doc.change(merging: "nudge a") { doc.move([a.id], by: CGVector(dx: 1, dy: 0)) }
@@ -68,9 +70,11 @@ struct CanvasUndoTests {
         doc.change(merging: "nudge a") { doc.move([a.id], by: CGVector(dx: 1, dy: 0)) }
         doc.change(merging: "nudge b") { doc.move([a.id], by: CGVector(dx: 0, dy: 1)) }
         doc.undo()
-        #expect(try #require(doc.annotation(a.id)).start == CGPoint(x: 5, y: 0))
+        let required15 = try #require(doc.annotation(a.id))
+        #expect(required15.start == CGPoint(x: 5, y: 0))
         doc.undo()
-        #expect(try #require(doc.annotation(a.id)).start == CGPoint(x: 4, y: 0))
+        let required16 = try #require(doc.annotation(a.id))
+        #expect(required16.start == CGPoint(x: 4, y: 0))
         doc.undo()
         #expect(doc.counterStart == 1)
     }

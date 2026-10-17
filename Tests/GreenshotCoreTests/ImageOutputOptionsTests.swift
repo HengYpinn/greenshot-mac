@@ -86,7 +86,8 @@ struct ImageOutputOptionsTests {
         let data = try ImageExporter.data(for: fewColors, options: ImageOutputOptions(format: .png, scale: 2, autoReduceColors: true))
         let source = try #require(CGImageSourceCreateWithData(data as CFData, nil))
         let properties = try #require(CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any])
-        #expect(try #require(properties[kCGImagePropertyDPIWidth] as? NSNumber).doubleValue.rounded() == 144)
+        let required12 = try #require(properties[kCGImagePropertyDPIWidth] as? NSNumber)
+        #expect(required12.doubleValue.rounded() == 144)
     }
 
     @Test func softwareTagIsWritten() throws {
