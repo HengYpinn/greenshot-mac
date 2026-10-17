@@ -96,7 +96,9 @@ extension ImageOperationsTests {
     // MARK: Canvas
 
     @Test func enlargeAndShrinkCanvasIsARoundTrip() {
-        let doc = document(scale: 2)
+        // An image whose own edge has no border of one color: red and blue quarters, so no corner color frames it.
+        let quarters = TestImage.make(width: 40, height: 30) { x, y in (x < 20) == (y < 15) ? .red : .blue }
+        let doc = document(quarters, scale: 2)
         // Without a shadow: Shrink Canvas keeps what the elements draw, a shadow included.
         let box = Annotation(kind: .rectangle, start: CGPoint(x: 4, y: 3), end: CGPoint(x: 20, y: 15),
                              style: AnnotationStyle(shadow: false))
@@ -106,12 +108,28 @@ extension ImageOperationsTests {
         #expect(doc.imageSize == CGSize(width: 140, height: 130))
         #expect(doc.annotations[0].start == CGPoint(x: 54, y: 53))
         #expect(TestImage.pixel(doc.baseImage, 10, 10).a == 0)
-        #expect(TestImage.pixel(doc.baseImage, 60, 60) == .white)
+        #expect(TestImage.pixel(doc.baseImage, 60, 60) == .red)
         doc.change { #expect(doc.shrinkCanvas()) }
         #expect(doc.imageSize == CGSize(width: 40, height: 30))
         #expect(doc.annotations[0] == box)
         // Nothing more to shrink.
         doc.change { #expect(!doc.shrinkCanvas()) }
+    }
+
+    @Test func shrinkCanvasCutsABorderOfOneColor() {
+        // Upstream shrinks like auto crop: a white border (also an almost white one) goes, the content stays.
+        let framed = TestImage.make(width: 40, height: 30) { x, y in
+            if (10..<30).contains(x) && (5..<20).contains(y) { return .blue }
+            return x == 35 ? RGBA(r: 250, g: 250, b: 250, a: 255) : .white
+        }
+        let doc = document(framed)
+        doc.change { #expect(doc.shrinkCanvas()) }
+        #expect(doc.imageSize == CGSize(width: 20, height: 15))
+        #expect(TestImage.pixel(doc.baseImage, 0, 0) == .blue)
+        // A stricter difference keeps the almost white column (x 35) as content.
+        let strict = document(framed)
+        strict.change { #expect(strict.shrinkCanvas(difference: 2)) }
+        #expect(strict.imageSize == CGSize(width: 26, height: 30))
     }
 
     @Test func shrinkCanvasKeepsElementsOnTheMargin() {

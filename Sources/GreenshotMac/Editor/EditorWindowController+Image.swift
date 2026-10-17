@@ -153,9 +153,10 @@ extension EditorWindowController {
         performImageOperation { $0.enlargeCanvas() }
     }
 
-    /// Upstream "Shrink canvas" (Ctrl+Shift+Minus): cuts the transparent margin away again.
+    /// Upstream "Shrink canvas" (Ctrl+Shift+Minus): cuts a border of one color away, like the margin of Enlarge Canvas.
     @objc func shrinkCanvas(_ sender: Any?) {
-        if !performImageOperation({ $0.shrinkCanvas() }) { NSSound.beep() }
+        let difference = settings.value.autoCropDifference
+        if !performImageOperation({ $0.shrinkCanvas(difference: difference) }) { NSSound.beep() }
     }
 
     /// Upstream "Clear" (Ctrl+Delete): the image becomes transparent; its size and the elements stay.

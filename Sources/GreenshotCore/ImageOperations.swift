@@ -212,11 +212,12 @@ extension EditorDocument {
         return resizeCanvas(left: pixels, right: pixels, top: pixels, bottom: pixels)
     }
 
-    /// Upstream "Shrink canvas": cuts the fully transparent margin around the image and its elements away.
-    /// Returns false when there is no such margin.
+    /// Upstream "Shrink canvas" (`ImageEditorForm.ShrinkCanvasToolStripMenuItemClick`): crops the image with its
+    /// elements to its content, cutting a border of one color away (colors within `difference`, upstream
+    /// `AutoCropDifference`), such as the transparent margin of Enlarge Canvas. Returns false when there is no border.
     @discardableResult
-    public func shrinkCanvas() -> Bool {
-        guard let content = AutoCrop.opaqueBounds(of: flattened()) else { return false }
+    public func shrinkCanvas(difference: Int = 10) -> Bool {
+        guard let content = AutoCrop.contentRect(of: flattened(), difference: difference) else { return false }
         return crop(to: content)
     }
 

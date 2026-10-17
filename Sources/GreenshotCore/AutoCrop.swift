@@ -32,7 +32,7 @@ public enum AutoCrop {
     }
 
     /// The box of the pixels that are not fully transparent, or nil when there is no transparent margin around them
-    /// (or the whole image is transparent): what Shrink Canvas keeps.
+    /// (or the whole image is transparent).
     public static func opaqueBounds(of image: CGImage) -> CGRect? {
         guard let pixels = Pixels(image) else { return nil }
         var minX = Int.max, minY = Int.max, maxX = Int.min, maxY = Int.min
