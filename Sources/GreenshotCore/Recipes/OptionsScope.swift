@@ -36,16 +36,16 @@ public struct RecipeExtensionScope: Equatable, Sendable {
         let checked = captures.filter(\.isChecked).count
         let captureText: String
         if checked == captures.count {
-            captureText = "All captures"
+            captureText = String(localized: "All captures")
         } else if checked == 0 {
-            captureText = "No captures"
+            captureText = String(localized: "No captures")
         } else {
-            captureText = "\(checked) of \(captures.count) captures"
+            captureText = String(localized: "\(checked) of \(captures.count) captures")
         }
         guard !destinations.isEmpty else { return captureText }
         let checkedDestinations = destinations.filter(\.isChecked)
         let destinationText = checkedDestinations.count == destinations.count
-            ? "all destinations" : checkedDestinations.map(\.name).joined(separator: ", ")
+            ? String(localized: "all destinations") : checkedDestinations.map(\.name).joined(separator: ", ")
         return "\(captureText) → \(destinationText)"
     }
 
@@ -68,7 +68,7 @@ public struct RecipeExtensionScope: Equatable, Sendable {
         for destination in CaptureDestination.allCases where destination != .picker && !settings.isDestinationExcluded(destination) {
             if destination == .externalCommand {
                 for command in settings.externalCommands where !command.name.isEmpty {
-                    result.append((designation: "External \(command.name)", name: "\(command.name) (external command)"))
+                    result.append((designation: "External \(command.name)", name: String(localized: "\(command.name) (external command)")))
                 }
                 continue
             }
