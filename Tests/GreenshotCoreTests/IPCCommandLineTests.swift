@@ -106,7 +106,9 @@ struct IPCCommandLineTests {
         }
         #expect(usage.contains("Exit codes"))
         #expect(usage.contains("/usr/local/bin/greenshot-cli"))
-        #expect(!usage.contains("--recipe"))
+        #expect(usage.contains("--recipe, -r <cmd|id> [arguments]"))
+        #expect(usage.contains("--list-recipes, -l [--json]"))
+        #expect(usage.contains("--info, -i <recipe> [--json]"))
         #expect(!IPCCommandLine.cliUsage(installedPath: nil).contains("/usr/local/bin"))
     }
 
