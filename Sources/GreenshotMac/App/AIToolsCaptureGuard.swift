@@ -10,8 +10,12 @@ import GreenshotCore
 /// RSTEPS's Source step refuses their windows and blacks them out in pictures of the screen. Called on the step
 /// executors' threads, so the list is a copy behind a lock, refreshed by `AIToolsCenter` when the settings change.
 final class AIToolsCaptureGuard: RecipeAIToolCaptureGuard, @unchecked Sendable {
+    /// How long the frames noted when an AI tool's run started count for its pictures.
+    static let noteLifetime: TimeInterval = 120
+
     private let lock = NSLock()
     private var excluded: [String]
+    private var noted: [(time: Date, frames: [CGRect])] = []
 
     init(excluded: [String]) {
         self.excluded = excluded
@@ -29,16 +33,38 @@ final class AIToolsCaptureGuard: RecipeAIToolCaptureGuard, @unchecked Sendable {
         return "Windows of '\(window.appName)' are excluded from AI tools (Settings › AI Tools)."
     }
 
+    /// RUN_AI_TOOL, before the flow starts: the excluded windows now. A window that moves or closes while the picture is
+    /// taken is blacked out where it was before and where it is after (the picture is taken in between).
+    func noteRunStarting() {
+        let frames = excludedFrames(excludedApplications)
+        let now = Date()
+        lock.withLock {
+            noted = noted.filter { now.timeIntervalSince($0.time) < Self.noteLifetime }
+            noted.append((now, frames))
+        }
+    }
+
     func redacted(_ image: CGImage, scale: CGFloat, origin: CGPoint) -> (image: CGImage, count: Int) {
         let list = excludedApplications
         guard !list.isEmpty else { return (image, 0) }
-        // Every visible window, also untitled popups and the quick access panels of password managers
-        let frames = AIToolsWindows.windows(allLevels: true)
-            .filter { AIToolExclusion.isExcluded(names: $0.names, excluded: list) }
-            .map(\.frame)
+        let now = Date()
+        let before = lock.withLock { noted.filter { now.timeIntervalSince($0.time) < Self.noteLifetime }.flatMap(\.frames) }
+        let frames = before + excludedFrames(list)
         let rects = AIToolExclusion.redactionRects(windowFrames: frames, origin: origin, scale: scale,
                                                    pixelWidth: image.width, pixelHeight: image.height)
-        guard !rects.isEmpty, let blacked = AIToolExclusion.blackOut(image, rects: rects) else { return (image, 0) }
-        return (blacked, rects.count)
+        guard !rects.isEmpty else { return (image, 0) }
+        if let blacked = AIToolExclusion.blackOut(image, rects: rects) { return (blacked, rects.count) }
+        // Fail closed: nothing of the picture rather than an excluded window
+        log.error("The windows of excluded applications could not be blacked out; the AI tool gets a black picture.")
+        return (AIToolExclusion.blackImage(width: image.width, height: image.height) ?? image, rects.count)
     }
+
+    /// The frames of every visible window of the excluded applications, also untitled popups and the quick access panels
+    /// of password managers.
+    private func excludedFrames(_ list: [String]) -> [CGRect] {
+        guard !list.isEmpty else { return [] }
+        return AIToolsWindows.windows(allLevels: true).filter { AIToolExclusion.isExcluded(names: $0.names, excluded: list) }.map(\.frame)
+    }
+
+    private let log = Log("AITools")
 }

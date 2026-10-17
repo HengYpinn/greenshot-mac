@@ -46,17 +46,36 @@ public enum AIToolExclusion {
         return text.filter { !$0.isWhitespace }
     }
 
-    /// True when one of the names of an app (its name, executable name, bundle identifier) is in the list. A bundle
-    /// identifier also matches by its last part ("com.1password.1password" -> "1password").
+    /// True when one of the names of an app (its name, executable name, bundle identifier) is in the list (security
+    /// review SM-L3). A name matches an entry it starts with ("1Password 7", "1Password Helper" for "1Password"); an
+    /// entry with a dot is a bundle identifier prefix ("com.agilebits" for "com.agilebits.onepassword7"); a bundle
+    /// identifier also matches by its last part ("com.1password.1password" for "1Password").
     public static func isExcluded(names: [String?], excluded: [String]) -> Bool {
-        let list = Set(excluded.map(normalize).filter { !$0.isEmpty })
+        let list = excluded.map(normalize).filter { !$0.isEmpty }
         guard !list.isEmpty else { return false }
+        let bundlePrefixes = list.filter { $0.contains(".") }
+        let appNames = list.filter { !$0.contains(".") }
         for name in names.compactMap({ $0 }) where !name.isEmpty {
             let normalized = normalize(name)
-            if list.contains(normalized) { return true }
-            if name.contains("."), let last = name.split(separator: ".").last, list.contains(normalize(String(last))) { return true }
+            if appNames.contains(where: { normalized.hasPrefix($0) }) { return true }
+            guard name.contains(".") else { continue }
+            if bundlePrefixes.contains(where: { normalized == $0 || normalized.hasPrefix($0 + ".") }) { return true }
+            if let last = name.split(separator: ".").last, appNames.contains(where: { normalize(String(last)).hasPrefix($0) }) { return true }
         }
         return false
+    }
+
+    /// A black picture of this size: what an AI tool gets when the excluded windows can't be blacked out (fail closed).
+    public static func blackImage(width: Int, height: Int) -> CGImage? {
+        let space = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
+        let info = CGImageAlphaInfo.premultipliedLast.rawValue
+        let size = (max(1, width), max(1, height))
+        let context = CGContext(data: nil, width: size.0, height: size.1, bitsPerComponent: 8, bytesPerRow: 0, space: space, bitmapInfo: info)
+            ?? CGContext(data: nil, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 0, space: space, bitmapInfo: info)
+        guard let context else { return nil }
+        context.setFillColor(CGColor(red: 0, green: 0, blue: 0, alpha: 1))
+        context.fill(CGRect(x: 0, y: 0, width: context.width, height: context.height))
+        return context.makeImage()
     }
 
     /// The parts of a picture to black out: the frames of the excluded windows (Quartz global points) within the picture
