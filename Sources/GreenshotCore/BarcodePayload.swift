@@ -55,17 +55,17 @@ extension BarcodeSpec {
 
     /// What to fill in while there is nothing to encode (upstream `ZxingEditorWindow.GetRequiredInputHint`).
     public var requiredInputHint: String {
-        guard symbology == .qrCode else { return "Please enter a value to generate the barcode." }
+        guard symbology == .qrCode else { return String(localized: "Please enter a value to generate the barcode.") }
         switch qrType {
-        case .text: return "Please enter text or a URL."
-        case .wifi: return "Please enter network name (SSID)."
-        case .vCard: return "Please enter contact name or details."
-        case .epcTransfer: return "Please enter recipient name and IBAN."
-        case .email: return "Please enter recipient email address."
-        case .calendarEvent: return "Please enter event title."
-        case .phone: return "Please enter a phone number."
-        case .sms: return "Please enter recipient number."
-        case .geo: return "Please enter latitude and longitude coordinates."
+        case .text: return String(localized: "Please enter text or a URL.")
+        case .wifi: return String(localized: "Please enter network name (SSID).")
+        case .vCard: return String(localized: "Please enter contact name or details.")
+        case .epcTransfer: return String(localized: "Please enter recipient name and IBAN.")
+        case .email: return String(localized: "Please enter recipient email address.")
+        case .calendarEvent: return String(localized: "Please enter event title.")
+        case .phone: return String(localized: "Please enter a phone number.")
+        case .sms: return String(localized: "Please enter recipient number.")
+        case .geo: return String(localized: "Please enter latitude and longitude coordinates.")
         }
     }
 
@@ -73,7 +73,7 @@ extension BarcodeSpec {
     /// text beyond ISO 8859-1 (Western European) may not read right. Nil when there's nothing to say.
     public var characterSetWarning: String? {
         guard symbology == .aztec || symbology == .pdf417, payload.data(using: .isoLatin1) == nil else { return nil }
-        return "Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't."
+        return String(localized: "Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.")
     }
 
     /// .NET `string.IsNullOrWhiteSpace`.
@@ -145,30 +145,30 @@ extension QRPayloadType {
     /// The name in upstream's QR Type list.
     public var title: String {
         switch self {
-        case .text: return "Text / URL"
-        case .wifi: return "WiFi Network"
-        case .vCard: return "vCard Contact"
-        case .epcTransfer: return "EPC SEPA Transfer"
-        case .email: return "Email"
-        case .calendarEvent: return "Calendar Event"
-        case .phone: return "Phone Call"
-        case .sms: return "SMS"
-        case .geo: return "Geo Location"
+        case .text: return String(localized: "Text / URL")
+        case .wifi: return String(localized: "WiFi Network")
+        case .vCard: return String(localized: "vCard Contact")
+        case .epcTransfer: return String(localized: "EPC SEPA Transfer")
+        case .email: return String(localized: "Email")
+        case .calendarEvent: return String(localized: "Calendar Event")
+        case .phone: return String(localized: "Phone Call")
+        case .sms: return String(localized: "SMS")
+        case .geo: return String(localized: "Geo Location")
         }
     }
 
     /// The title of the box with the type's fields (upstream `GrpInputs.Header`).
     public var fieldsTitle: String {
         switch self {
-        case .text: return "Raw Text or URL Details"
-        case .wifi: return "WiFi Network Connection Details"
-        case .vCard: return "vCard Contact Card Details"
-        case .epcTransfer: return "EPC SEPA Credit Transfer Details"
-        case .email: return "Email Message Details"
-        case .calendarEvent: return "Calendar Event (iCal) Details"
-        case .phone: return "Phone Call Details"
-        case .sms: return "SMS Text Message Details"
-        case .geo: return "Geo Location Details"
+        case .text: return String(localized: "Raw Text or URL Details")
+        case .wifi: return String(localized: "WiFi Network Connection Details")
+        case .vCard: return String(localized: "vCard Contact Card Details")
+        case .epcTransfer: return String(localized: "EPC SEPA Credit Transfer Details")
+        case .email: return String(localized: "Email Message Details")
+        case .calendarEvent: return String(localized: "Calendar Event (iCal) Details")
+        case .phone: return String(localized: "Phone Call Details")
+        case .sms: return String(localized: "SMS Text Message Details")
+        case .geo: return String(localized: "Geo Location Details")
         }
     }
 }
@@ -179,7 +179,7 @@ extension WiFiEncryption {
         switch self {
         case .wpa: return "WPA/WPA2"
         case .wep: return "WEP"
-        case .unencrypted: return "Unencrypted (None)"
+        case .unencrypted: return String(localized: "Unencrypted (None)", comment: "Wi-Fi network without a password")
         }
     }
 
