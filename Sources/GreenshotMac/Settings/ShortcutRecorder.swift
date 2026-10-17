@@ -55,8 +55,8 @@ final class ShortcutRecorderView: NSStackView {
         super.init(frame: .zero)
         orientation = .horizontal
         spacing = 4
-        for (control, symbol, tip) in [(addStep, "plus.circle", "Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C"),
-                                       (reset, "arrow.uturn.backward.circle", "Back to one step")] {
+        for (control, symbol, tip) in [(addStep, "plus.circle", String(localized: "Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C")),
+                                       (reset, "arrow.uturn.backward.circle", String(localized: "Back to one step"))] {
             control.image = NSImage(systemSymbolName: symbol, accessibilityDescription: tip)
             control.isBordered = false
             control.imagePosition = .imageOnly
@@ -227,10 +227,11 @@ final class ShortcutRecorderButton: NSButton {
     }
 
     private func updateTitle() {
+        // The hotkey reads left to right also in a right-to-left language (APP-172).
         if recording {
-            title = appending ? "\(combo?.displayString ?? ""), …" : "Type the shortcut…"
+            title = appending ? "\(BidiText.isolatedLTR(combo?.displayString ?? "")), …" : String(localized: "Type the shortcut…")
         } else {
-            title = combo?.displayString ?? "None"
+            title = combo.map { BidiText.isolatedLTR($0.displayString) } ?? String(localized: "None", comment: "No hotkey is set")
         }
     }
 }

@@ -60,11 +60,11 @@ struct NotificationSettings: View {
 
     private var stateText: String {
         switch status.state {
-        case .inApp: return "Not available, messages appear in the corner"
-        case .refused: return "Refused for this build, messages appear in the corner"
-        case .notAsked: return "Asked with the first notification"
-        case .allowed: return "Allowed"
-        case .off: return "Off for this app: no notifications"
+        case .inApp: return String(localized: "Not available, messages appear in the corner")
+        case .refused: return String(localized: "Refused for this build, messages appear in the corner")
+        case .notAsked: return String(localized: "Asked with the first notification")
+        case .allowed: return String(localized: "Allowed", comment: "macOS allows the app's notifications")
+        case .off: return String(localized: "Off for this app: no notifications")
         }
     }
 
@@ -82,14 +82,16 @@ struct NotificationSettings: View {
     private var footer: String {
         switch status.state {
         case .inApp:
-            return "macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner."
+            return String(localized: "macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.")
         case .allowed, .notAsked:
-            return "After a capture one notification lists where it went. Click it within an hour to send the capture somewhere "
-                + "else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps."
+            return String(localized: """
+                After a capture one notification lists where it went. Click it within an hour to send the capture somewhere \
+                else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.
+                """)
         case .off:
-            return "Turn on Allow Notifications for \(AppInfo.name) in System Settings › Notifications to see them again."
+            return String(localized: "Turn on Allow Notifications for \(AppInfo.name) in System Settings › Notifications to see them again.")
         case .refused:
-            return "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)."
+            return String(localized: "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).")
         }
     }
 }

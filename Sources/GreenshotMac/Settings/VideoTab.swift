@@ -40,7 +40,8 @@ struct VideoSettingsTab: View {
                 .managed(\.video.frameRate)
                 Picker("Bit rate", selection: store.binding(\.video.bitrate)) {
                     ForEach(Self.choices(Self.bitrates, including: video.bitrate), id: \.self) { rate in
-                        Text(rate == 0 ? "Automatic" : VideoBitrateText.text(rate)).tag(rate)
+                        Text(rate == 0 ? String(localized: "Automatic", comment: "The bit rate of a video, chosen by the app") : VideoBitrateText.text(rate))
+                            .tag(rate)
                     }
                 }
                 .managed(\.video.bitrate)
@@ -72,11 +73,11 @@ struct VideoSettingsTab: View {
 
         var title: String {
             switch self {
-            case .asRecorded: return "As recorded"
+            case .asRecorded: return String(localized: "As recorded")
             case .threeQuarters: return "75 %"
             case .half: return "50 %"
-            case .fit1080: return "At most 1920 × 1080"
-            case .fit720: return "At most 1280 × 720"
+            case .fit1080: return String(localized: "At most 1920 × 1080")
+            case .fit720: return String(localized: "At most 1280 × 720")
             }
         }
 
@@ -167,8 +168,10 @@ struct VideoSettingsTab: View {
     }
 
     private var hotkeyHint: String {
-        let set = store.value.hotkeys.recordVideo.map { "The hotkey \($0.displayString) starts and stops a recording. " } ?? ""
-        return set + "Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses."
+        let howTo = String(localized: "Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.")
+        guard let combo = store.value.hotkeys.recordVideo else { return howTo }
+        let keys = BidiText.isolatedLTR(combo.displayString)
+        return String(localized: "The hotkey \(keys) starts and stops a recording.") + " " + howTo
     }
 
     static func choices(_ common: [Int], including current: Int) -> [Int] {
@@ -176,10 +179,16 @@ struct VideoSettingsTab: View {
     }
 
     static func lengthTitle(_ seconds: Int) -> String {
-        if seconds == 0 { return "Never" }
-        if seconds % 3600 == 0 { return seconds == 3600 ? "1 hour" : "\(seconds / 3600) hours" }
-        if seconds % 60 == 0 { return seconds == 60 ? "1 minute" : "\(seconds / 60) minutes" }
-        return "\(seconds) seconds"
+        if seconds == 0 { return String(localized: "Never", comment: "A recording doesn't stop after a time") }
+        if seconds % 3600 == 0 {
+            let hours = seconds / 3600
+            return hours == 1 ? String(localized: "1 hour") : String(localized: "\(hours) hours")
+        }
+        if seconds % 60 == 0 {
+            let minutes = seconds / 60
+            return minutes == 1 ? String(localized: "1 minute") : String(localized: "\(minutes) minutes")
+        }
+        return String(localized: "\(seconds) seconds")
     }
 
     // MARK: Files

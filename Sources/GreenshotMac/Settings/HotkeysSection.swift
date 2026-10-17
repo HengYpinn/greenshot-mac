@@ -11,7 +11,8 @@ import SwiftUI
 /// or a clash with another hotkey.
 struct HotkeysSection: View {
     @ObservedObject var store: SettingsStore
-    /// For the snapshots: a message under the row with this title, as if the keys just typed couldn't be used.
+    /// For the snapshots (which run in English): a message under the row with this title, as if the keys just typed
+    /// couldn't be used.
     var initialProblems: [String: String] = [:]
     /// Whether hotkeys can tell the left modifier keys from the right ones.
     @StateObject private var access: AccessibilityStatus
@@ -25,8 +26,11 @@ struct HotkeysSection: View {
     }
 
     private static var rows: [(title: String, keyPath: WritableKeyPath<HotkeySettings, KeyCombo?>)] {
-        [("Capture region", \.region), ("Capture window", \.window), ("Capture full screen", \.fullScreen),
-         ("Capture last region", \.lastRegion), ("Capture text", \.text), ("Start or stop recording", \.recordVideo), ("Open image from clipboard", \.clipboard)]
+        // The titles are those of `HotkeyStatus.slots` (Self-Service › Hotkeys); rows are told apart by their title.
+        [(String(localized: "Capture region"), \.region), (String(localized: "Capture window"), \.window),
+         (String(localized: "Capture full screen"), \.fullScreen), (String(localized: "Capture last region"), \.lastRegion),
+         (String(localized: "Capture text"), \.text), (String(localized: "Start or stop recording"), \.recordVideo),
+         (String(localized: "Open image from clipboard"), \.clipboard)]
     }
 
     var body: some View {
@@ -110,8 +114,10 @@ private struct HotkeyRow: View {
 private struct ModifierSidesMenu: View {
     @Binding var combo: KeyCombo?
 
-    private static let names: [UInt32: String] = [KeyCombo.control: "⌃ Control", KeyCombo.option: "⌥ Option",
-                                                  KeyCombo.shift: "⇧ Shift", KeyCombo.command: "⌘ Command"]
+    private static let names: [UInt32: String] = [KeyCombo.control: String(localized: "⌃ Control"),
+                                                  KeyCombo.option: String(localized: "⌥ Option"),
+                                                  KeyCombo.shift: String(localized: "⇧ Shift"),
+                                                  KeyCombo.command: String(localized: "⌘ Command")]
 
     var body: some View {
         Menu {

@@ -88,18 +88,18 @@ struct DestinationsSettings: View {
             if store.value.pdf.pageSize == .custom {
                 LabeledContent("Custom size") {
                     HStack {
-                        numberField("Width", \.pdf.customWidth)
+                        numberField(String(localized: "Width"), \.pdf.customWidth)
                         Text("×")
-                        numberField("Height", \.pdf.customHeight)
+                        numberField(String(localized: "Height"), \.pdf.customHeight)
                     }
                 }
             }
             LabeledContent("Margins") {
                 HStack {
-                    numberField("Top", \.pdf.marginTop)
-                    numberField("Left", \.pdf.marginLeft)
-                    numberField("Right", \.pdf.marginRight)
-                    numberField("Bottom", \.pdf.marginBottom)
+                    numberField(String(localized: "Top", comment: "The top margin of a PDF page"), \.pdf.marginTop)
+                    numberField(String(localized: "Left", comment: "The left margin of a PDF page"), \.pdf.marginLeft)
+                    numberField(String(localized: "Right", comment: "The right margin of a PDF page"), \.pdf.marginRight)
+                    numberField(String(localized: "Bottom", comment: "The bottom margin of a PDF page"), \.pdf.marginBottom)
                 }
             }
             Picker("Scaling", selection: store.binding(\.pdf.scaling)) {
@@ -236,9 +236,10 @@ private struct ExternalCommandRow: View {
     }
 
     private var options: String {
-        var parts: [String] = [command.format.displayName, command.runInBackground ? "In the background" : "Waits, errors in a dialog"]
-        if command.copyURLFromOutput { parts.append("copies a URL") }
-        if command.copyOutputToClipboard { parts.append("copies the output") }
+        let run = command.runInBackground ? String(localized: "In the background") : String(localized: "Waits, errors in a dialog")
+        var parts: [String] = [command.format.displayName, run]
+        if command.copyURLFromOutput { parts.append(String(localized: "copies a URL", comment: "An external command copies a URL from its output")) }
+        if command.copyOutputToClipboard { parts.append(String(localized: "copies the output", comment: "An external command copies its output")) }
         return parts.joined(separator: " · ")
     }
 }
