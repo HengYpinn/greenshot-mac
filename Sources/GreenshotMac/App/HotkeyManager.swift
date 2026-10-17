@@ -45,6 +45,8 @@ final class HotkeyManager {
     /// are off (a shortcut is being recorded).
     private var registered: (hotkeys: [KeyCombo], actions: [() -> Void])?
     private var registeredNames: [String]?
+    /// The tap macOS refused although the permission allowed it: not tried again until the permissions change.
+    private var refusedTapMode: HotkeyEventTap.Mode?
     private var permissionObservers: [(center: NotificationCenter, token: NSObjectProtocol)] = []
 
     init() {
@@ -109,12 +111,16 @@ final class HotkeyManager {
     private func startTap(for hotkeys: [KeyCombo], actions: [() -> Void]) -> Set<Int> {
         let sided = hotkeys.indices.filter { hotkeys[$0].usesSides }
         guard !sided.isEmpty else { return [] }
-        guard let mode = HotkeyEventTap.availableMode,
-              let tap = HotkeyEventTap(mode: mode, handler: { [weak self] chord, flags in self?.tapped(chord, deviceFlags: flags) ?? false })
-        else {
+        guard let mode = HotkeyEventTap.availableMode else {
             log.info("No permission for left/right hotkeys: \(sided.count) of them work with either key")
             return []
         }
+        guard let tap = HotkeyEventTap(mode: mode, handler: { [weak self] chord, flags in self?.tapped(chord, deviceFlags: flags) ?? false })
+        else {
+            refusedTapMode = mode
+            return []
+        }
+        refusedTapMode = nil
         self.tap = tap
         tapMatcher = HotkeySequenceMatcher(hotkeys: sided.map { hotkeys[$0] })
         tapActions = sided.map { actions[$0] }
@@ -157,8 +163,10 @@ final class HotkeyManager {
 
     /// Registers the hotkeys again when the tap the permissions allow is another one than the one running.
     private func permissionsMayHaveChanged() {
-        guard let registered, registered.hotkeys.contains(where: \.usesSides),
-              HotkeyEventTap.availableMode != tap?.mode else { return }
+        let mode = HotkeyEventTap.availableMode
+        guard let registered, registered.hotkeys.contains(where: \.usesSides), mode != tap?.mode,
+              mode == nil || mode != refusedTapMode
+        else { return }
         let names = registeredNames
         log.info("The permission for left/right hotkeys changed: registering the hotkeys again")
         let refused = register(registered.hotkeys, actions: registered.actions)
