@@ -21,6 +21,7 @@ struct DestinationsSettings: View {
             externalCommandsSection
             JiraSettingsSection(store: store)
             ConfluenceSettingsSection(store: store)
+            CertificateExceptionsSection(store: store)
             BoxSettingsSection(store: store)
             DropboxSettingsSection(store: store)
         }

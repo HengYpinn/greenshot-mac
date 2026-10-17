@@ -11,8 +11,23 @@ private let log = Log("Uploads")
 /// What the upload destinations share: the network, the Keychain, the encoded file and how an upload runs.
 @MainActor
 enum Uploads {
-    static let http: HTTPClient = URLSession.shared
+    /// The certificate exceptions of Settings › Destinations › Your own servers (upstream `NetworkHelper`).
+    static let trust = TLSExceptionSessionDelegate()
+    static let http: HTTPClient = URLSession(configuration: .default, delegate: trust, delegateQueue: nil)
     static let secrets: SecretStore = KeychainSecretStore.shared
+
+    /// Takes the certificate exceptions of the settings for the next requests.
+    static func applyCertificateExceptions(_ settings: AppSettings) {
+        trust.update(TLSExceptionPolicy(settings: settings))
+    }
+
+    /// A certificate error with the server's fingerprint and where to allow it; other errors as they are.
+    static func explained(_ error: Error) -> Error {
+        guard UntrustedCertificateError.isCertificateError(error), let url = error as? URLError,
+              let host = url.failingURL?.host ?? (url.userInfo[NSURLErrorFailingURLStringErrorKey] as? String).flatMap({ URL(string: $0)?.host })
+        else { return error }
+        return UntrustedCertificateError(host: host, fingerprint: trust.rejectedFingerprint(for: host), underlying: url.localizedDescription)
+    }
 
     /// The file name the pattern gives, with the upload format's extension.
     static func suggestedName(for capture: Capture, settings: SettingsStore, format: UploadFormat) -> String {
@@ -55,8 +70,9 @@ enum Uploads {
                     completion(.declined)
                 } else {
                     log.error(failureTitle, error: error)
-                    ErrorPresenter.show(error, title: failureTitle)
-                    completion(.failed(error.localizedDescription))
+                    let shown = explained(error)
+                    ErrorPresenter.show(shown, title: failureTitle)
+                    completion(.failed(shown.localizedDescription))
                 }
                 return
             }
@@ -99,14 +115,17 @@ enum Uploads {
 
     /// The Jira site of the settings with its token or password (see `AtlassianSignIn`).
     static func jiraSite(_ settings: AppSettings) -> AtlassianSite? {
-        AtlassianSignIn.site(.jira, settings: settings)
+        applyCertificateExceptions(settings)
+        return AtlassianSignIn.site(.jira, settings: settings)
     }
 
     static func confluenceSite(_ settings: AppSettings) -> AtlassianSite? {
-        AtlassianSignIn.site(.confluence, settings: settings)
+        applyCertificateExceptions(settings)
+        return AtlassianSignIn.site(.confluence, settings: settings)
     }
 
     static func oauthClient(for destination: CaptureDestination, settings: AppSettings) -> OAuthClient {
+        applyCertificateExceptions(settings)
         switch destination {
         case .box:
             return OAuthClient(provider: .box, clientID: settings.box.clientID,
@@ -125,7 +144,7 @@ enum Uploads {
             let object = try HTTPSupport.json(try await HTTPSupport.send(request, with: http))
             return .success(object["displayName"] as? String ?? object["publicName"] as? String ?? object["emailAddress"] as? String ?? "OK")
         } catch {
-            return .failure(error)
+            return .failure(explained(error))
         }
     }
 }

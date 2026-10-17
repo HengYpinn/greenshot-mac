@@ -192,6 +192,58 @@ private enum AtlassianFooter {
     }
 }
 
+/// "Your own servers": certificate exceptions for self-hosted Jira and Confluence with a self-signed certificate or a
+/// private CA (upstream `AllowedUntrustedCertificateHosts`, `AllowedCertificateThumbprints`, only in greenshot.ini there).
+struct CertificateExceptionsSection: View {
+    @ObservedObject var store: SettingsStore
+
+    var body: some View {
+        Section {
+            LinesField(title: "Trust these hosts despite certificate errors", prompt: "jira.mycompany.local\n*.mycompany.local",
+                       lines: store.binding(\.allowedUntrustedCertificateHosts))
+            LinesField(title: "Trust certificates with these fingerprints", prompt: "SHA-256 or SHA-1, e.g. 2F:D2:CC:…",
+                       lines: store.binding(\.allowedCertificateThumbprints))
+        } header: {
+            Text("Your own servers")
+        } footer: {
+            Text("Only for Jira and Confluence servers whose certificate macOS doesn't trust. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+}
+
+/// A list of strings edited as text, one per line; empty lines are dropped when saved.
+struct LinesField: View {
+    let title: String
+    let prompt: String
+    @Binding var lines: [String]
+    @State private var text = ""
+    @State private var loaded = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+            TextField(title, text: $text, prompt: Text(prompt), axis: .vertical)
+                .labelsHidden()
+                .lineLimit(2...6)
+                .font(.system(.body, design: .monospaced))
+                .onChange(of: text) { _, new in
+                    let parsed = Self.lines(of: new)
+                    if parsed != lines { lines = parsed }
+                }
+        }
+        .onAppear {
+            guard !loaded else { return }
+            loaded = true
+            text = lines.joined(separator: "\n")
+        }
+    }
+
+    static func lines(of text: String) -> [String] {
+        text.split(whereSeparator: \.isNewline).map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+    }
+}
+
 struct BoxSettingsSection: View {
     @ObservedObject var store: SettingsStore
     @StateObject private var account = CloudAccount(destination: .box)

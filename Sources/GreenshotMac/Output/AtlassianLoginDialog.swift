@@ -59,6 +59,7 @@ enum AtlassianSignIn {
     /// The site ready for an upload, nil when the user cancelled the login or the setup is missing (explained then).
     /// A password login is checked once per session; a missing or wrong password brings up the login dialog.
     static func ready(_ service: AtlassianService, settings: SettingsStore) async -> AtlassianSite? {
+        Uploads.applyCertificateExceptions(settings.value)
         guard var site = site(service, settings: settings.value) else {
             Uploads.explainMissingSetup(service.name, detail: "Enter the \(service.name) URL in Settings › Destinations.")
             return nil
