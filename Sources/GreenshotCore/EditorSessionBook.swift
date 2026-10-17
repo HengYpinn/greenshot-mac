@@ -93,9 +93,13 @@ public final class EditorSessionBook {
         queue.sync { store.remove(ids) }
     }
 
-    /// The restored document keeps the file it was restored from (`claimed`), unsettled. False when that failed.
+    /// The restored document keeps the file it was restored from (`claimed`), unsettled. When that fails, the document
+    /// is written again so it isn't left without a file, and the result is false (`claimed` is the caller's then).
     public func adopt(_ claimed: URL, for document: EditorDocument) -> Bool {
-        guard store.adopt(claimed, as: document.id) else { return false }
+        guard store.adopt(claimed, as: document.id) else {
+            write(document, reason: .autosave)
+            return false
+        }
         written[document.id] = document.changeCount
         filed.insert(document.id)
         unsettled.insert(document.id)

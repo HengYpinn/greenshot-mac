@@ -131,6 +131,18 @@ struct EditorSessionTests {
         #expect(store.saved().isEmpty)
     }
 
+    @MainActor @Test func restoredDocumentIsWrittenWhenItCantKeepItsFile() throws {
+        let store = Self.temporaryStore()
+        defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Restored")
+        let missing = store.folder.appendingPathComponent("gone.restoring")
+        #expect(!book.adopt(missing, for: document))
+        book.waitForDisk()
+        #expect(store.saved() == [store.url(for: document.id)])
+        #expect(book.hasFile(document.id))
+    }
+
     @MainActor @Test func bookSettlesRestoredDocumentsLater() throws {
         let store = Self.temporaryStore()
         defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }

@@ -148,13 +148,13 @@ final class EditorSessionKeeper {
         return theirs.resolvingSymlinksInPath() == own.resolvingSymlinksInPath()
     }
 
-    /// Claims a kept editor for restoring (renamed while it opens) and reads it; nil when it can't be read (it is
-    /// removed then).
+    /// Claims a kept editor for restoring (renamed while it opens) and reads it; nil when it can't be read (it goes to
+    /// the Trash then, where it can still be looked at).
     func claim(_ url: URL) -> Kept? {
         guard let claimed = store.claim(url) else { return nil }
         guard let contents = GreenshotFile.read(contentsOf: claimed), contents.session != nil else {
-            log.error("A kept editor could not be read: \(url.lastPathComponent)")
-            try? FileManager.default.removeItem(at: claimed)
+            log.error("A kept editor could not be read, it goes to the Trash: \(url.lastPathComponent)")
+            recycle(claimed)
             return nil
         }
         return Kept(contents: contents, file: claimed)
@@ -166,7 +166,16 @@ final class EditorSessionKeeper {
         // Opening scheduled a write; the kept file already holds this state.
         pending.removeValue(forKey: document.id)?.cancel()
         if !book.adopt(kept.file, for: document) {
-            try? FileManager.default.removeItem(at: kept.file)
+            // Written again from the open editor; the file it came from goes to the Trash.
+            log.warn("A restored editor could not keep its file, it is written again")
+            recycle(kept.file)
+        }
+    }
+
+    private func recycle(_ url: URL) {
+        guard FileManager.default.fileExists(atPath: url.path) else { return }
+        NSWorkspace.shared.recycle([url]) { [log] _, error in
+            if let error { log.error("Moving \(url.lastPathComponent) to the Trash failed", error: error) }
         }
     }
 
