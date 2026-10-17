@@ -25,3 +25,10 @@ October 2026). Files that follow upstream behaviour closely say so in their head
 
 Greenshot for Mac (Community) is not affiliated with or endorsed by the Greenshot team, and is unrelated to the
 "Greenshot" app the Greenshot team publishes in the Mac App Store.
+
+## Translations
+
+The texts in `Resources/Localizations` and the help pages in `Resources/Help` come from Greenshot's language packs
+(`src/Greenshot/Languages/greenshot.*.ini`, the plug-ins' `Languages/*.ini` and `help-*.html`, upstream commit
+`0aedcf04`, vendored in `scripts/l10n/upstream`), by Greenshot's translators, under the same GNU General Public License.
+Each pack names its translators in `about_translation`; About shows the credit of the language in use.
