@@ -87,7 +87,15 @@ public enum AIToolCaller {
     public static func displayName(forExecutable path: String) -> String {
         let file = (path as NSString).lastPathComponent
         let components = (path as NSString).pathComponents
-        guard let appIndex = components.firstIndex(where: { $0.lowercased().hasSuffix(".app") }) else { return file }
+        guard let appIndex = components.firstIndex(where: { $0.lowercased().hasSuffix(".app") }) else {
+            // A versioned install like ~/.local/share/claude/versions/2.1.0: the program's folder names it
+            guard file.first?.isNumber == true else { return file }
+            let generic: Set<String> = ["versions", "version", "bin", "libexec", "current", "latest", "releases"]
+            let owner = components.dropLast().last { component in
+                component != "/" && component.first?.isNumber != true && !generic.contains(component.lowercased())
+            }
+            return owner.map { "\($0) (\(file))" } ?? file
+        }
         let appPath = NSString.path(withComponents: Array(components[...appIndex]))
         let folderName = (components[appIndex] as NSString).deletingPathExtension
         let info = Bundle(path: appPath)?.infoDictionary
