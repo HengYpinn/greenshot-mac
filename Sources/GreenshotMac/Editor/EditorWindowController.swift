@@ -887,7 +887,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     // MARK: Insert window (Edit menu)
 
-    /// Upstream Edit › Insert window: captures the window and adds it as an image element at the top left.
+    /// Upstream Edit › Insert window: captures the window and adds it as an image element 100 points from the top left
+    /// (`ImageEditorForm.CaptureWindowIntoEditorAsync`: `AddImageContainer(image, 100, 100)`), at the top left when the
+    /// image is smaller than that.
     @objc func insertWindow(_ sender: NSMenuItem) {
         canvas.commitEditing()
         guard let number = sender.representedObject as? NSNumber,
@@ -901,8 +903,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                 let capture = try await ScreenCapturer.capture(window: target, showsCursor: false, includeShadow: includeShadow)
                 guard let self else { return }
                 let document = self.editorDocument
-                guard let element = Annotation.picture(capture.image, pictureScale: capture.scale, at: .zero,
-                                                       documentScale: document.scale, fitting: document.imageSize) else { return }
+                let origin = WindowInsertMenu.insertOrigin(imageSize: document.imageSize, scale: document.scale)
+                let room = CGSize(width: document.imageSize.width - origin.x, height: document.imageSize.height - origin.y)
+                guard let element = Annotation.picture(capture.image, pictureScale: capture.scale, at: origin,
+                                                       documentScale: document.scale, fitting: room) else { return }
                 self.canvas.insert([element])
             } catch {
                 ErrorPresenter.show(message: "The window could not be captured", detail: error.localizedDescription)
