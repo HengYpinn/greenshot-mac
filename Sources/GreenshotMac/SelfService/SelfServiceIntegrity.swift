@@ -49,8 +49,8 @@ final class IntegritySectionModel: ObservableObject {
 
     func copyReport() {
         guard let report else { return }
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(report.reportText, forType: .string)
+        // Through Clipboard: the write is recorded as Greenshot's own (recipe Clipboard triggers ignore it).
+        Clipboard.copy(text: report.reportText)
     }
 }
 

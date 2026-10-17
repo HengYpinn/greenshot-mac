@@ -201,8 +201,8 @@ final class LogViewerModel: ObservableObject {
 
     func copyLog() {
         guard !text.isEmpty else { return }
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(text, forType: .string)
+        // Through Clipboard: the write is recorded as Greenshot's own (recipe Clipboard triggers ignore it).
+        Clipboard.copy(text: text)
         status = "Copied entire log content to clipboard (\(LogSanitizer.groupedNumber(text.count)) characters)"
     }
 
