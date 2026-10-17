@@ -96,7 +96,7 @@ extension EditorWindowController {
         if !wasZoomed { normalFrame = window.frame }
     }
 
-    func windowShouldZoom(_ window: NSWindow, toFrame newFrame: NSRect) -> Bool {
+    @objc func windowShouldZoom(_ window: NSWindow, toFrame newFrame: NSRect) -> Bool {
         if !window.isZoomed { normalFrame = window.frame }
         isZoomAnimating = true
         DispatchQueue.main.asyncAfter(deadline: .now() + window.animationResizeTime(newFrame) + 0.1) { [weak self] in
