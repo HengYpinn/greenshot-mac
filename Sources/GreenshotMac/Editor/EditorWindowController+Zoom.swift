@@ -19,6 +19,11 @@ extension EditorWindowController {
     /// Upstream's zoom presets; the menu item's tag is the percentage.
     static var zoomPresets: [Int] { EditorWindowZoom.presetPercents }
 
+    /// 66 % is two thirds, like upstream's.
+    static func zoomFactor(percent: Int) -> CGFloat {
+        EditorWindowZoom.factor(percent: percent)
+    }
+
     @objc func zoomPreset(_ sender: NSMenuItem) {
         zoom(to: EditorWindowZoom.factor(percent: sender.tag))
     }
