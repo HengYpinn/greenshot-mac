@@ -1,5 +1,6 @@
 // Greenshot for Mac (Community) - an unofficial macOS port of Greenshot
 // Copyright (C) 2026 Greenshot for Mac (Community) contributors
+// Based on Greenshot, Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import AppKit
@@ -7,20 +8,79 @@ import Carbon.HIToolbox
 import GreenshotCore
 import SwiftUI
 
-/// A button that records a global shortcut: click it, then type the keys. ⌫ clears, ⎋ cancels.
+/// A button that records a global shortcut: click it, then type the keys. ⌫ clears, ⎋ cancels. The + next to it adds a
+/// step (a key pressed after the others, like the C of "⌃⌥⌘K, C"), the arrow goes back to one step. The Mac's inline
+/// form of upstream's "Configure Hotkey" dialog (`HotkeyEditorView.xaml`): a key that can't be used is explained in
+/// `problem` instead of only beeping.
 struct ShortcutRecorder: NSViewRepresentable {
     @Binding var combo: KeyCombo?
+    @Binding var problem: String?
 
-    func makeNSView(context: Context) -> ShortcutRecorderButton {
-        let button = ShortcutRecorderButton()
-        button.onChange = { combo = $0 }
-        button.combo = combo
-        return button
+    func makeNSView(context: Context) -> ShortcutRecorderView {
+        let view = ShortcutRecorderView()
+        update(view)
+        return view
     }
 
-    func updateNSView(_ button: ShortcutRecorderButton, context: Context) {
-        button.onChange = { combo = $0 }
+    func updateNSView(_ view: ShortcutRecorderView, context: Context) {
+        update(view)
+    }
+
+    private func update(_ view: ShortcutRecorderView) {
+        view.button.onChange = { combo = $0 }
+        view.button.onProblem = { problem = $0 }
+        view.button.combo = combo
+    }
+}
+
+/// The recording button with its + (add a step) and back-to-one-step buttons.
+final class ShortcutRecorderView: NSStackView {
+    let button = ShortcutRecorderButton()
+    private let addStep = NSButton()
+    private let reset = NSButton()
+
+    init() {
+        super.init(frame: .zero)
+        orientation = .horizontal
+        spacing = 4
+        for (control, symbol, tip) in [(addStep, "plus.circle", "Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C"),
+                                       (reset, "arrow.uturn.backward.circle", "Back to one step")] {
+            control.image = NSImage(systemSymbolName: symbol, accessibilityDescription: tip)
+            control.isBordered = false
+            control.imagePosition = .imageOnly
+            control.toolTip = tip
+            control.target = self
+            control.setAccessibilityLabel(tip)
+        }
+        addStep.action = #selector(addStepClicked)
+        reset.action = #selector(resetClicked)
+        addArrangedSubview(button)
+        addArrangedSubview(addStep)
+        addArrangedSubview(reset)
+        button.onLayoutChange = { [weak self] in self?.updateButtons() }
+        updateButtons()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("not used")
+    }
+
+    private func updateButtons() {
+        let combo = button.combo
+        addStep.isEnabled = combo != nil && (combo?.chords.count ?? 0) < KeyCombo.maximumSteps
+        reset.isHidden = combo?.isSequence != true
+    }
+
+    @objc private func addStepClicked() {
+        button.startRecording(appending: true)
+    }
+
+    @objc private func resetClicked() {
+        guard var combo = button.combo else { return }
+        combo.followingChords = []
         button.combo = combo
+        button.onChange?(combo)
+        button.onProblem?(nil)
     }
 }
 
@@ -30,14 +90,23 @@ final class ShortcutRecorderButton: NSButton {
     static let recordingDidEnd = Notification.Name("ShortcutRecordingDidEnd")
 
     var combo: KeyCombo? {
-        didSet { updateTitle() }
+        didSet {
+            updateTitle()
+            onLayoutChange?()
+        }
     }
     var onChange: ((KeyCombo?) -> Void)?
+    /// Why the typed keys can't be a hotkey, nil when they can.
+    var onProblem: ((String?) -> Void)?
+    var onLayoutChange: (() -> Void)?
     private var windowObservers: [NSObjectProtocol] = []
+    /// The typed key becomes the next step instead of the whole hotkey.
+    private var appending = false
 
     private var recording = false {
         didSet {
             guard oldValue != recording else { return }
+            if !recording { appending = false }
             updateTitle()
             NotificationCenter.default.post(name: recording ? Self.recordingDidBegin : Self.recordingDidEnd, object: self)
         }
@@ -78,8 +147,20 @@ final class ShortcutRecorderButton: NSButton {
     }
 
     @objc private func toggleRecording() {
-        recording.toggle()
-        if recording { window?.makeFirstResponder(self) }
+        if recording {
+            recording = false
+        } else {
+            startRecording(appending: false)
+        }
+    }
+
+    /// Starts recording the whole hotkey, or (`appending`) the next step of it.
+    func startRecording(appending: Bool) {
+        recording = false
+        self.appending = appending && combo != nil
+        recording = true
+        window?.makeFirstResponder(self)
+        updateTitle()
     }
 
     override func resignFirstResponder() -> Bool {
@@ -102,29 +183,39 @@ final class ShortcutRecorderButton: NSButton {
     }
 
     private func record(_ event: NSEvent) {
-        let candidate = KeyCombo(event: event)
+        let typed = KeyCombo(event: event).firstChord
         switch Int(event.keyCode) {
-        case kVK_Escape where candidate.modifiers == 0:
+        case kVK_Escape where typed.modifiers == 0:
+            onProblem?(nil)
             recording = false
             return
-        case kVK_Delete where candidate.modifiers == 0, kVK_ForwardDelete where candidate.modifiers == 0:
+        case kVK_Delete where typed.modifiers == 0, kVK_ForwardDelete where typed.modifiers == 0:
             combo = nil
             onChange?(nil)
+            onProblem?(nil)
             recording = false
             return
         default:
             break
         }
-        guard candidate.isValidGlobalShortcut else {
+        let candidate = appending ? combo.flatMap { KeyCombo(chords: $0.chords + [typed]) } : KeyCombo(chords: [typed])
+        guard let candidate else { return }
+        if let problem = candidate.validationProblem {
             NSSound.beep()
+            onProblem?(problem)
             return
         }
         combo = candidate
         onChange?(candidate)
+        onProblem?(nil)
         recording = false
     }
 
     private func updateTitle() {
-        title = recording ? "Type the shortcut…" : (combo?.displayString ?? "None")
+        if recording {
+            title = appending ? "\(combo?.displayString ?? ""), …" : "Type the shortcut…"
+        } else {
+            title = combo?.displayString ?? "None"
+        }
     }
 }
