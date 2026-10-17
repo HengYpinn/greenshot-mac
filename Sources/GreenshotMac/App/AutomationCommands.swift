@@ -42,8 +42,13 @@ enum AutomationCommands {
         }
         on(IPCCommand.openFile) { openFiles($0, $1) }
         on(IPCCommand.reloadConfig) { app, _ in
-            // Upstream ReloadConfig: read the configuration again and register the hotkeys again
-            app.settings.reloadFromDisk()
+            // Upstream ReloadConfig: read the configuration again and register the hotkeys again. Settings that can't be
+            // read change nothing; the CLI says why and exits with 1.
+            do {
+                try app.settings.reloadFromDisk()
+            } catch {
+                return .error("Greenshot configuration not reloaded: \(error)")
+            }
             app.reregisterHotkeys()
             return .ok("Greenshot configuration reloaded.")
         }

@@ -60,11 +60,23 @@ final class SettingsStore: ObservableObject {
     }
 
     /// Reads the settings again from where they are stored (`greenshot-cli --reload`, upstream's RELOAD command) and
-    /// applies them like any change, with the managed values read again too.
-    func reloadFromDisk() {
+    /// applies them like any change, with the managed values read again too. Settings that can't be read (a hand-edited
+    /// settings.json with a mistake) throw a `SettingsReloadError` and change nothing: the settings in use stay, and the
+    /// file stays where it is for the user to fix.
+    func reloadFromDisk() throws {
         refreshManaged()
-        let loaded = fileURL.map { SettingsStorage.load(fromFile: $0) } ?? SettingsStorage.load(from: defaults)
-        commit(stored: policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL)), save: false)
+        let reloaded: (settings: AppSettings, json: Data?)
+        do {
+            if let fileURL {
+                reloaded = try SettingsStorage.reload(fromFile: fileURL)
+            } else {
+                reloaded = try SettingsStorage.reload(from: defaults)
+            }
+        } catch {
+            Log("Settings").error("The settings were not reloaded, the ones in use stay: \(error)")
+            throw error
+        }
+        commit(stored: policy.loaded(reloaded.settings, storedJSON: reloaded.json), save: false)
     }
 
     /// Reads the managed values again (a profile installed or removed while the app runs): when Settings or the menu
