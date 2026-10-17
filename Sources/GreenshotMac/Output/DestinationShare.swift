@@ -77,7 +77,16 @@ final class ShareDestination: NSObject, @preconcurrency NSSharingServicePickerDe
             return
         }
         serviceName = service.title
+        // Some services never call back (they take the file and are done). The capture's notification waits for this
+        // result, so after a while the choice counts as the share.
+        let name = service.title
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.callbackTimeout) { [weak self] in
+            MainActor.assumeIsolated { self?.close(.succeeded(target: name, clearsModified: false)) }
+        }
     }
+
+    /// How long a chosen service has to report that it shared or failed.
+    private static let callbackTimeout: TimeInterval = 30
 
     func sharingService(_ sharingService: NSSharingService, sourceWindowForShareItems items: [Any],
                         sharingContentScope: UnsafeMutablePointer<NSSharingService.SharingContentScope>) -> NSWindow? {
