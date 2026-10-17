@@ -15,6 +15,9 @@ public enum IPCFrame {
     /// The largest frame before a connection's HELLO was accepted: a HELLO is a few hundred bytes, and an unverified
     /// program gets no more.
     public static let maximumHelloLength = 64 * 1024
+    /// The largest reply greenshot-mcp reads (upstream `GreenshotConnection.MaxReplySize`, 256 MB): a capture of several
+    /// big displays at their full size as base64 PNG. The app still reads at most `maximumLength` from a client.
+    public static let maximumReplyLength = 256 * 1024 * 1024
 
     /// The length prefix and the payload.
     public static func encode(_ payload: Data) -> Data {
@@ -112,6 +115,8 @@ public enum IPCIOError: Error, Equatable {
     case timedOut
     /// Another error of the system call (`errno`).
     case system(Int32)
+    /// A frame that isn't a JSON object (`IPCClient.readObject`).
+    case invalidJSON
 }
 
 /// Blocking frame I/O on a socket.
@@ -170,7 +175,7 @@ public enum IPCFrameIO {
                                  deadline: Date? = nil) throws -> Data? {
         guard let prefix = try readExact(fd, count: 4, deadline: deadline) else { return nil }
         let length = IPCFrame.length(ofPrefix: prefix)
-        guard Int(length) >= minimum, Int(length) <= min(maximum, IPCFrame.maximumLength) else {
+        guard Int(length) >= minimum, Int(length) <= min(maximum, IPCFrame.maximumReplyLength) else {
             throw IPCIOError.invalidLength(length)
         }
         guard let payload = try readExact(fd, count: Int(length), deadline: deadline) else { throw IPCIOError.truncated }

@@ -42,6 +42,24 @@ public final class IPCClient {
         try IPCFrameIO.readFrame(fd, minimum: 1)
     }
 
+    /// The next frame up to `maximum` bytes (greenshot-mcp: `IPCFrame.maximumReplyLength` for captures); nil when the app
+    /// closed the connection.
+    public func readFrame(maximum: Int) throws -> Data? {
+        try IPCFrameIO.readFrame(fd, minimum: 1, maximum: maximum)
+    }
+
+    /// The next frame as a JSON object; nil when the app closed the connection. Throws for a frame that isn't one.
+    public func readObject(maximum: Int = IPCFrame.maximumLength) throws -> JSONObject? {
+        guard let payload = try readFrame(maximum: maximum) else { return nil }
+        guard let object = IPCJSON.parseObject(payload) else { throw IPCIOError.invalidJSON }
+        return object
+    }
+
+    /// Sends a JSON object as one frame (greenshot-mcp builds its requests as objects).
+    public func send(object: JSONObject) throws {
+        try IPCFrameIO.writeFrame(fd, IPCJSON.data(object))
+    }
+
     /// 0 waits forever.
     public func setReadTimeout(_ seconds: TimeInterval) {
         IPCSocket.setTimeout(fd, option: SO_RCVTIMEO, seconds: seconds)
