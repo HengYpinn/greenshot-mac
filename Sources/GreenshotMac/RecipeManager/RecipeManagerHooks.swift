@@ -54,35 +54,38 @@ enum RecipeQuickSettingsMenu {
         let entries = library.quickSettings()
         guard !entries.isEmpty else { return }
         if !menu.items.isEmpty { menu.addItem(.separator()) }
-        let header = NSMenuItem(title: "Automatic steps", action: nil, keyEquivalent: "")
+        let header = NSMenuItem(title: String(localized: "Automatic steps"), action: nil, keyEquivalent: "")
         header.isEnabled = false
         menu.addItem(header)
         for entry in entries {
+            // A built-in automatic step's texts in the language of the app; a file's as they are.
+            let shown = { (text: String) in RecipeOptionTexts.shown(text, ownerId: entry.ownerId, in: library) }
+            let label = shown(entry.label)
             if entry.option.type == .boolean {
                 let on = entry.value == .bool(true)
-                let item = ClosureMenuItem(title: entry.label) {
+                let item = ClosureMenuItem(title: label) {
                     library.setOption(.bool(!on), key: entry.option.key, ownerId: entry.ownerId)
                 }
                 item.state = on ? .on : .off
-                if let description = entry.option.description, !description.isEmpty { item.toolTip = description }
+                if let description = entry.option.description, !description.isEmpty { item.toolTip = shown(description) }
                 menu.addItem(item)
                 continue
             }
-            let choices = NSMenu(title: entry.label)
+            let choices = NSMenu(title: label)
             choices.autoenablesItems = false
             for choice in entry.option.choices ?? [] {
                 let value = choice.value
                 // Like a radio button: clicking the current value keeps it.
-                let item = ClosureMenuItem(title: choice.label ?? choice.value) {
+                let item = ClosureMenuItem(title: choice.label.map(shown) ?? choice.value) {
                     library.setOption(.string(value), key: entry.option.key, ownerId: entry.ownerId)
                 }
                 item.state = entry.value.asString.map { $0.caseInsensitiveCompare(value) == .orderedSame } == true ? .on : .off
                 choices.addItem(item)
             }
-            let item = NSMenuItem(title: entry.label, action: nil, keyEquivalent: "")
+            let item = NSMenuItem(title: label, action: nil, keyEquivalent: "")
             item.submenu = choices
             menu.addItem(item)
         }
-        menu.addItem(ClosureMenuItem(title: "More…", handler: openSettings))
+        menu.addItem(ClosureMenuItem(title: String(localized: "More…"), handler: openSettings))
     }
 }

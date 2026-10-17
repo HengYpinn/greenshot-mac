@@ -30,8 +30,11 @@ struct RecipeSettingsRow: Identifiable, Equatable {
             var fileURL: URL?
             if case .file(let url) = loaded.source { fileURL = url }
             let name = recipe.name.trimmingCharacters(in: .whitespaces)
-            return RecipeSettingsRow(id: recipe.id, name: name.isEmpty ? recipe.id : name,
-                                     source: fileURL.map { ($0.path as NSString).abbreviatingWithTildeInPath } ?? "Built into Greenshot",
+            // A built-in recipe's name is English data: shown in the language of the app where upstream has the text.
+            let shown = loaded.isBuiltIn ? L10nText.display(name) : name
+            return RecipeSettingsRow(id: recipe.id, name: name.isEmpty ? recipe.id : shown,
+                                     source: fileURL.map { ($0.path as NSString).abbreviatingWithTildeInPath }
+                                        ?? String(localized: "Built into Greenshot"),
                                      fileURL: fileURL, isBuiltIn: loaded.isBuiltIn, isEnabled: loaded.isEnabled,
                                      replacesBuiltIn: loaded.replacesBuiltIn, proposedBy: loaded.proposedBy, triggers: triggerSummary(loaded))
         }
@@ -39,27 +42,35 @@ struct RecipeSettingsRow: Identifiable, Equatable {
 
     static func triggerSummary(_ loaded: LoadedRecipe) -> String {
         let triggers = loaded.recipe.triggers
-        guard !triggers.isEmpty else { return "No trigger: from the recipe list or the command line" }
+        guard !triggers.isEmpty else { return String(localized: "No trigger: from the recipe list or the command line") }
         return triggers.enumerated().map { index, trigger in
             let label = shortLabel(trigger)
-            if !trigger.enabled { return label + " (disabled)" }
-            return loaded.isEnabled && !loaded.isTriggerActive(at: index) ? label + " (off)" : label
+            if !trigger.enabled { return String(localized: "\(label) (disabled)") }
+            return loaded.isEnabled && !loaded.isTriggerActive(at: index)
+                ? String(localized: "\(label) (off)") : label
         }.joined(separator: " · ")
     }
 
     private static func shortLabel(_ trigger: TriggerConfig) -> String {
         if trigger.isType(WellKnownTriggerType.hotkey) {
             let text = trigger.hotkey ?? ""
-            return "Hotkey " + (RecipeHotkeyText.parse(text)?.displayString ?? text)
+            let hotkey = RecipeHotkeyText.parse(text)?.displayString ?? text
+            return String(localized: "Hotkey \(hotkey)")
         }
-        if trigger.isType(WellKnownTriggerType.contextMenu) || trigger.isType(WellKnownTriggerType.systray) { return "Menu entry" }
-        if trigger.isType(WellKnownTriggerType.editor) { return "Editor menu" }
-        if trigger.isType(WellKnownTriggerType.clipboard) { return "Clipboard" }
-        if trigger.isType(WellKnownTriggerType.commandline) { return "Command “\(trigger.command ?? "")”" }
-        if trigger.isType(WellKnownTriggerType.openFile) { return "Open With" }
-        if trigger.isType(WellKnownTriggerType.extension) { return "Browser extension" }
-        if trigger.isType(WellKnownTriggerType.aiTool) { return "AI tool “\(trigger.toolName ?? "")”" }
-        if trigger.isType(WellKnownTriggerType.manual) { return "Manual" }
+        if trigger.isType(WellKnownTriggerType.contextMenu) || trigger.isType(WellKnownTriggerType.systray) { return String(localized: "Menu entry") }
+        if trigger.isType(WellKnownTriggerType.editor) { return String(localized: "Editor menu") }
+        if trigger.isType(WellKnownTriggerType.clipboard) { return String(localized: "Clipboard") }
+        if trigger.isType(WellKnownTriggerType.commandline) {
+            let command = trigger.command ?? ""
+            return String(localized: "Command “\(command)”")
+        }
+        if trigger.isType(WellKnownTriggerType.openFile) { return String(localized: "Open With") }
+        if trigger.isType(WellKnownTriggerType.extension) { return String(localized: "Browser extension") }
+        if trigger.isType(WellKnownTriggerType.aiTool) {
+            let tool = trigger.toolName ?? ""
+            return String(localized: "AI tool “\(tool)”")
+        }
+        if trigger.isType(WellKnownTriggerType.manual) { return String(localized: "Manual", comment: "A recipe trigger: the recipe runs when the user starts it") }
         return trigger.triggerType
     }
 }
@@ -135,10 +146,11 @@ final class RecipeSettingsModel: ObservableObject {
     func revoke(_ row: RecipeSettingsRow) {
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "Revoke the approval of “\(row.name)”?"
-        alert.informativeText = "It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it."
-        alert.addButton(withTitle: "Keep")
-        alert.addButton(withTitle: "Revoke").hasDestructiveAction = true
+        let name = row.name
+        alert.messageText = String(localized: "Revoke the approval of “\(name)”?")
+        alert.informativeText = String(localized: "It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.")
+        alert.addButton(withTitle: String(localized: "Keep"))
+        alert.addButton(withTitle: String(localized: "Revoke")).hasDestructiveAction = true
         guard alert.runModal() == .alertSecondButtonReturn else { return }
         runtime?.library.revokeApproval(recipeId: row.id)
     }
@@ -162,7 +174,7 @@ final class RecipeSettingsModel: ObservableObject {
         alert.messageText = confirmation.title
         alert.informativeText = confirmation.message
         alert.addButton(withTitle: confirmation.button)
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         return alert.runModal() == .alertFirstButtonReturn
     }

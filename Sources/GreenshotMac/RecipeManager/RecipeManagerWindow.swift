@@ -80,22 +80,26 @@ final class RecipeManagerModel: ObservableObject {
         // Checked when it was loaded, with the settings' external commands and destinations.
         let validation = loaded.validation
         guard validation.isValid else {
-            Self.alert("Validation Error", "Cannot test run recipe. Fix validation errors first:\n\n" + validation.errors.joined(separator: "\n"))
+            Self.alert(String(localized: "Validation Error"),
+                       String(localized: "Cannot test run recipe. Fix validation errors first:") + "\n\n" + validation.errors.joined(separator: "\n"))
             return
         }
         guard var request = library.runRequest(recipeId: item.id, triggerType: WellKnownTriggerType.manual) else { return }
         request.trigger = RecipeRuntime.triggerInfo(type: WellKnownTriggerType.manual)
         let handle = runtime.start(request)
-        status = "Test run of \(item.name) started."
+        let name = item.shownName
+        status = String(localized: "Test run of \(name) started.")
         Task { [weak self] in
             let result = await handle.result
             guard let self else { return }
             if result.state == .failed {
                 let message = [result.reason, result.errorDescription].compactMap { $0 }.joined(separator: "\n")
-                Self.alert("Execution Error", "Recipe execution encountered an error:\n\(message)")
-                self.status = "Test run of \(item.name) failed."
+                Self.alert(String(localized: "Execution Error"), String(localized: "Recipe execution encountered an error:") + "\n" + message)
+                self.status = String(localized: "Test run of \(name) failed.")
+            } else if result.state == .completed {
+                self.status = String(localized: "Test run of \(name): completed.")
             } else {
-                self.status = "Test run of \(item.name): \(result.state == .completed ? "completed" : "cancelled")."
+                self.status = String(localized: "Test run of \(name): cancelled.")
             }
         }
     }
@@ -112,7 +116,7 @@ final class RecipeManagerModel: ObservableObject {
             let result = item.isExtension ? await self.library.reviewExtensionApproval(id: item.id)
                                           : await self.library.reviewApproval(recipeId: item.id)
             if !result.isValid {
-                Self.alert("Recipe Permissions", result.errors.joined(separator: "\n"))
+                Self.alert(String(localized: "Recipe Permissions"), result.errors.joined(separator: "\n"))
             }
             self.refresh()
         }
@@ -121,10 +125,14 @@ final class RecipeManagerModel: ObservableObject {
     func unload(_ item: RecipeManagerItem) {
         guard item.canUnload else { return }
         let reset = item.isOverridden && !item.isExtension
-        let title = reset ? "Reset Recipe to Default" : (item.isExtension ? "Unload Automatic Step" : "Unload Recipe")
-        let message = reset ? "Are you sure you want to revert '\(item.name)' back to its default built-in definition?"
-                            : "Are you sure you want to unload '\(item.name)'? It will be unregistered from \(AppInfo.name)."
-        guard Self.confirm(title, message, button: reset ? "Reset" : "Unload") else { return }
+        let name = item.name
+        let appName = AppInfo.name
+        let title = reset ? String(localized: "Reset Recipe to Default")
+            : (item.isExtension ? String(localized: "Unload Automatic Step") : String(localized: "Unload Recipe"))
+        let message = reset ? String(localized: "Are you sure you want to revert '\(name)' back to its default built-in definition?")
+                            : String(localized: "Are you sure you want to unload '\(name)'? It will be unregistered from \(appName).")
+        let button = reset ? String(localized: "Reset") : String(localized: "Unload")
+        guard Self.confirm(title, message, button: button) else { return }
         if item.isExtension {
             library.unloadExtension(id: item.id)
         } else if reset {
@@ -149,7 +157,8 @@ final class RecipeManagerModel: ObservableObject {
 
     func loadRecipe() {
         let panel = NSOpenPanel()
-        panel.title = "Load Capture Recipe into \(AppInfo.name)"
+        let appName = AppInfo.name
+        panel.title = String(localized: "Load Capture Recipe into \(appName)")
         panel.allowedContentTypes = [.json]
         panel.allowsMultipleSelection = false
         NSApp.activate()
@@ -157,13 +166,15 @@ final class RecipeManagerModel: ObservableObject {
         Task { [weak self] in
             guard let self else { return }
             let result = await self.library.loadFile(url)
+            let file = url.lastPathComponent
             if result.isValid {
-                self.status = "Loaded and registered \(url.lastPathComponent)"
+                self.status = String(localized: "Loaded and registered \(file)")
                 self.refresh()
                 if let id = result.loadedRecipeIds.first { self.select(id) }
             } else {
-                Self.alert("Validation Error", "Failed to load recipe:\n\n" + result.errors.joined(separator: "\n"))
-                self.status = "Validation failed for \(url.lastPathComponent)"
+                Self.alert(String(localized: "Validation Error"),
+                           String(localized: "Failed to load recipe:") + "\n\n" + result.errors.joined(separator: "\n"))
+                self.status = String(localized: "Validation failed for \(file)")
                 self.refresh()
             }
         }
@@ -182,7 +193,7 @@ final class RecipeManagerModel: ObservableObject {
             } else {
                 _ = await self.library.reload()
             }
-            self.status = "Reloaded recipes from disk."
+            self.status = String(localized: "Reloaded recipes from disk.")
             self.refresh()
         }
     }
@@ -191,8 +202,9 @@ final class RecipeManagerModel: ObservableObject {
     func resetAll() {
         let replaced = recipes.filter(\.isOverridden).map(\.name)
         guard !replaced.isEmpty,
-              Self.confirm("Reset All to Default", "Bring back the built-in version of these recipes?\n\n" + replaced.joined(separator: "\n"),
-                           button: "Reset All") else { return }
+              Self.confirm(String(localized: "Reset All to Default"),
+                           String(localized: "Bring back the built-in version of these recipes?") + "\n\n" + replaced.joined(separator: "\n"),
+                           button: String(localized: "Reset All")) else { return }
         library.resetAllToDefault()
         refresh()
     }
@@ -213,7 +225,7 @@ final class RecipeManagerModel: ObservableObject {
         alert.messageText = title
         alert.informativeText = message
         alert.addButton(withTitle: button)
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         return alert.runModal() == .alertFirstButtonReturn
     }
@@ -231,14 +243,14 @@ struct RecipeManagerView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 8) {
-                        groupHeader("RECIPES", note: nil)
+                        groupHeader(String(localized: "RECIPES"), note: nil)
                         if model.filteredRecipes.isEmpty {
                             Text("No recipe matches.").foregroundStyle(.secondary).padding(.vertical, 4)
                         }
                         ForEach(model.filteredRecipes) { item in row(item) }
                         if !model.filteredExtensions.isEmpty {
-                            groupHeader("AUTOMATIC STEPS",
-                                        note: "Steps \(AppInfo.name) adds to the recipes with a fitting slot, switched in Settings › Recipes.")
+                            groupHeader(String(localized: "AUTOMATIC STEPS"),
+                                        note: String(localized: "Steps \(AppInfo.name) adds to the recipes with a fitting slot, switched in Settings › Recipes."))
                                 .padding(.top, 8)
                             ForEach(model.filteredExtensions) { item in row(item) }
                         }
@@ -293,7 +305,7 @@ struct RecipeManagerView: View {
                 Spacer()
                 Picker("Show", selection: $model.filter) {
                     ForEach(RecipeManagerFilter.allCases, id: \.self) { filter in
-                        Text(filter.rawValue).tag(filter)
+                        Text(filter.title).tag(filter)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -351,7 +363,7 @@ struct RecipeManagerRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 titleLine
                 if !item.description.isEmpty {
-                    Text(item.description).font(.callout).foregroundStyle(.secondary).lineLimit(2)
+                    Text(item.shownDescription).font(.callout).foregroundStyle(.secondary).lineLimit(2)
                 }
                 HStack(spacing: 12) {
                     Label(item.triggersSummary, systemImage: item.isExtension ? "puzzlepiece.extension" : "bolt")
@@ -383,10 +395,11 @@ struct RecipeManagerRow: View {
 
     private var titleLine: some View {
         HStack(spacing: 6) {
-            Text(item.name).font(.headline)
+            Text(item.shownName).font(.headline)
             badge(item.typeBadge, color: item.isOverridden ? .orange : (item.isBuiltIn ? .blue : .purple))
             if let tool = item.proposedBy, item.isAICreated {
-                badge("BY \(tool.uppercased())", color: .teal)
+                let author = tool.uppercased()
+                badge(String(localized: "BY \(author)", comment: "Badge of a recipe written by an AI tool"), color: .teal)
                     .help("Written by an AI tool and approved by you")
             }
             Text("v\(item.version)").font(.caption).foregroundStyle(.secondary)
@@ -419,7 +432,7 @@ struct RecipeManagerRow: View {
                 .help("Switch the triggers and permissions of the approval on or off")
             Button(item.unloadTitle) { model.unload(item) }
                 .disabled(!item.canUnload)
-                .help(item.unloadTitle == "Reset Default" ? "Bring back the built-in version" : "Unload and forget the file")
+                .help(item.isOverridden && !item.isExtension ? "Bring back the built-in version" : "Unload and forget the file")
         }
         .controlSize(.small)
         .padding(.top, 2)
@@ -434,7 +447,8 @@ final class RecipeManagerWindowController: DiagnosticsWindowController {
 
     init(model: RecipeManagerModel) {
         self.model = model
-        super.init(title: "\(AppInfo.name) — Recipe Manager", content: RecipeManagerView(model: model),
+        let appName = AppInfo.name
+        super.init(title: String(localized: "\(appName) — Recipe Manager"), content: RecipeManagerView(model: model),
                    size: NSSize(width: 900, height: 680), resizable: true, autosaveName: "GreenshotRecipeManager")
         model.close = { [weak self] in self?.close() }
     }
@@ -449,5 +463,27 @@ final class RecipeManagerWindowController: DiagnosticsWindowController {
         controller.model.refresh()
         if let recipeId { controller.model.select(recipeId) }
         controller.present()
+    }
+}
+
+/// The manager's texts of an item and a filter chip.
+private extension RecipeManagerItem {
+    /// A built-in recipe's or automatic step's name is English data: shown in the language of the app where upstream has
+    /// the text (`L10nText.display`); a file's name is shown as it is.
+    var shownName: String { isBuiltIn && !isOverridden ? L10nText.display(name) : name }
+    var shownDescription: String { isBuiltIn && !isOverridden ? L10nText.display(description) : description }
+}
+
+private extension RecipeManagerFilter {
+    /// The chip's title (the raw value is the filter's identifier).
+    var title: String {
+        switch self {
+        case .all: return String(localized: "All", comment: "Recipe manager filter: every recipe")
+        case .active: return String(localized: "Active", comment: "Recipe manager filter: the recipes that are switched on")
+        case .deactivated: return String(localized: "Deactivated", comment: "Recipe manager filter: the recipes that are switched off")
+        case .builtIn: return String(localized: "Built-in", comment: "Recipe manager filter: the recipes built into the app")
+        case .custom: return String(localized: "Custom", comment: "Recipe manager filter: the recipes from files")
+        case .ai: return String(localized: "AI", comment: "Recipe manager filter: the recipes written by AI tools")
+        }
     }
 }
