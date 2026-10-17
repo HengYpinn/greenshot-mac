@@ -104,6 +104,8 @@ final class RecipeEditorWindowController: NSWindowController, NSWindowDelegate {
         let controller = shared ?? RecipeEditorWindowController(model: RecipeEditorModel(environment: .live))
         shared = controller
         controller.model.observeLibrary()
+        // While the window was closed nothing was followed: show what Greenshot has now (unless there are unsaved changes).
+        controller.model.refreshFromLibrary()
         configure(controller.model)
         if let window = controller.window {
             AuxiliaryWindows.opened(window)

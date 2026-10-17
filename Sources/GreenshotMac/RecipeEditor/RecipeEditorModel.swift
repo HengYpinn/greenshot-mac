@@ -78,9 +78,24 @@ final class RecipeEditorModel: ObservableObject {
     @Published var showAllParameters = false
     /// Bumped when the library changed (the recipe picker and the header read the library).
     @Published private(set) var libraryRevision = 0
+    /// The JSON tab's text while it differs from the recipe and isn't applied (nil: none).
+    @Published var jsonDraft: String?
+    /// The recipe's content when the JSON draft was started: the recipe changed since when they differ.
+    private(set) var jsonDraftBase: String?
+    /// The open copy came from a file the library didn't load (rejected, or opened to fix it): its first save shows the
+    /// approval window.
+    private(set) var openedUnapproved = false
 
     /// The content as saved; nil while it was never saved (upstream `_savedContent`).
     private var savedContent: String?
+    /// The open copy is the one Greenshot has loaded (so it follows the library while there are no unsaved changes).
+    private var openedFromLibrary = false
+
+    /// The id(s) of the recipe as last saved (a rename of the id isn't "another recipe" of its own file).
+    var savedRecipeIds: [String] {
+        guard let savedContent, let saved = try? RecipeSerializer.decode(text: savedContent) else { return [] }
+        return saved.map(\.id)
+    }
     private var history = RecipeEditHistory()
     private var checkTimer: Timer?
     private var libraryObservation: RecipeObservation?
@@ -112,23 +127,81 @@ final class RecipeEditorModel: ObservableObject {
 
     private func libraryChanged() {
         libraryRevision += 1
+        refreshFromLibrary()
         refreshNotice()
+    }
+
+    /// Upstream `RefreshAvailableRecipes`: without unsaved changes the editor shows what Greenshot has. A recipe that was
+    /// reset, changed outside and approved again, or saved elsewhere is opened again; one that is gone gives way to the
+    /// first recipe. A copy Greenshot never had (a new recipe, a file it didn't load) stays.
+    func refreshFromLibrary() {
+        guard let library, let recipe, !isDirty, jsonDraft == nil else { return }
+        let loaded = library.recipe(id: recipe.id)
+            ?? library.extensions.first { $0.recipe.id.caseInsensitiveCompare(recipe.id) == .orderedSame }
+        guard let loaded else {
+            if openedFromLibrary {
+                if let first = library.recipes.first {
+                    open(first.recipe, fileURL: first.sourceFile, saved: true)
+                } else {
+                    close()
+                }
+                status = "\(recipe.name) is no longer loaded in Greenshot."
+            }
+            return
+        }
+        let samePlace = loaded.sourceFile.map { RecipeEditorFiles.standardized($0).path } == fileURL.map { RecipeEditorFiles.standardized($0).path }
+        guard !samePlace || RecipeSerializer.encode(loaded.recipe) != savedContent else { return }
+        open(loaded.recipe, fileURL: loaded.sourceFile, saved: true, keepSelection: true)
+        status = "Showing \(loaded.recipe.name) as Greenshot has it now."
     }
 
     // MARK: Opening
 
     /// Puts a copy of `recipe` into the editor (upstream `OpenWorkingCopy`); `saved`: it is what the file (or the
     /// built-in) holds, so it starts without unsaved changes.
-    func open(_ recipe: CaptureRecipe, fileURL: URL?, saved: Bool) {
+    func open(_ recipe: CaptureRecipe, fileURL: URL?, saved: Bool, keepSelection: Bool = false) {
         history.keep(recipeId: self.recipe?.id)
         let text = RecipeSerializer.encode(recipe)
+        let selection = selectedRow
         self.recipe = recipe
         self.fileURL = fileURL
         savedContent = saved ? text : nil
+        jsonDraft = nil
+        jsonDraftBase = nil
+        openedUnapproved = false
+        openedFromLibrary = environment.library.map { library in
+            (library.recipe(id: recipe.id) ?? library.extensions.first { $0.recipe.id.caseInsensitiveCompare(recipe.id) == .orderedSame })
+                .map { RecipeSerializer.encode($0.recipe) == text } ?? false
+        } ?? false
         history.reset(recipeId: recipe.id, content: text)
         outline = RecipeOutline(recipe)
-        selectedRow = outline.rows.first { $0.nodeId != nil }?.id
-        tab = .step
+        if keepSelection, let selection, outline.rows.contains(where: { $0.id == selection }) {
+            selectedRow = selection
+        } else {
+            selectedRow = outline.rows.first { $0.nodeId != nil }?.id
+            if !keepSelection { tab = .step }
+        }
+        recomputeState()
+        refreshNotice()
+    }
+
+    /// A file's copy the library didn't load (rejected, or opened to fix it).
+    func openUnapproved(_ recipe: CaptureRecipe, fileURL: URL) {
+        open(recipe, fileURL: fileURL, saved: true)
+        openedUnapproved = true
+    }
+
+    /// Nothing open (after "Don't Save" of a recipe that was never saved).
+    func close() {
+        history.keep(recipeId: recipe?.id)
+        recipe = nil
+        fileURL = nil
+        savedContent = nil
+        jsonDraft = nil
+        openedUnapproved = false
+        openedFromLibrary = false
+        outline = RecipeOutline(CaptureRecipe(id: "", name: ""))
+        selectedRow = nil
         recomputeState()
         refreshNotice()
     }
@@ -279,6 +352,8 @@ final class RecipeEditorModel: ObservableObject {
         recomputeState()
         if let content { history.record(content, force: true) }
         refreshNotice()
+        jsonDraft = nil
+        jsonDraftBase = nil
         status = "Applied recipe JSON changes."
         return nil
     }
@@ -483,9 +558,12 @@ final class RecipeEditorModel: ObservableObject {
     }
 
     /// After a save: the saved content is what the editor has.
-    func markSaved(at url: URL) {
+    /// After a save: `savedText` is what the library wrote (edits made while its approval window was open stay unsaved).
+    func markSaved(at url: URL, savedText: String) {
         fileURL = url
-        savedContent = content
+        savedContent = savedText
+        openedUnapproved = false
+        openedFromLibrary = true
         recomputeState()
         refreshNotice()
     }
@@ -497,8 +575,42 @@ final class RecipeEditorModel: ObservableObject {
     }
 
     /// "Don't Save": the copy's changes are dropped from the dirty state (upstream `ConfirmDiscardChanges` case 1).
+    /// "Don't Save": back to the content as saved; a recipe that was never saved shows what Greenshot has of it, or
+    /// nothing (upstream's window isn't reused, so it only forgets the changes).
     func discardChanges() {
-        savedContent = content
-        recomputeState()
+        jsonDraft = nil
+        jsonDraftBase = nil
+        if let savedContent, let saved = try? RecipeSerializer.decode(text: savedContent).first {
+            let unapproved = openedUnapproved
+            let fromLibrary = openedFromLibrary
+            open(saved, fileURL: fileURL, saved: true, keepSelection: true)
+            openedUnapproved = unapproved
+            openedFromLibrary = fromLibrary
+        } else if let id = recipe?.id, let loaded = library?.recipe(id: id) {
+            open(loaded.recipe, fileURL: loaded.sourceFile, saved: true, keepSelection: true)
+        } else {
+            close()
+        }
+    }
+
+    // MARK: JSON tab
+
+    /// The JSON tab's text changed: a draft while it differs from the recipe.
+    func setJSONDraft(_ text: String) {
+        if text == content {
+            jsonDraft = nil
+            jsonDraftBase = nil
+        } else {
+            if jsonDraft == nil { jsonDraftBase = content }
+            jsonDraft = text
+        }
+    }
+
+    /// The recipe changed (undo, a form) after the JSON draft was started.
+    var jsonDraftIsStale: Bool { jsonDraft != nil && jsonDraftBase != content }
+
+    func discardJSONDraft() {
+        jsonDraft = nil
+        jsonDraftBase = nil
     }
 }

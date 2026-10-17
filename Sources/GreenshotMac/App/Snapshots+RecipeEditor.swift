@@ -25,6 +25,7 @@ extension Snapshots {
         try write(recipeEditor(RecipeEditorCatalog.newExtension(), tab: .recipe), to: file("recipe-editor-extension.png"))
         try write(recipeEditor(decision, tab: .errors), to: file("recipe-editor-errors.png"))
         try write(recipeEditor(decision, tab: .json), to: file("recipe-editor-json.png"))
+        try write(jsonDraftEditor(decision), to: file("recipe-editor-json-draft.png"))
         try write(recipeEditor(branching, tab: .flow), to: file("recipe-editor-flow.png"))
         try write(recipeEditor(decision, tab: .flow, dark: true), to: file("recipe-editor-flow-dark.png"))
         try writeText(RecipeMermaid.text(of: decision), to: file("recipe-editor-mermaid.txt"))
@@ -52,6 +53,17 @@ extension Snapshots {
         keepAlive.append(model)
         try write(hosted(RecipeAnnotationImportForm(model: model, nodeId: "watermark", editor: editors[0], done: {}).frame(width: 760, height: 520),
                          size: NSSize(width: 760, height: 520)), to: file("recipe-import-annotations.png"))
+    }
+
+    /// The JSON tab with unapplied text, after the recipe changed in a form (the stale-draft warning).
+    private static func jsonDraftEditor(_ recipe: CaptureRecipe) -> NSBitmapImageRep? {
+        let model = RecipeEditorModel(environment: .offline)
+        model.open(recipe, fileURL: URL(fileURLWithPath: "/Users/me/Recipes/\(recipe.id).gsrecipe.json"), saved: true)
+        model.tab = .json
+        model.setJSONDraft((model.content ?? "").replacingOccurrences(of: "Route by Screen Size", with: "Route by Size (draft)"))
+        model.edit("Changed the description") { $0.description = "Changed in the Recipe tab" }
+        keepAlive.append(model)
+        return hosted(RecipeEditorView(model: model), size: NSSize(width: 1120, height: 740))
     }
 
     /// The editor window's content with a recipe, a selected step or tab, a pending-bar text.
