@@ -9,5 +9,8 @@ extension Snapshots {
     /// Renders for image operations, effect dialogs and output formats. Writes PNG files into `folder` with `write(_:to:)`; the helpers in Snapshots.swift
     /// (`editorWindow`, `overlay`, `form`, `settingsTab`, `capture`) do most of the work.
     static func renderImageExtras(to folder: URL, sample: CGImage, settings: SettingsStore) throws {
+        let removeTransparency = RemoveTransparencyForm()
+        keepAlive.append(removeTransparency)
+        try write(form(removeTransparency.view), to: folder.appendingPathComponent("dialog-remove-transparency.png"))
     }
 }

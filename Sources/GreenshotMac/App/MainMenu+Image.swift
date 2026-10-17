@@ -11,12 +11,10 @@ extension MainMenu {
     static func addImageMenu(to main: NSMenu) {
         let image = submenu(in: main, title: "Image")
 
-        // Upstream's Effects menu.
-        for (index, effect) in ImageEffect.allCases.enumerated() {
-            let item = image.addItem(withTitle: effect.menuTitle, action: #selector(EditorWindowController.applyEffect(_:)),
-                                     keyEquivalent: effect.keyEquivalent)
-            item.keyEquivalentModifierMask = [.control, .command]
-            item.tag = index
+        // Upstream's Effects menu. Drop Shadow and Torn Edges apply their last settings; with ⌥ they ask first (a right
+        // click upstream).
+        for item in EditorWindowController.effectMenuItems(keyEquivalents: true) {
+            image.addItem(item)
         }
         image.addItem(withTitle: "Adjust…", action: #selector(EditorWindowController.adjustImage(_:)), keyEquivalent: "")
 
@@ -40,7 +38,7 @@ extension MainMenu {
         // Upstream Ctrl+Delete; ⌘⌫ is the Mac's delete key with Command.
         image.addItem(withTitle: "Clear Background", action: #selector(EditorWindowController.clearBackground(_:)),
                       keyEquivalent: "\u{8}")
-        image.addItem(withTitle: "Remove Transparency", action: #selector(EditorWindowController.removeTransparency(_:)),
+        image.addItem(withTitle: "Remove Transparency…", action: #selector(EditorWindowController.removeTransparency(_:)),
                       keyEquivalent: "")
 
         // Upstream's text obfuscation (Edit menu there).

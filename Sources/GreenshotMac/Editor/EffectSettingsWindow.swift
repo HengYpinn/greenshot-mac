@@ -278,3 +278,35 @@ final class AdjustSettingsForm: NSObject {
                             gamma: Double(gamma.value) / 100)
     }
 }
+
+/// The color of Remove Transparency (upstream opens the Windows color dialog with white,
+/// `ImageEditorForm.RemoveTransparencyToolStripMenuItemClick`). Not kept in the settings, like upstream.
+@MainActor
+final class RemoveTransparencyForm: NSObject {
+    let colorWell = NSColorWell(style: .minimal)
+    private(set) var view = NSView()
+
+    override init() {
+        super.init()
+        colorWell.color = .white
+        colorWell.toolTip = "The color behind the image"
+        let white = NSButton(title: "White", target: self, action: #selector(useWhite(_:)))
+        white.bezelStyle = .rounded
+        white.controlSize = .small
+        let row = NSStackView(views: [colorWell, white])
+        row.spacing = 6
+        view = EffectSettingsDialog.form([[EffectSettingsDialog.label("Background:"), row]])
+    }
+
+    /// The chosen color, opaque (a see-through background would leave the transparency).
+    var color: CGColor {
+        colorWell.deactivate()
+        var rgba = RGBAColor(colorWell.color)
+        rgba.alpha = 1
+        return rgba.cgColor
+    }
+
+    @objc private func useWhite(_ sender: Any?) {
+        colorWell.color = .white
+    }
+}
