@@ -73,14 +73,38 @@ struct LegacyElement: Equatable {
         case stepLabel(number: Int, counterStart: Int)
         /// The path, relative to left, top (upstream draws it with `TranslateTransform(Left, Top)`).
         case freehand([CGPoint])
-        /// Image, icon, metafile, barcode: the picture's file (PNG, or ICO for icons).
+        /// Image, icon, metafile: the picture's file (PNG, or ICO for icons).
         case picture(Data?, rotation: Int)
+        /// A barcode (`BarcodeContainer`): its picture, and what it shows when the file has it (`_model`, upstream's
+        /// `ZxingModel`) with the quiet zone (`_margin`).
+        case barcode(picture: Data?, model: LegacyBarcodeModel?, margin: Int?)
         case svg(Data?, rotation: Int)
         case emoji(String, rotation: Int)
         /// The pointer's color layer (PNG); Greenshot 1.3 stored a cursor that can't be read, then it is nil.
         case cursor(Data?)
         case cutMark(horizontal: Bool, seed: Int, shadow: LegacyShadow)
         case tornEdge(seed: Int, edges: [Bool]?, margins: [Int]?, shadow: LegacyShadow)
+    }
+
+    /// What a barcode shows: the auto properties of upstream's `ZxingModel` (`Greenshot.Plugin.Zxing/Drawing/ZxingModel.cs`).
+    struct LegacyBarcodeModel: Equatable {
+        /// `FormatIndex`, `QrCategoryIndex`, `WifiEncryptionIndex`: positions in the dialog's lists.
+        var formatIndex = 0
+        var qrCategoryIndex = 0
+        var wifiEncryptionIndex = 0
+        /// The text properties by name ("RawText", "WifiSsid", …); a property that was null is missing.
+        var texts: [String: String] = [:]
+        var foreColor: LegacyColor?
+        var backColor: LegacyColor?
+        var roundedDots = false
+        var margin: Int?
+
+        /// The names of the text properties.
+        static let textNames = ["RawText", "WifiSsid", "WifiPassword", "VcardFirstName", "VcardLastName", "VcardPhone",
+                                "VcardEmail", "VcardCompany", "VcardUrl", "EpcName", "EpcIban", "EpcBic", "EpcAmount",
+                                "EpcReference", "EpcMessage", "EmailTo", "EmailSubject", "EmailBody", "EventTitle",
+                                "EventLocation", "EventStart", "EventEnd", "EventDescription", "PhoneNumber", "SmsNumber",
+                                "SmsMessage", "Latitude", "Longitude"]
     }
 
     /// The shadow settings of cut marks and torn edges (`_shadowDarkness`, `_shadowSize`, `_shadowOffsetX/Y`).
@@ -142,10 +166,11 @@ enum GreenshotLegacyReader {
             let points = listItems(graph.instance(record.member("capturePoints")), in: graph)
                 .compactMap { graph.instance($0).map { point($0, graph) } }
             return .freehand(points)
-        case "ImageContainer", "BarcodeContainer":
-            // 1.2 named the field "image", 1.3 "_image"; a Bitmap keeps its PNG in "Data".
-            let bitmap = graph.instance(record.member("_image")) ?? graph.instance(record.member("image"))
-            return .picture(bitmap.flatMap { graph.bytes($0.member("Data")) }, rotation: 0)
+        case "ImageContainer":
+            return .picture(picture(of: record, graph), rotation: 0)
+        case "BarcodeContainer":
+            let model = graph.instance(record.member("_model")).map { barcodeModel($0, graph) }
+            return .barcode(picture: picture(of: record, graph), model: model, margin: intValue(record.member("_margin")))
         case "IconContainer":
             return .picture(graph.instance(record.member("icon")).flatMap { graph.bytes($0.member("IconData")) }, rotation: 0)
         case "MetafileContainer":
@@ -168,6 +193,29 @@ enum GreenshotLegacyReader {
         default:
             return .none
         }
+    }
+
+    /// The PNG of an image element (also the picture of a barcode): 1.2 named the field "image", 1.3 "_image"; a Bitmap
+    /// keeps its PNG in "Data".
+    private static func picture(of record: NRBFInstance, _ graph: NRBFGraph) -> Data? {
+        let bitmap = graph.instance(record.member("_image")) ?? graph.instance(record.member("image"))
+        return bitmap.flatMap { graph.bytes($0.member("Data")) }
+    }
+
+    /// Upstream `ZxingModel`: auto properties, stored as their backing fields (`member` finds those by the name).
+    private static func barcodeModel(_ record: NRBFInstance, _ graph: NRBFGraph) -> LegacyElement.LegacyBarcodeModel {
+        var model = LegacyElement.LegacyBarcodeModel()
+        model.formatIndex = int(record, "FormatIndex", graph)
+        model.qrCategoryIndex = int(record, "QrCategoryIndex", graph)
+        model.wifiEncryptionIndex = int(record, "WifiEncryptionIndex", graph)
+        for name in LegacyElement.LegacyBarcodeModel.textNames {
+            if let text = graph.string(record.member(name)) { model.texts[name] = text }
+        }
+        if case .color(let color) = value(record.member("ForeColor"), graph) { model.foreColor = color }
+        if case .color(let color) = value(record.member("BackColor"), graph) { model.backColor = color }
+        model.roundedDots = bool(record.member("RoundedDots"))
+        model.margin = intValue(record.member("Margin"))
+        return model
     }
 
     private static func shadow(_ record: NRBFInstance, _ graph: NRBFGraph) -> LegacyElement.LegacyShadow {
