@@ -24,10 +24,8 @@ public enum ElementSvg {
     /// The pixels per point an SVG file is opened with: the Retina default (upstream draws it at its own size).
     static let openScale: CGFloat = 2
 
-    /// Whether this Mac can draw SVG (`NSImage` reads `public.svg-image`).
-    public static var isSupported: Bool {
-        NSImage.imageUnfilteredTypes.contains(UTType.svg.identifier)
-    }
+    /// Whether this Mac can draw SVG (`NSImage` reads `public.svg-image`; checked once).
+    public static let isSupported: Bool = NSImage.imageUnfilteredTypes.contains(UTType.svg.identifier)
 
     /// Whether `data` looks like an SVG: it starts with a tag (after a byte order mark and spaces) and has an `<svg`
     /// tag near the start (after an XML declaration, comments or a doctype).

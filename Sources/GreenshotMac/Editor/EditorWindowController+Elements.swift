@@ -6,6 +6,8 @@
 import AppKit
 import GreenshotCore
 
+private let log = Log("Editor")
+
 extension Capture {
     /// The picture the editor opens: without the mouse pointer when the pointer comes as its own element.
     var editorImage: CGImage { pointer == nil ? image : (imageWithoutPointer ?? image) }
@@ -65,6 +67,7 @@ extension EditorWindowController {
         if let added {
             canvas.select(added)
         } else {
+            log.info("Torn edges could not be added: the canvas could not grow by the room for the shadow")
             NSSound.beep()
         }
     }
