@@ -83,7 +83,7 @@ import Testing
         }
         #expect(!connected)
         #expect(seconds < 5)
-        try await offPool { usleep(300_000) }
+        _ = try await offPool { usleep(300_000) }
         #expect(!FileManager.default.fileExists(atPath: marker.path))
     }
 
