@@ -42,7 +42,13 @@ public final class EditorDocument {
     private var redoStack: [State] = []
     private var pending: State?
     private var depth = 0
-    private let undoLimit = 100
+    /// The undo steps keep at most this many bytes of earlier images; older steps go (upstream `UndoImagesBudget`,
+    /// 256 MB). Steps that only changed elements cost nothing here.
+    var undoImageBudget = 256 * 1024 * 1024
+    /// The merge key of the newest undo step (see `change(merging:_:)`), nil when it must not be merged into.
+    private var mergeKey: String?
+    /// Counts the undo steps made, to tell whether a change made one.
+    private var stepsMade = 0
 
     public init(image: CGImage, scale: CGFloat, title: String, captureDate: Date = Date(), fileURL: URL? = nil, isModified: Bool = true) {
         baseImage = image
@@ -72,7 +78,9 @@ public final class EditorDocument {
         pending = nil
         guard !before.same(as: current) else { return }
         undoStack.append(before)
-        if undoStack.count > undoLimit { undoStack.removeFirst(undoStack.count - undoLimit) }
+        stepsMade += 1
+        mergeKey = nil
+        limitUndoImages()
         redoStack.removeAll()
         isModified = true
     }
@@ -83,16 +91,54 @@ public final class EditorDocument {
         endChange()
     }
 
+    /// A change that joins the newest undo step when that one was made with the same `key` and nothing happened
+    /// since, so pressing an arrow key ten times is one step (upstream `MakeUndoable(memento, allowMerge: true)`).
+    public func change(merging key: String, _ body: () -> Void) {
+        if depth == 0, mergeKey == key, !undoStack.isEmpty {
+            let before = current
+            body()
+            if !before.same(as: current) {
+                redoStack.removeAll()
+                isModified = true
+            }
+            return
+        }
+        let made = stepsMade
+        change(body)
+        if stepsMade != made { mergeKey = key }
+    }
+
     public func undo() {
         guard depth == 0, let previous = undoStack.popLast() else { return }
         redoStack.append(current)
         restore(previous)
+        mergeKey = nil
     }
 
     public func redo() {
         guard depth == 0, let next = redoStack.popLast() else { return }
         undoStack.append(current)
         restore(next)
+        mergeKey = nil
+    }
+
+    /// Drops the oldest undo steps when the earlier images they keep use more than `undoImageBudget` (upstream
+    /// `Surface.LimitUndoImages`). A step keeps an image only when it differs from the one after it; the newest step
+    /// always stays.
+    private func limitUndoImages() {
+        var bytes = 0
+        var newer = baseImage
+        for index in undoStack.indices.reversed() {
+            let image = undoStack[index].base
+            if image !== newer {
+                bytes += image.width * image.height * image.bitsPerPixel / 8
+                newer = image
+            }
+            if index < undoStack.count - 1 && bytes > undoImageBudget {
+                undoStack.removeFirst(index + 1)
+                return
+            }
+        }
     }
 
     public func markSaved() {
@@ -112,6 +158,7 @@ public final class EditorDocument {
         fileURL = nil
         undoStack.removeAll()
         redoStack.removeAll()
+        mergeKey = nil
         isModified = true
     }
 
@@ -331,7 +378,7 @@ public enum CropMode: String, CaseIterable, Sendable {
         switch self {
         case .crop: return "crop"
         case .vertical: return "rectangle.split.3x1"
-        case .horizontal: return "rectangle.split.1x3"
+        case .horizontal: return "rectangle.split.1x2"
         case .auto: return "wand.and.rays"
         }
     }

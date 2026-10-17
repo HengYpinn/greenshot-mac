@@ -191,7 +191,8 @@ public struct AnnotationStyle: Codable, Equatable, Sendable {
         case .text:
             return AnnotationStyle(lineColor: .red, fillColor: .clear, shadow: true, fontSize: 15)
         case .highlight:
-            return AnnotationStyle(fillColor: .yellow, shadow: false, highlightMode: .text)
+            // The area highlight blurs with radius 3 and darkens by 10 % (upstream `BlurFilter`, `BrightnessFilter`).
+            return AnnotationStyle(fillColor: .yellow, shadow: false, highlightMode: .text, blurRadius: 3, brightness: 0.9)
         case .obfuscate:
             return AnnotationStyle(shadow: false, obfuscateMode: .pixelate)
         case .counter:
@@ -372,8 +373,9 @@ public enum Handle: CaseIterable, Sendable {
         case .line, .arrow: return [.start, .end]
         case .freehand: return []
         case .speechBubble: return boxHandles + [.tail]
-        // An emoji keeps its aspect ratio (upstream `EmojiContainer` scales with `ScaleOptions.Rational`).
-        case .emoji: return cornerHandles
+        // An emoji and a counter keep their aspect ratio (upstream `EmojiContainer` and `StepLabelContainer` scale with
+        // `ScaleOptions.Rational`).
+        case .emoji, .counter: return cornerHandles
         // A cut mark is only sized across the cut (upstream's top and bottom center grippers, left and right for a
         // vertical cut).
         case .cutMark: return annotation.isVerticalCutMark ? [.left, .right] : [.top, .bottom]
@@ -398,9 +400,13 @@ public enum Handle: CaseIterable, Sendable {
         }
     }
 
-    /// `original` with this handle dragged to `point`. With `keepAspect` a corner keeps the box's aspect ratio
-    /// (Shift while resizing an image element).
-    public func drag(_ original: Annotation, to point: CGPoint, keepAspect: Bool = false) -> Annotation {
+    /// `original` with this handle dragged to `point` (upstream `ScaleHelper.Scale`).
+    /// - Parameters:
+    ///   - keepAspect: a corner keeps the box's aspect ratio (Shift, upstream `ScaleOptions.Rational`). Emoji and
+    ///     counters always keep theirs.
+    ///   - centered: the box grows or shrinks around its centre: the opposite side moves the other way (Option, upstream
+    ///     Ctrl = `ScaleOptions.Centered`).
+    public func drag(_ original: Annotation, to point: CGPoint, keepAspect: Bool = false, centered: Bool = false) -> Annotation {
         var result = original
         switch self {
         case .start:
@@ -416,18 +422,22 @@ public enum Handle: CaseIterable, Sendable {
         default:
             break
         }
-        let r = original.bounds
-        if original.kind == .emoji, let anchor = oppositeCorner(in: r) {
-            let rect = Geometry.rect(from: anchor, to: Geometry.squareEnd(from: anchor, to: point))
-            result.start = rect.origin
-            result.end = CGPoint(x: rect.maxX, y: rect.maxY)
-            return result
-        }
-        if keepAspect, r.width > 0, r.height > 0, let anchor = oppositeCorner(in: r) {
-            let rect = Geometry.rect(from: anchor, to: Self.aspectEnd(from: anchor, to: point, aspect: r.width / r.height))
-            result.start = rect.origin
-            result.end = CGPoint(x: rect.maxX, y: rect.maxY)
-            return result
+        let rect = drag(original.bounds, to: point, keepAspect: keepAspect || original.kind == .emoji || original.kind == .counter,
+                        square: original.kind == .emoji || original.kind == .counter, centered: centered)
+        result.start = rect.origin
+        result.end = CGPoint(x: rect.maxX, y: rect.maxY)
+        return result
+    }
+
+    /// The box `r` with this handle dragged to `point`. `square` keeps a square even when `r` is not one.
+    public func drag(_ r: CGRect, to point: CGPoint, keepAspect: Bool = false, square: Bool = false, centered: Bool = false) -> CGRect {
+        let center = CGPoint(x: r.midX, y: r.midY)
+        let aspect: CGFloat? = square ? 1 : (keepAspect && r.width > 0 && r.height > 0 ? r.width / r.height : nil)
+        if let aspect, let opposite = oppositeCorner(in: r) {
+            let anchor = centered ? center : opposite
+            let corner = Self.aspectEnd(from: anchor, to: point, aspect: aspect)
+            let other = centered ? CGPoint(x: 2 * center.x - corner.x, y: 2 * center.y - corner.y) : anchor
+            return Geometry.rect(from: other, to: corner)
         }
         var minX = r.minX, minY = r.minY, maxX = r.maxX, maxY = r.maxY
         switch self {
@@ -441,10 +451,20 @@ public enum Handle: CaseIterable, Sendable {
         case .left: minX = point.x
         case .start, .end, .tail: break
         }
-        let rect = Geometry.rect(from: CGPoint(x: minX, y: minY), to: CGPoint(x: maxX, y: maxY))
-        result.start = rect.origin
-        result.end = CGPoint(x: rect.maxX, y: rect.maxY)
-        return result
+        if centered {
+            // The side opposite the dragged one mirrors it around the centre.
+            switch self {
+            case .topLeft, .left, .bottomLeft: maxX = 2 * center.x - minX
+            case .topRight, .right, .bottomRight: minX = 2 * center.x - maxX
+            default: break
+            }
+            switch self {
+            case .topLeft, .top, .topRight: maxY = 2 * center.y - minY
+            case .bottomLeft, .bottom, .bottomRight: minY = 2 * center.y - maxY
+            default: break
+            }
+        }
+        return Geometry.rect(from: CGPoint(x: minX, y: minY), to: CGPoint(x: maxX, y: maxY))
     }
 
     /// The corner of a box from `anchor` towards `point` with `aspect` (width / height), as big as covers `point`.
@@ -465,6 +485,23 @@ public enum Handle: CaseIterable, Sendable {
         case .bottomLeft: return CGPoint(x: r.maxX, y: r.minY)
         default: return nil
         }
+    }
+}
+
+extension CropMode {
+    /// The handles of the crop area (upstream `CropContainer`: all eight, or only the two edges across a cut-out).
+    public var handles: [Handle] {
+        switch self {
+        case .vertical: return [.left, .right]
+        case .horizontal: return [.top, .bottom]
+        case .crop, .auto: return Handle.boxHandles
+        }
+    }
+
+    /// The handle of the crop area `rect` at `point`, within `reach` pixels.
+    public func handle(at point: CGPoint, of rect: CGRect, reach: CGFloat) -> Handle? {
+        let box = Annotation(kind: .rectangle, start: rect.origin, end: CGPoint(x: rect.maxX, y: rect.maxY))
+        return handles.first { Geometry.distance($0.position(in: box), point) <= reach }
     }
 }
 
