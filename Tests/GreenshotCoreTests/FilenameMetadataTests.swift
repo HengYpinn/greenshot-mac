@@ -18,7 +18,8 @@ struct FilenameMetadataTests {
     }
 
     @Test func metadataComesAfterTheEnvironment() {
-        #expect(FilenamePattern.fill("${url}", context: context(metadata: ["url": "https://x.org/<p>"])) == "https://x.org/_p_")
+        // Cleaned like ${title} (review S-M1): a captured value never adds folders
+        #expect(FilenamePattern.fill("${url}", context: context(metadata: ["url": "https://x.org/<p>"])) == "https___x.org__p_")
         #expect(FilenamePattern.fill("${source}", context: context(metadata: ["source": "Window"], environment: ["source": "env"])) == "env")
         #expect(FilenamePattern.fill("${browser}", context: context()) == "")
     }

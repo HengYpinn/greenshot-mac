@@ -59,7 +59,9 @@ struct BrowserContextTests {
         #expect(context.patternVariables.isEmpty)
         context.update(url: "https://jira.example.org/browse/QA-9", title: "Login")
         let variables = context.patternVariables
-        #expect(variables["Browser.Url"] == "https://jira.example.org/browse/QA-9")
+        // Cleaned like ${title}: a page can't add folders
+        #expect(variables["Browser.Url"] == "https___jira.example.org_browse_QA-9")
+        #expect(context.currentURL == "https://jira.example.org/browse/QA-9")
         #expect(variables["Browser.Domain"] == "jira.example.org")
         #expect(variables["Browser.Title"] == "Login")
         #expect(variables["Browser.Ticket"] == "QA-9")
@@ -96,9 +98,11 @@ struct CaptureMetadataStoreTests {
         let date = Date()
         store.record(["url": "https://page.example/", "Browser.Title": "Own"], forCaptureAt: date)
         let variables = store.patternMetadata(forCaptureAt: date)
-        #expect(variables["url"] == "https://page.example/")
+        #expect(variables["url"] == "https___page.example_")
         #expect(variables["Browser.Title"] == "Own")
-        #expect(variables["Browser.Url"] == "https://tab.example/")
+        #expect(variables["Browser.Url"] == "https___tab.example_")
+        // What was recorded stays as it was
+        #expect(store.metadata(forCaptureAt: date)["url"] == "https://page.example/")
     }
 
     @Test func onlyTheLatestCapturesAreKept() {
@@ -117,7 +121,7 @@ struct CaptureMetadataStoreTests {
         let date = Date()
         store.record(["url": "https://example.org/page", "browser": "firefox"], forCaptureAt: date)
         let pattern = FilenamePattern.Context(captureTime: date, title: "x", metadata: store.patternMetadata(forCaptureAt: date))
-        // Upstream's MakePathSafe keeps "/" (a URL makes sub folders)
-        #expect(FilenamePattern.fill("${browser} ${url}", context: pattern) == "firefox https://example.org/page")
+        // Cleaned like ${title} (upstream's MakePathSafe kept "/", so a URL made sub folders)
+        #expect(FilenamePattern.fill("${browser} ${url}", context: pattern) == "firefox https___example.org_page")
     }
 }

@@ -64,11 +64,13 @@ public final class BrowserContext: @unchecked Sendable {
     }
 
     /// `Browser.Url`, `Browser.Domain`, `Browser.Title`, `Browser.Ticket` for a file name pattern; nothing before the
-    /// extension reported a tab.
+    /// extension reported a tab. Cleaned like `${title}`: any web page sets them, and a "/" or ".." in them must not
+    /// choose where a file goes.
     public var patternVariables: [String: String] {
         locked {
             guard !url.isEmpty || !title.isEmpty else { return [:] }
             return ["Browser.Url": url, "Browser.Domain": domain, "Browser.Title": title, "Browser.Ticket": ticket]
+                .mapValues(FilenamePattern.makeFilenameSafe)
         }
     }
 
