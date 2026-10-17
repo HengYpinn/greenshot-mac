@@ -49,7 +49,7 @@ enum AIToolsConsentPanel {
     static func makePanel(client: AIToolClient, armed: Bool, onAnswer: @escaping (Bool?) -> Void) -> NSPanel {
         let panel = ConsentPanel(contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
                                  styleMask: [.titled, .closable, .nonactivatingPanel], backing: .buffered, defer: false)
-        panel.title = "AI Tool Access"
+        panel.title = String(localized: "AI Tool Access")
         panel.level = .floating
         panel.hidesOnDeactivate = false
         panel.isReleasedWhenClosed = false
@@ -63,19 +63,23 @@ enum AIToolsConsentPanel {
         icon.heightAnchor.constraint(equalToConstant: 48).isActive = true
 
         let name = AIToolText.displayed(client.displayName, limit: 80)
-        let title = NSTextField(wrappingLabelWithString: "\(name) wants to use \(AppInfo.name) to list your windows and take screenshots, and to run Greenshot recipes.")
+        let title = NSTextField(wrappingLabelWithString: String(localized: "\(name) wants to use \(AppInfo.name) to list your windows and take screenshots, and to run Greenshot recipes."))
         title.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         // Each part on its own line, cut in the middle: a long or tricky path can't push the rest out of sight
-        var details = [line("Program: " + client.path)]
-        if let script = client.identity.script { details.append(line("Script: " + script)) }
+        var details = [line(String(localized: "Program: \(BidiText.isolatedLTR(client.path))"))]
+        if let script = client.identity.script { details.append(line(String(localized: "Script: \(BidiText.isolatedLTR(script))"))) }
         for note in client.identity.notes { details.append(line(note)) }
         details.append(line(client.signerText))
-        let runtime = client.identity.script == nil ? "" : "\n\n\(name) runs scripts: only the script above is allowed, not every script \(name) runs."
-        let body = NSTextField(wrappingLabelWithString: "Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.\(runtime)\n\nAllow \(name) to use \(AppInfo.name)?")
+        var paragraphs = [String(localized: "Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.")]
+        if client.identity.script != nil {
+            paragraphs.append(String(localized: "\(name) runs scripts: only the script above is allowed, not every script \(name) runs."))
+        }
+        paragraphs.append(String(localized: "Allow \(name) to use \(AppInfo.name)?"))
+        let body = NSTextField(wrappingLabelWithString: paragraphs.joined(separator: "\n\n"))
         for label in [title, body] { label.preferredMaxLayoutWidth = 380 }
 
-        let deny = FirstClickButton(title: "Don't Allow", target: panel, action: #selector(ConsentPanel.deny))
-        let allow = FirstClickButton(title: "Allow", target: panel, action: #selector(ConsentPanel.allow))
+        let deny = FirstClickButton(title: String(localized: "Don't Allow"), target: panel, action: #selector(ConsentPanel.deny))
+        let allow = FirstClickButton(title: String(localized: "Allow"), target: panel, action: #selector(ConsentPanel.allow))
         for button in [deny, allow] {
             button.keyEquivalent = ""
             button.isEnabled = armed
