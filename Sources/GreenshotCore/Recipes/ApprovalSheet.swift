@@ -113,7 +113,8 @@ public struct RecipeApprovalSheet: Sendable {
         recipeVersion = version.isEmpty ? "" : "v\(version)"
         let description = recipe?.description?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         recipeDescription = description.isEmpty
-            ? (isValidationError ? "Recipe configuration failed validation." : "No description provided.") : description
+            ? (isValidationError ? "\(isExtension ? "Automatic step" : "Recipe") configuration failed validation." : "No description provided.")
+            : description
         recipeId = recipe?.id ?? "unknown"
         fileText = request.fileURL?.path ?? "Built into Greenshot"
         fileHash = request.contentHash.isEmpty ? "Unknown" : request.contentHash
@@ -137,7 +138,8 @@ public struct RecipeApprovalSheet: Sendable {
 
         // What changed: against the replaced recipe (built-in) or the previously approved version.
         if let replaced = request.replacedRecipe {
-            changesTitle = request.replacesBuiltIn ? "Replaces the built-in recipe “\(replaced.name)”" : "Changes the recipe “\(replaced.name)”"
+            let noun = isExtension ? "automatic step" : "recipe"
+            changesTitle = request.replacesBuiltIn ? "Replaces the built-in \(noun) “\(replaced.name)”" : "Changes the \(noun) “\(replaced.name)”"
         } else if request.mode == .modified || (style == .ownEdit && request.previousContent != nil) {
             changesTitle = request.previousContent != nil ? "What changed since the last approval"
                 : "The previous version is not known, review the whole recipe"
@@ -207,7 +209,7 @@ public struct RecipeApprovalSheet: Sendable {
                     let text = describer.describe(action)
                     if !targets.contains(text) { targets.append(text) }
                 }
-                gateSwitches.append(GateSwitch(gate: gate, question: Self.question(for: gate), explanation: Self.explanation(for: gate),
+                gateSwitches.append(GateSwitch(gate: gate, question: Self.question(for: gate, noun: isExtension ? "automatic step" : "recipe"), explanation: Self.explanation(for: gate),
                                                targets: targets, isOn: isOn))
             }
         }
@@ -272,6 +274,11 @@ public struct RecipeApprovalSheet: Sendable {
         return intro + "\n\n" + off.map { "• " + $0 }.joined(separator: "\n")
             + "\n\nYou can switch triggers on later with Permissions, and run the recipe from the recipe list."
     }
+
+    /// "recipe", or "automatic step" for an extension file, in the window's texts.
+    public var noun: String { isExtension ? "automatic step" : "recipe" }
+    /// "Recipe" / "Automatic Step" for titles and buttons.
+    public var titleNoun: String { isExtension ? "Automatic Step" : "Recipe" }
 
     /// The question before "Revoke Approval" (upstream `OnRejectClicked`).
     public var revokeText: String {
@@ -373,11 +380,11 @@ public struct RecipeApprovalSheet: Sendable {
     }
 
     /// Upstream `GetGateQuestion`.
-    static func question(for gate: RecipeGateType) -> String {
+    static func question(for gate: RecipeGateType, noun: String = "recipe") -> String {
         switch gate {
-        case .externalCommand: return "Allow this recipe to run programs on this Mac"
-        case .networkAccess: return "Allow this recipe to upload captures to the internet"
-        case .fileSystemAccess: return "Allow this recipe to read or write these files and folders"
+        case .externalCommand: return "Allow this \(noun) to run programs on this Mac"
+        case .networkAccess: return "Allow this \(noun) to upload captures to the internet"
+        case .fileSystemAccess: return "Allow this \(noun) to read or write these files and folders"
         case .custom: return "Allow these actions"
         }
     }

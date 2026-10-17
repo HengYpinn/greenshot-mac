@@ -45,7 +45,7 @@ struct RecipeApprovalView: View {
             if sheet.proposedBy != nil { aiCard }
             if let title = sheet.changesTitle { changesCard(title) }
             overviewCard
-            if sheet.isExtension, !sheet.extensionReach.isEmpty { reachCard }
+            if !sheet.extensionReach.isEmpty { reachCard }
             if !sheet.isExtension, sheet.style != .validationError { triggersCard }
             if !sheet.steps.isEmpty { stepsCard }
             if !sheet.gates.isEmpty { gatesCard }
@@ -108,7 +108,7 @@ struct RecipeApprovalView: View {
                 if sheet.hasDiff {
                     Button("View Changes") { model.changedLinesOnly = true; model.overlay = .changes }
                 }
-                Button("View Recipe JSON") { model.overlay = .json }
+                Button("View \(sheet.titleNoun) JSON") { model.overlay = .json }
             }
         }
     }
@@ -123,7 +123,7 @@ struct RecipeApprovalView: View {
             if let explanation = sheet.aiExplanation {
                 AIWords(label: "Its explanation (the AI tool's words, not checked by Greenshot):", text: explanation)
             }
-            Text("Trust what Greenshot writes below about the recipe, not these words.")
+            Text("Trust what Greenshot writes below about the \(sheet.noun), not these words.")
                 .font(.callout).foregroundStyle(.secondary)
         }
     }
@@ -146,7 +146,7 @@ struct RecipeApprovalView: View {
                 if !sheet.recipeVersion.isEmpty { Text(sheet.recipeVersion).font(.caption).foregroundStyle(.secondary) }
             }
             Text(sheet.recipeDescription).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-            ApprovalField(label: "Recipe ID", value: sheet.recipeId)
+            ApprovalField(label: sheet.isExtension ? "ID" : "Recipe ID", value: sheet.recipeId)
             HStack(alignment: .firstTextBaseline) {
                 ApprovalField(label: "File", value: sheet.fileText)
                 if sheet.request.fileURL != nil {
@@ -155,7 +155,7 @@ struct RecipeApprovalView: View {
             }
             ApprovalField(label: "SHA-256", value: sheet.fileHash, monospaced: true)
             if sheet.previousApprovedAt == nil, !sheet.request.content.isEmpty {
-                Button("View Recipe JSON") { model.overlay = .json }
+                Button("View \(sheet.titleNoun) JSON") { model.overlay = .json }
             }
         }
     }
@@ -189,7 +189,7 @@ struct RecipeApprovalView: View {
     }
 
     private var stepsCard: some View {
-        ApprovalCard(title: "What it does (written by Greenshot from the recipe)", tone: .neutral) {
+        ApprovalCard(title: "What it does (written by Greenshot from the \(sheet.noun))", tone: .neutral) {
             ForEach(Array(sheet.steps.enumerated()), id: \.offset) { _, line in
                 ApprovalStepLine(line: line)
             }
@@ -199,7 +199,7 @@ struct RecipeApprovalView: View {
     private var gatesCard: some View {
         ApprovalCard(title: "Permissions", tone: sheet.isApproveEnabled ? .neutral : .warning) {
             if !model.isReadOnly {
-                Text("The recipe is only used with every permission it needs.")
+                Text("The \(sheet.noun) is only used with every permission it needs.")
                     .font(.callout).foregroundStyle(.secondary)
             }
             ForEach(sheet.gates) { gate in

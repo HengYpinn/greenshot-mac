@@ -222,6 +222,9 @@ struct RecipeApprovalSheetTests {
         #expect(sheet.badge == "NEW AUTOMATIC STEP")
         #expect(sheet.triggers.isEmpty)
         #expect(sheet.extensionReach.count == 1)
+        #expect(sheet.noun == "automatic step")
+        let programs = try #require(sheet.gates.first { $0.gate == .externalCommand })
+        #expect(programs.question == "Allow this automatic step to run programs on this Mac")
     }
 
     @Test func hintsForTheMacsMessages() {

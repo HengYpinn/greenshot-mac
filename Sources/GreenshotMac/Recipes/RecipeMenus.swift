@@ -192,4 +192,11 @@ private final class EditorRecipesMenuDelegate: NSObject, NSMenuDelegate {
         let window = NSApp.keyWindow ?? NSApp.mainWindow
         RecipeMenus.fillEditorMenu(menu, entries: entries, editor: window?.windowController as? EditorWindowController)
     }
+
+    /// The entries show their hotkeys as badges, so the menu has no key equivalents: without this answer AppKit would
+    /// rebuild it for every key pressed in an editor.
+    func menuHasKeyEquivalent(_ menu: NSMenu, for event: NSEvent, target: AutoreleasingUnsafeMutablePointer<AnyObject?>,
+                              action: UnsafeMutablePointer<Selector?>) -> Bool {
+        false
+    }
 }

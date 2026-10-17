@@ -24,6 +24,7 @@ extension Snapshots {
         try write(approval(samples.builtInRequest()), to: out("recipe-approval-builtin.png"))
         try write(approval(samples.validationRequest()), to: out("recipe-approval-validation.png"))
         try write(approval(samples.detailsRequest()), to: out("recipe-approval-details.png"))
+        try write(approval(samples.extensionRequest()), to: out("recipe-approval-extension.png"))
 
         let model = RecipeSettingsModel(rows: RecipeSettingsRow.rows(from: samples.loadedRecipes), clashes: [samples.clash])
         let on = isolatedStore("greenshot-mac-snapshots-recipes-on")
@@ -245,6 +246,25 @@ private struct RecipeUISamples {
         let validation = validator.validate(recipe)
         request.validation = validation
         request.errorMessage = validation.errors.joined(separator: "\n")
+        return request
+    }
+
+    /// An automatic step (RMANAGER's files): no triggers, the recipes it changes.
+    func extensionRequest() -> RecipeApprovalRequest {
+        let text = """
+            {"kind": "extension", "id": "ext_jira_copy", "name": "Copy to Jira",
+             "description": "Attaches a copy of every capture to the Jira issue you work on.",
+             "extends": {"recipes": ["*capture"], "slot": "AfterExport", "order": 400},
+             "options": [{"key": "enabled", "type": "Boolean", "default": false, "label": "Attach a copy to Jira"}],
+             "nodes": [{"id": "upload", "stepType": "Jira"}],
+             "flow": {"startNodes": ["upload"], "transitions": {"upload": "Out"}}}
+            """
+        var request = request(text, mode: .newRecipe)
+        request.fileURL = folder.appendingPathComponent("jira-copy.gsrecipe.json")
+        request.extensionReach = ["Changes these recipes now: Capture region, Capture window, Capture full screen, Capture last region",
+                                  "Also every capture recipe added later.",
+                                  "Where: after the export, on its own copy of the capture.",
+                                  "Switched on and off in Settings › Recipes."]
         return request
     }
 

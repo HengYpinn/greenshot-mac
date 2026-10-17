@@ -19,7 +19,7 @@ struct RecipeApprovalOverlayView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                Text(overlay == .json ? "Recipe JSON" : "Changes (− before, + after)").font(.title3.bold())
+                Text(overlay == .json ? "\(model.sheet.titleNoun) JSON" : "Changes (− before, + after)").font(.title3.bold())
                 Text("— " + model.sheet.recipeName).foregroundStyle(.secondary).lineLimit(1)
                 Spacer()
                 if overlay == .changes {
