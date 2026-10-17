@@ -50,7 +50,10 @@ public enum WellKnownStepType {
 
     /// Destinations, SaveFile, Clipboard, Editor, Printer, Email, DynamicDestination, CustomDestination
     /// (upstream `WellKnownStepTypes.IsDestination`).
-    public static func isDestination(_ stepType: String) -> Bool { rcoreStub() }
+    public static func isDestination(_ stepType: String) -> Bool {
+        [destinations, saveFile, clipboard, editor, printer, email, dynamicDestination, customDestination]
+            .contains { recipeEquals($0, stepType) }
+    }
 }
 
 /// The trigger types (upstream `TriggerConfig.Type*`).
@@ -103,7 +106,11 @@ public enum ContractDataType: String, Sendable, Codable, CaseIterable {
     case color = "Color"
 
     /// Case-insensitive, like Newtonsoft's `StringEnumConverter`.
-    public init?(caseInsensitive text: String) { rcoreStub() }
+    public init?(caseInsensitive text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        guard let match = ContractDataType.allCases.first(where: { recipeEquals($0.rawValue, trimmed) }) else { return nil }
+        self = match
+    }
 }
 
 /// One value of an Enum option (upstream `RecipeOptionChoice`).
@@ -143,14 +150,73 @@ public struct RecipeOption: Sendable, Equatable {
         self.defaultValue = defaultValue
     }
 
-    public var isTemplate: Bool { rcoreStub() }
+    public var isTemplate: Bool { type == .string && recipeEquals(format ?? "", Self.formatTemplate) }
     /// The value converted to the option type (bool, integer or decimal number clamped to min/max, color, choice,
     /// string), nil when it doesn't fit (upstream `TryConvert`).
-    public func convert(_ raw: JSONValue) -> JSONValue? { rcoreStub() }
+    public func convert(_ raw: JSONValue) -> JSONValue? {
+        if raw.isNull { return nil }
+        let text = raw.asString?.trimmingCharacters(in: .whitespaces)
+        switch type {
+        case .boolean:
+            if case .bool = raw { return raw }
+            switch text?.lowercased() {
+            case "true": return .bool(true)
+            case "false": return .bool(false)
+            default: return nil
+            }
+        case .integer:
+            guard let number = raw.doubleValue ?? text.flatMap(Self.parseNumber), number == number.rounded() else { return nil }
+            return .number(clamp(number).rounded())
+        case .decimal:
+            guard let number = raw.doubleValue ?? text.flatMap(Self.parseNumber) else { return nil }
+            return .number(clamp(number))
+        case .color:
+            guard let text, Self.isColor(text) else { return nil }
+            return .string(text.uppercased())
+        case .enumeration:
+            guard let text, let choice = choices?.first(where: { recipeEquals($0.value, text) }) else { return nil }
+            return .string(choice.value)
+        case .string:
+            return .string(text ?? "")
+        default:
+            return nil
+        }
+    }
+
+    /// `#RRGGBB` or `#AARRGGBB`.
+    static func isColor(_ text: String) -> Bool {
+        guard text.hasPrefix("#") else { return false }
+        let digits = text.dropFirst()
+        return (digits.count == 6 || digits.count == 8) && digits.allSatisfy(\.isHexDigit)
+    }
+
+    /// .NET `NumberStyles.Number`, invariant culture: sign, digits with "," as thousands separator, a "." fraction.
+    static func parseNumber(_ text: String) -> Double? {
+        Double(text.replacingOccurrences(of: ",", with: ""))
+    }
+
+    private func clamp(_ value: Double) -> Double {
+        var result = value
+        if let min, result < min { result = min }
+        if let max, result > max { result = max }
+        return result
+    }
     /// The default as a value of the type, or the neutral value of the type (upstream `GetDefaultValue`).
-    public var resolvedDefault: JSONValue { rcoreStub() }
+    public var resolvedDefault: JSONValue {
+        if let defaultValue, let value = convert(defaultValue) { return value }
+        switch type {
+        case .boolean: return .bool(false)
+        case .integer: return .number(clamp(0).rounded())
+        case .decimal: return .number(clamp(0))
+        case .color: return .string("#000000")
+        case .enumeration: return .string(choices?.first?.value ?? "")
+        default: return .string("")
+        }
+    }
     /// The value as stored in the settings ("True", "2", "#FF0000"; upstream `ToStorageString`).
-    public func storageString(_ value: JSONValue) -> String { rcoreStub() }
+    public func storageString(_ value: JSONValue) -> String {
+        (convert(value) ?? resolvedDefault).asString ?? ""
+    }
 }
 
 /// A node's "enabled": true, false or an expression like `${option.border}` (upstream `RecipeNodeConfig.EnabledJson`).
@@ -236,13 +302,55 @@ public struct RecipeFlow: Sendable, Equatable {
     }
 
     /// The `transitions` targets of a node (case-insensitive), without the conditional ones.
-    public func targets(from nodeId: String) -> [String] { rcoreStub() }
+    public func targets(from nodeId: String) -> [String] {
+        var result: [String] = []
+        for transition in transitions where recipeEquals(transition.from, nodeId) {
+            for target in transition.to where !target.trimmingCharacters(in: .whitespaces).isEmpty {
+                if !result.contains(where: { recipeEquals($0, target) }) { result.append(target) }
+            }
+        }
+        return result
+    }
     /// Transitions and conditional transitions together, keyed by the lowercased node id (upstream `GetUnifiedTransitions`).
-    public var unifiedTransitions: [String: [String]] { rcoreStub() }
+    public var unifiedTransitions: [String: [String]] {
+        var map: [String: [String]] = [:]
+        func add(_ from: String, _ to: String) {
+            guard !from.trimmingCharacters(in: .whitespaces).isEmpty, !to.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+            var list = map[from.lowercased()] ?? []
+            if !list.contains(where: { recipeEquals($0, to) }) { list.append(to) }
+            map[from.lowercased()] = list
+        }
+        for transition in transitions {
+            if map[transition.from.lowercased()] == nil, !transition.from.isEmpty { map[transition.from.lowercased()] = [] }
+            for target in transition.to { add(transition.from, target) }
+        }
+        for conditional in conditionalTransitions { add(conditional.from, conditional.to) }
+        return map
+    }
     /// The best error transition for a failed node: exact node and type, exact node and `*`, `*` and type, `*` and `*`
     /// (upstream `GetErrorTransition`); a type matches the error's type or its inner error's type.
-    public func errorTransition(from nodeId: String, errorType: String, innerErrorType: String? = nil) -> ErrorTransition? { rcoreStub() }
-    public mutating func addTransition(from: String, to: String) { rcoreStub() }
+    public func errorTransition(from nodeId: String, errorType: String, innerErrorType: String? = nil) -> ErrorTransition? {
+        guard !errorTransitions.isEmpty, !nodeId.trimmingCharacters(in: .whitespaces).isEmpty else { return nil }
+        func matchesType(_ transition: ErrorTransition) -> Bool {
+            recipeEquals(transition.errorType, errorType) || (innerErrorType.map { !$0.isEmpty && recipeEquals(transition.errorType, $0) } ?? false)
+        }
+        func isWildcardType(_ transition: ErrorTransition) -> Bool { transition.errorType.isEmpty || transition.errorType == "*" }
+        func matchesFrom(_ transition: ErrorTransition) -> Bool { transition.from.map { recipeEquals($0, nodeId) } ?? false }
+        func isWildcardFrom(_ transition: ErrorTransition) -> Bool { (transition.from ?? "").isEmpty || transition.from == "*" }
+        return errorTransitions.first { matchesFrom($0) && matchesType($0) }
+            ?? errorTransitions.first { matchesFrom($0) && isWildcardType($0) }
+            ?? errorTransitions.first { isWildcardFrom($0) && matchesType($0) }
+            ?? errorTransitions.first { isWildcardFrom($0) && isWildcardType($0) }
+    }
+
+    public mutating func addTransition(from: String, to: String) {
+        guard !from.isEmpty, !to.isEmpty else { return }
+        if let index = transitions.firstIndex(where: { recipeEquals($0.from, from) }) {
+            if !transitions[index].to.contains(where: { recipeEquals($0, to) }) { transitions[index].to.append(to) }
+        } else {
+            transitions.append(RecipeTransition(from: from, to: [to]))
+        }
+    }
 }
 
 /// An argument a Commandline or AiTool trigger declares (upstream `CommandlineArgument`).
@@ -304,7 +412,18 @@ public struct TriggerConfig: Sendable, Equatable {
     /// Commandline: web pages and the browser extension may start it too (approved separately).
     public var allowsBrowserInvocation: Bool { parameters.bool("AllowBrowserInvocation") ?? false }
     /// Commandline, AiTool: the declared arguments.
-    public var arguments: [CommandlineArgument] { rcoreStub() }
+    public var arguments: [CommandlineArgument] {
+        (parameters["Arguments"]?.arrayValue ?? []).compactMap { item -> CommandlineArgument? in
+            guard let object = item.objectValue, let name = object.string("name"), !name.isEmpty else { return nil }
+            var argument = CommandlineArgument(name: name, type: object.string("type").flatMap(ContractDataType.init(caseInsensitive:)) ?? .string)
+            argument.variable = object.string("variable")
+            argument.description = object.string("description")
+            argument.required = object.bool("required") ?? false
+            argument.defaultValue = object.string("defaultValue")
+            argument.allowedValues = object.strings("allowedValues")
+            return argument
+        }
+    }
     /// Extension: the browser filter.
     public var browser: String? { parameters.string("Browser") }
     /// AiTool.
@@ -367,12 +486,20 @@ public struct CaptureRecipe: Sendable, Equatable {
     }
 
     /// Case-insensitive, like upstream `FindNode`.
-    public func node(_ id: String) -> RecipeNode? { rcoreStub() }
-    public func firstNode(ofType stepType: String) -> RecipeNode? { rcoreStub() }
-    public func option(_ key: String) -> RecipeOption? { rcoreStub() }
+    public func node(_ id: String) -> RecipeNode? { nodes.first { recipeEquals($0.id, id) } }
+    public func firstNode(ofType stepType: String) -> RecipeNode? { nodes.first { recipeEquals($0.stepType, stepType) } }
+    public func option(_ key: String) -> RecipeOption? { options?.first { recipeEquals($0.key, key) } }
     /// A Source or RecordVideo node (upstream `HasSourceStep`).
-    public var hasSourceStep: Bool { rcoreStub() }
-    public var hasDestinationStep: Bool { rcoreStub() }
+    public var hasSourceStep: Bool {
+        nodes.contains { recipeEquals($0.stepType, WellKnownStepType.source) || recipeEquals($0.stepType, WellKnownStepType.recordVideo) }
+    }
+    public var hasDestinationStep: Bool { nodes.contains { WellKnownStepType.isDestination($0.stepType) } }
     /// It has an AiTool trigger.
-    public var isAIToolRecipe: Bool { rcoreStub() }
+    public var isAIToolRecipe: Bool { triggers.contains { $0.isType(WellKnownTriggerType.aiTool) } }
+}
+
+/// Ids, step types, trigger types, keys and parameter names are compared case-insensitively everywhere, like upstream's
+/// `StringComparison.OrdinalIgnoreCase`.
+func recipeEquals(_ lhs: String, _ rhs: String) -> Bool {
+    lhs.caseInsensitiveCompare(rhs) == .orderedSame
 }
