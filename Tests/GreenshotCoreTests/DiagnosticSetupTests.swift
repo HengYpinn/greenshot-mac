@@ -46,11 +46,13 @@ struct DiagnosticSetupTests {
 
     @Test func eventFlagsBecomeCarbonModifiers() {
         let shiftCommand = SystemScreenshotShortcut.carbonModifiers(eventFlags: 1_179_648)
-        #expect(shiftCommand == KeyCombo.shift | KeyCombo.command)
+        let expectedShiftCommand: UInt32 = KeyCombo.shift | KeyCombo.command
+        #expect(shiftCommand == expectedShiftCommand)
         let control = SystemScreenshotShortcut.carbonModifiers(eventFlags: 262_144)
         #expect(control == KeyCombo.control)
         let controlOption = SystemScreenshotShortcut.carbonModifiers(eventFlags: 786_432)
-        #expect(controlOption == KeyCombo.control | KeyCombo.option)
+        let expectedControlOption: UInt32 = KeyCombo.control | KeyCombo.option
+        #expect(controlOption == expectedControlOption)
     }
 
     @Test func conflictsOnlyWithSwitchedOnShortcutsOfTheSameKeys() {

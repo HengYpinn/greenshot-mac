@@ -150,6 +150,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     private func registerHotkeys() {
         hotkeys.registerAll(settings.value.hotkeys, capture: capture, editors: editors)
+        guard let registration = HotkeyDiagnostics.lastRegistration else { return }
+        let refused = registration.refused.filter(registration.combos.indices.contains)
+            .map { "\(registration.names[$0]) (\(registration.combos[$0].displayString))" }
+        if refused.isEmpty {
+            log.info("Registered \(registration.combos.count) hotkeys")
+        } else {
+            log.warn("Registered \(registration.combos.count - refused.count) of \(registration.combos.count) hotkeys; macOS refused \(refused.joined(separator: ", "))")
+        }
     }
 
     /// "Register Again" of Self-Service › Hotkeys and the setup checks (upstream `ReRegisterHotkeys`).

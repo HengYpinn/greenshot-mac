@@ -107,7 +107,8 @@ struct DiagnosticReportTests {
     @Test func formatting() {
         #expect(DiagnosticReport.byteCount(512) == "512 B")
         #expect(DiagnosticReport.byteCount(1_536) == "1.5 KB")
-        #expect(DiagnosticReport.byteCount(3 << 30) == "3.0 GB")
+        let threeGB: UInt64 = 3 << 30
+        #expect(DiagnosticReport.byteCount(threeGB) == "3.0 GB")
         #expect(DiagnosticReport.duration(59) == "0d 00h 00m 59s")
         #expect(DiagnosticReport.abbreviatingHome("/Users/alex/Library/Logs", home: "/Users/alex") == "~/Library/Logs")
         #expect(DiagnosticReport.isWord("showMenu"))
