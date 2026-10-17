@@ -303,7 +303,8 @@ public struct RecipeApprovalSheet: Sendable {
 
     /// Upstream RecipeApprovalWindow.xaml.cs:250-361 and `ApplyExtensionTexts` (:464-513); "PC" is "Mac" here.
     static func texts(style: Style, request: RecipeApprovalRequest, isExtension: Bool) -> Texts {
-        let reasons = (request.ownEditReasons ?? []).joined(separator: " ")
+        // The reasons are trigger labels and sentences: each one ends with a full stop here.
+        let reasons = (request.ownEditReasons ?? []).map { $0.hasSuffix(".") ? $0 : $0 + "." }.joined(separator: " ")
         var texts: Texts
         switch style {
         case .validationError:
