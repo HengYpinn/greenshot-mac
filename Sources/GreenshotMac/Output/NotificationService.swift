@@ -163,9 +163,9 @@ final class NotificationService {
             if let link = links.first { Clipboard.copy(text: link.value) }
             return
         }
-        let menu = NSMenu(title: "Copy Link")
+        let menu = NSMenu(title: NotificationAction.copyLink.title)
         menu.autoenablesItems = false
-        let header = NSMenuItem(title: "Copy Link", action: nil, keyEquivalent: "")
+        let header = NSMenuItem(title: NotificationAction.copyLink.title, action: nil, keyEquivalent: "")
         header.isEnabled = false
         menu.addItem(header)
         for link in links {

@@ -44,7 +44,7 @@ enum OpenWithDestination {
             return item
         }
         if !items.isEmpty { items.append(.separator()) }
-        items.append(ClosureMenuItem(title: "Other…") { choose(nil) })
+        items.append(ClosureMenuItem(title: String(localized: "Other…", comment: "Another app, chosen in a panel")) { choose(nil) })
         return items
     }
 
@@ -59,7 +59,7 @@ enum OpenWithDestination {
         do {
             file = try TemporaryCaptureFile.write(capture, settings: settings, format: settings.value.outputFormat.plainImage)
         } catch {
-            ErrorPresenter.show(error, title: "The screenshot could not be written")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be written"))
             completion(.failed(error.localizedDescription))
             return
         }
@@ -72,7 +72,7 @@ enum OpenWithDestination {
                         completion(.succeeded(fileURL: file, target: name(of: app), clearsModified: false))
                         return
                     }
-                    ErrorPresenter.show(error, title: "\(name(of: app)) could not open the screenshot")
+                    ErrorPresenter.show(error, title: String(localized: "\(name(of: app)) could not open the screenshot"))
                     completion(.failed(error.localizedDescription, target: name(of: app)))
                 }
             }
@@ -81,8 +81,8 @@ enum OpenWithDestination {
 
     private static func chooseApplication() -> URL? {
         let panel = NSOpenPanel()
-        panel.title = "Open the Screenshot With"
-        panel.prompt = "Open"
+        panel.title = String(localized: "Open the Screenshot With")
+        panel.prompt = String(localized: "Open", comment: "Button of the panel that chooses an app: opens the screenshot with it")
         panel.directoryURL = URL(fileURLWithPath: "/Applications")
         panel.allowedContentTypes = [.application]
         panel.canChooseDirectories = false

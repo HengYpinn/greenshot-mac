@@ -115,9 +115,9 @@ enum ToastPanel {
 
     private static func kindDescription(_ kind: MessageKind) -> String {
         switch kind {
-        case .info: return "Information"
-        case .warning: return "Warning"
-        case .error: return "Error"
+        case .info: return String(localized: "Information")
+        case .warning: return String(localized: "Warning")
+        case .error: return String(localized: "Error")
         }
     }
 }

@@ -14,13 +14,13 @@ final class QualityForm: NSObject {
     private let slider: NSSlider
     private let valueLabel = NSTextField(labelWithString: "")
     private let reduceColorsBox: NSButton
-    private let dontAskAgainBox = NSButton(checkboxWithTitle: "Save as default quality and do not ask again", target: nil, action: nil)
+    private let dontAskAgainBox = NSButton(checkboxWithTitle: String(localized: "Save as default quality and do not ask again"), target: nil, action: nil)
 
     init(format: ImageFormat, quality: Int, reduceColors: Bool, reduceColorsTo: Int) {
         slider = NSSlider(value: Double(min(max(quality, 1), 100)), minValue: 1, maxValue: 100, target: nil, action: nil)
-        reduceColorsBox = NSButton(checkboxWithTitle: "Reduce the amount of colours to a maximum of \(reduceColorsTo)",
+        reduceColorsBox = NSButton(checkboxWithTitle: String(localized: "Reduce the amount of colours to a maximum of \(reduceColorsTo)"),
                                    target: nil, action: nil)
-        let qualityLabel = NSTextField(labelWithString: "JPEG quality (higher quality makes bigger files):")
+        let qualityLabel = NSTextField(labelWithString: String(localized: "JPEG quality (higher quality makes bigger files):"))
         let row = NSStackView(views: [slider, valueLabel])
         let stack = NSStackView(views: [reduceColorsBox, qualityLabel, row, dontAskAgainBox])
         view = stack
@@ -62,11 +62,11 @@ final class QualityForm: NSObject {
         let s = settings.value
         let form = QualityForm(format: format, quality: s.jpegQuality, reduceColors: s.reduceColors, reduceColorsTo: s.reduceColorsTo)
         let alert = NSAlert()
-        alert.messageText = "Image Quality"
-        alert.informativeText = "Saving as \(format.displayName)."
+        alert.messageText = String(localized: "Image Quality")
+        alert.informativeText = String(localized: "Saving as \(format.displayName).")
         alert.accessoryView = form.view
-        alert.addButton(withTitle: "Save")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Save"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         let response = alert.runModal()
         guard response == .alertFirstButtonReturn else { return nil }

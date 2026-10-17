@@ -45,7 +45,8 @@ enum EmailDestination {
             return
         }
         // Mail by AppleScript; when Greenshot isn't allowed to control Mail, the sharing service with the CC/BCC hint.
-        Uploads.run("The mail could not be written", progress: "Writing the mail in Mail…", completion: completion) {
+        Uploads.run(String(localized: "The mail could not be written"), progress: String(localized: "Writing the mail in Mail…"),
+                    completion: completion) {
             let file = try TemporaryCaptureFile.write(capture, settings: settings)
             let s = settings.value
             do {
@@ -78,7 +79,7 @@ enum EmailDestination {
             file = try TemporaryCaptureFile.write(capture, settings: settings)
         } catch {
             log.error("The screenshot could not be attached", error: error)
-            ErrorPresenter.show(error, title: "The screenshot could not be attached")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be attached"))
             return .failed(error.localizedDescription)
         }
 
@@ -92,20 +93,21 @@ enum EmailDestination {
             if !cc.isEmpty || !bcc.isEmpty {
                 let missing = [cc.isEmpty ? nil : "CC: " + cc.joined(separator: ", "),
                                bcc.isEmpty ? nil : "BCC: " + bcc.joined(separator: ", ")].compactMap { $0 }
-                saver.notify("Add CC and BCC in the mail", detail: missing.joined(separator: "  "), kind: .warning)
+                saver.notify(String(localized: "Add CC and BCC in the mail"), detail: missing.joined(separator: "  "), kind: .warning)
             }
             return .succeeded(fileURL: file, clearsModified: false)
         }
 
         guard let url = DestinationSupport.mailtoURL(to: to, cc: cc, bcc: bcc, subject: subject),
               NSWorkspace.shared.urlForApplication(toOpen: url) != nil else {
-            ErrorPresenter.show(message: "No mail app is set up",
-                                detail: "Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.")
-            return .failed("No mail app is set up.")
+            ErrorPresenter.show(message: String(localized: "No mail app is set up"),
+                                detail: String(localized: "Set up an account in Mail (or choose a default email app in Mail › Settings), then try again."))
+            return .failed(String(localized: "No mail app is set up."))
         }
         NSWorkspace.shared.open(url)
-        saver.notify("Drag the screenshot into the new mail",
-                     detail: "The mail app can't take attachments from other apps. Click to show the file in Finder.", kind: .warning) {
+        saver.notify(String(localized: "Drag the screenshot into the new mail"),
+                     detail: String(localized: "The mail app can't take attachments from other apps. Click to show the file in Finder."),
+                     kind: .warning) {
             NSWorkspace.shared.activateFileViewerSelecting([file])
         }
         return .succeeded(fileURL: file, clearsModified: false)

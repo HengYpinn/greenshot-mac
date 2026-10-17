@@ -86,8 +86,8 @@ final class ImageSaver {
         case .failed(let error):
             // Upstream `error_save`: say so, then ask where to save instead (no write access, a bad name, a full disk).
             let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
-            ErrorPresenter.show(message: "The screenshot could not be saved, please choose another place",
-                                detail: "\(url.lastPathComponent) could not be written to \(folder): \(error.localizedDescription)")
+            ErrorPresenter.show(message: String(localized: "The screenshot could not be saved, please choose another place"),
+                                detail: String(localized: "\(url.lastPathComponent) could not be written to \(folder): \(error.localizedDescription)"))
             return exportAs(image, scale: scale, title: title, date: date, fileName: url.lastPathComponent,
                             editable: editable)
         }
@@ -113,7 +113,7 @@ final class ImageSaver {
             name = suggestedURL.deletingPathExtension().appendingPathExtension(initialFormat.fileExtension).lastPathComponent
         }
         let panel = NSSavePanel()
-        panel.title = "Save Screenshot"
+        panel.title = String(localized: "Save Screenshot")
         panel.allowedContentTypes = [initialFormat.utType]
         let accessory = FormatAccessory(panel: panel, format: initialFormat)
         panel.accessoryView = accessory.view
@@ -137,8 +137,8 @@ final class ImageSaver {
         case .failed(let error):
             // Upstream `error_nowriteaccess`.
             let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
-            ErrorPresenter.show(message: "The screenshot could not be saved to \(url.lastPathComponent)",
-                                detail: "Check that you can write to \(folder).\n\n\(error.localizedDescription)")
+            ErrorPresenter.show(message: String(localized: "The screenshot could not be saved to \(url.lastPathComponent)"),
+                                detail: String(localized: "Check that you can write to \(folder).") + "\n\n" + error.localizedDescription)
             return .failed(error.localizedDescription)
         }
     }
@@ -211,7 +211,7 @@ final class ImageSaver {
         case .cancelled:
             return false
         case .failed(let error):
-            ErrorPresenter.show(error, title: "The screenshot could not be saved")
+            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be saved"))
             return false
         }
     }
@@ -260,7 +260,7 @@ final class ImageSaver {
             Clipboard.copy(text: url.path)
         }
         let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
-        notify("Saved \(url.lastPathComponent)", detail: "\(folder) – click to show in Finder") {
+        notify(String(localized: "Saved \(url.lastPathComponent)"), detail: String(localized: "\(folder) – click to show in Finder")) {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }
     }
@@ -285,7 +285,7 @@ private final class FormatAccessory: NSObject {
     init(panel: NSSavePanel, format: ImageFormat) {
         self.panel = panel
         self.format = format
-        let label = NSTextField(labelWithString: "Format:")
+        let label = NSTextField(labelWithString: String(localized: "Format:"))
         let stack = NSStackView(views: [label, popup])
         stack.edgeInsets = NSEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         view = stack

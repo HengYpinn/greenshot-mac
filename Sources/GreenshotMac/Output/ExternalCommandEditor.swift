@@ -16,11 +16,11 @@ enum ExternalCommandEditor {
         let form = ExternalCommandForm(command ?? ExternalCommand(name: "", command: "", arguments: "\"{0}\""))
         while true {
             let alert = NSAlert()
-            alert.messageText = command == nil ? "Add External Command" : "Edit External Command"
-            alert.informativeText = "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}."
+            alert.messageText = command == nil ? String(localized: "Add External Command") : String(localized: "Edit External Command")
+            alert.informativeText = String(localized: "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.")
             alert.accessoryView = form.view
-            alert.addButton(withTitle: command == nil ? "Add" : "OK")
-            alert.addButton(withTitle: "Cancel")
+            alert.addButton(withTitle: command == nil ? String(localized: "Add") : String(localized: "OK"))
+            alert.addButton(withTitle: String(localized: "Cancel"))
             alert.window.initialFirstResponder = form.nameField
             NSApp.activate()
             guard alert.runModal() == .alertFirstButtonReturn else { return nil }
@@ -44,9 +44,9 @@ final class ExternalCommandForm: NSObject {
     private let arguments: NSTextField
     private let formatPopup = NSPopUpButton()
     private let message = NSTextField(labelWithString: "")
-    private let background = NSButton(checkboxWithTitle: "Run in the background (errors as a message, not a dialog)", target: nil, action: nil)
-    private let copyURL = NSButton(checkboxWithTitle: "Copy the first URL in the output to the clipboard", target: nil, action: nil)
-    private let copyOutput = NSButton(checkboxWithTitle: "Copy all output to the clipboard", target: nil, action: nil)
+    private let background = NSButton(checkboxWithTitle: String(localized: "Run in the background (errors as a message, not a dialog)"), target: nil, action: nil)
+    private let copyURL = NSButton(checkboxWithTitle: String(localized: "Copy the first URL in the output to the clipboard"), target: nil, action: nil)
+    private let copyOutput = NSButton(checkboxWithTitle: String(localized: "Copy all output to the clipboard"), target: nil, action: nil)
     /// Upstream `ShowStandardOutputInLog` (per command `ShowStandardOutputInLogCommand`); its errors always go to the log.
     private let outputToLog = NSButton(checkboxWithTitle: String(localized: "Write the output to the log"), target: nil, action: nil)
 
@@ -55,8 +55,8 @@ final class ExternalCommandForm: NSObject {
         nameField = NSTextField(string: command.name)
         program = NSTextField(string: command.command)
         arguments = NSTextField(string: command.arguments)
-        program.placeholderString = "/usr/bin/open, /Applications/Preview.app or a name in the PATH"
-        arguments.placeholderString = "\"{0}\" is the image file"
+        program.placeholderString = String(localized: "/usr/bin/open, /Applications/Preview.app or a name in the PATH")
+        arguments.placeholderString = String(localized: "\"{0}\" is the image file")
         background.state = command.runInBackground ? .on : .off
         copyURL.state = command.copyURLFromOutput ? .on : .off
         copyOutput.state = command.copyOutputToClipboard ? .on : .off
@@ -71,7 +71,7 @@ final class ExternalCommandForm: NSObject {
         message.font = .systemFont(ofSize: NSFont.smallSystemFontSize)
         let program = self.program
         let nameField = self.nameField
-        let choose = ClosureButton(title: "Choose…") {
+        let choose = ClosureButton(title: String(localized: "Choose…")) {
             let panel = NSOpenPanel()
             panel.canChooseFiles = true
             panel.canChooseDirectories = false
@@ -83,11 +83,11 @@ final class ExternalCommandForm: NSObject {
             }
         }
         let grid = NSGridView(views: [
-            [NSTextField(labelWithString: "Name:"), nameField],
+            [NSTextField(labelWithString: String(localized: "Name:")), nameField],
             [NSGridCell.emptyContentView, message],
-            [NSTextField(labelWithString: "Command:"), NSStackView(views: [program, choose])],
-            [NSTextField(labelWithString: "Arguments:"), arguments],
-            [NSTextField(labelWithString: "Image format:"), formatPopup],
+            [NSTextField(labelWithString: String(localized: "Command:")), NSStackView(views: [program, choose])],
+            [NSTextField(labelWithString: String(localized: "Arguments:")), arguments],
+            [NSTextField(labelWithString: String(localized: "Image format:")), formatPopup],
             [NSGridCell.emptyContentView, background],
             [NSGridCell.emptyContentView, copyURL],
             [NSGridCell.emptyContentView, copyOutput],
@@ -120,7 +120,7 @@ final class ExternalCommandForm: NSObject {
     }
 
     func showDuplicateName() {
-        message.stringValue = "A command with this name already exists. Please choose a different name."
+        message.stringValue = String(localized: "A command with this name already exists. Please choose a different name.")
         (view as? NSGridView)?.row(at: 1).isHidden = false
         resize()
     }

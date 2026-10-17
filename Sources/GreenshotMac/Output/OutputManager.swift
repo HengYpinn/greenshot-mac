@@ -35,15 +35,17 @@ enum DestinationTarget: Equatable {
         func plain(_ title: String) -> String { title.hasSuffix("…") ? String(title.dropLast()) : title }
         switch self {
         case .destination(let destination): return plain(destination.pickerTitle)
-        case .pdfAs: return "Save as PDF"
+        case .pdfAs: return String(localized: "Save as PDF")
         case .externalCommand(let command): return command.name
-        case .application(let app): return app.map { "Open with \(OpenWithDestination.name(of: $0))" } ?? "Open With"
-        case .addToEditor: return "Add to Editor"
-        case .printer(let name): return "Print – \(name)"
-        case .jiraIssue(let key): return "Upload to Jira – \(key)"
-        case .confluencePage(let page): return "Upload to Confluence – \(page.title)"
+        case .application(let app):
+            guard let app else { return String(localized: "Open With") }
+            return String(localized: "Open with \(OpenWithDestination.name(of: app))")
+        case .addToEditor: return String(localized: "Add to Editor")
+        case .printer(let name): return String(localized: "Print – \(name)")
+        case .jiraIssue(let key): return String(localized: "Upload to Jira – \(key)")
+        case .confluencePage(let page): return String(localized: "Upload to Confluence – \(page.title)")
         case .office(let app, let item):
-            let name = app == .mail ? "Email" : app.name
+            let name = app == .mail ? String(localized: "Email") : app.name
             return item.map { "\(name) – \($0.title)" } ?? name
         }
     }
@@ -113,7 +115,7 @@ final class OutputManager {
         case .addToEditor(let id):
             finish(editors.addImage(capture, toEditor: id)
                    ? .succeeded(clearsModified: false)
-                   : .failed("The editor was closed.", target: "Add to Editor"))
+                   : .failed(String(localized: "The editor was closed."), target: String(localized: "Add to Editor")))
         case .printer(let name):
             Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date,
                            printer: name, completion: finish)
@@ -136,7 +138,7 @@ final class OutputManager {
             completion(.succeeded(clearsModified: false))
         case .clipboard:
             Clipboard.copy(capture.image, scale: capture.scale)
-            saver.notify("Copied to the clipboard")
+            saver.notify(String(localized: "Copied to the clipboard"))
             completion(.succeeded())
         case .file:
             completion(saver.exportDirectly(capture.image, scale: capture.scale, title: capture.title, date: capture.date,
@@ -158,7 +160,7 @@ final class OutputManager {
         case .pdf:
             completion(PdfDestination.save(capture, settings: settings, saver: saver, ask: false))
         case .openWith:
-            let menu = NSMenu(title: "Open with")
+            let menu = NSMenu(title: String(localized: "Open with"))
             menu.autoenablesItems = false
             var chosen: URL??
             OpenWithDestination.menuItems(format: settings.value.outputFormat) { app in chosen = .some(app) }.forEach(menu.addItem)
@@ -199,11 +201,12 @@ final class OutputManager {
             return
         }
         guard !commands.isEmpty else {
-            ErrorPresenter.show(message: "No external command is set up", detail: "Add one in Settings › Destinations.")
-            completion(.failed("No external command is set up."))
+            ErrorPresenter.show(message: String(localized: "No external command is set up"),
+                                detail: String(localized: "Add one in Settings › Destinations."))
+            completion(.failed(String(localized: "No external command is set up.")))
             return
         }
-        let menu = NSMenu(title: "External command")
+        let menu = NSMenu(title: String(localized: "External command"))
         menu.autoenablesItems = false
         var chosen: ExternalCommand?
         for command in commands {
