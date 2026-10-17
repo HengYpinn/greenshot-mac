@@ -350,10 +350,13 @@ struct GreenshotFileLegacyTests {
     @Test func argbColors() {
         let color = LegacyColor(value: 0x80FF_8000, knownColor: 0, state: 2, name: nil)
         let rgba = GreenshotLegacyImport.rgba(color)
+        let half: Double = 128.0 / 255.0
+        let greenError: Double = abs(rgba.green - half)
+        let alphaError: Double = abs(rgba.alpha - half)
         #expect(rgba.red == 1)
-        #expect(abs(rgba.green - 128.0 / 255) < 0.001)
+        #expect(greenError < 0.001)
         #expect(rgba.blue == 0)
-        #expect(abs(rgba.alpha - 128.0 / 255) < 0.001)
+        #expect(alphaError < 0.001)
     }
 }
 

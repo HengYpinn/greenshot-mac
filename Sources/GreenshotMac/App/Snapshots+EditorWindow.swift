@@ -37,6 +37,30 @@ extension Snapshots {
         try write(editorAsPlaced(blankDocument(settings: settings), settings: settings), to: url("editor-blank.png"))
         try write(editorAsPlaced(snapshotDocument(sample), settings: settings, contentSize: NSSize(width: 700, height: 520)),
                   to: url("editor-narrow.png"))
+        try renderGreenshotFiles(to: folder, sample: sample, settings: settings)
+    }
+
+    /// `.greenshot` files and restored editors (EditorWindowController+Files.swift, EditorManager), Insert Window's picture.
+    private static func renderGreenshotFiles(to folder: URL, sample: CGImage, settings: SettingsStore) throws {
+        func url(_ name: String) -> URL { folder.appendingPathComponent(name) }
+        // A file written and read again, opened like EditorManager opens it, with elements that couldn't be shown.
+        let written = try GreenshotFile.Contents(of: snapshotDocument(sample)).encoded()
+        if let contents = GreenshotFile.read(written) {
+            let doc = EditorDocument(image: contents.image, scale: contents.scale, title: "Shared", isModified: false)
+            doc.fileURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Desktop/Shared.greenshot")
+            doc.addOpened(contents.elements)
+            try write(editorWindow(doc, settings: settings) { controller in
+                controller.showStatusMessage(GreenshotFile.unreadableMessage(["SVG picture", "Payload"]) ?? "")
+            }, to: url("editor-greenshot-file.png"))
+        }
+        // An unsaved editor reopened after a logout.
+        try write(editorWindow(snapshotDocument(sample), settings: settings) { controller in
+            controller.showStatusMessage("Reopened after the last logout or restart, not saved yet.")
+        }, to: url("editor-restored.png"))
+        // The picture beside Edit › Insert Window while pointing at a window.
+        let size = MenuBarThumbnailLayout.size(for: CGSize(width: CGFloat(sample.width) / 2, height: CGFloat(sample.height) / 2))
+        let picture = NSImage(cgImage: sample, size: NSSize(width: size.width, height: size.height))
+        try write(form(MenuBarWindowThumbnail.contentView(image: picture)), to: url("insert-window-thumbnail.png"))
     }
 
     private static func snapshotDocument(_ sample: CGImage) -> EditorDocument {

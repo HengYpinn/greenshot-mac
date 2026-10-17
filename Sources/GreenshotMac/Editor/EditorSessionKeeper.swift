@@ -10,7 +10,7 @@ import GreenshotCore
 /// (`Greenshot/Helpers/RestartManagerHelper.cs`: `SaveEditorState` when Windows ends the session, `RestoreState` with
 /// `--restore`; `ImageEditorForm.TrySaveState` saves only modified editors).
 ///
-/// - While an editor has unsaved changes, it is written 5 seconds after its last change (off the main thread), so a
+/// - While an editor has unsaved changes, it is written at most 5 seconds after a change (off the main thread), so a
 ///   crash or a forced quit loses at most those seconds. Its file goes when it is saved, closed or its changes are
 ///   discarded.
 /// - At a logout, restart or shut down, or when "Close windows when quitting an application" is off, quitting writes
@@ -49,7 +49,8 @@ final class EditorSessionKeeper {
 
     // MARK: While the app runs
 
-    /// After a change of the document's image, elements or saved state.
+    /// After a change of the document's image, elements or saved state: written in 5 seconds (also while the user keeps
+    /// drawing), or its file goes when it has no unsaved changes any more.
     func documentChanged(_ document: EditorDocument) {
         guard document.isModified else {
             forget(document.id)
