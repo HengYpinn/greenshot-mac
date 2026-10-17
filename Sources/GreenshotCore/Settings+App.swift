@@ -29,18 +29,18 @@ public enum ClickAction: String, Codable, CaseIterable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .doNothing: return "Do nothing"
-        case .openLastInFinder: return "Open last capture location"
-        case .openLastInEditor: return "Open last capture in the editor"
-        case .openSettings: return "Open Settings"
-        case .showMenu: return "Show the menu"
-        case .captureRegion: return "Capture region"
-        case .captureScreen: return "Capture full screen"
-        case .captureClipboard: return "Capture clipboard"
-        case .captureWindow: return "Capture window"
-        case .openEmptyEditor: return "Open an empty editor"
-        case .openFileInEditor: return "Open image from file"
-        case .openClipboardInEditor: return "Open image from clipboard"
+        case .doNothing: return String(localized: "Do nothing")
+        case .openLastInFinder: return String(localized: "Open last capture location")
+        case .openLastInEditor: return String(localized: "Open last capture in the editor")
+        case .openSettings: return String(localized: "Open Settings")
+        case .showMenu: return String(localized: "Show the menu")
+        case .captureRegion: return String(localized: "Capture region")
+        case .captureScreen: return String(localized: "Capture full screen")
+        case .captureClipboard: return String(localized: "Capture clipboard")
+        case .captureWindow: return String(localized: "Capture window")
+        case .openEmptyEditor: return String(localized: "Open an empty editor")
+        case .openFileInEditor: return String(localized: "Open image from file")
+        case .openClipboardInEditor: return String(localized: "Open image from clipboard")
         }
     }
 }
@@ -54,9 +54,9 @@ public enum AppTheme: String, Codable, CaseIterable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .system: return "Same as macOS"
-        case .light: return "Light"
-        case .dark: return "Dark"
+        case .system: return String(localized: "Same as macOS")
+        case .light: return String(localized: "Light", comment: "The light appearance of the app's windows (Settings › General › Theme)")
+        case .dark: return String(localized: "Dark", comment: "The dark appearance of the app's windows (Settings › General › Theme)")
         }
     }
 }

@@ -78,8 +78,8 @@ public struct ManagedPolicy: Equatable, Sendable {
     public static let keyPrefix = "Greenshot."
     /// A dictionary of default values, the profile's greenshot-defaults.ini.
     public static let defaultsKey = "Greenshot.defaults"
-    /// The tooltip of a locked control.
-    public static let lockedHelp = "Set by your organisation"
+    /// The tooltip of a locked control, in the app's language.
+    public static var lockedHelp: String { String(localized: "Set by your organisation") }
 
     /// The locked values that passed the check, by setting path ("outputFormat", "printing.footer"), as JSON text.
     public private(set) var forced: [String: String] = [:]

@@ -22,27 +22,27 @@ public enum AtlassianLogin: String, Codable, CaseIterable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .cloudAPIToken: return "Cloud: email and API token"
-        case .serverToken: return "Server or Data Center: personal access token"
-        case .serverPassword: return "Server or Data Center: user name and password"
+        case .cloudAPIToken: return String(localized: "Cloud: email and API token")
+        case .serverToken: return String(localized: "Server or Data Center: personal access token")
+        case .serverPassword: return String(localized: "Server or Data Center: user name and password")
         }
     }
 
     /// The label of the user field; nil when the login has none (a personal access token).
     public var userLabel: String? {
         switch self {
-        case .cloudAPIToken: return "Email"
+        case .cloudAPIToken: return String(localized: "login.email", defaultValue: "Email", comment: "Label of the field for the email address of an Atlassian account")
         case .serverToken: return nil
-        case .serverPassword: return "User name"
+        case .serverPassword: return String(localized: "User name")
         }
     }
 
     /// The label of the secret, which is kept in the Keychain.
     public var secretLabel: String {
         switch self {
-        case .cloudAPIToken: return "API token"
-        case .serverToken: return "Personal access token"
-        case .serverPassword: return "Password"
+        case .cloudAPIToken: return String(localized: "API token")
+        case .serverToken: return String(localized: "Personal access token")
+        case .serverPassword: return String(localized: "Password")
         }
     }
 }
@@ -54,7 +54,9 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
     public enum EmailFormat: String, Codable, CaseIterable, Sendable {
         case html, text
 
-        public var displayName: String { self == .html ? "HTML" : "Text" }
+        public var displayName: String {
+            self == .html ? "HTML" : String(localized: "office.emailFormat.text", defaultValue: "Text", comment: "Format of a new Outlook email: plain text (Settings › Destinations › Office)")
+        }
     }
 
     /// Upstream `PpSlideLayout` without `ppLayoutMixed` (values 1–36, PowerPoint's `slide layout …` enumerators).
@@ -77,15 +79,45 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
             }
         }
 
-        /// "Picture with caption" etc.
+        /// "Picture with caption" etc.: the case name in words, in the app's language.
         public var displayName: String {
             switch self {
-            case .title: return "Title"
-            case .text: return "Text"
-            case .textAndMediaClip: return "Text and media clip"
-            default:
-                let text = words
-                return text.prefix(1).uppercased() + text.dropFirst()
+            case .title: return String(localized: "Title", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .text: return String(localized: "office.slideLayout.text", defaultValue: "Text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .twoColumnText: return String(localized: "Two column text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .table: return String(localized: "Table", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .textAndChart: return String(localized: "Text and chart", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .chartAndText: return String(localized: "Chart and text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .orgchart: return String(localized: "Orgchart", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .chart: return String(localized: "Chart", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .textAndClipart: return String(localized: "Text and clipart", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .clipartAndText: return String(localized: "Clipart and text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .titleOnly: return String(localized: "Title only", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .blank: return String(localized: "Blank", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .textAndObject: return String(localized: "Text and object", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .objectAndText: return String(localized: "Object and text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .largeObject: return String(localized: "Large object", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .object: return String(localized: "Object", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .textAndMediaClip: return String(localized: "Text and media clip", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .mediaClipAndText: return String(localized: "Media clip and text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .objectOverText: return String(localized: "Object over text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .textOverObject: return String(localized: "Text over object", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .textAndTwoObjects: return String(localized: "Text and two objects", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .twoObjectsAndText: return String(localized: "Two objects and text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .twoObjectsOverText: return String(localized: "Two objects over text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .fourObjects: return String(localized: "Four objects", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .verticalText: return String(localized: "Vertical text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .clipartAndVerticalText: return String(localized: "Clipart and vertical text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .verticalTitleAndText: return String(localized: "Vertical title and text", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .verticalTitleAndTextOverChart: return String(localized: "Vertical title and text over chart", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .twoObjects: return String(localized: "Two objects", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .objectAndTwoObjects: return String(localized: "Object and two objects", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .twoObjectsAndObject: return String(localized: "Two objects and object", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .custom: return String(localized: "office.slideLayout.custom", defaultValue: "Custom", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .sectionHeader: return String(localized: "Section header", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .comparison: return String(localized: "Comparison", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .contentWithCaption: return String(localized: "Content with caption", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
+            case .pictureWithCaption: return String(localized: "Picture with caption", comment: "A slide layout of PowerPoint (Settings › Destinations › Office)")
             }
         }
 

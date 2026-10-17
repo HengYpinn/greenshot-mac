@@ -40,30 +40,31 @@ public enum CaptureDestination: String, Codable, CaseIterable, Sendable {
     case box
     case dropbox
 
+    /// The name in Settings and the menus, in the app's language.
     public var displayName: String {
         switch self {
-        case .picker: return "Ask every time"
-        case .editor: return "Open in image editor"
-        case .clipboard: return "Copy to clipboard"
-        case .file: return "Save directly"
-        case .fileAs: return "Save as…"
-        case .printer: return "Print…"
-        case .email: return "Email…"
-        case .share: return "Share…"
-        case .ocr: return "Copy text (OCR)"
-        case .externalCommand: return "External command"
-        case .pdf: return "Save as PDF"
-        case .openWith: return "Open with…"
-        case .word: return "Insert into Microsoft Word"
-        case .excel: return "Insert into Microsoft Excel"
-        case .powerpoint: return "Insert into Microsoft PowerPoint"
-        case .outlook: return "New email in Microsoft Outlook"
-        case .notes: return "New note in Notes"
-        case .qrCode: return "QR code actions"
-        case .jira: return "Upload to Jira…"
-        case .confluence: return "Upload to Confluence…"
-        case .box: return "Upload to Box"
-        case .dropbox: return "Upload to Dropbox"
+        case .picker: return String(localized: "Ask every time")
+        case .editor: return String(localized: "Open in image editor")
+        case .clipboard: return String(localized: "Copy to clipboard")
+        case .file: return String(localized: "Save directly")
+        case .fileAs: return String(localized: "Save as…")
+        case .printer: return String(localized: "Print…")
+        case .email: return String(localized: "Email…")
+        case .share: return String(localized: "Share…")
+        case .ocr: return String(localized: "Copy text (OCR)")
+        case .externalCommand: return String(localized: "External command")
+        case .pdf: return String(localized: "Save as PDF")
+        case .openWith: return String(localized: "Open with…")
+        case .word: return String(localized: "Insert into Microsoft Word")
+        case .excel: return String(localized: "Insert into Microsoft Excel")
+        case .powerpoint: return String(localized: "Insert into Microsoft PowerPoint")
+        case .outlook: return String(localized: "New email in Microsoft Outlook")
+        case .notes: return String(localized: "New note in Notes")
+        case .qrCode: return String(localized: "QR code actions")
+        case .jira: return String(localized: "Upload to Jira…")
+        case .confluence: return String(localized: "Upload to Confluence…")
+        case .box: return String(localized: "Upload to Box")
+        case .dropbox: return String(localized: "Upload to Dropbox")
         }
     }
 }
