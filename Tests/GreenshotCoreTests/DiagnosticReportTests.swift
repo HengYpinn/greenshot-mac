@@ -93,6 +93,27 @@ struct DiagnosticReportTests {
         #expect(!dump.joined().contains("Alex"))
     }
 
+    @Test func singleWordsAreShownOnlyForSettingsWithAFewValues() {
+        var settings = AppSettings()
+        settings.textObfuscation.searchPattern = "Smith"
+        settings.confluence.recentPages = [ConfluencePage(id: "77", title: "Salaries", spaceName: "Payroll",
+                                                          url: URL(string: "https://wiki.example.test/p/77")!)]
+        settings.confluence.searchSpaceKey = "HR"
+        settings.recentEmoji = "Wink"
+        settings.jira.login = .serverPassword
+        settings.theme = .dark
+        let dump = DiagnosticReport.settingsDump(settings)
+        #expect(dump.contains("textObfuscation.searchPattern = <text, 5 characters>"))
+        #expect(dump.contains("confluence.recentPages[0].spaceName = <text, 7 characters>"))
+        #expect(dump.contains("confluence.searchSpaceKey = <set>"))
+        #expect(dump.contains("jira.login = \"serverPassword\""))
+        #expect(dump.contains("theme = \"dark\""))
+        let joined = dump.joined(separator: "\n")
+        for word in ["Smith", "Payroll", "Salaries", "HR", "Wink", "wiki"] {
+            #expect(!joined.contains(word))
+        }
+    }
+
     @Test func bugReportHasEnvironmentErrorAndSettings() {
         var settings = AppSettings()
         settings.theme = .dark
