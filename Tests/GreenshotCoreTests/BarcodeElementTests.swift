@@ -100,6 +100,18 @@ struct BarcodeElementTests {
         #expect(try Self.decoded(wide, as: [.ean13]) == ["4006381333931"])
     }
 
+    /// Text beyond ASCII: UTF-8 in QR codes, UTF-8 with its ECI in Data Matrix, ISO 8859-1 in Aztec and PDF-417.
+    @Test(arguments: [GreenshotCore.BarcodeSymbology.qrCode, .dataMatrix, .aztec, .pdf417])
+    func accentsReadBack(_ symbology: GreenshotCore.BarcodeSymbology) throws {
+        let vision: [GreenshotCore.BarcodeSymbology: VNBarcodeSymbology] = [.qrCode: .qr, .dataMatrix: .dataMatrix, .aztec: .aztec, .pdf417: .pdf417]
+        let spec = Self.spec(symbology, "Grüße, café")
+        let payloads = try Self.decoded(spec, as: [try #require(vision[symbology])], size: CGSize(width: 400, height: 400))
+        #expect(payloads == ["Grüße, café"], "\(symbology)")
+        #expect(spec.characterSetWarning == nil)
+        let japanese = Self.spec(symbology, "日本語")
+        #expect((japanese.characterSetWarning != nil) == (symbology == .aztec || symbology == .pdf417))
+    }
+
     @Test func aWifiCodeReadsAsItsPayload() throws {
         var wifi = Self.spec(.qrCode, "")
         wifi.qrType = .wifi

@@ -66,6 +66,13 @@ extension BarcodeSpec {
         }
     }
 
+    /// A note for text that readers may show garbled: an Aztec or PDF-417 code made here can't say it holds UTF-8, so
+    /// text beyond ISO 8859-1 (Western European) may not read right. Nil when there's nothing to say.
+    public var characterSetWarning: String? {
+        guard symbology == .aztec || symbology == .pdf417, payload.data(using: .isoLatin1) == nil else { return nil }
+        return "Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't."
+    }
+
     /// .NET `string.IsNullOrWhiteSpace`.
     static func isBlank(_ text: String) -> Bool {
         text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty

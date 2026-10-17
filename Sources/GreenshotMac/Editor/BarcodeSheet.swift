@@ -311,7 +311,7 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
         let scale = panel.backingScaleFactor > 0 ? panel.backingScaleFactor : 2
         do {
             let image = try AnnotationRenderer.barcodeImage(spec, size: CGSize(width: size.width * scale, height: size.height * scale))
-            show(NSImage(cgImage: image, size: size), status: "", isError: false)
+            show(NSImage(cgImage: image, size: size), status: spec.characterSetWarning ?? "", isError: false)
         } catch {
             show(nil, status: error.localizedDescription, isError: true)
         }

@@ -73,11 +73,11 @@ public enum BarcodeGenerator {
                                  ["inputCorrectionLevel": "L"])
         case .aztec:
             // ZXing's AztecWriter: 33 % error correction, layers chosen to fit.
-            return try coreImage("CIAztecCodeGenerator", Data(payload.utf8), border: CoreImageBorder.aztec,
+            return try coreImage("CIAztecCodeGenerator", latin1OrUTF8(payload), border: CoreImageBorder.aztec,
                                  ["inputCorrectionLevel": 33])
         case .pdf417:
             // ZXing's PDF417Writer: error correction level 2. Core Image draws every row 3 modules tall, the usual height.
-            return try coreImage("CIPDF417BarcodeGenerator", Data(payload.utf8), border: CoreImageBorder.pdf417,
+            return try coreImage("CIPDF417BarcodeGenerator", latin1OrUTF8(payload), border: CoreImageBorder.pdf417,
                                  ["inputCorrectionLevel": 2])
         case .code128:
             return try code128(payload)
@@ -86,6 +86,13 @@ public enum BarcodeGenerator {
         case .code39, .code93, .ean13, .ean8, .upcA, .upcE, .codabar, .itf, .msi, .plessey:
             return BarcodeMatrix(row: try LinearBarcode.encode(symbology, payload))
         }
+    }
+
+    /// The bytes of an Aztec or PDF-417 code: ISO 8859-1, the character set readers assume for them, when the text fits
+    /// in it. Core Image can't add the ECI that tells readers it's UTF-8 (ZXing does for upstream), so other text is
+    /// UTF-8 that readers may show garbled. (QR codes stay UTF-8: readers recognise it.)
+    static func latin1OrUTF8(_ payload: String) -> Data {
+        payload.data(using: .isoLatin1) ?? Data(payload.utf8)
     }
 
     /// The quiet zone Core Image draws around its codes, in modules (measured; `BarcodeGeneratorTests` checks it).
