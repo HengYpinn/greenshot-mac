@@ -113,7 +113,7 @@ final class CaptureCoordinator {
     /// "Capture the mouse pointer" decides which one it starts with.
     private func interactive(_ mode: CaptureOverlayController.Mode) {
         run { [settings] in
-            let windows = ScreenCapturer.onScreenWindows()
+            let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
             let frozen = try await ScreenCapturer.freezeScreensWithAndWithoutPointer()
             guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
                                                                         windows: windows, mode: mode, settings: settings)

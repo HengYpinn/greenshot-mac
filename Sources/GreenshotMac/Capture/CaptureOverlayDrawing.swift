@@ -288,7 +288,8 @@ extension OverlayMarksView {
     static func details(of window: WindowInfo) -> String {
         let f = window.frame
         let title = window.title.isEmpty ? "(no title)" : window.title
-        return "Window \(window.id) · \(window.appName) (pid \(window.pid))\n\(title)\n"
+        let level = window.level == 0 ? "" : " · level \(window.level)"
+        return "Window \(window.id) · \(window.appName) (pid \(window.pid))\(level)\n\(title)\n"
             + "\(Int(f.minX)), \(Int(f.minY))  \(Int(f.width)) × \(Int(f.height)) pt"
     }
 

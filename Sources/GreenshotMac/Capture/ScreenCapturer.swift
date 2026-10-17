@@ -26,6 +26,8 @@ struct WindowInfo: Equatable {
     let title: String
     let appName: String
     let pid: pid_t
+    /// The window level: 0 for normal windows, higher for palettes, panels and menus.
+    var level = 0
 
     var displayTitle: String { title.isEmpty ? appName : title }
     var menuTitle: String { title.isEmpty ? appName : "\(appName) – \(title)" }
@@ -45,25 +47,44 @@ enum CaptureError: LocalizedError {
 
 @MainActor
 enum ScreenCapturer {
-    /// The normal windows of other apps that are on screen, front to back.
-    static func onScreenWindows() -> [WindowInfo] {
+    /// The window levels the capture screen's window mode picks besides normal windows: floating palettes, panels,
+    /// utility windows and open menus (upstream picks the innermost window, e.g. a panel or a toolbar; the windows
+    /// inside an app's window would need the Accessibility permission). The menu bar, the Dock and the like aren't.
+    static let pickableLevels: Set<Int> = Set([CGWindowLevelKey.floatingWindow, .tornOffMenuWindow, .modalPanelWindow,
+                                               .utilityWindow, .popUpMenuWindow].map { Int(CGWindowLevelForKey($0)) })
+
+    /// The normal windows of other apps that are on screen, front to back; `includingPanels` adds the windows of
+    /// `pickableLevels`, except those covering a whole display (an invisible overlay would catch every move).
+    static func onScreenWindows(includingPanels: Bool = false) -> [WindowInfo] {
         guard let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID)
                 as? [[String: Any]] else { return [] }
         let me = ProcessInfo.processInfo.processIdentifier
+        let displays = includingPanels ? activeDisplayBounds() : []
         return list.compactMap { info in
-            guard let layer = info[kCGWindowLayer as String] as? Int, layer == 0,
+            guard let layer = info[kCGWindowLayer as String] as? Int,
+                  layer == 0 || (includingPanels && pickableLevels.contains(layer)),
                   let pid = info[kCGWindowOwnerPID as String] as? pid_t, pid != me,
                   let number = info[kCGWindowNumber as String] as? CGWindowID,
                   let boundsInfo = info[kCGWindowBounds as String] as? NSDictionary,
                   let bounds = CGRect(dictionaryRepresentation: boundsInfo),
                   bounds.width >= 10, bounds.height >= 10,
-                  (info[kCGWindowAlpha as String] as? Double ?? 1) > 0
+                  (info[kCGWindowAlpha as String] as? Double ?? 1) > 0,
+                  layer == 0 || !displays.contains(where: { bounds.contains($0) })
             else { return nil }
             return WindowInfo(id: number, frame: bounds,
                               title: info[kCGWindowName as String] as? String ?? "",
                               appName: info[kCGWindowOwnerName as String] as? String ?? "",
-                              pid: pid)
+                              pid: pid, level: layer)
         }
+    }
+
+    /// The bounds of the displays, Quartz global points.
+    private static func activeDisplayBounds() -> [CGRect] {
+        var count: UInt32 = 0
+        guard CGGetActiveDisplayList(0, nil, &count) == .success, count > 0 else { return [] }
+        var ids = [CGDirectDisplayID](repeating: 0, count: Int(count))
+        guard CGGetActiveDisplayList(count, &ids, &count) == .success else { return [] }
+        return ids.prefix(Int(count)).map(CGDisplayBounds)
     }
 
     /// The front window of the active app (or the front-most window when this app is active).
@@ -72,10 +93,10 @@ enum ScreenCapturer {
         return windows.first { $0.pid == frontPID } ?? windows.first
     }
 
-    /// The title for a region: the window under its center, else the active app.
+    /// The title for a region: the normal window under its center, else the active app.
     static func title(for rect: CGRect, in windows: [WindowInfo]) -> String {
         let center = CGPoint(x: rect.midX, y: rect.midY)
-        return windows.first { $0.frame.contains(center) }?.displayTitle
+        return windows.first { $0.level == 0 && $0.frame.contains(center) }?.displayTitle
             ?? NSWorkspace.shared.frontmostApplication?.localizedName
             ?? "Greenshot"
     }
