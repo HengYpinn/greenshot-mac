@@ -57,6 +57,35 @@ enum RecipeEditorService {
         openEditor(recipeId: id)
     }
 
+    /// Before the app quits (RSTEPS calls it from `applicationShouldTerminate`; true = may quit): unsaved changes in the
+    /// recipe editor are asked about, like closing its window. "Save" cancels this quit and quits again once saved (saving
+    /// may ask for an approval first); "Don't Save" drops them.
+    static func reviewUnsavedBeforeQuit() -> Bool {
+        guard let controller = RecipeEditorWindowController.shared else { return true }
+        let model = controller.model
+        guard model.isDirty || model.jsonDraft != nil, let recipe = model.recipe else { return true }
+        controller.window?.makeKeyAndOrderFront(nil)
+        let alert = NSAlert()
+        alert.messageText = "Unsaved Changes"
+        alert.informativeText = "\"\(recipe.name)\" has unsaved changes in the recipe editor. Do you want to save them before quitting?"
+        alert.addButton(withTitle: "Save")
+        alert.addButton(withTitle: "Don't Save")
+        alert.addButton(withTitle: "Cancel")
+        alert.buttons[2].keyEquivalent = "\u{1b}"
+        switch alert.runModal() {
+        case .alertFirstButtonReturn:
+            Task { @MainActor in
+                if await model.save() { NSApp.terminate(nil) }
+            }
+            return false
+        case .alertSecondButtonReturn:
+            model.discardChanges()
+            return true
+        default:
+            return false
+        }
+    }
+
     private static func openFirst(in model: RecipeEditorModel) {
         if let first = model.library?.recipes.first {
             model.open(first.recipe, fileURL: first.sourceFile, saved: true)

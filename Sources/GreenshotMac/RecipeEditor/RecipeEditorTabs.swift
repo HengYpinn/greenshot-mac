@@ -481,33 +481,42 @@ private struct RecipeErrorRouteBox: View {
 
 // MARK: JSON
 
-/// The recipe as JSON, editable; "Apply Changes" reads it back (upstream xaml:939-947, `ApplyJson`).
+/// The recipe as JSON, editable; "Apply Changes" reads it back (upstream xaml:939-947, `ApplyJson`). Unapplied text is
+/// kept as the model's draft (switching tabs doesn't lose it, Save and closing ask about it); without a draft the text
+/// follows the recipe (undo, the forms).
 struct RecipeJSONTab: View {
     @ObservedObject var model: RecipeEditorModel
-    @State private var text = ""
     @State private var problem: String?
 
     var body: some View {
+        let text = Binding<String>(get: { model.jsonDraft ?? model.content ?? "" }, set: { model.setJSONDraft($0) })
         VStack(alignment: .leading, spacing: 8) {
-            TextEditor(text: $text)
+            if model.jsonDraftIsStale {
+                Label("The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.",
+                      systemImage: "exclamationmark.triangle.fill")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+            TextEditor(text: text)
                 .font(.system(.body, design: .monospaced))
                 .border(Color.secondary.opacity(0.3))
             HStack {
                 if let problem {
                     Text(problem).font(.caption).foregroundStyle(.red).lineLimit(3)
+                } else if model.jsonDraft != nil {
+                    Text("Changes not applied yet").font(.caption).foregroundStyle(.orange)
                 }
                 Spacer()
-                Button("Revert") { load() }
-                Button("Apply Changes") { problem = model.applyJSON(text) }
+                Button("Revert") {
+                    model.discardJSONDraft()
+                    problem = nil
+                }
+                .disabled(model.jsonDraft == nil)
+                Button("Apply Changes") { problem = model.applyJSON(model.jsonDraft ?? model.content ?? "") }
                     .keyboardShortcut(.return, modifiers: .command)
+                    .disabled(model.jsonDraft == nil)
             }
         }
         .padding(12)
-        .onAppear(perform: load)
-    }
-
-    private func load() {
-        text = model.content ?? ""
-        problem = nil
     }
 }

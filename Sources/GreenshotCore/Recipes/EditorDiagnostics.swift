@@ -116,23 +116,78 @@ public enum RecipeEditorDiagnostics {
 
     // MARK: Test run
 
-    /// Upstream `ExecuteTestRunAsync` validates first; the Mac also refuses to run an unsaved copy with permissions
-    /// its approval doesn't give (the runner's preflight only checks the file): `allowedGates` are the approval's, or a
-    /// built-in recipe's own gates.
+    /// Upstream `ExecuteTestRunAsync` validates first. The Mac also refuses to start a copy whose gated actions (type and
+    /// target, like the library's preflight) aren't all covered by the approval it may use: the approved version loaded
+    /// from the same file, or the built-in for an unsaved edit of a built-in recipe (`approvedActions`; none otherwise).
+    /// The way out is "Save and Run": saving asks for the approval.
     public static func testRunDecision(_ recipe: CaptureRecipe, validation: RecipeValidationResult, isDirty: Bool,
-                                       isLoaded: Bool, allowedGates: [RecipeGateType]) -> RecipeTestRunDecision {
+                                       isLoaded: Bool, approvedActions: [RecipeGatedAction]) -> RecipeTestRunDecision {
         if recipe.kind == .extension { return .automaticStep }
         guard validation.isValid else { return .invalid(validation.errors) }
         if !isDirty && isLoaded { return .run }
-        let missing = validation.gateTypes.filter { !allowedGates.contains($0) }
-        return missing.isEmpty ? .run : .saveFirst(missing)
+        let uncovered = validation.gatedActions.filter { !approvedActions.contains($0) }
+        guard !uncovered.isEmpty else { return .run }
+        return .saveFirst(Array(Set(uncovered.map(\.gateType))).sorted())
     }
+
+    /// The actions an approval allows of an approved version: its gated actions of the allowed types.
+    public static func approvedActions(of approved: RecipeValidationResult, approval: RecipeApproval?) -> [RecipeGatedAction] {
+        guard let approval else { return [] }
+        return approved.gatedActions.filter { approval.isGateAllowed($0.gateType) }
+    }
+}
+
+/// What saving over an existing file would destroy (the library writes one recipe per file).
+public enum RecipeOverwrite: Sendable, Equatable {
+    /// No file, or it holds only this recipe.
+    case none
+    /// It holds other recipes or automatic steps: their names.
+    case removes([String])
+    /// It exists but isn't a recipe file.
+    case notARecipe
 }
 
 /// File helpers of the recipe editor.
 public enum RecipeEditorFiles {
     /// The path as the library and the trust store keep it (absolute, symbolic links resolved).
     public static func standardized(_ url: URL) -> URL { URL(fileURLWithPath: RecipeTrustStore.standardized(url.path)) }
+
+    /// The recipe file a save panel's choice means: "Capture.json" or "Capture" become "Capture.gsrecipe.json".
+    public static func recipeFileURL(for chosen: URL) -> URL {
+        let name = chosen.lastPathComponent
+        if name.lowercased().hasSuffix(RecipeSerializer.fileExtension) { return chosen }
+        let base = name.lowercased().hasSuffix(".json") ? String(name.dropLast(".json".count)) : name
+        return chosen.deletingLastPathComponent().appendingPathComponent(base + RecipeSerializer.fileExtension)
+    }
+
+    /// What writing `recipe` over a file with `existing` content would remove (nil content: there is no file). `ownIds`:
+    /// ids that are this recipe as it was saved there before a rename of its id.
+    public static func overwrite(saving recipe: CaptureRecipe, existing: Data?, ownIds: [String] = []) -> RecipeOverwrite {
+        guard let existing else { return .none }
+        if existing.isEmpty { return .none }
+        // JSON that reads as recipes without ids (any other JSON object) isn't a recipe file.
+        guard let text = RecipeSerializer.text(of: existing), let inFile = try? RecipeSerializer.decode(text: text),
+              inFile.contains(where: { !$0.id.trimmingCharacters(in: .whitespaces).isEmpty }) else {
+            return .notARecipe
+        }
+        let others = inFile.filter { item in
+            let same = recipeEquals(item.id, recipe.id) && item.kind == recipe.kind
+            return !same && !(inFile.count == 1 && ownIds.contains { recipeEquals($0, item.id) })
+        }
+        return others.isEmpty ? .none : .removes(others.map { $0.name.isEmpty ? $0.id : $0.name })
+    }
+
+    /// A file name in `folder` for `id` that isn't taken: "<id>.gsrecipe.json", else "<id> 2.gsrecipe.json", …
+    public static func freeFileURL(for id: String, in folder: URL, exists: (URL) -> Bool) -> URL {
+        let base = id.isEmpty ? "recipe" : id
+        var url = folder.appendingPathComponent(base + RecipeSerializer.fileExtension)
+        var number = 2
+        while exists(url) {
+            url = folder.appendingPathComponent("\(base) \(number)\(RecipeSerializer.fileExtension)")
+            number += 1
+        }
+        return url
+    }
 }
 
 extension LoadedRecipe {

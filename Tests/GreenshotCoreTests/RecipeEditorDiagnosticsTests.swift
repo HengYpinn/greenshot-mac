@@ -71,19 +71,81 @@ import Testing
         withUpload.nodes[1].parameters["IssueKey"] = .string("X-1")
         let validation = RecipeValidator().validate(withUpload)
         #expect(validation.gateTypes == [.networkAccess])
-        #expect(RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: true, isLoaded: true, allowedGates: [])
-                == .saveFirst([.networkAccess]))
-        #expect(RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: true, isLoaded: true,
-                                                        allowedGates: [.networkAccess]) == .run)
-        #expect(RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: false, isLoaded: true, allowedGates: [])
-                == .run)
-        #expect(RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: false, isLoaded: false, allowedGates: [])
-                == .saveFirst([.networkAccess]))
+        let approved = validation.gatedActions
+        // No approval that belongs to this copy: save first.
+        let none = RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: true, isLoaded: true, approvedActions: [])
+        #expect(none == .saveFirst([.networkAccess]))
+        // The approved version has exactly these actions.
+        let covered = RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: true, isLoaded: true,
+                                                              approvedActions: approved)
+        #expect(covered == .run)
+        let unchanged = RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: false, isLoaded: true,
+                                                                approvedActions: [])
+        #expect(unchanged == .run)
+        let notLoaded = RecipeEditorDiagnostics.testRunDecision(withUpload, validation: validation, isDirty: false, isLoaded: false,
+                                                                approvedActions: [])
+        #expect(notLoaded == .saveFirst([.networkAccess]))
         var invalid = RecipeValidationResult()
         invalid.errors = ["broken"]
-        #expect(RecipeEditorDiagnostics.testRunDecision(withUpload, validation: invalid, isDirty: true, isLoaded: true, allowedGates: [])
-                == .invalid(["broken"]))
-        #expect(RecipeEditorDiagnostics.testRunDecision(RecipeEditorCatalog.newExtension(), validation: validation, isDirty: false,
-                                                        isLoaded: true, allowedGates: []) == .automaticStep)
+        let broken = RecipeEditorDiagnostics.testRunDecision(withUpload, validation: invalid, isDirty: true, isLoaded: true, approvedActions: [])
+        #expect(broken == .invalid(["broken"]))
+        let ext = RecipeEditorDiagnostics.testRunDecision(RecipeEditorCatalog.newExtension(), validation: validation, isDirty: false,
+                                                          isLoaded: true, approvedActions: [])
+        #expect(ext == .automaticStep)
+    }
+
+    /// R-F12: a changed target of an allowed gate type (another program) is not covered by the approval.
+    @Test func testRunComparesTargetsNotOnlyTypes() {
+        var recipe = EditorFixtures.recipe(["a:Source", "run:ExternalCommand"], ["a>run"])
+        recipe.nodes[1].parameters["CommandLine"] = .string("/usr/local/bin/optipng")
+        let approvedVersion = RecipeValidator().validate(recipe)
+        var approval = RecipeApproval(recipeId: recipe.id)
+        approval.allowedGates = [.externalCommand]
+        let actions = RecipeEditorDiagnostics.approvedActions(of: approvedVersion, approval: approval)
+        #expect(actions.count == 1)
+        recipe.nodes[1].parameters["CommandLine"] = .string("/bin/rm")
+        let changed = RecipeValidator().validate(recipe)
+        let decision = RecipeEditorDiagnostics.testRunDecision(recipe, validation: changed, isDirty: true, isLoaded: true, approvedActions: actions)
+        #expect(decision == .saveFirst([.externalCommand]))
+        // A gate type the approval doesn't allow gives no actions.
+        let nothing = RecipeEditorDiagnostics.approvedActions(of: approvedVersion, approval: RecipeApproval(recipeId: recipe.id))
+        #expect(nothing.isEmpty)
+        #expect(RecipeEditorDiagnostics.approvedActions(of: approvedVersion, approval: nil).isEmpty)
+    }
+
+    // MARK: Files (W-H1, W-H2)
+
+    @Test func overwriteNamesWhatSavingRemoves() {
+        var mine = EditorFixtures.recipe(["a:Source"])
+        mine.id = "mine"
+        var other = EditorFixtures.recipe(["b:Source"])
+        other.id = "other"
+        other.name = "Other Recipe"
+        let both = Data(RecipeSerializer.encode([mine, other]).utf8)
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: nil) == .none)
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: Data(RecipeSerializer.encode(mine).utf8)) == .none)
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: both) == .removes(["Other Recipe"]))
+        // One other recipe alone is removed too.
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: Data(RecipeSerializer.encode(other).utf8)) == .removes(["Other Recipe"]))
+        // ...unless it is this recipe under its old id (renamed in the editor, saved to its own file).
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: Data(RecipeSerializer.encode(other).utf8), ownIds: ["other"]) == .none)
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: both, ownIds: ["other"]) == .removes(["Other Recipe"]))
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: Data("{\"hello\": 1}".utf8)) == .notARecipe)
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: Data()) == .none)
+        // An automatic step with the same id is another thing.
+        var ext = RecipeEditorCatalog.newExtension()
+        ext.id = "mine"
+        #expect(RecipeEditorFiles.overwrite(saving: mine, existing: Data(RecipeSerializer.encode(ext).utf8)) == .removes([ext.name]))
+    }
+
+    @Test func recipeFileNames() {
+        let folder = URL(fileURLWithPath: "/tmp/recipes")
+        #expect(RecipeEditorFiles.recipeFileURL(for: folder.appendingPathComponent("Capture.json")).lastPathComponent == "Capture.gsrecipe.json")
+        #expect(RecipeEditorFiles.recipeFileURL(for: folder.appendingPathComponent("Capture")).lastPathComponent == "Capture.gsrecipe.json")
+        #expect(RecipeEditorFiles.recipeFileURL(for: folder.appendingPathComponent("a.GSRECIPE.json")).lastPathComponent == "a.GSRECIPE.json")
+        let taken: Set<String> = ["/tmp/recipes/r1.gsrecipe.json", "/tmp/recipes/r1 2.gsrecipe.json"]
+        let free = RecipeEditorFiles.freeFileURL(for: "r1", in: folder) { taken.contains($0.path) }
+        #expect(free.lastPathComponent == "r1 3.gsrecipe.json")
+        #expect(RecipeEditorFiles.freeFileURL(for: "", in: folder) { _ in false }.lastPathComponent == "recipe.gsrecipe.json")
     }
 }
