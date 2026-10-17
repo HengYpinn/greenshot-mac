@@ -140,9 +140,9 @@ final class RecipeManagerModel: ObservableObject {
         NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: path)])
     }
 
+    /// Copy Recipe ID / Copy File Path: recorded as the app's own write, so a Clipboard trigger doesn't fire on it.
     func copy(_ text: String) {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(text, forType: .string)
+        Clipboard.copy(text: text)
     }
 
     // MARK: The toolbar
