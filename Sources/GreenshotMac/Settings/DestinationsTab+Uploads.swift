@@ -121,12 +121,13 @@ struct JiraSettingsSection: View {
             TextField("URL", text: store.binding(\.jira.url), prompt: Text("https://yourcompany.atlassian.net"))
             TextField("Email", text: store.binding(\.jira.email))
             SecretField("API token", key: SecretKey.jiraToken)
-            UploadFormatRow(format: store.binding(\.jira.uploadFormat), quality: store.binding(\.jira.jpegQuality))
+            UploadFormatRow(format: store.binding(\.jira.uploadFormat), quality: store.binding(\.jira.jpegQuality),
+                            reduceColors: store.binding(\.jira.reduceColors))
             ConnectionTestRow(test: test) { test.run(confluence: false, settings: store.value) }
         } header: {
             Text("Jira")
         } footer: {
-            Text("Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens). The token is kept in your Keychain. The upload asks for the issue: a key, one of the last ten, or a search.")
+            Text("Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens). The token is kept in your Keychain. The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
@@ -141,7 +142,8 @@ struct ConfluenceSettingsSection: View {
             TextField("URL", text: store.binding(\.confluence.url), prompt: Text("https://yourcompany.atlassian.net/wiki"))
             TextField("Email", text: store.binding(\.confluence.email))
             SecretField("API token", key: SecretKey.confluenceToken)
-            UploadFormatRow(format: store.binding(\.confluence.uploadFormat), quality: store.binding(\.confluence.jpegQuality))
+            UploadFormatRow(format: store.binding(\.confluence.uploadFormat), quality: store.binding(\.confluence.jpegQuality),
+                            reduceColors: store.binding(\.confluence.reduceColors))
             Toggle("Open the page after the upload", isOn: store.binding(\.confluence.openPageAfterUpload))
             Picker("Copy to the clipboard", selection: store.binding(\.confluence.clipboardContent)) {
                 ForEach(ConfluenceSettings.ClipboardContent.allCases, id: \.self) { Text($0.displayName).tag($0) }
@@ -150,7 +152,7 @@ struct ConfluenceSettingsSection: View {
         } header: {
             Text("Confluence")
         } footer: {
-            Text("Cloud sites end in /wiki. The same kind of API token as for Jira (one token works for both). The upload asks for the page: one of the last ten, or a search by title.")
+            Text("Cloud sites end in /wiki. The same kind of API token as for Jira (one token works for both). The upload asks for the page: one of the last ten, or a search by title in one space or all. The last ten are in the destination menu too.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
@@ -199,10 +201,12 @@ struct DropboxSettingsSection: View {
     }
 }
 
-/// Format and JPEG quality of an upload.
+/// Format and JPEG quality of an upload, and "reduce colours" where upstream has it (`UploadReduceColors` of Jira and
+/// Confluence).
 private struct UploadFormatRow: View {
     @Binding var format: UploadFormat
     @Binding var quality: Int
+    var reduceColors: Binding<Bool>? = nil
 
     var body: some View {
         Picker("Format", selection: $format) {
@@ -215,6 +219,9 @@ private struct UploadFormatRow: View {
                     Text("\(quality)").monospacedDigit().frame(width: 32, alignment: .trailing)
                 }
             }
+        }
+        if let reduceColors, format == .png {
+            Toggle("Reduce the amount of colours to a maximum of 256", isOn: reduceColors)
         }
     }
 }
