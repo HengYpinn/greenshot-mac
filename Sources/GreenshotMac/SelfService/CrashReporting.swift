@@ -165,8 +165,8 @@ enum CrashReporting {
 
     #if DEBUG
     /// Development checks of the crash detection without any window: `--diagnostics-test crash` ends with a Swift
-    /// runtime error, `exception` with an uncaught exception, `caught` reports an exception like AppKit does, and
-    /// `check` prints how the previous run ended, then quits (removing the marker).
+    /// runtime error, `exception` with an uncaught exception, `caught` reports an exception like AppKit does,
+    /// `signature [path]` prints the integrity report, and `check` prints how the previous run ended, then quits (removing the marker).
     static func runDebugTest(previousRun: PreviousRun) {
         let arguments = CommandLine.arguments
         guard let index = arguments.firstIndex(of: "--diagnostics-test"), index + 1 < arguments.count else { return }
@@ -178,6 +178,12 @@ enum CrashReporting {
             NSException(name: .genericException, reason: "Diagnostics test exception", userInfo: nil).raise()
         case "caught":
             NSApp.reportException(NSException(name: .rangeException, reason: "Diagnostics test of a caught exception", userInfo: nil))
+        case "signature":
+            let url = index + 2 < arguments.count ? URL(fileURLWithPath: arguments[index + 2]) : CodeSignature.codeURL
+            var report = CodeSignature.check(url)
+            if report.notarization == .checking { report.notarization = CodeSignature.isNotarized(url) ? .notarized : .notNotarized }
+            print(report.reportText)
+            exit(0)
         default:
             switch previousRun {
             case .clean: print("previous run: clean")
