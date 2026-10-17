@@ -18,6 +18,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private var statusItem: StatusItemController?
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
     private var updateTimer: Timer?
+    private let log = Log("App")
 
     /// The last run of the app ended without quitting (a crash or a forced quit): the restore of open editors and the bug
     /// report use it. Package D fills it in.
@@ -33,6 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
                 exit(1)
             }
         }
+        startLogging()
         NotificationService.install(app: self)
         applyTheme()
         settings.onChange(of: \.theme) { [weak self] _ in self?.applyTheme() }
@@ -55,6 +57,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         editors.restoreSavedEditors()
         showWelcomeOnFirstLaunch()
         scheduleUpdateChecks()
+    }
+
+    /// The log file in ~/Library/Logs, and its first entry (upstream `GreenshotMain.Main`: "Starting: " and the
+    /// environment).
+    private func startLogging() {
+        LogCenter.startFile(at: AppInfo.logFile)
+        let version = UpdateChecker.currentVersion
+        log.info("Starting: \(AppInfo.name) \(version) (\(AppAboutCredits.versionDetail)), macOS \(ProcessInfo.processInfo.operatingSystemVersionString)")
     }
 
     /// Upstream `UpdateService`: the first check 20 s after the start, then every 30 minutes a look whether one is due
@@ -91,6 +101,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     func applicationWillTerminate(_ notification: Notification) {
         statusItem?.showIconForNextLaunch()
+        log.info("Exiting")
     }
 
     /// Quitting doesn't close the editor windows one by one, so ask about unsaved screenshots here.

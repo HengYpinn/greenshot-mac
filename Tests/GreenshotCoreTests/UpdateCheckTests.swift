@@ -65,3 +65,22 @@ struct UpdateCheckTests {
         #expect(UpdateCheck.newestRelease(fromListJSON: Data("nonsense".utf8), includePrereleases: true) == nil)
     }
 }
+
+struct UpdateOutcomeTests {
+    private let page = URL(string: "https://github.com/HengYpinn/greenshot-mac/releases/tag/v1.3")!
+
+    @Test func newerReleaseWinsEvenWhenTheCheckFailedLater() {
+        let release = UpdateCheck.Release(version: "1.3", pageURL: page)
+        #expect(UpdateCheck.outcome(release: release, failed: false, current: "1.2") == .newer(release))
+    }
+
+    @Test func sameOrOlderReleaseIsUpToDate() {
+        let release = UpdateCheck.Release(version: "1.2.0", pageURL: page)
+        #expect(UpdateCheck.outcome(release: release, failed: false, current: "1.2") == .upToDate(latest: "1.2.0"))
+        #expect(UpdateCheck.outcome(release: nil, failed: false, current: "1.2") == .upToDate(latest: nil))
+    }
+
+    @Test func failureWithoutReleaseIsFailed() {
+        #expect(UpdateCheck.outcome(release: nil, failed: true, current: "1.2") == .failed)
+    }
+}

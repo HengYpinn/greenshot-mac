@@ -13,6 +13,15 @@ enum AppInfo {
     static let helpURL = URL(string: "https://getgreenshot.org/help/")!
     static let repositoryURL = URL(string: "https://github.com/HengYpinn/greenshot-mac")!
     static let issuesURL = URL(string: "https://github.com/HengYpinn/greenshot-mac/issues")!
+
+    /// `~/Library/Logs/Greenshot for Mac (Community)`: the log file (upstream `%LOCALAPPDATA%\Greenshot`), the
+    /// marker of the running app and the note of a fatal exception. `--settings-dir` doesn't move it, like upstream's
+    /// `--ini-directory`.
+    static var logsFolder: URL {
+        FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs/\(name)", isDirectory: true)
+    }
+
+    static var logFile: URL { logsFolder.appendingPathComponent(LogFile.fileName) }
 }
 
 /// A menu item that runs a closure.
@@ -105,9 +114,13 @@ enum Permissions {
     }
 }
 
+/// Alerts about errors. Every alert is logged too, so the log viewer and a bug report show what the user saw.
 @MainActor
 enum ErrorPresenter {
+    private static let log = Log("Alert")
+
     static func show(_ error: Error, title: String = "The screenshot could not be taken") {
+        log.error(title, error: error)
         if Permissions.isPermissionError(error) {
             Permissions.explainScreenCapture()
             return
@@ -121,6 +134,7 @@ enum ErrorPresenter {
     }
 
     static func show(message: String, detail: String) {
+        log.warn("\(message): \(detail)")
         let alert = NSAlert()
         alert.messageText = message
         alert.informativeText = detail
