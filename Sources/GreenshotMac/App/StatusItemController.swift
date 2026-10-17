@@ -39,6 +39,8 @@ final class StatusItemController: NSObject, NSMenuDelegate {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
         applySettings()
+        // The app's log file is open now: say what an administrator set.
+        app.settings.logManagedPolicy()
         app.settings.onChange(of: \.leftClickAction) { [weak self] _ in self?.applySettings() }
         app.settings.onChange(of: \.hideMenuBarIcon) { [weak self] _ in self?.applySettings() }
     }
@@ -131,6 +133,8 @@ final class StatusItemController: NSObject, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         guard menu === self.menu else { return }
         menu.removeAllItems()
+        // A profile installed or removed while the app runs.
+        app.settings.refreshManaged()
         let settings = app.settings.value
         let hotkeys = settings.hotkeys
         let capture = app.capture
@@ -159,9 +163,9 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         menu.addItem(ClosureMenuItem(title: "Open Image from File…") { [unowned app] in MenuBarActions.openFilesToDestinations(app: app) })
         menu.addItem(recentCaptureItem())
         menu.addItem(.separator())
-        menu.addItem(quickSettingsItem())
-        menu.addItem(ClosureMenuItem(title: "Settings…", keyEquivalent: ",") { [unowned app] in app.showSettings(nil) })
-        menu.addItem(.separator())
+        let settingsItems = Self.settingsItems(store: app.settings) { [unowned app] in app.showSettings(nil) }
+        settingsItems.forEach(menu.addItem)
+        if !settingsItems.isEmpty { menu.addItem(.separator()) }
         menu.addItem(ClosureMenuItem(title: "Help") { NSWorkspace.shared.open(AppInfo.helpURL) })
         menu.addItem(ClosureMenuItem(title: "About \(AppInfo.name)") { [unowned app] in app.showAbout(nil) })
         menu.addItem(.separator())
@@ -200,24 +204,41 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         return entry
     }
 
-    /// Upstream's quick settings in the tray menu (`TrayMenu.cs`): the most used options as check items.
-    private func quickSettingsItem() -> NSMenuItem {
-        let store = app.settings
+    /// Quick Settings and Settings…, unless an administrator turned them off (upstream `TrayMenu.cs`: `DisableQuickSettings`,
+    /// `DisableSettings`).
+    static func settingsItems(store: SettingsStore, openSettings: @escaping () -> Void) -> [NSMenuItem] {
+        var items: [NSMenuItem] = []
+        if let quickSettings = quickSettingsItem(store: store) { items.append(quickSettings) }
+        if !store.value.disableSettings {
+            items.append(ClosureMenuItem(title: "Settings…", keyEquivalent: ",", handler: openSettings))
+        }
+        return items
+    }
+
+    /// Upstream's quick settings in the tray menu (`TrayMenu.cs`): the most used options as check items. Like upstream
+    /// (`AddBoolMenuItem`, `IsConstant("Destinations")`) a setting an administrator locked is left out, and so are the
+    /// destinations they turned off; nil when nothing is left or Quick Settings are turned off.
+    static func quickSettingsItem(store: SettingsStore) -> NSMenuItem? {
         let s = store.value
+        guard !s.disableQuickSettings else { return nil }
         let menu = NSMenu(title: "Quick Settings")
         menu.autoenablesItems = false
-        menu.addItem(toggle("Capture Mouse Pointer", s.captureMousePointer) { store.update { $0.captureMousePointer.toggle() } })
-
-        let destinations = NSMenu(title: "Destinations")
-        destinations.autoenablesItems = false
-        for destination in CaptureDestination.allCases {
-            let on = s.destinations.contains(destination)
-            destinations.addItem(toggle(destination.displayName, on) { store.update { $0.setDestination(destination, on: !on) } })
-            if destination == .picker { destinations.addItem(.separator()) }
+        if !store.isLocked(\.captureMousePointer) {
+            menu.addItem(toggle("Capture Mouse Pointer", s.captureMousePointer) { store.update { $0.captureMousePointer.toggle() } })
         }
-        let destinationsItem = NSMenuItem(title: "After a Capture", action: nil, keyEquivalent: "")
-        destinationsItem.submenu = destinations
-        menu.addItem(destinationsItem)
+
+        if !store.isLocked(\.destinations) {
+            let destinations = NSMenu(title: "Destinations")
+            destinations.autoenablesItems = false
+            for destination in CaptureDestination.allCases where !s.isDestinationExcluded(destination) {
+                let on = s.destinations.contains(destination)
+                destinations.addItem(toggle(destination.displayName, on) { store.update { $0.setDestination(destination, on: !on) } })
+                if destination == .picker { destinations.addItem(.separator()) }
+            }
+            let destinationsItem = NSMenuItem(title: "After a Capture", action: nil, keyEquivalent: "")
+            destinationsItem.submenu = destinations
+            menu.addItem(destinationsItem)
+        }
 
         let printing = NSMenu(title: "Print Options")
         printing.autoenablesItems = false
@@ -228,30 +249,51 @@ final class StatusItemController: NSObject, NSMenuDelegate {
             ("Inverted Colours", \.inverted), ("Grayscale", \.grayscale), ("Black and White", \.monochrome),
         ]
         for (title, keyPath) in printToggles {
-            printing.addItem(toggle(title, p[keyPath: keyPath]) {
-                store.update { settings in
-                    settings.printing[keyPath: keyPath].toggle()
-                    // Grayscale and black and white exclude each other, like the radio buttons.
-                    if keyPath == \PrintSettings.grayscale, settings.printing.grayscale { settings.printing.monochrome = false }
-                    if keyPath == \PrintSettings.monochrome, settings.printing.monochrome { settings.printing.grayscale = false }
-                }
-            })
+            let setting: AnyKeyPath = (\AppSettings.printing).appending(path: keyPath)
+            if !store.policy.isLocked(setting) {
+                printing.addItem(toggle(title, p[keyPath: keyPath]) {
+                    store.update { settings in
+                        settings.printing[keyPath: keyPath].toggle()
+                        // Grayscale and black and white exclude each other, like the radio buttons.
+                        if keyPath == \PrintSettings.grayscale, settings.printing.grayscale { settings.printing.monochrome = false }
+                        if keyPath == \PrintSettings.monochrome, settings.printing.monochrome { settings.printing.grayscale = false }
+                    }
+                })
+            }
             if keyPath == \PrintSettings.promptOptions || keyPath == \PrintSettings.footer { printing.addItem(.separator()) }
         }
-        let printingItem = NSMenuItem(title: "Print Options", action: nil, keyEquivalent: "")
-        printingItem.submenu = printing
-        menu.addItem(printingItem)
+        trimSeparators(printing)
+        if !printing.items.isEmpty {
+            let printingItem = NSMenuItem(title: "Print Options", action: nil, keyEquivalent: "")
+            printingItem.submenu = printing
+            menu.addItem(printingItem)
+        }
 
         menu.addItem(.separator())
-        menu.addItem(toggle("Play Camera Sound", s.playCameraSound) { store.update { $0.playCameraSound.toggle() } })
-        menu.addItem(toggle("Show Notifications", s.showNotifications) { store.update { $0.showNotifications.toggle() } })
+        if !store.isLocked(\.playCameraSound) {
+            menu.addItem(toggle("Play Camera Sound", s.playCameraSound) { store.update { $0.playCameraSound.toggle() } })
+        }
+        if !store.isLocked(\.showNotifications) && !store.isLocked(\.notificationLevel) {
+            menu.addItem(toggle("Show Notifications", s.showNotifications) { store.update { $0.showNotifications.toggle() } })
+        }
+        trimSeparators(menu)
+        guard !menu.items.isEmpty else { return nil }
 
         let item = NSMenuItem(title: "Quick Settings", action: nil, keyEquivalent: "")
         item.submenu = menu
         return item
     }
 
-    private func toggle(_ title: String, _ on: Bool, action: @escaping () -> Void) -> NSMenuItem {
+    /// Removes separators at the ends and doubled ones, left by the entries that were left out.
+    private static func trimSeparators(_ menu: NSMenu) {
+        var previousWasSeparator = true
+        for item in menu.items {
+            if item.isSeparatorItem && previousWasSeparator { menu.removeItem(item) } else { previousWasSeparator = item.isSeparatorItem }
+        }
+        if let last = menu.items.last, last.isSeparatorItem { menu.removeItem(last) }
+    }
+
+    private static func toggle(_ title: String, _ on: Bool, action: @escaping () -> Void) -> NSMenuItem {
         let entry = ClosureMenuItem(title: title, handler: action)
         entry.state = on ? .on : .off
         return entry

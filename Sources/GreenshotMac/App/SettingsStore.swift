@@ -7,9 +7,16 @@ import GreenshotCore
 import SwiftUI
 
 /// The live settings: every change is saved right away.
+///
+/// An administrator's configuration profile can lock settings and set defaults (`ManagedPolicy`, the Mac's
+/// greenshot-fixed.ini and greenshot-defaults.ini). `value` is what is in effect; the store saves only the user's own
+/// values, so a locked value never overwrites them and they come back when the profile is removed.
 @MainActor
 final class SettingsStore: ObservableObject {
+    /// The settings in effect: the user's with the locked values.
     @Published private(set) var value: AppSettings
+    /// What the administrator locked or preset; Settings disables the locked controls (`.managed(\.keyPath)`).
+    @Published private(set) var policy: ManagedPolicy
     /// Called after the hotkeys changed, to register them again.
     var onHotkeysChange: (() -> Void)?
     /// Called after "Show in Dock while a window is open" changed.
@@ -17,12 +24,22 @@ final class SettingsStore: ObservableObject {
     private let defaults: UserDefaults
     /// The settings file of `--settings-dir` (upstream `--ini-directory`); nil keeps them in the user defaults.
     private let fileURL: URL?
+    /// The managed values: the app's user defaults (a profile forces them per bundle id, also with `--settings-dir`,
+    /// like upstream reads greenshot-fixed.ini from the installation and never from `--ini-directory`).
+    private let managed: ManagedValueSource
+    /// The user's own settings, the ones saved.
+    private var stored: AppSettings
     private var observers: [(_ old: AppSettings, _ new: AppSettings) -> Void] = []
+    private let log = Log("Managed")
 
-    init(defaults: UserDefaults = .standard, fileURL: URL? = nil) {
+    /// `managed` defaults to `defaults` itself: the app's user defaults, or for the snapshots an empty suite.
+    init(defaults: UserDefaults = .standard, fileURL: URL? = nil, managed: ManagedValueSource? = nil) {
         self.defaults = defaults
         self.fileURL = fileURL
-        value = fileURL.map { url in
+        let source = managed ?? UserDefaultsManagedSource(defaults)
+        self.managed = source
+        let policy = ManagedPolicy(source: source)
+        let loaded = fileURL.map { url in
             SettingsStorage.load(fromFile: url) { aside in
                 DispatchQueue.main.async {
                     ErrorPresenter.show(message: "The settings file could not be read",
@@ -30,27 +47,70 @@ final class SettingsStore: ObservableObject {
                 }
             }
         } ?? SettingsStorage.load(from: defaults)
+        let stored = policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL))
+        self.policy = policy
+        self.stored = stored
+        value = policy.effective(stored)
+    }
+
+    /// The saved settings as they are, to see which values they have (defaults fill in the others).
+    private static func storedJSON(defaults: UserDefaults, fileURL: URL?) -> Data? {
+        guard let fileURL else { return defaults.data(forKey: SettingsStorage.key) }
+        return try? Data(contentsOf: fileURL)
     }
 
     /// Reads the settings again from where they are stored (`greenshot-cli --reload`, upstream's RELOAD command) and
-    /// applies them like any change.
+    /// applies them like any change, with the managed values read again too.
     func reloadFromDisk() {
+        refreshManaged()
         let loaded = fileURL.map { SettingsStorage.load(fromFile: $0) } ?? SettingsStorage.load(from: defaults)
-        update { $0 = loaded }
+        commit(stored: policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL)), save: false)
     }
 
+    /// Reads the managed values again (a profile installed or removed while the app runs): when Settings or the menu
+    /// bar menu opens.
+    func refreshManaged() {
+        let newPolicy = ManagedPolicy(source: managed)
+        guard newPolicy != policy else { return }
+        policy = newPolicy
+        logManagedPolicy()
+        commit(stored: stored, save: false)
+    }
+
+    /// Logs what the administrator set, by name (never the values); nothing without a profile.
+    func logManagedPolicy() {
+        guard !policy.isEmpty else { return }
+        log.info("Managed settings: \(policy.summary)")
+        for problem in policy.problems {
+            log.warn("Managed setting ignored: \(problem)")
+        }
+    }
+
+    /// Whether an administrator locked the setting at `keyPath`.
+    func isLocked(_ keyPath: PartialKeyPath<AppSettings>) -> Bool {
+        policy.isLocked(keyPath)
+    }
+
+    /// Changes the settings in effect. Changes of locked values are dropped: the locked value stays.
     func update(_ body: (inout AppSettings) -> Void) {
         var changed = value
         body(&changed)
         guard changed != value else { return }
+        commit(stored: policy.stored(afterEditing: changed, effective: value, stored: stored), save: true)
+    }
+
+    /// Takes `newStored` as the user's settings, saves them when asked and they changed, and tells the observers what
+    /// changed in effect.
+    private func commit(stored newStored: AppSettings, save shouldSave: Bool) {
+        if shouldSave && newStored != stored { save(newStored) }
+        stored = newStored
         let old = value
-        let hotkeysChanged = changed.hotkeys != value.hotkeys
-        let dockChanged = changed.dockIconWhileWindowOpen != value.dockIconWhileWindowOpen
-        value = changed
-        save(changed)
-        if hotkeysChanged { onHotkeysChange?() }
-        if dockChanged { onDockChange?() }
-        observers.forEach { $0(old, changed) }
+        let new = policy.effective(newStored)
+        guard new != old else { return }
+        value = new
+        if new.hotkeys != old.hotkeys { onHotkeysChange?() }
+        if new.dockIconWhileWindowOpen != old.dockIconWhileWindowOpen { onDockChange?() }
+        observers.forEach { $0(old, new) }
     }
 
     /// Calls `handler` with the new value every time the setting at `keyPath` changed.

@@ -18,6 +18,7 @@ struct ExpertSettings: View {
             Section("Updates") {
                 Toggle("Check for unstable updates (pre-releases)", isOn: store.binding(\.checkForUnstable))
                     .help("Also offer beta versions of \(AppInfo.name) when it looks for updates.")
+                    .managed(\.checkForUnstable)
             }
             clipboardSection
             counterSection
@@ -48,6 +49,7 @@ struct ExpertSettings: View {
         Section {
             ForEach(ClipboardFormat.allCases, id: \.self) { format in
                 Toggle(format.displayName, isOn: clipboardFormat(format))
+                    .managed(\.clipboardFormats)
             }
         } header: {
             Text("Clipboard formats")
@@ -61,9 +63,11 @@ struct ExpertSettings: View {
         Section("Menus") {
             Toggle("Show window thumbnails in the window list", isOn: store.binding(\.thumbnailPreview))
                 .help("Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.")
+                .managed(\.thumbnailPreview)
             Stepper(value: store.binding(\.maxMenuItemLength), in: 5...200, step: 5) {
                 Text("Window titles in menus: up to \(store.value.maxMenuItemLength) characters")
             }
+            .managed(\.maxMenuItemLength)
         }
     }
 
@@ -81,6 +85,7 @@ struct ExpertSettings: View {
                         .disabled(store.value.incrementingNumber == 0)
                 }
             }
+            .managed(\.incrementingNumber)
         } header: {
             Text("File name counter")
         } footer: {

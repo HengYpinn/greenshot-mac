@@ -21,6 +21,7 @@ struct GeneralSettings: View {
                 Picker("Appearance", selection: store.binding(\.theme)) {
                     ForEach(AppTheme.allCases, id: \.self) { Text($0.displayName).tag($0) }
                 }
+                .managed(\.theme)
                 Toggle("Launch at login", isOn: Binding(get: { status.launchAtLogin }, set: { status.setLaunchAtLogin($0) }))
                 Toggle("Show in Dock while a window is open", isOn: store.binding(\.dockIconWhileWindowOpen))
                     .help("""
@@ -28,6 +29,7 @@ struct GeneralSettings: View {
                         either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to \
                         the desktop.
                         """)
+                    .managed(\.dockIconWhileWindowOpen)
                 if status.loginNeedsApproval {
                     HStack {
                         Text(LaunchAtLogin.approvalHint).font(.caption).foregroundStyle(.orange)
@@ -45,6 +47,7 @@ struct GeneralSettings: View {
                          ? "Never check for updates"
                          : "Check for updates every \(store.value.updateCheckIntervalDays) days")
                 }
+                .managed(\.updateCheckIntervalDays)
                 HStack {
                     Text(lastCheck).font(.caption).foregroundStyle(.secondary)
                     Spacer()
@@ -79,13 +82,16 @@ struct GeneralSettings: View {
     private var menuBarSection: some View {
         Section {
             Toggle("Show the menu bar icon", isOn: showIcon)
+                .managed(\.hideMenuBarIcon)
             Picker("Click", selection: store.binding(\.leftClickAction)) {
                 ForEach(ClickAction.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.leftClickAction)
             Picker("Double-click", selection: store.binding(\.doubleClickAction)) {
                 ForEach(ClickAction.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
             .disabled(MenuBarClick.clickShowsMenu(store.value.leftClickAction))
+            .managed(\.doubleClickAction)
         } header: {
             Text("Menu bar icon")
         } footer: {

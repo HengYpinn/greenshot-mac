@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  A sample configuration profile for Greenshot for Mac (Community), an unofficial macOS port of Greenshot.
+  SPDX-License-Identifier: GPL-3.0-or-later
+
+  Every key under mcx_preference_settings is forced: the setting is locked in Settings ("Set by your organisation") and
+  its value wins over the user's. Greenshot.defaults holds defaults: they fill in settings a user doesn't have yet (a
+  first start), are not locked, and the user can change them. See the README section "Managed settings".
+
+  Before you use it: replace the PayloadUUID values with your own (uuidgen), and if your build has another bundle
+  identifier (scripts/build-app.sh BUNDLE_ID=...), use it instead of io.github.greenshot-mac.GreenshotMac below.
+-->
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>PayloadIdentifier</key>
+			<string>io.github.greenshot-mac.GreenshotMac.managed-settings.preferences</string>
+			<key>PayloadUUID</key>
+			<string>6F1D5D3B-2C55-4B0B-9C7A-1E6A0E2C9B11</string>
+			<key>PayloadDisplayName</key>
+			<string>Greenshot for Mac settings</string>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadContent</key>
+			<dict>
+				<key>io.github.greenshot-mac.GreenshotMac</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+								<!-- Upstream HideExpertSettings, DisableQuickSettings; DisableSettings would hide Settings altogether. -->
+								<key>Greenshot.hideExpertSettings</key>
+								<true/>
+								<key>Greenshot.disableQuickSettings</key>
+								<false/>
+								<key>Greenshot.disableSettings</key>
+								<false/>
+								<!-- Upstream ExcludeDestinations (and ExcludePlugins: "Office Plugin", "Jira Plugin", ...). -->
+								<key>Greenshot.excludeDestinations</key>
+								<array>
+									<string>box</string>
+									<string>dropbox</string>
+								</array>
+								<!-- No update checks: the organisation deploys updates. -->
+								<key>Greenshot.updateCheckIntervalDays</key>
+								<integer>0</integer>
+								<key>Greenshot.outputFolder</key>
+								<string>~/Pictures/Screenshots</string>
+								<key>Greenshot.outputFormat</key>
+								<string>jpg</string>
+								<key>Greenshot.jpegQuality</key>
+								<integer>85</integer>
+								<!-- One member of a group: the other print options stay the user's. -->
+								<key>Greenshot.printing.footer</key>
+								<true/>
+								<key>Greenshot.jira</key>
+								<dict>
+									<key>url</key>
+									<string>https://jira.example.com</string>
+									<key>login</key>
+									<string>serverToken</string>
+								</dict>
+								<!-- Upstream WelcomeShown: no welcome window. -->
+								<key>Greenshot.welcomeShown</key>
+								<true/>
+								<key>Greenshot.defaults</key>
+								<dict>
+									<key>captureMousePointer</key>
+									<false/>
+									<key>destinations</key>
+									<array>
+										<string>clipboard</string>
+										<string>file</string>
+									</array>
+									<key>hotkeys</key>
+									<dict>
+										<!-- Control-Option-Command-4: key code 21 (Carbon kVK_ANSI_4); 6400 = control 4096 + option 2048 + command 256. -->
+										<key>region</key>
+										<dict>
+											<key>keyCode</key>
+											<integer>21</integer>
+											<key>modifiers</key>
+											<integer>6400</integer>
+										</dict>
+										<!-- An empty text: no hotkey. -->
+										<key>lastRegion</key>
+										<string></string>
+									</dict>
+								</dict>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+	</array>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+	<key>PayloadIdentifier</key>
+	<string>io.github.greenshot-mac.GreenshotMac.managed-settings</string>
+	<key>PayloadUUID</key>
+	<string>0C8B2E4A-7D3F-4E61-A5B2-3F9C8D7E6A50</string>
+	<key>PayloadDisplayName</key>
+	<string>Greenshot for Mac (Community): managed settings</string>
+	<key>PayloadDescription</key>
+	<string>Locks some settings of Greenshot for Mac (Community) and sets defaults for others.</string>
+	<key>PayloadOrganization</key>
+	<string>Example Organisation</string>
+	<key>PayloadScope</key>
+	<string>System</string>
+</dict>
+</plist>

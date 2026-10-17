@@ -31,10 +31,16 @@ struct DestinationsSettings: View {
 
     private var afterCaptureSection: some View {
         Section {
-            Toggle("Ask every time (destination menu)", isOn: destination(.picker))
-            // Never disabled: with the menu on and nothing else chosen, there would be no way to switch.
-            ForEach(Self.choices.filter(Self.isOffered), id: \.self) { candidate in
+            if !store.value.isDestinationExcluded(.picker) {
+                Toggle("Ask every time (destination menu)", isOn: destination(.picker))
+                    .managed(\.destinations)
+            }
+            // Never disabled: with the menu on and nothing else chosen, there would be no way to switch. Only an
+            // administrator locks them (upstream `FixedToEnabledConverter` on `OutputDestinations`), and the ones they
+            // turned off aren't listed (`ExcludeDestinations`).
+            ForEach(Self.choices.filter(Self.isOffered).filter { !store.value.isDestinationExcluded($0) }, id: \.self) { candidate in
                 Toggle(candidate.displayName, isOn: destination(candidate))
+                    .managed(\.destinations)
             }
         } header: {
             Text("After a capture")
@@ -54,9 +60,13 @@ struct DestinationsSettings: View {
     private var emailSection: some View {
         Section {
             TextField("To", text: store.binding(\.email.to))
+                .managed(\.email.to)
             TextField("CC", text: store.binding(\.email.cc))
+                .managed(\.email.cc)
             TextField("BCC", text: store.binding(\.email.bcc))
+                .managed(\.email.bcc)
             TextField("Subject", text: store.binding(\.email.subjectPattern))
+                .managed(\.email.subjectPattern)
         } header: {
             Text("Email")
         } footer: {
@@ -70,9 +80,11 @@ struct DestinationsSettings: View {
             Picker("Page size", selection: store.binding(\.pdf.pageSize)) {
                 ForEach(PDFSettings.PageSize.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.pdf.pageSize)
             Picker("Unit", selection: store.binding(\.pdf.unit)) {
                 ForEach(PDFSettings.Unit.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.pdf.unit)
             if store.value.pdf.pageSize == .custom {
                 LabeledContent("Custom size") {
                     HStack {
@@ -94,6 +106,7 @@ struct DestinationsSettings: View {
                 ForEach(PDFSettings.Scaling.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
             .disabled(store.value.pdf.pageSize == .image)
+            .managed(\.pdf.scaling)
         } header: {
             Text("PDF")
         } footer: {
@@ -107,17 +120,20 @@ struct DestinationsSettings: View {
             .frame(width: 56)
             .multilineTextAlignment(.trailing)
             .help(title)
+            .managed(keyPath)
     }
 
     private var externalCommandsSection: some View {
         Section {
             ForEach(store.value.externalCommands) { command in
                 ExternalCommandRow(command: command, edit: { edit(command) }, remove: { remove(command) })
+                    .managed(\.externalCommands)
             }
             HStack {
                 Spacer()
                 Button("Add…") { add() }
             }
+            .managed(\.externalCommands)
         } header: {
             Text("External commands")
         } footer: {
@@ -160,13 +176,17 @@ struct OfficeSettingsSection: View {
     var body: some View {
         Section {
             Toggle("Word: lock aspect ratio of the image", isOn: store.binding(\.office.wordLockAspectRatio))
+                .managed(\.office.wordLockAspectRatio)
             Toggle("PowerPoint: lock aspect ratio of the image", isOn: store.binding(\.office.powerpointLockAspectRatio))
+                .managed(\.office.powerpointLockAspectRatio)
             Picker("PowerPoint: slide layout for exported captures", selection: store.binding(\.office.powerpointSlideLayout)) {
                 ForEach(OfficeSettings.SlideLayout.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.office.powerpointSlideLayout)
             Picker("Outlook: email format for new emails", selection: store.binding(\.office.outlookEmailFormat)) {
                 ForEach(OfficeSettings.EmailFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.office.outlookEmailFormat)
             HStack {
                 Text("Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.")
                     .font(.caption).foregroundStyle(.secondary)

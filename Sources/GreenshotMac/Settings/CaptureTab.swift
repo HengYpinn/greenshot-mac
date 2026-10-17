@@ -16,19 +16,26 @@ struct CaptureSettings: View {
             Section("Capturing") {
                 Toggle("Capture the mouse pointer", isOn: store.binding(\.captureMousePointer))
                     .help("M on the capture screen switches it for one capture.")
+                    .managed(\.captureMousePointer)
                 Toggle("Use interactive window capture mode", isOn: store.binding(\.interactiveWindowCapture))
                     .help("The window hotkey opens the capture screen in window mode instead of capturing the active window.")
+                    .managed(\.interactiveWindowCapture)
                 Toggle("Keep the window shadow in window captures", isOn: store.binding(\.includeWindowShadow))
+                    .managed(\.includeWindowShadow)
                 WindowAreasSetting(store: store)
                 HDRSetting(store: store)
                 Toggle("Show the zoomer on the capture screen", isOn: store.binding(\.zoomerEnabled))
+                    .managed(\.zoomerEnabled)
                 ZoomerOpacitySetting(store: store)
                 Toggle("Look for QR codes on the capture screen", isOn: store.binding(\.scanQRCodesOnCapture))
+                    .managed(\.scanQRCodesOnCapture)
                 Toggle("Play the camera sound", isOn: store.binding(\.playCameraSound))
+                    .managed(\.playCameraSound)
                 CameraSoundSetting(store: store)
                 Stepper(value: store.binding(\.captureDelayMilliseconds), in: 0...10_000, step: 100) {
                     Text("Wait before capturing: \(store.value.captureDelayMilliseconds) ms")
                 }
+                .managed(\.captureDelayMilliseconds)
             }
             FullScreenSettings(store: store)
             FixedSizeSettings(store: store)
@@ -56,6 +63,7 @@ struct WindowAreasSetting: View {
         Toggle("Select areas inside windows", isOn: enabled)
             .help("In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a "
                   + "part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.")
+            .managed(\.windowCaptureSelectsAreas)
         if store.value.windowCaptureSelectsAreas && !accessibility.isAllowed {
             LabeledContent {
                 HStack {
@@ -96,6 +104,7 @@ struct HDRSetting: View {
             Toggle("Tone map HDR content on HDR screens", isOn: store.binding(\.toneMapHDRCaptures))
                 .help("While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead "
                       + "of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.")
+                .managed(\.toneMapHDRCaptures)
         } else {
             Toggle("Tone map HDR content on HDR screens (macOS 15 or later)", isOn: .constant(false))
                 .disabled(true)
@@ -117,6 +126,7 @@ private struct ZoomerOpacitySetting: View {
         }
         .disabled(!store.value.zoomerEnabled)
         .help("Below 100 % the screen shows through the zoomer.")
+        .managed(\.zoomerOpacity)
     }
 }
 
@@ -141,6 +151,7 @@ private struct CameraSoundSetting: View {
             }
         }
         .disabled(!store.value.playCameraSound)
+        .managed(\.notificationSound)
     }
 
     private var name: String {
@@ -169,10 +180,12 @@ private struct FullScreenSettings: View {
             Picker("Captures", selection: store.binding(\.screenCaptureMode)) {
                 ForEach(ScreenCaptureMode.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.screenCaptureMode)
             if store.value.screenCaptureMode == .fixed {
                 Stepper(value: store.binding(\.screenToCapture), in: 1...9) {
                     Text("Screen \(store.value.screenToCapture)\(screenName)")
                 }
+                .managed(\.screenToCapture)
             }
         }
     }
@@ -203,12 +216,14 @@ private struct FixedSizeSettings: View {
                     Spacer()
                     Button("Remove") { remove(at: index) }
                 }
+                .managed(\.fixedCaptureSizes)
             }
             HStack {
                 TextField("Size", text: $draft.text, prompt: Text("1280x720"))
                     .onSubmit(add)
                 Button("Add", action: add).disabled(newSizes.isEmpty)
             }
+            .managed(\.fixedCaptureSizes)
         } header: {
             Text("Fixed capture sizes")
         } footer: {
@@ -248,6 +263,7 @@ private struct TextRecognitionSettings: View {
         Section("Text recognition (OCR)") {
             Toggle("Recognise the text as soon as the capture screen opens", isOn: store.binding(\.alwaysRunOCROnCapture))
                 .help("The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.")
+                .managed(\.alwaysRunOCROnCapture)
             Picker("Language of the text", selection: store.binding(\.ocrLanguage)) {
                 Text("Automatic").tag("")
                 ForEach(Self.languages, id: \.self) { Text(Self.name(of: $0)).tag($0) }
@@ -255,6 +271,7 @@ private struct TextRecognitionSettings: View {
                     Text(store.value.ocrLanguage).tag(store.value.ocrLanguage)
                 }
             }
+            .managed(\.ocrLanguage)
         }
     }
 

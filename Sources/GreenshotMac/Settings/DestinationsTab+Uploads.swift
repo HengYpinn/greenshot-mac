@@ -142,17 +142,19 @@ struct JiraSettingsSection: View {
             Picker("Sign in with", selection: store.binding(\.jira.login)) {
                 ForEach(AtlassianLogin.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.jira.login)
             TextField("URL", text: store.binding(\.jira.url),
                       prompt: Text(login.isCloud ? "https://yourcompany.atlassian.net" : "https://jira.yourcompany.com"))
+                .managed(\.jira.url)
             UnencryptedURLWarning(url: store.value.jira.url)
             if let userLabel = login.userLabel {
                 TextField(userLabel, text: store.binding(\.jira.email))
+                    .managed(\.jira.email)
             }
             let host = AtlassianSite.host(ofURL: store.value.jira.url)
             SecretField(login.secretLabel, key: SecretKey.jiraToken, owner: .site(host: host))
                 .id(host ?? "")
-            UploadFormatRow(format: store.binding(\.jira.uploadFormat), quality: store.binding(\.jira.jpegQuality),
-                            reduceColors: store.binding(\.jira.reduceColors))
+            UploadFormatRow(store: store, format: \.jira.uploadFormat, quality: \.jira.jpegQuality, reduceColors: \.jira.reduceColors)
             ConnectionTestRow(test: test) { test.run(confluence: false, settings: store.value) }
         } header: {
             Text("Jira")
@@ -173,22 +175,28 @@ struct ConfluenceSettingsSection: View {
             Picker("Sign in with", selection: store.binding(\.confluence.login)) {
                 ForEach(AtlassianLogin.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.confluence.login)
             TextField("URL", text: store.binding(\.confluence.url),
                       prompt: Text(login.isCloud ? "https://yourcompany.atlassian.net/wiki" : "https://confluence.yourcompany.com"))
+                .managed(\.confluence.url)
             UnencryptedURLWarning(url: store.value.confluence.url)
             if let userLabel = login.userLabel {
                 TextField(userLabel, text: store.binding(\.confluence.email))
+                    .managed(\.confluence.email)
             }
             let host = AtlassianSite.host(ofURL: store.value.confluence.url)
             SecretField(login.secretLabel, key: SecretKey.confluenceToken, owner: .site(host: host))
                 .id(host ?? "")
-            UploadFormatRow(format: store.binding(\.confluence.uploadFormat), quality: store.binding(\.confluence.jpegQuality),
-                            reduceColors: store.binding(\.confluence.reduceColors))
+            UploadFormatRow(store: store, format: \.confluence.uploadFormat, quality: \.confluence.jpegQuality,
+                            reduceColors: \.confluence.reduceColors)
             Toggle("Open the page after the upload", isOn: store.binding(\.confluence.openPageAfterUpload))
+                .managed(\.confluence.openPageAfterUpload)
             Picker("Copy to the clipboard", selection: store.binding(\.confluence.clipboardContent)) {
                 ForEach(ConfluenceSettings.ClipboardContent.allCases, id: \.self) { Text($0.displayName).tag($0) }
             }
+            .managed(\.confluence.clipboardContent)
             Toggle("Include personal spaces in search and browsing", isOn: store.binding(\.confluence.includePersonalSpaces))
+                .managed(\.confluence.includePersonalSpaces)
             ConnectionTestRow(test: test) { test.run(confluence: true, settings: store.value) }
         } header: {
             Text("Confluence")
@@ -234,8 +242,10 @@ struct CertificateExceptionsSection: View {
         Section {
             LinesField(title: "Trust these hosts despite certificate errors", prompt: "jira.mycompany.local\n*.mycompany.local",
                        lines: store.binding(\.allowedUntrustedCertificateHosts))
+                .managed(\.allowedUntrustedCertificateHosts)
             LinesField(title: "Trust certificates with these fingerprints", prompt: "SHA-256 or SHA-1, e.g. 2F:D2:CC:…",
                        lines: store.binding(\.allowedCertificateThumbprints))
+                .managed(\.allowedCertificateThumbprints)
         } header: {
             Text("Your own servers")
         } footer: {
@@ -284,12 +294,16 @@ struct BoxSettingsSection: View {
     var body: some View {
         Section {
             TextField("Client ID", text: store.binding(\.box.clientID))
+                .managed(\.box.clientID)
             SecretField("Client secret", key: SecretKey.boxClientSecret)
             TextField("Folder ID", text: store.binding(\.box.folderID), prompt: Text("0 = All Files"))
-            UploadFormatRow(format: store.binding(\.box.uploadFormat), quality: store.binding(\.box.jpegQuality))
+                .managed(\.box.folderID)
+            UploadFormatRow(store: store, format: \.box.uploadFormat, quality: \.box.jpegQuality)
             Toggle("Copy the link to the clipboard", isOn: store.binding(\.box.copyLinkToClipboard))
+                .managed(\.box.copyLinkToClipboard)
             Toggle("Shared link (anyone with the link), not the private one", isOn: store.binding(\.box.useSharedLink))
                 .disabled(!store.value.box.copyLinkToClipboard)
+                .managed(\.box.useSharedLink)
             CloudAccountRow(account: account, store: store)
         } header: {
             Text("Box")
@@ -307,9 +321,12 @@ struct DropboxSettingsSection: View {
     var body: some View {
         Section {
             TextField("App key", text: store.binding(\.dropbox.appKey))
+                .managed(\.dropbox.appKey)
             TextField("Folder", text: store.binding(\.dropbox.folder), prompt: Text("e.g. Screenshots; empty = the app's folder"))
-            UploadFormatRow(format: store.binding(\.dropbox.uploadFormat), quality: store.binding(\.dropbox.jpegQuality))
+                .managed(\.dropbox.folder)
+            UploadFormatRow(store: store, format: \.dropbox.uploadFormat, quality: \.dropbox.jpegQuality)
             Toggle("Copy a shared link to the clipboard", isOn: store.binding(\.dropbox.copyLinkToClipboard))
+                .managed(\.dropbox.copyLinkToClipboard)
             CloudAccountRow(account: account, store: store)
         } header: {
             Text("Dropbox")
@@ -321,27 +338,36 @@ struct DropboxSettingsSection: View {
 }
 
 /// Format and JPEG quality of an upload, and "reduce colours" where upstream has it (`UploadReduceColors` of Jira and
-/// Confluence).
+/// Confluence). Takes the settings' key paths, so each control can be locked on its own.
 private struct UploadFormatRow: View {
-    @Binding var format: UploadFormat
-    @Binding var quality: Int
-    var reduceColors: Binding<Bool>? = nil
+    @ObservedObject var store: SettingsStore
+    let format: WritableKeyPath<AppSettings, UploadFormat>
+    let quality: WritableKeyPath<AppSettings, Int>
+    var reduceColors: WritableKeyPath<AppSettings, Bool>? = nil
 
     var body: some View {
-        Picker("Format", selection: $format) {
+        Picker("Format", selection: store.binding(format)) {
             ForEach(UploadFormat.allCases, id: \.self) { Text($0.displayName).tag($0) }
         }
-        if format == .jpg {
+        .managed(format)
+        if store.value[keyPath: format] == .jpg {
             LabeledContent("JPEG quality") {
                 HStack {
-                    Slider(value: Binding(get: { Double(quality) }, set: { quality = Int($0.rounded()) }), in: 10...100, step: 5)
-                    Text("\(quality)").monospacedDigit().frame(width: 32, alignment: .trailing)
+                    Slider(value: qualityBinding, in: 10...100, step: 5)
+                    Text("\(store.value[keyPath: quality])").monospacedDigit().frame(width: 32, alignment: .trailing)
                 }
             }
+            .managed(quality)
         }
-        if let reduceColors, format == .png {
-            Toggle("Reduce the amount of colours to a maximum of 256", isOn: reduceColors)
+        if let reduceColors, store.value[keyPath: format] == .png {
+            Toggle("Reduce the amount of colours to a maximum of 256", isOn: store.binding(reduceColors))
+                .managed(reduceColors)
         }
+    }
+
+    private var qualityBinding: Binding<Double> {
+        Binding(get: { Double(store.value[keyPath: quality]) },
+                set: { value in store.update { $0[keyPath: quality] = Int(value.rounded()) } })
     }
 }
 
