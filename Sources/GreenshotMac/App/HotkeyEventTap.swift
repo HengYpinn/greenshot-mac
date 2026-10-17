@@ -15,14 +15,18 @@ private let log = Log("Hotkeys")
 ///
 /// With Accessibility the tap filters (`.active`): a hotkey's keys don't reach the app in front, as with Carbon. With
 /// only Input Monitoring it can just listen (`.listenOnly`): the hotkey works, but the app in front gets the keys too.
-@MainActor
-final class HotkeyEventTap {
-    enum Mode: Equatable {
+///
+/// A filtering tap holds up every key press on the Mac until it answers, so it runs on a thread of its own, never
+/// behind the main thread (an export of a big image, saving at quit): it matches the keys there and goes to the main
+/// thread only for a hotkey that is complete (`fired`).
+final class HotkeyEventTap: @unchecked Sendable {
+    enum Mode: Equatable, Sendable {
         case active
         case listenOnly
     }
 
     /// The best tap the permissions allow, nil without either.
+    @MainActor
     static var availableMode: Mode? {
         if Permissions.hasAccessibility { return .active }
         if Permissions.canListenToKeys { return .listenOnly }
@@ -30,26 +34,31 @@ final class HotkeyEventTap {
     }
 
     let mode: Mode
-    /// A key was pressed: its key and Carbon modifiers, and the event's device flags. True when it belongs to a hotkey,
-    /// so an active tap keeps it from the app in front.
-    private let handler: (KeyChord, UInt64) -> Bool
+    /// The hotkey with this index (of those given) was typed; called on the tap's thread.
+    private let fired: (Int) -> Void
     private var port: CFMachPort?
     private var source: CFRunLoopSource?
-    /// The key of the last swallowed press: its repeats are swallowed too.
+    // Only on the tap's thread:
+    private var matcher: HotkeySequenceMatcher
+    /// The key of the last swallowed press: its repeats and its release are swallowed too.
     private var swallowedKey: Int64?
+    /// The tap thread's run loop, set before `init` returns.
+    private var runLoop: CFRunLoop?
 
-    /// Starts the tap; nil when macOS refuses it (no permission after all).
-    init?(mode: Mode, handler: @escaping (KeyChord, UInt64) -> Bool) {
+    /// Starts the tap for `hotkeys` on its own thread; nil when macOS refuses it (no permission after all). `fired` gets
+    /// the index of a typed hotkey, on the tap's thread.
+    init?(mode: Mode, hotkeys: [KeyCombo], fired: @escaping (Int) -> Void) {
         self.mode = mode
-        self.handler = handler
+        self.fired = fired
+        matcher = HotkeySequenceMatcher(hotkeys: hotkeys)
         let mask = CGEventMask(1 << CGEventType.keyDown.rawValue) | CGEventMask(1 << CGEventType.keyUp.rawValue)
+        // Unretained: the tap's thread holds the tap for as long as events can come (`run`).
         guard let port = CGEvent.tapCreate(tap: .cgSessionEventTap, place: .headInsertEventTap,
                                            options: mode == .active ? .defaultTap : .listenOnly, eventsOfInterest: mask,
                                            callback: { _, type, event, userInfo in
                                                guard let userInfo else { return Unmanaged.passUnretained(event) }
                                                let tap = Unmanaged<HotkeyEventTap>.fromOpaque(userInfo).takeUnretainedValue()
-                                               // The tap's run loop source is on the main run loop.
-                                               return MainActor.assumeIsolated { tap.handle(type, event) }
+                                               return tap.handle(type, event)
                                            },
                                            userInfo: Unmanaged.passUnretained(self).toOpaque())
         else {
@@ -57,22 +66,37 @@ final class HotkeyEventTap {
             return nil
         }
         self.port = port
-        let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, port, 0)
-        CFRunLoopAddSource(CFRunLoopGetMain(), source, .commonModes)
-        self.source = source
-        CGEvent.tapEnable(tap: port, enable: true)
+        source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, port, 0)
+        let ready = DispatchSemaphore(value: 0)
+        let thread = Thread { [self] in run(signalling: ready) }
+        thread.name = "Greenshot hotkey tap"
+        thread.qualityOfService = .userInteractive
+        thread.start()
+        ready.wait()
         log.info("Keyboard event tap started (\(mode == .active ? "filtering" : "listening only")) for left/right hotkeys")
     }
 
-    /// Stops the tap; it must be called before the tap is released.
-    func stop() {
-        if let port { CGEvent.tapEnable(tap: port, enable: false) }
-        if let source { CFRunLoopRemoveSource(CFRunLoopGetMain(), source, .commonModes) }
-        if let port { CFMachPortInvalidate(port) }
-        port = nil
-        source = nil
+    /// The tap's thread: runs its run loop until `stop()`. Holding `self` here keeps the tap alive while events can come.
+    private func run(signalling ready: DispatchSemaphore) {
+        let loop = CFRunLoopGetCurrent()
+        runLoop = loop
+        if let source { CFRunLoopAddSource(loop, source, .commonModes) }
+        if let port { CGEvent.tapEnable(tap: port, enable: true) }
+        ready.signal()
+        CFRunLoopRun()
+        if let source { CFRunLoopRemoveSource(loop, source, .commonModes) }
     }
 
+    /// Stops the tap and its thread.
+    func stop() {
+        if let port {
+            CGEvent.tapEnable(tap: port, enable: false)
+            CFMachPortInvalidate(port)
+        }
+        if let runLoop { CFRunLoopStop(runLoop) }
+    }
+
+    /// On the tap's thread.
     private func handle(_ type: CGEventType, _ event: CGEvent) -> Unmanaged<CGEvent>? {
         switch type {
         case .tapDisabledByTimeout, .tapDisabledByUserInput:
@@ -86,7 +110,7 @@ final class HotkeyEventTap {
             }
             let flags = event.flags
             let chord = KeyChord(keyCode: UInt32(keyCode), modifiers: Self.carbonModifiers(flags))
-            let used = handler(chord, flags.rawValue)
+            let used = feed(chord, deviceFlags: flags.rawValue)
             swallowedKey = used ? keyCode : nil
             return swallows(used) ? nil : Unmanaged.passUnretained(event)
         case .keyUp:
@@ -96,6 +120,19 @@ final class HotkeyEventTap {
             return swallows(true) ? nil : Unmanaged.passUnretained(event)
         default:
             return Unmanaged.passUnretained(event)
+        }
+    }
+
+    /// True when the key belongs to a hotkey (complete, a step of one, or Esc ending one).
+    private func feed(_ chord: KeyChord, deviceFlags: UInt64) -> Bool {
+        switch matcher.feed(chord, deviceFlags: deviceFlags, at: Date()) {
+        case .completed(let index):
+            fired(index)
+            return true
+        case .pending, .cancelled:
+            return true
+        case .ignored:
+            return false
         }
     }
 
