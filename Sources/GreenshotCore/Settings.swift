@@ -75,13 +75,15 @@ public struct HotkeySettings: Codable, Equatable, Sendable {
     public var lastRegion: KeyCombo? = .defaultLastRegion
     /// Upstream has no default for opening the clipboard either.
     public var clipboard: KeyCombo? = nil
+    /// Starts a screen recording of the target in Settings › Video, or stops the running one. No default.
+    public var recordVideo: KeyCombo? = nil
     /// "Capture text": the capture screen in text mode, the text goes to the clipboard (upstream's built-in recipe
     /// "OCR text to clipboard"). No default, like upstream.
     public var text: KeyCombo? = nil
 
     public init() {}
 
-    enum CodingKeys: String, CodingKey { case region, window, fullScreen, lastRegion, clipboard, text }
+    enum CodingKeys: String, CodingKey { case region, window, fullScreen, lastRegion, clipboard, text, recordVideo }
 
     // A cleared hotkey is stored as null; a missing key (older settings) gets the default.
     public init(from decoder: Decoder) throws {
@@ -96,6 +98,7 @@ public struct HotkeySettings: Codable, Equatable, Sendable {
         lastRegion = combo(.lastRegion, .defaultLastRegion)
         clipboard = combo(.clipboard, nil)
         text = combo(.text, nil)
+        recordVideo = combo(.recordVideo, nil)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -106,6 +109,7 @@ public struct HotkeySettings: Codable, Equatable, Sendable {
         try c.encode(lastRegion, forKey: .lastRegion)
         try c.encode(clipboard, forKey: .clipboard)
         try c.encode(text, forKey: .text)
+        try c.encode(recordVideo, forKey: .recordVideo)
     }
 }
 
@@ -253,6 +257,26 @@ public struct AppSettings: Codable, Equatable, Sendable {
     /// `AllowedCertificateThumbprints`).
     public var allowedCertificateThumbprints: [String] = []
 
+    /// Screen recordings (Settings › Video).
+    public var video = VideoSettings()
+    /// The recipe settings (upstream greenshot.ini `[Recipe]` and `[RecipeOptions]`).
+    public var recipes = RecipeSettings()
+    /// Mac-only: greenshotmac://capture/… and greenshotmac://clipboard links (from web pages, Alfred, Raycast) may take a
+    /// screenshot or open the clipboard; off, as any web page can open a link.
+    public var automationAllowCaptureLinks = false
+
+    // Admin policy (upstream `ICoreConfiguration.DisableSettings`, `DisableQuickSettings`, `HideExpertSettings`,
+    // `ExcludeDestinations`): no controls; set by a configuration profile, see docs/admin. Forced values are never saved.
+    /// Settings can't be opened: its menu items are hidden and every other way to open it says why.
+    public var disableSettings = false
+    /// The menu bar menu has no Quick Settings.
+    public var disableQuickSettings = false
+    /// Settings has no Expert tab.
+    public var hideExpertSettings = false
+    /// Destinations that are hidden and refused everywhere: `CaptureDestination` raw values, upstream's designations or
+    /// plugin names, any case (upstream `ExcludeDestinations` and `ExcludePlugins`).
+    public var excludeDestinations: [String] = []
+
     public init() {}
 
     public var outputFolderURL: URL {
@@ -282,6 +306,8 @@ public struct AppSettings: Codable, Equatable, Sendable {
         case hotkeys, destinations, captureMousePointer, interactiveWindowCapture, includeWindowShadow, captureDelayMilliseconds
         case windowCaptureSelectsAreas, toneMapHDRCaptures, showNotificationThumbnail, welcomeShown
         case office, allowedUntrustedCertificateHosts, allowedCertificateThumbprints
+        case video, recipes, automationAllowCaptureLinks
+        case disableSettings, disableQuickSettings, hideExpertSettings, excludeDestinations
         case playCameraSound, notificationSound, showNotifications, dockIconWhileWindowOpen, zoomerEnabled, outputFolder, filenamePattern, outputFormat, jpegQuality
         case copyPathToClipboard, incrementingNumber, lastCapturedRegion, editorStyles, recentEmoji
         case fixedCaptureSizes, recentCaptureSizes, fixedCaptureSize, fixedCaptureAnchor, screenCaptureMode, screenToCapture
@@ -315,6 +341,13 @@ public struct AppSettings: Codable, Equatable, Sendable {
         office = value(.office, d.office)
         allowedUntrustedCertificateHosts = value(.allowedUntrustedCertificateHosts, d.allowedUntrustedCertificateHosts)
         allowedCertificateThumbprints = value(.allowedCertificateThumbprints, d.allowedCertificateThumbprints)
+        video = value(.video, d.video)
+        recipes = value(.recipes, d.recipes)
+        automationAllowCaptureLinks = value(.automationAllowCaptureLinks, d.automationAllowCaptureLinks)
+        disableSettings = value(.disableSettings, d.disableSettings)
+        disableQuickSettings = value(.disableQuickSettings, d.disableQuickSettings)
+        hideExpertSettings = value(.hideExpertSettings, d.hideExpertSettings)
+        excludeDestinations = value(.excludeDestinations, d.excludeDestinations)
         captureDelayMilliseconds = value(.captureDelayMilliseconds, d.captureDelayMilliseconds)
         playCameraSound = value(.playCameraSound, d.playCameraSound)
         notificationSound = value(.notificationSound, d.notificationSound)

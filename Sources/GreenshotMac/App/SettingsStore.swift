@@ -32,6 +32,13 @@ final class SettingsStore: ObservableObject {
         } ?? SettingsStorage.load(from: defaults)
     }
 
+    /// Reads the settings again from where they are stored (`greenshot-cli --reload`, upstream's RELOAD command) and
+    /// applies them like any change.
+    func reloadFromDisk() {
+        let loaded = fileURL.map { SettingsStorage.load(fromFile: $0) } ?? SettingsStorage.load(from: defaults)
+        update { $0 = loaded }
+    }
+
     func update(_ body: (inout AppSettings) -> Void) {
         var changed = value
         body(&changed)

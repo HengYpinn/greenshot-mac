@@ -45,6 +45,9 @@ enum Snapshots {
         try renderAppExtras(to: folder, sample: sample, settings: settings)
         try renderNotificationExtras(to: folder, sample: sample, settings: settings)
         try renderBarcodeExtras(to: folder, sample: sample, settings: settings)
+        try renderVideoExtras(to: folder, sample: sample, settings: settings)
+        try renderAutomationExtras(to: folder, sample: sample, settings: settings)
+        try renderAdminExtras(to: folder, sample: sample, settings: settings)
         if let editorDocument {
             try ImageExporter.write(editorDocument.flattened(), to: folder.appendingPathComponent("editor-export.png"), format: .png,
                                     scale: editorDocument.scale)

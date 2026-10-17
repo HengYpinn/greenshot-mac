@@ -8,7 +8,7 @@ import Foundation
 /// The tabs of Settings, numbered like the window's tabs, found by upstream's names for them
 /// (`Greenshot/Settings/Views/SettingsWindow.xaml.cs` `SelectTab`, used by `greenshot://settings?tab=`).
 public enum SettingsPane: Int, CaseIterable, Sendable {
-    case general, capture, output, destinations, editor, printer, expert
+    case general, capture, output, destinations, editor, printer, expert, video
 
     /// Upstream's tab names and their aliases, any case; nil for a name without a tab here (plugins, recipes).
     public init?(name: String) {
@@ -20,6 +20,7 @@ public enum SettingsPane: Int, CaseIterable, Sendable {
         case "editor": self = .editor
         case "printer", "print": self = .printer
         case "expert", "expertsettings": self = .expert
+        case "video", "videos", "recording", "screenrecording": self = .video
         default: return nil
         }
     }

@@ -169,7 +169,8 @@ final class HotkeyManager {
 
     /// Registers the hotkeys from the settings, replacing the ones registered before, and tells the user about those
     /// macOS refused (upstream `HotkeyHelper.RegisterHotkeys`).
-    func registerAll(_ hotkeys: HotkeySettings, capture: CaptureCoordinator, editors: EditorManager) {
+    func registerAll(_ hotkeys: HotkeySettings, capture: CaptureCoordinator, editors: EditorManager,
+                     video: VideoRecordingController) {
         var combos: [KeyCombo] = []
         var names: [String] = []
         var actions: [() -> Void] = []
@@ -184,6 +185,7 @@ final class HotkeyManager {
         bind(hotkeys.fullScreen, "Capture full screen") { [weak capture] in capture?.captureFullScreenFromHotkey() }
         bind(hotkeys.lastRegion, "Capture last region") { [weak capture] in capture?.captureLastRegion() }
         bind(hotkeys.text, "Capture text") { [weak capture] in capture?.captureText() }
+        bind(hotkeys.recordVideo, "Start or stop recording") { [weak video] in video?.hotkeyPressed() }
         bind(hotkeys.clipboard, "Open clipboard") { [weak editors] in editors?.openClipboard() }
         let refused = register(combos, actions: actions)
         registeredNames = names

@@ -21,6 +21,7 @@ struct ExpertSettings: View {
             }
             clipboardSection
             counterSection
+            AutomationSettingsSection(store: store)
             troubleshootingSection
         }
         .formStyle(.grouped)

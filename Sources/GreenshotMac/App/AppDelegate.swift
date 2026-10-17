@@ -14,6 +14,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private(set) lazy var editors = EditorManager(settings: settings, saver: saver)
     private(set) lazy var output = OutputManager(settings: settings, saver: saver, editors: editors)
     private(set) lazy var capture = CaptureCoordinator(settings: settings, output: output)
+    private(set) lazy var video = VideoRecordingController(settings: settings, saver: saver)
     private let hotkeys = HotkeyManager()
     private var statusItem: StatusItemController?
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
@@ -122,7 +123,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     /// Quitting doesn't close the editor windows one by one, so ask about unsaved screenshots here.
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        editors.confirmQuit() ? .terminateNow : .terminateCancel
+        guard editors.confirmQuit() else { return .terminateCancel }
+        return video.terminateReply()
     }
 
     /// Opening the app again while it runs brings back the editors (they hide when another app is clicked), or
@@ -149,7 +151,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     // MARK: Hotkeys
 
     private func registerHotkeys() {
-        hotkeys.registerAll(settings.value.hotkeys, capture: capture, editors: editors)
+        hotkeys.registerAll(settings.value.hotkeys, capture: capture, editors: editors, video: video)
         guard let registration = HotkeyDiagnostics.lastRegistration else { return }
         let refused = registration.refused.filter(registration.combos.indices.contains)
             .map { "\(registration.names[$0]) (\(registration.combos[$0].displayString))" }
@@ -233,6 +235,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if let verdict = ManagedHooks.validate(menuItem, settings: settings.value) { return verdict }
         if menuItem.action == #selector(sendToDestination(_:)) {
             let window = NSApp.keyWindow ?? NSApp.mainWindow
             return window?.windowController is EditorWindowController

@@ -80,6 +80,7 @@ struct SettingsView: View {
     @ViewBuilder private var tabs: some View {
         GeneralSettings(store: store, status: status).tabItem { Label("General", systemImage: "gearshape") }.tag(SettingsPane.general.rawValue)
         CaptureSettings(store: store).tabItem { Label("Capture", systemImage: "camera.viewfinder") }.tag(SettingsPane.capture.rawValue)
+        VideoSettingsTab(store: store).tabItem { Label("Video", systemImage: "record.circle") }.tag(SettingsPane.video.rawValue)
         OutputSettings(store: store).tabItem { Label("Output", systemImage: "square.and.arrow.down") }.tag(SettingsPane.output.rawValue)
         DestinationsSettings(store: store).tabItem { Label("Destinations", systemImage: "paperplane") }.tag(SettingsPane.destinations.rawValue)
         EditorSettings(store: store).tabItem { Label("Editor", systemImage: "pencil.and.outline") }.tag(SettingsPane.editor.rawValue)

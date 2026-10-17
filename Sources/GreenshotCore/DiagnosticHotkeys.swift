@@ -39,7 +39,7 @@ public enum HotkeyStatus {
     public static func slots(_ hotkeys: HotkeySettings) -> [(id: String, name: String, combo: KeyCombo?)] {
         [("region", "Capture region", hotkeys.region), ("window", "Capture window", hotkeys.window),
          ("fullScreen", "Capture full screen", hotkeys.fullScreen), ("lastRegion", "Capture last region", hotkeys.lastRegion),
-         ("text", "Capture text", hotkeys.text), ("clipboard", "Open image from clipboard", hotkeys.clipboard)]
+         ("text", "Capture text", hotkeys.text), ("recordVideo", "Start or stop recording", hotkeys.recordVideo), ("clipboard", "Open image from clipboard", hotkeys.clipboard)]
     }
 
     /// `registered`: the hotkeys of the last registration (nil: none yet); `refused`: those macOS refused.

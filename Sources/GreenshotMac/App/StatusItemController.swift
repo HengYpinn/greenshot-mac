@@ -150,6 +150,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         menu.addItem(item("Capture Text", hotkeys.text) { capture.captureText() })
         menu.addItem(fullScreenItem(hotkey: hotkeys.fullScreen))
         menu.addItem(windowList.makeItem())
+        app.video.addMenuItems(to: menu)
 
         menu.addItem(.separator())
         let clipboard = item("Open Image from Clipboard", hotkeys.clipboard) { [unowned app] in app.editors.openClipboard() }

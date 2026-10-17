@@ -36,6 +36,11 @@ final class ShareDestination: NSObject, @preconcurrency NSSharingServicePickerDe
             completion(.failed(error.localizedDescription))
             return
         }
+        share(file: file, window: window, completion: completion)
+    }
+
+    /// Shows the share menu for a file (a screen recording) under the top of `window`, or at the mouse.
+    static func share(file: URL, window: NSWindow?, completion: @escaping ExportCompletion = { _ in }) {
         current?.close(.declined)
         let share = ShareDestination(file: file, completion: completion)
         current = share

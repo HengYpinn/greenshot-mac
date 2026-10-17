@@ -8,12 +8,15 @@ let package = Package(
     platforms: [.macOS(.v14)],
     products: [
         .executable(name: "GreenshotMac", targets: ["GreenshotMac"]),
+        .executable(name: "greenshot-cli", targets: ["greenshot-cli"]),
     ],
     targets: [
         // Platform logic without windows: filename patterns, settings, the annotation model and its renderer.
         .target(name: "GreenshotCore"),
         // The menu bar app: hotkeys, capture overlay, editor window, settings window.
         .executableTarget(name: "GreenshotMac", dependencies: ["GreenshotCore"]),
+        // The command line tool, bundled into the app (Contents/Helpers): talks to the running app (upstream greenshot-cli).
+        .executableTarget(name: "greenshot-cli", dependencies: ["GreenshotCore"]),
         .testTarget(name: "GreenshotCoreTests", dependencies: ["GreenshotCore"], resources: [.copy("Fixtures")]),
     ],
     swiftLanguageModes: [.v5]

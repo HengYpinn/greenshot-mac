@@ -87,7 +87,7 @@ struct DiagnosticSetupTests {
         let registered = [KeyCombo.defaultRegion, .defaultWindow, .defaultFullScreen, .defaultLastRegion]
         let rows = HotkeyStatus.rows(hotkeys, registered: registered, refused: [.defaultWindow],
                                      systemShortcuts: SystemScreenshotShortcut.defaults)
-        #expect(rows.map(\.id) == ["region", "window", "fullScreen", "lastRegion", "text", "clipboard"])
+        #expect(rows.map(\.id) == ["region", "window", "fullScreen", "lastRegion", "text", "recordVideo", "clipboard"])
         #expect(rows[0].state == .registered)
         #expect(rows[0].keys == "⌃⌥⌘4")
         #expect(rows[1].state == .refused)

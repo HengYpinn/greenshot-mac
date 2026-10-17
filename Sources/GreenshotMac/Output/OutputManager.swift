@@ -96,6 +96,10 @@ final class OutputManager {
             editor?.showExportResult(result, destination: target.displayName)
             completion?(result)
         }
+        if let refusal = ManagedHooks.refusal(for: target, settings: settings.value) {
+            finish(refusal)
+            return
+        }
         switch target {
         case .destination(let destination):
             perform(destination, with: capture, window: window, completion: finish)

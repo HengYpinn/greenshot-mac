@@ -26,7 +26,7 @@ struct HotkeysSection: View {
 
     private static var rows: [(title: String, keyPath: WritableKeyPath<HotkeySettings, KeyCombo?>)] {
         [("Capture region", \.region), ("Capture window", \.window), ("Capture full screen", \.fullScreen),
-         ("Capture last region", \.lastRegion), ("Capture text", \.text), ("Open image from clipboard", \.clipboard)]
+         ("Capture last region", \.lastRegion), ("Capture text", \.text), ("Start or stop recording", \.recordVideo), ("Open image from clipboard", \.clipboard)]
     }
 
     var body: some View {
