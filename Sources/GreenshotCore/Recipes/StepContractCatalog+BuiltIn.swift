@@ -133,7 +133,7 @@ enum BuiltInStepContracts {
         parameters: [
             parameter("SelectionMode", .enumeration, default: .string("Region"), "Initial selection mode; Text also extracts the text of the selection",
                       allowed: ["Region", "Window", "Text"]),
-            parameter("SelectionTool", "Id of the capture tool to start with, e.g. one of a plugin; when it is not there, the tool of the SelectionMode"),
+            parameter("SelectionTool", "Id of the capture tool to start with: Region, Window, Text or FixedSize; when it is not there, the tool of the SelectionMode"),
             parameter("AllowWindowSnapping", .boolean, default: .bool(true), "Snap the selection to windows")
         ],
         inputVariables: [input("PreSuppliedRegion", .object, "When set, the selection is skipped")],
@@ -436,7 +436,7 @@ enum BuiltInStepContracts {
             parameter("ScaleFactor", .decimal, "Output scale"),
             parameter("ColorMode", "Color mode"),
             parameter("CaptureMouseCursor", .boolean, default: .bool(true), "Record the mouse cursor"),
-            parameter("ShowCaptureBorder", .boolean, default: .bool(false), "Show the capture border"),
+            parameter("ShowCaptureBorder", .boolean, default: .bool(false), "Draw a frame around what is recorded (not in the video)"),
             parameter("WindowResizeBehavior", "What to do when the window is resized"),
             parameter("AudioSource", default: .string("None"), "Audio to record"),
             parameter("PreventSleepWhileRecording", .boolean, default: .bool(true), "Keep the Mac awake while recording"),
