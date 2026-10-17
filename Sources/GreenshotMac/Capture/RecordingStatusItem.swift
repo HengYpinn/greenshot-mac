@@ -126,8 +126,9 @@ final class RecordingStatusItem: NSObject {
         image?.isTemplate = false
         button.image = image
         button.imagePosition = .imageLeading
-        let font = NSFont.monospacedDigitSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
-        button.attributedTitle = NSAttributedString(string: " " + text, attributes: [.font: font])
+        // A plain title, so the menu bar draws it in its own colour (light or dark).
+        button.font = NSFont.monospacedDigitSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
+        button.title = " " + text
         button.toolTip = help
         button.setAccessibilityLabel(help)
     }

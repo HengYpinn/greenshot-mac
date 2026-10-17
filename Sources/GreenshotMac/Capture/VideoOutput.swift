@@ -12,13 +12,15 @@ import UniformTypeIdentifiers
 /// on in the recipe (`VideoFilePath`); the image destinations (editor, clipboard, printer, …) don't take a video.
 @MainActor
 enum VideoOutput {
-    static func deliver(_ result: VideoRecordingResult, settings: SettingsStore, saver: ImageSaver) {
+    /// The message, and with `destinations` the destinations of the settings.
+    static func deliver(_ result: VideoRecordingResult, settings: SettingsStore, saver: ImageSaver, destinations: Bool = true) {
         let url = result.fileURL
         let folder = (url.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
         let facts = "\(RecordingText.elapsed(result.duration)), \(RecordingText.fileSize(result.fileSize))"
         saver.notify("Saved \(url.lastPathComponent)", detail: "\(facts) in \(folder) – click to show in Finder") {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }
+        guard destinations else { return }
         for destination in settings.value.video.destinations {
             perform(destination, url: url)
         }

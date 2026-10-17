@@ -66,6 +66,8 @@ final class VideoRecorder {
     private var activity: NSObjectProtocol?
     private var observers: [(center: NotificationCenter, token: NSObjectProtocol)] = []
     private var pausedByLock = false
+    /// The Mac went to sleep: the recording was stopped for it (no menus should pop up afterwards).
+    private(set) var stoppedForSleep = false
     private var finishing: Task<VideoRecordingResult, Error>?
     private var result: VideoRecordingResult?
     private var waiters: [CheckedContinuation<VideoRecordingResult?, Never>] = []
@@ -255,6 +257,7 @@ final class VideoRecorder {
         let workspace = NSWorkspace.shared.notificationCenter
         observe(workspace, NSWorkspace.willSleepNotification) { recorder in
             log.info("The Mac goes to sleep: finishing the recording")
+            recorder.stoppedForSleep = true
             Task { try? await recorder.stop() }
         }
         guard options.autoPauseOnLock else { return }

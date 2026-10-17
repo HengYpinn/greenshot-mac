@@ -275,7 +275,8 @@ final class VideoRecordingController {
             return
         }
         guard let result, deliver else { return }
-        VideoOutput.deliver(result, settings: settings, saver: saver)
+        // Stopped for sleep: only the message, no menu or share sheet waiting at the mouse after waking up.
+        VideoOutput.deliver(result, settings: settings, saver: saver, destinations: !finished.stoppedForSleep)
     }
 
     // MARK: Stopping
