@@ -229,22 +229,31 @@ extension EditorWindowController {
 
     // MARK: Text obfuscation
 
-    /// Upstream "Obfuscate Text…": covers the text found in the image with obfuscate or highlight elements.
+    /// Upstream "Obfuscate Text…" ("Redact Text"): covers the text found in the image with obfuscate or highlight
+    /// elements, previewed on the image while the dialog is open.
     @objc func obfuscateText(_ sender: Any?) {
         guard let window else { return }
+        textObfuscationSheet().begin(for: window)
+    }
+
+    /// The dialog wired to this editor: settings, the preview and the elements. `lines` are already recognized lines
+    /// (snapshots).
+    func textObfuscationSheet(lines: [RecognizedLine]? = nil) -> TextObfuscationSheet {
         canvas.commitEditing()
         let sheet = TextObfuscationSheet(image: editorDocument.baseImage, settings: settings.value.textObfuscation,
-                                         language: settings.value.ocrLanguage)
+                                         language: settings.value.ocrLanguage, lines: lines)
+        let preview = ObfuscationPreview(editor: self)
+        sheet.onPreview = { elements in preview.show(elements) }
         sheet.onSaveSettings = { [weak self] options in self?.settings.update { $0.textObfuscation = options } }
         sheet.onApply = { [weak self] boxes, options in
             guard let self else { return }
             let elements = TextObfuscation.annotations(for: boxes, settings: options)
             self.performImageOperation { document in
-                elements.forEach(document.add)
+                document.add(elements)
                 return true
             }
         }
-        sheet.begin(for: window)
+        return sheet
     }
 
     // MARK: Helpers
@@ -317,5 +326,27 @@ extension ImageEffect {
         case .grayscale: return "g"
         case .invert: return "i"
         }
+    }
+}
+
+/// The preview elements of the Obfuscate Text dialog (upstream `TextObfuscationWindow.ShowPreview`/`ClearPreview`):
+/// added to the document outside an undo step and taken away again before Apply adds the real ones. The dialog is
+/// a sheet, so nothing else changes the document meanwhile.
+@MainActor
+final class ObfuscationPreview {
+    private weak var editor: EditorWindowController?
+    private var shown: Set<UUID> = []
+
+    init(editor: EditorWindowController) {
+        self.editor = editor
+    }
+
+    func show(_ elements: [Annotation]) {
+        guard let editor, !(shown.isEmpty && elements.isEmpty) else { return }
+        let document = editor.editorDocument
+        document.remove(shown)
+        document.add(elements)
+        shown = Set(elements.map(\.id))
+        editor.canvas.documentChanged()
     }
 }

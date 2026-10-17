@@ -10,16 +10,20 @@ import GreenshotCore
 /// `TEXT_OBFUSCATION_FEATURE.md`): finds text with the Vision text recognition and covers every matching word or
 /// line with a pixelate, blur, highlight or magnify element. A sheet on the editor window.
 ///
-/// Upstream previews the matches while typing; here Apply recognizes the text (once per dialog) and adds the
-/// elements, or tells why it found nothing.
+/// Like upstream, the text is recognized when the dialog opens, the matches are searched again 300 ms after every
+/// change (or at once with Search), their number is shown ("Matches found: N") and the elements are previewed on the
+/// image (`onPreview`) until Apply adds them as one step or Cancel takes them away. Unlike upstream, which needs three
+/// characters, an empty search matches all text.
 @MainActor
-final class TextObfuscationSheet: NSObject {
+final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
     private let image: CGImage
     private let language: String
     /// Saves the options when Apply is clicked.
     var onSaveSettings: ((TextObfuscationSettings) -> Void)?
     /// Adds the elements for the matched boxes (image pixels) with the options of the dialog.
     var onApply: (([CGRect], TextObfuscationSettings) -> Void)?
+    /// Shows these elements on the image as a preview (upstream `ShowPreview`); an empty list takes the preview away.
+    var onPreview: (([Annotation]) -> Void)?
 
     private let panel: NSPanel
     private let searchField = NSTextField()
@@ -39,6 +43,11 @@ final class TextObfuscationSheet: NSObject {
     private let offsetX: SliderField
     private let offsetY: SliderField
     private let statusLabel = NSTextField(wrappingLabelWithString: "")
+    private let matchLabel = NSTextField(labelWithString: "")
+    private let searchButton = NSButton(title: "Search", target: nil, action: nil)
+    private var debounce: Timer?
+    /// Apply was clicked while the text was still being recognized.
+    private var applyWhenRecognized = false
     private let spinner = NSProgressIndicator()
     private let applyButton = NSButton(title: "Apply", target: nil, action: nil)
     private let cancelButton = NSButton(title: "Cancel", target: nil, action: nil)
@@ -52,9 +61,11 @@ final class TextObfuscationSheet: NSObject {
         (.pixelate, "Pixelate"), (.blur, "Blur"), (.highlight, "Highlight"), (.magnify, "Magnify"),
     ]
 
-    init(image: CGImage, settings: TextObfuscationSettings, language: String) {
+    /// `lines` are text lines already recognized (for snapshots); without them the dialog recognizes the text itself.
+    init(image: CGImage, settings: TextObfuscationSettings, language: String, lines: [RecognizedLine]? = nil) {
         self.image = image
         self.language = language
+        self.lines = lines
         pixelSize = SliderField(range: 1...50, value: settings.pixelSize, width: 160)
         blurRadius = SliderField(range: 1...30, value: settings.blurRadius, width: 160)
         magnification = SliderField(range: 1...10, value: settings.magnification, width: 160, format: { "\($0)×" })
@@ -79,16 +90,19 @@ final class TextObfuscationSheet: NSObject {
         highlightColorWell.color = NSColor(cgColor: settings.highlightColor.cgColor) ?? .yellow
         buildLayout()
         refreshEffectRows()
+        wireLiveSearch()
     }
 
-    /// Shows the dialog as a sheet on `window`.
+    /// Shows the dialog as a sheet on `window` and starts recognizing the text, then previews the matches.
     func begin(for window: NSWindow) {
         keepAlive = self
         window.beginSheet(panel) { [weak self] _ in
             self?.recognition?.cancel()
+            self?.debounce?.invalidate()
             self?.keepAlive = nil
         }
         panel.makeFirstResponder(searchField)
+        if lines == nil { recognize() } else { searchNow() }
     }
 
     /// The dialog's content, for offscreen snapshots.
@@ -136,10 +150,15 @@ final class TextObfuscationSheet: NSObject {
         info.preferredMaxLayoutWidth = 380
 
         // Upstream shows the row of the chosen effect only (`UpdateEffectSettingsVisibility`).
+        searchButton.bezelStyle = .rounded
+        searchButton.target = self
+        searchButton.action = #selector(search(_:))
+        matchLabel.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         options = EffectSettingsDialog.form([
-            [EffectSettingsDialog.label("Search for:"), searchField],
+            [EffectSettingsDialog.label("Search for:"), NSStackView(views: [searchField, searchButton])],
             [NSGridCell.emptyContentView, NSStackView(views: [regexBox, caseBox])],
             [EffectSettingsDialog.label("Search in:"), scopePopup],
+            [NSGridCell.emptyContentView, matchLabel],
             [EffectSettingsDialog.label("Effect:"), effectPopup],
             pixelSize.row("Pixel size:"),
             blurRadius.row("Blur radius:"),
@@ -209,39 +228,79 @@ final class TextObfuscationSheet: NSObject {
 
     @objc private func effectChanged(_ sender: Any?) {
         refreshEffectRows()
+        searchNow()
     }
 
     /// Shows the option of the chosen effect: pixel size, blur radius, highlight color or magnification.
     private func refreshEffectRows() {
         let effect = effect
-        let rows: [(Int, TextObfuscationSettings.Effect)] = [(4, .pixelate), (5, .blur), (6, .highlight), (7, .magnify)]
+        let rows: [(Int, TextObfuscationSettings.Effect)] = [(5, .pixelate), (6, .blur), (7, .highlight), (8, .magnify)]
         for (index, owner) in rows where index < options.numberOfRows {
             options.row(at: index).isHidden = owner != effect
         }
     }
 
-    // MARK: Actions
+    // MARK: Live search
 
-    @objc private func cancel(_ sender: Any?) {
-        close()
+    /// Every option searches again after a pause (upstream's 300 ms `DispatcherTimer`).
+    private func wireLiveSearch() {
+        searchField.delegate = self
+        for box in [regexBox, caseBox] {
+            box.target = self
+            box.action = #selector(optionChanged(_:))
+        }
+        scopePopup.target = self
+        scopePopup.action = #selector(optionChanged(_:))
+        highlightColorWell.target = self
+        highlightColorWell.action = #selector(optionChanged(_:))
+        for field in [pixelSize, blurRadius, magnification, paddingHorizontal, paddingVertical, offsetX, offsetY] {
+            field.onChange = { [weak self] in self?.scheduleSearch() }
+        }
     }
 
-    @objc private func apply(_ sender: Any?) {
+    func controlTextDidChange(_ notification: Notification) {
+        scheduleSearch()
+    }
+
+    @objc private func optionChanged(_ sender: Any?) {
+        scheduleSearch()
+    }
+
+    @objc private func search(_ sender: Any?) {
+        searchNow()
+    }
+
+    private func scheduleSearch() {
+        debounce?.invalidate()
+        debounce = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] _ in
+            MainActor.assumeIsolated { self?.searchNow() }
+        }
+    }
+
+    /// Upstream `UpdatePreview`: searches the recognized text with the options as they are, shows the number of
+    /// matches and previews the elements. Before the text is recognized it does nothing (the search runs then).
+    func searchNow() {
+        debounce?.invalidate()
+        guard let lines else { return }
         let settings = settings
-        onSaveSettings?(settings)
-        // A bad regular expression is reported before the slow recognition starts.
         do {
-            _ = try TextObfuscation.matches(in: [], settings: settings)
+            let boxes = try TextObfuscation.matches(in: lines, settings: settings, within: bounds)
+            matchLabel.stringValue = "Matches found: \(boxes.count)"
+            matchLabel.textColor = .labelColor
+            onPreview?(TextObfuscation.annotations(for: boxes, settings: settings))
         } catch {
-            show(error.localizedDescription)
-            return
+            matchLabel.stringValue = error.localizedDescription
+            matchLabel.textColor = .systemRed
+            onPreview?([])
         }
-        if let lines {
-            finish(lines, settings: settings)
-            return
-        }
+    }
+
+    private var bounds: CGRect { CGRect(x: 0, y: 0, width: image.width, height: image.height) }
+
+    private func recognize() {
         setBusy(true)
         show("Recognizing text…")
+        matchLabel.stringValue = ""
         let image = image
         let language = language
         recognition = Task { [weak self] in
@@ -253,25 +312,44 @@ final class TextObfuscationSheet: NSObject {
             switch result {
             case .success(let lines):
                 self.lines = lines
-                self.finish(lines, settings: self.settings)
+                self.show(lines.isEmpty ? "No text found in the image." : "")
+                self.searchNow()
+                if self.applyWhenRecognized { self.apply(nil) }
             case .failure(let error):
+                self.applyWhenRecognized = false
                 self.show("The text could not be recognized: \(error.localizedDescription)")
             }
         }
     }
 
-    private func finish(_ lines: [RecognizedLine], settings: TextObfuscationSettings) {
+    // MARK: Actions
+
+    @objc private func cancel(_ sender: Any?) {
+        close()
+    }
+
+    /// Upstream `ApplyButton_Click`: the preview goes, the elements of the matches are added as one step.
+    @objc private func apply(_ sender: Any?) {
+        let settings = settings
+        onSaveSettings?(settings)
+        guard let lines else {
+            // Still recognizing: apply as soon as the text is there.
+            applyWhenRecognized = true
+            applyButton.isEnabled = false
+            return
+        }
+        applyWhenRecognized = false
         guard !lines.isEmpty else {
             show("No text found in the image.")
             return
         }
-        let bounds = CGRect(x: 0, y: 0, width: image.width, height: image.height)
         do {
             let boxes = try TextObfuscation.matches(in: lines, settings: settings, within: bounds)
             guard !boxes.isEmpty else {
                 show("No text matches “\(settings.searchPattern)”.")
                 return
             }
+            onPreview?([])
             onApply?(boxes, settings)
             close()
         } catch {
@@ -290,6 +368,8 @@ final class TextObfuscationSheet: NSObject {
 
     private func close() {
         recognition?.cancel()
+        debounce?.invalidate()
+        onPreview?([])
         if let parent = panel.sheetParent {
             parent.endSheet(panel)
         } else {
