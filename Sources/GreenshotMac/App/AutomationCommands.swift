@@ -79,24 +79,32 @@ enum AutomationCommands {
         return .ok("Settings window displayed.")
     }
 
-    /// Upstream `HandleOpenFileAsync`: every path is checked first; then the files open in the editor. Wave 4 runs the
-    /// recipes of OpenFile triggers here.
+    /// Upstream `HandleOpenFileAsync`: the paths are checked, then the files open in the editor. greenshot-cli,
+    /// AppleScript and Shortcuts: one refused path refuses the request. Finder, the Dock and the Services menu: the
+    /// files that pass open, an image the editor reads passes whatever its extension, and the reply names the refused
+    /// ones (`refused`). Wave 4 runs the recipes of OpenFile triggers here.
     private static func openFiles(_ app: AppDelegate, _ context: IPCReplyContext) -> IPCReply {
         let raw = context.envelope.files
         guard !raw.isEmpty else { return .error("OPEN_FILE rejected: No file path provided.") }
-        let allowed = IPCPathValidator.editorImageExtensions
-        var files: [URL] = []
-        for path in raw {
-            switch IPCPathValidator.resolve(path, cwd: context.envelope.cwd, allowedExtensions: allowed) {
-            case .success(let url):
-                files.append(url)
-            case .failure(let failure):
-                Log("Automation").warn("[SECURITY] OPEN_FILE rejected '\(DiagnosticReport.abbreviatingHome(path))': \(failure.message)")
-                return .error("OPEN_FILE rejected: \(failure.message)")
-            }
+        let lenient = context.source == .openWith || context.source == .services
+        let batch = IPCPathValidator.resolve(raw, cwd: context.envelope.cwd, allowedExtensions: IPCPathValidator.editorImageExtensions,
+                                             lenient: lenient)
+        for refusal in batch.refused {
+            Log("Automation").warn("[SECURITY] OPEN_FILE rejected '\(DiagnosticReport.abbreviatingHome(refusal.path))': \(refusal.message)")
         }
-        files.forEach(app.editors.open(fileURL:))
-        return .ok("Opened \(files.count) file(s).")
+        batch.accepted.forEach(app.editors.open(fileURL:))
+        if !lenient, let refusal = batch.refused.first { return .error("OPEN_FILE rejected: \(refusal.message)") }
+        guard !batch.refused.isEmpty else { return .ok("Opened \(batch.accepted.count) file(s).") }
+        let stderr = batch.refused.map { "OPEN_FILE rejected '\($0.path)': \($0.message)" }.joined(separator: "\n")
+        return IPCReply(status: "error", exitCode: IPCExitCode.failure, stdout: "Opened \(batch.accepted.count) file(s).",
+                        stderr: stderr, extra: ["refused": .array(batch.refused.map { .string($0.path) })])
+    }
+
+    /// The names of the files a lenient OPEN_FILE refused, for the alert; all of the request's files when the reply
+    /// doesn't say.
+    static func refusedFileNames(_ reply: IPCReply, files: [String]) -> String {
+        let refused = reply.extra["refused"]?.arrayValue?.compactMap(\.stringValue) ?? files
+        return refused.map { ($0 as NSString).lastPathComponent }.joined(separator: ", ")
     }
 
     /// The Mac's CAPTURE: the hotkeys' captures, started after the reply went out. From the command line, a capture
