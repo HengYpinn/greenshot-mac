@@ -7,7 +7,9 @@ import GreenshotCore
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
-    let settings = SettingsStore()
+    /// In the user defaults, or in the folder of `--settings-dir` (upstream `--ini-directory`).
+    let settings = SettingsStore(fileURL: AppLaunchOptions.parse(arguments: CommandLine.arguments,
+                                                                  environment: ProcessInfo.processInfo.environment).settingsFile)
     private(set) lazy var saver = ImageSaver(settings: settings)
     private(set) lazy var editors = EditorManager(settings: settings, saver: saver)
     private(set) lazy var output = OutputManager(settings: settings, saver: saver, editors: editors)
@@ -15,6 +17,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private let hotkeys = HotkeyManager()
     private var statusItem: StatusItemController?
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
+    private var updateTimer: Timer?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         if let folder = Snapshots.requestedFolder {
@@ -26,6 +29,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
                 exit(1)
             }
         }
+        applyTheme()
+        settings.onChange(of: \.theme) { [weak self] _ in self?.applyTheme() }
         Printing.settings = settings
         Clipboard.formats = { [settings] in settings.value.clipboardFormats }
         editors.onWindowsChange = { [weak self] in self?.updateDockIcon() }
@@ -43,10 +48,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         }
         registerHotkeys()
         showWelcomeOnFirstLaunch()
-        // After the welcome (which is modal), and a little later so a message doesn't cover "is running".
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+        scheduleUpdateChecks()
+    }
+
+    /// Upstream `UpdateService`: the first check 20 s after the start, then every 30 minutes a look whether one is due
+    /// (a menu bar app runs for weeks; a changed interval counts from then on).
+    private func scheduleUpdateChecks() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 20) { [weak self] in
             guard let self else { return }
             UpdateChecker.checkIfDue(settings: self.settings, saver: self.saver)
+        }
+        let timer = Timer(timeInterval: 30 * 60, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                UpdateChecker.checkIfDue(settings: self.settings, saver: self.saver)
+            }
+        }
+        timer.tolerance = 60
+        // Also while a menu is open or a modal window runs.
+        RunLoop.main.add(timer, forMode: .common)
+        updateTimer = timer
+    }
+
+    /// Upstream `Theme`: the app's windows as macOS, light or dark. The menu bar menu follows the menu bar.
+    private func applyTheme() {
+        switch settings.value.theme {
+        case .system: NSApp.appearance = nil
+        case .light: NSApp.appearance = NSAppearance(named: .aqua)
+        case .dark: NSApp.appearance = NSAppearance(named: .darkAqua)
         }
     }
 
@@ -92,16 +121,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         settingsWindow.show()
     }
 
-    @objc func showAbout(_ sender: Any?) {
-        let credits = NSMutableAttributedString(string: """
-            An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. \
-            It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.
+    /// Settings on one tab (upstream `ShowSetting(pluginName, tabName)`), e.g. for `greenshot://settings?tab=`.
+    func showSettings(pane: SettingsPane?) {
+        settingsWindow.show(pane: pane)
+    }
 
-            Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.
-            Licensed under the GNU General Public License version 3 or later.
-            """, attributes: [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: NSColor.labelColor])
+    @objc func showAbout(_ sender: Any?) {
         NSApp.activate()
-        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: AppInfo.name, .credits: credits])
+        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: AppInfo.name, .version: AppAboutCredits.versionDetail,
+                                                     .credits: AppAboutCredits.make()])
     }
 
     @objc func captureRegion(_ sender: Any?) {
@@ -176,8 +204,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     /// A menu bar app opens no window, and macOS can hide its icon (behind the notch), so starting it would look
     /// like nothing happened. Say that it runs; a click opens Settings.
     private func showRunningMessage() {
-        let region = settings.value.hotkeys.region.map { "Press \($0.displayString) to capture." } ?? "It's in the menu bar."
-        saver.notify("\(AppInfo.name) is running", detail: "\(region) Click here for Settings.") { [weak self] in
+        let region = settings.value.hotkeys.region.map { "Press \($0.displayString) to capture." }
+        let detail: String
+        if settings.value.hideMenuBarIcon {
+            // Without the icon, opening the app again is the way to Settings.
+            detail = [region, "Open the app again or click here for Settings."].compactMap { $0 }.joined(separator: " ")
+        } else {
+            detail = "\(region ?? "It's in the menu bar.") Click here for Settings."
+        }
+        saver.notify("\(AppInfo.name) is running", detail: detail) { [weak self] in
             self?.showSettings(nil)
         }
     }

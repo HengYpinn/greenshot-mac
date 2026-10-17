@@ -8,12 +8,17 @@ import GreenshotCore
 import SwiftUI
 
 /// Settings › Expert: port of the Expert tab of upstream `Greenshot/Settings/Views/SettingsWindow.xaml`
-/// (clipboard formats, the `${NUM}` counter).
+/// (window thumbnails, unstable updates, the `${NUM}` counter, clipboard formats) and the ini-only `MaxMenuItemLength`.
 struct ExpertSettings: View {
     @ObservedObject var store: SettingsStore
 
     var body: some View {
         Form {
+            menusSection
+            Section("Updates") {
+                Toggle("Check for unstable updates (pre-releases)", isOn: store.binding(\.checkForUnstable))
+                    .help("Also offer beta versions of \(AppInfo.name) when it looks for updates.")
+            }
             clipboardSection
             counterSection
         }
@@ -33,11 +38,26 @@ struct ExpertSettings: View {
         }
     }
 
+    private var menusSection: some View {
+        Section("Menus") {
+            Toggle("Show window thumbnails in the window list", isOn: store.binding(\.thumbnailPreview))
+                .help("Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.")
+            Stepper(value: store.binding(\.maxMenuItemLength), in: 5...200, step: 5) {
+                Text("Window titles in menus: up to \(store.value.maxMenuItemLength) characters")
+            }
+        }
+    }
+
     private var counterSection: some View {
         Section {
             LabeledContent("Next number") {
                 HStack {
-                    Text(String(format: "%06d", store.value.incrementingNumber + 1)).monospacedDigit()
+                    TextField("Next number", value: nextNumber, format: .number.grouping(.never))
+                        .labelsHidden()
+                        .textFieldStyle(.roundedBorder)
+                        .multilineTextAlignment(.trailing)
+                        .monospacedDigit()
+                        .frame(width: 90)
                     Button("Reset") { store.update { $0.incrementingNumber = 0 } }
                         .disabled(store.value.incrementingNumber == 0)
                 }
@@ -45,8 +65,16 @@ struct ExpertSettings: View {
         } header: {
             Text("File name counter")
         } footer: {
-            Text("${NUM} in the file name pattern counts up with every file.").font(.caption).foregroundStyle(.secondary)
+            Text("${NUM} in the file name pattern counts up with every file, six digits with leading zeros.")
+                .font(.caption).foregroundStyle(.secondary)
         }
+    }
+
+    /// The number the next ${NUM} gets. Upstream's field edits the stored last-used number
+    /// (`OutputFileIncrementingNumber`, counted up before use); this one shows and edits the next.
+    private var nextNumber: Binding<Int> {
+        Binding(get: { Int(clamping: store.value.incrementingNumber) + 1 },
+                set: { next in store.update { $0.incrementingNumber = UInt(max(next, 1) - 1) } })
     }
 
     private func clipboardFormat(_ format: ClipboardFormat) -> Binding<Bool> {

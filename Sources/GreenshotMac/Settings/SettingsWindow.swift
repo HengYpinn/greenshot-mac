@@ -9,8 +9,11 @@ import SwiftUI
 
 @MainActor
 final class SettingsWindowController: NSWindowController, NSWindowDelegate {
+    /// The tab shown; `show(pane:)` switches it.
+    private let navigation = SettingsNavigation()
+
     init(settings: SettingsStore) {
-        let hosting = NSHostingController(rootView: SettingsView(store: settings, status: SystemStatus()))
+        let hosting = NSHostingController(rootView: SettingsView(store: settings, status: SystemStatus(), navigation: navigation))
         hosting.sizingOptions = .preferredContentSize
         let window = NSWindow(contentViewController: hosting)
         window.title = "\(AppInfo.name) Settings"
@@ -40,7 +43,9 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     private(set) var isOpen = false
     var onOpenChange: (() -> Void)?
 
-    func show() {
+    /// Opens the window, on `pane` when given (upstream `SettingsWindow.SelectTab`), else on the tab shown last.
+    func show(pane: SettingsPane? = nil) {
+        if let pane { navigation.tab = pane.rawValue }
         if !isOpen {
             isOpen = true
             onOpenChange?()
@@ -57,13 +62,15 @@ struct SettingsView: View {
     @ObservedObject var status: SystemStatus
     /// Shows one fixed tab (for `--snapshot`); nil lets the user switch tabs.
     var initialTab: Int?
+    /// The tab shown when `initialTab` is nil.
+    @ObservedObject var navigation = SettingsNavigation()
 
     var body: some View {
         Group {
             if let initialTab {
                 TabView(selection: .constant(initialTab)) { tabs }
             } else {
-                TabView { tabs }
+                TabView(selection: $navigation.tab) { tabs }
             }
         }
         .frame(width: 620, height: 600)
@@ -71,14 +78,21 @@ struct SettingsView: View {
     }
 
     @ViewBuilder private var tabs: some View {
-        GeneralSettings(store: store, status: status).tabItem { Label("General", systemImage: "gearshape") }.tag(0)
-        CaptureSettings(store: store).tabItem { Label("Capture", systemImage: "camera.viewfinder") }.tag(1)
-        OutputSettings(store: store).tabItem { Label("Output", systemImage: "square.and.arrow.down") }.tag(2)
-        DestinationsSettings(store: store).tabItem { Label("Destinations", systemImage: "paperplane") }.tag(3)
-        EditorSettings(store: store).tabItem { Label("Editor", systemImage: "pencil.and.outline") }.tag(4)
-        PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(5)
-        ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(6)
+        GeneralSettings(store: store, status: status).tabItem { Label("General", systemImage: "gearshape") }.tag(SettingsPane.general.rawValue)
+        CaptureSettings(store: store).tabItem { Label("Capture", systemImage: "camera.viewfinder") }.tag(SettingsPane.capture.rawValue)
+        OutputSettings(store: store).tabItem { Label("Output", systemImage: "square.and.arrow.down") }.tag(SettingsPane.output.rawValue)
+        DestinationsSettings(store: store).tabItem { Label("Destinations", systemImage: "paperplane") }.tag(SettingsPane.destinations.rawValue)
+        EditorSettings(store: store).tabItem { Label("Editor", systemImage: "pencil.and.outline") }.tag(SettingsPane.editor.rawValue)
+        PrinterSettings(store: store).tabItem { Label("Printer", systemImage: "printer") }.tag(SettingsPane.printer.rawValue)
+        ExpertSettings(store: store).tabItem { Label("Expert", systemImage: "wrench.and.screwdriver") }.tag(SettingsPane.expert.rawValue)
     }
+}
+
+/// The selected tab of the settings window: the tag of a tab, `SettingsPane.rawValue`. (An ObservableObject for the same
+/// reason as `SystemStatus`.)
+@MainActor
+final class SettingsNavigation: ObservableObject {
+    @Published var tab = SettingsPane.general.rawValue
 }
 
 /// What the General tab shows about the system. (An ObservableObject rather than `@State`: SwiftUI's `@State`
