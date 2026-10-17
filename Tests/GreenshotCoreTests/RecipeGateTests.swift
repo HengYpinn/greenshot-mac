@@ -85,6 +85,10 @@ import Testing
         let bound = RecipeValidator().validate(fromArgument)
         #expect(bound.gateTypes == [.externalCommand, .networkAccess])
         #expect(details(fromArgument).contains("Runs a command chosen when the recipe runs (the variable OverrideDestinations)"))
+        // The destination aliases read OverrideDestinations too (upstream registers DestinationExportStep under them).
+        var clipboard = fromArgument
+        clipboard.nodes[1] = RecipeNode(id: "n", stepType: "Clipboard")
+        #expect(RecipeValidator().validate(clipboard).gateTypes == [.externalCommand, .networkAccess])
         plain.nodes.insert(node("SetVariable", ["Variable": .string("OverrideDestinations"), "Value": .string("${Arg}")]), at: 0)
         plain.nodes[0].id = "set"
         plain.flow.startNodes = ["set"]
