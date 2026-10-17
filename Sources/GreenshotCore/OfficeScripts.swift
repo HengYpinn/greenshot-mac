@@ -204,6 +204,9 @@ public enum OfficeScripts {
 
     // MARK: Outlook (upstream OutlookEmailExporter)
 
+    /// How `outlookOpenMessages` marks a meeting window's id.
+    static let meetingPrefix = "event:"
+
     /// A new mail with the subject, the recipients and the picture attached, opened in its window. `format` gives a
     /// plain-text body for `.text`; Outlook's dictionary can't mark an attachment as inline, so the picture is attached
     /// in both formats.
@@ -238,10 +241,16 @@ public enum OfficeScripts {
             bundleID: OfficeApplication.outlook.bundleID)
     }
 
-    /// The open message windows: "id, title" lines (upstream `RetrievePossibleTargets` lists the open inspectors).
-    public static func outlookOpenMessages() -> AppleScriptCall {
+    /// The open message windows: "id, title" lines (upstream `RetrievePossibleTargets` lists the open inspectors). With
+    /// `includeMeetings` (upstream `OutlookAllowExportInMeetings`) also the windows showing a meeting the user organises,
+    /// as `event:<id>, title` lines: upstream lists an appointment only when its organizer is the current user
+    /// (`OutlookEmailExporter.cs:447-451`). Outlook names the organizer as text; it counts as the user's when it is empty
+    /// (a meeting not sent yet) or contains the name or address of one of Outlook's accounts. Legacy Outlook only; the
+    /// new Outlook has no AppleScript.
+    public static func outlookOpenMessages(includeMeetings: Bool = false) -> AppleScriptCall {
         AppleScriptCall(source: """
         on run argv
+            set includeMeetings to ((item 1 of argv) is "1")
             set answer to {}
             tell application id "com.microsoft.Outlook"
                 repeat with aWindow in draft windows
@@ -249,11 +258,49 @@ public enum OfficeScripts {
                         set end of answer to ((id of aWindow) as text) & tab & (name of aWindow)
                     end try
                 end repeat
+                if includeMeetings then
+                    set myNames to {}
+                    set myAccounts to {}
+                    try
+                        set myAccounts to myAccounts & (every exchange account)
+                    end try
+                    try
+                        set myAccounts to myAccounts & (every imap account)
+                    end try
+                    try
+                        set myAccounts to myAccounts & (every pop account)
+                    end try
+                    repeat with anAccount in myAccounts
+                        try
+                            set end of myNames to (email address of anAccount) as text
+                        end try
+                        try
+                            set end of myNames to (full name of anAccount) as text
+                        end try
+                    end repeat
+                    repeat with aWindow in windows
+                        try
+                            set theItem to object of aWindow
+                            if class of theItem is calendar event then
+                                set theOrganizer to ""
+                                try
+                                    set theOrganizer to (organizer of theItem) as text
+                                end try
+                                set isMine to (theOrganizer is "")
+                                repeat with aName in myNames
+                                    set aText to contents of aName
+                                    if aText is not "" and theOrganizer contains aText then set isMine to true
+                                end repeat
+                                if isMine then set end of answer to "event:" & ((id of aWindow) as text) & tab & (name of aWindow)
+                            end if
+                        end try
+                    end repeat
+                end if
             end tell
             set AppleScript's text item delimiters to linefeed
             return answer as text
         end run
-        """, bundleID: OfficeApplication.outlook.bundleID)
+        """, arguments: [includeMeetings ? "1" : "0"], bundleID: OfficeApplication.outlook.bundleID)
     }
 
     /// Attaches the picture to the message of an open window (upstream `ExportToInspector`).
@@ -265,6 +312,24 @@ public enum OfficeScripts {
             tell application id "com.microsoft.Outlook"
                 set targetWindow to first draft window whose id is windowID
                 make new attachment at (object of targetWindow) with properties {file:(POSIX file imagePath)}
+                activate
+                return name of targetWindow
+            end tell
+        end run
+        """, arguments: [imagePath, windowID], bundleID: OfficeApplication.outlook.bundleID)
+    }
+
+    /// Attaches the picture to the meeting of an open window (upstream `ExportToInspector` with an `olAppointment`, which
+    /// pastes it into the meeting's text; Outlook for Mac's dictionary can only add it as an attachment).
+    public static func outlookAttachToEvent(imagePath: String, windowID: String) -> AppleScriptCall {
+        AppleScriptCall(source: """
+        on run argv
+            set imagePath to item 1 of argv
+            set windowID to (item 2 of argv) as integer
+            tell application id "com.microsoft.Outlook"
+                set targetWindow to first window whose id is windowID
+                set theEvent to object of targetWindow
+                make new attachment at theEvent with properties {file:(POSIX file imagePath)}
                 activate
                 return name of targetWindow
             end tell
@@ -385,27 +450,35 @@ public enum OfficeScripts {
         """, bundleID: bundleID)
     }
 
-    /// The open documents (or messages) an Office app lists for its picker entries, nil for Notes.
-    public static func openItems(of app: OfficeApplication) -> AppleScriptCall? {
+    /// The open documents (or messages) an Office app lists for its picker entries, nil for Notes. `outlookMeetings`:
+    /// Outlook also lists the meetings the user organises (`OfficeSettings.outlookAllowExportInMeetings`).
+    public static func openItems(of app: OfficeApplication, outlookMeetings: Bool = false) -> AppleScriptCall? {
         switch app {
         case .word: return wordDocuments()
         case .excel: return excelWorkbooks()
         case .powerpoint: return powerPointPresentations()
-        case .outlook: return outlookOpenMessages()
+        case .outlook: return outlookOpenMessages(includeMeetings: outlookMeetings)
         case .mail: return mailOpenMessages()
         case .notes: return nil
         }
     }
 
     /// The items of an `openItems` answer: an id (the name for documents, the window or message id for messages) and a
-    /// title.
+    /// title. Outlook's meeting windows come as `event:<id>`.
     public static func openItems(of app: OfficeApplication, fromOutput output: String) -> [OfficeOpenItem] {
         switch app {
         case .outlook, .mail:
             return AppleScriptOutput.records(output).compactMap { fields in
-                guard let id = fields.first, !id.isEmpty else { return nil }
+                guard var id = fields.first, !id.isEmpty else { return nil }
+                var isMeeting = false
+                if app == .outlook, id.hasPrefix(meetingPrefix) {
+                    id.removeFirst(meetingPrefix.count)
+                    guard !id.isEmpty else { return nil }
+                    isMeeting = true
+                }
                 let title = fields.dropFirst().joined(separator: "\t")
-                return OfficeOpenItem(id: id, title: title.isEmpty ? "New message" : title)
+                return OfficeOpenItem(id: id, title: title.isEmpty ? (isMeeting ? String(localized: "New meeting") : "New message") : title,
+                                      isMeeting: isMeeting)
             }
         case .word, .excel, .powerpoint, .notes:
             return AppleScriptOutput.lines(output).map { OfficeOpenItem(id: $0, title: $0) }
@@ -415,12 +488,15 @@ public enum OfficeScripts {
 
 /// An open document, workbook, presentation or message window an app lists (upstream's dynamic destinations).
 public struct OfficeOpenItem: Equatable, Hashable, Sendable {
-    /// What the export script finds it by: the name of a document, the id of a message window.
+    /// What the export script finds it by: the name of a document, the id of a message or meeting window.
     public var id: String
     public var title: String
+    /// An Outlook window showing a meeting (upstream's `olAppointment` inspector): the picture is attached to the meeting.
+    public var isMeeting: Bool
 
-    public init(id: String, title: String) {
+    public init(id: String, title: String, isMeeting: Bool = false) {
         self.id = id
         self.title = title
+        self.isMeeting = isMeeting
     }
 }

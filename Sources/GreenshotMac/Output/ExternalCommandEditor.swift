@@ -47,6 +47,8 @@ final class ExternalCommandForm: NSObject {
     private let background = NSButton(checkboxWithTitle: "Run in the background (errors as a message, not a dialog)", target: nil, action: nil)
     private let copyURL = NSButton(checkboxWithTitle: "Copy the first URL in the output to the clipboard", target: nil, action: nil)
     private let copyOutput = NSButton(checkboxWithTitle: "Copy all output to the clipboard", target: nil, action: nil)
+    /// Upstream `ShowStandardOutputInLog` (per command `ShowStandardOutputInLogCommand`); its errors always go to the log.
+    private let outputToLog = NSButton(checkboxWithTitle: String(localized: "Write the output to the log"), target: nil, action: nil)
 
     init(_ command: ExternalCommand) {
         original = command
@@ -58,6 +60,7 @@ final class ExternalCommandForm: NSObject {
         background.state = command.runInBackground ? .on : .off
         copyURL.state = command.copyURLFromOutput ? .on : .off
         copyOutput.state = command.copyOutputToClipboard ? .on : .off
+        outputToLog.state = command.showOutputInLog ? .on : .off
         // A command gets a plain image, never a .greenshot file.
         for format in ImageFormat.imageFormats {
             formatPopup.addItem(withTitle: format.displayName)
@@ -88,6 +91,7 @@ final class ExternalCommandForm: NSObject {
             [NSGridCell.emptyContentView, background],
             [NSGridCell.emptyContentView, copyURL],
             [NSGridCell.emptyContentView, copyOutput],
+            [NSGridCell.emptyContentView, outputToLog],
         ])
         grid.column(at: 0).xPlacement = .trailing
         grid.rowSpacing = 8
@@ -108,6 +112,7 @@ final class ExternalCommandForm: NSObject {
         result.runInBackground = background.state == .on
         result.copyURLFromOutput = copyURL.state == .on
         result.copyOutputToClipboard = copyOutput.state == .on
+        result.showOutputInLog = outputToLog.state == .on
         if let raw = formatPopup.selectedItem?.representedObject as? String, let format = ImageFormat(rawValue: raw) {
             result.format = format
         }

@@ -16,6 +16,21 @@ struct DestinationExternalCommandTests {
         #expect(try JSONDecoder().decode(ExternalCommand.self, from: JSONEncoder().encode(jpeg)) == jpeg)
     }
 
+    /// DST-074: "Write the output to the log" (upstream `ShowStandardOutputInLog`) is off for commands saved before it.
+    @Test func outputInTheLogIsOffForOldCommandsAndKept() throws {
+        let json = #"{"id":"\#(UUID().uuidString)","name":"Upload","command":"/usr/local/bin/up","arguments":"\"{0}\"","format":"png"}"#
+        let old = try JSONDecoder().decode(ExternalCommand.self, from: Data(json.utf8))
+        #expect(!old.showOutputInLog)
+        var logging = old
+        logging.showOutputInLog = true
+        let decoded = try JSONDecoder().decode(ExternalCommand.self, from: JSONEncoder().encode(logging))
+        #expect(decoded.showOutputInLog)
+        #expect(decoded == logging)
+        let made = ExternalCommand(name: "Echo", command: "/bin/echo", showOutputInLog: true)
+        #expect(made.showOutputInLog)
+        #expect(!ExternalCommand(name: "Echo", command: "/bin/echo").showOutputInLog)
+    }
+
     @Test func settingsWithOldCommandsKeepThem() throws {
         let json = #"{"externalCommands":[{"id":"\#(UUID().uuidString)","name":"Mine","command":"/bin/echo","arguments":"{0}","runInBackground":true,"copyURLFromOutput":false,"copyOutputToClipboard":false}]}"#
         let settings = try JSONDecoder().decode(AppSettings.self, from: Data(json.utf8))

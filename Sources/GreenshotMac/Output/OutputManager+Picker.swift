@@ -165,13 +165,14 @@ extension OutputManager {
     }
 
     /// The Jira issues for the picker (upstream `JiraDestination.GetDynamicDestinationsAsync` with `JiraMonitor`):
-    /// the keys in the titles of the windows on screen, then the issues uploaded to last; their summaries are filled
-    /// in when the server answers, and keys it doesn't know go again.
+    /// the issues seen in window titles (`JiraTitleMonitor`, newest first), the keys in the titles on screen now, then
+    /// the issues uploaded to last; their summaries are filled in when the server answers, and keys it doesn't know go
+    /// again.
     private func jiraIssueItems(_ item: (String, DestinationTarget, String?, DestinationShortcut?) -> NSMenuItem) -> [NSMenuItem] {
         let s = settings.value
-        let seen = JiraClient.issueKeys(inTitles: ScreenCapturer.onScreenWindows().map(\.title))
+        let onScreen = JiraClient.issueKeys(inTitles: ScreenCapturer.onScreenWindows().map(\.title))
+        let keys = JiraTitleMonitor.shared.keys(onScreen: onScreen, uploadedTo: s.jira.recentIssueKeys)
             .filter { !JiraSummaries.unknown.contains($0) }
-        let keys = Array((seen + s.jira.recentIssueKeys.filter { !seen.contains($0) }).prefix(JiraSettings.maxRecentIssueKeys))
         func title(_ key: String, _ summary: String) -> String {
             summary.isEmpty ? key : "\(key): \(FilenamePattern.menuTitle(summary))"
         }
@@ -189,6 +190,7 @@ extension OutputManager {
                 } catch UploadError.http(let status, _) where status == 404 {
                     // Not an issue of this Jira (e.g. "UTF-8" in a title).
                     JiraSummaries.unknown.insert(key)
+                    JiraTitleMonitor.shared.forget(key)
                     if let entry, let menu = entry.menu { menu.removeItem(entry) }
                 } catch {
                     // Offline or not allowed: keep the key.
@@ -216,24 +218,25 @@ extension OutputManager {
         looking.isEnabled = false
         submenu.addItem(separator)
         group.submenu = submenu
+        // An Outlook meeting (upstream `OutlookAllowExportInMeetings`) shows a calendar.
+        func openItem(_ open: OfficeOpenItem) -> NSMenuItem {
+            item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), open.isMeeting ? "calendar" : nil, nil)
+        }
         if let known = OfficeDestination.openItemsOverride[app] {
-            for open in known {
-                submenu.addItem(item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), nil, nil))
-            }
+            known.map(openItem).forEach(submenu.addItem)
             return group
         }
         submenu.addItem(looking)
+        let meetings = settings.value.office.outlookAllowExportInMeetings
         Task { @MainActor [weak submenu] in
-            let items = await OfficeDestination.openItems(app)
+            let items = await OfficeDestination.openItems(app, outlookMeetings: meetings)
             guard let submenu else { return }
             submenu.removeItem(looking)
             if items.isEmpty {
                 submenu.removeItem(separator)
                 return
             }
-            for open in items {
-                submenu.addItem(item(FilenamePattern.menuTitle(open.title, length: 40), .office(app, open), nil, nil))
-            }
+            items.map(openItem).forEach(submenu.addItem)
         }
         return group
     }

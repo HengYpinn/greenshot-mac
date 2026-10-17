@@ -61,7 +61,9 @@ struct OfficeScriptsTests {
                                             frame: CGRect(x: 10, y: 20, width: 300, height: 200), lockAspectRatio: true),
             OfficeScripts.powerPointPresentations(),
             OfficeScripts.outlookOpenMessages(),
+            OfficeScripts.outlookOpenMessages(includeMeetings: true),
             OfficeScripts.outlookAttach(imagePath: "/tmp/" + nasty, windowID: "12"),
+            OfficeScripts.outlookAttachToEvent(imagePath: "/tmp/" + nasty, windowID: "12"),
             OfficeScripts.mailNewMessage(imagePath: "/tmp/" + nasty, subject: nasty, to: [nasty], cc: [nasty], bcc: [nasty]),
             OfficeScripts.mailOpenMessages(),
             OfficeScripts.mailAttach(imagePath: "/tmp/" + nasty, messageID: "7"),
@@ -154,6 +156,37 @@ struct OfficeScriptsTests {
         let word = OfficeScripts.openItems(of: .word, fromOutput: "Report.docx\nNotes\n")
         #expect(word.map(\.id) == ["Report.docx", "Notes"])
         #expect(OfficeScripts.openItems(of: .notes) == nil)
+    }
+
+    /// DST-127: Outlook's meeting windows (upstream `OutlookAllowExportInMeetings`) come only when allowed.
+    @Test func outlookMeetingsOnlyWhenAllowed() {
+        let plain = OfficeScripts.outlookOpenMessages()
+        let meetings = OfficeScripts.outlookOpenMessages(includeMeetings: true)
+        #expect(plain.arguments == ["0"])
+        #expect(meetings.arguments == ["1"])
+        #expect(plain.source == meetings.source, "fixed text; the switch is an argument")
+        #expect(meetings.source.contains("class of theItem is calendar event"))
+        #expect(meetings.source.contains("organizer of theItem"))
+        #expect(meetings.source.contains("\"event:\""))
+        #expect(OfficeScripts.openItems(of: .outlook)?.arguments == ["0"])
+        #expect(OfficeScripts.openItems(of: .outlook, outlookMeetings: true)?.arguments == ["1"])
+        #expect(OfficeScripts.openItems(of: .word, outlookMeetings: true) == OfficeScripts.wordDocuments())
+        let attach = OfficeScripts.outlookAttachToEvent(imagePath: "/tmp/a.png", windowID: "77")
+        #expect(attach.arguments == ["/tmp/a.png", "77"])
+        #expect(attach.bundleID == "com.microsoft.Outlook")
+        #expect(attach.source.contains("make new attachment at theEvent"))
+    }
+
+    @Test func outlookMeetingWindowsParse() {
+        let items = OfficeScripts.openItems(of: .outlook, fromOutput: "41\tRe: Budget\nevent:77\tDesign review\nevent:78\t\nevent:\tBroken\n")
+        let expected = [OfficeOpenItem(id: "41", title: "Re: Budget"),
+                        OfficeOpenItem(id: "77", title: "Design review", isMeeting: true),
+                        OfficeOpenItem(id: "78", title: "New meeting", isMeeting: true)]
+        #expect(items == expected)
+        // Only Outlook marks meetings: Mail's ids are taken as they are.
+        let mail = OfficeScripts.openItems(of: .mail, fromOutput: "event:5\tSubject\n")
+        #expect(mail == [OfficeOpenItem(id: "event:5", title: "Subject")])
+        #expect(!OfficeOpenItem(id: "1", title: "x").isMeeting)
     }
 
     @Test func applicationsAndDestinations() {
