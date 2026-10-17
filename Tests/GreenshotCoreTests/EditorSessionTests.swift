@@ -143,6 +143,38 @@ struct EditorSessionTests {
         #expect(book.hasFile(document.id))
     }
 
+    /// A store whose folder can't be made (it would be inside a file).
+    static func unwritableStore() throws -> (store: EditorSessionStore, blocker: URL) {
+        let blocker = FileManager.default.temporaryDirectory.appendingPathComponent("EditorSessionTests-\(UUID().uuidString)")
+        try Data("not a folder".utf8).write(to: blocker)
+        return (EditorSessionStore(folder: blocker.appendingPathComponent(EditorSessionStore.folderName)), blocker)
+    }
+
+    @MainActor @Test func failedWriteAtQuitIsReported() throws {
+        let (store, blocker) = try Self.unwritableStore()
+        defer { try? FileManager.default.removeItem(at: blocker) }
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Unsaved")
+        let written = book.write(document, reason: .quit, wait: true)
+        #expect(!written)
+        #expect(book.needsWrite(document))
+    }
+
+    @MainActor @Test func failedAutosaveIsTriedAgain() async throws {
+        let (store, blocker) = try Self.unwritableStore()
+        defer { try? FileManager.default.removeItem(at: blocker) }
+        let book = EditorSessionBook(store: store)
+        let document = EditorDocument(image: GreenshotFileTests.background, scale: 2, title: "Unsaved")
+        book.write(document, reason: .autosave)
+        #expect(!book.needsWrite(document))
+        book.waitForDisk()
+        // The failure comes back on the main actor.
+        for _ in 0..<100 where !book.needsWrite(document) {
+            try await Task.sleep(nanoseconds: 10_000_000)
+        }
+        #expect(book.needsWrite(document))
+    }
+
     @MainActor @Test func bookSettlesRestoredDocumentsLater() throws {
         let store = Self.temporaryStore()
         defer { try? FileManager.default.removeItem(at: store.folder.deletingLastPathComponent()) }

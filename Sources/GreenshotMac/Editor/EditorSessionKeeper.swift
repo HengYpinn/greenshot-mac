@@ -97,14 +97,14 @@ final class EditorSessionKeeper {
         return keeps
     }
 
-    /// Writes every unsaved document for the next start and waits until they are on disk.
-    func keep(_ documents: [EditorDocument]) {
+    /// Writes every unsaved document for the next start and waits until they are on disk. Returns the documents that
+    /// could not be written (the user is asked about those instead).
+    func keep(_ documents: [EditorDocument]) -> [EditorDocument] {
         cancelPending()
         let unsaved = documents.filter(\.isModified)
-        for document in unsaved {
-            book.write(document, reason: .quit, wait: true)
-        }
-        log.info("Kept \(unsaved.count) unsaved editors for the next start")
+        let failed = unsaved.filter { !book.write($0, reason: .quit, wait: true) }
+        log.info("Kept \(unsaved.count - failed.count) unsaved editors for the next start, \(failed.count) failed")
+        return failed
     }
 
     /// Every editor was saved or discarded: nothing is kept. Waits until the files are gone.

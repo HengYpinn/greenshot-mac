@@ -35,7 +35,8 @@ public final class EditorSessionBook {
     }
 
     /// Writes the document with its session; a document without unsaved changes loses its file instead. With `wait`
-    /// the write is done when this returns, and the result says whether it worked.
+    /// the write is done when this returns, and the result says whether it worked. A write that failed is tried again at
+    /// the document's next change (`needsWrite`).
     @discardableResult
     public func write(_ document: EditorDocument, reason: GreenshotFile.Session.Reason, wait: Bool = false) -> Bool {
         guard document.isModified else {
@@ -46,7 +47,8 @@ public final class EditorSessionBook {
                                             savesToNewFile: document.savesToNewFile)
         let contents = GreenshotFile.Contents(of: document, session: session)
         let id = document.id
-        written[id] = document.changeCount
+        let count = document.changeCount
+        written[id] = count
         filed.insert(id)
         unsettled.remove(id)
         let store = store
@@ -61,16 +63,26 @@ public final class EditorSessionBook {
                     return false
                 }
             }
+            if !succeeded { writeFailed(id, count) }
             return succeeded
         }
-        queue.async {
+        queue.async { [weak self] in
             do {
                 try store.write(try contents.encoded(), for: id)
             } catch {
                 log.error("Keeping an unsaved editor failed", error: error)
+                DispatchQueue.main.async {
+                    MainActor.assumeIsolated { self?.writeFailed(id, count) }
+                }
             }
         }
         return true
+    }
+
+    /// That change isn't on disk: the next change writes again. The document still counts as having a file (an
+    /// earlier write may be there).
+    private func writeFailed(_ id: UUID, _ count: Int) {
+        if written[id] == count { written[id] = nil }
     }
 
     /// The document was saved, closed or its changes discarded: its file goes.

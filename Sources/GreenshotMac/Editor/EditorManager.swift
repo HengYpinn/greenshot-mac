@@ -169,7 +169,10 @@ final class EditorManager {
     func confirmQuit() -> Bool {
         for controller in controllers { controller.canvas.commitEditing() }
         if controllers.contains(where: { $0.editorDocument.isModified }), sessions.quitKeepsEditors() {
-            sessions.keep(controllers.map(\.editorDocument))
+            let failed = sessions.keep(controllers.map(\.editorDocument))
+            // What couldn't be kept (a full disk) is asked about after all.
+            let unkept = controllers.filter { controller in failed.contains { $0 === controller.editorDocument } }
+            guard unkept.allSatisfy({ $0.confirmCloseBeforeQuit() }) else { return false }
         } else {
             guard controllers.allSatisfy({ $0.confirmCloseBeforeQuit() }) else { return false }
             // Every screenshot was saved or its changes discarded.
