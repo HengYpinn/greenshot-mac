@@ -29,7 +29,14 @@ public enum RecipeGateType: String, Sendable, Codable, CaseIterable, Comparable 
 
     /// For messages: "external commands", "network access (uploads)", "file system access", "custom actions"
     /// (upstream `RecipeApprovalPolicy.GetGateName`).
-    public var displayName: String { rcoreStub() }
+    public var displayName: String {
+        switch self {
+        case .externalCommand: return "external commands"
+        case .networkAccess: return "network access (uploads)"
+        case .fileSystemAccess: return "file system access"
+        case .custom: return "custom actions"
+        }
+    }
 }
 
 /// A gated action of a step (upstream `RecipeGatedAction`): equal when the type and the target (case-insensitive) are.
@@ -108,9 +115,32 @@ public struct VariableContract: Sendable, Equatable {
 
     public var isNodeSpecific: Bool { name.contains("{") }
     /// The variable name(s) for the node, placeholders replaced; empty when a parameter placeholder isn't set.
-    public func resolveNames(for node: RecipeNode) -> [String] { rcoreStub() }
+    public func resolveNames(for node: RecipeNode) -> [String] {
+        guard !name.isEmpty else { return [] }
+        guard name.contains("{") else { return [name] }
+        var result = name.replacingOccurrences(of: "{NodeId}", with: node.id)
+        let keysPrefix = "{ParameterKeys:"
+        if result.hasPrefix(keysPrefix), result.hasSuffix("}") {
+            let parameter = String(result.dropFirst(keysPrefix.count).dropLast())
+            let keys = node.parameters[parameter]?.objectValue?.keys ?? []
+            return keys.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        }
+        let parameterPrefix = "{Parameter:"
+        while let start = result.range(of: parameterPrefix) {
+            guard let end = result.range(of: "}", range: start.upperBound..<result.endIndex) else { return [] }
+            let parameter = String(result[start.upperBound..<end.lowerBound])
+            guard let value = node.parameters[parameter]?.asString, !value.trimmingCharacters(in: .whitespaces).isEmpty else { return [] }
+            result.replaceSubrange(start.lowerBound..<end.upperBound, with: value)
+        }
+        return [result]
+    }
     /// Always set by this node: not conditional, or its `whenParameter` is set.
-    public func isGuaranteed(for node: RecipeNode) -> Bool { rcoreStub() }
+    public func isGuaranteed(for node: RecipeNode) -> Bool {
+        guard conditional else { return true }
+        guard let whenParameter, let value = node.parameters[whenParameter], !value.isNull else { return false }
+        if let text = value.stringValue { return !text.trimmingCharacters(in: .whitespaces).isEmpty }
+        return true
+    }
 }
 
 /// What a step needs and does to the image (upstream `PayloadContract`).
@@ -143,7 +173,13 @@ public struct GateEnvironment: Sendable {
 
     public static let empty = GateEnvironment()
     /// From the settings: `externalCommands` and `destinations`.
-    public init(settings: AppSettings) { rcoreStub() }
+    public init(settings: AppSettings) {
+        let commands = settings.externalCommands
+        self.commandLine = { name in
+            commands.first { recipeEquals($0.name, name) }?.command
+        }
+        self.defaultDestinations = settings.destinations.map(RecipeDestinationDesignation.designation(for:))
+    }
 }
 
 /// The contract of a step type (upstream `StepContract`, built from the `[Step*]` attributes): its parameters, the
@@ -190,12 +226,37 @@ public struct StepContract: Sendable {
 /// every step type of upstream, the plug-in steps included (ExternalCommand, Jira, Confluence, Box, Dropbox, Office,
 /// Pdf, BarcodeScan), whether or not the app has an executor for it yet.
 public struct StepContractCatalog: Sendable {
-    public static var builtIn: StepContractCatalog { rcoreStub() }
+    public static var builtIn: StepContractCatalog { builtInCatalog }
+    private static let builtInCatalog = StepContractCatalog(BuiltInStepContracts.all)
 
-    public init(_ contracts: [StepContract]) { rcoreStub() }
-    public var all: [StepContract] { rcoreStub() }
-    public func contract(for stepType: String) -> StepContract? { rcoreStub() }
+    private var contracts: [StepContract]
+    private var byType: [String: Int]
+
+    public init(_ contracts: [StepContract]) {
+        self.contracts = []
+        self.byType = [:]
+        for contract in contracts {
+            insert(contract)
+        }
+    }
+
+    private mutating func insert(_ contract: StepContract) {
+        let key = contract.stepType.lowercased()
+        if let index = byType[key] {
+            contracts[index] = contract
+        } else {
+            byType[key] = contracts.count
+            contracts.append(contract)
+        }
+    }
+
+    public var all: [StepContract] { contracts }
+    public func contract(for stepType: String) -> StepContract? { byType[stepType.lowercased()].map { contracts[$0] } }
     public func contains(_ stepType: String) -> Bool { contract(for: stepType) != nil }
     /// A copy with the contract added or replaced.
-    public func adding(_ contract: StepContract) -> StepContractCatalog { rcoreStub() }
+    public func adding(_ contract: StepContract) -> StepContractCatalog {
+        var copy = self
+        copy.insert(contract)
+        return copy
+    }
 }
