@@ -82,4 +82,45 @@ struct ImagePasteboardTests {
             #expect(ImagePasteboard.image(from: pasteboard) == nil)
         }
     }
+
+    @Test func downloadsTheImageOfAWebPage() async throws {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [FakeWebServer.self]
+        let session = URLSession(configuration: configuration)
+        let image = try #require(await ImagePasteboard.downloadImage(from: URL(string: "https://example.com/shot.png")!, session: session))
+        #expect(image.image.width == 6 && image.scale == 2)
+        #expect(await ImagePasteboard.downloadImage(from: URL(string: "https://example.com/missing.png")!, session: session) == nil)
+        #expect(await ImagePasteboard.downloadImage(from: URL(string: "https://example.com/page.html")!, session: session) == nil)
+        #expect(await ImagePasteboard.downloadImage(from: URL(string: "file:///etc/hosts")!, session: session) == nil)
+    }
+}
+
+/// Answers image requests without a network: shot.png is an image, page.html is text, the rest is missing.
+final class FakeWebServer: URLProtocol {
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+
+    override func startLoading() {
+        guard let url = request.url, let client else { return }
+        let path = url.lastPathComponent
+        let body: Data
+        let status: Int
+        switch path {
+        case "shot.png":
+            body = (try? ImageExporter.data(for: TestImage.solid(width: 6, height: 4, .blue), format: .png, scale: 2)) ?? Data()
+            status = 200
+        case "page.html":
+            body = Data("<html></html>".utf8)
+            status = 200
+        default:
+            body = Data()
+            status = 404
+        }
+        let response = HTTPURLResponse(url: url, statusCode: status, httpVersion: "HTTP/1.1", headerFields: nil)!
+        client.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client.urlProtocol(self, didLoad: body)
+        client.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {}
 }
