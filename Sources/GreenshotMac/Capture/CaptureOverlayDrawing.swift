@@ -18,8 +18,10 @@ struct OverlayPanel {
 /// `Greenshot/Capturing/Views/CaptureWindow.xaml.cs` (drawing), `Overlays/HelpOverlay.cs`, `Overlays/InfoOverlay.cs`,
 /// `Overlays/SelectionPreviewOverlay.cs`, and the panel of `Tools/FixedSizeCaptureTool.cs`.
 extension OverlayMarksView {
-    static let zoomerDiameter: CGFloat = 128
     static let muted = NSColor.white.withAlphaComponent(0.6)
+
+    /// A fifth of the smaller side of this display (upstream `ZoomerPlacement.GetSize`).
+    var zoomerDiameter: CGFloat { CaptureZoomerPlacement.size(for: frozen.frame) }
 
     func drawMarks() {
         guard let controller, let context = NSGraphicsContext.current?.cgContext else { return }
@@ -42,19 +44,17 @@ extension OverlayMarksView {
             context.setStrokeColor(accent.cgColor)
             context.setLineWidth(1)
             context.stroke(selection.insetBy(dx: 0.5, dy: 0.5))
-            if controller.mode != .text { drawSizeLabel(for: selection, in: context) }
+            if controller.mode != .text {
+                let pixels = CaptureSelection.pixelSize(of: selection, scale: frozen.scale)
+                drawSelectionLabels(for: selection, width: pixels.width, height: pixels.height, alpha: 1, in: context)
+                drawSelectionNote(for: selection, pixels: pixels)
+            }
         }
 
+        // In the region and text modes, until a drag starts (upstream: dotted, with the position next to it).
         let crosshairMode = controller.mode == .region || controller.mode == .text
-        if crosshairMode && controller.anchor == nil && cursorHere && controller.barcodeMenu == nil {
-            context.setStrokeColor(accent.withAlphaComponent(0.8).cgColor)
-            context.setLineWidth(1)
-            context.move(to: CGPoint(x: 0, y: cursor.y.rounded() + 0.5))
-            context.addLine(to: CGPoint(x: bounds.maxX, y: cursor.y.rounded() + 0.5))
-            context.move(to: CGPoint(x: cursor.x.rounded() + 0.5, y: 0))
-            context.addLine(to: CGPoint(x: cursor.x.rounded() + 0.5, y: bounds.maxY))
-            context.strokePath()
-        }
+        let showsCrosshair = crosshairMode && controller.anchor == nil && cursorHere && controller.barcodeMenu == nil
+        if showsCrosshair { drawCrosshair(at: cursor, in: context) }
 
         guard cursorHere else {
             panelFrames = [:]
@@ -62,7 +62,7 @@ extension OverlayMarksView {
             drawBarcodeMenu(controller)
             return
         }
-        drawPanelsAndZoomer(controller, cursor: cursor, selection: selection, in: context)
+        drawPanelsAndZoomer(controller, cursor: cursor, selection: selection, showsPosition: !showsCrosshair, in: context)
         drawStatus(controller)
         drawBarcodeHint(controller)
         drawBarcodeMenu(controller)
@@ -71,7 +71,7 @@ extension OverlayMarksView {
     // MARK: Panels
 
     private func drawPanelsAndZoomer(_ controller: CaptureOverlayController, cursor: CGPoint, selection: CGRect?,
-                                     in context: CGContext) {
+                                     showsPosition: Bool, in context: CGContext) {
         let preview = controller.previewPlacement == .off ? nil : previewPanel(controller)
         let previewAtZoomer = controller.previewPlacement == .zoomer && controller.showsZoomer
         var panels: [OverlayPanel] = []
@@ -97,7 +97,9 @@ extension OverlayMarksView {
             return
         }
         let inZoomer = previewAtZoomer ? preview : nil
-        let size = inZoomer?.size ?? CGSize(width: Self.zoomerDiameter, height: Self.zoomerDiameter + 24)
+        let diameter = zoomerDiameter
+        // The magnifier with room for the position below it.
+        let size = inZoomer?.size ?? CGSize(width: diameter, height: diameter + (showsPosition ? 24 : 0))
         let offset = CaptureZoomerPlacement.offset(cursor: cursor, current: zoomerOffset, size: size, monitor: bounds,
                                                    avoid: placed + loose)
         zoomerOffset = offset
@@ -105,8 +107,8 @@ extension OverlayMarksView {
         if let inZoomer {
             inZoomer.draw(slot)
         } else {
-            drawZoomer(at: cursor, in: CGRect(origin: slot.origin, size: CGSize(width: Self.zoomerDiameter, height: Self.zoomerDiameter)),
-                       context: context)
+            drawZoomer(at: cursor, in: CGRect(origin: slot.origin, size: CGSize(width: diameter, height: diameter)),
+                       selection: selection, showsPosition: showsPosition, opacity: controller.zoomerOpacity, context: context)
         }
     }
 
@@ -261,19 +263,19 @@ extension OverlayMarksView {
         return box
     }
 
-    /// The size of the selection in pixels, the window title in window mode, and with D the window's details.
-    private func drawSizeLabel(for selection: CGRect, in context: CGContext) {
+    /// Below the selection: the window title in window mode (with D its details), and the size the fixed-size mode
+    /// asked for when the area was cut off at the screen's edges. The size itself is on the rulers.
+    private func drawSelectionNote(for selection: CGRect, pixels: (width: Int, height: Int)) {
         guard let controller else { return }
-        let width = Int((selection.width * frozen.scale).rounded())
-        let height = Int((selection.height * frozen.scale).rounded())
-        var text = "\(width) × \(height)"
-        if controller.mode == .fixedSize, let size = controller.currentFixedSize, size.width != width || size.height != height {
-            text += "  (\(size.width) × \(size.height))"
+        var text = ""
+        if controller.mode == .fixedSize, let size = controller.currentFixedSize, size.width != pixels.width || size.height != pixels.height {
+            text = "Cut off from \(size.width) × \(size.height)"
         }
         if controller.mode == .window, let window = controller.hoveredWindow {
-            text = "\(window.menuTitle)   \(text)"
+            text = window.menuTitle
             if controller.windowDetailsVisible { text += "\n" + Self.details(of: window) }
         }
+        guard !text.isEmpty else { return }
         let string = label(text)
         let size = string.size()
         var origin = CGPoint(x: selection.minX, y: selection.maxY + 6)
@@ -378,37 +380,46 @@ extension OverlayMarksView {
 
     // MARK: Zoomer
 
-    /// The magnifier in `zoom`: 8 points per pixel of the frozen picture, the pixel under the mouse framed.
-    private func drawZoomer(at cursor: CGPoint, in zoom: CGRect, context: CGContext) {
-        let magnification: CGFloat = 8
-        let pixelsAcross = (zoom.width / magnification).rounded(.down)
+    /// The magnifier in `zoom`: `CaptureZoomerPlacement.sourcePixels` pixels of the frozen picture across, the pixel under
+    /// the mouse framed, and the selection's edges, so you see whether a pixel is in or out (upstream
+    /// `UpdateZoomerSelection`). `opacity` below 1 lets the screen show through (upstream `ZoomerOpacity`).
+    private func drawZoomer(at cursor: CGPoint, in zoom: CGRect, selection: CGRect?, showsPosition: Bool, opacity: CGFloat,
+                            context: CGContext) {
+        guard opacity > 0 else { return }
         let scale = frozen.scale
         let pixel = CGPoint(x: (cursor.x * scale).rounded(.down), y: (cursor.y * scale).rounded(.down))
-        let source = CGRect(x: pixel.x - (pixelsAcross / 2).rounded(.down), y: pixel.y - (pixelsAcross / 2).rounded(.down),
-                            width: pixelsAcross, height: pixelsAcross)
-
-        // Where the source square lands, so that the pixel under the mouse sits in the middle.
-        let destinationOrigin = CGPoint(x: zoom.midX - (pixel.x - source.minX + 0.5) * magnification,
-                                        y: zoom.midY - (pixel.y - source.minY + 0.5) * magnification)
+        let geometry = CaptureZoomerGeometry(zoom: zoom, cursorPixel: pixel)
+        let source = geometry.source
         let imageBounds = CGRect(x: 0, y: 0, width: frozen.image.width, height: frozen.image.height)
         let visible = source.intersection(imageBounds)
 
         context.saveGState()
+        if opacity < 1 {
+            context.setAlpha(opacity)
+            context.beginTransparencyLayer(auxiliaryInfo: nil)
+        }
+        context.saveGState()
         context.addEllipse(in: zoom)
         context.clip()
-        context.setFillColor(NSColor.black.cgColor)
-        context.fill(zoom)
+        // Black where the picture ends; see-through, the screen shows there instead (upstream hides its checkerboard).
+        if opacity >= 1 {
+            context.setFillColor(NSColor.black.cgColor)
+            context.fill(zoom)
+        }
         if !visible.isEmpty, let crop = frozen.image.cropping(to: visible) {
-            let destination = CGRect(x: destinationOrigin.x + (visible.minX - source.minX) * magnification,
-                                     y: destinationOrigin.y + (visible.minY - source.minY) * magnification,
-                                     width: visible.width * magnification, height: visible.height * magnification)
+            let destination = geometry.frame(ofPixels: visible)
             NSImage(cgImage: crop, size: destination.size)
                 .draw(in: destination, from: .zero, operation: .copy, fraction: 1, respectFlipped: true,
                       hints: [.interpolation: NSNumber(value: NSImageInterpolation.none.rawValue)])
         }
-        let center = CGRect(x: destinationOrigin.x + (pixel.x - source.minX) * magnification,
-                            y: destinationOrigin.y + (pixel.y - source.minY) * magnification,
-                            width: magnification, height: magnification)
+        if let selection {
+            let pixels = CGRect(x: selection.minX * scale, y: selection.minY * scale,
+                                width: selection.width * scale, height: selection.height * scale)
+            context.setStrokeColor(accent.withAlphaComponent(0.9).cgColor)
+            context.setLineWidth(1.5)
+            context.stroke(geometry.frame(ofPixels: pixels))
+        }
+        let center = geometry.frame(ofPixels: CGRect(x: pixel.x, y: pixel.y, width: 1, height: 1))
         context.setStrokeColor(accent.cgColor)
         context.setLineWidth(1)
         context.stroke(center.insetBy(dx: -0.5, dy: -0.5))
@@ -420,7 +431,11 @@ extension OverlayMarksView {
         context.setStrokeColor(NSColor.black.withAlphaComponent(0.5).cgColor)
         context.setLineWidth(1)
         context.strokeEllipse(in: zoom.insetBy(dx: -0.5, dy: -0.5))
+        if opacity < 1 { context.endTransparencyLayer() }
+        context.restoreGState()
 
+        // The crosshair shows the position next to the mouse; without it (fixed size, while dragging) it is below the zoomer.
+        guard showsPosition else { return }
         let coordinates = label("\(Int(pixel.x)), \(Int(pixel.y))", size: 11)
         let size = coordinates.size()
         drawBubble(coordinates, at: CGPoint(x: zoom.midX - size.width / 2 - 6, y: zoom.maxY + 4))

@@ -22,8 +22,8 @@ public struct FixedSizeEntry: Equatable, Sendable {
 public enum FixedSizeCapture {
     /// The number of remembered region sizes.
     public static let recentSizesCount = 5
-    /// An edge closer than this (points) to an edge of a window or display snaps to it.
-    public static let snapDistance: CGFloat = 10
+    /// An edge closer than this (points) to an edge of a window or display snaps to it (upstream `SnapDistance`, 8).
+    public static let snapDistance: CGFloat = 8
 
     /// The rectangle of `size` pixels with the mouse at `anchor`. At a corner the pixel under the mouse is the corner
     /// pixel of the capture, so the zoomer shows exactly where the capture starts or ends. The rectangle lies on the

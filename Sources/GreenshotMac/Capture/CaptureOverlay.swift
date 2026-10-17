@@ -93,6 +93,10 @@ final class CaptureOverlayController {
     // Text and QR codes (CaptureOverlayAnalysis.swift)
     let ocrLanguage: String
     let scanBarcodes: Bool
+    /// Recognise the text when the capture screen opens, in every mode (upstream `AlwaysRunOCROnCapture`).
+    let recognizesTextAtOnce: Bool
+    /// How see-through the zoomer is (upstream `ZoomerOpacity`).
+    let zoomerOpacity: CGFloat
     /// The recognised lines in global points; nil until the text mode ran the recognition.
     var textLines: [RecognizedLine]?
     var recognizingText = false
@@ -134,6 +138,8 @@ final class CaptureOverlayController {
         self.fixedAnchor = values.fixedCaptureAnchor
         self.ocrLanguage = values.ocrLanguage
         self.scanBarcodes = values.scanQRCodesOnCapture
+        self.recognizesTextAtOnce = values.alwaysRunOCROnCapture
+        self.zoomerOpacity = CGFloat(min(max(values.zoomerOpacity, 0), 1))
         self.completion = completion
     }
 
@@ -173,7 +179,7 @@ final class CaptureOverlayController {
         (overlayWindows.first { $0.frozen.frame.contains(cursor) } ?? overlayWindows[0]).makeKeyAndOrderFront(nil)
         NSCursor.crosshair.set()
         if scanBarcodes { startBarcodeDetection() }
-        if mode == .text { startTextRecognition() }
+        if mode == .text || recognizesTextAtOnce { startTextRecognition() }
         updateSelection()
     }
 
@@ -393,7 +399,7 @@ final class CaptureOverlayController {
         switch mode {
         case .region, .text:
             if let anchor {
-                let rect = Geometry.rect(from: anchor, to: cursor)
+                let rect = dragRect(from: anchor, to: cursor)
                 guard rect.width >= 1, rect.height >= 1 else { return }
                 if mode == .region {
                     finish(OverlaySelection(rect: rect, window: nil))
@@ -447,7 +453,7 @@ final class CaptureOverlayController {
         switch mode {
         case .region, .text:
             if let anchor {
-                selection = Geometry.rect(from: anchor, to: shift ? lockedToAxis(cursor) : cursor)
+                selection = dragRect(from: anchor, to: shift ? lockedToAxis(cursor) : cursor)
             } else {
                 selection = nil
                 if mode == .text { hoveredLine = TextCaptureSelection.line(at: cursor, in: textLines ?? []) }
@@ -466,6 +472,12 @@ final class CaptureOverlayController {
         }
         hoveredBarcode = mode == .region && anchor == nil ? barcodes.first { $0.bounds.contains(cursor) } : nil
         redraw()
+    }
+
+    /// The rectangle of a drag: the pixels under both corners belong to it, on the pixel grid of the display with the
+    /// mouse, so its size label is exactly the size of the capture (upstream `RegionCaptureTool`, UG "Region").
+    private func dragRect(from anchor: CGPoint, to point: CGPoint) -> CGRect {
+        CaptureSelection.rect(from: anchor, to: point, scale: cursorScreen?.scale ?? 1)
     }
 
     /// While Shift is held, the first move decides whether only the width or only the height changes.

@@ -114,6 +114,15 @@ public enum SelectionPreviewPlacement: Equatable, Sendable {
 public enum CaptureZoomerPlacement {
     /// Distance between the mouse and the zoomer.
     public static let distance: CGFloat = 24
+    /// The pixels across the zoomer shows (upstream `CaptureWindow.xaml.cs` `ZoomSourceSize`).
+    public static let sourcePixels: CGFloat = 25
+
+    /// The zoomer's diameter on a display: a fifth of its smaller side, a multiple of 4 (upstream `ZoomerPlacement.GetSize`).
+    public static func size(for display: CGRect) -> CGFloat {
+        let size = (min(display.width, display.height) / 5).rounded(.down)
+        // At least one point per pixel, also for an unknown display.
+        return max(size - size.truncatingRemainder(dividingBy: 4), sourcePixels)
+    }
 
     /// The offset of the zoomer's top left corner from the mouse. It stays at `current` while that is fine,
     /// else it tries bottom right, bottom left, top right and top left of the mouse.

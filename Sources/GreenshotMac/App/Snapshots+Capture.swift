@@ -12,6 +12,48 @@ extension Snapshots {
     /// (`editorWindow`, `overlay`, `form`, `settingsTab`, `capture`) do most of the work.
     static func renderCaptureExtras(to folder: URL, sample: CGImage, settings: SettingsStore) throws {
         try write(hotkeys(), to: folder.appendingPathComponent("settings-hotkeys.png"))
+        // The region mode before a drag: the dotted crosshair with the position, the zoomer a fifth of the display.
+        try write(captureScreen(sample: sample) { $0.mouseMoved(to: CGPoint(x: 700, y: 400)) },
+                  to: folder.appendingPathComponent("capture-crosshair.png"))
+        // A see-through zoomer (ZoomerOpacity 0.7) showing the edges of a fixed size area.
+        try write(captureScreen(sample: sample, change: { $0.zoomerOpacity = 0.7 }) { controller in
+            controller.switchMode(to: .fixedSize)
+            controller.mouseMoved(to: CGPoint(x: 640, y: 360))
+        }, to: folder.appendingPathComponent("capture-zoomer-translucent.png"))
+    }
+
+    /// The capture screen on the sample after `act`, with settings changed by `change` (`overlay(sample:mode:)` without
+    /// its fixed steps).
+    private static func captureScreen(sample: CGImage, change: (inout AppSettings) -> Void = { _ in },
+                                      act: (CaptureOverlayController) -> Void) -> NSBitmapImageRep? {
+        let suite = "greenshot-mac-snapshots-capture"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        let store = SettingsStore(defaults: defaults)
+        store.update(change)
+        let screen = FrozenScreen(displayID: 1, frame: CGRect(x: 0, y: 0, width: 1280, height: 800), scale: 2, image: sample)
+        let windows = [WindowInfo(id: 1, frame: CGRect(x: 50, y: 50, width: 1140, height: 690), title: "Quarterly report",
+                                  appName: "Preview", pid: 1)]
+        let controller = CaptureOverlayController(screens: [screen], windows: windows, mode: .region, zoomer: true,
+                                                  settings: store) { _ in }
+        let view = OverlayMarksView(frame: NSRect(x: 0, y: 0, width: 1280, height: 800), frozen: screen, controller: controller)
+        act(controller)
+        let size = view.bounds.size
+        guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width * 2), pixelsHigh: Int(size.height * 2),
+                                         bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
+                                         colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0) else { return nil }
+        // Points first, so the context draws at 2 pixels per point.
+        rep.size = size
+        guard let context = NSGraphicsContext(bitmapImageRep: rep) else { return nil }
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = context
+        NSImage(cgImage: sample, size: size).draw(in: NSRect(origin: .zero, size: size))
+        context.cgContext.translateBy(x: 0, y: size.height)
+        context.cgContext.scaleBy(x: 1, y: -1)
+        NSGraphicsContext.current = NSGraphicsContext(cgContext: context.cgContext, flipped: true)
+        view.draw(view.bounds)
+        NSGraphicsContext.restoreGraphicsState()
+        return rep
     }
 
     /// The Hotkeys section with a hotkey of two steps, a clash and a message about keys that can't be used.
