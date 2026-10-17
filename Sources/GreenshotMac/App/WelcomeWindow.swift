@@ -25,6 +25,8 @@ final class WelcomeModel: ObservableObject {
     var close: () -> Void = {}
     /// The settings for the first page's language row (L10N-INFRA, APP-043); nil: no row.
     var languageStore: SettingsStore?
+    /// The language row's "Relaunch in …": the welcome comes back after the relaunch, in the new language.
+    var relaunchForLanguage: () -> Void = {}
 
     init(basics: [WelcomeContent.Basic], setup: SetupModel, tips: [String], tipIndex: Int? = nil) {
         self.basics = basics
@@ -106,6 +108,10 @@ struct WelcomeView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text(WelcomeContent.intro(app)).font(.title3).fixedSize(horizontal: false, vertical: true)
                 Text("Press Next to begin, or Esc to close this window at any time.").foregroundStyle(.secondary)
+                if let store = model.languageStore {
+                    Divider()
+                    WelcomeLanguageRow(store: store) { model.relaunchForLanguage() }
+                }
             }
         case .basics:
             VStack(alignment: .leading, spacing: 12) {
@@ -181,6 +187,15 @@ final class WelcomeWindowController: DiagnosticsWindowController {
         let tips = WelcomeContent.tips(appName: AppInfo.name, showsCaptures: NotificationService.showsCaptures)
         let model = WelcomeModel(basics: WelcomeContent.basics(app.settings.value.hotkeys), setup: setup, tips: tips)
         model.openSettings = { [weak app] in app?.showSettings(nil) }
+        // Upstream shows its language window at the first start while `Language` is empty (GreenshotShell.cs:225-230).
+        let settings = app.settings
+        if firstLaunch, settings.value.language.isEmpty, !settings.isLocked(\.language), LanguagePacks.all.count > 1 {
+            model.languageStore = settings
+            model.relaunchForLanguage = {
+                settings.update { $0.welcomeShown = false }
+                AppRelaunch.relaunch()
+            }
+        }
         let controller = WelcomeWindowController(model: model)
         current = controller
         log.info(firstLaunch ? "Showing the welcome at the first start" : "Showing the welcome")

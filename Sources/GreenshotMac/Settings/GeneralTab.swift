@@ -22,6 +22,8 @@ struct GeneralSettings: View {
                     ForEach(AppTheme.allCases, id: \.self) { Text($0.displayName).tag($0) }
                 }
                 .managed(\.theme)
+                // Upstream "Language" (settings_language); takes effect after a relaunch.
+                LanguagePicker(store: store)
                 Toggle("Launch at login", isOn: Binding(get: { status.launchAtLogin }, set: { status.setLaunchAtLogin($0) }))
                 Toggle("Show in Dock while a window is open", isOn: store.binding(\.dockIconWhileWindowOpen))
                     .help("""
