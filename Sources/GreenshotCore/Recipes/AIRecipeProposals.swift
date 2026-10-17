@@ -74,7 +74,7 @@ public final class AIRecipeProposals {
         let content = RecipeSerializer.encode(recipe)
         let data = Data(content.utf8)
         let hash = RecipeHash.sha256Hex(data)
-        let rejectionKey = proposal.client.path.lowercased() + "|" + hash
+        let rejectionKey = proposal.client.key.lowercased() + "|" + hash
         guard !rejected.contains(rejectionKey) else {
             return Outcome(reply: .error("The user already rejected this recipe. Ask the user what to change before proposing a recipe again."),
                            openInEditor: nil)
@@ -116,7 +116,9 @@ public final class AIRecipeProposals {
 
     /// The text shown as who proposed it: name, path and signer (the approval sheet's banner).
     public static func proposerText(_ client: AIToolClient) -> String {
-        "\(client.displayName) — \(client.path) · \(client.signer.map { "signed by \($0)" } ?? "not signed by a developer")"
+        let script = client.identity.script.map { " running \($0)" } ?? ""
+        let text = "\(client.displayName) — \(client.path)\(script) · \(client.signer.map { "signed by \($0)" } ?? "not signed by a developer")"
+        return AIToolText.displayed(text, limit: 400)
     }
 
     // MARK: Target
@@ -222,40 +224,71 @@ public final class AIRecipeProposals {
     // MARK: Automatic steps
 
     /// An automatic step: the library's `proposeExtension` shows it with which recipes it changes and saves it switched off
-    /// (RMANAGER's; it answers that automatic steps aren't available until that package's part is there).
+    /// (RMANAGER's). Upstream `ProposeExtensionAsync`: a change keeps the id of the step it replaces (SM-M4, MC-M2); a
+    /// rejected one isn't shown again until the app restarts, and the rejection is the user's answer, not an error
+    /// (MC-M3); the reply says whether it is switched on (SM-M3).
     private func proposeExtension(_ draft: AIRecipeDraft, _ proposal: Proposal) async -> Outcome {
+        // TODO(merge): before the sheet, refuse a step without a Boolean "enabled" option with RMANAGER's
+        // `RecipeExtensionNames.aiProposalProblem(draft.recipe)` (SM-M3): the AI tool gets the reason without a sheet. Its
+        // `proposeExtension` refuses such a step itself; VALIDATE_RECIPE reports it already (`AIRecipeCatalog`).
+        var step = draft.recipe
+        var content = draft.content
         let replacedId = proposal.replaces?.trimmingCharacters(in: .whitespaces) ?? ""
         var url: URL
         if replacedId.isEmpty {
-            if library.extensions.contains(where: { recipeEquals($0.recipe.id, draft.recipe.id) }) || library.recipe(id: draft.recipe.id) != nil {
-                return Outcome(reply: .error("The id '\(draft.recipe.id)' is used. Use another id, or update_recipe to change that automatic step."),
+            if library.extensions.contains(where: { recipeEquals($0.recipe.id, step.id) }) || library.recipe(id: step.id) != nil {
+                return Outcome(reply: .error("The id '\(step.id)' is used. Use another id, or update_recipe to change that automatic step."),
                                openInEditor: nil)
             }
-            url = newFileURL(for: draft.recipe.id)
+            url = newFileURL(for: step.id)
         } else {
             guard let replaced = library.extensions.first(where: { recipeEquals($0.recipe.id, replacedId) }) else {
                 return Outcome(reply: .error("There is no automatic step with the id '\(replacedId)'."), openInEditor: nil)
             }
+            // The changed step keeps the id of the one it replaces, and its file when it has one
+            if step.id != replaced.recipe.id {
+                step.id = replaced.recipe.id
+                content = RecipeSerializer.encode(step)
+            }
             url = replaced.fileURL ?? newFileURL(for: replaced.recipe.id)
+        }
+        let rejectionKey = proposal.client.key.lowercased() + "|" + RecipeHash.sha256Hex(Data(content.utf8))
+        guard !rejected.contains(rejectionKey) else {
+            return Outcome(reply: .error("The user already rejected this automatic step. Ask the user what to change before proposing it again."),
+                           openInEditor: nil)
         }
         guard !busy else {
             return Outcome(reply: .error("Another proposal is waiting for the user, try again after it was answered."), openInEditor: nil)
         }
         busy = true
         defer { busy = false }
-        let result = await library.proposeExtension(content: draft.content, proposedBy: Self.proposerText(proposal.client),
+        let result = await library.proposeExtension(content: content, proposedBy: Self.proposerText(proposal.client),
                                                     aiRequest: Self.truncated(proposal.request, 2000),
                                                     aiExplanation: Self.truncated(proposal.explanation, 4000), saveTo: url)
         guard result.isValid, !result.loadedRecipeIds.isEmpty else {
+            if Self.isRejection(result) {
+                rejected.insert(rejectionKey)
+                log.info("The user rejected the automatic step '\(step.id)' proposed by \(proposal.client.logText).")
+                return Outcome(reply: .ok("The user rejected the automatic step, nothing was saved.",
+                                          extra: ["decision": .string("rejected"), "recipe": .string(step.id),
+                                                  "kind": .string(RecipeKind.extension.rawValue)]), openInEditor: nil)
+            }
             return Outcome(reply: .error(result.errors.isEmpty ? "The automatic step was not saved." : result.errors.joined(separator: "\n")),
                            openInEditor: nil)
         }
         url = URL(fileURLWithPath: RecipeTrustStore.standardized(url.path))
-        return Outcome(reply: .ok("The user approved the automatic step, it is saved. It is switched off: the user switches it on in Settings › Recipes.",
-                                  extra: ["decision": .string("approved"), "recipe": .string(draft.recipe.id),
-                                          "kind": .string(RecipeKind.extension.rawValue), "file": .string(url.path),
-                                          "switched_on": .bool(false)]),
+        let isOn = library.extensions.first { recipeEquals($0.recipe.id, step.id) }?.isEnabled ?? false
+        let text = isOn ? "The user approved the automatic step, it is saved and switched on."
+                        : "The user approved the automatic step, it is saved. It is switched off: the user switches it on in Settings › Recipes."
+        return Outcome(reply: .ok(text, extra: ["decision": .string("approved"), "recipe": .string(step.id),
+                                                "kind": .string(RecipeKind.extension.rawValue), "file": .string(url.path),
+                                                "switched_on": .bool(isOn)]),
                        openInEditor: nil)
+    }
+
+    /// The library's answer to a rejected automatic step (`proposeExtension`'s "The user rejected the automatic step …").
+    static func isRejection(_ result: RecipeLoadResult) -> Bool {
+        result.loadedRecipeIds.isEmpty && result.errors.count == 1 && result.errors[0].hasPrefix("The user rejected the automatic step")
     }
 }
 

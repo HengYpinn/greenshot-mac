@@ -8,31 +8,44 @@ import Foundation
 /// The program that uses Greenshot through greenshot-mcp (Claude, VS Code, Cursor, ...), identified by the app itself
 /// (upstream `AiToolClient`), never by what the connection says.
 public struct AIToolClient: Sendable, Equatable {
-    /// The program's executable: what the user allows (`AIToolsSettings.allowedClients`).
+    /// The program's executable.
     public var path: String
+    /// What the user allows: the executable, and for a runtime (node, python, ...) its script (`AIToolIdentity`).
+    public var identity: AIToolIdentity
     /// Its name for people, e.g. "Claude" or "Claude (disclaimer)" for a helper of an app.
     public var displayName: String
-    /// Who signed it ("Developer ID Application: …"), nil when it isn't signed by a developer.
+    /// Who signed the running program ("Developer ID Application: …"), nil when it isn't signed by a developer.
     public var signer: String?
+    /// The developer's Team ID of the running program's signature; kept with an allowed program.
+    public var teamID: String?
     /// greenshot-mcp's process and when it started: one MCP session of the AI tool (window ids belong to it).
     public var serverProcessID: Int32
     public var serverStartTime: UInt64
 
-    public init(path: String, displayName: String, signer: String? = nil, serverProcessID: Int32 = 0, serverStartTime: UInt64 = 0) {
+    public init(path: String, displayName: String, signer: String? = nil, teamID: String? = nil, identity: AIToolIdentity? = nil,
+                serverProcessID: Int32 = 0, serverStartTime: UInt64 = 0) {
         self.path = path
+        self.identity = identity ?? AIToolIdentity(executable: path)
         self.displayName = displayName
         self.signer = signer
+        self.teamID = teamID
         self.serverProcessID = serverProcessID
         self.serverStartTime = serverStartTime
     }
 
+    /// The identity text kept in the allowed list (without the Team ID).
+    public var key: String { identity.key }
+
+    /// The line the allowed list gets when the user allows it: the identity and the Team ID of its signature.
+    public var allowedEntry: AIToolAllowedEntry { AIToolAllowedEntry(key: key, teamID: teamID) }
+
     /// The scope of its window ids: this greenshot-mcp process and this program.
-    public var scopeKey: String { "\(serverProcessID):\(serverStartTime)|\(path.lowercased())" }
+    public var scopeKey: String { "\(serverProcessID):\(serverStartTime)|\(key.lowercased())" }
 
-    public var signerText: String { signer.map { "Signed by: \($0)" } ?? "This program is not signed by a developer." }
+    public var signerText: String { signer.map { "Signed by: \(AIToolText.displayed($0, limit: 120))" } ?? "This program is not signed by a developer." }
 
-    /// For the log and the approval sheet: "Claude (/Applications/Claude.app/Contents/MacOS/Claude)".
-    public var logText: String { "\(displayName) (\(path))" }
+    /// For the log: "Claude (/Applications/Claude.app/Contents/MacOS/Claude)".
+    public var logText: String { "\(displayName) (\(key))" }
 }
 
 /// Who may do what (upstream `AiToolsIpcExtension.CheckAccessAsync`, `AiToolAccess`): AI tools are opt-in; the AI tool
@@ -64,11 +77,18 @@ public enum AIToolAccess {
         return IPCCommand.aiToolCommands.contains(name) || source == .mcp
     }
 
-    /// Upstream `IsAllowed`: the program's path is in the allowed list (case doesn't matter).
+    /// Upstream `IsAllowed`: the program is in the allowed list (`AIToolAllowedEntry.matches`: its identity, any case, and
+    /// the Team ID when the entry has one).
     public static func isAllowed(_ client: AIToolClient, settings: AIToolsSettings) -> Bool {
-        let path = client.path.trimmingCharacters(in: .whitespaces)
-        guard !path.isEmpty else { return false }
-        return settings.allowedClients.contains { $0.trimmingCharacters(in: .whitespaces).caseInsensitiveCompare(path) == .orderedSame }
+        guard !client.path.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
+        return settings.allowedClients.contains { AIToolAllowedEntry(parsing: $0).matches(client) }
+    }
+
+    /// The allowed list with `client` in it: an entry for the same identity (another Team ID, a plain path) is replaced.
+    public static func allowing(_ client: AIToolClient, in list: [String]) -> [String] {
+        var result = list.filter { AIToolAllowedEntry(parsing: $0).key.caseInsensitiveCompare(client.key) != .orderedSame }
+        result.append(client.allowedEntry.line)
+        return result
     }
 
     /// Upstream `NotifyCapture`'s text.
@@ -79,48 +99,68 @@ public enum AIToolAccess {
 }
 
 /// The user's answers in this run of the app (upstream `AiToolAccess.EnsureAllowedAsync`, `DeniedClients`): asked once per
-/// program, one question at a time; "Don't Allow" is remembered until the app quits or the user clicks "Ask Again".
+/// program, one question at a time; "Don't Allow" is remembered until the app quits or the user clicks "Ask Again". Mac
+/// addition (security review): at most `promptLimit` questions in `promptWindow` seconds, so a program copying itself to
+/// new paths can't fill the screen with questions.
 @MainActor
 public final class AIToolConsent {
     /// Shows the question; true = Allow.
     public typealias Prompt = @MainActor (AIToolClient) async -> Bool
 
-    private var denied: [String: String] = [:]
+    public static let promptLimit = 3
+    public static let promptWindow: TimeInterval = 60
+    public static let tooManyMessage = "Too many programs asked to use Greenshot for Mac in a short time, so it doesn't ask for a minute. Try again later."
+
+    private var denied: [String: AIToolClient] = [:]
     private var busy = false
     private var waiters: [CheckedContinuation<Void, Never>] = []
+    private var promptTimes: [Date] = []
+    private let now: () -> Date
 
-    public init() {}
-
-    /// The programs answered with "Don't Allow" in this run, by path.
-    public var deniedClients: [String] { denied.values.sorted { $0.localizedStandardCompare($1) == .orderedAscending } }
-
-    public func isDenied(_ path: String) -> Bool { denied[path.lowercased()] != nil }
-
-    /// "Ask Again" (and "Allow" in the settings): the next request asks again, or passes when it is allowed meanwhile.
-    public func forgetDenied(_ path: String) {
-        denied.removeValue(forKey: path.lowercased())
+    public init(now: @escaping () -> Date = { Date() }) {
+        self.now = now
     }
 
-    /// True when the program may use Greenshot. `settings` is read again after waiting for another question; `managed`:
-    /// an administrator manages the allowed list, so nobody is asked; `allow` adds the program to the list.
+    /// The programs answered with "Don't Allow" in this run.
+    public var deniedClients: [AIToolClient] {
+        denied.values.sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
+    }
+
+    public func isDenied(_ key: String) -> Bool { denied[key.lowercased()] != nil }
+
+    /// "Ask Again" (and "Allow" in the settings): the next request asks again, or passes when it is allowed meanwhile.
+    public func forgetDenied(_ key: String) {
+        denied.removeValue(forKey: key.lowercased())
+    }
+
+    /// Nil when the program may use Greenshot, else the message for the AI tool. `settings` is read again after waiting
+    /// for another question; `managed`: an administrator manages the allowed list, so nobody is asked; `allow` adds the
+    /// program to the list.
     public func ensureAllowed(_ client: AIToolClient?, settings: @MainActor () -> AIToolsSettings, managed: Bool, prompt: Prompt,
-                              allow: @MainActor (String) -> Void) async -> Bool {
-        guard let client, !client.path.isEmpty else { return false }
-        if AIToolAccess.isAllowed(client, settings: settings()) { return true }
-        if managed { return false }
+                              allow: @MainActor (AIToolClient) -> Void) async -> String? {
+        guard let client, !client.path.isEmpty else { return AIToolAccess.unidentifiedMessage }
+        if AIToolAccess.isAllowed(client, settings: settings()) { return nil }
+        if managed { return AIToolAccess.managedMessage }
         await acquire()
         defer { release() }
         // Another request may have been answered while this one waited
-        if AIToolAccess.isAllowed(client, settings: settings()) { return true }
-        if isDenied(client.path) { return false }
-        guard await prompt(client) else {
-            denied[client.path.lowercased()] = client.path
-            log.info("The user did not allow \(client.logText) to use Greenshot.")
-            return false
+        if AIToolAccess.isAllowed(client, settings: settings()) { return nil }
+        if isDenied(client.key) { return AIToolAccess.notAllowedMessage }
+        let time = now()
+        promptTimes = promptTimes.filter { time.timeIntervalSince($0) < Self.promptWindow }
+        guard promptTimes.count < Self.promptLimit else {
+            log.warn("[SECURITY] Not asking about \(client.logText): too many questions in a short time.")
+            return Self.tooManyMessage
         }
-        allow(client.path)
+        promptTimes.append(time)
+        guard await prompt(client) else {
+            denied[client.key.lowercased()] = client
+            log.info("The user did not allow \(client.logText) to use Greenshot.")
+            return AIToolAccess.notAllowedMessage
+        }
+        allow(client)
         log.info("The user allowed \(client.logText) to use Greenshot.")
-        return true
+        return nil
     }
 
     private func acquire() async {

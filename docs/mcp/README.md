@@ -62,16 +62,30 @@ Review and Revoke.
   `aiTools.allowedClients`, `aiTools.excludedApplications`, `aiTools.notifyOnCapture`; see docs/admin). When the
   administrator manages the allowed programs, nobody is asked: other programs are refused.
 * The app doesn't trust what a connection says about itself. For the source `mcp` the program on the other end of the
-  socket must be the `greenshot-mcp` of the same app bundle (a development build: the one next to `GreenshotMac`), with
-  an intact signature by the app's own signer. The AI tool is the program that started greenshot-mcp (shells like `zsh`
-  or `env` in between are skipped), identified by its executable and its code signature.
+  socket must be the `greenshot-mcp` of the same app bundle (a development build: the one next to `GreenshotMac`). When
+  the app is signed with a Team ID or a certificate of its own, greenshot-mcp's signature must be intact and by the same
+  signer; an ad hoc signed or unsigned build has no signer to compare, so there only the path is checked. greenshot-mcp
+  in turn sends nothing to a socket whose program isn't the `GreenshotMac` of its own bundle. The AI tool is the program
+  that started greenshot-mcp (shells like `zsh` or `env` in between are skipped), identified by its executable, its
+  arguments and its code signature.
 * Each AI tool must be allowed by you: the first request shows a question with the program's name, path and signer.
   Allowed programs are stored in the settings and can be removed on the AI Tools tab. "Don't Allow" (or closing the
   question) is remembered until the app quits; the tab lists those programs with "Allow" and "Ask Again". The question
   stays on top but never takes the keyboard, has no default button, ignores Escape and Return, and its buttons react only
-  after a second, so a keystroke meant for the AI tool can't answer it. A helper inside an app is shown with the app's
-  name, e.g. "Claude (disclaimer)"; the helper's path is what is allowed. An AI tool running in Node.js shows up as
-  "node".
+  after a second, so a keystroke meant for the AI tool can't answer it. It opens at a slightly different place each time
+  and counts "Allow" only when it has been shown unchanged for that second and no other program's window lies over it:
+  a click that arrives earlier, or while it is covered, starts the second again. The command line's capture question
+  counts its "Allow" the same way. At most three questions are shown a minute; more
+  requests are refused until the minute is over. A helper inside an app is shown with the app's name, e.g. "Claude
+  (disclaimer)"; the helper's path is what is allowed.
+* AI tools that run in a runtime (Node.js, Bun, Deno, Python, Ruby, Perl, PHP, `osascript`, or an Electron app such as
+  VS Code switched into Node.js with `ELECTRON_RUN_AS_NODE`) are allowed together with their script: the question shows
+  "node" and the script, e.g. Claude Code's `cli.js`, and allowing it doesn't allow any other script that node runs.
+  Options that load more code (`--require`, `--import`, `NODE_OPTIONS`, …) are part of what is allowed, so a changed
+  option asks again. A runtime running inline code (`node -e`, `python -c`, a script from stdin) is refused, and so is
+  every AI tool started with `DYLD_` variables. A signed program is allowed with its Team ID, and the app checks the
+  running program's signature on every new greenshot-mcp session, so a copy of the program at the same path signed by
+  someone else is asked about again.
 * AI tools can only list windows, run recipes with an AI tool trigger and propose recipes, and only through greenshot-mcp:
   not from greenshot-cli, links or the browser extension. AI tools can't run command line recipes, open files, change
   settings or quit the app.
@@ -79,7 +93,11 @@ Review and Revoke.
   AI tool and greenshot-mcp session, expire 10 minutes after the last `list_windows` that showed the window, and stop
   working when the window is closed.
 * Windows of the excluded applications (password managers and Keychain Access / Passwords by default) never get an id,
-  can't be captured, and are blacked out in everything else a recipe started by an AI tool takes from the screen.
+  can't be captured, and are blacked out in everything else a recipe started by an AI tool takes from the screen. An
+  entry matches an application whose name starts with it ("1Password" matches "1Password 7"), and an entry with a dot
+  matches bundle identifiers starting with it (`com.agilebits` matches all of 1Password's helpers). The windows are
+  looked up when the run starts and again for the picture, and both are blacked out; when blacking out fails, the
+  picture is black altogether.
 * Every capture shows a notification (on by default).
 * Limits: a program running as you could still take screenshots without Greenshot if it has the screen recording
   permission itself, or control an allowed program. The checks keep web pages, extensions and other programs from using
@@ -191,12 +209,12 @@ Ask the AI tool in your own words, for example:
 * `greenshot-mcp --help` / `--version`; `GREENSHOT_MCP_DEBUG=1` adds information lines on stderr (stdout is the
   protocol).
 * To try the tools without an AI tool, use the [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
-  (`npx @modelcontextprotocol/inspector <path of greenshot-mcp>`; the Inspector's node is then the AI tool the app asks
-  about), or write JSON-RPC lines to its stdin.
+  (`npx @modelcontextprotocol/inspector <path of greenshot-mcp>`; the Inspector's node and its script are then the AI
+  tool the app asks about), or write JSON-RPC lines to its stdin.
 * How it fits together: `Sources/greenshot-mcp` is the stdio transport and the connection to the app (one request per
   tool call with the source `mcp`, the watch connection, the tool sync); the protocol engine and the tools are in Core
   (`MCPServer.swift`, `MCPTools.swift`). In the app, `AIToolsCenter` checks the opt-in and the consent, and handles
   LIST_WINDOWS, LIST_AI_TOOLS, RUN_AI_TOOL, RECIPE_CATALOG, VALIDATE_RECIPE and PROPOSE_RECIPE (Core `AIToolCatalog`,
   `AIRecipeCatalog`, `AIRecipeProposals`); the recipes' Source step asks `AIToolsCaptureGuard` about excluded
-  applications. Tests: `MCPServerTests`, `MCPToolsTests`, `AIToolAccessTests`, `AIWindowRefsTests`, `AIToolCaptureTests`,
-  `AIToolCatalogTests`, `AIRecipeProposalTests`.
+  applications. Tests: `MCPServerTests`, `MCPToolsTests`, `MCPConnectionTests`, `AIToolAccessTests`, `AIToolIdentityTests`,
+  `AIWindowRefsTests`, `AIToolCaptureTests`, `AIToolCatalogTests`, `AIRecipeProposalTests`.

@@ -64,6 +64,8 @@ public enum AIToolSetupClient: String, CaseIterable, Sendable {
 /// line, and whether it needs the user's attention.
 public struct AIToolApprovedRecipe: Equatable, Sendable {
     public var recipeId: String
+    /// An automatic step: its approval is the extension store's (`extensionDetails`, `reviewExtensionApproval`, …).
+    public var isExtension: Bool
     public var title: String
     public var subtitle: String
     /// Not approved, changed since its approval, or triggers left off.
@@ -71,7 +73,8 @@ public struct AIToolApprovedRecipe: Equatable, Sendable {
 
     public init(recipeId: String, name: String, isExtension: Bool, details: RecipeDetails?) {
         self.recipeId = recipeId
-        let by = details?.proposedBy.map { " · written by \($0)" } ?? ""
+        self.isExtension = isExtension
+        let by = details?.proposedBy.map { " · written by \(AIToolText.displayed($0, limit: 80))" } ?? ""
         let state: String
         if let approvedAt = details?.approvedAt {
             state = (details?.isApprovalCurrent ?? false) ? "approved \(Self.day(approvedAt))" : "changed since its approval"

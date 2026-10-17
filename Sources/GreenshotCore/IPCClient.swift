@@ -24,11 +24,12 @@ public final class IPCClient {
     }
 
     /// Tries to connect until `timeout` passes (upstream `ConnectToGreenshotPipe`): the app may still be starting.
-    public static func connect(to path: String, waitingUpTo timeout: TimeInterval, interval: TimeInterval = 0.1) -> IPCClient? {
+    public static func connect(to path: String, waitingUpTo timeout: TimeInterval, interval: TimeInterval = 0.1,
+                               shouldStop: () -> Bool = { false }) -> IPCClient? {
         let deadline = Date().addingTimeInterval(timeout)
         while true {
             if let client = try? connect(to: path) { return client }
-            if Date() >= deadline { return nil }
+            if Date() >= deadline || shouldStop() { return nil }
             usleep(useconds_t(max(0.01, interval) * 1_000_000))
         }
     }

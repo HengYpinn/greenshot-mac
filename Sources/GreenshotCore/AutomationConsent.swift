@@ -2,6 +2,7 @@
 // Copyright (C) 2026 Greenshot for Mac (Community) contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import CoreGraphics
 import Foundation
 
 /// Which automation captures the user confirms first (Mac only). Any program of the user can run greenshot-cli, also
@@ -73,6 +74,33 @@ public enum AutomationConsent {
         case let (_, app?): return app
         case let (process?, nil): return process
         default: return "A program"
+        }
+    }
+}
+
+/// Clickjacking (security review SM-M2): a click on "Allow" of a consent question counts only when no window of another
+/// program lies over the question; otherwise another program could put a window with a hole over it and let the user
+/// click "Allow" without seeing the question.
+public enum ConsentClickGuard {
+    /// A window on the screen above the question: its owner, its frame (Quartz global points) and its opacity.
+    public struct WindowAbove: Equatable, Sendable {
+        public var ownerPID: Int32
+        public var frame: CGRect
+        public var alpha: Double
+
+        public init(ownerPID: Int32, frame: CGRect, alpha: Double) {
+            self.ownerPID = ownerPID
+            self.frame = frame
+            self.alpha = alpha
+        }
+    }
+
+    /// True when a visible window of another process overlaps `frame`. The app's own windows don't count.
+    public static func isCovered(_ frame: CGRect, by windowsAbove: [WindowAbove], ownPID: Int32) -> Bool {
+        windowsAbove.contains { window in
+            guard window.ownerPID != ownPID, window.alpha > 0 else { return false }
+            let overlap = window.frame.intersection(frame)
+            return !overlap.isNull && overlap.width > 0 && overlap.height > 0
         }
     }
 }

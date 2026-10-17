@@ -27,7 +27,7 @@ public enum IPCAppLauncher {
             open.waitUntilExit()
             return open.terminationStatus == 0
         }
-        let app = ((executable as NSString).deletingLastPathComponent as NSString).appendingPathComponent("GreenshotMac")
+        let app = appExecutable(endpoint: endpoint, executable: executable)
         guard FileManager.default.isExecutableFile(atPath: app) else { return false }
         var attributes: posix_spawnattr_t?
         posix_spawnattr_init(&attributes)
@@ -47,15 +47,46 @@ public enum IPCAppLauncher {
         return posix_spawn(&pid, app, &actions, &attributes, argv, environ) == 0
     }
 
+    /// The app's executable for its helper at `executable`: the bundle's `Contents/MacOS/<CFBundleExecutable>`, or the
+    /// GreenshotMac next to a bare build.
+    public static func appExecutable(endpoint: IPCEndpoint, executable: String) -> String {
+        guard let bundle = endpoint.appBundlePath else {
+            return ((executable as NSString).deletingLastPathComponent as NSString).appendingPathComponent("GreenshotMac")
+        }
+        let name = (IPCEndpoint.infoDictionary(ofBundle: bundle)?["CFBundleExecutable"] as? String).flatMap { $0.isEmpty ? nil : $0 }
+            ?? "GreenshotMac"
+        return ((bundle as NSString).appendingPathComponent("Contents/MacOS") as NSString).appendingPathComponent(name)
+    }
+
+    /// Whether a process (its executable's path and user) is the app its helper at `executable` belongs to, the same
+    /// pairing the app asks of its helpers (`IPCPeerPolicy.check`).
+    public static func isApp(processPath: String?, uid: uid_t, endpoint: IPCEndpoint, executable: String,
+                             currentUser: uid_t = getuid()) -> Bool {
+        guard let processPath, uid == currentUser else { return false }
+        return IPCEndpoint.realPath(processPath) == IPCEndpoint.realPath(appExecutable(endpoint: endpoint, executable: executable))
+    }
+
+    /// Whether the program on the other end of `client` is the app (security review note): another program of the user
+    /// listening on the app's socket while the app isn't running gets no requests from a helper and can't answer them.
+    public static func isAppPeer(_ client: IPCClient, endpoint: IPCEndpoint, executable: String) -> Bool {
+        guard let peer = IPCSocket.peer(of: client.fd), peer.pid > 0 else { return false }
+        var buffer = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
+        let length = proc_pidpath(peer.pid, &buffer, UInt32(buffer.count))
+        let path = length > 0 ? String(cString: buffer) : nil
+        return isApp(processPath: path, uid: peer.uid, endpoint: endpoint, executable: executable)
+    }
+
     /// Upstream `ConnectOrColdStart`: one client at a time starts the app (others wait for the lock and then find it
     /// running), then waits up to `timeout` seconds for its socket.
-    public static func connectOrStart(endpoint: IPCEndpoint, executable: String, timeout: TimeInterval = 10) -> IPCClient? {
+    /// `shouldStop` (greenshot-mcp's cancelled call): checked before the app is started and while waiting for it.
+    public static func connectOrStart(endpoint: IPCEndpoint, executable: String, timeout: TimeInterval = 10,
+                                      shouldStop: () -> Bool = { false }) -> IPCClient? {
         if let client = try? IPCClient.connect(to: endpoint.socketPath) { return client }
         let lock = IPCFileLock.wait(endpoint.coldStartLockURL, timeout: 8)
         defer { lock?.release() }
         // Another client may have started the app while this one waited
-        if let client = IPCClient.connect(to: endpoint.socketPath, waitingUpTo: 1) { return client }
-        guard launch(endpoint: endpoint, executable: executable) else { return nil }
-        return IPCClient.connect(to: endpoint.socketPath, waitingUpTo: timeout, interval: 0.25)
+        if let client = IPCClient.connect(to: endpoint.socketPath, waitingUpTo: 1, shouldStop: shouldStop) { return client }
+        guard !shouldStop(), launch(endpoint: endpoint, executable: executable) else { return nil }
+        return IPCClient.connect(to: endpoint.socketPath, waitingUpTo: timeout, interval: 0.25, shouldStop: shouldStop)
     }
 }

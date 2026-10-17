@@ -104,12 +104,14 @@ struct AIToolsSettingsTab: View {
             if store.value.aiTools.allowedClients.isEmpty {
                 Text("No program is allowed yet.").foregroundStyle(.secondary)
             }
-            ForEach(store.value.aiTools.allowedClients, id: \.self) { path in
+            ForEach(store.value.aiTools.allowedClients, id: \.self) { line in
+                let entry = AIToolAllowedEntry(parsing: line)
                 HStack(alignment: .top) {
-                    programLabel(path)
+                    programLabel(executable: entry.executable, script: entry.script,
+                                 signer: entry.teamID.map { "Team ID: \($0)" } ?? "No developer signature kept")
                     Spacer()
                     Button {
-                        store.update { $0.aiTools.allowedClients.removeAll { $0 == path } }
+                        store.update { $0.aiTools.allowedClients.removeAll { $0 == line } }
                     } label: {
                         Image(systemName: "xmark")
                     }
@@ -121,20 +123,20 @@ struct AIToolsSettingsTab: View {
         } header: {
             Text("Allowed programs")
         } footer: {
-            Text("These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects.")
+            Text("These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }
 
     private var deniedSection: some View {
         Section {
-            ForEach(model.denied, id: \.self) { path in
+            ForEach(model.denied, id: \.key) { client in
                 HStack(alignment: .top) {
-                    programLabel(path)
+                    programLabel(executable: client.path, script: client.identity.script, signer: client.signerText)
                     Spacer()
-                    Button("Allow") { model.allowDenied(path, store: store) }
+                    Button("Allow") { model.allowDenied(client, store: store) }
                         .disabled(store.isLocked(\AppSettings.aiTools.allowedClients))
-                    Button("Ask Again") { model.askAgain(path, store: store) }
+                    Button("Ask Again") { model.askAgain(client, store: store) }
                 }
             }
         } header: {
@@ -145,12 +147,16 @@ struct AIToolsSettingsTab: View {
         }
     }
 
-    private func programLabel(_ path: String) -> some View {
+    private func programLabel(executable: String, script: String?, signer: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(AIToolCaller.displayName(forExecutable: path)).fontWeight(.semibold)
-            Text(DiagnosticReport.abbreviatingHome(path)).font(.caption).foregroundStyle(.secondary)
-                .lineLimit(1).truncationMode(.middle).help(path)
-            Text(model.signerText(of: path)).font(.caption).foregroundStyle(.secondary)
+            Text(AIToolCaller.displayName(forExecutable: executable)).fontWeight(.semibold)
+            Text(AIToolText.displayed(DiagnosticReport.abbreviatingHome(executable), limit: 300)).font(.caption).foregroundStyle(.secondary)
+                .lineLimit(1).truncationMode(.middle).help(AIToolText.displayed(executable, limit: 1000))
+            if let script {
+                Text("Script: " + AIToolText.displayed(DiagnosticReport.abbreviatingHome(script), limit: 300)).font(.caption)
+                    .foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle).help(AIToolText.displayed(script, limit: 1000))
+            }
+            Text(signer).font(.caption).foregroundStyle(.secondary)
         }
     }
 
@@ -224,9 +230,9 @@ struct AIToolsSettingsTab: View {
                         Text(row.subtitle).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
-                    Button("Details") { model.showDetails(row.recipeId) }
-                    Button("Review…") { model.review(row.recipeId, store: store) }
-                    Button("Revoke") { model.revoke(row.recipeId, name: row.title, store: store) }
+                    Button("Details") { model.showDetails(row) }
+                    Button("Review…") { model.review(row, store: store) }
+                    Button("Revoke") { model.revoke(row, store: store) }
                 }
             }
         } header: {
@@ -250,20 +256,17 @@ struct AIToolsSettingsTab: View {
 @MainActor
 final class AIToolsTabModel: ObservableObject {
     @Published var serverPath: String?
-    @Published var denied: [String] = []
+    @Published var denied: [AIToolClient] = []
     @Published var approved: [AIToolApprovedRecipe] = []
-    @Published var signers: [String: String] = [:]
     private let isSample: Bool
     private var observation: RecipeObservation?
 
     /// `serverPath` nil: greenshot-mcp of this app (`installedServerPath`); "" for none (snapshots).
-    init(serverPath: String? = nil, denied: [String]? = nil, approved: [AIToolApprovedRecipe]? = nil,
-         signers: [String: String]? = nil) {
+    init(serverPath: String? = nil, denied: [AIToolClient]? = nil, approved: [AIToolApprovedRecipe]? = nil) {
         self.serverPath = serverPath.map { $0.isEmpty ? nil : $0 } ?? Self.installedServerPath
-        isSample = denied != nil || approved != nil || signers != nil
+        isSample = denied != nil || approved != nil
         self.denied = denied ?? []
         self.approved = approved ?? []
-        self.signers = signers ?? [:]
     }
 
     /// `Contents/Helpers/greenshot-mcp` of the app bundle, or `greenshot-mcp` next to a bare build.
@@ -281,74 +284,79 @@ final class AIToolsTabModel: ObservableObject {
 
     static let snapshotServerPath = "/Applications/Greenshot for Mac (Community).app/Contents/Helpers/greenshot-mcp"
 
-    func signerText(of path: String) -> String {
-        guard let signer = signers[path] else { return "Not signed by a developer" }
-        return "Signed by: \(signer)"
-    }
-
     func refresh(store: SettingsStore) {
         guard !isSample else { return }
-        if let center = AIToolsCenter.shared {
-            denied = center.deniedClients
-            var known: [String: String] = [:]
-            for path in store.value.aiTools.allowedClients + denied {
-                if let signer = center.signer(of: path) { known[path] = signer }
-            }
-            signers = known
-        }
+        if let center = AIToolsCenter.shared { denied = center.deniedClients }
         guard let recipes = RecipeRuntime.shared else { return }
         if observation == nil {
             observation = recipes.addChangeObserver { [weak self] in self?.refresh(store: store) }
         }
         let library = recipes.library
-        approved = (library.recipes + library.extensions).filter { !$0.isBuiltIn }.map { loaded in
-            AIToolApprovedRecipe(recipeId: loaded.recipe.id, name: loaded.recipe.name, isExtension: loaded.recipe.kind == .extension,
+        // Recipes and automatic steps from files, each with its own approval (MC-M4)
+        let recipeRows = library.recipes.filter { !$0.isBuiltIn }.map { loaded in
+            AIToolApprovedRecipe(recipeId: loaded.recipe.id, name: loaded.recipe.name, isExtension: false,
                                  details: library.details(recipeId: loaded.recipe.id))
         }
+        let stepRows = library.extensions.filter { !$0.isBuiltIn }.map { loaded in
+            AIToolApprovedRecipe(recipeId: loaded.recipe.id, name: loaded.recipe.name, isExtension: true,
+                                 details: library.extensionDetails(id: loaded.recipe.id))
+        }
+        approved = recipeRows + stepRows
     }
 
-    func allowDenied(_ path: String, store: SettingsStore) {
-        AIToolsCenter.shared?.allowDenied(path)
+    func allowDenied(_ client: AIToolClient, store: SettingsStore) {
+        AIToolsCenter.shared?.allowDenied(client)
         refresh(store: store)
     }
 
-    func askAgain(_ path: String, store: SettingsStore) {
-        AIToolsCenter.shared?.askAgain(path)
+    func askAgain(_ client: AIToolClient, store: SettingsStore) {
+        AIToolsCenter.shared?.askAgain(client)
         refresh(store: store)
     }
 
     /// Details: the approval sheet, read only.
-    func showDetails(_ recipeId: String) {
-        guard let recipes = RecipeRuntime.shared, let request = recipes.library.detailsRequest(recipeId: recipeId) else { return }
+    func showDetails(_ row: AIToolApprovedRecipe) {
+        guard let recipes = RecipeRuntime.shared else { return }
+        let library = recipes.library
+        guard let request = row.isExtension ? library.extensionDetailsRequest(id: row.recipeId) : library.detailsRequest(recipeId: row.recipeId) else {
+            Self.alert("The details of \u{201C}\(row.title)\u{201D} aren't available: it isn't loaded any more.")
+            return
+        }
         Task { _ = await recipes.approver.requestApproval(request) }
     }
 
     /// Review: the approval sheet to change the switches or revoke it; takes effect at once.
-    func review(_ recipeId: String, store: SettingsStore) {
+    func review(_ row: AIToolApprovedRecipe, store: SettingsStore) {
         guard let recipes = RecipeRuntime.shared else { return }
+        let library = recipes.library
         Task {
-            let result = await recipes.library.reviewApproval(recipeId: recipeId)
-            if !result.isValid {
-                let alert = NSAlert()
-                alert.messageText = "Approved recipes"
-                alert.informativeText = result.errors.joined(separator: "\n")
-                alert.runModal()
-            }
+            let result = row.isExtension ? await library.reviewExtensionApproval(id: row.recipeId)
+                                         : await library.reviewApproval(recipeId: row.recipeId)
+            if !result.isValid { Self.alert(result.errors.joined(separator: "\n")) }
             refresh(store: store)
         }
     }
 
     /// Revoke, after asking: it stops running at once and isn't loaded again; its file stays.
-    func revoke(_ recipeId: String, name: String, store: SettingsStore) {
+    func revoke(_ row: AIToolApprovedRecipe, store: SettingsStore) {
         guard let recipes = RecipeRuntime.shared else { return }
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "Revoke the approval of \u{201C}\(name)\u{201D}?"
+        alert.messageText = "Revoke the approval of \u{201C}\(row.title)\u{201D}?"
         alert.informativeText = "It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it."
         alert.addButton(withTitle: "Keep")
         alert.addButton(withTitle: "Revoke")
         guard alert.runModal() == .alertSecondButtonReturn else { return }
-        _ = recipes.library.revokeApproval(recipeId: recipeId)
+        let revoked = row.isExtension ? recipes.library.revokeExtensionApproval(id: row.recipeId)
+                                      : recipes.library.revokeApproval(recipeId: row.recipeId)
+        if !revoked { Self.alert("The approval of \u{201C}\(row.title)\u{201D} could not be revoked. It is unchanged; see the log for why.") }
         refresh(store: store)
+    }
+
+    private static func alert(_ text: String) {
+        let alert = NSAlert()
+        alert.messageText = "Approved recipes"
+        alert.informativeText = text
+        alert.runModal()
     }
 }

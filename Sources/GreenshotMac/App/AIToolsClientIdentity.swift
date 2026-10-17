@@ -14,22 +14,21 @@ import Security
 @MainActor
 final class AIToolsClientIdentity {
     private var clients: [String: AIToolClient] = [:]
-    private var signers: [String: String?] = [:]
     private let table = SystemProcessTable()
     private let log = Log("AITools")
 
-    /// The AI tool of the request; else why it can't be identified.
+    /// The AI tool of the request; else why it can't be identified or may not ask (`AIToolCaller.identity`).
     func client(of context: IPCReplyContext) -> Result<AIToolClient, AIToolError> {
         guard context.source == .mcp, let peer = context.peer else { return .failure(AIToolError(AIToolAccess.unidentifiedMessage)) }
         let pid = Self.processID(of: peer)
         guard let server = table.process(pid) else { return .failure(AIToolError(AIToolAccess.unidentifiedMessage)) }
         let key = "\(server.pid):\(server.startTime)"
         if let known = clients[key] { return .success(known) }
-        let result = AIToolCaller.identify(serverPID: pid, table: table) { [self] path in signer(of: path) }
+        let result = AIToolCaller.identify(serverPID: pid, table: table) { Self.runningSigner($0) }
         switch result {
         case .success(let client):
             clients[key] = client
-            log.info("greenshot-mcp (\(pid)) was started by \(client.logText), \(client.signer.map { "signed by \($0)" } ?? "not signed")")
+            log.info("greenshot-mcp (\(pid)) was started by \(client.logText), \(client.signer.map { "signed by \($0)" } ?? "not signed by a developer")")
         case .failure(let error):
             log.warn("[SECURITY] greenshot-mcp (\(pid)): \(error.message)")
         }
@@ -43,30 +42,32 @@ final class AIToolsClientIdentity {
         return pid_t(bitPattern: audit.val.5)
     }
 
-    /// The certificate holder of a valid developer signature ("Developer ID Application: Anthropic PBC (Q6L2SF6YDW)"),
-    /// nil for an unsigned, ad hoc signed or broken program. Only the signature itself is checked (not every file of a
-    /// big app): enough to name the signer; cached per path and modification date.
-    func signer(of path: String) -> String? {
-        let date = (try? FileManager.default.attributesOfItem(atPath: path)[.modificationDate] as? Date)?.timeIntervalSince1970 ?? 0
-        let key = "\(path)|\(date)"
-        if let known = signers[key] { return known }
-        let value = Self.readSigner(path)
-        signers[key] = value
-        return value
-    }
-
-    private static func readSigner(_ path: String) -> String? {
+    /// Who signed the running program (SM-H1): its code as it runs now (not the file on disk, which may have changed),
+    /// checked to be intact; the certificate's name ("Developer ID Application: Anthropic PBC (Q6L2SF6YDW)") and the
+    /// Team ID. Nil for an unsigned, ad hoc signed or modified program, and when the process id now belongs to another
+    /// program. All its resources aren't checked: enough to name the signer of a big app without seconds of hashing.
+    nonisolated static func runningSigner(_ process: AIToolProcess) -> (name: String?, teamID: String?) {
+        var guest: SecCode?
+        let attributes = [kSecGuestAttributePid: NSNumber(value: process.pid)] as CFDictionary
+        guard SecCodeCopyGuestWithAttributes(nil, attributes, [], &guest) == errSecSuccess, let code = guest else { return (nil, nil) }
+        let flags = SecCSFlags(rawValue: kSecCSDoNotValidateResources)
+        guard SecCodeCheckValidity(code, flags, nil) == errSecSuccess else { return (nil, nil) }
         var staticCode: SecStaticCode?
-        guard SecStaticCodeCreateWithPath(URL(fileURLWithPath: path) as CFURL, [], &staticCode) == errSecSuccess, let staticCode else { return nil }
-        let basic = SecCSFlags(rawValue: kSecCSDoNotValidateExecutable | kSecCSDoNotValidateResources)
-        guard SecStaticCodeCheckValidity(staticCode, basic, nil) == errSecSuccess else { return nil }
+        guard SecCodeCopyStaticCode(code, [], &staticCode) == errSecSuccess, let staticCode else { return (nil, nil) }
+        // The same program the chain walk found
+        var url: CFURL?
+        if SecCodeCopyPath(staticCode, [], &url) == errSecSuccess, let url, let path = process.path {
+            let codePath = IPCEndpoint.realPath((url as URL).path)
+            let processPath = IPCEndpoint.realPath(path)
+            let bundled = processPath.hasPrefix(codePath.hasSuffix("/") ? codePath : codePath + "/")
+            guard codePath == processPath || bundled else { return (nil, nil) }
+        }
         var information: CFDictionary?
         guard SecCodeCopySigningInformation(staticCode, SecCSFlags(rawValue: kSecCSSigningInformation), &information) == errSecSuccess,
               let info = information as? [String: Any],
-              let certificates = info[kSecCodeInfoCertificates as String] as? [SecCertificate], let leaf = certificates.first else { return nil }
-        let summary = SecCertificateCopySubjectSummary(leaf) as String?
+              let certificates = info[kSecCodeInfoCertificates as String] as? [SecCertificate], let leaf = certificates.first else { return (nil, nil) }
         let team = info[kSecCodeInfoTeamIdentifier as String] as? String
-        guard let summary, !summary.isEmpty else { return team }
-        return summary
+        let summary = SecCertificateCopySubjectSummary(leaf) as String?
+        return (summary.flatMap { $0.isEmpty ? nil : $0 } ?? team, team)
     }
 }

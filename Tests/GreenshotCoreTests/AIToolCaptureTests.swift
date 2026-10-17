@@ -24,6 +24,26 @@ import Testing
         #expect(AIToolExclusion.normalize(" KeePass.exe ") == "keepass")
     }
 
+    /// SM-L3: older versions and helpers of a password manager, by name and by bundle identifier.
+    @Test func excludedByNamePrefixAndBundleIdentifier() {
+        let list = AIToolsSettings.defaultExcludedApplications
+        #expect(AIToolExclusion.isExcluded(names: ["1Password 7"], excluded: list))
+        #expect(AIToolExclusion.isExcluded(names: ["1Password Helper (Login)"], excluded: list))
+        #expect(AIToolExclusion.isExcluded(names: ["Some Agent", "com.agilebits.onepassword7-helper"], excluded: list))
+        #expect(AIToolExclusion.isExcluded(names: ["Vault", "com.bitwarden.desktop"], excluded: list))
+        // A bundle prefix ends at a dot: com.agilebitsx isn't com.agilebits
+        #expect(!AIToolExclusion.isExcluded(names: ["Other", "com.agilebitsx.app"], excluded: ["com.agilebits"]))
+        #expect(!AIToolExclusion.isExcluded(names: ["Finder", "com.apple.finder"], excluded: list))
+    }
+
+    /// Fail closed: a black picture when the excluded windows can't be blacked out.
+    @Test func blackPicture() throws {
+        let black = try #require(AIToolExclusion.blackImage(width: 6, height: 4))
+        #expect(black.width == 6)
+        #expect(black.height == 4)
+        #expect(pixel(black, x: 3, y: 2) == [0, 0, 0, 255])
+    }
+
     @Test func redactionRectsAreClippedAndInPixels() {
         let rects = AIToolExclusion.redactionRects(windowFrames: [CGRect(x: 90, y: 40, width: 50, height: 20),
                                                                   CGRect(x: 500, y: 500, width: 10, height: 10)],

@@ -10,11 +10,14 @@ import Foundation
 /// Upstream `AiToolsMcpServerPaths` (Debug builds only) has no counterpart: a development build accepts the greenshot-mcp
 /// next to it.
 public struct AIToolsSettings: Codable, Equatable, Sendable {
-    /// Upstream's password managers plus the Mac's own (Keychain Access, Passwords) and Mac-only ones. Names are matched
-    /// without case, spaces or ".app" against the app name, its executable and its bundle identifier.
+    /// Upstream's password managers plus the Mac's own (Keychain Access, Passwords) and Mac-only ones, and the bundle
+    /// identifier prefixes of the big ones (older versions and helpers have other names). Names are matched without case,
+    /// spaces or ".app" against the start of the app name and its executable; entries with a dot against the start of
+    /// the bundle identifier (`AIToolExclusion`).
     public static let defaultExcludedApplications = [
         "KeePass", "KeePassXC", "KeePassium", "MacPass", "Strongbox", "1Password", "Bitwarden", "LastPass", "Dashlane",
         "Enpass", "RoboForm", "NordPass", "ProtonPass", "Keychain Access", "Passwords",
+        "com.agilebits", "com.1password", "com.bitwarden", "com.lastpass", "com.dashlane", "org.keepassxc",
     ]
 
     /// Let AI tools use Greenshot through greenshot-mcp (upstream `AiToolsEnabled`, opt-in). Off: every greenshot-mcp
