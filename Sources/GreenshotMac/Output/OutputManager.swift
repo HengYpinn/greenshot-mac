@@ -6,8 +6,11 @@
 import AppKit
 import GreenshotCore
 
+/// Called once when an export ended (upstream `ExportResult`).
+typealias ExportCompletion = @MainActor (ExportResult) -> Void
+
 /// Where one menu entry sends a capture: a destination, or one of the entries some destinations have per item
-/// (upstream has a destination object per external command and per Office application).
+/// (upstream's dynamic destinations: one per external command, open editor, printer, Jira issue, Confluence page).
 enum DestinationTarget: Equatable {
     case destination(CaptureDestination)
     /// "Save as PDF…": asks for the file name (the `.pdf` destination saves directly).
@@ -15,6 +18,29 @@ enum DestinationTarget: Equatable {
     case externalCommand(ExternalCommand)
     /// Open with that app; nil asks for one.
     case application(URL?)
+    /// Add the capture to the open editor with this `EditorDocument.id` (upstream "Add to editor - <title>").
+    case addToEditor(UUID)
+    /// Print on this printer without the print panel (upstream `PrinterDestination(printerName)`).
+    case printer(String)
+    /// Attach to this Jira issue without asking (upstream `JiraDestination(jiraIssue)`).
+    case jiraIssue(String)
+    /// Attach to this Confluence page without asking (upstream `ConfluenceDestination(page)`).
+    case confluencePage(ConfluencePage)
+
+    /// The destination's name for messages ("Exported to: …").
+    var displayName: String {
+        func plain(_ title: String) -> String { title.hasSuffix("…") ? String(title.dropLast()) : title }
+        switch self {
+        case .destination(let destination): return plain(destination.pickerTitle)
+        case .pdfAs: return "Save as PDF"
+        case .externalCommand(let command): return command.name
+        case .application(let app): return app.map { "Open with \(OpenWithDestination.name(of: $0))" } ?? "Open With"
+        case .addToEditor: return "Add to Editor"
+        case .printer(let name): return "Print – \(name)"
+        case .jiraIssue(let key): return "Upload to Jira – \(key)"
+        case .confluencePage(let page): return "Upload to Confluence – \(page.title)"
+        }
+    }
 }
 
 /// A `DestinationTarget` as a menu item's `representedObject`.
@@ -27,12 +53,12 @@ final class DestinationTargetBox: NSObject {
 }
 
 /// Sends a capture to the configured destinations, or asks with upstream's destination picker menu
-/// (`Greenshot/Destinations/PickerDestination.cs`).
+/// (`Greenshot/Destinations/PickerDestination.cs`, the menu is in `OutputManager+Picker.swift`).
 @MainActor
 final class OutputManager {
     let settings: SettingsStore
     let saver: ImageSaver
-    private let editors: EditorManager
+    let editors: EditorManager
 
     init(settings: SettingsStore, saver: ImageSaver, editors: EditorManager) {
         self.settings = settings
@@ -45,148 +71,138 @@ final class OutputManager {
         if destinations.isEmpty || destinations.contains(.picker) {
             showPicker(for: capture)
         } else {
-            destinations.forEach { perform($0, with: capture) }
+            destinations.forEach { perform(.destination($0), with: capture) }
         }
     }
 
-    /// `window` is the editor the capture comes from, if any (dialogs and the share menu attach to it).
-    func perform(_ target: DestinationTarget, with capture: Capture, window: NSWindow? = nil) {
+    /// `window` is the editor the capture comes from, if any: dialogs and the share menu attach to it, and it shows how
+    /// the export ended (upstream `ExportResultHandler`). `completion` gets the result once.
+    func perform(_ target: DestinationTarget, with capture: Capture, window: NSWindow? = nil,
+                 completion: ExportCompletion? = nil) {
+        let editor = window?.windowController as? EditorWindowController
+        let finish: ExportCompletion = { result in
+            editor?.showExportResult(result, destination: target.displayName)
+            completion?(result)
+        }
         switch target {
         case .destination(let destination):
-            perform(destination, with: capture, window: window)
+            perform(destination, with: capture, window: window, completion: finish)
         case .pdfAs:
-            PdfDestination.save(capture, settings: settings, saver: saver, ask: true)
+            finish(PdfDestination.save(capture, settings: settings, saver: saver, ask: true))
         case .externalCommand(let command):
-            ExternalCommandRunner.run(command, capture: capture, settings: settings, saver: saver)
+            ExternalCommandRunner.run(command, capture: capture, settings: settings, saver: saver,
+                                      savedFile: Self.savedFile(of: editor), completion: finish)
         case .application(let app):
-            OpenWithDestination.open(capture, with: app, settings: settings)
+            OpenWithDestination.open(capture, with: app, settings: settings, completion: finish)
+        case .addToEditor(let id):
+            finish(editors.addImage(capture, toEditor: id)
+                   ? .succeeded(clearsModified: false)
+                   : .failed("The editor was closed.", target: "Add to Editor"))
+        case .printer(let name):
+            Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date,
+                           printer: name, completion: finish)
+        case .jiraIssue(let key):
+            JiraDestination.upload(capture, settings: settings, saver: saver, issueKey: key, completion: finish)
+        case .confluencePage(let page):
+            ConfluenceDestination.upload(capture, settings: settings, saver: saver, page: page, completion: finish)
         }
     }
 
-    func perform(_ destination: CaptureDestination, with capture: Capture, window: NSWindow? = nil) {
+    private func perform(_ destination: CaptureDestination, with capture: Capture, window: NSWindow?,
+                         completion: @escaping ExportCompletion) {
         switch destination {
         case .picker:
-            showPicker(for: capture)
+            showPicker(for: capture, completion: completion)
         case .editor:
             editors.open(capture)
+            completion(.succeeded(clearsModified: false))
         case .clipboard:
             Clipboard.copy(capture.image, scale: capture.scale)
             saver.notify("Copied to the clipboard")
+            completion(.succeeded())
         case .file:
-            saver.saveDirectly(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
+            completion(saver.exportDirectly(capture.image, scale: capture.scale, title: capture.title, date: capture.date))
         case .fileAs:
-            saver.saveAs(capture.image, scale: capture.scale, title: capture.title, date: capture.date)
+            completion(saver.exportAs(capture.image, scale: capture.scale, title: capture.title, date: capture.date))
         case .printer:
-            Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date)
+            Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date,
+                           completion: completion)
         case .email:
-            EmailDestination.send(capture, settings: settings, saver: saver)
+            completion(EmailDestination.send(capture, settings: settings, saver: saver))
         case .share:
-            ShareDestination.share(capture, settings: settings, window: window)
+            ShareDestination.share(capture, settings: settings, window: window, completion: completion)
         case .ocr:
-            TextDestination.copyText(capture, settings: settings, saver: saver)
+            TextDestination.copyText(capture, settings: settings, saver: saver, completion: completion)
         case .externalCommand:
-            runExternalCommand(with: capture, window: window)
+            runExternalCommand(with: capture, window: window, completion: completion)
         case .pdf:
-            PdfDestination.save(capture, settings: settings, saver: saver, ask: false)
+            completion(PdfDestination.save(capture, settings: settings, saver: saver, ask: false))
         case .openWith:
             let menu = NSMenu(title: "Open with")
             menu.autoenablesItems = false
-            OpenWithDestination.menuItems(format: settings.value.outputFormat) { [weak self] app in
-                guard let self else { return }
-                OpenWithDestination.open(capture, with: app, settings: self.settings)
-            }.forEach(menu.addItem)
+            var chosen: URL??
+            OpenWithDestination.menuItems(format: settings.value.outputFormat) { app in chosen = .some(app) }.forEach(menu.addItem)
             popUp(menu)
+            guard let app = chosen else {
+                completion(.declined)
+                return
+            }
+            OpenWithDestination.open(capture, with: app, settings: settings, completion: completion)
         case .qrCode:
-            QRCodeDestination.show(capture, saver: saver) { [weak self] menu in self?.popUp(menu) }
+            QRCodeDestination.show(capture, saver: saver, popUp: { [weak self] menu in self?.popUp(menu) }, completion: completion)
         case .jira:
-            JiraDestination.upload(capture, settings: settings, saver: saver)
+            JiraDestination.upload(capture, settings: settings, saver: saver, completion: completion)
         case .confluence:
-            ConfluenceDestination.upload(capture, settings: settings, saver: saver)
+            ConfluenceDestination.upload(capture, settings: settings, saver: saver, completion: completion)
         case .box, .dropbox:
-            CloudDestination.upload(destination, capture, settings: settings, saver: saver)
+            CloudDestination.upload(destination, capture, settings: settings, saver: saver, completion: completion)
         }
     }
 
-    /// The menu entries of every destination, for the picker (upstream's order: editor, files, clipboard, the rest).
-    func pickerItems(for capture: Capture) -> [NSMenuItem] {
-        let folder = (settings.value.outputFolderURL.path as NSString).abbreviatingWithTildeInPath
-        var items: [NSMenuItem] = []
-        func add(_ title: String, _ target: DestinationTarget) {
-            // NSMenu sends the action after it has closed, so dialogs and windows open normally, and before
-            // popUp returns, so the caller sees an opened editor when it decides where the focus goes.
-            items.append(ClosureMenuItem(title: title) { [weak self] in self?.perform(target, with: capture) })
-        }
-        add("Open in Image Editor", .destination(.editor))
-        add("Save Directly (\(folder))", .destination(.file))
-        add("Save As…", .destination(.fileAs))
-        add("Save as PDF…", .pdfAs)
-        add("Copy to Clipboard", .destination(.clipboard))
-        add("Copy Text (OCR)", .destination(.ocr))
-        add("Print…", .destination(.printer))
-        add("Email…", .destination(.email))
-        add("Share…", .destination(.share))
-        for upload in [CaptureDestination.jira, .confluence, .box, .dropbox] {
-            add(upload.displayName, .destination(upload))
-        }
-        let openWith = NSMenuItem(title: "Open With", action: nil, keyEquivalent: "")
-        openWith.submenu = NSMenu(title: "Open With")
-        openWith.submenu?.autoenablesItems = false
-        OpenWithDestination.menuItems(format: settings.value.outputFormat) { [weak self] app in
-            guard let self else { return }
-            OpenWithDestination.open(capture, with: app, settings: self.settings)
-        }.forEach { openWith.submenu?.addItem($0) }
-        items.append(openWith)
-        for command in settings.value.externalCommands {
-            add("External: \(command.name)", .externalCommand(command))
-        }
-        let qrCode = NSMenuItem(title: "QR Code", action: nil, keyEquivalent: "")
-        qrCode.submenu = QRCodeDestination.pickerSubmenu(for: capture, saver: saver)
-        items.append(qrCode)
-        return items
+    /// The file an editor shows, when it is saved and unchanged: an external command gets that file instead of a
+    /// temporary copy (upstream uses `captureDetails.Filename`).
+    static func savedFile(of editor: EditorWindowController?) -> URL? {
+        guard let document = editor?.editorDocument, !document.isModified, let url = document.fileURL,
+              FileManager.default.fileExists(atPath: url.path) else { return nil }
+        return url
     }
 
     /// The external command destination: the one command, or a menu to choose with several.
-    private func runExternalCommand(with capture: Capture, window: NSWindow?) {
+    private func runExternalCommand(with capture: Capture, window: NSWindow?, completion: @escaping ExportCompletion) {
         let commands = settings.value.externalCommands
         if commands.count == 1 {
-            perform(.externalCommand(commands[0]), with: capture, window: window)
+            perform(.externalCommand(commands[0]), with: capture, window: window, completion: completion)
             return
         }
         guard !commands.isEmpty else {
             ErrorPresenter.show(message: "No external command is set up", detail: "Add one in Settings › Destinations.")
+            completion(.failed("No external command is set up."))
             return
         }
         let menu = NSMenu(title: "External command")
         menu.autoenablesItems = false
+        var chosen: ExternalCommand?
         for command in commands {
-            menu.addItem(ClosureMenuItem(title: command.name) { [weak self] in
-                self?.perform(.externalCommand(command), with: capture, window: window)
-            })
+            let item = ClosureMenuItem(title: command.name) { chosen = command }
+            item.image = ExternalCommandRunner.icon(for: command)
+            menu.addItem(item)
         }
         popUp(menu)
+        guard let chosen else {
+            completion(.declined)
+            return
+        }
+        perform(.externalCommand(chosen), with: capture, window: window, completion: completion)
     }
 
-    /// The menu at the mouse that asks where the capture goes.
-    private func showPicker(for capture: Capture) {
-        let menu = NSMenu(title: "Send screenshot to")
-        menu.autoenablesItems = false
-        let header = NSMenuItem(title: "\(capture.image.width) × \(capture.image.height) – \(capture.title)", action: nil, keyEquivalent: "")
-        header.isEnabled = false
-        menu.addItem(header)
-        menu.addItem(.separator())
-        pickerItems(for: capture).forEach(menu.addItem)
-        menu.addItem(.separator())
-        menu.addItem(ClosureMenuItem(title: "Discard") {})
-        popUp(menu)
-    }
-
-    /// Shows a menu at the mouse.
-    func popUp(_ menu: NSMenu) {
+    /// Shows a menu at the mouse. True when an entry was chosen (its action has run by then).
+    @discardableResult
+    func popUp(_ menu: NSMenu) -> Bool {
         // Activating (for keyboard navigation in the menu) while an editor window is open could switch to that
         // window's Space, away from where the user captured; the menu works with the mouse without it.
         if !NSApp.windows.contains(where: { $0.isVisible && $0.canBecomeMain }) {
             NSApp.activate()
         }
-        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+        return menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
     }
 }

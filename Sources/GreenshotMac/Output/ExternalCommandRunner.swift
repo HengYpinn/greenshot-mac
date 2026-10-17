@@ -6,7 +6,7 @@
 import AppKit
 import GreenshotCore
 
-/// Runs a configured external command with the screenshot as a temporary PNG: port of upstream
+/// Runs a configured external command with the screenshot as a file: port of upstream
 /// `Greenshot.Plugin.ExternalCommand/Destinations/ExternalCommandDestination.cs`. The command runs off the main
 /// thread; its output can put a URL (e.g. from an upload script) or all of it on the clipboard.
 @MainActor
@@ -14,17 +14,28 @@ enum ExternalCommandRunner {
     /// Exit status of `/usr/bin/env` when the command isn't found.
     private static let notFoundStatus: Int32 = 127
 
-    static func run(_ command: ExternalCommand, capture: Capture, settings: SettingsStore, saver: ImageSaver) {
+    /// `savedFile` is the capture's own file when it has one (upstream `captureDetails.Filename`); otherwise the
+    /// command gets a temporary file in its format. A command in the background counts as done once it started
+    /// (upstream); one that isn't waits for its end.
+    static func run(_ command: ExternalCommand, capture: Capture, settings: SettingsStore, saver: ImageSaver,
+                    savedFile: URL? = nil, completion: @escaping ExportCompletion = { _ in }) {
         let file: URL
-        do {
-            file = try TemporaryCaptureFile.write(capture, settings: settings)
-        } catch {
-            ErrorPresenter.show(error, title: "The screenshot could not be written for \(command.name)")
-            return
+        if let savedFile {
+            file = savedFile
+        } else {
+            do {
+                file = try TemporaryCaptureFile.write(capture, settings: settings, format: command.format)
+            } catch {
+                ErrorPresenter.show(error, title: "The screenshot could not be written for \(command.name)")
+                completion(.failed(error.localizedDescription, target: command.name))
+                return
+            }
         }
-        guard let (executable, arguments) = resolve(command, file: file.path) else {
+        let fill = filler(for: capture, settings: settings)
+        guard let (executable, arguments) = resolve(command, file: file.path, fill: fill) else {
             ErrorPresenter.show(message: "\(command.name): the program was not found",
                                 detail: "“\(command.command)” is not an executable file. Check it in Settings › Destinations.")
+            completion(.failed("The program was not found.", target: command.name))
             return
         }
         let process = Process()
@@ -39,8 +50,10 @@ enum ExternalCommandRunner {
             try process.run()
         } catch {
             ErrorPresenter.show(error, title: "\(command.name) could not be started")
+            completion(.failed(error.localizedDescription, target: command.name))
             return
         }
+        if command.runInBackground { completion(.succeeded(fileURL: file, target: command.name, clearsModified: false)) }
         DispatchQueue.global(qos: .userInitiated).async {
             // Both pipes are read before waiting, or a chatty command blocks on a full pipe.
             var outData = Data()
@@ -58,29 +71,82 @@ enum ExternalCommandRunner {
             let err = String(decoding: errData, as: UTF8.self)
             DispatchQueue.main.async {
                 MainActor.assumeIsolated {
-                    finish(command, status: status, output: out, errors: err, saver: saver)
+                    let result = finish(command, status: status, output: out, errors: err, file: file, saver: saver)
+                    if !command.runInBackground { completion(result) }
                 }
             }
         }
     }
 
-    /// The program and its arguments: a path runs as it is, an app bundle (`….app`) opens the file with `open -a`,
-    /// a bare name is looked up in the PATH by `/usr/bin/env`. Nil when a path isn't executable.
-    static func resolve(_ command: ExternalCommand, file: String) -> (URL, [String])? {
-        let program = (command.command.trimmingCharacters(in: .whitespaces) as NSString).expandingTildeInPath
-        guard !program.isEmpty else { return nil }
-        let arguments = ExternalCommandLine.arguments(command.arguments, file: file)
-        if program.lowercased().hasSuffix(".app") || program.lowercased().hasSuffix(".app/") {
-            return (URL(fileURLWithPath: "/usr/bin/open"), ["-a", program] + arguments)
-        }
-        if program.contains("/") {
-            guard FileManager.default.isExecutableFile(atPath: program) else { return nil }
-            return (URL(fileURLWithPath: program), arguments)
-        }
-        return (URL(fileURLWithPath: "/usr/bin/env"), [program] + arguments)
+    /// Fills the pattern variables (`${title}`, `${YYYY}`, `${HOME}`, …) of the command line (upstream
+    /// `FilenameHelper.FillVariables`), without counting `${NUM}` up.
+    static func filler(for capture: Capture, settings: SettingsStore) -> (String) -> String {
+        let context = settings.patternContext(title: capture.title, date: capture.date, consumeNumber: false)
+        return { FilenamePattern.fill($0, context: context, filenameSafe: false) }
     }
 
-    private static func finish(_ command: ExternalCommand, status: Int32, output: String, errors: String, saver: ImageSaver) {
+    /// The program and its arguments: a path runs as it is, an app bundle (`….app`) opens the file with `open -a`,
+    /// a bare name is looked up in the PATH by `/usr/bin/env`. Nil when a path isn't executable.
+    static func resolve(_ command: ExternalCommand, file: String, fill: (String) -> String = { $0 }) -> (URL, [String])? {
+        guard let program = ExternalCommandLine.program(command.command, fill: fill) else { return nil }
+        let arguments = ExternalCommandLine.arguments(command.arguments, file: file, fill: fill)
+        switch program {
+        case .application(let path):
+            return (URL(fileURLWithPath: "/usr/bin/open"), ["-a", path] + arguments)
+        case .executable(let path):
+            guard FileManager.default.isExecutableFile(atPath: path) else { return nil }
+            return (URL(fileURLWithPath: path), arguments)
+        case .searchPath(let name):
+            return (URL(fileURLWithPath: "/usr/bin/env"), [name] + arguments)
+        }
+    }
+
+    /// Whether the command's program is there (upstream `ExternalCommandPlugin.IsCommandValid`). A program with
+    /// pattern variables counts as there.
+    static func isAvailable(_ command: ExternalCommand) -> Bool {
+        guard !command.command.contains("${") else { return true }
+        guard let program = ExternalCommandLine.program(command.command) else { return false }
+        let manager = FileManager.default
+        let path = (ProcessInfo.processInfo.environment["PATH"] ?? "/usr/bin:/bin:/usr/sbin:/sbin").split(separator: ":").map(String.init)
+        return ExternalCommandLine.isAvailable(program, fileExists: manager.fileExists(atPath:),
+                                               isExecutable: manager.isExecutableFile(atPath:), searchPath: path)
+    }
+
+    private static var icons: [String: NSImage] = [:]
+
+    /// The icon of the command's program for menus (upstream `IconCache.IconForCommandAsync`): the app it opens
+    /// (`….app`, or `open -a Name`), else the program file's icon. 16 points, cached.
+    static func icon(for command: ExternalCommand) -> NSImage? {
+        let cacheKey = command.command + "\u{1}" + command.arguments
+        if let cached = icons[cacheKey] { return cached }
+        var path: String?
+        switch ExternalCommandLine.program(command.command) {
+        case .some(.application(let app)): path = app
+        case .some(.executable(let executable)): path = executable
+        case .some(.searchPath), .none: path = nil
+        }
+        if let name = ExternalCommandLine.applicationName(inArguments: command.arguments), let app = applicationPath(named: name) {
+            path = app
+        }
+        guard let path, FileManager.default.fileExists(atPath: path),
+              let icon = NSWorkspace.shared.icon(forFile: path).copy() as? NSImage else { return nil }
+        icon.size = NSSize(width: 16, height: 16)
+        icons[cacheKey] = icon
+        return icon
+    }
+
+    /// An application by name or bundle ID, as `open -a` finds it.
+    private static func applicationPath(named name: String) -> String? {
+        if name.contains("/") { return (name as NSString).expandingTildeInPath }
+        if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: name) { return url.path }
+        let file = name.hasSuffix(".app") ? name : name + ".app"
+        let folders = ["/Applications", "/System/Applications", "/System/Applications/Utilities", "/Applications/Utilities",
+                       ("~/Applications" as NSString).expandingTildeInPath]
+        return folders.map { ($0 as NSString).appendingPathComponent(file) }.first { FileManager.default.fileExists(atPath: $0) }
+    }
+
+    private static func finish(_ command: ExternalCommand, status: Int32, output: String, errors: String, file: URL,
+                               saver: ImageSaver) -> ExportResult {
         let trimmedErrors = errors.trimmingCharacters(in: .whitespacesAndNewlines)
         guard status == 0 else {
             let detail = trimmedErrors.isEmpty ? "It ended with exit code \(status)." : String(trimmedErrors.prefix(600))
@@ -89,7 +155,7 @@ enum ExternalCommandRunner {
             } else {
                 ErrorPresenter.show(message: "\(command.name) failed", detail: detail)
             }
-            return
+            return .failed(detail, target: command.name)
         }
         let trimmed = output.trimmingCharacters(in: .whitespacesAndNewlines)
         // Like upstream: the output first, so a URL found in it replaces it on the clipboard.
@@ -103,10 +169,11 @@ enum ExternalCommandRunner {
             saver.notify("\(command.name): copied the URL", detail: url) {
                 if let link = URL(string: url) { NSWorkspace.shared.open(link) }
             }
-            return
+            return .succeeded(fileURL: file, link: URL(string: url), target: command.name, clearsModified: false)
         }
         if let copied {
             saver.notify("\(command.name) finished", detail: copied)
         }
+        return .succeeded(fileURL: file, target: command.name, clearsModified: false)
     }
 }
