@@ -108,4 +108,82 @@ import Testing
         let gated = await fixture.library.ensureApprovedAndCurrent(fresh)
         #expect(gated == nil)
     }
+
+    // MARK: W-M4: unloading one recipe of a file sticks
+
+    @Test func settingsWithoutTheKeyStillLoad() throws {
+        let old = try JSONDecoder().decode(RecipeSettings.self, from: Data(#"{"enabled": true, "files": ["/a.gsrecipe.json"]}"#.utf8))
+        #expect(old.unloadedRecipes.isEmpty)
+        #expect(old.files == ["/a.gsrecipe.json"])
+        var settings = RecipeSettings()
+        settings.unloadedRecipes = ["/a.gsrecipe.json": ["recipe_a"]]
+        let decoded = try JSONDecoder().decode(RecipeSettings.self, from: JSONEncoder().encode(settings))
+        #expect(decoded == settings)
+    }
+
+    func twoRecipeFile(_ fixture: LibraryFixture) throws -> URL {
+        let first = libraryRecipe(id: "recipe_a")
+        let second = libraryRecipe(id: "recipe_b")
+        let url = fixture.folder.appendingPathComponent("two.gsrecipe.json")
+        let text = JSONValue.array([RecipeSerializer.json(of: first), RecipeSerializer.json(of: second)]).serialized(indented: true)
+        try Data(text.utf8).write(to: url)
+        return url
+    }
+
+    func ids(_ library: RecipeLibrary) -> [String] {
+        library.recipes.map(\.recipe.id)
+    }
+
+    @Test func unloadingOneRecipeOfAFileSticks() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let url = try twoRecipeFile(fixture)
+        _ = await fixture.library.importFile(url)
+        #expect(ids(fixture.library) == ["recipe_a", "recipe_b"])
+        let asked = fixture.approver.requests.count
+
+        fixture.library.unload(recipeId: "recipe_a")
+        #expect(ids(fixture.library) == ["recipe_b"])
+        #expect(fixture.box.settings.files.count == 1)
+        _ = await fixture.library.reload()
+        #expect(ids(fixture.library) == ["recipe_b"])
+        #expect(fixture.approver.requests.count == asked)
+
+        // Importing the file again brings it back.
+        _ = await fixture.library.importFile(url)
+        #expect(ids(fixture.library) == ["recipe_b", "recipe_a"])
+        #expect(fixture.box.settings.unloadedRecipes.isEmpty)
+
+        // Revoked: not loaded again and not asked again at the next reload.
+        #expect(fixture.library.revokeApproval(recipeId: "recipe_a"))
+        _ = await fixture.library.reload()
+        #expect(ids(fixture.library) == ["recipe_b"])
+        #expect(fixture.approver.requests.count == asked)
+
+        // Saving the recipe from the editor brings it back too.
+        var edited = libraryRecipe(id: "recipe_a")
+        edited.name = "Edited"
+        let saved = await fixture.library.save(edited, to: url)
+        #expect(saved.loadedRecipeIds == ["recipe_a"])
+        #expect(fixture.box.settings.unloadedRecipes.isEmpty)
+
+        // The last recipe of a file takes the file out of the settings, and the list with it.
+        fixture.library.unload(recipeId: "recipe_a")
+        fixture.library.unload(recipeId: "recipe_b")
+        #expect(fixture.box.settings.files.isEmpty)
+        #expect(fixture.box.settings.unloadedRecipes.isEmpty)
+    }
+
+    @Test func resetToTheBuiltInSticks() async throws {
+        var builtIn = libraryRecipe(id: "recipe_a")
+        builtIn.name = "Built-in A"
+        let fixture = LibraryFixture(builtIns: [builtIn])
+        defer { fixture.cleanUp() }
+        _ = await fixture.library.importFile(try twoRecipeFile(fixture))
+        #expect(fixture.library.recipe(id: "recipe_a")?.isBuiltIn == false)
+        #expect(fixture.library.resetToDefault(recipeId: "recipe_a"))
+        _ = await fixture.library.reload()
+        #expect(fixture.library.recipe(id: "recipe_a")?.recipe.name == "Built-in A")
+        #expect(fixture.library.recipe(id: "recipe_b") != nil)
+    }
 }

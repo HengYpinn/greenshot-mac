@@ -204,6 +204,7 @@ public enum ManagedSettingKeys {
         t.add("recipes.files", \AppSettings.recipes.files)
         t.add("recipes.disabledRecipeIds", \AppSettings.recipes.disabledRecipeIds)
         t.add("recipes.optionValues", \AppSettings.recipes.optionValues)
+        t.add("recipes.unloadedRecipes", \AppSettings.recipes.unloadedRecipes)
     }
 
     private static func addAITools(to t: inout Table) {

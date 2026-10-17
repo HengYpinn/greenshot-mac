@@ -264,7 +264,7 @@ public final class RecipeLibrary {
                     result.warnings.append("Configured recipe file '\(url.path)' was not found.")
                     continue
                 }
-                let loaded = await loadFile(url, interactive: true)
+                let loaded = await load(url, interactive: true, forcePrompt: false, skippingUnloaded: true)
                 result.errors += loaded.errors
                 result.warnings += loaded.warnings
                 result.loadedRecipeIds += loaded.loadedRecipeIds
@@ -277,7 +277,13 @@ public final class RecipeLibrary {
 
     /// Reads the file once, hashes the bytes, validates each recipe and asks for the approval of those not approved for
     /// this content (`interactive`); approved and allowed ones replace what was loaded and the file joins the settings.
+    /// A load the user asked for (import, the manager's Load, opening it in the editor) brings back the recipes of the
+    /// file that were unloaded, reset or revoked before; Greenshot's own loads (reload, a changed file, a review) skip them.
     public func loadFile(_ url: URL, interactive: Bool = true, forcePrompt: Bool = false) async -> RecipeLoadResult {
+        await load(url, interactive: interactive, forcePrompt: forcePrompt, skippingUnloaded: false)
+    }
+
+    private func load(_ url: URL, interactive: Bool, forcePrompt: Bool, skippingUnloaded: Bool) async -> RecipeLoadResult {
         var result = RecipeLoadResult()
         let fileURL = URL(fileURLWithPath: RecipeTrustStore.standardized(url.path))
         let path = fileURL.path
@@ -324,7 +330,13 @@ public final class RecipeLibrary {
         }
         var anyChanged = false
         let validator = RecipeValidator(contracts: contracts, gates: gates())
+        let unloaded = unloadedIds(inFile: path)
         for recipe in definitions {
+            // W-M4: a recipe the user unloaded, reset or revoked stays out while the file is loaded for its others.
+            if skippingUnloaded, unloaded.contains(recipe.id.lowercased()) {
+                log.info("Recipe '\(recipe.id)' of '\(path)' was unloaded by the user; it isn't loaded again.")
+                continue
+            }
             let validation = validator.validate(recipe)
             guard validation.isValid else {
                 result.errors += validation.errors.map { "[\(recipe.id.isEmpty ? "unknown" : recipe.id)]: \($0)" }
@@ -381,6 +393,7 @@ public final class RecipeLibrary {
                                   approval: approval, proposedBy: trustStore.record(forFile: path)?.proposedBy, validation: validation))
             result.loadedRecipeIds.append(recipe.id)
             addFileToSettings(path)
+            forgetUnloaded(recipe.id, inFile: path)
             anyChanged = true
         }
         if anyChanged, !loadingConfiguredFiles { notify() }
@@ -402,7 +415,7 @@ public final class RecipeLibrary {
         askedForChangedFile[path.lowercased()] = hash
         log.info("Recipe file '\(path)' was changed outside Greenshot, asking for approval.")
         if extensionFile { dropExtensions(ofFile: path) }
-        _ = await loadFile(URL(fileURLWithPath: path), interactive: true)
+        _ = await load(URL(fileURLWithPath: path), interactive: true, forcePrompt: false, skippingUnloaded: true)
     }
 
     /// Before a run: the recipe as it may run (its file still approved, or approved again), nil when not
@@ -424,7 +437,7 @@ public final class RecipeLibrary {
             return runnable(recipe, approvedVersion: loaded.recipe)
         }
         log.info("Recipe file '\(url.path)' was changed or isn't approved; asking before it runs.")
-        let result = await loadFile(url, interactive: true)
+        let result = await load(url, interactive: true, forcePrompt: false, skippingUnloaded: true)
         guard result.isValid else { return nil }
         return fileRecipes[recipe.id.lowercased()]?.recipe
     }
@@ -500,6 +513,7 @@ public final class RecipeLibrary {
         register(LoadedRecipe(recipe: recipe, source: .file(fileURL), replacesBuiltIn: builtIns[recipe.id.lowercased()] != nil,
                               approval: approval, validation: validation))
         addFileToSettings(path)
+        forgetUnloaded(recipe.id, inFile: path)
         result.loadedRecipeIds.append(recipe.id)
         result.warnings += validation.warnings + validation.errors
         notify()
@@ -590,6 +604,7 @@ public final class RecipeLibrary {
         register(LoadedRecipe(recipe: recipe, source: .file(fileURL), replacesBuiltIn: approval.replacesBuiltIn, approval: approval,
                               proposedBy: proposedBy, validation: validation))
         addFileToSettings(fileURL.path)
+        forgetUnloaded(recipe.id, inFile: fileURL.path)
         result.loadedRecipeIds.append(recipe.id)
         notify()
         return result
@@ -656,7 +671,7 @@ public final class RecipeLibrary {
             result.errors.append("Recipe '\(recipeId)' has no approval to review.")
             return result
         }
-        return await loadFile(url, interactive: true, forcePrompt: true)
+        return await load(url, interactive: true, forcePrompt: true, skippingUnloaded: true)
     }
 
     public func details(recipeId: String) -> RecipeDetails? {
@@ -795,14 +810,51 @@ public final class RecipeLibrary {
                                         : "Registered recipe '\(loaded.recipe.id)' from '\(loaded.fileURL?.path ?? "")'")
     }
 
-    /// Unloads a file recipe; its file leaves the settings when no other recipe of it is loaded.
+    /// Unloads a file recipe; its file leaves the settings when no other recipe of it is loaded. While it stays for the
+    /// others, the recipe is remembered as unloaded so that a reload doesn't bring it back (W-M4).
     private func removeFileRecipe(_ recipeId: String) {
         let key = recipeId.lowercased()
         guard let loaded = fileRecipes.removeValue(forKey: key) else { return }
         fileOrder.removeAll { $0 == key }
         guard let path = loaded.fileURL?.path else { return }
         let stillUsed = fileRecipes.values.contains { $0.fileURL.map { recipeEquals($0.path, path) } ?? false }
-        if !stillUsed { removeFileFromSettings(path) }
+        if stillUsed {
+            rememberUnloaded(loaded.recipe.id, inFile: path)
+        } else {
+            removeFileFromSettings(path)
+            forgetUnloaded(nil, inFile: path)
+        }
+    }
+
+    /// The recipe ids (lower case) a reload skips in the file.
+    private func unloadedIds(inFile path: String) -> Set<String> {
+        let settings = loadSettings()
+        guard let key = unloadedKey(settings, path) else { return [] }
+        return Set((settings.unloadedRecipes[key] ?? []).map { $0.lowercased() })
+    }
+
+    private func unloadedKey(_ settings: RecipeSettings, _ path: String) -> String? {
+        settings.unloadedRecipes.keys.first { recipeEquals(RecipeTrustStore.standardized($0), path) }
+    }
+
+    private func rememberUnloaded(_ recipeId: String, inFile path: String) {
+        var settings = loadSettings()
+        let key = unloadedKey(settings, path) ?? path
+        var ids = settings.unloadedRecipes[key] ?? []
+        guard !ids.contains(where: { recipeEquals($0, recipeId) }) else { return }
+        ids.append(recipeId.lowercased())
+        settings.unloadedRecipes[key] = ids
+        saveSettings(settings)
+    }
+
+    /// Brings `recipeId` (nil: every recipe) of the file back for reloads.
+    private func forgetUnloaded(_ recipeId: String?, inFile path: String) {
+        var settings = loadSettings()
+        guard let key = unloadedKey(settings, path) else { return }
+        var ids = settings.unloadedRecipes[key] ?? []
+        if let recipeId { ids.removeAll { recipeEquals($0, recipeId) } } else { ids = [] }
+        settings.unloadedRecipes[key] = ids.isEmpty ? nil : ids
+        saveSettings(settings)
     }
 
     func addFileToSettings(_ path: String) {

@@ -17,10 +17,14 @@ public struct RecipeSettings: Codable, Equatable, Sendable {
     /// The user's recipe option values as "<recipe id>.<option key>", only those that differ from the default
     /// (upstream `[RecipeOptions] Values`).
     public var optionValues: [String: String] = [:]
+    /// Recipes the user unloaded, reset to the built-in or revoked from a file that stays loaded for its other recipes:
+    /// standardized file path -> recipe ids (lower case) that a reload skips. An explicit import or a save of the recipe
+    /// brings it back. (Security/windows review W-M4; upstream drops the whole file instead.)
+    public var unloadedRecipes: [String: [String]] = [:]
 
     public init() {}
 
-    enum CodingKeys: String, CodingKey { case enabled, files, disabledRecipeIds, optionValues }
+    enum CodingKeys: String, CodingKey { case enabled, files, disabledRecipeIds, optionValues, unloadedRecipes }
 
     // Every value falls back to its default, so settings written by another version still load.
     public init(from decoder: Decoder) throws {
@@ -33,5 +37,6 @@ public struct RecipeSettings: Codable, Equatable, Sendable {
         files = value(.files, d.files)
         disabledRecipeIds = value(.disabledRecipeIds, d.disabledRecipeIds)
         optionValues = value(.optionValues, d.optionValues)
+        unloadedRecipes = value(.unloadedRecipes, d.unloadedRecipes)
     }
 }
