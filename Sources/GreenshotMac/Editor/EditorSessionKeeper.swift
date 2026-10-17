@@ -174,6 +174,8 @@ final class EditorSessionKeeper {
 
     /// The restored editor's document keeps the file it came from until it is written again, saved or closed.
     func adopt(_ kept: Kept, for document: EditorDocument) {
+        // Opening scheduled a write; the kept file already holds this state.
+        pending.removeValue(forKey: document.id)?.cancel()
         if store.adopt(kept.file, as: document.id) {
             written[document.id] = document.changeCount
         } else {
