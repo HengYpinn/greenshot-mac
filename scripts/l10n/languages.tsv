@@ -1,0 +1,44 @@
+# Upstream language pack (greenshot.<ietf>.ini) -> Apple localization (<lproj>.lproj) and writing direction.
+# Notes: de-x-franconia is ISO 639-3 vmf (Main-Franconian; a private-use tag can't name an lproj: macOS reads it as de);
+# va-VA is upstream's code for Valencian (ca-ES-valencia); fr-QC is French (Canada); sr-RS is written in Cyrillic.
+# ietf<TAB>lproj<TAB>rtl or -
+ar-SY	ar	rtl
+ca-CA	ca	-
+cs-CZ	cs	-
+da-DK	da	-
+de-DE	de	-
+de-x-franconia	vmf	-
+el-GR	el	-
+en-US	en	-
+es-ES	es	-
+et-EE	et	-
+fa-IR	fa	rtl
+fi-FI	fi	-
+fr-FR	fr	-
+fr-QC	fr-CA	-
+he-IL	he	rtl
+hu-HU	hu	-
+id-ID	id	-
+it-IT	it	-
+ja-JP	ja	-
+kab-DZ	kab	-
+ko-KR	ko	-
+lt-LT	lt	-
+lv-LV	lv	-
+nl-NL	nl	-
+nn-NO	nn	-
+pl-PL	pl	-
+pt-BR	pt-BR	-
+pt-PT	pt-PT	-
+ro-RO	ro	-
+ru-RU	ru	-
+sk-SK	sk	-
+sl-SI	sl	-
+sr-RS	sr	-
+sv-SE	sv	-
+tr-TR	tr	-
+uk-UA	uk	-
+va-VA	ca-ES-valencia	-
+vi-VN	vi	-
+zh-CN	zh-Hans	-
+zh-TW	zh-Hant	-
