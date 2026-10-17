@@ -72,7 +72,7 @@ extension Snapshots {
 
     private static func sampleDetails(current: Bool) -> RecipeDetails {
         var details = RecipeDetails()
-        details.approvedAt = Date(timeIntervalSince1970: 1_792_195_200)
+        details.approvedAt = Date(timeIntervalSince1970: 1_792_238_400)
         details.isApprovalCurrent = current
         details.proposedBy = current ? "Claude" : nil
         details.triggers = [RecipeTriggerDescription(key: "0:Hotkey", label: "Hotkey Ctrl + Shift + J (on)"),

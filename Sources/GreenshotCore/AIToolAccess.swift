@@ -103,7 +103,7 @@ public final class AIToolConsent {
 
     /// True when the program may use Greenshot. `settings` is read again after waiting for another question; `managed`:
     /// an administrator manages the allowed list, so nobody is asked; `allow` adds the program to the list.
-    public func ensureAllowed(_ client: AIToolClient?, settings: () -> AIToolsSettings, managed: Bool, prompt: Prompt,
+    public func ensureAllowed(_ client: AIToolClient?, settings: @MainActor () -> AIToolsSettings, managed: Bool, prompt: Prompt,
                               allow: @MainActor (String) -> Void) async -> Bool {
         guard let client, !client.path.isEmpty else { return false }
         if AIToolAccess.isAllowed(client, settings: settings()) { return true }
