@@ -127,7 +127,7 @@ final class EditorManager {
     /// Opens the image on the clipboard; for a copied web page part, the image it shows is downloaded first (upstream
     /// `ClipboardHelper` reads `<img src>` from the HTML on the clipboard).
     func openClipboard() {
-        if RecipeRuntime.shared?.interceptBuiltIn(.clipboard) == true { return }
+        if RecipeRuntime.shared?.interceptBuiltIn(.clipboard, destinations: [.editor]) == true { return }
         if let pasted = Clipboard.image() {
             open(EditorDocument(image: pasted.image, scale: pasted.scale, title: "Clipboard"))
             return

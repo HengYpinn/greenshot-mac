@@ -14,7 +14,7 @@ public enum IPCRecipeCommands {
     /// Starts a prepared request (the app's `RecipeRuntime.start`).
     public typealias Start = @MainActor (RecipeRunRequest) -> RecipeFlowHandle
     /// Asks the user before a recipe of the command line captures without them (`AutomationConsent`): true = allowed.
-    public typealias ConfirmCapture = @MainActor (_ recipeName: String, _ subject: String) async -> Bool
+    public typealias ConfirmCapture = @MainActor @Sendable (_ recipeName: String, _ subject: String) async -> Bool
 
     /// Text for a terminal (greenshot-cli without `--json`); JSON clients read the members.
     static func wantsText(_ context: IPCReplyContext) -> Bool {
@@ -122,7 +122,7 @@ public enum IPCRecipeCommands {
     /// Runs the recipe of a Commandline trigger: its arguments bound by their declared types, streamed Stdout/Stderr step
     /// output, `--json`, `--query`, `--async`. A recipe from greenshot-cli that captures without the user asks first.
     public static func runRecipe(_ context: IPCReplyContext, library: RecipeLibrary, start: Start,
-                                 confirmCapture: ConfirmCapture) async -> IPCReply {
+                                 confirmCapture: @escaping ConfirmCapture) async -> IPCReply {
         let envelope = context.envelope
         let target = (envelope.recipe ?? envelope.parameter("recipe") ?? envelope.rawInput ?? "").trimmingCharacters(in: .whitespaces)
         guard !target.isEmpty else { return .error("Missing required argument: recipe command or recipe ID.") }
@@ -171,9 +171,17 @@ public enum IPCRecipeCommands {
         }
         // Mac only: greenshot-cli can be run by any program; a capture without the user on the capture screen asks first
         let prepared = RecipeTriggerPreparer.prepare(loaded.recipe, triggerType: WellKnownTriggerType.commandline)
-        if let subject = AutomationConsent.recipeCaptureSubject(prepared, variables: request.variables, source: context.source),
-           await !confirmCapture(loaded.recipe.name, subject) {
+        let asked = AutomationConsent.recipeCaptureSubject(prepared, variables: request.variables, source: context.source)
+        if let subject = asked, await !confirmCapture(loaded.recipe.name, subject) {
             return .error("The recipe '\(loaded.recipe.name)' wasn't run: its screenshot wasn't allowed.")
+        }
+        // What the check above can't see (a SourceType from an expression, a screen source no selection follows) is
+        // asked when the step runs (security review SM-M1); the subject already allowed isn't asked again.
+        if context.source == .cli {
+            let name = loaded.recipe.name
+            request.objects[RecipeCaptureConsent.objectKey] = RecipeCaptureConsent(granted: asked.map { [$0] } ?? []) { subject in
+                await confirmCapture(name, subject)
+            }
         }
 
         let fireAndForget = envelope.async || match.fireAndForget

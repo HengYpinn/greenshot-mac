@@ -184,7 +184,7 @@ final class CaptureCoordinator {
 
     private func run(_ body: @escaping @MainActor () async throws -> Capture?) {
         // A recipe flow may have the capture screen open.
-        guard !busy, !CaptureOverlayController.isShowing else {
+        guard !busy, !CaptureOverlayController.isShowing, !(RecipeRuntime.shared?.isSelectionReserved ?? false) else {
             NSSound.beep()
             return
         }

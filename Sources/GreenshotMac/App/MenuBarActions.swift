@@ -54,7 +54,7 @@ enum MenuBarActions {
 
     /// The image on the clipboard goes to the destinations like a capture (upstream `CaptureHelper.CaptureClipboard`).
     static func captureClipboard(app: AppDelegate) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.clipboard) == true { return }
+        if RecipeRuntime.shared?.interceptBuiltIn(.clipboard, destinations: app.settings.value.destinations) == true { return }
         guard let pasted = Clipboard.image() else {
             ErrorPresenter.show(message: "There is no image on the clipboard", detail: "Copy an image first, then try again.")
             return
@@ -71,7 +71,7 @@ enum MenuBarActions {
         NSApp.activate()
         guard panel.runModal() == .OK else { return }
         for url in panel.urls {
-            if RecipeRuntime.shared?.interceptBuiltIn(.file(url)) == true { continue }
+            if RecipeRuntime.shared?.interceptBuiltIn(.file(url), destinations: app.settings.value.destinations) == true { continue }
             if app.settings.value.destinations == [.editor] {
                 app.editors.open(fileURL: url)
                 continue

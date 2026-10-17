@@ -278,3 +278,35 @@ private func runEnvelope(_ argv: [String], cwd: String? = "/Users/me") throws ->
         #expect(IPCRecipeCommands.fallbackOutput(ocr, recipe: recipe) == "words")
     }
 }
+
+/// Security review SM-M1: what RUN_RECIPE's up-front check can't see is asked when the step runs, but only for runs from
+/// greenshot-cli (any program can start it); the subject already allowed up front isn't asked again.
+@MainActor
+struct RecipeCaptureConsentObjectTests {
+    private func objects(source: IPCSource) async throws -> [String: any Sendable] {
+        let harness = RecipeCommandHarness()
+        defer { harness.cleanUp() }
+        try await harness.load(commandLineRecipe())
+        let envelope = try #require(IPCCommandLine.parse(["--recipe", "greet", "name=Ann"], source: .cli, cwd: "/Users/me").envelope)
+        let context = IPCReplyContext(envelope: envelope, source: source, writer: CollectingWriter(), usesTextFrames: true)
+        let seen = ObjectsBox()
+        let runner = harness.runner
+        _ = await IPCRecipeCommands.runRecipe(context, library: harness.fixture.library, start: { request in
+            seen.objects = request.objects
+            return runner.start(request)
+        }, confirmCapture: { _, _ in true })
+        return seen.objects
+    }
+
+    @Test func aCommandLineRunCarriesTheConsentForItsSteps() async throws {
+        let cli = try await objects(source: .cli)
+        #expect(cli[RecipeCaptureConsent.objectKey] is RecipeCaptureConsent)
+        let shortcut = try await objects(source: .shortcuts)
+        #expect(shortcut[RecipeCaptureConsent.objectKey] == nil)
+    }
+}
+
+@MainActor
+private final class ObjectsBox {
+    var objects: [String: any Sendable] = [:]
+}
