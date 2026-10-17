@@ -10,7 +10,8 @@ import GreenshotCore
 ///
 /// A click runs `leftClickAction`. When that shows the menu (the default), the menu belongs to the icon and opens on
 /// mouse-down like every Mac menu bar item. Otherwise the icon is a button: a click runs the action, a right-click or
-/// ⌃-click shows the menu, and with a `doubleClickAction` a click waits the double-click time for a second one.
+/// ⌃-click pops the menu up under it, and with a `doubleClickAction` a click waits the double-click time for a second
+/// one.
 @MainActor
 final class StatusItemController: NSObject, NSMenuDelegate {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -98,17 +99,15 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         }
     }
 
-    /// Opens the menu from the icon while it isn't the icon's menu: the menu is the icon's while it is open (so it
-    /// hangs from the icon, which is highlighted) and is taken back in `menuDidClose`.
+    /// Opens the menu under the icon while it isn't the icon's menu. Popped up by hand, with the icon highlighted
+    /// meanwhile: giving the icon the menu and calling `performClick` from inside the icon's own action could run that
+    /// action again instead.
     private func showMenu() {
         guard let button = statusItem.button, statusItem.isVisible else { return }
-        statusItem.menu = menu
-        button.performClick(nil)
-    }
-
-    func menuDidClose(_ menu: NSMenu) {
-        guard menu === self.menu else { return }
-        if !MenuBarClick.clickShowsMenu(app.settings.value.leftClickAction) { statusItem.menu = nil }
+        button.highlight(true)
+        let below = NSPoint(x: 0, y: button.isFlipped ? button.bounds.maxY + 5 : -5)
+        menu.popUp(positioning: nil, at: below, in: button)
+        button.highlight(false)
     }
 
     // MARK: The menu
