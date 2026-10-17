@@ -63,8 +63,12 @@ struct RecipeFieldRow: View {
     }
 
     private var placeholder: String {
-        guard let defaultValue = field.defaultValue else { return field.required ? "required" : "default" }
-        return "default: \(defaultValue.interpolationText)"
+        guard let defaultValue = field.defaultValue else {
+            return field.required ? String(localized: "required", comment: "Placeholder of a parameter that must be set")
+                : String(localized: "default", comment: "Placeholder of a parameter that uses its default value")
+        }
+        let text = defaultValue.interpolationText
+        return String(localized: "default: \(text)", comment: "Placeholder of a parameter: its default value")
     }
 }
 
@@ -143,7 +147,7 @@ private struct RecipeChoiceControl: View {
         let selection = Binding<String>(get: { current.map { text in values.first { $0.caseInsensitiveCompare(text) == .orderedSame } ?? text } ?? "" },
                                         set: { value = $0.isEmpty ? nil : .string($0) })
         Picker("", selection: selection) {
-            Text(defaultValue.map { "Default (\($0))" } ?? "Default").tag("")
+            Text(defaultValue.map { String(localized: "Default (\($0))") } ?? String(localized: "Default")).tag("")
             ForEach(values, id: \.self) { Text($0).tag($0) }
             if let current, !current.isEmpty, !values.contains(where: { $0.caseInsensitiveCompare(current) == .orderedSame }) {
                 Text("\(current) (unknown)").tag(current)
@@ -279,7 +283,7 @@ private struct RecipeStringListControl: View {
 
     private var invalidPattern: String? {
         for pattern in value?.asStrings ?? [] where !pattern.isEmpty && !pattern.contains("${") {
-            if (try? NSRegularExpression(pattern: pattern)) == nil { return "Not a regular expression: \(pattern)" }
+            if (try? NSRegularExpression(pattern: pattern)) == nil { return String(localized: "Not a regular expression: \(pattern)") }
         }
         return nil
     }
@@ -406,7 +410,7 @@ private struct RecipeBranchTableControl: View {
     @Binding var value: JSONValue?
 
     var body: some View {
-        RecipeObjectList(value: $value, addTitle: "Add Branch",
+        RecipeObjectList(value: $value, addTitle: String(localized: "Add Branch"),
                          newItem: { ["key": .string(String(UnicodeScalar(UInt8(65 + min($0, 25))))), "expression": .string("else")] }) { object in
             TextField("key", text: member(object, "key")).textFieldStyle(.roundedBorder).frame(width: 70)
             TextField("expression, e.g. ${payload.width > 800} or else", text: member(object, "expression"))
@@ -420,7 +424,7 @@ private struct RecipeChoiceTableControl: View {
     @Binding var value: JSONValue?
 
     var body: some View {
-        RecipeObjectList(value: $value, addTitle: "Add Choice",
+        RecipeObjectList(value: $value, addTitle: String(localized: "Add Choice"),
                          newItem: { ["Key": .string("Choice\($0 + 1)"), "Label": .string("Choice \($0 + 1)"), "Style": .string("Secondary")] }) { object in
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
@@ -445,7 +449,7 @@ private struct RecipeArgumentsControl: View {
     @Binding var value: JSONValue?
 
     var body: some View {
-        RecipeObjectList(value: $value, addTitle: "Add Argument",
+        RecipeObjectList(value: $value, addTitle: String(localized: "Add Argument"),
                          newItem: { ["name": .string("arg\($0 + 1)"), "type": .string("String")] }) { object in
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
@@ -529,7 +533,9 @@ private struct RecipeEdgesControl: View {
 
     var body: some View {
         HStack {
-            ForEach(Array(["Top", "Right", "Bottom", "Left"].enumerated()), id: \.offset) { index, name in
+            let sides = [String(localized: "Top"), String(localized: "Right", comment: "The right side of the capture"),
+                         String(localized: "Bottom"), String(localized: "Left", comment: "The left side of the capture")]
+            ForEach(Array(sides.enumerated()), id: \.offset) { index, name in
                 Toggle(name, isOn: Binding(get: { flags()[index] }, set: { set(index, $0) })).controlSize(.small)
             }
         }

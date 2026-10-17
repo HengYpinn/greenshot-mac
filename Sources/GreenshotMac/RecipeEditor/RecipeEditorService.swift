@@ -23,7 +23,7 @@ enum RecipeEditorService {
         Task {
             guard await model.confirmDiscardChanges() else { return }
             if !model.open(recipeId: recipeId) {
-                model.status = "There is no recipe '\(recipeId)'."
+                model.status = String(localized: "There is no recipe '\(recipeId)'.")
                 if model.recipe == nil { openFirst(in: model) }
             }
         }
@@ -66,11 +66,12 @@ enum RecipeEditorService {
         guard model.isDirty || model.jsonDraft != nil, let recipe = model.recipe else { return true }
         controller.window?.makeKeyAndOrderFront(nil)
         let alert = NSAlert()
-        alert.messageText = "Unsaved Changes"
-        alert.informativeText = "\"\(recipe.name)\" has unsaved changes in the recipe editor. Do you want to save them before quitting?"
-        alert.addButton(withTitle: "Save")
-        alert.addButton(withTitle: "Don't Save")
-        alert.addButton(withTitle: "Cancel")
+        let name = recipe.name
+        alert.messageText = String(localized: "Unsaved Changes")
+        alert.informativeText = String(localized: "\"\(name)\" has unsaved changes in the recipe editor. Do you want to save them before quitting?")
+        alert.addButton(withTitle: String(localized: "Save"))
+        alert.addButton(withTitle: String(localized: "Don't Save"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         alert.buttons[2].keyEquivalent = "\u{1b}"
         switch alert.runModal() {
         case .alertFirstButtonReturn:

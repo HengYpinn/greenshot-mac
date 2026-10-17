@@ -89,7 +89,8 @@ private struct RecipeEditorToolbar: View {
         .padding(.vertical, 7)
     }
 
-    private func toolButton(_ title: String, _ symbol: String, _ help: String, action: @escaping () -> Void) -> some View {
+    private func toolButton(_ title: LocalizedStringKey, _ symbol: String, _ help: LocalizedStringKey,
+                            action: @escaping () -> Void) -> some View {
         Button(action: action) { Label(title, systemImage: symbol) }
             .help(help)
     }
@@ -118,7 +119,7 @@ private struct RecipePickerMenu: View {
                 }
             }
         } label: {
-            Label(model.recipe?.name ?? "Recipes", systemImage: model.isExtension ? "puzzlepiece.extension" : "list.bullet")
+            Label(model.recipe?.name ?? String(localized: "Recipes"), systemImage: model.isExtension ? "puzzlepiece.extension" : "list.bullet")
         }
         .frame(maxWidth: 260)
         .fixedSize(horizontal: true, vertical: false)
@@ -127,17 +128,20 @@ private struct RecipePickerMenu: View {
     }
 
     private func title(of loaded: LoadedRecipe) -> String {
-        var text = loaded.recipe.name
-        if loaded.isBuiltIn { text += " (built-in)" }
-        if !loaded.isEnabled { text += " (Deactivated)" }
-        return text
+        let name = loaded.recipe.name
+        switch (loaded.isBuiltIn, loaded.isEnabled) {
+        case (true, true): return String(localized: "\(name) (built-in)")
+        case (true, false): return String(localized: "\(name) (built-in) (Deactivated)")
+        case (false, false): return String(localized: "\(name) (Deactivated)")
+        case (false, true): return name
+        }
     }
 }
 
 /// "Add Step" grouped like upstream's step toolbox (RecipeEditorWindow.xaml:741-854).
 struct RecipeAddStepMenu: View {
     @ObservedObject var model: RecipeEditorModel
-    var title: String
+    var title: LocalizedStringKey
     var add: (String) -> Void
 
     var body: some View {
@@ -172,7 +176,7 @@ private struct RecipeEditorHeader: View {
         HStack(spacing: 10) {
             Image(systemName: model.isExtension ? "puzzlepiece.extension" : "wand.and.rays")
                 .foregroundStyle(.secondary)
-            Text(model.recipe?.name ?? "No recipe")
+            Text(model.recipe?.name ?? String(localized: "No recipe"))
                 .font(.headline)
             if let loaded, !model.isExtension {
                 Button(loaded.isEnabled ? "Active" : "(Deactivated)") { model.toggleActive() }
@@ -271,9 +275,13 @@ private struct RecipeEditorDetail: View {
 
     private func label(_ tab: RecipeEditorModel.Tab) -> String {
         switch tab {
-        case .triggers: return model.isExtension ? "Triggers" : "Triggers (\(model.recipe?.triggers.count ?? 0))"
-        case .options: return "Options (\(model.recipe?.options?.count ?? 0))"
-        default: return tab.rawValue
+        case .triggers:
+            let count = model.recipe?.triggers.count ?? 0
+            return model.isExtension ? tab.title : String(localized: "Triggers (\(count))")
+        case .options:
+            let count = model.recipe?.options?.count ?? 0
+            return String(localized: "Options (\(count))")
+        default: return tab.title
         }
     }
 
@@ -326,9 +334,9 @@ private struct RecipeIssuesView: View {
     }
 
     private func summary(errors: Int, warnings: Int) -> String {
-        if errors == 0 && warnings == 0 { return "No problems" }
-        let e = errors == 1 ? "1 error" : "\(errors) errors"
-        let w = warnings == 1 ? "1 warning" : "\(warnings) warnings"
+        if errors == 0 && warnings == 0 { return String(localized: "No problems") }
+        let e = errors == 1 ? String(localized: "1 error") : String(localized: "\(errors) errors")
+        let w = warnings == 1 ? String(localized: "1 warning") : String(localized: "\(warnings) warnings")
         if errors == 0 { return w }
         return warnings == 0 ? e : "\(e), \(w)"
     }

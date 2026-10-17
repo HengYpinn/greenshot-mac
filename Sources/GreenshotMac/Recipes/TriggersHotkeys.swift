@@ -31,7 +31,8 @@ enum RecipeHotkeyBindings {
             .compactMap { trigger in trigger.hotkey.map { (trigger: trigger, combo: $0) } }
         let candidates = triggers.map { NamedHotkey(name: name(of: $0.trigger), combo: $0.combo) }
         let names = appHotkeyNames()
-        let takenNamed = taken.map { combo in NamedHotkey(name: names.first { $0.combo == combo }?.name ?? "a Greenshot hotkey", combo: combo) }
+        let fallback = String(localized: "a Greenshot hotkey", comment: "Names a hotkey of the app in a message about a recipe hotkey that clashes with it")
+        let takenNamed = taken.map { combo in NamedHotkey(name: names.first { $0.combo == combo }?.name ?? fallback, combo: combo) }
         let resolved = RecipeHotkeyClashes.resolve(candidates, taken: takenNamed)
         update(clashes: resolved.clashes)
         return resolved.kept.map { index in
@@ -42,7 +43,8 @@ enum RecipeHotkeyBindings {
 
     private static func name(of trigger: ActiveRecipeTrigger) -> String {
         let triggerName = trigger.trigger.name?.trimmingCharacters(in: .whitespaces) ?? ""
-        return triggerName.isEmpty ? "Recipe “\(trigger.recipeName)”" : "Recipe “\(trigger.recipeName)” (\(triggerName))"
+        let recipeName = trigger.recipeName
+        return triggerName.isEmpty ? String(localized: "Recipe “\(recipeName)”") : String(localized: "Recipe “\(recipeName)” (\(triggerName))")
     }
 
     /// The trigger situation is taken at the key press, before anything else comes to the front.
@@ -59,9 +61,10 @@ enum RecipeHotkeyBindings {
     private static func appHotkeyNames() -> [(name: String, combo: KeyCombo)] {
         guard let hotkeys = RecipeAppUI.settings?.value.hotkeys else { return [] }
         let all: [(String, KeyCombo?)] = [
-            ("Capture region", hotkeys.region), ("Capture window", hotkeys.window), ("Capture full screen", hotkeys.fullScreen),
-            ("Capture last region", hotkeys.lastRegion), ("Capture text", hotkeys.text),
-            ("Start or stop recording", hotkeys.recordVideo), ("Open clipboard", hotkeys.clipboard)
+            (String(localized: "Capture region"), hotkeys.region), (String(localized: "Capture window"), hotkeys.window),
+            (String(localized: "Capture full screen"), hotkeys.fullScreen), (String(localized: "Capture last region"), hotkeys.lastRegion),
+            (String(localized: "Capture text"), hotkeys.text), (String(localized: "Start or stop recording"), hotkeys.recordVideo),
+            (String(localized: "Open clipboard"), hotkeys.clipboard)
         ]
         return all.compactMap { name, combo in combo.map { (name: name, combo: $0) } }
     }

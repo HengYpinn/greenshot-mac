@@ -41,8 +41,9 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
 
     func forwardableRecipes() async -> [RecipeFlyout.RecipeForwardChoice] {
         await MainActor.run {
+            // A built-in recipe's name in the language of the app (L10nText.display); a file's as it is.
             runtime.library.recipes.filter { $0.isEnabled && !$0.recipe.isAIToolRecipe }
-                .map { RecipeFlyout.RecipeForwardChoice(id: $0.recipe.id, name: $0.recipe.name) }
+                .map { RecipeFlyout.RecipeForwardChoice(id: $0.recipe.id, name: $0.isBuiltIn ? L10nText.display($0.recipe.name) : $0.recipe.name) }
         }
     }
 
@@ -54,7 +55,7 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
                     // Cancelled before the flyout was there: none is shown (R-F5).
                     guard !handle.cancelled else { return continuation.resume(returning: .dismissed) }
                     let state = runtime.flowState(context.executionId)
-                    state.waitsFor = "you to choose where its capture goes"
+                    state.waitsFor = .destination
                     handle.controller = RecipeFlyoutPanel.show(flyout, preview: preview) { choice in
                         state.waitsFor = nil
                         continuation.resume(returning: choice)

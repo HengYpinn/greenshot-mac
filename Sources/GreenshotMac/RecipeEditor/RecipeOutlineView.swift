@@ -39,12 +39,14 @@ private struct RecipeOutlineRowView: View {
         case .step(let nodeId):
             RecipeStepRow(model: model, nodeId: nodeId)
         case .parallel(let from):
-            RecipeGroupRow(symbol: "arrow.triangle.branch", title: from == nil ? "Parallel start" : "Parallel",
-                           detail: "These lanes run at the same time") {
+            RecipeGroupRow(symbol: "arrow.triangle.branch",
+                           title: from == nil ? String(localized: "Parallel start") : String(localized: "Parallel"),
+                           detail: String(localized: "These lanes run at the same time")) {
                 RecipeAddStepMenu(model: model, title: "Add Lane") { model.insertStep($0, at: .parallel(from: from)) }
             }
         case .lane(let from, let index, let target):
-            RecipeGroupRow(symbol: "arrow.down.right", title: "Lane \(index + 1)", detail: nil) {
+            let number = index + 1
+            RecipeGroupRow(symbol: "arrow.down.right", title: String(localized: "Lane \(number)"), detail: nil) {
                 RecipeAddStepMenu(model: model, title: "Insert") { model.insertStep($0, at: .between(from: from, to: target, branch: nil)) }
             }
         case .branch(let from, let key, let expression, let label):
@@ -55,22 +57,24 @@ private struct RecipeOutlineRowView: View {
         case .continues(let from, let branch, let to):
             RecipeContinuesRow(model: model, from: from, branch: branch, to: to)
         case .notReached:
-            RecipeGroupRow(symbol: "exclamationmark.triangle", title: "Not reached",
-                           detail: "No start step leads here: connect these steps with \"Continue At\"") { EmptyView() }
+            RecipeGroupRow(symbol: "exclamationmark.triangle", title: String(localized: "Not reached"),
+                           detail: String(localized: "No start step leads here: connect these steps with \"Continue At\"")) { EmptyView() }
         case .extensionIn:
-            RecipeGroupRow(symbol: "arrow.down.to.line", title: "In", detail: "Where the recipe's flow comes in") { EmptyView() }
+            RecipeGroupRow(symbol: "arrow.down.to.line", title: String(localized: "In", comment: "Where a recipe's flow enters an automatic step"),
+                           detail: String(localized: "Where the recipe's flow comes in")) { EmptyView() }
         case .extensionOut:
-            RecipeGroupRow(symbol: "arrow.down.forward", title: "Out", detail: "The recipe goes on") { EmptyView() }
+            RecipeGroupRow(symbol: "arrow.down.forward", title: String(localized: "Out", comment: "Where a recipe's flow leaves an automatic step"),
+                           detail: String(localized: "The recipe goes on")) { EmptyView() }
         }
     }
 
     /// "If A: ${payload.width > 800}", "Otherwise (B)", "When the user picks 'Yes, Proceed'".
     private func branchTitle(key: String, expression: String?, label: String?) -> String {
-        if let label { return "When the user picks '\(label)'" }
-        guard let expression, !expression.isEmpty else { return "Branch \(key)" }
+        if let label { return String(localized: "When the user picks '\(label)'") }
+        guard let expression, !expression.isEmpty else { return String(localized: "Branch \(key)") }
         let lower = expression.trimmingCharacters(in: .whitespaces).lowercased()
-        if lower == "else" || lower == "default" { return "Otherwise (\(key))" }
-        return "If \(key): \(expression)"
+        if lower == "else" || lower == "default" { return String(localized: "Otherwise (\(key))") }
+        return String(localized: "If \(key): \(expression)")
     }
 }
 
@@ -137,10 +141,12 @@ private struct RecipeStepRow: View {
 
     private func subtitle(_ node: RecipeNode?) -> String {
         guard let node else { return nodeId }
-        var text = "\(node.stepType) · \(node.id)"
-        if case .expression(let expression) = node.enabled { text += " · when \(expression)" }
-        if node.enabled == .value(false) { text += " · off" }
-        return text
+        var parts = [node.stepType, node.id]
+        if case .expression(let expression) = node.enabled {
+            parts.append(String(localized: "when \(expression)", comment: "A step runs only when the expression is true"))
+        }
+        if node.enabled == .value(false) { parts.append(String(localized: "off", comment: "A step that is switched off")) }
+        return parts.joined(separator: " · ")
     }
 }
 
@@ -191,7 +197,7 @@ private struct RecipeContinuesRow: View {
                 Divider()
                 Button("Delete Connection") { model.disconnect(from: from, to: to, branch: branch) }
             } label: {
-                Text(exists ? (model.recipe?.node(to)?.displayName ?? to) : "\(to) (missing)")
+                Text(exists ? (model.recipe?.node(to)?.displayName ?? to) : String(localized: "\(to) (missing)"))
                     .foregroundStyle(exists ? Color.primary : Color.red)
             }
             .menuStyle(.borderlessButton)

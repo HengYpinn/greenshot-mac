@@ -89,7 +89,7 @@ struct RecipeJiraExecutor: RecipeStepExecutor {
     private static func attach(_ capture: Capture, key: String, step: RecipeStepInvocation, settings: SettingsStore,
                                saver: ImageSaver) async -> ExportResult {
         let normalized = JiraClient.normalizedKey(key)
-        guard JiraClient.isIssueKey(normalized) else { return .failed("“\(key)” is no Jira issue key.", target: key) }
+        guard JiraClient.isIssueKey(normalized) else { return .failed(String(localized: "“\(key)” is no Jira issue key."), target: key) }
         guard let site = await AtlassianSignIn.ready(.jira, settings: settings) else { return .declined }
         let s = settings.value
         let format = RecipeStepExports.uploadFormat(step, default: s.jira.uploadFormat)
@@ -103,11 +103,15 @@ struct RecipeJiraExecutor: RecipeStepExecutor {
             return .failed(error.localizedDescription)
         }
         let client = JiraClient(site: site, http: Uploads.http)
-        return await RecipeStepExports.run("The upload to Jira failed", progress: "Transferring data to Jira, please wait…") {
+        return await RecipeStepExports.run(String(localized: "The upload to Jira failed"),
+                                           progress: String(localized: "Transferring data to Jira, please wait…")) {
             _ = try await client.attach(file, to: normalized)
             settings.update { $0.jira.remember(issueKey: normalized) }
             let url = client.browseURL(for: normalized)
-            saver.notify("Attached \(file.name) to \(normalized)", detail: "Click to open the issue") { NSWorkspace.shared.open(url) }
+            let name = file.name
+            saver.notify(String(localized: "Attached \(name) to \(normalized)"), detail: String(localized: "Click to open the issue")) {
+                NSWorkspace.shared.open(url)
+            }
             return .succeeded(link: url, target: normalized)
         }
     }
@@ -163,13 +167,16 @@ struct RecipeConfluenceExecutor: RecipeStepExecutor {
             return .failed(error.localizedDescription)
         }
         let client = ConfluenceClient(site: site, http: Uploads.http)
-        return await RecipeStepExports.run("The upload to Confluence failed", progress: "Transferring data to Confluence, please wait…") {
+        return await RecipeStepExports.run(String(localized: "The upload to Confluence failed"),
+                                           progress: String(localized: "Transferring data to Confluence, please wait…")) {
             let page = try await client.page(id: pageId)
             let attachments = try await client.attach(file, toPage: page.id)
             settings.update { $0.confluence.remember(page: page) }
             let pageURL = site.isOnSite(page.url) ? page.url : nil
             let download = attachments.first?.downloadURL.flatMap { site.isOnSite($0) ? $0 : nil }
-            saver.notify("Attached \(file.name) to “\(page.title)”", detail: "Click to open the page") {
+            let name = file.name
+            let title = page.title
+            saver.notify(String(localized: "Attached \(name) to “\(title)”"), detail: String(localized: "Click to open the page")) {
                 if let pageURL { NSWorkspace.shared.open(pageURL) }
             }
             return .succeeded(link: download ?? pageURL, target: page.title)
@@ -301,7 +308,7 @@ struct RecipePdfExecutor: RecipeStepExecutor {
         var url: URL
         if step.bool("ShowSaveDialog") ?? true {
             let panel = NSSavePanel()
-            panel.title = "Save Screenshot as PDF"
+            panel.title = String(localized: "Save Screenshot as PDF")
             panel.allowedContentTypes = [.pdf]
             guard let chosen = app.saver.runSavePanel(panel, title: capture.title, date: capture.date, fileExtension: "pdf") else {
                 RecipeStepExports.finish(.declined, designation: "Pdf", context: context, runtime: runtime)

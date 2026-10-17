@@ -54,14 +54,22 @@ extension RecipeRuntime {
         let waiting = running.compactMap { handle in flowStates[handle.id]?.waitsFor.map { (name: handle.recipeName, what: $0) } }
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = running.count == 1 ? "A recipe is still running" : "\(running.count) recipes are still running"
+        let count = running.count
+        alert.messageText = count == 1 ? String(localized: "A recipe is still running") : String(localized: "\(count) recipes are still running")
         if let first = waiting.first {
-            alert.informativeText = "“\(first.name)” waits for \(first.what). If you quit now, its capture is lost."
+            let name = first.name
+            switch first.what {
+            case .answer(let prompt):
+                alert.informativeText = String(localized: "“\(name)” waits for your answer to “\(prompt)”. If you quit now, its capture is lost.")
+            case .destination:
+                alert.informativeText = String(localized: "“\(name)” waits for you to choose where its capture goes. If you quit now, its capture is lost.")
+            }
         } else {
-            alert.informativeText = "“\(running[0].recipeName)” hasn't finished. If you quit now, what it hasn't exported yet is lost."
+            let name = running[0].recipeName
+            alert.informativeText = String(localized: "“\(name)” hasn't finished. If you quit now, what it hasn't exported yet is lost.")
         }
-        alert.addButton(withTitle: "Quit")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: String(localized: "Quit"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
         NSApp.activate()
         return alert.runModal() == .alertFirstButtonReturn
     }

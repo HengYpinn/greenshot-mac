@@ -54,9 +54,9 @@ struct RecipeExtensionScopeSheet: View {
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             HStack(alignment: .top, spacing: 20) {
-                column("Captures", captures: true, items: model.scope.captures)
+                column(String(localized: "Captures"), captures: true, items: model.scope.captures)
                 if !model.scope.destinations.isEmpty {
-                    column("Destinations", captures: false, items: model.scope.destinations)
+                    column(String(localized: "Destinations"), captures: false, items: model.scope.destinations)
                 }
             }
             HStack {
@@ -86,7 +86,7 @@ struct RecipeExtensionScopeSheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                        Toggle(item.name, isOn: model.binding(captures: captures, index: index))
+                        Toggle(captures ? Self.recipeName(item) : item.name, isOn: model.binding(captures: captures, index: index))
                             .toggleStyle(.checkbox)
                     }
                 }
@@ -98,5 +98,10 @@ struct RecipeExtensionScopeSheet: View {
             .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color(nsColor: .separatorColor)))
         }
         .frame(maxWidth: .infinity)
+    }
+
+    /// A built-in recipe's English name in the language of the app (`L10nText.display`); a file's name as it is.
+    private static func recipeName(_ item: RecipeScopeItem) -> String {
+        BuiltInRecipes.recipe(id: item.id)?.name == item.name ? L10nText.display(item.name) : item.name
     }
 }

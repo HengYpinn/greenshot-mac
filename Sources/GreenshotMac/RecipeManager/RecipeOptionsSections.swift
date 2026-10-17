@@ -36,7 +36,8 @@ struct RecipeOptionsSections: View {
         }
         ForEach(groups) { group in
             RecipeOptionGroupSection(group: group, library: library) { scope in
-                editingScope = ScopeEditing(id: group.id, name: group.name, model: RecipeScopeModel(scope: scope))
+                let name = RecipeOptionTexts.shown(group.name, ownerId: group.id, in: library)
+                editingScope = ScopeEditing(id: group.id, name: name, model: RecipeScopeModel(scope: scope))
             }
         }
         changedRecipes(library)
@@ -104,8 +105,9 @@ struct RecipeOptionGroupSection: View {
                 }
             }
             if group.isOn {
+                let isBuiltIn = RecipeOptionTexts.isBuiltIn(group.id, in: library)
                 ForEach(group.items) { item in
-                    RecipeOptionRow(item: item) { library.setOption($0, key: item.option.key, ownerId: group.id) }
+                    RecipeOptionRow(item: item, isBuiltIn: isBuiltIn) { library.setOption($0, key: item.option.key, ownerId: group.id) }
                 }
                 if let scope = group.scope {
                     LabeledContent("Used for:") {
@@ -123,9 +125,9 @@ struct RecipeOptionGroupSection: View {
 
     private var title: some View {
         VStack(alignment: .leading, spacing: 1) {
-            Text(group.name).fontWeight(.semibold)
+            Text(RecipeOptionTexts.shown(group.name, ownerId: group.id, in: library)).fontWeight(.semibold)
             if let description = group.description, !description.isEmpty {
-                Text(description)
+                Text(RecipeOptionTexts.shown(description, ownerId: group.id, in: library))
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -138,19 +140,21 @@ struct RecipeOptionGroupSection: View {
 /// its text (upstream `RecipeOptionViewModel`). Typed values are applied on Return or when the field loses the focus.
 struct RecipeOptionRow: View {
     let item: RecipeOptionItem
+    /// The option of a built-in automatic step or recipe: its texts are shown in the language of the app.
+    var isBuiltIn = false
     let set: (JSONValue) -> Void
 
     var body: some View {
         row
             .disabled(!item.isEditable)
-            .help(item.option.description ?? "")
+            .help(shown(item.option.description ?? ""))
             .managed(\.recipes.optionValues)
     }
 
     @ViewBuilder private var row: some View {
         switch item.option.type {
         case .boolean:
-            Toggle(item.label, isOn: Binding(get: { item.value == .bool(true) }, set: { set(.bool($0)) }))
+            Toggle(shown(item.label), isOn: Binding(get: { item.value == .bool(true) }, set: { set(.bool($0)) }))
         case .integer, .decimal:
             LabeledContent {
                 HStack(spacing: 8) {
@@ -163,9 +167,9 @@ struct RecipeOptionRow: View {
                 label
             }
         case .enumeration:
-            Picker(item.label, selection: Binding(get: { item.value.asString ?? "" }, set: { set(.string($0)) })) {
+            Picker(shown(item.label), selection: Binding(get: { item.value.asString ?? "" }, set: { set(.string($0)) })) {
                 ForEach(item.option.choices ?? [], id: \.value) { choice in
-                    Text(choice.label ?? choice.value).tag(choice.value)
+                    Text(choice.label.map(shown) ?? choice.value).tag(choice.value)
                 }
             }
             .pickerStyle(.menu)
@@ -190,7 +194,12 @@ struct RecipeOptionRow: View {
 
     /// Greyed with the row while its switch is off (a text label isn't greyed by `disabled` on its own).
     private var label: some View {
-        Text(item.label).foregroundStyle(item.isEditable ? Color.primary : Color.secondary)
+        Text(shown(item.label)).foregroundStyle(item.isEditable ? Color.primary : Color.secondary)
+    }
+
+    /// A built-in option's English text in the language of the app (`L10nText.display`); a file's text as it is.
+    private func shown(_ text: String) -> String {
+        isBuiltIn ? L10nText.display(text) : text
     }
 
     private var colorBinding: Binding<CGColor> {
@@ -231,6 +240,20 @@ struct RecipeDraftField: View {
         guard let value = draft else { return }
         draft = nil
         if value != text { commit(value) }
+    }
+}
+
+/// The texts of a recipe's or automatic step's options (Settings › Recipes, Quick Settings): a built-in one's name,
+/// description and option texts are English data, shown in the language of the app where upstream has the text
+/// (`L10nText.display`, upstream `[Recipe] extension_*`); a file's texts are shown as they are.
+@MainActor
+enum RecipeOptionTexts {
+    static func isBuiltIn(_ ownerId: String, in library: RecipeLibrary) -> Bool {
+        (library.loadedExtension(id: ownerId) ?? library.recipe(id: ownerId))?.isBuiltIn == true
+    }
+
+    static func shown(_ text: String, ownerId: String, in library: RecipeLibrary) -> String {
+        isBuiltIn(ownerId, in: library) ? L10nText.display(text) : text
     }
 }
 

@@ -18,23 +18,23 @@ enum RecipeMenus {
         guard let runtime = RecipeRuntime.shared, runtime.isEnabled else { return nil }
         let library = runtime.library
         let entries = RecipeMenuEntries.statusMenu(recipes: library.recipes, active: library.activeTriggers(ofTypes: menuTriggerTypes))
-        let item = NSMenuItem(title: "Recipes", action: nil, keyEquivalent: "")
+        let item = NSMenuItem(title: String(localized: "Recipes"), action: nil, keyEquivalent: "")
         item.submenu = makeStatusMenu(entries: entries, canImport: !app.settings.isLocked(\AppSettings.recipes.files))
         return item
     }
 
     /// The submenu: the entries, then Import Recipe…, Reload Recipes, Recipe Manager…, Recipe Editor….
     static func makeStatusMenu(entries: [RecipeMenuEntry], canImport: Bool) -> NSMenu {
-        let menu = NSMenu(title: "Recipes")
+        let menu = NSMenu(title: String(localized: "Recipes"))
         menu.autoenablesItems = false
         add(entries, to: menu) { entry in run(entry) }
         if !entries.isEmpty { menu.addItem(.separator()) }
         // Upstream hides nothing here; an administrator's lock of the recipe files leaves Import out.
-        if canImport { menu.addItem(ClosureMenuItem(title: "Import Recipe…") { importRecipe() }) }
-        menu.addItem(ClosureMenuItem(title: "Reload Recipes") { reloadRecipes() })
+        if canImport { menu.addItem(ClosureMenuItem(title: String(localized: "Import Recipe…")) { importRecipe() }) }
+        menu.addItem(ClosureMenuItem(title: String(localized: "Reload Recipes")) { reloadRecipes() })
         menu.addItem(.separator())
-        menu.addItem(ClosureMenuItem(title: "Recipe Manager…") { RecipeManagerService.show(selecting: nil) })
-        menu.addItem(ClosureMenuItem(title: "Recipe Editor…") { RecipeEditorService.openEditor(recipeId: nil) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Recipe Manager…")) { RecipeManagerService.show(selecting: nil) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Recipe Editor…")) { RecipeEditorService.openEditor(recipeId: nil) })
         return menu
     }
 
@@ -45,8 +45,8 @@ enum RecipeMenus {
 
     /// The main menu's "Recipes" menu between Image and View (rebuilt when it opens).
     static func addEditorMenu(to main: NSMenu) {
-        let item = main.addItem(withTitle: "Recipes", action: nil, keyEquivalent: "")
-        let menu = NSMenu(title: "Recipes")
+        let item = main.addItem(withTitle: String(localized: "Recipes"), action: nil, keyEquivalent: "")
+        let menu = NSMenu(title: String(localized: "Recipes"))
         menu.autoenablesItems = false
         menu.delegate = editorMenuDelegate
         item.submenu = menu
@@ -68,8 +68,8 @@ enum RecipeMenus {
             runInEditor(entry, editor: editor)
         }
         if !entries.isEmpty { menu.addItem(.separator()) }
-        menu.addItem(ClosureMenuItem(title: "Recipe Manager…") { RecipeManagerService.show(selecting: nil) })
-        menu.addItem(ClosureMenuItem(title: "Recipe Editor…") { RecipeEditorService.openEditor(recipeId: nil) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Recipe Manager…")) { RecipeManagerService.show(selecting: nil) })
+        menu.addItem(ClosureMenuItem(title: String(localized: "Recipe Editor…")) { RecipeEditorService.openEditor(recipeId: nil) })
     }
 
     // MARK: Entries
@@ -98,7 +98,7 @@ enum RecipeMenus {
     /// a left or right modifier).
     private static func item(for entry: RecipeMenuEntry, enabled: Bool, keyEquivalents: Bool,
                              action: @escaping (RecipeMenuEntry) -> Void) -> NSMenuItem {
-        let item = ClosureMenuItem(title: entry.title) { action(entry) }
+        let item = ClosureMenuItem(title: title(of: entry)) { action(entry) }
         item.isEnabled = enabled
         if let combo = entry.hotkey {
             if keyEquivalents, let key = combo.menuKeyEquivalent {
@@ -109,6 +109,12 @@ enum RecipeMenus {
             }
         }
         return item
+    }
+
+    /// A built-in recipe's name is English data: shown in the language of the app where upstream has the text
+    /// (`L10nText.display`); a file's name or menu text as it is.
+    private static func title(of entry: RecipeMenuEntry) -> String {
+        RecipeRuntime.shared?.library.recipe(id: entry.recipeId)?.isBuiltIn == true ? L10nText.display(entry.title) : entry.title
     }
 
     // MARK: Actions
@@ -139,9 +145,9 @@ enum RecipeMenus {
     /// Upstream `TrayActions.ImportRecipe`: pick a recipe file, approve it, add it to the recipe files.
     static func importRecipe() {
         let panel = NSOpenPanel()
-        panel.title = "Import Capture Recipe"
-        panel.prompt = "Import"
-        panel.message = "Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used."
+        panel.title = String(localized: "Import Capture Recipe")
+        panel.prompt = String(localized: "Import", comment: "The button of the panel that imports a recipe file")
+        panel.message = String(localized: "Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.")
         panel.allowedContentTypes = [.json]
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
@@ -156,7 +162,7 @@ enum RecipeMenus {
                 return
             }
             let names = result.loadedRecipeIds.map { id in runtime.library.recipe(id: id)?.recipe.name ?? id }
-            notify("Recipe imported", detail: names.joined(separator: ", "), kind: .info)
+            notify(String(localized: "Recipe imported"), detail: names.joined(separator: ", "), kind: .info)
         }
     }
 
@@ -168,7 +174,8 @@ enum RecipeMenus {
             log.info("Reloaded recipes: \(result.loadedRecipeIds.count) from files, \(result.errors.count) problem(s)")
             guard !result.errors.isEmpty else { return }
             let detail = result.errors.prefix(3).joined(separator: "\n") + (result.errors.count > 3 ? "\n…" : "")
-            notify(result.errors.count == 1 ? "A recipe could not be loaded" : "\(result.errors.count) recipes could not be loaded",
+            let count = result.errors.count
+            notify(count == 1 ? String(localized: "A recipe could not be loaded") : String(localized: "\(count) recipes could not be loaded"),
                    detail: detail, kind: .warning)
         }
     }

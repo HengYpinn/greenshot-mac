@@ -56,6 +56,19 @@ final class RecipeEditorModel: ObservableObject {
         case flow = "Flow"
 
         var id: String { rawValue }
+
+        /// The tab's title (the raw value is its identifier).
+        var title: String {
+            switch self {
+            case .step: return String(localized: "Step")
+            case .recipe: return String(localized: "Recipe")
+            case .triggers: return String(localized: "Triggers")
+            case .options: return String(localized: "Options")
+            case .errors: return String(localized: "Error Routes")
+            case .json: return String(localized: "JSON")
+            case .flow: return String(localized: "Flow")
+            }
+        }
     }
 
     let environment: RecipeEditorEnvironment
@@ -145,14 +158,16 @@ final class RecipeEditorModel: ObservableObject {
                 } else {
                     close()
                 }
-                status = "\(recipe.name) is no longer loaded in Greenshot."
+                let name = recipe.name
+                status = String(localized: "\(name) is no longer loaded in Greenshot.")
             }
             return
         }
         let samePlace = loaded.sourceFile.map { RecipeEditorFiles.standardized($0).path } == fileURL.map { RecipeEditorFiles.standardized($0).path }
         guard !samePlace || RecipeSerializer.encode(loaded.recipe) != savedContent else { return }
         open(loaded.recipe, fileURL: loaded.sourceFile, saved: true, keepSelection: true)
-        status = "Showing \(loaded.recipe.name) as Greenshot has it now."
+        let name = loaded.recipe.name
+        status = String(localized: "Showing \(name) as Greenshot has it now.")
     }
 
     // MARK: Opening
@@ -274,8 +289,8 @@ final class RecipeEditorModel: ObservableObject {
     func updateWindow() {
         guard let window else { return }
         let name = recipe?.name ?? ""
-        window.title = name.isEmpty ? "Recipe Editor" : name
-        window.subtitle = isExtension ? "Automatic Step — Recipe Editor" : "Recipe Editor"
+        window.title = name.isEmpty ? String(localized: "Recipe Editor") : name
+        window.subtitle = isExtension ? String(localized: "Automatic Step — Recipe Editor") : String(localized: "Recipe Editor")
         window.representedURL = fileURL
         window.isDocumentEdited = isDirty
     }
@@ -308,13 +323,13 @@ final class RecipeEditorModel: ObservableObject {
     func undo() {
         guard let content, let target = history.undo(from: content) else { return }
         restore(target)
-        status = "Undone"
+        status = String(localized: "Undone")
     }
 
     func redo() {
         guard let content, let target = history.redo(from: content) else { return }
         restore(target)
-        status = "Redone"
+        status = String(localized: "Redone")
     }
 
     private func restore(_ text: String) {
@@ -338,13 +353,16 @@ final class RecipeEditorModel: ObservableObject {
         do {
             parsed = try RecipeSerializer.decode(text: text)
         } catch {
-            return "Invalid JSON syntax or schema:\n\((error as? RecipeFormatError)?.message ?? error.localizedDescription)"
+            let problem = (error as? RecipeFormatError)?.message ?? error.localizedDescription
+            return String(localized: "Invalid JSON syntax or schema:\n\(problem)")
         }
         guard parsed.count == 1, let applied = parsed.first else {
-            return "The JSON must hold exactly one recipe (it holds \(parsed.count))."
+            let count = parsed.count
+            return String(localized: "The JSON must hold exactly one recipe (it holds \(count)).")
         }
         guard applied.kind == current.kind else {
-            return applied.kind == .extension ? "This is an automatic step; the editor has a recipe open." : "This is a recipe; the editor has an automatic step open."
+            return applied.kind == .extension ? String(localized: "This is an automatic step; the editor has a recipe open.")
+                : String(localized: "This is a recipe; the editor has an automatic step open.")
         }
         if let content { history.record(content, force: true) }
         recipe = applied
@@ -354,7 +372,7 @@ final class RecipeEditorModel: ObservableObject {
         refreshNotice()
         jsonDraft = nil
         jsonDraftBase = nil
-        status = "Applied recipe JSON changes."
+        status = String(localized: "Applied recipe JSON changes.")
         return nil
     }
 
@@ -397,7 +415,8 @@ final class RecipeEditorModel: ObservableObject {
             break
         }
         let node = RecipeEditorCatalog.newNode(stepType, in: recipe, previous: previous, next: next, contracts: contracts)
-        edit("Added step: \(node.displayName)") { recipe in
+        let added = node.displayName
+        edit(String(localized: "Added step: \(added)")) { recipe in
             switch row?.kind {
             case .step(let id)?:
                 if let selected = recipe.node(id), RecipeOutline.isDecision(selected),
@@ -435,7 +454,8 @@ final class RecipeEditorModel: ObservableObject {
         case .parallel(let from): previous = from
         }
         let node = RecipeEditorCatalog.newNode(stepType, in: recipe, previous: previous, next: next, contracts: contracts)
-        edit("Added step: \(node.displayName)") { recipe in
+        let added = node.displayName
+        edit(String(localized: "Added step: \(added)")) { recipe in
             switch place {
             case .after(let id): RecipeFlowEditor.insert(node, after: id, in: &recipe)
             case .between(let from, let to, let branch): RecipeFlowEditor.insert(node, between: from, and: to, branch: branch, in: &recipe)
@@ -472,38 +492,39 @@ final class RecipeEditorModel: ObservableObject {
         let order = outline.stepOrder
         let position = order.firstIndex { $0.caseInsensitiveCompare(id) == .orderedSame } ?? 0
         let name = recipe?.node(id)?.displayName ?? id
-        edit("Deleted step '\(name)' (\(id))") { RecipeFlowEditor.delete(id, in: &$0) }
+        edit(String(localized: "Deleted step '\(name)' (\(id))")) { RecipeFlowEditor.delete(id, in: &$0) }
         let remaining = outline.stepOrder
         if !remaining.isEmpty { selectedRow = RecipeOutlineRow.stepId(remaining[min(position, remaining.count - 1)]) }
     }
 
     func disconnect(from: String?, to: String, branch: String?) {
-        edit("Removed the connection to '\(to)'") { RecipeFlowEditor.disconnect(from: from, to: to, branch: branch, in: &$0) }
+        edit(String(localized: "Removed the connection to '\(to)'")) { RecipeFlowEditor.disconnect(from: from, to: to, branch: branch, in: &$0) }
     }
 
     func retarget(from: String?, branch: String?, old: String, new: String) {
         guard let recipe else { return }
         var copy = recipe
         guard RecipeFlowEditor.retarget(from: from, branch: branch, old: old, new: new, in: &copy) else {
-            status = "'\(new)' can't follow there: the flow would loop."
+            status = String(localized: "'\(new)' can't follow there: the flow would loop.")
             return
         }
-        edit("Continues at '\(new)'") { $0 = copy }
+        edit(String(localized: "Continues at '\(new)'")) { $0 = copy }
     }
 
     func connect(from: String, to: String, branch: String?) {
         guard let recipe else { return }
         var copy = recipe
         guard RecipeFlowEditor.connect(from: from, to: to, branch: branch, in: &copy) else {
-            status = "'\(to)' can't follow '\(from)': the flow would loop."
+            status = String(localized: "'\(to)' can't follow '\(from)': the flow would loop.")
             return
         }
-        edit("Connected '\(from)' to '\(to)'") { $0 = copy }
+        edit(String(localized: "Connected '\(from)' to '\(to)'")) { $0 = copy }
     }
 
     func toggleStart(_ id: String) {
         let isStart = recipe.map { RecipeFlowEditor.isStart(id, in: $0) } ?? false
-        edit(isStart ? "'\(id)' is no longer a start step" : "'\(id)' is a start step") { RecipeFlowEditor.toggleStart(id, in: &$0) }
+        let message = isStart ? String(localized: "'\(id)' is no longer a start step") : String(localized: "'\(id)' is a start step")
+        edit(message) { RecipeFlowEditor.toggleStart(id, in: &$0) }
     }
 
     func move(_ id: String, up: Bool) {
@@ -511,10 +532,10 @@ final class RecipeEditorModel: ObservableObject {
         var copy = recipe
         let moved = up ? RecipeFlowEditor.moveUp(id, in: &copy) : RecipeFlowEditor.moveDown(id, in: &copy)
         guard moved else {
-            status = "Only steps in a plain sequence can move."
+            status = String(localized: "Only steps in a plain sequence can move.")
             return
         }
-        edit(up ? "Moved '\(id)' up" : "Moved '\(id)' down") { $0 = copy }
+        edit(up ? String(localized: "Moved '\(id)' up") : String(localized: "Moved '\(id)' down")) { $0 = copy }
         select(nodeId: id)
     }
 
@@ -529,7 +550,8 @@ final class RecipeEditorModel: ObservableObject {
             return
         }
         guard copy != recipe else { return }
-        edit("Renamed step ID from '\(old)' to '\(new.trimmingCharacters(in: .whitespaces))'") { $0 = copy }
+        let renamed = new.trimmingCharacters(in: .whitespaces)
+        edit(String(localized: "Renamed step ID from '\(old)' to '\(renamed)'")) { $0 = copy }
         select(nodeId: new.trimmingCharacters(in: .whitespaces))
     }
 
@@ -549,12 +571,12 @@ final class RecipeEditorModel: ObservableObject {
     /// Opens a new recipe (upstream `NewRecipe`); never saved, so it has unsaved changes.
     func newRecipe() {
         open(RecipeEditorCatalog.newRecipe(), fileURL: nil, saved: false)
-        status = "Created new recipe."
+        status = String(localized: "Created new recipe.")
     }
 
     func newExtension() {
         open(RecipeEditorCatalog.newExtension(), fileURL: nil, saved: false)
-        status = "Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab."
+        status = String(localized: "Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.")
     }
 
     /// After a save: the saved content is what the editor has.

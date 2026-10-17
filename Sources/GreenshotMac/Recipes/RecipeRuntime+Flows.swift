@@ -8,6 +8,14 @@ import GreenshotCore
 
 private let log = Log("Recipes")
 
+/// What a flow waits for the user with: the question at quit says it in a sentence of its own.
+enum RecipeFlowWait {
+    /// A UserPrompt step's question, with its title.
+    case answer(prompt: String)
+    /// The destination flyout (DynamicDestination).
+    case destination
+}
+
 /// What the app keeps for one running flow: the exports for the Notification step, the hold on the destinations' own
 /// messages while the flow exports, and the app to give the focus back to after a screen capture (like
 /// `CaptureCoordinator.returnFocus`).
@@ -25,7 +33,7 @@ final class RecipeFlowAppState {
     var previousApp: pid_t?
     var capturedFromScreen = false
     /// What the flow waits for the user with (a prompt, the flyout): the question at quit names it.
-    var waitsFor: String?
+    var waitsFor: RecipeFlowWait?
     /// The files the flow saved, with the capture they show (the ExternalCommand step reuses one only while the capture
     /// is still the same).
     private var saved: [String: RecipePayloadMark] = [:]

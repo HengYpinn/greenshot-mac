@@ -19,8 +19,8 @@ struct RecipeApprovalOverlayView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                Text(overlay == .json ? "\(model.sheet.titleNoun) JSON" : "Changes (− before, + after)").font(.title3.bold())
-                Text("— " + model.sheet.recipeName).foregroundStyle(.secondary).lineLimit(1)
+                Text(title).font(.title3.bold())
+                Text("— " + model.sheet.shownRecipeName).foregroundStyle(.secondary).lineLimit(1)
                 Spacer()
                 if overlay == .changes {
                     Picker("", selection: $model.changedLinesOnly) {
@@ -53,10 +53,15 @@ struct RecipeApprovalOverlayView: View {
         .background(Color(nsColor: .windowBackgroundColor))
     }
 
+    private var title: String {
+        guard overlay == .json else { return String(localized: "Changes (− before, + after)") }
+        return model.sheet.isExtension ? String(localized: "Automatic Step JSON") : String(localized: "Recipe JSON")
+    }
+
     private var jsonText: String {
         let content = model.sheet.request.content
-        if content.isEmpty { return "// Recipe content unavailable." }
-        if content.utf8.count > Self.maxShownLength { return "// Recipe file is too large to preview (> 1MB)." }
+        if content.isEmpty { return "// " + String(localized: "Recipe content unavailable.") }
+        if content.utf8.count > Self.maxShownLength { return "// " + String(localized: "Recipe file is too large to preview (> 1MB).") }
         return content
     }
 
@@ -74,7 +79,9 @@ struct RecipeApprovalOverlayView: View {
             }
         }
         guard let diff = request.diff else {
-            return [DiffLinesView.Line(text: "// The recipes are too large to compare (more than \(RecipeTextDiff.maxLines) lines).", kind: .gap)]
+            let limit = RecipeTextDiff.maxLines
+            let text = "// " + String(localized: "The recipes are too large to compare (more than \(limit) lines).")
+            return [DiffLinesView.Line(text: text, kind: .gap)]
         }
         return diff.map { line in
             switch line.kind {

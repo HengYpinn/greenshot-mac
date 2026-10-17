@@ -14,31 +14,34 @@ extension RecipeEditorModel {
     func testRun() async {
         guard let recipe else { return }
         guard let runtime = environment.runtime() else {
-            await tell("Test Run", detail: "Recipes aren't running in Greenshot right now.")
+            await tell(String(localized: "Test Run"), detail: String(localized: "Recipes aren't running in Greenshot right now."))
             return
         }
         let coverage = testRunCoverage(recipe, library: runtime.library)
         switch RecipeEditorDiagnostics.testRunDecision(recipe, validation: validation, isDirty: isDirty || !coverage.isLoaded,
                                                        isLoaded: coverage.isLoaded, approvedActions: coverage.actions) {
         case .automaticStep:
-            await tell("Test Run", detail: "An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.",
+            await tell(String(localized: "Test Run"),
+                       detail: String(localized: "An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes."),
                        style: .informational)
             return
         case .invalid(let errors):
-            await tell("Validation Error", detail: "Cannot test run recipe. Fix validation errors first:\n\n" + errors.joined(separator: "\n"))
+            let list = errors.joined(separator: "\n")
+            await tell(String(localized: "Validation Error"), detail: String(localized: "Cannot test run recipe. Fix validation errors first:") + "\n\n" + list)
             return
         case .saveFirst(let gates):
             let names = gates.map(\.displayName).joined(separator: ", ")
-            let answer = await ask("Save Before the Test Run",
-                                   detail: "The changed recipe needs \(names), which its approval doesn't allow yet. Save it first; saving asks for your approval.",
-                                   buttons: ["Save and Run", "Cancel"])
+            let answer = await ask(String(localized: "Save Before the Test Run"),
+                                   detail: String(localized: "The changed recipe needs \(names), which its approval doesn't allow yet. Save it first; saving asks for your approval."),
+                                   buttons: [String(localized: "Save and Run"), String(localized: "Cancel")])
             guard answer == 0, await save() else { return }
             await testRun()
             return
         case .run:
             break
         }
-        status = "Executing test run for '\(recipe.name)'..."
+        let name = recipe.name
+        status = String(localized: "Executing test run for '\(name)'...")
         var request = RecipeRunRequest(recipe: recipe, trigger: RecipeRuntime.triggerInfo(type: WellKnownTriggerType.contextMenu,
                                                                                            name: "Test Run Trigger"))
         request.optionValues = runtime.library.optionValues
@@ -46,14 +49,15 @@ extension RecipeEditorModel {
         log.info("Test run of recipe '\(recipe.id)' ended: \(result.state.rawValue).")
         if result.state == .cancelled, let reason = result.reason {
             // The runner's preflight refused the copy (its approval doesn't cover it) or another flow was running.
-            status = "Test run not started: \(reason)"
-            await tell("Test Run", detail: reason, style: .informational)
+            status = String(localized: "Test run not started: \(reason)")
+            await tell(String(localized: "Test Run"), detail: reason, style: .informational)
         } else if result.state == .failed {
-            let error = result.errorDescription ?? result.reason ?? "unknown error"
-            status = "Test run error: \(error)"
-            await tell("Execution Error", detail: "Recipe execution encountered an error:\n\(error)", style: .critical)
+            let error = result.errorDescription ?? result.reason ?? String(localized: "unknown error")
+            status = String(localized: "Test run error: \(error)")
+            await tell(String(localized: "Execution Error"), detail: String(localized: "Recipe execution encountered an error:") + "\n" + error, style: .critical)
         } else {
-            status = "Test run of '\(recipe.name)' ended: \(result.state.rawValue)."
+            let state = result.state.rawValue
+            status = String(localized: "Test run of '\(name)' ended: \(state).")
         }
     }
 

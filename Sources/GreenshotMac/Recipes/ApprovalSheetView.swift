@@ -77,7 +77,7 @@ struct RecipeApprovalView: View {
     // MARK: Cards
 
     private var problemsCard: some View {
-        ApprovalCard(title: "What is wrong", tone: .error) {
+        ApprovalCard(title: String(localized: "What is wrong"), tone: .error) {
             ForEach(Array(sheet.problems.enumerated()), id: \.offset) { _, problem in
                 VStack(alignment: .leading, spacing: 3) {
                     Text(problem.message).fontWeight(.semibold).textSelection(.enabled)
@@ -94,36 +94,39 @@ struct RecipeApprovalView: View {
 
     private var historyCard: some View {
         let changed = sheet.style == .modified
-        return ApprovalCard(title: changed ? "The file changed since you approved it" : "Your approval", tone: changed ? .warning : .neutral) {
+        let title = changed ? String(localized: "The file changed since you approved it") : String(localized: "Your approval")
+        return ApprovalCard(title: title, tone: changed ? .warning : .neutral) {
             if let date = sheet.previousApprovedAt {
-                ApprovalField(label: "Approved", value: date.formatted(date: .abbreviated, time: .standard))
+                ApprovalField(label: String(localized: "Approved"), value: date.formatted(date: .abbreviated, time: .standard))
             }
             if let hash = sheet.previousHash {
-                ApprovalField(label: "Approved SHA-256", value: hash, monospaced: true)
+                ApprovalField(label: String(localized: "Approved SHA-256"), value: hash, monospaced: true)
                 if hash.caseInsensitiveCompare(sheet.fileHash) != .orderedSame {
-                    ApprovalField(label: "File SHA-256", value: sheet.fileHash, monospaced: true)
+                    ApprovalField(label: String(localized: "File SHA-256"), value: sheet.fileHash, monospaced: true)
                 }
             }
             HStack {
                 if sheet.hasDiff {
                     Button("View Changes") { model.changedLinesOnly = true; model.overlay = .changes }
                 }
-                Button("View \(sheet.titleNoun) JSON") { model.overlay = .json }
+                Button(sheet.isExtension ? "View Automatic Step JSON" : "View Recipe JSON") { model.overlay = .json }
             }
         }
     }
 
     private var aiCard: some View {
         let isProposal = sheet.style == .aiProposal
-        return ApprovalCard(title: isProposal ? "Proposed by an AI tool" : "Written by an AI tool", tone: .warning) {
+        let title = isProposal ? String(localized: "Proposed by an AI tool") : String(localized: "Written by an AI tool")
+        return ApprovalCard(title: title, tone: .warning) {
             Text(sheet.proposedBy ?? "").fontWeight(.semibold).textSelection(.enabled)
             if let request = sheet.aiRequest {
-                AIWords(label: "What it was asked (the AI tool's words, not checked by Greenshot):", text: request)
+                AIWords(label: String(localized: "What it was asked (the AI tool's words, not checked by Greenshot):"), text: request)
             }
             if let explanation = sheet.aiExplanation {
-                AIWords(label: "Its explanation (the AI tool's words, not checked by Greenshot):", text: explanation)
+                AIWords(label: String(localized: "Its explanation (the AI tool's words, not checked by Greenshot):"), text: explanation)
             }
-            Text("Trust what Greenshot writes below about the \(sheet.noun), not these words.")
+            Text(sheet.isExtension ? "Trust what Greenshot writes below about the automatic step, not these words."
+                 : "Trust what Greenshot writes below about the recipe, not these words.")
                 .font(.callout).foregroundStyle(.secondary)
         }
     }
@@ -142,26 +145,26 @@ struct RecipeApprovalView: View {
     private var overviewCard: some View {
         ApprovalCard(title: nil, tone: .neutral) {
             HStack(alignment: .firstTextBaseline) {
-                Text(sheet.recipeName).font(.headline)
+                Text(sheet.shownRecipeName).font(.headline)
                 if !sheet.recipeVersion.isEmpty { Text(sheet.recipeVersion).font(.caption).foregroundStyle(.secondary) }
             }
-            Text(sheet.recipeDescription).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-            ApprovalField(label: sheet.isExtension ? "ID" : "Recipe ID", value: sheet.recipeId)
+            Text(sheet.shownRecipeDescription).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            ApprovalField(label: sheet.isExtension ? String(localized: "ID") : String(localized: "Recipe ID"), value: sheet.recipeId)
             HStack(alignment: .firstTextBaseline) {
-                ApprovalField(label: "File", value: sheet.fileText)
+                ApprovalField(label: String(localized: "File"), value: sheet.fileText)
                 if sheet.request.fileURL != nil {
                     Button("Show in Finder") { model.showInFinder() }.controlSize(.small)
                 }
             }
             ApprovalField(label: "SHA-256", value: sheet.fileHash, monospaced: true)
             if sheet.previousApprovedAt == nil, !sheet.request.content.isEmpty {
-                Button("View \(sheet.titleNoun) JSON") { model.overlay = .json }
+                Button(sheet.isExtension ? "View Automatic Step JSON" : "View Recipe JSON") { model.overlay = .json }
             }
         }
     }
 
     private var reachCard: some View {
-        ApprovalCard(title: "Changes other recipes", tone: .warning) {
+        ApprovalCard(title: String(localized: "Changes other recipes"), tone: .warning) {
             ForEach(Array(sheet.extensionReach.enumerated()), id: \.offset) { _, line in
                 Text(line).fixedSize(horizontal: false, vertical: true)
             }
@@ -169,7 +172,7 @@ struct RecipeApprovalView: View {
     }
 
     private var triggersCard: some View {
-        ApprovalCard(title: "Triggers", tone: .neutral) {
+        ApprovalCard(title: String(localized: "Triggers"), tone: .neutral) {
             if sheet.triggers.isEmpty {
                 Text("No trigger: the recipe runs from the recipe list, the command line or another recipe.")
                     .foregroundStyle(.secondary)
@@ -189,7 +192,9 @@ struct RecipeApprovalView: View {
     }
 
     private var stepsCard: some View {
-        ApprovalCard(title: "What it does (written by Greenshot from the \(sheet.noun))", tone: .neutral) {
+        let title = sheet.isExtension ? String(localized: "What it does (written by Greenshot from the automatic step)")
+            : String(localized: "What it does (written by Greenshot from the recipe)")
+        return ApprovalCard(title: title, tone: .neutral) {
             ForEach(Array(sheet.steps.enumerated()), id: \.offset) { _, line in
                 ApprovalStepLine(line: line)
             }
@@ -197,9 +202,10 @@ struct RecipeApprovalView: View {
     }
 
     private var gatesCard: some View {
-        ApprovalCard(title: "Permissions", tone: sheet.isApproveEnabled ? .neutral : .warning) {
+        ApprovalCard(title: String(localized: "Permissions"), tone: sheet.isApproveEnabled ? .neutral : .warning) {
             if !model.isReadOnly {
-                Text("The \(sheet.noun) is only used with every permission it needs.")
+                Text(sheet.isExtension ? "The automatic step is only used with every permission it needs."
+                     : "The recipe is only used with every permission it needs.")
                     .font(.callout).foregroundStyle(.secondary)
             }
             ForEach(sheet.gates) { gate in
@@ -272,6 +278,15 @@ enum ApprovalColors {
         case .error: return .red
         }
     }
+}
+
+extension RecipeApprovalSheet {
+    /// The name and description as the window shows them: a built-in recipe's or automatic step's (its details, without a
+    /// file) English texts in the language of the app where upstream has them (`L10nText.display`); a file's as they are.
+    var shownRecipeName: String { isBuiltInDetails ? L10nText.display(recipeName) : recipeName }
+    var shownRecipeDescription: String { isBuiltInDetails ? L10nText.display(recipeDescription) : recipeDescription }
+
+    private var isBuiltInDetails: Bool { style == .details && request.fileURL == nil }
 }
 
 struct ApprovalBadge: View {

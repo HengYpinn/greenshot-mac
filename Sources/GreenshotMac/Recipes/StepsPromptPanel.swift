@@ -23,7 +23,7 @@ struct RecipePromptPresenter: RecipePromptPresenting {
                     // Cancelled before the window was there: none is shown (R-F5).
                     guard !window.cancelled else { return continuation.resume(returning: .closed) }
                     let state = runtime.flowState(context.executionId)
-                    state.waitsFor = "your answer to “\(prompt.title)”"
+                    state.waitsFor = .answer(prompt: prompt.title)
                     window.controller = RecipePromptPanel.show(prompt, preview: preview) { answer in
                         state.waitsFor = nil
                         continuation.resume(returning: answer)
