@@ -68,7 +68,7 @@ public struct RecipeExtensionScope: Equatable, Sendable {
         for destination in CaptureDestination.allCases where destination != .picker && !settings.isDestinationExcluded(destination) {
             if destination == .externalCommand {
                 for command in settings.externalCommands where !command.name.isEmpty {
-                    result.append((designation: "External \(command.name)", name: command.name))
+                    result.append((designation: "External \(command.name)", name: "\(command.name) (external command)"))
                 }
                 continue
             }

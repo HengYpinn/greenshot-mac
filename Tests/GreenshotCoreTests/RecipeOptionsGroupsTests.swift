@@ -138,6 +138,6 @@ import Testing
         let choices = RecipeExtensionScope.destinationChoices(settings: settings)
         #expect(!choices.contains { $0.designation == "Picker" })
         #expect(choices.contains { $0.designation == "FileNoDialog" })
-        #expect(choices.contains { $0.designation == "External Paint" && $0.name == "Paint" })
+        #expect(choices.contains { $0.designation == "External Paint" && $0.name == "Paint (external command)" })
     }
 }
