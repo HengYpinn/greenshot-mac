@@ -100,10 +100,20 @@ extension Annotation {
     public static func tornEdges(_ settings: TornEdgeSettings, imageSize: CGSize, margin: Int,
                                  style: AnnotationStyle = .defaults(for: .tornEdge),
                                  seed: UInt64 = .random(in: .min ... .max)) -> Annotation {
+        tornEdges(settings, imageSize: imageSize, room: CutEdgeLayout(marginTop: margin, marginRight: margin,
+                                                                      marginBottom: margin, marginLeft: margin),
+                  edgeStyle: .torn, style: style, seed: seed)
+    }
+
+    /// Edges for the whole image (upstream `new TornEdgeContainer(surface, settings, margins, cutMarkStyle)`): the sides
+    /// of `settings` in `edgeStyle`, with the room for the shadow of `room`'s margins.
+    static func tornEdges(_ settings: TornEdgeSettings, imageSize: CGSize, room: CutEdgeLayout, edgeStyle: CutMarkStyle,
+                          style: AnnotationStyle, seed: UInt64) -> Annotation {
         var element = Annotation(kind: .tornEdge, start: .zero, end: CGPoint(x: imageSize.width, y: imageSize.height),
                                  style: style)
-        element.style.cutMarkStyle = .torn
-        element.cutEdges = CutEdgeLayout(marginTop: margin, marginRight: margin, marginBottom: margin, marginLeft: margin)
+        element.style.cutMarkStyle = edgeStyle
+        element.cutEdges = CutEdgeLayout(marginTop: room.marginTop, marginRight: room.marginRight,
+                                         marginBottom: room.marginBottom, marginLeft: room.marginLeft)
         element.seed = seed
         return element.applyingCutEdgeSettings(settings, scale: 1)
     }
@@ -193,13 +203,14 @@ extension CutEdgeLayout {
     }
 
     /// The layout after a crop that cut off the sides marked in `cut` (top, right, bottom, left): those sides lose their
-    /// torn edge and their room (upstream `Surface.ApplyCrop`). Nil when no torn side is left.
-    func cropped(cutTop: Bool, cutRight: Bool, cutBottom: Bool, cutLeft: Bool) -> CutEdgeLayout? {
+    /// torn edge, and their room becomes `room`, the room the crop made there for the shadow of new edges (0 without
+    /// them; upstream `Surface.ApplyCrop`). Nil when no torn side is left.
+    func cropped(cutTop: Bool, cutRight: Bool, cutBottom: Bool, cutLeft: Bool, room: Int = 0) -> CutEdgeLayout? {
         var result = self
-        if cutTop { result.top = false; result.marginTop = 0 }
-        if cutRight { result.right = false; result.marginRight = 0 }
-        if cutBottom { result.bottom = false; result.marginBottom = 0 }
-        if cutLeft { result.left = false; result.marginLeft = 0 }
+        if cutTop { result.top = false; result.marginTop = room }
+        if cutRight { result.right = false; result.marginRight = room }
+        if cutBottom { result.bottom = false; result.marginBottom = room }
+        if cutLeft { result.left = false; result.marginLeft = room }
         return result.top || result.right || result.bottom || result.left ? result : nil
     }
 }
@@ -227,23 +238,54 @@ extension EditorDocument {
 
     /// Crops like `crop(to:)`; torn edges lose the sides that were cut off, and go when none is left (upstream
     /// `Surface.ApplyCrop`). Returns false when nothing was cropped.
+    ///
+    /// With an `edgeStyle` other than none (the crop bar's cut edge style, upstream's `CropContainer` CUT_MARK_STYLE), the
+    /// sides that were cut off get edges in that style, as new torn edges: the teeth, shadow and background of the torn
+    /// edge effect's `settings`, the line of `style` (the last used torn edge style). Like `addTornEdges` the canvas grows
+    /// by the room the shadow needs, here only on those sides, and the torn edges that were there already take that room.
     @discardableResult
-    public func cropKeepingEdges(to rect: CGRect) -> Bool {
+    public func cropKeepingEdges(to rect: CGRect, edgeStyle: CutMarkStyle = .none,
+                                 settings: TornEdgeSettings = TornEdgeSettings(),
+                                 style: AnnotationStyle = .defaults(for: .tornEdge),
+                                 seed: UInt64 = .random(in: .min ... .max)) -> Bool {
         let size = imageSize
         let target = rect.standardized.integral.intersection(CGRect(origin: .zero, size: size))
         guard !target.isEmpty else { return false }
+        let cutTop = target.minY > 0
+        let cutRight = target.maxX < size.width
+        let cutBottom = target.maxY < size.height
+        let cutLeft = target.minX > 0
+        let withEdges = edgeStyle != .none && (cutTop || cutRight || cutBottom || cutLeft)
         let torn = annotations.filter { $0.kind == .tornEdge }
         guard crop(to: rect) else { return false }
+
+        var margin = withEdges ? Int((CGFloat(TornEdge.shadowMargin(settings)) * scale).rounded()) : 0
+        if margin > 0 {
+            // The room is part of the torn off area: transparent or the background color.
+            let background = settings.backgroundColor.isVisible ? settings.backgroundColor.cgColor : nil
+            func room(_ cut: Bool) -> Int { cut ? margin : 0 }
+            if !resizeCanvas(left: room(cutLeft), right: room(cutRight), top: room(cutTop), bottom: room(cutBottom),
+                             background: background) {
+                margin = 0
+            }
+        }
         for element in torn {
             let layout = element.cutEdges ?? CutEdgeLayout()
-            guard let cropped = layout.cropped(cutTop: target.minY > 0, cutRight: target.maxX < size.width,
-                                               cutBottom: target.maxY < size.height, cutLeft: target.minX > 0) else {
+            guard let cropped = layout.cropped(cutTop: cutTop, cutRight: cutRight, cutBottom: cutBottom, cutLeft: cutLeft,
+                                               room: margin) else {
                 remove(element.id)
                 continue
             }
             guard var current = annotation(element.id) else { continue }
             current.cutEdges = cropped
             update(current.spanning(imageSize))
+        }
+        if withEdges {
+            var sides = settings
+            (sides.top, sides.right, sides.bottom, sides.left) = (cutTop, cutRight, cutBottom, cutLeft)
+            let room = CutEdgeLayout(marginTop: cutTop ? margin : 0, marginRight: cutRight ? margin : 0,
+                                     marginBottom: cutBottom ? margin : 0, marginLeft: cutLeft ? margin : 0)
+            add(Annotation.tornEdges(sides, imageSize: imageSize, room: room, edgeStyle: edgeStyle, style: style, seed: seed))
         }
         return true
     }

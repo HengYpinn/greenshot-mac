@@ -18,6 +18,7 @@ extension Snapshots {
         try write(canvasTornEdgesStyled(sample: sample, settings: settings),
                   to: folder.appendingPathComponent("canvas-torn-edge-wave-fill.png"))
         try write(canvasCutMarkApplied(sample: sample, settings: settings), to: folder.appendingPathComponent("canvas-cut-mark-applied.png"))
+        try write(canvasCropEdges(sample: sample, settings: settings), to: folder.appendingPathComponent("canvas-crop-cut-edges.png"))
         let cutEdgeSettings = TornEdgeSettingsForm(TornEdgeSettings(), showEdges: false)
         keepAlive.append(cutEdgeSettings)
         try write(form(cutEdgeSettings.view), to: folder.appendingPathComponent("canvas-cut-edge-settings.png"))
@@ -51,6 +52,21 @@ extension Snapshots {
         return editorWindow(doc, settings: settings) { controller in
             controller.canvas.tool = .select
             controller.canvas.select(id)
+        }
+    }
+
+    /// A crop with the crop bar's cut edge style Zig-zag that cut off the top and the right: those two sides have edges
+    /// (a torn edges element, selected), the left and bottom stay straight.
+    private static func canvasCropEdges(sample: CGImage, settings: SettingsStore) -> NSBitmapImageRep? {
+        let doc = EditorDocument(image: sample, scale: 2, title: "Snapshot")
+        doc.add(Annotation(kind: .rectangle, start: CGPoint(x: 120, y: 180), end: CGPoint(x: 520, y: 420)))
+        return editorWindow(doc, settings: settings) { controller in
+            let previous = controller.settings.value.cutOutMarkStyle
+            controller.settings.update { $0.cutOutMarkStyle = .zigZag }
+            controller.canvas.tool = .crop
+            controller.canvas.showCropArea(CGRect(x: 0, y: 100, width: 1100, height: doc.imageSize.height - 100))
+            controller.cropToSelection()
+            controller.settings.update { $0.cutOutMarkStyle = previous }
         }
     }
 

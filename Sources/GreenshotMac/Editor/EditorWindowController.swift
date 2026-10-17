@@ -356,7 +356,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         counterStartStepper.action = #selector(counterStartChanged(_:))
     }
 
-    /// The crop tool's bar: its modes (upstream's four crop mode buttons), Crop and Cancel, the cut-out joint.
+    /// The crop tool's bar: its modes (upstream's four crop mode buttons), Crop and Cancel, the cut edge style (upstream
+    /// "Cut edges", the CUT_MARK_STYLE of `CropContainer`) for the sides a crop cuts off and the joint of a cut out.
     private func setUpCropGroup() {
         let modes = CropMode.allCases
         setUpSegments(cropModeControl, symbols: modes.map(\.symbolName), labels: modes.map(\.title), action: #selector(cropModeChanged))
@@ -366,10 +367,11 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let cancelCrop = NSButton(title: "Cancel", target: self, action: #selector(cancelCrop))
         setUp(cutOutJointPopup, titles: ["None", "Line", "Zig-zag", "Wave", "Torn"], action: #selector(cutOutJointChanged))
         addCutMarkPreviews(cutOutJointPopup)
-        cutOutJointPopup.toolTip = "How the joint is marked when the selected rows or columns are cut out"
+        cutOutJointPopup.toolTip = "The edges of the sides a crop cuts off, and of the joint when rows or columns are "
+            + "cut out; None keeps them straight and seamless"
         cutOutJointPopup.selectItem(at: CutMarkStyle.allCases.firstIndex(of: settings.value.cutOutMarkStyle) ?? 0)
         cropGroup.setViews([cropModeControl, label("Drag the area to keep or to cut out"), applyCrop, cancelCrop,
-                            Self.divider(), label("Cut-out joint"), cutOutJointPopup], in: .leading)
+                            Self.divider(), label("Cut edges"), cutOutJointPopup], in: .leading)
         cropGroup.spacing = 6
     }
 

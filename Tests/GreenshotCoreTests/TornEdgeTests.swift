@@ -248,6 +248,88 @@ struct TornEdgeTests {
         #expect(doc.annotation(torn.id) == nil)
     }
 
+    /// Upstream `Surface.ApplyCrop` with the crop bar's cut edge style: only the sides that were cut off get edges.
+    @Test func aCropWithACutEdgeStyleTearsTheSidesItCutOff() throws {
+        let doc = EditorDocument(image: TestImage.solid(width: 200, height: 120, .white), scale: 1, title: "test")
+        let settings = TornEdgeSettings(toothHeight: 6, horizontalToothRange: 14, shadowSize: 5, shadowOffsetX: 2,
+                                        shadowOffsetY: -1)
+        let margin = TornEdge.shadowMargin(settings)
+        #expect(margin == 7)
+        var cropped = false
+        doc.change { cropped = doc.cropKeepingEdges(to: CGRect(x: 30, y: 20, width: 170, height: 100), edgeStyle: .zigZag,
+                                                    settings: settings, seed: 3) }
+        #expect(cropped)
+        // The image is the area plus the room for the shadow above and left of it, where it was cut.
+        #expect(doc.imageSize == CGSize(width: 177, height: 107))
+        let edges = try #require(doc.annotations.first { $0.kind == .tornEdge })
+        let layout = try #require(edges.cutEdges)
+        #expect(edges.style.cutMarkStyle == .zigZag)
+        #expect(edges.style.toothHeight == 6)
+        #expect(edges.style.toothRange == 14)
+        #expect(edges.seed == 3)
+        #expect(edges.bounds == CGRect(x: 0, y: 0, width: 177, height: 107))
+        #expect(layout.top)
+        #expect(layout.left)
+        #expect(!layout.right)
+        #expect(!layout.bottom)
+        #expect(layout.marginTop == 7)
+        #expect(layout.marginLeft == 7)
+        #expect(layout.marginRight == 0)
+        #expect(layout.marginBottom == 0)
+        #expect(layout.shadowSize == 5)
+        #expect(layout.shadowOffsetX == 2)
+        // One undo step brings back the image without edges.
+        doc.undo()
+        #expect(doc.imageSize == CGSize(width: 200, height: 120))
+        #expect(doc.annotations.isEmpty)
+    }
+
+    @Test func aCropWithoutACutEdgeStyleKeepsStraightSides() throws {
+        let doc = EditorDocument(image: TestImage.solid(width: 200, height: 120, .white), scale: 2, title: "test")
+        #expect(doc.cropKeepingEdges(to: CGRect(x: 30, y: 20, width: 100, height: 50), edgeStyle: .none))
+        #expect(doc.imageSize == CGSize(width: 100, height: 50))
+        #expect(doc.annotations.isEmpty)
+        // Cutting nothing off makes no edges either.
+        #expect(!doc.cropKeepingEdges(to: CGRect(x: 0, y: 0, width: 100, height: 50), edgeStyle: .torn))
+        #expect(doc.annotations.isEmpty)
+    }
+
+    @Test func theRoomOfCropEdgesIsInPixels() throws {
+        let doc = EditorDocument(image: TestImage.solid(width: 200, height: 120, .white), scale: 2, title: "test")
+        #expect(doc.cropKeepingEdges(to: CGRect(x: 0, y: 0, width: 150, height: 120), edgeStyle: .line))
+        // The default shadow needs 7 + 1 points, 16 pixels at 2 pixels per point, on the right only.
+        #expect(doc.imageSize == CGSize(width: 166, height: 120))
+        let edges = try #require(doc.annotations.first { $0.kind == .tornEdge })
+        #expect(edges.cutEdges?.marginRight == 16)
+        #expect(edges.cutEdges?.right == true)
+        #expect(edges.cutEdges?.left == false)
+        // Without a shadow there is no room to make.
+        let plain = EditorDocument(image: TestImage.solid(width: 200, height: 120, .white), scale: 2, title: "test")
+        #expect(plain.cropKeepingEdges(to: CGRect(x: 0, y: 0, width: 150, height: 120), edgeStyle: .line,
+                                       settings: TornEdgeSettings(shadow: false)))
+        #expect(plain.imageSize == CGSize(width: 150, height: 120))
+        #expect(plain.annotations.first?.cutEdges?.marginRight == 0)
+    }
+
+    @Test func tornEdgesThatWereThereGiveTheCutSidesToTheNewEdges() throws {
+        let doc = EditorDocument(image: TestImage.solid(width: 200, height: 120, .white), scale: 1, title: "test")
+        let torn = element { $0.cutEdges = CutEdgeLayout(marginTop: 3, marginRight: 3, marginBottom: 3, marginLeft: 3) }
+        doc.add(torn)
+        #expect(doc.cropKeepingEdges(to: CGRect(x: 0, y: 0, width: 150, height: 120), edgeStyle: .wave))
+        let old = try #require(doc.annotation(torn.id))
+        let oldLayout = try #require(old.cutEdges)
+        // The right side was cut off: its edge goes, and its room is the room of the new edges' shadow.
+        #expect(!oldLayout.right)
+        #expect(oldLayout.marginRight == 8)
+        #expect(oldLayout.left)
+        #expect(oldLayout.marginLeft == 3)
+        #expect(old.bounds == CGRect(x: 0, y: 0, width: 158, height: 120))
+        let new = try #require(doc.annotations.first { $0.kind == .tornEdge && $0.id != torn.id })
+        #expect(new.cutEdges?.right == true)
+        #expect(new.cutEdges?.top == false)
+        #expect(new.style.cutMarkStyle == .wave)
+    }
+
     @Test func applyingTornEdgesDrawsThemIntoTheImage() throws {
         let doc = EditorDocument(image: TestImage.solid(width: 120, height: 120, .white), scale: 1, title: "test")
         let torn = Annotation.tornEdges(TornEdgeSettings(shadow: false), imageSize: doc.imageSize, margin: 0, seed: 5)

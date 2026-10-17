@@ -852,7 +852,8 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
     }
 
     /// Confirms the crop area (Return, the crop bar's Crop button): crops to it, or in the cut-out modes cuts its
-    /// columns or rows out with the editor window's operations (upstream `Surface.ConfirmCrop`).
+    /// columns or rows out, with the editor window's operations and the crop bar's cut edge style (upstream
+    /// `Surface.ConfirmCrop`).
     func applyCrop() {
         guard let crop = cropRect else { return }
         switch cropMode {
@@ -861,10 +862,14 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         case .horizontal:
             editorWindowController?.cutOutSelectedRows(nil)
         case .crop, .auto:
-            document.change { document.cropKeepingEdges(to: crop) }
-            cropRect = nil
-            tool = .select
-            documentChanged()
+            guard let controller = editorWindowController else {
+                document.change { document.cropKeepingEdges(to: crop) }
+                cropRect = nil
+                tool = .select
+                documentChanged()
+                return
+            }
+            controller.cropToSelection()
         }
     }
 
