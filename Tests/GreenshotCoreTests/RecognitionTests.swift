@@ -22,8 +22,10 @@ struct RecognitionTests {
         return rep.cgImage!
     }
 
-    @Test func recognizesALineAndItsWords() throws {
-        let lines = try TextRecognizer.recognizeLines(in: textImage("Hello Greenshot 2026"))
+    // The Vision tests await the async APIs: the sync ones block a thread of the cooperative pool, and Vision's text
+    // recognition needs one too (with as many tests at once as the pool has threads, they never finish).
+    @Test func recognizesALineAndItsWords() async throws {
+        let lines = try await TextRecognizer.recognizeLines(in: textImage("Hello Greenshot 2026"))
         let line = try #require(lines.first)
         #expect(line.text.contains("Hello"))
         #expect(line.text.contains("2026"))
@@ -37,8 +39,8 @@ struct RecognitionTests {
         #expect(line.words.allSatisfy { line.bounds.insetBy(dx: -12, dy: -12).contains($0.bounds) })
     }
 
-    @Test func recognizeTextJoinsLines() throws {
-        let text = try TextRecognizer.recognizeText(in: textImage("Line one"))
+    @Test func recognizeTextJoinsLines() async throws {
+        let text = try await TextRecognizer.recognizeText(in: textImage("Line one"))
         #expect(text.lowercased().contains("line one"))
     }
 
@@ -54,7 +56,7 @@ struct RecognitionTests {
         #expect(words == ["a", "bc", "d"])
     }
 
-    @Test func detectsAQRCodeAndItsURL() throws {
+    @Test func detectsAQRCodeAndItsURL() async throws {
         let filter = CIFilter(name: "CIQRCodeGenerator")!
         filter.setValue(Data("https://getgreenshot.org/".utf8), forKey: "inputMessage")
         filter.setValue("M", forKey: "inputCorrectionLevel")
@@ -63,7 +65,7 @@ struct RecognitionTests {
         let canvas = CIImage(color: .white).cropped(to: CGRect(x: 0, y: 0, width: 600, height: 400))
         let composed = output.transformed(by: CGAffineTransform(translationX: 300, y: 50)).composited(over: canvas)
         let image = try #require(CIContext().createCGImage(composed, from: canvas.extent))
-        let codes = try BarcodeDetector.detect(in: image)
+        let codes = try await BarcodeDetector.detect(in: image)
         let code = try #require(codes.first)
         #expect(code.payload == "https://getgreenshot.org/")
         #expect(code.url?.host == "getgreenshot.org")

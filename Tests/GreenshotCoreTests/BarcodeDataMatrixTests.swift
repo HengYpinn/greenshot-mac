@@ -74,22 +74,22 @@ struct BarcodeDataMatrixTests {
 
     /// Read back by Vision from the element drawing.
     @Test(arguments: layouts)
-    func visionReadsTheSymbol(_ text: String, _ side: Int) throws {
+    func visionReadsTheSymbol(_ text: String, _ side: Int) async throws {
         let matrix = try BarcodeGenerator.matrix(.dataMatrix, payload: text)
         #expect(matrix.width == side)
         var spec = BarcodeSpec()
         spec.symbology = .dataMatrix
         spec.text = text
         let size = CGSize(width: CGFloat(side + 2) * 8, height: CGFloat(side + 2) * 8)
-        let payloads = try BarcodeElementTests.decoded(spec, as: [.dataMatrix], size: size)
+        let payloads = try await BarcodeElementTests.decoded(spec, as: [.dataMatrix], size: size)
         #expect(payloads == [text], "\(side) × \(side)")
     }
 
-    @Test func otherAlphabetsReadBackThroughTheECI() throws {
+    @Test func otherAlphabetsReadBackThroughTheECI() async throws {
         var spec = BarcodeSpec()
         spec.symbology = .dataMatrix
         spec.text = "日本語テキスト"
-        let payloads = try BarcodeElementTests.decoded(spec, as: [.dataMatrix], size: CGSize(width: 400, height: 400))
+        let payloads = try await BarcodeElementTests.decoded(spec, as: [.dataMatrix], size: CGSize(width: 400, height: 400))
         #expect(payloads == ["日本語テキスト"])
     }
 
@@ -104,12 +104,12 @@ struct BarcodeDataMatrixTests {
         #expect(all[symbol.dataCodewords] == first)
     }
 
-    @Test func roundDotsKeepTheFinderEdgesAndStillRead() throws {
+    @Test func roundDotsKeepTheFinderEdgesAndStillRead() async throws {
         var spec = BarcodeSpec()
         spec.symbology = .dataMatrix
         spec.text = String(repeating: "Greenshot ", count: 4)
         spec.roundedDots = true
-        let payloads = try BarcodeElementTests.decoded(spec, as: [.dataMatrix], size: CGSize(width: 400, height: 400))
+        let payloads = try await BarcodeElementTests.decoded(spec, as: [.dataMatrix], size: CGSize(width: 400, height: 400))
         #expect(payloads == [spec.text])
     }
 }

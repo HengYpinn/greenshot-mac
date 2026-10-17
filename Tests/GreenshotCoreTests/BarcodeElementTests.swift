@@ -26,13 +26,16 @@ struct BarcodeElementTests {
         return AnnotationRenderer.flatten(base: white, annotations: [element], scale: 2)
     }
 
-    /// What Vision reads in the element; on a miss the picture is written to the temporary folder to look at.
-    static func decoded(_ spec: BarcodeSpec, as symbologies: [VNBarcodeSymbology], size: CGSize? = nil) throws -> [String] {
+    /// What Vision reads in the element; on a miss the picture is written to the temporary folder to look at. The
+    /// synchronous request runs off the cooperative pool, like the app's async Vision calls.
+    static func decoded(_ spec: BarcodeSpec, as symbologies: [VNBarcodeSymbology], size: CGSize? = nil) async throws -> [String] {
         let image = try #require(render(spec, size: size))
-        let request = VNDetectBarcodesRequest()
-        request.symbologies = symbologies
-        try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
-        let payloads = (request.results ?? []).compactMap(\.payloadStringValue)
+        let payloads = try await offPool {
+            let request = VNDetectBarcodesRequest()
+            request.symbologies = symbologies
+            try VNImageRequestHandler(cgImage: image, options: [:]).perform([request])
+            return (request.results ?? []).compactMap(\.payloadStringValue)
+        }
         if payloads.isEmpty {
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("barcode-\(spec.symbology.rawValue).png")
             if let destination = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil) {
@@ -93,53 +96,58 @@ struct BarcodeElementTests {
     ]
 
     @Test(arguments: readable)
-    func visionReadsTheElement(_ symbology: GreenshotCore.BarcodeSymbology, _ text: String, _ expected: String) throws {
-        let payloads = try Self.decoded(Self.spec(symbology, text), as: Self.vision(symbology))
+    func visionReadsTheElement(_ symbology: GreenshotCore.BarcodeSymbology, _ text: String, _ expected: String) async throws {
+        let payloads = try await Self.decoded(Self.spec(symbology, text), as: Self.vision(symbology))
         #expect(payloads == [expected], "\(symbology)")
     }
 
-    @Test func visionReadsFullASCII() throws {
-        let code39 = try Self.decoded(Self.spec(.code39, "Hello, world!"), as: [.code39FullASCII])
+    @Test func visionReadsFullASCII() async throws {
+        let code39 = try await Self.decoded(Self.spec(.code39, "Hello, world!"), as: [.code39FullASCII])
         // Vision of macOS 15 turns a full ASCII Code 39 into other text (CI saw "H%,,/\\ 7/2,$…"); newer Vision reads it.
         withKnownIssue("Vision before macOS 26 misreads full ASCII Code 39", isIntermittent: true) {
             #expect(code39 == ["Hello, world!"])
         }
-        let code93 = try Self.decoded(Self.spec(.code93, "Hello, world!"), as: [.code93i])
+        let code93 = try await Self.decoded(Self.spec(.code93, "Hello, world!"), as: [.code93i])
         #expect(code93 == ["Hello, world!"])
     }
 
-    @Test func roundDotsColoursAndMarginsStillRead() throws {
+    @Test func roundDotsColoursAndMarginsStillRead() async throws {
         let rounded = Self.spec(.qrCode, "https://getgreenshot.org") { $0.roundedDots = true }
-        #expect(try Self.decoded(rounded, as: [.qr]) == ["https://getgreenshot.org"])
+        let roundedRead = try await Self.decoded(rounded, as: [.qr])
+        #expect(roundedRead == ["https://getgreenshot.org"])
         let coloured = Self.spec(.qrCode, "colours") {
             $0.foreground = RGBAColor(red: 0, green: 0, blue: 0.5)
             $0.background = .yellow
             $0.margin = 4
         }
-        #expect(try Self.decoded(coloured, as: [.qr]) == ["colours"])
+        let colouredRead = try await Self.decoded(coloured, as: [.qr])
+        #expect(colouredRead == ["colours"])
         let tight = Self.spec(.aztec, "no margin") { $0.margin = 0; $0.roundedDots = true }
-        #expect(try Self.decoded(tight, as: [.aztec]) == ["no margin"])
+        let tightRead = try await Self.decoded(tight, as: [.aztec])
+        #expect(tightRead == ["no margin"])
         let wide = Self.spec(.ean13, "4006381333931") { $0.margin = 10 }
-        #expect(try Self.decoded(wide, as: [.ean13]) == ["4006381333931"])
+        let wideRead = try await Self.decoded(wide, as: [.ean13])
+        #expect(wideRead == ["4006381333931"])
     }
 
     /// Text beyond ASCII: UTF-8 in QR codes, UTF-8 with its ECI in Data Matrix, ISO 8859-1 in Aztec and PDF-417.
     @Test(arguments: [GreenshotCore.BarcodeSymbology.qrCode, .dataMatrix, .aztec, .pdf417])
-    func accentsReadBack(_ symbology: GreenshotCore.BarcodeSymbology) throws {
+    func accentsReadBack(_ symbology: GreenshotCore.BarcodeSymbology) async throws {
         let spec = Self.spec(symbology, "Grüße, café")
-        let payloads = try Self.decoded(spec, as: Self.vision(symbology), size: CGSize(width: 400, height: 400))
+        let payloads = try await Self.decoded(spec, as: Self.vision(symbology), size: CGSize(width: 400, height: 400))
         #expect(payloads == ["Grüße, café"], "\(symbology)")
         #expect(spec.characterSetWarning == nil)
         let japanese = Self.spec(symbology, "日本語")
         #expect((japanese.characterSetWarning != nil) == (symbology == .aztec || symbology == .pdf417))
     }
 
-    @Test func aWifiCodeReadsAsItsPayload() throws {
+    @Test func aWifiCodeReadsAsItsPayload() async throws {
         var wifi = Self.spec(.qrCode, "")
         wifi.qrType = .wifi
         wifi.wifiSSID = "Home"
         wifi.wifiPassword = "secret"
-        #expect(try Self.decoded(wifi, as: [.qr]) == ["WIFI:S:Home;T:WPA;P:secret;;"])
+        let payloads = try await Self.decoded(wifi, as: [.qr])
+        #expect(payloads == ["WIFI:S:Home;T:WPA;P:secret;;"])
     }
 
     // MARK: Core Image
