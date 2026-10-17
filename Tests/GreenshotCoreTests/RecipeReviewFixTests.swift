@@ -174,6 +174,34 @@ import Testing
         #expect(fixture.box.settings.unloadedRecipes.isEmpty)
     }
 
+    /// Save As of a loaded recipe to another file moves it: after a reload only the new file carries its id.
+    @Test func savingToAnotherFileMovesTheRecipe() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let two = try twoRecipeFile(fixture)
+        _ = await fixture.library.importFile(two)
+        let moved = fixture.folder.appendingPathComponent("moved.gsrecipe.json")
+        var recipeA = try #require(fixture.library.recipe(id: "recipe_a")).recipe
+        recipeA.name = "Moved A"
+        _ = await fixture.library.save(recipeA, to: moved)
+        #expect(fixture.box.settings.files.count == 2)
+        #expect(fixture.box.settings.unloadedRecipes.values.map { $0 } == [["recipe_a"]])
+        // The old file loads last: it must not bring its copy of the recipe back.
+        fixture.box.settings.files.reverse()
+        _ = await fixture.library.reload()
+        let loadedA = try #require(fixture.library.recipe(id: "recipe_a"))
+        #expect(loadedA.recipe.name == "Moved A")
+        #expect(loadedA.fileURL?.lastPathComponent == "moved.gsrecipe.json")
+        #expect(fixture.library.recipe(id: "recipe_b")?.fileURL?.lastPathComponent == "two.gsrecipe.json")
+        #expect(fixture.library.recipes.filter { $0.recipe.id == "recipe_a" }.count == 1)
+
+        // A file that held only that recipe leaves the settings.
+        let again = fixture.folder.appendingPathComponent("again.gsrecipe.json")
+        _ = await fixture.library.save(loadedA.recipe, to: again)
+        let files = fixture.box.settings.files.map { URL(fileURLWithPath: $0).lastPathComponent }.sorted()
+        #expect(files == ["again.gsrecipe.json", "two.gsrecipe.json"])
+    }
+
     @Test func resetToTheBuiltInSticks() async throws {
         var builtIn = libraryRecipe(id: "recipe_a")
         builtIn.name = "Built-in A"

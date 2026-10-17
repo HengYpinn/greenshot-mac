@@ -516,6 +516,11 @@ public final class RecipeLibrary {
         }
         askedForChangedFile[path.lowercased()] = hash
         monitor?.watch(fileURL)
+        // Saved to another file (Save As): the recipe moves there. The old file keeps its other recipes, without this one
+        // after a reload too, or leaves the settings when it held only this one.
+        if let previous = fileRecipes[recipe.id.lowercased()]?.fileURL, !recipeEquals(previous.path, path) {
+            removeFileRecipe(recipe.id)
+        }
         // Without an approval (an invalid recipe, saved as work in progress) none of its triggers is active.
         register(LoadedRecipe(recipe: recipe, source: .file(fileURL), replacesBuiltIn: builtIns[recipe.id.lowercased()] != nil,
                               approval: approval, validation: validation))
