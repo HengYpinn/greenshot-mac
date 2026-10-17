@@ -16,12 +16,9 @@ extension CanvasView {
         commitEditing()
         let sheet = BarcodeSheet(spec: a.barcode ?? BarcodeSpec(), editing: true)
         sheet.onApply = { [weak self] spec in
-            guard let self, var element = self.document.annotation(a.id) else { return }
-            let box = spec.editedBox(from: element.bounds, old: element.barcode, scale: self.document.scale)
-            element.barcode = spec
-            element.start = box.origin
-            element.end = CGPoint(x: box.maxX, y: box.maxY)
-            self.document.change { self.document.update(element) }
+            guard let self, let element = self.document.annotation(a.id) else { return }
+            let edited = element.withEditedBarcode(spec, scale: self.document.scale)
+            self.document.change { self.document.update(edited) }
             self.documentChanged()
             log.info("Changed a barcode element to \(spec.symbology.rawValue)")
         }

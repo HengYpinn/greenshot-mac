@@ -78,8 +78,15 @@ extension Annotation {
 
     /// The size of an image or pointer element's picture at its own pixels per point (from its resolution), or of an
     /// SVG at its own size, on an image with `documentScale` pixels per point (upstream `ImageContainer.DefaultSize`,
-    /// `SvgContainer.DefaultSize`, `CursorContainer.DefaultSize`).
+    /// `SvgContainer.DefaultSize`, `CursorContainer.DefaultSize`). A picture or SVG lying on its side (`rotation` a
+    /// quarter or three quarters) gets the size with width and height swapped, so it isn't squeezed; upstream's
+    /// `DefaultSize` ignores the turn (a Mac improvement).
     public func defaultSize(documentScale: CGFloat) -> CGSize? {
+        guard let size = unturnedDefaultSize(documentScale: documentScale) else { return nil }
+        return isQuarterTurned ? CGSize(width: size.height, height: size.width) : size
+    }
+
+    private func unturnedDefaultSize(documentScale: CGFloat) -> CGSize? {
         if kind == .svg {
             guard let data = imageData, let size = ElementSvg.size(of: data) else { return nil }
             return CGSize(width: size.width * documentScale, height: size.height * documentScale)

@@ -10,7 +10,9 @@ import Foundation
 /// way upstream's `LegacyToDocument` maps them (branch commit 7165e4ad) and with the defaults of the containers'
 /// `InitializeFields`. Positions are image pixels on both sides; sizes stored in pixels (line thickness, pixel size,
 /// blur radius, teeth, font size: upstream's fonts are `GraphicsUnit.Pixel`) become points of the image's scale.
-/// Not kept: the rotation of emoji, SVG and metafile elements, and anything of an element type that isn't known here.
+/// The turn of emoji, SVG and metafile elements (`_rotationAngle`) is kept as `rotation`. Not kept: anything of an
+/// element type that isn't known here, and the turn of a barcode, which upstream bakes into its picture while this
+/// editor draws the code again from what it shows (a turned barcode comes in upright).
 /// A barcode becomes a barcode element when the file says what it shows (its `ZxingModel`), else a picture.
 enum GreenshotLegacyImport {
     struct Result {
@@ -82,9 +84,10 @@ enum GreenshotLegacyImport {
             annotation.points = moved
             annotation.start = first
             annotation.end = last
-        case .picture(let data, _):
+        case .picture(let data, let rotation):
             guard let png = pngData(data) else { return nil }
             annotation.imageData = png
+            annotation.rotation = turn(rotation)
         case .barcode(let data, let model, let margin):
             if let model {
                 annotation.barcode = barcodeSpec(model, margin: margin)
@@ -92,12 +95,14 @@ enum GreenshotLegacyImport {
                 guard let png = pngData(data) else { return nil }
                 annotation.imageData = png
             }
-        case .svg(let data, _):
+        case .svg(let data, let rotation):
             guard let data, !data.isEmpty else { return nil }
             annotation.imageData = data
-        case .emoji(let emoji, _):
+            annotation.rotation = turn(rotation)
+        case .emoji(let emoji, let rotation):
             guard !emoji.isEmpty else { return nil }
             annotation.text = emoji
+            annotation.rotation = turn(rotation)
         case .cursor(let data):
             guard let png = pngData(data) else { return nil }
             annotation.imageData = png
@@ -118,6 +123,15 @@ enum GreenshotLegacyImport {
             annotation.cutEdges = layout
         }
         return annotation
+    }
+
+    /// Upstream's `_rotationAngle` (`VectorGraphicsContainer.RotationAngle`) as `Annotation.rotation`. Upstream adds
+    /// `DrawableContainer.CalculateAngle` of the Rotate's matrix: +90 for clockwise (`RotateEffect(90)` →
+    /// `Matrix.Rotate(90)`, whose M21 is -1, and `-atan2(M21, M11)`), -90 for counter-clockwise; C#'s `%` keeps the sign,
+    /// so -90 and -270 occur. Positive is clockwise on screen (GDI+ is y-down), like `rotation`. Unverified against a
+    /// file saved by Greenshot for Windows after a Rotate: this follows upstream's code.
+    static func turn(_ rotationAngle: Int) -> Int? {
+        Annotation.normalizedRotation(rotationAngle)
     }
 
     /// The kind of an element: a barcode that says what it shows is a barcode element, one that doesn't a picture.

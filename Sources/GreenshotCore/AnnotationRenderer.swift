@@ -237,13 +237,46 @@ public enum AnnotationRenderer {
                           color: CGColor(gray: 0, alpha: CGFloat(min(max(layout.shadowDarkness, 0), 1))))
     }
 
-    /// Upstream `ImageContainer.Draw`: the picture stretched into the box, with an optional shadow.
+    /// Upstream `ImageContainer.Draw`: the picture stretched into the box, turned like the element (`rotation`), with an
+    /// optional shadow.
     static func drawPicture(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         let box = a.bounds
         guard box.width > 0, box.height > 0, let picture = picture(of: a) else { return }
         withShadow(a.style.shadow, in: context, scale: scale) {
             context.interpolationQuality = .high
-            drawUpright(picture, in: box, context: context)
+            withContentRotation(a, in: context) { content in
+                drawUpright(picture, in: content, context: context)
+            }
+        }
+    }
+
+    /// Runs `draw` with the element's content box (`Annotation.contentBounds`) and the context turned about the box's
+    /// centre by the element's `rotation`, so what `draw` puts into the box comes out turned into `bounds`. The context
+    /// is y-down, so a positive quarter turn is clockwise on screen, like upstream's `Graphics.RotateTransform`. Exact
+    /// quarter turns keep a box with whole-pixel edges on whole pixels. Upstream turns a bitmap of the turned box's size
+    /// (`ImageHelper.Rotate`), which squeezes and clips; drawing at the unturned size keeps the content whole and sharp.
+    static func withContentRotation(_ a: Annotation, in context: CGContext, _ draw: (CGRect) -> Void) {
+        let turns = a.contentQuarterTurns
+        guard turns != 0 else {
+            draw(a.bounds)
+            return
+        }
+        let box = a.bounds
+        context.saveGState()
+        context.translateBy(x: box.midX, y: box.midY)
+        context.concatenate(quarterTurn(turns))
+        context.translateBy(x: -box.midX, y: -box.midY)
+        draw(a.contentBounds)
+        context.restoreGState()
+    }
+
+    /// `turns` clockwise quarter turns (in a y-down space) as an exact matrix.
+    static func quarterTurn(_ turns: Int) -> CGAffineTransform {
+        switch (turns % 4 + 4) % 4 {
+        case 1: return CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 0, ty: 0)
+        case 2: return CGAffineTransform(a: -1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+        case 3: return CGAffineTransform(a: 0, b: -1, c: 1, d: 0, tx: 0, ty: 0)
+        default: return .identity
         }
     }
 
@@ -473,7 +506,7 @@ public enum AnnotationRenderer {
     }
 
     /// The emoji, as big as fits in the element's square (upstream `EmojiRenderer`, which uses the Twemoji font;
-    /// here it is the system's Apple Color Emoji).
+    /// here it is the system's Apple Color Emoji), turned like the element (upstream `EmojiContainer.ComputeBitmap`).
     static func drawEmoji(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         let box = a.bounds
         let side = min(box.width, box.height)
@@ -483,7 +516,9 @@ public enum AnnotationRenderer {
         let glyph = NSAttributedString(string: a.text, attributes: [.font: font])
         let size = glyph.size()
         withShadow(a.style.shadow, in: context, scale: scale) {
-            glyph.draw(at: CGPoint(x: box.midX - size.width / 2, y: box.midY - size.height / 2))
+            withContentRotation(a, in: context) { content in
+                glyph.draw(at: CGPoint(x: content.midX - size.width / 2, y: content.midY - size.height / 2))
+            }
         }
     }
 

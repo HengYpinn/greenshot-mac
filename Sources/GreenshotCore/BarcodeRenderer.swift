@@ -87,6 +87,20 @@ extension BarcodeSpec {
 }
 
 extension Annotation {
+    /// This barcode element showing `spec` instead (the dialog's Apply): its top left stays, its box is
+    /// `BarcodeSpec.editedBox` of the code's unturned box, turned back when the code lies on its side (`rotation`), so a
+    /// switch between a bar code and a matrix code keeps the turn without squeezing the code.
+    public func withEditedBarcode(_ spec: BarcodeSpec, scale: CGFloat) -> Annotation {
+        let box = bounds
+        let content = spec.editedBox(from: contentBounds, old: barcode, scale: scale)
+        let size = isQuarterTurned ? CGSize(width: content.height, height: content.width) : content.size
+        var edited = self
+        edited.barcode = spec
+        edited.start = box.origin
+        edited.end = CGPoint(x: box.minX + size.width, y: box.minY + size.height)
+        return edited
+    }
+
     /// A new barcode element showing `spec`, its top left at `origin`, at its default size on an image with `scale`
     /// pixels per point, made smaller to fit in `limit` (image pixels).
     public static func barcodeElement(_ spec: BarcodeSpec, at origin: CGPoint, scale: CGFloat, fitting limit: CGSize? = nil) -> Annotation {
@@ -119,12 +133,15 @@ extension Annotation {
 extension AnnotationRenderer {
     /// Draws a barcode element from its spec, at its bounds (upstream `BarcodeContainer.Draw`, which re-renders its
     /// bitmap at the new size; here the modules are drawn as shapes, so they stay sharp at any size).
+    /// The code is turned like the element (`rotation`; upstream's `ImageContainer.Transform` turns its bitmap).
     static func drawBarcode(_ a: Annotation, in context: CGContext, scale: CGFloat) {
         guard let spec = a.barcode else { return }
         let box = a.bounds
         guard box.width >= 1, box.height >= 1 else { return }
         withShadow(a.style.shadow, in: context, scale: scale) {
-            drawBarcode(spec, in: box, context: context, lineWidth: scale)
+            withContentRotation(a, in: context) { content in
+                drawBarcode(spec, in: content, context: context, lineWidth: scale)
+            }
         }
     }
 

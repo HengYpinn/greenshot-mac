@@ -35,6 +35,16 @@ public enum AnnotationKind: String, Codable, CaseIterable, Sendable {
     public var hasEditableText: Bool {
         self == .text || self == .speechBubble
     }
+
+    /// Elements whose content turns when the image is rotated (`Annotation.rotation`): upstream's
+    /// `VectorGraphicsContainer` (SVG, emoji) and `ImageContainer` (pictures; the barcode element is one). The pointer
+    /// stays upright, like upstream's `CursorContainer`; text never turns.
+    public var turnsContentWithImage: Bool {
+        switch self {
+        case .svg, .emoji, .image, .barcode: return true
+        default: return false
+        }
+    }
 }
 
 /// Upstream `PreparedFilter` values of the highlight container.
@@ -259,6 +269,10 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     public var cutEdges: CutEdgeLayout?
     /// What a barcode element shows (upstream `BarcodeContainer.Model`, the `ZxingModel` in its `Tag`); nil for other kinds.
     public var barcode: BarcodeSpec?
+    /// Clockwise quarter turns of the content of a picture, SVG, emoji or barcode element, in degrees (0, 90, 180, 270;
+    /// nil is 0). The image's Rotate turns it along (upstream `VectorGraphicsContainer.RotationAngle`,
+    /// `ImageContainer.Transform`). `bounds` is the turned box; `contentBounds` the box the content is drawn into.
+    public var rotation: Int?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
@@ -283,6 +297,31 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
             return points.dropFirst().reduce(CGRect(origin: first, size: .zero)) { $0.union(CGRect(origin: $1, size: .zero)) }
         }
         return Geometry.rect(from: start, to: end)
+    }
+
+    /// The turn of the content as clockwise quarter turns, 0–3: `rotation` to the nearest quarter (a file can hold any
+    /// number of degrees).
+    public var contentQuarterTurns: Int {
+        Annotation.normalizedRotation(rotation ?? 0).map { $0 / 90 } ?? 0
+    }
+
+    /// Whether the content lies on its side (a quarter or three quarters turned): its box has width and height swapped.
+    public var isQuarterTurned: Bool { contentQuarterTurns % 2 == 1 }
+
+    /// The box the content is drawn into before it is turned: `bounds`, with width and height swapped when the content
+    /// lies on its side, around the same centre.
+    public var contentBounds: CGRect {
+        let box = bounds
+        guard isQuarterTurned else { return box }
+        return CGRect(x: box.midX - box.height / 2, y: box.midY - box.width / 2, width: box.height, height: box.width)
+    }
+
+    /// `degrees` as a clockwise quarter turn: 90, 180 or 270, rounded to the nearest quarter; nil for no turn. Negative
+    /// angles count backwards (upstream keeps -90 after a counter-clockwise Rotate: C#'s `%` keeps the sign).
+    public static func normalizedRotation(_ degrees: Int) -> Int? {
+        let positive = (degrees % 360 + 360) % 360
+        let quarter = (positive + 45) / 90 % 4 * 90
+        return quarter == 0 ? nil : quarter
     }
 
     /// A copy that is a new element: pasted, duplicated or loaded elements must never share the id of another one.

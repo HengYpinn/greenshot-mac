@@ -187,13 +187,17 @@ extension EditorDocument {
     }
 
     /// Turns the image by a quarter; the elements turn along (their text stays upright, a cut mark across the rows
-    /// becomes one across the columns and the other way round).
+    /// becomes one across the columns and the other way round). The content of pictures, SVGs, emoji and barcodes turns
+    /// too (upstream `VectorGraphicsContainer.Transform`, `ImageContainer.Transform`); the pointer stays upright.
     @discardableResult
     public func rotateImage(clockwise: Bool) -> Bool {
         let size = imageSize
         guard let image = ImageOperations.rotate(baseImage, clockwise: clockwise) else { return false }
         return replaceImage(with: image) { annotation in
             var turned = ImageOperations.mapPositions(of: annotation) { ImageOperations.rotated($0, imageSize: size, clockwise: clockwise) }
+            if turned.kind.turnsContentWithImage {
+                turned.rotation = Annotation.normalizedRotation(annotation.contentQuarterTurns * 90 + (clockwise ? 90 : 270))
+            }
             if turned.kind == .cutMark { turned.verticalCut = !turned.isVerticalCutMark }
             // Torn sides and their room turn with the image.
             if turned.kind == .tornEdge { turned.cutEdges = (turned.cutEdges ?? CutEdgeLayout()).rotated(clockwise: clockwise) }

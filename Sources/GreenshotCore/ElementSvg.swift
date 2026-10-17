@@ -188,11 +188,16 @@ extension Annotation {
 
 extension AnnotationRenderer {
     /// Upstream `VectorGraphicsContainer.Draw`: the SVG drawn at the size of the element's box, so it is sharp at
-    /// every size (upstream `SvgContainer.ComputeBitmap` draws it at `Width` × `Height`).
+    /// every size (upstream `SvgContainer.ComputeBitmap` draws it at `Width` × `Height`), turned like the element
+    /// (`RotationAngle`). A turned SVG is drawn at its unturned size, so the cached picture of the size before the turn
+    /// is used again.
     static func drawSvg(_ a: Annotation, in context: CGContext, scale: CGFloat) {
-        let box = a.bounds
-        guard box.width >= 1, box.height >= 1, let picture = ElementSvg.picture(of: a, pixelSize: box.size) else { return }
+        let content = a.contentBounds
+        guard content.width >= 1, content.height >= 1,
+              let picture = ElementSvg.picture(of: a, pixelSize: content.size) else { return }
         context.interpolationQuality = .high
-        drawUpright(picture, in: box, context: context)
+        withContentRotation(a, in: context) { box in
+            drawUpright(picture, in: box, context: context)
+        }
     }
 }
