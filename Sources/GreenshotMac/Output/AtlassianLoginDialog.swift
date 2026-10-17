@@ -134,12 +134,6 @@ enum AtlassianSignIn {
         }
         sessionPasswords[key(service, site)] = site.secret
     }
-
-    /// Forgets the session's passwords and checks, e.g. after the settings of a site changed.
-    static func reset() {
-        sessionPasswords.removeAll()
-        verified.removeAll()
-    }
 }
 
 /// "Please enter your Jira login data" (upstream `login_title`): user name, password and "Remember in Keychain", with
