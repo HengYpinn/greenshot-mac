@@ -19,6 +19,8 @@ extension Snapshots {
                   to: folder.appendingPathComponent("canvas-torn-edge-wave-fill.png"))
         try write(canvasCutMarkApplied(sample: sample, settings: settings), to: folder.appendingPathComponent("canvas-cut-mark-applied.png"))
         try write(canvasCropEdges(sample: sample, settings: settings), to: folder.appendingPathComponent("canvas-crop-cut-edges.png"))
+        try write(canvasSharedCutShadow(sample: sample, settings: settings),
+                  to: folder.appendingPathComponent("canvas-cut-shadow-shared.png"))
         let cutEdgeSettings = TornEdgeSettingsForm(TornEdgeSettings(), showEdges: false)
         keepAlive.append(cutEdgeSettings)
         try write(form(cutEdgeSettings.view), to: folder.appendingPathComponent("canvas-cut-edge-settings.png"))
@@ -68,6 +70,22 @@ extension Snapshots {
             controller.cropToSelection()
             controller.settings.update { $0.cutOutMarkStyle = previous }
         }
+    }
+
+    /// Torn edges with a cut out across them and another one down: the cut marks and torn edges cast one shadow
+    /// together (upstream `CutShadow`), so the gaps don't shadow each other and the overlaps are not darker.
+    private static func canvasSharedCutShadow(sample: CGImage, settings: SettingsStore) -> NSBitmapImageRep? {
+        let doc = EditorDocument(image: sample, scale: 2, title: "Snapshot")
+        var torn = TornEdgeSettings(toothHeight: 16, shadowSize: 12, backgroundColor: RGBAColor(red: 0.85, green: 0.92, blue: 1))
+        torn.shadowDarkness = 0.8
+        doc.addTornEdges(torn, seed: 2026)
+        var mark = AnnotationStyle.defaults(for: .cutMark)
+        mark.fillColor = RGBAColor(red: 0.85, green: 0.92, blue: 1)
+        doc.cutOut(CGRect(x: 0, y: 500, width: doc.imageSize.width, height: 200), horizontal: true, cutMark: .zigZag,
+                   markStyle: mark)
+        doc.cutOut(CGRect(x: 700, y: 0, width: 160, height: doc.imageSize.height), horizontal: false, cutMark: .wave,
+                   markStyle: mark)
+        return editorWindow(doc, settings: settings) { $0.canvas.tool = .select }
     }
 
     /// A cut mark after Apply to the Image: the gap is in the pixels (transparent), the element is gone.

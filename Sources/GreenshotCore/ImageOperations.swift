@@ -313,8 +313,10 @@ extension EditorDocument {
     @discardableResult
     public func applyToImage(_ ids: Set<UUID>) -> Bool {
         let elements = annotations(ids).filter { AnnotationKind.cutEdgeKinds.contains($0.kind) }
+        // The shadow is shared with the cuts that stay elements, like upstream draws the element on its surface.
         guard !elements.isEmpty,
-              let image = AnnotationRenderer.flatten(base: baseImage, annotations: elements, scale: scale) else { return false }
+              let image = AnnotationRenderer.flatten(base: baseImage, annotations: elements, scale: scale,
+                                                     cutElements: annotations) else { return false }
         remove(Set(elements.map(\.id)))
         return replaceImage(with: image)
     }
