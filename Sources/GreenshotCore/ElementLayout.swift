@@ -114,6 +114,10 @@ extension EditorDocument {
         dock(ids, to: width ? .left : .top)
     }
 
+    /// The longest side Expand capture and move outside makes, pixels: TGA's limit, beyond a capture of several
+    /// Retina displays side by side.
+    static let maxPushOutSide: CGFloat = 65535
+
     /// Upstream's Expand capture and move outside (`DrawableContainerList.PushOut`): the canvas grows on `edge` by the
     /// element's width or height (transparent, upstream `ResizeCanvasEffect`), and the element moves into the new
     /// strip. False when the element has no size in that direction.
@@ -122,14 +126,19 @@ extension EditorDocument {
         // Torn edges always cover the whole image.
         guard let element = annotation(id), element.kind != .tornEdge else { return false }
         let box = element.bounds
-        let width = Int(box.width.rounded(.up))
-        let height = Int(box.height.rounded(.up))
+        // An element from a file can be far bigger than any image (up to `Annotation.maxCoordinate`): the canvas grows
+        // by a finite size only, and to at most `maxPushOutSide` pixels.
+        let horizontal = edge == .left || edge == .right
+        let growth = horizontal ? box.width : box.height
+        let side = horizontal ? imageSize.width : imageSize.height
+        guard growth.isFinite, side + growth <= Self.maxPushOutSide else { return false }
+        let amount = Int(growth.rounded(.up))
         let grown: Bool
         switch edge {
-        case .left: grown = width > 0 && resizeCanvas(left: width, right: 0, top: 0, bottom: 0)
-        case .right: grown = width > 0 && resizeCanvas(left: 0, right: width, top: 0, bottom: 0)
-        case .top: grown = height > 0 && resizeCanvas(left: 0, right: 0, top: height, bottom: 0)
-        case .bottom: grown = height > 0 && resizeCanvas(left: 0, right: 0, top: 0, bottom: height)
+        case .left: grown = amount > 0 && resizeCanvas(left: amount, right: 0, top: 0, bottom: 0)
+        case .right: grown = amount > 0 && resizeCanvas(left: 0, right: amount, top: 0, bottom: 0)
+        case .top: grown = amount > 0 && resizeCanvas(left: 0, right: 0, top: amount, bottom: 0)
+        case .bottom: grown = amount > 0 && resizeCanvas(left: 0, right: 0, top: 0, bottom: amount)
         }
         guard grown, let moved = annotation(id) else { return false }
         update(moved.docked(to: edge, imageSize: imageSize))

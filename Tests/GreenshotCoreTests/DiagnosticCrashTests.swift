@@ -172,6 +172,15 @@ struct DiagnosticCrashTests {
         #expect(old == .endedAbnormally(marker))
     }
 
+    @Test func aReportWithAProcessIDBeyondInt32IsNoMatch() throws {
+        var report = try #require(CrashReportFile.parse(Self.ips, fileName: "a.ips"))
+        report.captureTime = launched.addingTimeInterval(120)
+        report.pid = Int(Int32.max) + 1
+        let result = PreviousRun.evaluate(marker: marker, currentPID: 1, isRunning: { _ in false }, exceptionNote: nil,
+                                          reports: [report])
+        #expect(result == .endedAbnormally(marker))
+    }
+
     @Test func theExceptionNoteComesFirst() {
         let note = CrashDetails(kind: .uncaughtException, type: "NSInvalidArgumentException", message: "unrecognized selector",
                                 frames: [], date: launched.addingTimeInterval(30))

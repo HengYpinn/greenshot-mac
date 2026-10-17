@@ -5,6 +5,7 @@
 import AppKit
 import CoreServices
 import GreenshotCore
+import os
 
 private let log = Log("AppleScript")
 
@@ -73,10 +74,11 @@ enum AppleScriptRunner {
         try process.run()
         input.fileHandleForWriting.write(Data(call.source.utf8))
         try? input.fileHandleForWriting.close()
-        var timedOut = false
+        // Set on a queue of the timer, read here: a lock keeps it safe.
+        let timedOut = OSAllocatedUnfairLock(initialState: false)
         let timer = DispatchWorkItem {
             if process.isRunning {
-                timedOut = true
+                timedOut.withLock { $0 = true }
                 process.terminate()
             }
         }
@@ -94,7 +96,9 @@ enum AppleScriptRunner {
         process.waitUntilExit()
         timer.cancel()
         if box.cancelled { throw CancellationError() }
-        if timedOut { throw AppleScriptFailure(number: -1712, message: "The script took longer than \(Int(timeout)) seconds.") }
+        if timedOut.withLock({ $0 }) {
+            throw AppleScriptFailure(number: -1712, message: "The script took longer than \(Int(timeout)) seconds.")
+        }
         guard process.terminationStatus == 0 else {
             let failure = AppleScriptFailure.parse(String(decoding: errData, as: UTF8.self))
             log.warn("A script for \(call.bundleID) failed: \(failure.message) (\(failure.number.map(String.init) ?? "no number"))")

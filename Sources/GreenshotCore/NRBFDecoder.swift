@@ -112,6 +112,10 @@ struct NRBFDecoder {
     static let maxDepth = 64
     /// The longest array or member list read (Greenshot's lists have a few dozen entries).
     static let maxCount = 1 << 22
+    /// The most values (array items, members, member names) one stream may make, in all. Null records stand for many
+    /// items and a class layout is used again by 9-byte records, so the bytes of the stream are no limit; Greenshot's
+    /// files have a few thousand at most (a freehand line of 10,000 points: about 30,000).
+    static let maxValues = 2_000_000
 
     private let bytes: [UInt8]
     private var position = 0
@@ -120,6 +124,8 @@ struct NRBFDecoder {
     private var layouts: [Int32: ClassLayout] = [:]
     private var records = 0
     private var depth = 0
+    /// The values made so far, see `maxValues`.
+    private var madeValues = 0
 
     private struct ClassLayout {
         var name: String
@@ -172,9 +178,23 @@ struct NRBFDecoder {
 
     /// Reads one record (and the BinaryLibrary records in front of it).
     private mutating func item() throws -> Item {
-        records += 1
-        guard records <= Self.maxRecords else { throw NRBFError.tooManyRecords }
-        let type = try byte()
+        // A loop, not a recursion, for the BinaryLibrary records: a stream of thousands of them in a row must not use up
+        // the stack. Each counts as a record.
+        while true {
+            records += 1
+            guard records <= Self.maxRecords else { throw NRBFError.tooManyRecords }
+            let type = try byte()
+            if type == 12 { // BinaryLibrary: its id and name, then the record it comes with
+                _ = try int32()
+                _ = try string()
+                continue
+            }
+            return try record(type)
+        }
+    }
+
+    /// The record of `type` (not a BinaryLibrary), its type byte read.
+    private mutating func record(_ type: UInt8) throws -> Item {
         switch type {
         case 1: // ClassWithId
             let id = try int32()
@@ -207,10 +227,6 @@ struct NRBFDecoder {
             return .nulls(1)
         case 11: // MessageEnd
             return .end
-        case 12: // BinaryLibrary
-            _ = try int32()
-            _ = try string()
-            return try item()
         case 13: // ObjectNullMultiple256
             return .nulls(Int(try byte()))
         case 14: // ObjectNullMultiple
@@ -218,8 +234,8 @@ struct NRBFDecoder {
         case 15: // ArraySinglePrimitive
             let id = try int32()
             let length = try count()
-            let primitiveType = try byte()
-            objects[id] = try primitiveArray(primitiveType, length: length)
+            let elementType = try primitiveType()
+            objects[id] = try primitiveArray(elementType, length: length)
             return .value(.object(id))
         case 16, 17: // ArraySingleObject, ArraySingleString
             let id = try int32()
@@ -236,6 +252,7 @@ struct NRBFDecoder {
         let id = try int32()
         let name = try string()
         let memberCount = try count()
+        try make(memberCount)
         var names: [String] = []
         for _ in 0..<memberCount { names.append(try string()) }
         var types: [MemberType]?
@@ -253,7 +270,7 @@ struct NRBFDecoder {
     /// A BinaryTypeEnumeration with its AdditionalInfo.
     private mutating func memberType(_ binaryType: UInt8) throws -> MemberType {
         switch binaryType {
-        case 0: return .primitive(try byte())
+        case 0: return .primitive(try primitiveType())
         case 1, 2, 5, 6: return .record
         case 3: // SystemClass: its name
             _ = try string()
@@ -262,7 +279,7 @@ struct NRBFDecoder {
             _ = try string()
             _ = try int32()
             return .record
-        case 7: return .primitiveArray(try byte())
+        case 7: return .primitiveArray(try primitiveType())
         default: throw NRBFError.unsupportedType(binaryType)
         }
     }
@@ -271,6 +288,8 @@ struct NRBFDecoder {
         depth += 1
         defer { depth -= 1 }
         guard depth <= Self.maxDepth else { throw NRBFError.tooDeep }
+        // A layout is used again by 9-byte ClassWithId records: every instance counts its members.
+        try make(layout.memberNames.count)
         var values: [NRBFValue] = []
         values.reserveCapacity(layout.memberNames.count)
         for index in layout.memberNames.indices {
@@ -298,6 +317,8 @@ struct NRBFDecoder {
         depth += 1
         defer { depth -= 1 }
         guard depth <= Self.maxDepth else { throw NRBFError.tooDeep }
+        // Counted before they are read: one ObjectNullMultiple record of 5 bytes fills the whole array.
+        try make(length)
         var values: [NRBFValue] = []
         values.reserveCapacity(min(length, 4096))
         while values.count < length {
@@ -331,13 +352,15 @@ struct NRBFDecoder {
     }
 
     private mutating func primitiveArray(_ type: UInt8, length: Int) throws -> NRBFObject {
-        if type == 2 { // Byte: pictures
+        if type == 2 { // Byte: pictures, as many bytes as the stream has
             return .bytes(Data(try take(length)))
         }
-        // Every primitive takes at least one byte.
+        // Every primitive type read takes at least one byte (Null, 17, which takes none, is refused by
+        // `primitiveType()` and `primitive(_:)`), so a longer array than the bytes left is cut off.
         guard length <= bytes.count - position else { throw NRBFError.truncated }
+        try make(length)
         var values: [NRBFValue] = []
-        values.reserveCapacity(length)
+        values.reserveCapacity(min(length, 4096))
         for _ in 0..<length { values.append(try primitive(type)) }
         return .array(values)
     }
@@ -360,10 +383,24 @@ struct NRBFDecoder {
         case 14: return .uint(try littleEndian(2))
         case 15: return .uint(try littleEndian(4))
         case 16: return .uint(try uint64())
-        case 17: return .null
+        // 17 (Null) is refused: it takes no bytes, so arrays and layouts of it would make values from nothing.
+        // BinaryFormatter writes null members as ObjectNull records.
         case 18: return .string(try string())
         default: throw NRBFError.unsupportedType(type)
         }
+    }
+
+    /// A PrimitiveTypeEnumeration of a member or an array: any but Null (17), see `primitive(_:)`.
+    private mutating func primitiveType() throws -> UInt8 {
+        let type = try byte()
+        guard type != 17 else { throw NRBFError.unsupportedType(type) }
+        return type
+    }
+
+    /// Counts `count` more values against `maxValues`.
+    private mutating func make(_ count: Int) throws {
+        madeValues += count
+        guard madeValues <= Self.maxValues else { throw NRBFError.tooManyRecords }
     }
 
     private mutating func byte() throws -> UInt8 {

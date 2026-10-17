@@ -11,7 +11,8 @@ private let log = Log("Uploads")
 /// What the upload destinations share: the network, the Keychain, the encoded file and how an upload runs.
 @MainActor
 enum Uploads {
-    /// The certificate exceptions of Settings › Destinations › Your own servers (upstream `NetworkHelper`).
+    /// The certificate exceptions of Settings › Destinations › Your own servers (upstream `NetworkHelper`), which the
+    /// policy applies to the Jira and Confluence servers only: Box, Dropbox and the rest get the system's check alone.
     static let trust = TLSExceptionSessionDelegate()
     static let http: HTTPClient = URLSession(configuration: .default, delegate: trust, delegateQueue: nil)
     static let secrets: SecretStore = KeychainSecretStore.shared
@@ -21,10 +22,12 @@ enum Uploads {
         trust.update(TLSExceptionPolicy(settings: settings))
     }
 
-    /// A certificate error with the server's fingerprint and where to allow it; other errors as they are.
+    /// A certificate error of a Jira or Confluence server with the server's fingerprint and where to allow it; other
+    /// errors as they are.
     static func explained(_ error: Error) -> Error {
         guard UntrustedCertificateError.isCertificateError(error), let url = error as? URLError,
-              let host = url.failingURL?.host ?? (url.userInfo[NSURLErrorFailingURLStringErrorKey] as? String).flatMap({ URL(string: $0)?.host })
+              let host = url.failingURL?.host ?? (url.userInfo[NSURLErrorFailingURLStringErrorKey] as? String).flatMap({ URL(string: $0)?.host }),
+              trust.isServer(host)
         else { return error }
         return UntrustedCertificateError(host: host, fingerprint: trust.rejectedFingerprint(for: host), underlying: url.localizedDescription)
     }
@@ -263,6 +266,9 @@ enum ConfluenceDestination {
         let openPage = givenPage == nil && !isOpenPage && s.confluence.openPageAfterUpload
         Uploads.run("The upload to Confluence failed", progress: "Transferring data to Confluence, please wait…", completion: completion) {
             let attachments = try await client.attach(file, toPage: page.id, comment: comment)
+            // The links come from the server: only web pages on the site are opened (no file:// or another app's URL).
+            let pageURL = site.isOnSite(page.url) ? page.url : nil
+            let download = attachments.first?.downloadURL.flatMap { site.isOnSite($0) ? $0 : nil }
             settings.update { $0.confluence.remember(page: page) }
             var detail = "Click to open the page"
             switch s.confluence.clipboardContent {
@@ -276,9 +282,9 @@ enum ConfluenceDestination {
                     detail = "Image link copied – click to open the page"
                 }
             }
-            if openPage { NSWorkspace.shared.open(page.url) }
-            saver.notify("Attached \(file.name) to “\(page.title)”", detail: detail) { NSWorkspace.shared.open(page.url) }
-            return .succeeded(link: attachments.first?.downloadURL ?? page.url, target: page.title)
+            if openPage, let pageURL { NSWorkspace.shared.open(pageURL) }
+            saver.notify("Attached \(file.name) to “\(page.title)”", detail: detail) { if let pageURL { NSWorkspace.shared.open(pageURL) } }
+            return .succeeded(link: download ?? pageURL, target: page.title)
         }
     }
 }

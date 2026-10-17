@@ -305,7 +305,7 @@ public enum PreviousRun: Equatable, Sendable {
         if let note = exceptionNote, (note.date ?? .distantFuture) >= since {
             return .crashed(marker, note)
         }
-        if let report = reports.first(where: { $0.pid.map(Int32.init) == marker.pid && $0.processName == marker.processName
+        if let report = reports.first(where: { $0.pid.flatMap(Int32.init(exactly:)) == marker.pid && $0.processName == marker.processName
             && ($0.captureTime ?? .distantFuture) >= since }) {
             return .crashed(marker, report.details)
         }

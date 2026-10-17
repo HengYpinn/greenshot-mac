@@ -52,7 +52,9 @@ enum AtlassianSignIn {
         if login == .serverPassword, let typed = sessionPasswords[key(service, bare)] {
             return bare.with(user: bare.user, secret: typed)
         }
-        let stored = (try? Uploads.secrets.secret(for: service.secretKey)) ?? ""
+        // Only the secret saved for this host: a changed URL doesn't get the token of the old one.
+        let stored = (try? AtlassianSecrets(store: Uploads.secrets).secret(for: service.secretKey, host: bare.baseURL.host,
+                                                                            claim: true)) ?? ""
         return bare.with(user: bare.user, secret: stored)
     }
 
@@ -126,7 +128,7 @@ enum AtlassianSignIn {
         }
         if inKeychain {
             do {
-                try Uploads.secrets.setSecret(site.secret, for: service.secretKey)
+                try AtlassianSecrets(store: Uploads.secrets).setSecret(site.secret, for: service.secretKey, host: site.baseURL.host)
                 return
             } catch {
                 log.error("The \(service.name) password could not be kept in the Keychain", error: error)
@@ -154,6 +156,7 @@ final class AtlassianLoginDialog {
     init(service: AtlassianService, site: AtlassianSite, problem: String?) {
         alert.messageText = "Please enter your \(service.name) login data"
         var info = site.baseURL.absoluteString
+        if site.isUnencrypted { info += "\n\nThis address starts with http://: the password travels unencrypted." }
         if let problem { info += "\n\nThere was a problem during the login: \(problem)" }
         alert.informativeText = info
         alert.alertStyle = problem == nil ? .informational : .warning

@@ -152,10 +152,21 @@ public enum DiagnosticReport {
     static let hiddenKeyParts = ["key", "secret", "token", "password", "email", "url", "user", "account", "clientid",
                                  "folder", "file", "path", "host", "title", "subject"]
     static let hiddenKeys: Set<String> = ["to", "cc", "bcc"]
+    /// The settings whose text is one of a few values (an enum's raw value, a language code), by their last key (array
+    /// indices left out): the only text that is shown as it is. The text of any other key, e.g. the search pattern of
+    /// the text obfuscation or the space name of a recent Confluence page, can be a name and is shown as its length.
+    static let shownTextKeys: Set<String> = [
+        "arrowHeads", "clipboardContent", "clipboardFormats", "cutMarkStyle", "cutOutMarkStyle", "destinations",
+        "doubleClickAction", "effect", "fixedCaptureAnchor", "format", "highlightMode", "horizontalAlignment",
+        "leftClickAction", "login", "notificationLevel", "obfuscateMode", "ocrLanguage", "outlookEmailFormat",
+        "outputFormat", "pageSize", "powerpointSlideLayout", "scaling", "scope", "screenCaptureMode", "theme", "unit",
+        "uploadFormat", "verticalAlignment",
+    ]
 
     /// The settings that differ from the defaults, one `key.path = value` per line, sorted. Numbers and switches are
-    /// shown; words like "jpg" or "showMenu" too; any other text only as its length, and the text of keys that can
-    /// hold a name, an address, a path or a secret only as `<set>`. Keychain values are never in the settings.
+    /// shown; the words of `shownTextKeys` like "jpg" or "showMenu" too; any other text only as its length, and the
+    /// text of keys that can hold a name, an address, a path or a secret only as `<set>`. Keychain values are never in
+    /// the settings.
     public static func settingsDump(_ settings: AppSettings) -> [String] {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
@@ -196,14 +207,15 @@ public enum DiagnosticReport {
 
     private static func describe(_ value: Any, path: String) -> String {
         let lowered = path.lowercased()
-        let lastKey = lowered.split(separator: ".").last.map { String($0.split(separator: "[").first ?? "") } ?? lowered
+        let key = path.split(separator: ".").last.map { String($0.split(separator: "[").first ?? "") } ?? path
+        let lastKey = key.lowercased()
         if let string = value as? String {
             if string == "{}" || string == "[]" { return string }
             if hiddenKeys.contains(lastKey) || hiddenKeyParts.contains(where: lowered.contains) {
                 return string.isEmpty ? "\"\"" : "<set>"
             }
             if string.isEmpty { return "\"\"" }
-            return isWord(string) ? "\"\(string)\"" : "<text, \(string.count) characters>"
+            return shownTextKeys.contains(key) && isWord(string) ? "\"\(string)\"" : "<text, \(string.count) characters>"
         }
         if value is NSNull { return "null" }
         if let number = value as? NSNumber {

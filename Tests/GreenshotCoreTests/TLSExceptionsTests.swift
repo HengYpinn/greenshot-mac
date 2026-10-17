@@ -62,9 +62,10 @@ struct TLSExceptionsTests {
         #expect(!TLSExceptionPolicy().accepts(host: "jira.corp.internal", leafCertificate: Self.selfSigned))
         #expect(TLSExceptionPolicy().isEmpty)
         #expect(TLSExceptionPolicy(hosts: [" "], thumbprints: [""]).isEmpty)
-        #expect(TLSExceptionPolicy(hosts: ["jira.corp.internal"]).accepts(host: "jira.corp.internal", leafCertificate: nil))
-        #expect(!TLSExceptionPolicy(hosts: ["jira.corp.internal"]).accepts(host: "other.corp.internal", leafCertificate: Self.selfSigned))
-        #expect(TLSExceptionPolicy(thumbprints: [Self.sha1]).accepts(host: "other.corp.internal", leafCertificate: Self.selfSigned))
+        let servers = ["jira.corp.internal", "other.corp.internal"]
+        #expect(TLSExceptionPolicy(hosts: ["jira.corp.internal"], servers: servers).accepts(host: "jira.corp.internal", leafCertificate: nil))
+        #expect(!TLSExceptionPolicy(hosts: ["jira.corp.internal"], servers: servers).accepts(host: "other.corp.internal", leafCertificate: Self.selfSigned))
+        #expect(TLSExceptionPolicy(thumbprints: [Self.sha1], servers: servers).accepts(host: "other.corp.internal", leafCertificate: Self.selfSigned))
     }
 
     @Test func settingsFeedThePolicy() {
@@ -88,10 +89,30 @@ struct TLSExceptionsTests {
     @Test func theSystemRejectsTheSelfSignedCertificateAndAnExceptionLetsItThrough() throws {
         let rejected = TLSExceptionPolicy().evaluate(try trust(for: "jira.corp.internal"), host: "jira.corp.internal")
         #expect(rejected == .rejected(fingerprint: Self.sha256))
-        let byHost = TLSExceptionPolicy(hosts: ["*.corp.internal"]).evaluate(try trust(for: "jira.corp.internal"), host: "jira.corp.internal")
+        let servers = ["jira.corp.internal"]
+        let byHost = TLSExceptionPolicy(hosts: ["*.corp.internal"], servers: servers).evaluate(try trust(for: "jira.corp.internal"), host: "jira.corp.internal")
         #expect(byHost == .allowedByException)
-        let byPrint = TLSExceptionPolicy(thumbprints: [Self.sha256]).evaluate(try trust(for: "jira.corp.internal"), host: "jira.corp.internal")
+        let byPrint = TLSExceptionPolicy(thumbprints: [Self.sha256], servers: servers).evaluate(try trust(for: "jira.corp.internal"), host: "jira.corp.internal")
         #expect(byPrint == .allowedByException)
+    }
+
+    @Test func exceptionsAreOnlyForTheJiraAndConfluenceServers() throws {
+        var settings = AppSettings()
+        settings.allowedUntrustedCertificateHosts = ["*"]
+        settings.allowedCertificateThumbprints = [Self.sha256]
+        // Without Jira and Confluence URLs no exception counts: the system's check alone.
+        let none = TLSExceptionPolicy(settings: settings)
+        #expect(none.servers.isEmpty)
+        #expect(none.evaluate(try trust(for: "jira.corp.internal"), host: "jira.corp.internal") == .rejected(fingerprint: Self.sha256))
+        settings.jira.url = "jira.corp.internal"
+        settings.confluence.url = "https://Wiki.Corp.Internal:8443/wiki/"
+        let policy = TLSExceptionPolicy(settings: settings)
+        #expect(policy.servers == ["jira.corp.internal", "wiki.corp.internal"])
+        #expect(policy.evaluate(try trust(for: "jira.corp.internal"), host: "jira.corp.internal") == .allowedByException)
+        #expect(policy.accepts(host: "WIKI.corp.internal", leafCertificate: Self.selfSigned))
+        // The fingerprint (or "*") vouched for that certificate on any host, Box's and Dropbox's included.
+        #expect(policy.evaluate(try trust(for: "api.box.com"), host: "api.box.com") == .rejected(fingerprint: Self.sha256))
+        #expect(!policy.accepts(host: "content.dropboxapi.com", leafCertificate: Self.selfSigned))
     }
 
     @Test func certificateErrorsNameTheFingerprint() {

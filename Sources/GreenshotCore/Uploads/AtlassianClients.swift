@@ -76,6 +76,43 @@ public struct AtlassianSite: Equatable, Sendable {
         return request
     }
 
+    /// Whether `url` is on the site itself, so the credentials may go with a request for it: the same scheme, host
+    /// (case doesn't matter) and port (none is the scheme's default). An `http://` link on the site's host would send
+    /// them unencrypted, a link to another port to another server.
+    public func isSameOrigin(_ url: URL) -> Bool {
+        Self.origin(of: url).map { $0 == Self.origin(of: baseURL) } ?? false
+    }
+
+    /// Scheme, host and port of `url`, lower case, with the default port of http and https; nil without a host.
+    static func origin(of url: URL) -> String? {
+        guard let scheme = url.scheme?.lowercased(), let host = url.host?.lowercased(), !host.isEmpty else { return nil }
+        let port = url.port ?? (scheme == "https" ? 443 : scheme == "http" ? 80 : -1)
+        return "\(scheme)://\(host):\(port)"
+    }
+
+    /// Whether `url` is a web page on the site's host (http or https, case doesn't matter), so it may be opened in
+    /// the browser: the links of pages and attachments come from the server, and a `file://` link or another app's
+    /// URL must not be opened.
+    public func isOnSite(_ url: URL) -> Bool {
+        guard let scheme = url.scheme?.lowercased(), scheme == "https" || scheme == "http",
+              let host = url.host, let own = baseURL.host else { return false }
+        return host.caseInsensitiveCompare(own) == .orderedSame
+    }
+
+    /// Whether the site is reached over `http://`: the token or password travels unencrypted.
+    public var isUnencrypted: Bool { baseURL.scheme?.lowercased() == "http" }
+
+    /// The host (lower case) of a Jira or Confluence URL as the settings hold it (see `init(url:login:user:secret:)`),
+    /// nil when it isn't one.
+    public static func host(ofURL url: String) -> String? {
+        AtlassianSite(url: url, login: .serverToken, user: "", secret: "")?.baseURL.host?.lowercased()
+    }
+
+    /// Whether a Jira or Confluence URL of the settings starts with `http://`.
+    public static func isUnencrypted(url: String) -> Bool {
+        AtlassianSite(url: url, login: .serverToken, user: "", secret: "")?.isUnencrypted ?? false
+    }
+
     /// A URL under the site for a link the server gave (absolute, or relative to the site).
     public func url(forLink link: String?, base: String? = nil) -> URL? {
         guard let link, !link.isEmpty else { return nil }
@@ -349,10 +386,10 @@ public struct JiraClient: Sendable {
         try Self.filters(fromJSON: try await HTTPSupport.send(favouriteFiltersRequest(), with: http))
     }
 
-    /// An image of the site with the credentials (issue type icons need them).
+    /// An image of the site with the credentials (issue type icons need them); an image anywhere else without them.
     public func imageData(at url: URL) async throws -> Data {
         var request = URLRequest(url: url, timeoutInterval: 30)
-        if url.host == site.baseURL.host { request.setValue(site.authorizationHeader, forHTTPHeaderField: "Authorization") }
+        if site.isSameOrigin(url) { request.setValue(site.authorizationHeader, forHTTPHeaderField: "Authorization") }
         return try await HTTPSupport.send(request, with: http)
     }
 
