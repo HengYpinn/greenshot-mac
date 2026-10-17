@@ -145,9 +145,9 @@ extension OutputManager {
             summary.isEmpty ? key : "\(key): \(FilenamePattern.menuTitle(summary))"
         }
         let items = keys.map { key in item(JiraSummaries.known[key].map { title(key, $0) } ?? key, .jiraIssue(key), "checklist", nil) }
-        // The email first: without it the Keychain isn't asked for the token.
-        guard !items.isEmpty, !s.jira.email.trimmingCharacters(in: .whitespaces).isEmpty,
-              let site = Uploads.jiraSite(s), !site.apiToken.isEmpty else { return items }
+        // The user first: without it the Keychain isn't asked for the token (a personal access token needs none).
+        let hasUser = s.jira.login == .serverToken || !s.jira.email.trimmingCharacters(in: .whitespaces).isEmpty
+        guard !items.isEmpty, hasUser, let site = Uploads.jiraSite(s), site.hasCredentials else { return items }
         let client = JiraClient(site: site, http: Uploads.http)
         for (key, entry) in zip(keys, items) where JiraSummaries.known[key] == nil {
             Task { @MainActor [weak entry] in

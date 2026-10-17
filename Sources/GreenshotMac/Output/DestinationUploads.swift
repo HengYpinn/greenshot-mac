@@ -6,6 +6,8 @@
 import AppKit
 import GreenshotCore
 
+private let log = Log("Uploads")
+
 /// What the upload destinations share: the network, the Keychain, the encoded file and how an upload runs.
 @MainActor
 enum Uploads {
@@ -52,6 +54,7 @@ enum Uploads {
                 if isCancellation(error) {
                     completion(.declined)
                 } else {
+                    log.error(failureTitle, error: error)
                     ErrorPresenter.show(error, title: failureTitle)
                     completion(.failed(error.localizedDescription))
                 }
@@ -94,12 +97,13 @@ enum Uploads {
         }
     }
 
+    /// The Jira site of the settings with its token or password (see `AtlassianSignIn`).
     static func jiraSite(_ settings: AppSettings) -> AtlassianSite? {
-        AtlassianSite(url: settings.jira.url, email: settings.jira.email, apiToken: (try? secrets.secret(for: SecretKey.jiraToken)) ?? "")
+        AtlassianSignIn.site(.jira, settings: settings)
     }
 
     static func confluenceSite(_ settings: AppSettings) -> AtlassianSite? {
-        AtlassianSite(url: settings.confluence.url, email: settings.confluence.email, apiToken: (try? secrets.secret(for: SecretKey.confluenceToken)) ?? "")
+        AtlassianSignIn.site(.confluence, settings: settings)
     }
 
     static func oauthClient(for destination: CaptureDestination, settings: AppSettings) -> OAuthClient {
@@ -116,7 +120,7 @@ enum Uploads {
 
     /// Checks the credentials of an Atlassian site: the current user's name, or the error.
     static func testAtlassian(_ site: AtlassianSite, confluence: Bool) async -> Result<String, Error> {
-        let request = site.request("GET", path: confluence ? "rest/api/user/current" : "rest/api/3/myself")
+        let request = confluence ? site.request("GET", path: "rest/api/user/current") : JiraClient(site: site, http: http).myselfRequest()
         do {
             let object = try HTTPSupport.json(try await HTTPSupport.send(request, with: http))
             return .success(object["displayName"] as? String ?? object["publicName"] as? String ?? object["emailAddress"] as? String ?? "OK")
@@ -133,12 +137,18 @@ enum Uploads {
 enum JiraDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, issueKey: String? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
-        let s = settings.value
-        guard let site = Uploads.jiraSite(s), !site.email.isEmpty, !site.apiToken.isEmpty else {
-            Uploads.explainMissingSetup("Jira", detail: "Enter the Jira URL, your email and an API token in Settings › Destinations.")
-            completion(.declined)
-            return
+        Task { @MainActor in
+            guard let site = await AtlassianSignIn.ready(.jira, settings: settings) else {
+                completion(.declined)
+                return
+            }
+            upload(capture, to: site, settings: settings, saver: saver, issueKey: issueKey, completion: completion)
         }
+    }
+
+    private static func upload(_ capture: Capture, to site: AtlassianSite, settings: SettingsStore, saver: ImageSaver,
+                               issueKey: String?, completion: @escaping ExportCompletion) {
+        let s = settings.value
         let client = JiraClient(site: site, http: Uploads.http)
         let format = s.jira.uploadFormat
         var key: String
@@ -187,12 +197,18 @@ enum JiraDestination {
 enum ConfluenceDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, page givenPage: ConfluencePage? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
-        let s = settings.value
-        guard let site = Uploads.confluenceSite(s), !site.email.isEmpty, !site.apiToken.isEmpty else {
-            Uploads.explainMissingSetup("Confluence", detail: "Enter the Confluence URL, your email and an API token in Settings › Destinations.")
-            completion(.declined)
-            return
+        Task { @MainActor in
+            guard let site = await AtlassianSignIn.ready(.confluence, settings: settings) else {
+                completion(.declined)
+                return
+            }
+            upload(capture, to: site, settings: settings, saver: saver, page: givenPage, completion: completion)
         }
+    }
+
+    private static func upload(_ capture: Capture, to site: AtlassianSite, settings: SettingsStore, saver: ImageSaver,
+                               page givenPage: ConfluencePage?, completion: @escaping ExportCompletion) {
+        let s = settings.value
         let client = ConfluenceClient(site: site, http: Uploads.http)
         let format = s.confluence.uploadFormat
         var filename = Uploads.suggestedName(for: capture, settings: settings, format: format)

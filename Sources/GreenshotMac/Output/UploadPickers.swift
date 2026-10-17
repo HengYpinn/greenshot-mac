@@ -89,7 +89,8 @@ final class ConfluencePicker {
             columns: [UploadPickerPanel.Column(title: "Page", width: 260), UploadPickerPanel.Column(title: "Space", width: 180)],
             recent: recent.map(Self.row), filename: filename, showsComment: true,
             search: { text, space in
-                let result = try await client.searchPages(title: text, spaceKey: space?.id ?? "")
+                let result = try await client.searchPages(title: text, spaceKey: space?.id ?? "",
+                                                          includePersonalSpaces: s.confluence.includePersonalSpaces)
                 found.pages += result
                 return result.map(Self.row)
             })
@@ -97,7 +98,8 @@ final class ConfluencePicker {
         configuration.noScopeTitle = "All spaces"
         configuration.initialScopeID = s.confluence.searchSpaceKey.isEmpty ? nil : s.confluence.searchSpaceKey
         configuration.loadScopes = {
-            try await client.spaces().map { UploadPickerPanel.Scope(id: $0.key, title: $0.name) }
+            ConfluenceClient.filtered(try await client.spaces(), includePersonal: s.confluence.includePersonalSpaces)
+                .map { UploadPickerPanel.Scope(id: $0.key, title: $0.name) }
         }
         // Upstream remembers the space of the last search (`SearchSpaceKey`).
         configuration.scopeChanged = { scope in settings.update { $0.confluence.searchSpaceKey = scope?.id ?? "" } }

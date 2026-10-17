@@ -58,7 +58,7 @@ struct UploadFiltersTests {
         #expect(v2.last.url?.absoluteString == "https://yourco.atlassian.net/wiki/api/v2/spaces?limit=250")
         let v1 = StubHTTPClient([.init(status: 404, body: "{}"), .init(status: 200, body: #"{"results":[{"key":"OPS","name":"Operations"}]}"#)])
         #expect(try await ConfluenceClient(site: site, http: v1).spaces() == [ConfluenceSpace(key: "OPS", name: "Operations")])
-        #expect(v1.last.url?.absoluteString == "https://yourco.atlassian.net/wiki/rest/api/space?limit=250")
+        #expect(v1.last.url?.absoluteString == "https://yourco.atlassian.net/wiki/rest/api/space?limit=250&expand=homepage")
     }
 
     @Test func confluenceSettingsBeforeTheSpaceStillLoad() throws {

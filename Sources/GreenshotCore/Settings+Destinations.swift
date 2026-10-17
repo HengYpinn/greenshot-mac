@@ -19,6 +19,32 @@ public enum AtlassianLogin: String, Codable, CaseIterable, Sendable {
     case serverPassword
 
     public var isCloud: Bool { self == .cloudAPIToken }
+
+    public var displayName: String {
+        switch self {
+        case .cloudAPIToken: return "Cloud: email and API token"
+        case .serverToken: return "Server or Data Center: personal access token"
+        case .serverPassword: return "Server or Data Center: user name and password"
+        }
+    }
+
+    /// The label of the user field; nil when the login has none (a personal access token).
+    public var userLabel: String? {
+        switch self {
+        case .cloudAPIToken: return "Email"
+        case .serverToken: return nil
+        case .serverPassword: return "User name"
+        }
+    }
+
+    /// The label of the secret, which is kept in the Keychain.
+    public var secretLabel: String {
+        switch self {
+        case .cloudAPIToken: return "API token"
+        case .serverToken: return "Personal access token"
+        case .serverPassword: return "Password"
+        }
+    }
 }
 
 /// Upstream Office plugin settings (`IOfficeConfiguration.cs`). To, CC, BCC and the subject pattern are `EmailSettings`'

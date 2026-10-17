@@ -5,31 +5,63 @@
 
 import Foundation
 
-// Jira and Confluence over their REST APIs with an Atlassian API token: the logic of upstream
-// `Greenshot.Plugin.Jira/Api/JiraConnector.cs` and `Greenshot.Plugin.Confluence/Api/Confluence.cs` (which use the
-// Dapplo clients and a login dialog). Requests and answers are plain functions, so tests can check them without a
-// server.
+// Jira and Confluence over their REST APIs, on Atlassian Cloud (email + API token) and on Server / Data Center
+// (personal access token, or user name + password): the logic of upstream `Greenshot.Plugin.Jira/Api/JiraConnector.cs`
+// and `Greenshot.Plugin.Confluence/Api/Confluence.cs` (which use the Dapplo clients and a login dialog). Requests and
+// answers are plain functions, so tests can check them without a server.
 
-/// An Atlassian Cloud site with the credentials of its API token (email + token as basic authentication).
+/// A Jira or Confluence site with the credentials of its login.
 public struct AtlassianSite: Equatable, Sendable {
     public var baseURL: URL
-    public var email: String
-    public var apiToken: String
+    public var login: AtlassianLogin
+    /// The account's email (Cloud) or the user name (Server/Data Center password); not used with a personal access token.
+    public var user: String
+    /// The API token, the personal access token or the password.
+    public var secret: String
 
     /// `url` is trimmed, gets `https://` when it has no scheme and loses a trailing slash. Nil when it is empty
     /// or not a URL.
-    public init?(url: String, email: String, apiToken: String) {
+    public init?(url: String, login: AtlassianLogin, user: String, secret: String) {
         var text = url.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return nil }
         if !text.contains("://") { text = "https://" + text }
         while text.hasSuffix("/") { text.removeLast() }
         guard let parsed = URL(string: text), parsed.host != nil else { return nil }
         baseURL = parsed
-        self.email = email.trimmingCharacters(in: .whitespaces)
-        self.apiToken = apiToken
+        self.login = login
+        self.user = user.trimmingCharacters(in: .whitespaces)
+        self.secret = secret
     }
 
-    public var authorizationHeader: String { HTTPSupport.basicAuthorization(user: email, password: apiToken) }
+    /// An Atlassian Cloud site with an API token.
+    public init?(url: String, email: String, apiToken: String) {
+        self.init(url: url, login: .cloudAPIToken, user: email, secret: apiToken)
+    }
+
+    public var email: String { user }
+    public var apiToken: String { secret }
+
+    /// Whether the login has what it needs: the secret, and the user unless it is a personal access token.
+    public var hasCredentials: Bool {
+        !secret.isEmpty && (login == .serverToken || !user.isEmpty)
+    }
+
+    /// Basic authentication with the email and API token or the user name and password; a personal access token is a
+    /// bearer token (Data Center).
+    public var authorizationHeader: String {
+        switch login {
+        case .serverToken: return "Bearer " + secret
+        case .cloudAPIToken, .serverPassword: return HTTPSupport.basicAuthorization(user: user, password: secret)
+        }
+    }
+
+    /// The same site with another secret (a password typed in the login dialog).
+    public func with(user: String, secret: String) -> AtlassianSite {
+        var site = self
+        site.user = user.trimmingCharacters(in: .whitespaces)
+        site.secret = secret
+        return site
+    }
 
     /// A request for `path` (relative to the base URL) with the credentials and JSON accepted.
     public func request(_ method: String, path: String, query: [URLQueryItem] = []) -> URLRequest {
@@ -102,7 +134,8 @@ public struct JiraAttachment: Equatable, Sendable {
     }
 }
 
-/// Jira Cloud (`/rest/api/3`): attach a file to an issue, look issues up and add a comment.
+/// Jira: attach a file to an issue, look issues up and add a comment. Cloud uses `/rest/api/3`, Server and Data Center
+/// `/rest/api/2` (upstream's Dapplo.Jira client).
 public struct JiraClient: Sendable {
     public let site: AtlassianSite
     public let http: HTTPClient
@@ -111,6 +144,9 @@ public struct JiraClient: Sendable {
         self.site = site
         self.http = http
     }
+
+    /// The REST API of the site: version 3 on Cloud, 2 on Server and Data Center.
+    public var api: String { site.login.isCloud ? "rest/api/3" : "rest/api/2" }
 
     /// "PROJ-123" (upper case is applied first).
     public static func isIssueKey(_ text: String) -> Bool {
@@ -176,45 +212,56 @@ public struct JiraClient: Sendable {
 
     // Requests
 
-    /// `POST /rest/api/3/issue/{key}/attachments` with the file as `multipart/form-data` (the `X-Atlassian-Token`
+    /// `POST /rest/api/{3|2}/issue/{key}/attachments` with the file as `multipart/form-data` (the `X-Atlassian-Token`
     /// header turns off the XSRF check, as the API requires).
     public func attachRequest(issueKey: String, file: UploadFile, boundary: String = "greenshot-" + UUID().uuidString) -> URLRequest {
         var form = MultipartForm(boundary: boundary)
         form.addFile("file", file: file)
-        var request = site.request("POST", path: "rest/api/3/issue/\(issueKey)/attachments")
+        var request = site.request("POST", path: "\(api)/issue/\(issueKey)/attachments")
         request.setValue("no-check", forHTTPHeaderField: "X-Atlassian-Token")
         request.setValue(form.contentType, forHTTPHeaderField: "Content-Type")
         request.httpBody = form.finished()
         return request
     }
 
-    /// `GET /rest/api/3/search/jql` (the endpoint that replaced `/search` in 2025; `fields` is needed, the default
-    /// is the id alone).
+    /// Cloud: `GET /rest/api/3/search/jql` (the endpoint that replaced `/search` in 2025; `fields` is needed, the
+    /// default is the id alone). Server and Data Center: `GET /rest/api/2/search`.
     public func searchRequest(jql: String, maxResults: Int = 20) -> URLRequest {
-        site.request("GET", path: "rest/api/3/search/jql", query: [
+        site.request("GET", path: site.login.isCloud ? "rest/api/3/search/jql" : "rest/api/2/search", query: [
             URLQueryItem(name: "jql", value: jql),
             URLQueryItem(name: "maxResults", value: String(maxResults)),
             URLQueryItem(name: "fields", value: Self.listFields),
         ])
     }
 
-    /// `GET /rest/api/3/filter/favourite`: the filters the user starred.
+    /// `GET /rest/api/{3|2}/filter/favourite`: the filters the user starred.
     public func favouriteFiltersRequest() -> URLRequest {
-        site.request("GET", path: "rest/api/3/filter/favourite")
+        site.request("GET", path: "\(api)/filter/favourite")
     }
 
     public func issueRequest(key: String) -> URLRequest {
-        site.request("GET", path: "rest/api/3/issue/\(key)", query: [URLQueryItem(name: "fields", value: "summary")])
+        site.request("GET", path: "\(api)/issue/\(key)", query: [URLQueryItem(name: "fields", value: "summary")])
     }
 
-    /// `POST /rest/api/3/issue/{key}/comment` with the text as one paragraph of Atlassian Document Format.
+    /// `GET /rest/api/{3|2}/myself`: who the credentials belong to (the connection test, upstream's login check).
+    public func myselfRequest() -> URLRequest {
+        site.request("GET", path: "\(api)/myself")
+    }
+
+    /// `POST /rest/api/{3|2}/issue/{key}/comment`: on Cloud the text as one paragraph of Atlassian Document Format, on
+    /// Server and Data Center as the plain body (wiki markup) of REST v2.
     public func commentRequest(issueKey: String, text: String) -> URLRequest {
-        var request = site.request("POST", path: "rest/api/3/issue/\(issueKey)/comment")
+        var request = site.request("POST", path: "\(api)/issue/\(issueKey)/comment")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body: [String: Any] = ["body": [
-            "type": "doc", "version": 1,
-            "content": [["type": "paragraph", "content": [["type": "text", "text": text]]]],
-        ]]
+        let body: [String: Any]
+        if site.login.isCloud {
+            body = ["body": [
+                "type": "doc", "version": 1,
+                "content": [["type": "paragraph", "content": [["type": "text", "text": text]]]],
+            ]]
+        } else {
+            body = ["body": text]
+        }
         request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [.sortedKeys])
         return request
     }
@@ -334,14 +381,20 @@ public struct ConfluencePage: Equatable, Sendable, Codable, Identifiable {
     }
 }
 
-/// A Confluence space for the search (upstream `Entities.Space`).
+/// A Confluence space for the search and the page tree (upstream `Entities.Space`).
 public struct ConfluenceSpace: Equatable, Sendable {
     public var key: String
     public var name: String
+    /// The id of the space's home page, the root of its page tree (upstream `GetSpaceHomepageAsync`).
+    public var homepageID: String?
+    /// A personal space (`type` "personal", keys start with `~`), left out unless `IncludePersonSpaces` is on.
+    public var isPersonal: Bool
 
-    public init(key: String, name: String) {
+    public init(key: String, name: String, homepageID: String? = nil, isPersonal: Bool = false) {
         self.key = key
         self.name = name
+        self.homepageID = homepageID
+        self.isPersonal = isPersonal
     }
 }
 
@@ -357,7 +410,8 @@ public struct ConfluenceAttachment: Equatable, Sendable {
     }
 }
 
-/// Confluence (`/rest/api`, Cloud sites end in `/wiki`): find pages by title with CQL, attach a file to a page.
+/// Confluence (`/rest/api`, Cloud sites end in `/wiki`): find pages by title with CQL, browse the spaces' page trees,
+/// attach a file to a page. Cloud uses the v2 API where the v1 one is going; Server and Data Center use v1 only.
 public struct ConfluenceClient: Sendable {
     public let site: AtlassianSite
     public let http: HTTPClient
@@ -368,32 +422,65 @@ public struct ConfluenceClient: Sendable {
     }
 
     /// Pages whose title contains the words, last changed first, in one space when `spaceKey` isn't empty (upstream
-    /// `SearchPagesAsync(query, space)`). Text that already is CQL (`=`, `~`) is used as it is.
-    public static func cql(forTitleSearch text: String, spaceKey: String = "") -> String {
+    /// `SearchPagesAsync(query, space)`). Without `includePersonalSpaces` a search of all spaces leaves the personal
+    /// ones out (upstream `IncludePersonSpaces`). Text that already is CQL (`=`, `~`) is used as it is.
+    public static func cql(forTitleSearch text: String, spaceKey: String = "", includePersonalSpaces: Bool = true) -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.contains("=") || trimmed.contains("~") { return trimmed }
         let space = spaceKey.trimmingCharacters(in: .whitespaces)
-        let inSpace = space.isEmpty ? "" : "space = \"\(JiraClient.escaped(space))\" AND "
-        return "type = page AND \(inSpace)title ~ \"\(JiraClient.escaped(trimmed))\" ORDER BY lastmodified DESC"
+        var scope = ""
+        if !space.isEmpty {
+            scope = "space = \"\(JiraClient.escaped(space))\" AND "
+        } else if !includePersonalSpaces {
+            scope = "space.type = global AND "
+        }
+        return "type = page AND \(scope)title ~ \"\(JiraClient.escaped(trimmed))\" ORDER BY lastmodified DESC"
+    }
+
+    /// The page with this exact title in the space (a `/display/SPACE/Title` link, upstream `GetPageAsync(space, title)`).
+    public static func cql(space: String, title: String) -> String {
+        "type = page AND space = \"\(JiraClient.escaped(space))\" AND title = \"\(JiraClient.escaped(title))\""
     }
 
     /// Upstream puts `!name!` on the clipboard after the upload: the wiki markup that shows the attachment.
     public static func wikiMarkup(for filename: String) -> String { "!\(filename)!" }
 
-    // Requests
-
-    /// `GET /rest/api/search?cql=…` (the CQL search stays while the v1 content endpoints go).
-    public func searchRequest(cql: String, limit: Int = 20) -> URLRequest {
-        site.request("GET", path: "rest/api/search", query: [
-            URLQueryItem(name: "cql", value: cql),
-            URLQueryItem(name: "limit", value: String(limit)),
-        ])
+    /// The spaces without the personal ones, unless they are wanted.
+    public static func filtered(_ spaces: [ConfluenceSpace], includePersonal: Bool) -> [ConfluenceSpace] {
+        includePersonal ? spaces : spaces.filter { !$0.isPersonal }
     }
 
-    /// The spaces: `GET /api/v2/spaces` on Cloud (the v1 space endpoints are going), `GET /rest/api/space` on older
-    /// servers. Both answer `results[]` with `key` and `name`.
+    // Requests
+
+    /// Cloud: `GET /rest/api/search?cql=…` (the CQL search stays while the v1 content endpoints go). Server and Data
+    /// Center: `GET /rest/api/content/search?cql=…&expand=space`, which older servers have too.
+    public func searchRequest(cql: String, limit: Int = 20) -> URLRequest {
+        var query = [URLQueryItem(name: "cql", value: cql), URLQueryItem(name: "limit", value: String(limit))]
+        if !site.login.isCloud { query.append(URLQueryItem(name: "expand", value: "space")) }
+        return site.request("GET", path: site.login.isCloud ? "rest/api/search" : "rest/api/content/search", query: query)
+    }
+
+    /// The spaces: `GET /api/v2/spaces` on Cloud (the v1 space endpoints are going), `GET /rest/api/space?expand=homepage`
+    /// on Server and Data Center and older sites. Both answer `results[]` with `key`, `name` and `type`; v2 has the
+    /// home page's id in `homepageId`, v1 the home page in `homepage`.
     public func spacesRequest(v2: Bool = true, limit: Int = 250) -> URLRequest {
-        site.request("GET", path: v2 ? "api/v2/spaces" : "rest/api/space", query: [URLQueryItem(name: "limit", value: String(limit))])
+        var query = [URLQueryItem(name: "limit", value: String(limit))]
+        if !v2 { query.append(URLQueryItem(name: "expand", value: "homepage")) }
+        return site.request("GET", path: v2 ? "api/v2/spaces" : "rest/api/space", query: query)
+    }
+
+    /// The child pages of a page: `GET /api/v2/pages/{id}/children` on Cloud, `GET /rest/api/content/{id}/child/page`
+    /// on Server and Data Center (upstream `GetPageChildrenAsync`).
+    public func childPagesRequest(pageID: String, v2: Bool = true, limit: Int = 250) -> URLRequest {
+        site.request("GET", path: v2 ? "api/v2/pages/\(pageID)/children" : "rest/api/content/\(pageID)/child/page",
+                     query: [URLQueryItem(name: "limit", value: String(limit))])
+    }
+
+    /// One page: `GET /api/v2/pages/{id}` on Cloud, `GET /rest/api/content/{id}?expand=space` on Server and Data Center
+    /// (upstream `GetPageAsync(pageId)`).
+    public func pageRequest(id: String, v2: Bool = true) -> URLRequest {
+        site.request("GET", path: v2 ? "api/v2/pages/\(id)" : "rest/api/content/\(id)",
+                     query: v2 ? [] : [URLQueryItem(name: "expand", value: "space")])
     }
 
     /// `POST /rest/api/content/{id}/child/attachment` as `multipart/form-data`, a minor edit (no notification).
@@ -413,25 +500,39 @@ public struct ConfluenceClient: Sendable {
     // Answers
 
     /// The pages of a search answer (`results[].content` from `/rest/api/search`, or `results[]` from the content
-    /// search); their links are made absolute with the answer's `_links.base` or the site.
-    public func pages(fromJSON data: Data) throws -> [ConfluencePage] {
+    /// search, the child pages and v2), their links made absolute with the answer's `_links.base` or the site; a page
+    /// without a link gets the site's `viewpage.action?pageId=` link. `spaceName` is for answers that don't name it.
+    public func pages(fromJSON data: Data, spaceName fallbackSpace: String = "") throws -> [ConfluencePage] {
         let object = try HTTPSupport.json(data)
         guard let results = object["results"] as? [[String: Any]] else {
             throw UploadError.unexpectedResponse("no results in the answer")
         }
         let base = (object["_links"] as? [String: Any])?["base"] as? String
-        return results.compactMap { result in
-            let content = result["content"] as? [String: Any] ?? result
-            guard let id = content["id"].map({ "\($0)" }), let title = content["title"] as? String else { return nil }
-            if let type = content["type"] as? String, type != "page" { return nil }
-            let space = (content["space"] as? [String: Any])?["name"] as? String
-                ?? (result["resultGlobalContainer"] as? [String: Any])?["title"] as? String ?? ""
-            let links = content["_links"] as? [String: Any]
-            let url = site.url(forLink: links?["webui"] as? String, base: base)
-                ?? site.url(forLink: result["url"] as? String, base: base)
-                ?? site.baseURL.appendingPathComponent("pages/viewpage.action").appending(queryItem: "pageId", value: id)
-            return ConfluencePage(id: id, title: title, spaceName: space, url: url)
+        return results.compactMap { page(from: $0, base: base, spaceName: fallbackSpace) }
+    }
+
+    /// One page (a v2 page, or v1 content with its space expanded).
+    public func page(fromJSON data: Data, spaceName fallbackSpace: String = "") throws -> ConfluencePage {
+        let object = try HTTPSupport.json(data)
+        let base = (object["_links"] as? [String: Any])?["base"] as? String
+        guard let page = page(from: object, base: base, spaceName: fallbackSpace) else {
+            throw UploadError.unexpectedResponse("no page in the answer")
         }
+        return page
+    }
+
+    private func page(from result: [String: Any], base: String?, spaceName fallbackSpace: String) -> ConfluencePage? {
+        let content = result["content"] as? [String: Any] ?? result
+        guard let id = content["id"].map({ "\($0)" }), let title = content["title"] as? String else { return nil }
+        if let type = content["type"] as? String, type != "page" { return nil }
+        let space = (content["space"] as? [String: Any])?["name"] as? String
+            ?? (result["resultGlobalContainer"] as? [String: Any])?["title"] as? String ?? fallbackSpace
+        let links = content["_links"] as? [String: Any]
+        let pageBase = links?["base"] as? String ?? base
+        let url = site.url(forLink: links?["webui"] as? String, base: pageBase)
+            ?? site.url(forLink: result["url"] as? String, base: pageBase)
+            ?? site.baseURL.appendingPathComponent("pages/viewpage.action").appending(queryItem: "pageId", value: id)
+        return ConfluencePage(id: id, title: title, spaceName: space, url: url)
     }
 
     /// The spaces of a v2 or v1 answer, sorted by name (upstream `GetSpaceSummariesAsync`).
@@ -442,7 +543,9 @@ public struct ConfluenceClient: Sendable {
         }
         return results.compactMap { item -> ConfluenceSpace? in
             guard let key = item["key"] as? String, !key.isEmpty else { return nil }
-            return ConfluenceSpace(key: key, name: item["name"] as? String ?? key)
+            let homepage = item["homepageId"].map { "\($0)" } ?? (item["homepage"] as? [String: Any])?["id"].map { "\($0)" }
+            let personal = (item["type"] as? String)?.lowercased() == "personal" || key.hasPrefix("~")
+            return ConfluenceSpace(key: key, name: item["name"] as? String ?? key, homepageID: homepage, isPersonal: personal)
         }.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
@@ -462,22 +565,52 @@ public struct ConfluenceClient: Sendable {
 
     // Calls
 
-    public func searchPages(title: String, spaceKey: String = "", limit: Int = 20) async throws -> [ConfluencePage] {
-        let request = searchRequest(cql: Self.cql(forTitleSearch: title, spaceKey: spaceKey), limit: limit)
-        return try pages(fromJSON: try await HTTPSupport.send(request, with: http))
+    public func searchPages(title: String, spaceKey: String = "", includePersonalSpaces: Bool = true,
+                            limit: Int = 20) async throws -> [ConfluencePage] {
+        let cql = Self.cql(forTitleSearch: title, spaceKey: spaceKey, includePersonalSpaces: includePersonalSpaces)
+        return try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: cql, limit: limit), with: http))
     }
 
-    /// The spaces, from the v2 API and from v1 when the server doesn't have v2 (404).
+    /// The spaces, from the v2 API on Cloud and from v1 on Server and Data Center or when v2 is missing (404).
     public func spaces() async throws -> [ConfluenceSpace] {
-        do {
-            return try Self.spaces(fromJSON: try await HTTPSupport.send(spacesRequest(v2: true), with: http))
-        } catch UploadError.http(let status, _) where status == 404 {
+        guard site.login.isCloud else {
             return try Self.spaces(fromJSON: try await HTTPSupport.send(spacesRequest(v2: false), with: http))
         }
+        return try await withV1Fallback { v2 in try Self.spaces(fromJSON: try await HTTPSupport.send(spacesRequest(v2: v2), with: http)) }
+    }
+
+    /// The child pages of a page, by title (upstream sorts them by title).
+    public func childPages(of pageID: String, spaceName: String) async throws -> [ConfluencePage] {
+        let found = try await withV1Fallback { v2 in
+            try pages(fromJSON: try await HTTPSupport.send(childPagesRequest(pageID: pageID, v2: v2), with: http), spaceName: spaceName)
+        }
+        return found.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+    }
+
+    /// One page by its id (for a home page or a page open in the browser).
+    public func page(id: String, spaceName: String = "") async throws -> ConfluencePage {
+        try await withV1Fallback { v2 in
+            try page(fromJSON: try await HTTPSupport.send(pageRequest(id: id, v2: v2), with: http), spaceName: spaceName)
+        }
+    }
+
+    /// The page with this title in the space, nil when there is none.
+    public func page(space: String, title: String) async throws -> ConfluencePage? {
+        try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: Self.cql(space: space, title: title), limit: 1), with: http)).first
     }
 
     public func attach(_ file: UploadFile, toPage pageID: String, comment: String? = nil) async throws -> [ConfluenceAttachment] {
         try attachments(fromJSON: try await HTTPSupport.send(attachRequest(pageID: pageID, file: file, comment: comment), with: http))
+    }
+
+    /// Cloud tries the v2 API first and v1 when the site doesn't have it (404); Server and Data Center use v1.
+    private func withV1Fallback<T>(_ call: (Bool) async throws -> T) async throws -> T {
+        guard site.login.isCloud else { return try await call(false) }
+        do {
+            return try await call(true)
+        } catch UploadError.http(let status, _) where status == 404 {
+            return try await call(false)
+        }
     }
 }
 
