@@ -203,7 +203,7 @@ final class WaitingApprover: RecipeApprover {
         #expect(off.reply.stderr?.contains("Recipes are switched off") == true)
     }
 
-    @Test func automaticStepsGoToTheLibrary() async {
+    @Test func automaticStepsGoToTheLibrary() async throws {
         let fixture = LibraryFixture()
         defer { fixture.cleanUp() }
         var step = CaptureRecipe(id: "border_everywhere", name: "Border")
@@ -212,8 +212,15 @@ final class WaitingApprover: RecipeApprover {
         step.nodes = [RecipeNode(id: "border", stepType: "Effect", parameters: ["EffectType": .string("Border")])]
         step.flow.startNodes = ["border"]
         let outcome = await proposals(fixture).propose(proposal(step))
-        // Until RMANAGER's automatic steps: the library's answer
-        #expect(outcome.reply.isError)
+        // RMANAGER's library asks for the automatic step like for a recipe, everything switched off
+        #expect(outcome.reply.status == "ok")
+        #expect(outcome.reply.extra["decision"]?.stringValue == "approved")
+        let request = try #require(fixture.approver.requests.first)
+        #expect(request.recipe?.kind == .extension)
+        #expect(request.startSwitchedOff)
+        let file = try #require(outcome.reply.extra["file"]?.stringValue)
+        #expect(file.hasSuffix("/AI/border_everywhere.gsrecipe.json"))
+        #expect(FileManager.default.fileExists(atPath: file))
     }
 
     @Test func proposerTextNamesTheProgram() {
