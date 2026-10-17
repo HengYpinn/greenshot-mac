@@ -12,9 +12,9 @@ import Testing
 struct CaptureHDRTests {
     private let display: Float = 5
 
-    /// A float picture in extended linear sRGB; each value fills a 2 × 2 block, so the measurement (every second pixel of
-    /// every second row) sees each of them.
-    private func hdrImage(_ pixels: [(Float, Float, Float)]) -> CGImage {
+    /// A float picture in extended linear sRGB (or `space`); each value fills a 2 × 2 block, so the measurement (every
+    /// second pixel of every second row) sees each of them.
+    private func hdrImage(_ pixels: [(Float, Float, Float)], space name: CFString = CGColorSpace.extendedLinearSRGB) -> CGImage {
         let width = pixels.count * 2
         let height = 2
         var floats = [Float](repeating: 0, count: width * height * 4)
@@ -31,7 +31,7 @@ struct CaptureHDRTests {
         }
         let info = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.floatComponents.rawValue
             | CGBitmapInfo.byteOrder32Little.rawValue
-        let space = CGColorSpace(name: CGColorSpace.extendedLinearSRGB)!
+        let space = CGColorSpace(name: name)!
         return floats.withUnsafeMutableBytes { bytes in
             let context = CGContext(data: bytes.baseAddress, width: width, height: height, bitsPerComponent: 32,
                                     bytesPerRow: width * 16, space: space, bitmapInfo: info)!
@@ -83,11 +83,24 @@ struct CaptureHDRTests {
     }
 
     @Test func measuringFindsThePeakAndTheShareOfHighlights() throws {
+        // A red twice as bright as SDR red has less luminance than SDR white: no highlight, but the largest channel.
         let image = hdrImage([grey(1), grey(0.5), grey(4), (2, 0, 0)])
         let measurement = try #require(CaptureHDR.measure(image))
         #expect(abs(measurement.peak - 4) < 0.01)
-        #expect(abs(measurement.highlightShare - 0.5) < 0.01)
+        #expect(abs(measurement.highlightShare - 0.25) < 0.01)
+        #expect(abs(measurement.channelPeak - 4) < 0.01)
         #expect(measurement.hasHDRContent)
+    }
+
+    @Test func aWideGamutColourAtSDRBrightnessIsNoHDRContent() throws {
+        // A saturated Display P3 red at SDR level: its red channel is about 1.22 in extended sRGB, its luminance below 1.
+        var pixels = [(Float, Float, Float)](repeating: grey(1), count: 50)
+        pixels[0] = (1, 0, 0)
+        let image = hdrImage(pixels, space: CGColorSpace.extendedLinearDisplayP3)
+        let measurement = try #require(CaptureHDR.measure(image))
+        #expect(measurement.channelPeak > 1.2)
+        #expect(!measurement.hasHDRContent)
+        #expect(CaptureHDR.toneMapped([image], displayPeak: display) == nil)
     }
 
     @Test func sdrContentIsNotToneMapped() throws {
@@ -103,17 +116,19 @@ struct CaptureHDRTests {
         floats += [Float](repeating: 0, count: 16)
         let part = floats.withUnsafeMutableBufferPointer { CaptureHDR.measure($0, width: 4, height: 2) }
         #expect(part.counted == 1)
-        #expect(part.peak == 1)
+        #expect(abs(part.peak - 1) < 0.001)
+        #expect(part.channelPeak == 1)
         #expect(part.brighter == 0)
     }
 
     @Test func mostlyHighlightsAreScaledWithTheirHue() throws {
-        // Half of the picture is an orange highlight at 4 × SDR white: it becomes the white level, SDR white turns grey.
+        // Half of the picture is an orange highlight (luminance 2.28): it becomes the white level, SDR white turns grey.
+        // Upstream measures the largest channel (4) and makes SDR white darker still (130–145).
         let image = hdrImage([grey(1), (4, 2, 0)])
         let result = try #require(CaptureHDR.toneMapped([image], displayPeak: display))
         let white = pixel(result.images[0], 0)
         let orange = pixel(result.images[0], 1)
-        #expect((130...145).contains(white.r))
+        #expect((172...182).contains(white.r))
         #expect(orange.r >= 250)
         #expect((180...196).contains(orange.g))
         #expect(orange.b <= 5)
@@ -130,18 +145,28 @@ struct CaptureHDRTests {
         }
     }
 
-    @Test func aSmallHighlightKeepsSDRColoursAlmostAsTheyWere() throws {
-        // One highlight among many SDR pixels: SDR white stays the white level; dark and middle values don't change.
+    @Test func aSmallHighlightKeepsTheSDRPicture() throws {
+        // One highlight among many SDR pixels: SDR white stays the white level, so the exact SDR picture is kept.
         var values = [Float](repeating: 0.5, count: 60)
         values[0] = 0.2
         values[1] = 1
         values[2] = 4
-        let result = try #require(CaptureHDR.toneMapped([hdrImage(values.map(grey))], displayPeak: display))
-        #expect(result.whiteLevel == 1)
-        let middle = TestImage.pixel(hdrImageAsSRGB(grey(0.5)), 0, 0)
-        #expect(pixel(result.images[0], 3) == middle)
-        #expect(pixel(result.images[0], 1).r >= 245)
-        #expect(pixel(result.images[0], 2).r == 255)
+        let image = hdrImage(values.map(grey))
+        let measurement = try #require(CaptureHDR.measure(image))
+        #expect(measurement.hasHDRContent)
+        #expect(CaptureHDR.toneMapped([image], displayPeak: display) == nil)
+    }
+
+    @Test func atTheWhiteLevelOfSDRWhiteNothingUpToWhiteChanges() throws {
+        // Tone mapped anyway: white stays white, the middle is as Core Graphics converts it, the highlight keeps its hue.
+        let image = hdrImage([grey(0.2), grey(1), grey(0.95), (4, 2, 0)])
+        let mapped = try #require(CaptureHDR.toneMap(image, whiteLevel: 1, peak: 4))
+        #expect(pixel(mapped, 1) == RGBA.white)
+        #expect(pixel(mapped, 2) == TestImage.pixel(hdrImageAsSRGB(grey(0.95)), 0, 0))
+        #expect(pixel(mapped, 0) == TestImage.pixel(hdrImageAsSRGB(grey(0.2)), 0, 0))
+        let orange = pixel(mapped, 3)
+        #expect(orange.r == 255)
+        #expect((185...190).contains(orange.g))
     }
 
     @Test func everyPictureOfADisplayGetsTheSameWhiteLevel() throws {

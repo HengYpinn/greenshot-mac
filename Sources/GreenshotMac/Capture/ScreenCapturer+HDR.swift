@@ -10,9 +10,10 @@ import ScreenCaptureKit
 private let log = Log("Capture")
 
 /// HDR screens (upstream 1.4: `Greenshot.Base/Native/HdrContent.cs`, `HdrToneMapper.cs`): while a display shows HDR
-/// content (its EDR headroom is above 1), it is also taken in HDR (macOS 15 and later, Apple silicon), and when that
-/// picture has highlights brighter than SDR white they are tone mapped into the 8-bit screenshot instead of being cut
-/// off (`CaptureHDR`). Otherwise the SDR picture is used as always, so SDR content keeps its exact colours.
+/// content (its EDR headroom is above 1), it is also taken in HDR (macOS 15 and later, Apple silicon), and when more
+/// than a few of its pixels are brighter than SDR white (by luminance) they are tone mapped into the 8-bit screenshot
+/// instead of being cut off (`CaptureHDR`). Otherwise the SDR picture is used as always, so SDR content, wide gamut
+/// colours included, keeps its exact colours.
 extension ScreenCapturer {
     /// The current EDR headroom of the display, when HDR captures are on, possible here and the display shows HDR
     /// content now; nil otherwise.
@@ -63,7 +64,7 @@ extension ScreenCapturer {
             CaptureHDR.toneMapped(taken, displayPeak: peak)
         }.value
         guard let result else {
-            log.debug("No HDR content on \(name) (headroom \(headroom)), the SDR picture is used")
+            log.debug("No HDR content or only a few highlights on \(name) (headroom \(headroom)), the SDR picture is used")
             return sdr
         }
         let measurement = result.measurement
