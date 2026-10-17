@@ -14,23 +14,36 @@ import Security
 enum AutomationPeerVerifier {
     private static let log = Log("Automation")
 
+    /// The check for `IPCServer.Configuration.verifier`. It runs on the connection's thread, never the main thread: the
+    /// app's own signature (which hashes the bundle) is read there on the first connection, not at launch.
     static func make(hostExecutable: String) -> @Sendable (IPCPeer, IPCSource) -> String? {
-        let own = ownSignature()
-        let requirementText = IPCPeerPolicy.requirement(teamID: own.teamID, leafCertificateSHA1: own.leafSHA1)
-        var compiled: SecRequirement?
-        if let requirementText, SecRequirementCreateWithString(requirementText as CFString, [], &compiled) != errSecSuccess {
-            log.warn("The code requirement of the app's own signer couldn't be built")
-        }
-        let requirement = compiled.map(SendableRequirement.init)
-        let checksSignature = own.isSigned
+        let ownPolicy = OwnSignaturePolicy()
         return { peer, source in
-            check(peer, source: source, hostExecutable: hostExecutable, checksSignature: checksSignature, requirement: requirement?.value)
+            let own = ownPolicy.resolved()
+            return check(peer, source: source, hostExecutable: hostExecutable, checksSignature: own.checksSignature,
+                         requirement: own.requirement)
         }
     }
 
-    /// SecRequirement is immutable once created.
-    private struct SendableRequirement: @unchecked Sendable {
-        let value: SecRequirement
+    /// The app's own signature, read once. SecRequirement is immutable once created.
+    private final class OwnSignaturePolicy: @unchecked Sendable {
+        private let lock = NSLock()
+        private var value: (checksSignature: Bool, requirement: SecRequirement?)?
+
+        func resolved() -> (checksSignature: Bool, requirement: SecRequirement?) {
+            lock.lock()
+            defer { lock.unlock() }
+            if let value { return value }
+            let own = ownSignature()
+            var compiled: SecRequirement?
+            if let text = IPCPeerPolicy.requirement(teamID: own.teamID, leafCertificateSHA1: own.leafSHA1),
+               SecRequirementCreateWithString(text as CFString, [], &compiled) != errSecSuccess {
+                log.warn("The code requirement of the app's own signer couldn't be built")
+            }
+            let resolved = (checksSignature: own.isSigned, requirement: compiled)
+            value = resolved
+            return resolved
+        }
     }
 
     private static func check(_ peer: IPCPeer, source: IPCSource, hostExecutable: String, checksSignature: Bool,

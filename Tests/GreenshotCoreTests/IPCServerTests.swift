@@ -184,6 +184,23 @@ struct IPCServerTests {
         #expect(String(decoding: err, as: UTF8.self).contains("[SECURITY] Connection rejected: not one of ours"))
     }
 
+    @Test func verificationAndHandlersRunOffTheMainThread() throws {
+        let threads = ThreadRecorder()
+        let server = try makeServer { configuration in
+            configuration.verifier = { _, _ in
+                threads.record(Thread.isMainThread)
+                return nil
+            }
+        }
+        defer { server.stop() }
+        server.dispatcher.table.register(IPCCommand.about) { _ in
+            threads.record(Thread.isMainThread)
+            return .ok()
+        }
+        _ = try run(["greenshotmac://about"], on: server)
+        #expect(threads.values == [false, false])
+    }
+
     @Test func peerIsThisProcess() throws {
         let recorder = PeerRecorder()
         let server = try makeServer { configuration in
@@ -359,6 +376,23 @@ private final class PeerRecorder: @unchecked Sendable {
     func record(_ peer: IPCPeer) {
         lock.lock()
         recorded = peer
+        lock.unlock()
+    }
+}
+
+private final class ThreadRecorder: @unchecked Sendable {
+    private let lock = NSLock()
+    private var recorded: [Bool] = []
+
+    var values: [Bool] {
+        lock.lock()
+        defer { lock.unlock() }
+        return recorded
+    }
+
+    func record(_ isMain: Bool) {
+        lock.lock()
+        recorded.append(isMain)
         lock.unlock()
     }
 }
