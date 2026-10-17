@@ -29,7 +29,7 @@ struct ProcessorsExecutor: RecipeStepExecutor {
         let language = context.environment.configValue("ocrLanguage")?.asString ?? ""
         let lines: [RecognizedLine]
         do {
-            lines = try TextRecognizer.recognizeLines(in: payload.flattened() ?? payload.image, language: language)
+            lines = try await TextRecognizer.recognizeLines(in: payload.flattened() ?? payload.image, language: language)
         } catch {
             log.error("OCR of recipe '\(context.recipe.id)' failed.", error: error)
             context.log("Warning: OCR failed: \(error.localizedDescription)")
@@ -63,7 +63,7 @@ struct BarcodeScanExecutor: RecipeStepExecutor {
         }
         let found: [DetectedBarcode]
         do {
-            found = try BarcodeDetector.detect(in: payload.flattened() ?? payload.image, symbologies: Self.symbologies)
+            found = try await BarcodeDetector.detect(in: payload.flattened() ?? payload.image, symbologies: Self.symbologies)
         } catch {
             log.warn("Barcode scan of recipe '\(context.recipe.id)' failed.", error: error)
             context.log("Warning: barcode scan failed: \(error.localizedDescription)")

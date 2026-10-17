@@ -33,8 +33,15 @@ public struct DetectedBarcode: Equatable, Sendable {
 /// Barcode detection with the Vision framework: the Mac's stand-in for upstream's Zxing plugin
 /// (`Greenshot.Plugin.Zxing/Processing/ZxingCaptureProcessor.cs`).
 public enum BarcodeDetector {
-    /// The barcodes in `image`. Runs synchronously (call it off the main thread for big images).
-    public static func detect(in image: CGImage, symbologies: [VNBarcodeSymbology] = [.qr, .aztec, .dataMatrix, .pdf417]) throws -> [DetectedBarcode] {
+    /// What `detect` looks for unless told otherwise.
+    public static let defaultSymbologies: [VNBarcodeSymbology] = [.qr, .aztec, .dataMatrix, .pdf417]
+
+    /// The barcodes in `image`.
+    ///
+    /// Blocks the calling thread until Vision is done. Call it only on a GCD queue or a thread of your own, never in a
+    /// task or an async function (Vision may wait for a thread of Swift's cooperative pool, see
+    /// `TextRecognizer.recognizeLines`): there, `await` the async overload.
+    public static func detect(in image: CGImage, symbologies: [VNBarcodeSymbology] = defaultSymbologies) throws -> [DetectedBarcode] {
         let request = VNDetectBarcodesRequest()
         request.symbologies = symbologies
         let handler = VNImageRequestHandler(cgImage: image, options: [:])
@@ -46,5 +53,11 @@ public enum BarcodeDetector {
             let bounds = TextRecognizer.pixelRect(observation.boundingBox, width: width, height: height)
             return DetectedBarcode(payload: payload, bounds: bounds, symbology: observation.symbology.rawValue.replacingOccurrences(of: "VNBarcodeSymbology", with: ""))
         }
+    }
+
+    /// The barcodes in `image`, for tasks and async functions: Vision runs on a queue of its own and the task's thread
+    /// is free while it waits.
+    public static func detect(in image: CGImage, symbologies: [VNBarcodeSymbology] = defaultSymbologies) async throws -> [DetectedBarcode] {
+        try await VisionQueue.run { try detect(in: image, symbologies: symbologies) }
     }
 }

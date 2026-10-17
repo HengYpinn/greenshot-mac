@@ -27,7 +27,7 @@ struct TextEffectExecutor: RecipeStepExecutor {
         let lines: [RecognizedLine]
         do {
             let language = context.environment.configValue("ocrLanguage")?.asString ?? ""
-            lines = try TextRecognizer.recognizeLines(in: payload.flattened() ?? payload.image, language: language)
+            lines = try await TextRecognizer.recognizeLines(in: payload.flattened() ?? payload.image, language: language)
         } catch {
             log.error("OCR of recipe '\(context.recipe.id)' failed during TextEffect.", error: error)
             context.log("Warning: OCR processing failed: \(error.localizedDescription)")

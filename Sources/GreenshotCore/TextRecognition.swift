@@ -35,7 +35,10 @@ public struct RecognizedLine: Equatable, Sendable {
 /// (`Greenshot/Destinations/Win10OcrDestination.cs`, `Greenshot/Capturing/Tools/TextCaptureTool.cs`).
 public enum TextRecognizer {
     /// The lines of text in `image`, top to bottom. `language` is a BCP 47 code; empty picks automatically.
-    /// Runs the request synchronously (call it off the main thread for big images).
+    ///
+    /// Blocks the calling thread until Vision is done, and Vision waits for work on a thread of Swift's cooperative
+    /// pool. Call it only on a GCD queue or a thread of your own, never in a task or an async function (with as many
+    /// calls at once as the pool has threads, they wait for each other forever): there, `await` the async overload.
     public static func recognizeLines(in image: CGImage, language: String = "") throws -> [RecognizedLine] {
         let request = VNRecognizeTextRequest()
         request.recognitionLevel = .accurate
@@ -61,9 +64,22 @@ public enum TextRecognizer {
         return lines.sorted { $0.bounds.minY < $1.bounds.minY }
     }
 
-    /// All the text, one line per recognised line.
+    /// The lines of text in `image`, top to bottom, for tasks and async functions: Vision runs on a queue of its own
+    /// and the task's thread is free while it waits.
+    public static func recognizeLines(in image: CGImage, language: String = "") async throws -> [RecognizedLine] {
+        try await VisionQueue.run { try recognizeLines(in: image, language: language) }
+    }
+
+    /// All the text, one line per recognised line. Blocks the calling thread: only on a GCD queue or a thread of your
+    /// own, never in a task or an async function (see `recognizeLines`).
     public static func recognizeText(in image: CGImage, language: String = "") throws -> String {
         try recognizeLines(in: image, language: language).map(\.text).joined(separator: "\n")
+    }
+
+    /// All the text, one line per recognised line, for tasks and async functions (the task's thread is free while
+    /// Vision works).
+    public static func recognizeText(in image: CGImage, language: String = "") async throws -> String {
+        try await recognizeLines(in: image, language: language).map(\.text).joined(separator: "\n")
     }
 
     /// The languages Vision can recognise, as BCP 47 codes, for a settings popup.
