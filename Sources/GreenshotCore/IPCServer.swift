@@ -18,7 +18,7 @@ public final class IPCServer: @unchecked Sendable {
         /// `native_messaging` and `mcp`.
         public var acceptedSources: Set<IPCSource> = [.cli]
         public var maxConnections = 16
-        /// How long a new connection may take to send HELLO.
+        /// How long a new connection may take to send its whole HELLO (one deadline, not per read).
         public var helloTimeout: TimeInterval = 10
         /// How long a frame may wait for the client to read it before the connection is closed (upstream
         /// `ReplyWriteTimeout`, 2 minutes).
@@ -215,7 +215,6 @@ public final class IPCServer: @unchecked Sendable {
         IPCSocket.setNoSigPipe(fd)
         IPCSocket.setSendBuffer(fd, bytes: configuration.sendBufferSize)
         IPCSocket.setTimeout(fd, option: SO_SNDTIMEO, seconds: configuration.writeTimeout)
-        IPCSocket.setTimeout(fd, option: SO_RCVTIMEO, seconds: configuration.helloTimeout)
         guard let peer = IPCSocket.peer(of: fd), peer.uid == configuration.allowedUID else {
             log.warn("[SECURITY] Automation connection of another user refused.")
             close(fd)
@@ -327,11 +326,16 @@ private final class Connection: IPCFrameWriter, @unchecked Sendable {
         var textFrames = false
         let configuration = server.configuration
         let log = server.log
+        // Until HELLO is accepted: small frames, and all of it within one deadline
+        let helloDeadline = Date().addingTimeInterval(configuration.helloTimeout)
 
         while true {
             let payload: Data?
             do {
-                payload = try IPCFrameIO.readFrame(fd, minimum: IPCFrame.minimumJSONLength)
+                payload = source == nil
+                    ? try IPCFrameIO.readFrame(fd, minimum: IPCFrame.minimumJSONLength, maximum: IPCFrame.maximumHelloLength,
+                                               deadline: helloDeadline)
+                    : try IPCFrameIO.readFrame(fd, minimum: IPCFrame.minimumJSONLength)
             } catch IPCIOError.invalidLength(let length) {
                 log.warn("[SECURITY] Invalid or oversized payload received on the automation socket: \(length) bytes. Closing connection.")
                 return
@@ -378,8 +382,6 @@ private final class Connection: IPCFrameWriter, @unchecked Sendable {
                     jsonIdentified = true
                     lock.unlock()
                 }
-                // Identified: requests and watch connections may take their time
-                IPCSocket.setTimeout(fd, option: SO_RCVTIMEO, seconds: 0)
                 log.debug("Automation connection identified: source '\(claimed.rawValue)', client '\(envelope.client ?? "")' \(envelope.clientVersion ?? "")")
                 continue
             }

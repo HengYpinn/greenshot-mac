@@ -230,6 +230,60 @@ struct IPCServerTests {
         #expect(waitUntil { server.connectionCount == 0 })
     }
 
+    @Test func helloLargerThanItsCapClosesTheConnection() throws {
+        let server = try makeServer()
+        defer { server.stop() }
+        let client = try IPCClient.connect(to: server.configuration.socketPath)
+        client.setReadTimeout(5)
+        defer { client.close() }
+        var hello = IPCEnvelope.hello(source: .cli, replyFormat: .text, client: "tests", clientVersion: "1")
+        hello.extra = ["padding": .string(String(repeating: "x", count: IPCFrame.maximumHelloLength))]
+        // The server closes after the length prefix, maybe while the rest is still being written
+        _ = try? client.send(hello)
+        let next = try? client.readFrame()
+        #expect(next == nil)
+        #expect(waitUntil { server.connectionCount == 0 })
+    }
+
+    @Test func slowHelloIsClosedAtItsDeadline() throws {
+        let server = try makeServer { $0.helloTimeout = 0.5 }
+        defer { server.stop() }
+        let client = try IPCClient.connect(to: server.configuration.socketPath)
+        defer { client.close() }
+        let frame = IPCFrame.encode(IPCJSON.data(IPCEnvelope.hello(source: .cli, replyFormat: .text, client: "tests",
+                                                                   clientVersion: "1").jsonObject))
+        // A byte every 100 ms: more than the deadline in all, never a pause as long as it
+        let fd = client.fd
+        let trickle = Thread {
+            for byte in frame.prefix(30) {
+                var value = byte
+                if Darwin.write(fd, &value, 1) != 1 { return }
+                usleep(100_000)
+            }
+        }
+        let started = Date()
+        trickle.start()
+        #expect(waitUntil { server.connectionCount == 1 })
+        #expect(waitUntil { server.connectionCount == 0 })
+        // Closed at the deadline, long before the 3 seconds of trickling end
+        let elapsed = Date().timeIntervalSince(started)
+        #expect(elapsed < 2)
+    }
+
+    @Test func largeRequestAfterHelloIsRead() throws {
+        let server = try makeServer()
+        defer { server.stop() }
+        let client = try connect(server)
+        defer { client.close() }
+        var envelope = IPCEnvelope(command: IPCCommand.version)
+        envelope.extra = ["padding": .string(String(repeating: "y", count: 300_000))]
+        try client.send(envelope)
+        var out = Data()
+        let code = client.receiveTextReply(stdout: { out.append($0) }, stderr: { _ in })
+        #expect(code == 0)
+        #expect(String(decoding: out, as: UTF8.self).contains("9.9"))
+    }
+
     @Test func clientClosingEarlyDoesNotHurtTheServer() throws {
         let server = try makeServer()
         defer { server.stop() }
