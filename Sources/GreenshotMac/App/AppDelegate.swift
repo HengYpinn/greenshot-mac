@@ -147,6 +147,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         settingsWindow.show(pane: pane)
     }
 
+    /// The log viewer on the app's log; a search text (at most 200 characters, trimmed, escaped) shows only the
+    /// entries with it and never changes the level. For `greenshotmac://log?search=` (upstream `LogViewerWindow.ShowForLink`).
+    func showLogViewer(search: String?) {
+        LogViewerWindowController.show(search: search.map(LogSearch.linkSearchText))
+    }
+
+    @objc func showLogViewer(_ sender: Any?) {
+        showLogViewer(search: nil)
+    }
+
     @objc func showAbout(_ sender: Any?) {
         NSApp.activate()
         NSApp.orderFrontStandardAboutPanel(options: [.applicationName: AppInfo.name, .version: AppAboutCredits.versionDetail,

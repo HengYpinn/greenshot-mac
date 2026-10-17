@@ -108,7 +108,7 @@ public enum LogSanitizer {
     }
 
     /// 1234567 as "1,234,567", like upstream's `{0:N0}` in the invariant culture.
-    static func groupedNumber(_ number: Int) -> String {
+    public static func groupedNumber(_ number: Int) -> String {
         let digits = String(abs(number))
         var groups: [Substring] = []
         var end = digits.endIndex
