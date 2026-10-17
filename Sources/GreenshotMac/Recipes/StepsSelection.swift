@@ -125,19 +125,11 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
     }
 }
 
-/// Vision's text recognition off the cooperative pool: its synchronous perform blocks its thread while it waits for
-/// work that may need a pool thread (the wave 3 CI hang), so it runs on a global queue.
+/// Vision's text recognition for the steps, through Core's async recognition, which runs Vision off the cooperative
+/// pool (its synchronous perform blocks its thread while it waits for work that may need a pool thread).
 enum RecipeVision {
     static func text(of image: CGImage, language: String = "") async throws -> String {
-        try await withCheckedThrowingContinuation { continuation in
-            DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    let lines = try TextRecognizer.recognizeLines(in: image, language: language)
-                    continuation.resume(returning: lines.map(\.text).joined(separator: "\n"))
-                } catch {
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
+        let lines = try await TextRecognizer.recognizeLines(in: image, language: language)
+        return lines.map(\.text).joined(separator: "\n")
     }
 }
