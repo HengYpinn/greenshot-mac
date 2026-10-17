@@ -44,18 +44,3 @@ public struct ImageOutputOptions: Equatable, Sendable {
                   autoReduceColors: settings.autoReduceColors, pdf: settings.pdf, title: title)
     }
 }
-
-extension ImageExporter {
-    /// Encodes `image` as `options` say.
-    public static func data(for image: CGImage, options: ImageOutputOptions) throws -> Data {
-        try data(for: image, format: options.format, quality: options.jpegQuality, scale: options.scale,
-                 maxColors: options.reduceColors ? options.reduceColorsTo : nil)
-    }
-
-    /// Writes the image as `options` say, creating missing folders on the way.
-    public static func write(_ image: CGImage, to url: URL, options: ImageOutputOptions) throws {
-        try write(image, to: url, format: options.format, quality: options.jpegQuality, scale: options.scale,
-                  maxColors: options.reduceColors ? options.reduceColorsTo : nil)
-    }
-}
-

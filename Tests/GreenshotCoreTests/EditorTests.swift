@@ -168,7 +168,9 @@ struct RendererTests {
         var style = AnnotationStyle.defaults(for: .obfuscate)
         style.pixelSize = 4
         let image = try render([Annotation(kind: .obfuscate, start: CGPoint(x: 0, y: 0), end: CGPoint(x: 40, y: 40), style: style)], on: checker)
-        #expect(TestImage.pixel(image, 9, 9) == TestImage.pixel(image, 10, 9))
+        // Blocks of the average with a little noise (the pixelate that can't be reversed): grey, not black or white.
+        let pixelated = TestImage.pixel(image, 9, 9)
+        #expect([pixelated.r, pixelated.g, pixelated.b].allSatisfy { (60...200).contains(Int($0)) })
         #expect(TestImage.pixel(image, 60, 60) != TestImage.pixel(image, 61, 60))
     }
 

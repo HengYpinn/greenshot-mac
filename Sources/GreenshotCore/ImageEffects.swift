@@ -265,6 +265,22 @@ public enum ImageEffects {
         return colors.count
     }
 
+    /// The number of different colors, counted up to `limit + 1`: stops as soon as there are more than `limit`, so a
+    /// big capture is not read to the end just to learn it has many colors (upstream `WuQuantizer.GetColorCount`).
+    public static func colorCount(_ image: CGImage, atMost limit: Int) -> Int {
+        guard let context = AnnotationRenderer.makeContext(width: image.width, height: image.height),
+              let pixels = pixelBuffer(of: image, in: context) else { return 0 }
+        var colors = Set<UInt32>()
+        for y in 0..<image.height {
+            let row = y * context.bytesPerRow
+            for x in 0..<image.width {
+                colors.insert(packedColor(pixels, row + x * 4))
+                if colors.count > limit { return colors.count }
+            }
+        }
+        return colors.count
+    }
+
     // MARK: - Helpers
 
     /// Upstream `CreateGrayscale`'s color matrix. Written as typed steps: as one expression inside the pixel closure,

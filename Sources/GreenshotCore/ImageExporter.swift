@@ -7,9 +7,11 @@ import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 
-/// The file formats Greenshot writes (upstream `OutputFileFormat`).
+/// The file formats Greenshot writes (upstream `OutputFileFormat` and the formats of its file format handlers:
+/// `DefaultFileFormatHandler`, `ImageSharpFileFormatHandler` (TGA, PBM), `IconFileFormatHandler` and the PDF plugin's
+/// `PdfFileFormatHandler`).
 public enum ImageFormat: String, Codable, CaseIterable, Sendable {
-    case png, jpg, bmp, gif, tiff
+    case png, jpg, bmp, gif, tiff, webp, ico, tga, pbm, pdf
 
     public var fileExtension: String { rawValue }
 
@@ -20,6 +22,11 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return .bmp
         case .gif: return .gif
         case .tiff: return .tiff
+        case .webp: return .webP
+        case .ico: return .ico
+        case .tga: return UTType("com.truevision.tga-image") ?? UTType(filenameExtension: "tga") ?? .image
+        case .pbm: return UTType("public.pbm") ?? UTType(filenameExtension: "pbm") ?? .image
+        case .pdf: return .pdf
         }
     }
 
@@ -30,11 +37,37 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case .bmp: return "BMP"
         case .gif: return "GIF"
         case .tiff: return "TIFF"
+        case .webp: return "WebP (lossless)"
+        case .ico: return "ICO (icon)"
+        case .tga: return "TGA (Targa)"
+        case .pbm: return "PBM (Netpbm)"
+        case .pdf: return "PDF"
         }
     }
 
-    /// Formats without transparency get a white background.
-    var supportsAlpha: Bool { self == .png || self == .tiff || self == .gif }
+    /// The MIME type (upstream's `RegisterFileFormat`).
+    public var mimeType: String {
+        switch self {
+        case .png: return "image/png"
+        case .jpg: return "image/jpeg"
+        case .bmp: return "image/bmp"
+        case .gif: return "image/gif"
+        case .tiff: return "image/tiff"
+        case .webp: return "image/webp"
+        case .ico: return "image/x-icon"
+        case .tga: return "image/x-tga"
+        case .pbm: return "image/x-portable-bitmap"
+        case .pdf: return "application/pdf"
+        }
+    }
+
+    /// Formats without transparency get a white background (a PDF page is white under the image anyway).
+    var supportsAlpha: Bool {
+        switch self {
+        case .png, .tiff, .gif, .webp, .ico, .tga, .pdf: return true
+        case .jpg, .bmp, .pbm: return false
+        }
+    }
 
     public init?(fileExtension: String) {
         switch fileExtension.lowercased() {
@@ -43,6 +76,11 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
         case "bmp": self = .bmp
         case "gif": self = .gif
         case "tif", "tiff": self = .tiff
+        case "webp": self = .webp
+        case "ico": self = .ico
+        case "tga": self = .tga
+        case "pbm": self = .pbm
+        case "pdf": self = .pdf
         default: return nil
         }
     }
@@ -50,46 +88,125 @@ public enum ImageFormat: String, Codable, CaseIterable, Sendable {
 
 public enum ImageExportError: Error, LocalizedError {
     case encodingFailed(ImageFormat)
+    /// The format can't store an image this big (WebP: 16384 pixels a side, TGA: 65535).
+    case tooLarge(ImageFormat, maxSide: Int)
 
     public var errorDescription: String? {
         switch self {
         case .encodingFailed(let format): return "The image could not be encoded as \(format.displayName)."
+        case let .tooLarge(format, maxSide):
+            return "The image is too big for \(format.displayName): it can be at most \(maxSide) pixels wide and high."
         }
     }
 }
 
+/// Writes images in the formats of `ImageFormat`: upstream `ImageIO.SaveToStream` with the output settings of
+/// `ImageIO.CreateImageForOutput` (`Greenshot.Base/Core/ImageIO.cs`) and the encoders of the file format handlers.
 public enum ImageExporter {
-    /// `quality` is 0–100 and only used for JPEG. `scale` is the capture's pixels per point: it is written as the
-    /// resolution (72 dpi × scale, so 144 dpi for Retina), which is how `ImageLoader` and Preview find the real size.
-    /// `maxColors` reduces PNG and GIF images to that many colours (upstream `OutputFileReduceColors`).
-    public static func data(for image: CGImage, format: ImageFormat, quality: Int = 80, scale: CGFloat = 1,
-                            maxColors: Int? = nil) throws -> Data {
+    /// The "Software" tag written into PNG, JPEG and TIFF files (upstream `ImageIO.AddTag` and the "Software" text
+    /// of `ImageSharpFileFormatHandler`): the app's name and, in the app bundle, its version.
+    public static var software: String {
+        let name = "Greenshot for Mac (Community)"
+        guard let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
+              !version.isEmpty, !version.hasPrefix("__") else { return name }
+        return "\(name) \(version)"
+    }
+
+    /// Encodes `image` as `options` say: colour reduction (`reduceColors`, `autoReduceColors`, always for GIF), the
+    /// resolution, the JPEG quality and the "Software" tag.
+    public static func data(for image: CGImage, options: ImageOutputOptions) throws -> Data {
+        let format = options.format
+        switch format {
+        case .pdf: return try ImageFormatEncoders.pdf(image, options: options)
+        case .tga: return try ImageFormatEncoders.tga(prepared(image, options: options))
+        case .pbm: return try ImageFormatEncoders.pbm(prepared(image, options: options))
+        case .ico: return try ImageFormatEncoders.ico(prepared(image, options: options))
+        case .webp: return try ImageWebPEncoder.encode(prepared(image, options: options))
+        default: break
+        }
         let data = NSMutableData()
         guard let destination = CGImageDestinationCreateWithData(data, format.utType.identifier as CFString, 1, nil) else {
             throw ImageExportError.encodingFailed(format)
         }
-        var source = format.supportsAlpha ? image : (opaque(image) ?? image)
-        if let maxColors, format == .png || format == .gif {
-            source = ColorQuantizer.reduce(source, to: maxColors)
-        }
+        let source = prepared(image, options: options)
         var properties: [CFString: Any] = [
-            kCGImagePropertyDPIWidth: 72 * scale,
-            kCGImagePropertyDPIHeight: 72 * scale,
+            kCGImagePropertyDPIWidth: 72 * options.scale,
+            kCGImagePropertyDPIHeight: 72 * options.scale,
         ]
-        if format == .jpg {
-            properties[kCGImageDestinationLossyCompressionQuality] = Double(min(max(quality, 1), 100)) / 100
+        switch format {
+        case .png:
+            properties[kCGImagePropertyPNGDictionary] = [kCGImagePropertyPNGSoftware: software]
+        case .jpg:
+            properties[kCGImageDestinationLossyCompressionQuality] = Double(min(max(options.jpegQuality, 1), 100)) / 100
+            properties[kCGImagePropertyTIFFDictionary] = [kCGImagePropertyTIFFSoftware: software]
+        case .tiff:
+            properties[kCGImagePropertyTIFFDictionary] = [kCGImagePropertyTIFFSoftware: software]
+        default:
+            break
         }
         CGImageDestinationAddImage(destination, source, properties as CFDictionary)
         guard CGImageDestinationFinalize(destination) else { throw ImageExportError.encodingFailed(format) }
         return data as Data
     }
 
+    /// Writes the image as `options` say, creating missing folders on the way. A PDF without a title gets the file's
+    /// name as its title.
+    public static func write(_ image: CGImage, to url: URL, options: ImageOutputOptions) throws {
+        var options = options
+        if options.title.isEmpty { options.title = url.deletingPathExtension().lastPathComponent }
+        let encoded = try data(for: image, options: options)
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try encoded.write(to: url, options: .atomic)
+    }
+
+    /// `quality` is 0–100 and only used for JPEG. `scale` is the capture's pixels per point: it is written as the
+    /// resolution (72 dpi × scale, so 144 dpi for Retina), which is how `ImageLoader` and Preview find the real size.
+    /// `maxColors` reduces the colours to that many (upstream `OutputFileReduceColors`).
+    public static func data(for image: CGImage, format: ImageFormat, quality: Int = 80, scale: CGFloat = 1,
+                            maxColors: Int? = nil) throws -> Data {
+        try data(for: image, options: options(format, quality: quality, scale: scale, maxColors: maxColors))
+    }
+
     /// Writes the image, creating missing folders on the way.
     public static func write(_ image: CGImage, to url: URL, format: ImageFormat, quality: Int = 80, scale: CGFloat = 1,
                              maxColors: Int? = nil) throws {
-        let encoded = try data(for: image, format: format, quality: quality, scale: scale, maxColors: maxColors)
-        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        try encoded.write(to: url, options: .atomic)
+        try write(image, to: url, options: options(format, quality: quality, scale: scale, maxColors: maxColors))
+    }
+
+    private static func options(_ format: ImageFormat, quality: Int, scale: CGFloat, maxColors: Int?) -> ImageOutputOptions {
+        ImageOutputOptions(format: format, jpegQuality: quality, scale: scale, reduceColors: maxColors != nil,
+                           reduceColorsTo: maxColors ?? 256)
+    }
+
+    // MARK: - Output settings
+
+    /// The image as it is encoded: on white for formats without transparency, then with its colours reduced
+    /// (upstream `CreateImageForOutput`).
+    static func prepared(_ image: CGImage, options: ImageOutputOptions) -> CGImage {
+        let format = options.format
+        let source = format.supportsAlpha ? image : (opaque(image) ?? image)
+        return reducedColors(source, options: options)
+    }
+
+    /// Upstream `CreateImageForOutput`'s colour reduction: with "Reduce colours" (always for GIF, which has 256 colours
+    /// at most) the image gets at most `reduceColorsTo` colours; with "Auto reduce colours" an image without
+    /// transparency that has fewer than 256 colours does too. An opaque result becomes an 8-bit palette image, so PNG,
+    /// TIFF and GIF files are written with a palette and get smaller, like upstream's 8-bit images. Images with
+    /// transparency keep 32 bits (a palette image here has no alpha). JPEG keeps all its colours.
+    static func reducedColors(_ image: CGImage, options: ImageOutputOptions) -> CGImage {
+        let format = options.format
+        guard format.reducesColors else { return image }
+        let limit = min(max(options.reduceColorsTo, 2), 256)
+        let forced = options.reduceColors || format == .gif
+        guard forced || options.autoReduceColors else { return image }
+        let opaque = !ImageOperations.hasTransparency(image)
+        if !forced {
+            // Upstream counts the colours and only reduces when there are fewer than 256 (and no alpha).
+            guard opaque, ImageEffects.colorCount(image, atMost: 255) <= 255 else { return image }
+        }
+        let reduced = ColorQuantizer.reduce(image, to: limit)
+        guard opaque, format.writesPalette else { return reduced }
+        return ColorQuantizer.indexed(reduced) ?? reduced
     }
 
     /// The image on white, for formats without an alpha channel.
@@ -103,6 +220,18 @@ public enum ImageExporter {
         context.draw(image, in: rect)
         return context.makeImage()
     }
+}
+
+extension ImageFormat {
+    /// Whether "Reduce colours" applies: not to JPEG, whose compression brings the colours back, nor to PDF.
+    var reducesColors: Bool { self != .jpg && self != .pdf }
+
+    /// Whether ImageIO writes an 8-bit palette image as a palette file (BMP comes out with 24 bits anyway).
+    var writesPalette: Bool { self == .png || self == .gif || self == .tiff }
+
+    /// Whether the quality setting changes the file: only JPEG is lossy here (upstream's quality dialog greys the
+    /// slider out for the other formats).
+    public var usesQuality: Bool { self == .jpg }
 }
 
 /// Reduces an image to at most N colours with median cut: port of upstream `WuQuantizer` use for
@@ -144,6 +273,45 @@ public enum ColorQuantizer {
             }
         }
         return context.makeImage() ?? image
+    }
+
+    /// The image as an 8-bit palette image (indexed sRGB), or nil when it has transparency (a palette image here has no
+    /// alpha) or more than 256 colours. ImageIO writes such an image as a palette PNG, TIFF or GIF.
+    public static func indexed(_ image: CGImage) -> CGImage? {
+        let width = image.width
+        let height = image.height
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
+                                      space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue),
+              let data = context.data else { return nil }
+        context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
+        let bytesPerRow = context.bytesPerRow
+        let bytes = data.bindMemory(to: UInt8.self, capacity: bytesPerRow * height)
+        var indices: [UInt32: UInt8] = [:]
+        var table: [UInt8] = []
+        var pixels = [UInt8](repeating: 0, count: width * height)
+        for row in 0..<height {
+            for column in 0..<width {
+                let i = row * bytesPerRow + column * 4
+                guard bytes[i + 3] == 255 else { return nil }
+                let color = key(bytes[i], bytes[i + 1], bytes[i + 2])
+                if let index = indices[color] {
+                    pixels[row * width + column] = index
+                    continue
+                }
+                guard indices.count < 256 else { return nil }
+                let index = UInt8(indices.count)
+                indices[color] = index
+                table += [bytes[i], bytes[i + 1], bytes[i + 2]]
+                pixels[row * width + column] = index
+            }
+        }
+        guard let base = CGColorSpace(name: CGColorSpace.sRGB),
+              let space = CGColorSpace(indexedBaseSpace: base, last: max(indices.count - 1, 0), colorTable: table),
+              let provider = CGDataProvider(data: Data(pixels) as CFData) else { return nil }
+        return CGImage(width: width, height: height, bitsPerComponent: 8, bitsPerPixel: 8, bytesPerRow: width, space: space,
+                       bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue), provider: provider, decode: nil,
+                       shouldInterpolate: false, intent: .defaultIntent)
     }
 
     private static func key(_ r: UInt8, _ g: UInt8, _ b: UInt8) -> UInt32 {

@@ -14,13 +14,19 @@ extension EditorWindowController {
         // Upstream's Effects menu: a pull-down whose first item is its button.
         let effects = NSPopUpButton(frame: .zero, pullsDown: true)
         effects.controlSize = .small
-        effects.toolTip = "Effects on the whole image"
+        effects.toolTip = "Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)"
         effects.addItem(withTitle: "Effects")
         effects.item(at: 0)?.image = NSImage(systemSymbolName: "sparkles", accessibilityDescription: nil)
-        for (index, effect) in ImageEffect.allCases.enumerated() {
-            let item = NSMenuItem(title: effect.menuTitle, action: #selector(applyEffect(_:)), keyEquivalent: "")
+        for item in Self.effectMenuItems(keyEquivalents: false) {
             item.target = self
-            item.tag = index
+            effects.menu?.addItem(item)
+        }
+        // Upstream's split button also has Remove Transparency and the text obfuscation ("Redact Text").
+        effects.menu?.addItem(.separator())
+        for (title, action) in [("Remove Transparency…", #selector(removeTransparency(_:))),
+                                ("Obfuscate Text…", #selector(obfuscateText(_:)))] {
+            let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+            item.target = self
             effects.menu?.addItem(item)
         }
         let resize = imageButton("arrow.up.left.and.arrow.down.right", "Resize the image (⌥⌘R)", #selector(resizeImage(_:)))
@@ -43,9 +49,36 @@ extension EditorWindowController {
 
     // MARK: Effects
 
-    /// An item of the Effects menu (in the window and the main menu); its tag is the effect's index. Drop shadow
-    /// and torn edges ask for their settings first (upstream opens the dialog with a right click), the others apply.
+    /// The items of the Effects menu, in the window's pull-down and in the Image menu (`keyEquivalents`); their tag is
+    /// the effect's index. Drop shadow and torn edges have an ⌥ alternate that asks for the settings first.
+    static func effectMenuItems(keyEquivalents: Bool) -> [NSMenuItem] {
+        var items: [NSMenuItem] = []
+        for (index, effect) in ImageEffect.allCases.enumerated() {
+            let key = keyEquivalents ? effect.keyEquivalent : ""
+            let item = NSMenuItem(title: effect.title, action: #selector(applyEffect(_:)), keyEquivalent: key)
+            item.keyEquivalentModifierMask = keyEquivalents ? [.control, .command] : []
+            item.tag = index
+            items.append(item)
+            guard effect.hasSettings else { continue }
+            let alternate = NSMenuItem(title: effect.title + "…", action: #selector(applyEffectWithSettings(_:)), keyEquivalent: key)
+            alternate.keyEquivalentModifierMask = keyEquivalents ? [.control, .option, .command] : [.option]
+            alternate.isAlternate = true
+            alternate.tag = index
+            items.append(alternate)
+        }
+        return items
+    }
+
+    /// An item of the Effects menu (in the window and the main menu); its tag is the effect's index. The drop shadow
+    /// and the torn edges apply with their last settings, like a click on upstream's buttons.
     @objc func applyEffect(_ sender: NSMenuItem) {
+        guard ImageEffect.allCases.indices.contains(sender.tag) else { return }
+        applyWithSettings(ImageEffect.allCases[sender.tag])
+    }
+
+    /// The ⌥ alternate of the drop shadow and the torn edges: their settings dialog first, then the effect (upstream
+    /// opens the dialog with a right click, `ImageEditorForm.AddDropshadowToolStripMenuItemMouseUp`).
+    @objc func applyEffectWithSettings(_ sender: NSMenuItem) {
         guard ImageEffect.allCases.indices.contains(sender.tag) else { return }
         let effect = ImageEffect.allCases[sender.tag]
         switch effect {
@@ -120,9 +153,10 @@ extension EditorWindowController {
         performImageOperation { $0.enlargeCanvas() }
     }
 
-    /// Upstream "Shrink canvas" (Ctrl+Shift+Minus): cuts the transparent margin away again.
+    /// Upstream "Shrink canvas" (Ctrl+Shift+Minus): cuts a border of one color away, like the margin of Enlarge Canvas.
     @objc func shrinkCanvas(_ sender: Any?) {
-        if !performImageOperation({ $0.shrinkCanvas() }) { NSSound.beep() }
+        let difference = settings.value.autoCropDifference
+        if !performImageOperation({ $0.shrinkCanvas(difference: difference) }) { NSSound.beep() }
     }
 
     /// Upstream "Clear" (Ctrl+Delete): the image becomes transparent; its size and the elements stay.
@@ -130,9 +164,15 @@ extension EditorWindowController {
         performImageOperation { $0.clearImage() }
     }
 
-    /// Upstream "Remove transparency": the transparent parts become white.
+    /// Upstream "Remove transparency": asks for the color the transparent parts get (white to start with, like
+    /// upstream's `ColorDialog`), then puts the image on it.
     @objc func removeTransparency(_ sender: Any?) {
-        if !performImageOperation({ $0.removeTransparency() }) { NSSound.beep() }
+        let form = RemoveTransparencyForm()
+        EffectSettingsDialog.run(title: "Remove Transparency", message: "The transparent parts of the image get this color.",
+                                 content: form.view, owner: form, okTitle: "Remove", for: window) { [weak self] in
+            let color = form.color
+            if self?.performImageOperation({ $0.removeTransparency(color: color) }) == false { NSSound.beep() }
+        }
     }
 
     // MARK: Crop modes
@@ -189,22 +229,31 @@ extension EditorWindowController {
 
     // MARK: Text obfuscation
 
-    /// Upstream "Obfuscate Text…": covers the text found in the image with obfuscate or highlight elements.
+    /// Upstream "Obfuscate Text…" ("Redact Text"): covers the text found in the image with obfuscate or highlight
+    /// elements, previewed on the image while the dialog is open.
     @objc func obfuscateText(_ sender: Any?) {
         guard let window else { return }
+        textObfuscationSheet().begin(for: window)
+    }
+
+    /// The dialog wired to this editor: settings, the preview and the elements. `lines` are already recognized lines
+    /// (snapshots).
+    func textObfuscationSheet(lines: [RecognizedLine]? = nil) -> TextObfuscationSheet {
         canvas.commitEditing()
         let sheet = TextObfuscationSheet(image: editorDocument.baseImage, settings: settings.value.textObfuscation,
-                                         language: settings.value.ocrLanguage)
+                                         language: settings.value.ocrLanguage, lines: lines)
+        let preview = ObfuscationPreview(editor: self)
+        sheet.onPreview = { elements in preview.show(elements) }
         sheet.onSaveSettings = { [weak self] options in self?.settings.update { $0.textObfuscation = options } }
         sheet.onApply = { [weak self] boxes, options in
             guard let self else { return }
             let elements = TextObfuscation.annotations(for: boxes, settings: options)
             self.performImageOperation { document in
-                elements.forEach(document.add)
+                document.add(elements)
                 return true
             }
         }
-        sheet.begin(for: window)
+        return sheet
     }
 
     // MARK: Helpers
@@ -264,13 +313,8 @@ private enum TransparencyCheck {
 }
 
 extension ImageEffect {
-    /// The title in menus: the effects that open a settings dialog end in an ellipsis.
-    var menuTitle: String {
-        switch self {
-        case .dropShadow, .tornEdge: return title + "…"
-        default: return title
-        }
-    }
+    /// The effects with a settings dialog (an ⌥ alternate in the menus).
+    var hasSettings: Bool { self == .dropShadow || self == .tornEdge }
 
     /// The Image menu's shortcut, with ⌃⌘. Upstream uses Ctrl+B/Q/T/G/I, but ⌘B/I/T/G/Q are bold, italic, fonts,
     /// find next and quit on a Mac, and ⌃⌘Q locks the screen (the app never sees it), so the drop shadow is ⌃⌘S.
@@ -282,5 +326,27 @@ extension ImageEffect {
         case .grayscale: return "g"
         case .invert: return "i"
         }
+    }
+}
+
+/// The preview elements of the Obfuscate Text dialog (upstream `TextObfuscationWindow.ShowPreview`/`ClearPreview`):
+/// added to the document outside an undo step and taken away again before Apply adds the real ones. The dialog is
+/// a sheet, so nothing else changes the document meanwhile.
+@MainActor
+final class ObfuscationPreview {
+    private weak var editor: EditorWindowController?
+    private var shown: Set<UUID> = []
+
+    init(editor: EditorWindowController) {
+        self.editor = editor
+    }
+
+    func show(_ elements: [Annotation]) {
+        guard let editor, !(shown.isEmpty && elements.isEmpty) else { return }
+        let document = editor.editorDocument
+        document.remove(shown)
+        document.add(elements)
+        shown = Set(elements.map(\.id))
+        editor.canvas.documentChanged()
     }
 }

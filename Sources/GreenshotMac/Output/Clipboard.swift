@@ -41,37 +41,31 @@ enum Clipboard {
         pasteboard.setString(text, forType: .string)
     }
 
-    /// The image on the clipboard at its full resolution, with its pixels per point.
+    /// The image on the clipboard at its full resolution, with its pixels per point, upright: a copied image file,
+    /// image data, or a `data:` image of copied HTML (`ImagePasteboard`).
     static func image() -> (image: CGImage, scale: CGFloat)? {
-        guard let image = NSImage(pasteboard: .general) else { return nil }
-        return ImageLoader.bitmap(of: image)
+        ImagePasteboard.image(from: .general)
     }
 }
 
 enum ImageLoader {
-    /// An image file with its pixels per point, taken from its resolution (144 dpi screenshots are Retina, 2x).
+    /// An image file with its pixels per point, taken from its resolution (144 dpi screenshots are Retina, 2x), turned
+    /// upright by its EXIF orientation; for icons the biggest size (`ImageFileLoader`).
     static func load(_ url: URL) -> (image: CGImage, scale: CGFloat)? {
-        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
-              let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
-        let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any]
-        let dpi = (properties?[kCGImagePropertyDPIWidth] as? NSNumber)?.doubleValue ?? 72
-        return (image, CGFloat(min(max((dpi / 72).rounded(), 1), 4)))
+        ImageFileLoader.load(url)
     }
 
     static func bitmap(of image: NSImage) -> (image: CGImage, scale: CGFloat)? {
-        let best = image.representations
-            .compactMap { $0 as? NSBitmapImageRep }
-            .max { $0.pixelsWide < $1.pixelsWide }
-        if let best, let cgImage = best.cgImage {
-            let scale = best.size.width > 0 ? CGFloat(best.pixelsWide) / best.size.width : 1
-            return (cgImage, max(scale.rounded(), 1))
-        }
-        var rect = CGRect(origin: .zero, size: image.size)
-        guard let cgImage = image.cgImage(forProposedRect: &rect, context: nil, hints: nil) else { return nil }
-        return (cgImage, 1)
+        ImagePasteboard.bitmap(of: image)
     }
 
     /// The image an HTML copy on the clipboard points to (`<img src="https://…">`), downloaded (upstream
-    /// `ClipboardHelper` HTML handling). Nil when there is none.
-    static func downloadedHTMLImage() async -> (image: CGImage, scale: CGFloat)? { nil }
+    /// `ClipboardService.GetImageAsync`): the first source that gives an image. Nil when there is none.
+    static func downloadedHTMLImage() async -> (image: CGImage, scale: CGFloat)? {
+        let urls = await MainActor.run { ImagePasteboard.webImageURLs(on: .general) }
+        for url in urls {
+            if let image = await ImagePasteboard.downloadImage(from: url) { return image }
+        }
+        return nil
+    }
 }
