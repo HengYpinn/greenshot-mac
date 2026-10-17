@@ -73,12 +73,12 @@ extension Annotation {
     }
 
     /// Whether "Reset size" applies: upstream `HasDefaultSize` (image, icon, SVG, metafile and cursor containers; the
-    /// Mac has image and SVG elements).
-    public var hasDefaultSize: Bool { [.image, .svg].contains(kind) && imageData != nil }
+    /// Mac has image, SVG and pointer elements).
+    public var hasDefaultSize: Bool { [.image, .svg, .cursor].contains(kind) && imageData != nil }
 
-    /// The size of an image element's picture at its own pixels per point (from its resolution), or of an SVG at its
-    /// own size, on an image with `documentScale` pixels per point (upstream `ImageContainer.DefaultSize`,
-    /// `SvgContainer.DefaultSize`).
+    /// The size of an image or pointer element's picture at its own pixels per point (from its resolution), or of an
+    /// SVG at its own size, on an image with `documentScale` pixels per point (upstream `ImageContainer.DefaultSize`,
+    /// `SvgContainer.DefaultSize`, `CursorContainer.DefaultSize`).
     public func defaultSize(documentScale: CGFloat) -> CGSize? {
         if kind == .svg {
             guard let data = imageData, let size = ElementSvg.size(of: data) else { return nil }

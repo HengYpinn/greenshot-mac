@@ -24,8 +24,13 @@ extension EditorWindowController {
         [CutEdgeApplyButton(canvas: canvas, target: self, action: #selector(applySelectionToImage(_:)))]
     }
 
-    /// Adds the captured mouse pointer as an element, part of the opened capture (no undo step). Package E1 fills it in.
-    func addCapturedPointer(of capture: Capture) {}
+    /// Adds the captured mouse pointer as an element, part of the opened capture (no undo step), and selects it like
+    /// upstream `Surface(ICapture)` does.
+    func addCapturedPointer(of capture: Capture) {
+        guard let id = editorDocument.addPointer(capture.pointer) else { return }
+        canvas.documentChanged()
+        canvas.select(id)
+    }
 
     /// The selected cut marks and torn edges.
     var selectedCutEdgeIDs: Set<UUID> {
