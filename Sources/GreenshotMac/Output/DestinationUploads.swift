@@ -11,7 +11,8 @@ private let log = Log("Uploads")
 /// What the upload destinations share: the network, the Keychain, the encoded file and how an upload runs.
 @MainActor
 enum Uploads {
-    /// The certificate exceptions of Settings › Destinations › Your own servers (upstream `NetworkHelper`).
+    /// The certificate exceptions of Settings › Destinations › Your own servers (upstream `NetworkHelper`), which the
+    /// policy applies to the Jira and Confluence servers only: Box, Dropbox and the rest get the system's check alone.
     static let trust = TLSExceptionSessionDelegate()
     static let http: HTTPClient = URLSession(configuration: .default, delegate: trust, delegateQueue: nil)
     static let secrets: SecretStore = KeychainSecretStore.shared
@@ -21,10 +22,12 @@ enum Uploads {
         trust.update(TLSExceptionPolicy(settings: settings))
     }
 
-    /// A certificate error with the server's fingerprint and where to allow it; other errors as they are.
+    /// A certificate error of a Jira or Confluence server with the server's fingerprint and where to allow it; other
+    /// errors as they are.
     static func explained(_ error: Error) -> Error {
         guard UntrustedCertificateError.isCertificateError(error), let url = error as? URLError,
-              let host = url.failingURL?.host ?? (url.userInfo[NSURLErrorFailingURLStringErrorKey] as? String).flatMap({ URL(string: $0)?.host })
+              let host = url.failingURL?.host ?? (url.userInfo[NSURLErrorFailingURLStringErrorKey] as? String).flatMap({ URL(string: $0)?.host }),
+              trust.isServer(host)
         else { return error }
         return UntrustedCertificateError(host: host, fingerprint: trust.rejectedFingerprint(for: host), underlying: url.localizedDescription)
     }

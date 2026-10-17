@@ -206,7 +206,7 @@ struct CertificateExceptionsSection: View {
         } header: {
             Text("Your own servers")
         } footer: {
-            Text("Only for Jira and Confluence servers whose certificate macOS doesn't trust. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.")
+            Text("Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }

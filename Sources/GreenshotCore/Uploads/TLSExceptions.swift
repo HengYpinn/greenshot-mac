@@ -11,20 +11,39 @@ private let log = Log("TLS")
 
 /// Certificate exceptions for servers of one's own (self-signed or a private CA): port of upstream
 /// `Greenshot.Base/Core/NetworkHelper.ValidateServerCertificate` and `IsHostMatch` (581dc36e). They only count after
-/// the system's own check failed; empty lists (the default) change nothing.
+/// the system's own check failed, and only for the Jira and Confluence servers of the settings (upstream applies them
+/// to every connection of the app); empty lists (the default) change nothing.
 public struct TLSExceptionPolicy: Equatable, Sendable {
     /// Host names or patterns with `*` and `?` (`AllowedUntrustedCertificateHosts`).
     public var hosts: [String]
     /// SHA-1 or SHA-256 fingerprints of server certificates (`AllowedCertificateThumbprints`).
     public var thumbprints: [String]
+    /// The hosts the exceptions are for: those of the Jira and Confluence URLs. Every other server (Box, Dropbox, an
+    /// icon elsewhere) gets the system's check alone, so a fingerprint can't vouch for a certificate on another host.
+    /// None: no exception counts.
+    public var servers: [String]
 
-    public init(hosts: [String] = [], thumbprints: [String] = []) {
+    public init(hosts: [String] = [], thumbprints: [String] = [], servers: [String] = []) {
         self.hosts = hosts
         self.thumbprints = thumbprints
+        self.servers = servers
     }
 
     public init(settings: AppSettings) {
-        self.init(hosts: settings.allowedUntrustedCertificateHosts, thumbprints: settings.allowedCertificateThumbprints)
+        self.init(hosts: settings.allowedUntrustedCertificateHosts, thumbprints: settings.allowedCertificateThumbprints,
+                  servers: Self.servers(of: settings))
+    }
+
+    /// The hosts of the Jira and Confluence URLs of `settings`, read like the uploads read them (`AtlassianSite`).
+    public static func servers(of settings: AppSettings) -> [String] {
+        [settings.jira.url, settings.confluence.url].compactMap { url in
+            AtlassianSite(url: url, login: .serverToken, user: "", secret: "")?.baseURL.host?.lowercased()
+        }
+    }
+
+    /// Whether `host` is one of `servers` (case doesn't matter).
+    public func isServer(_ host: String) -> Bool {
+        servers.contains { $0.caseInsensitiveCompare(host) == .orderedSame }
     }
 
     public var isEmpty: Bool {
@@ -32,9 +51,10 @@ public struct TLSExceptionPolicy: Equatable, Sendable {
             && !thumbprints.contains { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
     }
 
-    /// Whether a server whose certificate failed the system's check is accepted anyway: by the certificate's fingerprint
-    /// first, then by the host (upstream's order).
+    /// Whether a server whose certificate failed the system's check is accepted anyway: only one of `servers`, by the
+    /// certificate's fingerprint first, then by the host (upstream's order).
     public func accepts(host: String, leafCertificate der: Data?) -> Bool {
+        guard isServer(host) else { return false }
         if let der, acceptsCertificate(der) { return true }
         return acceptsHost(host)
     }
@@ -127,6 +147,14 @@ public final class TLSExceptionSessionDelegate: NSObject, URLSessionDelegate, @u
         lock.lock()
         defer { lock.unlock() }
         self.policy = policy
+    }
+
+    /// Whether the exceptions are for `host` (a Jira or Confluence server of the settings), so a certificate error
+    /// there can be solved with one.
+    public func isServer(_ host: String) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return policy.isServer(host)
     }
 
     /// The SHA-256 fingerprint of the certificate last rejected for `host`, if any.
