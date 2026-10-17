@@ -18,7 +18,8 @@ extension GreenshotFile.Contents {
     public var openStatus: String? {
         guard let message = openMessage else { return nil }
         if case .windows = origin { return message }
-        return savesToNewFile ? message + " Save asks for a new file, so this one keeps them." : message
+        guard savesToNewFile else { return message }
+        return message + " " + String(localized: "Save asks for a new file, so this one keeps them.")
     }
 }
 

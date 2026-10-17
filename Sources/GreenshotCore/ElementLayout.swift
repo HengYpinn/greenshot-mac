@@ -14,10 +14,10 @@ public enum ElementEdge: CaseIterable, Sendable {
 
     public var title: String {
         switch self {
-        case .top: return "Top"
-        case .right: return "Right"
-        case .bottom: return "Bottom"
-        case .left: return "Left"
+        case .top: return String(localized: "Top", comment: "Edge of the image (element menu)")
+        case .right: return String(localized: "Right", comment: "Edge of the image (element menu)")
+        case .bottom: return String(localized: "Bottom", comment: "Edge of the image (element menu)")
+        case .left: return String(localized: "Left", comment: "Edge of the image (element menu)")
         }
     }
 }
