@@ -93,6 +93,10 @@ final class CaptureOverlayController {
     // Text and QR codes (CaptureOverlayAnalysis.swift)
     let ocrLanguage: String
     let scanBarcodes: Bool
+    /// Recognise the text when the capture screen opens, in every mode (upstream `AlwaysRunOCROnCapture`).
+    let recognizesTextAtOnce: Bool
+    /// How see-through the zoomer is (upstream `ZoomerOpacity`).
+    let zoomerOpacity: CGFloat
     /// The recognised lines in global points; nil until the text mode ran the recognition.
     var textLines: [RecognizedLine]?
     var recognizingText = false
@@ -111,6 +115,23 @@ final class CaptureOverlayController {
     /// A mode key during a drag: the mouse-up that ends the drag doesn't capture in the new mode.
     private var ignoresMouseUp = false
     private var previewCache: (rect: CGRect, pointer: Bool, image: CGImage, scale: CGFloat)?
+
+    // Movement (CaptureOverlayAnimator.swift). Only while the capture screen is on the screen: the snapshots draw the
+    // end state.
+    /// The capture screen is on the screen.
+    private(set) var isShown = false
+    /// Things slide and fade; not with Reduce motion (upstream: not in a remote session).
+    private(set) var animates = false
+    /// When the selection last changed: the panels avoid it only once it stayed the same for a moment.
+    var selectionChangedAt = Date.distantPast
+    var settleTimer: Timer?
+    /// The window selection sliding from window to window.
+    var selectionMotion: CaptureMotion?
+    /// When the labels of the window selection started to fade in.
+    var labelsAppearedAt: Date?
+    /// The next window selection grows out of the mouse.
+    var growsFromCursor = false
+    lazy var animator = CaptureOverlayAnimator { [weak self] in self?.redraw() }
 
     init(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool, settings: SettingsStore? = nil,
          pointerScreens: [FrozenScreen]? = nil, pointerVisible: Bool = false,
@@ -134,6 +155,8 @@ final class CaptureOverlayController {
         self.fixedAnchor = values.fixedCaptureAnchor
         self.ocrLanguage = values.ocrLanguage
         self.scanBarcodes = values.scanQRCodesOnCapture
+        self.recognizesTextAtOnce = values.alwaysRunOCROnCapture
+        self.zoomerOpacity = CGFloat(min(max(values.zoomerOpacity, 0), 1))
         self.completion = completion
     }
 
@@ -169,17 +192,21 @@ final class CaptureOverlayController {
         // No NSApp.activate(): since macOS 14 another app may refuse to give up the focus, and activating can switch
         // to the Space of an open editor. The panels show over the current app, even a full screen one, and take
         // the mouse and keys without activating this app.
+        isShown = true
+        animates = !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        growsFromCursor = mode == .window
         overlayWindows.forEach { $0.orderFrontRegardless() }
         (overlayWindows.first { $0.frozen.frame.contains(cursor) } ?? overlayWindows[0]).makeKeyAndOrderFront(nil)
         NSCursor.crosshair.set()
         if scanBarcodes { startBarcodeDetection() }
-        if mode == .text { startTextRecognition() }
+        if mode == .text || recognizesTextAtOnce { startTextRecognition() }
         updateSelection()
     }
 
     func finish(_ result: OverlaySelection?) {
         guard !finished else { return }
         finished = true
+        stopMoving()
         overlayWindows.forEach { $0.orderOut(nil) }
         overlayWindows.removeAll()
         NSCursor.arrow.set()
@@ -191,6 +218,14 @@ final class CaptureOverlayController {
 
     func redraw() {
         overlayWindows.forEach { $0.marksView.needsDisplay = true }
+    }
+
+    /// Another window took the keyboard (⌘Tab, a notification, a dialog of another app) while the capture screen stays
+    /// on top: the next mouse move gives the keys back, so Esc, Enter and the other keys work again (upstream
+    /// `CaptureWindow.xaml.cs` `_lostFocus`). The panels don't activate the app, so neither does this.
+    func takeKeysBack(to window: NSWindow) {
+        guard !finished, !overlayWindows.contains(where: \.isKeyWindow) else { return }
+        window.makeKeyAndOrderFront(nil)
     }
 
     // MARK: Mouse
@@ -371,6 +406,7 @@ final class CaptureOverlayController {
 
     func switchMode(to newMode: Mode) {
         guard newMode != mode else { return }
+        modeWillChange(from: mode, to: newMode)
         mode = newMode
         anchor = nil
         shiftStart = nil
@@ -385,7 +421,7 @@ final class CaptureOverlayController {
         switch mode {
         case .region, .text:
             if let anchor {
-                let rect = Geometry.rect(from: anchor, to: cursor)
+                let rect = dragRect(from: anchor, to: cursor)
                 guard rect.width >= 1, rect.height >= 1 else { return }
                 if mode == .region {
                     finish(OverlaySelection(rect: rect, window: nil))
@@ -433,13 +469,15 @@ final class CaptureOverlayController {
     // MARK: Selection
 
     private func updateSelection(shift: Bool = false) {
+        let previous = selection
+        defer { if selection != previous { selectionDidChange(from: previous) } }
         windowUnderCursor = windows.first { $0.frame.contains(cursor) }
         hoveredLine = nil
         hoveredWindow = nil
         switch mode {
         case .region, .text:
             if let anchor {
-                selection = Geometry.rect(from: anchor, to: shift ? lockedToAxis(cursor) : cursor)
+                selection = dragRect(from: anchor, to: shift ? lockedToAxis(cursor) : cursor)
             } else {
                 selection = nil
                 if mode == .text { hoveredLine = TextCaptureSelection.line(at: cursor, in: textLines ?? []) }
@@ -458,6 +496,12 @@ final class CaptureOverlayController {
         }
         hoveredBarcode = mode == .region && anchor == nil ? barcodes.first { $0.bounds.contains(cursor) } : nil
         redraw()
+    }
+
+    /// The rectangle of a drag: the pixels under both corners belong to it, on the pixel grid of the display with the
+    /// mouse, so its size label is exactly the size of the capture (upstream `RegionCaptureTool`, UG "Region").
+    private func dragRect(from anchor: CGPoint, to point: CGPoint) -> CGRect {
+        CaptureSelection.rect(from: anchor, to: point, scale: cursorScreen?.scale ?? 1)
     }
 
     /// While Shift is held, the first move decides whether only the width or only the height changes.
@@ -605,6 +649,15 @@ final class OverlayMarksView: NSView {
     var panelFrames: [String: CGRect] = [:]
     /// The zoomer's offset from the mouse.
     var zoomerOffset: CGPoint?
+    // The panels' movement (CaptureOverlayAnimator.swift).
+    var panelMotions: [String: CaptureMotion] = [:]
+    var panelAppearedAt: [String: Date] = [:]
+    /// The size of each panel while it is shown: it only grows.
+    var panelSizes: [String: CGSize] = [:]
+    /// The panels of the last drawing, where they were drawn.
+    var drawnPanels: [String: (panel: OverlayPanel, frame: CGRect)] = [:]
+    /// Panels that were hidden, fading out.
+    var fadingPanels: [String: (panel: OverlayPanel, frame: CGRect, start: Date)] = [:]
 
     init(frame: NSRect, frozen: FrozenScreen, controller: CaptureOverlayController) {
         self.frozen = frozen
@@ -646,6 +699,7 @@ final class OverlayMarksView: NSView {
 
     override func mouseMoved(with event: NSEvent) {
         NSCursor.crosshair.set()
+        if let window { controller?.takeKeysBack(to: window) }
         controller?.mouseMoved(to: global(event))
     }
 

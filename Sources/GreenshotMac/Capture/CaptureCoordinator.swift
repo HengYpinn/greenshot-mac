@@ -69,13 +69,15 @@ final class CaptureCoordinator {
         }
     }
 
-    /// The same area as the last capture again, without the capture screen.
-    /// Upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode.
+    /// "Capture text", upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode, the text
+    /// goes to the clipboard.
     func captureText() { interactive(.text) }
 
+    /// The same area as the last capture again, without the capture screen. Without a last area nothing is captured,
+    /// like upstream (`LastRegionCaptureSource.cs` aborts); the Mac beeps.
     func captureLastRegion() {
-        guard let region = settings.value.lastCapturedRegion else {
-            captureRegion()
+        guard let region = settings.value.lastCapturedRegion, !region.isEmpty else {
+            NSSound.beep()
             return
         }
         let showsCursor = settings.value.captureMousePointer
@@ -111,7 +113,7 @@ final class CaptureCoordinator {
     /// "Capture the mouse pointer" decides which one it starts with.
     private func interactive(_ mode: CaptureOverlayController.Mode) {
         run { [settings] in
-            let windows = ScreenCapturer.onScreenWindows()
+            let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
             let frozen = try await ScreenCapturer.freezeScreensWithAndWithoutPointer()
             guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
                                                                         windows: windows, mode: mode, settings: settings)
@@ -177,7 +179,7 @@ final class CaptureCoordinator {
                     self.returnFocus(to: previousApp)
                     return
                 }
-                if self.settings.value.playCameraSound { CameraSound.play() }
+                if self.settings.value.playCameraSound { CameraSound.play(file: self.settings.value.notificationSound) }
                 if let text = capture.text {
                     self.deliverText(text)
                 } else {
