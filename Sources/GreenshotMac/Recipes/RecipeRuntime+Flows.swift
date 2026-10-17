@@ -16,15 +16,42 @@ final class RecipeFlowAppState {
     /// The exports of the flow in the order they ended (declined ones aren't there), and how many were announced.
     private(set) var exports: [ExportResult] = []
     private var announced = 0
-    /// Holds back "Saved…/Copied…" while the flow exports: its Notification step shows them together (upstream).
+    /// Holds back "Saved…/Copied…" while an export of the flow runs: its Notification step shows them together
+    /// (upstream). Only during the exports, so the rest of the app's messages (and the flow's own while it waits at a
+    /// prompt) still show.
     private var hold: NotificationExportLog?
+    private var exportsRunning = 0
     /// The app that was in front when the flow started; gets the focus back after a capture from the screen.
     var previousApp: pid_t?
     var capturedFromScreen = false
+    /// What the flow waits for the user with (a prompt, the flyout): the question at quit names it.
+    var waitsFor: String?
+    /// The files the flow saved, with the capture they show (the ExternalCommand step reuses one only while the capture
+    /// is still the same).
+    private var saved: [String: RecipePayloadMark] = [:]
 
-    /// An export of the flow starts: from now on until the flow ends, the destinations' information messages wait.
-    func holdMessages(of capture: Capture, settings: SettingsStore) {
+    /// An export of the flow starts: until it ends, the destinations' information messages wait.
+    func beginExport(of capture: Capture, settings: SettingsStore) {
         if hold == nil { hold = NotificationExportLog(capture: capture, settings: settings) }
+        exportsRunning += 1
+    }
+
+    /// The export ended: when no other export of the flow runs, the destinations' messages show again.
+    func endExport() {
+        exportsRunning = max(exportsRunning - 1, 0)
+        guard exportsRunning == 0 else { return }
+        hold?.release()
+        hold = nil
+    }
+
+    /// The flow saved `file` with `payload`.
+    func rememberSaved(_ file: URL, payload: RecipePayload) {
+        saved[file.standardizedFileURL.path] = RecipePayloadMark(payload)
+    }
+
+    /// Whether the flow saved `path` and the capture is still what it saved.
+    func savedFileShows(_ path: String, payload: RecipePayload) -> Bool {
+        saved[URL(fileURLWithPath: path).standardizedFileURL.path] == RecipePayloadMark(payload)
     }
 
     /// An export of the flow ended.
@@ -44,7 +71,22 @@ final class RecipeFlowAppState {
     func finish() {
         hold?.release()
         hold = nil
+        exportsRunning = 0
     }
+}
+
+/// What a capture is at one moment: its picture (by identity: every step that changes it makes a new one; held, so its
+/// address can't be taken by a later picture) and its elements.
+struct RecipePayloadMark: Equatable {
+    let image: CGImage
+    let annotations: [Annotation]
+
+    init(_ payload: RecipePayload) {
+        image = payload.image
+        annotations = payload.annotations
+    }
+
+    static func == (lhs: Self, rhs: Self) -> Bool { lhs.image === rhs.image && lhs.annotations == rhs.annotations }
 }
 
 extension RecipeRuntime {

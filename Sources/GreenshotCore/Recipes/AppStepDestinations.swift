@@ -49,6 +49,15 @@ public enum RecipeDestinationPlan {
         return commands.count == 1 ? "External \(commands[0])" : designation
     }
 
+    /// The designation the automatic steps of a destination are stored under (RMANAGER's scope: "FileNoDialog", "EMail",
+    /// "Windows10Share", …): an alias ("File", "SaveFile", "Mail", "Share", "OCR", "QRCode", "Notes") as the
+    /// destination's own designation, an external command as "External <command name>"; anything else as it is.
+    public static func canonicalDesignation(_ designation: String, commands: [String]) -> String {
+        guard let destination = destination(of: designation).destination else { return designation }
+        if destination == .externalCommand { return externalCommandDesignation(designation, commands: commands) }
+        return RecipeDestinationDesignation.designation(for: destination)
+    }
+
     /// The Mac destination of a designation and, for "External <name>", the command's name. Also the plain "External"
     /// that the settings' external command destination is called (`RecipeDestinationDesignation.designation(for:)`).
     public static func destination(of designation: String) -> (destination: CaptureDestination?, commandName: String?) {
@@ -94,6 +103,20 @@ public struct RecipeFileExportOptions: Equatable, Sendable {
         promptQuality = step.isSet("PromptQuality") ? step.bool("PromptQuality") : nil
         allowOverwrite = step.isSet("AllowOverwrite") ? step.bool("AllowOverwrite") : nil
         copyPathToClipboard = step.isSet("CopyPathToClipboard") ? step.bool("CopyPathToClipboard") : nil
+    }
+
+    /// Whether `file` is inside `folder` once `..` and `.` are resolved (defence against a file name pattern whose
+    /// values climb out of the folder; RSTEPS, S-M1).
+    public static func isInside(_ file: URL, folder: URL) -> Bool {
+        let parts = file.standardizedFileURL.pathComponents
+        let root = folder.standardizedFileURL.pathComponents
+        return parts.count > root.count && Array(parts.prefix(root.count)) == root
+    }
+
+    /// A file name pattern that names an absolute path ("/…" or "~…"): it may go anywhere, as the user wrote it.
+    public static func isAbsolutePattern(_ pattern: String) -> Bool {
+        let trimmed = pattern.trimmingCharacters(in: .whitespaces)
+        return trimmed.hasPrefix("/") || trimmed.hasPrefix("~")
     }
 
     /// Nothing set: the File destination saves exactly as without recipes.

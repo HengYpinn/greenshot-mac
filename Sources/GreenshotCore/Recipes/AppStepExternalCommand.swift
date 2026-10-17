@@ -25,6 +25,10 @@ public struct RecipeExternalCommandPlan: Equatable, Sendable {
     public var setExitCodeVariable: String?
     /// `Verb` is a Windows shell verb; upstream runs the process without the shell, where it has no effect.
     public var verb: String?
+    /// The program is the step's own `CommandLine` (already evaluated by the flow), not a configured command's.
+    public var commandLineFromRecipe: Bool
+    /// The arguments are the step's own `Arguments` (as written: their `${...}` are filled per argument).
+    public var argumentsFromRecipe: Bool
 
     /// Nil when there is no program to run (upstream logs it and the flow goes on).
     public init?(_ step: RecipeStepInvocation, commands: [ExternalCommand]) {
@@ -34,11 +38,15 @@ public struct RecipeExternalCommandPlan: Equatable, Sendable {
         }
         let commandName = text("Command")
         let configured = commandName.flatMap { name in commands.first { recipeEquals($0.name, name) } }
-        guard let commandLine = text("CommandLine") ?? configured?.command.trimmingCharacters(in: .whitespaces),
+        let ownCommandLine = text("CommandLine")
+        guard let commandLine = ownCommandLine ?? configured?.command.trimmingCharacters(in: .whitespaces),
               !commandLine.isEmpty else { return nil }
         self.commandLine = commandLine
+        commandLineFromRecipe = ownCommandLine != nil
         name = commandName ?? URL(fileURLWithPath: commandLine).deletingPathExtension().lastPathComponent
-        arguments = text("Arguments") ?? configured?.arguments ?? "{0}"
+        let ownArguments = text("Arguments")
+        argumentsFromRecipe = ownArguments != nil
+        arguments = ownArguments ?? configured?.arguments ?? "{0}"
         workingDirectory = text("WorkingDirectory")
         format = text("Format").flatMap(ImageFormat.init(fileExtension:)) ?? configured?.format ?? .png
         jpegQuality = min(max(step.int("JpegQuality") ?? 90, 1), 100)
@@ -51,14 +59,33 @@ public struct RecipeExternalCommandPlan: Equatable, Sendable {
         verb = text("Verb")
     }
 
-    /// The file a former step wrote (the capture's own file, `Destination.Filename`) when it is there in the command's
-    /// format; else the step writes a temporary file. Upstream takes any existing file; the Mac's commands get their format.
-    public func reusableFile(_ candidates: [String?], exists: (String) -> Bool) -> URL? {
-        for case let path? in candidates where !path.isEmpty && exists(path) {
-            let url = URL(fileURLWithPath: path)
-            if ImageFormat(fileExtension: url.pathExtension) == format { return url }
+    /// The file the flow saved (`Destination.Filename`) when it still shows the capture as it is now, is there and is in
+    /// the command's format; else the step writes a temporary file of the capture as it is now. Never the file the
+    /// capture was loaded from (the user's original, which the command or a reload could change). Upstream takes any
+    /// existing file.
+    public func reusableFile(_ savedByFlow: String?, unchangedSinceSaved: Bool, exists: (String) -> Bool) -> URL? {
+        guard unchangedSinceSaved, let path = savedByFlow, !path.isEmpty, exists(path) else { return nil }
+        let url = URL(fileURLWithPath: path)
+        return ImageFormat(fileExtension: url.pathExtension) == format ? url : nil
+    }
+
+    /// The arguments: the text split like a shell would first, so no value can add an argument or an option; then each
+    /// argument filled: the step's own by the flow's expressions (`evaluate`; one whose values come out empty goes, as
+    /// upstream's split after the evaluation drops it, one written empty ("") stays), a configured command's exactly as
+    /// its destination does (`ExternalCommandLine.arguments` with the file name patterns, `fill`); `{0}` is the file.
+    public func argumentList(file: String, evaluate: (String) -> String, fill: (String) -> String) -> [String] {
+        guard argumentsFromRecipe else { return ExternalCommandLine.arguments(arguments, file: file, fill: fill) }
+        return ExternalCommandLine.split(arguments).compactMap { argument in
+            let evaluated = evaluate(argument)
+            if evaluated.isEmpty, !argument.isEmpty { return nil }
+            return evaluated.replacingOccurrences(of: "{0}", with: file)
         }
-        return nil
+    }
+
+    /// The program: the step's own command line as the flow evaluated it (no second filling), a configured command's
+    /// with its file name patterns filled.
+    public func program(fill: (String) -> String) -> ExternalCommandLine.Program? {
+        ExternalCommandLine.program(commandLine, fill: commandLineFromRecipe ? { $0 } : fill)
     }
 
     /// The variables after the command ended (upstream sets them unless it ran in the background).

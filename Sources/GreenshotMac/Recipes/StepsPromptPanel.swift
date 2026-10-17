@@ -13,25 +13,38 @@ import SwiftUI
 /// default choice in Ns" that picks the default choice. Return picks the default choice, Esc the cancel choice, the
 /// close button the cancel choice as well (and stops the countdown).
 struct RecipePromptPresenter: RecipePromptPresenting {
+    let runtime: RecipeRuntime
+
     func ask(_ prompt: RecipePrompt, preview: CGImage?, in context: RecipeFlowContext) async throws -> RecipePrompt.Answer {
         let window = RecipePromptWindowHandle()
         let answer = await withTaskCancellationHandler {
             await withCheckedContinuation { (continuation: CheckedContinuation<RecipePrompt.Answer, Never>) in
                 Task { @MainActor in
-                    window.controller = RecipePromptPanel.show(prompt, preview: preview) { continuation.resume(returning: $0) }
+                    // Cancelled before the window was there: none is shown (R-F5).
+                    guard !window.cancelled else { return continuation.resume(returning: .closed) }
+                    let state = runtime.flowState(context.executionId)
+                    state.waitsFor = "your answer to “\(prompt.title)”"
+                    window.controller = RecipePromptPanel.show(prompt, preview: preview) { answer in
+                        state.waitsFor = nil
+                        continuation.resume(returning: answer)
+                    }
                 }
             }
         } onCancel: {
-            Task { @MainActor in window.controller?.close() }
+            Task { @MainActor in
+                window.cancelled = true
+                window.controller?.close()
+            }
         }
         try Task.checkCancellation()
         return answer
     }
 }
 
-/// The open prompt of a flow, so a cancelled flow can close it.
+/// The open prompt of a flow, so a cancelled flow can close it, also before it is shown.
 final class RecipePromptWindowHandle: @unchecked Sendable {
     @MainActor var controller: RecipePromptPanel?
+    @MainActor var cancelled = false
 }
 
 /// What the prompt view shows and how many seconds are left.
