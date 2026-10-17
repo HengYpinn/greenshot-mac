@@ -18,10 +18,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private var statusItem: StatusItemController?
     private lazy var settingsWindow = SettingsWindowController(settings: settings)
     private var updateTimer: Timer?
+    private let log = Log("App")
 
     /// The last run of the app ended without quitting (a crash or a forced quit): the restore of open editors and the bug
-    /// report use it. Package D fills it in.
-    var previousRunEndedAbnormally: Bool { false }
+    /// report use it. Read from the marker of the running app at launch (`CrashReporting`).
+    private(set) var previousRunEndedAbnormally = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         if let folder = Snapshots.requestedFolder {
@@ -33,6 +34,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
                 exit(1)
             }
         }
+        startLogging()
+        CrashReporting.install()
+        let previousRun = CrashReporting.checkPreviousRun()
+        previousRunEndedAbnormally = previousRun.endedAbnormally
+        #if DEBUG
+        CrashReporting.runDebugTest(previousRun: previousRun)
+        #endif
         NotificationService.install(app: self)
         applyTheme()
         settings.onChange(of: \.theme) { [weak self] _ in self?.applyTheme() }
@@ -40,6 +48,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         Clipboard.formats = { [settings] in settings.value.clipboardFormats }
         editors.onWindowsChange = { [weak self] in self?.updateDockIcon() }
         settingsWindow.onOpenChange = { [weak self] in self?.updateDockIcon() }
+        AuxiliaryWindows.onChange = { [weak self] in self?.updateDockIcon() }
         updateDockIcon()
         NSApp.mainMenu = MainMenu.make()
         statusItem = StatusItemController(app: self)
@@ -53,8 +62,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         }
         registerHotkeys()
         editors.restoreSavedEditors()
-        showWelcomeOnFirstLaunch()
+        switch previousRun {
+        case .crashed(_, let details):
+            // The report says enough; no welcome or "is running" message on top of it.
+            BugReportWindowController.show(details)
+        case .endedAbnormally(let marker):
+            CrashReporting.lookAgain(for: marker, after: 10) { BugReportWindowController.show($0) }
+            showWelcomeOnFirstLaunch()
+        case .clean:
+            showWelcomeOnFirstLaunch()
+        }
         scheduleUpdateChecks()
+    }
+
+    /// The log file in ~/Library/Logs, and its first entry (upstream `GreenshotMain.Main`: "Starting: " and the
+    /// environment).
+    private func startLogging() {
+        LogCenter.startFile(at: AppInfo.logFile)
+        log.info("Starting: " + DiagnosticReport.environmentText(SystemInfo.snapshot(), newline: false))
     }
 
     /// Upstream `UpdateService`: the first check 20 s after the start, then every 30 minutes a look whether one is due
@@ -91,6 +116,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     func applicationWillTerminate(_ notification: Notification) {
         statusItem?.showIconForNextLaunch()
+        log.info("Exiting")
+        CrashReporting.removeMarker()
     }
 
     /// Quitting doesn't close the editor windows one by one, so ask about unsaved screenshots here.
@@ -115,7 +142,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     /// otherwise only the menu bar icon, which is there whenever the app runs. Hidden editors count as open: a click
     /// on the Dock icon brings them back.
     private func updateDockIcon() {
-        let windowOpen = editors.hasEditors || settingsWindow.isOpen
+        let windowOpen = editors.hasEditors || settingsWindow.isOpen || AuxiliaryWindows.anyOpen
         NSApp.setActivationPolicy(settings.value.dockIconWhileWindowOpen && windowOpen ? .regular : .accessory)
     }
 
@@ -123,6 +150,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     private func registerHotkeys() {
         hotkeys.registerAll(settings.value.hotkeys, capture: capture, editors: editors)
+        guard let registration = HotkeyDiagnostics.lastRegistration else { return }
+        let refused = registration.refused.filter(registration.combos.indices.contains)
+            .map { "\(registration.names[$0]) (\(registration.combos[$0].displayString))" }
+        if refused.isEmpty {
+            log.info("Registered \(registration.combos.count) hotkeys")
+        } else {
+            log.warn("Registered \(registration.combos.count - refused.count) of \(registration.combos.count) hotkeys; macOS refused \(refused.joined(separator: ", "))")
+        }
+    }
+
+    /// "Register Again" of Self-Service › Hotkeys and the setup checks (upstream `ReRegisterHotkeys`).
+    func reregisterHotkeys() {
+        log.info("Registering the hotkeys again")
+        registerHotkeys()
+    }
+
+    /// Whether the menu bar icon is on a screen, for the setup checks; nil when unknown.
+    var statusItemOnScreen: Bool? {
+        statusItem?.isIconOnScreen
     }
 
     // MARK: Menu actions
@@ -136,10 +182,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         settingsWindow.show(pane: pane)
     }
 
+    /// The log viewer on the app's log; a search text (at most 200 characters, trimmed, escaped) shows only the
+    /// entries with it and never changes the level. For `greenshotmac://log?search=` (upstream `LogViewerWindow.ShowForLink`).
+    func showLogViewer(search: String?) {
+        LogViewerWindowController.show(search: search.map(LogSearch.linkSearchText))
+    }
+
+    @objc func showLogViewer(_ sender: Any?) {
+        showLogViewer(search: nil)
+    }
+
+    /// The Self-Service window, on `section` when given (upstream `SelfServiceWindow.ShowSelfService`), for
+    /// `greenshotmac://self-service?section=`.
+    func showSelfService(section: SelfServiceSection?) {
+        SelfServiceWindowController.show(section: section, app: self)
+    }
+
+    @objc func showSelfService(_ sender: Any?) {
+        showSelfService(section: nil)
+    }
+
+    /// The About window with its Self-Service button (upstream `AboutWindow`).
     @objc func showAbout(_ sender: Any?) {
-        NSApp.activate()
-        NSApp.orderFrontStandardAboutPanel(options: [.applicationName: AppInfo.name, .version: AppAboutCredits.versionDetail,
-                                                     .credits: AppAboutCredits.make()])
+        AboutWindowController.show(app: self)
     }
 
     @objc func captureRegion(_ sender: Any?) {
@@ -192,23 +257,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         NSWorkspace.shared.open(AppInfo.upstreamURL)
     }
 
-    private static let didShowWelcomeKey = "didShowWelcome"
-    private static let didOfferLaunchAtLoginKey = "didOfferLaunchAtLogin"
-
-    /// The welcome on the first launch; users who saw it before this option existed are asked about opening at
-    /// login once, separately.
+    /// The welcome window on the first start (upstream `WelcomeShown`, `GreenshotShell`), else the "is running" message.
+    /// Users of a version with the earlier welcome alert see the window once too, like upstream's updaters.
     private func showWelcomeOnFirstLaunch() {
-        let defaults = UserDefaults.standard
-        if !defaults.bool(forKey: Self.didShowWelcomeKey) {
-            defaults.set(true, forKey: Self.didShowWelcomeKey)
-            defaults.set(true, forKey: Self.didOfferLaunchAtLoginKey)
-            showWelcome()
-        } else if !defaults.bool(forKey: Self.didOfferLaunchAtLoginKey) {
-            defaults.set(true, forKey: Self.didOfferLaunchAtLoginKey)
-            offerLaunchAtLogin()
-        } else {
+        // The alert of earlier versions and its separate offer to open at login: the welcome window has both now.
+        UserDefaults.standard.removeObject(forKey: "didShowWelcome")
+        UserDefaults.standard.removeObject(forKey: "didOfferLaunchAtLogin")
+        if settings.value.welcomeShown {
             showRunningMessage()
+        } else {
+            settings.update { $0.welcomeShown = true }
+            WelcomeWindowController.show(app: self, firstLaunch: true)
         }
+    }
+
+    /// The welcome window again (upstream's pipe command `FIRST_LAUNCH`), for Help › Welcome Guide and
+    /// `greenshotmac://` links.
+    func showWelcome() {
+        WelcomeWindowController.show(app: self, firstLaunch: false)
+    }
+
+    @objc func showWelcomeGuide(_ sender: Any?) {
+        showWelcome()
     }
 
     /// A menu bar app opens no window, and macOS can hide its icon (behind the notch), so starting it would look
@@ -225,46 +295,5 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         saver.notify("\(AppInfo.name) is running", detail: detail) { [weak self] in
             self?.showSettings(nil)
         }
-    }
-
-    private func showWelcome() {
-        let region = settings.value.hotkeys.region?.displayString ?? "the menu bar icon"
-        let alert = NSAlert()
-        alert.messageText = "\(AppInfo.name) is in your menu bar"
-        alert.informativeText = """
-            Press \(region) to capture a region, or use the camera icon in the menu bar. \
-            The hotkeys can be changed in Settings.
-
-            macOS will ask you to allow screen recording the first time you take a screenshot.
-            """ + LaunchAtLogin.moveToApplicationsTip
-        // Checked by default, like the "start with Windows" option of Greenshot's installer.
-        let openAtLogin = NSButton(checkboxWithTitle: "Open \(AppInfo.name) at login", target: nil, action: nil)
-        openAtLogin.state = .on
-        alert.accessoryView = openAtLogin
-        alert.addButton(withTitle: "OK")
-        alert.addButton(withTitle: "Open Settings")
-        NSApp.activate()
-        let response = alert.runModal()
-        if openAtLogin.state == .on { turnOnLaunchAtLogin() }
-        if response == .alertSecondButtonReturn { showSettings(nil) }
-    }
-
-    private func offerLaunchAtLogin() {
-        guard LaunchAtLogin.state == .off else { return }
-        let alert = NSAlert()
-        alert.messageText = "Open \(AppInfo.name) when you log in?"
-        alert.informativeText = """
-            Then the hotkeys work right after a restart, like Greenshot on Windows. \
-            You can change this any time in Settings › General.
-            """ + LaunchAtLogin.moveToApplicationsTip
-        alert.addButton(withTitle: "Open at Login")
-        alert.addButton(withTitle: "Not Now")
-        NSApp.activate()
-        if alert.runModal() == .alertFirstButtonReturn { turnOnLaunchAtLogin() }
-    }
-
-    private func turnOnLaunchAtLogin() {
-        guard let problem = LaunchAtLogin.set(true) else { return }
-        ErrorPresenter.show(message: "\(AppInfo.name) doesn't open at login yet", detail: problem)
     }
 }

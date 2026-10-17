@@ -25,6 +25,74 @@ public enum SettingsPane: Int, CaseIterable, Sendable {
     }
 }
 
+/// The sections of the Self-Service window (upstream `Greenshot/SelfService/ViewModels/*SectionViewModel.cs`), found by
+/// upstream's section ids for `greenshotmac://self-service?section=`. Upstream's Imgur and debug sections have no
+/// Mac counterpart; its installation checksums are the Mac's code signature (`integrity`).
+public enum SelfServiceSection: String, CaseIterable, Sendable {
+    case system, setup, files, clipboard, hotkeys, integrity
+
+    /// Upstream's ids and their aliases, any case; nil for an unknown one.
+    public init?(name: String) {
+        switch name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "system", "sysinfo": self = .system
+        case "setup": self = .setup
+        case "files", "logs", "log": self = .files
+        case "clipboard": self = .clipboard
+        case "hotkeys", "hotkey": self = .hotkeys
+        case "integrity", "checksum", "checksums", "signature": self = .integrity
+        default: return nil
+        }
+    }
+
+    /// The keys of the window (upstream `SelfServiceWindow.OnKeyDown`): 1 to 6 in the order of the sidebar, and
+    /// upstream's letters E (system), F, L and I (files), C (clipboard), H (hotkeys), K and V (integrity).
+    public init?(key: String) {
+        switch key.lowercased() {
+        case "1", "e": self = .system
+        case "2": self = .setup
+        case "3", "f", "l", "i": self = .files
+        case "4", "c": self = .clipboard
+        case "5", "h": self = .hotkeys
+        case "6", "k", "v": self = .integrity
+        default: return nil
+        }
+    }
+
+    public var title: String {
+        switch self {
+        case .system: return "System"
+        case .setup: return "Your Setup"
+        case .files: return "Files and Log"
+        case .clipboard: return "Clipboard"
+        case .hotkeys: return "Hotkeys"
+        case .integrity: return "Integrity"
+        }
+    }
+
+    public var subtitle: String {
+        switch self {
+        case .system: return "macOS, the Mac, memory, screens and scaling"
+        case .setup: return "What the app needs to work as expected, with a fix where something is off"
+        case .files: return "The settings file, the log and crash reports"
+        case .clipboard: return "What is on the clipboard now, and when it changes"
+        case .hotkeys: return "Your hotkeys, the screenshot shortcuts of macOS and other capture apps"
+        case .integrity: return "The code signature of the app, notarization and quarantine"
+        }
+    }
+
+    /// An SF Symbol.
+    public var symbol: String {
+        switch self {
+        case .system: return "desktopcomputer"
+        case .setup: return "checkmark.seal"
+        case .files: return "doc.text.magnifyingglass"
+        case .clipboard: return "doc.on.clipboard"
+        case .hotkeys: return "keyboard"
+        case .integrity: return "lock.shield"
+        }
+    }
+}
+
 /// What the app was started with: the Mac's stand-in for upstream's `--ini-directory` (`GreenshotCommandLine.cs`),
 /// a folder for the settings file instead of the user defaults.
 public struct AppLaunchOptions: Equatable, Sendable {

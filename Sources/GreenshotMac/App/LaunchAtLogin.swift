@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import AppKit
+import GreenshotCore
 import ServiceManagement
 
 /// Opening the app when the user logs in, so the hotkeys work right after a restart. Greenshot's Windows installer
@@ -10,6 +11,8 @@ import ServiceManagement
 @MainActor
 enum LaunchAtLogin {
     enum State { case on, off, needsApproval }
+
+    private static let log = Log("LaunchAtLogin")
 
     static var state: State {
         switch SMAppService.mainApp.status {
@@ -32,8 +35,10 @@ enum LaunchAtLogin {
                 try SMAppService.mainApp.unregister()
             }
         } catch {
+            log.warn("Open at login could not be turned \(on ? "on" : "off")", error: error)
             return error.localizedDescription
         }
+        log.info("Open at login turned \(on ? "on" : "off"), now \(state)")
         if on, state == .needsApproval {
             openSystemSettings()
             return approvalHint

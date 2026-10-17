@@ -59,6 +59,15 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         statusItem.isVisible = true
     }
 
+    /// Whether the icon can be seen: false when it is switched off, or when the menu bar is shown but the icon's window
+    /// isn't (macOS hides icons behind the notch, and macOS 26 can hide them in its menu bar settings). Nil when the
+    /// menu bar itself is hidden (a full screen app, or "hide the menu bar automatically"), then nothing is known.
+    var isIconOnScreen: Bool? {
+        guard statusItem.isVisible else { return false }
+        guard NSMenu.menuBarVisible(), let window = statusItem.button?.window else { return nil }
+        return window.occlusionState.contains(.visible) && window.screen != nil
+    }
+
     // MARK: Clicks
 
     @objc private func iconClicked(_ sender: Any?) {

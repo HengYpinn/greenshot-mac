@@ -129,3 +129,30 @@ struct BrokenSettingsFileTests {
         #expect(!moved)
     }
 }
+
+struct SelfServiceSectionTests {
+    @Test func upstreamSectionIds() {
+        #expect(SelfServiceSection(name: "system") == .system)
+        #expect(SelfServiceSection(name: " Setup ") == .setup)
+        #expect(SelfServiceSection(name: "FILES") == .files)
+        #expect(SelfServiceSection(name: "clipboard") == .clipboard)
+        #expect(SelfServiceSection(name: "hotkeys") == .hotkeys)
+        #expect(SelfServiceSection(name: "checksum") == .integrity)
+        #expect(SelfServiceSection(name: "integrity") == .integrity)
+        #expect(SelfServiceSection(name: "imgur") == nil)
+        #expect(SelfServiceSection(name: "debug_integration") == nil)
+    }
+
+    @Test func keysOfTheWindow() {
+        #expect(SelfServiceSection(key: "1") == .system)
+        #expect(SelfServiceSection(key: "E") == .system)
+        #expect(SelfServiceSection(key: "2") == .setup)
+        #expect(SelfServiceSection(key: "l") == .files)
+        #expect(SelfServiceSection(key: "i") == .files)
+        #expect(SelfServiceSection(key: "c") == .clipboard)
+        #expect(SelfServiceSection(key: "h") == .hotkeys)
+        #expect(SelfServiceSection(key: "v") == .integrity)
+        #expect(SelfServiceSection(key: "6") == .integrity)
+        #expect(SelfServiceSection(key: "x") == nil)
+    }
+}

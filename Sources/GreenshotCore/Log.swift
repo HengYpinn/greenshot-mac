@@ -75,43 +75,181 @@ public enum LogCenter {
     public static let defaultLevel = LogLevel.info
     #endif
 
-    private struct State: Sendable {
-        var level = LogCenter.defaultLevel
-        var fileURL: URL?
-    }
-
-    private static let state = OSAllocatedUnfairLock(initialState: State())
+    static let hub = LogHub(level: defaultLevel, unifiedLog: true)
 
     /// What is written. A change applies until the app quits (upstream `LogHelper.RootLevel`).
     public static var level: LogLevel {
-        get { state.withLock { $0.level } }
-        set { state.withLock { $0.level = newValue } }
+        get { hub.level }
+        set { hub.level = newValue }
     }
 
     public static func isEnabled(_ level: LogLevel) -> Bool {
-        level >= self.level
+        hub.isEnabled(level)
     }
 
     /// The log file, after `startFile(at:)`.
     public static var fileURL: URL? {
-        state.withLock { $0.fileURL }
+        hub.fileURL
     }
 
-    /// From now on also writes to the file at `url` (created with its folder when missing). Called once by the app at
-    /// launch, not by tests or `--snapshot` runs. (Prep stub: only remembers the file; package D adds the writer.)
+    /// From now on also writes to the file at `url` (created with its folder when missing), rolling it over at 1 MB
+    /// (`LogFile`). Called once by the app at launch, not by tests or `--snapshot` runs.
     public static func startFile(at url: URL) {
-        state.withLock { $0.fileURL = url }
+        hub.startFile(at: url)
     }
 
     /// Writes one entry whose level was checked. `Log` calls this; other code uses `Log`.
     public static func write(_ level: LogLevel, category: String, message: String, error: Error?) {
-        let logger = Logger(subsystem: subsystem, category: category)
-        let text = error.map { "\(message)\n\(String(describing: $0))" } ?? message
-        switch level {
-        case .debug: logger.debug("\(text, privacy: .public)")
-        case .info: logger.info("\(text, privacy: .public)")
-        case .warn: logger.warning("\(text, privacy: .public)")
-        case .error: logger.error("\(text, privacy: .public)")
+        hub.write(level, category: category, message: message, error: error)
+    }
+
+    /// Changes the level and logs the change (upstream `LogViewerWindow.SelectedLogLevel`): before the change when the
+    /// old level writes it, else right after, so the line is there in both directions. `note` ends the sentence, e.g.
+    /// "in the log viewer, until the app restarts".
+    public static func changeLevel(to newLevel: LogLevel, note: String) {
+        hub.changeLevel(to: newLevel, note: note)
+    }
+
+    /// Collects the entries written from now on, as the file has them, until `end()` (upstream `LogViewerAppender`,
+    /// attached while the log viewer is open).
+    public static func beginLiveTail() -> LogLiveTail {
+        hub.beginLiveTail()
+    }
+}
+
+/// The entries written while it is open, for the log viewer: `take()` returns those since the last call.
+public final class LogLiveTail: @unchecked Sendable {
+    private let lock = NSLock()
+    private var buffer = ""
+    private var isEnded = false
+    private weak var hub: LogHub?
+
+    init(hub: LogHub) {
+        self.hub = hub
+    }
+
+    deinit {
+        hub?.remove(self)
+    }
+
+    /// The entries written since the last call, empty when there are none.
+    public func take() -> String {
+        lock.lock()
+        defer { lock.unlock() }
+        let text = buffer
+        buffer = ""
+        return text
+    }
+
+    /// Stops collecting.
+    public func end() {
+        lock.lock()
+        isEnded = true
+        buffer = ""
+        lock.unlock()
+        hub?.remove(self)
+    }
+
+    func append(_ entry: String) {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !isEnded else { return }
+        buffer += entry
+    }
+}
+
+/// The level, the file and the live tails behind `LogCenter`; tests make their own.
+final class LogHub: @unchecked Sendable {
+    private let lock = NSLock()
+    private var currentLevel: LogLevel
+    private var writer: LogFileWriter?
+    private var tails: [ObjectIdentifier: Weak] = [:]
+    private let unifiedLog: Bool
+
+    private struct Weak {
+        weak var tail: LogLiveTail?
+    }
+
+    init(level: LogLevel, unifiedLog: Bool) {
+        currentLevel = level
+        self.unifiedLog = unifiedLog
+    }
+
+    var level: LogLevel {
+        get { locked { currentLevel } }
+        set { locked { currentLevel = newValue } }
+    }
+
+    func isEnabled(_ level: LogLevel) -> Bool {
+        level >= self.level
+    }
+
+    var fileURL: URL? {
+        locked { writer?.url }
+    }
+
+    func startFile(at url: URL) {
+        locked {
+            writer?.close()
+            writer = LogFileWriter(url: url)
         }
+    }
+
+    func write(_ level: LogLevel, category: String, message: String, error: Error?, date: Date = Date(),
+               thread: String = LogHub.threadName) {
+        let raw = LogFile.entry(date: date, thread: thread, level: level, category: category, message: message, error: error)
+        let entry = LogSanitizer.fileEntry(raw)
+        let liveTails: [LogLiveTail] = locked {
+            writer?.append(entry)
+            return tails.values.compactMap(\.tail)
+        }
+        liveTails.forEach { $0.append(entry) }
+        if unifiedLog {
+            let logger = Logger(subsystem: LogCenter.subsystem, category: category)
+            let text = error.map { "\(message)\n\(LogFile.describe($0))" } ?? message
+            switch level {
+            case .debug: logger.debug("\(text, privacy: .public)")
+            case .info: logger.info("\(text, privacy: .public)")
+            case .warn: logger.warning("\(text, privacy: .public)")
+            case .error: logger.error("\(text, privacy: .public)")
+            }
+        }
+    }
+
+    func changeLevel(to newLevel: LogLevel, note: String, category: String = "LogViewer") {
+        let oldLevel = level
+        guard newLevel != oldLevel else { return }
+        let message = "Log level changed from \(oldLevel.name) to \(newLevel.name) \(note)"
+        if isEnabled(.info) {
+            write(.info, category: category, message: message, error: nil)
+            level = newLevel
+        } else {
+            level = newLevel
+            if isEnabled(.info) { write(.info, category: category, message: message, error: nil) }
+        }
+    }
+
+    func beginLiveTail() -> LogLiveTail {
+        let tail = LogLiveTail(hub: self)
+        locked { tails[ObjectIdentifier(tail)] = Weak(tail: tail) }
+        return tail
+    }
+
+    func remove(_ tail: LogLiveTail) {
+        locked { _ = tails.removeValue(forKey: ObjectIdentifier(tail)) }
+    }
+
+    /// "main", or the thread's number (log4net `%thread`).
+    static var threadName: String {
+        if Thread.isMainThread { return "main" }
+        var id: UInt64 = 0
+        pthread_threadid_np(nil, &id)
+        return String(id)
+    }
+
+    private func locked<T>(_ body: () -> T) -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return body()
     }
 }

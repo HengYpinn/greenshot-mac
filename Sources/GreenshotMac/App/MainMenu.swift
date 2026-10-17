@@ -42,6 +42,10 @@ enum MainMenu {
         let help = submenu(in: main, title: "Help")
         help.addItem(withTitle: "Greenshot Help", action: #selector(AppDelegate.openHelp(_:)), keyEquivalent: "?")
         help.addItem(withTitle: "Greenshot Website", action: #selector(AppDelegate.openUpstreamWebsite(_:)), keyEquivalent: "")
+        help.addItem(withTitle: "Welcome Guide…", action: #selector(AppDelegate.showWelcomeGuide(_:)), keyEquivalent: "")
+        help.addItem(.separator())
+        help.addItem(withTitle: "Self-Service…", action: #selector(AppDelegate.showSelfService(_:)), keyEquivalent: "")
+        help.addItem(withTitle: "Log Viewer…", action: #selector(AppDelegate.showLogViewer(_:)), keyEquivalent: "")
         help.addItem(.separator())
         help.addItem(withTitle: "Report an Issue…", action: #selector(AppDelegate.reportIssue(_:)), keyEquivalent: "")
         NSApp.helpMenu = help

@@ -26,6 +26,26 @@ public enum UpdateCheck {
         }
     }
 
+    /// The releases page, where a newer version is downloaded (upstream `UpdateService.DownloadsUri`).
+    public static let releasesPageURL = URL(string: "https://github.com/HengYpinn/greenshot-mac/releases")!
+
+    /// What a check found, for the setup checks and the bug report (upstream `UpdateService.IsUpdateAvailable` and
+    /// `LatestReleaseVersion`).
+    public enum Outcome: Equatable, Sendable {
+        /// This is the newest version; `latest` is the version of the newest release, nil when there is none yet.
+        case upToDate(latest: String?)
+        case newer(Release)
+        /// GitHub couldn't be reached or answered with an error.
+        case failed
+    }
+
+    /// The outcome of a check that found `release` (nil: none) or failed.
+    public static func outcome(release: Release?, failed: Bool, current: String) -> Outcome {
+        if let release, isNewer(release.version, than: current) { return .newer(release) }
+        if failed { return .failed }
+        return .upToDate(latest: release?.version)
+    }
+
     /// A check is due when the interval (days, 0 = never) has passed since the last one, or there was none.
     public static func isDue(lastCheck: Date?, intervalDays: Int, now: Date = Date()) -> Bool {
         guard intervalDays > 0 else { return false }
