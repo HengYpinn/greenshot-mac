@@ -3,6 +3,7 @@
 // Based on Greenshot, Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import AppKit
 import CoreGraphics
 import Foundation
 import Testing
@@ -77,6 +78,12 @@ struct AnnotationHandleTests {
         // Outside the image is cut off.
         #expect(Geometry.cropSelection(.crop, from: CGPoint(x: 150, y: 50), to: CGPoint(x: 300, y: 300), imageSize: size)
             == CGRect(x: 150, y: 50, width: 50, height: 50))
+    }
+
+    @Test func cropModeSymbolsExist() {
+        for mode in CropMode.allCases {
+            #expect(NSImage(systemSymbolName: mode.symbolName, accessibilityDescription: nil) != nil, "\(mode)")
+        }
     }
 
     @Test func cropModesHaveTheirHandles() {

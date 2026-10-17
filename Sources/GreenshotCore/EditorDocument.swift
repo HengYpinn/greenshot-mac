@@ -378,7 +378,7 @@ public enum CropMode: String, CaseIterable, Sendable {
         switch self {
         case .crop: return "crop"
         case .vertical: return "rectangle.split.3x1"
-        case .horizontal: return "rectangle.split.1x3"
+        case .horizontal: return "rectangle.split.1x2"
         case .auto: return "wand.and.rays"
         }
     }
