@@ -61,7 +61,8 @@ public enum GreenshotFile {
     }
 
     /// What a `.greenshot` file holds: what is written, and what was read.
-    public struct Contents {
+    /// Sendable: the image is immutable and the rest are values.
+    public struct Contents: @unchecked Sendable {
         /// The image without the elements (upstream `Surface.Image`).
         public var image: CGImage
         /// Pixels per point.
@@ -102,6 +103,16 @@ public enum GreenshotFile {
                       session: session)
         }
 
+        /// What the editor says after opening the file; nil when there is nothing to say.
+        public var openMessage: String? {
+            if elementsFailed { return "The elements of this file could not be read, the image is shown without them." }
+            if let message = GreenshotFile.unreadableMessage(unreadable) { return message }
+            if case .windows = origin {
+                return "A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is."
+            }
+            return nil
+        }
+
         /// The file this app writes (upstream `GreenshotFileFormatHandler.TrySaveToStream`).
         public func encoded() throws -> Data {
             var data = try ImageExporter.data(for: image, format: .png, scale: scale)
@@ -116,6 +127,33 @@ public enum GreenshotFile {
             data.append(contentsOf: Array(macMarker.utf8))
             return data
         }
+    }
+
+    /// The extension of the element files of Greenshot for Windows (its "Save objects to file", upstream
+    /// `ImageEditorForm.SaveElementsToolStripMenuItemClick`: the BinaryFormatter stream of the elements alone).
+    public static let templateExtension = "gst"
+
+    /// Whether `url` names a `.greenshot` file.
+    public static func isGreenshotFile(_ url: URL) -> Bool {
+        url.pathExtension.caseInsensitiveCompare(fileExtension) == .orderedSame
+    }
+
+    /// The elements of a `.gst` file of Greenshot for Windows, for an image with `scale` pixels per point, and the kinds
+    /// of the elements that can't be shown.
+    public static func readTemplate(_ data: Data, scale: CGFloat) throws -> (elements: [Annotation], unreadable: [String]) {
+        guard data.count <= maxFileBytes else { throw NRBFError.badLength }
+        let result = try GreenshotLegacyImport.read(payload: data, scale: scale)
+        return (result.elements, result.unreadable)
+    }
+
+    /// The editor's message about elements that were left out, e.g. "2 elements can't be shown here: SVG picture,
+    /// Payload."; nil when none were.
+    public static func unreadableMessage(_ unreadable: [String]) -> String? {
+        guard !unreadable.isEmpty else { return nil }
+        var kinds: [String] = []
+        for kind in unreadable where !kinds.contains(kind) { kinds.append(kind) }
+        let count = unreadable.count == 1 ? "1 element" : "\(unreadable.count) elements"
+        return "\(count) can't be shown here: \(kinds.joined(separator: ", "))."
     }
 
     /// Reads a `.greenshot` file; nil when it is too big or has no image.
