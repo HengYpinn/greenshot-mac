@@ -71,16 +71,16 @@ final class FilesSectionModel: ObservableObject {
         let values = try? url.resourceValues(forKeys: [.fileSizeKey, .contentModificationDateKey])
         let exists = FileManager.default.fileExists(atPath: url.path)
         return FileInfo(url: url, exists: exists,
-                        size: exists ? DiagnosticReport.byteCount(UInt64(values?.fileSize ?? 0)) : "File not found",
+                        size: exists ? DiagnosticReport.byteCount(UInt64(values?.fileSize ?? 0)) : String(localized: "File not found"),
                         modified: values?.contentModificationDate.map(LogViewerModel.dateTime) ?? "–")
     }
 
     /// The last 16 KB of the log (upstream `LoadRecentLog`).
     static func glance(of file: FileInfo) -> String {
-        guard file.exists else { return "Log file does not currently exist at: \(file.path)" }
-        guard let chunk = try? LogFile.readTail(file.url, bytes: 16 * 1024) else { return "The log file could not be read." }
+        guard file.exists else { return String(localized: "Log file does not currently exist at: \(file.path)") }
+        guard let chunk = try? LogFile.readTail(file.url, bytes: 16 * 1024) else { return String(localized: "The log file could not be read.") }
         let text = chunk.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        return text.isEmpty ? "(Log file is empty)" : LogSanitizer.escapeUnsafeCharacters(text)
+        return text.isEmpty ? String(localized: "(Log file is empty)") : LogSanitizer.escapeUnsafeCharacters(text)
     }
 
     func copyPath(_ file: FileInfo) {
@@ -112,24 +112,23 @@ struct FilesSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            file(title: model.settingsInUserDefaults ? "Settings (in the user defaults)" : "Settings file (--settings-dir)",
+            file(title: model.settingsInUserDefaults ? String(localized: "Settings (in the user defaults)")
+                                                     : String(localized: "Settings file (--settings-dir)"),
                  model.settingsFile)
-            file(title: "Log file (\(LogFile.fileName))", model.logFile)
-            SectionCard(title: "The log at a glance") {
+            file(title: String(localized: "Log file (\(LogFile.fileName))"), model.logFile)
+            SectionCard(title: String(localized: "The log at a glance")) {
                 ReportText(text: model.glance, height: 160)
                 HStack {
                     Text("Search, follow and copy the whole log in the log viewer.").font(.caption).foregroundStyle(.secondary)
                     Spacer()
                     Button("Open Log Viewer") {
                         model.openLogViewer()
-                        status("Opened the log viewer.")
+                        status(String(localized: "Opened the log viewer."))
                     }
                 }
             }
-            SectionCard(title: "Crash reports") {
-                Text(model.crashReports == 0
-                     ? "macOS has no crash report of \(AppInfo.name)."
-                     : "macOS kept \(model.crashReports) crash report\(model.crashReports == 1 ? "" : "s") of \(AppInfo.name) in ~/Library/Logs/DiagnosticReports.")
+            SectionCard(title: String(localized: "Crash reports")) {
+                Text(crashReportsText)
                 HStack {
                     Spacer()
                     Button("Show in Finder") { model.openCrashReports() }
@@ -138,16 +137,23 @@ struct FilesSectionView: View {
         }
     }
 
+    private var crashReportsText: String {
+        let count = model.crashReports
+        if count == 0 { return String(localized: "macOS has no crash report of \(AppInfo.name).") }
+        return count == 1 ? String(localized: "macOS kept 1 crash report of \(AppInfo.name) in ~/Library/Logs/DiagnosticReports.")
+            : String(localized: "macOS kept \(count) crash reports of \(AppInfo.name) in ~/Library/Logs/DiagnosticReports.")
+    }
+
     private func file(title: String, _ info: FilesSectionModel.FileInfo) -> some View {
         SectionCard(title: title) {
-            InfoRow(label: "Path", value: info.path)
-            InfoRow(label: "Size", value: info.size)
-            InfoRow(label: "Changed", value: info.modified)
+            InfoRow(label: String(localized: "Path", comment: "The path of a file"), value: info.path)
+            InfoRow(label: String(localized: "Size", comment: "The size of a file"), value: info.size)
+            InfoRow(label: String(localized: "Changed", comment: "When a file was changed last"), value: info.modified)
             HStack {
                 Spacer()
                 Button("Copy Path") {
                     model.copyPath(info)
-                    status("Copied the path.")
+                    status(String(localized: "Copied the path."))
                 }
                 Button("Show in Finder") { model.reveal(info) }
             }

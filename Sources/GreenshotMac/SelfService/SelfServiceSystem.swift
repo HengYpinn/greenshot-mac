@@ -44,39 +44,41 @@ struct SystemSectionView: View {
     var body: some View {
         let s = model.snapshot
         VStack(alignment: .leading, spacing: 14) {
-            SectionCard(title: "Software") {
-                InfoRow(label: "App", value: "\(s.appName) \(s.version) (build \(s.build))")
-                InfoRow(label: "Runs as", value: s.architecture + (s.translated ? " app under Rosetta" : " app"))
+            SectionCard(title: String(localized: "Software")) {
+                InfoRow(label: String(localized: "App", comment: "This application"),
+                        value: String(localized: "\(s.appName) \(s.version) (build \(s.build))"))
+                InfoRow(label: String(localized: "Runs as"), value: Self.architectureText(s.architecture, translated: s.translated))
                 InfoRow(label: "macOS", value: s.osVersion)
-                if !s.locale.isEmpty { InfoRow(label: "Region", value: s.locale) }
+                if !s.locale.isEmpty { InfoRow(label: String(localized: "Region", comment: "The region (locale) of the Mac"), value: s.locale) }
             }
             SectionCard(title: "Mac") {
-                if !s.model.isEmpty { InfoRow(label: "Model", value: s.model) }
-                if !s.chip.isEmpty { InfoRow(label: "Chip", value: s.chip) }
-                InfoRow(label: "Memory", value: DiagnosticReport.byteCount(s.physicalMemory))
-                if !s.thermalState.isEmpty { InfoRow(label: "Thermal state", value: s.thermalState) }
-                InfoRow(label: "Low Power Mode", value: s.lowPowerMode ? "On" : "Off")
+                if !s.model.isEmpty { InfoRow(label: String(localized: "Model", comment: "The model of the Mac"), value: s.model) }
+                if !s.chip.isEmpty { InfoRow(label: String(localized: "Chip", comment: "The processor of the Mac"), value: s.chip) }
+                InfoRow(label: String(localized: "Memory"), value: DiagnosticReport.byteCount(s.physicalMemory))
+                if !s.thermalState.isEmpty { InfoRow(label: String(localized: "Thermal state"), value: Self.thermalText(s.thermalState)) }
+                InfoRow(label: String(localized: "Low Power Mode"),
+                        value: s.lowPowerMode ? String(localized: "On", comment: "Low Power Mode is on") : String(localized: "Off", comment: "Low Power Mode is off"))
             }
-            SectionCard(title: "This app") {
-                if let memory = s.appMemory { InfoRow(label: "Memory", value: DiagnosticReport.byteCount(memory)) }
-                if let peak = s.peakMemory { InfoRow(label: "Most memory used", value: DiagnosticReport.byteCount(peak)) }
-                if let threads = s.threads { InfoRow(label: "Threads", value: "\(threads)") }
+            SectionCard(title: String(localized: "This app")) {
+                if let memory = s.appMemory { InfoRow(label: String(localized: "Memory"), value: DiagnosticReport.byteCount(memory)) }
+                if let peak = s.peakMemory { InfoRow(label: String(localized: "Most memory used"), value: DiagnosticReport.byteCount(peak)) }
+                if let threads = s.threads { InfoRow(label: String(localized: "Threads"), value: "\(threads)") }
                 if let launched = s.launched {
-                    InfoRow(label: "Running for", value: DiagnosticReport.duration(s.now.timeIntervalSince(launched)))
+                    InfoRow(label: String(localized: "Running for"), value: DiagnosticReport.duration(s.now.timeIntervalSince(launched)))
                 }
             }
-            SectionCard(title: s.screens.count == 1 ? "Screen" : "Screens") {
+            SectionCard(title: s.screens.count == 1 ? String(localized: "Screen") : String(localized: "Screens")) {
                 ForEach(Array(s.screens.enumerated()), id: \.offset) { _, screen in
                     InfoRow(label: screen.name, value: Self.screenText(screen))
                 }
             }
-            SectionCard(title: "Full report") {
+            SectionCard(title: String(localized: "Full report")) {
                 ReportText(text: model.report, height: 150)
                 HStack {
                     Spacer()
                     Button("Copy System Info") {
                         model.copyReport()
-                        status("System information copied to the clipboard.")
+                        status(String(localized: "System information copied to the clipboard."))
                     }
                 }
             }
@@ -87,11 +89,33 @@ struct SystemSectionView: View {
         let scale: String = String(format: "%g×", screen.scale)
         let pixelWidth: Int = Int(Double(screen.width) * screen.scale)
         let pixelHeight: Int = Int(Double(screen.height) * screen.scale)
-        var parts = ["\(screen.width) × \(screen.height) points at \(scale) = \(pixelWidth) × \(pixelHeight) pixels"]
+        var parts = [String(localized: "\(screen.width) × \(screen.height) points at \(scale) = \(pixelWidth) × \(pixelHeight) pixels")]
         if screen.refreshRate > 0 { parts.append("\(screen.refreshRate) Hz") }
-        parts.append(screen.edrPotential > 1 ? String(format: "HDR, headroom %.1f of %.1f", screen.edrNow, screen.edrPotential) : "SDR")
+        if screen.edrPotential > 1 {
+            let now = String(format: "%.1f", screen.edrNow)
+            let potential = String(format: "%.1f", screen.edrPotential)
+            parts.append(String(localized: "HDR, headroom \(now) of \(potential)"))
+        } else {
+            parts.append("SDR")
+        }
         if !screen.colorSpace.isEmpty { parts.append(screen.colorSpace) }
-        if screen.isMain { parts.append("with the menu bar") }
+        if screen.isMain { parts.append(String(localized: "with the menu bar", comment: "This screen shows the menu bar")) }
         return parts.joined(separator: ", ")
+    }
+
+    /// "arm64 app", "x86_64 app under Rosetta".
+    static func architectureText(_ architecture: String, translated: Bool) -> String {
+        translated ? String(localized: "\(architecture) app under Rosetta") : String(localized: "\(architecture) app")
+    }
+
+    /// The thermal state of `SystemInfo` (English in the report) as the window shows it.
+    static func thermalText(_ state: String) -> String {
+        switch state {
+        case "nominal": return String(localized: "nominal", comment: "The thermal state of the Mac: normal")
+        case "fair": return String(localized: "fair", comment: "The thermal state of the Mac: a bit warm")
+        case "serious": return String(localized: "serious", comment: "The thermal state of the Mac: hot")
+        case "critical": return String(localized: "critical", comment: "The thermal state of the Mac: too hot")
+        default: return state
+        }
     }
 }

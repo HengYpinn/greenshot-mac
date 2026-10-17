@@ -61,36 +61,37 @@ struct IntegritySectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             if let report = model.report {
-                SectionCard(title: "Code signature") {
+                SectionCard(title: String(localized: "Code signature")) {
                     HStack(spacing: 8) {
                         signatureIcon(report.valid)
-                        Text(report.validity).fixedSize(horizontal: false, vertical: true)
+                        Text(report.shownValidity ?? report.validity).fixedSize(horizontal: false, vertical: true)
                     }
-                    InfoRow(label: "Signed by", value: report.signer)
-                    if let identifier = report.identifier { InfoRow(label: "Identifier", value: identifier) }
-                    if let team = report.teamID { InfoRow(label: "Team", value: team) }
-                    InfoRow(label: "Hardened runtime", value: report.hardenedRuntime ? "Yes" : "No")
-                    if let hash = report.cdHash { InfoRow(label: "Code hash", value: hash) }
-                    InfoRow(label: "Notarized", value: report.notarizationText)
+                    InfoRow(label: String(localized: "Signed by"), value: report.shownSigner ?? report.signer)
+                    if let identifier = report.identifier { InfoRow(label: String(localized: "Identifier", comment: "The bundle identifier of the app"), value: identifier) }
+                    if let team = report.teamID { InfoRow(label: String(localized: "Team", comment: "The developer team ID of the signature"), value: team) }
+                    InfoRow(label: String(localized: "Hardened runtime"), value: report.hardenedRuntime ? String(localized: "Yes") : String(localized: "No"))
+                    if let hash = report.cdHash { InfoRow(label: String(localized: "Code hash"), value: hash) }
+                    InfoRow(label: String(localized: "Notarized"), value: report.shownNotarization)
                 }
-                SectionCard(title: "Where it runs from") {
-                    InfoRow(label: "Location", value: report.location)
-                    InfoRow(label: "Quarantined", value: report.quarantined ? "Yes: downloaded and not opened from Finder yet" : "No")
+                SectionCard(title: String(localized: "Where it runs from")) {
+                    InfoRow(label: String(localized: "Location", comment: "Where the app is on the disk"), value: report.location)
+                    InfoRow(label: String(localized: "Quarantined"),
+                            value: report.quarantined ? String(localized: "Yes: downloaded and not opened from Finder yet") : String(localized: "No"))
                     if report.translocated {
                         Label("macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.",
                               systemImage: "exclamationmark.triangle.fill")
                             .foregroundStyle(.orange).fixedSize(horizontal: false, vertical: true)
                     } else {
-                        InfoRow(label: "Translocated", value: "No")
+                        InfoRow(label: String(localized: "Translocated"), value: String(localized: "No"))
                     }
                 }
-                SectionCard(title: "Report") {
+                SectionCard(title: String(localized: "Report", comment: "Title of the integrity report (a noun)")) {
                     ReportText(text: report.reportText, height: 140)
                     HStack {
                         Spacer()
                         Button("Copy Report") {
                             model.copyReport()
-                            status("Copied the integrity report.")
+                            status(String(localized: "Copied the integrity report."))
                         }
                     }
                 }

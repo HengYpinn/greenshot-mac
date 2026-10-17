@@ -70,15 +70,15 @@ final class HotkeysSectionModel: ObservableObject {
             Contender(name: contender.name, note: contender.note,
                       running: running.contains { contender.matches(bundleIdentifier: $0.0, name: $0.1) })
         }
-        updated = "Updated at \(LogViewerModel.time(Date()))"
+        updated = String(localized: "Updated at \(LogViewerModel.time(Date()))")
     }
 
     func registerAgain() -> String {
         app?.reregisterHotkeys()
         refresh()
         return rows.contains { $0.state == .refused }
-            ? "Hotkeys registered again (some keys are still taken)."
-            : "Hotkeys registered again."
+            ? String(localized: "Hotkeys registered again (some keys are still taken).")
+            : String(localized: "Hotkeys registered again.")
     }
 }
 
@@ -88,11 +88,12 @@ struct HotkeysSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            SectionCard(title: "Your hotkeys") {
+            SectionCard(title: String(localized: "Your hotkeys")) {
                 ForEach(model.rows) { row in
                     HStack(spacing: 10) {
                         Text(row.name).frame(width: 190, alignment: .leading)
-                        Text(row.keys ?? "–").font(.body.monospaced()).frame(width: 110, alignment: .leading)
+                        // The hotkey reads left to right also in a right-to-left language (APP-172).
+                        Text(BidiText.isolatedLTR(row.keys ?? "–")).font(.body.monospaced()).frame(width: 110, alignment: .leading)
                         stateLabel(row)
                         Spacer()
                     }
@@ -104,12 +105,12 @@ struct HotkeysSectionView: View {
                         .help("Register the hotkeys with macOS again, e.g. after another app gave a key back")
                 }
             }
-            SectionCard(title: "Screenshot shortcuts of macOS") {
+            SectionCard(title: String(localized: "Screenshot shortcuts of macOS")) {
                 Text("macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.")
                     .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                 ForEach(model.systemShortcuts, id: \.id) { shortcut in
                     HStack(spacing: 10) {
-                        Text(shortcut.combo.displayString).font(.body.monospaced()).frame(width: 70, alignment: .leading)
+                        Text(BidiText.isolatedLTR(shortcut.combo.displayString)).font(.body.monospaced()).frame(width: 70, alignment: .leading)
                         Text(shortcut.name).frame(maxWidth: .infinity, alignment: .leading)
                         if model.conflictIDs.contains(shortcut.id) {
                             Label("Same keys as your hotkey", systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange)
@@ -122,11 +123,11 @@ struct HotkeysSectionView: View {
                     Spacer()
                     Button("Open Keyboard Shortcuts") {
                         SystemSettings.open("com.apple.Keyboard-Settings.extension")
-                        status("Opened the keyboard settings.")
+                        status(String(localized: "Opened the keyboard settings."))
                     }
                 }
             }
-            SectionCard(title: "Other screen capture apps") {
+            SectionCard(title: String(localized: "Other screen capture apps")) {
                 ForEach(model.contenders) { contender in
                     HStack(spacing: 10) {
                         Text(contender.name).frame(width: 110, alignment: .leading)

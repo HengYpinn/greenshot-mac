@@ -56,12 +56,12 @@ final class SetupModel: ObservableObject {
         facts.hotkeyCount = combos.count
         if let registration = HotkeyDiagnostics.lastRegistration {
             facts.refusedHotkeys = registration.refused.filter(registration.combos.indices.contains).map { index in
-                "\(registration.names[index]) (\(registration.combos[index].displayString))"
+                "\(registration.names[index]) (\(BidiText.isolatedLTR(registration.combos[index].displayString)))"
             }
         }
         let system = SystemShortcuts.read()
         facts.systemShortcutConflicts = SystemScreenshotShortcut.conflicts(system, with: combos).map {
-            "\($0.combo.displayString) (\u{201C}\($0.name)\u{201D})"
+            "\(BidiText.isolatedLTR($0.combo.displayString)) (\u{201C}\($0.name)\u{201D})"
         }
         switch LaunchAtLogin.state {
         case .on: facts.loginItem = .on
@@ -120,7 +120,7 @@ final class SetupModel: ObservableObject {
         pendingLogin = nil
         guard pending else { return }
         if let problem = LaunchAtLogin.set(true) {
-            ErrorPresenter.show(message: "\(AppInfo.name) doesn't open at login yet", detail: problem)
+            ErrorPresenter.show(message: String(localized: "\(AppInfo.name) doesn't open at login yet"), detail: problem)
         }
     }
 }
@@ -185,10 +185,10 @@ struct SetupSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            SectionCard(title: "Checks") {
+            SectionCard(title: String(localized: "Checks", comment: "The checks of the setup (a noun)")) {
                 SetupChecksView(model: model)
             }
-            SectionCard(title: "Startup") {
+            SectionCard(title: String(localized: "Startup", comment: "Opening the app at login")) {
                 LoginSwitch(model: model)
                 Text("Then the hotkeys work right after you log in.").font(.caption).foregroundStyle(.secondary)
             }

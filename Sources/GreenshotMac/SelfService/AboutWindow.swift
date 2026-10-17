@@ -77,7 +77,7 @@ final class AboutWindowController: DiagnosticsWindowController {
         var close: () -> Void = {}
         let view = AboutView(openSelfService: { section in app?.showSelfService(section: section) }, close: { close() })
         let height = CreditsText.height(width: AboutView.textWidth) + 260
-        super.init(title: "About \(AppInfo.name)", content: view, size: NSSize(width: AboutView.textWidth + 48, height: height),
+        super.init(title: String(localized: "About \(AppInfo.name)"), content: view, size: NSSize(width: AboutView.textWidth + 48, height: height),
                    resizable: false)
         close = { [weak self] in self?.close() }
         keyWindow?.onKey = { event in

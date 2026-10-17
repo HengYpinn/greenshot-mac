@@ -24,8 +24,8 @@ final class BugReportModel: ObservableObject {
 
     @Published var version = VersionState.checking
     @Published var showsDetails = false
-    @Published var copyDetailsTitle = "Copy Details"
-    @Published var copyStackTitle = "Copy Stack Trace"
+    @Published var copyDetailsTitle = String(localized: "Copy Details")
+    @Published var copyStackTitle = String(localized: "Copy Stack Trace")
 
     init(details: CrashDetails, environment: EnvironmentSnapshot, settings: AppSettings) {
         self.details = details
@@ -41,10 +41,10 @@ final class BugReportModel: ObservableObject {
 
     var latestVersion: String {
         switch version {
-        case .checking: return "Checking…"
+        case .checking: return String(localized: "Checking…")
         case .known(.newer(let release)): return release.version
         case .known(.upToDate(let latest)): return latest ?? UpdateChecker.currentVersion
-        case .known(.failed): return "Unavailable"
+        case .known(.failed): return String(localized: "Unavailable", comment: "The latest version could not be found out")
         }
     }
 
@@ -52,9 +52,9 @@ final class BugReportModel: ObservableObject {
     var versionComparison: String? {
         switch version {
         case .known(.newer(let release)):
-            return "A newer version (\(release.version)) is available. Upgrading may already solve this problem!"
+            return String(localized: "A newer version (\(release.version)) is available. Upgrading may already solve this problem!")
         case .known(.upToDate):
-            return "You are using the latest version (\(UpdateChecker.currentVersion))."
+            return String(localized: "You are using the latest version (\(UpdateChecker.currentVersion)).")
         default:
             return nil
         }
@@ -66,16 +66,16 @@ final class BugReportModel: ObservableObject {
     }
 
     var title: String {
-        details.kind == .crashReport || details.kind == .uncaughtException
-            ? "\(AppInfo.name) quit unexpectedly the last time" : "Something went wrong"
+        guard details.kind == .crashReport || details.kind == .uncaughtException else { return String(localized: "Something went wrong") }
+        return String(localized: "\(AppInfo.name) quit unexpectedly the last time")
     }
 
     var subtitle: String {
         switch details.kind {
         case .caughtException:
-            return "\(AppInfo.name) ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below."
+            return String(localized: "\(AppInfo.name) ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.")
         case .uncaughtException, .crashReport:
-            return "\(AppInfo.name) ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below."
+            return String(localized: "\(AppInfo.name) ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.")
         }
     }
 
@@ -95,12 +95,12 @@ final class BugReportModel: ObservableObject {
 
     func copyDetails() {
         copy(report)
-        copyDetailsTitle = "Copied!"
+        copyDetailsTitle = String(localized: "Copied!")
     }
 
     func copyStack() {
         copy(details.stackText)
-        copyStackTitle = "Copied!"
+        copyStackTitle = String(localized: "Copied!")
     }
 
     private func copy(_ text: String) {
@@ -146,7 +146,7 @@ struct BugReportView: View {
             identifierBox
             VStack(alignment: .leading, spacing: 4) {
                 Text("Error message").font(.headline)
-                Text(model.details.message.isEmpty ? "An unexpected error occurred." : model.details.message)
+                Text(model.details.message.isEmpty ? String(localized: "An unexpected error occurred.") : model.details.message)
                     .textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
             }
             VStack(alignment: .leading, spacing: 4) {
@@ -156,7 +156,7 @@ struct BugReportView: View {
                     Button(model.copyStackTitle) { model.copyStack() }.controlSize(.small)
                 }
                 ScrollView {
-                    Text(model.details.stackText.isEmpty ? "(no stack)" : model.details.stackText)
+                    Text(model.details.stackText.isEmpty ? String(localized: "(no stack)") : model.details.stackText)
                         .font(.system(size: 11, design: .monospaced)).textSelection(.enabled)
                         .frame(maxWidth: .infinity, alignment: .leading).padding(6)
                 }
@@ -242,7 +242,7 @@ final class BugReportWindowController: DiagnosticsWindowController {
         let view = BugReportView(model: model, openSelfService: {
             (NSApp.delegate as? AppDelegate)?.showSelfService(section: nil)
         }, close: { close() })
-        super.init(title: "\(AppInfo.name) – Error Report", content: view, size: NSSize(width: 660, height: 700),
+        super.init(title: String(localized: "\(AppInfo.name) – Error Report"), content: view, size: NSSize(width: 660, height: 700),
                    resizable: true)
         close = { [weak self] in self?.close() }
     }
