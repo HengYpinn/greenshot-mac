@@ -10,6 +10,9 @@ import GreenshotCore
 struct OverlayPanel {
     let id: String
     let size: CGSize
+    /// While shown it only grows, so it doesn't wobble when a value changes between e.g. 99 and 100. Upstream does
+    /// this for the info panel only (`UpdatePanelSize`); the preview follows the selection.
+    var growsOnly = false
     let draw: (CGRect) -> Void
 }
 
@@ -83,7 +86,11 @@ extension OverlayMarksView {
         var panels: [OverlayPanel] = []
         if controller.mode == .fixedSize { panels.append(sizesPanel(controller)) }
         if controller.helpVisible { panels.append(tablePanel(id: "help", title: "Keys", rows: controller.helpLines())) }
-        if controller.infoVisible { panels.append(tablePanel(id: "info", title: "Info", rows: controller.infoLines())) }
+        if controller.infoVisible {
+            var info = tablePanel(id: "info", title: "Info", rows: controller.infoLines())
+            info.growsOnly = true
+            panels.append(info)
+        }
         if let preview, !previewAtZoomer { panels.append(preview) }
 
         // The panels avoid the selection only once it stopped changing for a moment (upstream `IsSelectionSettled`), so they
@@ -97,8 +104,9 @@ extension OverlayMarksView {
         }
         let inZoomer = previewAtZoomer ? preview : nil
         let diameter = zoomerDiameter
-        // The magnifier with room for the position below it.
-        let size = inZoomer?.size ?? CGSize(width: diameter, height: diameter + (showsPosition ? 24 : 0))
+        // The magnifier with room for the position below it, also when the crosshair shows it, so the zoomer doesn't
+        // change sides when a drag starts.
+        let size = inZoomer?.size ?? CGSize(width: diameter, height: diameter + 24)
         let offset = CaptureZoomerPlacement.offset(cursor: cursor, current: zoomerOffset, size: size, monitor: bounds,
                                                    avoid: placed + (selection.map { [$0] } ?? []))
         zoomerOffset = offset

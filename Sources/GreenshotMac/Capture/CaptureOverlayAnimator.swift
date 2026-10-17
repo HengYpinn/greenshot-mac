@@ -113,7 +113,7 @@ extension CaptureOverlayController {
 }
 
 /// The panels' movement (upstream `CaptureWindow.xaml.cs` `PlacePanel`, `MovePanel`, `Fade`, `UpdatePanelSize`): a panel
-/// slides to a new corner, fades in when shown and out when hidden, and only grows while it is shown.
+/// slides to a new corner, fades in when shown and out when hidden; the info panel only grows while it is shown.
 extension OverlayMarksView {
     /// Places and draws the panels, avoiding `avoidLoosely` (the selection, once it settled). Returns their places.
     func placeAndDrawPanels(_ panels: [OverlayPanel], cursor: CGPoint, avoidLoosely: [CGRect], now: Date,
@@ -124,7 +124,7 @@ extension OverlayMarksView {
         var targets: [String: CGRect] = [:]
         var drawn: [String: (panel: OverlayPanel, frame: CGRect)] = [:]
         for panel in panels {
-            let size = CaptureAnimation.grownSize(panelSizes[panel.id], panel.size)
+            let size = panel.growsOnly ? CaptureAnimation.grownSize(panelSizes[panel.id], panel.size) : panel.size
             panelSizes[panel.id] = size
             let current = panelFrames[panel.id]
             let box = CapturePanelPlacement.place(size: size, monitor: bounds, cursor: cursor, current: current, avoid: placed,
