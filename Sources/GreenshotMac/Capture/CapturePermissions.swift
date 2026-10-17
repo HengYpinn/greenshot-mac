@@ -35,16 +35,21 @@ extension Permissions {
     }
 }
 
-/// Whether Accessibility is allowed, for a settings row; checked again whenever the app becomes active, since macOS
-/// tells nobody when the user changes it.
+/// Whether Accessibility (and Input Monitoring) is allowed, for a settings row; checked again whenever the app becomes
+/// active, since macOS tells nobody when the user changes it.
 @MainActor
 final class AccessibilityStatus: ObservableObject {
     @Published private(set) var isAllowed: Bool
+    @Published private(set) var canListenToKeys: Bool
     private var observer: NSObjectProtocol?
 
-    /// `fixed` for the snapshots: the row as if the permission were (not) allowed.
+    /// Hotkeys can tell the left modifier keys from the right ones (the event tap can run).
+    var canTellSides: Bool { isAllowed || canListenToKeys }
+
+    /// `fixed` for the snapshots: the row as if the permissions were (not) allowed.
     init(fixed: Bool? = nil) {
         isAllowed = fixed ?? Permissions.hasAccessibility
+        canListenToKeys = fixed ?? Permissions.canListenToKeys
         guard fixed == nil else { return }
         observer = NotificationCenter.default.addObserver(forName: NSApplication.didBecomeActiveNotification, object: nil,
                                                           queue: .main) { [weak self] _ in
@@ -59,5 +64,7 @@ final class AccessibilityStatus: ObservableObject {
     func refresh() {
         let allowed = Permissions.hasAccessibility
         if allowed != isAllowed { isAllowed = allowed }
+        let listens = Permissions.canListenToKeys
+        if listens != canListenToKeys { canListenToKeys = listens }
     }
 }

@@ -5,28 +5,212 @@
 
 import Carbon.HIToolbox
 
+/// Which of the two keys of a modifier a hotkey needs (upstream `Greenshot.Base/Core/ModifierLocation.cs`).
+public enum ModifierSide: String, Codable, CaseIterable, Sendable {
+    /// Either key, as every hotkey before.
+    case any
+    case left
+    case right
+
+    public init(from decoder: Decoder) throws {
+        // A side this version doesn't know is either side.
+        self = ModifierSide(rawValue: try decoder.singleValueContainer().decode(String.self)) ?? .any
+    }
+}
+
+/// The side of each modifier of a step (upstream `KeyChord.CtrlLocation`, `AltLocation`, `ShiftLocation`,
+/// `WinLocation`). Hotkeys that need a side can't go through Carbon, which doesn't tell the keys apart; they need the
+/// app's keyboard event tap (Accessibility or Input Monitoring).
+public struct ModifierSides: Codable, Hashable, Sendable {
+    public var control: ModifierSide
+    public var option: ModifierSide
+    public var shift: ModifierSide
+    public var command: ModifierSide
+
+    public init(control: ModifierSide = .any, option: ModifierSide = .any, shift: ModifierSide = .any, command: ModifierSide = .any) {
+        self.control = control
+        self.option = option
+        self.shift = shift
+        self.command = command
+    }
+
+    /// Either key of every modifier.
+    public static let any = ModifierSides()
+
+    public var isAny: Bool { self == .any }
+
+    /// The modifiers as Carbon flags, in the order the Mac shows them.
+    public static let modifiers: [UInt32] = [KeyCombo.control, KeyCombo.option, KeyCombo.shift, KeyCombo.command]
+
+    /// The side of `modifier` (a Carbon flag).
+    public subscript(modifier: UInt32) -> ModifierSide {
+        get {
+            switch modifier {
+            case KeyCombo.control: return control
+            case KeyCombo.option: return option
+            case KeyCombo.shift: return shift
+            case KeyCombo.command: return command
+            default: return .any
+            }
+        }
+        set {
+            switch modifier {
+            case KeyCombo.control: control = newValue
+            case KeyCombo.option: option = newValue
+            case KeyCombo.shift: shift = newValue
+            case KeyCombo.command: command = newValue
+            default: break
+            }
+        }
+    }
+
+    /// Only the sides of the modifiers in `modifiers` (Carbon flags): a modifier the step doesn't use has no side.
+    public func limited(to modifiers: UInt32) -> ModifierSides {
+        var result = ModifierSides.any
+        for modifier in Self.modifiers where modifiers & modifier != 0 { result[modifier] = self[modifier] }
+        return result
+    }
+
+    /// The sides of the step typed while recording, from the device flags of the key event (`deviceFlags`): only for
+    /// a modifier whose side was chosen before (`chosen`), like upstream's recorder; the others stay either side.
+    public static func recorded(chosen: ModifierSides, modifiers: UInt32, deviceFlags: UInt64) -> ModifierSides {
+        var result = ModifierSides.any
+        for modifier in Self.modifiers where modifiers & modifier != 0 && chosen[modifier] != .any {
+            let masks = DeviceModifierFlags.masks(of: modifier)
+            let left = deviceFlags & masks.left != 0
+            let right = deviceFlags & masks.right != 0
+            result[modifier] = left && !right ? .left : (right && !left ? .right : chosen[modifier])
+        }
+        return result
+    }
+
+    /// "right ⌘", "left ⌃, right ⌘"; empty for either side.
+    public var displayString: String {
+        let symbols: [UInt32: String] = [KeyCombo.control: "⌃", KeyCombo.option: "⌥", KeyCombo.shift: "⇧", KeyCombo.command: "⌘"]
+        return Self.modifiers.compactMap { modifier -> String? in
+            guard let symbol = symbols[modifier] else { return nil }
+            switch self[modifier] {
+            case .any: return nil
+            case .left: return "left \(symbol)"
+            case .right: return "right \(symbol)"
+            }
+        }.joined(separator: ", ")
+    }
+
+    // Tolerant, and only the sides that aren't "either" are written.
+    enum CodingKeys: String, CodingKey { case control, option, shift, command }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        func side(_ key: CodingKeys) -> ModifierSide { (try? c.decodeIfPresent(ModifierSide.self, forKey: key)) ?? .any }
+        self.init(control: side(.control), option: side(.option), shift: side(.shift), command: side(.command))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        if control != .any { try c.encode(control, forKey: .control) }
+        if option != .any { try c.encode(option, forKey: .option) }
+        if shift != .any { try c.encode(shift, forKey: .shift) }
+        if command != .any { try c.encode(command, forKey: .command) }
+    }
+}
+
+/// The device-dependent modifier bits of a key event (`CGEventFlags`, `NSEvent.ModifierFlags` raw values), which tell the
+/// left key from the right one (IOKit `IOLLEvent.h` `NX_DEVICE*KEYMASK`).
+public enum DeviceModifierFlags {
+    public static let leftControl: UInt64 = 0x0000_0001
+    public static let leftShift: UInt64 = 0x0000_0002
+    public static let rightShift: UInt64 = 0x0000_0004
+    public static let leftCommand: UInt64 = 0x0000_0008
+    public static let rightCommand: UInt64 = 0x0000_0010
+    public static let leftOption: UInt64 = 0x0000_0020
+    public static let rightOption: UInt64 = 0x0000_0040
+    public static let rightControl: UInt64 = 0x0000_2000
+
+    /// The left and right bit of `modifier` (a Carbon flag).
+    public static func masks(of modifier: UInt32) -> (left: UInt64, right: UInt64) {
+        switch modifier {
+        case KeyCombo.control: return (leftControl, rightControl)
+        case KeyCombo.option: return (leftOption, rightOption)
+        case KeyCombo.shift: return (leftShift, rightShift)
+        case KeyCombo.command: return (leftCommand, rightCommand)
+        default: return (0, 0)
+        }
+    }
+}
+
 /// One key with its modifiers: a step of a hotkey (upstream `Greenshot.Base/Core/KeyChord.cs`). The modifiers are
-/// Carbon flags, as `RegisterEventHotKey` takes them.
+/// Carbon flags, as `RegisterEventHotKey` takes them; `sides` says when only the left or the right key of a modifier
+/// counts (upstream `ModifierLocation`).
 public struct KeyChord: Codable, Hashable, Sendable {
     public var keyCode: UInt32
     public var modifiers: UInt32
-
-    public init(keyCode: UInt32, modifiers: UInt32) {
-        self.keyCode = keyCode
-        self.modifiers = modifiers
+    /// Only for modifiers in `modifiers`.
+    public var sides: ModifierSides {
+        didSet { sides = sides.limited(to: modifiers) }
     }
 
-    /// "⌃⌥⌘K"
+    public init(keyCode: UInt32, modifiers: UInt32, sides: ModifierSides = .any) {
+        self.keyCode = keyCode
+        self.modifiers = modifiers
+        self.sides = sides.limited(to: modifiers)
+    }
+
+    /// "⌃⌥⌘K", with sides "⌃⌥⌘K (right ⌘)".
     public var displayString: String {
         var result = ""
         if modifiers & KeyCombo.control != 0 { result += "⌃" }
         if modifiers & KeyCombo.option != 0 { result += "⌥" }
         if modifiers & KeyCombo.shift != 0 { result += "⇧" }
         if modifiers & KeyCombo.command != 0 { result += "⌘" }
-        return result + KeyCombo.keyName(for: keyCode)
+        result += KeyCombo.keyName(for: keyCode)
+        return sides.isAny ? result : "\(result) (\(sides.displayString))"
     }
 
     public var isFunctionKey: Bool { KeyCombo.functionKeys.contains(Int(keyCode)) }
+
+    /// The keys pressed, as `deviceFlags` of the key event tell them, are on the sides this step needs. Both keys held
+    /// count for either side, like upstream `MatchChord`.
+    public func sidesMatch(deviceFlags: UInt64) -> Bool {
+        ModifierSides.modifiers.allSatisfy { modifier in
+            let masks = DeviceModifierFlags.masks(of: modifier)
+            switch sides[modifier] {
+            case .any: return true
+            case .left: return deviceFlags & masks.left != 0
+            case .right: return deviceFlags & masks.right != 0
+            }
+        }
+    }
+
+    /// The same keys, either side of each modifier.
+    public var ignoringSides: KeyChord { KeyChord(keyCode: keyCode, modifiers: modifiers) }
+
+    /// Pressing one of them can be the other: the same keys, and no modifier on opposite sides.
+    public func overlaps(_ other: KeyChord) -> Bool {
+        guard keyCode == other.keyCode, modifiers == other.modifiers else { return false }
+        return ModifierSides.modifiers.allSatisfy { modifier in
+            let mine = sides[modifier]
+            let theirs = other.sides[modifier]
+            return mine == theirs || mine == .any || theirs == .any
+        }
+    }
+
+    enum CodingKeys: String, CodingKey { case keyCode, modifiers, sides }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let keyCode = try c.decode(UInt32.self, forKey: .keyCode)
+        let modifiers = try c.decode(UInt32.self, forKey: .modifiers)
+        let sides = (try? c.decodeIfPresent(ModifierSides.self, forKey: .sides)) ?? .any
+        self.init(keyCode: keyCode, modifiers: modifiers, sides: sides)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(keyCode, forKey: .keyCode)
+        try c.encode(modifiers, forKey: .modifiers)
+        if !sides.isAny { try c.encode(sides, forKey: .sides) }
+    }
 }
 
 /// A global keyboard shortcut: a key code and Carbon modifier flags, as `RegisterEventHotKey` takes them, optionally
@@ -35,27 +219,46 @@ public struct KeyChord: Codable, Hashable, Sendable {
 public struct KeyCombo: Codable, Hashable, Sendable {
     public var keyCode: UInt32
     public var modifiers: UInt32
+    /// The sides of the first step's modifiers (upstream `ModifierLocation`); written only when one isn't "either".
+    public var sides: ModifierSides {
+        didSet { sides = sides.limited(to: modifiers) }
+    }
     /// The keys pressed after this one, each within `HotkeySequenceMatcher.chordTimeout` of the one before. Empty for a
     /// hotkey of one step.
     public var followingChords: [KeyChord]
 
-    public init(keyCode: UInt32, modifiers: UInt32, followingChords: [KeyChord] = []) {
+    public init(keyCode: UInt32, modifiers: UInt32, sides: ModifierSides = .any, followingChords: [KeyChord] = []) {
         self.keyCode = keyCode
         self.modifiers = modifiers
+        self.sides = sides.limited(to: modifiers)
         self.followingChords = followingChords
     }
 
     /// The hotkey of these steps; nil without any.
     public init?(chords: [KeyChord]) {
         guard let first = chords.first else { return nil }
-        self.init(keyCode: first.keyCode, modifiers: first.modifiers, followingChords: Array(chords.dropFirst()))
+        self.init(keyCode: first.keyCode, modifiers: first.modifiers, sides: first.sides, followingChords: Array(chords.dropFirst()))
     }
 
-    public var firstChord: KeyChord { KeyChord(keyCode: keyCode, modifiers: modifiers) }
+    public var firstChord: KeyChord { KeyChord(keyCode: keyCode, modifiers: modifiers, sides: sides) }
     /// Every step, the first one first.
     public var chords: [KeyChord] { [firstChord] + followingChords }
     /// More than one step.
     public var isSequence: Bool { !followingChords.isEmpty }
+
+    /// A step needs the left or the right key of a modifier: the hotkey goes through the keyboard event tap.
+    public var usesSides: Bool { chords.contains { !$0.sides.isAny } }
+
+    /// The same keys, either side of every modifier: how such a hotkey works without the event tap's permission.
+    public var ignoringSides: KeyCombo { KeyCombo(chords: chords.map(\.ignoringSides)) ?? self }
+
+    /// The step at `index` replaced by `chord` (sides chosen in the settings).
+    public func replacing(step index: Int, with chord: KeyChord) -> KeyCombo {
+        var steps = chords
+        guard steps.indices.contains(index) else { return self }
+        steps[index] = chord
+        return KeyCombo(chords: steps) ?? self
+    }
 
     /// The most steps a hotkey can have in the settings.
     public static let maximumSteps = 4
@@ -79,20 +282,23 @@ public struct KeyCombo: Codable, Hashable, Sendable {
 
     // MARK: Codable
 
-    enum CodingKeys: String, CodingKey { case keyCode, modifiers, followingChords }
+    enum CodingKeys: String, CodingKey { case keyCode, modifiers, sides, followingChords }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        keyCode = try c.decode(UInt32.self, forKey: .keyCode)
-        modifiers = try c.decode(UInt32.self, forKey: .modifiers)
-        // Missing in settings of older versions; a damaged list doesn't cost the user the hotkey.
-        followingChords = (try? c.decodeIfPresent([KeyChord].self, forKey: .followingChords)) ?? []
+        let keyCode = try c.decode(UInt32.self, forKey: .keyCode)
+        let modifiers = try c.decode(UInt32.self, forKey: .modifiers)
+        // Missing in settings of older versions; damaged sides or steps don't cost the user the hotkey.
+        let sides = (try? c.decodeIfPresent(ModifierSides.self, forKey: .sides)) ?? .any
+        let following = (try? c.decodeIfPresent([KeyChord].self, forKey: .followingChords)) ?? []
+        self.init(keyCode: keyCode, modifiers: modifiers, sides: sides, followingChords: following)
     }
 
     public func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encode(keyCode, forKey: .keyCode)
         try c.encode(modifiers, forKey: .modifiers)
+        if !sides.isAny { try c.encode(sides, forKey: .sides) }
         if !followingChords.isEmpty { try c.encode(followingChords, forKey: .followingChords) }
     }
 
@@ -133,11 +339,19 @@ public struct KeyCombo: Codable, Hashable, Sendable {
         for other in others {
             let otherSteps = other.combo.chords
             if otherSteps == steps { return "“\(other.name)” has the same hotkey." }
-            if otherSteps.count < steps.count, Array(steps.prefix(otherSteps.count)) == otherSteps {
+            if otherSteps.count == steps.count, overlap(steps, otherSteps) {
+                return "“\(other.name)” (\(other.combo.displayString)) has the same keys with either side, so both would fire."
+            }
+            if otherSteps.count < steps.count, overlap(Array(steps.prefix(otherSteps.count)), otherSteps) {
                 return "“\(other.name)” (\(other.combo.displayString)) is the beginning of this hotkey, so this one never fires."
             }
         }
         return nil
+    }
+
+    /// Each step of `a` can be the step of `b` (left/right sides taken into account).
+    private static func overlap(_ a: [KeyChord], _ b: [KeyChord]) -> Bool {
+        a.count == b.count && zip(a, b).allSatisfy { $0.overlaps($1) }
     }
 
     // MARK: Key names

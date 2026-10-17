@@ -12,6 +12,7 @@ extension Snapshots {
     /// (`editorWindow`, `overlay`, `form`, `settingsTab`, `capture`) do most of the work.
     static func renderCaptureExtras(to folder: URL, sample: CGImage, settings: SettingsStore) throws {
         try write(hotkeys(), to: folder.appendingPathComponent("settings-hotkeys.png"))
+        try write(hotkeySides(), to: folder.appendingPathComponent("settings-hotkeys-sides.png"))
         // The region mode before a drag: the dotted crosshair with the position, the zoomer a fifth of the display.
         try write(captureScreen(sample: sample) { $0.mouseMoved(to: CGPoint(x: 700, y: 400)) },
                   to: folder.appendingPathComponent("capture-crosshair.png"))
@@ -144,6 +145,26 @@ extension Snapshots {
         }
         let problem = KeyCombo(keyCode: UInt32(kVK_ANSI_A), modifiers: KeyCombo.shift).validationProblem ?? ""
         let root = Form { HotkeysSection(store: store, initialProblems: ["Capture window": problem]) }.formStyle(.grouped)
+        let hosting = NSHostingView(rootView: root)
+        hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 470)
+        let window = NSWindow(contentRect: hosting.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.contentView = hosting
+        keepAlive.append(window)
+        hosting.layoutSubtreeIfNeeded()
+        return capture(hosting)
+    }
+
+    /// A hotkey that needs the right ⌘ (CAP-034), without the permission for the keyboard event tap: the note under it.
+    private static func hotkeySides() -> NSBitmapImageRep? {
+        let suite = "greenshot-mac-snapshots-hotkey-sides"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        let store = SettingsStore(defaults: defaults)
+        store.update { values in
+            values.hotkeys.region = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: KeyCombo.control | KeyCombo.option | KeyCombo.command,
+                                             sides: ModifierSides(command: .right))
+        }
+        let root = Form { HotkeysSection(store: store, access: AccessibilityStatus(fixed: false)) }.formStyle(.grouped)
         let hosting = NSHostingView(rootView: root)
         hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 470)
         let window = NSWindow(contentRect: hosting.frame, styleMask: [.titled], backing: .buffered, defer: false)
