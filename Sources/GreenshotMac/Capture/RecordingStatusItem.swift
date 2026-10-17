@@ -118,8 +118,10 @@ final class RecordingStatusItem: NSObject {
             text = "Saving…"
             help = "The recording is being saved."
         }
+        // A filled symbol: a white mark (dot, pause bars) on the coloured circle.
+        let colors: [NSColor] = symbol.hasSuffix(".fill") ? [.white, color] : [color]
         let configuration = NSImage.SymbolConfiguration(pointSize: 13, weight: .regular)
-            .applying(NSImage.SymbolConfiguration(paletteColors: [color]))
+            .applying(NSImage.SymbolConfiguration(paletteColors: colors))
         let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Recording")?.withSymbolConfiguration(configuration)
         image?.isTemplate = false
         button.image = image
