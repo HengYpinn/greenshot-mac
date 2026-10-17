@@ -12,24 +12,35 @@ enum PrintOptionsDialog {
     /// Shows the options; OK saves them in the settings (and "Don't ask again" turns the dialog off). False when
     /// cancelled.
     static func run(settings: SettingsStore, window: NSWindow? = nil) -> Bool {
-        let options = settings.value.printing
+        guard let answer = present(settings.value.printing, forThisPrintOnly: false) else { return false }
+        settings.update {
+            $0.printing = answer.form.result(from: $0.printing)
+            if answer.dontAsk { $0.printing.promptOptions = false }
+        }
+        return true
+    }
+
+    /// Asks the options of one print (a recipe's print options), starting from `options`; nothing is saved. Nil when
+    /// cancelled.
+    static func ask(_ options: PrintSettings, window: NSWindow? = nil) -> PrintSettings? {
+        present(options, forThisPrintOnly: true).map { $0.form.result(from: options) }
+    }
+
+    private static func present(_ options: PrintSettings, forThisPrintOnly: Bool) -> (form: PrintOptionsForm, dontAsk: Bool)? {
         let form = PrintOptionsForm(options: options)
         let alert = NSAlert()
         alert.messageText = "Print Options"
-        alert.informativeText = "These can be changed later in Settings › Printer."
+        alert.informativeText = forThisPrintOnly ? String(localized: "These are for this print only.")
+                                                 : "These can be changed later in Settings › Printer."
         alert.accessoryView = form.view
-        alert.showsSuppressionButton = true
+        // "Don't ask again" changes the settings; a print with its own options doesn't.
+        alert.showsSuppressionButton = !forThisPrintOnly
         alert.suppressionButton?.title = "Don't ask again"
         alert.addButton(withTitle: "Print")
         alert.addButton(withTitle: "Cancel")
         NSApp.activate()
-        guard alert.runModal() == .alertFirstButtonReturn else { return false }
-        let dontAsk = alert.suppressionButton?.state == .on
-        settings.update {
-            $0.printing = form.result(from: $0.printing)
-            if dontAsk { $0.printing.promptOptions = false }
-        }
-        return true
+        guard alert.runModal() == .alertFirstButtonReturn else { return nil }
+        return (form, alert.suppressionButton?.state == .on)
     }
 }
 
