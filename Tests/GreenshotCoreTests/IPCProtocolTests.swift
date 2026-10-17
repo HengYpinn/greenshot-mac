@@ -104,15 +104,7 @@ struct IPCFrameLimitTests {
         let fds = pair()
         defer { fds.forEach { close($0) } }
         // A byte every 50 ms: each read gets data in time, the frame never completes
-        let writer = fds[0]
-        let trickle = Thread {
-            let frame = IPCFrame.encode(Data(repeating: 0x20, count: 40))
-            for byte in frame {
-                var value = byte
-                if Darwin.write(writer, &value, 1) != 1 { return }
-                usleep(50_000)
-            }
-        }
+        let trickle = TrickleWriter(fd: fds[0], bytes: Array(IPCFrame.encode(Data(repeating: 0x20, count: 40))), pause: 50_000)
         trickle.start()
         let started = Date()
         #expect(throws: IPCIOError.timedOut) {
@@ -121,6 +113,8 @@ struct IPCFrameLimitTests {
         let elapsed = Date().timeIntervalSince(started)
         #expect(elapsed < 1.5)
         shutdown(fds[1], SHUT_RDWR)
+        // The writer ends before the descriptors are closed (it would write into the next test's socket)
+        trickle.stop()
     }
 
     @Test func largeFrameArrivesInPieces() throws {

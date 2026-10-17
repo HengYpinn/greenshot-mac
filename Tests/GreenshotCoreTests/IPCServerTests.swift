@@ -298,14 +298,7 @@ struct IPCServerTests {
         let frame = IPCFrame.encode(IPCJSON.data(IPCEnvelope.hello(source: .cli, replyFormat: .text, client: "tests",
                                                                    clientVersion: "1").jsonObject))
         // A byte every 100 ms: more than the deadline in all, never a pause as long as it
-        let fd = client.fd
-        let trickle = Thread {
-            for byte in frame.prefix(30) {
-                var value = byte
-                if Darwin.write(fd, &value, 1) != 1 { return }
-                usleep(100_000)
-            }
-        }
+        let trickle = TrickleWriter(fd: client.fd, bytes: Array(frame.prefix(30)), pause: 100_000)
         // Watched from a thread of its own, so the time measured is the server's (its connection thread enforces the
         // deadline), not how long this test waits for a pool thread
         let watched = try await offPool { () -> (opened: Bool, closed: Bool, elapsed: TimeInterval) in
@@ -319,6 +312,8 @@ struct IPCServerTests {
         #expect(watched.closed)
         // Closed at the deadline, long before the 3 seconds of trickling end
         #expect(watched.elapsed < 2)
+        // The writer ends before the descriptor is closed (it would write into the next test's socket)
+        try await offPool { trickle.stop() }
     }
 
     @Test func largeRequestAfterHelloIsRead() async throws {
