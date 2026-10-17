@@ -33,10 +33,12 @@ for arch in ${ARCHS:-}; do args+=(--arch "$arch"); done
 # A multi-arch build uses another build system; its own folder keeps `swift test` in .build working.
 SCRATCH=.build
 if [[ -n "${ARCHS:-}" ]]; then SCRATCH=.build/universal; args+=(--scratch-path "$SCRATCH"); fi
-# The app, greenshot-cli (its command line tool) and the browser extension's native messaging host.
+# The app, greenshot-cli (its command line tool), greenshot-mcp (the MCP server for AI tools) and the browser extension's
+# native messaging host.
 swift build "${args[@]}" --product GreenshotMac
 swift build "${args[@]}" --product greenshot-cli
 swift build "${args[@]}" --product greenshot-native-host
+swift build "${args[@]}" --product greenshot-mcp
 BIN_DIR="$(swift build "${args[@]}" --show-bin-path)"
 
 if [[ ! -f Resources/AppIcon.icns ]]; then
@@ -51,9 +53,13 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Helpers" "$APP/Contents/Resources"
 cp "$BIN_DIR/GreenshotMac" "$APP/Contents/MacOS/GreenshotMac"
 cp "$BIN_DIR/greenshot-cli" "$APP/Contents/Helpers/greenshot-cli"
 cp "$BIN_DIR/greenshot-native-host" "$APP/Contents/Helpers/greenshot-native-host"
+cp "$BIN_DIR/greenshot-mcp" "$APP/Contents/Helpers/greenshot-mcp"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 # The AppleScript dictionary (Info.plist OSAScriptingDefinition).
 cp Resources/GreenshotMac.sdef "$APP/Contents/Resources/GreenshotMac.sdef"
+# The recipe schema (recipe editor, AI tools' get_recipe_schema) and the example recipes greenshot-mcp sends with it.
+cp Resources/recipe.schema.json "$APP/Contents/Resources/recipe.schema.json"
+ditto Resources/RecipeExamples "$APP/Contents/Resources/RecipeExamples"
 # The browser extension, for Settings › Expert › Browser extension › Show Extension Folder.
 if [[ -d Extensions/Browser ]]; then ditto Extensions/Browser "$APP/Contents/Resources/BrowserExtension"; fi
 sed -e "s/__VERSION__/$VERSION/g" -e "s/__BUILD__/$BUILD_NUMBER/g" -e "s/__BUNDLE_ID__/$BUNDLE_ID/g" \
@@ -127,7 +133,9 @@ extract_app_intents
 # Nested code is signed first (inside out), with its own identifier; then the bundle seals it.
 codesign --force --options runtime --identifier "$BUNDLE_ID.cli" --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/greenshot-cli"
 codesign --force --options runtime --identifier "$BUNDLE_ID.nativehost" --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/greenshot-native-host"
+codesign --force --options runtime --identifier "$BUNDLE_ID.mcp" --sign "$SIGN_IDENTITY" "$APP/Contents/Helpers/greenshot-mcp"
 # The hardened runtime needs the Apple Events entitlement for the Office, Mail and Notes destinations.
 codesign --force --options runtime --entitlements "$ROOT/Resources/GreenshotMac.entitlements" --sign "$SIGN_IDENTITY" "$APP"
 echo "Built $APP (signed: $([[ "$SIGN_IDENTITY" == "-" ]] && echo "ad hoc" || echo "$SIGN_IDENTITY"))"
 echo "Command line tool: sudo ln -sf '$APP/Contents/Helpers/greenshot-cli' /usr/local/bin/greenshot-cli"
+echo "MCP server for AI tools: $APP/Contents/Helpers/greenshot-mcp (see docs/mcp/README.md)"
