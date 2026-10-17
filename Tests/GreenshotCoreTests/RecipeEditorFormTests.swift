@@ -10,12 +10,12 @@ import Testing
 @Suite struct RecipeEditorFormTests {
     private func field(_ stepType: String, _ name: String) throws -> RecipeEditorField {
         let contract = try #require(StepContractCatalog.builtIn.contract(for: stepType))
-        return try #require(RecipeEditorForm.fields(for: contract).first { $0.name == name })
+        return try #require(RecipeParameterForm.fields(for: contract).first { $0.name == name })
     }
 
     @Test func everyContractGivesAForm() {
         for contract in StepContractCatalog.builtIn.all {
-            let fields = RecipeEditorForm.fields(for: contract)
+            let fields = RecipeParameterForm.fields(for: contract)
             #expect(fields.count == contract.parameters.count, "\(contract.stepType)")
             for field in fields where field.kind == .json {
                 // Only objects without an editor of their own fall back to JSON text.
@@ -23,7 +23,7 @@ import Testing
             }
         }
         for contract in TriggerContractCatalog.builtIn.all {
-            #expect(RecipeEditorForm.fields(for: contract).count == contract.parameters.count, "\(contract.triggerType)")
+            #expect(RecipeParameterForm.fields(for: contract).count == contract.parameters.count, "\(contract.triggerType)")
         }
     }
 
@@ -41,9 +41,9 @@ import Testing
         #expect(try field("Effect", "Color").kind == .color)
         #expect(try field("Source", "WindowHandle").kind == .text)
         let hotkey = try #require(TriggerContractCatalog.builtIn.contract(for: "Hotkey"))
-        #expect(RecipeEditorForm.fields(for: hotkey).first?.kind == .hotkey)
+        #expect(RecipeParameterForm.fields(for: hotkey).first?.kind == .hotkey)
         let commandline = try #require(TriggerContractCatalog.builtIn.contract(for: "Commandline"))
-        #expect(RecipeEditorForm.fields(for: commandline).first { $0.name == "Arguments" }?.kind == .arguments)
+        #expect(RecipeParameterForm.fields(for: commandline).first { $0.name == "Arguments" }?.kind == .arguments)
     }
 
     @Test func enumChoicesComeFromTheContract() throws {
@@ -61,7 +61,7 @@ import Testing
     @Test func effectParametersBelongToTheirEffects() throws {
         let contract = try #require(StepContractCatalog.builtIn.contract(for: "Effect"))
         let effects = try #require(contract.parameter("Effect")).allowedValues
-        for field in RecipeEditorForm.fields(for: contract) where field.name != "Effect" {
+        for field in RecipeParameterForm.fields(for: contract) where field.name != "Effect" {
             let condition = try #require(field.condition, "\(field.name) has no effect")
             #expect(condition.parameter == "Effect")
             for value in condition.values { #expect(effects.contains(value), "\(field.name): \(value)") }
@@ -81,13 +81,13 @@ import Testing
         var node = RecipeNode(id: "e", stepType: "Effect", parameters: ["Effect": .string("Border")])
         let width = try field("Effect", "Width")
         let darkness = try field("Effect", "Darkness")
-        #expect(RecipeEditorForm.isVisible(width, in: node, contract: contract))
-        #expect(!RecipeEditorForm.isVisible(darkness, in: node, contract: contract))
+        #expect(RecipeParameterForm.isVisible(width, in: node, contract: contract))
+        #expect(!RecipeParameterForm.isVisible(darkness, in: node, contract: contract))
         node.parameters["Effect"] = .string("${option.effect}")
-        #expect(RecipeEditorForm.isVisible(darkness, in: node, contract: contract))
+        #expect(RecipeParameterForm.isVisible(darkness, in: node, contract: contract))
         // Without a value the default (Border) counts.
         node.parameters["Effect"] = nil
-        #expect(RecipeEditorForm.isVisible(width, in: node, contract: contract))
+        #expect(RecipeParameterForm.isVisible(width, in: node, contract: contract))
     }
 
     @Test func destinationParametersByDesignation() throws {
@@ -95,7 +95,7 @@ import Testing
         let printer = try #require(StepContractCatalog.builtIn.contract(for: "Printer"))
         let saveFile = try #require(StepContractCatalog.builtIn.contract(for: "SaveFile"))
         func visible(_ contract: StepContract, _ node: RecipeNode) -> [String] {
-            RecipeEditorForm.fields(for: contract).filter { RecipeEditorForm.isVisible($0, in: node, contract: contract) }.map(\.name)
+            RecipeParameterForm.fields(for: contract).filter { RecipeParameterForm.isVisible($0, in: node, contract: contract) }.map(\.name)
         }
         let printerFields = visible(printer, RecipeNode(id: "p", stepType: "Printer"))
         #expect(printerFields.contains("ShowPrintDialog"))
@@ -114,32 +114,32 @@ import Testing
     }
 
     @Test func labels() {
-        #expect(RecipeEditorForm.label(for: "DelayMs") == "Delay (ms)")
-        #expect(RecipeEditorForm.label(for: "ShadowOffsetX") == "Shadow Offset X")
-        #expect(RecipeEditorForm.label(for: "ClipboardFormatHTMLDataUrl") == "Clipboard Format HTML Data URL")
-        #expect(RecipeEditorForm.label(for: "CustomDestinationId") == "Custom Destination ID")
-        #expect(RecipeEditorForm.label(for: "PageWidthMm") == "Page Width Mm")
+        #expect(RecipeParameterForm.label(for: "DelayMs") == "Delay (ms)")
+        #expect(RecipeParameterForm.label(for: "ShadowOffsetX") == "Shadow Offset X")
+        #expect(RecipeParameterForm.label(for: "ClipboardFormatHTMLDataUrl") == "Clipboard Format HTML Data URL")
+        #expect(RecipeParameterForm.label(for: "CustomDestinationId") == "Custom Destination ID")
+        #expect(RecipeParameterForm.label(for: "PageWidthMm") == "Page Width Mm")
     }
 
     @Test func valuesKeepExpressionsAndClear() {
         var parameters: JSONObject = ["delayMs": .number(100)]
-        RecipeEditorForm.set(.number(200), for: "DelayMs", in: &parameters)
+        RecipeParameterForm.set(.number(200), for: "DelayMs", in: &parameters)
         #expect(parameters.keys == ["delayMs"])
         #expect(parameters["DelayMs"] == .number(200))
-        RecipeEditorForm.set(nil, for: "DelayMs", in: &parameters)
+        RecipeParameterForm.set(nil, for: "DelayMs", in: &parameters)
         #expect(parameters.isEmpty)
-        #expect(RecipeEditorForm.numberValue("42", decimal: false) == .number(42))
-        #expect(RecipeEditorForm.numberValue("0.5", decimal: true) == .number(0.5))
-        #expect(RecipeEditorForm.numberValue("${payload.width / 2}", decimal: false) == .string("${payload.width / 2}"))
-        #expect(RecipeEditorForm.numberValue("  ", decimal: false) == nil)
-        #expect(RecipeEditorForm.isExpression(.string("${option.x}")))
-        #expect(!RecipeEditorForm.isExpression(.number(1)))
+        #expect(RecipeParameterForm.numberValue("42", decimal: false) == .number(42))
+        #expect(RecipeParameterForm.numberValue("0.5", decimal: true) == .number(0.5))
+        #expect(RecipeParameterForm.numberValue("${payload.width / 2}", decimal: false) == .string("${payload.width / 2}"))
+        #expect(RecipeParameterForm.numberValue("  ", decimal: false) == nil)
+        #expect(RecipeParameterForm.isExpression(.string("${option.x}")))
+        #expect(!RecipeParameterForm.isExpression(.number(1)))
     }
 
     @Test func undeclaredParametersAreKept() throws {
         let contract = try #require(StepContractCatalog.builtIn.contract(for: "Effect"))
         let node = RecipeNode(id: "e", stepType: "Effect", parameters: ["Effect": .string("Border"), "Sparkle": .bool(true)])
-        #expect(RecipeEditorForm.undeclaredKeys(of: node, contract: contract) == ["Sparkle"])
+        #expect(RecipeParameterForm.undeclaredKeys(of: node, contract: contract) == ["Sparkle"])
     }
 
     @Test func annotationSchemaCoversTheFactoryKeys() {
