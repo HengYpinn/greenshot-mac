@@ -20,7 +20,7 @@ final class AIToolsCenter: ObservableObject {
     let windowRefs = AIWindowRefs(ownerOf: { AIToolsWindows.owner(of: $0) })
     let captureGuard: AIToolsCaptureGuard
     /// "Not allowed until restart" in Settings › AI Tools.
-    @Published private(set) var deniedClients: [String] = []
+    @Published private(set) var deniedClients: [AIToolClient] = []
     private unowned let app: AppDelegate
     private let broadcast: (JSONObject) -> Void
     private let identity = AIToolsClientIdentity()
@@ -75,15 +75,16 @@ final class AIToolsCenter: ObservableObject {
             return error.message
         }
         let managed = app.settings.isLocked(\AppSettings.aiTools.allowedClients)
-        let allowed = await consent.ensureAllowed(client, settings: { [app] in app.settings.value.aiTools }, managed: managed,
+        let refusal = await consent.ensureAllowed(client, settings: { [app] in app.settings.value.aiTools }, managed: managed,
                                                   prompt: { await AIToolsConsentPanel.ask($0) },
-                                                  allow: { [app] path in app.settings.update { $0.aiTools.allowedClients.append(path) } })
+                                                  allow: { [app] client in
+                                                      app.settings.update { $0.aiTools.allowedClients = AIToolAccess.allowing(client, in: $0.aiTools.allowedClients) }
+                                                  })
         deniedClients = consent.deniedClients
-        guard allowed else {
-            log.warn("[SECURITY] IPC command rejected: '\(command)' from source 'mcp', the user did not allow \(client.logText).")
-            return managed ? AIToolAccess.managedMessage : AIToolAccess.notAllowedMessage
+        if let refusal {
+            log.warn("[SECURITY] IPC command rejected: '\(command)' from source 'mcp', \(client.logText) is not allowed: \(refusal)")
         }
-        return nil
+        return refusal
     }
 
     /// The AI tool of a request (cached per greenshot-mcp session).
@@ -91,27 +92,18 @@ final class AIToolsCenter: ObservableObject {
         identity.client(of: context)
     }
 
-    /// The signer text of a program in the allowed list (the Settings tab).
-    func signer(of path: String) -> String? {
-        identity.signer(of: path)
-    }
-
     // MARK: Settings › AI Tools
 
     /// "Allow" of a program that was refused in this run.
-    func allowDenied(_ path: String) {
-        consent.forgetDenied(path)
-        app.settings.update { settings in
-            if !settings.aiTools.allowedClients.contains(where: { $0.caseInsensitiveCompare(path) == .orderedSame }) {
-                settings.aiTools.allowedClients.append(path)
-            }
-        }
+    func allowDenied(_ client: AIToolClient) {
+        consent.forgetDenied(client.key)
+        app.settings.update { $0.aiTools.allowedClients = AIToolAccess.allowing(client, in: $0.aiTools.allowedClients) }
         deniedClients = consent.deniedClients
     }
 
     /// "Ask Again": the next request of the program asks.
-    func askAgain(_ path: String) {
-        consent.forgetDenied(path)
+    func askAgain(_ client: AIToolClient) {
+        consent.forgetDenied(client.key)
         deniedClients = consent.deniedClients
     }
 
@@ -208,6 +200,7 @@ enum AIToolsCommands {
         }
         let output = RecipeRunOutput(context: nil, streamStdout: false, streamStderr: false)
         request.output = output
+        center.captureGuard.noteRunStarting()
         let result = await recipes.start(request).result
         let ocr = result.variables["OcrText"] != nil
         let picture = await AIToolCatalog.picture(of: result.payload, maxImageSize: tool.maxImageSize, ocr: ocr,
