@@ -77,9 +77,12 @@ struct ImageFormatsTests {
         let source = TestImage.solid(width: width, height: height, .blue)
         let data = try ImageExporter.data(for: source, format: .ico)
         let bytes = [UInt8](data)
-        #expect(Array(bytes[0..<6]) == [0, 0, 1, 0, 1, 0])
-        #expect(Int(bytes[6]) == (side == 256 ? 0 : side) && bytes[6] == bytes[7])
-        #expect(Array(data[22..<26]) == [0x89, 0x50, 0x4E, 0x47])
+        let directory: [UInt8] = [0, 0, 1, 0, 1, 0]
+        let pngSignature: [UInt8] = [0x89, 0x50, 0x4E, 0x47]
+        let storedSide: Int = side == 256 ? 0 : side
+        #expect(Array(bytes[0..<6]) == directory)
+        #expect(Int(bytes[6]) == storedSide && bytes[6] == bytes[7])
+        #expect(Array(bytes[22..<26]) == pngSignature)
         let decoded = try decode(data)
         #expect(decoded.width == side && decoded.height == side)
         // Fitted and centered on transparency.
