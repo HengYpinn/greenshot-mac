@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Greenshot for Mac (Community) Companion",
+  "short_name": "Greenshot Companion",
+  "version": "1.0.0",
+  "description": "Unofficial companion for Greenshot for Mac (Community): sends the visible page and its address to Greenshot.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzzFul0CvJRKJFjJNEAv59zwe13+WIf5e16sLRfWjLfxNLtNhXCbhb5xnIVVYq+WyzCDXoaNWljkI0RO4qPbU3FER5vEiCFD1ABSW6rtR03AYB+zekFH40Th3A8st/S8XtV5xa2aI3dlfUV5GbCD2is39VJ6+BIekX1dNpNRuaC2zl6q0FLtSoSVlg8pvNlmZcvowXuk4jeDM/ejN3L6hz0p9jittRW7o3rZysdOzlK6T779KhGoMkvnC7nbCwA9oMgp0Czq5qciJuyv0RhsJRsZwf5ZGV0uejl9n/y5ho9SrAVgo3DyvcGDFi73fZimMv2ore03FEO4SmTRsRDSe4QIDAQAB",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "companion@greenshot-mac.github.io",
+      "strict_min_version": "121.0"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "nativeMessaging",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "action": {
+    "default_title": "Greenshot for Mac (Community) Companion",
+    "default_popup": "popup/popup.html"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": false
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
