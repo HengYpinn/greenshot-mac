@@ -97,6 +97,7 @@ extension OutputManager {
             // Mail's messages being written, to add the capture to (the Mac's stand-in for Outlook's open inspectors).
             if EmailDestination.defaultAppIsMail, OfficeDestination.isRunning(.mail) {
                 let group = officeGroup(.mail, title: CaptureDestination.email.pickerTitle, newTarget: .destination(.email), item)
+                group.image = Self.symbol(CaptureDestination.email.symbolName)
                 entries.append((CaptureDestination.email.pickerPriority, group.title, group))
             } else {
                 add(.email)

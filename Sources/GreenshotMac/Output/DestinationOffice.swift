@@ -138,7 +138,7 @@ enum OfficeDestination {
         let title = "The screenshot could not be sent to \(app.name)"
         Uploads.run(title, progress: "Sending the screenshot to \(app.name)…", completion: completion, showError: { error in
             if let office = error as? OfficeExportError {
-                AppleScriptRunner.present(office.failure, appName: app.name, title: title)
+                AppleScriptRunner.present(office.failure, appName: app.name, title: title, message: office.localizedDescription)
             } else {
                 ErrorPresenter.show(error, title: title)
             }

@@ -142,7 +142,7 @@ enum AppleScriptRunner {
 
     /// Explains a failed script; for a missing permission with a button to the Automation settings.
     @MainActor
-    static func present(_ error: Error, appName: String, title: String) {
+    static func present(_ error: Error, appName: String, title: String, message: String? = nil) {
         guard let failure = error as? AppleScriptFailure else {
             ErrorPresenter.show(error, title: title)
             return
@@ -150,7 +150,7 @@ enum AppleScriptRunner {
         let alert = NSAlert()
         alert.alertStyle = .warning
         alert.messageText = title
-        alert.informativeText = failure.explanation(appName: appName)
+        alert.informativeText = message ?? failure.explanation(appName: appName)
         let permission = failure.kind == .notAllowed || failure.kind == .needsConsent
         if permission {
             alert.addButton(withTitle: "Open Privacy Settings")

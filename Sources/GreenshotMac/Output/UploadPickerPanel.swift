@@ -389,7 +389,8 @@ final class UploadPickerPanel: NSObject, NSTableViewDataSource, NSTableViewDeleg
                 if let found {
                     list.setAction(nil, nil)
                     list.show(found, status: found.isEmpty ? openRows.emptyText : "\(found.count) found")
-                    if !found.isEmpty, !userChoseTab { select("open") }
+                    // Not away from a search the user started.
+                    if !found.isEmpty, !userChoseTab, searchField.stringValue.isEmpty { select("open") }
                 } else {
                     list.show([], status: Self.askText)
                     list.setAction(openRows.askTitle) { [weak self] in self?.askOpenRows() }
