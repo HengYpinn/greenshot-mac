@@ -227,6 +227,41 @@ struct RecipeApprovalSheetTests {
         #expect(programs.question == "Allow this automatic step to run programs on this Mac")
     }
 
+    /// S-N2: Approve waits a moment when the window came up on its own.
+    @Test func approveWaitsWhenTheWindowOpenedOnItsOwn() throws {
+        let new = try Self.request()
+        #expect(RecipeApprovalSheet.needsArmingDelay(new, appWasActive: false))
+        #expect(!RecipeApprovalSheet.needsArmingDelay(new, appWasActive: true))
+        var changed = try Self.request(.modified)
+        changed.previousRecord = Self.record(approved: [], gates: [])
+        #expect(RecipeApprovalSheet.needsArmingDelay(changed, appWasActive: true))
+        var proposal = try Self.request()
+        proposal.proposedBy = "Claude"
+        #expect(RecipeApprovalSheet.needsArmingDelay(proposal, appWasActive: true))
+        var ownEdit = try Self.request(.modified)
+        ownEdit.ownEditReasons = ["It needs external commands."]
+        #expect(!RecipeApprovalSheet.needsArmingDelay(ownEdit, appWasActive: true))
+    }
+
+    @Test func windowsThatDecideNothingNeedNoDelay() throws {
+        var details = try Self.request(.reVerify)
+        details.isReadOnly = true
+        #expect(!RecipeApprovalSheet.needsArmingDelay(details, appWasActive: false))
+        let broken = RecipeApprovalRequest(mode: .validationError, recipe: nil, fileURL: Self.fileURL, content: "{", contentHash: "abc")
+        #expect(!RecipeApprovalSheet.needsArmingDelay(broken, appWasActive: false))
+    }
+
+    /// W-L4: Settings › Recipes asks with the recipe manager's words.
+    @Test func unloadAndResetAreAskedFirst() {
+        let unload = RecipeConfirmation.unload(name: "Region to Jira", appName: "Greenshot")
+        #expect(unload.title == "Unload Recipe")
+        #expect(unload.message == "Are you sure you want to unload 'Region to Jira'? It will be unregistered from Greenshot.")
+        #expect(unload.button == "Unload")
+        let reset = RecipeConfirmation.resetToDefault(name: "Capture region")
+        #expect(reset.message == "Are you sure you want to revert 'Capture region' back to its default built-in definition?")
+        #expect(reset.button == "Reset")
+    }
+
     @Test func hintsForTheMacsMessages() {
         #expect(RecipeValidationHints.hint(for: "Duplicate node id 'a' found in recipe.") == "Each node in the recipe must have a unique 'id'.")
         #expect(RecipeValidationHints.hint(for: "Cycle/loop detected in recipe flow: a -> b -> a") != nil)

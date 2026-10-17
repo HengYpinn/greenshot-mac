@@ -44,8 +44,8 @@ struct AutomationSettingsSection: View {
     }
 
     private func copyInstallCommand(_ path: String) {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(Self.installCommand(for: path), forType: .string)
+        // Through Clipboard: the write is recorded as Greenshot's own (recipe Clipboard triggers ignore it).
+        Clipboard.copy(text: Self.installCommand(for: path))
         copied = true
     }
 

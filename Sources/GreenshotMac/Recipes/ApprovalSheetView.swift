@@ -245,15 +245,19 @@ struct RecipeApprovalView: View {
         case .review:
             Button(sheet.rejectTitle, role: .destructive) { model.reject() }
             Button("Keep as Is") { model.close() }.keyboardShortcut(.cancelAction)
-            Button(sheet.approveTitle) { model.approve() }
-                .keyboardShortcut(.defaultAction)
-                .disabled(!sheet.isApproveEnabled)
+            approveButton
         default:
             Button(sheet.rejectTitle) { model.reject() }.keyboardShortcut(.cancelAction)
-            Button(sheet.approveTitle) { model.approve() }
-                .keyboardShortcut(.defaultAction)
-                .disabled(!sheet.isApproveEnabled)
+            approveButton
         }
+    }
+
+    /// Never the default (Return) button: a window that pops up on its own must not be approved by a key meant for
+    /// another app (S-N2). Armed a moment after such a window appeared.
+    private var approveButton: some View {
+        Button(sheet.approveTitle) { model.approve() }
+            .disabled(!sheet.isApproveEnabled || !model.isArmed)
+            .help(model.isArmed ? "" : "Available in a moment: this window opened on its own.")
     }
 }
 

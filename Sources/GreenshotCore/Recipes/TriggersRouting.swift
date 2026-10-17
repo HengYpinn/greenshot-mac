@@ -58,6 +58,13 @@ public enum RecipeOpenFileRouting {
         return RecipeOpenFilePlan(kind: .run, runs: runs)
     }
 
+    /// Only the stock "Open file" recipe took the files, each exactly once, and no recipe ran: they open in the editor
+    /// as without recipes, with the usual reply (R-F11).
+    public static func opensAsBefore(files: [URL], direct: [URL], recipeRuns: Int) -> Bool {
+        guard recipeRuns == 0, !files.isEmpty else { return false }
+        return files.map(\.path).sorted() == direct.map(\.path).sorted()
+    }
+
     /// Any recipe (switched on or not) has an OpenFile trigger.
     public static func definesOpenFileTrigger(_ recipes: [LoadedRecipe]) -> Bool {
         recipes.contains { $0.recipe.triggers.contains { $0.isType(WellKnownTriggerType.openFile) } }

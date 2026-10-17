@@ -145,12 +145,26 @@ final class RecipeSettingsModel: ObservableObject {
 
     /// "Reset Default": the built-in recipe instead of the file that replaces it.
     func resetToDefault(_ row: RecipeSettingsRow) {
+        guard Self.confirm(.resetToDefault(name: row.name)) else { return }
         runtime?.library.resetToDefault(recipeId: row.id)
     }
 
     /// "Unload": out of the recipe files; its approval stays.
     func unload(_ row: RecipeSettingsRow) {
+        guard Self.confirm(.unload(name: row.name, appName: AppInfo.name)) else { return }
         runtime?.library.unload(recipeId: row.id)
+    }
+
+    /// Asks first, like the recipe manager (W-L4): the action button, then Cancel.
+    private static func confirm(_ confirmation: RecipeConfirmation) -> Bool {
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = confirmation.title
+        alert.informativeText = confirmation.message
+        alert.addButton(withTitle: confirmation.button)
+        alert.addButton(withTitle: "Cancel")
+        NSApp.activate()
+        return alert.runModal() == .alertFirstButtonReturn
     }
 
     func showInFinder(_ row: RecipeSettingsRow) {

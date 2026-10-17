@@ -32,8 +32,8 @@ final class SystemSectionModel: ObservableObject {
     var report: String { DiagnosticReport.systemReport(snapshot) }
 
     func copyReport() {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(report, forType: .string)
+        // Through Clipboard: the write is recorded as Greenshot's own (recipe Clipboard triggers ignore it).
+        Clipboard.copy(text: report)
     }
 }
 

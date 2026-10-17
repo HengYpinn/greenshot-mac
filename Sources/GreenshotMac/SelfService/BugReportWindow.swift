@@ -104,8 +104,8 @@ final class BugReportModel: ObservableObject {
     }
 
     private func copy(_ text: String) {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(text, forType: .string)
+        // Through Clipboard: the write is recorded as Greenshot's own (recipe Clipboard triggers ignore it).
+        Clipboard.copy(text: text)
     }
 }
 

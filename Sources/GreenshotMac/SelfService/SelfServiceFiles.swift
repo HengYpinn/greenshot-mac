@@ -84,8 +84,8 @@ final class FilesSectionModel: ObservableObject {
     }
 
     func copyPath(_ file: FileInfo) {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(file.url.path, forType: .string)
+        // Through Clipboard: the write is recorded as Greenshot's own (recipe Clipboard triggers ignore it).
+        Clipboard.copy(text: file.url.path)
     }
 
     /// The file in Finder, or its folder when it isn't there.

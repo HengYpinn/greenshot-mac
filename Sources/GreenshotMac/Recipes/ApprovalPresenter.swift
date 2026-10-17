@@ -109,6 +109,13 @@ final class RecipeApprovalWindowController: NSWindowController, NSWindowDelegate
             let frame = window.frame
             window.setFrameOrigin(NSPoint(x: visible.midX - frame.width / 2, y: max(visible.minY, visible.midY - frame.height / 2)))
         }
+        // Approve waits a moment when the window came up on its own, before the app is activated for it (S-N2).
+        if RecipeApprovalSheet.needsArmingDelay(model.sheet.request, appWasActive: NSApp.isActive) {
+            model.isArmed = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + RecipeApprovalSheet.armingDelay) { [weak model] in
+                model?.isArmed = true
+            }
+        }
         NSApp.activate()
         showWindow(nil)
         window.makeKeyAndOrderFront(nil)
@@ -157,6 +164,8 @@ final class RecipeApprovalModel: ObservableObject {
     @Published var openInEditor = false
     @Published var overlay: Overlay?
     @Published var changedLinesOnly = true
+    /// False for a moment after the window came up on its own: Approve can't be clicked yet.
+    @Published var isArmed = true
     var onFinish: ((RecipeApprovalDecision?) -> Void)?
     /// Title, text, buttons (the first is the default) -> the index of the button clicked.
     var confirm: ((String, String, [String]) async -> Int)?
@@ -180,7 +189,7 @@ final class RecipeApprovalModel: ObservableObject {
     /// Approve: asks first when a trigger stays off (upstream "Triggers Left Off", Go Back is the default).
     func approve() {
         Task { @MainActor in
-            guard let decision = sheet.approval(openInEditor: openInEditor) else { return }
+            guard isArmed, let decision = sheet.approval(openInEditor: openInEditor) else { return }
             if let text = sheet.leftOffText, let confirm {
                 guard await confirm("Triggers Left Off", text, ["Go Back", "Approve"]) == 1 else { return }
             }

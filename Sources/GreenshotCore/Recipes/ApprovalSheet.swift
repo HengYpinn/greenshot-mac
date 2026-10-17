@@ -238,6 +238,20 @@ public struct RecipeApprovalSheet: Sendable {
     public var offersOpenInEditor: Bool { style == .aiProposal }
     /// Without every permission the recipe isn't loaded, so Approve waits for them (upstream `UpdateApproveEnabled`).
     public var isApproveEnabled: Bool { gates.allSatisfy(\.isOn) }
+
+    /// How long Approve stays unavailable when the window came up on its own (S-N2).
+    public static let armingDelay: TimeInterval = 1.0
+
+    /// Whether Approve waits `armingDelay` before it can be clicked: the window opened on its own (Greenshot wasn't the
+    /// active app: launch, a changed file, a run's check, an AI tool), or it asks about an AI tool's proposal or a file
+    /// changed outside Greenshot, so a click or key meant for something else can't approve it. Approve is never the
+    /// default (Return) button either. Read-only windows and validation errors decide nothing.
+    public static func needsArmingDelay(_ request: RecipeApprovalRequest, appWasActive: Bool) -> Bool {
+        let sheet = RecipeApprovalSheet(request: request)
+        guard sheet.isDecision else { return false }
+        if !appWasActive { return true }
+        return sheet.style == .aiProposal || sheet.style == .modified
+    }
     /// The triggers the user leaves off, asked about before approving (upstream "Triggers Left Off").
     public var leftOffTriggers: [String] { triggers.filter { !$0.isOn && !$0.isDisabledInRecipe }.map(\.title) }
     /// The AI tool's name and its own words, shown as the AI's (untrusted) text.
