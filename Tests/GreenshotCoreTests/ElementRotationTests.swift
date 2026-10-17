@@ -129,6 +129,21 @@ struct ElementRotationTests {
         }
     }
 
+    /// After two turns the picture is upside down: red (its left half) on the right.
+    @Test func aPictureTurnedTwiceIsUpsideDown() throws {
+        let doc = Self.document()
+        doc.add(try Self.picture())
+        doc.rotateImage(clockwise: true)
+        doc.rotateImage(clockwise: true)
+        let element = try #require(doc.annotations.first)
+        #expect(element.rotation == 180)
+        #expect(element.bounds.size == CGSize(width: 40, height: 20))
+        let image = doc.flattened()
+        let middle = Int(element.bounds.midY)
+        #expect(TestImage.pixel(image, Int(element.bounds.minX) + 4, middle).isClose(to: .blue))
+        #expect(TestImage.pixel(image, Int(element.bounds.maxX) - 4, middle).isClose(to: .red))
+    }
+
     /// Rotating the document and then drawing it gives the same picture as drawing it and then rotating the result.
     @Test func turningTheDocumentMatchesTurningTheDrawing() throws {
         var elements = [try Self.picture(), Annotation.barcodeElement(Self.code128(), at: CGPoint(x: 0, y: 34), scale: 0.2)]
