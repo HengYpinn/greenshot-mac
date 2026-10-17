@@ -26,6 +26,74 @@ extension Snapshots {
         try write(form(cutEdgeSettings.view), to: folder.appendingPathComponent("canvas-cut-edge-settings.png"))
         try write(canvasSvg(sample: sample, settings: settings), to: folder.appendingPathComponent("canvas-svg-element.png"))
         try write(canvasPointer(sample: sample, settings: settings), to: folder.appendingPathComponent("canvas-cursor-element.png"))
+        try write(canvasRotated(sample: sample, settings: settings, clockwise: true),
+                  to: folder.appendingPathComponent("canvas-rotated-clockwise.png"))
+        try write(canvasRotated(sample: sample, settings: settings, clockwise: false),
+                  to: folder.appendingPathComponent("canvas-rotated-counter-clockwise.png"))
+        try write(canvasAreaHighlights(sample: sample, settings: settings),
+                  to: folder.appendingPathComponent("canvas-highlight-area-several.png"))
+        try write(canvasGrayscaleHighlight(sample: sample, settings: settings),
+                  to: folder.appendingPathComponent("canvas-highlight-grayscale.png"))
+    }
+
+    /// The elements whose content turns with Rotate, before the turn left to right: an SVG, a picture with text, an emoji,
+    /// a QR code and a bar code. After the turn they lie on their side, not squeezed upright into the turned boxes.
+    private static func canvasRotated(sample: CGImage, settings: SettingsStore, clockwise: Bool) -> NSBitmapImageRep? {
+        let svg = Data("""
+            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60">
+              <rect x="1" y="1" width="118" height="58" rx="8" fill="#ffffff" stroke="#1e5aa8" stroke-width="2"/>
+              <path d="M12 30 L80 30 L80 16 L108 30 L80 44 L80 30 Z" fill="#2e8b57" stroke="#2e8b57" stroke-width="6"/>
+              <circle cx="20" cy="14" r="6" fill="#f4b400"/>
+            </svg>
+            """.utf8)
+        let doc = EditorDocument(image: sample, scale: 2, title: "Snapshot")
+        guard let vector = Annotation.svg(svg, at: CGPoint(x: 120, y: 160), documentScale: 2),
+              let part = sample.cropping(to: CGRect(x: 1700, y: 260, width: 520, height: 260)),
+              let picture = Annotation.picture(part, pictureScale: 2, at: CGPoint(x: 520, y: 160), documentScale: 2) else {
+            return nil
+        }
+        var qr = BarcodeSpec()
+        qr.text = "https://getgreenshot.org"
+        var bars = BarcodeSpec()
+        bars.symbology = .code128
+        bars.text = "GREENSHOT"
+        let emoji = Annotation(kind: .emoji, start: CGPoint(x: 1120, y: 160), end: CGPoint(x: 1280, y: 320), text: "👉")
+        doc.add([vector, picture, emoji,
+                 Annotation.barcodeElement(qr, at: CGPoint(x: 120, y: 520), scale: 1),
+                 Annotation.barcodeElement(bars, at: CGPoint(x: 420, y: 560), scale: 2)])
+        doc.rotateImage(clockwise: clockwise)
+        return editorWindow(doc, settings: settings) { controller in
+            controller.canvas.tool = .select
+            controller.canvas.select(vector.id)
+        }
+    }
+
+    /// Two area highlights that overlap and a third apart: all three areas stay bright, the rest is darkened and
+    /// blurred once (upstream draws inverted filters once for all their areas, 4b3d9dee).
+    private static func canvasAreaHighlights(sample: CGImage, settings: SettingsStore) -> NSBitmapImageRep? {
+        let doc = EditorDocument(image: sample, scale: 2, title: "Snapshot")
+        var style = AnnotationStyle.defaults(for: .highlight)
+        style.highlightMode = .area
+        style.brightness = 0.6
+        for (start, end) in [(CGPoint(x: 180, y: 800), CGPoint(x: 1100, y: 960)), (CGPoint(x: 900, y: 900), CGPoint(x: 1400, y: 1100)),
+                             (CGPoint(x: 1700, y: 240), CGPoint(x: 2300, y: 560))] {
+            doc.add(Annotation(kind: .highlight, start: start, end: end, style: style))
+        }
+        return editorWindow(doc, settings: settings) { $0.canvas.tool = .select }
+    }
+
+    /// The grayscale highlight: the area keeps its colours, everything outside turns grey (upstream
+    /// `GrayscaleFilter { Invert = true }`).
+    private static func canvasGrayscaleHighlight(sample: CGImage, settings: SettingsStore) -> NSBitmapImageRep? {
+        let doc = EditorDocument(image: sample, scale: 2, title: "Snapshot")
+        var style = AnnotationStyle.defaults(for: .highlight)
+        style.highlightMode = .grayscale
+        let area = Annotation(kind: .highlight, start: CGPoint(x: 1600, y: 200), end: CGPoint(x: 2400, y: 700), style: style)
+        doc.add(area)
+        return editorWindow(doc, settings: settings) { controller in
+            controller.canvas.tool = .select
+            controller.canvas.select(area.id)
+        }
     }
 
     /// Effects › Torn Edges as an element, selected: the property bar shows the cut edge style, teeth and range, and

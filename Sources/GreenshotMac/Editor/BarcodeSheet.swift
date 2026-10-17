@@ -35,6 +35,8 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
     private let cancelButton = NSButton(title: "Cancel", target: nil, action: nil)
     /// The sheet keeps itself alive while it is open.
     private var keepAlive: BarcodeSheet?
+    /// The colour wells the user changed: their colours become recent colours on Insert.
+    private var changedWells: Set<ObjectIdentifier> = []
 
     private static let previewSize = CGSize(width: 300, height: 210)
     private static let fieldWidth: CGFloat = 250
@@ -334,6 +336,7 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
     // MARK: Actions
 
     @objc private func controlChanged(_ sender: Any?) {
+        if let well = sender as? NSColorWell { changedWells.insert(ObjectIdentifier(well)) }
         read()
         refresh()
     }
@@ -356,6 +359,9 @@ final class BarcodeSheet: NSObject, NSTextFieldDelegate, NSTextViewDelegate {
     @objc private func insert(_ sender: Any?) {
         read()
         guard (try? spec.matrix()) != nil else { return }
+        // Like upstream's colour picker, a colour counts as recent once the dialog is confirmed.
+        if changedWells.contains(ObjectIdentifier(foregroundWell)) { EditorRecentColors.shared.remember(spec.foreground) }
+        if changedWells.contains(ObjectIdentifier(backgroundWell)) { EditorRecentColors.shared.remember(spec.background) }
         onApply?(spec)
         close()
     }
