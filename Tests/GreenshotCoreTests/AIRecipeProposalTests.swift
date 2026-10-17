@@ -223,6 +223,75 @@ final class WaitingApprover: RecipeApprover {
         #expect(FileManager.default.fileExists(atPath: file))
     }
 
+    /// An automatic step with its switch, as an AI tool should write it.
+    private func switchableStep(id: String, width: Double = 2) -> CaptureRecipe {
+        var step = CaptureRecipe(id: id, name: "Border")
+        step.kind = .extension
+        step.extends = ExtensionTarget(recipes: ["*"], slot: "BeforeExport", order: 0)
+        var option = RecipeOption(key: "enabled", type: .boolean, defaultValue: .bool(false))
+        option.label = "Border"
+        step.options = [option]
+        step.nodes = [RecipeNode(id: "border", stepType: "Effect", parameters: ["EffectType": .string("Border"), "Width": .number(width)])]
+        step.flow.startNodes = ["border"]
+        return step
+    }
+
+    /// SM-M4 / MC-M2: a change of an automatic step keeps the id of the step it replaces (and its file).
+    @Test func changedAutomaticStepKeepsItsId() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let service = proposals(fixture)
+        let created = await service.propose(proposal(switchableStep(id: "redact_all")))
+        let file = try #require(created.reply.extra["file"]?.stringValue)
+        let changed = await service.propose(proposal(switchableStep(id: "something_else", width: 5), replaces: "redact_all"))
+        #expect(changed.reply.extra["decision"]?.stringValue == "approved")
+        #expect(changed.reply.extra["recipe"]?.stringValue == "redact_all")
+        #expect(changed.reply.extra["file"]?.stringValue == file)
+        let request = try #require(fixture.approver.requests.last)
+        #expect(request.recipe?.id == "redact_all")
+        #expect(request.content.contains("something_else") == false)
+        #expect(fixture.library.extensions.contains { $0.recipe.id == "something_else" } == false)
+    }
+
+    /// MC-M3: a rejected automatic step is the user's answer, and isn't shown again.
+    @Test func rejectedAutomaticStepIsRemembered() async {
+        let fixture = LibraryFixture(approver: StubApprover { _ in nil })
+        defer { fixture.cleanUp() }
+        let service = proposals(fixture)
+        let first = await service.propose(proposal(switchableStep(id: "step_x")))
+        #expect(first.reply.status == "ok")
+        #expect(first.reply.extra["decision"]?.stringValue == "rejected")
+        let again = await service.propose(proposal(switchableStep(id: "step_x")))
+        #expect(again.reply.stderr?.hasPrefix("The user already rejected this automatic step.") == true)
+        #expect(fixture.approver.requests.count == 1)
+    }
+
+    /// SM-M3: the reply says whether the step is switched on; an AI tool's step starts off.
+    @Test func approvedAutomaticStepSaysItIsOff() async {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let outcome = await proposals(fixture).propose(proposal(switchableStep(id: "step_y")))
+        #expect(outcome.reply.extra["switched_on"]?.boolValue == false)
+        #expect(fixture.library.extensions.first { $0.recipe.id == "step_y" }?.isEnabled == false)
+    }
+
+    @Test func updateOfAMissingAutomaticStep() async {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let outcome = await proposals(fixture).propose(proposal(switchableStep(id: "z"), replaces: "nope"))
+        #expect(outcome.reply.stderr == "There is no automatic step with the id 'nope'.")
+    }
+
+    /// SM-L4: the banner's text about the program is cleaned.
+    @Test func proposerTextIsCleaned() {
+        let client = AIToolClient(path: "/opt/homebrew/bin/node\u{202E}", displayName: "node\nSigned by Apple",
+                                  identity: AIToolIdentity(executable: "/opt/homebrew/bin/node", script: "/x/cli.js"))
+        let text = AIRecipeProposals.proposerText(client)
+        #expect(!text.contains("\n"))
+        #expect(!text.contains("\u{202E}"))
+        #expect(text.contains("running /x/cli.js"))
+    }
+
     @Test func proposerTextNamesTheProgram() {
         #expect(AIRecipeProposals.proposerText(AIToolClient(path: "/usr/local/bin/node", displayName: "node"))
                 == "node — /usr/local/bin/node · not signed by a developer")
@@ -265,6 +334,22 @@ final class WaitingApprover: RecipeApprover {
         #expect(reply.extra["built_in"]?.boolValue == true)
         let missing = AIRecipeCatalog.catalogReply(recipeId: "nope", library: fixture.library)
         #expect(missing.stderr == "There is no recipe or automatic step with the id 'nope'.")
+    }
+
+    /// SM-M3: an AI tool's automatic step needs its "enabled" switch.
+    @Test func automaticStepsWithoutASwitchAreInvalid() {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        var step = CaptureRecipe(id: "no_switch", name: "Border")
+        step.kind = .extension
+        step.extends = ExtensionTarget(recipes: ["*"], slot: "BeforeExport", order: 0)
+        step.nodes = [RecipeNode(id: "border", stepType: "Effect", parameters: ["EffectType": .string("Border")])]
+        step.flow.startNodes = ["border"]
+        let reply = AIRecipeCatalog.validateReply(json: RecipeSerializer.encode(step), library: fixture.library)
+        #expect(reply.extra["valid"]?.boolValue == false)
+        let errors = reply.extra["errors"]?.arrayValue?.compactMap(\.stringValue) ?? []
+        #expect(errors.contains { $0.contains("Boolean option \"enabled\"") })
+        #expect(AIRecipeCatalog.aiProposalProblem(libraryRecipe(id: "a_recipe")) == nil)
     }
 
     @Test func validation() throws {
