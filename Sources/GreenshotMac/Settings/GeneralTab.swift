@@ -7,25 +7,14 @@ import AppKit
 import GreenshotCore
 import SwiftUI
 
-/// Settings › General (upstream's General tab): hotkeys, startup, permissions.
+/// Settings › General (upstream's General tab): hotkeys (`HotkeysSection`), startup, updates, permissions.
 struct GeneralSettings: View {
     @ObservedObject var store: SettingsStore
     @ObservedObject var status: SystemStatus
 
     var body: some View {
         Form {
-            Section {
-                LabeledContent("Capture region") { ShortcutRecorder(combo: store.binding(\.hotkeys.region)) }
-                LabeledContent("Capture window") { ShortcutRecorder(combo: store.binding(\.hotkeys.window)) }
-                LabeledContent("Capture full screen") { ShortcutRecorder(combo: store.binding(\.hotkeys.fullScreen)) }
-                LabeledContent("Capture last region") { ShortcutRecorder(combo: store.binding(\.hotkeys.lastRegion)) }
-                LabeledContent("Open image from clipboard") { ShortcutRecorder(combo: store.binding(\.hotkeys.clipboard)) }
-            } header: {
-                Text("Hotkeys")
-            } footer: {
-                Text("Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. Keyboards with an F13 key can use it like Print Screen.")
-                    .font(.caption).foregroundStyle(.secondary)
-            }
+            HotkeysSection(store: store)
             Section("Startup") {
                 Toggle("Launch at login", isOn: Binding(get: { status.launchAtLogin }, set: { status.setLaunchAtLogin($0) }))
                 Toggle("Show in Dock while a window is open", isOn: store.binding(\.dockIconWhileWindowOpen))

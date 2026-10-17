@@ -36,6 +36,13 @@ enum Snapshots {
         for (name, view) in dialogs(sample: sample) {
             try write(form(view), to: folder.appendingPathComponent("dialog-\(name).png"))
         }
+        // Each area adds its own renders in its Snapshots+<Area>.swift file.
+        try renderCaptureExtras(to: folder, sample: sample, settings: settings)
+        try renderCanvasExtras(to: folder, sample: sample, settings: settings)
+        try renderEditorWindowExtras(to: folder, sample: sample, settings: settings)
+        try renderImageExtras(to: folder, sample: sample, settings: settings)
+        try renderOutputExtras(to: folder, sample: sample, settings: settings)
+        try renderAppExtras(to: folder, sample: sample, settings: settings)
         if let editorDocument {
             try ImageExporter.write(editorDocument.flattened(), to: folder.appendingPathComponent("editor-export.png"), format: .png,
                                     scale: editorDocument.scale)
@@ -89,7 +96,7 @@ enum Snapshots {
         return editorWindow(doc, settings: settings) { $0.canvas.tool = .select }
     }
 
-    private static func editorWindow(_ doc: EditorDocument, settings: SettingsStore,
+    static func editorWindow(_ doc: EditorDocument, settings: SettingsStore,
                                      configure: (EditorWindowController) -> Void) -> NSBitmapImageRep? {
         let saver = ImageSaver(settings: settings)
         let controller = EditorWindowController(document: doc, settings: settings, saver: saver) { _ in }
@@ -104,7 +111,7 @@ enum Snapshots {
 
     /// The dialogs (their forms, without the alert around them): print options, the effect settings, resize, adjust
     /// and text obfuscation.
-    private static func dialogs(sample: CGImage) -> [(String, NSView)] {
+    static func dialogs(sample: CGImage) -> [(String, NSView)] {
         let printOptions = PrintOptionsForm(options: PrintSettings())
         let dropShadow = DropShadowSettingsForm(DropShadowSettings())
         let tornEdge = TornEdgeSettingsForm(TornEdgeSettings())
@@ -118,9 +125,9 @@ enum Snapshots {
                 ("resize", resize.view), ("adjust", adjust.view), ("obfuscate-text", obfuscate.contentView ?? NSView())]
     }
 
-    private static var keepAlive: [AnyObject] = []
+    static var keepAlive: [AnyObject] = []
 
-    private static func form(_ view: NSView) -> NSBitmapImageRep? {
+    static func form(_ view: NSView) -> NSBitmapImageRep? {
         view.appearance = NSAppearance(named: .aqua)
         view.layoutSubtreeIfNeeded()
         if view.frame.isEmpty { view.frame.size = view.fittingSize }
@@ -129,7 +136,7 @@ enum Snapshots {
         return capture(view)
     }
 
-    private static func overlay(sample: CGImage, mode: CaptureOverlayController.Mode, qrCode: Bool = false) -> NSBitmapImageRep? {
+    static func overlay(sample: CGImage, mode: CaptureOverlayController.Mode, qrCode: Bool = false) -> NSBitmapImageRep? {
         let screen = FrozenScreen(displayID: 1, frame: CGRect(x: 0, y: 0, width: 1280, height: 800), scale: 2, image: sample)
         let windows = [WindowInfo(id: 1, frame: CGRect(x: 50, y: 50, width: 1140, height: 690), title: "Quarterly report",
                                   appName: "Preview", pid: 1)]
@@ -187,7 +194,7 @@ enum Snapshots {
         return rep
     }
 
-    private static func settingsTab(_ index: Int, settings: SettingsStore) -> NSBitmapImageRep? {
+    static func settingsTab(_ index: Int, settings: SettingsStore) -> NSBitmapImageRep? {
         let root = SettingsTabSnapshot(store: settings, status: SystemStatus(), tab: index)
         let hosting = NSHostingView(rootView: root)
         hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 600)
@@ -197,14 +204,14 @@ enum Snapshots {
         return capture(hosting)
     }
 
-    private static func capture(_ view: NSView) -> NSBitmapImageRep? {
+    static func capture(_ view: NSView) -> NSBitmapImageRep? {
         view.layoutSubtreeIfNeeded()
         guard let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return nil }
         view.cacheDisplay(in: view.bounds, to: rep)
         return rep
     }
 
-    private static func write(_ rep: NSBitmapImageRep?, to url: URL) throws {
+    static func write(_ rep: NSBitmapImageRep?, to url: URL) throws {
         guard let data = rep?.representation(using: .png, properties: [:]) else {
             throw CocoaError(.fileWriteUnknown, userInfo: [NSFilePathErrorKey: url.path])
         }
