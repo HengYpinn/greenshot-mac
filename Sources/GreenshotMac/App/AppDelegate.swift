@@ -21,8 +21,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     private let log = Log("App")
 
     /// The last run of the app ended without quitting (a crash or a forced quit): the restore of open editors and the bug
-    /// report use it. Package D fills it in.
-    var previousRunEndedAbnormally: Bool { false }
+    /// report use it. Read from the marker of the running app at launch (`CrashReporting`).
+    private(set) var previousRunEndedAbnormally = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         if let folder = Snapshots.requestedFolder {
@@ -35,6 +35,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             }
         }
         startLogging()
+        CrashReporting.install()
+        let previousRun = CrashReporting.checkPreviousRun()
+        previousRunEndedAbnormally = previousRun.endedAbnormally
+        #if DEBUG
+        CrashReporting.runDebugTest(previousRun: previousRun)
+        #endif
         NotificationService.install(app: self)
         applyTheme()
         settings.onChange(of: \.theme) { [weak self] _ in self?.applyTheme() }
@@ -42,6 +48,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         Clipboard.formats = { [settings] in settings.value.clipboardFormats }
         editors.onWindowsChange = { [weak self] in self?.updateDockIcon() }
         settingsWindow.onOpenChange = { [weak self] in self?.updateDockIcon() }
+        AuxiliaryWindows.onChange = { [weak self] in self?.updateDockIcon() }
         updateDockIcon()
         NSApp.mainMenu = MainMenu.make()
         statusItem = StatusItemController(app: self)
@@ -55,7 +62,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         }
         registerHotkeys()
         editors.restoreSavedEditors()
-        showWelcomeOnFirstLaunch()
+        switch previousRun {
+        case .crashed(_, let details):
+            // The report says enough; no welcome or "is running" message on top of it.
+            BugReportWindowController.show(details)
+        case .endedAbnormally(let marker):
+            CrashReporting.lookAgain(for: marker, after: 10) { BugReportWindowController.show($0) }
+            showWelcomeOnFirstLaunch()
+        case .clean:
+            showWelcomeOnFirstLaunch()
+        }
         scheduleUpdateChecks()
     }
 
@@ -63,8 +79,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     /// environment).
     private func startLogging() {
         LogCenter.startFile(at: AppInfo.logFile)
-        let version = UpdateChecker.currentVersion
-        log.info("Starting: \(AppInfo.name) \(version) (\(AppAboutCredits.versionDetail)), macOS \(ProcessInfo.processInfo.operatingSystemVersionString)")
+        log.info("Starting: " + DiagnosticReport.environmentText(SystemInfo.snapshot(), newline: false))
     }
 
     /// Upstream `UpdateService`: the first check 20 s after the start, then every 30 minutes a look whether one is due
@@ -102,6 +117,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     func applicationWillTerminate(_ notification: Notification) {
         statusItem?.showIconForNextLaunch()
         log.info("Exiting")
+        CrashReporting.removeMarker()
     }
 
     /// Quitting doesn't close the editor windows one by one, so ask about unsaved screenshots here.
@@ -126,7 +142,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     /// otherwise only the menu bar icon, which is there whenever the app runs. Hidden editors count as open: a click
     /// on the Dock icon brings them back.
     private func updateDockIcon() {
-        let windowOpen = editors.hasEditors || settingsWindow.isOpen
+        let windowOpen = editors.hasEditors || settingsWindow.isOpen || AuxiliaryWindows.anyOpen
         NSApp.setActivationPolicy(settings.value.dockIconWhileWindowOpen && windowOpen ? .regular : .accessory)
     }
 
@@ -134,6 +150,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     private func registerHotkeys() {
         hotkeys.registerAll(settings.value.hotkeys, capture: capture, editors: editors)
+    }
+
+    /// "Register Again" of Self-Service › Hotkeys and the setup checks (upstream `ReRegisterHotkeys`).
+    func reregisterHotkeys() {
+        log.info("Registering the hotkeys again")
+        registerHotkeys()
+    }
+
+    /// Whether the menu bar icon is on a screen, for the setup checks; nil when unknown.
+    var statusItemOnScreen: Bool? {
+        statusItem?.isIconOnScreen
     }
 
     // MARK: Menu actions
@@ -155,6 +182,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     @objc func showLogViewer(_ sender: Any?) {
         showLogViewer(search: nil)
+    }
+
+    /// The Self-Service window, on `section` when given (upstream `SelfServiceWindow.ShowSelfService`), for
+    /// `greenshotmac://self-service?section=`.
+    func showSelfService(section: SelfServiceSection?) {
+        SelfServiceWindowController.show(section: section, app: self)
+    }
+
+    @objc func showSelfService(_ sender: Any?) {
+        showSelfService(section: nil)
     }
 
     @objc func showAbout(_ sender: Any?) {

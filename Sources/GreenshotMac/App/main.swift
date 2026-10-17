@@ -5,7 +5,8 @@
 import AppKit
 
 MainActor.assumeIsolated {
-    let app = NSApplication.shared
+    // The app's own NSApplication, so the exceptions AppKit catches reach the bug report (`GreenshotApplication`).
+    let app = GreenshotApplication.shared
     let delegate = AppDelegate()
     app.delegate = delegate
     app.run()
