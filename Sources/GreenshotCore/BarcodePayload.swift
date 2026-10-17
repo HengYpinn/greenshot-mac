@@ -103,6 +103,12 @@ extension BarcodeSpec {
 }
 
 extension BarcodeSymbology {
+    /// Whether the code can be drawn with round dots: the matrix codes but PDF-417, whose modules are three rows tall
+    /// (upstream offers it for every matrix code).
+    public var hasRoundedDots: Bool {
+        self == .qrCode || self == .aztec || self == .dataMatrix
+    }
+
     /// The name in upstream's format list.
     public var title: String {
         switch self {
