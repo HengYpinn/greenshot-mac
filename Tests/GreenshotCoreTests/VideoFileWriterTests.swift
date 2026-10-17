@@ -162,6 +162,17 @@ struct VideoFileWriterTests {
         #expect(info.codec == "aac ")
     }
 
+    /// Sound was asked for but none came (nothing played): the video is still written, without sound.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func silenceStillGivesAVideo() async throws {
+        let url = temporaryFile("silent.mp4")
+        let video = try writer(url, audio: true)
+        appendSecond(video, start: 5)
+        let result = try await video.finish(at: seconds(6))
+        #expect(!result.hasAudio)
+        #expect(FileManager.default.fileExists(atPath: url.path))
+    }
+
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func pausesAreCutOut() async throws {
         let url = temporaryFile("pause.mp4")
