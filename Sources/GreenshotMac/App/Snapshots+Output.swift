@@ -24,6 +24,7 @@ extension Snapshots {
         try write(uploadPanel(confluence(browse: true)), to: folder.appendingPathComponent("dialog-upload-confluence-browse.png"))
         try write(uploadPanel(atlassianLogin()), to: folder.appendingPathComponent("dialog-atlassian-login.png"))
         try write(serverSections(), to: folder.appendingPathComponent("settings-destinations-servers.png"))
+        try write(officeSection(), to: folder.appendingPathComponent("settings-destinations-office.png"))
         try write(destinationSections(), to: folder.appendingPathComponent("settings-destinations-commands.png"))
         try pickerDump().write(to: folder.appendingPathComponent("picker-menu.txt"), atomically: true, encoding: .utf8)
         print("Wrote \(folder.appendingPathComponent("picker-menu.txt").path)")
@@ -80,6 +81,24 @@ extension Snapshots {
         }
         keepAlive.append(picker)
         return picker.contentView
+    }
+
+    /// Settings › Destinations › Email and Microsoft Office and Notes.
+    private static func officeSection() -> NSBitmapImageRep? {
+        let defaults = UserDefaults(suiteName: "greenshot-mac-snapshots-office")!
+        defaults.removePersistentDomain(forName: "greenshot-mac-snapshots-office")
+        let store = SettingsStore(defaults: defaults)
+        store.update {
+            $0.email.to = "team@example.com"
+            $0.email.cc = "lead@example.com"
+        }
+        let hosting = NSHostingView(rootView: DestinationsSettings(store: store).officeForSnapshot)
+        hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 640)
+        let window = NSWindow(contentRect: hosting.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.contentView = hosting
+        hosting.layoutSubtreeIfNeeded()
+        keepAlive.append(window)
+        return capture(hosting)
     }
 
     /// The login dialog of a Server / Data Center site after a wrong password.
@@ -156,6 +175,14 @@ extension Snapshots {
             $0.confluence.recentPages = [ConfluencePage(id: "1", title: "Release checklist", spaceName: "Engineering",
                                                         url: URL(string: "https://example.atlassian.net/wiki/1")!)]
             $0.externalCommands.append(ExternalCommand(name: "Gone", command: "/nonexistent/tool"))
+        }
+        // The same entries on every Mac: all Office apps installed, Word and Outlook running with open items.
+        OfficeDestination.installedOverride = Set(OfficeDestination.applications)
+        OfficeDestination.openItemsOverride = [.word: [OfficeOpenItem(id: "Report.docx", title: "Report.docx")],
+                                               .outlook: [OfficeOpenItem(id: "41", title: "Re: Budget 2026")]]
+        defer {
+            OfficeDestination.installedOverride = nil
+            OfficeDestination.openItemsOverride = [:]
         }
         let saver = ImageSaver(settings: store)
         let output = OutputManager(settings: store, saver: saver, editors: EditorManager(settings: store, saver: saver))

@@ -53,6 +53,8 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
     /// Upstream `EmailFormat`: the body of a new Outlook mail.
     public enum EmailFormat: String, Codable, CaseIterable, Sendable {
         case html, text
+
+        public var displayName: String { self == .html ? "HTML" : "Text" }
     }
 
     /// Upstream `PpSlideLayout` without `ppLayoutMixed` (values 1–36, PowerPoint's `slide layout …` enumerators).
@@ -63,6 +65,42 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
         case verticalText, clipartAndVerticalText, verticalTitleAndText, verticalTitleAndTextOverChart, twoObjects
         case objectAndTwoObjects, twoObjectsAndObject, custom, sectionHeader, comparison, contentWithCaption
         case pictureWithCaption
+
+        /// The words after "slide layout " of PowerPoint's AppleScript enumerator (`EPPSlideLayout`, codes 0x00cd0001–24
+        /// like upstream's values 1–36).
+        public var appleScriptName: String {
+            switch self {
+            case .title: return "title slide"
+            case .text: return "text slide"
+            case .textAndMediaClip: return "media clip"
+            default: return words
+            }
+        }
+
+        /// "Picture with caption" etc.
+        public var displayName: String {
+            switch self {
+            case .title: return "Title"
+            case .text: return "Text"
+            case .textAndMediaClip: return "Text and media clip"
+            default:
+                let text = words
+                return text.prefix(1).uppercased() + text.dropFirst()
+            }
+        }
+
+        /// The case name in words: `twoColumnText` → "two column text".
+        private var words: String {
+            var result = ""
+            for character in rawValue {
+                if character.isUppercase {
+                    result += " " + character.lowercased()
+                } else {
+                    result.append(character)
+                }
+            }
+            return result
+        }
     }
 
     /// `OutlookEmailFormat`, default HTML.
@@ -71,7 +109,8 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
     public var wordLockAspectRatio = true
     /// `PowerpointLockAspectRatio`.
     public var powerpointLockAspectRatio = true
-    /// `PowerpointSlideLayout`; a layout without a caption and a picture placeholder falls back to blank.
+    /// `PowerpointSlideLayout`; the title goes into its first shape and the picture into its second (the picture
+    /// placeholder); a layout PowerPoint refuses falls back to blank.
     public var powerpointSlideLayout: SlideLayout = .pictureWithCaption
 
     public init() {}

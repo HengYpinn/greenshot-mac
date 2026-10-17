@@ -48,6 +48,7 @@ enum Uploads {
     /// panel with Cancel comes up when it takes longer than 300 ms (upstream `RunWithProgressAsync` with
     /// `communication_wait`).
     static func run(_ failureTitle: String, progress message: String, completion: @escaping ExportCompletion = { _ in },
+                    showError: (@MainActor (Error) -> Void)? = nil,
                     _ operation: @escaping @MainActor () async throws -> ExportResult) {
         let upload = Task { @MainActor in try await operation() }
         let progress = ProgressHolder()
@@ -71,7 +72,7 @@ enum Uploads {
                 } else {
                     log.error(failureTitle, error: error)
                     let shown = explained(error)
-                    ErrorPresenter.show(shown, title: failureTitle)
+                    if let showError { showError(shown) } else { ErrorPresenter.show(shown, title: failureTitle) }
                     completion(.failed(shown.localizedDescription))
                 }
                 return
