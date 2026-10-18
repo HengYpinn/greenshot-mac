@@ -54,3 +54,27 @@ public enum RecentColors {
         return Int((min(max(component, 0), 1) * 255).rounded())
     }
 }
+
+/// Colours picked in colour wells that may still change: a well reports every colour the mouse passes in the colour
+/// panel, so a colour counts as used once its well has kept it for a moment. Each well (`source`) has its own, so a pick
+/// in another window or a dialog's OK in the meantime doesn't drop it.
+public struct RecentColorPicks {
+    private var pending: [ObjectIdentifier: (color: RGBAColor, time: TimeInterval)] = [:]
+
+    public init() {}
+
+    /// Whether a picked colour still waits.
+    public var isEmpty: Bool { pending.isEmpty }
+
+    /// `color` was picked in `source` at `time` (seconds); it replaces what that source picked before.
+    public mutating func pick(_ color: RGBAColor, from source: ObjectIdentifier, at time: TimeInterval) {
+        pending[source] = (color, time)
+    }
+
+    /// The colours whose source hasn't changed for `delay` seconds by `time`, oldest first; they stop waiting.
+    public mutating func settled(at time: TimeInterval, after delay: TimeInterval) -> [RGBAColor] {
+        let done = pending.filter { time - $0.value.time >= delay }.sorted { $0.value.time < $1.value.time }
+        for (source, _) in done { pending[source] = nil }
+        return done.map(\.value.color)
+    }
+}
