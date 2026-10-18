@@ -468,7 +468,8 @@ private func variableField(_ object: Binding<JSONObject>) -> some View {
 }
 
 private func defaultField(_ object: Binding<JSONObject>) -> some View {
-    TextField("default", text: member(object, "defaultValue")).textFieldStyle(.roundedBorder).frame(width: 110)
+    TextField("default", text: member(object, "defaultValue")).textFieldStyle(.roundedBorder)
+        .width(atLeast: 110, atMost: 180, placeholder: "default")
 }
 
 /// Commandline / AiTool `Arguments` (upstream `CommandlineArgument`).
