@@ -177,6 +177,49 @@ struct OfficeScriptsTests {
         #expect(attach.source.contains("make new attachment at theEvent"))
     }
 
+    /// L6: the organizer is the user's only by an account's address or its exact full name, not a part of it.
+    @Test func outlookOrganizerIsComparedWhole() {
+        let source = OfficeScripts.outlookOpenMessages(includeMeetings: true).source
+        #expect(source.contains("theOrganizer is theAddress or theOrganizer contains (\"<\" & theAddress & \">\")"))
+        #expect(source.contains("if theOrganizer is (contents of aName) then"))
+        #expect(!source.contains("theOrganizer contains aText"))
+    }
+
+    /// The security note: window names and Mail subjects lose tabs and line breaks before they join the answer, so a
+    /// name can't make a line (an `event:` record) of its own.
+    @Test func namesStayOneField() {
+        for call in [OfficeScripts.outlookOpenMessages(includeMeetings: true), OfficeScripts.mailOpenMessages()] {
+            #expect(call.source.contains("on oneLine(theValue)"))
+            #expect(!call.source.contains("tab & (name of aWindow)"))
+            #expect(!call.source.contains("tab & (subject of aMessage)"))
+        }
+    }
+
+    /// Runs the `oneLine` handler itself with `osascript` (no app is involved).
+    @Test(.enabled(if: FileManager.default.isExecutableFile(atPath: "/usr/bin/osascript")))
+    func oneLineHandlerReplacesTabsAndLineBreaks() async throws {
+        let source = "on run argv\n    return my oneLine(item 1 of argv)\nend run\n\n" + OfficeScripts.oneLineHandler
+        let result = try await offPool { () throws -> String in
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+            process.arguments = ["-", "a\tb\nevent:9\tforged\rc"]
+            let input = Pipe()
+            let output = Pipe()
+            process.standardInput = input
+            process.standardOutput = output
+            process.standardError = FileHandle.nullDevice
+            try process.run()
+            input.fileHandleForWriting.write(Data(source.utf8))
+            try input.fileHandleForWriting.close()
+            let data = output.fileHandleForReading.readDataToEndOfFile()
+            process.waitUntilExit()
+            return String(decoding: data, as: UTF8.self)
+        }
+        #expect(result == "a b event:9 forged c\n")
+        let items = OfficeScripts.openItems(of: .outlook, fromOutput: "41\t" + result)
+        #expect(items == [OfficeOpenItem(id: "41", title: "a b event:9 forged c")])
+    }
+
     @Test func outlookMeetingWindowsParse() {
         let items = OfficeScripts.openItems(of: .outlook, fromOutput: "41\tRe: Budget\nevent:77\tDesign review\nevent:78\t\nevent:\tBroken\n")
         let expected = [OfficeOpenItem(id: "41", title: "Re: Budget"),
