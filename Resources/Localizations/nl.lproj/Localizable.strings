@@ -36,6 +36,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Elke keer om bestemming vragen";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Elke keer om bestemming vragen";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Toegewezen aan";
 
@@ -44,6 +47,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Grijstinten forceren";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Grijstinten forceren";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Vervagen";
@@ -132,6 +138,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Afdruk op het papier centreren";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Afdruk op het papier centreren";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Klembordformaten";
 
@@ -140,6 +149,12 @@
 
 /* core:Editor.close_all, normalised */
 "Close All" = "Alles sluiten";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Kleurenafdruk";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Kleurinstellingen";
 
 /* jira:Jira.label_comment, override */
 "Comment:" = "Kommentaar:";
@@ -222,6 +237,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Afdruk vergroten en aanpassen aan de papiergrootte";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Afdruk vergroten en aanpassen aan de papiergrootte";
+
 /* core:Core.bugreport_title */
 "Error" = "Fout";
 
@@ -294,6 +312,12 @@
 /* core:Editor.invert */
 "Invert" = "Omkeren";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Afdrukken in negatief-kleuren";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Afdrukken in negatief-kleuren";
+
 /* core:Editor.italic */
 "Italic" = "Cursief";
 
@@ -305,6 +329,9 @@
 
 /* core:Settings.language */
 "Language" = "Taal";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Afdrukinstellingen";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Links";
@@ -462,6 +489,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Afdruk draaien en aanpassen aan het papier";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Afdruk draaien en aanpassen aan het papier";
+
 /* core:Editor.save */
 "Save" = "Opslaan";
 
@@ -527,6 +557,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Afdruk verkleinen en aanpassen aan de papiergrootte";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Afdruk verkleinen en aanpassen aan de papiergrootte";
 
 /* core:Editor.fontsize */
 "Size" = "Grootte";

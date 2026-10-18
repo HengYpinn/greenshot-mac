@@ -39,6 +39,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "매번 저장 방법 묻기";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "매번 저장 방법 묻기";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "수신자";
 
@@ -47,6 +50,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "흑백 인쇄";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "흑백 인쇄";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "흐림";
@@ -135,11 +141,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "출력물을 페이지 중앙에 맞추기";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "출력물을 페이지 중앙에 맞추기";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "클립보드 형식";
 
 /* core:Core.bugreport_cancel */
 "Close" = "닫기";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "전체 색상 인쇄";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "색상 설정";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "명령어:";
@@ -231,6 +246,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "출력물을 페이지 크기에 맞게 확대";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "출력물을 페이지 크기에 맞게 확대";
+
 /* core:Core.bugreport_title */
 "Error" = "오류";
 
@@ -318,6 +336,12 @@
 /* core:Editor.invert */
 "Invert" = "반전";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "반전 색상으로 인쇄";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "반전 색상으로 인쇄";
+
 /* core:Editor.italic */
 "Italic" = "기울이기";
 
@@ -329,6 +353,9 @@
 
 /* core:Settings.language */
 "Language" = "언어";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "페이지 윤곽 설정";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "왼쪽";
@@ -501,6 +528,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "출력물을 페이지 방향으로 회전";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "출력물을 페이지 방향으로 회전";
+
 /* core:Editor.save */
 "Save" = "저장";
 
@@ -566,6 +596,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "출력물을 페이지 크기에 맞게 축소";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "출력물을 페이지 크기에 맞게 축소";
 
 /* core:Editor.fontsize */
 "Size" = "크기";

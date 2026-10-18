@@ -30,6 +30,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Demander la destination à chaque fois";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Demander la destination à chaque fois";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Rognage automatique";
 
@@ -108,6 +111,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Centrer sur la page";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Centrer sur la page";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Format du presse-papier";
 
@@ -180,6 +186,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Élargir aux dimensions de la page";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Élargir aux dimensions de la page";
+
 /* core:Core.bugreport_title */
 "Error" = "Erreur";
 
@@ -245,6 +254,12 @@
 
 /* core:Editor.invert */
 "Invert" = "Inverser";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Imprimer en couleurs inversées";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Imprimer en couleurs inversées";
 
 /* core:Editor.italic */
 "Italic" = "Italique";
@@ -378,6 +393,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Tourner l'impression selon l'orientation de la page";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Tourner l'impression selon l'orientation de la page";
+
 /* core:Editor.save */
 "Save" = "Sauvegarder";
 
@@ -434,6 +452,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Réduire aux dimensions de la page";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Réduire aux dimensions de la page";
 
 /* core:Editor.fontsize */
 "Size" = "Taille";

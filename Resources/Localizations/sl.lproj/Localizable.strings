@@ -30,6 +30,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Vprašaj za cilj vsakič";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Vprašaj za cilj vsakič";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Samodejno obreži";
 
@@ -111,6 +114,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Poravnaj na sredino";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Poravnaj na sredino";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Oblike odložišča";
 
@@ -186,6 +192,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Povečaj da se prilega tiskanju";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Povečaj da se prilega tiskanju";
+
 /* core:Core.bugreport_title */
 "Error" = "Napaka";
 
@@ -254,6 +263,12 @@
 
 /* core:Editor.invert */
 "Invert" = "Inverzija";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Tiskaj z inverzijo barv";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Tiskaj z inverzijo barv";
 
 /* core:Editor.italic */
 "Italic" = "Ležeče";
@@ -396,6 +411,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Zasukaj glede na zasuk papirja";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Zasukaj glede na zasuk papirja";
+
 /* core:Editor.save */
 "Save" = "Shrani";
 
@@ -452,6 +470,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Skrči da se prilega tiskanju";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Skrči da se prilega tiskanju";
 
 /* core:Editor.fontsize */
 "Size" = "Velikost";

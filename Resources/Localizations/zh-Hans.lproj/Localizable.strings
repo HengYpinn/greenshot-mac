@@ -36,6 +36,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "每次询问保存位置";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "每次询问保存位置";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "委托人";
 
@@ -44,6 +47,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "强制黑/白打印";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "强制黑/白打印";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "模糊效果";
@@ -129,11 +135,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "打印到纸张的正中央";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "打印到纸张的正中央";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "剪贴板格式";
 
 /* core:Core.bugreport_cancel */
 "Close" = "关闭";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "全彩色打印";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "颜色设置";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "命令：";
@@ -225,6 +240,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "放大图片以适合纸张大小";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "放大图片以适合纸张大小";
+
 /* core:Core.bugreport_title */
 "Error" = "错误";
 
@@ -312,6 +330,12 @@
 /* core:Editor.invert */
 "Invert" = "反转";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "反片打印";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "反片打印";
+
 /* core:Editor.italic */
 "Italic" = "斜体";
 
@@ -320,6 +344,9 @@
 
 /* core:Settings.language */
 "Language" = "语言";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "页面设置";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "左边";
@@ -489,6 +516,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "旋转图片";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "旋转图片";
+
 /* core:Editor.save */
 "Save" = "保存";
 
@@ -554,6 +584,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "缩小图片以适合纸张大小";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "缩小图片以适合纸张大小";
 
 /* core:Editor.fontsize */
 "Size" = "字体大小";

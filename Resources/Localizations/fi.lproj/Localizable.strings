@@ -87,6 +87,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Keskitä sivulle";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Keskitä sivulle";
+
 /* core:Core.bugreport_cancel */
 "Close" = "Sulje";
 
@@ -155,6 +158,9 @@
 
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Suurenna paperikokoa vastaavaksi";
+
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Suurenna paperikokoa vastaavaksi";
 
 /* core:Core.bugreport_title */
 "Error" = "Virhe";
@@ -312,6 +318,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Käännä vastaamaan paperin suuntaa";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Käännä vastaamaan paperin suuntaa";
+
 /* core:Editor.save */
 "Save" = "Tallenna";
 
@@ -356,6 +365,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Pienennä paperikokoa vastaavaksi";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Pienennä paperikokoa vastaavaksi";
 
 /* core:Editor.counter_startvalue, override */
 "Start at" = "Aloitusarvo";

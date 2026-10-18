@@ -36,6 +36,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Opýtať sa na cieľ zakaždým";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Opýtať sa na cieľ zakaždým";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Automatické orezanie";
 
@@ -120,6 +123,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Zarovnať na stred";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Zarovnať na stred";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Formáty schránky";
 
@@ -195,6 +201,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Zväčšiť na veľkosť papiera";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Zväčšiť na veľkosť papiera";
+
 /* core:Core.bugreport_title */
 "Error" = "Chyba";
 
@@ -269,6 +278,12 @@
 
 /* core:Editor.invert */
 "Invert" = "Invertovať";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Tlačiť s invertovanými farbami";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Tlačiť s invertovanými farbami";
 
 /* core:Editor.italic */
 "Italic" = "Kurzíva";
@@ -426,6 +441,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Zmeniť orientáciu papiera";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Zmeniť orientáciu papiera";
+
 /* core:Editor.save */
 "Save" = "Uložiť";
 
@@ -488,6 +506,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Zmenšiť na veľkosť papiera";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Zmenšiť na veľkosť papiera";
 
 /* core:Editor.fontsize */
 "Size" = "Veľkosť";

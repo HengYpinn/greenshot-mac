@@ -30,6 +30,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Питај за одредиште сваки път";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Питај за одредиште сваки път";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Представник";
 
@@ -119,6 +122,9 @@
 
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Центрирај испис на страници";
+
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Центрирај испис на страници";
 
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Формати оставе";
@@ -213,6 +219,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Повећај испис тако да стане на папир";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Повећај испис тако да стане на папир";
+
 /* core:Core.bugreport_title */
 "Error" = "Грешка";
 
@@ -299,6 +308,12 @@
 
 /* core:Editor.invert */
 "Invert" = "Обрни боје";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Одштампај с обрнутим бојама";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Одштампај с обрнутим бојама";
 
 /* core:Editor.italic */
 "Italic" = "Курзив";
@@ -480,6 +495,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Окрени испис према усмерењу странице";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Окрени испис према усмерењу странице";
+
 /* core:Editor.save */
 "Save" = "Сачувај";
 
@@ -545,6 +563,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Смањи испис тако да стане на папир";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Смањи испис тако да стане на папир";
 
 /* core:Editor.fontsize */
 "Size" = "Величина";

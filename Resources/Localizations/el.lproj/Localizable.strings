@@ -30,11 +30,17 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Ζητήστε προορισμό κάθε φορά";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Ζητήστε προορισμό κάθε φορά";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Αυτόματη Περικοπή";
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Ασπρόμαυρη εκτύπωση";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Ασπρόμαυρη εκτύπωση";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Θόλωμα";
@@ -117,11 +123,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Εκτύπωση στο κέντρο της σελίδας";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Εκτύπωση στο κέντρο της σελίδας";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Διαμορφώσεις προχείρου";
 
 /* core:Core.bugreport_cancel */
 "Close" = "Κλείσιμο";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Έγχρωμη εκτύπωση";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Ρυθμίσεις Χρωμάτων";
 
 /* core:Editor.storedtoclipboard, override */
 "Copied to the clipboard" = "Η εικόνα αποθηκεύτηκε στο πρόχειρο.";
@@ -198,6 +213,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Μεγέθυνση στο μέγεθος της σελίδας";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Μεγέθυνση στο μέγεθος της σελίδας";
+
 /* core:Core.bugreport_title */
 "Error" = "Σφάλμα";
 
@@ -270,6 +288,12 @@
 /* core:Editor.invert */
 "Invert" = "Αναστροφή";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Εκτύπωση με ανεστραμμένα χρώματα";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Εκτύπωση με ανεστραμμένα χρώματα";
+
 /* core:Editor.italic */
 "Italic" = "Πλάγια γραφή";
 
@@ -278,6 +302,9 @@
 
 /* core:Settings.language */
 "Language" = "Γλώσσα";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Ρυθμίσεις διάταξης σελίδας";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Αριστερά";
@@ -417,6 +444,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Περιστροφή στο προσανατολισμό της σελίδας";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Περιστροφή στο προσανατολισμό της σελίδας";
+
 /* core:Editor.save */
 "Save" = "Αποθήκευση";
 
@@ -473,6 +503,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Συρρίκνωση στο μέγεθος της σελίδας";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Συρρίκνωση στο μέγεθος της σελίδας";
 
 /* core:Editor.fontsize */
 "Size" = "Μέγεθος";

@@ -87,6 +87,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "מירכוז הדפסה בעמוד";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "מירכוז הדפסה בעמוד";
+
 /* core:Core.bugreport_cancel */
 "Close" = "סגור";
 
@@ -155,6 +158,9 @@
 
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "הגדל פלט לגודל העמוד";
+
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "הגדל פלט לגודל העמוד";
 
 /* core:Core.bugreport_title */
 "Error" = "שגיאה";
@@ -324,6 +330,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "סובב פלט לכיוון הדף";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "סובב פלט לכיוון הדף";
+
 /* core:Editor.save */
 "Save" = "שמור";
 
@@ -368,6 +377,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "הקטן פלט לגודל העמוד";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "הקטן פלט לגודל העמוד";
 
 /* core:Editor.fontsize */
 "Size" = "גודל";

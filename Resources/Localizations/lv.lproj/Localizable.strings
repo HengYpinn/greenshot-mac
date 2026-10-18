@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Jautāt, ko darīt, katru reizi";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Jautāt, ko darīt, katru reizi";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Pārstāvis";
 
@@ -50,6 +53,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Izdrukāt kā melnbaltu";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Izdrukāt kā melnbaltu";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Izpludināt";
@@ -138,11 +144,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Izdruku iecentrēt";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Izdruku iecentrēt";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Starpliktuves formāts";
 
 /* core:Core.bugreport_cancel */
 "Close" = "Aizvērt";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Pilnkrāsas izdruka";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Krāsu iestatījumi";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Komanda:";
@@ -234,6 +249,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Palielināt izdruku atbilstoši lapai";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Palielināt izdruku atbilstoši lapai";
+
 /* core:Core.bugreport_title */
 "Error" = "Kļūda";
 
@@ -321,6 +339,12 @@
 /* core:Editor.invert */
 "Invert" = "Negatīvs";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Izdrukāt kā negatīvu";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Izdrukāt kā negatīvu";
+
 /* core:Editor.italic */
 "Italic" = "Slīpraksts";
 
@@ -332,6 +356,9 @@
 
 /* core:Settings.language */
 "Language" = "Valoda (Language)";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Izdrukas izkārtojums";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Kreisā";
@@ -504,6 +531,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Sagriezt izdruku atbilstoši lapai";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Sagriezt izdruku atbilstoši lapai";
+
 /* core:Editor.save */
 "Save" = "Saglabāt";
 
@@ -569,6 +599,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Samazināt izdruku atbilstoši lapai";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Samazināt izdruku atbilstoši lapai";
 
 /* core:Editor.fontsize */
 "Size" = "Izmērs";

@@ -30,6 +30,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Spør etter mål kvar gong";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Spør etter mål kvar gong";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Auto-skjer";
 
@@ -110,6 +113,9 @@
 
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Sentrer bildet på arket";
+
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Sentrer bildet på arket";
 
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Utklyppsformat";
@@ -192,6 +198,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Forstørr bildet til arkstorleiken";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Forstørr bildet til arkstorleiken";
+
 /* core:Core.bugreport_title */
 "Error" = "Trøbbel!";
 
@@ -260,6 +269,12 @@
 
 /* core:Editor.invert */
 "Invert" = "Inverter";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Skriv ut med inverterte fargar";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Skriv ut med inverterte fargar";
 
 /* core:Editor.italic */
 "Italic" = "Kursiv";
@@ -393,6 +408,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Roter bildet til arkretninga";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Roter bildet til arkretninga";
+
 /* core:Editor.save */
 "Save" = "Lagre";
 
@@ -449,6 +467,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Forminsk bildet til arkstorleiken";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Forminsk bildet til arkstorleiken";
 
 /* core:Editor.fontsize */
 "Size" = "Storleik";

@@ -36,11 +36,17 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Perguntar o destino toda vez";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Perguntar o destino toda vez";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Atribuído a";
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Forçar impressão preto / branco";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Forçar impressão preto / branco";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Desfocar";
@@ -123,6 +129,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Centralizar a impressão na página";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Centralizar a impressão na página";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Formatos da área de transferência";
 
@@ -131,6 +140,12 @@
 
 /* core:Editor.close_all, normalised */
 "Close All" = "Fechar tudo";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Impressão colorida";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Configurações de cor";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Comando:";
@@ -213,6 +228,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Aumentar o tamanho da impressão para ocupar toda a página";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Aumentar o tamanho da impressão para ocupar toda a página";
+
 /* core:Core.bugreport_title */
 "Error" = "Erro";
 
@@ -291,6 +309,12 @@
 /* confluence:Confluence.include_person_spaces */
 "Include personal spaces in search and browsing" = "Incluir espaços pessoais na busca e navegação";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Imprimir com cores invertidas";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Imprimir com cores invertidas";
+
 /* core:Editor.italic */
 "Italic" = "Itálico";
 
@@ -299,6 +323,9 @@
 
 /* core:Settings.language */
 "Language" = "Idioma";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Configurações de layout da página";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Esquerda";
@@ -471,6 +498,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Rotacionar a impressão de acordo com a orientação da página";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Rotacionar a impressão de acordo com a orientação da página";
+
 /* core:Editor.save */
 "Save" = "Salvar";
 
@@ -536,6 +566,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Diminuir o tamanho da impressão para caber na página";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Diminuir o tamanho da impressão para caber na página";
 
 /* core:Editor.fontsize */
 "Size" = "Tamanho";

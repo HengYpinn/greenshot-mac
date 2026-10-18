@@ -84,6 +84,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "چاپ در مرکز صفحه";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "چاپ در مرکز صفحه";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "حافظه موقت";
 
@@ -155,6 +158,9 @@
 
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "همخوانی تصویر با اندازه کاغذ ـ  بزرگنمایی";
+
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "همخوانی تصویر با اندازه کاغذ ـ  بزرگنمایی";
 
 /* core:Core.bugreport_title */
 "Error" = "اشتباه";
@@ -333,6 +339,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "همخوانی جهت  تصویربا کاغذ ـ  چرخش";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "همخوانی جهت  تصویربا کاغذ ـ  چرخش";
+
 /* core:Editor.save */
 "Save" = "ذخیره";
 
@@ -377,6 +386,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "همخوانی تصویر با اندازه کاغذ ـ  کوچک نمایی";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "همخوانی تصویر با اندازه کاغذ ـ  کوچک نمایی";
 
 /* core:Editor.fontsize */
 "Size" = "اندازه";

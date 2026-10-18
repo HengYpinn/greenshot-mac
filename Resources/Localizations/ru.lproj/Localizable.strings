@@ -36,6 +36,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Спрашивать место назначения каждый раз";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Спрашивать место назначения каждый раз";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Представитель";
 
@@ -44,6 +47,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Чёрно-белая печать";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Чёрно-белая печать";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Пятно";
@@ -132,6 +138,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Печать по центру страницы";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Печать по центру страницы";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Форматы буфера обмена";
 
@@ -140,6 +149,12 @@
 
 /* core:Editor.close_all, normalised */
 "Close All" = "Закрыть все";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Полноцветная печать";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Настройки цвета";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Команда:";
@@ -228,6 +243,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Растянуть на всю страницу";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Растянуть на всю страницу";
+
 /* core:Core.bugreport_title */
 "Error" = "Ошибка";
 
@@ -315,6 +333,12 @@
 /* core:Editor.invert */
 "Invert" = "Инвертировать";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Печать с инверсией цветов";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Печать с инверсией цветов";
+
 /* core:Editor.italic */
 "Italic" = "Курсив";
 
@@ -323,6 +347,9 @@
 
 /* core:Settings.language */
 "Language" = "Язык";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Параметры макета страницы";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Слева";
@@ -492,6 +519,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Повернуть согласно ориентации страницы";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Повернуть согласно ориентации страницы";
+
 /* core:Editor.save */
 "Save" = "Сохранить";
 
@@ -557,6 +587,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Подогнать, чтобы вместить на страницу";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Подогнать, чтобы вместить на страницу";
 
 /* core:Editor.fontsize */
 "Size" = "Размер";

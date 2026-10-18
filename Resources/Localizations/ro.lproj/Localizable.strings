@@ -90,6 +90,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Centrează imprimarea pe pagină";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Centrează imprimarea pe pagină";
+
 /* core:Core.bugreport_cancel */
 "Close" = "Închide";
 
@@ -155,6 +158,9 @@
 
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Mărește imaginea imprimată cât dimensiunea hîrtiei";
+
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Mărește imaginea imprimată cât dimensiunea hîrtiei";
 
 /* core:Core.bugreport_title */
 "Error" = "Eroare";
@@ -318,6 +324,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Rotește imaginea imprimată să se potrivească orientării paginii";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Rotește imaginea imprimată să se potrivească orientării paginii";
+
 /* core:Editor.save */
 "Save" = "Salvează";
 
@@ -362,6 +371,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Micește imaginea imprimată cât dimensiunea hîrtiei";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Micește imaginea imprimată cât dimensiunea hîrtiei";
 
 /* core:Editor.fontsize */
 "Size" = "Mărime";

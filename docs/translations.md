@@ -16,49 +16,49 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 
 ## Coverage
 
-2224 texts of the Mac are localizable; 413 of them have an upstream key (app name 10, exact 199, normalised 105, override 99); 3 rejected by overrides.tsv.
+2224 texts of the Mac are localizable; 424 of them have an upstream key (app name 10, exact 199, normalised 105, override 110); 3 rejected by overrides.tsv.
 
 | Language | Code | macOS | Translated | Share |
 |---|---|---|---:|---:|
-| العربية | ar-SY | ar | 135 | 6 % |
-| Català | ca-CA | ca | 192 | 9 % |
-| Čeština | cs-CZ | cs | 239 | 11 % |
-| Dansk | da-DK | da | 133 | 6 % |
-| Deutsch | de-DE | de | 294 | 13 % |
-| Frängisch | de-x-franconia | vmf | 176 | 8 % |
-| Ελληνικά | el-GR | el | 189 | 8 % |
-| Español | es-ES | es | 170 | 8 % |
-| Eesti | et-EE | et | 186 | 8 % |
-| پارسی | fa-IR | fa | 139 | 6 % |
-| Suomi | fi-FI | fi | 131 | 6 % |
-| Français | fr-FR | fr | 240 | 11 % |
-| Français - Québec | fr-QC | fr-CA | 166 | 7 % |
-| Hebrew - עִבְרִית | he-IL | he | 136 | 6 % |
-| Magyar | hu-HU | hu | 136 | 6 % |
-| Bahasa Indonesia | id-ID | id | 234 | 11 % |
-| Italiano | it-IT | it | 242 | 11 % |
-| 日本語 | ja-JP | ja | 243 | 11 % |
-| Taqbaylit | kab-DZ | kab | 245 | 11 % |
-| 한국어 | ko-KR | ko | 241 | 11 % |
-| Lietuvių | lt-LT | lt | 137 | 6 % |
-| Latviski | lv-LV | lv | 242 | 11 % |
-| Nederlands | nl-NL | nl | 222 | 10 % |
-| Nynorsk | nn-NO | nn | 172 | 8 % |
-| Polski | pl-PL | pl | 238 | 11 % |
-| Português do Brasil | pt-BR | pt-BR | 226 | 10 % |
-| Português de Portugal | pt-PT | pt-PT | 242 | 11 % |
-| Română | ro-RO | ro | 133 | 6 % |
-| Pусский | ru-RU | ru | 237 | 11 % |
-| Slovenčina | sk-SK | sk | 191 | 9 % |
-| Slovenščina | sl-SI | sl | 175 | 8 % |
-| Српски | sr-RS | sr | 229 | 10 % |
-| Svenska | sv-SE | sv | 243 | 11 % |
-| Turkish | tr-TR | tr | 254 | 11 % |
-| Українська | uk-UA | uk | 246 | 11 % |
-| Valencià (RACV) | va-VA | ca-ES-valencia | 199 | 9 % |
-| Việt | vi-VN | vi | 136 | 6 % |
-| 简体中文 | zh-CN | zh-Hans | 238 | 11 % |
-| 正體中文 | zh-TW | zh-Hant | 243 | 11 % |
+| العربية | ar-SY | ar | 139 | 6 % |
+| Català | ca-CA | ca | 203 | 9 % |
+| Čeština | cs-CZ | cs | 250 | 11 % |
+| Dansk | da-DK | da | 137 | 6 % |
+| Deutsch | de-DE | de | 305 | 14 % |
+| Frängisch | de-x-franconia | vmf | 183 | 8 % |
+| Ελληνικά | el-GR | el | 200 | 9 % |
+| Español | es-ES | es | 177 | 8 % |
+| Eesti | et-EE | et | 197 | 9 % |
+| پارسی | fa-IR | fa | 143 | 6 % |
+| Suomi | fi-FI | fi | 135 | 6 % |
+| Français | fr-FR | fr | 251 | 11 % |
+| Français - Québec | fr-QC | fr-CA | 173 | 8 % |
+| Hebrew - עִבְרִית | he-IL | he | 140 | 6 % |
+| Magyar | hu-HU | hu | 140 | 6 % |
+| Bahasa Indonesia | id-ID | id | 245 | 11 % |
+| Italiano | it-IT | it | 253 | 11 % |
+| 日本語 | ja-JP | ja | 254 | 11 % |
+| Taqbaylit | kab-DZ | kab | 256 | 12 % |
+| 한국어 | ko-KR | ko | 252 | 11 % |
+| Lietuvių | lt-LT | lt | 141 | 6 % |
+| Latviski | lv-LV | lv | 253 | 11 % |
+| Nederlands | nl-NL | nl | 233 | 10 % |
+| Nynorsk | nn-NO | nn | 179 | 8 % |
+| Polski | pl-PL | pl | 249 | 11 % |
+| Português do Brasil | pt-BR | pt-BR | 237 | 11 % |
+| Português de Portugal | pt-PT | pt-PT | 253 | 11 % |
+| Română | ro-RO | ro | 137 | 6 % |
+| Pусский | ru-RU | ru | 248 | 11 % |
+| Slovenčina | sk-SK | sk | 198 | 9 % |
+| Slovenščina | sl-SI | sl | 182 | 8 % |
+| Српски | sr-RS | sr | 236 | 11 % |
+| Svenska | sv-SE | sv | 254 | 11 % |
+| Turkish | tr-TR | tr | 265 | 12 % |
+| Українська | uk-UA | uk | 257 | 12 % |
+| Valencià (RACV) | va-VA | ca-ES-valencia | 210 | 9 % |
+| Việt | vi-VN | vi | 140 | 6 % |
+| 简体中文 | zh-CN | zh-Hans | 249 | 11 % |
+| 正體中文 | zh-TW | zh-Hant | 254 | 11 % |
 
 Right to left: ar-SY, fa-IR, he-IL.
 Help pages (`Resources/Help`, from upstream): de-DE, en-US, es-ES, fr-FR, hu-HU, it-IT, ko-KR, nl-NL, nn-NO, pl-PL, pt-BR, pt-PT, ru-RU, sv-SE, tr-TR, va-VA, zh-CN.

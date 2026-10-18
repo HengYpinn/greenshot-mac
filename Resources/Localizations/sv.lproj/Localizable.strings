@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Fråga efter destination varje gång";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Fråga efter destination varje gång";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Tilldelad";
 
@@ -53,6 +56,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Tvinga svart/vit utskrift";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Tvinga svart/vit utskrift";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Oskärpa";
@@ -141,6 +147,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Centrera utskriften på sidan";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Centrera utskriften på sidan";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Urklippsformat";
 
@@ -149,6 +158,12 @@
 
 /* core:Editor.close_all, normalised */
 "Close All" = "Stäng alla";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Fullfärgsutskrift";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Färginställningar";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Kommando:";
@@ -249,6 +264,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Förstora/anpassa utskriften till papprets storlek";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Förstora/anpassa utskriften till papprets storlek";
+
 /* core:Core.bugreport_title */
 "Error" = "Fel";
 
@@ -333,6 +351,12 @@
 /* core:Editor.invert */
 "Invert" = "Invertera";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Skriv ut med inverterade färger";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Skriv ut med inverterade färger";
+
 /* core:Editor.italic */
 "Italic" = "Kursiv";
 
@@ -344,6 +368,9 @@
 
 /* core:Settings.language */
 "Language" = "Språk";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Utskriftsformat";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Vänster";
@@ -513,6 +540,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Rotera utskriften till sidans orientering";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Rotera utskriften till sidans orientering";
+
 /* core:Editor.save */
 "Save" = "Spara";
 
@@ -578,6 +608,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Förminska/anpassa utskriften till papprets storlek";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Förminska/anpassa utskriften till papprets storlek";
 
 /* core:Editor.fontsize */
 "Size" = "Storlek";

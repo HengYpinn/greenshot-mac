@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "每次詢問目的地";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "每次詢問目的地";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "指派";
 
@@ -50,6 +53,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "強制黑白列印";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "強制黑白列印";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "模糊";
@@ -138,11 +144,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "列印在紙張的正中央";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "列印在紙張的正中央";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "剪貼簿格式";
 
 /* core:Core.bugreport_cancel */
 "Close" = "關閉";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "全彩列印";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "色彩設定";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "命令：";
@@ -234,6 +249,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "放大列印輸出以符合紙張大小";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "放大列印輸出以符合紙張大小";
+
 /* core:Core.bugreport_title */
 "Error" = "錯誤";
 
@@ -321,6 +339,12 @@
 /* core:Editor.invert */
 "Invert" = "反向";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "反向色彩列印";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "反向色彩列印";
+
 /* core:Editor.italic */
 "Italic" = "斜體";
 
@@ -332,6 +356,9 @@
 
 /* core:Settings.language */
 "Language" = "語言";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "頁面配置設定";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "左";
@@ -504,6 +531,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "旋轉列印輸出為頁面方向";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "旋轉列印輸出為頁面方向";
+
 /* core:Editor.save */
 "Save" = "儲存";
 
@@ -569,6 +599,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "縮小列印輸出以符合紙張大小";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "縮小列印輸出以符合紙張大小";
 
 /* core:Editor.fontsize */
 "Size" = "大小";

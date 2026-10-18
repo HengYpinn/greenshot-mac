@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Steqsi ɣef taniɣert deg yal tikelt";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Steqsi ɣef taniɣert deg yal tikelt";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Bénéficiaire";
 
@@ -50,6 +53,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Sekmer asiggez s aberkan/amellal";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Sekmer asiggez s aberkan/amellal";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Sdeɛmumec";
@@ -138,11 +144,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Slemmes ɣef usebter";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Slemmes ɣef usebter";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Imasalen n ɣef afus";
 
 /* core:Core.bugreport_cancel */
 "Close" = "Mdel";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Asiggez s initen";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Iɣewwaṛen n usiggez s yiniten";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Taladna:";
@@ -234,6 +249,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Sehrew ar tisektiwin n usebter";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Sehrew ar tisektiwin n usebter";
+
 /* core:Core.bugreport_title */
 "Error" = "Tuccḍa";
 
@@ -324,6 +342,12 @@
 /* core:Editor.invert */
 "Invert" = "Tti initen";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Siggez s tuttya n yiniten";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Siggez s tuttya n yiniten";
+
 /* core:Editor.italic */
 "Italic" = "Uknan";
 
@@ -335,6 +359,9 @@
 
 /* core:Settings.language */
 "Language" = "Tutlayt";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Iɣewwaṛen n trusi n usebter";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Azelmaḍ";
@@ -507,6 +534,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Zzi tasaggazt akken tella tnila n usebter";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Zzi tasaggazt akken tella tnila n usebter";
+
 /* core:Editor.save */
 "Save" = "Sekles";
 
@@ -572,6 +602,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Senɣes ar tsektiwin n usebter";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Senɣes ar tsektiwin n usebter";
 
 /* core:Editor.fontsize */
 "Size" = "Teɣzi";

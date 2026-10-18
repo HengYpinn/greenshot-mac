@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Tanya destinasi setiap kali";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Tanya destinasi setiap kali";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Tujuan";
 
@@ -50,6 +53,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Cetak hitam putih";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Cetak hitam putih";
 
 /* core:Editor.bold */
 "Bold" = "Tebal";
@@ -129,11 +135,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Cetakan di tengah pada halaman";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Cetakan di tengah pada halaman";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Format papan klip";
 
 /* core:Core.bugreport_cancel */
 "Close" = "Tutup";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Cetak penuh warna";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Pengaturan warna";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Perintah:";
@@ -218,6 +233,9 @@
 
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Besarkan cetakan tepat sesuai ukuran kertas";
+
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Besarkan cetakan tepat sesuai ukuran kertas";
 
 /* core:Core.bugreport_title */
 "Error" = "Kesalahan";
@@ -306,6 +324,12 @@
 /* core:Editor.invert */
 "Invert" = "Balik";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Cetak dengan warna kebalikan";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Cetak dengan warna kebalikan";
+
 /* core:Editor.italic */
 "Italic" = "Miring";
 
@@ -317,6 +341,9 @@
 
 /* core:Settings.language */
 "Language" = "Bahasa";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Pengaturan layout halaman";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Kiri";
@@ -480,6 +507,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Putar cetakan ke orientasi halaman";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Putar cetakan ke orientasi halaman";
+
 /* core:Editor.save */
 "Save" = "Simpan";
 
@@ -545,6 +575,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Kecilkan cetakan tepat sesuai ukuran kertas";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Kecilkan cetakan tepat sesuai ukuran kertas";
 
 /* core:Editor.fontsize */
 "Size" = "Ukuran";

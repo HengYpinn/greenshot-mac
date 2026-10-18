@@ -90,6 +90,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Đặt ở giữa trang";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Đặt ở giữa trang";
+
 /* core:Core.bugreport_cancel */
 "Close" = "Đóng";
 
@@ -155,6 +158,9 @@
 
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Phóng to vừa khít ảnh";
+
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Phóng to vừa khít ảnh";
 
 /* core:Core.bugreport_title */
 "Error" = "Lỗi";
@@ -324,6 +330,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Quay ảnh theo hướng của trang";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Quay ảnh theo hướng của trang";
+
 /* core:Editor.save */
 "Save" = "Lưu";
 
@@ -368,6 +377,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Thu nhỏ ảnh theo cỡ giấy.";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Thu nhỏ ảnh theo cỡ giấy.";
 
 /* core:Editor.fontsize */
 "Size" = "Cỡ";

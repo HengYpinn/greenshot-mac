@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Zeptej se na cíl pokaždé";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Zeptej se na cíl pokaždé";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Pověřené osoby";
 
@@ -50,6 +53,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Vynutit černobílý tisk";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Vynutit černobílý tisk";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Rozmazat";
@@ -138,6 +144,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Centrovat obrázek na stránce";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Centrovat obrázek na stránce";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Formáty schránky";
 
@@ -146,6 +155,12 @@
 
 /* core:Editor.close_all, normalised */
 "Close All" = "Zavřít vše";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Plnobarevný tisk";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Nastavení barev";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Příkaz:";
@@ -234,6 +249,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Zvětšit oblast tisku, aby odpovídala velikosti papíru";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Zvětšit oblast tisku, aby odpovídala velikosti papíru";
+
 /* core:Core.bugreport_title */
 "Error" = "Chyba";
 
@@ -318,6 +336,12 @@
 /* core:Editor.invert */
 "Invert" = "Invertovat";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Tisk v invertovaných barvách";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Tisk v invertovaných barvách";
+
 /* core:Editor.italic */
 "Italic" = "Skloněné";
 
@@ -329,6 +353,9 @@
 
 /* core:Settings.language */
 "Language" = "Jazyk";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Rozložení stránky";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Vlevo";
@@ -498,6 +525,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Otočit obrázek podle orientace stránky";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Otočit obrázek podle orientace stránky";
+
 /* core:Editor.save */
 "Save" = "Uložit";
 
@@ -563,6 +593,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Zmenšit oblast tisku, aby odpovídala velikosti papíru";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Zmenšit oblast tisku, aby odpovídala velikosti papíru";
 
 /* core:Editor.fontsize */
 "Size" = "Velikost";

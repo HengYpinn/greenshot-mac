@@ -90,6 +90,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Középre igazítás";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Középre igazítás";
+
 /* core:Core.bugreport_cancel */
 "Close" = "Bezárni";
 
@@ -155,6 +158,9 @@
 
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Igazítás a nyomtatható területhez";
+
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Igazítás a nyomtatható területhez";
 
 /* core:Core.bugreport_title */
 "Error" = "Hiba";
@@ -324,6 +330,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Automatikus forgatás és középre igazítás";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Automatikus forgatás és középre igazítás";
+
 /* core:Editor.save */
 "Save" = "Mentés";
 
@@ -368,6 +377,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Zsugorítás a nyomtatható területhez";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Zsugorítás a nyomtatható területhez";
 
 /* core:Editor.fontsize */
 "Size" = "Méret";

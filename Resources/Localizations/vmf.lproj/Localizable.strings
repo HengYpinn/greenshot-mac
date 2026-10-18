@@ -30,6 +30,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Jeds Mol noch Ziel frong";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Jeds Mol noch Ziel frong";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Audomadisch zamschneidn";
 
@@ -114,6 +117,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Ausdrugg in däi Middn baggn";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Ausdrugg in däi Middn baggn";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Zwischnablach-Formade";
 
@@ -192,6 +198,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Ausdrugg auf Seidngröß vergrößern";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Ausdrugg auf Seidngröß vergrößern";
+
 /* core:Core.bugreport_title */
 "Error" = "Scheiße, Fehler";
 
@@ -260,6 +269,12 @@
 
 /* core:Editor.invert */
 "Invert" = "Inverdiern";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Farm umkehrn";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Farm umkehrn";
 
 /* core:Editor.italic */
 "Italic" = "Gusiev";
@@ -402,6 +417,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Drehung vom Ausdrugg ans Seidenformad anbassn";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Drehung vom Ausdrugg ans Seidenformad anbassn";
+
 /* core:Editor.save */
 "Save" = "Schbeichern";
 
@@ -458,6 +476,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Ausdrugg auf Seidengröß vergleinern";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Ausdrugg auf Seidengröß vergleinern";
 
 /* core:Editor.fontsize */
 "Size" = "Größe";

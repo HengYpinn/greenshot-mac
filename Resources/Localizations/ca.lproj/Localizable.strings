@@ -36,11 +36,17 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Pregunta el destí cada vegada";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Pregunta el destí cada vegada";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Autorretalla";
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Imprimeix en blanc i negre";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Imprimeix en blanc i negre";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Difumina";
@@ -123,11 +129,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Centra la impressió a la pàgina";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Centra la impressió a la pàgina";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Formats del porta-retalls";
 
 /* core:Core.bugreport_cancel */
 "Close" = "Tanca";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Imprimeix a tot color";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Paràmetres de color";
 
 /* core:Editor.storedtoclipboard, override */
 "Copied to the clipboard" = "Imatge copiada al porta-retalls.";
@@ -201,6 +216,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Engrandeix la impressió per omplir el paper";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Engrandeix la impressió per omplir el paper";
+
 /* core:Editor.pushout, normalised */
 "Expand Capture and Move Outside" = "Amplia la captura i mou a fora";
 
@@ -270,6 +288,12 @@
 /* core:Editor.invert */
 "Invert" = "Inverteix";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Imprimeix amb colors invertits";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Imprimeix amb colors invertits";
+
 /* core:Editor.italic */
 "Italic" = "Itàlica";
 
@@ -281,6 +305,9 @@
 
 /* core:Settings.language */
 "Language" = "Idioma";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Paràmetres de disseny de pàgina";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Esquerra";
@@ -420,6 +447,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Gira la impressió segons l'orientació de la pàgina";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Gira la impressió segons l'orientació de la pàgina";
+
 /* core:Editor.save */
 "Save" = "Desa";
 
@@ -476,6 +506,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Ajusta la impressió a la mida del paper";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Ajusta la impressió a la mida del paper";
 
 /* core:Editor.fontsize */
 "Size" = "Mida";

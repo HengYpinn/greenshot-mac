@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Her seferinde hedef sor";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Her seferinde hedef sor";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "Atanan";
 
@@ -53,6 +56,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Siyah/beyaz yazdırmaya zorla";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Siyah/beyaz yazdırmaya zorla";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Bulanıklaştır";
@@ -141,6 +147,9 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Sayfada ortala";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Sayfada ortala";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Pano biçimleri";
 
@@ -149,6 +158,12 @@
 
 /* core:Editor.close_all, normalised */
 "Close All" = "Hepsini kapat";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Tam renkli baskı";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Renk ayarları";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "Komut:";
@@ -249,6 +264,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Kağıt boyutuna göre büyüt";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Kağıt boyutuna göre büyüt";
+
 /* core:Core.bugreport_title */
 "Error" = "Hata";
 
@@ -336,6 +354,12 @@
 /* core:Editor.invert */
 "Invert" = "Renkleri ters çevir";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Ters çevrilmiş renklerle yazdır";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Ters çevrilmiş renklerle yazdır";
+
 /* core:Editor.italic */
 "Italic" = "Yatık";
 
@@ -347,6 +371,9 @@
 
 /* core:Settings.language */
 "Language" = "Dil";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Sayfa düzeni ayarları";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Sol";
@@ -525,6 +552,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Sayfa yönüne göre döndür";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Sayfa yönüne göre döndür";
+
 /* core:Editor.save */
 "Save" = "Kaydet";
 
@@ -590,6 +620,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Kağıt boyutuna göre küçült";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Kağıt boyutuna göre küçült";
 
 /* core:Editor.fontsize */
 "Size" = "Boyut";

@@ -27,11 +27,17 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Küsi asukohta iga kord";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "Küsi asukohta iga kord";
+
 /* core:Editor.autocrop, normalised */
 "Auto Crop" = "Automaatne lõikus";
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "Sundige must/valget printimist";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "Sundige must/valget printimist";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "Udune ala";
@@ -114,11 +120,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "Printige lehe keskele";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "Printige lehe keskele";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Lõikelaua formaadid";
 
 /* core:Core.bugreport_cancel */
 "Close" = "Sulge";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "Täielik värviline printimine";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "Värvi seaded";
 
 /* core:Editor.storedtoclipboard, override */
 "Copied to the clipboard" = "Pilt taastati lõikelauale.";
@@ -195,6 +210,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "Suurendage printimise ala, et pilt kattuks paberi suurusega";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "Suurendage printimise ala, et pilt kattuks paberi suurusega";
+
 /* core:Core.bugreport_title */
 "Error" = "Viga";
 
@@ -267,6 +285,12 @@
 /* core:Editor.invert */
 "Invert" = "Võtke tegevus tagasi";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "Printige ümberpööratud värvidega";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "Printige ümberpööratud värvidega";
+
 /* core:Editor.italic */
 "Italic" = "Kaldkiri";
 
@@ -275,6 +299,9 @@
 
 /* core:Settings.language */
 "Language" = "Keel";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "Lehekülje välimuse seaded";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Vasakult";
@@ -408,6 +435,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "Pöörake pilti paberi suuna järgi";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "Pöörake pilti paberi suuna järgi";
+
 /* core:Editor.save */
 "Save" = "Salvesta";
 
@@ -464,6 +494,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "Vähendage pilti, et see mahuks paberile";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "Vähendage pilti, et see mahuks paberile";
 
 /* core:Editor.fontsize */
 "Size" = "Suurus";

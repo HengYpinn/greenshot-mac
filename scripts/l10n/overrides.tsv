@@ -111,3 +111,15 @@ Load the previous 64 KB of the log	map	core:SelfService.logviewer_tooltip_load_e
 recipeManager.filter.custom	reject		the manager's filter for recipes from files, not a custom page size or memory profile
 video.preset.custom	reject		a custom video preset; upstream's Custom keys are a page size and a memory profile
 office.slideLayout.custom	reject		a custom slide layout; upstream's Custom keys are a page size and a memory profile
+# printing (the print dialog and Settings › Printer)
+Ask every time (destination menu)	map	core:Settings.destination_picker	Ask for destination every time
+Inverted Colours	map	core:Core.printoptions_inverted	Print with inverted colors
+Inverted colours	map	core:Core.printoptions_inverted	Print with inverted colors
+Shrink to fit the paper	map	core:Core.printoptions_allowshrink	Shrink printout to fit paper size
+Enlarge to fit the paper	map	core:Core.printoptions_allowenlarge	Enlarge printout to fit paper size
+Rotate to the page orientation	map	core:Core.printoptions_allowrotate	Rotate printout to page orientation
+Center on the page	map	core:Core.printoptions_allowcenter	Center printout on page
+Black and white (monochrome)	map	core:Core.printoptions_printmonochrome	Force black/white printing
+Colour	map	core:Core.printoptions_printcolor	Full color print (the print dialog and Settings › Printer only)
+Colours	map	core:Core.printoptions_colors	Color settings (print dialog, Settings › Printer and › Video section titles)
+Layout	map	core:Core.printoptions_layout	Page layout settings (print dialog and Settings › Printer only)

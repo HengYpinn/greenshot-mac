@@ -42,6 +42,9 @@
 /* core:Settings.destination_picker, override */
 "Ask every time" = "毎回出力先を尋ねる";
 
+/* core:Settings.destination_picker, override */
+"Ask every time (destination menu)" = "毎回出力先を尋ねる";
+
 /* jira:Jira.column_assignee */
 "Assignee" = "担当者";
 
@@ -50,6 +53,9 @@
 
 /* core:Core.printoptions_printmonochrome, override */
 "Black and White" = "強制的に白黒二値で印刷";
+
+/* core:Core.printoptions_printmonochrome, override */
+"Black and white (monochrome)" = "強制的に白黒二値で印刷";
 
 /* core:Editor.obfuscate_blur */
 "Blur" = "ぼかし";
@@ -138,11 +144,20 @@
 /* core:Core.printoptions_allowcenter, override */
 "Center on Page" = "ページの中央に配置";
 
+/* core:Core.printoptions_allowcenter, override */
+"Center on the page" = "ページの中央に配置";
+
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "クリップボードのイメージ形式";
 
 /* core:Core.bugreport_cancel */
 "Close" = "閉じる";
+
+/* core:Core.printoptions_printcolor, override */
+"Colour" = "フルカラーで印刷";
+
+/* core:Core.printoptions_colors, override */
+"Colours" = "カラー設定";
 
 /* externalcommand:ExternalCommand.label_command, normalised */
 "Command:" = "コマンド:";
@@ -234,6 +249,9 @@
 /* core:Core.printoptions_allowenlarge, override */
 "Enlarge to Fit" = "用紙に合わせてイメージを拡大";
 
+/* core:Core.printoptions_allowenlarge, override */
+"Enlarge to fit the paper" = "用紙に合わせてイメージを拡大";
+
 /* core:Core.bugreport_title */
 "Error" = "エラー";
 
@@ -321,6 +339,12 @@
 /* core:Editor.invert */
 "Invert" = "色の反転";
 
+/* core:Core.printoptions_inverted, override */
+"Inverted Colours" = "色を反転させて印刷";
+
+/* core:Core.printoptions_inverted, override */
+"Inverted colours" = "色を反転させて印刷";
+
 /* core:Editor.italic */
 "Italic" = "斜体";
 
@@ -335,6 +359,9 @@
 
 /* core:Settings.language */
 "Language" = "表示言語";
+
+/* core:Core.printoptions_layout, override */
+"Layout" = "ページ レイアウト設定";
 
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "左部";
@@ -507,6 +534,9 @@
 /* core:Core.printoptions_allowrotate, override */
 "Rotate to Page" = "ページの向きに合わせてイメージを回転";
 
+/* core:Core.printoptions_allowrotate, override */
+"Rotate to the page orientation" = "ページの向きに合わせてイメージを回転";
+
 /* core:Editor.save */
 "Save" = "保存";
 
@@ -572,6 +602,9 @@
 
 /* core:Core.printoptions_allowshrink, override */
 "Shrink to Fit" = "用紙に合わせてイメージを縮小";
+
+/* core:Core.printoptions_allowshrink, override */
+"Shrink to fit the paper" = "用紙に合わせてイメージを縮小";
 
 /* core:Editor.fontsize */
 "Size" = "サイズ";
