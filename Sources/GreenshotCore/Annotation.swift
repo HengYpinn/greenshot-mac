@@ -304,9 +304,10 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     }
 
     /// The turn of the content as clockwise quarter turns, 0–3: `rotation` to the nearest quarter (a file can hold any
-    /// number of degrees).
+    /// number of degrees). Always 0 for kinds whose content doesn't turn (`turnsContentWithImage`), whatever a file says.
     public var contentQuarterTurns: Int {
-        Annotation.normalizedRotation(rotation ?? 0).map { $0 / 90 } ?? 0
+        guard kind.turnsContentWithImage else { return 0 }
+        return Annotation.normalizedRotation(rotation ?? 0).map { $0 / 90 } ?? 0
     }
 
     /// Whether the content lies on its side (a quarter or three quarters turned): its box has width and height swapped.
@@ -326,6 +327,37 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         let positive = (degrees % 360 + 360) % 360
         let quarter = (positive + 45) / 90 % 4 * 90
         return quarter == 0 ? nil : quarter
+    }
+
+    /// Decodes like the synthesized decoding, except `rotation`: any number of degrees (also one with a fraction, as
+    /// another program may write) becomes the nearest quarter turn, and a value that isn't a number is ignored, so the
+    /// element still loads instead of being left out as one of a newer version.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        kind = try c.decode(AnnotationKind.self, forKey: .kind)
+        start = try c.decode(CGPoint.self, forKey: .start)
+        end = try c.decode(CGPoint.self, forKey: .end)
+        points = try c.decode([CGPoint].self, forKey: .points)
+        text = try c.decode(String.self, forKey: .text)
+        tail = try c.decodeIfPresent(CGPoint.self, forKey: .tail)
+        imageData = try c.decodeIfPresent(Data.self, forKey: .imageData)
+        seed = try c.decodeIfPresent(UInt64.self, forKey: .seed)
+        verticalCut = try c.decodeIfPresent(Bool.self, forKey: .verticalCut)
+        cutEdges = try c.decodeIfPresent(CutEdgeLayout.self, forKey: .cutEdges)
+        barcode = try c.decodeIfPresent(BarcodeSpec.self, forKey: .barcode)
+        let degrees = (try? c.decodeIfPresent(Double.self, forKey: .rotation)) ?? nil
+        rotation = degrees.flatMap(Annotation.quarterTurn(degrees:))
+        style = try c.decode(AnnotationStyle.self, forKey: .style)
+    }
+
+    /// `degrees` (any number) to the nearest clockwise quarter turn, like `normalizedRotation`; nil for no turn or a
+    /// value that isn't finite.
+    static func quarterTurn(degrees: Double) -> Int? {
+        guard degrees.isFinite else { return nil }
+        let turn = degrees.truncatingRemainder(dividingBy: 360)
+        let quarters = ((turn < 0 ? turn + 360 : turn) / 90).rounded()
+        return normalizedRotation(Int(quarters) * 90)
     }
 
     /// A copy that is a new element: pasted, duplicated or loaded elements must never share the id of another one.

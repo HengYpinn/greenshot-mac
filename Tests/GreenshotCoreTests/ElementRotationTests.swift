@@ -228,4 +228,51 @@ struct ElementRotationTests {
         let edited = linear.withEditedBarcode(other, scale: 1)
         #expect(edited.bounds == linear.bounds)
     }
+
+    /// JSON of `annotation` with its "rotation" written as `value` (raw JSON text).
+    static func json(_ annotation: Annotation, rotation value: String) throws -> Data {
+        var object = try #require(try JSONSerialization.jsonObject(with: JSONEncoder().encode(annotation)) as? [String: Any])
+        object["rotation"] = try JSONSerialization.jsonObject(with: Data(value.utf8), options: .fragmentsAllowed)
+        return try JSONSerialization.data(withJSONObject: object)
+    }
+
+    @Test func aTurnThatIsNoWholeNumberStillLoads() throws {
+        let picture = try Self.picture()
+        let cases: [(String, Int?)] = [("90.5", 90), ("44.6", nil), ("135.2", 180), ("-90.0", 270), ("-45", nil),
+                                      ("1e300", nil), ("\"90\"", nil), ("null", nil), ("270", 270), ("450", 90)]
+        for (value, expected) in cases {
+            let decoded = try JSONDecoder().decode(Annotation.self, from: try Self.json(picture, rotation: value))
+            #expect(decoded.rotation == expected, "rotation \(value)")
+            #expect(decoded.imageData == picture.imageData)
+        }
+    }
+
+    @Test func everyFieldSurvivesTheRoundTrip() throws {
+        var a = Annotation(kind: .barcode, start: CGPoint(x: 1, y: 2), end: CGPoint(x: 30, y: 40),
+                           points: [CGPoint(x: 3, y: 4)], text: "t", tail: CGPoint(x: 5, y: 6), imageData: Data([1, 2, 3]))
+        a.seed = 42
+        a.verticalCut = true
+        a.cutEdges = CutEdgeLayout(top: false, marginTop: 3)
+        a.barcode = Self.code128()
+        a.rotation = 270
+        a.style.lineWidth = 7
+        let decoded = try JSONDecoder().decode(Annotation.self, from: try JSONEncoder().encode(a))
+        #expect(decoded == a)
+    }
+
+    @Test func kindsWhoseContentDoesNotTurnIgnoreATurn() throws {
+        // A file may carry a turn on any element; only pictures, SVGs, emoji and barcodes turn their content.
+        for kind in [AnnotationKind.cursor, .text, .rectangle, .highlight] {
+            var a = Annotation(kind: kind, start: CGPoint(x: 10, y: 10), end: CGPoint(x: 50, y: 30))
+            a.rotation = 90
+            #expect(a.contentQuarterTurns == 0)
+            #expect(!a.isQuarterTurned)
+            #expect(a.contentBounds == a.bounds)
+        }
+        var pointer = try Self.picture()
+        pointer.kind = .cursor
+        pointer.rotation = 90
+        let size = try #require(pointer.defaultSize(documentScale: 1))
+        #expect(size == CGSize(width: 40, height: 20))
+    }
 }
