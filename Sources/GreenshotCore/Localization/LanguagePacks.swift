@@ -59,6 +59,12 @@ public enum LanguagePacks {
         return all.first { $0.lproj.lowercased().split(separator: "-").first.map(String.init) == language }
     }
 
+    /// The language the app's texts are in: the pack of the localization macOS loaded (`preferredLocalizations`),
+    /// English when there is none (tests, helpers, a development build without translations).
+    public static func inUse(preferredLocalizations: [String] = Bundle.main.preferredLocalizations) -> LanguagePack {
+        preferredLocalizations.first.flatMap(pack(lproj:)) ?? english
+    }
+
     /// The pack shipped as `lproj` ("de", "zh-Hans").
     public static func pack(lproj: String) -> LanguagePack? {
         all.first { $0.lproj.caseInsensitiveCompare(lproj) == .orderedSame }

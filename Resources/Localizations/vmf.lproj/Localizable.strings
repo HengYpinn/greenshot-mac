@@ -123,8 +123,8 @@
 /* core:Settings.expert_clipboardformats */
 "Clipboard formats" = "Zwischnablach-Formade";
 
-/* core:Core.bugreport_cancel */
-"Close" = "Legg mich";
+/* core:Editor.close */
+"Close" = "Wech!";
 
 /* core:Editor.storedtoclipboard, override */
 "Copied to the clipboard" = "Bild is in der Zwischnablach.";

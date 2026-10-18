@@ -330,9 +330,6 @@
 /* core:Settings.language */
 "Language" = "Taal";
 
-/* core:Core.printoptions_layout, override */
-"Layout" = "Afdrukinstellingen";
-
 /* core:Core.contextmenu_capturefullscreen_left, normalised */
 "Left" = "Links";
 

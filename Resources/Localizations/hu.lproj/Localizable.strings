@@ -369,9 +369,6 @@
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Hátra küldés";
 
-/* core:Settings.destination_printer */
-"Send to printer" = "Nyomtatás";
-
 /* core:Core.contextmenu_settings, override */
 "Settings…" = "Beállítások…";
 

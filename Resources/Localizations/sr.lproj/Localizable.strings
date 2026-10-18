@@ -255,9 +255,6 @@
 /* core:Editor.grayscale */
 "Grayscale" = "Сиве нијансе";
 
-/* core:Core.help_title */
-"Greenshot Help" = "Помоћ";
-
 /* core:Editor.arrowheads_end, override */
 "Head at end" = "Крајња тачка";
 

@@ -45,12 +45,6 @@
 /* core:Editor.obfuscate_blur */
 "Blur" = "Θόλωμα";
 
-/* core:Editor.blur_radius */
-"Blur radius" = "Θόλωμα";
-
-/* core:Editor.blur_radius, normalised */
-"Blur radius:" = "Θόλωμα:";
-
 /* core:Editor.bold */
 "Bold" = "Έντονα";
 

@@ -36,9 +36,6 @@
 /* externalcommand:ExternalCommand.label_argument, normalised */
 "Arguments:" = "Parametreler:";
 
-/* core:Editor.arrange */
-"Arrange" = "Düzenle";
-
 /* core:Settings.destination_picker, override */
 "Ask every time" = "Her seferinde hedef sor";
 
@@ -495,9 +492,6 @@
 /* jira:Jira.login_title */
 "Please enter your Jira login data" = "Lütfen Jira oturum açma bilgilerinizi girin";
 
-/* office:Office.powerpoint_lockaspect, override */
-"PowerPoint: lock aspect ratio of the image" = "Görüntünün en-boy oranını kilitle";
-
 /* core:Editor.print */
 "Print" = "Yazdır";
 
@@ -734,9 +728,6 @@
 
 /* core:Editor.tornedge_shadow, override */
 "With shadow" = "Gölge oluştur";
-
-/* office:Office.word_lockaspect, override */
-"Word: lock aspect ratio of the image" = "Görüntünün en-boy oranını kilitle";
 
 /* core:Editor.obfuscate_text_scope_words */
 "Words" = "Kelimeler";

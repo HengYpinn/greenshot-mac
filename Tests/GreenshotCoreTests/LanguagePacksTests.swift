@@ -41,6 +41,21 @@ struct LanguagePacksTests {
         #expect(japanese?.helpFile == nil)
     }
 
+    @Test func theLanguageInUse() {
+        #expect(LanguagePacks.inUse(preferredLocalizations: ["de"]).ietf == "de-DE")
+        #expect(LanguagePacks.inUse(preferredLocalizations: ["zh-Hans", "en"]).ietf == "zh-CN")
+        #expect(LanguagePacks.inUse(preferredLocalizations: []).ietf == "en-US")
+        #expect(LanguagePacks.inUse(preferredLocalizations: ["Base"]).ietf == "en-US")
+    }
+
+    /// Recipes read `config.language` like upstream's `ICoreConfiguration.Language`: a pack's code, not a locale.
+    @Test func recipesSeeTheLanguageCode() {
+        let value = SystemRecipeEnvironment(settings: AppSettings()).configValue("language")
+        let code = value?.asString ?? ""
+        #expect(LanguagePacks.resolve(code)?.ietf == code)
+        #expect(!code.contains("@"))
+    }
+
     @Test func resolveAcceptsUpstreamAndAppleCodes() {
         let cases: [(String, String?)] = [
             ("de-DE", "de-DE"), ("de_de", "de-DE"), ("DE", "de-DE"), ("de-AT", "de-DE"), ("zh-Hans", "zh-CN"),

@@ -3,6 +3,8 @@
 #   map     use this upstream key for a Mac text that is worded a little differently (a near match)
 #   pin     of several upstream keys with this English, use this one
 #   reject  don't use this upstream key (or, without a key, any) for the Mac text: the meaning differs on the Mac
+#   reject@sl,pt-BR  the same, only in these languages (lproj or upstream code): a pack that gives two different controls
+#           of one window the same word (docs/translations.md lists them under "Different texts with the same translation")
 # The first column is the Mac's English exactly as in scripts/l10n/mac-keys.json (\n for a line break), or the Mac key
 # when it is an identifier (editor.color.line), which then wins over its English. The upstream key is
 # module:Section.key, e.g. core:Editor.tornedge_settings or jira:Jira.upload_menu_item. An upstream text with Windows
@@ -123,3 +125,20 @@ Black and white (monochrome)	map	core:Core.printoptions_printmonochrome	Force bl
 Colour	map	core:Core.printoptions_printcolor	Full color print (the print dialog and Settings › Printer only)
 Colours	map	core:Core.printoptions_colors	Color settings (print dialog, Settings › Printer and › Video section titles)
 Layout	map	core:Core.printoptions_layout	Page layout settings (print dialog and Settings › Printer only)
+# two different controls of one window with the same word in a language (wave 5 review L3)
+Greenshot Help	reject@ar,sr	core:Core.help_title	the same word as the Help menu
+Blur radius	reject@el	core:Editor.blur_radius	the same word as the Blur effect next to it
+Blur radius:	reject@el	core:Editor.blur_radius	the same word as the Blur effect next to it
+Send to printer	reject@hu	core:Settings.destination_printer	the same word as Printer in the destination list
+Search in:	reject@lv	core:Editor.obfuscate_text_search_scope	the same label as Search for:
+Layout	reject@nl	core:Core.printoptions_layout	the same word as the window title Print Options
+Thickness:	reject@pl	core:Editor.dropshadow_thickness	the same label as Darkness:
+Please enter your Confluence login data	reject@pl	confluence:Confluence.login_title	translated without the service, the same as Jira's
+Please enter your Jira login data	reject@pl	jira:Jira.login_title	translated without the service, the same as Confluence's
+Output	reject@pt-BR	core:Settings.output	the same word as the Capture tab
+PowerPoint: lock aspect ratio of the image	reject@pt-BR,tr	office:Office.powerpoint_lockaspect	the same as Word's switch
+Word: lock aspect ratio of the image	reject@pt-BR,tr	office:Office.word_lockaspect	the same as PowerPoint's switch
+Cut	reject@sl	core:Editor.cuttoclipboard	the same word as Copy
+Arrange	reject@tr	core:Editor.arrange	the same word as the Edit menu
+Close	reject@vmf	core:Core.bugreport_cancel	the same word as Cancel
+Apply	reject@zh-Hans	core:Core.colorpicker_apply	the same word as OK

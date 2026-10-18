@@ -150,9 +150,6 @@
 /* core:Editor.crop, override */
 "Crop" = "Obreži";
 
-/* core:Editor.cuttoclipboard */
-"Cut" = "Kopiraj";
-
 /* core:Editor.deleteelement */
 "Delete" = "Briši";
 
