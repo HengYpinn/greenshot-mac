@@ -28,7 +28,7 @@ enum LanguageStartup {
 
     /// The language in use: the localization macOS loaded, English when there is none.
     static var current: LanguagePack {
-        Bundle.main.preferredLocalizations.first.flatMap(LanguagePacks.pack(lproj:)) ?? LanguagePacks.english
+        LanguagePacks.inUse()
     }
 
     /// main.swift, first line: reads --language, the stored `language` and the profile, and sets the argument domain.

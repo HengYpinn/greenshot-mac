@@ -78,7 +78,8 @@ public struct SystemRecipeEnvironment: RecipeEnvironment {
 
     /// `config.<name>` by the upstream `ICoreConfiguration` property names (greenshot.ini [Core]), lowercased.
     private static let upstreamNames: [String: @Sendable (AppSettings) -> JSONValue] = [
-        "language": { _ in .string(Locale.current.identifier.replacingOccurrences(of: "_", with: "-")) },
+        // Upstream `ICoreConfiguration.Language`: the code of the language in use ("de-DE").
+        "language": { _ in .string(LanguagePacks.inUse().ietf) },
         "capturemousepointer": { .bool($0.captureMousePointer) },
         "capturewindowsinteractive": { .bool($0.interactiveWindowCapture) },
         "capturedelay": { .number(Double($0.captureDelayMilliseconds)) },
