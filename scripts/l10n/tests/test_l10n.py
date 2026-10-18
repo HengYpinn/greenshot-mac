@@ -389,7 +389,7 @@ class GenerateTests(unittest.TestCase):
         report = self.read(flagged, "docs/translations.md")
         self.assertIn("| Machine |", report)
         self.assertIn("## Machine translations", report)
-        self.assertIn("Sources: test (1 rows).", report)
+        self.assertIn("Sources: test (1 rows). 0 rows keep the English on purpose", report)
         plain_report = self.read(plain, "docs/translations.md")
         self.assertNotIn("Machine", plain_report.split("## Coverage")[1].split("\n\n")[1])
         self.assertNotIn("## Machine translations", plain_report)

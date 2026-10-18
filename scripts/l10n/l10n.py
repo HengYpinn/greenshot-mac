@@ -962,7 +962,10 @@ def machine_section(languages: List[Language], result: Result) -> List[str]:
         "New texts in the code: `python3 -I scripts/l10n/l10n.py untranslated` lists the texts without a translation "
         "(`<lproj><TAB>English`); add their rows to the tables with the model or person as the source.",
         "",
-        "Sources: %s." % ", ".join("%s (%d rows)" % (source, count) for source, count in sorted(sources.items())),
+        "Sources: %s. %d rows keep the English on purpose (names, formats, codes and symbols: the row's translation "
+        "is the English), so no language reaches 100 %%."
+        % (", ".join("%s (%d rows)" % (source, count) for source, count in sorted(sources.items())),
+           sum(len(v) for v in result.machine_english.values())),
         "",
     ]
     unused: Dict[Tuple[str, str], List[str]] = {}

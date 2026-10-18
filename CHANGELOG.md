@@ -8,8 +8,9 @@ All notable changes to this project are documented here. The format follows
 ### Added
 
 - Translations: menus, the editor, Settings and dialogs show Greenshot's translations in 39 languages from Greenshot's
-  language packs; texts only the Mac has stay English (German about 1 in 7 texts, other languages 6–12 %; coverage per
-  language in docs/translations.md). Choose the language in Settings › General or on the welcome window's first page (it
+  language packs, and machine translations (by an AI model, not reviewed by native speakers) for the texts the packs
+  don't have, so 95–98 % of the texts are translated in every language (coverage per language and how to correct a
+  machine translation in docs/translations.md). About says when a language has machine translations. Choose the language in Settings › General or on the welcome window's first page (it
   shows after a relaunch), or start with `--language <code>`. Arabic, Persian and Hebrew windows are laid out right to
   left, with numbers and hotkeys kept in order. Help opens Greenshot's help in your language, offline too.
 - Editor: SVG pictures, pictures, emoji and QR codes / barcodes turn with Rotate instead of being squeezed, and turned

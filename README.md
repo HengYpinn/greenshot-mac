@@ -49,7 +49,7 @@ capture a region, a window or the whole screen with a hotkey, mark it up in the 
 | Recipes: built-in and your own, editor (steps list and flow diagram), manager, automatic steps, approval of every file | ✅ | ✅ ([below](#recipes)) |
 | MCP server for AI tools: list windows, screenshots with OCR, run and propose recipes, consent per program | ✅ | ✅ ([below](#ai-tools-mcp)) |
 | Browser extension: capture the visible page with its address | ✅ (Chrome, Firefox) | ✅ Chrome, Edge, Firefox ([below](#browser-extension)); Safari not yet |
-| Translations: 40 language packs, right-to-left, language setting, help in your language | ✅ | ✅ Greenshot's translations for the texts the Mac shares with Greenshot for Windows; the rest English ([below](#translations)) |
+| Translations: 40 language packs, right-to-left, language setting, help in your language | ✅ | ✅ Greenshot's translations for the texts the Mac shares with Greenshot for Windows; the rest machine translations ([below](#translations)) |
 
 The row-by-row comparison with Greenshot for Windows (992 features: each one done, or not applicable on a Mac with the
 reason) is in [docs/feature-parity.md](docs/feature-parity.md). Some parts can only be checked on a real Mac with
@@ -257,11 +257,15 @@ folder with Load unpacked (Chrome, Edge) or Load Temporary Add-on (Firefox). See
 ## Translations
 
 Greenshot for Mac uses the translations of Greenshot's 40 language packs, by Greenshot's translators, for every text the
-Mac shares with Greenshot for Windows; texts only the Mac has stay English. That is about 1 in 7 texts in German and
-fewer in most other languages — see [docs/translations.md](docs/translations.md) for the coverage per language. Choose
-the language in Settings › General (or on the welcome window's first page, or with `--language de-DE`); it shows after
-a relaunch. macOS's own per-app language (System Settings › General › Language & Region) works too. Arabic, Persian and
-Hebrew are laid out right to left. Help › Greenshot Help opens Greenshot's help in your language, offline when needed.
+Mac shares with Greenshot for Windows. The other texts (the Mac's own, and those a pack doesn't translate yet) are
+machine translations, made by an AI model and checked by a script for placeholders and wording, not by native speakers:
+about 4 in 5 texts in German and up to 9 in 10 in other languages, so 95–98 % of the texts show in your language (names,
+formats and codes stay as they are). About says so in each language that has them. Kabyle and Franconian are the least
+reliable. Corrections are welcome: [docs/translations.md](docs/translations.md) lists the coverage per language and says
+how to correct a machine translation (one line in `scripts/l10n/machine/<language>.tsv`). Choose the language in
+Settings › General (or on the welcome window's first page, or with `--language de-DE`); it shows after a relaunch.
+macOS's own per-app language (System Settings › General › Language & Region) works too. Arabic, Persian and Hebrew are
+laid out right to left. Help › Greenshot Help opens Greenshot's help in your language, offline when needed.
 
 ## Command line and automation
 
