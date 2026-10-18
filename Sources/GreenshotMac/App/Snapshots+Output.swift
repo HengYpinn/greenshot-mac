@@ -15,7 +15,7 @@ extension Snapshots {
                                                           arguments: "-a Preview \"{0}\" --args ${title}", format: .jpg,
                                                           showOutputInLog: true))
         command.showDuplicateName()
-        let progress = UploadProgressPanel(message: "Transferring data to Jira, please wait…") {}
+        let progress = UploadProgressPanel(message: String(localized: "Transferring data to Jira, please wait…")) {}
         keepAlive += [quality, command, progress]
         try write(form(quality.view), to: folder.appendingPathComponent("dialog-quality.png"))
         try write(form(command.view), to: folder.appendingPathComponent("dialog-external-command.png"))

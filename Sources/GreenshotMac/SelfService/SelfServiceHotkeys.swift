@@ -48,7 +48,7 @@ final class HotkeysSectionModel: ObservableObject {
         self.systemShortcuts = systemShortcuts
         self.conflictIDs = conflictIDs
         self.contenders = contenders
-        updated = "Updated at 09:30:00"
+        updated = String(localized: "Updated at \("09:30:00")")
     }
 
     /// Hotkeys macOS refused and macOS shortcuts with the same keys (upstream's issue count).

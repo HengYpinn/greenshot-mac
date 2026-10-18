@@ -34,9 +34,10 @@ extension Snapshots {
         broken.flow.addTransition(from: "export", to: "ghost")
         try write(recipeEditor(broken, select: "capture"), to: file("recipe-editor-issues.png"))
         let notices: [(String, String, Bool)] = [
-            ("pending-save", "Saving asks for your approval: Runs when another app copies an image (Clipboard). It needs network access (uploads).", false),
-            ("pending-changed", "This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.", true),
-            ("pending-off", "1 trigger was left off when this recipe was approved: \"Runs when another app copies an image\". Review the approval to switch it on.", true)
+            ("pending-save", RecipeEditorDiagnostics.saveNotice(reasons: ["Runs when another app copies an image (Clipboard)",
+                                                                           "It needs network access (uploads)"]) ?? "", false),
+            ("pending-changed", String(localized: "This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs."), true),
+            ("pending-off", String(localized: "1 trigger was left off when this recipe was approved\(": \"Runs when another app copies an image\""). Review the approval to switch it on."), true)
         ]
         for (name, text, review) in notices {
             let model = RecipeEditorModel(environment: .offline)
@@ -75,7 +76,8 @@ extension Snapshots {
         if let nodeId { model.select(nodeId: nodeId) }
         model.tab = tab
         if let notice { model.showNotice(notice.0, canReview: notice.1) }
-        model.status = "Loaded: \(recipe.id).gsrecipe.json"
+        let file = "\(recipe.id).gsrecipe.json"
+        model.status = String(localized: "Loaded: \(file)")
         keepAlive.append(model)
         return hosted(RecipeEditorView(model: model), size: NSSize(width: 1120, height: height), dark: dark)
     }

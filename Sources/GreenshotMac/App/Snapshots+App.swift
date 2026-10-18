@@ -176,10 +176,10 @@ extension Snapshots {
             location: "/Applications/Greenshot for Mac (Community).app", isAppBundle: true, valid: true,
             validity: "Valid: no file of the app was changed", signer: "Greenshot Dev", identifier: "io.github.greenshot-mac.GreenshotMac",
             teamID: nil, hardenedRuntime: true, cdHash: "3f2a9c41d07be6a1c95d0e4b8a7f61c2d3e4f5a6", notarization: .notApplicable,
-            quarantined: false, translocated: false))
+            quarantined: false, translocated: false, shownValidity: String(localized: "Valid: no file of the app was changed")))
         let model = SelfServiceModel(section: .system, system: SystemSectionModel(sample: sampleEnvironment), setup: setup,
                                      files: files, clipboard: clipboard, hotkeys: hotkeys, integrity: integrity)
-        model.status = "Updated at 09:30:12"
+        model.status = String(localized: "Updated at \("09:30:12")")
         return model
     }
 

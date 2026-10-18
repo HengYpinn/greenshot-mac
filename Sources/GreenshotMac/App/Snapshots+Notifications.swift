@@ -11,8 +11,10 @@ extension Snapshots {
     /// `notification-summary.txt` lists what the app would post for made-up exports.
     static func renderNotificationExtras(to folder: URL, sample: CGImage, settings: SettingsStore) throws {
         let kinds: [(String, MessageKind, String, String)] = [
-            ("info", .info, "Saved 2026-10-17 12_00_00-Safari.png", "~/Desktop – click to show in Finder"),
-            ("warning", .warning, "Add CC and BCC in the mail", "CC: team@example.com"),
+            // The app's own texts where it has them, so each language's render shows its translation.
+            ("info", .info, String(localized: "Saved \("2026-10-17 12_00_00-Safari.png")"),
+             String(localized: "\("~/Desktop") – click to show in Finder")),
+            ("warning", .warning, String(localized: "Add CC and BCC in the mail"), "CC: team@example.com"),
             ("error", .error, "Upload script failed", "It ended with exit code 1."),
         ]
         for (name, kind, title, detail) in kinds {

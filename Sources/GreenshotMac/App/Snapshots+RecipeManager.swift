@@ -15,7 +15,7 @@ extension Snapshots {
         let demo = RecipeManagerDemo.make()
         let manager = RecipeManagerModel(library: demo.library, runtime: nil)
         manager.selection = "recipe_window"
-        manager.status = "Loaded and registered team-window.gsrecipe.json"
+        manager.status = String(localized: "Loaded and registered \("team-window.gsrecipe.json")")
         try write(window(RecipeManagerView(model: manager), size: NSSize(width: 900, height: 1180)),
                   to: folder.appendingPathComponent("recipe-manager.png"))
         let filtered = RecipeManagerModel(library: demo.library, runtime: nil)
