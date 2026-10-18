@@ -508,6 +508,12 @@
    ]
   },
   {
+   "key": "%@ of %@ log entries contain “%@”",
+   "files": [
+    "Sources/GreenshotCore/LogSearch.swift"
+   ]
+  },
+  {
    "key": "%@ points at %@ = %@ pixels",
    "files": [
     "Sources/GreenshotMac/SelfService/SelfServiceSystem.swift"

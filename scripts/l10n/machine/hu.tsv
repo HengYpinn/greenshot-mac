@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ nem fut, és nem indítható el.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ nem használhatja a mikrofont	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ rögzítheti a képernyőt, így képernyőképeket készíthet.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ / %@ naplóbejegyzés tartalmazza: „%@”	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ erre mutat: %@ = %@ képpont	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ legutóbb váratlanul bezárult	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ hibába ütközött, de még fut. Ellenőrizheti, hogy a hibát már jelentették-e, vagy jelentheti az alábbi részletekkel.	claude-sonnet-5-5 2026-10-18

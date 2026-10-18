@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ 未在執行，且無法啟動。	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ 可能無法使用麥克風	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ 可能會錄製螢幕，因此可以擷取螢幕截圖。	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%2$@ 筆日誌項目中有 %1$@ 筆包含「%3$@」	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ 對應 %@ = %@ 像素	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ 上次意外結束	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ 發生錯誤，但仍在執行。您可以檢查此問題是否已被回報，或使用以下詳細資料回報問題。	claude-sonnet-5-5 2026-10-18

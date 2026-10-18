@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ n’est pas en cours d’exécution et n’a pas pu être démarré.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ ne peut pas utiliser le microphone	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ peut enregistrer l’écran et peut donc prendre des captures d’écran.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ entrées du journal sur %@ contiennent « %@ »	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ correspond à %@ = %@ pixels	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ a quitté de façon inattendue la dernière fois	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ a rencontré une erreur, mais il est toujours en cours d’exécution. Vous pouvez vérifier si le problème a déjà été signalé ou le signaler avec les détails ci-dessous.	claude-sonnet-5-5 2026-10-18

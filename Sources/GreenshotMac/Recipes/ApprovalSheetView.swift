@@ -338,7 +338,8 @@ struct ApprovalField: View {
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Text(label).foregroundStyle(.secondary).frame(width: 130, alignment: .leading)
+            Text(label).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                .frame(width: 130, alignment: .leading)
             Text(value)
                 .font(monospaced ? .system(.callout, design: .monospaced) : .body)
                 .lineLimit(1)

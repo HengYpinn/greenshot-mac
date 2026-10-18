@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ không chạy và không thể khởi động.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ không được dùng micrô	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ có thể ghi màn hình, nên có thể chụp ảnh màn hình.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ trên %@ mục nhật ký chứa “%@”	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ trỏ tới %@ = %@ điểm ảnh	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ đã thoát đột ngột lần trước	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ gặp lỗi nhưng vẫn đang chạy. Bạn có thể kiểm tra xem sự cố đã được báo cáo chưa, hoặc báo cáo kèm chi tiết bên dưới.	claude-sonnet-5-5 2026-10-18

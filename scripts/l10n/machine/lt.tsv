@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ neveikia ir jos nepavyko paleisti.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ negali naudoti mikrofono	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ gali įrašyti ekraną, todėl gali daryti ekrano nuotraukas.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ iš %@ žurnalo įrašų turi „%@“	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ rodo į %@ = %@ pikselių	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ netikėtai užsidarė paskutinį kartą	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ susidūrė su klaida, bet vis dar veikia. Galite patikrinti, ar apie problemą jau pranešta, arba pranešti apie ją su toliau pateikta informacija.	claude-sonnet-5-5 2026-10-18

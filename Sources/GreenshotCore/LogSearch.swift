@@ -68,7 +68,8 @@ public enum LogSearch {
 
     /// The text of the entries counted for "N of M log entries contain ..." (upstream `logviewer_search_matches`).
     public static func matchesText(_ result: Result, search: String) -> String {
-        "\(LogSanitizer.groupedNumber(result.matchCount)) of \(LogSanitizer.groupedNumber(result.entryCount)) log entries contain \u{201C}\(search)\u{201D}"
+        String(localized: "\(LogSanitizer.groupedNumber(result.matchCount)) of \(LogSanitizer.groupedNumber(result.entryCount)) log entries contain \u{201C}\(search)\u{201D}",
+               comment: "Log viewer: matching entries of all entries, and the search text")
     }
 
     /// True when the line at `index` starts with a date like 2026-10-16.

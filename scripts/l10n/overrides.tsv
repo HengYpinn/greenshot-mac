@@ -112,6 +112,7 @@ Copied to the clipboard	map	core:Editor.storedtoclipboard	Image stored to clipbo
 Auto crop is not possible	map	core:Editor.autocrop_not_possible	
 Crop modes	map	core:Editor.crop_mode	Crop mode
 Load the previous 64 KB of the log	map	core:SelfService.logviewer_tooltip_load_earlier	
+%@ of %@ log entries contain “%@”	map	core:SelfService.logviewer_search_matches	the Mac quotes typographically
 recipeManager.filter.custom	reject		the manager's filter for recipes from files, not a custom page size or memory profile
 video.preset.custom	reject		a custom video preset; upstream's Custom keys are a page size and a memory profile
 office.slideLayout.custom	reject		a custom slide layout; upstream's Custom keys are a page size and a memory profile

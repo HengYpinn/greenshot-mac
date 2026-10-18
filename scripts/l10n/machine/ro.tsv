@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ nu rulează și nu a putut fi pornit.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ nu are voie să folosească microfonul	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ poate înregistra ecranul, deci poate face capturi de ecran.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ din %@ intrări de jurnal conțin „%@”	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ corespunde la %@ = %@ pixeli	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ s-a închis neașteptat ultima dată	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ a întâmpinat o eroare, dar încă rulează. Puteți verifica dacă problema a fost deja raportată sau o puteți raporta cu detaliile de mai jos.	claude-sonnet-5-5 2026-10-18

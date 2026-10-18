@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "Το %@ μπορεί να καταγράφει την οθόνη, ώστε να τραβά στιγμιότυπα.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ από %@ εγγραφές του αρχείου καταγραφής περιέχουν «%@»";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "Το %@ δείχνει στο %@ = %@ εικονοστοιχεία";
 
 /* machine */

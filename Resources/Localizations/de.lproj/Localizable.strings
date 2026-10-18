@@ -231,6 +231,9 @@
 /* machine */
 "%@ may record the screen, so it can take screenshots." = "%@ darf den Bildschirm aufzeichnen und somit Screenshots aufnehmen.";
 
+/* core:SelfService.logviewer_search_matches, override */
+"%@ of %@ log entries contain “%@”" = "%1$@ von %2$@ Protokolleinträgen enthalten \"%3$@\"";
+
 /* machine */
 "%@ points at %@ = %@ pixels" = "%@ entspricht %@ = %@ Pixel";
 

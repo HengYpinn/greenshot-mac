@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ ekranı kaydedebilir, dolayısıyla ekran görüntüsü alabilir.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ / %@ günlük kaydı “%@” içeriyor";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ nokta, %@ ölçekte = %@ piksel";
 
 /* machine */

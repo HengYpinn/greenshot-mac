@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ tohib ekraani salvestada, seega saab teha kuvatõmmiseid.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ / %@ logikirjest sisaldavad „%@“";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ punkti %@ juures = %@ pikslit";
 
 /* machine */

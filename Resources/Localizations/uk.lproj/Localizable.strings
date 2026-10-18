@@ -235,6 +235,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ може записувати екран, тому може робити знімки екрана.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ з %@ записів журналу містять «%@»";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ вказує на %@ = %@ пікселів";
 
 /* machine */

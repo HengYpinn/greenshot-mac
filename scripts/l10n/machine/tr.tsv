@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ çalışmıyor ve başlatılamadı.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ mikrofonu kullanamaz	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ ekranı kaydedebilir, dolayısıyla ekran görüntüsü alabilir.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ / %@ günlük kaydı “%@” içeriyor	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ nokta, %@ ölçekte = %@ piksel	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ en son beklenmedik şekilde kapandı	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ bir hatayla karşılaştı ama çalışmaya devam ediyor. Sorunun daha önce bildirilip bildirilmediğini kontrol edebilir veya aşağıdaki ayrıntılarla bildirebilirsiniz.	claude-sonnet-5-5 2026-10-18

@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ は画面を収録できるため、スクリーンショットを撮影できます。";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%2$@ 件中 %1$@ 件のログエントリに「%3$@」が含まれています";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ は %@ = %@ ピクセルです";
 
 /* machine */

@@ -235,6 +235,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ ممکن است صفحه را ضبط کند، بنابراین می‌تواند تصویر صفحه بگیرد.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ از %@ مورد گزارش شامل «%@» هستند";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ برابر است با %@ = %@ پیکسل";
 
 /* machine */

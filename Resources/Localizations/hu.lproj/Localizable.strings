@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ rögzítheti a képernyőt, így képernyőképeket készíthet.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ / %@ naplóbejegyzés tartalmazza: „%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ erre mutat: %@ = %@ képpont";
 
 /* machine */

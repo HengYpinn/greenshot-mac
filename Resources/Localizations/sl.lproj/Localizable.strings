@@ -229,6 +229,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ lahko snema zaslon, zato lahko ustvarja posnetke zaslona.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ od %@ vnosov dnevnika vsebuje »%@«";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ ustreza %@ = %@ pikslov";
 
 /* machine */

@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ 可能會錄製螢幕，因此可以擷取螢幕截圖。";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%2$@ 筆日誌項目中有 %1$@ 筆包含「%3$@」";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ 對應 %@ = %@ 像素";
 
 /* machine */

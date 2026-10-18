@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ có thể ghi màn hình, nên có thể chụp ảnh màn hình.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ trên %@ mục nhật ký chứa “%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ trỏ tới %@ = %@ điểm ảnh";
 
 /* machine */

@@ -229,6 +229,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ voi tallentaa näytön, joten se voi ottaa kuvakaappauksia.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ / %@ lokimerkinnästä sisältää ”%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ osoittaa kohtaan %@ = %@ pikseliä";
 
 /* machine */

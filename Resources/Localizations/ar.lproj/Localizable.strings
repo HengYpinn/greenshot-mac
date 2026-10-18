@@ -235,6 +235,9 @@
 "%@ may record the screen, so it can take screenshots." = "يمكن لـ %@ تسجيل الشاشة، لذا يمكنه التقاط اللقطات.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ من %@ من إدخالات السجل تحتوي على «%@»";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "يشير %@ إلى %@ = %@ بكسل";
 
 /* machine */

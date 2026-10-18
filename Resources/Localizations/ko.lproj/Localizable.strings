@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@에서 화면을 녹화할 수 있으므로 스크린샷을 찍을 수 있습니다.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "로그 항목 %2$@개 중 %1$@개에 “%3$@”이(가) 포함되어 있습니다";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@은(는) %@ = %@픽셀을 가리킵니다";
 
 /* machine */

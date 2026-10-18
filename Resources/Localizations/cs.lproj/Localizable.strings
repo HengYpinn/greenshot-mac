@@ -235,6 +235,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ smí nahrávat obrazovku, takže může pořizovat snímky obrazovky.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ z %@ záznamů protokolu obsahuje „%@“";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ odpovídá %@ = %@ pixelům";
 
 /* machine */

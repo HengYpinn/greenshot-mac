@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ läffd ned und konnd ned gschdardd wern.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ däffd des Mikrofon ned bnudzn	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ däffd den Bildschirm aufnehma, also a Sgrienschods machn.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ vo %@ Brodogoll-Eindräch enthalda „%@“	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ entsbrichd %@ = %@ Bixl	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ is beim ledzdn Mol abgschdürzd	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ hod an Fehler ghabd, läffd aber no. Du kannsd nachschaua, ob des Problem scho gmeldd worn is, oder es mid den Einzelheidn do undn melden.	claude-sonnet-5-5 2026-10-18

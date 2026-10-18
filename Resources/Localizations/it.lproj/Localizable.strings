@@ -226,6 +226,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ può registrare lo schermo, quindi può catturare schermate.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ voci del registro su %@ contengono «%@»";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ corrisponde a %@ = %@ pixel";
 
 /* machine */

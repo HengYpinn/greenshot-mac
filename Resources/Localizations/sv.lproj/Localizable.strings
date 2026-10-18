@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ kan spela in skärmen och därmed ta skärmdumpar.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ av %@ loggposter innehåller ”%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ pekar på %@ = %@ pixlar";
 
 /* machine */

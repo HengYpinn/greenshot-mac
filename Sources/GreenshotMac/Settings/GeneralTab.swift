@@ -74,6 +74,7 @@ struct GeneralSettings: View {
                     Text("The menu bar icon hidden? Quit from here.").font(.caption).foregroundStyle(.secondary)
                     Spacer()
                     Button("Quit \(AppInfo.name)") { NSApp.terminate(nil) }
+                        .fixedSize()
                 }
             }
         }

@@ -226,6 +226,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ mag het scherm opnemen en kan dus schermafbeeldingen maken.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ van %@ logvermeldingen bevatten “%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ komt overeen met %@ = %@ pixels";
 
 /* machine */

@@ -229,6 +229,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ yezmer ad yeɣmes ugdil, ihi yezmer ad iṭṭef tuṭṭfiwin n ugdil.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ seg %@ n yinekcamen n uɣmis gebrent “%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ yettuεawad ɣer %@ = %@ ipiksilen";
 
 /* machine */

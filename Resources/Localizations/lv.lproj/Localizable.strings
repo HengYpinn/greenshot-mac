@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ drīkst ierakstīt ekrānu, tāpēc var uzņemt ekrānattēlus.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ no %@ žurnāla ierakstiem satur “%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ atbilst %@ = %@ pikseļiem";
 
 /* machine */

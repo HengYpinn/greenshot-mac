@@ -229,6 +229,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ må optage skærmen, så det kan tage skærmklip.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ af %@ logposter indeholder “%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ svarer til %@ = %@ pixel";
 
 /* machine */

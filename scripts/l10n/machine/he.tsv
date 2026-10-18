@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ אינו פועל ולא ניתן היה להפעיל אותו.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ אינו רשאי להשתמש במיקרופון	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ יכול להקליט את המסך, ולכן יכול לצלם מסך.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ מתוך %@ רשומות יומן מכילות “%@”	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ מצביע על %@ = %@ פיקסלים	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ נסגר באופן בלתי צפוי בפעם הקודמת	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ נתקל בשגיאה, אך עדיין פועל. ניתן לבדוק אם הבעיה כבר דווחה, או לדווח עליה עם הפרטים שלהלן.	claude-sonnet-5-5 2026-10-18

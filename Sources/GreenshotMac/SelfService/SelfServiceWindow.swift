@@ -81,10 +81,18 @@ final class SelfServiceModel: ObservableObject {
 struct SelfServiceView: View {
     @ObservedObject var model: SelfServiceModel
 
+    /// 220 pt in English; wider (up to 300 pt) when a section's name needs more in a longer language, so none is cut.
+    static var sidebarWidth: CGFloat {
+        let font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+        let widest = SelfServiceSection.allCases.map { ($0.title as NSString).size(withAttributes: [.font: font]).width }.max() ?? 0
+        // The symbol, the problem badge, the spacing and the paddings around a name.
+        return min(300, max(220, ceil(widest + 104)))
+    }
+
     var body: some View {
         HStack(spacing: 0) {
             SelfServiceSidebar(model: model, setup: model.setup, hotkeys: model.hotkeys, integrity: model.integrity)
-                .frame(width: 220)
+                .frame(width: Self.sidebarWidth)
             Divider()
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top) {

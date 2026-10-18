@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ ur iteddu ara u ur yezmir ara ad yettwasenker.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	%@ yezmer ur yesseqdac ara asawaḍ	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	%@ yezmer ad yeɣmes ugdil, ihi yezmer ad iṭṭef tuṭṭfiwin n ugdil.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ seg %@ n yinekcamen n uɣmis gebrent “%@”	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	%@ yettuεawad ɣer %@ = %@ ipiksilen	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	%@ yeffeɣ-d s ttexliṭ tikelt taneggarut	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ yemḍel-d s tuccḍa, maca mazal iteddu. Tzemreḍ ad tesneqdeḍ ma yella wugur yettwanba yakan, neɣ ad t-tbeṛṛḥeḍ s telqayt ddaw.	claude-sonnet-5-5 2026-10-18

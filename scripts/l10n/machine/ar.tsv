@@ -88,6 +88,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ isn't running and could not be started.	%@ غير قيد التشغيل وتعذّر تشغيله.	claude-sonnet-5-5 2026-10-18
 %@ may not use the microphone	قد لا يُسمح لـ %@ باستخدام الميكروفون	claude-sonnet-5-5 2026-10-18
 %@ may record the screen, so it can take screenshots.	يمكن لـ %@ تسجيل الشاشة، لذا يمكنه التقاط اللقطات.	claude-sonnet-5-5 2026-10-18
+%@ of %@ log entries contain “%@”	%@ من %@ من إدخالات السجل تحتوي على «%@»	claude-opus-5-5 2026-10-18
 %@ points at %@ = %@ pixels	يشير %@ إلى %@ = %@ بكسل	claude-sonnet-5-5 2026-10-18
 %@ quit unexpectedly the last time	أُغلق %@ بشكل غير متوقع في آخر مرة	claude-sonnet-5-5 2026-10-18
 %@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	واجه %@ خطأً لكنه لا يزال قيد التشغيل. يمكنك التحقق مما إذا كانت المشكلة قد أُبلغ عنها بالفعل، أو الإبلاغ عنها مع التفاصيل أدناه.	claude-sonnet-5-5 2026-10-18

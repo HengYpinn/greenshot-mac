@@ -229,6 +229,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ boleh merekam layar, sehingga dapat mengambil tangkapan layar.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ dari %@ entri log berisi “%@”";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ menunjuk ke %@ = %@ piksel";
 
 /* machine */

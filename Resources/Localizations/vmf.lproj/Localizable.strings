@@ -232,6 +232,9 @@
 "%@ may record the screen, so it can take screenshots." = "%@ däffd den Bildschirm aufnehma, also a Sgrienschods machn.";
 
 /* machine */
+"%@ of %@ log entries contain “%@”" = "%@ vo %@ Brodogoll-Eindräch enthalda „%@“";
+
+/* machine */
 "%@ points at %@ = %@ pixels" = "%@ entsbrichd %@ = %@ Bixl";
 
 /* machine */
