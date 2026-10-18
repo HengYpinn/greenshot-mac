@@ -11,9 +11,11 @@ import Foundation
 /// that is new or changed since the last reading counts as that event. A key in such a title is seen now: a new key goes
 /// to the front of the list, a known one moves there (upstream `SeenAt`). At most `maxEntries` keys, the oldest go.
 ///
-/// Only keys stay, never the titles of windows that are gone; nothing is saved. Upstream keeps only keys of projects
-/// its Jira knows; here the server is asked when the list is shown, and a key it doesn't know (`UTF-8` in a title)
-/// is `forget`-ten.
+/// Only keys stay, never the titles of windows that are gone; nothing is saved. Like upstream, only keys of projects the
+/// configured Jira has count (`projects`, upstream `_projectJiraClientMap`), so no fragment of another title ("UTF-8",
+/// "CVE-2026-1234", another company's Jira) is ever looked up on it. Upstream reads the projects when it signs in; the
+/// Mac when the picker or the upload window first needs them (no Keychain or network in the background): keys seen
+/// before stay in memory unchecked and go once the projects are known. A key the server doesn't know is `forget`-ten.
 public struct JiraRecentIssues: Equatable, Sendable {
     /// Upstream `JiraMonitor(int maxEntries = 40)`.
     public static let maxEntries = 40
@@ -24,6 +26,8 @@ public struct JiraRecentIssues: Equatable, Sendable {
     private var titles: [UInt32: String] = [:]
     /// Keys the server doesn't know: never offered again.
     private var rejected: Set<String> = []
+    /// The project keys of the configured Jira, upper case; nil until they are known.
+    public private(set) var projects: Set<String>?
 
     public init() {}
 
@@ -41,7 +45,7 @@ public struct JiraRecentIssues: Equatable, Sendable {
         titles = current
         guard !changed.isEmpty else { return [] }
         var added: [String] = []
-        for key in JiraClient.issueKeys(inTitles: changed, limit: Self.maxEntries) where !rejected.contains(key) {
+        for key in JiraClient.issueKeys(inTitles: changed, limit: Self.maxEntries) where isAllowed(key) {
             if seenAt[key] == nil { added.append(key) }
             seenAt[key] = now
         }
@@ -55,16 +59,37 @@ public struct JiraRecentIssues: Equatable, Sendable {
         rejected.insert(key)
     }
 
+    /// The project keys of the configured Jira (nil: not known, e.g. another Jira was set up): keys of other projects
+    /// go now and aren't taken any more.
+    public mutating func setProjects(_ keys: Set<String>?) {
+        projects = keys.map { Set($0.map { $0.uppercased() }) }
+        for key in Array(seenAt.keys) where !isAllowed(key) { seenAt[key] = nil }
+    }
+
+    /// Whether `key` may be offered and looked up: not rejected, and of one of the `projects` once they are known.
+    public func isAllowed(_ key: String) -> Bool {
+        guard !rejected.contains(key) else { return false }
+        guard let projects else { return true }
+        return Self.belongs(key, to: projects)
+    }
+
+    /// Whether the project of `key` ("ABC" of "ABC-123") is one of `projects` (upper case).
+    public static func belongs(_ key: String, to projects: Set<String>) -> Bool {
+        guard let dash = key.lastIndex(of: "-") else { return false }
+        return projects.contains(String(key[..<dash]).uppercased())
+    }
+
     /// The keys, the one seen last first.
     public var keys: [String] {
         seenAt.sorted { $0.value != $1.value ? $0.value > $1.value : $0.key < $1.key }.map(\.key)
     }
 
     /// The keys for the destination picker and the upload window: these first, then `onScreen` (the titles on screen
-    /// right now), then `uploadedTo` (the issues uploaded to last), each once, at most `limit`, without rejected keys.
+    /// right now), then `uploadedTo` (the issues uploaded to last), each once, at most `limit`, only allowed ones
+    /// (`isAllowed`).
     public func merged(onScreen: [String], uploadedTo: [String], limit: Int = maxEntries) -> [String] {
         var result: [String] = []
-        for key in keys + onScreen + uploadedTo where !rejected.contains(key) && !result.contains(key) {
+        for key in keys + onScreen + uploadedTo where isAllowed(key) && !result.contains(key) {
             result.append(key)
             if result.count == limit { break }
         }
@@ -82,5 +107,48 @@ public struct JiraRecentIssues: Equatable, Sendable {
     private mutating func trim() {
         guard seenAt.count > Self.maxEntries else { return }
         for key in keys.dropFirst(Self.maxEntries) { seenAt[key] = nil }
+    }
+}
+
+// MARK: The projects of a Jira
+
+extension JiraClient {
+    /// The projects the user can see (upstream `JiraMonitor.AddJiraInstanceAsync`, `Project.GetAllAsync`). Cloud:
+    /// `GET /rest/api/3/project/search`, pages of 100 (the list without pages is deprecated there); Server and Data
+    /// Center: `GET /rest/api/2/project`.
+    public func projectsRequest(startAt: Int = 0) -> URLRequest {
+        guard site.login.isCloud else { return site.request("GET", path: "rest/api/2/project") }
+        return site.request("GET", path: "rest/api/3/project/search",
+                            query: [URLQueryItem(name: "startAt", value: String(startAt)), URLQueryItem(name: "maxResults", value: "100")])
+    }
+
+    /// The project keys of a `projectsRequest` answer: a list (Server, Data Center) or a page (`values`, `isLast`,
+    /// `total`); `isLast` is true when there is no further page.
+    public static func projectKeys(fromJSON data: Data) throws -> (keys: Set<String>, isLast: Bool, count: Int) {
+        let object = try JSONSerialization.jsonObject(with: data)
+        func keys(_ list: [[String: Any]]) -> Set<String> {
+            Set(list.compactMap { ($0["key"] as? String)?.uppercased() })
+        }
+        if let list = object as? [[String: Any]] { return (keys(list), true, list.count) }
+        guard let page = object as? [String: Any], let values = page["values"] as? [[String: Any]] else {
+            throw UploadError.unexpectedResponse("no projects in Jira's answer")
+        }
+        let start = page["startAt"] as? Int ?? 0
+        let total = page["total"] as? Int
+        let isLast = page["isLast"] as? Bool ?? (values.isEmpty || total.map { start + values.count >= $0 } ?? true)
+        return (keys(values), isLast, values.count)
+    }
+
+    /// All project keys, at most `maxPages` pages.
+    public func projectKeys(maxPages: Int = 20) async throws -> Set<String> {
+        var result: Set<String> = []
+        var startAt = 0
+        for _ in 0..<maxPages {
+            let page = try Self.projectKeys(fromJSON: try await HTTPSupport.send(projectsRequest(startAt: startAt), with: http))
+            result.formUnion(page.keys)
+            guard !page.isLast, page.count > 0 else { break }
+            startAt += page.count
+        }
+        return result
     }
 }

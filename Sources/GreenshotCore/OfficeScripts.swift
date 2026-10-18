@@ -244,9 +244,10 @@ public enum OfficeScripts {
     /// The open message windows: "id, title" lines (upstream `RetrievePossibleTargets` lists the open inspectors). With
     /// `includeMeetings` (upstream `OutlookAllowExportInMeetings`) also the windows showing a meeting the user organises,
     /// as `event:<id>, title` lines: upstream lists an appointment only when its organizer is the current user
-    /// (`OutlookEmailExporter.cs:447-451`). Outlook names the organizer as text; it counts as the user's when it is empty
-    /// (a meeting not sent yet) or contains the name or address of one of Outlook's accounts. Legacy Outlook only; the
-    /// new Outlook has no AppleScript.
+    /// (`OutlookEmailExporter.cs:447-451`). Outlook names the organizer as text; it is the user's when it is empty (a
+    /// meeting not sent yet), is the address of one of Outlook's accounts or has it in angle brackets, or is exactly
+    /// an account's full name. A part of a name doesn't count ("Jo" is not "Jo Bloggs"). Window names lose their tabs
+    /// and line breaks, so a name can't add a line of its own. Legacy Outlook only; the new Outlook has no AppleScript.
     public static func outlookOpenMessages(includeMeetings: Bool = false) -> AppleScriptCall {
         AppleScriptCall(source: """
         on run argv
@@ -255,10 +256,11 @@ public enum OfficeScripts {
             tell application id "com.microsoft.Outlook"
                 repeat with aWindow in draft windows
                     try
-                        set end of answer to ((id of aWindow) as text) & tab & (name of aWindow)
+                        set end of answer to ((id of aWindow) as text) & tab & (my oneLine(name of aWindow))
                     end try
                 end repeat
                 if includeMeetings then
+                    set myAddresses to {}
                     set myNames to {}
                     set myAccounts to {}
                     try
@@ -272,10 +274,12 @@ public enum OfficeScripts {
                     end try
                     repeat with anAccount in myAccounts
                         try
-                            set end of myNames to (email address of anAccount) as text
+                            set anAddress to (email address of anAccount) as text
+                            if anAddress is not "" then set end of myAddresses to anAddress
                         end try
                         try
-                            set end of myNames to (full name of anAccount) as text
+                            set aName to (full name of anAccount) as text
+                            if aName is not "" then set end of myNames to aName
                         end try
                     end repeat
                     repeat with aWindow in windows
@@ -287,11 +291,14 @@ public enum OfficeScripts {
                                     set theOrganizer to (organizer of theItem) as text
                                 end try
                                 set isMine to (theOrganizer is "")
-                                repeat with aName in myNames
-                                    set aText to contents of aName
-                                    if aText is not "" and theOrganizer contains aText then set isMine to true
+                                repeat with anAddress in myAddresses
+                                    set theAddress to contents of anAddress
+                                    if theOrganizer is theAddress or theOrganizer contains ("<" & theAddress & ">") then set isMine to true
                                 end repeat
-                                if isMine then set end of answer to "event:" & ((id of aWindow) as text) & tab & (name of aWindow)
+                                repeat with aName in myNames
+                                    if theOrganizer is (contents of aName) then set isMine to true
+                                end repeat
+                                if isMine then set end of answer to "event:" & ((id of aWindow) as text) & tab & (my oneLine(name of aWindow))
                             end if
                         end try
                     end repeat
@@ -300,8 +307,24 @@ public enum OfficeScripts {
             set AppleScript's text item delimiters to linefeed
             return answer as text
         end run
+
+        \(oneLineHandler)
         """, arguments: [includeMeetings ? "1" : "0"], bundleID: OfficeApplication.outlook.bundleID)
     }
+
+    /// `oneLine(text)`: tabs and line breaks become spaces, so a name or subject stays one field of one answer line.
+    static let oneLineHandler = """
+    on oneLine(theValue)
+        set theText to theValue as text
+        set savedDelimiters to AppleScript's text item delimiters
+        set AppleScript's text item delimiters to {tab, linefeed, return}
+        set theParts to text items of theText
+        set AppleScript's text item delimiters to " "
+        set theText to theParts as text
+        set AppleScript's text item delimiters to savedDelimiters
+        return theText
+    end oneLine
+    """
 
     /// Attaches the picture to the message of an open window (upstream `ExportToInspector`).
     public static func outlookAttach(imagePath: String, windowID: String) -> AppleScriptCall {
@@ -379,13 +402,15 @@ public enum OfficeScripts {
             tell application id "com.apple.mail"
                 repeat with aMessage in outgoing messages
                     try
-                        set end of answer to ((id of aMessage) as text) & tab & (subject of aMessage)
+                        set end of answer to ((id of aMessage) as text) & tab & (my oneLine(subject of aMessage))
                     end try
                 end repeat
             end tell
             set AppleScript's text item delimiters to linefeed
             return answer as text
         end run
+
+        \(oneLineHandler)
         """, bundleID: OfficeApplication.mail.bundleID)
     }
 

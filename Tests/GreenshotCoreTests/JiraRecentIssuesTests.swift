@@ -97,4 +97,67 @@ struct JiraRecentIssuesTests {
         server.login = .serverToken
         #expect(JiraRecentIssues.watches(server), "a personal access token needs no user")
     }
+
+    // SL1: only keys of the Jira's projects (upstream `JiraMonitor._projectJiraClientMap`).
+
+    @Test func onlyKeysOfTheJirasProjects() {
+        var recent = JiraRecentIssues()
+        recent.observe([(id: 1, title: "SHOT-1 page"), (id: 2, title: "CVE-2026-1234 advisory"), (id: 3, title: "UTF-8")], at: at(0))
+        #expect(recent.keys.count == 3, "unchecked until the projects are known")
+        recent.setProjects(["shot", "DOC"])
+        #expect(recent.keys == ["SHOT-1"])
+        recent.observe([(id: 4, title: "OTHER-9 and DOC-2")], at: at(2))
+        #expect(recent.keys == ["DOC-2", "SHOT-1"])
+        #expect(recent.merged(onScreen: ["CVE-2026-1", "SHOT-5"], uploadedTo: ["OLD-3", "DOC-1"]) == ["DOC-2", "SHOT-1", "SHOT-5", "DOC-1"])
+        #expect(recent.isAllowed("SHOT-77"))
+        #expect(!recent.isAllowed("CVE-2026-1234"))
+        recent.setProjects(nil)
+        #expect(recent.isAllowed("CVE-2026-1234"), "another account: unchecked again until read")
+    }
+
+    @Test func projectOfAKey() {
+        #expect(JiraRecentIssues.belongs("ABC-12", to: ["ABC"]))
+        #expect(JiraRecentIssues.belongs("abc-12", to: ["ABC"]))
+        #expect(!JiraRecentIssues.belongs("ABCD-12", to: ["ABC"]))
+        #expect(!JiraRecentIssues.belongs("ABC", to: ["ABC"]))
+    }
+
+    @Test func projectsRequestPerKindOfSite() throws {
+        let cloud = JiraClient(site: AtlassianSite(url: "https://x.atlassian.net", email: "me@x.test", apiToken: "t")!,
+                               http: StubHTTPClient(body: "[]"))
+        let page = try #require(cloud.projectsRequest(startAt: 100).url?.absoluteString)
+        #expect(page.hasPrefix("https://x.atlassian.net/rest/api/3/project/search?"))
+        #expect(page.contains("startAt=100"))
+        #expect(page.contains("maxResults=100"))
+        let server = JiraClient(site: AtlassianSite(url: "https://jira.x.test", login: .serverToken, user: "", secret: "t")!,
+                                http: StubHTTPClient(body: "[]"))
+        let list = try #require(server.projectsRequest().url?.absoluteString)
+        #expect(list == "https://jira.x.test/rest/api/2/project")
+    }
+
+    @Test func projectAnswersParse() throws {
+        let list = try JiraClient.projectKeys(fromJSON: Data(#"[{"key":"ABC","name":"A"},{"key":"doc"}]"#.utf8))
+        #expect(list.keys == ["ABC", "DOC"])
+        #expect(list.isLast)
+        let first = try JiraClient.projectKeys(fromJSON: Data(#"{"startAt":0,"total":3,"isLast":false,"values":[{"key":"A"},{"key":"B"}]}"#.utf8))
+        #expect(first.keys == ["A", "B"])
+        #expect(!first.isLast)
+        let noFlag = try JiraClient.projectKeys(fromJSON: Data(#"{"startAt":2,"total":3,"values":[{"key":"C"}]}"#.utf8))
+        #expect(noFlag.isLast)
+        #expect(throws: (any Error).self) { try JiraClient.projectKeys(fromJSON: Data(#"{"errorMessages":["no"]}"#.utf8)) }
+    }
+
+    @Test func allProjectPagesAreRead() async throws {
+        let http = StubHTTPClient([
+            .init(status: 200, body: #"{"startAt":0,"total":3,"isLast":false,"values":[{"key":"A"},{"key":"B"}]}"#),
+            .init(status: 200, body: #"{"startAt":2,"total":3,"isLast":true,"values":[{"key":"C"}]}"#),
+        ])
+        let client = JiraClient(site: AtlassianSite(url: "https://x.atlassian.net", email: "me@x.test", apiToken: "t")!, http: http)
+        let keys = try await client.projectKeys()
+        #expect(keys == ["A", "B", "C"])
+        #expect(http.requests.count == 2)
+        let second = try #require(http.requests.last?.url?.absoluteString)
+        #expect(second.contains("startAt=2"))
+    }
 }
+

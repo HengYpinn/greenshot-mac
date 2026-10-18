@@ -148,22 +148,26 @@ enum ExternalCommandRunner {
         return folders.map { ($0 as NSString).appendingPathComponent(file) }.first { FileManager.default.fileExists(atPath: $0) }
     }
 
-    /// What a command wrote, in the log (upstream `ExternalCommandDestination.RunCommandAsync`): its errors always, as a
-    /// warning; its output only when "Write the output to the log" is on (upstream `ShowStandardOutputInLog`). The log
-    /// makes the text harmless (`LogSanitizer`) and limits its length; nothing else of the command is logged.
-    nonisolated static func logOutput(of name: String, output: String, errors: String, showOutput: Bool) {
-        let shownOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
-        if showOutput, !shownOutput.isEmpty { log.info("\(name) wrote:\n\(shownOutput)") }
-        let shownErrors = errors.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !shownErrors.isEmpty { log.warn("\(name) wrote errors:\n\(shownErrors)") }
+    /// What a command wrote, in the log (upstream `ExternalCommandDestination.RunCommandAsync`, stricter: see
+    /// `ExternalCommandLog`): the output with "Write the output to the log" (upstream `ShowStandardOutputInLog`), the
+    /// errors then or when it failed (`status` nil: not known), each cut short and with credential-looking values
+    /// replaced. Nothing else of the command is logged.
+    nonisolated static func logOutput(of name: String, output: String, errors: String, status: Int32?, showOutput: Bool) {
+        for entry in ExternalCommandLog.entries(name: name, output: output, errors: errors, status: status, showOutput: showOutput) {
+            switch entry.level {
+            case .info: log.info(entry.message)
+            case .warning: log.warn(entry.message)
+            }
+        }
     }
 
     private static func finish(_ command: ExternalCommand, status: Int32, output: String, errors: String, file: URL,
                                saver: ImageSaver) -> ExportResult {
-        logOutput(of: command.name, output: output, errors: errors, showOutput: command.showOutputInLog)
+        logOutput(of: command.name, output: output, errors: errors, status: status, showOutput: command.showOutputInLog)
         let trimmedErrors = errors.trimmingCharacters(in: .whitespacesAndNewlines)
         guard status == 0 else {
-            let detail = trimmedErrors.isEmpty ? String(localized: "It ended with exit code \(status).") : String(trimmedErrors.prefix(600))
+            // The failure is shown and goes into the export's result: without credential-looking values (SL2).
+            let detail = trimmedErrors.isEmpty ? String(localized: "It ended with exit code \(status).") : ExternalCommandLog.shown(trimmedErrors)
             let failed = String(localized: "\(command.name) failed")
             if command.runInBackground && status != notFoundStatus {
                 saver.notify(failed, detail: detail, kind: .error)

@@ -169,10 +169,12 @@ extension OutputManager {
 
     /// The Jira issues for the picker (upstream `JiraDestination.GetDynamicDestinationsAsync` with `JiraMonitor`):
     /// the issues seen in window titles (`JiraTitleMonitor`, newest first), the keys in the titles on screen now, then
-    /// the issues uploaded to last; their summaries are filled in when the server answers, and keys it doesn't know go
-    /// again.
+    /// the issues uploaded to last. Like upstream, a key is looked up only when its project is one of the Jira's (read
+    /// once per site, `JiraTitleMonitor.projects(for:)`): other keys go from the menu without a request. The summaries
+    /// are filled in when the server answers, and keys it doesn't know go again.
     private func jiraIssueItems(_ item: (String, DestinationTarget, String?, DestinationShortcut?) -> NSMenuItem) -> [NSMenuItem] {
         let s = settings.value
+        JiraSummaries.use(site: s.jira.url)
         let onScreen = JiraClient.issueKeys(inTitles: ScreenCapturer.onScreenWindows().map(\.title))
         let keys = JiraTitleMonitor.shared.keys(onScreen: onScreen, uploadedTo: s.jira.recentIssueKeys)
             .filter { !JiraSummaries.unknown.contains($0) }
@@ -184,7 +186,7 @@ extension OutputManager {
         let hasUser = s.jira.login == .serverToken || !s.jira.email.trimmingCharacters(in: .whitespaces).isEmpty
         guard !items.isEmpty, hasUser, let site = Uploads.jiraSite(s), site.hasCredentials else { return items }
         let client = JiraClient(site: site, http: Uploads.http)
-        for (key, entry) in zip(keys, items) where JiraSummaries.known[key] == nil {
+        func lookUp(_ key: String, _ entry: NSMenuItem) {
             Task { @MainActor [weak entry] in
                 do {
                     let issue = try await client.issue(key)
@@ -198,6 +200,18 @@ extension OutputManager {
                 } catch {
                     // Offline or not allowed: keep the key.
                 }
+            }
+        }
+        let entries = Array(zip(keys, items))
+        Task { @MainActor in
+            // No request for a key of no project of this Jira (SL1); without the projects, none at all.
+            let projects = await JiraTitleMonitor.shared.projects(for: client)
+            for (key, entry) in entries where JiraSummaries.known[key] == nil {
+                guard let projects, JiraRecentIssues.belongs(key, to: projects) else {
+                    if projects != nil, let menu = entry.menu { menu.removeItem(entry) }
+                    continue
+                }
+                lookUp(key, entry)
             }
         }
         return items
@@ -257,4 +271,15 @@ private enum JiraSummaries {
     static var known: [String: String] = [:]
     /// Keys the server doesn't know (text in a title that only looks like a key).
     static var unknown: Set<String> = []
+    /// The Jira they belong to.
+    private static var site: String?
+
+    /// Forgets what another Jira said (the same key may be another issue there).
+    static func use(site url: String) {
+        let url = url.trimmingCharacters(in: .whitespaces)
+        guard url != site else { return }
+        site = url
+        known = [:]
+        unknown = []
+    }
 }
