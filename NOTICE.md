@@ -21,7 +21,8 @@ This program is an unofficial macOS port of, and a derivative work of, **Greensh
 > later version.
 
 The port was written in Swift from Greenshot's source code and documentation (upstream commit `207c5c1`,
-October 2026); the feature parity work (docs/feature-parity.md) follows upstream commit `0aedcf04`. Files that follow upstream behaviour closely say so in their header and name the upstream file.
+October 2026); the feature parity work (docs/feature-parity.md) follows upstream commit `0aedcf04`. Files that follow
+upstream behaviour closely say so in their header and name the upstream file.
 
 Greenshot for Mac (Community) is not affiliated with or endorsed by the Greenshot team, and is unrelated to the
 "Greenshot" app the Greenshot team publishes in the Mac App Store.
