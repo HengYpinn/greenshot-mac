@@ -67,3 +67,49 @@ struct RecentColorsTests {
         #expect(loaded.recentColors == [.yellow])
     }
 }
+
+/// Colours of wells that may still change count once their well kept them for a moment, each well on its own.
+struct RecentColorPicksTests {
+    final class Well {}
+
+    @Test func aColorCountsOnceItsWellKeptItForAMoment() {
+        let well = Well()
+        var picks = RecentColorPicks()
+        picks.pick(.red, from: ObjectIdentifier(well), at: 10)
+        #expect(picks.settled(at: 10.5, after: 1).isEmpty)
+        #expect(picks.settled(at: 11, after: 1) == [.red])
+        #expect(picks.isEmpty)
+    }
+
+    @Test func aNewerPickInTheSameWellReplacesTheOlder() {
+        let well = Well()
+        var picks = RecentColorPicks()
+        picks.pick(.red, from: ObjectIdentifier(well), at: 10)
+        picks.pick(.blue, from: ObjectIdentifier(well), at: 10.6)
+        #expect(picks.settled(at: 11, after: 1).isEmpty)
+        #expect(picks.settled(at: 11.6, after: 1) == [.blue])
+    }
+
+    @Test func aPickInAnotherWellDoesNotDropTheFirst() {
+        let line = Well()
+        let fill = Well()
+        var picks = RecentColorPicks()
+        picks.pick(.red, from: ObjectIdentifier(line), at: 10)
+        picks.pick(.blue, from: ObjectIdentifier(fill), at: 10.4)
+        #expect(picks.settled(at: 11, after: 1) == [.red])
+        #expect(picks.settled(at: 11.4, after: 1) == [.blue])
+    }
+
+    @Test func settledColorsComeOldestFirst() {
+        let line = Well()
+        let fill = Well()
+        var picks = RecentColorPicks()
+        picks.pick(.yellow, from: ObjectIdentifier(fill), at: 10.2)
+        picks.pick(.red, from: ObjectIdentifier(line), at: 10)
+        // Remembered in this order, the newest (yellow) ends up first in the recent colours.
+        let settled = picks.settled(at: 20, after: 1)
+        #expect(settled == [.red, .yellow])
+        let recent = settled.reduce([RGBAColor]()) { RecentColors.remember($1, in: $0) }
+        #expect(recent == [.yellow, .red])
+    }
+}

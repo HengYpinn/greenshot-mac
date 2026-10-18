@@ -113,4 +113,50 @@ struct InvertedHighlightTests {
                                     on: TestImage.solid(width: 100, height: 60, .red))
         #expect(TestImage.pixel(image, 5, 5) == .red)
     }
+
+    /// Upstream draws a group where the first of its highlights on the canvas is (`DrawingBounds.IntersectsWith`), in
+    /// the style of the first highlight of the mode.
+    @Test func theGroupIsDrawnAtTheFirstHighlightOnTheCanvas() throws {
+        let red = RGBAColor(red: 1, green: 0, blue: 0)
+        let image = try Self.render([Self.highlight(.area, 500, 500, 20, 20, brightness: 0.5, blur: 0),
+                                     Self.filled(red, 40, 40),
+                                     Self.highlight(.area, 10, 10, 20, 20, brightness: 0.9, blur: 0)])
+        // The red box comes before the highlight on the canvas: it is darkened, by the first highlight's 0.5.
+        #expect(TestImage.pixel(image, 45, 45).isClose(to: RGBA(r: 127, g: 0, b: 0, a: 255), tolerance: 3))
+        #expect(TestImage.pixel(image, 20, 20) == Self.gray)
+    }
+
+    /// The changed canvas is kept between draws; what lies below the highlights changing must show.
+    @Test func aChangeBelowTheHighlightsIsNotTakenFromTheLastDraw() throws {
+        let colors = [RGBAColor(red: 1, green: 0, blue: 0), RGBAColor(red: 0, green: 0, blue: 1)]
+        let grayscale = Self.highlight(.grayscale, 60, 10, 20, 20)
+        var greys: [RGBA] = []
+        for color in colors {
+            let box = Self.filled(color, 10, 40)
+            let first = try Self.render([box, grayscale])
+            let again = try Self.render([box, grayscale])
+            #expect(TestImage.pixel(first, 15, 45) == TestImage.pixel(again, 15, 45))
+            greys.append(TestImage.pixel(again, 15, 45))
+        }
+        // Red and blue turn into different greys.
+        #expect(greys[0] != greys[1])
+    }
+
+    @Test func anotherImageIsNotTakenFromTheLastDraw() throws {
+        let grayscale = Self.highlight(.grayscale, 60, 10, 20, 20)
+        let red = try Self.render([grayscale], on: TestImage.solid(width: 100, height: 60, .red))
+        let blue = try Self.render([grayscale], on: TestImage.solid(width: 100, height: 60, .blue))
+        #expect(TestImage.pixel(red, 5, 5) != TestImage.pixel(blue, 5, 5))
+        #expect(TestImage.pixel(blue, 70, 20) == .blue)
+    }
+
+    @Test func movingAnElementAboveTheHighlightsKeepsTheEffect() throws {
+        let blue = RGBAColor(red: 0, green: 0, blue: 1)
+        let area = Self.highlight(.area, 10, 10, 20, 20, blur: 0)
+        let near = try Self.render([area, Self.filled(blue, 40, 40)])
+        let moved = try Self.render([area, Self.filled(blue, 70, 40)])
+        // Where the box was, the darkened image shows again; the box is drawn on top, not darkened.
+        #expect(TestImage.pixel(moved, 45, 45) == TestImage.pixel(near, 5, 50))
+        #expect(TestImage.pixel(moved, 75, 45) == .blue)
+    }
 }

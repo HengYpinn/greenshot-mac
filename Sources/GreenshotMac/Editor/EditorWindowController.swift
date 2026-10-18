@@ -698,13 +698,13 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     @objc private func lineColorChanged() {
         let color = RGBAColor(lineColorWell.color)
         applyStyle { $0.lineColor = color }
-        EditorRecentColors.shared.picked(color)
+        EditorRecentColors.shared.picked(color, from: lineColorWell)
     }
 
     @objc private func fillColorChanged() {
         let color = RGBAColor(fillColorWell.color)
         applyStyle { $0.fillColor = color }
-        EditorRecentColors.shared.picked(color)
+        EditorRecentColors.shared.picked(color, from: fillColorWell)
     }
 
     @objc private func clearLine() { applyStyle { $0.lineColor = .clear } }

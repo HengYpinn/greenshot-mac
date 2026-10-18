@@ -18,15 +18,22 @@ final class EditorRecentColors {
     let list = NSColorList(name: String(localized: "Greenshot Recent"))
     private var settings: SettingsStore?
     private var attached = false
-    private var pending: Task<Void, Never>?
+    /// The settings stores whose list this palette follows (a reload or an administrator's lock changes it).
+    private var observed: Set<ObjectIdentifier> = []
+    /// Colours of wells that may still change, per well.
+    private var picks = RecentColorPicks()
 
-    /// How long a colour well's colour has to stay before it counts as picked: the well reports every colour the
-    /// mouse passes in the panel.
-    private static let settleTime: Duration = .seconds(1)
+    /// How long a colour well's colour has to stay before it counts as picked (seconds): the well reports every colour
+    /// the mouse passes in the panel.
+    private static let settleTime: TimeInterval = 1
 
-    /// Fills the palette from `settings` and adds it to the colour panel (once); colours used from now on are kept there.
+    /// Fills the palette from `settings` and adds it to the colour panel (once); colours used from now on are kept there,
+    /// and the palette follows changes of the list from elsewhere (a reload of the settings, a profile).
     func install(settings: SettingsStore) {
         self.settings = settings
+        if observed.insert(ObjectIdentifier(settings)).inserted {
+            settings.onChange(of: \.recentColors) { [weak self] _ in self?.rebuild() }
+        }
         rebuild()
         guard !attached else { return }
         attached = true
@@ -35,8 +42,6 @@ final class EditorRecentColors {
 
     /// Keeps `color` as the newest recent colour (a dialog's OK, like upstream's `ApplyColor`).
     func remember(_ color: RGBAColor) {
-        pending?.cancel()
-        pending = nil
         guard let settings else { return }
         let updated = RecentColors.remember(color, in: settings.value.recentColors)
         // An administrator may have locked the list: then the update is dropped and the palette shows the locked one.
@@ -44,14 +49,20 @@ final class EditorRecentColors {
         rebuild()
     }
 
-    /// Keeps `color` once the well it came from has stopped changing for a moment.
-    func picked(_ color: RGBAColor) {
-        pending?.cancel()
-        pending = Task { [weak self] in
-            try? await Task.sleep(for: Self.settleTime)
-            guard !Task.isCancelled else { return }
-            self?.remember(color)
+    /// Keeps `color` once `source` (a colour well) has stopped changing for a moment. Each well waits on its own, so a
+    /// pick elsewhere in the meantime doesn't drop this one.
+    func picked(_ color: RGBAColor, from source: AnyObject) {
+        picks.pick(color, from: ObjectIdentifier(source), at: ProcessInfo.processInfo.systemUptime)
+        Task { [weak self] in
+            try? await Task.sleep(for: .seconds(Self.settleTime))
+            self?.rememberSettled()
         }
+    }
+
+    private func rememberSettled() {
+        // A little early is fine: the sleep and the uptime are measured apart.
+        let settled = picks.settled(at: ProcessInfo.processInfo.systemUptime, after: Self.settleTime * 0.95)
+        for color in settled { remember(color) }
     }
 
     /// The palette from the settings, newest first.
