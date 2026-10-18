@@ -34,21 +34,25 @@ enum Printing {
             date = date ?? editor.editorDocument.captureDate
         }
         NSApp.activate()
-        var options = given ?? store.value.printing
+        // What an administrator locked wins over a recipe's options and the dialog's, like in Settings › Printer.
+        func locked(_ options: PrintSettings) -> PrintSettings {
+            RecipePrintOptions.enforcingLocks(options, policy: store.policy, settings: store.value)
+        }
+        var options = locked(given ?? store.value.printing)
         if options.promptOptions {
             if given != nil {
                 // This print's options: asked, not saved.
-                guard let asked = PrintOptionsDialog.ask(options, window: window) else {
+                guard let asked = PrintOptionsDialog.ask(options, policy: store.policy, window: window) else {
                     completion?(.declined)
                     return
                 }
-                options = asked
+                options = locked(asked)
             } else {
                 guard PrintOptionsDialog.run(settings: store, window: window) else {
                     completion?(.declined)
                     return
                 }
-                options = store.value.printing
+                options = locked(store.value.printing)
             }
         }
         var footer: String?

@@ -66,6 +66,45 @@ import Testing
         #expect(!mono.grayscale)
     }
 
+    /// An administrator's locked print options win over the recipe's (wave 4's settings copy re-applied them too).
+    @Test func lockedValuesWinOverTheRecipe() throws {
+        let policy = ManagedPolicy(source: ManagedValues(forced: ["Greenshot.printing.grayscale": true,
+                                                                  "Greenshot.printing.allowRotate": false]))
+        let settings = policy.effective(AppSettings())
+        let options = try #require(RecipePrintOptions.apply(step(["ColorMode": .string("Color"), "AllowRotate": .bool(true),
+                                                                   "Center": .bool(false)]), to: settings.printing))
+        // The recipe asked for colour and rotation; the policy keeps grayscale and no rotation.
+        #expect(!options.grayscale)
+        let printed = RecipePrintOptions.enforcingLocks(options, policy: policy, settings: settings)
+        #expect(printed.grayscale)
+        #expect(!printed.allowRotate)
+        // What isn't locked stays the recipe's.
+        #expect(!printed.center)
+        #expect(!printed.monochrome)
+    }
+
+    /// The dialog of one print can't change a locked value either.
+    @Test func lockedValuesWinOverTheDialog() {
+        let policy = ManagedPolicy(source: ManagedValues(forced: ["Greenshot.printing": ["footer": false]]))
+        let settings = policy.effective(AppSettings())
+        var asked = settings.printing
+        asked.footer = true
+        asked.inverted = true
+        let printed = RecipePrintOptions.enforcingLocks(asked, policy: policy, settings: settings)
+        #expect(!printed.footer)
+        #expect(printed.inverted)
+    }
+
+    @Test func nothingLockedKeepsTheOptions() throws {
+        let lockedElsewhere = ManagedPolicy(source: ManagedValues(forced: ["Greenshot.outputFormat": "jpg"]))
+        #expect(lockedElsewhere.isLocked("outputFormat"))
+        let options = try #require(RecipePrintOptions.apply(step(["ColorMode": .string("Monochrome")]), to: PrintSettings()))
+        let printed = RecipePrintOptions.enforcingLocks(options, policy: lockedElsewhere, settings: AppSettings())
+        #expect(printed == options)
+        let none = RecipePrintOptions.enforcingLocks(options, policy: ManagedPolicy(), settings: AppSettings())
+        #expect(none == options)
+    }
+
     @Test func footerPattern() throws {
         let options = try #require(RecipePrintOptions.apply(step(["FooterPattern": .string("${capturetime} ${title}")]),
                                                             to: PrintSettings()))
