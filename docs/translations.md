@@ -10,55 +10,55 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 - `scripts/l10n/l10n.py generate` matches them with the upstream English (`scripts/l10n/overrides.tsv` maps near matches by hand or rejects a wrong one) and writes `Resources/Localizations/<language>.lproj/Localizable.strings`, the `Upstream.strings` table for texts that are also data (`L10nText.display`) and `LanguagePacks+Generated.swift`. `scripts/l10n/update.sh` runs both steps.
 - `scripts/build-app.sh` copies the `.lproj` folders and the help pages (`Resources/Help`) into the app and lists the languages in `CFBundleLocalizations`, so macOS offers them in System Settings › General › Language & Region › Applications.
 - `scripts/l10n/l10n.py check` (CI) fails when the committed files differ from what `generate` writes.
-- New texts in the code: SwiftUI literals need nothing; AppKit and other texts use `String(localized: "…")`. Logs, data, identifiers and recipe/IPC/MCP texts stay English.
+- New texts in the code: SwiftUI literals need nothing; AppKit and other texts use `String(localized: "…")`. Logs, data, identifiers and recipe/IPC/MCP texts stay English. `scripts/l10n/scan.sh [--summary] <paths>` lists the texts of a file that aren't localizable yet.
 - Updating from upstream: `python3 -I scripts/l10n/l10n.py vendor --upstream <checkout>`, then `scripts/l10n/update.sh`, then review `python3 -I scripts/l10n/l10n.py suggest` for new near matches.
 - Trying a language in a development build: `scripts/l10n/stage-dev.sh`, then `GreenshotMac --language de-DE` (or `--snapshot <folder> --language ar-SY`).
 
 ## Coverage
 
-635 texts of the Mac are localizable; 103 of them have an upstream key (exact 78, normalised 25).
+2224 texts of the Mac are localizable; 413 of them have an upstream key (app name 10, exact 199, normalised 105, override 99); 3 rejected by overrides.tsv.
 
 | Language | Code | macOS | Translated | Share |
 |---|---|---|---:|---:|
-| العربية | ar-SY | ar | 24 | 4 % |
-| Català | ca-CA | ca | 31 | 5 % |
-| Čeština | cs-CZ | cs | 36 | 6 % |
-| Dansk | da-DK | da | 22 | 3 % |
-| Deutsch | de-DE | de | 56 | 9 % |
-| Frängisch | de-x-franconia | vmf | 31 | 5 % |
-| Ελληνικά | el-GR | el | 32 | 5 % |
-| Español | es-ES | es | 29 | 5 % |
-| Eesti | et-EE | et | 30 | 5 % |
-| پارسی | fa-IR | fa | 27 | 4 % |
-| Suomi | fi-FI | fi | 22 | 3 % |
-| Français | fr-FR | fr | 36 | 6 % |
-| Français - Québec | fr-QC | fr-CA | 28 | 4 % |
-| Hebrew - עִבְרִית | he-IL | he | 24 | 4 % |
-| Magyar | hu-HU | hu | 24 | 4 % |
-| Bahasa Indonesia | id-ID | id | 36 | 6 % |
-| Italiano | it-IT | it | 39 | 6 % |
-| 日本語 | ja-JP | ja | 39 | 6 % |
-| Taqbaylit | kab-DZ | kab | 41 | 6 % |
-| 한국어 | ko-KR | ko | 39 | 6 % |
-| Lietuvių | lt-LT | lt | 24 | 4 % |
-| Latviski | lv-LV | lv | 39 | 6 % |
-| Nederlands | nl-NL | nl | 35 | 6 % |
-| Nynorsk | nn-NO | nn | 30 | 5 % |
-| Polski | pl-PL | pl | 38 | 6 % |
-| Português do Brasil | pt-BR | pt-BR | 37 | 6 % |
-| Português de Portugal | pt-PT | pt-PT | 37 | 6 % |
-| Română | ro-RO | ro | 23 | 4 % |
-| Pусский | ru-RU | ru | 38 | 6 % |
-| Slovenčina | sk-SK | sk | 35 | 6 % |
-| Slovenščina | sl-SI | sl | 31 | 5 % |
-| Српски | sr-RS | sr | 42 | 7 % |
-| Svenska | sv-SE | sv | 37 | 6 % |
-| Turkish | tr-TR | tr | 39 | 6 % |
-| Українська | uk-UA | uk | 41 | 6 % |
-| Valencià (RACV) | va-VA | ca-ES-valencia | 31 | 5 % |
-| Việt | vi-VN | vi | 24 | 4 % |
-| 简体中文 | zh-CN | zh-Hans | 40 | 6 % |
-| 正體中文 | zh-TW | zh-Hant | 39 | 6 % |
+| العربية | ar-SY | ar | 135 | 6 % |
+| Català | ca-CA | ca | 192 | 9 % |
+| Čeština | cs-CZ | cs | 239 | 11 % |
+| Dansk | da-DK | da | 133 | 6 % |
+| Deutsch | de-DE | de | 294 | 13 % |
+| Frängisch | de-x-franconia | vmf | 176 | 8 % |
+| Ελληνικά | el-GR | el | 189 | 8 % |
+| Español | es-ES | es | 170 | 8 % |
+| Eesti | et-EE | et | 186 | 8 % |
+| پارسی | fa-IR | fa | 139 | 6 % |
+| Suomi | fi-FI | fi | 131 | 6 % |
+| Français | fr-FR | fr | 240 | 11 % |
+| Français - Québec | fr-QC | fr-CA | 166 | 7 % |
+| Hebrew - עִבְרִית | he-IL | he | 136 | 6 % |
+| Magyar | hu-HU | hu | 136 | 6 % |
+| Bahasa Indonesia | id-ID | id | 234 | 11 % |
+| Italiano | it-IT | it | 242 | 11 % |
+| 日本語 | ja-JP | ja | 243 | 11 % |
+| Taqbaylit | kab-DZ | kab | 245 | 11 % |
+| 한국어 | ko-KR | ko | 241 | 11 % |
+| Lietuvių | lt-LT | lt | 137 | 6 % |
+| Latviski | lv-LV | lv | 242 | 11 % |
+| Nederlands | nl-NL | nl | 222 | 10 % |
+| Nynorsk | nn-NO | nn | 172 | 8 % |
+| Polski | pl-PL | pl | 238 | 11 % |
+| Português do Brasil | pt-BR | pt-BR | 226 | 10 % |
+| Português de Portugal | pt-PT | pt-PT | 242 | 11 % |
+| Română | ro-RO | ro | 133 | 6 % |
+| Pусский | ru-RU | ru | 237 | 11 % |
+| Slovenčina | sk-SK | sk | 191 | 9 % |
+| Slovenščina | sl-SI | sl | 175 | 8 % |
+| Српски | sr-RS | sr | 229 | 10 % |
+| Svenska | sv-SE | sv | 243 | 11 % |
+| Turkish | tr-TR | tr | 254 | 11 % |
+| Українська | uk-UA | uk | 246 | 11 % |
+| Valencià (RACV) | va-VA | ca-ES-valencia | 199 | 9 % |
+| Việt | vi-VN | vi | 136 | 6 % |
+| 简体中文 | zh-CN | zh-Hans | 238 | 11 % |
+| 正體中文 | zh-TW | zh-Hant | 243 | 11 % |
 
 Right to left: ar-SY, fa-IR, he-IL.
 Help pages (`Resources/Help`, from upstream): de-DE, en-US, es-ES, fr-FR, hu-HU, it-IT, ko-KR, nl-NL, nn-NO, pl-PL, pt-BR, pt-PT, ru-RU, sv-SE, tr-TR, va-VA, zh-CN.
@@ -67,13 +67,44 @@ Help pages (`Resources/Help`, from upstream): de-DE, en-US, es-ES, fr-FR, hu-HU,
 
 Their translations differ; the first key in upstream's order (Core, Editor, Settings, Welcome, SelfService, Recipe, then the plug-ins) is used. Pin another one in overrides.tsv.
 
+- `About %@` — core:Core.about_title, core:Core.contextmenu_about (4 languages)
 - `Apply` — core:Core.colorpicker_apply, core:Editor.obfuscate_text_apply (9 languages)
+- `Bottom` — core:Core.contextmenu_capturefullscreen_bottom, core:Editor.align_bottom, pdf:Pdf.label_bottom (17 languages)
 - `Close` — core:Core.bugreport_cancel, core:Editor.close (3 languages)
+- `Delete` — core:Editor.deleteelement, externalcommand:ExternalCommand.settings_delete (5 languages)
 - `Edit` — core:Core.notification_button_edit, core:Editor.edit, externalcommand:ExternalCommand.settings_edit (4 languages)
 - `Edit…` — core:Core.notification_button_edit, core:Editor.edit, externalcommand:ExternalCommand.settings_edit (4 languages)
+- `Error` — core:Core.bugreport_title, core:Core.error, core:Editor.obfuscate_text_error (3 languages)
 - `Grayscale` — core:Editor.grayscale, core:Editor.highlight_grayscale (11 languages)
 - `Height` — core:Editor.resize_height, core:Settings.fixed_capture_sizes_height, pdf:Pdf.label_page_height (2 languages)
+- `Height:` — core:Editor.resize_height, core:Settings.fixed_capture_sizes_height, pdf:Pdf.label_page_height (2 languages)
 - `Image format` — core:Settings.primaryimageformat, box:Box.label_upload_format, dropbox:Dropbox.label_upload_format, externalcommand:ExternalCommand.label_outputimageformat, jira:Jira.label_upload_format (8 languages)
+- `Image format:` — core:Settings.primaryimageformat, box:Box.label_upload_format, dropbox:Dropbox.label_upload_format, externalcommand:ExternalCommand.label_outputimageformat, jira:Jira.label_upload_format (8 languages)
+- `Left` — core:Core.contextmenu_capturefullscreen_left, core:Editor.align_left, pdf:Pdf.label_left (11 languages)
+- `Name` — core:Settings.plugins_name, externalcommand:ExternalCommand.label_name (2 languages)
+- `Name:` — core:Settings.plugins_name, externalcommand:ExternalCommand.label_name (2 languages)
+- `Right` — core:Core.contextmenu_capturefullscreen_right, core:Editor.align_right, pdf:Pdf.label_right (11 languages)
 - `Search` — core:Editor.obfuscate_text_search_button, core:SelfService.logviewer_search, confluence:Confluence.search (4 languages)
+- `Search:` — core:Editor.obfuscate_text_search_button, core:SelfService.logviewer_search, confluence:Confluence.search (4 languages)
+- `There was a problem during the login: %@` — confluence:Confluence.login_error, jira:Jira.login_error (9 languages)
+- `Top` — core:Core.contextmenu_capturefullscreen_top, core:Editor.align_top, pdf:Pdf.label_top (16 languages)
 - `Width` — core:Editor.resize_width, core:Settings.fixed_capture_sizes_width, pdf:Pdf.label_page_width (1 languages)
+- `Width:` — core:Editor.resize_width, core:Settings.fixed_capture_sizes_width, pdf:Pdf.label_page_width (1 languages)
+- `bottom` — core:Core.contextmenu_capturefullscreen_bottom, core:Editor.align_bottom, pdf:Pdf.label_bottom (26 languages)
+- `left` — core:Core.contextmenu_capturefullscreen_left, core:Editor.align_left, pdf:Pdf.label_left (23 languages)
 - `name` — core:Settings.plugins_name, externalcommand:ExternalCommand.label_name (2 languages)
+- `right` — core:Core.contextmenu_capturefullscreen_right, core:Editor.align_right, pdf:Pdf.label_right (23 languages)
+- `top` — core:Core.contextmenu_capturefullscreen_top, core:Editor.align_top, pdf:Pdf.label_top (24 languages)
+
+## Rejected matches
+
+- `Custom` — all keys
+- `Custom` — all keys
+- `Custom` — all keys
+
+## Translations not used
+
+These translations exist but don't fit the Mac text; the text stays English in those languages.
+
+- `About %@` — the app name isn't written Greenshot: ar-SY, et-EE, fa-IR, fi-FI, lt-LT, sk-SK, sl-SI, sr-RS
+- `An instance of %@ is already running.` — the app name isn't written Greenshot: ar-SY, fa-IR, he-IL, ko-KR, sr-RS
