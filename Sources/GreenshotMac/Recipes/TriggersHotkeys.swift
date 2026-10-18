@@ -64,7 +64,7 @@ enum RecipeHotkeyBindings {
             (String(localized: "Capture region"), hotkeys.region), (String(localized: "Capture window"), hotkeys.window),
             (String(localized: "Capture full screen"), hotkeys.fullScreen), (String(localized: "Capture last region"), hotkeys.lastRegion),
             (String(localized: "Capture text"), hotkeys.text), (String(localized: "Start or stop recording"), hotkeys.recordVideo),
-            (String(localized: "Open clipboard"), hotkeys.clipboard)
+            (String(localized: "Open image from clipboard"), hotkeys.clipboard)
         ]
         return all.compactMap { name, combo in combo.map { (name: name, combo: $0) } }
     }

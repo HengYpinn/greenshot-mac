@@ -186,7 +186,7 @@ final class HotkeyManager {
         bind(hotkeys.lastRegion, String(localized: "Capture last region")) { [weak capture] in capture?.captureLastRegion() }
         bind(hotkeys.text, String(localized: "Capture text")) { [weak capture] in capture?.captureText() }
         bind(hotkeys.recordVideo, String(localized: "Start or stop recording")) { [weak video] in video?.hotkeyPressed() }
-        bind(hotkeys.clipboard, String(localized: "Open clipboard")) { [weak editors] in editors?.openClipboard() }
+        bind(hotkeys.clipboard, String(localized: "Open image from clipboard")) { [weak editors] in editors?.openClipboard() }
         // The Hotkey triggers of the recipes (RUI), after the app's own, which win a clash.
         for recipe in RecipeHotkeyBindings.current(excluding: combos) { bind(recipe.combo, recipe.name, recipe.action) }
         let refused = register(combos, actions: actions)
