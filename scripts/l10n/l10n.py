@@ -340,10 +340,11 @@ class Matcher:
         if self.problems:
             raise SystemExit("\n".join(self.problems))
 
-    def candidates(self, english: str) -> Tuple[List[Candidate], List[Override]]:
-        """The upstream keys of `english`, best first, and the overrides that applied."""
+    def candidates(self, english: str, key: Optional[str] = None) -> Tuple[List[Candidate], List[Override]]:
+        """The upstream keys of `english`, best first, and the overrides that applied: those of the Mac key (an
+        identifier key such as editor.color.line), else those of the English text."""
         specs = mac_specs(english)
-        overrides = self.overrides.get(english, [])
+        overrides = (self.overrides.get(key, []) if key and key != english else []) or self.overrides.get(english, [])
         forced = [o for o in overrides if o.action in ("map", "pin")]
         if forced:
             result = []
@@ -422,6 +423,14 @@ def align_punctuation(translation: str, english: str, lproj: str) -> str:
     return text
 
 
+def strip_hint(translation: str, english: str, upstream_english: str) -> str:
+    """Without upstream's trailing hint in parentheses ("Draw arrow (A)", "Fill color (0-9)", "Capture text (OCR)") when
+    the Mac text has none: the Mac's keys differ, and the menus show them anyway."""
+    if re.search(r"\s\([^()]*\)\s*$", upstream_english) and not english.rstrip().endswith(")"):
+        return re.sub(r"\s*[(\uff08][^()\uff08\uff09]*[)\uff09]\s*$", "", translation.rstrip())
+    return translation
+
+
 def align_case(translation: str, english: str) -> str:
     """A capital first letter where the Mac text starts with one (upstream's text may come from inside a sentence or a
     submenu: "alle" for the Mac's "All")."""
@@ -466,6 +475,7 @@ def convert(translation: str, key: str, english: str, candidate: Candidate, lpro
     if not text or text == candidate.english.strip():
         return None, ""  # untranslated: English, not a drop
     specs = mac_specs(english)
+    text = strip_hint(text, english, candidate.english)
     text = align_case(align_punctuation(text, english, lproj), english)
     if specs:
         text = text.replace("%", "%%")
@@ -603,7 +613,7 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
     matcher = Matcher(up, overrides)
     result = Result()
     for mac in keys:
-        candidates, applied = matcher.candidates(mac.english)
+        candidates, applied = matcher.candidates(mac.english, mac.key)
         for o in applied:
             if o.action == "reject":
                 result.rejected.append((mac.english, str(o.ref) if o.ref else "all keys"))
@@ -743,7 +753,8 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
         "& Region › Applications.",
         "- `scripts/l10n/l10n.py check` (CI) fails when the committed files differ from what `generate` writes.",
         "- New texts in the code: SwiftUI literals need nothing; AppKit and other texts use `String(localized: \"…\")`. "
-        "Logs, data, identifiers and recipe/IPC/MCP texts stay English.",
+        "Logs, data, identifiers and recipe/IPC/MCP texts stay English. `scripts/l10n/scan.sh [--summary] <paths>` lists "
+        "the texts of a file that aren't localizable yet.",
         "- Updating from upstream: `python3 -I scripts/l10n/l10n.py vendor --upstream <checkout>`, then "
         "`scripts/l10n/update.sh`, then review `python3 -I scripts/l10n/l10n.py suggest` for new near matches.",
         "- Trying a language in a development build: `scripts/l10n/stage-dev.sh`, then `GreenshotMac --language de-DE` "
@@ -975,7 +986,7 @@ def suggest() -> str:
     choices = list(normals)
     lines = ["# english\tratio\tupstream key\tupstream English"]
     for mac in keys:
-        candidates, applied = matcher.candidates(mac.english)
+        candidates, applied = matcher.candidates(mac.english, mac.key)
         if candidates or applied:
             continue
         normal = normalise_mac(mac.english)
