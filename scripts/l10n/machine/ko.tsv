@@ -1,0 +1,1968 @@
+# Machine translations of Greenshot for Mac (Community) into 한국어 (ko-KR): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	"%@"의 레시피 편집기에 저장되지 않은 변경 사항이 있습니다. 종료하기 전에 저장하시겠습니까?	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	"%@"에 저장되지 않은 변경 사항이 있습니다. 저장하시겠습니까?	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	"{0}"은(는) 이미지 파일입니다	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	파일명 패턴의 ${NUM}은(는) 파일마다 1씩 증가하며, 앞에 0을 채운 여섯 자리 숫자입니다.	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@ (빌드 %@)	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	%@ %@ 버전을 사용할 수 있습니다. 현재 버전은 %@입니다.	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@ (+ 웹 페이지)	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@ (비활성화됨)	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@ (기본 제공)	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@ (기본 제공) (비활성화됨)	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@ (레시피에서 비활성화됨)	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@ (비활성화됨)	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@ (외부 명령어)	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@ (없음)	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@ (없음, 카메라 소리가 재생됨)	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@ (설치되지 않음)	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@ (꺼짐)	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@ (꺼짐, 승인되지 않음)	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@ (알 수 없음)	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@ (웹 페이지: 승인되지 않음)	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	%@ 로그 뷰어	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mbps	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	%@ 셀프 서비스	claude-sonnet-5-5 2026-10-18
+%@ Settings	%@ 설정	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@에는 %@도 들어 있습니다. 저장하면 "%@"만 기록되므로 이 항목은 파일과 Greenshot에서 제거됩니다.	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@에는 %@도 들어 있습니다. 저장하면 "%@"만 기록되므로 이 항목들은 파일과 Greenshot에서 제거됩니다.	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ 외 %lld개	claude-sonnet-5-5 2026-10-18
+%@ app	%@ 앱	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	%@ 앱(Rosetta)	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@에서 %@에게 레시피 “%@” 실행을 요청했습니다. 이 레시피는 %@을(를) 수행합니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@에서 %@에게 레시피 “%@” 실행을 요청했습니다. 이 레시피는 화면 녹화를 수행합니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@에서 %@에게 레시피 “%@” 실행을 요청했습니다. 이 레시피는 영역의 스크린샷을 찍습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@에서 %@에게 레시피 “%@” 실행을 요청했습니다. 이 레시피는 창의 스크린샷을 찍습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@에서 %@에게 레시피 “%@” 실행을 요청했습니다. 이 레시피는 활성 창의 스크린샷을 찍습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@에서 %@에게 레시피 “%@” 실행을 요청했습니다. 이 레시피는 마지막으로 캡처한 영역의 스크린샷을 찍습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@에서 %@에게 레시피 “%@” 실행을 요청했습니다. 이 레시피는 전체 화면의 스크린샷을 찍습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@에서 %@에게 영역의 스크린샷을 찍도록 요청했습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@에서 %@에게 창의 스크린샷을 찍도록 요청했습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@에서 %@에게 마지막으로 캡처한 영역의 스크린샷을 찍도록 요청했습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@에서 %@에게 영역 안 텍스트의 스크린샷을 찍도록 요청했습니다.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@에서 %@에게 전체 화면의 스크린샷을 찍도록 요청했습니다.	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ / %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@에서 이 작업을 할 수 없습니다. 해당 버전은 AppleScript(%@)로 지원되지 않습니다.	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@에서 Greenshot으로 %@을(를) 캡처했습니다.	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	%@에 연결할 수 없습니다	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	%@을(를) Greenshot 파일로 읽을 수 없습니다.	claude-sonnet-5-5 2026-10-18
+%@ could not be started	%@을(를) 시작할 수 없습니다	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	%@을(를) %@에 쓸 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@에서 녹화를 열 수 없습니다	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@에서 스크린샷을 열 수 없습니다	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@에서 지금은 새 버전을 확인할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@에서 제때 응답하지 않았습니다.	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@이(가) 아직 로그인 시 열리지 않습니다	claude-sonnet-5-5 2026-10-18
+%@ embedded	%@ 포함됨	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@이(가) 마지막 실행 중 오류로 종료되었습니다. 문제가 이미 보고되었는지 확인하거나 아래 세부 정보와 함께 보고할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ 실패	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ 완료	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@에 문제가 있습니다. 실행하려면 %lld개를 수정해야 합니다.	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@에 레시피가 없습니다.	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ - %@	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ - %@ – 클릭하면 Finder에 표시	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@은(는) 예약된 키이므로 단축키에 사용할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@에서 새 버전을 확인하는 중…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@은(는) 자원봉사자들이 만든 무료 오픈 소스 앱입니다. 도움이 되었다면 친구들에게 알려 주세요.	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@은(는) 더 이상 Greenshot에 로드되어 있지 않습니다.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@은(는) 레시피 파일이 아닙니다. 저장하면 내용이 레시피로 바뀝니다.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@은(는) 레시피가 아닙니다.\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	%@이(가) 설치되어 있지 않습니다	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	%@이(가) 설치되어 있지 않습니다.	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@이(가) 설정되지 않았습니다	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@이(가) 설정되지 않았습니다. 설정 › 저장 방법에서 추가하세요.	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ 실행 중	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	%@은(는) 사용 중인 조직에서 꺼 두었습니다.	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@은(는) 최신 버전입니다	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@이(가) 실행 중이 아니며 시작할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@에서 마이크를 사용하지 못할 수 있습니다	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@에서 화면을 녹화할 수 있으므로 스크린샷을 찍을 수 있습니다.	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@은(는) %@ = %@픽셀을 가리킵니다	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@이(가) 지난번에 예기치 않게 종료되었습니다	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@에서 오류가 발생했지만 계속 실행 중입니다. 문제가 이미 보고되었는지 확인하거나 아래 세부 정보와 함께 보고할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@에서 문제를 보고했습니다: %@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@은(는) 스크립트를 실행합니다. 위의 스크립트만 허용되며 %@에서 실행하는 모든 스크립트가 허용되는 것은 아닙니다.	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@은(는) 로그인 시 열려야 하지만, macOS에서 로그인 항목 및 확장 프로그램에서 허용할 때까지 기다리고 있습니다.	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@에서 %@을(를) 사용하여 사용자의 창 목록을 가져오고 스크린샷을 찍고 Greenshot 레시피를 실행하려고 합니다.	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ 자르기  ⎋ 취소	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ 잘라내기  ⎋ 취소	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – 오류 보고서	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – 클릭하면 Finder에 표시	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — 레시피 관리자	claude-sonnet-5-5 2026-10-18
+%@: %@	%@: %@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@: %@ – 클릭하여 동작 보기	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@: URL을 복사했습니다	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@: 프로그램을 찾을 수 없습니다	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	요소 %lld개를 여기에 표시할 수 없습니다: %@.	claude-sonnet-5-5 2026-10-18
+%lld errors	오류 %lld개	claude-sonnet-5-5 2026-10-18
+%lld found	%lld개 찾음	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld fps	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld시간	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kbps	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld분	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	매개변수 %lld개가 다른 선택 항목에 적용됩니다.	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	캡처 %lld/%lld개	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	요소 %lld/%lld개	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	레시피 %lld개가 아직 실행 중입니다	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	레시피 %lld개를 로드할 수 없습니다	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld초	claude-sonnet-5-5 2026-10-18
+%lld spaces	공간 %lld개	claude-sonnet-5-5 2026-10-18
+%lld steps	단계 %lld개	claude-sonnet-5-5 2026-10-18
+%lld triggers off	트리거 %lld개 꺼짐	claude-sonnet-5-5 2026-10-18
+%lld warnings	경고 %lld개	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	'%@'은(는) '%@' 다음에 올 수 없습니다. 흐름이 반복됩니다.	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	'%@'은(는) 그 위치에 올 수 없습니다. 흐름이 반복됩니다.	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	'%@'은(는) 시작 단계입니다	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	'%@'은(는) 더 이상 시작 단계가 아닙니다	claude-sonnet-5-5 2026-10-18
+(%@)	(%@)	claude-sonnet-5-5 2026-10-18
+(Deactivated)	(비활성화됨)	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	(로그 파일이 비어 있음)	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	(이 구간에 로그 항목 없음)	claude-sonnet-5-5 2026-10-18
+(no stack)	(스택 없음)	claude-sonnet-5-5 2026-10-18
+(no title)	(제목 없음)	claude-sonnet-5-5 2026-10-18
+(nothing yet)	(아직 없음)	claude-sonnet-5-5 2026-10-18
+* (any step)	* (모든 단계)	claude-sonnet-5-5 2026-10-18
+* = all errors	* = 모든 오류	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ 오류 대체 경로 추가	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ 트리거 추가	claude-sonnet-5-5 2026-10-18
++ Option	+ 옵션	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open, /Applications/Preview.app 또는 PATH에 있는 이름	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = 모든 파일	claude-sonnet-5-5 2026-10-18
+0 lines	0줄	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	요소 1개를 여기에 표시할 수 없습니다: %@.	claude-sonnet-5-5 2026-10-18
+1 error	오류 1개	claude-sonnet-5-5 2026-10-18
+1 hour	1시간	claude-sonnet-5-5 2026-10-18
+1 minute	1분	claude-sonnet-5-5 2026-10-18
+1 step	단계 1개	claude-sonnet-5-5 2026-10-18
+1 trigger off	트리거 1개 꺼짐	claude-sonnet-5-5 2026-10-18
+1 warning	경고 1개	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	편집기나 설정이 열려 있는 동안 Dock 아이콘과 ⌘Tab 항목이 표시됩니다. 메뉴 막대 아이콘은 아래에서 숨기지 않는 한 항상 표시됩니다. 끄면 전체 화면 앱에서 편집기를 열 때 데스크탑으로 전환하지 않고 해당 Space에 머뭅니다.	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Windows용 Greenshot의 파일입니다. 저장하면 새 파일을 묻기 때문에 이 파일은 그대로 유지됩니다.	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	파일이 다른 레시피(기본 제공 레시피 포함)에 자동 단계를 추가하려고 합니다. 승인하기 전에 어떤 레시피가 변경되고 무엇이 추가되는지 검토하세요.	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	링크에서 스크린샷을 찍으려고 했습니다	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	새 캡처 레시피 파일이 Greenshot에 등록되기를 요청하고 있습니다. 승인하기 전에 세부 정보, 트리거, 실행 단계를 검토하세요.	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	새 캡처가 다른 창을 열지 않고, 저장되지 않은 변경 사항이 없는 편집기의 스크린샷을 대체합니다.	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	새 버전(%@)을 사용할 수 있습니다. 업그레이드하면 이 문제가 해결될 수도 있습니다.	claude-sonnet-5-5 2026-10-18
+A problem while recording	녹화 중 문제 발생	claude-sonnet-5-5 2026-10-18
+A program	프로그램	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	레시피에서 시작된 프로그램은 이 Mac에서 사용자가 할 수 있는 모든 작업을 할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	레시피를 로드할 수 없습니다	claude-sonnet-5-5 2026-10-18
+A recipe is still running	레시피가 아직 실행 중입니다	claude-sonnet-5-5 2026-10-18
+A recording is already running.	이미 녹화가 실행 중입니다.	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	영역(Space: 창)	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	이미지 뒤에 부드러운 그림자를 넣습니다.	claude-sonnet-5-5 2026-10-18
+A window	창	claude-sonnet-5-5 2026-10-18
+ACTIVE	활성	claude-sonnet-5-5 2026-10-18
+AI	AI	claude-sonnet-5-5 2026-10-18
+AI Tool Access	AI 도구 접근	claude-sonnet-5-5 2026-10-18
+AI Tools	AI 도구	claude-sonnet-5-5 2026-10-18
+AI tool	AI 도구	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	AI 도구 “%@”	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	AI 도구(Claude Code, Claude Desktop, VS Code, Cursor 등)는 %@에 포함된 greenshot-mcp를 통해 연결됩니다. 창 목록 보기, 스크린샷 찍기, 레시피 실행을 할 수 있습니다. 이 기능이 꺼져 있으면 Greenshot은 묻지 않고 모든 요청을 거부합니다. 각 프로그램은 처음 연결할 때 여전히 사용자의 허용이 필요합니다.	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	AI: AI 도구가 작성한 레시피	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	이미 승인됨	claude-sonnet-5-5 2026-10-18
+API token	API 토큰	claude-sonnet-5-5 2026-10-18
+APPROVED	승인됨	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	자동 단계	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	자동 단계	claude-sonnet-5-5 2026-10-18
+Access	접근	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	'%@'을(를) 활성화했습니다.	claude-sonnet-5-5 2026-10-18
+Active	활성	claude-sonnet-5-5 2026-10-18
+Active: %lld	활성: %lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	임시 서명(인증서 없음: 로컬 빌드)	claude-sonnet-5-5 2026-10-18
+Add	추가	claude-sonnet-5-5 2026-10-18
+Add Argument	인수 추가	claude-sonnet-5-5 2026-10-18
+Add Branch	분기 추가	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	메일에 참조 및 숨은 참조 추가	claude-sonnet-5-5 2026-10-18
+Add Choice	선택 항목 추가	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	잘라내기 표시 추가	claude-sonnet-5-5 2026-10-18
+Add Destination	저장 방법 추가	claude-sonnet-5-5 2026-10-18
+Add Emoji	이모지 추가	claude-sonnet-5-5 2026-10-18
+Add External Command	외부 명령어 추가	claude-sonnet-5-5 2026-10-18
+Add Lane	레인 추가	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	병렬 분기 추가	claude-sonnet-5-5 2026-10-18
+Add Step	단계 추가	claude-sonnet-5-5 2026-10-18
+Add Variable	변수 추가	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	단계 추가: 다른 키 뒤에 누를 키입니다(예: ⌃⌥⌘K, C의 C)	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	설정 › 저장 방법에서 추가하세요.	claude-sonnet-5-5 2026-10-18
+Add the first step	첫 번째 단계 추가	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	이 단계를 병렬 진입점으로 추가	claude-sonnet-5-5 2026-10-18
+Add to Editor	편집기에 추가	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	편집기에 추가 – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	메모에 추가	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	%@ 트리거를 추가했습니다	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	'%@' 옵션을 추가했습니다. 단계에서는 ${option.%@}로 읽습니다	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	레시피 오류 대체 경로를 추가했습니다	claude-sonnet-5-5 2026-10-18
+Added step: %@	단계를 추가했습니다: %@	claude-sonnet-5-5 2026-10-18
+Add…	추가…	claude-sonnet-5-5 2026-10-18
+Adjust	조절	claude-sonnet-5-5 2026-10-18
+Adjust…	조절…	claude-sonnet-5-5 2026-10-18
+Advanced	고급	claude-sonnet-5-5 2026-10-18
+After a Capture	캡처 후	claude-sonnet-5-5 2026-10-18
+After a capture	캡처 후	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	캡처 후 알림 하나가 캡처가 전달된 위치를 알려 줍니다. 한 시간 안에 클릭하면 다시 시작한 후에도 캡처를 다른 곳으로 보낼 수 있습니다. 집중 모드와 방해 금지 모드는 다른 앱의 알림처럼 알림을 보류합니다.	claude-sonnet-5-5 2026-10-18
+After a recording	녹화 후	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	%@ 모두 로드됨.	claude-sonnet-5-5 2026-10-18
+All Lines	모든 줄	claude-sonnet-5-5 2026-10-18
+All captures	모든 캡처	claude-sonnet-5-5 2026-10-18
+All screens	모든 화면	claude-sonnet-5-5 2026-10-18
+All spaces	모든 공간	claude-sonnet-5-5 2026-10-18
+Allow	허용	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	%@의 화면 녹화 허용	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	%@에서 %@을(를) 사용하도록 허용하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	시스템 설정 › 개인정보 보호 및 보안 › 마이크에서 허용하거나, 마이크 없이 녹화하세요.	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	링크에서 스크린샷 찍기 허용	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	브라우저 확장 프로그램의 스크린샷 전송 허용	claude-sonnet-5-5 2026-10-18
+Allow these actions	이 동작 허용	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	이 자동 단계가 다음 파일과 폴더를 읽거나 쓰도록 허용	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	이 자동 단계가 이 Mac에서 프로그램을 실행하도록 허용	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	이 자동 단계가 캡처를 인터넷에 업로드하도록 허용	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	이 레시피가 다음 파일과 폴더를 읽거나 쓰도록 허용	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	이 레시피가 이 Mac에서 프로그램을 실행하도록 허용	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	이 레시피가 캡처를 인터넷에 업로드하도록 허용	claude-sonnet-5-5 2026-10-18
+Allowed	허용됨	claude-sonnet-5-5 2026-10-18
+Allowed programs	허용된 프로그램	claude-sonnet-5-5 2026-10-18
+Allow…	허용…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	업데이트를 확인할 때 %@의 베타 버전도 제공합니다.	claude-sonnet-5-5 2026-10-18
+Always	항상	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	금액(EUR):	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	AI 도구가 레시피를 제안함	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	AI 도구가 자동 단계를 제안함	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	AI 도구가 레시피를 변경하려고 함	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	AI 도구가 Greenshot으로 %@을(를) 캡처했습니다.	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	앱 이름 또는 번들 식별자. Return 키를 누르면 추가됩니다	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	KeePassXC 또는 com.example.vault 같은 앱	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	자동 단계에는 트리거가 없습니다. 확장하는 레시피 안에서 실행됩니다.	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	자동 단계는 변경하는 레시피 안에서 실행됩니다. 저장하고 설정 › 레시피에서 켠 다음 해당 레시피 중 하나를 테스트 실행하세요.	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	%@(으)로 내보내는 중 오류가 발생했습니다: %@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	투명도가 없고 256색 미만을 사용하는 이미지는 8비트 이미지로 저장됩니다. 같은 그림이지만 파일이 더 작습니다.	claude-sonnet-5-5 2026-10-18
+An instance of %@ is already running.	%@의 인스턴스가 이미 실행 중입니다.	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	예기치 않은 오류가 발생했습니다.	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	Windows용 무료 오픈 소스 스크린샷 도구인 Greenshot의 비공식 커뮤니티 제작 macOS 포트입니다. Greenshot 팀 또는 Mac App Store의 공식 Greenshot 앱과는 관련이 없습니다.	claude-sonnet-5-5 2026-10-18
+Annotate and export	주석 달기 및 내보내기	claude-sonnet-5-5 2026-10-18
+Annotations	주석	claude-sonnet-5-5 2026-10-18
+Another Recipe	다른 레시피	claude-sonnet-5-5 2026-10-18
+Another Tip	다른 팁	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	다른 앱에서 사용 중일 수 있습니다. 설정 › 일반에서 다른 키를 선택하거나 레시피의 단축키 트리거를 변경하세요.	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	어떤 트리거로든 레시피를 실행할 수 있으며 각각 자체 스위치가 있습니다. 레시피를 자동으로 또는 외부에서 시작하는 트리거는 별도로 승인됩니다.	claude-sonnet-5-5 2026-10-18
+App	앱	claude-sonnet-5-5 2026-10-18
+App key	앱 키	claude-sonnet-5-5 2026-10-18
+Appearance	외관	claude-sonnet-5-5 2026-10-18
+Append to the annotations	주석에 추가	claude-sonnet-5-5 2026-10-18
+Application	응용 프로그램	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	레시피 JSON 변경 사항을 적용했습니다.	claude-sonnet-5-5 2026-10-18
+Apply Changes	변경 사항 적용	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	잘라낸 가장자리를 이미지에 적용	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	JSON 변경 사항을 적용하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Apply to the Image	이미지에 적용	claude-sonnet-5-5 2026-10-18
+Approve	승인	claude-sonnet-5-5 2026-10-18
+Approve & Enable	승인 및 활성화	claude-sonnet-5-5 2026-10-18
+Approve & Save	승인 및 저장	claude-sonnet-5-5 2026-10-18
+Approve Changes	변경 사항 승인	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	변경 사항 승인	claude-sonnet-5-5 2026-10-18
+Approved	승인됨	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	승인된 SHA-256	claude-sonnet-5-5 2026-10-18
+Approved recipes	승인된 레시피	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	'%@'을(를) 기본 제공 기본 정의로 되돌리시겠습니까?	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	'%@'을(를) 언로드하시겠습니까? %@에서 등록이 해제됩니다.	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	영역: %@ (%@) · %@	claude-sonnet-5-5 2026-10-18
+Areas	영역	claude-sonnet-5-5 2026-10-18
+Arrow	화살표	claude-sonnet-5-5 2026-10-18
+As recorded	녹화된 대로	claude-sonnet-5-5 2026-10-18
+Ask Again	다시 묻기	claude-sonnet-5-5 2026-10-18
+Ask Every Time	매번 묻기	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	첫 번째 알림과 함께 요청됨	claude-sonnet-5-5 2026-10-18
+At most %lld colours	최대 %lld색	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	최대 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	최대 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	페이지에 첨부	claude-sonnet-5-5 2026-10-18
+Attach to an issue	이슈에 첨부	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	%@을(를) %@에 첨부했습니다	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	%@을(를) “%@”에 첨부했습니다	claude-sonnet-5-5 2026-10-18
+Auto crop is not possible	자동 잘라내기를 할 수 없습니다	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	자동 잘라내기 또는 잘라내기 선택 영역의 행이나 열 잘라내기	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	%llds 후 자동으로 닫힘...	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	%llds 후 기본 선택 항목을 자동으로 선택...	claude-sonnet-5-5 2026-10-18
+Automatic	자동	claude-sonnet-5-5 2026-10-18
+Automatic Step	자동 단계	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	자동 단계 승인	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	Greenshot 외부에서 자동 단계가 변경됨	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	자동 단계 세부 정보	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	자동 단계 파일 감지됨	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	자동 단계 ID	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	자동 단계 JSON	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	자동 단계 수정 감지됨	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	AI 도구가 제안한 자동 단계	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	자동 단계 검토	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	자동 단계 검증 실패	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	자동 단계 — 레시피 편집기	claude-sonnet-5-5 2026-10-18
+Automatic Steps	자동 단계	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	%@의 자동 단계, 레시피 %lld개에 적용 가능	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	자동 단계 구성의 검증에 실패했습니다.	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	자동 단계: %@	claude-sonnet-5-5 2026-10-18
+Automatic steps	자동 단계	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	테두리나 캡션 같은 캡처용 자동 단계와 레시피에서 제공하는 설정입니다. 다음 캡처부터 사용됩니다.	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	지금 연결되는 자동 단계(설정 › 레시피에서 전환):	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	자동: 최소 1.5 Mbps이며, 큰 비디오나 빠른 비디오는 더 높습니다. 화면은 표시되는 프레임 수만큼만 제공합니다.	claude-sonnet-5-5 2026-10-18
+Automation	자동화	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	잠시 후 사용 가능: 이 창이 저절로 열렸습니다.	claude-sonnet-5-5 2026-10-18
+A–Z	A–Z	claude-sonnet-5-5 2026-10-18
+BCC	BCC	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC(선택 사항):	claude-sonnet-5-5 2026-10-18
+BUILT-IN	기본 제공	claude-sonnet-5-5 2026-10-18
+BY %@	제작: %@	claude-sonnet-5-5 2026-10-18
+Back	뒤로	claude-sonnet-5-5 2026-10-18
+Back to one step	한 단계로 돌아가기	claude-sonnet-5-5 2026-10-18
+Background	배경	claude-sonnet-5-5 2026-10-18
+Background:	배경:	claude-sonnet-5-5 2026-10-18
+Balanced	균형	claude-sonnet-5-5 2026-10-18
+Barcode Format:	바코드 형식:	claude-sonnet-5-5 2026-10-18
+Barcode: %@	바코드: %@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	Greenshot 기반, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	100% 미만에서는 확대경 사이로 화면이 비쳐 보입니다.	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	베타 버전 %@을(를) 사용할 수 있습니다 – 클릭하여 다운로드	claude-sonnet-5-5 2026-10-18
+Bit rate	비트 전송률	claude-sonnet-5-5 2026-10-18
+Black and white	흑백	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	흑백 임계값: %lld	claude-sonnet-5-5 2026-10-18
+Blank	비어 있음	claude-sonnet-5-5 2026-10-18
+Body:	본문:	claude-sonnet-5-5 2026-10-18
+Bottom left	왼쪽 하단	claude-sonnet-5-5 2026-10-18
+Bottom right	오른쪽 하단	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	분기 %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	강조 주변 영역의 밝기(퍼센트)	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	이미지의 밝기, 대비, 감마.	claude-sonnet-5-5 2026-10-18
+Bring All to Front	모두 앞으로 가져오기	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	이 파일이 대체하는 기본 제공 레시피 복원	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	기본 제공 버전 복원	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	파일이 대체한 모든 레시피의 기본 제공 버전 복원	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	이 레시피들의 기본 제공 버전을 복원하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Broken: %@	손상됨: %@	claude-sonnet-5-5 2026-10-18
+Browser extension	브라우저 확장 프로그램	claude-sonnet-5-5 2026-10-18
+Browsers	브라우저	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	AI 도구를 연결하려면 greenshot-mcp(swift build)를 빌드하거나 scripts/build-app.sh의 앱을 사용하세요.	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Greenshot에 기본 제공	claude-sonnet-5-5 2026-10-18
+Built-in	기본 제공	claude-sonnet-5-5 2026-10-18
+CC	CC	claude-sonnet-5-5 2026-10-18
+Calendar Event	캘린더 이벤트	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	캘린더 이벤트(iCal) 세부 정보	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	카메라(macOS)	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	취소 (Esc)	claude-sonnet-5-5 2026-10-18
+Cancel Recording	녹화 취소	claude-sonnet-5-5 2026-10-18
+Cancel the running one	실행 중인 것 취소	claude-sonnet-5-5 2026-10-18
+Cancelled.	취소됨.	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	레시피를 테스트 실행할 수 없습니다. 먼저 검증 오류를 수정하세요:	claude-sonnet-5-5 2026-10-18
+Capture Mode	캡처 모드	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	캡처 레시피 관리자	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	캡처 레시피 검토	claude-sonnet-5-5 2026-10-18
+Capture Text	텍스트 캡처	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	Greenshot for Mac으로 창을 캡처합니다.	claude-sonnet-5-5 2026-10-18
+Capture clipboard	클립보드 캡처	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	캡처 흐름에 실패했습니다.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	캡처 링크가 꺼져 있습니다. 설정 › 고급 › 자동화에서 켜세요.	claude-sonnet-5-5 2026-10-18
+Capture text	텍스트 캡처	claude-sonnet-5-5 2026-10-18
+Capture the active window	활성 창 캡처	claude-sonnet-5-5 2026-10-18
+Capture the same region again	같은 영역 다시 캡처	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	전체 화면 캡처	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	Greenshot for Mac으로 전체 화면을 캡처합니다.	claude-sonnet-5-5 2026-10-18
+Captures	캡처	claude-sonnet-5-5 2026-10-18
+Capturing	캡처	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	캡처는 키 하나면 됩니다	claude-sonnet-5-5 2026-10-18
+Change count	변경 횟수	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	이 자동 단계가 할 수 있는 작업을 변경합니다. “그대로 유지”를 선택하거나 창을 닫으면 아무것도 변경되지 않습니다.	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	이 레시피를 시작할 수 있는 트리거와 레시피가 할 수 있는 작업을 변경합니다. “그대로 유지”를 선택하거나 창을 닫으면 아무것도 변경되지 않습니다.	claude-sonnet-5-5 2026-10-18
+Changed	변경됨	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	변경됨(#%@): %@	claude-sonnet-5-5 2026-10-18
+Changed Lines	변경된 줄	claude-sonnet-5-5 2026-10-18
+Changed recipes	변경된 레시피	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	마음이 바뀌셨나요? Esc를 누르면 캡처가 취소됩니다.	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	변경 사항(− 이전, + 이후)	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	변경 사항이 아직 적용되지 않음	claude-sonnet-5-5 2026-10-18
+Changes other recipes	다른 레시피를 변경함	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	자동 단계 “%@”을(를) 변경합니다	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	레시피 “%@”을(를) 변경합니다	claude-sonnet-5-5 2026-10-18
+Change…	변경…	claude-sonnet-5-5 2026-10-18
+Chart	차트	claude-sonnet-5-5 2026-10-18
+Chart and text	차트 및 텍스트	claude-sonnet-5-5 2026-10-18
+Check Now	지금 확인	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	저장 방법을 하나 이상 선택하세요.	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	불안정한 업데이트(사전 릴리스) 확인	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	%lld일마다 업데이트 확인	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	%@에 쓸 수 있는지 확인하세요.	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	레시피 JSON 구문에서 이스케이프되지 않은 따옴표, 끝의 쉼표 또는 짝이 맞지 않는 괄호가 없는지 확인하세요.	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	레시피의 'options'를 확인하세요: 키, 유형, 기본값, 선택 항목.	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	설정, 로그, 시스템 정보 확인 (S)	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	%@의 설정, 로그, 시스템 확인	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	코드 서명 확인 중…	claude-sonnet-5-5 2026-10-18
+Checking…	확인 중…	claude-sonnet-5-5 2026-10-18
+Checks	확인 항목	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	%@의 설정, 시스템, 단축키, 클립보드 점검 및 로그.	claude-sonnet-5-5 2026-10-18
+Chip	칩	claude-sonnet-5-5 2026-10-18
+Choices	선택 항목	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	레시피 파일(.gsrecipe.json)을 선택하세요. Greenshot은 사용하기 전에 해당 파일이 하는 일을 보여 줍니다.	claude-sonnet-5-5 2026-10-18
+Choose another one.	다른 것을 선택하세요.	claude-sonnet-5-5 2026-10-18
+Choose folder & format	폴더 및 형식 선택	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	캡처 후 재생할 소리를 선택하세요.	claude-sonnet-5-5 2026-10-18
+Choose…	선택…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome, Edge, Brave: 확장 프로그램 페이지를 열고 개발자 모드를 켠 다음 압축해제된 확장 프로그램을 로드를 클릭하고 확장 프로그램 폴더를 선택하세요. Firefox 126 이상: about:debugging › This Firefox › Load Temporary Add-on…을 열고 그 안의 manifest.json을 선택하세요. 그러면 파일명에 페이지의 ${url}과 ${browser}, 그리고 브라우저의 활성 탭(확장 프로그램의 탭 추적)의 ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket}을 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Clear	지우기	claude-sonnet-5-5 2026-10-18
+Clear Background	배경 지우기	claude-sonnet-5-5 2026-10-18
+Click	클릭	claude-sonnet-5-5 2026-10-18
+Click a QR code	QR 코드 클릭	claude-sonnet-5-5 2026-10-18
+Click a line	줄 클릭	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	단축키를 클릭한 다음 새 단축키를 입력하세요. ⌫는 지우고 ⎋는 취소합니다. +는 단계를 추가하며, ⌃⌥⌘K 다음 C(2.5초 이내)와 같은 단축키에 사용합니다. 키보드 메뉴에서는 보조 키를 왼쪽 또는 오른쪽 키에서만 인식하게 할 수 있습니다. F13 키가 있는 키보드에서는 Print Screen처럼 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	아무 곳이나 클릭하거나 Esc를 눌러 돌아가기	claude-sonnet-5-5 2026-10-18
+Click for more	클릭하여 더 보기	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	설정을 열려면 여기를 클릭하세요.	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	클릭하여 활성화 또는 비활성화	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	클릭하여 레시피 활성화	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	클릭하여 레시피 비활성화	claude-sonnet-5-5 2026-10-18
+Click to open	클릭하여 열기	claude-sonnet-5-5 2026-10-18
+Click to open the issue	클릭하여 이슈 열기	claude-sonnet-5-5 2026-10-18
+Click to open the page	클릭하여 페이지 열기	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	클릭하여 전체 미리보기 보기 (Esc로 종료)	claude-sonnet-5-5 2026-10-18
+Click, Enter	클릭, Enter	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	%@의 알림을 닫으셨나요? 알림은 알림 센터에 남아 있습니다. 클릭하면 %@을(를) 종료한 후에도 캡처를 보낼 위치를 다시 선택할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Client ID	클라이언트 ID	claude-sonnet-5-5 2026-10-18
+Client secret	클라이언트 시크릿	claude-sonnet-5-5 2026-10-18
+Clipart and text	클립아트 및 텍스트	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	클립아트 및 세로 텍스트	claude-sonnet-5-5 2026-10-18
+Clipboard	클립보드	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	클립보드 모니터	claude-sonnet-5-5 2026-10-18
+Close All	모두 닫기	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	변경 사항이 있는 편집기를 닫으면 묻지 않고 변경 사항이 삭제됩니다.	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	클라우드 사이트는 /wiki로 끝납니다.	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	클라우드: 이메일 및 API 토큰	claude-sonnet-5-5 2026-10-18
+Code hash	코드 해시	claude-sonnet-5-5 2026-10-18
+Code signature	코드 서명	claude-sonnet-5-5 2026-10-18
+Color:	색상:	claude-sonnet-5-5 2026-10-18
+Command line tool	명령줄 도구	claude-sonnet-5-5 2026-10-18
+Command line: %@	명령줄: %@	claude-sonnet-5-5 2026-10-18
+Command “%@”	명령어 “%@”	claude-sonnet-5-5 2026-10-18
+Company:	회사:	claude-sonnet-5-5 2026-10-18
+Comparison	비교	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	전체 로그를 %@에 로드했습니다	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	전체 로그: 약 %@줄(%@)	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	숨김(암호 관리자가 앱에 저장하지 않도록 요청함)	claude-sonnet-5-5 2026-10-18
+Configure QR…	QR 설정…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	AI 도구 연결	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	'%@'을(를) '%@'에 연결했습니다	claude-sonnet-5-5 2026-10-18
+Connected as %@.	%@(으)로 연결됨.	claude-sonnet-5-5 2026-10-18
+Content with caption	캡션이 있는 콘텐츠	claude-sonnet-5-5 2026-10-18
+Continue At	다음 위치에서 계속	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	'%@'에서 계속됩니다	claude-sonnet-5-5 2026-10-18
+Contrast:	대비:	claude-sonnet-5-5 2026-10-18
+Copied	복사됨	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	텍스트 %lld줄을 복사했습니다	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	텍스트 1줄을 복사했습니다	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	Mermaid DSL을 클립보드에 복사했습니다.	claude-sonnet-5-5 2026-10-18
+Copied by	복사한 앱	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	전체 로그 내용을 클립보드에 복사했습니다(%@자)	claude-sonnet-5-5 2026-10-18
+Copied its output	출력을 복사했습니다	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	레시피 ID '%@'을(를) 클립보드에 복사했습니다.	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	QR 코드의 텍스트를 복사했습니다	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	무결성 보고서를 복사했습니다.	claude-sonnet-5-5 2026-10-18
+Copied the path.	경로를 복사했습니다.	claude-sonnet-5-5 2026-10-18
+Copied the text	텍스트를 복사했습니다	claude-sonnet-5-5 2026-10-18
+Copied!	복사됨!	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	greenshot-cli를 /usr/local/bin에 링크하는 터미널 명령어를 복사합니다.	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	확장 프로그램을 Application Support의 Greenshot 폴더에 복사하고 표시합니다. 압축해제된 확장 프로그램을 로드하는 데 사용합니다.	claude-sonnet-5-5 2026-10-18
+Copy Details	세부 정보 복사	claude-sonnet-5-5 2026-10-18
+Copy File Path	파일 경로 복사	claude-sonnet-5-5 2026-10-18
+Copy Install Command	설치 명령어 복사	claude-sonnet-5-5 2026-10-18
+Copy Link	링크 복사	claude-sonnet-5-5 2026-10-18
+Copy Log	로그 복사	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	Mermaid 코드 복사	claude-sonnet-5-5 2026-10-18
+Copy Path	경로 복사	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	레시피 ID 복사	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	레시피 ID를 클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy Report	보고서 복사	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	스택 추적 복사	claude-sonnet-5-5 2026-10-18
+Copy System Info	시스템 정보 복사	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	텍스트 복사(OCR)	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	공유 링크를 클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	모든 출력을 클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	먼저 이미지를 복사한 다음 다시 시도하세요.	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	화면 사진을 클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	선택한 영역의 사진을 클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	텍스트 복사(OCR)	claude-sonnet-5-5 2026-10-18
+Copy the file path	파일 경로 복사	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	출력의 첫 번째 URL을 클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	이미지를 클립보드로 복사 (⇧⌘C)	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	링크를 클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	선택한 요소 복사 (⌘C)	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	클립보드로 복사	claude-sonnet-5-5 2026-10-18
+Copy “%@”	“%@” 복사	claude-sonnet-5-5 2026-10-18
+Copy: %@	복사: %@	claude-sonnet-5-5 2026-10-18
+Core Destinations	핵심 저장 방법	claude-sonnet-5-5 2026-10-18
+Could not be checked	확인할 수 없음	claude-sonnet-5-5 2026-10-18
+Could not check for updates	업데이트를 확인할 수 없음	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	%@의 확장 프로그램 연결을 등록할 수 없습니다. 로그를 확인하세요.	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	%@의 등록을 제거할 수 없습니다. 로그를 확인하세요.	claude-sonnet-5-5 2026-10-18
+Countdown	카운트다운	claude-sonnet-5-5 2026-10-18
+Counter	카운터	claude-sonnet-5-5 2026-10-18
+Crash reports	충돌 보고서	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	레시피 편집기에서 새 캡처 레시피 만들기	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	%@의 프로필 › Personal Access Tokens에서 개인 액세스 토큰을 만드세요(Data Center 및 Server 8.14 이상). 토큰은 키체인에 보관됩니다.	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	[id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens)에서 Atlassian 계정용 API 토큰을 만드세요(토큰 하나로 Jira와 Confluence를 모두 사용할 수 있습니다). 토큰은 키체인에 보관됩니다.	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	새 자동 단계를 만들었습니다. 단계를 Out 앞에 두고 레시피 탭에서 적용 위치를 설정하세요.	claude-sonnet-5-5 2026-10-18
+Created new recipe.	새 레시피를 만들었습니다.	claude-sonnet-5-5 2026-10-18
+Crop Out Horizontally	가로로 잘라내기	claude-sonnet-5-5 2026-10-18
+Crop Out Vertically	세로로 잘라내기	claude-sonnet-5-5 2026-10-18
+Crop modes	자르기 모드	claude-sonnet-5-5 2026-10-18
+Custom size	사용자 지정 크기	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	잘라낸 가장자리 설정	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	잘라낸 가장자리 설정…	claude-sonnet-5-5 2026-10-18
+Cut Mark	잘라내기 표시	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	선택한 열 잘라내기	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	선택한 행 잘라내기	claude-sonnet-5-5 2026-10-18
+Cut edges	잘라낸 가장자리	claude-sonnet-5-5 2026-10-18
+Cut off from %@	%@에서 분리됨	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	선택한 요소 잘라내기 (⌘X)	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	비활성화됨	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	진단	claude-sonnet-5-5 2026-10-18
+Damaged element	손상된 요소	claude-sonnet-5-5 2026-10-18
+Dark	다크	claude-sonnet-5-5 2026-10-18
+Deactivated	비활성화됨	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	'%@'을(를) 비활성화했습니다.	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	비활성화됨: %lld	claude-sonnet-5-5 2026-10-18
+Decision Required	결정 필요	claude-sonnet-5-5 2026-10-18
+Default	기본값	claude-sonnet-5-5 2026-10-18
+Default (%@)	기본값 (%@)	claude-sonnet-5-5 2026-10-18
+Default (Return)	기본값 (Return)	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	기본값 (레시피 대체/종료 사용)	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	기본값 (병렬)	claude-sonnet-5-5 2026-10-18
+Default (system font)	기본값 (시스템 서체)	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	단계가 실패할 때(예: 클립보드 잠금, 네트워크 시간 초과) 어떻게 할지 정의합니다. 캡처를 대체 단계나 다른 레시피로 보냅니다.	claude-sonnet-5-5 2026-10-18
+Delete Connection	연결 삭제	claude-sonnet-5-5 2026-10-18
+Delete Step	단계 삭제	claude-sonnet-5-5 2026-10-18
+Delete Trigger	트리거 삭제	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	선택한 요소 삭제 (⌫)	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	단계 '%@'(%@)을(를) 삭제했습니다	claude-sonnet-5-5 2026-10-18
+Description	설명	claude-sonnet-5-5 2026-10-18
+Description:	설명:	claude-sonnet-5-5 2026-10-18
+Destinations	저장 방법	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	저장 방법 (%lld)	claude-sonnet-5-5 2026-10-18
+Details	세부 정보	claude-sonnet-5-5 2026-10-18
+Details for the report	보고서 세부 정보	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	이 레시피의 세부 정보, 권한 및 파일	claude-sonnet-5-5 2026-10-18
+Details…	세부 정보…	claude-sonnet-5-5 2026-10-18
+Did you know?	알고 계셨나요?	claude-sonnet-5-5 2026-10-18
+Discard	폐기	claude-sonnet-5-5 2026-10-18
+Discard Recording	녹화 폐기	claude-sonnet-5-5 2026-10-18
+Display %@	디스플레이 %@	claude-sonnet-5-5 2026-10-18
+Display Name	표시 이름	claude-sonnet-5-5 2026-10-18
+Do nothing	아무 작업 안 함	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	스크린샷 “%@”을(를) 저장하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Don't Allow	허용 안 함	claude-sonnet-5-5 2026-10-18
+Don't Save	저장 안 함	claude-sonnet-5-5 2026-10-18
+Don't ask again	다시 묻지 않기	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	편집기를 닫을 때 저장 여부 묻지 않기	claude-sonnet-5-5 2026-10-18
+Double-click	더블 클릭	claude-sonnet-5-5 2026-10-18
+Download It	다운로드	claude-sonnet-5-5 2026-10-18
+Download Update	업데이트 다운로드	claude-sonnet-5-5 2026-10-18
+Drag	드래그	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	유지하거나 잘라낼 영역을 드래그하세요	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	스크린샷을 새 메일로 드래그하세요	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	선택한 잘라낸 가장자리나 찢어진 가장자리를 이미지에 그립니다. 이후에는 변경할 수 없습니다	claude-sonnet-5-5 2026-10-18
+Drawing	그리기	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	EPC SEPA 이체 세부 정보	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	EPC SEPA 이체	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	오류 처리 및 대체	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	각 AI 도구가 greenshot-mcp를 직접 시작합니다. 구성을 변경한 후에는 AI 도구를 다시 시작하거나 MCP 서버를 다시 로드하세요.	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	각 명령어는 별도의 저장 방법(“외부: 이름”)입니다. 인수의 {0}은(는) 스크린샷의 파일입니다(편집기의 스크린샷이 저장되어 있고 변경되지 않았으면 저장된 파일). 명령어와 인수에는 파일명 패턴 변수를 사용할 수 있습니다. 프로그램이 없는 명령어는 저장 방법 메뉴에서 제외됩니다.	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	레시피의 각 노드에는 고유한 'id'가 있어야 합니다.	claude-sonnet-5-5 2026-10-18
+Edges:	가장자리:	claude-sonnet-5-5 2026-10-18
+Edit External Command	외부 명령어 편집	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	QR / 바코드 편집	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	QR / 바코드 편집…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	레시피 파일 편집	claude-sonnet-5-5 2026-10-18
+Edit Text	텍스트 편집	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	레시피 편집기에서 자동 단계 편집	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	실시간 미리보기로 코드 편집	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	편집기(“%@”)	claude-sonnet-5-5 2026-10-18
+Editor menu	편집기 메뉴	claude-sonnet-5-5 2026-10-18
+Editor windows	편집기 창	claude-sonnet-5-5 2026-10-18
+Effect:	효과:	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	이미지 전체에 적용되는 효과(먼저 그림자와 찢어진 가장자리 설정을 바꾸려면 ⌥를 누르세요)	claude-sonnet-5-5 2026-10-18
+Either key	어느 쪽 키든	claude-sonnet-5-5 2026-10-18
+Element of a newer version	최신 버전의 요소	claude-sonnet-5-5 2026-10-18
+Ellipse	타원	claude-sonnet-5-5 2026-10-18
+Email	이메일	claude-sonnet-5-5 2026-10-18
+Email Message Details	이메일 메시지 세부 정보	claude-sonnet-5-5 2026-10-18
+Email:	이메일:	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	포함(Base64)	claude-sonnet-5-5 2026-10-18
+Embed File…	파일 포함…	claude-sonnet-5-5 2026-10-18
+Emoji	이모지	claude-sonnet-5-5 2026-10-18
+Empty log file	빈 로그 파일	claude-sonnet-5-5 2026-10-18
+Empty: all text	비어 있음: 모든 텍스트	claude-sonnet-5-5 2026-10-18
+Encryption Type:	암호화 유형:	claude-sonnet-5-5 2026-10-18
+End (UTC):	종료(UTC):	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	캔버스 확대	claude-sonnet-5-5 2026-10-18
+Enter	Enter	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	설정 › 저장 방법에서 %@의 개인 액세스 토큰을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	일반 텍스트 또는 URL 입력:	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	설정 › 저장 방법에서 %@ URL을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	먼저 URL을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	먼저 이메일과 API 토큰을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	먼저 개인 액세스 토큰을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	먼저 사용자 이름과 암호를 입력하세요(또는 첫 업로드 때 테스트).	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	설정 › 저장 방법에서 %@의 이메일과 API 토큰을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Error Filter	오류 필터	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	레시피 로드 오류	claude-sonnet-5-5 2026-10-18
+Error Routes	오류 경로	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	이전 구간 로드 오류: %@	claude-sonnet-5-5 2026-10-18
+Error message	오류 메시지	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	로그 파일 읽기 오류:\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	오류: %@	claude-sonnet-5-5 2026-10-18
+Errors only	오류만	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc: 닫기  |  F5: 새로 고침  |  1–6: 섹션	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	모든 레시피에는 고유한 'id'와 설명이 있는 'name' 속성이 필요합니다.	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	모든 항목은 메뉴 막대의 %@ 아이콘 메뉴에도 있습니다.	claude-sonnet-5-5 2026-10-18
+Example: %@	예: %@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	Greenshot에서 캡처 레시피 실행 (⌘R)	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	'%@'의 테스트 실행 중...	claude-sonnet-5-5 2026-10-18
+Execution Error	실행 오류	claude-sonnet-5-5 2026-10-18
+Export Capture	캡처 내보내기	claude-sonnet-5-5 2026-10-18
+Expression	표현식	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	외부 캡처 레시피 감지됨	claude-sonnet-5-5 2026-10-18
+External Command	외부 명령어	claude-sonnet-5-5 2026-10-18
+External command	외부 명령어	claude-sonnet-5-5 2026-10-18
+External command %@	외부 명령어 %@	claude-sonnet-5-5 2026-10-18
+External commands	외부 명령어	claude-sonnet-5-5 2026-10-18
+External: %@	외부: %@	claude-sonnet-5-5 2026-10-18
+Extract text from image	이미지에서 텍스트 추출	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	캡처 화면에서 F를 누르면 이 크기 중 하나의 영역을 캡처합니다. 그 뒤에 최근 영역 크기 다섯 개가 이어집니다.	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	대체 레시피	claude-sonnet-5-5 2026-10-18
+Fallback Step	대체 단계	claude-sonnet-5-5 2026-10-18
+File SHA-256	파일 SHA-256	claude-sonnet-5-5 2026-10-18
+File name counter	파일명 카운터	claude-sonnet-5-5 2026-10-18
+File not found	파일을 찾을 수 없음	claude-sonnet-5-5 2026-10-18
+Files	파일	claude-sonnet-5-5 2026-10-18
+Files and Log	파일 및 로그	claude-sonnet-5-5 2026-10-18
+Files: %@, …	파일: %@, …	claude-sonnet-5-5 2026-10-18
+Filter:	필터:	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	이미지에서 텍스트를 찾아 일치하는 모든 부분을 이동하거나 제거할 수 있는 요소로 덮습니다.	claude-sonnet-5-5 2026-10-18
+First Name:	이름:	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	고정 캡처 크기	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Flameshot 스크린샷 도구	claude-sonnet-5-5 2026-10-18
+Flow	흐름	claude-sonnet-5-5 2026-10-18
+Folder	폴더	claude-sonnet-5-5 2026-10-18
+Folder ID	폴더 ID	claude-sonnet-5-5 2026-10-18
+Font size in points	서체 크기(포인트)	claude-sonnet-5-5 2026-10-18
+Footer	푸터	claude-sonnet-5-5 2026-10-18
+Footer pattern	푸터 패턴	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	날짜와 제목이 있는 푸터	claude-sonnet-5-5 2026-10-18
+Foreground	전경	claude-sonnet-5-5 2026-10-18
+Format	형식	claude-sonnet-5-5 2026-10-18
+Format:	형식:	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	다른 레시피로 전달…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	레시피로 전달	claude-sonnet-5-5 2026-10-18
+Four objects	객체 네 개	claude-sonnet-5-5 2026-10-18
+Frame rate	프레임 속도	claude-sonnet-5-5 2026-10-18
+Freehand	자유 그리기	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	자유 그리기 부드럽게	claude-sonnet-5-5 2026-10-18
+From	보낸 사람	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	.greenshot 파일에서…	claude-sonnet-5-5 2026-10-18
+From Editor…	편집기에서…	claude-sonnet-5-5 2026-10-18
+Full Screen	전체 화면	claude-sonnet-5-5 2026-10-18
+Full colour	전체 색상	claude-sonnet-5-5 2026-10-18
+Full report	전체 보고서	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	전체 화면 단축키	claude-sonnet-5-5 2026-10-18
+Gamma:	감마:	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	사용자가 복사한 것이 아니라 앱에서 생성함	claude-sonnet-5-5 2026-10-18
+Geo Location	지리적 위치	claude-sonnet-5-5 2026-10-18
+Geo Location Details	지리적 위치 세부 정보	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	GitHub에 연결할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	AI 도구 트리거에 문자, 숫자, '_' 또는 '-'로 된 'ToolName'을 지정하세요.	claude-sonnet-5-5 2026-10-18
+Go Back	뒤로	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot(편집 가능)	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Greenshot 최근 항목	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Greenshot 웹 사이트	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot은 이 단계를 다른 레시피에 추가합니다. 단계 목록에서 Out 앞에 두고 설정 › 레시피에서 자동 단계를 켜세요.	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot은 Safari와 Chrome에서 열린 페이지의 주소를 읽을 수 있습니다. macOS에서 브라우저마다 한 번 허용 여부를 묻습니다.	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot은 Box 앱 키를 제공할 수 없으므로 직접 등록해야 합니다. [Box Developer Console](https://app.box.com/developers/console)에서 사용자 인증(OAuth 2.0)이 있는 사용자 지정 앱을 만들고, 리디렉션 URI를 `%@`(으)로 설정하고, Write all files 범위를 부여한 다음 클라이언트 ID와 시크릿을 여기에 붙여넣으세요. 시크릿과 로그인은 키체인에 보관되며, 폴더 ID는 폴더 URL에 있는 숫자입니다.	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	이 캡처 레시피에 구성 오류가 있어 Greenshot에서 로드하거나 등록할 수 없습니다. 아래 진단 세부 정보를 검토하세요:	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	이 자동 단계에 오류가 있어 Greenshot에서 사용할 수 없습니다. 아래 세부 정보를 검토하세요:	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac에 단계 '%@'이(가) 없으므로 해당 매개변수는 그대로 유지됩니다.	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot for Mac이 준비되지 않았습니다.	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot이 %@을(를) 제어하도록 허용되지 않았습니다. 시스템 설정 › 개인정보 보호 및 보안 › 자동화 › Greenshot에서 허용하세요.	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot은 AppleScript로 이 앱들에 스크린샷을 보냅니다. macOS에서 앱마다 한 번 묻습니다.	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR, 헤드룸 %@/%@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML(이미지 포함)	claude-sonnet-5-5 2026-10-18
+Hardened runtime	강화된 런타임	claude-sonnet-5-5 2026-10-18
+Has its own error route	자체 오류 경로가 있음	claude-sonnet-5-5 2026-10-18
+Hide %@	%@ 가리기	claude-sonnet-5-5 2026-10-18
+Hide Icon	아이콘 가리기	claude-sonnet-5-5 2026-10-18
+Hide Others	다른 항목 가리기	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	메뉴 막대 아이콘을 가리시겠습니까?	claude-sonnet-5-5 2026-10-18
+High frame rate	높은 프레임 속도	claude-sonnet-5-5 2026-10-18
+High quality	고품질	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	스냅하지 않고 배치하려면 ⌥를 누르세요	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	수평 오프셋:	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	수평 패딩:	claude-sonnet-5-5 2026-10-18
+Hotkey	단축키	claude-sonnet-5-5 2026-10-18
+Hotkey %@	단축키 %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	단축키가 다시 등록되었습니다(일부 키는 아직 사용 중입니다).	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	단축키가 다시 등록되었습니다.	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	다시 시작할 때까지 %@이(가) 로그에 기록하는 양입니다. 디버그가 가장 많이 기록합니다.	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO(아이콘)	claude-sonnet-5-5 2026-10-18
+ID	ID	claude-sonnet-5-5 2026-10-18
+Identifier	식별자	claude-sonnet-5-5 2026-10-18
+If %@: %@	%@인 경우: %@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	직접 운영하는 서버라면 설정 › 저장 방법 › 직접 운영하는 서버에 %@ 또는 지문을 추가하세요.	claude-sonnet-5-5 2026-10-18
+Image	이미지	claude-sonnet-5-5 2026-10-18
+Image Quality	이미지 품질	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	이미지 링크를 복사했습니다 – 클릭하여 페이지 열기	claude-sonnet-5-5 2026-10-18
+Image size	이미지 크기	claude-sonnet-5-5 2026-10-18
+Import	가져오기	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	%@에서 주석 가져오기	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	Greenshot 파일에서 주석 가져오기	claude-sonnet-5-5 2026-10-18
+Import From This Editor	이 편집기에서 가져오기	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	%2$@에서 주석 %1$lld개를 가져왔습니다	claude-sonnet-5-5 2026-10-18
+In	입력	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	설정 › 출력에서 저장한 스크린샷의 폴더와 파일명 패턴을 선택합니다.	claude-sonnet-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	몇 단계만 거치면 캡처 방법을 볼 수 있으며, %@이(가) 모든 설정이 제대로 되어 있는지 확인합니다.	claude-sonnet-5-5 2026-10-18
+In parallel	병렬	claude-sonnet-5-5 2026-10-18
+In the background	백그라운드	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	창 모드에서는 사이드바, 도구 막대, 웹 페이지의 일부처럼 마우스 아래의 가장 작은 영역을 따라 선택됩니다. PgUp과 PgDn으로 더 크거나 작은 영역을 선택합니다. 손쉬운 사용 권한이 필요합니다.	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	~/.codeium/windsurf/mcp_config.json에 있습니다.	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	~/.cursor/mcp.json(모든 프로젝트) 또는 .cursor/mcp.json(한 프로젝트)에 있습니다.	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	~/.gemini/config/mcp_config.json에 있습니다(… › MCP Servers › Manage MCP Servers › View raw config). 그런 다음 새로 고침하세요.	claude-sonnet-5-5 2026-10-18
+Info	정보	claude-sonnet-5-5 2026-10-18
+Information	정보	claude-sonnet-5-5 2026-10-18
+Insert	삽입	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	QR / 바코드 삽입	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	QR / 바코드 삽입…	claude-sonnet-5-5 2026-10-18
+Insert Step After	뒤에 단계 삽입	claude-sonnet-5-5 2026-10-18
+Insert Step Here	여기에 단계 삽입	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	Microsoft Excel에 삽입	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	Microsoft PowerPoint에 삽입	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	Microsoft Word에 삽입	claude-sonnet-5-5 2026-10-18
+Insert into document	문서에 삽입	claude-sonnet-5-5 2026-10-18
+Insert into presentation	프레젠테이션에 삽입	claude-sonnet-5-5 2026-10-18
+Insert into workbook	통합 문서에 삽입	claude-sonnet-5-5 2026-10-18
+Install	설치	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	설치하거나 설정 › 저장 방법에서 다른 저장 방법을 선택하세요.	claude-sonnet-5-5 2026-10-18
+Installed	설치됨	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	앱의 다른 사본용으로 설치됨	claude-sonnet-5-5 2026-10-18
+Installed version:	설치된 버전:	claude-sonnet-5-5 2026-10-18
+Integrity	무결성	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	잘못된 JSON 구문 또는 스키마:\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	이슈 식별자(스택 추적 해시)	claude-sonnet-5-5 2026-10-18
+Issue key:	이슈 키:	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	종료 코드 %d(으)로 끝났습니다.	claude-sonnet-5-5 2026-10-18
+It runs from %@.	%@에서 실행됩니다.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	즉시 실행이 중지되며 다시 로드되지 않습니다. 파일은 그대로 남아 있으므로 다시 가져와서 검토하고 승인하세요.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	즉시 실행이 중지되며 다시 로드되지 않습니다. 파일은 그대로 남아 있으므로 다시 열어서 검토하고 승인하세요.	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	이름이 %@(으)로 변경되었고 Greenshot이 기본 설정으로 시작되었습니다.	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	저장하지 않으면 사라집니다.	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	메뉴 막대에 있습니다.	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	설명(AI 도구의 말이며 Greenshot에서 확인하지 않음):	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	JPEG 품질(품질이 높을수록 파일이 커짐):	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	JPEG 품질: %lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	JSON 오류	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	유지	claude-sonnet-5-5 2026-10-18
+Keep as Is	그대로 유지	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	크기를 유지하고 주위에 검은 막대 추가	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	녹화 중 Mac이 잠자기 상태가 되지 않게 유지	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	창 캡처에 창 그림자 유지	claude-sonnet-5-5 2026-10-18
+Key	키	claude-sonnet-5-5 2026-10-18
+Key %u	키 %u	claude-sonnet-5-5 2026-10-18
+Keys	키	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	F1–F20 외의 키에는 ⌃, ⌥ 또는 ⌘가 필요합니다.	claude-sonnet-5-5 2026-10-18
+Label	레이블	claude-sonnet-5-5 2026-10-18
+Lane %lld	레인 %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	텍스트 언어	claude-sonnet-5-5 2026-10-18
+Large object	큰 객체	claude-sonnet-5-5 2026-10-18
+Largest value	최댓값	claude-sonnet-5-5 2026-10-18
+Last Name:	성:	claude-sonnet-5-5 2026-10-18
+Last Region	마지막 영역	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	마지막 확인: %@. 현재 버전은 %@입니다.	claude-sonnet-5-5 2026-10-18
+Last modified: %@	마지막 수정: %@	claude-sonnet-5-5 2026-10-18
+Later	나중에	claude-sonnet-5-5 2026-10-18
+Latest release:	최신 릴리스:	claude-sonnet-5-5 2026-10-18
+Latitude:	위도:	claude-sonnet-5-5 2026-10-18
+Launch at login	로그인 시 열기	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	처음 업로드할 때 묻도록 하려면 암호를 비워 두세요. 로그인 대화상자에서 암호를 키체인에 보관할 수 있습니다. 자체 인증서가 있는 서버는 직접 운영하는 서버에서 신뢰할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	왼쪽 및 오른쪽 키는 손쉬운 사용 권한이 필요합니다. 그때까지 이 단축키는 어느 쪽 키로든 작동합니다.	claude-sonnet-5-5 2026-10-18
+Left key	왼쪽 키	claude-sonnet-5-5 2026-10-18
+Left or right key	왼쪽 또는 오른쪽 키	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	왼쪽 또는 오른쪽 보조 키	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	왼쪽 또는 오른쪽 보조 키: 예: 오른쪽 ⌘만	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	AI 도구가 레시피를 제안하도록 허용	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	AI 도구가 Greenshot을 사용하도록 허용	claude-sonnet-5-5 2026-10-18
+Let's Go!	시작하기!	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	이 브라우저가 확장 프로그램용 Greenshot 연결을 시작하도록 허용합니다(각 브라우저의 NativeMessagingHosts 폴더에 있는 파일).	claude-sonnet-5-5 2026-10-18
+Letter	레터	claude-sonnet-5-5 2026-10-18
+Light	라이트	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Lightshot 스크린샷 도구	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	선 두께(포인트, 0: 선 없음)	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	링크를 복사했습니다 – 클릭하여 열기	claude-sonnet-5-5 2026-10-18
+Link to the image	이미지 링크	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	greenshotmac://settings?tab=editor 같은 링크는 창을 엽니다. 모든 웹 페이지가 링크를 열 수 있으므로 링크로 스크린샷을 찍는 것은 여기서 허용한 경우에만 가능합니다. greenshot-cli, AppleScript, 단축어, 서비스 메뉴는 항상 캡처할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	캡처 레시피를 %@에 로드	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	이전 항목 로드(+64 KB)	claude-sonnet-5-5 2026-10-18
+Load Elements…	요소 로드…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	전체 로그 로드	claude-sonnet-5-5 2026-10-18
+Load Recipe…	레시피 로드…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	.gsrecipe.json 파일 로드 및 등록	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	로그의 이전 64 KB 로드	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	%@을(를) 로드하고 등록했습니다	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	로드 및 등록됨: %@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	%@에 로드됨	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	이전 구간을 %@에 로드했습니다	claude-sonnet-5-5 2026-10-18
+Loaded: %@	로드됨: %@	claude-sonnet-5-5 2026-10-18
+Loading %@…	%@ 로드 중…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	공간 로드 중…	claude-sonnet-5-5 2026-10-18
+Location	위치	claude-sonnet-5-5 2026-10-18
+Location:	위치:	claude-sonnet-5-5 2026-10-18
+Log	로그	claude-sonnet-5-5 2026-10-18
+Log In	로그인	claude-sonnet-5-5 2026-10-18
+Log Viewer…	로그 뷰어…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	로그 파일(%@)	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	로그 파일이 현재 다음 위치에 없습니다:\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	로그 파일이 현재 다음 위치에 없습니다: %@	claude-sonnet-5-5 2026-10-18
+Log level	로그 수준	claude-sonnet-5-5 2026-10-18
+Longitude:	경도:	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	캡처 화면에서 QR 코드 찾기	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	Safari와 Chrome에서 찾기	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	QR 코드 찾는 중…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	열린 문서 찾는 중…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	열린 메시지 찾는 중…	claude-sonnet-5-5 2026-10-18
+Looking…	찾는 중…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	저전력 모드	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	캡처 화면에서 M을 누르면 한 번의 캡처에 한해 전환됩니다.	claude-sonnet-5-5 2026-10-18
+MCP server	MCP 서버	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	디스크에서 수정됨	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	H.264 MP4(어디서나 재생)	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	HEVC MP4(더 작은 파일)	claude-sonnet-5-5 2026-10-18
+Magnification:	확대율:	claude-sonnet-5-5 2026-10-18
+Manual	수동	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	시작 단계로 표시	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	편집기 창 크기를 캡처에 맞춤	claude-sonnet-5-5 2026-10-18
+Media clip and text	미디어 클립 및 텍스트	claude-sonnet-5-5 2026-10-18
+Memory	메모리	claude-sonnet-5-5 2026-10-18
+Menu bar icon	메뉴 막대 아이콘	claude-sonnet-5-5 2026-10-18
+Menu entry	메뉴 항목	claude-sonnet-5-5 2026-10-18
+Menus	메뉴	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	메시지:	claude-sonnet-5-5 2026-10-18
+Microphone	마이크	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office 및 메모	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Minimize	최소화	claude-sonnet-5-5 2026-10-18
+Mode	모드	claude-sonnet-5-5 2026-10-18
+Model	모델	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Monosnap 스크린샷 도구	claude-sonnet-5-5 2026-10-18
+More Emoji…	이모지 더 보기…	claude-sonnet-5-5 2026-10-18
+More…	더 보기…	claude-sonnet-5-5 2026-10-18
+Most memory used	메모리 사용량 최대	claude-sonnet-5-5 2026-10-18
+Mouse	마우스	claude-sonnet-5-5 2026-10-18
+Move Down	아래로 이동	claude-sonnet-5-5 2026-10-18
+Move Up	위로 이동	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	'%@'을(를) 아래로 이동했습니다	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	'%@'을(를) 위로 이동했습니다	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	새 자동 단계	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	새 레시피	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	시스템 설정 › 개인정보 보호 및 보안에서 손쉬운 사용이 필요합니다. 그때까지 창 모드에서는 전체 창이 선택됩니다. 다시 빌드했거나 이동한 앱 사본은 다시 허용해야 합니다.	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	네트워크 이름(SSID):	claude-sonnet-5-5 2026-10-18
+Never	안 함	claude-sonnet-5-5 2026-10-18
+Never (switched off)	안 함(꺼짐)	claude-sonnet-5-5 2026-10-18
+Never check for updates	업데이트를 확인하지 않음	claude-sonnet-5-5 2026-10-18
+Never share these applications	이 응용 프로그램은 공유하지 않음	claude-sonnet-5-5 2026-10-18
+New Automatic Step	새 자동 단계	claude-sonnet-5-5 2026-10-18
+New Document	새 문서	claude-sonnet-5-5 2026-10-18
+New Email	새 이메일	claude-sonnet-5-5 2026-10-18
+New Image	새 이미지	claude-sonnet-5-5 2026-10-18
+New Note	새 메모	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	새로운 Outlook은 스크립트로 제어할 수 없습니다. 끄거나(Outlook › Legacy Outlook) 이메일…을 사용하세요.	claude-sonnet-5-5 2026-10-18
+New Presentation	새 프레젠테이션	claude-sonnet-5-5 2026-10-18
+New Random Edges	새 임의 가장자리	claude-sonnet-5-5 2026-10-18
+New Recipe	새 레시피	claude-sonnet-5-5 2026-10-18
+New Workbook	새 통합 문서	claude-sonnet-5-5 2026-10-18
+New email attachment	새 이메일 첨부 파일	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Microsoft Outlook의 새 이메일	claude-sonnet-5-5 2026-10-18
+New image size	새 이미지 크기	claude-sonnet-5-5 2026-10-18
+New meeting	새 회의	claude-sonnet-5-5 2026-10-18
+New note in Notes	메모의 새 메모	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	새 레시피 (⌘N)	claude-sonnet-5-5 2026-10-18
+Next	다음	claude-sonnet-5-5 2026-10-18
+Next number	다음 번호	claude-sonnet-5-5 2026-10-18
+No	아니요	claude-sonnet-5-5 2026-10-18
+No QR code found	QR 코드를 찾을 수 없음	claude-sonnet-5-5 2026-10-18
+No Step Selected	선택한 단계 없음	claude-sonnet-5-5 2026-10-18
+No Windows	창 없음	claude-sonnet-5-5 2026-10-18
+No annotations yet.	아직 주석이 없습니다.	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	레시피를 변경하는 자동 단계가 없습니다. 위에서 하나를 켜세요.	claude-sonnet-5-5 2026-10-18
+No captures	캡처 없음	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	레시피 동작에는 변경이 없습니다(이름이나 레이아웃 같은 세부 사항만 변경).	claude-sonnet-5-5 2026-10-18
+No description provided.	설명이 제공되지 않았습니다.	claude-sonnet-5-5 2026-10-18
+No developer signature kept	개발자 서명이 보관되지 않음	claude-sonnet-5-5 2026-10-18
+No external command is set up	설정된 외부 명령어가 없습니다	claude-sonnet-5-5 2026-10-18
+No external command is set up.	설정된 외부 명령어가 없습니다.	claude-sonnet-5-5 2026-10-18
+No fill	채우기 없음	claude-sonnet-5-5 2026-10-18
+No folder	폴더 없음	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	열려 있는 이미지 편집기가 없습니다. 먼저 편집기에서 캡처를 여세요.	claude-sonnet-5-5 2026-10-18
+No mail app is set up	설정된 메일 앱이 없습니다	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	설정된 메일 앱이 없습니다.	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	Safari나 Chrome에 이 Confluence의 페이지가 열려 있지 않습니다.	claude-sonnet-5-5 2026-10-18
+No problems	문제 없음	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	허용된 프로그램이 아직 없습니다.	claude-sonnet-5-5 2026-10-18
+No recipe	레시피 없음	claude-sonnet-5-5 2026-10-18
+No recipe matches.	일치하는 레시피가 없습니다.	claude-sonnet-5-5 2026-10-18
+No recipe open	열린 레시피 없음	claude-sonnet-5-5 2026-10-18
+No recipes from files.	파일에서 가져온 레시피가 없습니다.	claude-sonnet-5-5 2026-10-18
+No recipes loaded	로드된 레시피 없음	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	아직 레시피가 없습니다. 레시피 파일을 가져오거나 레시피 편집기에서 만드세요.	claude-sonnet-5-5 2026-10-18
+No spaces	공간 없음	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	여기로 이어지는 시작 단계가 없습니다. "다음 위치에서 계속"으로 이 단계들을 연결하세요	claude-sonnet-5-5 2026-10-18
+No text found	텍스트를 찾을 수 없음	claude-sonnet-5-5 2026-10-18
+No text found.	텍스트를 찾을 수 없습니다.	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	“%@”와(과) 일치하는 텍스트가 없습니다.	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	트리거 없음: 레시피 목록이나 명령줄에서 실행	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	트리거 없음: 레시피는 레시피 목록, 명령줄 또는 다른 레시피에서 실행됩니다.	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	트리거 없음(레시피 편집기 전용)	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	트리거 없음: 레시피는 레시피 관리자, 테스트 실행 또는 다른 레시피에서만 시작됩니다.	claude-sonnet-5-5 2026-10-18
+No, Cancel	아니요, 취소	claude-sonnet-5-5 2026-10-18
+Nobody	아무도 없음	claude-sonnet-5-5 2026-10-18
+Node ID	노드 ID	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	찾을 수 없음(Chrome, Edge, Firefox, Brave, Vivaldi 또는 Chromium)	claude-sonnet-5-5 2026-10-18
+None set up	설정된 항목 없음	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	이 단계의 매개변수가 아닙니다	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	정규식이 아닙니다: %@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	Greenshot이 종료될 때까지 허용되지 않음	claude-sonnet-5-5 2026-10-18
+Not allowed yet	아직 허용되지 않음	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	승인되지 않았거나, 승인 후 변경되었거나, 트리거가 꺼져 있음	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	사용할 수 없음, 메시지가 모서리에 표시됩니다	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	아직 확인하지 않았습니다. 현재 버전은 %@입니다.	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	JPEG에는 해당하지 않습니다. GIF 파일은 항상 이 색상 수 이하로 저장됩니다.	claude-sonnet-5-5 2026-10-18
+Not found next to the app	앱 옆에서 찾을 수 없음	claude-sonnet-5-5 2026-10-18
+Not installed	설치되지 않음	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	Greenshot에 로드되지 않음	claude-sonnet-5-5 2026-10-18
+Not reached	연결되지 않음	claude-sonnet-5-5 2026-10-18
+Not registered yet	아직 등록되지 않음	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	등록되지 않음: 다른 앱에서 사용 중	claude-sonnet-5-5 2026-10-18
+Not running	실행 중이 아님	claude-sonnet-5-5 2026-10-18
+Not saved yet	아직 저장되지 않음	claude-sonnet-5-5 2026-10-18
+Not set	설정되지 않음	claude-sonnet-5-5 2026-10-18
+Not signed	서명되지 않음	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	%@에 로그인되어 있지 않습니다. 설정 › 저장 방법에서 로그인하세요.	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	로그인되어 있지 않습니다. 처음 업로드할 때 묻습니다.	claude-sonnet-5-5 2026-10-18
+Notarized	공증됨	claude-sonnet-5-5 2026-10-18
+Notes	메모	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	실행되는 동안 600ms마다 모든 변경 사항을 기록합니다. 스크린샷 붙여넣기가 작동하지 않을 때 유용합니다.	claude-sonnet-5-5 2026-10-18
+Nothing	없음	claude-sonnet-5-5 2026-10-18
+Nothing embedded	포함된 항목 없음	claude-sonnet-5-5 2026-10-18
+Nothing found	찾은 항목 없음	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	스크린샷에서 QR 코드로 읽을 수 있는 항목이 없습니다.	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	녹화 중인 항목이 없습니다.	claude-sonnet-5-5 2026-10-18
+Notification Settings…	알림 설정…	claude-sonnet-5-5 2026-10-18
+Notifications	알림	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	현재 %@ × %@픽셀	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	편집기의 카운터 도구로 방법 안내 단계에 번호를 매기세요.	claude-sonnet-5-5 2026-10-18
+OCR Text	OCR 텍스트	claude-sonnet-5-5 2026-10-18
+OPTIONS	옵션	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	기타 매개변수	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	재정의됨	claude-sonnet-5-5 2026-10-18
+Object and text	객체 및 텍스트	claude-sonnet-5-5 2026-10-18
+Object and two objects	객체 및 객체 두 개	claude-sonnet-5-5 2026-10-18
+Object over text	텍스트 위의 객체	claude-sonnet-5-5 2026-10-18
+Off	끔	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	이 앱에서는 꺼짐: 알림 없음	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	끔: “직접 저장”은 대신 이름에 (2), (3), …을 추가합니다.	claude-sonnet-5-5 2026-10-18
+Offset X:	오프셋 X:	claude-sonnet-5-5 2026-10-18
+Offset Y:	오프셋 Y:	claude-sonnet-5-5 2026-10-18
+On	켬	claude-sonnet-5-5 2026-10-18
+On Error / Failure	오류/실패 시	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	Mac에서는 어떤 앱도 클립보드를 잠글 수 없으므로 다른 앱이 %@의 클립보드 접근을 막을 수 없습니다.	claude-sonnet-5-5 2026-10-18
+On the clipboard now	현재 클립보드에 있음	claude-sonnet-5-5 2026-10-18
+Once at a time	한 번에 하나씩	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	한 줄에 하나씩: 값 또는 값 = 레이블	claude-sonnet-5-5 2026-10-18
+One screen	화면 하나	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	위의 Jira 및 Confluence 서버 중 macOS가 인증서를 신뢰하지 않는 서버에만 적용되며, 다른 모든 서버는 macOS 검사만 적용됩니다. 한 줄에 호스트 하나씩 입력하며, *와 ?는 와일드카드이고 포트는 무시됩니다. 지문은 정확히 하나의 인증서만 신뢰하므로 호스트보다 안전합니다. 인증서 때문에 업로드가 실패하면 서버의 지문이 표시됩니다. 목록이 비어 있으면 macOS 검사만 사용합니다.	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	단순한 순서로 연결된 단계만 이동할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Only when	다음 경우에만	claude-sonnet-5-5 2026-10-18
+Open	열기	claude-sonnet-5-5 2026-10-18
+Open %@	%@ 열기	claude-sonnet-5-5 2026-10-18
+Open %@ at login	로그인 시 %@ 열기	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	Greenshot에서 클립보드 열기	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	Greenshot 레시피 열기	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	Greenshot에서 이미지 열기	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	키보드 단축키 열기	claude-sonnet-5-5 2026-10-18
+Open Link	링크 열기	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	로그 뷰어 열기	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	로그 뷰어 열기…	claude-sonnet-5-5 2026-10-18
+Open Login Items	로그인 항목 열기	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	메뉴 막대 설정 열기	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	개인정보 보호 설정 열기	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	셀프 서비스 열기…	claude-sonnet-5-5 2026-10-18
+Open Settings	설정 열기	claude-sonnet-5-5 2026-10-18
+Open System Settings	시스템 설정 열기	claude-sonnet-5-5 2026-10-18
+Open With	다음으로 열기	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	레시피 파일 열기 (⌘O)	claude-sonnet-5-5 2026-10-18
+Open an empty editor	빈 편집기 열기	claude-sonnet-5-5 2026-10-18
+Open file	파일 열기	claude-sonnet-5-5 2026-10-18
+Open in Editor	편집기에서 열기	claude-sonnet-5-5 2026-10-18
+Open in another app	다른 앱에서 열기	claude-sonnet-5-5 2026-10-18
+Open in the default player	기본 플레이어에서 열기	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	저장 후 레시피 편집기에서 열기	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	마지막 캡처를 편집기에서 열기	claude-sonnet-5-5 2026-10-18
+Open the Recording With	다음으로 녹화 열기	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	다음으로 스크린샷 열기	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	앱을 다시 열거나 여기를 클릭하여 설정을 여세요.	claude-sonnet-5-5 2026-10-18
+Open the image with another app	다른 앱으로 이미지 열기	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	업로드 후 페이지 열기	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	레시피 편집기에서 레시피 열기	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	레시피 관리자 열기 (⇧⌘M)	claude-sonnet-5-5 2026-10-18
+Open with	다음으로 열기	claude-sonnet-5-5 2026-10-18
+Open with %@	%@(으)로 열기	claude-sonnet-5-5 2026-10-18
+Open with…	다음으로 열기…	claude-sonnet-5-5 2026-10-18
+Open: %@	열기: %@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	%@을(를) 열었습니다. Greenshot에 로드되어 있지 않습니다.	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	키보드 설정을 열었습니다.	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	로그 뷰어를 열었습니다.	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	Greenshot for Mac 편집기에서 이미지를 엽니다.	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	클립보드의 이미지를 Greenshot for Mac 편집기에서 엽니다.	claude-sonnet-5-5 2026-10-18
+Open…	열기…	claude-sonnet-5-5 2026-10-18
+Optional	선택 사항	claude-sonnet-5-5 2026-10-18
+Options	옵션	claude-sonnet-5-5 2026-10-18
+Options (%lld)	옵션 (%lld)	claude-sonnet-5-5 2026-10-18
+Order	순서	claude-sonnet-5-5 2026-10-18
+Orgchart	조직도	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	다른 화면 캡처 앱	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	그 외 (%@)	claude-sonnet-5-5 2026-10-18
+Other…	기타…	claude-sonnet-5-5 2026-10-18
+Out	Out	claude-sonnet-5-5 2026-10-18
+Outlook: allow export in meeting items	Outlook: 회의 항목에서 내보내기 허용	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook: 새 이메일의 이메일 형식	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	같은 이름의 파일 덮어쓰기	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	AI가 제안함	claude-sonnet-5-5 2026-10-18
+Page	페이지	claude-sonnet-5-5 2026-10-18
+Parallel	병렬	claude-sonnet-5-5 2026-10-18
+Parallel start	병렬 시작	claude-sonnet-5-5 2026-10-18
+Parameters	매개변수	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	붙여넣기 (⌘V)	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	Markdown, GitHub README 또는 풀 리퀘스트에 붙여넣으세요.	claude-sonnet-5-5 2026-10-18
+Path	경로	claude-sonnet-5-5 2026-10-18
+Pattern variables	패턴 변수	claude-sonnet-5-5 2026-10-18
+Pause Recording	녹화 일시 정지	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	화면이 잠겨 있는 동안 일시 정지	claude-sonnet-5-5 2026-10-18
+Permissions	권한	claude-sonnet-5-5 2026-10-18
+Permissions…	권한…	claude-sonnet-5-5 2026-10-18
+Personal access token	개인 액세스 토큰	claude-sonnet-5-5 2026-10-18
+Phone Call	전화 통화	claude-sonnet-5-5 2026-10-18
+Phone Call Details	전화 통화 세부 정보	claude-sonnet-5-5 2026-10-18
+Phone Number:	전화번호:	claude-sonnet-5-5 2026-10-18
+Phone:	전화:	claude-sonnet-5-5 2026-10-18
+Picture with caption	캡션이 있는 사진	claude-sonnet-5-5 2026-10-18
+Pictures	사진	claude-sonnet-5-5 2026-10-18
+Play the camera sound	카메라 소리 재생	claude-sonnet-5-5 2026-10-18
+Play the sound	소리 재생	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	전화번호를 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	바코드를 생성할 값을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	연락처 이름 또는 세부 정보를 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter event title.	이벤트 제목을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	위도와 경도 좌표를 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	네트워크 이름(SSID)을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	받는 사람 이메일 주소를 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	받는 사람 이름과 IBAN을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	받는 사람 번호를 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	텍스트 또는 URL을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	이 캡처를 어떻게 처리할지 선택하세요:	claude-sonnet-5-5 2026-10-18
+Pointer	포인터	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	목록에서 창 캡처에서 창을 가리키면 해당 창의 그림이 표시됩니다. 화면 녹화 권한이 필요합니다.	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	없는 앱을 가리킴: 설치를 클릭하세요	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint에서 예기치 않은 응답을 보냈습니다: %@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint: 이미지 가로세로 비율 잠금	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint: 내보낸 캡처의 슬라이드 레이아웃	claude-sonnet-5-5 2026-10-18
+Preset	프리셋	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	캡처하려면 %@을(를) 누르세요.	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	1–6을 눌러 섹션을 전환하고 F5를 눌러 새로 고침하세요.	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	캡처하는 동안 F1 또는 H를 누르면 사용할 수 있는 모든 키를 볼 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	캡처하는 동안 M을 누르면 스크린샷에서 마우스 포인터를 표시하거나 숨깁니다.	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	시작하려면 다음을 누르고, 언제든 이 창을 닫으려면 Esc를 누르세요.	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	캡처하는 동안 Z를 누르면 픽셀 단위 선택을 위한 확대경을 표시하거나 숨깁니다.	claude-sonnet-5-5 2026-10-18
+Preview	미리보기	claude-sonnet-5-5 2026-10-18
+Print a footer	푸터 인쇄	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	페이지 하단에 날짜/시간과 제목 인쇄	claude-sonnet-5-5 2026-10-18
+Print in	인쇄 방향	claude-sonnet-5-5 2026-10-18
+Print – %@	인쇄 – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	인쇄… (⌘P)	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	개인정보 보호 설정…	claude-sonnet-5-5 2026-10-18
+Program not found	프로그램을 찾을 수 없음	claude-sonnet-5-5 2026-10-18
+Program: %@	프로그램: %@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	AI 도구가 제안함	claude-sonnet-5-5 2026-10-18
+QR Code	QR 코드	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	QR 코드 동작…	claude-sonnet-5-5 2026-10-18
+QR Type:	QR 유형:	claude-sonnet-5-5 2026-10-18
+QR code actions	QR 코드 동작	claude-sonnet-5-5 2026-10-18
+QR code: %@	QR 코드: %@	claude-sonnet-5-5 2026-10-18
+Quality	품질	claude-sonnet-5-5 2026-10-18
+Quarantined	격리됨	claude-sonnet-5-5 2026-10-18
+Quick settings	빠른 설정	claude-sonnet-5-5 2026-10-18
+Quit %@	%@ 종료	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	이 사본을 시작하려면 먼저 종료하세요.	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	레시피 구성	claude-sonnet-5-5 2026-10-18
+Range	범위	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	원시 텍스트 또는 URL 세부 정보	claude-sonnet-5-5 2026-10-18
+Read error	읽기 오류	claude-sonnet-5-5 2026-10-18
+Read the QR code	QR 코드 읽기	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	로그 다시 읽기 (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	이 섹션 다시 읽기 (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Recent	최근	claude-sonnet-5-5 2026-10-18
+Recent issues	최근 이슈	claude-sonnet-5-5 2026-10-18
+Recently captured	최근 캡처됨	claude-sonnet-5-5 2026-10-18
+Recipe	레시피	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	Greenshot 외부에서 레시피가 변경됨	claude-sonnet-5-5 2026-10-18
+Recipe Details	레시피 세부 정보	claude-sonnet-5-5 2026-10-18
+Recipe Editor	레시피 편집기	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	레시피 편집기…	claude-sonnet-5-5 2026-10-18
+Recipe ID	레시피 ID	claude-sonnet-5-5 2026-10-18
+Recipe JSON	레시피 JSON	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	레시피 관리자…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	레시피 수정 감지됨	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	레시피가 로드되지 않음	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	레시피가 저장되지 않음	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	레시피 권한	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	AI 도구가 제안한 레시피	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	레시피 보안 승인	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	레시피 보안 검토	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	레시피 검증 실패	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	레시피 구성의 검증에 실패했습니다.	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	레시피 내용을 사용할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	레시피를 실행하는 중 오류가 발생했습니다:	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	레시피 파일이 너무 커서 미리볼 수 없습니다(> 1MB).	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	레시피 파일은 %@(으)로 끝나므로 레시피가 %@(으)로 저장됩니다.	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	레시피 단축키가 등록되지 않음	claude-sonnet-5-5 2026-10-18
+Recipe imported	레시피를 가져왔습니다	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	레시피 “%@”	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	레시피 “%@”(%@)	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	레시피 “%@” 실패	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	현재 Greenshot에서 레시피가 실행되고 있지 않아 레시피를 저장할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	현재 Greenshot에서 레시피가 실행되고 있지 않습니다.	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	파일에서 가져온 레시피(AI 도구가 작성한 것 포함)와 이에 대해 승인한 내용입니다. 여기서 변경한 내용은 즉시 적용됩니다.	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	레시피 메뉴(기본값)	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	레시피 메뉴(“%@”)	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	레시피는 방향성 비순환 그래프(DAG)여야 합니다. 전환과 대체가 이전 노드로 되돌아가지 않도록 하세요.	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	레시피는 단축키, 메뉴 항목, 클립보드, 다음으로 열기 또는 명령줄로 시작되는 일련의 단계로 캡처를 실행합니다. 레시피 파일은 그 동작을 승인한 후에만 사용됩니다.	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	레시피: ID, * (슬롯이 있는 모든 레시피) 또는 *capture, 쉼표로 구분	claude-sonnet-5-5 2026-10-18
+Recipient Number:	받는 사람 번호:	claude-sonnet-5-5 2026-10-18
+Recipient:	받는 사람:	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	캡처 화면이 열리자마자 텍스트 인식	claude-sonnet-5-5 2026-10-18
+Recognising text…	텍스트 인식 중…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	텍스트 인식 중…	claude-sonnet-5-5 2026-10-18
+Record	녹화	claude-sonnet-5-5 2026-10-18
+Record Region…	영역 녹화…	claude-sonnet-5-5 2026-10-18
+Record Screen	화면 녹화	claude-sonnet-5-5 2026-10-18
+Record Window…	창 녹화…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	마이크 없이 녹화	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	마우스 포인터 녹화	claude-sonnet-5-5 2026-10-18
+Recording	녹화	claude-sonnet-5-5 2026-10-18
+Recording starts	녹화 시작	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	녹화 중. 클릭하면 중지하고, ⌃-클릭하면 일시 정지하거나 폐기합니다.	claude-sonnet-5-5 2026-10-18
+Rectangle	사각형	claude-sonnet-5-5 2026-10-18
+Redo	다시 실행	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	다시 실행 (⇧⌘Z 또는 ⌘Y)	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	다시 실행 (⇧⌘Z)	claude-sonnet-5-5 2026-10-18
+Redone	다시 실행됨	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	색상 수를 최대 %lld개로 줄이기	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	색상 수 줄이기	claude-sonnet-5-5 2026-10-18
+Reference:	참조:	claude-sonnet-5-5 2026-10-18
+Refresh	새로 고침	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	이 빌드에서는 거부됨, 메시지가 모서리에 표시됩니다	claude-sonnet-5-5 2026-10-18
+Region	영역	claude-sonnet-5-5 2026-10-18
+Register Again	다시 등록	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	macOS에 단축키를 다시 등록합니다(예: 다른 앱이 키를 돌려준 후)	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	직접 Box 앱을 등록하고 설정 › 저장 방법에 클라이언트 ID와 시크릿을 입력하세요.	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	직접 Dropbox 앱을 등록하고 설정 › 저장 방법에 앱 키를 입력하세요.	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	[Dropbox App Console](https://www.dropbox.com/developers/apps)에서 직접 앱을 등록하세요: Scoped access, App folder 또는 Full Dropbox, files.content.write, sharing.write, sharing.read 권한, 리디렉션 URI `%@`. 앱 키를 여기에 붙여넣으세요. 시크릿은 필요하지 않습니다. 로그인은 키체인에 보관됩니다.	claude-sonnet-5-5 2026-10-18
+Registered	등록됨	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	등록되었지만 macOS가 먼저 사용함(%@)	claude-sonnet-5-5 2026-10-18
+Reject / Block	거부/차단	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	%@을(를) %@에서 다시 시작하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Relaunch Now	지금 다시 시작	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	%@에서 다시 시작	claude-sonnet-5-5 2026-10-18
+Reload All	모두 다시 로드	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	구성된 레시피 파일을 디스크에서 다시 로드	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	디스크에서 레시피를 다시 로드했습니다.	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	키체인에 기억	claude-sonnet-5-5 2026-10-18
+Remove	제거	claude-sonnet-5-5 2026-10-18
+Remove %@	%@ 제거	claude-sonnet-5-5 2026-10-18
+Remove Start Step	시작 단계 제거	claude-sonnet-5-5 2026-10-18
+Remove the option	옵션 제거	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	Greenshot에서 레시피 제거	claude-sonnet-5-5 2026-10-18
+Remove this error route	이 오류 경로 제거	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	시작 단계에서 이 단계 제거	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	제거: 프로그램은 다음에 연결할 때 다시 묻습니다.	claude-sonnet-5-5 2026-10-18
+Removed an option	옵션을 제거했습니다	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	레시피 오류 대체 경로를 제거했습니다	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	'%@'에 대한 연결을 제거했습니다	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	단계 ID를 '%@'에서 '%@'(으)로 변경했습니다	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	마지막 로그아웃 또는 재시동 후 다시 열렸으며 아직 저장되지 않았습니다.	claude-sonnet-5-5 2026-10-18
+Replace	교체	claude-sonnet-5-5 2026-10-18
+Replace File	파일 교체	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	레시피가 아닌 파일을 교체하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Replace the annotations	주석 교체	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	기본 제공 자동 단계 “%@”을(를) 교체합니다	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	기본 제공 레시피 “%@”을(를) 교체합니다	claude-sonnet-5-5 2026-10-18
+Report	보고	claude-sonnet-5-5 2026-10-18
+Report a bug	버그 보고	claude-sonnet-5-5 2026-10-18
+Report an Issue…	이슈 보고…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	GitHub에 보고…	claude-sonnet-5-5 2026-10-18
+Required	필수	claude-sonnet-5-5 2026-10-18
+Reset	재설정	claude-sonnet-5-5 2026-10-18
+Reset All	모두 재설정	claude-sonnet-5-5 2026-10-18
+Reset All to Default	모두 기본값으로 재설정	claude-sonnet-5-5 2026-10-18
+Reset Default	기본값 재설정	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	레시피를 기본값으로 재설정	claude-sonnet-5-5 2026-10-18
+Reset to Default	기본값으로 재설정	claude-sonnet-5-5 2026-10-18
+Reset to defaults	기본값으로 재설정	claude-sonnet-5-5 2026-10-18
+Resize	크기조정	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	이미지 크기조정 (⌥⌘R)	claude-sonnet-5-5 2026-10-18
+Resize…	크기조정…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	Greenshot이 예기치 않게 종료된 후 복원되었으며 아직 저장되지 않았습니다.	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	복원되었으며 아직 저장되지 않았습니다.	claude-sonnet-5-5 2026-10-18
+Resume Recording	녹화 재개	claude-sonnet-5-5 2026-10-18
+Retry	다시 시도	claude-sonnet-5-5 2026-10-18
+Revert	되돌리기	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	'%@'을(를) 기본 제공 기본 정의로 되돌리시겠습니까?	claude-sonnet-5-5 2026-10-18
+Review approval…	승인 검토…	claude-sonnet-5-5 2026-10-18
+Review…	검토…	claude-sonnet-5-5 2026-10-18
+Revoke	취소	claude-sonnet-5-5 2026-10-18
+Revoke Approval	승인 취소	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	승인 취소…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	“%@”의 승인을 취소하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	“%@”의 승인을 취소하시겠습니까? 즉시 실행이 중지되며 다시 로드되지 않습니다. 파일은 그대로 남아 있으므로 다시 열어서 검토하고 승인하세요.	claude-sonnet-5-5 2026-10-18
+Right key	오른쪽 키	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	오른쪽 클릭 또는 ⌃-클릭하면 메뉴가 표시됩니다. 더블 클릭 동작이 있으면 클릭은 먼저 더블 클릭 시간만큼 기다립니다.	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	시계 방향으로 회전	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	반시계 방향으로 회전	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	시계 방향으로 회전 (⌥⌘→)	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	반시계 방향으로 회전 (⌥⌘←)	claude-sonnet-5-5 2026-10-18
+Rounded Dots	둥근 점	claude-sonnet-5-5 2026-10-18
+Route To	경로 지정	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	이 레시피의 단계로 경로 지정…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	"MCP: Add Server"(Command (stdio))를 실행하거나 작업 공간의 .vscode/mcp.json에 넣으세요.	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	이미지로 외부 명령어 실행	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	백그라운드에서 실행(오류는 대화상자가 아닌 메시지로 표시)	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	터미널에서 실행하세요(--scope user: 모든 프로젝트). claude mcp list 또는 /mcp로 확인하세요.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	터미널에서 실행하거나 ~/.codex/config.toml에 command = 경로로 [mcp_servers.greenshot]을 추가하세요.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	터미널에서 실행하거나 ~/.gemini/settings.json에 mcpServers 항목을 추가하세요. /mcp로 확인하세요.	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	지금 캡처 레시피 실행	claude-sonnet-5-5 2026-10-18
+Running	실행 중	claude-sonnet-5-5 2026-10-18
+Running for	실행 시간	claude-sonnet-5-5 2026-10-18
+Runs	실행	claude-sonnet-5-5 2026-10-18
+Runs as	실행 주체	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 또는 SHA-1, 예: 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	SMS	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	SMS 문자 메시지 세부 정보	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	단계 오류 처리	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	단계 매개변수	claude-sonnet-5-5 2026-10-18
+Same as macOS	macOS와 동일	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	macOS와 동일(%@)	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	단축키와 같은 키	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	저장 (⌘S)	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	저장 (⌘S), 다른 이름으로 저장은 ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	다른 이름으로 저장… (⇧⌘S)	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	자동 단계를 다른 이름으로 저장…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	테스트 실행 전에 저장	claude-sonnet-5-5 2026-10-18
+Save Changes	변경 사항 저장	claude-sonnet-5-5 2026-10-18
+Save Directly	직접 저장	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	직접 저장(%@)	claude-sonnet-5-5 2026-10-18
+Save Elements…	요소 저장…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	Greenshot 레시피를 다른 이름으로 저장…	claude-sonnet-5-5 2026-10-18
+Save Recipe	레시피 저장	claude-sonnet-5-5 2026-10-18
+Save Screenshot	스크린샷 저장	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	스크린샷을 PDF로 저장	claude-sonnet-5-5 2026-10-18
+Save and Run	저장 및 실행	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	Greenshot 파일로 저장	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	Greenshot 파일로 저장…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	PDF 문서로 저장	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	저장하면 새 파일을 묻기 때문에 이 파일은 그대로 유지됩니다.	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	화면 사진을 파일로 저장	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	선택한 영역의 사진을 파일로 저장	claude-sonnet-5-5 2026-10-18
+Save to File	파일로 저장	claude-sonnet-5-5 2026-10-18
+Save to folder	폴더에 저장	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	이미지의 색상이 256개 미만이면 256색으로 저장	claude-sonnet-5-5 2026-10-18
+Saved %@	%@을(를) 저장했습니다	claude-sonnet-5-5 2026-10-18
+Saved file	저장된 파일	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	레시피를 %@에 저장했습니다	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	저장하면 다른 레시피가 교체됩니다	claude-sonnet-5-5 2026-10-18
+Saving as %@.	%@(으)로 저장하는 중.	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	녹화 저장 중…	claude-sonnet-5-5 2026-10-18
+Saving…	저장 중…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	비디오를 채우도록 확대	claude-sonnet-5-5 2026-10-18
+Scaling	크기 조정	claude-sonnet-5-5 2026-10-18
+Schedule	일정	claude-sonnet-5-5 2026-10-18
+Screen	화면	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	화면 %lld(연결되지 않음)	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	화면 %lld: %@	claude-sonnet-5-5 2026-10-18
+Screen recording	화면 녹화	claude-sonnet-5-5 2026-10-18
+Screens	화면	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	스크린샷 및 녹화 옵션	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	자체 전역 단축키가 있는 스크린샷 앱	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	macOS 스크린샷 단축키	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	스크린샷에는 화면에 보이는 모든 것이 포함될 수 있습니다. 제외된 응용 프로그램(기본적으로 암호 관리자)의 창은 공유되지 않습니다. 두 항목 모두 설정 › AI 도구에서 변경할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Script: %@	스크립트: %@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	기존 이슈 검색	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	이름, ID, 트리거, 파일 검색	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	로그 뷰어에서 전체 로그를 검색하고 따라가고 복사하세요.	claude-sonnet-5-5 2026-10-18
+Searched at %@	%@에 검색함	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	GitHub에서 이 식별자를 검색하면 같은 이슈를 두 번 등록하는 것을 피할 수 있고 수정 사항이나 해결 방법이 알려져 있는지 알 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Searching…	검색 중…	claude-sonnet-5-5 2026-10-18
+Section header	섹션 헤더	claude-sonnet-5-5 2026-10-18
+Select	선택	claude-sonnet-5-5 2026-10-18
+Select Image Editor	이미지 편집기 선택	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	Greenshot for Mac으로 캡처할 화면 영역을 선택하세요.	claude-sonnet-5-5 2026-10-18
+Select a region or a window	영역 또는 창 선택	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	목록에서 단계를 선택하여 변경하거나 단계 추가로 추가하세요. 선택한 단계 뒤, 선택한 분기, 레인 또는 화살표 안에 추가됩니다.	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	먼저 단계나 화살표를 선택하세요. 새 단계는 그 바로 뒤 또는 화살표 안에 추가됩니다.	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	아래에서 대체 저장 방법을 선택하거나, 다른 레시피로 전달하거나, 다시 시도하세요:	claude-sonnet-5-5 2026-10-18
+Select an editor	편집기 선택	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	창 안의 영역 선택	claude-sonnet-5-5 2026-10-18
+Selection	선택	claude-sonnet-5-5 2026-10-18
+Self-Service	셀프 서비스	claude-sonnet-5-5 2026-10-18
+Self-Service…	셀프 서비스…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	스크린샷 보내기	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	스크린샷을 %@(으)로 보내는 중…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	프린터 “%@”(으)로 보냈습니다	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	주소는 쉼표로 구분하세요. 제목에는 ${title} 같은 파일명 패턴 변수를 사용할 수 있으며 Outlook에서도 사용됩니다. CC 또는 BCC를 사용하고 메일 앱이 Mail이면 Mail에서 메일 전체를 작성합니다(macOS에서 Greenshot이 Mail을 제어할 수 있는지 한 번 묻습니다). 그렇지 않으면 macOS 메일 서비스가 받는 사람과 제목을 채우고, CC와 BCC는 직접 추가하도록 표시됩니다.	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server 또는 Data Center: 개인 액세스 토큰	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server 또는 Data Center: 사용자 이름과 암호	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	명령어 설정…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	조직에서 설정함	claude-sonnet-5-5 2026-10-18
+Set in the recipe	레시피에서 설정됨	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	일반 › 단축키에서 설정하세요. 녹화의 메뉴 막대 아이콘을 클릭하면 중지되고 ⌃-클릭하면 일시 정지됩니다.	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	Mail에서 계정을 설정하거나(또는 Mail › 설정에서 기본 이메일 앱을 선택하고) 다시 시도하세요.	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	설정(사용자 기본값에 있음)	claude-sonnet-5-5 2026-10-18
+Settings are turned off	설정이 꺼져 있습니다	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	설정 파일(--settings-dir)	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	설정 › Developer › Edit Config를 클릭하면 ~/Library/Application Support/Claude/claude_desktop_config.json이 열립니다. 서버를 추가하고 Claude를 다시 시작하세요.	claude-sonnet-5-5 2026-10-18
+Settings… (⌘,)	설정… (⌘,)	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	한 슬롯에 여러 개가 있으면 순서대로, 그다음 ID 순으로 실행됩니다	claude-sonnet-5-5 2026-10-18
+Shadow	그림자	claude-sonnet-5-5 2026-10-18
+Shadow:	그림자:	claude-sonnet-5-5 2026-10-18
+Share	공유	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	앱 및 연락처와 공유	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	비공개 링크가 아닌 공유 링크(링크가 있는 모든 사용자)	claude-sonnet-5-5 2026-10-18
+Share…	공유…	claude-sonnet-5-5 2026-10-18
+Shift	Shift	claude-sonnet-5-5 2026-10-18
+Show	보기	claude-sonnet-5-5 2026-10-18
+Show All	모두 보기	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	확장 프로그램 폴더 보기…	claude-sonnet-5-5 2026-10-18
+Show It	보기	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	열린 스크린샷 보기	claude-sonnet-5-5 2026-10-18
+Show Welcome…	환영 화면 보기…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	AI 도구가 스크린샷을 찍을 때 알림 표시	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	알림에 캡처 썸네일 표시	claude-sonnet-5-5 2026-10-18
+Show all parameters	모든 매개변수 표시	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	창이 열려 있는 동안 Dock에 표시	claude-sonnet-5-5 2026-10-18
+Show in Finder	Finder에서 보기	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	레시피 메뉴에 표시	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	메뉴 막대의 빠른 설정에 표시	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	인쇄하기 전에 항상 인쇄 옵션 표시	claude-sonnet-5-5 2026-10-18
+Show the menu	메뉴 표시	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	메뉴 막대 아이콘 표시	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	캡처 화면에 확대경 표시	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	창 목록에 창 썸네일 표시	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	Greenshot의 현재 상태대로 %@을(를) 표시합니다.	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	전체 %@ 중 끝부분 %@을(를) 표시합니다. 이전 로그 줄을 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	약 %@줄 표시(%@/%@)	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	전체 로그 파일에서 이 텍스트가 포함된 로그 항목만 표시합니다 (⌘F)	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	캔버스 축소	claude-sonnet-5-5 2026-10-18
+Sign In…	로그인…	claude-sonnet-5-5 2026-10-18
+Sign Out	로그아웃	claude-sonnet-5-5 2026-10-18
+Sign in with	다음으로 로그인	claude-sonnet-5-5 2026-10-18
+Signed by	서명자	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	링커가 서명함(개발 빌드)	claude-sonnet-5-5 2026-10-18
+Signed by: %@	서명자: %@	claude-sonnet-5-5 2026-10-18
+Signed in	로그인됨	claude-sonnet-5-5 2026-10-18
+Signed in.	로그인되었습니다.	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	크기: 0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	크기	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Skitch 스크린샷 도구	claude-sonnet-5-5 2026-10-18
+Slot	슬롯	claude-sonnet-5-5 2026-10-18
+Small size	작은 크기	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	작을수록 자유 그리기 선의 세부 사항이 더 많이 유지되고, 클수록 더 부드러워집니다.	claude-sonnet-5-5 2026-10-18
+Smallest value	최솟값	claude-sonnet-5-5 2026-10-18
+Software	소프트웨어	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	일부 단축키를 등록할 수 없습니다	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	일부 리더에서는 이 코드의 서유럽 문자 이외의 문자가 깨질 수 있습니다. QR 및 Data Matrix 코드는 그렇지 않습니다.	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	이 언어의 일부 텍스트는 기계 번역입니다.	claude-sonnet-5-5 2026-10-18
+Something went wrong	문제가 발생했습니다	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	주석을 유형별로 정렬	claude-sonnet-5-5 2026-10-18
+Sound	사운드	claude-sonnet-5-5 2026-10-18
+Source code	소스 코드	claude-sonnet-5-5 2026-10-18
+Space	공간	claude-sonnet-5-5 2026-10-18
+Space:	공간:	claude-sonnet-5-5 2026-10-18
+Speech Bubble	말풍선	claude-sonnet-5-5 2026-10-18
+Stack trace	스택 추적	claude-sonnet-5-5 2026-10-18
+Start (UTC):	시작(UTC):	claude-sonnet-5-5 2026-10-18
+Start Watching	관찰 시작	claude-sonnet-5-5 2026-10-18
+Start or stop recording	녹화 시작 또는 중지	claude-sonnet-5-5 2026-10-18
+Start step	시작 단계	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	시작 단계가 먼저 실행되며, 여러 시작 단계는 동시에 실행됩니다(업스트림 START STEPS). 단계 목록에서 표시하세요.	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	클립보드 관찰을 시작했습니다(600ms마다)	claude-sonnet-5-5 2026-10-18
+Starting and stopping	시작 및 중지	claude-sonnet-5-5 2026-10-18
+Starting…	시작하는 중…	claude-sonnet-5-5 2026-10-18
+Startup	시동	claude-sonnet-5-5 2026-10-18
+Step	단계	claude-sonnet-5-5 2026-10-18
+Step %lld	단계 %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	단계 %lld: %@은(는) 예약된 키이므로 단축키에 사용할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	단계 %lld: F1–F20 외의 키에는 ⌃, ⌥ 또는 ⌘가 필요합니다.	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	단계 %lld: F1–F20을 제외하고 ⇧만 보조 키로 사용할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	이 레시피의 단계	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	%@이(가) 적합한 슬롯이 있는 레시피에 추가하는 단계입니다. 설정 › 레시피에서 전환합니다.	claude-sonnet-5-5 2026-10-18
+Stop Recording	녹화 중지	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	녹화 중지(%@)	claude-sonnet-5-5 2026-10-18
+Stop Watching	관찰 중지	claude-sonnet-5-5 2026-10-18
+Stop after	다음 시간 후 중지	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	창이 닫히면 중지	claude-sonnet-5-5 2026-10-18
+Stopped watching	관찰을 중지했습니다	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	클립보드 관찰을 중지했습니다.	claude-sonnet-5-5 2026-10-18
+Subject	제목	claude-sonnet-5-5 2026-10-18
+Subject:	제목:	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	원하지 않는 트리거는 끄세요.	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	자동 단계 켜기/끄기(설정 › 레시피에서도 가능)	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	레시피의 트리거와 권한 전환	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	승인의 트리거와 권한 켜기/끄기	claude-sonnet-5-5 2026-10-18
+System	시스템	claude-sonnet-5-5 2026-10-18
+System Font	시스템 서체	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	시스템 정보를 클립보드에 복사했습니다.	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	트리거	claude-sonnet-5-5 2026-10-18
+Table	표	claude-sonnet-5-5 2026-10-18
+Take Screenshot	스크린샷 찍기	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	Greenshot for Mac으로 스크린샷을 찍습니다. 단축키를 사용할 때처럼 저장 방법으로 전달됩니다.	claude-sonnet-5-5 2026-10-18
+Target step	대상 단계	claude-sonnet-5-5 2026-10-18
+Team	팀	claude-sonnet-5-5 2026-10-18
+Team ID: %@	팀 ID: %@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	이미지의 선택한 가장자리를 찢습니다.	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	TechSmith Snagit 화면 캡처	claude-sonnet-5-5 2026-10-18
+Teeth	톱니	claude-sonnet-5-5 2026-10-18
+Template	템플릿	claude-sonnet-5-5 2026-10-18
+Test Connection	연결 테스트	claude-sonnet-5-5 2026-10-18
+Test Run	테스트 실행	claude-sonnet-5-5 2026-10-18
+Test run error: %@	테스트 실행 오류: %@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	테스트 실행이 시작되지 않음: %@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	%@의 테스트 실행에 실패했습니다.	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	%@의 테스트 실행이 시작되었습니다.	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	%@의 테스트 실행: 취소됨.	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	%@의 테스트 실행: 완료됨.	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	'%@'의 테스트 실행이 종료되었습니다: %@.	claude-sonnet-5-5 2026-10-18
+Text	텍스트	claude-sonnet-5-5 2026-10-18
+Text (OCR)	텍스트(OCR)	claude-sonnet-5-5 2026-10-18
+Text / Number Value	텍스트/숫자 값	claude-sonnet-5-5 2026-10-18
+Text / URL	텍스트/URL	claude-sonnet-5-5 2026-10-18
+Text and chart	텍스트 및 차트	claude-sonnet-5-5 2026-10-18
+Text and clipart	텍스트 및 클립아트	claude-sonnet-5-5 2026-10-18
+Text and media clip	텍스트 및 미디어 클립	claude-sonnet-5-5 2026-10-18
+Text and object	텍스트 및 객체	claude-sonnet-5-5 2026-10-18
+Text and two objects	텍스트 및 객체 두 개	claude-sonnet-5-5 2026-10-18
+Text over object	객체 위의 텍스트	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	텍스트 인식(OCR)	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	%@을(를) 설치해 주셔서 감사합니다! 지금 실행 중이며 화면 오른쪽 상단의 메뉴 막대에서 기다리고 있습니다.	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	시작하는 데 필요한 것은 이것뿐입니다. %@은(는) 메뉴 막대에서 기다리며, 나머지는 언제든 설정에서 변경할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+The %@ app key	%@ 앱 키	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	%@ 아이콘이 메뉴 막대에 표시됩니다.	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	Greenshot 파일을 열 수 없습니다	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Chrome, Edge, Firefox용 Greenshot for Mac (Community) Companion 확장 프로그램은 보이는 페이지와 페이지 주소를 보냅니다.	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON에는 레시피가 정확히 하나만 있어야 합니다(현재 %lld개).	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	JSON 탭에 아직 레시피에 적용되지 않은 변경 사항이 있습니다.	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	키체인에서 항목을 추가할 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	키체인에서 항목을 읽을 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	키체인에서 항목을 제거할 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	키체인에서 항목을 업데이트할 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	편집기의 모자이크 도구는 다른 사람에게 보이면 안 되는 스크린샷 부분을 픽셀화하거나 흐리게 처리합니다.	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	PDF를 저장할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The action failed.	작업에 실패했습니다.	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	복사한 앱에서 알려 주지 않습니다.	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	“%@”의 승인을 취소할 수 없습니다. 변경되지 않았습니다. 이유는 로그를 확인하세요.	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	해당 영역이 디스플레이에 없습니다.	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	자동 단계는 필요한 모든 권한이 있을 때만 사용됩니다.	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	%@의 인증서 SHA-256 지문은 %@입니다.	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	변경된 레시피에는 %@이(가) 필요하지만 현재 승인에서는 허용되지 않습니다. 먼저 저장하세요. 저장할 때 승인을 요청합니다.	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	클립보드에 %lld가지 유형이 있습니다.	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	클립보드에 1가지 유형이 있습니다.	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	클립보드가 비어 있습니다.	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	클립보드는 그대로 유지되었습니다.	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	앱의 코드 서명, 공증 및 격리	claude-sonnet-5-5 2026-10-18
+The color behind the image	이미지 뒤의 색상	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	찢어진 부분의 색상, 기본값은 투명	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	저장 방법 메뉴에는 사용자가 주최하는 열린 회의도 표시되며, 스크린샷이 회의에 첨부됩니다.	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	“%@”의 세부 정보를 사용할 수 없습니다. 더 이상 로드되어 있지 않습니다.	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	디스플레이가 더 이상 연결되어 있지 않습니다.	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	이 잘라내기 표시의 가장자리와 그림자입니다.	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	자르기로 잘려 나가는 면의 가장자리와, 행이나 열을 잘라낼 때의 이음매 가장자리입니다. 없음을 선택하면 직선으로 매끄럽게 유지됩니다	claude-sonnet-5-5 2026-10-18
+The editor was closed.	편집기가 닫혔습니다.	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	요소를 로드할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	요소를 저장할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	이 파일의 요소를 읽을 수 없어 요소 없이 이미지를 표시합니다.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	파일을 다시 열면 요소를 계속 편집할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	파일을 편집기에서 다시 열면 요소를 계속 편집할 수 있습니다. 다음으로 열기, Office, 메일 및 공유에는 PNG가 전달됩니다.	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	확장 프로그램 폴더를 복사할 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	%@ 파일을 읽을 수 없습니다.	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	승인한 이후 파일이 변경되었습니다	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	단축키 %@(으)로 녹화를 시작하고 중지합니다.	claude-sonnet-5-5 2026-10-18
+The hotkey records	단축키로 녹화	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	단축키는 계속 작동합니다. 설정으로 돌아가려면 Spotlight, Launchpad 또는 응용 프로그램 폴더에서 %@을(를) 다시 여세요.	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	이미지를 %@(으)로 인코딩할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+The image could not be opened	이미지를 열 수 없습니다	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	이미지를 열 수 없습니다.	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	이미지가 %@에 비해 너무 큽니다. 가로와 세로가 최대 %lld픽셀이어야 합니다.	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	부울 옵션의 키: 이 옵션은 해당 옵션이 켜져 있을 때만 변경할 수 있습니다	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Greenshot 텍스트의 언어입니다. Windows용 Greenshot에 번역이 없는 텍스트는 영어로 유지됩니다.	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	T를 누르면 줄이 준비되어 있습니다. 업스트림: AlwaysRunOCROnCapture.	claude-sonnet-5-5 2026-10-18
+The log at a glance	한눈에 보는 로그	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	로그 파일을 읽을 수 없습니다.	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	메일 앱은 다른 앱의 첨부 파일을 받을 수 없습니다. 클릭하면 Finder에서 파일을 표시합니다.	claude-sonnet-5-5 2026-10-18
+The mail could not be written	메일을 작성할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	메뉴 막대 아이콘이 숨겨져 있나요? 여기에서 종료하세요.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	메뉴 막대 아이콘이 설정 › 일반에서 꺼져 있습니다. %@의 대부분의 기능은 아이콘 메뉴로 사용합니다.	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	메뉴는 첫 클릭에 열리므로 더블 클릭은 추가 동작이 없습니다. 오른쪽 클릭 또는 ⌃-클릭하면 항상 메뉴가 표시됩니다.	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	마이크를 사용할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	새 언어는 다시 시작한 후에 표시됩니다.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	새 언어는 다시 시작한 후에 표시됩니다. 저장하지 않은 스크린샷은 먼저 확인합니다.	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	이미지의 새 크기입니다. 요소도 함께 이동합니다.	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	이전 버전을 알 수 없으므로 레시피 전체를 검토하세요	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	프린터 “%@”이(가) 더 이상 없습니다	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	프린터 “%@”이(가) 더 이상 없습니다.	claude-sonnet-5-5 2026-10-18
+The program was not found.	프로그램을 찾을 수 없습니다.	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	JSON 편집을 시작한 후 레시피가 변경되었습니다. 적용하면 해당 변경 사항이 교체되고, 되돌리기를 선택하면 레시피를 현재 상태로 표시합니다.	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	레시피 파일을 읽을 수 없습니다.	claude-sonnet-5-5 2026-10-18
+The recipe goes on	레시피가 계속됨	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	레시피는 필요한 모든 권한이 있을 때만 사용됩니다.	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	레시피에 Greenshot for Mac에 없는 플러그인이 필요합니다.	claude-sonnet-5-5 2026-10-18
+The recipe to edit	편집할 레시피	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	레시피가 저장되지 않았습니다.	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	레시피가 Greenshot의 일반 출력 폴더 외부의 파일을 사용합니다.	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	%@이(가) 알고 있는 레시피와 자동 단계입니다.	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	레시피가 너무 커서 비교할 수 없습니다(%lld줄 초과).	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	레시피는 Greenshot과 함께 시작됩니다.	claude-sonnet-5-5 2026-10-18
+The recording could not be started	녹화를 시작할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	아무것도 녹화되기 전에 녹화가 종료되었습니다.	claude-sonnet-5-5 2026-10-18
+The recording failed	녹화에 실패했습니다	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	녹화를 저장하는 중입니다.	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	녹화가 일시 정지되었습니다. 클릭하면 중지하고, ⌃-클릭하면 계속하거나 폐기합니다.	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	녹화를 시작하는 중입니다. 실행되면 바로 클릭하여 중지할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	녹화가 %lld초 후에 시작됩니다. 클릭하면 취소합니다.	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	녹화가 이미 종료되었습니다.	claude-sonnet-5-5 2026-10-18
+The recording was discarded	녹화가 폐기되었습니다	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	요청이 greenshot-cli를 통해 들어왔습니다. 직접 시작한 경우에만 허용하세요. 레시피 결과는 레시피가 보내는 곳으로 전달됩니다.	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	요청이 greenshot-cli를 통해 들어왔습니다. 직접 시작한 경우에만 허용하세요. 스크린샷은 저장 방법으로 전달됩니다.	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	파일명 패턴과 같은 변수입니다(예: ${title}, ${capturetime:d"D"}).	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	마우스가 있는 화면	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	마우스 포인터가 있는 화면	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	스크린샷을 첨부할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	스크린샷을 인코딩할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	스크린샷을 저장할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	스크린샷을 %@에 저장할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	스크린샷을 파일로 저장할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	스크린샷을 저장할 수 없습니다. 다른 위치를 선택하세요	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	스크린샷을 %@(으)로 보낼 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	스크린샷을 공유할 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	스크린샷을 찍을 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	스크린샷을 쓸 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	%@용 스크린샷을 쓸 수 없습니다	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	macOS 스크린샷 단축키는 사용자의 단축키를 사용하지 않습니다.	claude-sonnet-5-5 2026-10-18
+The script failed.	스크립트에 실패했습니다.	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	스크립트가 %lld초보다 오래 걸렸습니다.	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	서버가 HTTP %lld(으)로 응답했습니다.	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	설정 파일을 읽을 수 없습니다	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	설정 파일, 로그 및 충돌 보고서	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	로그인 응답이 요청(state)과 일치하지 않았습니다.	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	로그인 응답에 코드가 없었습니다.	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	로그인 창을 열 수 없었습니다.	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	파일 › 새 이미지의 크기이며, 그림을 그릴 흰색 이미지입니다.	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	텍스트를 인식할 수 없었습니다	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	텍스트를 인식할 수 없었습니다: %@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	이 이미지의 찢어진 가장자리입니다.	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	이미지의 투명한 부분이 이 색상으로 채워집니다.	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	트리거는 꺼진 상태로 시작합니다. 이 레시피를 시작할 수 있는 트리거를 각각 켜세요. 꺼 둔 트리거는 꺼진 상태로 유지됩니다(나중에 권한에서 켤 수 있습니다). 트리거가 없어도 레시피 목록에서 레시피를 실행할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	업로드할 때 이슈를 묻습니다: 키, 최근 10개 중 하나, 즐겨찾는 필터 또는 검색. 열린 창(예: 브라우저)의 제목에 있는 이슈는 저장 방법 메뉴에 표시됩니다.	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	업로드할 때 페이지를 묻습니다: Safari나 Chrome에서 열려 있는 페이지, 제목 검색 또는 공간의 페이지 트리. 최근 10개도 저장 방법 메뉴에 있습니다.	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	값은 템플릿입니다(${…}를 사용할 수 있음)	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	비디오 파일을 완료할 수 없었습니다: %@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	비디오 파일을 설정할 수 없었습니다.	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	비디오 파일을 쓸 수 없었습니다: %@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	창을 캡처할 수 없었습니다	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	창 단축키는 활성 창을 캡처하는 대신 창 모드로 캡처 화면을 엽니다.	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	창이 더 이상 화면에 없습니다.	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	그러면 로그인한 직후에 단축키가 작동합니다.	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	잘라낼 콘텐츠 주위에 한 가지 색의 테두리가 없습니다.	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	클립보드에 이미지가 없습니다	claude-sonnet-5-5 2026-10-18
+There is no image to open.	열 이미지가 없습니다.	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	레시피 '%@'이(가) 없습니다.	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	캡처할 화면 내용이 없었습니다.	claude-sonnet-5-5 2026-10-18
+Thermal state	열 상태	claude-sonnet-5-5 2026-10-18
+These are for this print only.	이 설정은 이번 인쇄에만 적용됩니다.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	나중에 설정 › 프린터에서 변경할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+These lanes run at the same time	이 레인들은 동시에 실행됩니다	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	이 프로그램들은 Greenshot을 사용할 수 있습니다. ✕로 제거하면 다음에 연결할 때 다시 묻습니다. 런타임(node, python 등)은 실행하는 스크립트만 허용되며, 개발자가 서명한 프로그램은 같은 개발자가 계속 서명하고 있는 동안에만 허용됩니다.	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	이 트리거는 꺼진 상태로 유지되므로 레시피를 시작하지 않습니다:	claude-sonnet-5-5 2026-10-18
+These:	다음:	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	이 Mac에는 마이크가 없습니다.	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	이 URL은 http://로 시작합니다. 토큰이나 암호가 암호화되지 않은 채 전송됩니다. 서버에서 제공하면 https://를 사용하세요.	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	이 주소는 http://로 시작합니다. 암호가 암호화되지 않은 채 전송됩니다.	claude-sonnet-5-5 2026-10-18
+This app	이 앱	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	이 자동 단계는 선택한 저장 방법에 대해 선택한 레시피의 캡처를 변경합니다. 새 레시피에도 적용됩니다.	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	이 자동 단계는 AI 도구가 작성했습니다. 기본 제공 레시피를 포함한 다른 레시피를 변경합니다. 어떤 레시피가 변경되고 무엇이 추가되는지 아래에서 확인하세요. 꺼진 상태로 시작하며, 설정 › 레시피에서 켜세요.	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	이것은 레시피이며, 편집기에는 자동 단계가 열려 있습니다.	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	이것은 자동 단계이며, 편집기에는 레시피가 열려 있습니다.	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	이 프로그램은 어떠한 보증도 하지 않습니다. 이 프로그램은 자유 소프트웨어이며, 특정 조건에 따라 재배포할 수 있습니다: %@ 이상.	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	이 프로그램은 개발자가 서명하지 않았습니다.	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	이 레시피는 Greenshot이나 사용자가 아니라 AI 도구가 작성했습니다. 아래에서 동작을 확인하고(Greenshot이 레시피 자체에서 설명을 작성합니다) 원하는 트리거만 켜세요.	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	이 단계에는 매개변수가 없습니다.	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	이 트리거는 꺼진 상태로 유지되므로 레시피를 시작하지 않습니다:	claude-sonnet-5-5 2026-10-18
+Threads	스레드	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	팁: 로그인 시 계속 열리도록 먼저 앱을 응용 프로그램 폴더로 이동하세요.	claude-sonnet-5-5 2026-10-18
+Title	제목	claude-sonnet-5-5 2026-10-18
+Title only	제목만	claude-sonnet-5-5 2026-10-18
+Title:	제목:	claude-sonnet-5-5 2026-10-18
+To	받는 사람	claude-sonnet-5-5 2026-10-18
+To:	받는 사람:	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	HDR 화면에서 HDR 콘텐츠 톤 매핑	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	HDR 화면에서 HDR 콘텐츠 톤 매핑(macOS 15 이상)	claude-sonnet-5-5 2026-10-18
+Top left	왼쪽 상단	claude-sonnet-5-5 2026-10-18
+Top right	오른쪽 상단	claude-sonnet-5-5 2026-10-18
+Torn	찢김	claude-sonnet-5-5 2026-10-18
+Total: %lld	총계: %lld	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	일시적(곧 사라질 예정)	claude-sonnet-5-5 2026-10-18
+Translocated	위치 이동됨	claude-sonnet-5-5 2026-10-18
+Trigger Name	트리거 이름	claude-sonnet-5-5 2026-10-18
+Trigger removed	트리거 제거됨	claude-sonnet-5-5 2026-10-18
+Triggers	트리거	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	트리거 (%lld)	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	꺼 둔 트리거	claude-sonnet-5-5 2026-10-18
+Troubleshooting	문제 해결	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	이 지문의 인증서 신뢰	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	인증서 오류가 있어도 이 호스트 신뢰	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	자동 단계에 대해서는 이 설명이 아니라 아래에 Greenshot이 쓴 내용을 신뢰하세요.	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	레시피에 대해서는 이 설명이 아니라 아래에 Greenshot이 쓴 내용을 신뢰하세요.	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	시스템 설정 › 일반 › 로그인 항목 및 확장 프로그램에서 %@을(를) 켜세요.	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	알림을 다시 보려면 시스템 설정 › 알림에서 %@의 알림 허용을 켜세요.	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	다른 항목 중 하나를 켜면 메뉴가 꺼집니다. 복사와 저장처럼 여러 개를 켤 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Two column text	2단 텍스트	claude-sonnet-5-5 2026-10-18
+Two objects	객체 두 개	claude-sonnet-5-5 2026-10-18
+Two objects and object	객체 두 개와 객체	claude-sonnet-5-5 2026-10-18
+Two objects and text	객체 두 개와 텍스트	claude-sonnet-5-5 2026-10-18
+Two objects over text	텍스트 위의 객체 두 개	claude-sonnet-5-5 2026-10-18
+Type	유형	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	단축키를 입력하세요…	claude-sonnet-5-5 2026-10-18
+URL	URL	claude-sonnet-5-5 2026-10-18
+URL:	URL:	claude-sonnet-5-5 2026-10-18
+Unavailable	사용할 수 없음	claude-sonnet-5-5 2026-10-18
+Undo	실행 취소	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	실행 취소 (⌘Z)	claude-sonnet-5-5 2026-10-18
+Undone	실행 취소됨	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	암호화 안 함(없음)	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	서버에서 예기치 않은 응답이 왔습니다: %@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	이 단계의 고유 식별자입니다. 이 ID를 편집하면 모든 참조가 업데이트됩니다.	claude-sonnet-5-5 2026-10-18
+Unknown	알 수 없음	claude-sonnet-5-5 2026-10-18
+Unload	언로드	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	Greenshot에서 '%@'을(를) 언로드하시겠습니까?	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	자동 단계 언로드	claude-sonnet-5-5 2026-10-18
+Unload Recipe	레시피 언로드	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	언로드하고 파일 잊기	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	레시피 '%@'을(를) 언로드했습니다.	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	이름 없는 레시피	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	읽을 수 없는 등록: 설치를 클릭하세요	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	저장되지 않은 변경 사항	claude-sonnet-5-5 2026-10-18
+Unsaved changes	저장되지 않은 변경 사항	claude-sonnet-5-5 2026-10-18
+Updated at %@	%@에 업데이트됨	claude-sonnet-5-5 2026-10-18
+Updates	업데이트	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	Confluence로 업로드 – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	Confluence로 업로드: “%@”	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	Jira로 업로드 – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	Jira, Confluence, Box 또는 Dropbox로 업로드	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	%@을(를) Box로 업로드했습니다	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	%@을(를) Dropbox로 업로드했습니다	claude-sonnet-5-5 2026-10-18
+Use Default	기본값 사용	claude-sonnet-5-5 2026-10-18
+Use Expression	표현식 사용	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	이 버전의 Greenshot for Mac에 있는 단계 유형을 사용하거나 Greenshot을 업데이트하세요.	claude-sonnet-5-5 2026-10-18
+Use recipes	레시피 사용	claude-sonnet-5-5 2026-10-18
+Used for:	용도:	claude-sonnet-5-5 2026-10-18
+User name	사용자 이름	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	검증 오류	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	유효한 SourceType 값: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	유효함: 앱의 파일이 변경되지 않았습니다	claude-sonnet-5-5 2026-10-18
+Validation Error	검증 오류	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	%@ 검증 실패	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	사용자가 설정 › 레시피에서 설정하는 값입니다. 단계에서는 ${option.key}로 읽습니다.	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	대상 노드 ID가 레시피의 'nodes' 목록에 있는 기존 노드의 'id'와 일치하는지 확인하세요.	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	버전 %@ (%@)	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	버전 %@을(를) 사용할 수 있습니다 – 클릭하여 다운로드	claude-sonnet-5-5 2026-10-18
+Version %@.	버전 %@.	claude-sonnet-5-5 2026-10-18
+Vertical offset:	수직 오프셋:	claude-sonnet-5-5 2026-10-18
+Vertical padding:	수직 패딩:	claude-sonnet-5-5 2026-10-18
+Vertical text	세로 텍스트	claude-sonnet-5-5 2026-10-18
+Vertical title and text	세로 제목 및 텍스트	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	차트 위의 세로 제목 및 텍스트	claude-sonnet-5-5 2026-10-18
+Video	비디오	claude-sonnet-5-5 2026-10-18
+View	보기	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	자동 단계 JSON 보기	claude-sonnet-5-5 2026-10-18
+View Changes	변경 사항 보기	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	레시피 JSON 보기	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	캡처 전 대기: %lld ms	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	대기, 오류는 대화상자로 표시	claude-sonnet-5-5 2026-10-18
+Warnings and errors	경고 및 오류	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	클립보드 관찰	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	클립보드를 관찰하는 중입니다.	claude-sonnet-5-5 2026-10-18
+Wave	물결	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP(무손실)	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	환영 안내…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	%@에 오신 것을 환영합니다	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	%@이(가) 예상대로 작동하는 데 필요한 사항이며, 문제가 있으면 해결 방법도 안내합니다.	claude-sonnet-5-5 2026-10-18
+What AI tools may do	AI 도구가 할 수 있는 작업	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	마지막 승인 이후 변경된 사항	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	캡처를 어떻게 처리할지는 사용자가 정합니다. 편집기에서 열기, 저장, 클립보드로 복사, 인쇄 등을 할 수 있으며 설정에서 선택합니다.	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	현재 클립보드에 있는 내용과 변경 시점	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	업로드한 내용은 이 Mac을 벗어나며, 누가 볼 수 있는지는 서비스에서 결정합니다.	claude-sonnet-5-5 2026-10-18
+What is wrong	문제점	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	동작(Greenshot이 자동 단계에서 작성)	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	동작(Greenshot이 레시피에서 작성)	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	동작, 트리거, 승인 및 기본 제공 버전과의 차이	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	요청 내용(AI 도구의 말이며 Greenshot에서 확인하지 않음):	claude-sonnet-5-5 2026-10-18
+What the Mac plays	Mac에서 재생되는 소리	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	Mac에서 재생되는 소리와 마이크	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	앱이 예상대로 작동하는 데 필요한 사항이며, 문제가 있으면 해결 방법도 안내합니다	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	이 자동 단계가 하는 일, 변경하는 레시피, 그리고 이에 대해 승인한 내용입니다.	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	이 기본 제공 레시피가 하는 일과 이를 시작하는 트리거입니다.	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	이 레시피가 하는 일과 이에 대해 승인한 내용입니다. 여기서는 아무것도 변경할 수 없으며, 변경하려면 설정 › 레시피 또는 레시피 관리자의 권한을 사용하세요.	claude-sonnet-5-5 2026-10-18
+What to change: %@	변경할 내용: %@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	“클립보드로 복사”가 클립보드에 넣는 내용입니다. 앱은 이해하는 첫 번째 형식을 사용하며, HTML은 메일 및 웹 편집기용으로 이미지를 PNG로 포함합니다.	claude-sonnet-5-5 2026-10-18
+When	시점	claude-sonnet-5-5 2026-10-18
+When it runs again	다시 실행되는 시점	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	사용자가 '%@'을(를) 선택할 때	claude-sonnet-5-5 2026-10-18
+When the window changes size	창 크기가 변경될 때	claude-sonnet-5-5 2026-10-18
+When…	시점…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	%@이(가) 사용되는 위치	claude-sonnet-5-5 2026-10-18
+Where it runs from	실행되는 위치	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	레시피 흐름이 시작되는 위치	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	HDR 비디오, 사진 또는 게임이 표시되는 동안 밝은 부분이 잘려 나가지 않고 스크린샷에 세부 사항이 유지됩니다. HDR 콘텐츠가 없는 캡처는 색상이 그대로 유지됩니다. Apple 실리콘 전용입니다.	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	캡처하는 동안 Space를 누르면 영역 선택과 창 캡처 사이를 전환합니다.	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	캡처하는 동안 방향키로 포인터를 한 번에 1픽셀씩 이동하며, ⌃ 또는 ⌘와 함께 누르면 10픽셀씩 이동합니다.	claude-sonnet-5-5 2026-10-18
+White	흰색	claude-sonnet-5-5 2026-10-18
+WiFi Network	Wi-Fi 네트워크	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	Wi-Fi 네트워크 연결 세부 정보	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	위키 마크업 (!name!)	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	위키 마크업을 복사했습니다 – 클릭하여 페이지 열기	claude-sonnet-5-5 2026-10-18
+Window	창	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	창 %@ · %@ (pid %@)	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	메뉴의 창 제목: 최대 %lld자	claude-sonnet-5-5 2026-10-18
+Windows	창	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	이 응용 프로그램의 창은 AI 도구용으로 나열되거나 캡처되지 않으며, AI 도구가 찍는 스크린샷에서는 검게 가려집니다. 이름은 응용 프로그램 이름 또는 번들 식별자이며, 대소문자, 공백, ".app"은 상관없습니다.	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word, PowerPoint, Outlook은 새 문서, 프레젠테이션, 메일 또는 열려 있는 항목에 삽입합니다(저장 방법 메뉴에 표시됨). Excel은 열려 있거나 새로운 통합 문서의 활성 시트에 삽입합니다. Outlook은 스크린샷을 첨부하고 이메일 섹션의 제목, 받는 사람, CC, BCC를 사용하며, “회의 항목에서 내보내기 허용”을 켜면 사용자가 주최하는 열린 회의도 표시하고 스크린샷을 회의에 첨부합니다. 새로운 Outlook은 스크립트로 제어할 수 없습니다. Mac용 OneNote도 스크립트로 제어할 수 없으므로 메모가 대신합니다(또는 다음으로 열기 사용). 사진 자리 표시자가 없는 레이아웃에서는 스크린샷이 슬라이드 중앙에 놓이며, PowerPoint가 거부하는 레이아웃은 빈 슬라이드가 됩니다.	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word: 이미지 가로세로 비율 잠금	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	페이지 제목의 단어 또는 CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	요약의 단어 또는 JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	텍스트 줄바꿈	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	확장자를 점과 함께 ';'로 구분하여 쓰세요. 예: ".png;.jpg".	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	단축키를 "Ctrl + Shift + B"처럼 쓰세요. Mac에서 Ctrl은 ⌘이고 Win은 ⌃입니다.	claude-sonnet-5-5 2026-10-18
+Write the output to the log	출력을 로그에 쓰기	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	Mail에서 메일 작성 중…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	AI 도구가 작성함	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	AI 도구가 작성하고 사용자가 승인함	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	AI 도구가 작성하고 사용자가 승인함: %@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	내 변경 사항	claude-sonnet-5-5 2026-10-18
+Yes	예	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	예, 진행	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	예: 다운로드했으며 아직 Finder에서 열지 않음	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	이 프로그램들에 “허용 안 함”으로 답했거나 질문을 닫았으므로 Greenshot이 묻지 않고 거부합니다. 여기서 하나를 허용하거나, 다음에 연결할 때 Greenshot이 다시 묻도록 하세요.	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	이 자동 단계를 이전에 승인했지만, 그 이후 Greenshot 외부에서 파일이 변경되었습니다. 변경 사항을 승인할 때까지 어떤 레시피도 변경하지 않습니다.	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	이 캡처 레시피를 이전에 승인했지만, 그 이후 Greenshot 외부에서(다른 프로그램 또는 수동으로) 파일이 변경되었습니다. 승인하기 전에 아래 변경 사항을 검토하세요.	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	최신 버전(%@)을 사용하고 있습니다.	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	이 창을 닫고 Greenshot으로 돌아갈 수 있습니다.	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	나중에 권한에서 트리거를 켤 수 있으며, 레시피 목록에서 레시피를 실행할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+You have %@.	현재 버전은 %@입니다.	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	현재 캡처 단축키가 없습니다. 설정 › 일반에서 선택하세요.	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	%@의 최신 버전 %@을(를) 사용하고 있습니다.	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	레시피 편집기에서 이 자동 단계를 저장했습니다. 대부분의 변경 사항은 묻지 않고 승인되지만, 이 변경 사항은 사용자의 결정이 필요합니다: %@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	레시피 편집기에서 이 레시피를 저장했습니다. 대부분의 변경 사항은 묻지 않고 승인되지만, 이 변경 사항은 사용자의 결정이 필요한 항목을 추가합니다: %@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	제안된 모든 레시피를 확인하고 승인 여부를 결정합니다. 트리거와 위험한 동작은 꺼진 상태로 시작합니다.	claude-sonnet-5-5 2026-10-18
+You're all set	모든 준비가 끝났습니다	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	단축키 %lld개가 작동합니다.	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	변경 사항에 대한 결정이 필요합니다	claude-sonnet-5-5 2026-10-18
+Your Setup	내 설정 상태	claude-sonnet-5-5 2026-10-18
+Your approval	내 승인	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	단축키가 작동합니다.	claude-sonnet-5-5 2026-10-18
+Your hotkeys	내 단축키	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	내 단축키, macOS 스크린샷 단축키 및 기타 캡처 앱	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	조직에서 이 Mac의 %@을(를) 관리하며 설정을 꺼 두었습니다.	claude-sonnet-5-5 2026-10-18
+Your own servers	직접 운영하는 서버	claude-sonnet-5-5 2026-10-18
+Your recipes	내 레시피	claude-sonnet-5-5 2026-10-18
+Your setup	내 설정 상태	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	저장하지 않은 변경 사항이 삭제됩니다.	claude-sonnet-5-5 2026-10-18
+Zig-zag	지그재그	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Zight (CloudApp) 화면 캡처	claude-sonnet-5-5 2026-10-18
+Zoom	확대/축소	claude-sonnet-5-5 2026-10-18
+Zoom In	확대	claude-sonnet-5-5 2026-10-18
+Zoom Out	축소	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	화면에 맞춤	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	확대경 불투명도	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[스택 없음]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	Greenshot 단축키	claude-sonnet-5-5 2026-10-18
+all destinations	모든 저장 방법	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	설정 › 캡처에서 손쉬운 사용 허용	claude-sonnet-5-5 2026-10-18
+approved %@	%@ 승인됨	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	최대 %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	자동 단계	claude-sonnet-5-5 2026-10-18
+back to region	영역으로 돌아가기	claude-sonnet-5-5 2026-10-18
+build %@	빌드 %@	claude-sonnet-5-5 2026-10-18
+button label	버튼 레이블	claude-sonnet-5-5 2026-10-18
+capture a fixed size	고정 크기 캡처	claude-sonnet-5-5 2026-10-18
+capture text	텍스트 캡처	claude-sonnet-5-5 2026-10-18
+capture the area	영역 캡처	claude-sonnet-5-5 2026-10-18
+capture the window	창 캡처	claude-sonnet-5-5 2026-10-18
+capture the window or area	창 또는 영역 캡처	claude-sonnet-5-5 2026-10-18
+changed since its approval	승인 후 변경됨	claude-sonnet-5-5 2026-10-18
+checking…	확인 중…	claude-sonnet-5-5 2026-10-18
+continues at:	계속 위치:	claude-sonnet-5-5 2026-10-18
+copies a URL	URL을 복사함	claude-sonnet-5-5 2026-10-18
+copies the output	출력을 복사함	claude-sonnet-5-5 2026-10-18
+copy its text	텍스트 복사	claude-sonnet-5-5 2026-10-18
+copy or open what it says	내용 복사 또는 열기	claude-sonnet-5-5 2026-10-18
+critical	심각	claude-sonnet-5-5 2026-10-18
+default	기본값	claude-sonnet-5-5 2026-10-18
+default: %@	기본값: %@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	기본값: 설정의 저장 방법	claude-sonnet-5-5 2026-10-18
+description	설명	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	예: PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	예: Screenshots, 비워 두면 앱의 폴더	claude-sonnet-5-5 2026-10-18
+empty	비어 있음	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	표현식, 예: ${payload.width > 800} 또는 else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	보통	claude-sonnet-5-5 2026-10-18
+file name prefix	파일명 접두사	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	앱 옆에서 greenshot-mcp를 찾을 수 없습니다	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text 및 greenshotmac://clipboard, 예: Alfred, Raycast 또는 웹 페이지에서.	claude-sonnet-5-5 2026-10-18
+hide the info	정보 숨기기	claude-sonnet-5-5 2026-10-18
+hide the keys	키 숨기기	claude-sonnet-5-5 2026-10-18
+hold it at another corner	다른 모서리에서 잡기	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	누르고 있으면 스냅하지 않고 배치	claude-sonnet-5-5 2026-10-18
+hosted by %@	%@에서 호스팅	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+id	id	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	ID, * 또는 *capture	claude-sonnet-5-5 2026-10-18
+in the capture	캡처에 포함	claude-sonnet-5-5 2026-10-18
+inch	인치	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	마우스 포인터 포함	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	드래그를 한 방향으로 유지	claude-sonnet-5-5 2026-10-18
+key	키	claude-sonnet-5-5 2026-10-18
+larger or smaller area	더 크거나 작은 영역	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	마우스 포인터 제외	claude-sonnet-5-5 2026-10-18
+left %@	왼쪽 %@	claude-sonnet-5-5 2026-10-18
+level %@	수준 %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS는 스크린샷을 찍는 모든 앱에 이 권한을 요청합니다.\n\n시스템 설정 › 개인정보 보호 및 보안 › 화면 및 시스템 오디오 녹음을 열고 %@을(를) 켠 다음 종료했다가 다시 여세요.\n\n목록에 없나요? 목록 아래의 +를 클릭하고 응용 프로그램에서 %@을(를) 추가하세요.\n\n이미 켜져 있나요? 다시 빌드했거나 이동한 사본은 새 앱으로 간주됩니다. 선택하고 −로 제거한 다음 %@을(를) 다시 열어 다시 허용하세요.	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS가 처음에 %@에서 마이크를 사용할 수 있는지 묻습니다.	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS에서 이 빌드의 알림 게시를 허용하지 않았습니다. 안정적인 ID로 서명된 빌드는 대개 가능합니다(README 참조).	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS에서 아직 %@의 화면 녹화를 허용하지 않았습니다. 스크린샷에는 이 권한이 필요합니다. 개인정보 보호 및 보안 › 화면 및 시스템 오디오 녹음에서 %@을(를) 켜세요.	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS는 이 키를 모든 앱보다 먼저 처리합니다. 단축키와 같은 키를 가진 항목이 있으면 키보드 › 키보드 단축키 › 스크린샷에서 끄거나 다른 단축키를 선택하세요.	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS에 %@의 충돌 보고서가 없습니다.	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS가 %@ 아이콘을 노치 뒤에 또는 메뉴 막대 설정에서 숨깁니다. ⌘-드래그하여 더 오른쪽으로 옮기거나 시스템 설정 › 메뉴 막대에서 허용하세요.	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	macOS가 ~/Library/Logs/DiagnosticReports에 %2$@의 충돌 보고서 %1$lld개를 보관했습니다.	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS가 ~/Library/Logs/DiagnosticReports에 %@의 충돌 보고서 1개를 보관했습니다.	claude-sonnet-5-5 2026-10-18
+macOS notifications	macOS 알림	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	macOS 알림에는 앱 번들(scripts/build-app.sh)이 필요합니다. 없으면 메시지가 오른쪽 상단 모서리에 표시됩니다.	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS에서 이 단축키를 거부했습니다. 다른 앱에서 사용 중일 수 있습니다: %@.	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS가 임시 사본(App Translocation)을 실행하고 있습니다. 권한과 로그인 항목이 유지되도록 앱을 응용 프로그램 폴더로 이동하고 그곳에서 여세요.	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS는 자체 스크린샷에 %@을(를) 사용하며 키를 먼저 받습니다. 키보드 단축키 › 스크린샷에서 끄거나 다른 단축키를 선택하세요.	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS, Mac, 메모리, 화면 및 크기 조정	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	한 픽셀 이동, ⌃와 함께 10픽셀	claude-sonnet-5-5 2026-10-18
+no	아니요	claude-sonnet-5-5 2026-10-18
+nominal	공칭	claude-sonnet-5-5 2026-10-18
+not a colour	색상이 아님	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	해당 없음(Developer ID로 서명되지 않음)	claude-sonnet-5-5 2026-10-18
+not approved	승인되지 않음	claude-sonnet-5-5 2026-10-18
+not in the capture	캡처에 포함되지 않음	claude-sonnet-5-5 2026-10-18
+off	끔	claude-sonnet-5-5 2026-10-18
+one per line	한 줄에 하나씩	claude-sonnet-5-5 2026-10-18
+or a designation	또는 명칭	claude-sonnet-5-5 2026-10-18
+pick a size	크기 선택	claude-sonnet-5-5 2026-10-18
+picture	사진	claude-sonnet-5-5 2026-10-18
+points	포인트	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	미리보기: 모서리에, 확대경에, 끔	claude-sonnet-5-5 2026-10-18
+previous or next size	이전 또는 다음 크기	claude-sonnet-5-5 2026-10-18
+recipe	레시피	claude-sonnet-5-5 2026-10-18
+recipe id	레시피 ID	claude-sonnet-5-5 2026-10-18
+required	필수	claude-sonnet-5-5 2026-10-18
+right %@	오른쪽 %@	claude-sonnet-5-5 2026-10-18
+select a region	영역 선택	claude-sonnet-5-5 2026-10-18
+select words, copy their text	단어 선택, 텍스트 복사	claude-sonnet-5-5 2026-10-18
+serious	중대	claude-sonnet-5-5 2026-10-18
+show the info	정보 표시	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	키로 선택 시작 및 완료	claude-sonnet-5-5 2026-10-18
+switch between region and window	영역과 창 전환	claude-sonnet-5-5 2026-10-18
+to	~	claude-sonnet-5-5 2026-10-18
+unknown	알 수 없음	claude-sonnet-5-5 2026-10-18
+unknown error	알 수 없는 오류	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	vCard 연락처	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	vCard 연락처 카드 세부 정보	claude-sonnet-5-5 2026-10-18
+value	값	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	변수(기본값: 이름)	claude-sonnet-5-5 2026-10-18
+what it does	동작	claude-sonnet-5-5 2026-10-18
+when %@	%@일 때	claude-sonnet-5-5 2026-10-18
+window details on or off	창 세부 정보 켜기/끄기	claude-sonnet-5-5 2026-10-18
+with the menu bar	메뉴 막대와 함께	claude-sonnet-5-5 2026-10-18
+written by %@	작성자: %@	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	예, Apple에서 이 빌드를 확인했습니다	claude-sonnet-5-5 2026-10-18
+zoomer on or off	확대경 켜기/끄기	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	인수의 {0}은(는) 스크린샷의 파일이며, 따옴표는 단어를 묶습니다. 명령어와 인수에는 ${title} 같은 파일명 패턴 변수를 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	“%@”(%@)은(는) 좌우 어느 쪽이든 키가 같으므로 둘 다 실행됩니다.	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@”(%@)이(가) 이 단축키의 앞부분이므로 이 단축키는 실행되지 않습니다.	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	“%@”이(가) 이미 있습니다. 교체하시겠습니까?	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	“%@”에 같은 단축키가 있습니다.	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	“%@”이(가) 완료되지 않았습니다. 지금 종료하면 아직 내보내지 않은 내용이 사라집니다.	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	“%@”은(는) Jira 이슈 키가 아닙니다.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	“%@”은(는) 유효한 URL이 아닙니다.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	“%@”은(는) 유효한 정규식이 아닙니다.	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	“%@”은(는) 실행 파일이 아닙니다. 설정 › 저장 방법에서 확인하세요.	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	“%@”이(가) 캡처를 보낼 위치를 선택하기를 기다리고 있습니다. 지금 종료하면 캡처가 사라집니다.	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	“%@”이(가) “%@”에 대한 답변을 기다리고 있습니다. 지금 종료하면 캡처가 사라집니다.	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	“이미지 크기”는 페이지를 스크린샷에 여백을 더한 크기로 만듭니다. 이미지는 페이지 중앙에 놓입니다.	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	“Dropbox를 사용하여 스크린샷 공유”가 macOS 스크린샷 키를 사용합니다	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Shift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	F1–F20을 제외하고 ⇧만 보조 키로 사용할 수 없습니다.	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Control	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Command	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Option	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ 레시피 실행	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18

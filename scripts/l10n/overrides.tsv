@@ -14,6 +14,8 @@
 Settings…	map	core:Core.contextmenu_settings	Preferences... on Windows
 Quit	map	core:Core.contextmenu_exit	Exit on Windows; the translations use the word for quitting
 Quick Settings	map	core:Core.contextmenu_quicksettings	Quick preferences
+Settings…	reject@fr,pl,zh-Hant	core:Core.contextmenu_settings	the pack's older word for preferences; macOS and every other text of these languages say Réglages, Ustawienia, 設定 (machine rows)
+Quick Settings	reject@fr,pl,zh-Hant	core:Core.contextmenu_quicksettings	the same
 All Screens	map	core:Core.contextmenu_capturefullscreen_all	all (submenu of Capture full screen)
 Capture Mouse Pointer	map	core:Settings.capture_mousepointer	Capture mousepointer
 Capture the mouse pointer	map	core:Settings.capture_mousepointer	Capture mousepointer

@@ -1,0 +1,1971 @@
+# Machine translations of Greenshot for Mac (Community) into 简体中文 (zh-CN): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	“%@”在配方编辑器中有未保存的更改。要在退出前保存吗？	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	“%@”有未保存的更改。要保存吗？	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	“{0}”是图像文件	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	文件名格式中的 ${NUM} 会随每个文件递增，为六位数字，不足位以零补齐。	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@（build %@）	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	%@ %@ 可用，你当前使用的是 %@。	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@（+ 网页）	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@（已停用）	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@（内置）	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@（内置）（已停用）	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@（在配方中已停用）	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@（已停用）	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@（外部命令）	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@（缺失）	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@（缺失，将播放快门声）	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@（未安装）	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@（已关闭）	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@（已关闭，未批准）	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@（未知）	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@（网页：未批准）	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	%@ 日志查看器	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mbps	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	%@ 自助服务	claude-sonnet-5-5 2026-10-18
+%@ Settings	%@ 设置	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@ 还包含 %@。保存时只会将“%@”写入其中，因此它会从该文件和 Greenshot 中移除。	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@ 还包含 %@。保存时只会将“%@”写入其中，因此它们会从该文件和 Greenshot 中移除。	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ 以及另外 %lld 项	claude-sonnet-5-5 2026-10-18
+%@ app	%@ App	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	Rosetta 下的 %@ App	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@ 请求 %@ 运行配方“%@”，该配方会进行%@。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ 请求 %@ 运行配方“%@”，该配方会进行屏幕录制。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ 请求 %@ 运行配方“%@”，该配方会截取一个区域的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ 请求 %@ 运行配方“%@”，该配方会截取一个窗口的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ 请求 %@ 运行配方“%@”，该配方会截取活跃窗口的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ 请求 %@ 运行配方“%@”，该配方会截取上次抓取区域的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ 请求 %@ 运行配方“%@”，该配方会截取整个屏幕的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@ 请求 %@ 截取一个区域的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@ 请求 %@ 截取一个窗口的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@ 请求 %@ 截取上次抓取区域的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@ 请求 %@ 截取一个区域中文本的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@ 请求 %@ 截取整个屏幕的屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ 位于 %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@ 无法执行此操作：其版本不支持通过 AppleScript 执行（%@）。	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@ 使用 Greenshot 抓取了 %@。	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	无法连接到 %@	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	无法将 %@ 作为 Greenshot 文件读取。	claude-sonnet-5-5 2026-10-18
+%@ could not be started	无法启动 %@	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	无法将 %@ 写入 %@：%@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@ 无法打开录制内容	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@ 无法打开屏幕截图	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@ 暂时无法检查是否有新版本。	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@ 未能及时响应。	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@ 尚未设置为登录时打开	claude-sonnet-5-5 2026-10-18
+%@ embedded	已嵌入 %@	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@ 上次运行时因错误而结束。你可以查看该问题是否已被报告，或使用下方详细信息报告该问题。	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ 失败	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ 已完成	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@ 存在问题：运行前需要修复 %lld 项。	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@ 不包含配方。	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ 在 %@ 中	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ 位于 %@ – 点按以在访达中显示	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@ 是保留按键，不能用于热键。	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@ 正在检查是否有新版本…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@ 是由志愿者开发的免费开源软件。如果它对你有帮助，请向朋友推荐。	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@ 已不再载入 Greenshot。	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@ 不是配方文件。保存时会用该配方替换其内容。	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@ 不是配方：\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	未安装 %@	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	未安装 %@。	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@ 尚未设置	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@ 尚未设置。请在“设置 › 目标位置”中添加。	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ 正在运行	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	%@ 已被你的组织关闭。	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@ 已是最新版本	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@ 未运行，且无法启动。	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@ 可能无法使用麦克风	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@ 可以录制屏幕，因此能够截取屏幕截图。	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@ 指向 %@ = %@ 像素	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@ 上次意外退出	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ 遇到错误，但仍在运行。你可以查看该问题是否已被报告，或使用下方详细信息报告该问题。	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@ 报告了问题：%@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ 会运行脚本：仅允许上方的脚本，而不是 %@ 运行的所有脚本。	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ 应在登录时打开，但 macOS 正在等待你在“登录项与扩展”中允许。	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ 想要使用 %@ 列出你的窗口、截取屏幕截图并运行 Greenshot 配方。	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ 裁剪  ⎋ 取消	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ 剪除  ⎋ 取消	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – 错误报告	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – 点按以在访达中显示	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — 配方管理器	claude-sonnet-5-5 2026-10-18
+%@: %@	%@：%@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@：%@ – 点按以查看操作	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@：已复制网址	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@：未找到该程序	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	此处无法显示 %lld 个元素：%@。	claude-sonnet-5-5 2026-10-18
+%lld errors	%lld 个错误	claude-sonnet-5-5 2026-10-18
+%lld found	找到 %lld 个	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld 帧/秒	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld 小时	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kbps	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld 分钟	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	另有 %lld 个参数适用于其他选项。	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	%lld/%lld 次抓取	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	%lld/%lld 个元素	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	仍有 %lld 个配方正在运行	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	无法载入 %lld 个配方	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld 秒	claude-sonnet-5-5 2026-10-18
+%lld spaces	%lld 个空间	claude-sonnet-5-5 2026-10-18
+%lld steps	%lld 个步骤	claude-sonnet-5-5 2026-10-18
+%lld triggers off	%lld 个触发器已关闭	claude-sonnet-5-5 2026-10-18
+%lld warnings	%lld 个警告	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld 像素 · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	“%@”不能接在“%@”之后：流程会形成循环。	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	“%@”不能接在那里：流程会形成循环。	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	“%@”是起始步骤	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	“%@”不再是起始步骤	claude-sonnet-5-5 2026-10-18
+(%@)	（%@）	claude-sonnet-5-5 2026-10-18
+(Deactivated)	（已停用）	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	（日志文件为空）	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	（此段中没有日志条目）	claude-sonnet-5-5 2026-10-18
+(no stack)	（无堆栈）	claude-sonnet-5-5 2026-10-18
+(no title)	（无标题）	claude-sonnet-5-5 2026-10-18
+(nothing yet)	（暂无）	claude-sonnet-5-5 2026-10-18
+* (any step)	*（任意步骤）	claude-sonnet-5-5 2026-10-18
+* = all errors	* = 所有错误	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ 添加错误回退路径	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ 添加触发器	claude-sonnet-5-5 2026-10-18
++ Option	+ 选项	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open、/Applications/Preview.app 或 PATH 中的名称	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = 所有文件	claude-sonnet-5-5 2026-10-18
+0 lines	0 行	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	此处无法显示 1 个元素：%@。	claude-sonnet-5-5 2026-10-18
+1 error	1 个错误	claude-sonnet-5-5 2026-10-18
+1 hour	1 小时	claude-sonnet-5-5 2026-10-18
+1 minute	1 分钟	claude-sonnet-5-5 2026-10-18
+1 step	1 个步骤	claude-sonnet-5-5 2026-10-18
+1 trigger off	1 个触发器已关闭	claude-sonnet-5-5 2026-10-18
+1 warning	1 个警告	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	编辑器或设置打开时，会显示 Dock 图标并在 ⌘Tab 中出现；菜单栏图标始终存在，除非在下方将其隐藏。关闭后：从全屏 App 中打开编辑器时，会留在其所在的空间，而不是切换到桌面。	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows 的文件：“保存”会要求选择新文件，因此此文件保持不变。	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	某个文件想要向其他配方（包括内置配方）添加自动步骤。批准前，请查看它会更改哪些配方以及添加的内容。	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	某个链接想要截取屏幕截图	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	有新的抓图配方文件请求注册到 Greenshot。批准前，请查看其详细信息、触发器和执行步骤。	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	新的抓取会替换没有未保存更改的编辑器中的屏幕截图，而不是打开另一个窗口。	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	有新版本（%@）可用。升级后可能就能解决此问题！	claude-sonnet-5-5 2026-10-18
+A problem while recording	录制时出现问题	claude-sonnet-5-5 2026-10-18
+A program	某个程序	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	由配方启动的程序可以执行你在此 Mac 上能执行的任何操作。	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	无法载入某个配方	claude-sonnet-5-5 2026-10-18
+A recipe is still running	有一个配方仍在运行	claude-sonnet-5-5 2026-10-18
+A recording is already running.	已有录制正在进行。	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	区域（空格键：窗口）	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	图像背后的柔和阴影。	claude-sonnet-5-5 2026-10-18
+A window	窗口	claude-sonnet-5-5 2026-10-18
+ACTIVE	活跃	claude-sonnet-5-5 2026-10-18
+AI	AI	claude-sonnet-5-5 2026-10-18
+AI Tool Access	AI 工具访问	claude-sonnet-5-5 2026-10-18
+AI Tools	AI 工具	claude-sonnet-5-5 2026-10-18
+AI tool	AI 工具	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	AI 工具“%@”	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	AI 工具（如 Claude Code、Claude Desktop、VS Code 或 Cursor）通过 %@ 附带的 greenshot-mcp 连接。它们可以列出你的窗口、截取屏幕截图并运行你的配方。关闭后，Greenshot 会直接拒绝所有请求而不询问。每个程序首次连接时仍需要你的许可。	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	AI：由 AI 工具编写的配方	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	已批准	claude-sonnet-5-5 2026-10-18
+API token	API 令牌	claude-sonnet-5-5 2026-10-18
+APPROVED	已批准	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	自动步骤	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	自动步骤	claude-sonnet-5-5 2026-10-18
+Access	访问	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	已启用“%@”。	claude-sonnet-5-5 2026-10-18
+Active	活跃	claude-sonnet-5-5 2026-10-18
+Active: %lld	活跃：%lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	临时签名（无证书：本地构建）	claude-sonnet-5-5 2026-10-18
+Add	添加	claude-sonnet-5-5 2026-10-18
+Add Argument	添加参数	claude-sonnet-5-5 2026-10-18
+Add Branch	添加分支	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	在邮件中添加抄送和密送	claude-sonnet-5-5 2026-10-18
+Add Choice	添加选项	claude-sonnet-5-5 2026-10-18
+Add Counter	添加计数器	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	添加剪切标记	claude-sonnet-5-5 2026-10-18
+Add Destination	添加目标位置	claude-sonnet-5-5 2026-10-18
+Add Emoji	添加表情符号	claude-sonnet-5-5 2026-10-18
+Add External Command	添加外部命令	claude-sonnet-5-5 2026-10-18
+Add Lane	添加泳道	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	添加并行分支	claude-sonnet-5-5 2026-10-18
+Add Speech Bubble	添加对话气泡	claude-sonnet-5-5 2026-10-18
+Add Step	添加步骤	claude-sonnet-5-5 2026-10-18
+Add Variable	添加变量	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	添加一步：在其他按键之后按下的键，例如 ⌃⌥⌘K, C 中的 C	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	请在“设置 › 目标位置”中添加。	claude-sonnet-5-5 2026-10-18
+Add the first step	添加第一个步骤	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	将此步骤添加为并行入口	claude-sonnet-5-5 2026-10-18
+Add to Editor	添加到编辑器	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	添加到编辑器 – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	添加到备忘录	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	已添加 %@ 触发器	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	已添加选项“%@”：步骤通过 ${option.%@} 读取它	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	已添加配方错误回退路径	claude-sonnet-5-5 2026-10-18
+Added step: %@	已添加步骤：%@	claude-sonnet-5-5 2026-10-18
+Add…	添加…	claude-sonnet-5-5 2026-10-18
+Adjust	调整	claude-sonnet-5-5 2026-10-18
+Adjust…	调整…	claude-sonnet-5-5 2026-10-18
+Advanced	高级	claude-sonnet-5-5 2026-10-18
+After a Capture	抓取之后	claude-sonnet-5-5 2026-10-18
+After a capture	抓取之后	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	抓取之后，会有一条通知列出其去向。一小时内点按它，即可将抓取内容发送到其他位置，重新启动后也可以。专注模式和勿扰模式会像对其他 App 一样暂缓通知。	claude-sonnet-5-5 2026-10-18
+After a recording	录制之后	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	已载入全部 %@。	claude-sonnet-5-5 2026-10-18
+All Lines	所有线条	claude-sonnet-5-5 2026-10-18
+All captures	所有抓取	claude-sonnet-5-5 2026-10-18
+All screens	所有屏幕	claude-sonnet-5-5 2026-10-18
+All spaces	所有空间	claude-sonnet-5-5 2026-10-18
+Allow	允许	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	允许 %@ 录制你的屏幕	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	允许 %@ 使用 %@？	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	请在“系统设置 › 隐私与安全性 › 麦克风”中允许，或不使用麦克风录制。	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	允许链接截取屏幕截图	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	允许浏览器扩展发送屏幕截图	claude-sonnet-5-5 2026-10-18
+Allow these actions	允许这些操作	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	允许此自动步骤读取或写入这些文件和文件夹	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	允许此自动步骤在此 Mac 上运行程序	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	允许此自动步骤将抓取内容上传到互联网	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	允许此配方读取或写入这些文件和文件夹	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	允许此配方在此 Mac 上运行程序	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	允许此配方将抓取内容上传到互联网	claude-sonnet-5-5 2026-10-18
+Allowed	已允许	claude-sonnet-5-5 2026-10-18
+Allowed programs	允许的程序	claude-sonnet-5-5 2026-10-18
+Allow…	允许…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	检查更新时，同时提供 %@ 的测试版。	claude-sonnet-5-5 2026-10-18
+Always	始终	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	金额（EUR）：	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	AI 工具提议了一个配方	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	AI 工具提议了一个自动步骤	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	AI 工具想要更改一个配方	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	AI 工具使用 Greenshot 抓取了 %@。	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	App 的名称或 bundle 标识符；按下回车键即可添加	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	一个 App，例如 KeePassXC 或 com.example.vault	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	自动步骤没有触发器：它会在其所扩展的配方中运行。	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	自动步骤在其所更改的配方中运行：请保存它，在“设置 › 配方”中将其打开，并测试运行其中一个配方。	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	导出到 %@ 时出错：%@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	使用少于 256 种颜色且无透明度的图像会保存为 8 位图像：同样的图片，文件更小。	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	发生了意外错误。	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	这是 Greenshot（Windows 上免费开源的截图工具）的非官方社区版 macOS 移植。它与 Greenshot 团队或 Mac App Store 中的官方 Greenshot App 没有关联。	claude-sonnet-5-5 2026-10-18
+Annotate and export	标注并导出	claude-sonnet-5-5 2026-10-18
+Annotations	标注	claude-sonnet-5-5 2026-10-18
+Another Recipe	另一个配方	claude-sonnet-5-5 2026-10-18
+Another Tip	另一条提示	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	其他 App 可能正在使用它们。请在“设置 › 通用”中选择其他按键，或更改配方的热键触发器。	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	任何触发器都可以运行该配方；每个触发器各有开关。自行启动或从外部启动配方的触发器需单独批准。	claude-sonnet-5-5 2026-10-18
+App	App	claude-sonnet-5-5 2026-10-18
+App key	App 密钥	claude-sonnet-5-5 2026-10-18
+Appearance	外观	claude-sonnet-5-5 2026-10-18
+Append to the annotations	追加到标注	claude-sonnet-5-5 2026-10-18
+Application	应用程序	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	已应用配方 JSON 更改。	claude-sonnet-5-5 2026-10-18
+Apply Changes	应用更改	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	将剪切边缘应用到图像	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	要应用 JSON 更改吗？	claude-sonnet-5-5 2026-10-18
+Apply to the Image	应用到图像	claude-sonnet-5-5 2026-10-18
+Approve	批准	claude-sonnet-5-5 2026-10-18
+Approve & Enable	批准并启用	claude-sonnet-5-5 2026-10-18
+Approve & Save	批准并保存	claude-sonnet-5-5 2026-10-18
+Approve Changes	批准更改	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	批准你的更改	claude-sonnet-5-5 2026-10-18
+Approved	已批准	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	已批准的 SHA-256	claude-sonnet-5-5 2026-10-18
+Approved recipes	已批准的配方	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	确定要将“%@”恢复为其默认的内置定义吗？	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	确定要卸载“%@”吗？它将从 %@ 中注销。	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	区域：%@（%@）· %@	claude-sonnet-5-5 2026-10-18
+Areas	区域	claude-sonnet-5-5 2026-10-18
+Arrow	箭头	claude-sonnet-5-5 2026-10-18
+As recorded	按录制时的设置	claude-sonnet-5-5 2026-10-18
+Ask Again	再次询问	claude-sonnet-5-5 2026-10-18
+Ask Every Time	每次询问	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	随第一条通知询问	claude-sonnet-5-5 2026-10-18
+At most %lld colours	最多 %lld 种颜色	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	最大 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	最大 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	附加到页面	claude-sonnet-5-5 2026-10-18
+Attach to an issue	附加到问题	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	已将 %@ 附加到 %@	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	已将 %@ 附加到“%@”	claude-sonnet-5-5 2026-10-18
+Auto crop is not possible	无法自动裁剪	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	自动裁剪，或剪除裁剪选区中的行或列	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	%lld 秒后自动关闭…	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	%lld 秒后自动选择默认选项…	claude-sonnet-5-5 2026-10-18
+Automatic	自动	claude-sonnet-5-5 2026-10-18
+Automatic Step	自动步骤	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	自动步骤批准	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	自动步骤在 Greenshot 之外被更改	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	自动步骤详细信息	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	检测到自动步骤文件	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	自动步骤 ID	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	自动步骤 JSON	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	检测到自动步骤被修改	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	AI 工具提议的自动步骤	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	自动步骤审核	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	自动步骤验证失败	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	自动步骤 — 配方编辑器	claude-sonnet-5-5 2026-10-18
+Automatic Steps	自动步骤	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	位于 %@ 的自动步骤，适用于 %lld 个配方	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	自动步骤配置未通过验证。	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	自动步骤：%@	claude-sonnet-5-5 2026-10-18
+Automatic steps	自动步骤	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	为你的抓取内容自动执行的步骤，例如边框或标题，以及你的配方提供的设置。从下一次抓取起生效。	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	当前已接入的自动步骤（在“设置 › 配方”中打开）：	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	自动：至少 1.5 Mbps，大尺寸或高速视频则更高。屏幕提供的帧数最多与其显示的帧数相同。	claude-sonnet-5-5 2026-10-18
+Automation	自动化	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	稍后可用：此窗口是自行打开的。	claude-sonnet-5-5 2026-10-18
+A–Z	A–Z	claude-sonnet-5-5 2026-10-18
+BCC	密送	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC（可选）：	claude-sonnet-5-5 2026-10-18
+BUILT-IN	内置	claude-sonnet-5-5 2026-10-18
+BY %@	作者：%@	claude-sonnet-5-5 2026-10-18
+Back	返回	claude-sonnet-5-5 2026-10-18
+Back to one step	返回到一个步骤	claude-sonnet-5-5 2026-10-18
+Background	背景	claude-sonnet-5-5 2026-10-18
+Background:	背景：	claude-sonnet-5-5 2026-10-18
+Balanced	均衡	claude-sonnet-5-5 2026-10-18
+Barcode Format:	条码格式：	claude-sonnet-5-5 2026-10-18
+Barcode: %@	条码：%@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	基于 Greenshot，版权所有 © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom。	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	低于 100 % 时，屏幕会透过放大镜显示出来。	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	测试版 %@ 可用 – 点按以下载	claude-sonnet-5-5 2026-10-18
+Bit rate	比特率	claude-sonnet-5-5 2026-10-18
+Black and white	黑白	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	黑白阈值：%lld	claude-sonnet-5-5 2026-10-18
+Blank	空白	claude-sonnet-5-5 2026-10-18
+Body:	正文：	claude-sonnet-5-5 2026-10-18
+Bottom left	左下	claude-sonnet-5-5 2026-10-18
+Bottom right	右下	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	分支 %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	高亮周围区域的亮度，以百分比表示	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	图像的亮度、对比度和 gamma。	claude-sonnet-5-5 2026-10-18
+Bring All to Front	全部置于最前	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	恢复此文件所替换的内置配方	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	恢复内置版本	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	恢复文件所替换的每个配方的内置版本	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	要恢复这些配方的内置版本吗？	claude-sonnet-5-5 2026-10-18
+Broken: %@	已损坏：%@	claude-sonnet-5-5 2026-10-18
+Browser extension	浏览器扩展	claude-sonnet-5-5 2026-10-18
+Browsers	浏览器	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	请构建 greenshot-mcp（swift build），或使用 scripts/build-app.sh 中的 App 来连接 AI 工具。	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Greenshot 内置	claude-sonnet-5-5 2026-10-18
+Built-in	内置	claude-sonnet-5-5 2026-10-18
+CC	抄送	claude-sonnet-5-5 2026-10-18
+Calendar Event	日历事件	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	日历事件（iCal）详细信息	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	相机（macOS）	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	取消（Esc）	claude-sonnet-5-5 2026-10-18
+Cancel Recording	取消录制	claude-sonnet-5-5 2026-10-18
+Cancel the running one	取消正在运行的配方	claude-sonnet-5-5 2026-10-18
+Cancelled.	已取消。	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	无法测试运行配方。请先修复验证错误：	claude-sonnet-5-5 2026-10-18
+Capture Mode	抓取模式	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	抓图配方管理器	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	抓图配方审核	claude-sonnet-5-5 2026-10-18
+Capture Text	抓取文本	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	使用 Greenshot for Mac 抓取窗口。	claude-sonnet-5-5 2026-10-18
+Capture clipboard	抓取剪贴板	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	抓取流程失败。	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	抓取链接已关闭。请在“设置 › 专家设置 › 自动化”中打开。	claude-sonnet-5-5 2026-10-18
+Capture text	抓取文本	claude-sonnet-5-5 2026-10-18
+Capture the active window	抓取活跃窗口	claude-sonnet-5-5 2026-10-18
+Capture the same region again	再次抓取相同区域	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	抓取整个屏幕	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	使用 Greenshot for Mac 抓取整个屏幕。	claude-sonnet-5-5 2026-10-18
+Captures	抓取内容	claude-sonnet-5-5 2026-10-18
+Capturing	抓取	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	抓取只需一个按键	claude-sonnet-5-5 2026-10-18
+Center	居中	claude-sonnet-5-5 2026-10-18
+Change count	更改次数	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	更改此自动步骤可以执行的操作。“保持原样”或关闭窗口不会更改任何内容。	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	更改哪些触发器可以启动此配方以及它可以执行的操作。“保持原样”或关闭窗口不会更改任何内容。	claude-sonnet-5-5 2026-10-18
+Changed	已更改	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	已更改（#%@）：%@	claude-sonnet-5-5 2026-10-18
+Changed Lines	已更改的行	claude-sonnet-5-5 2026-10-18
+Changed recipes	已更改的配方	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	改变主意了？按 Esc 可取消抓取。	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	更改（− 之前，+ 之后）	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	更改尚未应用	claude-sonnet-5-5 2026-10-18
+Changes other recipes	更改其他配方	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	更改自动步骤“%@”	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	更改配方“%@”	claude-sonnet-5-5 2026-10-18
+Change…	更改…	claude-sonnet-5-5 2026-10-18
+Chart	图表	claude-sonnet-5-5 2026-10-18
+Chart and text	图表和文字	claude-sonnet-5-5 2026-10-18
+Check Now	立即检查	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	请至少勾选一个目标位置。	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	检查不稳定更新（预发布版本）	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	每 %lld 天检查一次更新	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	请检查你是否有权写入 %@。	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	请检查配方 JSON 语法中是否有未转义的引号、多余的逗号或不匹配的括号。	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	请检查配方的“options”：键、类型、默认值和选项。	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	检查设置、阅读日志和系统信息（S）	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	检查 %@ 的设置、日志和系统	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	正在检查代码签名…	claude-sonnet-5-5 2026-10-18
+Checking…	正在检查…	claude-sonnet-5-5 2026-10-18
+Checks	检查	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	检查 %@ 的设置、系统、热键和剪贴板，以及日志。	claude-sonnet-5-5 2026-10-18
+Chip	芯片	claude-sonnet-5-5 2026-10-18
+Choices	选项	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	选取配方文件（.gsrecipe.json）。Greenshot 会在使用前显示它的作用。	claude-sonnet-5-5 2026-10-18
+Choose another one.	请选择其他项目。	claude-sonnet-5-5 2026-10-18
+Choose folder & format	选取文件夹和格式	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	选取抓取后播放的声音。	claude-sonnet-5-5 2026-10-18
+Choose…	选取…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome、Edge、Brave：打开“扩展程序”页面，打开开发者模式，点按“加载已解压的扩展程序”并选取扩展文件夹。Firefox 126 或更高版本：about:debugging › This Firefox › Load Temporary Add-on…，并在其中选取 manifest.json。之后文件名可以使用页面的 ${url} 和 ${browser}，以及浏览器当前标签页的 ${Browser.Url}、${Browser.Domain}、${Browser.Title}、${Browser.Ticket}（扩展的标签页跟踪）。	claude-sonnet-5-5 2026-10-18
+Clear	清除	claude-sonnet-5-5 2026-10-18
+Clear Background	清除背景	claude-sonnet-5-5 2026-10-18
+Click	点按	claude-sonnet-5-5 2026-10-18
+Click a QR code	点按二维码	claude-sonnet-5-5 2026-10-18
+Click a line	点按一行	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	点按一个快捷键，然后键入新的快捷键。⌫ 清除，⎋ 取消。+ 添加一步，用于 ⌃⌥⌘K 然后 C 这类热键（2.5 秒内）。键盘菜单可让修饰键仅在其左键或右键时才生效。带有 F13 键的键盘可以像 Print Screen 一样使用它。	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	点按任意位置或按 Esc 返回	claude-sonnet-5-5 2026-10-18
+Click for more	点按以了解更多	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	点按此处打开设置。	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	点按以启用或停用	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	点按以启用配方	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	点按以停用配方	claude-sonnet-5-5 2026-10-18
+Click to open	点按以打开	claude-sonnet-5-5 2026-10-18
+Click to open the issue	点按以打开问题	claude-sonnet-5-5 2026-10-18
+Click to open the page	点按以打开页面	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	点按以查看完整预览（按 Esc 退出）	claude-sonnet-5-5 2026-10-18
+Click, Enter	点按、回车	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	不小心点掉了 %@ 的通知？它会留在通知中心：点按它即可再次选择抓取内容的去向，即使 %@ 已关闭也可以。	claude-sonnet-5-5 2026-10-18
+Client ID	客户端 ID	claude-sonnet-5-5 2026-10-18
+Client secret	客户端密钥	claude-sonnet-5-5 2026-10-18
+Clipart and text	剪贴画和文字	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	剪贴画和竖排文字	claude-sonnet-5-5 2026-10-18
+Clipboard	剪贴板	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	剪贴板监视器	claude-sonnet-5-5 2026-10-18
+Close All	全部关闭	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	关闭有更改的编辑器时会直接放弃更改，不作询问。	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	云端站点以 /wiki 结尾。	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	云端：电子邮件和 API 令牌	claude-sonnet-5-5 2026-10-18
+Code hash	代码哈希	claude-sonnet-5-5 2026-10-18
+Code signature	代码签名	claude-sonnet-5-5 2026-10-18
+Color:	颜色：	claude-sonnet-5-5 2026-10-18
+Command line tool	命令行工具	claude-sonnet-5-5 2026-10-18
+Command line: %@	命令行：%@	claude-sonnet-5-5 2026-10-18
+Command “%@”	命令“%@”	claude-sonnet-5-5 2026-10-18
+Company:	公司：	claude-sonnet-5-5 2026-10-18
+Comparison	对比	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	已在 %@ 载入完整日志	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	完整日志：约 %@ 行（%@）	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	已隐藏（密码管理器要求 App 不要保留它）	claude-sonnet-5-5 2026-10-18
+Configure QR…	配置二维码…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	连接 AI 工具	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	已将“%@”连接到“%@”	claude-sonnet-5-5 2026-10-18
+Connected as %@.	已以 %@ 身份连接。	claude-sonnet-5-5 2026-10-18
+Content with caption	带标题的内容	claude-sonnet-5-5 2026-10-18
+Continue At	继续于	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	继续于“%@”	claude-sonnet-5-5 2026-10-18
+Contrast:	对比度：	claude-sonnet-5-5 2026-10-18
+Copied	已复制	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	已复制 %lld 行文本	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	已复制 1 行文本	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	已将 Mermaid DSL 复制到剪贴板。	claude-sonnet-5-5 2026-10-18
+Copied by	复制者	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	已将整个日志内容复制到剪贴板（%@ 个字符）	claude-sonnet-5-5 2026-10-18
+Copied its output	已复制其输出	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	已将配方 ID“%@”复制到剪贴板。	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	已复制二维码的文本	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	已复制完整性报告。	claude-sonnet-5-5 2026-10-18
+Copied the path.	已复制路径。	claude-sonnet-5-5 2026-10-18
+Copied the text	已复制文本	claude-sonnet-5-5 2026-10-18
+Copied!	已复制！	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	复制一条“终端”命令，用于将 greenshot-cli 链接到 /usr/local/bin。	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	将扩展复制到 Greenshot 在“Application Support”中的文件夹并显示它，以便加载已解压的扩展程序。	claude-sonnet-5-5 2026-10-18
+Copy Details	复制详细信息	claude-sonnet-5-5 2026-10-18
+Copy File Path	复制文件路径	claude-sonnet-5-5 2026-10-18
+Copy Install Command	复制安装命令	claude-sonnet-5-5 2026-10-18
+Copy Link	复制链接	claude-sonnet-5-5 2026-10-18
+Copy Log	复制日志	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	复制 Mermaid 代码	claude-sonnet-5-5 2026-10-18
+Copy Path	复制路径	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	复制配方 ID	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	复制配方 ID 到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy Report	复制报告	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	复制堆栈跟踪	claude-sonnet-5-5 2026-10-18
+Copy System Info	复制系统信息	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	复制文本（OCR）	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	复制共享链接到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	复制所有输出到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	请先复制一张图像，然后重试。	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	复制屏幕图片到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	复制所选区域图片到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	复制文本（OCR）	claude-sonnet-5-5 2026-10-18
+Copy the file path	复制文件路径	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	复制输出中的第一个网址到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	复制图像到剪贴板（⇧⌘C）	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	复制链接到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	复制所选元素（⌘C）	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	复制到剪贴板	claude-sonnet-5-5 2026-10-18
+Copy “%@”	复制“%@”	claude-sonnet-5-5 2026-10-18
+Copy: %@	复制：%@	claude-sonnet-5-5 2026-10-18
+Core Destinations	核心目标位置	claude-sonnet-5-5 2026-10-18
+Could not be checked	无法检查	claude-sonnet-5-5 2026-10-18
+Could not check for updates	无法检查更新	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	无法为 %@ 注册扩展的连接；请查看日志。	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	无法移除 %@ 的注册；请查看日志。	claude-sonnet-5-5 2026-10-18
+Countdown	倒计时	claude-sonnet-5-5 2026-10-18
+Counter	计数器	claude-sonnet-5-5 2026-10-18
+Crash reports	崩溃报告	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	在配方编辑器中创建新的抓图配方	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	在 %@ 的个人资料 › 个人访问令牌中创建个人访问令牌（Data Center，以及 Server 8.14 或更高版本）。它会保存在你的钥匙串中。	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	在 [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) 为你的 Atlassian 账户创建 API 令牌（一个令牌可同时用于 Jira 和 Confluence）。它会保存在你的钥匙串中。	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	已创建新的自动步骤：将其步骤放在“输出”之前，并在“配方”标签页中设置它的去向。	claude-sonnet-5-5 2026-10-18
+Created new recipe.	已创建新配方。	claude-sonnet-5-5 2026-10-18
+Crop Out Horizontally	横向剪除	claude-sonnet-5-5 2026-10-18
+Crop Out Vertically	纵向剪除	claude-sonnet-5-5 2026-10-18
+Crop modes	裁剪模式	claude-sonnet-5-5 2026-10-18
+Custom size	自定义尺寸	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	剪切边缘设置	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	剪切边缘设置…	claude-sonnet-5-5 2026-10-18
+Cut Mark	剪切标记	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	剪除所选列	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	剪除所选行	claude-sonnet-5-5 2026-10-18
+Cut edges	剪切边缘	claude-sonnet-5-5 2026-10-18
+Cut off from %@	从 %@ 切断	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	剪切所选元素（⌘X）	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	已停用	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	诊断	claude-sonnet-5-5 2026-10-18
+Damaged element	已损坏的元素	claude-sonnet-5-5 2026-10-18
+Dark	深色	claude-sonnet-5-5 2026-10-18
+Deactivated	已停用	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	已停用“%@”。	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	已停用：%lld	claude-sonnet-5-5 2026-10-18
+Decision Required	需要决定	claude-sonnet-5-5 2026-10-18
+Default	默认	claude-sonnet-5-5 2026-10-18
+Default (%@)	默认（%@）	claude-sonnet-5-5 2026-10-18
+Default (Return)	默认（回车）	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	默认（使用配方回退/终止）	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	默认（并行）	claude-sonnet-5-5 2026-10-18
+Default (system font)	默认（系统字体）	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	定义步骤失败时（例如剪贴板被锁定、网络超时）应执行的操作。将抓取内容转到回退步骤或另一个配方。	claude-sonnet-5-5 2026-10-18
+Delete Connection	删除连接	claude-sonnet-5-5 2026-10-18
+Delete Step	删除步骤	claude-sonnet-5-5 2026-10-18
+Delete Trigger	删除触发器	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	删除所选元素（⌫）	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	已删除步骤“%@”（%@）	claude-sonnet-5-5 2026-10-18
+Description	描述	claude-sonnet-5-5 2026-10-18
+Description:	描述：	claude-sonnet-5-5 2026-10-18
+Destinations	目标位置	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	目标位置（%lld）	claude-sonnet-5-5 2026-10-18
+Details	详细信息	claude-sonnet-5-5 2026-10-18
+Details for the report	报告的详细信息	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	此配方的详细信息、权限和文件	claude-sonnet-5-5 2026-10-18
+Details…	详细信息…	claude-sonnet-5-5 2026-10-18
+Did you know?	你知道吗？	claude-sonnet-5-5 2026-10-18
+Discard	放弃	claude-sonnet-5-5 2026-10-18
+Discard Recording	放弃录制	claude-sonnet-5-5 2026-10-18
+Display %@	显示器 %@	claude-sonnet-5-5 2026-10-18
+Display Name	显示名称	claude-sonnet-5-5 2026-10-18
+Do nothing	不执行任何操作	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	要保存屏幕截图“%@”吗？	claude-sonnet-5-5 2026-10-18
+Don't Allow	不允许	claude-sonnet-5-5 2026-10-18
+Don't Save	不保存	claude-sonnet-5-5 2026-10-18
+Don't ask again	不再询问	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	关闭编辑器时不询问是否保存	claude-sonnet-5-5 2026-10-18
+Double-click	双击	claude-sonnet-5-5 2026-10-18
+Download It	下载	claude-sonnet-5-5 2026-10-18
+Download Update	下载更新	claude-sonnet-5-5 2026-10-18
+Drag	拖移	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	拖移要保留或剪除的区域	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	将屏幕截图拖移到新邮件中	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	将所选的剪切边缘或边界撕裂绘制到图像中；之后无法再更改	claude-sonnet-5-5 2026-10-18
+Drawing	绘图	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	EPC SEPA 转账详细信息	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	EPC SEPA 转账	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	错误处理与回退	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	每个 AI 工具会自行启动 greenshot-mcp。更改其配置后，请重新启动该 AI 工具或重新载入其 MCP 服务器。	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	每条命令都是独立的目标位置（“外部：名称”）。参数中的 {0} 是屏幕截图的文件（编辑器中的屏幕截图已保存且未更改时，则为已保存的文件）；命令和参数可以使用文件名格式变量。程序缺失的命令不会出现在目标位置菜单中。	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	配方中的每个节点都必须有唯一的“id”。	claude-sonnet-5-5 2026-10-18
+Edges:	边缘：	claude-sonnet-5-5 2026-10-18
+Edit External Command	编辑外部命令	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	编辑二维码/条码	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	编辑二维码/条码…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	编辑配方文件	claude-sonnet-5-5 2026-10-18
+Edit Text	编辑文字	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	在配方编辑器中编辑自动步骤	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	编辑代码并实时预览	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	编辑器（“%@”）	claude-sonnet-5-5 2026-10-18
+Editor menu	编辑器菜单	claude-sonnet-5-5 2026-10-18
+Editor windows	编辑器窗口	claude-sonnet-5-5 2026-10-18
+Effect:	效果：	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	应用于整张图像的效果（按住 ⌥ 可先更改阴影和边界撕裂的设置）	claude-sonnet-5-5 2026-10-18
+Either key	任一按键	claude-sonnet-5-5 2026-10-18
+Element of a newer version	来自较新版本的元素	claude-sonnet-5-5 2026-10-18
+Ellipse	椭圆	claude-sonnet-5-5 2026-10-18
+Email	电子邮件	claude-sonnet-5-5 2026-10-18
+Email Message Details	电子邮件详细信息	claude-sonnet-5-5 2026-10-18
+Email:	电子邮件：	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	嵌入（Base64）	claude-sonnet-5-5 2026-10-18
+Embed File…	嵌入文件…	claude-sonnet-5-5 2026-10-18
+Emoji	表情符号	claude-sonnet-5-5 2026-10-18
+Empty log file	日志文件为空	claude-sonnet-5-5 2026-10-18
+Empty: all text	留空：所有文本	claude-sonnet-5-5 2026-10-18
+Encryption Type:	加密类型：	claude-sonnet-5-5 2026-10-18
+End (UTC):	结束（UTC）：	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	扩大画布	claude-sonnet-5-5 2026-10-18
+Enter	回车	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	请在“设置 › 目标位置”中输入 %@ 的个人访问令牌。	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	输入纯文本或网址：	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	请在“设置 › 目标位置”中输入 %@ 的网址。	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	请先输入网址。	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	请先输入电子邮件和 API 令牌。	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	请先输入个人访问令牌。	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	请先输入用户名和密码（或在首次上传时测试）。	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	请在“设置 › 目标位置”中输入你的电子邮件和 %@ 的 API 令牌。	claude-sonnet-5-5 2026-10-18
+Error Filter	错误过滤器	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	载入配方时出错	claude-sonnet-5-5 2026-10-18
+Error Routes	错误路径	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	载入较早的部分时出错：%@	claude-sonnet-5-5 2026-10-18
+Error message	错误信息	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	读取日志文件时出错：\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	错误：%@	claude-sonnet-5-5 2026-10-18
+Errors only	仅错误	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc：关闭  |  F5：刷新  |  1–6：各部分	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	每个配方都需要唯一的“id”和描述性的“name”属性。	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	所有内容也都在菜单栏中 %@ 图标的菜单里。	claude-sonnet-5-5 2026-10-18
+Example: %@	示例：%@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	在 Greenshot 中执行抓图配方（⌘R）	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	正在测试运行“%@”…	claude-sonnet-5-5 2026-10-18
+Execution Error	执行错误	claude-sonnet-5-5 2026-10-18
+Export Capture	导出抓取内容	claude-sonnet-5-5 2026-10-18
+Expression	表达式	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	检测到外部抓图配方	claude-sonnet-5-5 2026-10-18
+External Command	外部命令	claude-sonnet-5-5 2026-10-18
+External command	外部命令	claude-sonnet-5-5 2026-10-18
+External command %@	外部命令 %@	claude-sonnet-5-5 2026-10-18
+External commands	外部命令	claude-sonnet-5-5 2026-10-18
+External: %@	外部：%@	claude-sonnet-5-5 2026-10-18
+Extract text from image	从图像中提取文字	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	在抓取屏幕上按 F 会抓取这些尺寸之一的区域；最近五个区域尺寸排在它们之后。	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	回退配方	claude-sonnet-5-5 2026-10-18
+Fallback Step	回退步骤	claude-sonnet-5-5 2026-10-18
+File SHA-256	文件 SHA-256	claude-sonnet-5-5 2026-10-18
+File name counter	文件名计数器	claude-sonnet-5-5 2026-10-18
+File not found	未找到文件	claude-sonnet-5-5 2026-10-18
+Files	文件	claude-sonnet-5-5 2026-10-18
+Files and Log	文件与日志	claude-sonnet-5-5 2026-10-18
+Files: %@, …	文件：%@, …	claude-sonnet-5-5 2026-10-18
+Filter:	过滤：	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	查找图像中的文字，并用你仍可移动或移除的元素覆盖每处匹配。	claude-sonnet-5-5 2026-10-18
+First Name:	名字：	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	固定抓取尺寸	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Flameshot 截图工具	claude-sonnet-5-5 2026-10-18
+Flow	流程	claude-sonnet-5-5 2026-10-18
+Folder	文件夹	claude-sonnet-5-5 2026-10-18
+Folder ID	文件夹 ID	claude-sonnet-5-5 2026-10-18
+Font size in points	字体大小（点）	claude-sonnet-5-5 2026-10-18
+Footer	页脚	claude-sonnet-5-5 2026-10-18
+Footer pattern	页脚格式	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	含日期和标题的页脚	claude-sonnet-5-5 2026-10-18
+Foreground	前景	claude-sonnet-5-5 2026-10-18
+Format	格式	claude-sonnet-5-5 2026-10-18
+Format:	格式：	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	转发到另一个配方…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	转发到配方	claude-sonnet-5-5 2026-10-18
+Four objects	四个对象	claude-sonnet-5-5 2026-10-18
+Frame rate	帧率	claude-sonnet-5-5 2026-10-18
+Freehand	手绘	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	手绘平滑	claude-sonnet-5-5 2026-10-18
+From	来自	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	从 .greenshot 文件…	claude-sonnet-5-5 2026-10-18
+From Editor…	从编辑器…	claude-sonnet-5-5 2026-10-18
+Full Screen	全屏	claude-sonnet-5-5 2026-10-18
+Full colour	全彩色	claude-sonnet-5-5 2026-10-18
+Full report	完整报告	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	全屏热键	claude-sonnet-5-5 2026-10-18
+Gamma:	Gamma：	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	由 App 生成，而非用户复制	claude-sonnet-5-5 2026-10-18
+Geo Location	地理位置	claude-sonnet-5-5 2026-10-18
+Geo Location Details	地理位置详细信息	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	无法连接到 GitHub。	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	请为 AI 工具触发器指定由字母、数字、“_”或“-”组成的“ToolName”。	claude-sonnet-5-5 2026-10-18
+Go Back	返回	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot（可编辑）	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Greenshot 最近使用	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Greenshot 网站	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot 会将这些步骤添加到其他配方中：请将它们放在步骤列表中“输出”之前，并在“设置 › 配方”中打开该自动步骤。	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot 可以读取 Safari 和 Chrome 中打开的页面的地址。macOS 会针对每个浏览器询问一次是否允许。	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot 无法附带 Box App 密钥，请注册你自己的：在 [Box 开发者控制台](https://app.box.com/developers/console)中创建带有用户身份验证（OAuth 2.0）的自定义 App，将其重定向 URI 设置为 `%@`，授予“写入所有文件”权限，并在此处粘贴其客户端 ID 和密钥。密钥和登录信息会保存在你的钥匙串中；文件夹 ID 是文件夹网址中的数字。	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot 无法载入或注册此抓图配方，因为它包含配置错误。请查看下方的诊断详细信息：	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot 无法使用此自动步骤，因为它包含错误。请查看下方的详细信息：	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac 没有步骤“%@”：其参数将保持原样。	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot for Mac 尚未就绪。	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot 不被允许控制 %@。请在“系统设置 › 隐私与安全性 › 自动化 › Greenshot”中允许。	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot 通过 AppleScript 将屏幕截图发送到这些 App；macOS 会针对每个 App 询问一次。	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR，余量 %@/%@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML（嵌入图像）	claude-sonnet-5-5 2026-10-18
+Hardened runtime	强化运行时	claude-sonnet-5-5 2026-10-18
+Has its own error route	有自己的错误路径	claude-sonnet-5-5 2026-10-18
+Hide %@	隐藏 %@	claude-sonnet-5-5 2026-10-18
+Hide Icon	隐藏图标	claude-sonnet-5-5 2026-10-18
+Hide Others	隐藏其他	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	要隐藏菜单栏图标吗？	claude-sonnet-5-5 2026-10-18
+High frame rate	高帧率	claude-sonnet-5-5 2026-10-18
+High quality	高质量	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	按住 ⌥ 可不吸附地放置	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	水平偏移：	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	水平内边距：	claude-sonnet-5-5 2026-10-18
+Hotkey	热键	claude-sonnet-5-5 2026-10-18
+Hotkey %@	热键 %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	热键已重新注册（部分按键仍被占用）。	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	热键已重新注册。	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	%@ 向日志写入多少内容，直到重新启动。“调试”写入最多。	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN：	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO（图标）	claude-sonnet-5-5 2026-10-18
+ID	ID	claude-sonnet-5-5 2026-10-18
+Identifier	标识符	claude-sonnet-5-5 2026-10-18
+If %@: %@	如果 %@：%@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	如果这是你自己的服务器，请在“设置 › 目标位置 › 你自己的服务器”下添加 %@ 或指纹。	claude-sonnet-5-5 2026-10-18
+Image	图像	claude-sonnet-5-5 2026-10-18
+Image Quality	图像质量	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	图像链接已复制 – 点按以打开页面	claude-sonnet-5-5 2026-10-18
+Image size	图像尺寸	claude-sonnet-5-5 2026-10-18
+Import	导入	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	从 %@ 导入标注	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	从 Greenshot 文件导入标注	claude-sonnet-5-5 2026-10-18
+Import From This Editor	从此编辑器导入	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	已从 %2$@ 导入 %1$lld 个标注	claude-sonnet-5-5 2026-10-18
+In	进入	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	在“设置 › 输出”中，你可以选取已保存屏幕截图的文件夹和文件名格式。	claude-sonnet-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	只需几步，你就能了解抓取的工作方式，%@ 也会检查一切是否设置妥当。	claude-sonnet-5-5 2026-10-18
+In parallel	并行	claude-sonnet-5-5 2026-10-18
+In the background	在后台	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	在窗口模式下，选区会跟随鼠标下最小的区域，例如边栏、工具栏或网页的一部分；PgUp 和 PgDn 可选择更大或更小的区域。需要“辅助功能”权限。	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	位于 ~/.codeium/windsurf/mcp_config.json。	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	位于 ~/.cursor/mcp.json（所有项目）或 .cursor/mcp.json（单个项目）。	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	位于 ~/.gemini/config/mcp_config.json（… › MCP Servers › Manage MCP Servers › View raw config），然后点按“Refresh”。	claude-sonnet-5-5 2026-10-18
+Info	信息	claude-sonnet-5-5 2026-10-18
+Information	信息	claude-sonnet-5-5 2026-10-18
+Insert	插入	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	插入二维码/条码	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	插入二维码/条码…	claude-sonnet-5-5 2026-10-18
+Insert Step After	在后面插入步骤	claude-sonnet-5-5 2026-10-18
+Insert Step Here	在此处插入步骤	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	插入到 Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	插入到 Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	插入到 Microsoft Word	claude-sonnet-5-5 2026-10-18
+Insert into document	插入到文档	claude-sonnet-5-5 2026-10-18
+Insert into presentation	插入到演示文稿	claude-sonnet-5-5 2026-10-18
+Insert into workbook	插入到工作簿	claude-sonnet-5-5 2026-10-18
+Install	安装	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	请安装它，或在“设置 › 目标位置”中选取其他目标位置。	claude-sonnet-5-5 2026-10-18
+Installed	已安装	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	已为 App 的另一个副本安装	claude-sonnet-5-5 2026-10-18
+Installed version:	已安装版本：	claude-sonnet-5-5 2026-10-18
+Integrity	完整性	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	JSON 语法或架构无效：\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	问题标识符（堆栈跟踪哈希）	claude-sonnet-5-5 2026-10-18
+Issue key:	问题编号：	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	已结束，退出代码为 %d。	claude-sonnet-5-5 2026-10-18
+It runs from %@.	它从 %@ 运行。	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	它会立即停止运行，且不会再次载入。它的文件保留在原处：请再次导入以审核并批准它。	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	它会立即停止运行，且不会再次载入。它的文件保留在原处：请再次打开以审核并批准它。	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	它已被重命名为 %@，Greenshot 以默认设置启动。	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	如果不保存，它将会丢失。	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	它在菜单栏中。	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	它的说明（AI 工具的原话，Greenshot 未检查）：	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	JPEG 质量（质量越高，文件越大）：	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	JPEG 质量：%lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	JSON 错误	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	保留	claude-sonnet-5-5 2026-10-18
+Keep as Is	保持原样	claude-sonnet-5-5 2026-10-18
+Keep aspect ratio	保持宽高比	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	保持其尺寸，周围加黑边	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	录制时保持 Mac 唤醒	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	在窗口抓取中保留窗口阴影	claude-sonnet-5-5 2026-10-18
+Key	键	claude-sonnet-5-5 2026-10-18
+Key %u	按键 %u	claude-sonnet-5-5 2026-10-18
+Keys	按键	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	F1–F20 以外的按键需要 ⌃、⌥ 或 ⌘。	claude-sonnet-5-5 2026-10-18
+Label	标签	claude-sonnet-5-5 2026-10-18
+Lane %lld	泳道 %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	文本语言	claude-sonnet-5-5 2026-10-18
+Large object	大对象	claude-sonnet-5-5 2026-10-18
+Largest value	最大值	claude-sonnet-5-5 2026-10-18
+Last Name:	姓氏：	claude-sonnet-5-5 2026-10-18
+Last Region	上次区域	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	上次检查时间：%@。你的版本是 %@。	claude-sonnet-5-5 2026-10-18
+Last modified: %@	上次修改：%@	claude-sonnet-5-5 2026-10-18
+Later	稍后	claude-sonnet-5-5 2026-10-18
+Latest release:	最新版本：	claude-sonnet-5-5 2026-10-18
+Latitude:	纬度：	claude-sonnet-5-5 2026-10-18
+Launch at login	登录时打开	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	将密码留空，则会在首次上传时询问；登录对话框可将其保存在你的钥匙串中。拥有自己证书的服务器可在“你自己的服务器”下设为信任。	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	区分左右按键需要“辅助功能”权限。在此之前，此热键左右两个按键都有效。	claude-sonnet-5-5 2026-10-18
+Left key	左键	claude-sonnet-5-5 2026-10-18
+Left or right key	左键或右键	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	左或右修饰键	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	左或右修饰键：例如仅右侧的 ⌘	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	允许 AI 工具提议配方	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	允许 AI 工具使用 Greenshot	claude-sonnet-5-5 2026-10-18
+Let's Go!	开始吧！	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	允许这些浏览器为扩展启动 Greenshot 的连接（每个浏览器的 NativeMessagingHosts 文件夹中的一个文件）。	claude-sonnet-5-5 2026-10-18
+Letter	信纸	claude-sonnet-5-5 2026-10-18
+Light	浅色	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Lightshot 截图工具	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	线条粗细（点）（0：无线条）	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	链接已复制 – 点按以打开	claude-sonnet-5-5 2026-10-18
+Link to the image	图像链接	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	类似 greenshotmac://settings?tab=editor 的链接可以打开窗口；任何网页都能打开链接，因此只有在此处允许时，链接才能截取屏幕截图。greenshot-cli、AppleScript、快捷指令和“服务”菜单始终可以抓取。	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	将抓图配方载入 %@	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	载入更早内容（+64 KB）	claude-sonnet-5-5 2026-10-18
+Load Elements…	载入元素…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	载入完整日志	claude-sonnet-5-5 2026-10-18
+Load Recipe…	载入配方…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	载入并注册 .gsrecipe.json 文件	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	载入日志中之前的 64 KB	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	已载入并注册 %@	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	已载入并注册：%@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	载入于 %@	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	已于 %@ 载入更早的部分	claude-sonnet-5-5 2026-10-18
+Loaded: %@	已载入：%@	claude-sonnet-5-5 2026-10-18
+Loading %@…	正在载入 %@…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	正在载入空间…	claude-sonnet-5-5 2026-10-18
+Location	位置	claude-sonnet-5-5 2026-10-18
+Location:	位置：	claude-sonnet-5-5 2026-10-18
+Log	日志	claude-sonnet-5-5 2026-10-18
+Log In	登录	claude-sonnet-5-5 2026-10-18
+Log Viewer…	日志查看器…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	日志文件（%@）	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	日志文件当前不存在于：\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	日志文件当前不存在于：%@	claude-sonnet-5-5 2026-10-18
+Log level	日志级别	claude-sonnet-5-5 2026-10-18
+Longitude:	经度：	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	在抓取屏幕上查找二维码	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	在 Safari 和 Chrome 中查找	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	正在查找二维码…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	正在查找打开的文档…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	正在查找打开的邮件…	claude-sonnet-5-5 2026-10-18
+Looking…	正在查找…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	低电量模式	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	在抓取屏幕上按 M 可为一次抓取切换它。	claude-sonnet-5-5 2026-10-18
+MCP server	MCP 服务器	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	已在磁盘上被修改	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	使用 H.264 的 MP4（可在任何设备上播放）	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	使用 HEVC 的 MP4（文件更小）	claude-sonnet-5-5 2026-10-18
+Magnification:	放大倍数：	claude-sonnet-5-5 2026-10-18
+Manual	手动	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	标记为起始步骤	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	使编辑器窗口大小与抓取内容一致	claude-sonnet-5-5 2026-10-18
+Media clip and text	媒体片段和文字	claude-sonnet-5-5 2026-10-18
+Memory	内存	claude-sonnet-5-5 2026-10-18
+Menu bar icon	菜单栏图标	claude-sonnet-5-5 2026-10-18
+Menu entry	菜单项	claude-sonnet-5-5 2026-10-18
+Menus	菜单	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	信息：	claude-sonnet-5-5 2026-10-18
+Microphone	麦克风	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office 和备忘录	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Middle	中间	claude-sonnet-5-5 2026-10-18
+Minimize	最小化	claude-sonnet-5-5 2026-10-18
+Mode	模式	claude-sonnet-5-5 2026-10-18
+Model	型号	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Monosnap 截图工具	claude-sonnet-5-5 2026-10-18
+More Emoji…	更多表情符号…	claude-sonnet-5-5 2026-10-18
+More…	更多…	claude-sonnet-5-5 2026-10-18
+Most memory used	最大内存占用	claude-sonnet-5-5 2026-10-18
+Mouse	鼠标	claude-sonnet-5-5 2026-10-18
+Move Down	下移	claude-sonnet-5-5 2026-10-18
+Move Up	上移	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	已下移“%@”	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	已上移“%@”	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	新自动步骤	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	新配方	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	需要在“系统设置 › 隐私与安全性”中授予“辅助功能”权限。在此之前，窗口模式会选择整个窗口。重新构建或移动过的 App 副本需要再次允许。	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	网络名称（SSID）：	claude-sonnet-5-5 2026-10-18
+Never	从不	claude-sonnet-5-5 2026-10-18
+Never (switched off)	从不（已关闭）	claude-sonnet-5-5 2026-10-18
+Never check for updates	从不检查更新	claude-sonnet-5-5 2026-10-18
+Never share these applications	从不共享这些 App	claude-sonnet-5-5 2026-10-18
+New Automatic Step	新建自动步骤	claude-sonnet-5-5 2026-10-18
+New Document	新建文档	claude-sonnet-5-5 2026-10-18
+New Email	新建电子邮件	claude-sonnet-5-5 2026-10-18
+New Image	新建图像	claude-sonnet-5-5 2026-10-18
+New Note	新建备忘录	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	新版 Outlook 无法使用脚本控制：请将其关闭（Outlook › 旧版 Outlook）或使用“电子邮件…”	claude-sonnet-5-5 2026-10-18
+New Presentation	新建演示文稿	claude-sonnet-5-5 2026-10-18
+New Random Edges	新随机边缘	claude-sonnet-5-5 2026-10-18
+New Recipe	新建配方	claude-sonnet-5-5 2026-10-18
+New Workbook	新建工作簿	claude-sonnet-5-5 2026-10-18
+New email attachment	新建电子邮件附件	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Microsoft Outlook 中的新电子邮件	claude-sonnet-5-5 2026-10-18
+New image size	新图像尺寸	claude-sonnet-5-5 2026-10-18
+New meeting	新建会议	claude-sonnet-5-5 2026-10-18
+New note in Notes	备忘录中的新备忘录	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	新建配方（⌘N）	claude-sonnet-5-5 2026-10-18
+Next	下一步	claude-sonnet-5-5 2026-10-18
+Next number	下一个编号	claude-sonnet-5-5 2026-10-18
+No	否	claude-sonnet-5-5 2026-10-18
+No QR code found	未找到二维码	claude-sonnet-5-5 2026-10-18
+No Step Selected	未选择步骤	claude-sonnet-5-5 2026-10-18
+No Windows	无窗口	claude-sonnet-5-5 2026-10-18
+No annotations yet.	尚无标注。	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	没有自动步骤更改配方；请在上方打开一个。	claude-sonnet-5-5 2026-10-18
+No captures	无抓取内容	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	配方的作用没有变化（只是名称或布局等细节）。	claude-sonnet-5-5 2026-10-18
+No description provided.	未提供描述。	claude-sonnet-5-5 2026-10-18
+No developer signature kept	未保留开发者签名	claude-sonnet-5-5 2026-10-18
+No external command is set up	未设置外部命令	claude-sonnet-5-5 2026-10-18
+No external command is set up.	未设置外部命令。	claude-sonnet-5-5 2026-10-18
+No fill	无填充	claude-sonnet-5-5 2026-10-18
+No folder	无文件夹	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	没有打开的图像编辑器。请先在编辑器中打开一次抓取内容。	claude-sonnet-5-5 2026-10-18
+No mail app is set up	未设置邮件 App	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	未设置邮件 App。	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	在 Safari 或 Chrome 中没有打开此 Confluence 的页面。	claude-sonnet-5-5 2026-10-18
+No problems	无问题	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	尚未允许任何程序。	claude-sonnet-5-5 2026-10-18
+No recipe	无配方	claude-sonnet-5-5 2026-10-18
+No recipe matches.	没有匹配的配方。	claude-sonnet-5-5 2026-10-18
+No recipe open	没有打开的配方	claude-sonnet-5-5 2026-10-18
+No recipes from files.	没有来自文件的配方。	claude-sonnet-5-5 2026-10-18
+No recipes loaded	未载入任何配方	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	还没有配方。请导入配方文件，或在配方编辑器中创建一个。	claude-sonnet-5-5 2026-10-18
+No spaces	无空间	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	没有起始步骤通向此处：请用“继续于”连接这些步骤	claude-sonnet-5-5 2026-10-18
+No text found	未找到文字	claude-sonnet-5-5 2026-10-18
+No text found.	未找到文字。	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	没有与“%@”匹配的文字。	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	无触发器：通过配方列表或命令行运行	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	无触发器：该配方通过配方列表、命令行或另一个配方运行。	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	无触发器（仅限配方编辑器）	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	无触发器：该配方只能通过配方管理器、测试运行或另一个配方启动。	claude-sonnet-5-5 2026-10-18
+No, Cancel	否，取消	claude-sonnet-5-5 2026-10-18
+Nobody	无人	claude-sonnet-5-5 2026-10-18
+Node ID	节点 ID	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	未找到（Chrome、Edge、Firefox、Brave、Vivaldi 或 Chromium）	claude-sonnet-5-5 2026-10-18
+None set up	未设置	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	不是此步骤的参数	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	不是正则表达式：%@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	在 Greenshot 退出之前不被允许	claude-sonnet-5-5 2026-10-18
+Not allowed yet	尚未允许	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	未批准、批准后已更改或触发器已关闭	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	不可用，信息会显示在屏幕角落	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	尚未检查。你的版本是 %@。	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	不适用于 JPEG。GIF 文件的颜色数始终不超过此值。	claude-sonnet-5-5 2026-10-18
+Not found next to the app	在 App 旁边未找到	claude-sonnet-5-5 2026-10-18
+Not installed	未安装	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	未载入 Greenshot	claude-sonnet-5-5 2026-10-18
+Not reached	未到达	claude-sonnet-5-5 2026-10-18
+Not registered yet	尚未注册	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	未注册：已被其他 App 占用	claude-sonnet-5-5 2026-10-18
+Not running	未运行	claude-sonnet-5-5 2026-10-18
+Not saved yet	尚未保存	claude-sonnet-5-5 2026-10-18
+Not set	未设置	claude-sonnet-5-5 2026-10-18
+Not signed	未签名	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	尚未登录 %@。请在“设置 › 目标位置”下登录。	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	尚未登录；首次上传时会询问。	claude-sonnet-5-5 2026-10-18
+Notarized	已公证	claude-sonnet-5-5 2026-10-18
+Notes	备忘录	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	运行期间每 600 毫秒记录一次每个更改：在粘贴屏幕截图不起作用时很有用。	claude-sonnet-5-5 2026-10-18
+Nothing	无	claude-sonnet-5-5 2026-10-18
+Nothing embedded	未嵌入任何内容	claude-sonnet-5-5 2026-10-18
+Nothing found	未找到任何内容	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	屏幕截图中没有可识别为二维码的内容。	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	没有正在录制的内容。	claude-sonnet-5-5 2026-10-18
+Notification Settings…	通知设置…	claude-sonnet-5-5 2026-10-18
+Notifications	通知	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	现在为 %@ × %@ 像素	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	用编辑器的计数器工具为操作指南的步骤编号。	claude-sonnet-5-5 2026-10-18
+OCR Text	OCR 文本	claude-sonnet-5-5 2026-10-18
+OPTIONS	选项	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	其他参数	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	已被覆盖	claude-sonnet-5-5 2026-10-18
+Object and text	对象和文字	claude-sonnet-5-5 2026-10-18
+Object and two objects	对象和两个对象	claude-sonnet-5-5 2026-10-18
+Object over text	对象在文字之上	claude-sonnet-5-5 2026-10-18
+Off	关	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	此 App 已关闭：无通知	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	关闭：“直接保存”会改为在名称后添加 (2)、(3)……	claude-sonnet-5-5 2026-10-18
+Offset X:	偏移 X：	claude-sonnet-5-5 2026-10-18
+Offset Y:	偏移 Y：	claude-sonnet-5-5 2026-10-18
+On	开	claude-sonnet-5-5 2026-10-18
+On Error / Failure	出错/失败时	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	在 Mac 上，没有 App 能锁定剪贴板，因此其他 App 无法阻止 %@ 访问它。	claude-sonnet-5-5 2026-10-18
+On the clipboard now	当前剪贴板中	claude-sonnet-5-5 2026-10-18
+Once at a time	一次一个	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	每行一个：值，或 值 = 标签	claude-sonnet-5-5 2026-10-18
+One screen	一个屏幕	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	仅适用于上方证书不被 macOS 信任的 Jira 和 Confluence 服务器；其他所有服务器仅使用 macOS 的检查。每行一个主机；* 和 ? 为通配符，端口会被忽略。指纹只信任一个证书，比主机更安全；因证书问题而失败的上传会显示服务器的指纹。列表为空时仅使用 macOS 的检查。	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	只有顺序排列的步骤才能移动。	claude-sonnet-5-5 2026-10-18
+Only when	仅当	claude-sonnet-5-5 2026-10-18
+Open	打开	claude-sonnet-5-5 2026-10-18
+Open %@	打开 %@	claude-sonnet-5-5 2026-10-18
+Open %@ at login	登录时打开 %@	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	在 Greenshot 中打开剪贴板	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	打开 Greenshot 配方	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	在 Greenshot 中打开图像	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	打开键盘快捷键	claude-sonnet-5-5 2026-10-18
+Open Link	打开链接	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	打开日志查看器	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	打开日志查看器…	claude-sonnet-5-5 2026-10-18
+Open Login Items	打开登录项	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	打开菜单栏设置	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	打开隐私设置	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	打开自助服务…	claude-sonnet-5-5 2026-10-18
+Open Settings	打开设置	claude-sonnet-5-5 2026-10-18
+Open System Settings	打开系统设置	claude-sonnet-5-5 2026-10-18
+Open With	打开方式	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	打开配方文件（⌘O）	claude-sonnet-5-5 2026-10-18
+Open an empty editor	打开空白编辑器	claude-sonnet-5-5 2026-10-18
+Open file	打开文件	claude-sonnet-5-5 2026-10-18
+Open in Editor	在编辑器中打开	claude-sonnet-5-5 2026-10-18
+Open in another app	在其他 App 中打开	claude-sonnet-5-5 2026-10-18
+Open in the default player	用默认播放器打开	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	保存后在配方编辑器中打开	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	在编辑器中打开上次抓取内容	claude-sonnet-5-5 2026-10-18
+Open the Recording With	用以下方式打开录制内容	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	用以下方式打开屏幕截图	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	请再次打开 App，或点按此处打开设置。	claude-sonnet-5-5 2026-10-18
+Open the image with another app	用其他 App 打开图像	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	上传后打开页面	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	在配方编辑器中打开配方	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	打开配方管理器（⇧⌘M）	claude-sonnet-5-5 2026-10-18
+Open with	打开方式	claude-sonnet-5-5 2026-10-18
+Open with %@	用 %@ 打开	claude-sonnet-5-5 2026-10-18
+Open with…	打开方式…	claude-sonnet-5-5 2026-10-18
+Open: %@	打开：%@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	已打开 %@；它未载入 Greenshot。	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	已打开键盘设置。	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	已打开日志查看器。	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	在 Greenshot for Mac 编辑器中打开图像。	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	在 Greenshot for Mac 编辑器中打开剪贴板上的图像。	claude-sonnet-5-5 2026-10-18
+Open…	打开…	claude-sonnet-5-5 2026-10-18
+Optional	可选	claude-sonnet-5-5 2026-10-18
+Options	选项	claude-sonnet-5-5 2026-10-18
+Options (%lld)	选项（%lld）	claude-sonnet-5-5 2026-10-18
+Order	顺序	claude-sonnet-5-5 2026-10-18
+Orgchart	组织结构图	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	其他屏幕抓取 App	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	否则（%@）	claude-sonnet-5-5 2026-10-18
+Other…	其他…	claude-sonnet-5-5 2026-10-18
+Out	输出	claude-sonnet-5-5 2026-10-18
+Outlook: allow export in meeting items	Outlook：允许在会议项目中导出	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook：新邮件的电子邮件格式	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	覆盖同名文件	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	由 AI 提议	claude-sonnet-5-5 2026-10-18
+Page	页面	claude-sonnet-5-5 2026-10-18
+Parallel	并行	claude-sonnet-5-5 2026-10-18
+Parallel start	并行开始	claude-sonnet-5-5 2026-10-18
+Parameters	参数	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	粘贴（⌘V）	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	将其粘贴到 Markdown、GitHub README 或拉取请求中。	claude-sonnet-5-5 2026-10-18
+Path	路径	claude-sonnet-5-5 2026-10-18
+Pattern variables	格式变量	claude-sonnet-5-5 2026-10-18
+Pause Recording	暂停录制	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	屏幕锁定时暂停	claude-sonnet-5-5 2026-10-18
+Permissions	权限	claude-sonnet-5-5 2026-10-18
+Permissions…	权限…	claude-sonnet-5-5 2026-10-18
+Personal access token	个人访问令牌	claude-sonnet-5-5 2026-10-18
+Phone Call	电话	claude-sonnet-5-5 2026-10-18
+Phone Call Details	电话详细信息	claude-sonnet-5-5 2026-10-18
+Phone Number:	电话号码：	claude-sonnet-5-5 2026-10-18
+Phone:	电话：	claude-sonnet-5-5 2026-10-18
+Picture with caption	带标题的图片	claude-sonnet-5-5 2026-10-18
+Pictures	图片	claude-sonnet-5-5 2026-10-18
+Play the camera sound	播放快门声	claude-sonnet-5-5 2026-10-18
+Play the sound	播放声音	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	请输入电话号码。	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	请输入值以生成条码。	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	请输入联系人姓名或详细信息。	claude-sonnet-5-5 2026-10-18
+Please enter event title.	请输入事件标题。	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	请输入纬度和经度坐标。	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	请输入网络名称（SSID）。	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	请输入收件人电子邮件地址。	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	请输入收款人姓名和 IBAN。	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	请输入收款人号码。	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	请输入文字或网址。	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	请选择如何处理此次抓取：	claude-sonnet-5-5 2026-10-18
+Pointer	指针	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	指向“从窗口列表中选择抓取”中的窗口时，会显示其图片。需要屏幕录制权限。	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	指向缺失的 App：点按“安装”	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint 给出了意外的答复：%@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint：锁定图像的宽高比	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint：导出抓取内容的幻灯片版式	claude-sonnet-5-5 2026-10-18
+Preset	预设	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	按 %@ 进行抓取。	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	按 1–6 切换各部分，按 F5 刷新。	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	抓取时按 F1 或 H 可查看所有可用的按键。	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	抓取时按 M 可在屏幕截图中显示或隐藏鼠标指针。	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	按“下一步”开始，或随时按 Esc 关闭此窗口。	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	抓取时按 Z 可显示或隐藏放大镜，以便精确到像素地选择。	claude-sonnet-5-5 2026-10-18
+Preview	预览	claude-sonnet-5-5 2026-10-18
+Print a footer	打印页脚	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	在页面底部打印日期/时间和标题	claude-sonnet-5-5 2026-10-18
+Print in	打印色彩	claude-sonnet-5-5 2026-10-18
+Print – %@	打印 – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	打印…（⌘P）	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	隐私设置…	claude-sonnet-5-5 2026-10-18
+Program not found	未找到程序	claude-sonnet-5-5 2026-10-18
+Program: %@	程序：%@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	由 AI 工具提议	claude-sonnet-5-5 2026-10-18
+QR Code	二维码	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	二维码操作…	claude-sonnet-5-5 2026-10-18
+QR Type:	二维码类型：	claude-sonnet-5-5 2026-10-18
+QR code actions	二维码操作	claude-sonnet-5-5 2026-10-18
+QR code: %@	二维码：%@	claude-sonnet-5-5 2026-10-18
+Quality	质量	claude-sonnet-5-5 2026-10-18
+Quarantined	已隔离	claude-sonnet-5-5 2026-10-18
+Quick settings	快速设置	claude-sonnet-5-5 2026-10-18
+Quit %@	退出 %@	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	请先退出它，再启动此副本。	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	配方配置	claude-sonnet-5-5 2026-10-18
+Range	范围	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	原始文本或网址详细信息	claude-sonnet-5-5 2026-10-18
+Read error	读取错误	claude-sonnet-5-5 2026-10-18
+Read the QR code	读取二维码	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	重新读取日志（F5，⌘R）	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	重新读取此部分（F5，⌘R）	claude-sonnet-5-5 2026-10-18
+Recent	最近	claude-sonnet-5-5 2026-10-18
+Recent issues	最近的问题	claude-sonnet-5-5 2026-10-18
+Recently captured	最近抓取	claude-sonnet-5-5 2026-10-18
+Recipe	配方	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	配方在 Greenshot 之外被更改	claude-sonnet-5-5 2026-10-18
+Recipe Details	配方详细信息	claude-sonnet-5-5 2026-10-18
+Recipe Editor	配方编辑器	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	配方编辑器…	claude-sonnet-5-5 2026-10-18
+Recipe ID	配方 ID	claude-sonnet-5-5 2026-10-18
+Recipe JSON	配方 JSON	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	配方管理器…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	检测到配方被修改	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	配方未载入	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	配方未保存	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	配方权限	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	AI 工具提议的配方	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	配方安全批准	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	配方安全审核	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	配方验证失败	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	配方配置未通过验证。	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	配方内容不可用。	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	配方执行时遇到错误：	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	配方文件过大，无法预览（> 1MB）。	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	配方文件以 %@ 结尾，因此该配方将保存为 %@。	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	配方热键未注册	claude-sonnet-5-5 2026-10-18
+Recipe imported	配方已导入	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	配方“%@”	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	配方“%@”（%@）	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	配方“%@”失败	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	配方目前未在 Greenshot 中运行，因此无法保存该配方。	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	配方目前未在 Greenshot 中运行。	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	来自文件的配方（包括由 AI 工具编写的配方），以及你为它们批准的内容。此处的更改立即生效。	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	配方菜单（默认）	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	配方菜单（“%@”）	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	配方必须构成有向无环图（DAG）。请确保转换和回退不会循环回到更早的节点。	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	配方将抓取作为一系列步骤来运行，由热键、菜单项、剪贴板、“打开方式”或命令行启动。配方文件只有在你批准其作用后才会被使用。	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	配方：ID、*（所有带此插槽的配方）或 *capture，以逗号分隔	claude-sonnet-5-5 2026-10-18
+Recipient Number:	收款人号码：	claude-sonnet-5-5 2026-10-18
+Recipient:	收款人：	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	抓取屏幕一打开就识别文字	claude-sonnet-5-5 2026-10-18
+Recognising text…	正在识别文字…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	正在识别文字…	claude-sonnet-5-5 2026-10-18
+Record	录制	claude-sonnet-5-5 2026-10-18
+Record Region…	录制区域…	claude-sonnet-5-5 2026-10-18
+Record Screen	录制屏幕	claude-sonnet-5-5 2026-10-18
+Record Window…	录制窗口…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	不使用麦克风录制	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	录制鼠标指针	claude-sonnet-5-5 2026-10-18
+Recording	正在录制	claude-sonnet-5-5 2026-10-18
+Recording starts	录制开始	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	正在录制。点按以停止；按住 ⌃ 点按可暂停或放弃。	claude-sonnet-5-5 2026-10-18
+Rectangle	矩形	claude-sonnet-5-5 2026-10-18
+Redo	重做	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	重做（⇧⌘Z 或 ⌘Y）	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	重做（⇧⌘Z）	claude-sonnet-5-5 2026-10-18
+Redone	已重做	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	将颜色数量减少到最多 %lld 种	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	减少颜色数量	claude-sonnet-5-5 2026-10-18
+Reference:	参考：	claude-sonnet-5-5 2026-10-18
+Refresh	刷新	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	此构建版本被拒绝，信息会显示在屏幕角落	claude-sonnet-5-5 2026-10-18
+Region	区域	claude-sonnet-5-5 2026-10-18
+Register Again	重新注册	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	向 macOS 重新注册热键，例如在其他 App 释放某个按键之后	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	请注册你自己的 Box App，并在“设置 › 目标位置”中输入其客户端 ID 和密钥。	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	请注册你自己的 Dropbox App，并在“设置 › 目标位置”中输入其 App 密钥。	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	在 [Dropbox App Console](https://www.dropbox.com/developers/apps) 中注册你自己的 App：Scoped access、App folder 或 Full Dropbox，权限 files.content.write、sharing.write 和 sharing.read，以及重定向 URI `%@`。在此粘贴其 App 密钥；无需密钥。登录信息会保存在你的钥匙串中。	claude-sonnet-5-5 2026-10-18
+Registered	已注册	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	已注册，但 macOS 优先占用（%@）	claude-sonnet-5-5 2026-10-18
+Reject / Block	拒绝/阻止	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	要在 %2$@ 中重新打开 %1$@ 吗？	claude-sonnet-5-5 2026-10-18
+Relaunch Now	立即重新打开	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	在 %@ 中重新打开	claude-sonnet-5-5 2026-10-18
+Reload All	全部重新载入	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	从磁盘重新载入已配置的配方文件	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	已从磁盘重新载入配方。	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	在钥匙串中记住	claude-sonnet-5-5 2026-10-18
+Remove	移除	claude-sonnet-5-5 2026-10-18
+Remove %@	移除 %@	claude-sonnet-5-5 2026-10-18
+Remove Start Step	移除起始步骤	claude-sonnet-5-5 2026-10-18
+Remove the option	移除该选项	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	从 Greenshot 中移除该配方	claude-sonnet-5-5 2026-10-18
+Remove this error route	移除此错误路径	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	将此步骤从起始步骤中移除	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	移除：该程序下次连接时会再次询问。	claude-sonnet-5-5 2026-10-18
+Removed an option	已移除一个选项	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	已移除配方错误回退路径	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	已移除到“%@”的连接	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	已将步骤 ID 从“%@”重命名为“%@”	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	在上次注销或重新启动后重新打开，尚未保存。	claude-sonnet-5-5 2026-10-18
+Replace	替换	claude-sonnet-5-5 2026-10-18
+Replace File	替换文件	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	要替换不是配方的文件吗？	claude-sonnet-5-5 2026-10-18
+Replace the annotations	替换标注	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	替换内置自动步骤“%@”	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	替换内置配方“%@”	claude-sonnet-5-5 2026-10-18
+Report	报告	claude-sonnet-5-5 2026-10-18
+Report a bug	报告错误	claude-sonnet-5-5 2026-10-18
+Report an Issue…	报告问题…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	在 GitHub 上报告…	claude-sonnet-5-5 2026-10-18
+Required	必填	claude-sonnet-5-5 2026-10-18
+Reset	重置	claude-sonnet-5-5 2026-10-18
+Reset All	全部重置	claude-sonnet-5-5 2026-10-18
+Reset All to Default	全部重置为默认值	claude-sonnet-5-5 2026-10-18
+Reset Default	重置默认值	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	将配方重置为默认值	claude-sonnet-5-5 2026-10-18
+Reset to Default	重置为默认值	claude-sonnet-5-5 2026-10-18
+Reset to defaults	重置为默认值	claude-sonnet-5-5 2026-10-18
+Resize	调整大小	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	调整图像大小（⌥⌘R）	claude-sonnet-5-5 2026-10-18
+Resize…	调整大小…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	在 Greenshot 意外退出后恢复，尚未保存。	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	已恢复，尚未保存。	claude-sonnet-5-5 2026-10-18
+Resume Recording	继续录制	claude-sonnet-5-5 2026-10-18
+Retry	重试	claude-sonnet-5-5 2026-10-18
+Revert	还原	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	要将“%@”还原为默认的内置定义吗？	claude-sonnet-5-5 2026-10-18
+Review approval…	审核批准…	claude-sonnet-5-5 2026-10-18
+Review…	审核…	claude-sonnet-5-5 2026-10-18
+Revoke	撤销	claude-sonnet-5-5 2026-10-18
+Revoke Approval	撤销批准	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	撤销批准…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	要撤销“%@”的批准吗？	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	要撤销“%@”的批准吗？它会立即停止运行，且不会再次载入。它的文件保留在原处：请再次打开以审核并批准它。	claude-sonnet-5-5 2026-10-18
+Right key	右键	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	按右键点按或 ⌃ 点按会显示菜单。设置了双击操作时，单击会先等待双击的时间。	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	顺时针旋转	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	逆时针旋转	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	顺时针旋转（⌥⌘→）	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	逆时针旋转（⌥⌘←）	claude-sonnet-5-5 2026-10-18
+Rounded Dots	圆点	claude-sonnet-5-5 2026-10-18
+Route To	转到	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	转到此配方中的步骤…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	运行“MCP: Add Server”（Command (stdio)），或将其放入工作区的 .vscode/mcp.json 中。	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	使用图像运行外部命令	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	在后台运行（错误以信息而非对话框显示）	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	在“终端”中运行它（--scope user：适用于所有项目）。用 claude mcp list 或 /mcp 检查。	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	在“终端”中运行它，或将 [mcp_servers.greenshot] 及 command = 路径 添加到 ~/.codex/config.toml。	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	在“终端”中运行它，或将 mcpServers 条目添加到 ~/.gemini/settings.json。用 /mcp 检查。	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	立即运行抓图配方	claude-sonnet-5-5 2026-10-18
+Running	正在运行	claude-sonnet-5-5 2026-10-18
+Running for	已运行	claude-sonnet-5-5 2026-10-18
+Runs	运行	claude-sonnet-5-5 2026-10-18
+Runs as	运行身份	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 或 SHA-1，例如 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	短信	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	短信详细信息	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	步骤错误处理	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	步骤参数	claude-sonnet-5-5 2026-10-18
+Same as macOS	与 macOS 相同	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	与 macOS 相同（%@）	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	与你的热键按键相同	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	保存（⌘S）	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	保存（⌘S）；“另存为”为 ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	另存为…（⇧⌘S）	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	将自动步骤另存为…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	测试运行前保存	claude-sonnet-5-5 2026-10-18
+Save Changes	保存更改	claude-sonnet-5-5 2026-10-18
+Save Directly	直接保存	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	直接保存（%@）	claude-sonnet-5-5 2026-10-18
+Save Elements…	保存元素…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	将 Greenshot 配方另存为…	claude-sonnet-5-5 2026-10-18
+Save Recipe	保存配方	claude-sonnet-5-5 2026-10-18
+Save Screenshot	保存屏幕截图	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	将屏幕截图保存为 PDF	claude-sonnet-5-5 2026-10-18
+Save and Run	保存并运行	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	保存为 Greenshot 文件	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	保存为 Greenshot 文件…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	保存为 PDF 文档	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	“保存”会要求选择新文件，因此此文件保留它们。	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	将屏幕图片保存为文件	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	将所选区域图片保存为文件	claude-sonnet-5-5 2026-10-18
+Save to File	保存到文件	claude-sonnet-5-5 2026-10-18
+Save to folder	保存到文件夹	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	图像颜色少于 256 种时仍以 256 色保存	claude-sonnet-5-5 2026-10-18
+Saved %@	已保存 %@	claude-sonnet-5-5 2026-10-18
+Saved file	已保存的文件	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	已将配方保存到 %@	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	保存会替换其他配方	claude-sonnet-5-5 2026-10-18
+Saving as %@.	正在保存为 %@。	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	正在保存录制内容…	claude-sonnet-5-5 2026-10-18
+Saving…	正在保存…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	缩放以填满视频	claude-sonnet-5-5 2026-10-18
+Scaling	缩放	claude-sonnet-5-5 2026-10-18
+Schedule	计划	claude-sonnet-5-5 2026-10-18
+Screen	屏幕	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	屏幕 %lld（未连接）	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	屏幕 %lld：%@	claude-sonnet-5-5 2026-10-18
+Screen recording	屏幕录制	claude-sonnet-5-5 2026-10-18
+Screens	屏幕	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	屏幕截图和录制选项	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	带有自己全局快捷键的截图 App	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	macOS 的截图快捷键	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	屏幕截图可能包含屏幕上可见的任何内容。被排除的 App（默认为密码管理器）的窗口绝不会被共享。你可以在“设置 › AI 工具”中更改这两项。	claude-sonnet-5-5 2026-10-18
+Script: %@	脚本：%@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	搜索现有问题	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	搜索名称、ID、触发器、文件	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	在日志查看器中搜索、跟踪和复制整个日志。	claude-sonnet-5-5 2026-10-18
+Searched at %@	搜索于 %@	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	在 GitHub 上搜索此标识符有助于避免重复提交同一问题，并可查看是否已有修复或变通方法。	claude-sonnet-5-5 2026-10-18
+Searching…	正在搜索…	claude-sonnet-5-5 2026-10-18
+Section header	节标题	claude-sonnet-5-5 2026-10-18
+Select	选择	claude-sonnet-5-5 2026-10-18
+Select Image Editor	选取图像编辑器	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	选择要使用 Greenshot for Mac 抓取的屏幕区域。	claude-sonnet-5-5 2026-10-18
+Select a region or a window	选择区域或窗口	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	在列表中选择一个步骤进行更改，或用“添加步骤”添加：它会添加到所选步骤之后、所选分支、泳道或箭头中。	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	请先选择一个步骤或箭头：新步骤会紧接其后，或加入箭头中。	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	请在下方选择替代的目标位置、转发到另一个配方，或重试：	claude-sonnet-5-5 2026-10-18
+Select an editor	选取编辑器	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	选择窗口内的区域	claude-sonnet-5-5 2026-10-18
+Selection	选区	claude-sonnet-5-5 2026-10-18
+Self-Service	自助服务	claude-sonnet-5-5 2026-10-18
+Self-Service…	自助服务…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	将屏幕截图发送到	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	正在将屏幕截图发送到 %@…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	已发送到打印机“%@”	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	多个地址请用逗号分隔。主题可使用文件名格式变量，例如 ${title}。Outlook 也会使用它们。如果设置了抄送或密送，并且邮件 App 为“邮件”，则“邮件”会写入整封邮件（macOS 会询问一次是否允许 Greenshot 控制“邮件”）；否则由 macOS 邮件服务填写收件人和主题，抄送和密送则会显示出来供你手动添加。	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server 或 Data Center：个人访问令牌	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server 或 Data Center：用户名和密码	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	设置命令…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	由你的组织设置	claude-sonnet-5-5 2026-10-18
+Set in the recipe	在配方中设置	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	请在“通用 › 热键”中设置。点按录制的菜单栏图标可停止录制，⌃ 点按可暂停。	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	请在“邮件”中设置一个账户（或在“邮件 › 设置”中选取默认电子邮件 App），然后重试。	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	设置（在用户默认设置中）	claude-sonnet-5-5 2026-10-18
+Settings are turned off	设置已关闭	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	设置文件（--settings-dir）	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	“Settings › Developer › Edit Config”会打开 ~/Library/Application Support/Claude/claude_desktop_config.json；添加该服务器并重新启动 Claude。	claude-sonnet-5-5 2026-10-18
+Settings… (⌘,)	设置…（⌘,）	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	同一插槽上的多个项目按顺序运行，然后按 ID 运行	claude-sonnet-5-5 2026-10-18
+Shadow	阴影	claude-sonnet-5-5 2026-10-18
+Shadow:	阴影：	claude-sonnet-5-5 2026-10-18
+Share	共享	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	与 App 和联系人共享	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	共享链接（任何拥有该链接的人），而非私人链接	claude-sonnet-5-5 2026-10-18
+Share…	共享…	claude-sonnet-5-5 2026-10-18
+Shift	Shift	claude-sonnet-5-5 2026-10-18
+Show	显示	claude-sonnet-5-5 2026-10-18
+Show All	全部显示	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	显示扩展文件夹…	claude-sonnet-5-5 2026-10-18
+Show It	显示	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	显示已打开的屏幕截图	claude-sonnet-5-5 2026-10-18
+Show Welcome…	显示欢迎…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	AI 工具截取屏幕截图时显示通知	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	在通知中显示抓取内容的缩略图	claude-sonnet-5-5 2026-10-18
+Show all parameters	显示所有参数	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	窗口打开时在 Dock 中显示	claude-sonnet-5-5 2026-10-18
+Show in Finder	在访达中显示	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	在“配方”菜单中显示	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	在菜单栏的“快速设置”中显示	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	每次打印前显示打印选项	claude-sonnet-5-5 2026-10-18
+Show the menu	显示菜单	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	显示菜单栏图标	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	在抓取屏幕上显示放大镜	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	在窗口列表中显示窗口缩略图	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	按 Greenshot 当前的状态显示 %@。	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	显示总共 %@ 中的末尾 %@。可载入更早的日志行。	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	显示约 %@ 行（%@/%@）	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	仅显示整个日志文件中包含此文本的日志条目（⌘F）	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	缩小画布	claude-sonnet-5-5 2026-10-18
+Sign In…	登录…	claude-sonnet-5-5 2026-10-18
+Sign Out	退出登录	claude-sonnet-5-5 2026-10-18
+Sign in with	登录方式	claude-sonnet-5-5 2026-10-18
+Signed by	签名者	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	由链接器签名（开发版构建）	claude-sonnet-5-5 2026-10-18
+Signed by: %@	签名者：%@	claude-sonnet-5-5 2026-10-18
+Signed in	已登录	claude-sonnet-5-5 2026-10-18
+Signed in.	已登录。	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	大小：0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	尺寸	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Skitch 截图工具	claude-sonnet-5-5 2026-10-18
+Slot	插槽	claude-sonnet-5-5 2026-10-18
+Small size	小尺寸	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	较小值会保留手绘线条的更多细节，较大值则使其更平滑。	claude-sonnet-5-5 2026-10-18
+Smallest value	最小值	claude-sonnet-5-5 2026-10-18
+Software	软件	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	部分热键无法注册	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	某些阅读器可能会将此条码中西欧字符以外的字符显示为乱码；二维码和 Data Matrix 码则不会。	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	此语言中的部分文字为机器翻译。	claude-sonnet-5-5 2026-10-18
+Something went wrong	出了点问题	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	按类型对标注排序	claude-sonnet-5-5 2026-10-18
+Sound	声音	claude-sonnet-5-5 2026-10-18
+Source code	源代码	claude-sonnet-5-5 2026-10-18
+Space	空格键	claude-sonnet-5-5 2026-10-18
+Space:	空间：	claude-sonnet-5-5 2026-10-18
+Speech Bubble	对话气泡	claude-sonnet-5-5 2026-10-18
+Stack trace	堆栈跟踪	claude-sonnet-5-5 2026-10-18
+Start (UTC):	开始（UTC）：	claude-sonnet-5-5 2026-10-18
+Start Watching	开始监视	claude-sonnet-5-5 2026-10-18
+Start or stop recording	开始或停止录制	claude-sonnet-5-5 2026-10-18
+Start step	起始步骤	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	起始步骤最先运行；多个起始步骤会同时运行（上游为 START STEPS）。请在步骤列表中标记它们。	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	已开始监视剪贴板（每 600 毫秒）	claude-sonnet-5-5 2026-10-18
+Starting and stopping	开始和停止	claude-sonnet-5-5 2026-10-18
+Starting…	正在开始…	claude-sonnet-5-5 2026-10-18
+Startup	启动	claude-sonnet-5-5 2026-10-18
+Step	步骤	claude-sonnet-5-5 2026-10-18
+Step %lld	步骤 %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	步骤 %lld：%@ 是保留按键，不能用于热键。	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	步骤 %lld：F1–F20 以外的按键需要 ⌃、⌥ 或 ⌘。	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	步骤 %lld：除 F1–F20 外，⇧ 不能作为唯一的修饰键。	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	此配方中的步骤	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	%@ 添加到具有合适插槽的配方中的步骤，在“设置 › 配方”中打开。	claude-sonnet-5-5 2026-10-18
+Stop Recording	停止录制	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	停止录制（%@）	claude-sonnet-5-5 2026-10-18
+Stop Watching	停止监视	claude-sonnet-5-5 2026-10-18
+Stop after	停止于	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	窗口关闭时停止	claude-sonnet-5-5 2026-10-18
+Stopped watching	已停止监视	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	已停止监视剪贴板。	claude-sonnet-5-5 2026-10-18
+Subject	主题	claude-sonnet-5-5 2026-10-18
+Subject:	主题：	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	请关闭你不需要的触发器。	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	打开或关闭自动步骤（也可在“设置 › 配方”中操作）	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	切换配方的触发器和权限	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	打开或关闭该批准的触发器和权限	claude-sonnet-5-5 2026-10-18
+System	系统	claude-sonnet-5-5 2026-10-18
+System Font	系统字体	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	系统信息已复制到剪贴板。	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	触发器	claude-sonnet-5-5 2026-10-18
+Table	表格	claude-sonnet-5-5 2026-10-18
+Take Screenshot	截图	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	使用 Greenshot for Mac 截图。它会像使用热键一样发送到你的目标位置。	claude-sonnet-5-5 2026-10-18
+Target step	目标步骤	claude-sonnet-5-5 2026-10-18
+Team	团队	claude-sonnet-5-5 2026-10-18
+Team ID: %@	团队 ID：%@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	撕裂图像所选的边缘。	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	TechSmith Snagit 屏幕抓取	claude-sonnet-5-5 2026-10-18
+Teeth	锯齿	claude-sonnet-5-5 2026-10-18
+Template	模板	claude-sonnet-5-5 2026-10-18
+Test Connection	测试连接	claude-sonnet-5-5 2026-10-18
+Test Run	测试运行	claude-sonnet-5-5 2026-10-18
+Test run error: %@	测试运行错误：%@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	测试运行未启动：%@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	%@ 的测试运行失败。	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	%@ 的测试运行已开始。	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	%@ 的测试运行：已取消。	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	%@ 的测试运行：已完成。	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	“%@”的测试运行已结束：%@。	claude-sonnet-5-5 2026-10-18
+Text	文字	claude-sonnet-5-5 2026-10-18
+Text (OCR)	文本（OCR）	claude-sonnet-5-5 2026-10-18
+Text / Number Value	文本/数值	claude-sonnet-5-5 2026-10-18
+Text / URL	文本/网址	claude-sonnet-5-5 2026-10-18
+Text and chart	文字和图表	claude-sonnet-5-5 2026-10-18
+Text and clipart	文字和剪贴画	claude-sonnet-5-5 2026-10-18
+Text and media clip	文字和媒体片段	claude-sonnet-5-5 2026-10-18
+Text and object	文字和对象	claude-sonnet-5-5 2026-10-18
+Text and two objects	文字和两个对象	claude-sonnet-5-5 2026-10-18
+Text over object	文字在对象之上	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	文字识别（OCR）	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	感谢你安装 %@！它现在正在运行，并在屏幕右上角的菜单栏中等你。	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	开始所需的就这些。%@ 在菜单栏中待命，其他所有内容都可随时在“设置”中更改。	claude-sonnet-5-5 2026-10-18
+The %@ app key	%@ App 密钥	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	%@ 图标显示在菜单栏中。	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	无法打开该 Greenshot 文件	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	适用于 Chrome、Edge 和 Firefox 的 Greenshot for Mac (Community) Companion 扩展会发送可见页面及页面地址。	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON 必须恰好包含一个配方（现包含 %lld 个）。	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	JSON 标签页有尚未应用到配方的更改。	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	钥匙串无法添加该项目：%@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	钥匙串无法读取该项目：%@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	钥匙串无法移除该项目：%@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	钥匙串无法更新该项目：%@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	编辑器的“隐藏文本”工具可对屏幕截图中不该被他人看到的部分进行像素化或模糊处理。	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	无法保存 PDF	claude-sonnet-5-5 2026-10-18
+The action failed.	操作失败。	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	复制它的 App 没有说明。	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	无法撤销“%@”的批准。它保持不变；原因请查看日志。	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	该区域不在显示器上。	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	自动步骤只有在获得其所需的全部权限后才会使用。	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	%@ 的证书的 SHA-256 指纹为 %@。	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	更改后的配方需要 %@，而其批准尚未允许这一点。请先保存；保存时会请求你的批准。	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	剪贴板中包含 %lld 种类型。	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	剪贴板中包含 1 种类型。	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	剪贴板为空。	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	剪贴板保持原样。	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	App 的代码签名、公证和隔离	claude-sonnet-5-5 2026-10-18
+The color behind the image	图像背后的颜色	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	被撕掉部分的颜色；默认为透明	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	目标位置菜单中还会列出你组织的未结束会议；屏幕截图会附加到该会议。	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	“%@”的详细信息不可用：它已不再载入。	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	显示器已不再连接。	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	此剪切标记的边缘和阴影。	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	裁剪所裁掉各边的边缘，以及剪除行或列时接合处的边缘；选“无”则保持笔直无缝	claude-sonnet-5-5 2026-10-18
+The editor was closed.	编辑器已关闭。	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	无法载入元素	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	无法保存元素	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	无法读取此文件的元素，图像将不带元素显示。	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	再次打开文件时，元素仍可编辑。	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	在编辑器中再次打开文件时，元素仍可编辑。“打开方式”、Office、邮件和共享会得到 PNG。	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	无法复制扩展文件夹：%@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	无法读取文件 %@。	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	该文件在你批准后已更改	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	热键 %@ 用于开始和停止录制。	claude-sonnet-5-5 2026-10-18
+The hotkey records	热键用于录制	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	热键仍会继续工作。要回到设置，请从“聚焦”、“启动台”或“应用程序”文件夹中再次打开 %@。	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	无法将图像编码为 %@。	claude-sonnet-5-5 2026-10-18
+The image could not be opened	无法打开图像	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	无法打开图像。	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	图像对 %@ 来说太大：宽度和高度最多为 %lld 像素。	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	布尔选项的键：只有该选项开启时，才能更改此选项	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Greenshot 文字的语言。Greenshot for Windows 没有翻译的文字仍为英文。	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	这样，按 T 时这些行就已准备好。上游：AlwaysRunOCROnCapture。	claude-sonnet-5-5 2026-10-18
+The log at a glance	日志概览	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	无法读取日志文件。	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	邮件 App 无法接收来自其他 App 的附件。点按以在访达中显示该文件。	claude-sonnet-5-5 2026-10-18
+The mail could not be written	无法写入邮件	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	菜单栏图标已隐藏？可在此退出。	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	菜单栏图标已在“设置 › 通用”中关闭。通过它的菜单可使用 %@ 的大部分功能。	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	菜单在第一次点按时打开，因此双击不再有其他作用。按右键点按或 ⌃ 点按始终会显示菜单。	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	无法使用麦克风。	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	新语言将在重新打开后生效。	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	新语言将在重新打开后生效。会先询问未保存的屏幕截图。	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	图像的新尺寸。元素会随之移动。	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	之前的版本未知，请审核整个配方	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	打印机“%@”已不存在	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	打印机“%@”已不存在。	claude-sonnet-5-5 2026-10-18
+The program was not found.	未找到该程序。	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	你开始编辑 JSON 后，配方已更改：“应用”会替换这些更改，“还原”则按配方当前的样子显示。	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	无法读取配方文件。	claude-sonnet-5-5 2026-10-18
+The recipe goes on	配方继续	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	配方只有在获得其所需的全部权限后才会使用。	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	该配方需要 Greenshot for Mac 所没有的插件。	claude-sonnet-5-5 2026-10-18
+The recipe to edit	要编辑的配方	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	配方未保存。	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	该配方使用 Greenshot 通常的输出文件夹之外的文件。	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	%@ 所知的配方和自动步骤。	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	配方太大，无法比较（超过 %lld 行）。	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	配方随 Greenshot 启动。	claude-sonnet-5-5 2026-10-18
+The recording could not be started	无法开始录制	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	录制在录到任何内容之前就结束了。	claude-sonnet-5-5 2026-10-18
+The recording failed	录制失败	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	正在保存录制内容。	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	录制已暂停。点按以停止；⌃ 点按可继续或放弃。	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	录制正在开始。点按可在其开始运行后立即停止。	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	录制将在 %lld 秒后开始。点按以取消。	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	录制已经结束。	claude-sonnet-5-5 2026-10-18
+The recording was discarded	录制内容已放弃	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	该请求通过 greenshot-cli 发来。仅当由你自己启动时才允许：配方的结果会发送到配方指定的位置。	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	该请求通过 greenshot-cli 发来。仅当由你自己启动时才允许：屏幕截图会发送到你的目标位置。	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	与文件名格式相同的变量，例如 ${title} 和 ${capturetime:d"D"}。	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	鼠标所在的屏幕	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	鼠标指针所在的屏幕	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	无法附加屏幕截图	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	无法编码屏幕截图	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	无法保存屏幕截图	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	无法将屏幕截图保存到 %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	无法将屏幕截图保存到文件	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	无法保存屏幕截图，请选择其他位置	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	无法将屏幕截图发送到 %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	无法共享屏幕截图	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	无法截取屏幕截图	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	无法写入屏幕截图	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	无法为 %@ 写入屏幕截图	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	macOS 的截图快捷键不使用你的热键。	claude-sonnet-5-5 2026-10-18
+The script failed.	脚本失败。	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	脚本运行超过了 %lld 秒。	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	服务器返回了 HTTP %lld。	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	无法读取设置文件	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	设置文件、日志和崩溃报告	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	登录响应与请求（state）不匹配。	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	登录响应中没有代码。	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	无法打开登录窗口。	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	“文件 › 新建图像”的尺寸，即用于绘制的白色图像。	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	无法识别文字	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	无法识别文字：%@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	此图像的撕裂边缘。	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	图像的透明部分使用此颜色。	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	触发器初始为关闭状态。请打开每个可以启动此配方的触发器：保持关闭的触发器会一直关闭（之后可通过“权限”打开）。没有触发器时，你仍可从配方列表运行该配方。	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	上传时会询问问题：键、最近十个之一、收藏的过滤器或搜索。打开窗口（例如浏览器）标题中的问题会显示在目标位置菜单中。	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	上传时会询问页面：在 Safari 或 Chrome 中打开的页面、按标题搜索，或空间的页面树。最近十个也在目标位置菜单中。	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	该值是模板（其中 ${…} 有效）	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	无法完成视频文件：%@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	无法设置视频文件。	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	无法写入视频文件：%@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	无法抓取该窗口	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	窗口热键会以窗口模式打开抓取屏幕，而不是抓取活跃窗口。	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	该窗口已不在屏幕上。	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	这样登录后热键就能立即使用。	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	内容周围没有可裁掉的单色边框。	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	剪贴板上没有图像	claude-sonnet-5-5 2026-10-18
+There is no image to open.	没有可打开的图像。	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	没有配方“%@”。	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	屏幕上没有可抓取的内容。	claude-sonnet-5-5 2026-10-18
+Thermal state	热状态	claude-sonnet-5-5 2026-10-18
+These are for this print only.	这些仅适用于本次打印。	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	之后可在“设置 › 打印机”中更改。	claude-sonnet-5-5 2026-10-18
+These lanes run at the same time	这些泳道同时运行	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	这些程序可以使用 Greenshot。用 ✕ 移除其中一个，下次连接时会再次询问。对于运行时（node、python 等），只允许其运行的脚本；由开发者签名的程序，仅在仍由同一开发者签名时才允许。	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	这些触发器保持关闭，因此不会启动该配方：	claude-sonnet-5-5 2026-10-18
+These:	这些：	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	此 Mac 没有麦克风。	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	此网址以 http:// 开头：令牌或密码将以未加密方式传输。如果服务器提供 https://，请使用它。	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	此地址以 http:// 开头：密码将以未加密方式传输。	claude-sonnet-5-5 2026-10-18
+This app	此 App	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	此自动步骤会针对勾选的目标位置，更改勾选配方的抓取内容。新配方也会应用它。	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	此自动步骤由 AI 工具编写。它会更改其他配方（包括内置配方）：请在下方查看具体更改哪些配方以及添加的内容。它初始为关闭状态，请在“设置 › 配方”中打开。	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	这是一个配方；编辑器中打开的是自动步骤。	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	这是一个自动步骤；编辑器中打开的是配方。	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	本程序不提供任何担保。这是自由软件，欢迎你在一定条件下重新分发：%@ 或更高版本。	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	此程序未由开发者签名。	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	此配方由 AI 工具编写，而非 Greenshot 或你本人。请在下方查看它的作用（Greenshot 根据配方本身进行描述），并仅打开你想要的触发器。	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	此步骤没有参数。	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	此触发器保持关闭，因此不会启动该配方：	claude-sonnet-5-5 2026-10-18
+Threads	线程	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	提示：请先将 App 移到“应用程序”文件夹，这样它才能持续在登录时打开。	claude-sonnet-5-5 2026-10-18
+Title	标题	claude-sonnet-5-5 2026-10-18
+Title only	仅标题	claude-sonnet-5-5 2026-10-18
+Title:	标题：	claude-sonnet-5-5 2026-10-18
+To	收件人	claude-sonnet-5-5 2026-10-18
+To:	收件人：	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	在 HDR 屏幕上对 HDR 内容进行色调映射	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	在 HDR 屏幕上对 HDR 内容进行色调映射（macOS 15 或更高版本）	claude-sonnet-5-5 2026-10-18
+Top left	左上	claude-sonnet-5-5 2026-10-18
+Top right	右上	claude-sonnet-5-5 2026-10-18
+Torn	撕裂	claude-sonnet-5-5 2026-10-18
+Total: %lld	总计：%lld	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	临时（很快就会消失）	claude-sonnet-5-5 2026-10-18
+Translocated	已转移	claude-sonnet-5-5 2026-10-18
+Trigger Name	触发器名称	claude-sonnet-5-5 2026-10-18
+Trigger removed	已移除触发器	claude-sonnet-5-5 2026-10-18
+Triggers	触发器	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	触发器（%lld）	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	保持关闭的触发器	claude-sonnet-5-5 2026-10-18
+Troubleshooting	疑难解答	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	信任具有这些指纹的证书	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	即使证书有误，也信任这些主机	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	请相信 Greenshot 在下方对自动步骤的描述，而非这些文字。	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	请相信 Greenshot 在下方对配方的描述，而非这些文字。	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	请在“系统设置 › 通用 › 登录项与扩展”中打开 %@。	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	请在“系统设置 › 通知”中为 %@ 打开“允许通知”，以便再次看到它们。	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	打开其他任何一项都会关闭菜单。可以同时打开多项，例如复制和保存。	claude-sonnet-5-5 2026-10-18
+Two column text	双栏文字	claude-sonnet-5-5 2026-10-18
+Two objects	两个对象	claude-sonnet-5-5 2026-10-18
+Two objects and object	两个对象和对象	claude-sonnet-5-5 2026-10-18
+Two objects and text	两个对象和文字	claude-sonnet-5-5 2026-10-18
+Two objects over text	两个对象在文字之上	claude-sonnet-5-5 2026-10-18
+Type	类型	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	键入快捷键…	claude-sonnet-5-5 2026-10-18
+Unavailable	不可用	claude-sonnet-5-5 2026-10-18
+Undo	撤销	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	撤销（⌘Z）	claude-sonnet-5-5 2026-10-18
+Undone	已撤销	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	未加密（无）	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	服务器的意外响应：%@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	此步骤的唯一标识符。编辑此 ID 会更新所有引用。	claude-sonnet-5-5 2026-10-18
+Unknown	未知	claude-sonnet-5-5 2026-10-18
+Unload	卸载	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	要从 Greenshot 中卸载“%@”吗？	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	卸载自动步骤	claude-sonnet-5-5 2026-10-18
+Unload Recipe	卸载配方	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	卸载并忘记该文件	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	已卸载配方“%@”。	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	未命名的配方	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	注册无法读取：点按“安装”	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	未保存的更改	claude-sonnet-5-5 2026-10-18
+Unsaved changes	未保存的更改	claude-sonnet-5-5 2026-10-18
+Updated at %@	更新于 %@	claude-sonnet-5-5 2026-10-18
+Updates	更新	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	上传到 Confluence – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	上传到 Confluence：“%@”	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	上传到 Jira – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	上传到 Jira、Confluence、Box 或 Dropbox	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	已将 %@ 上传到 Box	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	已将 %@ 上传到 Dropbox	claude-sonnet-5-5 2026-10-18
+Use Default	使用默认值	claude-sonnet-5-5 2026-10-18
+Use Expression	使用表达式	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	请使用此版本 Greenshot for Mac 所具有的步骤类型，或更新 Greenshot。	claude-sonnet-5-5 2026-10-18
+Use recipes	使用配方	claude-sonnet-5-5 2026-10-18
+Used for:	用于：	claude-sonnet-5-5 2026-10-18
+User name	用户名	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	验证错误	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	有效的 SourceType 值为：Region、Window、ActiveWindow、FullScreen、LastRegion、Clipboard、File、TextOcr、CurrentEditor、Extension。	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	有效：App 的文件均未被更改	claude-sonnet-5-5 2026-10-18
+Validation Error	验证错误	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	%@ 验证失败	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	用户在“设置 › 配方”中设置的值；步骤通过 ${option.key} 读取它们。	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	请核实目标节点 ID 与配方“nodes”列表中现有节点的“id”一致。	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	版本 %@（%@）	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	版本 %@ 可用 – 点按以下载	claude-sonnet-5-5 2026-10-18
+Version %@.	版本 %@。	claude-sonnet-5-5 2026-10-18
+Vertical offset:	垂直偏移：	claude-sonnet-5-5 2026-10-18
+Vertical padding:	垂直内边距：	claude-sonnet-5-5 2026-10-18
+Vertical text	竖排文字	claude-sonnet-5-5 2026-10-18
+Vertical title and text	竖排标题和文字	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	竖排标题和图表上方的文字	claude-sonnet-5-5 2026-10-18
+Video	视频	claude-sonnet-5-5 2026-10-18
+View	显示	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	查看自动步骤 JSON	claude-sonnet-5-5 2026-10-18
+View Changes	查看更改	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	查看配方 JSON	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	抓取前等待：%lld 毫秒	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	等待，错误以对话框显示	claude-sonnet-5-5 2026-10-18
+Warnings and errors	警告和错误	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	监视剪贴板	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	正在监视剪贴板。	claude-sonnet-5-5 2026-10-18
+Wave	波浪	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP（无损）	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	欢迎指南…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	欢迎使用 %@	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	%@ 正常工作所需的条件，如有问题则提供修复方法。	claude-sonnet-5-5 2026-10-18
+What AI tools may do	AI 工具可以做什么	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	自上次批准以来的更改	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	如何处理抓取内容由你决定：在编辑器中打开、保存、复制到剪贴板、打印等。你可在“设置”中选择。	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	剪贴板上当前的内容，以及它何时发生变化	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	上传的内容会离开这台 Mac，由服务决定谁能看到。	claude-sonnet-5-5 2026-10-18
+What is wrong	问题所在	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	它的作用（由 Greenshot 根据自动步骤撰写）	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	它的作用（由 Greenshot 根据配方撰写）	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	它的作用、触发器、批准以及与内置版本的差异	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	向它提出的要求（AI 工具的原话，Greenshot 未检查）：	claude-sonnet-5-5 2026-10-18
+What the Mac plays	Mac 播放的声音	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	Mac 播放的声音和麦克风	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	App 正常工作所需的条件，如有问题则提供修复方法	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	此自动步骤的作用、它更改哪些配方，以及你为它批准的内容。	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	此内置配方的作用以及由哪些触发器启动它。	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	此配方的作用以及你为它批准的内容。此处无法更改任何内容，请使用“设置 › 配方”或配方管理器中的“权限”。	claude-sonnet-5-5 2026-10-18
+What to change: %@	要更改的内容：%@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	“复制到剪贴板”放入剪贴板的内容。App 会采用它们能理解的第一种格式；HTML 会将图像作为 PNG 嵌入，供邮件和网页编辑器使用。	claude-sonnet-5-5 2026-10-18
+When	何时	claude-sonnet-5-5 2026-10-18
+When it runs again	再次运行时	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	当用户选取“%@”时	claude-sonnet-5-5 2026-10-18
+When the window changes size	窗口大小改变时	claude-sonnet-5-5 2026-10-18
+When…	当…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	%@ 的使用位置	claude-sonnet-5-5 2026-10-18
+Where it runs from	运行位置	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	配方流程的入口	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	显示 HDR 视频、照片或游戏时，其明亮部分会在屏幕截图中保留细节，而不是被截掉。不含 HDR 内容的抓取会完全保留原有颜色。仅限 Apple 芯片。	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	抓取时按空格键，可在选择区域与抓取窗口之间切换。	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	抓取时，方向键每次将指针移动一个像素，按住 ⌃ 或 ⌘ 则移动十个像素。	claude-sonnet-5-5 2026-10-18
+White	白色	claude-sonnet-5-5 2026-10-18
+WiFi Network	Wi-Fi 网络	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	Wi-Fi 网络连接详细信息	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	Wiki 标记（!name!）	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	Wiki 标记已复制 – 点按以打开页面	claude-sonnet-5-5 2026-10-18
+Window	窗口	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	窗口 %@ · %@（pid %@）	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	菜单中的窗口标题：最多 %lld 个字符	claude-sonnet-5-5 2026-10-18
+Windows	窗口	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	这些 App 的窗口绝不会列出给 AI 工具或被其抓取，在 AI 工具截取的屏幕截图中也会被涂黑。名称为 App 名称或 bundle 标识符；大小写、空格和“.app”不影响匹配。	claude-sonnet-5-5 2026-10-18
+With shadow	带阴影	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word、PowerPoint 和 Outlook 会插入到新的文档、演示文稿或邮件，或已打开的项目中（目标位置菜单会列出它们）。Excel 会插入到已打开或新建工作簿的活动工作表中。Outlook 会附加屏幕截图，并使用“电子邮件”部分的主题、收件人、抄送和密送；开启“允许在会议项目中导出”后，它还会列出你组织的未结束会议，并将屏幕截图附加到该会议。新版 Outlook 无法使用脚本控制。OneNote for Mac 同样无法使用脚本控制：由“备忘录”代替（或使用“打开方式”）。在没有图片占位符的版式中，屏幕截图会在幻灯片上居中；PowerPoint 拒绝的版式会得到空白幻灯片。	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word：锁定图像的宽高比	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	页面标题中的词，或 CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	摘要中的词，或 JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	自动换行	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	请写出带点的扩展名，以“;”分隔，例如“.png;.jpg”。	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	请按“Ctrl + Shift + B”的形式写出热键；在 Mac 上 Ctrl 对应 ⌘，Win 对应 ⌃。	claude-sonnet-5-5 2026-10-18
+Write the output to the log	将输出写入日志	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	正在“邮件”中撰写邮件…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	由 AI 工具编写	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	由 AI 工具编写并经你批准	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	由 AI 工具编写并经你批准：%@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	你的更改	claude-sonnet-5-5 2026-10-18
+Yes	是	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	是，继续	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	是：已下载，尚未从访达中打开过	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	你对这些程序回答了“不允许”（或关闭了询问），因此 Greenshot 会直接拒绝它们而不询问。可在此允许其中一个，或让 Greenshot 在下次连接时再次询问。	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	你之前批准过此自动步骤，但其文件在那之后已在 Greenshot 之外被更改。在你批准这些更改之前，它不会更改任何配方。	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	你之前批准过此抓图配方，但其文件在那之后已在 Greenshot 之外被更改（由其他程序或手动）。批准前，请先查看下方的更改。	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	你正在使用最新版本（%@）。	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	你可以关闭此窗口并返回 Greenshot。	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	你之后可以通过“权限”打开触发器，并从配方列表运行该配方。	claude-sonnet-5-5 2026-10-18
+You have %@.	你的版本是 %@。	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	你目前没有抓取热键。请在“设置 › 通用”中选择。	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	你使用的是 %@ 的最新版本 %@。	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	你在配方编辑器中保存了此自动步骤。大多数更改无需询问即可批准，但这一项需要你来决定：%@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	你在配方编辑器中保存了此配方。大多数更改无需询问即可批准，但这次添加了需要你来决定的内容：%@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	你会看到每个被提议的配方，并决定是否批准。它的触发器和有风险的操作初始为关闭状态。	claude-sonnet-5-5 2026-10-18
+You're all set	一切就绪	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	你的 %lld 个热键均可用。	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	你的更改需要你决定	claude-sonnet-5-5 2026-10-18
+Your Setup	你的设置	claude-sonnet-5-5 2026-10-18
+Your approval	你的批准	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	你的热键可用。	claude-sonnet-5-5 2026-10-18
+Your hotkeys	你的热键	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	你的热键、macOS 的截图快捷键以及其他抓取 App	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	你的组织在这台 Mac 上管理 %@，并已关闭其设置。	claude-sonnet-5-5 2026-10-18
+Your own servers	你自己的服务器	claude-sonnet-5-5 2026-10-18
+Your recipes	你的配方	claude-sonnet-5-5 2026-10-18
+Your setup	你的设置	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	你未保存的更改将被放弃。	claude-sonnet-5-5 2026-10-18
+Zig-zag	锯齿线	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Zight (CloudApp) 屏幕抓取	claude-sonnet-5-5 2026-10-18
+Zoom	缩放	claude-sonnet-5-5 2026-10-18
+Zoom In	放大	claude-sonnet-5-5 2026-10-18
+Zoom Out	缩小	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	缩放以适合	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	放大镜不透明度	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[无堆栈]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	Greenshot 热键	claude-sonnet-5-5 2026-10-18
+all destinations	所有目标位置	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	请在“设置 › 抓取”中允许辅助功能	claude-sonnet-5-5 2026-10-18
+approved %@	已批准 %@	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	最大 %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	自动步骤	claude-sonnet-5-5 2026-10-18
+back to region	返回区域	claude-sonnet-5-5 2026-10-18
+build %@	build %@	claude-sonnet-5-5 2026-10-18
+button label	按钮标签	claude-sonnet-5-5 2026-10-18
+capture a fixed size	抓取固定尺寸	claude-sonnet-5-5 2026-10-18
+capture text	抓取文字	claude-sonnet-5-5 2026-10-18
+capture the area	抓取该区域	claude-sonnet-5-5 2026-10-18
+capture the window	抓取该窗口	claude-sonnet-5-5 2026-10-18
+capture the window or area	抓取窗口或区域	claude-sonnet-5-5 2026-10-18
+changed since its approval	批准后已更改	claude-sonnet-5-5 2026-10-18
+checking…	正在检查…	claude-sonnet-5-5 2026-10-18
+continues at:	继续于：	claude-sonnet-5-5 2026-10-18
+copies a URL	复制网址	claude-sonnet-5-5 2026-10-18
+copies the output	复制输出	claude-sonnet-5-5 2026-10-18
+copy its text	复制其文字	claude-sonnet-5-5 2026-10-18
+copy or open what it says	复制或打开其内容	claude-sonnet-5-5 2026-10-18
+critical	严重	claude-sonnet-5-5 2026-10-18
+default	默认	claude-sonnet-5-5 2026-10-18
+default: %@	默认：%@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	默认：设置中的目标位置	claude-sonnet-5-5 2026-10-18
+description	描述	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	例如 PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	例如 Screenshots；留空 = App 的文件夹	claude-sonnet-5-5 2026-10-18
+empty	空	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	表达式，例如 ${payload.width > 800} 或 else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	一般	claude-sonnet-5-5 2026-10-18
+file name prefix	文件名前缀	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	App 旁边未找到 greenshot-mcp	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region、…/window、…/fullscreen、…/last、…/text 以及 greenshotmac://clipboard，例如来自 Alfred、Raycast 或网页。	claude-sonnet-5-5 2026-10-18
+hide the info	隐藏信息	claude-sonnet-5-5 2026-10-18
+hide the keys	隐藏按键	claude-sonnet-5-5 2026-10-18
+hold it at another corner	固定到另一个角	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	按住可不吸附地放置	claude-sonnet-5-5 2026-10-18
+hosted by %@	托管于 %@	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+id	id	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	ID、* 或 *capture	claude-sonnet-5-5 2026-10-18
+in the capture	在抓取内容中	claude-sonnet-5-5 2026-10-18
+inch	英寸	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	包含鼠标指针	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	将拖移限制在一个方向	claude-sonnet-5-5 2026-10-18
+key	键	claude-sonnet-5-5 2026-10-18
+larger or smaller area	更大或更小的区域	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	不含鼠标指针	claude-sonnet-5-5 2026-10-18
+left %@	左 %@	claude-sonnet-5-5 2026-10-18
+level %@	级别 %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS 会向每个截取屏幕截图的 App 请求此权限。\n\n打开“系统设置 › 隐私与安全性 › 屏幕与系统音频录制”，打开 %@，然后退出并重新打开它。\n\n列表中没有？点按列表下方的 +，并从“应用程序”中添加 %@。\n\n已经打开？重新构建或移动过的副本会被视为新 App：选择它，用 − 移除，然后重新打开 %@ 并再次允许。	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS 会在首次使用时询问是否允许 %@ 使用麦克风。	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS 未允许此构建版本发送通知。使用稳定身份签名的构建版本通常可以（参见 README）。	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS 尚未允许 %@ 录制屏幕。截图需要此权限：请在“隐私与安全性 › 屏幕与系统音频录制”下打开 %@。	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS 会在任何 App 之前处理这些按键。当某个快捷键占用了热键的按键时，请在“键盘 › 键盘快捷键 › 截屏”下将其关闭，或选择其他热键。	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS 没有 %@ 的崩溃报告。	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS 隐藏了 %@ 图标，它位于刘海后面或在菜单栏设置中。请按住 ⌘ 将其向右拖移，或在“系统设置 › 菜单栏”中允许它。	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	macOS 在 ~/Library/Logs/DiagnosticReports 中保留了 %2$@ 的 %1$lld 份崩溃报告。	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS 在 ~/Library/Logs/DiagnosticReports 中保留了 %@ 的 1 份崩溃报告。	claude-sonnet-5-5 2026-10-18
+macOS notifications	macOS 通知	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	macOS 通知需要 App 包（scripts/build-app.sh）；否则信息会显示在右上角。	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS 拒绝了这些热键，可能有其他 App 在使用它们：%@。	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS 正在运行一个临时副本（App Translocation）。请将 App 移到“应用程序”文件夹并从那里打开，这样它的权限和登录项才能保留。	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS 将 %@ 用于自带的截图，并优先获得这些按键。请在“键盘快捷键 › 截屏”下将其关闭，或选择其他热键。	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS、Mac、内存、屏幕和缩放	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	移动一个像素，按住 ⌃ 移动十个	claude-sonnet-5-5 2026-10-18
+no	否	claude-sonnet-5-5 2026-10-18
+nominal	正常	claude-sonnet-5-5 2026-10-18
+not a colour	不是颜色	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	不适用（未使用 Developer ID 签名）	claude-sonnet-5-5 2026-10-18
+not approved	未批准	claude-sonnet-5-5 2026-10-18
+not in the capture	不在抓取内容中	claude-sonnet-5-5 2026-10-18
+off	关	claude-sonnet-5-5 2026-10-18
+one per line	每行一个	claude-sonnet-5-5 2026-10-18
+or a designation	或指定名称	claude-sonnet-5-5 2026-10-18
+pick a size	选择尺寸	claude-sonnet-5-5 2026-10-18
+picture	图片	claude-sonnet-5-5 2026-10-18
+points	点	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	预览：在角落、在放大镜处、关闭	claude-sonnet-5-5 2026-10-18
+previous or next size	上一个或下一个尺寸	claude-sonnet-5-5 2026-10-18
+recipe	配方	claude-sonnet-5-5 2026-10-18
+recipe id	配方 ID	claude-sonnet-5-5 2026-10-18
+required	必填	claude-sonnet-5-5 2026-10-18
+right %@	右 %@	claude-sonnet-5-5 2026-10-18
+select a region	选择区域	claude-sonnet-5-5 2026-10-18
+select words, copy their text	选择文字并复制	claude-sonnet-5-5 2026-10-18
+serious	较严重	claude-sonnet-5-5 2026-10-18
+show the info	显示信息	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	用按键开始和结束选择	claude-sonnet-5-5 2026-10-18
+switch between region and window	在区域和窗口之间切换	claude-sonnet-5-5 2026-10-18
+to	到	claude-sonnet-5-5 2026-10-18
+unknown	未知	claude-sonnet-5-5 2026-10-18
+unknown error	未知错误	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	vCard 联系人	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	vCard 联系人名片详细信息	claude-sonnet-5-5 2026-10-18
+value	值	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	变量（默认：名称）	claude-sonnet-5-5 2026-10-18
+what it does	作用	claude-sonnet-5-5 2026-10-18
+when %@	当 %@	claude-sonnet-5-5 2026-10-18
+window details on or off	打开或关闭窗口详细信息	claude-sonnet-5-5 2026-10-18
+with the menu bar	使用菜单栏	claude-sonnet-5-5 2026-10-18
+written by %@	由 %@ 编写	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	是，Apple 已检查此构建版本	claude-sonnet-5-5 2026-10-18
+zoomer on or off	打开或关闭放大镜	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	参数中的 {0} 是屏幕截图的文件；引号用于将词组合在一起。命令和参数可以使用文件名格式变量，例如 ${title}。	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	“%@”（%@）左右两侧的按键相同，因此两者都会触发。	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@”（%@）是此热键的开头，因此此热键永远不会触发。	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	“%@”已存在。要替换它吗？	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	“%@”使用相同的热键。	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	“%@”尚未完成。如果现在退出，尚未导出的内容将丢失。	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	“%@”不是 Jira 问题键。	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	“%@”不是有效的网址。	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	“%@”不是有效的正则表达式。	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	“%@”不是可执行文件。请在“设置 › 目标位置”中检查。	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	“%@”正在等待你选择其抓取内容的去向。如果现在退出，其抓取内容将丢失。	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	“%@”正在等待你对“%@”的回答。如果现在退出，其抓取内容将丢失。	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	“图像尺寸”会使页面大小等于屏幕截图加上页边距。图像在页面上居中。	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	“使用 Dropbox 共享屏幕截图”会占用 macOS 的截屏按键	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Shift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	除 F1–F20 外，⇧ 不能作为唯一的修饰键。	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Control	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Command	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Option	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ 运行配方	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18

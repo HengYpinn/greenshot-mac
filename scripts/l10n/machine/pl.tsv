@@ -1,0 +1,1976 @@
+# Machine translations of Greenshot for Mac (Community) into Polski (pl-PL): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	„%@” ma niezapisane zmiany w edytorze przepisów. Czy zapisać je przed zakończeniem?	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	„%@” ma niezapisane zmiany. Czy je zapisać?	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	„{0}” to plik obrazu	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	${NUM} we wzorcu nazwy pliku rośnie z każdym plikiem, sześć cyfr z zerami wiodącymi.	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@ (kompilacja %@)	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	Dostępna jest wersja %2$@ aplikacji %1$@, a masz %3$@.	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@ (+ strony internetowe)	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@ (wyłączony)	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@ (wbudowany)	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@ (wbudowany) (wyłączony)	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@ (wyłączony w przepisie)	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@ (wyłączony)	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@ (polecenie zewnętrzne)	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@ (brak)	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@ (brak, odtwarzany jest dźwięk migawki)	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@ (niezainstalowany)	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@ (wył.)	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@ (wył., niezatwierdzony)	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@ (nieznany)	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@ (strony internetowe: niezatwierdzone)	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	Podgląd dziennika %@	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mb/s	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	%@ – samoobsługa	claude-sonnet-5-5 2026-10-18
+%@ Settings	Ustawienia %@	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@ zawiera też %@. Zapis wpisze do niego tylko „%@”, więc zostanie usunięty z pliku i z Greenshota.	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@ zawiera też %@. Zapis wpisze do niego tylko „%@”, więc zostaną usunięte z pliku i z Greenshota.	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ i jeszcze %lld	claude-sonnet-5-5 2026-10-18
+%@ app	aplikacja %@	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	aplikacja %@ w Rosetta	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%1$@ prosi aplikację %2$@ o uruchomienie przepisu „%3$@”, który wykonuje: %4$@.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ prosi aplikację %@ o uruchomienie przepisu „%@”, który nagrywa ekran.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ prosi aplikację %@ o uruchomienie przepisu „%@”, który robi zrzut obszaru.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ prosi aplikację %@ o uruchomienie przepisu „%@”, który robi zrzut okna.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ prosi aplikację %@ o uruchomienie przepisu „%@”, który robi zrzut aktywnego okna.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ prosi aplikację %@ o uruchomienie przepisu „%@”, który robi zrzut ostatnio zrzuconego obszaru.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ prosi aplikację %@ o uruchomienie przepisu „%@”, który robi zrzut całego ekranu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@ prosi aplikację %@ o zrobienie zrzutu obszaru.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@ prosi aplikację %@ o zrobienie zrzutu okna.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@ prosi aplikację %@ o zrobienie zrzutu ostatnio zrzuconego obszaru.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@ prosi aplikację %@ o zrobienie zrzutu tekstu w obszarze.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@ prosi aplikację %@ o zrobienie zrzutu całego ekranu.	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ o %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@ nie może tego zrobić: jego wersja nie obsługuje tego przez AppleScript (%@).	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@ zrzucił(a) %@ za pomocą Greenshota.	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	Nie można połączyć się z %@	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	Nie można odczytać %@ jako pliku Greenshota.	claude-sonnet-5-5 2026-10-18
+%@ could not be started	Nie udało się uruchomić %@	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	Nie udało się zapisać %@ w %@: %@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@ nie mógł otworzyć nagrania	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@ nie mógł otworzyć zrzutu ekranu	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@ nie mógł teraz sprawdzić, czy jest nowsza wersja.	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@ nie odpowiedział na czas.	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@ nie otwiera się jeszcze przy logowaniu	claude-sonnet-5-5 2026-10-18
+%@ embedded	osadzono %@	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@ zakończył działanie z powodu błędu przy ostatnim uruchomieniu. Możesz sprawdzić, czy problem został już zgłoszony, lub zgłosić go ze szczegółami poniżej.	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ – niepowodzenie	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ – zakończono	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@ ma problemy: do naprawienia przed uruchomieniem: %lld.	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@ nie zawiera przepisu.	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ w %@	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ w %@ – kliknij, aby pokazać w Finderze	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@ to zarezerwowany klawisz i nie można go użyć w skrócie klawiszowym.	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@ sprawdza, czy jest nowsza wersja…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@ jest darmowy i otwarty, tworzony przez wolontariuszy. Jeśli ci pomaga, opowiedz o nim znajomym.	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@ nie jest już wczytany w aplikacji Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@ nie jest plikiem przepisu. Zapis zastąpi jego zawartość przepisem.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@ nie jest przepisem:\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	%@ nie jest zainstalowany	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	%@ nie jest zainstalowany.	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@ nie jest skonfigurowany	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@ nie jest skonfigurowany. Dodaj go w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ jest uruchomiony	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	%@ został wyłączony przez Twoją organizację.	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@ jest aktualny	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@ nie jest uruchomiony i nie udało się go uruchomić.	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@ nie może używać mikrofonu	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@ może nagrywać ekran, więc może robić zrzuty ekranu.	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@ odpowiada %@ = %@ pikseli	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@ zakończył działanie nieoczekiwanie przy ostatnim uruchomieniu	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ napotkał błąd, ale nadal działa. Możesz sprawdzić, czy problem został już zgłoszony, lub zgłosić go ze szczegółami poniżej.	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@ zgłosił problem: %@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ uruchamia skrypty: dozwolony jest tylko powyższy skrypt, a nie każdy skrypt uruchamiany przez %@.	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ powinien otwierać się przy logowaniu, ale macOS czeka, aż zezwolisz na to w Ustawieniach systemowych › Ogólne › Elementy logowania i rozszerzenia.	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ chce używać %@ do wyświetlania listy Twoich okien, robienia zrzutów ekranu i uruchamiania przepisów Greenshota.	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ przytnij  ⎋ anuluj	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ wytnij  ⎋ anuluj	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – raport o błędzie	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – kliknij, aby pokazać w Finderze	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — Menedżer przepisów	claude-sonnet-5-5 2026-10-18
+%@: %@	%@: %@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@: %@ – kliknij, aby zobaczyć działania	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@: skopiowano adres URL	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@: nie znaleziono programu	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	Elementów, których nie można tu pokazać: %lld (%@).	claude-sonnet-5-5 2026-10-18
+%lld errors	Błędy: %lld	claude-sonnet-5-5 2026-10-18
+%lld found	Znaleziono: %lld	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld kl./s	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld godz.	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kb/s	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld min	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	Dodatkowe parametry dla innych wyborów: %lld.	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	%lld z %lld zrzutów	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	%lld z %lld elementów	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	Nadal działają przepisy: %lld	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	Nie udało się wczytać przepisów: %lld	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld s	claude-sonnet-5-5 2026-10-18
+%lld spaces	Spacje: %lld	claude-sonnet-5-5 2026-10-18
+%lld steps	Kroki: %lld	claude-sonnet-5-5 2026-10-18
+%lld triggers off	Wyzwalacze wyłączone: %lld	claude-sonnet-5-5 2026-10-18
+%lld warnings	Ostrzeżenia: %lld	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	„%@” nie może następować po „%@”: przepływ zapętliłby się.	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	„%@” nie może tam następować: przepływ zapętliłby się.	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	„%@” jest krokiem startowym	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	„%@” nie jest już krokiem startowym	claude-sonnet-5-5 2026-10-18
+(%@)	(%@)	claude-sonnet-5-5 2026-10-18
+(Deactivated)	(wyłączony)	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	(plik dziennika jest pusty)	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	(brak wpisów dziennika we fragmencie)	claude-sonnet-5-5 2026-10-18
+(no stack)	(brak stosu)	claude-sonnet-5-5 2026-10-18
+(no title)	(bez tytułu)	claude-sonnet-5-5 2026-10-18
+(nothing yet)	(jeszcze nic)	claude-sonnet-5-5 2026-10-18
+* (any step)	* (dowolny krok)	claude-sonnet-5-5 2026-10-18
+* = all errors	* = wszystkie błędy	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ Dodaj trasę awaryjną dla błędów	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ Dodaj wyzwalacz	claude-sonnet-5-5 2026-10-18
++ Option	+ Opcja	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open, /Applications/Preview.app lub nazwa w PATH	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = wszystkie pliki	claude-sonnet-5-5 2026-10-18
+0 lines	0 wierszy	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	1 element, którego nie można tu pokazać: %@.	claude-sonnet-5-5 2026-10-18
+1 error	1 błąd	claude-sonnet-5-5 2026-10-18
+1 hour	1 godzina	claude-sonnet-5-5 2026-10-18
+1 minute	1 minuta	claude-sonnet-5-5 2026-10-18
+1 step	1 krok	claude-sonnet-5-5 2026-10-18
+1 trigger off	1 wyzwalacz wyłączony	claude-sonnet-5-5 2026-10-18
+1 warning	1 ostrzeżenie	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Ikona w Docku i miejsce w ⌘Tab, gdy otwarty jest edytor lub Ustawienia; ikona na pasku menu jest zawsze, chyba że ukryto ją poniżej. Wył.: otwarcie edytora z aplikacji pełnoekranowej pozostawia go w jej przestrzeni zamiast przełączać na biurko.	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Plik Greenshota dla Windows: Zapisz prosi o nowy plik, więc ten pozostaje bez zmian.	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Plik chce dodać automatyczny krok do innych przepisów, także wbudowanych. Przed zatwierdzeniem sprawdź, które przepisy zmienia i co dodaje.	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	Odnośnik chciał zrobić zrzut ekranu	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Nowy plik przepisu przechwytywania prosi o zarejestrowanie w aplikacji Greenshot. Przed zatwierdzeniem sprawdź jego szczegóły, wyzwalacze i kroki wykonania.	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Nowy zrzut zastępuje zrzut ekranu w edytorze bez niezapisanych zmian, zamiast otwierać kolejne okno.	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	Dostępna jest nowsza wersja (%@). Aktualizacja może już rozwiązać ten problem!	claude-sonnet-5-5 2026-10-18
+A problem while recording	Problem podczas nagrywania	claude-sonnet-5-5 2026-10-18
+A program	Program	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	Program uruchomiony przez przepis może zrobić wszystko, co Ty na tym Macu.	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	Nie udało się wczytać przepisu	claude-sonnet-5-5 2026-10-18
+A recipe is still running	Przepis nadal działa	claude-sonnet-5-5 2026-10-18
+A recording is already running.	Nagrywanie już trwa.	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	Obszar (spacja: okno)	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	Delikatny cień za obrazem.	claude-sonnet-5-5 2026-10-18
+A window	Okno	claude-sonnet-5-5 2026-10-18
+ACTIVE	AKTYWNE	claude-sonnet-5-5 2026-10-18
+AI	AI	claude-sonnet-5-5 2026-10-18
+AI Tool Access	Dostęp narzędzi AI	claude-sonnet-5-5 2026-10-18
+AI Tools	Narzędzia AI	claude-sonnet-5-5 2026-10-18
+AI tool	Narzędzie AI	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	Narzędzie AI „%@”	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	Narzędzia AI (np. Claude Code, Claude Desktop, VS Code lub Cursor) łączą się przez greenshot-mcp, dołączony do %@. Mogą wyświetlać listę Twoich okien, robić zrzuty ekranu i uruchamiać Twoje przepisy. Gdy ta opcja jest wyłączona, Greenshot odrzuca każde żądanie bez pytania. Każdy program nadal potrzebuje Twojej zgody przy pierwszym połączeniu.	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	AI: przepisy napisane przez narzędzia AI	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	JUŻ ZATWIERDZONE	claude-sonnet-5-5 2026-10-18
+API token	Token API	claude-sonnet-5-5 2026-10-18
+APPROVED	ZATWIERDZONE	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	KROK AUTOMATYCZNY	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	KROKI AUTOMATYCZNE	claude-sonnet-5-5 2026-10-18
+Access	Dostęp	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	Aktywowano „%@”.	claude-sonnet-5-5 2026-10-18
+Active	Aktywny	claude-sonnet-5-5 2026-10-18
+Active: %lld	Aktywne: %lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	Ad hoc (bez certyfikatu: kompilacja lokalna)	claude-sonnet-5-5 2026-10-18
+Add	Dodaj	claude-sonnet-5-5 2026-10-18
+Add Argument	Dodaj parametr	claude-sonnet-5-5 2026-10-18
+Add Branch	Dodaj gałąź	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	Dodaj DW i UDW w wiadomości	claude-sonnet-5-5 2026-10-18
+Add Choice	Dodaj wybór	claude-sonnet-5-5 2026-10-18
+Add Counter	Dodaj licznik	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	Dodaj znacznik cięcia	claude-sonnet-5-5 2026-10-18
+Add Destination	Dodaj miejsce docelowe	claude-sonnet-5-5 2026-10-18
+Add Emoji	Dodaj emoji	claude-sonnet-5-5 2026-10-18
+Add External Command	Dodaj polecenie zewnętrzne	claude-sonnet-5-5 2026-10-18
+Add Lane	Dodaj tor	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	Dodaj gałąź równoległą	claude-sonnet-5-5 2026-10-18
+Add Speech Bubble	Dodaj dymek	claude-sonnet-5-5 2026-10-18
+Add Step	Dodaj krok	claude-sonnet-5-5 2026-10-18
+Add Variable	Dodaj zmienną	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	Dodaj krok: klawisz naciskany po pozostałych, jak C w ⌃⌥⌘K, C	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	Dodaj je w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Add the first step	Dodaj pierwszy krok	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	Dodaj ten krok jako równoległy punkt wejścia	claude-sonnet-5-5 2026-10-18
+Add to Editor	Dodaj do edytora	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	Dodaj do edytora – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	Dodaj do notatki	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	Dodano wyzwalacz %@	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	Dodano opcję „%@”: kroki odczytują ją przez ${option.%@}	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	Dodano trasę awaryjną dla błędów przepisu	claude-sonnet-5-5 2026-10-18
+Added step: %@	Dodano krok: %@	claude-sonnet-5-5 2026-10-18
+Add…	Dodaj…	claude-sonnet-5-5 2026-10-18
+Adjust	Dopasuj	claude-sonnet-5-5 2026-10-18
+Adjust…	Dopasuj…	claude-sonnet-5-5 2026-10-18
+Advanced	Zaawansowane	claude-sonnet-5-5 2026-10-18
+After a Capture	Po zrzucie	claude-sonnet-5-5 2026-10-18
+After a capture	Po zrzucie	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	Po zrzucie jedno powiadomienie podaje, dokąd trafił. Kliknij je w ciągu godziny, aby wysłać zrzut gdzie indziej, także po ponownym uruchomieniu. Fokus i Nie przeszkadzać wstrzymują powiadomienia tak samo jak w innych aplikacjach.	claude-sonnet-5-5 2026-10-18
+After a recording	Po nagraniu	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	Wczytano wszystko: %@.	claude-sonnet-5-5 2026-10-18
+All Lines	Wszystkie wiersze	claude-sonnet-5-5 2026-10-18
+All captures	Wszystkie zrzuty	claude-sonnet-5-5 2026-10-18
+All screens	Wszystkie ekrany	claude-sonnet-5-5 2026-10-18
+All spaces	Wszystkie spacje	claude-sonnet-5-5 2026-10-18
+Allow	Zezwól	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	Zezwól aplikacji %@ na nagrywanie ekranu	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	Zezwolić %@ na używanie %@?	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	Zezwól na to w Ustawieniach systemowych › Prywatność i ochrona › Mikrofon lub nagrywaj bez niego.	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	Zezwalaj odnośnikom na robienie zrzutów ekranu	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	Zezwalaj rozszerzeniu przeglądarki na wysyłanie zrzutów ekranu	claude-sonnet-5-5 2026-10-18
+Allow these actions	Zezwól na te działania	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	Zezwól temu krokowi automatycznemu na odczyt lub zapis tych plików i folderów	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	Zezwól temu krokowi automatycznemu na uruchamianie programów na tym Macu	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	Zezwól temu krokowi automatycznemu na wysyłanie zrzutów do internetu	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	Zezwól temu przepisowi na odczyt lub zapis tych plików i folderów	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	Zezwól temu przepisowi na uruchamianie programów na tym Macu	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	Zezwól temu przepisowi na wysyłanie zrzutów do internetu	claude-sonnet-5-5 2026-10-18
+Allowed	Dozwolone	claude-sonnet-5-5 2026-10-18
+Allowed programs	Dozwolone programy	claude-sonnet-5-5 2026-10-18
+Allow…	Zezwól…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	Oferuj też wersje beta aplikacji %@ podczas sprawdzania aktualizacji.	claude-sonnet-5-5 2026-10-18
+Always	Zawsze	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	Kwota (EUR):	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	Narzędzie AI proponuje przepis	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	Narzędzie AI proponuje krok automatyczny	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	Narzędzie AI chce zmienić przepis	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	Narzędzie AI zrzuciło %@ za pomocą Greenshota.	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	Nazwa lub identyfikator pakietu aplikacji; Return dodaje	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	Aplikacja, np. KeePassXC lub com.example.vault	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	Krok automatyczny nie ma wyzwalaczy: działa w przepisach, które rozszerza.	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	Krok automatyczny działa w przepisach, które zmienia: zapisz go, włącz w Ustawienia › Przepisy i uruchom testowo jeden z tych przepisów.	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	Wystąpił błąd podczas eksportu do %@: %@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	Obraz bez przezroczystości, który używa mniej niż 256 kolorów, jest zapisywany jako obraz 8-bitowy: ten sam obraz w mniejszym pliku.	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	Wystąpił nieoczekiwany błąd.	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	Nieoficjalny, społecznościowy port Greenshota dla macOS, darmowego narzędzia do zrzutów ekranu z otwartym kodem dla Windows. Nie jest powiązany z zespołem Greenshota ani z oficjalną aplikacją Greenshot w Mac App Store.	claude-sonnet-5-5 2026-10-18
+Annotate and export	Adnotuj i eksportuj	claude-sonnet-5-5 2026-10-18
+Annotations	Adnotacje	claude-sonnet-5-5 2026-10-18
+Another Recipe	Inny przepis	claude-sonnet-5-5 2026-10-18
+Another Tip	Kolejna wskazówka	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Może ich używać inna aplikacja. Wybierz inne w Ustawienia › Ogólne lub zmień wyzwalacz skrótu klawiszowego przepisu.	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	Każdy wyzwalacz może uruchomić przepis; każdy ma własny przełącznik. Wyzwalacze, które uruchamiają przepis samodzielnie lub z zewnątrz, są zatwierdzane osobno.	claude-sonnet-5-5 2026-10-18
+App	Aplikacja	claude-sonnet-5-5 2026-10-18
+App key	Klucz aplikacji	claude-sonnet-5-5 2026-10-18
+Appearance	Wygląd	claude-sonnet-5-5 2026-10-18
+Append to the annotations	Dołącz do adnotacji	claude-sonnet-5-5 2026-10-18
+Application	Aplikacja	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	Zastosowano zmiany JSON przepisu.	claude-sonnet-5-5 2026-10-18
+Apply Changes	Zastosuj zmiany	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	Zastosuj wycięte krawędzie do obrazu	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	Zastosować zmiany JSON?	claude-sonnet-5-5 2026-10-18
+Apply to the Image	Zastosuj do obrazu	claude-sonnet-5-5 2026-10-18
+Approve	Zatwierdź	claude-sonnet-5-5 2026-10-18
+Approve & Enable	Zatwierdź i włącz	claude-sonnet-5-5 2026-10-18
+Approve & Save	Zatwierdź i zapisz	claude-sonnet-5-5 2026-10-18
+Approve Changes	Zatwierdź zmiany	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	Zatwierdź swoje zmiany	claude-sonnet-5-5 2026-10-18
+Approved	Zatwierdzone	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	Zatwierdzony SHA-256	claude-sonnet-5-5 2026-10-18
+Approved recipes	Zatwierdzone przepisy	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	Czy na pewno przywrócić „%@” do domyślnej definicji wbudowanej?	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	Czy na pewno zwolnić „%@”? Zostanie wyrejestrowany z %@.	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	Obszar: %@ (%@) · %@	claude-sonnet-5-5 2026-10-18
+Areas	Obszary	claude-sonnet-5-5 2026-10-18
+Arrow	Strzałka	claude-sonnet-5-5 2026-10-18
+As recorded	Jak nagrano	claude-sonnet-5-5 2026-10-18
+Ask Again	Pytaj ponownie	claude-sonnet-5-5 2026-10-18
+Ask Every Time	Pytaj za każdym razem	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	Pytanie przy pierwszym powiadomieniu	claude-sonnet-5-5 2026-10-18
+At most %lld colours	Maksymalnie %lld kolorów	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	Maksymalnie 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	Maksymalnie 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	Dołącz do strony	claude-sonnet-5-5 2026-10-18
+Attach to an issue	Dołącz do zgłoszenia	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	Dołączono %@ do %@	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	Dołączono %@ do „%@”	claude-sonnet-5-5 2026-10-18
+Auto crop is not possible	Automatyczne przycięcie nie jest możliwe	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	Przytnij automatycznie lub wytnij wiersze albo kolumny zaznaczenia przycięcia	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	Automatyczne zamknięcie za %llds…	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	Automatyczny wybór domyślnej opcji za %llds…	claude-sonnet-5-5 2026-10-18
+Automatic	Automatycznie	claude-sonnet-5-5 2026-10-18
+Automatic Step	Krok automatyczny	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	Zatwierdzenie kroku automatycznego	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	Krok automatyczny zmieniony poza Greenshotem	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	Szczegóły kroku automatycznego	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	Wykryto plik kroku automatycznego	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	Identyfikator kroku automatycznego	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	JSON kroku automatycznego	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	Wykryto zmianę kroku automatycznego	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	Krok automatyczny zaproponowany przez narzędzie AI	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	Przegląd kroku automatycznego	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	Walidacja kroku automatycznego nie powiodła się	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	Krok automatyczny — edytor przepisów	claude-sonnet-5-5 2026-10-18
+Automatic Steps	Kroki automatyczne	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	Krok automatyczny w %@, pasuje do przepisów: %lld	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	Konfiguracja kroku automatycznego nie przeszła walidacji.	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	Krok automatyczny: %@	claude-sonnet-5-5 2026-10-18
+Automatic steps	Kroki automatyczne	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	Kroki automatyczne dla Twoich zrzutów, jak ramka lub podpis, oraz ustawienia oferowane przez przepisy. Są używane od następnego zrzutu.	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	Kroki automatyczne, które działają teraz (włączane w Ustawienia › Przepisy):	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	Automatycznie: co najmniej 1,5 Mb/s, więcej dla dużych lub szybkich filmów. Ekran daje najwyżej tyle klatek, ile wyświetla.	claude-sonnet-5-5 2026-10-18
+Automation	Automatyzacja	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	Dostępne za chwilę: to okno otworzyło się samo.	claude-sonnet-5-5 2026-10-18
+A–Z	A–Z	claude-sonnet-5-5 2026-10-18
+BCC	UDW	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC (opcjonalnie):	claude-sonnet-5-5 2026-10-18
+BUILT-IN	WBUDOWANE	claude-sonnet-5-5 2026-10-18
+BY %@	AUTOR: %@	claude-sonnet-5-5 2026-10-18
+Back	Wstecz	claude-sonnet-5-5 2026-10-18
+Back to one step	Wróć do jednego kroku	claude-sonnet-5-5 2026-10-18
+Background	Tło	claude-sonnet-5-5 2026-10-18
+Background:	Tło:	claude-sonnet-5-5 2026-10-18
+Balanced	Zrównoważona	claude-sonnet-5-5 2026-10-18
+Barcode Format:	Format kodu kreskowego:	claude-sonnet-5-5 2026-10-18
+Barcode: %@	Kod kreskowy: %@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	Na podstawie Greenshota, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	Poniżej 100 % ekran prześwieca przez lupę.	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	Dostępna jest wersja beta %@ – kliknij, aby pobrać	claude-sonnet-5-5 2026-10-18
+Bit rate	Przepływność	claude-sonnet-5-5 2026-10-18
+Black and white	Czarno-biały	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	Próg czerni i bieli: %lld	claude-sonnet-5-5 2026-10-18
+Blank	Pusty	claude-sonnet-5-5 2026-10-18
+Body:	Treść:	claude-sonnet-5-5 2026-10-18
+Bottom left	Lewy dolny róg	claude-sonnet-5-5 2026-10-18
+Bottom right	Prawy dolny róg	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	Gałąź %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	Jasność obszaru wokół wyróżnienia, w procentach	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	Jasność, kontrast i gamma obrazu.	claude-sonnet-5-5 2026-10-18
+Bring All to Front	Przenieś wszystko na wierzch	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	Przywróć wbudowany przepis, który ten plik zastępuje	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	Przywróć wersję wbudowaną	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	Przywróć wersję wbudowaną każdego przepisu zastępowanego przez plik	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	Przywrócić wersję wbudowaną tych przepisów?	claude-sonnet-5-5 2026-10-18
+Broken: %@	Uszkodzony: %@	claude-sonnet-5-5 2026-10-18
+Browser extension	Rozszerzenie przeglądarki	claude-sonnet-5-5 2026-10-18
+Browsers	Przeglądarki	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	Zbuduj greenshot-mcp (swift build) lub użyj aplikacji ze scripts/build-app.sh, aby połączyć narzędzie AI.	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Wbudowane w Greenshot	claude-sonnet-5-5 2026-10-18
+Built-in	Wbudowany	claude-sonnet-5-5 2026-10-18
+CC	DW	claude-sonnet-5-5 2026-10-18
+Calendar Event	Wydarzenie kalendarza	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	Szczegóły wydarzenia kalendarza (iCal)	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	Kamera (macOS)	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	Anuluj (Esc)	claude-sonnet-5-5 2026-10-18
+Cancel Recording	Anuluj nagrywanie	claude-sonnet-5-5 2026-10-18
+Cancel the running one	Anuluj uruchomiony	claude-sonnet-5-5 2026-10-18
+Cancelled.	Anulowano.	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	Nie można uruchomić testowo przepisu. Najpierw popraw błędy walidacji:	claude-sonnet-5-5 2026-10-18
+Capture Mode	Tryb zrzutu	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	Menedżer przepisów przechwytywania	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	Przegląd przepisu przechwytywania	claude-sonnet-5-5 2026-10-18
+Capture Text	Zrzuć tekst	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	Zrzuć okno za pomocą Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Capture clipboard	Zrzuć schowek	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	Przepływ zrzutu nie powiódł się.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	Odnośniki zrzutów są wyłączone. Włącz je w Ustawienia › Ekspert › Automatyzacja.	claude-sonnet-5-5 2026-10-18
+Capture text	Zrzuć tekst	claude-sonnet-5-5 2026-10-18
+Capture the active window	Zrzuć aktywne okno	claude-sonnet-5-5 2026-10-18
+Capture the same region again	Zrzuć ponownie ten sam obszar	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	Zrzuć cały ekran	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	Zrzuć cały ekran za pomocą Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Captures	Zrzuty	claude-sonnet-5-5 2026-10-18
+Capturing	Zrzucanie	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	Zrzut wymaga jednego klawisza	claude-sonnet-5-5 2026-10-18
+Change count	Liczba zmian	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	Zmień, co ten krok automatyczny może robić. „Zachowaj bez zmian” lub zamknięcie okna nic nie zmienia.	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	Zmień, które wyzwalacze mogą uruchamiać ten przepis i co może robić. „Zachowaj bez zmian” lub zamknięcie okna nic nie zmienia.	claude-sonnet-5-5 2026-10-18
+Changed	Zmieniono	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	Zmieniono (#%@): %@	claude-sonnet-5-5 2026-10-18
+Changed Lines	Zmienione wiersze	claude-sonnet-5-5 2026-10-18
+Changed recipes	Zmienione przepisy	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	Zmiana zdania? Esc anuluje zrzut.	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	Zmiany (− przed, + po)	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	Zmiany jeszcze nie zastosowane	claude-sonnet-5-5 2026-10-18
+Changes other recipes	Zmienia inne przepisy	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	Zmienia krok automatyczny „%@”	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	Zmienia przepis „%@”	claude-sonnet-5-5 2026-10-18
+Change…	Zmień…	claude-sonnet-5-5 2026-10-18
+Chart	Wykres	claude-sonnet-5-5 2026-10-18
+Chart and text	Wykres i tekst	claude-sonnet-5-5 2026-10-18
+Check Now	Sprawdź teraz	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	Zaznacz co najmniej jedno miejsce docelowe.	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	Sprawdzaj niestabilne aktualizacje (wersje wstępne)	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	Sprawdzaj aktualizacje co %lld dni	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	Sprawdź, czy możesz zapisywać w %@.	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	Sprawdź składnię JSON przepisu pod kątem niezamkniętych cudzysłowów, zbędnych przecinków lub niedopasowanych nawiasów.	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	Sprawdź „options” przepisu: klucze, typy, wartości domyślne i wybory.	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	Sprawdź konfigurację, przeczytaj dziennik i informacje o systemie (S)	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	Sprawdź konfigurację, dziennik i system aplikacji %@	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	Sprawdzanie podpisu kodu…	claude-sonnet-5-5 2026-10-18
+Checking…	Sprawdzanie…	claude-sonnet-5-5 2026-10-18
+Checks	Kontrole	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	Kontrole konfiguracji, systemu, skrótów klawiszowych i schowka oraz dziennik aplikacji %@.	claude-sonnet-5-5 2026-10-18
+Chip	Układ	claude-sonnet-5-5 2026-10-18
+Choices	Wybory	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	Wybierz plik przepisu (.gsrecipe.json). Greenshot pokazuje, co robi, zanim zostanie użyty.	claude-sonnet-5-5 2026-10-18
+Choose another one.	Wybierz inną.	claude-sonnet-5-5 2026-10-18
+Choose folder & format	Wybierz folder i format	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	Wybierz dźwięk odtwarzany po zrzucie.	claude-sonnet-5-5 2026-10-18
+Choose…	Wybierz…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome, Edge, Brave: otwórz stronę Rozszerzenia, włącz tryb programisty, kliknij Załaduj rozpakowane i wybierz folder rozszerzenia. Firefox 126 lub nowszy: about:debugging › This Firefox › Load Temporary Add-on… i wybierz w nim manifest.json. Nazwy plików mogą wtedy używać ${url} i ${browser} strony oraz ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} aktywnej karty przeglądarki (śledzenie kart przez rozszerzenie).	claude-sonnet-5-5 2026-10-18
+Clear	Wyczyść	claude-sonnet-5-5 2026-10-18
+Clear Background	Wyczyść tło	claude-sonnet-5-5 2026-10-18
+Click	Kliknięcie	claude-sonnet-5-5 2026-10-18
+Click a QR code	Kliknij kod QR	claude-sonnet-5-5 2026-10-18
+Click a line	Kliknij wiersz	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	Kliknij skrót, a następnie wpisz nowy. ⌫ go czyści, ⎋ anuluje. + dodaje krok, dla skrótów klawiszowych jak ⌃⌥⌘K, potem C (w ciągu 2,5 sekundy). Menu klawiatury sprawia, że modyfikator liczy się tylko po lewej lub prawej stronie. Klawiatury z klawiszem F13 mogą używać go jak Print Screen.	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	Kliknij gdziekolwiek lub naciśnij Esc, aby wrócić	claude-sonnet-5-5 2026-10-18
+Click for more	Kliknij, aby zobaczyć więcej	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	Kliknij tutaj, aby otworzyć Ustawienia.	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	Kliknij, aby aktywować lub dezaktywować	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	Kliknij, aby aktywować przepis	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	Kliknij, aby dezaktywować przepis	claude-sonnet-5-5 2026-10-18
+Click to open	Kliknij, aby otworzyć	claude-sonnet-5-5 2026-10-18
+Click to open the issue	Kliknij, aby otworzyć zgłoszenie	claude-sonnet-5-5 2026-10-18
+Click to open the page	Kliknij, aby otworzyć stronę	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	Kliknij, aby zobaczyć pełny podgląd (Esc, aby wyjść)	claude-sonnet-5-5 2026-10-18
+Click, Enter	Kliknięcie, Enter	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	Zamknięto powiadomienie aplikacji %@? Czeka w Centrum powiadomień: kliknięcie go pozwala ponownie wybrać, dokąd trafi zrzut, nawet po zamknięciu aplikacji %@.	claude-sonnet-5-5 2026-10-18
+Client ID	ID klienta	claude-sonnet-5-5 2026-10-18
+Client secret	Sekret klienta	claude-sonnet-5-5 2026-10-18
+Clipart and text	Clipart i tekst	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	Clipart i tekst pionowy	claude-sonnet-5-5 2026-10-18
+Clipboard	Schowek	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	Monitor schowka	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	Zamknięcie edytora z niezapisanymi zmianami odrzuca je bez pytania.	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	Witryny w chmurze kończą się na /wiki.	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	Chmura: e-mail i token API	claude-sonnet-5-5 2026-10-18
+Code hash	Skrót kodu	claude-sonnet-5-5 2026-10-18
+Code signature	Podpis kodu	claude-sonnet-5-5 2026-10-18
+Color:	Kolor:	claude-sonnet-5-5 2026-10-18
+Command line tool	Narzędzie wiersza poleceń	claude-sonnet-5-5 2026-10-18
+Command line: %@	Wiersz poleceń: %@	claude-sonnet-5-5 2026-10-18
+Command “%@”	Polecenie „%@”	claude-sonnet-5-5 2026-10-18
+Company:	Firma:	claude-sonnet-5-5 2026-10-18
+Comparison	Porównanie	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	Pełny dziennik wczytano o %@	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	Pełny dziennik: ~%@ wierszy (%@)	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	Ukryte (menedżer haseł prosi aplikacje, by tego nie zachowywały)	claude-sonnet-5-5 2026-10-18
+Configure QR…	Skonfiguruj QR…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	Połącz narzędzie AI	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	Połączono „%@” z „%@”	claude-sonnet-5-5 2026-10-18
+Connected as %@.	Połączono jako %@.	claude-sonnet-5-5 2026-10-18
+Content with caption	Treść z podpisem	claude-sonnet-5-5 2026-10-18
+Continue At	Kontynuuj w	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	Kontynuuje w „%@”	claude-sonnet-5-5 2026-10-18
+Contrast:	Kontrast:	claude-sonnet-5-5 2026-10-18
+Copied	Skopiowano	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	Skopiowano wierszy tekstu: %lld	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	Skopiowano 1 wiersz tekstu	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	Skopiowano Mermaid DSL do schowka.	claude-sonnet-5-5 2026-10-18
+Copied by	Skopiowane przez	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	Skopiowano całą zawartość dziennika do schowka (znaków: %@)	claude-sonnet-5-5 2026-10-18
+Copied its output	Skopiowano jego wynik	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	Skopiowano ID przepisu „%@” do schowka.	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	Skopiowano tekst kodu QR	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	Skopiowano raport integralności.	claude-sonnet-5-5 2026-10-18
+Copied the path.	Skopiowano ścieżkę.	claude-sonnet-5-5 2026-10-18
+Copied the text	Skopiowano tekst	claude-sonnet-5-5 2026-10-18
+Copied!	Skopiowano!	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	Kopiuje polecenie Terminala, które dowiązuje greenshot-cli w /usr/local/bin.	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	Kopiuje rozszerzenie do folderu Greenshota w Application Support i pokazuje je, dla Załaduj rozpakowane.	claude-sonnet-5-5 2026-10-18
+Copy Details	Kopiuj szczegóły	claude-sonnet-5-5 2026-10-18
+Copy File Path	Kopiuj ścieżkę pliku	claude-sonnet-5-5 2026-10-18
+Copy Install Command	Kopiuj polecenie instalacji	claude-sonnet-5-5 2026-10-18
+Copy Link	Kopiuj link	claude-sonnet-5-5 2026-10-18
+Copy Log	Kopiuj dziennik	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	Kopiuj kod Mermaid	claude-sonnet-5-5 2026-10-18
+Copy Path	Kopiuj ścieżkę	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	Kopiuj ID przepisu	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	Kopiuj ID przepisu do schowka	claude-sonnet-5-5 2026-10-18
+Copy Report	Kopiuj raport	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	Kopiuj ślad stosu	claude-sonnet-5-5 2026-10-18
+Copy System Info	Kopiuj informacje o systemie	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	Kopiuj tekst (OCR)	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	Kopiuj udostępniony link do schowka	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	Kopiuj całe dane wyjściowe do schowka	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	Najpierw skopiuj obraz, a potem spróbuj ponownie.	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	Kopiuj obraz ekranu do schowka	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	Kopiuj obraz zaznaczonego obszaru do schowka	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	Kopiuj tekst (OCR)	claude-sonnet-5-5 2026-10-18
+Copy the file path	Kopiuj ścieżkę pliku	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	Kopiuj pierwszy adres URL z wyniku do schowka	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	Kopiuj obraz do schowka (⇧⌘C)	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	Kopiuj link do schowka	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	Kopiuj zaznaczone elementy (⌘C)	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	Kopiuj do schowka	claude-sonnet-5-5 2026-10-18
+Copy “%@”	Kopiuj „%@”	claude-sonnet-5-5 2026-10-18
+Copy: %@	Kopiuj: %@	claude-sonnet-5-5 2026-10-18
+Core Destinations	Podstawowe miejsca docelowe	claude-sonnet-5-5 2026-10-18
+Could not be checked	Nie udało się sprawdzić	claude-sonnet-5-5 2026-10-18
+Could not check for updates	Nie udało się sprawdzić aktualizacji	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	Nie udało się zarejestrować połączenia rozszerzenia dla %@; zobacz dziennik.	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	Nie udało się usunąć rejestracji dla %@; zobacz dziennik.	claude-sonnet-5-5 2026-10-18
+Countdown	Odliczanie	claude-sonnet-5-5 2026-10-18
+Counter	Licznik	claude-sonnet-5-5 2026-10-18
+Crash reports	Raporty o awariach	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	Utwórz nowy przepis przechwytywania w edytorze przepisów	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	Utwórz osobisty token dostępu w %@ w profilu › Personal Access Tokens (Data Center oraz Server 8.14 lub nowszy). Jest przechowywany w Twoim pęku kluczy.	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	Utwórz token API dla swojego konta Atlassian w [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (jeden token działa dla Jira i Confluence). Jest przechowywany w Twoim pęku kluczy.	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Utworzono nowy krok automatyczny: umieść jego kroki przed Out, a miejsce docelowe ustaw na karcie Przepis.	claude-sonnet-5-5 2026-10-18
+Created new recipe.	Utworzono nowy przepis.	claude-sonnet-5-5 2026-10-18
+Crop Out Horizontally	Wytnij poziomo	claude-sonnet-5-5 2026-10-18
+Crop Out Vertically	Wytnij pionowo	claude-sonnet-5-5 2026-10-18
+Crop modes	Tryby przycinania	claude-sonnet-5-5 2026-10-18
+Custom size	Rozmiar niestandardowy	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	Ustawienia wyciętych krawędzi	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	Ustawienia wyciętych krawędzi…	claude-sonnet-5-5 2026-10-18
+Cut Mark	Znacznik cięcia	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	Wytnij zaznaczone kolumny	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	Wytnij zaznaczone wiersze	claude-sonnet-5-5 2026-10-18
+Cut edges	Wycięte krawędzie	claude-sonnet-5-5 2026-10-18
+Cut off from %@	Odcięte od %@	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	Wytnij zaznaczone elementy (⌘X)	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	WYŁĄCZONE	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	DIAGNOSTYKA	claude-sonnet-5-5 2026-10-18
+Damaged element	Uszkodzony element	claude-sonnet-5-5 2026-10-18
+Dark	Ciemny	claude-sonnet-5-5 2026-10-18
+Deactivated	Wyłączony	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	Dezaktywowano „%@”.	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	Dezaktywowane: %lld	claude-sonnet-5-5 2026-10-18
+Decision Required	Wymagana decyzja	claude-sonnet-5-5 2026-10-18
+Default	Domyślnie	claude-sonnet-5-5 2026-10-18
+Default (%@)	Domyślnie (%@)	claude-sonnet-5-5 2026-10-18
+Default (Return)	Domyślnie (Return)	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	Domyślnie (użyj przepisu awaryjnego / zakończ)	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	Domyślnie (równolegle)	claude-sonnet-5-5 2026-10-18
+Default (system font)	Domyślnie (czcionka systemowa)	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	Określ, co ma się stać, gdy krok się nie powiedzie (np. blokada schowka, przekroczenie czasu sieci). Skieruj zrzut do kroku awaryjnego lub innego przepisu.	claude-sonnet-5-5 2026-10-18
+Delete Connection	Usuń połączenie	claude-sonnet-5-5 2026-10-18
+Delete Step	Usuń krok	claude-sonnet-5-5 2026-10-18
+Delete Trigger	Usuń wyzwalacz	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	Usuń zaznaczone elementy (⌫)	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	Usunięto krok „%@” (%@)	claude-sonnet-5-5 2026-10-18
+Description	Opis	claude-sonnet-5-5 2026-10-18
+Description:	Opis:	claude-sonnet-5-5 2026-10-18
+Destinations	Miejsca docelowe	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	Miejsca docelowe (%lld)	claude-sonnet-5-5 2026-10-18
+Details	Szczegóły	claude-sonnet-5-5 2026-10-18
+Details for the report	Szczegóły zgłoszenia	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	Szczegóły, uprawnienia i plik tego przepisu	claude-sonnet-5-5 2026-10-18
+Details…	Szczegóły…	claude-sonnet-5-5 2026-10-18
+Did you know?	Czy wiesz, że…	claude-sonnet-5-5 2026-10-18
+Discard	Odrzuć	claude-sonnet-5-5 2026-10-18
+Discard Recording	Odrzuć nagranie	claude-sonnet-5-5 2026-10-18
+Display %@	Wyświetlacz %@	claude-sonnet-5-5 2026-10-18
+Display Name	Nazwa wyświetlana	claude-sonnet-5-5 2026-10-18
+Do nothing	Nic nie rób	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	Czy zapisać zrzut ekranu „%@”?	claude-sonnet-5-5 2026-10-18
+Don't Allow	Nie zezwalaj	claude-sonnet-5-5 2026-10-18
+Don't Save	Nie zapisuj	claude-sonnet-5-5 2026-10-18
+Don't ask again	Nie pytaj ponownie	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	Nie pytaj o zapis przy zamykaniu edytora	claude-sonnet-5-5 2026-10-18
+Double-click	Dwukrotne kliknięcie	claude-sonnet-5-5 2026-10-18
+Download It	Pobierz	claude-sonnet-5-5 2026-10-18
+Download Update	Pobierz aktualizację	claude-sonnet-5-5 2026-10-18
+Drag	Przeciągnięcie	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	Przeciągnij obszar do zachowania lub wycięcia	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	Przeciągnij zrzut ekranu do nowej wiadomości	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	Narysuj zaznaczone wycięte lub poszarpane krawędzie na obrazie; później nie można ich zmienić	claude-sonnet-5-5 2026-10-18
+Drawing	Rysowanie	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	Szczegóły przelewu EPC SEPA	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	Przelew EPC SEPA	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	OBSŁUGA BŁĘDÓW I TRASA AWARYJNA	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	Każde narzędzie AI samo uruchamia greenshot-mcp. Po zmianie konfiguracji uruchom ponownie narzędzie AI lub załaduj ponownie jego serwery MCP.	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	Każde polecenie jest osobnym miejscem docelowym („Zewnętrzne: nazwa”). {0} w parametrach to plik zrzutu ekranu (zapisany plik, gdy zrzut w edytorze jest zapisany i niezmieniony); polecenie i parametry mogą używać zmiennych wzorca nazwy pliku. Polecenie, którego programu brakuje, jest pomijane w menu miejsc docelowych.	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	Każdy węzeł w przepisie musi mieć unikalny „id”.	claude-sonnet-5-5 2026-10-18
+Edges:	Krawędzie:	claude-sonnet-5-5 2026-10-18
+Edit External Command	Edytuj polecenie zewnętrzne	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	Edytuj QR / kod kreskowy	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	Edytuj QR / kod kreskowy…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	Edytuj plik przepisu	claude-sonnet-5-5 2026-10-18
+Edit Text	Edytuj tekst	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	Edytuj krok automatyczny w edytorze przepisów	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	Edytuj kod z podglądem na żywo	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	Edytor („%@”)	claude-sonnet-5-5 2026-10-18
+Editor menu	Menu edytora	claude-sonnet-5-5 2026-10-18
+Editor windows	Okna edytora	claude-sonnet-5-5 2026-10-18
+Effect:	Efekt:	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	Efekty na całym obrazie (przytrzymaj ⌥, aby najpierw zmienić ustawienia cienia i poszarpanych krawędzi)	claude-sonnet-5-5 2026-10-18
+Either key	Dowolny klawisz	claude-sonnet-5-5 2026-10-18
+Element of a newer version	Element nowszej wersji	claude-sonnet-5-5 2026-10-18
+Ellipse	Elipsa	claude-sonnet-5-5 2026-10-18
+Email	E-mail	claude-sonnet-5-5 2026-10-18
+Email Message Details	Szczegóły wiadomości e-mail	claude-sonnet-5-5 2026-10-18
+Email:	E-mail:	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	Osadź (Base64)	claude-sonnet-5-5 2026-10-18
+Embed File…	Osadź plik…	claude-sonnet-5-5 2026-10-18
+Emoji	Emoji	claude-sonnet-5-5 2026-10-18
+Empty log file	Pusty plik dziennika	claude-sonnet-5-5 2026-10-18
+Empty: all text	Puste: cały tekst	claude-sonnet-5-5 2026-10-18
+Encryption Type:	Typ szyfrowania:	claude-sonnet-5-5 2026-10-18
+End (UTC):	Koniec (UTC):	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	Powiększ obszar roboczy	claude-sonnet-5-5 2026-10-18
+Enter	Enter	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	Wprowadź osobisty token dostępu dla %@ w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	Wpisz zwykły tekst lub adres URL:	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	Wprowadź adres URL %@ w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	Najpierw wprowadź adres URL.	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	Najpierw wprowadź e-mail i token API.	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	Najpierw wprowadź osobisty token dostępu.	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	Najpierw wprowadź nazwę użytkownika i hasło (lub przetestuj przy pierwszym wysyłaniu).	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	Wprowadź swój e-mail i token API dla %@ w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Error Filter	Filtr błędów	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	Błąd wczytywania przepisu	claude-sonnet-5-5 2026-10-18
+Error Routes	Trasy błędów	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	Błąd wczytywania wcześniejszego fragmentu: %@	claude-sonnet-5-5 2026-10-18
+Error message	Komunikat o błędzie	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	Błąd odczytu pliku dziennika:\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	Błąd: %@	claude-sonnet-5-5 2026-10-18
+Errors only	Tylko błędy	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc: zamknij  |  F5: odśwież  |  1–6: sekcje	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	Każdy przepis wymaga unikalnego „id” i opisowej właściwości „name”.	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	Wszystko jest też w menu ikony %@ na pasku menu.	claude-sonnet-5-5 2026-10-18
+Example: %@	Przykład: %@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	Uruchom przepis przechwytywania w aplikacji Greenshot (⌘R)	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	Trwa testowe uruchomienie „%@”...	claude-sonnet-5-5 2026-10-18
+Execution Error	Błąd wykonania	claude-sonnet-5-5 2026-10-18
+Export Capture	Eksportuj zrzut	claude-sonnet-5-5 2026-10-18
+Expression	Wyrażenie	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	Wykryto zewnętrzny przepis przechwytywania	claude-sonnet-5-5 2026-10-18
+External Command	Polecenie zewnętrzne	claude-sonnet-5-5 2026-10-18
+External command	Polecenie zewnętrzne	claude-sonnet-5-5 2026-10-18
+External command %@	Polecenie zewnętrzne %@	claude-sonnet-5-5 2026-10-18
+External commands	Polecenia zewnętrzne	claude-sonnet-5-5 2026-10-18
+External: %@	Zewnętrzne: %@	claude-sonnet-5-5 2026-10-18
+Extract text from image	Wyodrębnij tekst z obrazu	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	F na ekranie zrzutu zrzuca obszar o jednym z tych rozmiarów; po nich następuje pięć ostatnich rozmiarów obszarów.	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	Przepis awaryjny	claude-sonnet-5-5 2026-10-18
+Fallback Step	Krok awaryjny	claude-sonnet-5-5 2026-10-18
+File SHA-256	SHA-256 pliku	claude-sonnet-5-5 2026-10-18
+File name counter	Licznik nazwy pliku	claude-sonnet-5-5 2026-10-18
+File not found	Nie znaleziono pliku	claude-sonnet-5-5 2026-10-18
+Files	Pliki	claude-sonnet-5-5 2026-10-18
+Files and Log	Pliki i dziennik	claude-sonnet-5-5 2026-10-18
+Files: %@, …	Pliki: %@, …	claude-sonnet-5-5 2026-10-18
+Filter:	Filtr:	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	Znajduje tekst w obrazie i zakrywa każde dopasowanie elementem, który nadal można przesunąć lub usunąć.	claude-sonnet-5-5 2026-10-18
+First Name:	Imię:	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	Stałe rozmiary zrzutu	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Narzędzie do zrzutów ekranu Flameshot	claude-sonnet-5-5 2026-10-18
+Flow	Przepływ	claude-sonnet-5-5 2026-10-18
+Folder	Folder	claude-sonnet-5-5 2026-10-18
+Folder ID	ID folderu	claude-sonnet-5-5 2026-10-18
+Font size in points	Rozmiar czcionki w punktach	claude-sonnet-5-5 2026-10-18
+Footer	Stopka	claude-sonnet-5-5 2026-10-18
+Footer pattern	Wzorzec stopki	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	Stopka z datą i tytułem	claude-sonnet-5-5 2026-10-18
+Foreground	Pierwszy plan	claude-sonnet-5-5 2026-10-18
+Format	Format	claude-sonnet-5-5 2026-10-18
+Format:	Format:	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	Przekaż do innego przepisu…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	Przekaż do przepisu	claude-sonnet-5-5 2026-10-18
+Four objects	Cztery obiekty	claude-sonnet-5-5 2026-10-18
+Frame rate	Liczba klatek na sekundę	claude-sonnet-5-5 2026-10-18
+Freehand	Odręcznie	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	Wygładzanie rysunku odręcznego	claude-sonnet-5-5 2026-10-18
+From	Od	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	Z pliku .greenshot…	claude-sonnet-5-5 2026-10-18
+From Editor…	Z edytora…	claude-sonnet-5-5 2026-10-18
+Full Screen	Pełny ekran	claude-sonnet-5-5 2026-10-18
+Full colour	Pełne kolory	claude-sonnet-5-5 2026-10-18
+Full report	Pełny raport	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	Skrót klawiszowy pełnego ekranu	claude-sonnet-5-5 2026-10-18
+Gamma:	Gamma:	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	Wygenerowane przez aplikację, nie skopiowane przez użytkownika	claude-sonnet-5-5 2026-10-18
+Geo Location	Lokalizacja geograficzna	claude-sonnet-5-5 2026-10-18
+Geo Location Details	Szczegóły lokalizacji geograficznej	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	Nie można połączyć się z GitHub.	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	Nadaj wyzwalaczowi narzędzia AI „ToolName” z liter, cyfr, „_” lub „-”.	claude-sonnet-5-5 2026-10-18
+Go Back	Wróć	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot (edytowalny)	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Greenshot – ostatnie	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Strona internetowa Greenshota	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot dodaje te kroki do innych przepisów: umieść je przed Out na liście kroków, włącz krok automatyczny w Ustawienia › Przepisy.	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot może odczytywać adresy stron otwartych w Safari i Chrome. macOS pyta raz dla każdej przeglądarki, czy na to zezwolić.	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot nie może dostarczać klucza aplikacji Box, więc zarejestruj własny: w [Box Developer Console](https://app.box.com/developers/console) utwórz Custom App z User Authentication (OAuth 2.0), ustaw jej redirect URI na `%@`, nadaj zakres Write all files i wklej tutaj jej identyfikator klienta i sekret. Sekret i logowanie są przechowywane w Twoim pęku kluczy; ID folderu to liczba w adresie URL folderu.	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot nie mógł wczytać ani zarejestrować tego przepisu przechwytywania, ponieważ zawiera błędy konfiguracji. Sprawdź szczegóły diagnostyczne poniżej:	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot nie mógł użyć tego kroku automatycznego, ponieważ zawiera błędy. Sprawdź szczegóły poniżej:	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac nie ma kroku „%@”: jego parametry pozostają bez zmian.	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot for Mac nie jest gotowy.	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot nie ma zezwolenia na sterowanie %@. Zezwól na to w Ustawieniach systemowych › Prywatność i ochrona › Automatyzacja › Greenshot.	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot wysyła zrzuty ekranu do tych aplikacji przez AppleScript; macOS pyta raz dla każdej aplikacji.	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR, zapas %@ z %@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML (obraz osadzony)	claude-sonnet-5-5 2026-10-18
+Hardened runtime	Hardened Runtime	claude-sonnet-5-5 2026-10-18
+Has its own error route	Ma własną trasę błędów	claude-sonnet-5-5 2026-10-18
+Hide %@	Ukryj %@	claude-sonnet-5-5 2026-10-18
+Hide Icon	Ukryj ikonę	claude-sonnet-5-5 2026-10-18
+Hide Others	Ukryj pozostałe	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	Ukryć ikonę na pasku menu?	claude-sonnet-5-5 2026-10-18
+High frame rate	Wysoka liczba klatek	claude-sonnet-5-5 2026-10-18
+High quality	Wysoka jakość	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	Przytrzymaj ⌥, aby umieścić bez przyciągania	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	Przesunięcie poziome:	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	Margines poziomy:	claude-sonnet-5-5 2026-10-18
+Hotkey	Skrót klawiszowy	claude-sonnet-5-5 2026-10-18
+Hotkey %@	Skrót klawiszowy %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	Skróty klawiszowe zarejestrowano ponownie (niektóre klawisze są nadal zajęte).	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	Skróty klawiszowe zarejestrowano ponownie.	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	Ile %@ zapisuje w dzienniku, do ponownego uruchomienia. Debug zapisuje najwięcej.	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO (ikona)	claude-sonnet-5-5 2026-10-18
+ID	ID	claude-sonnet-5-5 2026-10-18
+Identifier	Identyfikator	claude-sonnet-5-5 2026-10-18
+If %@: %@	Jeśli %@: %@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Jeśli to Twój własny serwer, dodaj %@ lub odcisk w Ustawienia › Miejsca docelowe › Własne serwery.	claude-sonnet-5-5 2026-10-18
+Image	Obraz	claude-sonnet-5-5 2026-10-18
+Image Quality	Jakość obrazu	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	Skopiowano link do obrazu – kliknij, aby otworzyć stronę	claude-sonnet-5-5 2026-10-18
+Image size	Rozmiar obrazu	claude-sonnet-5-5 2026-10-18
+Import	Importuj	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	Importuj adnotacje z %@	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	Importuj adnotacje z pliku Greenshota	claude-sonnet-5-5 2026-10-18
+Import From This Editor	Importuj z tego edytora	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	Zaimportowano adnotacje: %lld z %@	claude-sonnet-5-5 2026-10-18
+In	Wejście	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	W Ustawienia › Wyjście wybierasz folder i wzorzec nazwy zapisywanych zrzutów ekranu.	claude-sonnet-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	W kilku krokach zobaczysz, jak działa zrzucanie, a %@ sprawdzi, czy wszystko jest dobrze ustawione.	claude-sonnet-5-5 2026-10-18
+In parallel	Równolegle	claude-sonnet-5-5 2026-10-18
+In the background	W tle	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	W trybie okna zaznaczenie podąża za najmniejszym obszarem pod myszą, jak pasek boczny, pasek narzędzi lub fragment strony internetowej; PgUp i PgDn wybierają większy lub mniejszy obszar. Wymaga uprawnienia Dostępność.	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	W ~/.codeium/windsurf/mcp_config.json.	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	W ~/.cursor/mcp.json (wszystkie projekty) lub .cursor/mcp.json (jeden projekt).	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	W ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), potem Refresh.	claude-sonnet-5-5 2026-10-18
+Info	Informacje	claude-sonnet-5-5 2026-10-18
+Information	Informacja	claude-sonnet-5-5 2026-10-18
+Insert	Wstaw	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	Wstaw QR / kod kreskowy	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	Wstaw QR / kod kreskowy…	claude-sonnet-5-5 2026-10-18
+Insert Step After	Wstaw krok po	claude-sonnet-5-5 2026-10-18
+Insert Step Here	Wstaw krok tutaj	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	Wstaw do Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	Wstaw do Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	Wstaw do Microsoft Word	claude-sonnet-5-5 2026-10-18
+Insert into document	Wstaw do dokumentu	claude-sonnet-5-5 2026-10-18
+Insert into presentation	Wstaw do prezentacji	claude-sonnet-5-5 2026-10-18
+Insert into workbook	Wstaw do skoroszytu	claude-sonnet-5-5 2026-10-18
+Install	Zainstaluj	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	Zainstaluj go lub wybierz inne miejsce docelowe w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Installed	Zainstalowano	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	Zainstalowano dla innej kopii aplikacji	claude-sonnet-5-5 2026-10-18
+Installed version:	Zainstalowana wersja:	claude-sonnet-5-5 2026-10-18
+Integrity	Integralność	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	Nieprawidłowa składnia JSON lub schemat:\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	Identyfikator problemu (skrót śladu stosu)	claude-sonnet-5-5 2026-10-18
+Issue key:	Klucz zgłoszenia:	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	Zakończyło się kodem wyjścia %d.	claude-sonnet-5-5 2026-10-18
+It runs from %@.	Działa z %@.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Przestaje działać od razu i nie jest już wczytywany. Jego plik pozostaje na miejscu: zaimportuj go ponownie, aby go przejrzeć i zatwierdzić.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Przestaje działać od razu i nie jest już wczytywany. Jego plik pozostaje na miejscu: otwórz go ponownie, aby go przejrzeć i zatwierdzić.	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	Zmieniono jego nazwę na %@, a Greenshot uruchomił się z ustawieniami domyślnymi.	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	Zostanie utracony, jeśli go nie zapiszesz.	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	Jest na pasku menu.	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	Jego wyjaśnienie (słowa narzędzia AI, niesprawdzone przez Greenshot):	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	Jakość JPEG (wyższa jakość daje większe pliki):	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	Jakość JPEG: %lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	Błąd JSON	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	Zachowaj	claude-sonnet-5-5 2026-10-18
+Keep as Is	Zachowaj bez zmian	claude-sonnet-5-5 2026-10-18
+Keep aspect ratio	Zachowaj proporcje	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	Zachowaj jego rozmiar, z czarnymi pasami wokół	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	Nie usypiaj Maca podczas nagrywania	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	Zachowaj cień okna w zrzutach okien	claude-sonnet-5-5 2026-10-18
+Key	Klucz	claude-sonnet-5-5 2026-10-18
+Key %u	Klawisz %u	claude-sonnet-5-5 2026-10-18
+Keys	Klawisze	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Klawisze inne niż F1–F20 wymagają ⌃, ⌥ lub ⌘.	claude-sonnet-5-5 2026-10-18
+Label	Etykieta	claude-sonnet-5-5 2026-10-18
+Lane %lld	Tor %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	Język tekstu	claude-sonnet-5-5 2026-10-18
+Large object	Duży obiekt	claude-sonnet-5-5 2026-10-18
+Largest value	Największa wartość	claude-sonnet-5-5 2026-10-18
+Last Name:	Nazwisko:	claude-sonnet-5-5 2026-10-18
+Last Region	Ostatni obszar	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	Ostatnio sprawdzono %@. Masz wersję %@.	claude-sonnet-5-5 2026-10-18
+Last modified: %@	Ostatnia modyfikacja: %@	claude-sonnet-5-5 2026-10-18
+Later	Później	claude-sonnet-5-5 2026-10-18
+Latest release:	Najnowsze wydanie:	claude-sonnet-5-5 2026-10-18
+Latitude:	Szerokość geograficzna:	claude-sonnet-5-5 2026-10-18
+Launch at login	Uruchamiaj przy logowaniu	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	Zostaw hasło puste, aby zostać zapytanym przy pierwszym wysyłaniu; okno logowania może zachować je w Twoim pęku kluczy. Serwerowi z własnym certyfikatem można zaufać w sekcji Własne serwery.	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	Lewy i prawy klawisz wymagają uprawnienia Dostępność. Do tego czasu ten skrót klawiszowy działa z dowolnym z nich.	claude-sonnet-5-5 2026-10-18
+Left key	Lewy klawisz	claude-sonnet-5-5 2026-10-18
+Left or right key	Lewy lub prawy klawisz	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	Lewy lub prawy klawisz modyfikatora	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	Lewy lub prawy klawisz modyfikatora: np. tylko prawy ⌘	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	Pozwól narzędziom AI proponować przepisy	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	Pozwól narzędziom AI używać Greenshota	claude-sonnet-5-5 2026-10-18
+Let's Go!	Zaczynamy!	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Pozwala tym przeglądarkom uruchamiać połączenie Greenshota dla rozszerzenia (plik w folderze NativeMessagingHosts każdej przeglądarki).	claude-sonnet-5-5 2026-10-18
+Letter	Letter	claude-sonnet-5-5 2026-10-18
+Light	Jasny	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Narzędzie do zrzutów ekranu Lightshot	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	Grubość linii w punktach (0: bez linii)	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	Skopiowano link – kliknij, aby otworzyć	claude-sonnet-5-5 2026-10-18
+Link to the image	Link do obrazu	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Linki takie jak greenshotmac://settings?tab=editor otwierają okna; każda strona internetowa może otworzyć link, więc linki robią zrzuty ekranu tylko wtedy, gdy zezwolono na to tutaj. greenshot-cli, AppleScript, Skróty i menu Usługi mogą zawsze zrzucać.	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	Wczytaj przepis przechwytywania do %@	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	Wczytaj wcześniejsze (+64 KB)	claude-sonnet-5-5 2026-10-18
+Load Elements…	Wczytaj elementy…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	Wczytaj cały dziennik	claude-sonnet-5-5 2026-10-18
+Load Recipe…	Wczytaj przepis…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	Wczytaj i zarejestruj plik .gsrecipe.json	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	Wczytaj poprzednie 64 KB dziennika	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	Wczytano i zarejestrowano %@	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	Wczytano i zarejestrowano: %@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	Wczytano o %@	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	Wczytano wcześniejszy fragment o %@	claude-sonnet-5-5 2026-10-18
+Loaded: %@	Wczytano: %@	claude-sonnet-5-5 2026-10-18
+Loading %@…	Wczytywanie %@…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	Wczytywanie spacji…	claude-sonnet-5-5 2026-10-18
+Location	Lokalizacja	claude-sonnet-5-5 2026-10-18
+Location:	Lokalizacja:	claude-sonnet-5-5 2026-10-18
+Log	Dziennik	claude-sonnet-5-5 2026-10-18
+Log In	Zaloguj się	claude-sonnet-5-5 2026-10-18
+Log Viewer…	Podgląd dziennika…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	Plik dziennika (%@)	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	Plik dziennika obecnie nie istnieje w: %@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	Plik dziennika obecnie nie istnieje w:\n%@	claude-sonnet-5-5 2026-10-18
+Log level	Poziom dziennika	claude-sonnet-5-5 2026-10-18
+Longitude:	Długość geograficzna:	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	Szukaj kodów QR na ekranie zrzutu	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	Szukaj w Safari i Chrome	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	Szukanie kodów QR…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	Szukanie otwartych dokumentów…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	Szukanie otwartych wiadomości…	claude-sonnet-5-5 2026-10-18
+Looking…	Szukanie…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	Tryb niskiego zużycia energii	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	M na ekranie zrzutu przełącza to dla jednego zrzutu.	claude-sonnet-5-5 2026-10-18
+MCP server	Serwer MCP	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	ZMIENIONE NA DYSKU	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	MP4 z H.264 (działa wszędzie)	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	MP4 z HEVC (mniejsze pliki)	claude-sonnet-5-5 2026-10-18
+Magnification:	Powiększenie:	claude-sonnet-5-5 2026-10-18
+Manual	Ręcznie	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	Oznacz jako krok startowy	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	Dopasuj rozmiar okna edytora do zrzutu	claude-sonnet-5-5 2026-10-18
+Media clip and text	Klip multimedialny i tekst	claude-sonnet-5-5 2026-10-18
+Memory	Pamięć	claude-sonnet-5-5 2026-10-18
+Menu bar icon	Ikona na pasku menu	claude-sonnet-5-5 2026-10-18
+Menu entry	Pozycja menu	claude-sonnet-5-5 2026-10-18
+Menus	Menu	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	Wiadomość:	claude-sonnet-5-5 2026-10-18
+Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office i Notatki	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Minimize	Zminimalizuj	claude-sonnet-5-5 2026-10-18
+Mode	Tryb	claude-sonnet-5-5 2026-10-18
+Model	Model	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Narzędzie do zrzutów ekranu Monosnap	claude-sonnet-5-5 2026-10-18
+More Emoji…	Więcej emoji…	claude-sonnet-5-5 2026-10-18
+More…	Więcej…	claude-sonnet-5-5 2026-10-18
+Most memory used	Największe zużycie pamięci	claude-sonnet-5-5 2026-10-18
+Mouse	Mysz	claude-sonnet-5-5 2026-10-18
+Move Down	Przesuń w dół	claude-sonnet-5-5 2026-10-18
+Move Up	Przesuń w górę	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	Przesunięto „%@” w dół	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	Przesunięto „%@” w górę	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	NOWY KROK AUTOMATYCZNY	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	NOWY PRZEPIS	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	Wymaga uprawnienia Dostępność w Ustawieniach systemowych › Prywatność i ochrona. Do tego czasu tryb okna zaznacza całe okna. Przebudowaną lub przeniesioną kopię aplikacji trzeba ponownie dopuścić.	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	Nazwa sieci (SSID):	claude-sonnet-5-5 2026-10-18
+Never	Nigdy	claude-sonnet-5-5 2026-10-18
+Never (switched off)	Nigdy (wyłączony)	claude-sonnet-5-5 2026-10-18
+Never check for updates	Nigdy nie sprawdzaj aktualizacji	claude-sonnet-5-5 2026-10-18
+Never share these applications	Nigdy nie udostępniaj tych aplikacji	claude-sonnet-5-5 2026-10-18
+New Automatic Step	Nowy krok automatyczny	claude-sonnet-5-5 2026-10-18
+New Document	Nowy dokument	claude-sonnet-5-5 2026-10-18
+New Email	Nowy e-mail	claude-sonnet-5-5 2026-10-18
+New Image	Nowy obraz	claude-sonnet-5-5 2026-10-18
+New Note	Nowa notatka	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	Nowego Outlooka nie można obsługiwać skryptami: wyłącz go (Outlook › Legacy Outlook) lub użyj Wyślij e-mailem…	claude-sonnet-5-5 2026-10-18
+New Presentation	Nowa prezentacja	claude-sonnet-5-5 2026-10-18
+New Random Edges	Nowe losowe krawędzie	claude-sonnet-5-5 2026-10-18
+New Recipe	Nowy przepis	claude-sonnet-5-5 2026-10-18
+New Workbook	Nowy skoroszyt	claude-sonnet-5-5 2026-10-18
+New email attachment	Nowy załącznik e-mail	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Nowy e-mail w Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+New image size	Nowy rozmiar obrazu	claude-sonnet-5-5 2026-10-18
+New meeting	Nowe spotkanie	claude-sonnet-5-5 2026-10-18
+New note in Notes	Nowa notatka w Notatkach	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	Nowy przepis (⌘N)	claude-sonnet-5-5 2026-10-18
+Next	Dalej	claude-sonnet-5-5 2026-10-18
+Next number	Następny numer	claude-sonnet-5-5 2026-10-18
+No	Nie	claude-sonnet-5-5 2026-10-18
+No QR code found	Nie znaleziono kodu QR	claude-sonnet-5-5 2026-10-18
+No Step Selected	Nie wybrano kroku	claude-sonnet-5-5 2026-10-18
+No Windows	Brak okien	claude-sonnet-5-5 2026-10-18
+No annotations yet.	Brak adnotacji.	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	Żaden krok automatyczny nie zmienia przepisu; włącz jeden powyżej.	claude-sonnet-5-5 2026-10-18
+No captures	Brak zrzutów	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	Bez zmian w działaniu przepisu (tylko szczegóły, jak nazwy lub układ).	claude-sonnet-5-5 2026-10-18
+No description provided.	Nie podano opisu.	claude-sonnet-5-5 2026-10-18
+No developer signature kept	Nie zachowano podpisu dewelopera	claude-sonnet-5-5 2026-10-18
+No external command is set up	Nie skonfigurowano polecenia zewnętrznego	claude-sonnet-5-5 2026-10-18
+No external command is set up.	Nie skonfigurowano polecenia zewnętrznego.	claude-sonnet-5-5 2026-10-18
+No fill	Bez wypełnienia	claude-sonnet-5-5 2026-10-18
+No folder	Brak folderu	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	Żaden edytor obrazów nie jest otwarty. Najpierw otwórz zrzut w edytorze.	claude-sonnet-5-5 2026-10-18
+No mail app is set up	Nie skonfigurowano aplikacji pocztowej	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	Nie skonfigurowano aplikacji pocztowej.	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	Żadna strona tego Confluence nie jest otwarta w Safari ani Chrome.	claude-sonnet-5-5 2026-10-18
+No problems	Brak problemów	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	Żaden program nie jest jeszcze dozwolony.	claude-sonnet-5-5 2026-10-18
+No recipe	Brak przepisu	claude-sonnet-5-5 2026-10-18
+No recipe matches.	Żaden przepis nie pasuje.	claude-sonnet-5-5 2026-10-18
+No recipe open	Brak otwartego przepisu	claude-sonnet-5-5 2026-10-18
+No recipes from files.	Brak przepisów z plików.	claude-sonnet-5-5 2026-10-18
+No recipes loaded	Brak wczytanych przepisów	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	Brak przepisów. Zaimportuj plik przepisu lub utwórz go w edytorze przepisów.	claude-sonnet-5-5 2026-10-18
+No spaces	Brak spacji	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	Żaden krok startowy tu nie prowadzi: połącz te kroki przez „Kontynuuj w”	claude-sonnet-5-5 2026-10-18
+No text found	Nie znaleziono tekstu	claude-sonnet-5-5 2026-10-18
+No text found.	Nie znaleziono tekstu.	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	Żaden tekst nie pasuje do „%@”.	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	Bez wyzwalacza: z listy przepisów lub wiersza poleceń	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	Bez wyzwalacza: przepis działa z listy przepisów, wiersza poleceń lub innego przepisu.	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	Bez wyzwalaczy (tylko edytor przepisów)	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	Bez wyzwalaczy: przepis uruchamia się tylko z menedżera przepisów, testowo lub z innego przepisu.	claude-sonnet-5-5 2026-10-18
+No, Cancel	Nie, anuluj	claude-sonnet-5-5 2026-10-18
+Nobody	Nikt	claude-sonnet-5-5 2026-10-18
+Node ID	ID węzła	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	Nie znaleziono (Chrome, Edge, Firefox, Brave, Vivaldi lub Chromium)	claude-sonnet-5-5 2026-10-18
+None set up	Nie skonfigurowano żadnych	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	To nie jest parametr tego kroku	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	To nie jest wyrażenie regularne: %@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	Niedozwolone, dopóki Greenshot się nie zamknie	claude-sonnet-5-5 2026-10-18
+Not allowed yet	Jeszcze niedozwolone	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	Niezatwierdzony, zmieniony od zatwierdzenia lub z wyłączonymi wyzwalaczami	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	Niedostępne, komunikaty pojawiają się w rogu	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	Jeszcze nie sprawdzono. Masz wersję %@.	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	Nie dla JPEG. Pliki GIF zawsze mają co najwyżej tyle kolorów.	claude-sonnet-5-5 2026-10-18
+Not found next to the app	Nie znaleziono obok aplikacji	claude-sonnet-5-5 2026-10-18
+Not installed	Niezainstalowano	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	Niewczytany w aplikacji Greenshot	claude-sonnet-5-5 2026-10-18
+Not reached	Nieosiągnięty	claude-sonnet-5-5 2026-10-18
+Not registered yet	Jeszcze niezarejestrowany	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	Niezarejestrowany: ma go inna aplikacja	claude-sonnet-5-5 2026-10-18
+Not running	Nie działa	claude-sonnet-5-5 2026-10-18
+Not saved yet	Jeszcze niezapisany	claude-sonnet-5-5 2026-10-18
+Not set	Nie ustawiono	claude-sonnet-5-5 2026-10-18
+Not signed	Niepodpisany	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	Nie zalogowano do %@. Zaloguj się w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	Niezalogowany; pierwsze wysyłanie zapyta o dane.	claude-sonnet-5-5 2026-10-18
+Notarized	Zanotaryzowano	claude-sonnet-5-5 2026-10-18
+Notes	Notatki	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	Zapisuje każdą zmianę w trakcie działania, co 600 ms: przydatne, gdy wklejanie zrzutu ekranu nie działa.	claude-sonnet-5-5 2026-10-18
+Nothing	Nic	claude-sonnet-5-5 2026-10-18
+Nothing embedded	Nic nie osadzono	claude-sonnet-5-5 2026-10-18
+Nothing found	Nic nie znaleziono	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	Nic na zrzucie ekranu nie dało się odczytać jako kodu QR.	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	Nic nie jest nagrywane.	claude-sonnet-5-5 2026-10-18
+Notification Settings…	Ustawienia powiadomień…	claude-sonnet-5-5 2026-10-18
+Notifications	Powiadomienia	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	Teraz %@ × %@ pikseli	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	Numeruj kroki instrukcji narzędziem Licznik w edytorze.	claude-sonnet-5-5 2026-10-18
+OCR Text	Tekst OCR	claude-sonnet-5-5 2026-10-18
+OK	OK	claude-sonnet-5-5 2026-10-18
+OPTIONS	OPCJE	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	INNE PARAMETRY	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	NADPISANE	claude-sonnet-5-5 2026-10-18
+Object and text	Obiekt i tekst	claude-sonnet-5-5 2026-10-18
+Object and two objects	Obiekt i dwa obiekty	claude-sonnet-5-5 2026-10-18
+Object over text	Obiekt nad tekstem	claude-sonnet-5-5 2026-10-18
+Off	Wył.	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	Wyłączone dla tej aplikacji: brak powiadomień	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	Wył.: „Zapisz bezpośrednio” dodaje do nazwy (2), (3), …	claude-sonnet-5-5 2026-10-18
+Offset X:	Przesunięcie X:	claude-sonnet-5-5 2026-10-18
+Offset Y:	Przesunięcie Y:	claude-sonnet-5-5 2026-10-18
+On	Wł.	claude-sonnet-5-5 2026-10-18
+On Error / Failure	Przy błędzie / niepowodzeniu	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	Na Macu żadna aplikacja nie może zablokować schowka, więc żadna inna aplikacja nie może uniemożliwić dostępu do niego aplikacji %@.	claude-sonnet-5-5 2026-10-18
+On the clipboard now	Teraz w schowku	claude-sonnet-5-5 2026-10-18
+Once at a time	Po jednym naraz	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	Po jednym w wierszu: wartość lub wartość = etykieta	claude-sonnet-5-5 2026-10-18
+One screen	Jeden ekran	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	Tylko dla serwerów Jira i Confluence powyżej, których certyfikatu macOS nie uznaje za zaufany; każdy inny serwer podlega wyłącznie kontrolom macOS. Jeden host w wierszu; * i ? są symbolami wieloznacznymi, port jest ignorowany. Odcisk zaufa dokładnie jednemu certyfikatowi i jest bezpieczniejszy niż host; wysyłanie, które nie powiodło się z powodu certyfikatu, pokazuje odcisk serwera. Puste listy używają tylko kontroli macOS.	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	Tylko kroki w zwykłej sekwencji można przesuwać.	claude-sonnet-5-5 2026-10-18
+Only when	Tylko gdy	claude-sonnet-5-5 2026-10-18
+Open	Otwórz	claude-sonnet-5-5 2026-10-18
+Open %@	Otwórz %@	claude-sonnet-5-5 2026-10-18
+Open %@ at login	Otwieraj %@ przy logowaniu	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	Otwórz schowek w aplikacji Greenshot	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	Otwórz przepis Greenshota	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	Otwórz obraz w aplikacji Greenshot	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	Otwórz Skróty klawiszowe	claude-sonnet-5-5 2026-10-18
+Open Link	Otwórz link	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	Otwórz podgląd dziennika	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	Otwórz podgląd dziennika…	claude-sonnet-5-5 2026-10-18
+Open Login Items	Otwórz Elementy logowania	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	Otwórz ustawienia paska menu	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	Otwórz ustawienia prywatności	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	Otwórz samoobsługę…	claude-sonnet-5-5 2026-10-18
+Open Settings	Otwórz Ustawienia	claude-sonnet-5-5 2026-10-18
+Open System Settings	Otwórz Ustawienia systemowe	claude-sonnet-5-5 2026-10-18
+Open With	Otwórz w programie	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	Otwórz plik przepisu (⌘O)	claude-sonnet-5-5 2026-10-18
+Open an empty editor	Otwórz pusty edytor	claude-sonnet-5-5 2026-10-18
+Open file	Otwórz plik	claude-sonnet-5-5 2026-10-18
+Open in Editor	Otwórz w edytorze	claude-sonnet-5-5 2026-10-18
+Open in another app	Otwórz w innej aplikacji	claude-sonnet-5-5 2026-10-18
+Open in the default player	Otwórz w domyślnym odtwarzaczu	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	Otwórz w edytorze przepisów po zapisaniu	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	Otwórz ostatni zrzut w edytorze	claude-sonnet-5-5 2026-10-18
+Open the Recording With	Otwórz nagranie w programie	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	Otwórz zrzut ekranu w programie	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	Otwórz aplikację ponownie lub kliknij tutaj, aby otworzyć Ustawienia.	claude-sonnet-5-5 2026-10-18
+Open the image with another app	Otwórz obraz w innej aplikacji	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	Otwórz stronę po wysłaniu	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	Otwórz przepis w edytorze przepisów	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	Otwórz menedżera przepisów (⇧⌘M)	claude-sonnet-5-5 2026-10-18
+Open with	Otwórz w programie	claude-sonnet-5-5 2026-10-18
+Open with %@	Otwórz w %@	claude-sonnet-5-5 2026-10-18
+Open with…	Otwórz w programie…	claude-sonnet-5-5 2026-10-18
+Open: %@	Otwórz: %@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	Otwarto %@; nie jest wczytany w aplikacji Greenshot.	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	Otwarto ustawienia klawiatury.	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	Otwarto podgląd dziennika.	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	Otwiera obraz w edytorze Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	Otwiera obraz ze schowka w edytorze Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Open…	Otwórz…	claude-sonnet-5-5 2026-10-18
+Optional	Opcjonalnie	claude-sonnet-5-5 2026-10-18
+Options	Opcje	claude-sonnet-5-5 2026-10-18
+Options (%lld)	Opcje (%lld)	claude-sonnet-5-5 2026-10-18
+Order	Kolejność	claude-sonnet-5-5 2026-10-18
+Orgchart	Schemat organizacyjny	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	Inne aplikacje do zrzutów ekranu	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	W przeciwnym razie (%@)	claude-sonnet-5-5 2026-10-18
+Other…	Inne…	claude-sonnet-5-5 2026-10-18
+Out	Out	claude-sonnet-5-5 2026-10-18
+Outlook: allow export in meeting items	Outlook: zezwalaj na eksport w elementach spotkań	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook: format nowych wiadomości e-mail	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	Nadpisz plik o tej samej nazwie	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	PROPONOWANE PRZEZ AI	claude-sonnet-5-5 2026-10-18
+Page	Strona	claude-sonnet-5-5 2026-10-18
+Parallel	Równolegle	claude-sonnet-5-5 2026-10-18
+Parallel start	Start równoległy	claude-sonnet-5-5 2026-10-18
+Parameters	Parametry	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	Wklej (⌘V)	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	Wklej to do Markdown, plików README na GitHubie lub pull requestów.	claude-sonnet-5-5 2026-10-18
+Path	Ścieżka	claude-sonnet-5-5 2026-10-18
+Pattern variables	Zmienne wzorca	claude-sonnet-5-5 2026-10-18
+Pause Recording	Wstrzymaj nagrywanie	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	Wstrzymaj, gdy ekran jest zablokowany	claude-sonnet-5-5 2026-10-18
+Permissions	Uprawnienia	claude-sonnet-5-5 2026-10-18
+Permissions…	Uprawnienia…	claude-sonnet-5-5 2026-10-18
+Personal access token	Osobisty token dostępu	claude-sonnet-5-5 2026-10-18
+Phone Call	Połączenie telefoniczne	claude-sonnet-5-5 2026-10-18
+Phone Call Details	Szczegóły połączenia telefonicznego	claude-sonnet-5-5 2026-10-18
+Phone Number:	Numer telefonu:	claude-sonnet-5-5 2026-10-18
+Phone:	Telefon:	claude-sonnet-5-5 2026-10-18
+Picture with caption	Obraz z podpisem	claude-sonnet-5-5 2026-10-18
+Pictures	Obrazy	claude-sonnet-5-5 2026-10-18
+Play the camera sound	Odtwarzaj dźwięk migawki aparatu	claude-sonnet-5-5 2026-10-18
+Play the sound	Odtwórz dźwięk	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	Wprowadź numer telefonu.	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	Wprowadź wartość, aby wygenerować kod kreskowy.	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	Wprowadź nazwę lub dane kontaktu.	claude-sonnet-5-5 2026-10-18
+Please enter event title.	Wprowadź tytuł wydarzenia.	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	Wprowadź współrzędne szerokości i długości geograficznej.	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	Wprowadź nazwę sieci (SSID).	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	Wprowadź adres e-mail odbiorcy.	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	Wprowadź nazwę odbiorcy i IBAN.	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	Wprowadź numer odbiorcy.	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	Wprowadź tekst lub adres URL.	claude-sonnet-5-5 2026-10-18
+Please enter your Confluence login data	Wprowadź swoje dane logowania do Confluence	claude-sonnet-5-5 2026-10-18
+Please enter your Jira login data	Wprowadź swoje dane logowania do Jira	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	Wybierz, jak chcesz postąpić z tym zrzutem:	claude-sonnet-5-5 2026-10-18
+Pointer	Wskaźnik	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Wskazanie okna w Przechwyć okno z listy pokazuje jego obraz. Wymaga uprawnienia do nagrywania ekranu.	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	Wskazuje brakującą aplikację: kliknij Zainstaluj	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint udzielił nieoczekiwanej odpowiedzi: %@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint: zablokuj proporcje obrazu	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint: układ slajdu dla eksportowanych zrzutów	claude-sonnet-5-5 2026-10-18
+Preset	Ustawienie wstępne	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	Naciśnij %@, aby zrobić zrzut.	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	Naciśnij 1–6, aby przełączać sekcje, F5, aby odświeżyć.	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	Naciśnij F1 lub H podczas zrzutu, aby zobaczyć wszystkie dostępne klawisze.	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	Naciśnij M podczas zrzutu, aby pokazać lub ukryć wskaźnik myszy na zrzucie ekranu.	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	Naciśnij Dalej, aby zacząć, lub Esc, aby w każdej chwili zamknąć to okno.	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	Naciśnij Z podczas zrzutu, aby pokazać lub ukryć lupę do zaznaczeń co do piksela.	claude-sonnet-5-5 2026-10-18
+Preview	Podgląd	claude-sonnet-5-5 2026-10-18
+Print a footer	Drukuj stopkę	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	Drukuj datę / godzinę i tytuł na dole strony	claude-sonnet-5-5 2026-10-18
+Print in	Drukuj w	claude-sonnet-5-5 2026-10-18
+Print – %@	Drukuj – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	Drukuj… (⌘P)	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	Ustawienia prywatności…	claude-sonnet-5-5 2026-10-18
+Program not found	Nie znaleziono programu	claude-sonnet-5-5 2026-10-18
+Program: %@	Program: %@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	Zaproponowane przez narzędzie AI	claude-sonnet-5-5 2026-10-18
+QR Code	Kod QR	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	Działania kodu QR…	claude-sonnet-5-5 2026-10-18
+QR Type:	Typ QR:	claude-sonnet-5-5 2026-10-18
+QR code actions	Działania kodu QR	claude-sonnet-5-5 2026-10-18
+QR code: %@	Kod QR: %@	claude-sonnet-5-5 2026-10-18
+Quality	Jakość	claude-sonnet-5-5 2026-10-18
+Quarantined	W kwarantannie	claude-sonnet-5-5 2026-10-18
+Quick Settings	Szybkie ustawienia	claude-opus-5-5 2026-10-18
+Quick settings	Szybkie ustawienia	claude-sonnet-5-5 2026-10-18
+Quit %@	Zakończ %@	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	Najpierw go zakończ, aby uruchomić tę kopię.	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	KONFIGURACJA PRZEPISU	claude-sonnet-5-5 2026-10-18
+Range	Zakres	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	Szczegóły tekstu lub adresu URL	claude-sonnet-5-5 2026-10-18
+Read error	Błąd odczytu	claude-sonnet-5-5 2026-10-18
+Read the QR code	Odczytaj kod QR	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	Odczytaj dziennik ponownie (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	Odczytaj tę sekcję ponownie (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Recent	Ostatnie	claude-sonnet-5-5 2026-10-18
+Recent issues	Ostatnie zgłoszenia	claude-sonnet-5-5 2026-10-18
+Recently captured	Ostatnio zrzucone	claude-sonnet-5-5 2026-10-18
+Recipe	Przepis	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	Przepis zmieniony poza Greenshotem	claude-sonnet-5-5 2026-10-18
+Recipe Details	Szczegóły przepisu	claude-sonnet-5-5 2026-10-18
+Recipe Editor	Edytor przepisów	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	Edytor przepisów…	claude-sonnet-5-5 2026-10-18
+Recipe ID	ID przepisu	claude-sonnet-5-5 2026-10-18
+Recipe JSON	JSON przepisu	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	Menedżer przepisów…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	Wykryto zmianę przepisu	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	Przepis niewczytany	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	Przepis niezapisany	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	Uprawnienia przepisu	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	Przepis zaproponowany przez narzędzie AI	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	Zatwierdzenie zabezpieczeń przepisu	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	Przegląd zabezpieczeń przepisu	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	Walidacja przepisu nie powiodła się	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	Konfiguracja przepisu nie przeszła walidacji.	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	Zawartość przepisu niedostępna.	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	Wykonanie przepisu napotkało błąd:	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	Plik przepisu jest za duży do podglądu (> 1 MB).	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	Pliki przepisów kończą się na %@, więc przepis zostanie zapisany jako %@.	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	Skróty klawiszowe przepisów niezarejestrowane	claude-sonnet-5-5 2026-10-18
+Recipe imported	Zaimportowano przepis	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	Przepis „%@”	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	Przepis „%@” (%@)	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	Przepis „%@” nie powiódł się	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	Przepisy nie działają teraz w aplikacji Greenshot, więc nie można zapisać przepisu.	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	Przepisy nie działają teraz w aplikacji Greenshot.	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	Przepisy z plików, także napisane przez narzędzia AI, oraz to, co dla nich zatwierdzono. Zmiany tutaj obowiązują od razu.	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	Menu przepisów (domyślne)	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	Menu przepisów („%@”)	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	Przepisy muszą tworzyć skierowany graf acykliczny (DAG). Upewnij się, że przejścia i trasy awaryjne nie wracają do wcześniejszych węzłów.	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	Przepisy wykonują zrzut jako serię kroków, uruchamianych skrótem klawiszowym, pozycją menu, schowkiem, Otwórz w programie lub wierszem poleceń. Plik przepisu jest używany dopiero po zatwierdzeniu tego, co robi.	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	Przepisy: identyfikatory, * (każdy przepis z gniazdem) lub *capture, oddzielone przecinkami	claude-sonnet-5-5 2026-10-18
+Recipient Number:	Numer odbiorcy:	claude-sonnet-5-5 2026-10-18
+Recipient:	Odbiorca:	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	Rozpoznaj tekst zaraz po otwarciu ekranu zrzutu	claude-sonnet-5-5 2026-10-18
+Recognising text…	Rozpoznawanie tekstu…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	Rozpoznawanie tekstu…	claude-sonnet-5-5 2026-10-18
+Record	Nagrywaj	claude-sonnet-5-5 2026-10-18
+Record Region…	Nagraj obszar…	claude-sonnet-5-5 2026-10-18
+Record Screen	Nagraj ekran	claude-sonnet-5-5 2026-10-18
+Record Window…	Nagraj okno…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	Nagrywaj bez mikrofonu	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	Nagrywaj wskaźnik myszy	claude-sonnet-5-5 2026-10-18
+Recording	Nagrywanie	claude-sonnet-5-5 2026-10-18
+Recording starts	Nagrywanie się zaczyna	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	Nagrywanie. Kliknij, aby zatrzymać; kliknij z ⌃, aby wstrzymać lub odrzucić.	claude-sonnet-5-5 2026-10-18
+Rectangle	Prostokąt	claude-sonnet-5-5 2026-10-18
+Redo	Ponów	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	Ponów (⇧⌘Z lub ⌘Y)	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	Ponów (⇧⌘Z)	claude-sonnet-5-5 2026-10-18
+Redone	Ponowiono	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	Zmniejsz liczbę kolorów do maksymalnie %lld	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	Zmniejsz liczbę kolorów	claude-sonnet-5-5 2026-10-18
+Reference:	Odniesienie:	claude-sonnet-5-5 2026-10-18
+Refresh	Odśwież	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	Odrzucone dla tej kompilacji, komunikaty pojawiają się w rogu	claude-sonnet-5-5 2026-10-18
+Region	Obszar	claude-sonnet-5-5 2026-10-18
+Register Again	Zarejestruj ponownie	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	Zarejestruj skróty klawiszowe w macOS ponownie, np. gdy inna aplikacja oddała klawisz	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	Zarejestruj własną aplikację Box i wprowadź jej ID klienta i sekret w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	Zarejestruj własną aplikację Dropbox i wprowadź jej klucz aplikacji w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	Zarejestruj własną aplikację w [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder lub Full Dropbox, uprawnienia files.content.write, sharing.write i sharing.read oraz redirect URI `%@`. Wklej tutaj jej klucz aplikacji; sekret nie jest potrzebny. Logowanie jest przechowywane w Twoim pęku kluczy.	claude-sonnet-5-5 2026-10-18
+Registered	Zarejestrowano	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	Zarejestrowano, ale macOS przejmuje go pierwszy (%@)	claude-sonnet-5-5 2026-10-18
+Reject / Block	Odrzuć / zablokuj	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	Uruchomić ponownie %@ w języku %@?	claude-sonnet-5-5 2026-10-18
+Relaunch Now	Uruchom ponownie teraz	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	Uruchom ponownie w języku %@	claude-sonnet-5-5 2026-10-18
+Reload All	Wczytaj ponownie wszystko	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	Wczytaj ponownie skonfigurowane pliki przepisów z dysku	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	Wczytano ponownie przepisy z dysku.	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	Zapamiętaj w pęku kluczy	claude-sonnet-5-5 2026-10-18
+Remove	Usuń	claude-sonnet-5-5 2026-10-18
+Remove %@	Usuń %@	claude-sonnet-5-5 2026-10-18
+Remove Start Step	Usuń krok startowy	claude-sonnet-5-5 2026-10-18
+Remove the option	Usuń opcję	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	Usuń przepis z Greenshota	claude-sonnet-5-5 2026-10-18
+Remove this error route	Usuń tę trasę błędów	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	Usuń ten krok z kroków startowych	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	Usuń: program zostanie zapytany ponownie przy następnym połączeniu.	claude-sonnet-5-5 2026-10-18
+Removed an option	Usunięto opcję	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	Usunięto trasę awaryjną dla błędów przepisu	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	Usunięto połączenie z „%@”	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	Zmieniono ID kroku z „%@” na „%@”	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	Otwarto ponownie po ostatnim wylogowaniu lub restarcie, jeszcze niezapisano.	claude-sonnet-5-5 2026-10-18
+Replace	Zamień	claude-sonnet-5-5 2026-10-18
+Replace File	Zamień plik	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	Zastąpić plik, który nie jest przepisem?	claude-sonnet-5-5 2026-10-18
+Replace the annotations	Zastąp adnotacje	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	Zastępuje wbudowany krok automatyczny „%@”	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	Zastępuje wbudowany przepis „%@”	claude-sonnet-5-5 2026-10-18
+Report	Raport	claude-sonnet-5-5 2026-10-18
+Report a bug	Zgłoś błąd	claude-sonnet-5-5 2026-10-18
+Report an Issue…	Zgłoś problem…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	Zgłoś na GitHubie…	claude-sonnet-5-5 2026-10-18
+Required	Wymagane	claude-sonnet-5-5 2026-10-18
+Reset	Resetuj	claude-sonnet-5-5 2026-10-18
+Reset All	Resetuj wszystko	claude-sonnet-5-5 2026-10-18
+Reset All to Default	Przywróć wszystko do domyślnych	claude-sonnet-5-5 2026-10-18
+Reset Default	Przywróć domyślne	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	Przywróć domyślny przepis	claude-sonnet-5-5 2026-10-18
+Reset to Default	Przywróć domyślne	claude-sonnet-5-5 2026-10-18
+Reset to defaults	Przywróć domyślne	claude-sonnet-5-5 2026-10-18
+Resize	Zmień rozmiar	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	Zmień rozmiar obrazu (⌥⌘R)	claude-sonnet-5-5 2026-10-18
+Resize…	Zmień rozmiar…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	Przywrócono po nieoczekiwanym zakończeniu Greenshota, jeszcze niezapisano.	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	Przywrócono, jeszcze niezapisano.	claude-sonnet-5-5 2026-10-18
+Resume Recording	Wznów nagrywanie	claude-sonnet-5-5 2026-10-18
+Retry	Ponów próbę	claude-sonnet-5-5 2026-10-18
+Revert	Cofnij zmiany	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	Przywrócić „%@” do domyślnej definicji wbudowanej?	claude-sonnet-5-5 2026-10-18
+Review approval…	Przejrzyj zatwierdzenie…	claude-sonnet-5-5 2026-10-18
+Review…	Przejrzyj…	claude-sonnet-5-5 2026-10-18
+Revoke	Cofnij	claude-sonnet-5-5 2026-10-18
+Revoke Approval	Cofnij zatwierdzenie	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	Cofnij zatwierdzenie…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	Cofnąć zatwierdzenie „%@”?	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Cofnąć zatwierdzenie „%@”? Przestaje działać od razu i nie jest już wczytywany. Jego plik pozostaje na miejscu: otwórz go ponownie, aby go przejrzeć i zatwierdzić.	claude-sonnet-5-5 2026-10-18
+Right key	Prawy klawisz	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	Kliknięcie prawym przyciskiem lub z ⌃ pokazuje menu. Przy akcji dwukrotnego kliknięcia pojedyncze kliknięcie najpierw czeka przez czas dwukrotnego kliknięcia.	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	Obróć w prawo	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	Obróć w lewo	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	Obróć w prawo (⌥⌘→)	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	Obróć w lewo (⌥⌘←)	claude-sonnet-5-5 2026-10-18
+Rounded Dots	Zaokrąglone kropki	claude-sonnet-5-5 2026-10-18
+Route To	Skieruj do	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	Skieruj do kroku w tym przepisie…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	Uruchom „MCP: Add Server” (Command (stdio)) lub umieść go w .vscode/mcp.json obszaru roboczego.	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	Uruchom polecenie zewnętrzne z obrazem	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	Uruchom w tle (błędy jako komunikat, nie okno dialogowe)	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	Uruchom to w Terminalu (--scope user: we wszystkich projektach). Sprawdź przez claude mcp list lub /mcp.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	Uruchom to w Terminalu lub dodaj [mcp_servers.greenshot] z command = ścieżka do ~/.codex/config.toml.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	Uruchom to w Terminalu lub dodaj wpis mcpServers do ~/.gemini/settings.json. Sprawdź przez /mcp.	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	Uruchom przepis przechwytywania teraz	claude-sonnet-5-5 2026-10-18
+Running	Działa	claude-sonnet-5-5 2026-10-18
+Running for	Działa od	claude-sonnet-5-5 2026-10-18
+Runs	Uruchamia	claude-sonnet-5-5 2026-10-18
+Runs as	Działa jako	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 lub SHA-1, np. 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	SMS	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	Szczegóły wiadomości SMS	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	OBSŁUGA BŁĘDÓW KROKU	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	PARAMETRY KROKU	claude-sonnet-5-5 2026-10-18
+Same as macOS	Jak w macOS	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	Jak w macOS (%@)	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	Te same klawisze co Twój skrót klawiszowy	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	Zapisz (⌘S)	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	Zapisz (⌘S); Zapisz jako to ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	Zapisz jako… (⇧⌘S)	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	Zapisz krok automatyczny jako…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	Zapisz przed testowym uruchomieniem	claude-sonnet-5-5 2026-10-18
+Save Changes	Zapisz zmiany	claude-sonnet-5-5 2026-10-18
+Save Directly	Zapisz bezpośrednio	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	Zapisz bezpośrednio (%@)	claude-sonnet-5-5 2026-10-18
+Save Elements…	Zapisz elementy…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	Zapisz przepis Greenshota jako…	claude-sonnet-5-5 2026-10-18
+Save Recipe	Zapisz przepis	claude-sonnet-5-5 2026-10-18
+Save Screenshot	Zapisz zrzut ekranu	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	Zapisz zrzut ekranu jako PDF	claude-sonnet-5-5 2026-10-18
+Save and Run	Zapisz i uruchom	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	Zapisz jako plik Greenshota	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	Zapisz jako plik Greenshota…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	Zapisz jako dokument PDF	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	Zapisz prosi o nowy plik, więc ten je zachowuje.	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	Zapisz obraz ekranu jako plik	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	Zapisz obraz zaznaczonego obszaru jako plik	claude-sonnet-5-5 2026-10-18
+Save to File	Zapisz do pliku	claude-sonnet-5-5 2026-10-18
+Save to folder	Zapisz w folderze	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	Zapisuj z 256 kolorami, gdy obraz ma ich mniej	claude-sonnet-5-5 2026-10-18
+Saved %@	Zapisano %@	claude-sonnet-5-5 2026-10-18
+Saved file	Zapisany plik	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	Zapisano przepis w %@	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	Zapis zastępuje inne przepisy	claude-sonnet-5-5 2026-10-18
+Saving as %@.	Zapisywanie jako %@.	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	Zapisywanie nagrania…	claude-sonnet-5-5 2026-10-18
+Saving…	Zapisywanie…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	Skaluj, aby wypełnić wideo	claude-sonnet-5-5 2026-10-18
+Scaling	Skalowanie	claude-sonnet-5-5 2026-10-18
+Schedule	Harmonogram	claude-sonnet-5-5 2026-10-18
+Screen	Ekran	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	Ekran %lld (niepodłączony)	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	Ekran %lld: %@	claude-sonnet-5-5 2026-10-18
+Screen recording	Nagrywanie ekranu	claude-sonnet-5-5 2026-10-18
+Screens	Ekrany	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	Opcje zrzutów ekranu i nagrywania	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	Aplikacja do zrzutów ekranu z własnymi skrótami globalnymi	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	Skróty zrzutów ekranu w macOS	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Zrzuty ekranu mogą zawierać wszystko, co jest widoczne na ekranie. Okna wykluczonych aplikacji (domyślnie menedżerów haseł) nigdy nie są udostępniane. Oba ustawienia możesz zmienić w Ustawienia › Narzędzia AI.	claude-sonnet-5-5 2026-10-18
+Script: %@	Skrypt: %@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	Szukaj istniejących zgłoszeń	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Szukaj nazwy, ID, wyzwalaczy, pliku	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	Przeszukuj, śledź i kopiuj cały dziennik w podglądzie dziennika.	claude-sonnet-5-5 2026-10-18
+Searched at %@	Szukano o %@	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	Wyszukanie tego identyfikatora w GitHub pomaga uniknąć dwukrotnego zgłoszenia tego samego problemu i pokazuje, czy znana jest poprawka lub obejście.	claude-sonnet-5-5 2026-10-18
+Searching…	Szukanie…	claude-sonnet-5-5 2026-10-18
+Section header	Nagłówek sekcji	claude-sonnet-5-5 2026-10-18
+Select	Zaznacz	claude-sonnet-5-5 2026-10-18
+Select Image Editor	Wybierz edytor obrazów	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	Wybierz obszar ekranu do zrzutu za pomocą Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Select a region or a window	Zaznacz obszar lub okno	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	Wybierz krok na liście, aby go zmienić, lub dodaj nowy przez Dodaj krok: trafia po zaznaczonym kroku, do zaznaczonej gałęzi, toru lub strzałki.	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	Najpierw wybierz krok lub strzałkę: nowy krok trafia zaraz po niej lub do strzałki.	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	Wybierz alternatywne miejsce docelowe poniżej, przekaż do innego przepisu lub ponów próbę:	claude-sonnet-5-5 2026-10-18
+Select an editor	Wybierz edytor	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	Zaznaczaj obszary wewnątrz okien	claude-sonnet-5-5 2026-10-18
+Selection	Zaznaczenie	claude-sonnet-5-5 2026-10-18
+Self-Service	Samoobsługa	claude-sonnet-5-5 2026-10-18
+Self-Service…	Samoobsługa…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	Wyślij zrzut ekranu do	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	Wysyłanie zrzutu ekranu do %@…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	Wysłano do drukarki „%@”	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Oddziel adresy przecinkami. Temat może używać zmiennych wzorca nazwy pliku, np. ${title}. Outlook też ich używa. Przy DW lub UDW i Mail jako aplikacji pocztowej Mail zapisuje całą wiadomość (macOS pyta raz, czy Greenshot może sterować Mail); w przeciwnym razie usługa poczty macOS wypełnia Do i temat, a DW i UDW są pokazane do ręcznego dodania.	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server lub Data Center: osobisty token dostępu	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server lub Data Center: nazwa użytkownika i hasło	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	Skonfiguruj polecenia…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	Ustawione przez Twoją organizację	claude-sonnet-5-5 2026-10-18
+Set in the recipe	Ustawione w przepisie	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	Ustaw to w Ogólne › Skróty klawiszowe. Kliknięcie ikony nagrywania na pasku menu zatrzymuje je, kliknięcie z ⌃ wstrzymuje.	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	Skonfiguruj konto w aplikacji Mail (lub wybierz domyślną aplikację pocztową w Mail › Ustawienia), a potem spróbuj ponownie.	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	Ustawienia (w domyślnych ustawieniach użytkownika)	claude-sonnet-5-5 2026-10-18
+Settings are turned off	Ustawienia są wyłączone	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	Plik ustawień (--settings-dir)	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	Ustawienia › Developer › Edit Config otwiera ~/Library/Application Support/Claude/claude_desktop_config.json; dodaj serwer i uruchom Claude ponownie.	claude-sonnet-5-5 2026-10-18
+Settings…	Ustawienia…	claude-opus-5-5 2026-10-18
+Settings… (⌘,)	Ustawienia… (⌘,)	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	Kilka na jednym gnieździe działa wg kolejności, potem wg ID	claude-sonnet-5-5 2026-10-18
+Shadow	Cień	claude-sonnet-5-5 2026-10-18
+Shadow:	Cień:	claude-sonnet-5-5 2026-10-18
+Share	Udostępnij	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	Udostępnij aplikacjom i kontaktom	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	Link udostępniony (każdy z linkiem), nie prywatny	claude-sonnet-5-5 2026-10-18
+Share…	Udostępnij…	claude-sonnet-5-5 2026-10-18
+Shift	Shift	claude-sonnet-5-5 2026-10-18
+Show	Pokaż	claude-sonnet-5-5 2026-10-18
+Show All	Pokaż wszystko	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	Pokaż folder rozszerzenia…	claude-sonnet-5-5 2026-10-18
+Show It	Pokaż	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	Pokaż otwarte zrzuty ekranu	claude-sonnet-5-5 2026-10-18
+Show Welcome…	Pokaż powitanie…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	Pokaż powiadomienie, gdy narzędzie AI robi zrzut ekranu	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	Pokaż miniaturę zrzutu w powiadomieniu	claude-sonnet-5-5 2026-10-18
+Show all parameters	Pokaż wszystkie parametry	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	Pokazuj w Docku, gdy okno jest otwarte	claude-sonnet-5-5 2026-10-18
+Show in Finder	Pokaż w Finderze	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	Pokaż w menu Przepisy	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	Pokaż w Szybkich ustawieniach na pasku menu	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	Pokazuj opcje drukowania za każdym razem przed drukowaniem	claude-sonnet-5-5 2026-10-18
+Show the menu	Pokaż menu	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	Pokaż ikonę na pasku menu	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	Pokaż lupę na ekranie zrzutu	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	Pokaż miniatury okien na liście okien	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	Pokazano %@ tak, jak ma to teraz Greenshot.	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	Pokazano koniec %@ z %@ łącznie. Dostępne są wcześniejsze wiersze dziennika.	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	Pokazano ~%@ wierszy (%@ z %@)	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	Pokazuje tylko wpisy dziennika zawierające ten tekst, z całego pliku dziennika (⌘F)	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	Zmniejsz obszar roboczy	claude-sonnet-5-5 2026-10-18
+Sign In…	Zaloguj się…	claude-sonnet-5-5 2026-10-18
+Sign Out	Wyloguj się	claude-sonnet-5-5 2026-10-18
+Sign in with	Zaloguj się przez	claude-sonnet-5-5 2026-10-18
+Signed by	Podpisano przez	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	Podpisano przez konsolidator (kompilacja deweloperska)	claude-sonnet-5-5 2026-10-18
+Signed by: %@	Podpisano przez: %@	claude-sonnet-5-5 2026-10-18
+Signed in	Zalogowano	claude-sonnet-5-5 2026-10-18
+Signed in.	Zalogowano.	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	Rozmiar: 0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	Rozmiary	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Narzędzie do zrzutów ekranu Skitch	claude-sonnet-5-5 2026-10-18
+Slot	Gniazdo	claude-sonnet-5-5 2026-10-18
+Small size	Mały rozmiar	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	Mniejsza wartość zachowuje więcej szczegółów linii odręcznej, większa ją wygładza.	claude-sonnet-5-5 2026-10-18
+Smallest value	Najmniejsza wartość	claude-sonnet-5-5 2026-10-18
+Software	Oprogramowanie	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	Nie udało się zarejestrować niektórych skrótów klawiszowych	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	Niektóre czytniki mogą zniekształcać znaki spoza zachodnioeuropejskich w tym kodzie; kody QR i Data Matrix nie.	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	Niektóre teksty w tym języku to tłumaczenia maszynowe.	claude-sonnet-5-5 2026-10-18
+Something went wrong	Coś poszło nie tak	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	Sortuj adnotacje według typu	claude-sonnet-5-5 2026-10-18
+Sound	Dźwięk	claude-sonnet-5-5 2026-10-18
+Source code	Kod źródłowy	claude-sonnet-5-5 2026-10-18
+Space	Spacja	claude-sonnet-5-5 2026-10-18
+Space:	Spacja:	claude-sonnet-5-5 2026-10-18
+Speech Bubble	Dymek	claude-sonnet-5-5 2026-10-18
+Stack trace	Ślad stosu	claude-sonnet-5-5 2026-10-18
+Start (UTC):	Początek (UTC):	claude-sonnet-5-5 2026-10-18
+Start Watching	Zacznij śledzić	claude-sonnet-5-5 2026-10-18
+Start or stop recording	Rozpocznij lub zatrzymaj nagrywanie	claude-sonnet-5-5 2026-10-18
+Start step	Krok startowy	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	Kroki startowe działają pierwsze; kilka kroków startowych działa jednocześnie (upstream START STEPS). Oznacz je na liście kroków.	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	Rozpoczęto śledzenie schowka (co 600 ms)	claude-sonnet-5-5 2026-10-18
+Starting and stopping	Rozpoczynanie i zatrzymywanie	claude-sonnet-5-5 2026-10-18
+Starting…	Uruchamianie…	claude-sonnet-5-5 2026-10-18
+Startup	Uruchamianie	claude-sonnet-5-5 2026-10-18
+Step	Krok	claude-sonnet-5-5 2026-10-18
+Step %lld	Krok %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	Krok %lld: %@ to zarezerwowany klawisz i nie można go użyć w skrócie klawiszowym.	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Krok %lld: klawisze inne niż F1–F20 wymagają ⌃, ⌥ lub ⌘.	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	Krok %lld: ⇧ nie może być jedynym modyfikatorem, z wyjątkiem F1–F20.	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	Krok w tym przepisie	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	Kroki, które %@ dodaje do przepisów z pasującym gniazdem, włączane w Ustawienia › Przepisy.	claude-sonnet-5-5 2026-10-18
+Stop Recording	Zatrzymaj nagrywanie	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	Zatrzymaj nagrywanie (%@)	claude-sonnet-5-5 2026-10-18
+Stop Watching	Przestań śledzić	claude-sonnet-5-5 2026-10-18
+Stop after	Zatrzymaj po	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	Zatrzymaj po zamknięciu okna	claude-sonnet-5-5 2026-10-18
+Stopped watching	Przestano śledzić	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	Przestano śledzić schowek.	claude-sonnet-5-5 2026-10-18
+Subject	Temat	claude-sonnet-5-5 2026-10-18
+Subject:	Temat:	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	Wyłącz niechciane wyzwalacze.	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	Włącz lub wyłącz krok automatyczny (także w Ustawienia › Przepisy)	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	Przełącz wyzwalacze i uprawnienia przepisu	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	Włącz lub wyłącz wyzwalacze i uprawnienia zatwierdzenia	claude-sonnet-5-5 2026-10-18
+System	System	claude-sonnet-5-5 2026-10-18
+System Font	Czcionka systemowa	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	Skopiowano informacje o systemie do schowka.	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	WYZWALACZE	claude-sonnet-5-5 2026-10-18
+Table	Tabela	claude-sonnet-5-5 2026-10-18
+Take Screenshot	Zrób zrzut ekranu	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	Robi zrzut ekranu za pomocą Greenshot for Mac. Trafia do Twoich miejsc docelowych, tak jak przy skrótach klawiszowych.	claude-sonnet-5-5 2026-10-18
+Target step	Krok docelowy	claude-sonnet-5-5 2026-10-18
+Team	Zespół	claude-sonnet-5-5 2026-10-18
+Team ID: %@	ID zespołu: %@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	Poszarpuje wybrane krawędzie obrazu.	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	Zrzuty ekranu TechSmith Snagit	claude-sonnet-5-5 2026-10-18
+Teeth	Zęby	claude-sonnet-5-5 2026-10-18
+Template	Szablon	claude-sonnet-5-5 2026-10-18
+Test Connection	Testuj połączenie	claude-sonnet-5-5 2026-10-18
+Test Run	Uruchomienie testowe	claude-sonnet-5-5 2026-10-18
+Test run error: %@	Błąd uruchomienia testowego: %@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	Nie rozpoczęto uruchomienia testowego: %@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	Uruchomienie testowe %@ nie powiodło się.	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	Rozpoczęto uruchomienie testowe %@.	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	Uruchomienie testowe %@: anulowano.	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	Uruchomienie testowe %@: ukończono.	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	Uruchomienie testowe „%@” zakończone: %@.	claude-sonnet-5-5 2026-10-18
+Text	Tekst	claude-sonnet-5-5 2026-10-18
+Text (OCR)	Tekst (OCR)	claude-sonnet-5-5 2026-10-18
+Text / Number Value	Tekst / wartość liczbowa	claude-sonnet-5-5 2026-10-18
+Text / URL	Tekst / URL	claude-sonnet-5-5 2026-10-18
+Text and chart	Tekst i wykres	claude-sonnet-5-5 2026-10-18
+Text and clipart	Tekst i clipart	claude-sonnet-5-5 2026-10-18
+Text and media clip	Tekst i klip multimedialny	claude-sonnet-5-5 2026-10-18
+Text and object	Tekst i obiekt	claude-sonnet-5-5 2026-10-18
+Text and two objects	Tekst i dwa obiekty	claude-sonnet-5-5 2026-10-18
+Text over object	Tekst nad obiektem	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	Rozpoznawanie tekstu (OCR)	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	Dziękujemy za zainstalowanie %@! Aplikacja działa i czeka na Ciebie na pasku menu, w prawym górnym rogu ekranu.	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	To wszystko, czego potrzebujesz na start. %@ czeka na pasku menu, a wszystko inne możesz zmienić w Ustawieniach, kiedy chcesz.	claude-sonnet-5-5 2026-10-18
+The %@ app key	Klucz aplikacji %@	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	Ikona %@ jest widoczna na pasku menu.	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	Nie można otworzyć pliku Greenshota	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Rozszerzenie Greenshot for Mac (Community) Companion dla Chrome, Edge i Firefox wysyła widoczną stronę i jej adres.	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON musi zawierać dokładnie jeden przepis (zawiera: %lld).	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	Karta JSON ma zmiany, które nie zostały jeszcze zastosowane w przepisie.	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	Pęk kluczy nie mógł dodać elementu: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	Pęk kluczy nie mógł odczytać elementu: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	Pęk kluczy nie mógł usunąć elementu: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	Pęk kluczy nie mógł zaktualizować elementu: %@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Narzędzie Zamglenie w edytorze pikseluje lub rozmywa części zrzutu ekranu, których nikt inny nie powinien widzieć.	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	Nie udało się zapisać PDF	claude-sonnet-5-5 2026-10-18
+The action failed.	Działanie nie powiodło się.	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	Aplikacja, która to skopiowała, tego nie podaje.	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	Nie udało się cofnąć zatwierdzenia „%@”. Pozostaje bez zmian; przyczynę znajdziesz w dzienniku.	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	Obszar nie znajduje się na wyświetlaczu.	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	Krok automatyczny jest używany tylko ze wszystkimi potrzebnymi uprawnieniami.	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	Certyfikat %@ ma odcisk SHA-256 %@.	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Zmieniony przepis wymaga: %@, czego jego zatwierdzenie jeszcze nie dopuszcza. Najpierw go zapisz; zapis poprosi o Twoje zatwierdzenie.	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	Schowek zawiera typów: %lld.	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	Schowek zawiera 1 typ.	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	Schowek jest pusty.	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	Schowek pozostawiono bez zmian.	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	Podpis kodu aplikacji, notaryzacja i kwarantanna	claude-sonnet-5-5 2026-10-18
+The color behind the image	Kolor za obrazem	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	Kolor oderwanych części; domyślnie przezroczysty	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Menu miejsc docelowych zawiera też otwarte spotkania, które organizujesz; zrzut ekranu jest dołączany do spotkania.	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	Szczegóły „%@” są niedostępne: nie jest już wczytany.	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	Wyświetlacz nie jest już podłączony.	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	Krawędzie i cień tego znacznika cięcia.	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	Krawędzie stron odciętych przez przycięcie oraz łączenia po wycięciu wierszy lub kolumn; Żaden zachowuje je proste i bez szwu	claude-sonnet-5-5 2026-10-18
+The editor was closed.	Edytor został zamknięty.	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	Nie udało się wczytać elementów	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	Nie udało się zapisać elementów	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	Nie udało się odczytać elementów tego pliku, obraz jest pokazany bez nich.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	Elementy pozostają edytowalne po ponownym otwarciu pliku.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	Elementy pozostają edytowalne po ponownym otwarciu pliku w edytorze. Otwórz w programie, Office, poczta i udostępnianie dostają PNG.	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	Nie udało się skopiować folderu rozszerzenia: %@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	Nie udało się odczytać pliku %@.	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	Plik zmienił się od jego zatwierdzenia	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	Skrót klawiszowy %@ rozpoczyna i zatrzymuje nagrywanie.	claude-sonnet-5-5 2026-10-18
+The hotkey records	Skrót klawiszowy nagrywa	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	Skróty klawiszowe nadal działają. Aby wrócić do Ustawień, otwórz %@ ponownie ze Spotlight, Launchpada lub folderu Programy.	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	Nie udało się zakodować obrazu jako %@.	claude-sonnet-5-5 2026-10-18
+The image could not be opened	Nie udało się otworzyć obrazu	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	Nie udało się otworzyć obrazu.	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	Obraz jest za duży dla %@: może mieć najwyżej %lld pikseli szerokości i wysokości.	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	Klucz opcji logicznej: tę opcję można zmienić tylko wtedy, gdy tamta jest włączona	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Język tekstów Greenshota. Teksty, których Greenshot for Windows nie ma przetłumaczonych, pozostają po angielsku.	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	Wiersze są wtedy gotowe po naciśnięciu T. Upstream: AlwaysRunOCROnCapture.	claude-sonnet-5-5 2026-10-18
+The log at a glance	Dziennik w skrócie	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	Nie udało się odczytać pliku dziennika.	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	Aplikacja pocztowa nie przyjmuje załączników z innych aplikacji. Kliknij, aby pokazać plik w Finderze.	claude-sonnet-5-5 2026-10-18
+The mail could not be written	Nie udało się napisać wiadomości	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	Ikona na pasku menu jest ukryta? Zakończ stąd.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Ikona na pasku menu jest wyłączona w Ustawienia › Ogólne. Jej menu to droga do większości funkcji %@.	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	Menu otwiera się po pierwszym kliknięciu, więc dwukrotne kliknięcie nic więcej nie robi. Kliknięcie prawym przyciskiem lub z ⌃ zawsze pokazuje menu.	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	Nie można użyć mikrofonu.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	Nowy język pojawi się po ponownym uruchomieniu.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	Nowy język pojawi się po ponownym uruchomieniu. Najpierw pojawi się pytanie o niezapisane zrzuty ekranu.	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	Nowy rozmiar obrazu. Elementy przesuwają się razem z nim.	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	Poprzednia wersja jest nieznana, przejrzyj cały przepis	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	Drukarki „%@” już nie ma	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	Drukarki „%@” już nie ma.	claude-sonnet-5-5 2026-10-18
+The program was not found.	Nie znaleziono programu.	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	Przepis zmienił się po rozpoczęciu edycji JSON: Zastosuj zastępuje te zmiany, Cofnij zmiany pokazuje przepis w obecnej postaci.	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	Nie udało się odczytać pliku przepisu.	claude-sonnet-5-5 2026-10-18
+The recipe goes on	Przepis jest kontynuowany	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	Przepis jest używany tylko ze wszystkimi potrzebnymi uprawnieniami.	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	Przepis wymaga wtyczki, której Greenshot for Mac nie ma.	claude-sonnet-5-5 2026-10-18
+The recipe to edit	Przepis do edycji	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	Przepis nie został zapisany.	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	Przepis działa na plikach poza zwykłym folderem wyjściowym Greenshota.	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	Przepisy i kroki automatyczne znane aplikacji %@.	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	Przepisy są zbyt duże do porównania (ponad %lld wierszy).	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	Przepisy uruchamiają się razem z Greenshotem.	claude-sonnet-5-5 2026-10-18
+The recording could not be started	Nie udało się rozpocząć nagrywania	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	Nagrywanie zakończyło się, zanim cokolwiek nagrano.	claude-sonnet-5-5 2026-10-18
+The recording failed	Nagrywanie nie powiodło się	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	Nagranie jest zapisywane.	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	Nagrywanie jest wstrzymane. Kliknij, aby zatrzymać; kliknij z ⌃, aby kontynuować lub odrzucić.	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	Nagrywanie się zaczyna. Kliknij, aby je zatrzymać, gdy tylko ruszy.	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	Nagrywanie rozpocznie się za %lld s. Kliknij, aby anulować.	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	Nagrywanie było już zakończone.	claude-sonnet-5-5 2026-10-18
+The recording was discarded	Nagranie zostało odrzucone	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Żądanie przyszło przez greenshot-cli. Zezwól tylko, jeśli uruchomiono je z Twojej inicjatywy: wynik przepisu trafia tam, gdzie przepis go wysyła.	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Żądanie przyszło przez greenshot-cli. Zezwól tylko, jeśli uruchomiono je z Twojej inicjatywy: zrzut ekranu trafia do Twoich miejsc docelowych.	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Te same zmienne co we wzorcu nazwy pliku, np. ${title} i ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	Ekran z myszą	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	Ekran ze wskaźnikiem myszy	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	Nie udało się dołączyć zrzutu ekranu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	Nie udało się zakodować zrzutu ekranu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	Nie udało się zapisać zrzutu ekranu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	Nie udało się zapisać zrzutu ekranu w %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	Nie udało się zapisać zrzutu ekranu do pliku	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	Nie udało się zapisać zrzutu ekranu, wybierz inne miejsce	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	Nie udało się wysłać zrzutu ekranu do %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	Nie udało się udostępnić zrzutu ekranu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	Nie udało się zrobić zrzutu ekranu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	Nie udało się zapisać zrzutu ekranu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	Nie udało się zapisać zrzutu ekranu dla %@	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	Skróty zrzutów ekranu w macOS nie używają Twoich skrótów klawiszowych.	claude-sonnet-5-5 2026-10-18
+The script failed.	Skrypt nie powiódł się.	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	Skrypt trwał dłużej niż %lld s.	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	Serwer odpowiedział HTTP %lld.	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	Nie udało się odczytać pliku ustawień	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	Plik ustawień, dziennik i raporty o awariach	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	Odpowiedź logowania nie pasowała do żądania (state).	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	Odpowiedź logowania nie zawierała kodu.	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	Nie udało się otworzyć okna logowania.	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	Rozmiar Plik › Nowy obraz, białego obrazu do rysowania.	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	Nie udało się rozpoznać tekstu	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	Nie udało się rozpoznać tekstu: %@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	Poszarpane krawędzie tego obrazu.	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	Przezroczyste części obrazu dostają ten kolor.	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Wyzwalacze zaczynają jako wyłączone. Włącz każdy, który może uruchamiać ten przepis: wyzwalacz pozostawiony wyłączony pozostaje wyłączony (możesz go później włączyć przez Uprawnienia). Bez wyzwalacza nadal możesz uruchomić przepis z listy przepisów.	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	Wysyłanie pyta o zgłoszenie: klucz, jedno z ostatnich dziesięciu, ulubiony filtr lub wyszukiwanie. Zgłoszenia w tytułach otwartych okien (np. przeglądarki) są oferowane w menu miejsc docelowych.	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	Wysyłanie pyta o stronę: otwartą w Safari lub Chrome, wyszukiwanie po tytule albo drzewo stron spacji. Ostatnie dziesięć jest też w menu miejsc docelowych.	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	Wartość jest szablonem (działa w niej ${…})	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	Nie udało się zakończyć pliku wideo: %@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	Nie udało się przygotować pliku wideo.	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	Nie udało się zapisać pliku wideo: %@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	Nie udało się zrzucić okna	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	Skrót klawiszowy okna otwiera ekran zrzutu w trybie okna zamiast zrzucać aktywne okno.	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	Okna nie ma już na ekranie.	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	Wtedy skróty klawiszowe działają zaraz po zalogowaniu.	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	Nie ma jednokolorowej ramki wokół zawartości do odcięcia.	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	W schowku nie ma obrazu	claude-sonnet-5-5 2026-10-18
+There is no image to open.	Nie ma obrazu do otwarcia.	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	Nie ma przepisu „%@”.	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	Na ekranie nie było nic do zrzucenia.	claude-sonnet-5-5 2026-10-18
+Thermal state	Stan termiczny	claude-sonnet-5-5 2026-10-18
+These are for this print only.	Dotyczą tylko tego wydruku.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	Można je później zmienić w Ustawienia › Drukarka.	claude-sonnet-5-5 2026-10-18
+These lanes run at the same time	Te tory działają jednocześnie	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	Te programy mogą używać Greenshota. Usuń jeden przez ✕, aby zostać zapytanym ponownie przy następnym połączeniu. Dla środowiska uruchomieniowego (node, python, …) dozwolony jest tylko uruchamiany skrypt, a program podpisany przez dewelopera tylko dopóki jest nadal podpisany przez tego samego.	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	Te wyzwalacze pozostają wyłączone, więc nie uruchomią przepisu:	claude-sonnet-5-5 2026-10-18
+These:	Te:	claude-sonnet-5-5 2026-10-18
+Thickness:	Grubość:	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	Ten Mac nie ma mikrofonu.	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	Ten adres URL zaczyna się od http://: token lub hasło byłyby przesyłane bez szyfrowania. Użyj https://, jeśli serwer to oferuje.	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	Ten adres zaczyna się od http://: hasło jest przesyłane bez szyfrowania.	claude-sonnet-5-5 2026-10-18
+This app	Ta aplikacja	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Ten krok automatyczny zmienia zrzuty zaznaczonych przepisów, dla zaznaczonych miejsc docelowych. Nowe przepisy też go dostają.	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Ten krok automatyczny napisało narzędzie AI. Zmienia inne przepisy, także wbudowane: sprawdź poniżej, które i co dodaje. Zaczyna jako wyłączony, włącz go w Ustawienia › Przepisy.	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	To jest przepis; w edytorze otwarty jest krok automatyczny.	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	To jest krok automatyczny; w edytorze otwarty jest przepis.	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Ten program jest dostarczany BEZ JAKIEJKOLWIEK GWARANCJI. To wolne oprogramowanie, które możesz rozpowszechniać na określonych warunkach: %@ lub nowsza.	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	Ten program nie jest podpisany przez dewelopera.	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Ten przepis napisało narzędzie AI, nie Greenshot ani Ty. Sprawdź poniżej, co robi (Greenshot opisuje go na podstawie samego przepisu) i włącz tylko wyzwalacze, które chcesz.	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	Ten krok nie ma parametrów.	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	Ten wyzwalacz pozostaje wyłączony, więc nie uruchomi przepisu:	claude-sonnet-5-5 2026-10-18
+Threads	Wątki	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	Wskazówka: najpierw przenieś aplikację do folderu Programy, aby nadal otwierała się przy logowaniu.	claude-sonnet-5-5 2026-10-18
+Title	Tytuł	claude-sonnet-5-5 2026-10-18
+Title only	Tylko tytuł	claude-sonnet-5-5 2026-10-18
+Title:	Tytuł:	claude-sonnet-5-5 2026-10-18
+To	Do	claude-sonnet-5-5 2026-10-18
+To:	Do:	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	Mapuj tonalnie treści HDR na ekranach HDR	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	Mapuj tonalnie treści HDR na ekranach HDR (macOS 15 lub nowszy)	claude-sonnet-5-5 2026-10-18
+Top left	Lewy górny róg	claude-sonnet-5-5 2026-10-18
+Top right	Prawy górny róg	claude-sonnet-5-5 2026-10-18
+Torn	Poszarpane	claude-sonnet-5-5 2026-10-18
+Total: %lld	Razem: %lld	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	Przejściowe (przeznaczone do szybkiego usunięcia)	claude-sonnet-5-5 2026-10-18
+Translocated	Przeniesione (translokacja)	claude-sonnet-5-5 2026-10-18
+Trigger Name	Nazwa wyzwalacza	claude-sonnet-5-5 2026-10-18
+Trigger removed	Usunięto wyzwalacz	claude-sonnet-5-5 2026-10-18
+Triggers	Wyzwalacze	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	Wyzwalacze (%lld)	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	Wyzwalacze pozostawione wyłączone	claude-sonnet-5-5 2026-10-18
+Troubleshooting	Rozwiązywanie problemów	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	Ufaj certyfikatom z tymi odciskami	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	Ufaj tym hostom mimo błędów certyfikatu	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	Ufaj temu, co Greenshot pisze poniżej o kroku automatycznym, a nie tym słowom.	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	Ufaj temu, co Greenshot pisze poniżej o przepisie, a nie tym słowom.	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	Włącz %@ w Ustawienia systemowe › Ogólne › Elementy logowania i rozszerzenia.	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Włącz Zezwalaj na powiadomienia dla %@ w Ustawienia systemowe › Powiadomienia, aby znów je widzieć.	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Włączenie któregokolwiek z pozostałych wyłącza menu. Kilka może być włączonych, np. kopiowanie i zapis.	claude-sonnet-5-5 2026-10-18
+Two column text	Tekst w dwóch kolumnach	claude-sonnet-5-5 2026-10-18
+Two objects	Dwa obiekty	claude-sonnet-5-5 2026-10-18
+Two objects and object	Dwa obiekty i obiekt	claude-sonnet-5-5 2026-10-18
+Two objects and text	Dwa obiekty i tekst	claude-sonnet-5-5 2026-10-18
+Two objects over text	Dwa obiekty nad tekstem	claude-sonnet-5-5 2026-10-18
+Type	Typ	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	Wpisz skrót…	claude-sonnet-5-5 2026-10-18
+URL	URL	claude-sonnet-5-5 2026-10-18
+URL:	URL:	claude-sonnet-5-5 2026-10-18
+Unavailable	Niedostępne	claude-sonnet-5-5 2026-10-18
+Undo	Cofnij	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	Cofnij (⌘Z)	claude-sonnet-5-5 2026-10-18
+Undone	Cofnięto	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	Bez szyfrowania (brak)	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	Nieoczekiwana odpowiedź serwera: %@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	Unikalny identyfikator tego kroku. Edycja tego ID aktualizuje wszystkie odwołania.	claude-sonnet-5-5 2026-10-18
+Unknown	Nieznany	claude-sonnet-5-5 2026-10-18
+Unload	Zwolnij	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	Zwolnić „%@” z aplikacji Greenshot?	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	Zwolnij krok automatyczny	claude-sonnet-5-5 2026-10-18
+Unload Recipe	Zwolnij przepis	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	Zwolnij i zapomnij plik	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	Zwolniono przepis „%@”.	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	Przepis bez nazwy	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	Nieczytelna rejestracja: kliknij Zainstaluj	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	Niezapisane zmiany	claude-sonnet-5-5 2026-10-18
+Unsaved changes	Niezapisane zmiany	claude-sonnet-5-5 2026-10-18
+Updated at %@	Zaktualizowano o %@	claude-sonnet-5-5 2026-10-18
+Updates	Aktualizacje	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	Wyślij do Confluence – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	Wyślij do Confluence: „%@”	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	Wyślij do JIRA – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	Wyślij do Jira, Confluence, Box lub Dropbox	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	Wysłano %@ do Box	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	Wysłano %@ do Dropbox	claude-sonnet-5-5 2026-10-18
+Use Default	Użyj domyślnego	claude-sonnet-5-5 2026-10-18
+Use Expression	Użyj wyrażenia	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	Użyj typu kroku, który ma ta wersja Greenshot for Mac, lub zaktualizuj Greenshot.	claude-sonnet-5-5 2026-10-18
+Use recipes	Używaj przepisów	claude-sonnet-5-5 2026-10-18
+Used for:	Używane dla:	claude-sonnet-5-5 2026-10-18
+User name	Nazwa użytkownika	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	BŁĄD WALIDACJI	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	Prawidłowe wartości SourceType to: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	Prawidłowy: żaden plik aplikacji nie został zmieniony	claude-sonnet-5-5 2026-10-18
+Validation Error	Błąd walidacji	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	Walidacja nie powiodła się dla %@	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	Wartości ustawiane przez użytkownika w Ustawienia › Przepisy; kroki odczytują je jako ${option.key}.	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	Sprawdź, czy ID węzła docelowego zgadza się z „id” istniejącego węzła na liście „nodes” przepisu.	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	Wersja %@ (%@)	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	Dostępna jest wersja %@ – kliknij, aby pobrać	claude-sonnet-5-5 2026-10-18
+Version %@.	Wersja %@.	claude-sonnet-5-5 2026-10-18
+Vertical offset:	Przesunięcie pionowe:	claude-sonnet-5-5 2026-10-18
+Vertical padding:	Margines pionowy:	claude-sonnet-5-5 2026-10-18
+Vertical text	Tekst pionowy	claude-sonnet-5-5 2026-10-18
+Vertical title and text	Tytuł pionowy i tekst	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	Tytuł pionowy i tekst nad wykresem	claude-sonnet-5-5 2026-10-18
+Video	Wideo	claude-sonnet-5-5 2026-10-18
+View	Widok	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	Pokaż JSON kroku automatycznego	claude-sonnet-5-5 2026-10-18
+View Changes	Pokaż zmiany	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	Pokaż JSON przepisu	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	Czekaj przed zrzutem: %lld ms	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	Czeka, błędy w oknie dialogowym	claude-sonnet-5-5 2026-10-18
+Warnings and errors	Ostrzeżenia i błędy	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	Obserwuj schowek	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	Schowek jest obserwowany.	claude-sonnet-5-5 2026-10-18
+Wave	Fala	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP (bezstratny)	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	Przewodnik powitalny…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	Witaj w %@	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	Czego %@ potrzebuje, by działać zgodnie z oczekiwaniami, z poprawką tam, gdzie coś jest nie tak.	claude-sonnet-5-5 2026-10-18
+What AI tools may do	Co mogą robić narzędzia AI	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	Co zmieniło się od ostatniego zatwierdzenia	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	To Ty decydujesz, co dzieje się ze zrzutem: otwórz go w edytorze, zapisz, skopiuj do schowka, wydrukuj i więcej. Wybierasz to w Ustawieniach.	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	Co jest teraz w schowku i kiedy się zmienia	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	To, co wysyłasz, opuszcza tego Maca; usługa decyduje, kto może to zobaczyć.	claude-sonnet-5-5 2026-10-18
+What is wrong	Co jest nie tak	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	Co robi (opisane przez Greenshot na podstawie kroku automatycznego)	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	Co robi (opisane przez Greenshot na podstawie przepisu)	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	Co robi, jego wyzwalacze, zatwierdzenie i zmiany względem wersji wbudowanej	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	O co poproszono (słowa narzędzia AI, niesprawdzone przez Greenshot):	claude-sonnet-5-5 2026-10-18
+What the Mac plays	To, co odtwarza Mac	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	To, co odtwarza Mac, i mikrofon	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	Czego aplikacja potrzebuje, by działać zgodnie z oczekiwaniami, z poprawką tam, gdzie coś jest nie tak	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	Co robi ten krok automatyczny, które przepisy zmienia i co dla niego zatwierdzono.	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	Co robi ten wbudowany przepis i które wyzwalacze go uruchamiają.	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	Co robi ten przepis i co dla niego zatwierdzono. Nic nie można tu zmienić, użyj do tego Uprawnienia w Ustawienia › Przepisy lub w menedżerze przepisów.	claude-sonnet-5-5 2026-10-18
+What to change: %@	Co zmienić: %@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	Co wstawia tam „Kopiuj do schowka”. Aplikacje biorą pierwszy format, który rozumieją; HTML osadza obraz jako PNG dla poczty i edytorów internetowych.	claude-sonnet-5-5 2026-10-18
+When	Kiedy	claude-sonnet-5-5 2026-10-18
+When it runs again	Kiedy uruchamia się ponownie	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	Gdy użytkownik wybierze „%@”	claude-sonnet-5-5 2026-10-18
+When the window changes size	Gdy okno zmieni rozmiar	claude-sonnet-5-5 2026-10-18
+When…	Gdy…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	Gdzie używany jest %@	claude-sonnet-5-5 2026-10-18
+Where it runs from	Skąd działa	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	Gdzie wchodzi przepływ przepisu	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	Gdy widoczne jest wideo HDR, zdjęcie lub gra, ich jasne części zachowują szczegóły na zrzucie ekranu zamiast być obcięte. Zrzuty bez treści HDR zachowują kolory dokładnie. Tylko Apple silicon.	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	Podczas zrzutu naciśnij spację, aby przełączać między zaznaczaniem obszaru a zrzutem okna.	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	Podczas zrzutu klawisze strzałek przesuwają wskaźnik o jeden piksel, z ⌃ lub ⌘ o dziesięć pikseli.	claude-sonnet-5-5 2026-10-18
+White	Biały	claude-sonnet-5-5 2026-10-18
+WiFi Network	Sieć Wi-Fi	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	Szczegóły połączenia z siecią Wi-Fi	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	Znaczniki wiki (!name!)	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	Skopiowano znaczniki wiki – kliknij, aby otworzyć stronę	claude-sonnet-5-5 2026-10-18
+Window	Okno	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	Okno %@ · %@ (pid %@)	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	Tytuły okien w menu: do %lld znaków	claude-sonnet-5-5 2026-10-18
+Windows	Okna	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	Okna tych aplikacji nigdy nie są wyświetlane na liście ani zrzucane dla narzędzi AI i są zaczerniane na zrzutach ekranu robionych przez narzędzia AI. Nazwy to nazwy aplikacji lub identyfikatory pakietów; wielkość liter, spacje i „.app” nie mają znaczenia.	claude-sonnet-5-5 2026-10-18
+With shadow	Z cieniem	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word, PowerPoint i Outlook wstawiają do nowego dokumentu, prezentacji lub wiadomości albo do otwartej (menu miejsc docelowych je wymienia). Excel wstawia do aktywnego arkusza otwartego lub nowego skoroszytu. Outlook dołącza zrzut ekranu i używa tematu, Do, DW i UDW z sekcji E-mail; z opcją „zezwalaj na eksport w elementach spotkań” wymienia też otwarte spotkania, które organizujesz, i dołącza zrzut do spotkania. Nowego Outlooka nie można obsługiwać skryptami. OneNote dla Maca też nie: zastępują go Notatki (lub użyj Otwórz w programie). W układzie bez miejsca na obraz zrzut jest wyśrodkowany na slajdzie; układ odrzucony przez PowerPoint daje pusty slajd.	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word: zablokuj proporcje obrazu	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	Słowa w tytule strony lub CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	Słowa w podsumowaniu lub JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	Zawijaj tekst	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	Wpisz rozszerzenia z kropką, oddzielone „;”, np. „.png;.jpg”.	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	Wpisz skrót klawiszowy jak „Ctrl + Shift + B”; na Macu Ctrl to ⌘, a Win to ⌃.	claude-sonnet-5-5 2026-10-18
+Write the output to the log	Zapisuj wynik w dzienniku	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	Pisanie wiadomości w aplikacji Mail…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	Napisane przez narzędzie AI	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	Napisane przez narzędzie AI i zatwierdzone przez Ciebie	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	Napisane przez narzędzie AI i zatwierdzone przez Ciebie: %@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	TWOJA ZMIANA	claude-sonnet-5-5 2026-10-18
+Yes	Tak	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	Tak, kontynuuj	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	Tak: pobrane i jeszcze nieotwarte z Findera	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	Odpowiedziano „Nie zezwalaj” (lub zamknięto pytanie) dla tych programów, więc Greenshot odrzuca je bez pytania. Zezwól tu na jeden lub pozwól Greenshotowi zapytać ponownie przy następnym połączeniu.	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	Ten krok automatyczny był wcześniej przez Ciebie zatwierdzony, ale jego plik został od tego czasu zmieniony poza Greenshotem. Dopóki nie zatwierdzisz zmian, nie zmienia żadnego przepisu.	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	Ten przepis przechwytywania był wcześniej przez Ciebie zatwierdzony, ale jego plik został od tego czasu zmieniony poza Greenshotem (przez inny program lub ręcznie). Przejrzyj zmiany poniżej przed ich zatwierdzeniem.	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	Używasz najnowszej wersji (%@).	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	Możesz zamknąć to okno i wrócić do Greenshota.	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	Wyzwalacze możesz włączyć później przez Uprawnienia, a przepis uruchomić z listy przepisów.	claude-sonnet-5-5 2026-10-18
+You have %@.	Masz %@.	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	Nie masz teraz skrótów klawiszowych zrzutów. Wybierz je w Ustawienia › Ogólne.	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	Masz najnowszą wersję %@, %@.	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	Ten krok automatyczny zapisano w edytorze przepisów. Większość zmian jest zatwierdzana bez pytania, ale ta wymaga Twojej decyzji: %@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	Ten przepis zapisano w edytorze przepisów. Większość zmian jest zatwierdzana bez pytania, ale ta dodaje coś, co wymaga Twojej decyzji: %@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	Widzisz każdy zaproponowany przepis i decydujesz, czy go zatwierdzić. Jego wyzwalacze i ryzykowne działania zaczynają jako wyłączone.	claude-sonnet-5-5 2026-10-18
+You're all set	Wszystko gotowe	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	Twoje skróty klawiszowe działają (%lld).	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	Twoja zmiana wymaga decyzji	claude-sonnet-5-5 2026-10-18
+Your Setup	Twoja konfiguracja	claude-sonnet-5-5 2026-10-18
+Your approval	Twoje zatwierdzenie	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	Twój skrót klawiszowy działa.	claude-sonnet-5-5 2026-10-18
+Your hotkeys	Twoje skróty klawiszowe	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	Twoje skróty klawiszowe, skróty zrzutów ekranu macOS i inne aplikacje do zrzutów	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	Twoja organizacja zarządza %@ na tym Macu i wyłączyła jego ustawienia.	claude-sonnet-5-5 2026-10-18
+Your own servers	Własne serwery	claude-sonnet-5-5 2026-10-18
+Your recipes	Twoje przepisy	claude-sonnet-5-5 2026-10-18
+Your setup	Twoja konfiguracja	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	Twoje niezapisane zmiany zostaną odrzucone.	claude-sonnet-5-5 2026-10-18
+Zig-zag	Zygzak	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Zrzuty ekranu Zight (CloudApp)	claude-sonnet-5-5 2026-10-18
+Zoom	Powiększenie	claude-sonnet-5-5 2026-10-18
+Zoom In	Powiększ	claude-sonnet-5-5 2026-10-18
+Zoom Out	Pomniejsz	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	Dopasuj do okna	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	Przezroczystość lupy	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[Brak stosu]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	skrót klawiszowy Greenshota	claude-sonnet-5-5 2026-10-18
+all destinations	wszystkie miejsca docelowe	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	zezwól na Dostępność w Ustawienia › Zrzucanie	claude-sonnet-5-5 2026-10-18
+approved %@	zatwierdzono %@	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	najwyżej %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	krok automatyczny	claude-sonnet-5-5 2026-10-18
+back to region	wróć do obszaru	claude-sonnet-5-5 2026-10-18
+build %@	kompilacja %@	claude-sonnet-5-5 2026-10-18
+button label	etykieta przycisku	claude-sonnet-5-5 2026-10-18
+capture a fixed size	zrzuć stały rozmiar	claude-sonnet-5-5 2026-10-18
+capture text	zrzuć tekst	claude-sonnet-5-5 2026-10-18
+capture the area	zrzuć obszar	claude-sonnet-5-5 2026-10-18
+capture the window	zrzuć okno	claude-sonnet-5-5 2026-10-18
+capture the window or area	zrzuć okno lub obszar	claude-sonnet-5-5 2026-10-18
+changed since its approval	zmieniono od zatwierdzenia	claude-sonnet-5-5 2026-10-18
+checking…	sprawdzanie…	claude-sonnet-5-5 2026-10-18
+continues at:	kontynuuje w:	claude-sonnet-5-5 2026-10-18
+copies a URL	kopiuje adres URL	claude-sonnet-5-5 2026-10-18
+copies the output	kopiuje wynik	claude-sonnet-5-5 2026-10-18
+copy its text	kopiuj jego tekst	claude-sonnet-5-5 2026-10-18
+copy or open what it says	skopiuj lub otwórz to, co mówi	claude-sonnet-5-5 2026-10-18
+critical	krytyczny	claude-sonnet-5-5 2026-10-18
+default	domyślnie	claude-sonnet-5-5 2026-10-18
+default: %@	domyślnie: %@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	domyślnie: miejsca docelowe z ustawień	claude-sonnet-5-5 2026-10-18
+description	opis	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	np. PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	np. Zrzuty ekranu; puste = folder aplikacji	claude-sonnet-5-5 2026-10-18
+empty	puste	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	wyrażenie, np. ${payload.width > 800} lub else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	umiarkowany	claude-sonnet-5-5 2026-10-18
+file name prefix	prefiks nazwy pliku	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	Nie znaleziono greenshot-mcp obok aplikacji	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text i greenshotmac://clipboard, np. z Alfreda, Raycasta lub strony internetowej.	claude-sonnet-5-5 2026-10-18
+hide the info	ukryj informacje	claude-sonnet-5-5 2026-10-18
+hide the keys	ukryj klawisze	claude-sonnet-5-5 2026-10-18
+hold it at another corner	przytrzymaj przy innym rogu	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	przytrzymaj, aby umieścić bez przyciągania	claude-sonnet-5-5 2026-10-18
+hosted by %@	hostowane przez %@	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+id	id	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	id, * lub *capture	claude-sonnet-5-5 2026-10-18
+in the capture	na zrzucie	claude-sonnet-5-5 2026-10-18
+inch	cal	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	uwzględnij wskaźnik myszy	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	ogranicz przeciąganie do jednego kierunku	claude-sonnet-5-5 2026-10-18
+key	klucz	claude-sonnet-5-5 2026-10-18
+larger or smaller area	większy lub mniejszy obszar	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	pomiń wskaźnik myszy	claude-sonnet-5-5 2026-10-18
+left %@	lewy %@	claude-sonnet-5-5 2026-10-18
+level %@	poziom %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS prosi o to uprawnienie każdą aplikację, która robi zrzuty ekranu.\n\nOtwórz Ustawienia systemowe › Prywatność i ochrona › Nagrywanie ekranu i dźwięku systemowego, włącz %@, a potem zakończ i otwórz ponownie.\n\nBrak na liście? Kliknij + pod nią i dodaj %@ z folderu Programy.\n\nJuż włączone? Przebudowana lub przeniesiona kopia liczy się jako nowa aplikacja: zaznacz ją, usuń przez −, potem otwórz %@ ponownie i zezwól jeszcze raz.	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS pyta za pierwszym razem, czy %@ może używać mikrofonu.	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS nie pozwolił tej kompilacji wysyłać powiadomień. Kompilacja podpisana stałą tożsamością zwykle może (zobacz README).	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS jeszcze nie pozwala aplikacji %@ nagrywać ekranu. Zrzuty ekranu wymagają tego uprawnienia: włącz %@ w Prywatność i ochrona › Nagrywanie ekranu i dźwięku systemowego.	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS obsługuje te klawisze przed jakąkolwiek aplikacją. Gdy któryś ma klawisze skrótu klawiszowego, wyłącz go w Klawiatura › Skróty klawiszowe › Zrzuty ekranu lub wybierz inny skrót klawiszowy.	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS nie ma raportu o awarii aplikacji %@.	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS ukrywa ikonę %@, za wycięciem lub w ustawieniach paska menu. Przeciągnij ją z ⌘ dalej w prawo lub zezwól na nią w Ustawienia systemowe › Pasek menu.	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	macOS zachował raporty o awariach aplikacji %2$@: %1$lld, w ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS zachował 1 raport o awarii aplikacji %@ w ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS notifications	Powiadomienia macOS	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	Powiadomienia macOS wymagają pakietu aplikacji (scripts/build-app.sh); bez niego komunikaty pojawiają się w prawym górnym rogu.	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS odrzucił te skróty klawiszowe, może używa ich inna aplikacja: %@.	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS uruchamia tymczasową kopię (App Translocation). Przenieś aplikację do folderu Programy i otwórz ją stamtąd, aby zachować jej uprawnienia i element logowania.	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS używa %@ do własnych zrzutów ekranu i dostaje klawisze pierwszy. Wyłącz je w Skróty klawiszowe › Zrzuty ekranu lub wybierz inne skróty klawiszowe.	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS, Mac, pamięć, ekrany i skalowanie	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	przesuń o jeden piksel, z ⌃ o dziesięć	claude-sonnet-5-5 2026-10-18
+no	nie	claude-sonnet-5-5 2026-10-18
+nominal	nominalny	claude-sonnet-5-5 2026-10-18
+not a colour	to nie kolor	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	nie dotyczy (brak podpisu Developer ID)	claude-sonnet-5-5 2026-10-18
+not approved	niezatwierdzony	claude-sonnet-5-5 2026-10-18
+not in the capture	nie na zrzucie	claude-sonnet-5-5 2026-10-18
+off	wył.	claude-sonnet-5-5 2026-10-18
+one per line	po jednym w wierszu	claude-sonnet-5-5 2026-10-18
+or a designation	lub oznaczenie	claude-sonnet-5-5 2026-10-18
+pick a size	wybierz rozmiar	claude-sonnet-5-5 2026-10-18
+picture	obraz	claude-sonnet-5-5 2026-10-18
+points	punkty	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	podgląd: w rogu, przy lupie, wyłączony	claude-sonnet-5-5 2026-10-18
+previous or next size	poprzedni lub następny rozmiar	claude-sonnet-5-5 2026-10-18
+recipe	przepis	claude-sonnet-5-5 2026-10-18
+recipe id	ID przepisu	claude-sonnet-5-5 2026-10-18
+required	wymagane	claude-sonnet-5-5 2026-10-18
+right %@	prawy %@	claude-sonnet-5-5 2026-10-18
+select a region	zaznacz obszar	claude-sonnet-5-5 2026-10-18
+select words, copy their text	zaznacz słowa, skopiuj ich tekst	claude-sonnet-5-5 2026-10-18
+serious	poważny	claude-sonnet-5-5 2026-10-18
+show the info	pokaż informacje	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	rozpocznij i zakończ zaznaczanie klawiszami	claude-sonnet-5-5 2026-10-18
+switch between region and window	przełącz między obszarem a oknem	claude-sonnet-5-5 2026-10-18
+to	do	claude-sonnet-5-5 2026-10-18
+unknown	nieznany	claude-sonnet-5-5 2026-10-18
+unknown error	nieznany błąd	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	Kontakt vCard	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	Szczegóły wizytówki vCard	claude-sonnet-5-5 2026-10-18
+value	wartość	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	zmienna (domyślnie: nazwa)	claude-sonnet-5-5 2026-10-18
+what it does	co robi	claude-sonnet-5-5 2026-10-18
+when %@	gdy %@	claude-sonnet-5-5 2026-10-18
+window details on or off	szczegóły okna wł. lub wył.	claude-sonnet-5-5 2026-10-18
+with the menu bar	z paskiem menu	claude-sonnet-5-5 2026-10-18
+written by %@	napisane przez %@	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	tak, Apple sprawdził tę kompilację	claude-sonnet-5-5 2026-10-18
+zoomer on or off	lupa wł. lub wył.	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} w parametrach to plik zrzutu ekranu; cudzysłowy grupują słowa. Polecenie i parametry mogą używać zmiennych wzorca nazwy pliku, np. ${title}.	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	„%@” (%@) ma te same klawisze po obu stronach, więc oba by zadziałały.	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@” (%@) jest początkiem tego skrótu klawiszowego, więc ten nigdy nie zadziała.	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	„%@” już istnieje. Czy chcesz go zastąpić?	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	„%@” ma ten sam skrót klawiszowy.	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	„%@” nie zakończył działania. Jeśli zakończysz teraz, to, czego jeszcze nie wyeksportował, zostanie utracone.	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	„%@” nie jest kluczem zgłoszenia Jira.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	„%@” nie jest prawidłowym adresem URL.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	„%@” nie jest prawidłowym wyrażeniem regularnym.	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	„%@” nie jest plikiem wykonywalnym. Sprawdź to w Ustawienia › Miejsca docelowe.	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	„%@” czeka, aż wybierzesz, dokąd trafi jego zrzut. Jeśli zakończysz teraz, jego zrzut zostanie utracony.	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	„%@” czeka na Twoją odpowiedź na „%@”. Jeśli zakończysz teraz, jego zrzut zostanie utracony.	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	„Rozmiar obrazu” robi stronę tak dużą jak zrzut ekranu plus marginesy. Obraz jest wyśrodkowany na stronie.	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	„Share screenshots using Dropbox” przejmuje klawisze zrzutów ekranu macOS	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Shift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	⇧ nie może być jedynym modyfikatorem, z wyjątkiem F1–F20.	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Control	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Command	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Option	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ Uruchom przepis	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18
