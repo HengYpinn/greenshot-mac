@@ -167,36 +167,62 @@ class MachineTests(unittest.TestCase):
     def setUp(self):
         self.folder = tempfile.mkdtemp()
         self.up = upstream({
-            ("core", "en-US"): {("Core", "cancel"): "Cancel"},
+            ("core", "en-US"): {("Core", "cancel"): "Cancel", ("Core", "undo"): "Undo"},
             ("core", "de-DE"): {("Core", "cancel"): "Abbrechen"},
         })
         with open(os.path.join(self.folder, "de.tsv"), "w", encoding="utf-8") as f:
             f.write("# english\ttranslation\tsource\n"
                     "Cancel\tStornieren\ttest model 2026-10-18\n"
-                    "Saved %@\tGespeichert: %@\ttest\n"
+                    "Undo\tRückgängig\ttest model 2026-10-18\n"
+                    "Saved %@\tGespeichert: %@\treviewed by a test\n"
                     "Copied %@\tKopiert\ttest\n"
-                    "Open the menu\tÖffne das Tray-Menü in Windows\ttest\n")
+                    "Open the menu\tÖffne das Tray-Menü in Windows\ttest\n"
+                    "A text the Mac no longer has\tEin alter Text\ttest\n"
+                    "PNG\tPNG\ttest\n")
         self.languages = [l10n.Language("en-US", "en", False), l10n.Language("de-DE", "de", False)]
-        self.keys = [l10n.MacKey(k, None, []) for k in ["Cancel", "Saved %@", "Copied %@", "Open the menu"]]
+        self.keys = [l10n.MacKey(k, None, []) for k in ["Cancel", "Undo", "Saved %@", "Copied %@", "Open the menu", "PNG"]]
 
     def tearDown(self):
         shutil.rmtree(self.folder)
 
-    def test_off_by_default(self):
+    def test_without_the_tables(self):
         result = l10n.build(self.up, self.languages, self.keys, [], False, self.folder)
         self.assertEqual([(e.key, e.value, e.comment) for e in result.entries["de"]], [("Cancel", "Abbrechen", "core:Core.cancel")])
         self.assertEqual(result.machine_counts["de"], 0)
+        self.assertNotIn(l10n.MACHINE_KEY, [e.key for e in result.upstream_entries["de"]])
 
-    def test_on_fills_only_texts_without_an_upstream_key(self):
+    def test_fills_only_texts_without_an_upstream_translation(self):
         result = l10n.build(self.up, self.languages, self.keys, [], True, self.folder)
         entries = {e.key: (e.value, e.comment) for e in result.entries["de"]}
         self.assertEqual(entries["Cancel"], ("Abbrechen", "core:Core.cancel"))
-        self.assertEqual(entries["Saved %@"], ("Gespeichert: %@", "machine"))
+        # An upstream key the German pack doesn't translate.
+        self.assertEqual(entries["Undo"], ("Rückgängig", "machine"))
+        self.assertEqual(entries["Saved %@"], ("Gespeichert: %@", "machine, reviewed"))
         self.assertNotIn("Copied %@", entries)
         self.assertNotIn("Open the menu", entries)
-        self.assertEqual(result.machine_counts["de"], 1)
+        self.assertEqual(result.machine_counts["de"], 2)
+        self.assertEqual(result.machine_reviewed["de"], 1)
         self.assertIn(("Copied %@", "machine: placeholders differ from the English"), result.drops)
         self.assertIn(("Open the menu", "machine: Windows wording"), result.drops)
+        self.assertEqual(result.machine_unused["de"], [("A text the Mac no longer has", "no Mac text"),
+                                                       ("Cancel", "upstream has a translation")])
+        self.assertEqual(result.machine_sources["de"], {"test model 2026-10-18": 2, "reviewed by a test": 1, "test": 4})
+        self.assertNotIn("PNG", entries)
+        marker = [e for e in result.upstream_entries["de"] if e.key == l10n.MACHINE_KEY]
+        self.assertEqual([e.value for e in marker], ["2"])
+
+    def test_untranslated_rows(self):
+        result = l10n.build(self.up, self.languages, self.keys, [], True, self.folder)
+        # PNG's row keeps the English on purpose; the dropped rows need a fix.
+        self.assertEqual(l10n.untranslated_rows(result, self.languages, self.keys),
+                         [("de", "Copied %@"), ("de", "Open the menu")])
+        plain = l10n.build(self.up, self.languages, self.keys, [], False, self.folder)
+        self.assertEqual(len(l10n.untranslated_rows(plain, self.languages, self.keys)), 5)
+
+    def test_tsv_escapes_round_trip(self):
+        text = "Line one\nline two\twith a tab and a \\ backslash"
+        self.assertEqual(l10n.unescape_tsv(l10n.escape_tsv(text)), text)
+        self.assertNotIn("\n", l10n.escape_tsv(text))
 
 
 class OutputTests(unittest.TestCase):
@@ -336,7 +362,7 @@ class GenerateTests(unittest.TestCase):
         self.generate(again, False)
         self.assertEqual(l10n.compare_trees(again, out), [])
 
-    def test_machine_table_changes_nothing_without_the_flag(self):
+    def test_machine_tables(self):
         plain = os.path.join(self.root, "plain")
         self.generate(plain, False)
         with open(os.path.join(self.machine, "de.tsv"), "w", encoding="utf-8") as f:
@@ -348,8 +374,18 @@ class GenerateTests(unittest.TestCase):
         self.generate(flagged, True)
         german = self.read(flagged, "Resources/Localizations/de.lproj/Localizable.strings")
         self.assertIn("/* machine */\n\"A text only the Mac has\" = \"Ein Text nur vom Mac\";", german)
-        self.assertIn("| Machine |", self.read(flagged, "docs/translations.md"))
-        self.assertNotIn("Machine", self.read(plain, "docs/translations.md").split("## Coverage")[1].split("\n\n")[1])
+        self.assertIn("machine translations of scripts/l10n/machine/de.tsv", german.splitlines()[0])
+        self.assertNotIn("machine", self.read(flagged, "Resources/Localizations/fr.lproj/Localizable.strings"))
+        self.assertIn("\"__machine_translations__\" = \"1\";",
+                      self.read(flagged, "Resources/Localizations/de.lproj/Upstream.strings"))
+        report = self.read(flagged, "docs/translations.md")
+        self.assertIn("| Machine |", report)
+        self.assertIn("## Machine translations", report)
+        self.assertIn("Sources: test (1 rows).", report)
+        plain_report = self.read(plain, "docs/translations.md")
+        self.assertNotIn("Machine", plain_report.split("## Coverage")[1].split("\n\n")[1])
+        self.assertNotIn("## Machine translations", plain_report)
+        self.assertIn("generate --no-machine", plain_report.splitlines()[2])
 
 
 if __name__ == "__main__":

@@ -9,7 +9,8 @@ import SwiftUI
 
 /// The About window: upstream `Greenshot/Views/AboutWindow.xaml(.cs)` with the credits of `AppAboutCredits` and its
 /// "Self-Service" button. Keys like upstream: S opens Self-Service, E its System section, L or I its Files and Log;
-/// Esc and Return close. The credit of the translation in use comes from its language pack (`about_translation`).
+/// Esc and Return close. The credit of the translation in use comes from its language pack (`about_translation`); a
+/// language with machine translations for the texts its pack doesn't have says so below it (docs/translations.md).
 /// (Upstream's animated logo and edition badges have no counterpart here.)
 struct AboutView: View {
     var openSelfService: (SelfServiceSection?) -> Void
@@ -27,6 +28,10 @@ struct AboutView: View {
             if let credit = L10nText.translationCredit() {
                 Text(verbatim: credit).font(.callout).foregroundStyle(.secondary).multilineTextAlignment(.center)
                     .frame(width: Self.textWidth)
+            }
+            if L10nText.hasMachineTranslations() {
+                Text("Some texts in this language are machine translations.").font(.callout)
+                    .foregroundStyle(.secondary).multilineTextAlignment(.center).frame(width: Self.textWidth)
             }
             HStack {
                 Button("Self-Service…") { openSelfService(nil) }

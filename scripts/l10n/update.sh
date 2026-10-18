@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # The translations again after texts in the code changed: extract.sh, then l10n.py generate (docs/translations.md).
-# Pass --machine to also use the machine translations in scripts/l10n/machine (off by default).
+# Pass --no-machine to leave out the machine translations of scripts/l10n/machine (they are in by default).
 # SPDX-License-Identifier: GPL-3.0-or-later
 set -euo pipefail
 

@@ -14,6 +14,8 @@ public enum L10nText {
     public static let upstreamTable = "Upstream"
     /// The key of the translator credit (upstream `about_translation`) in that table.
     public static let creditKey = "__about_translation__"
+    /// The key of the number of machine translations of the language in that table (scripts/l10n/machine).
+    public static let machineKey = "__machine_translations__"
 
     /// An English text that is also data (a built-in recipe's name): its upstream translation from the app's `Upstream`
     /// table, else the text itself (tests, helpers). Only an upstream text exactly as written has one.
@@ -27,5 +29,11 @@ public enum L10nText {
         let credit = bundle.localizedString(forKey: creditKey, value: "", table: upstreamTable)
         let trimmed = credit.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty || trimmed == creditKey ? nil : trimmed
+    }
+
+    /// Whether the language in use shows machine translations for texts its language pack doesn't translate.
+    public static func hasMachineTranslations(bundle: Bundle = .main) -> Bool {
+        let count = bundle.localizedString(forKey: machineKey, value: "", table: upstreamTable)
+        return (Int(count) ?? 0) > 0
     }
 }

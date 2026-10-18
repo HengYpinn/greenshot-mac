@@ -26,12 +26,14 @@ struct LocalizationLookupTests {
         #expect(L10nText.display("Capture region", bundle: Self.german) == "Bereich abfotografieren")
         #expect(L10nText.display("A recipe of the user", bundle: Self.german) == "A recipe of the user")
         #expect(L10nText.translationCredit(bundle: Self.german) == "Deutsche Übersetzung: Test")
+        #expect(L10nText.hasMachineTranslations(bundle: Self.german))
     }
 
     /// The test runner has no tables: every text is the English, which is why no test of an English text changes.
     @Test func testsAndHelpersStayEnglish() {
         #expect(L10nText.display("Capture region") == "Capture region")
         #expect(L10nText.translationCredit() == nil)
+        #expect(!L10nText.hasMachineTranslations())
         #expect(String(localized: "Cancel") == "Cancel")
     }
 

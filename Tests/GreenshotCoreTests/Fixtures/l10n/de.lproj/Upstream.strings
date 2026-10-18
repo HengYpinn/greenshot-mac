@@ -5,3 +5,6 @@
 
 /* core:Core.about_translation */
 "__about_translation__" = "Deutsche Übersetzung: Test";
+
+/* machine translations in Localizable.strings */
+"__machine_translations__" = "2";

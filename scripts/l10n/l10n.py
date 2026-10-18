@@ -7,13 +7,15 @@
 The Mac's English text is the key of every translation (what SwiftUI and `String(localized:)` look up). This tool
 matches those texts with the English values of upstream Greenshot's language packs (src/Greenshot/Languages and the
 plug-ins' packs, vendored in scripts/l10n/upstream) and writes one Localizable.strings per language. A text without an
-upstream key stays English.
+upstream translation in a language gets the machine translation of scripts/l10n/machine/<lproj>.tsv, if it has one,
+else it stays English.
 
 Commands (run from anywhere, `python3 -I scripts/l10n/l10n.py <command>`):
   vendor --upstream <checkout>   copy upstream's language packs and help pages into the repository
   keys <stringsdata folder>      the Mac's texts from the compiler (scripts/l10n/extract.sh) as JSON on stdout
-  generate [--machine]           write Resources/Localizations, LanguagePacks+Generated.swift, docs/translations.md
-  check [--machine]              fail when the committed files differ from what generate writes
+  generate [--no-machine]        write Resources/Localizations, LanguagePacks+Generated.swift, docs/translations.md
+  check [--no-machine]           fail when the committed files differ from what generate writes
+  untranslated [--language <lproj>]  texts with neither an upstream nor a machine translation, TSV on stdout
   suggest                        near matches for texts without an upstream key (for overrides.tsv), TSV on stdout
   scan --strings <folder> <paths...>  texts in the code that aren't localizable yet (scripts/l10n/scan.sh)
 
@@ -54,6 +56,10 @@ CORE = "core"
 CORE_SECTIONS = ["Core", "Editor", "Settings", "Welcome", "SelfService", "Recipe"]
 APP_NAME = "Greenshot"
 CREDIT_KEY = "__about_translation__"
+# The key of the number of machine translations in Upstream.strings (L10nText.hasMachineTranslations).
+MACHINE_KEY = "__machine_translations__"
+# The source column of a machine translation a person checked (scripts/l10n/machine/<lproj>.tsv) starts with this.
+REVIEWED = "reviewed"
 
 # Help pages that aren't UTF-8 upstream; everything else is UTF-8 (a BOM is dropped).
 HELP_ENCODINGS = {"help-hu-HU.html": "cp1250"}
@@ -307,6 +313,10 @@ def load_overrides(path: str = OVERRIDES_TSV) -> List[Override]:
 
 def unescape_tsv(text: str) -> str:
     return unescape_ini(text)
+
+
+def escape_tsv(text: str) -> str:
+    return text.replace("\\", "\\\\").replace("\t", "\\t").replace("\n", "\\n")
 
 
 def windows_terms(text: str) -> List[str]:
@@ -604,6 +614,13 @@ class Result:
     conflicts: Dict[str, List[str]] = field(default_factory=dict)
     drops: Dict[Tuple[str, str], List[str]] = field(default_factory=dict)
     machine_counts: Dict[str, int] = field(default_factory=dict)
+    machine_reviewed: Dict[str, int] = field(default_factory=dict)
+    # Per language: the rows of its machine table that aren't used, (English, why).
+    machine_unused: Dict[str, List[Tuple[str, str]]] = field(default_factory=dict)
+    # Per language: the sources of its machine table (the third column), how many rows each.
+    machine_sources: Dict[str, Dict[str, int]] = field(default_factory=dict)
+    # Per language: the English of its machine rows that keep the English on purpose (a name, a format).
+    machine_english: Dict[str, set] = field(default_factory=dict)
     # Per language: (translation, English, English) of two different texts of one source file with the same translation.
     collisions: Dict[str, List[Tuple[str, str, str]]] = field(default_factory=dict)
     upstream_counts: Dict[str, int] = field(default_factory=dict)
@@ -636,10 +653,12 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
             result.matched[mac.key] = candidates
             kind = candidates[0].kind
             result.kinds[kind] = result.kinds.get(kind, 0) + 1
+    mac_english = {mac.english for mac in keys}
     for language in languages:
         entries: List[Entry] = []
         machine_table = load_machine(language.lproj, machine_folder) if machine else {}
-        upstream_count = machine_count = 0
+        machine_used = set()
+        upstream_count = machine_count = reviewed_count = 0
         for mac in keys:
             if language.ietf == BASE_LANGUAGE:
                 break
@@ -663,23 +682,56 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
                 if len({o[0] for o in outputs}) > 1:
                     result.conflicts.setdefault(mac.english, []).append(language.ietf)
                 upstream_count += 1
-            elif machine and mac.english in machine_table and mac.key not in result.matched:
-                translation, _source = machine_table[mac.english]
+            elif machine and mac.english in machine_table:
+                # No upstream translation in this language (no upstream key, none in this pack, or one rejected or
+                # dropped): the machine translation, if any. Upstream and overrides.tsv always win.
+                translation, source = machine_table[mac.english]
+                machine_used.add(mac.english)
                 converted, why = convert_machine(translation, mac.key, mac.english)
                 if converted is None:
                     if why:
                         result.drops.setdefault((mac.english, "machine: " + why), []).append(language.ietf)
                 else:
-                    value, comment = converted, "machine"
+                    reviewed = source.lower().startswith(REVIEWED)
+                    value, comment = converted, "machine, reviewed" if reviewed else "machine"
                     machine_count += 1
+                    reviewed_count += reviewed
             if value is not None:
                 entries.append(Entry(mac.key, value, comment))
         result.entries[language.lproj] = sorted(entries, key=lambda e: e.key)
         result.collisions[language.lproj] = collisions(entries, keys)
         result.upstream_counts[language.lproj] = upstream_count
         result.machine_counts[language.lproj] = machine_count
+        result.machine_reviewed[language.lproj] = reviewed_count
+        result.machine_unused[language.lproj] = sorted(
+            (english, "upstream has a translation" if english in mac_english else "no Mac text")
+            for english in machine_table if english not in machine_used)
+        sources: Dict[str, int] = {}
+        for _translation, source in machine_table.values():
+            sources[source or "?"] = sources.get(source or "?", 0) + 1
+        result.machine_sources[language.lproj] = sources
+        result.machine_english[language.lproj] = {english for english, (translation, _) in machine_table.items()
+                                                  if translation.strip() == english}
         result.upstream_entries[language.lproj] = upstream_table(up, language)
+        if machine_count:
+            result.upstream_entries[language.lproj] = sorted(
+                result.upstream_entries[language.lproj]
+                + [Entry(MACHINE_KEY, str(machine_count), "machine translations in Localizable.strings")],
+                key=lambda e: e.key)
     return result
+
+
+def untranslated_rows(result: Result, languages: List[Language], keys: List[MacKey]) -> List[Tuple[str, str]]:
+    """(lproj, English) of the Mac texts that have neither an upstream nor a machine translation in a language (a
+    machine row that is the English itself keeps the English on purpose)."""
+    rows = []
+    for language in languages:
+        if language.ietf == BASE_LANGUAGE:
+            continue
+        translated = {e.key for e in result.entries.get(language.lproj, [])}
+        missing = {k.english for k in keys if k.key not in translated} - result.machine_english.get(language.lproj, set())
+        rows += [(language.lproj, english) for english in sorted(missing)]
+    return rows
 
 
 def collisions(entries: List[Entry], keys: List[MacKey]) -> List[Tuple[str, str, str]]:
@@ -769,18 +821,22 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
            help_files: List[str]) -> str:
     total = len(keys)
     matched = len(result.matched)
+    rest = ("every other text stays English" if not machine else
+            "a text without an upstream translation in a language gets a machine translation from "
+            "`scripts/l10n/machine/<lproj>.tsv` ([Machine translations](#machine-translations)), and a text with "
+            "neither stays English")
     lines = [
         "# Translations",
         "",
-        "<!-- Generated by scripts/l10n/l10n.py generate%s. Don't edit: change the tool, scripts/l10n/overrides.tsv or "
-        "scripts/l10n/languages.tsv and run scripts/l10n/update.sh. -->" % (" --machine" if machine else ""),
+        "<!-- Generated by scripts/l10n/l10n.py generate%s. Don't edit: change the tool, scripts/l10n/overrides.tsv, "
+        "scripts/l10n/machine or scripts/l10n/languages.tsv and run scripts/l10n/update.sh. -->"
+        % ("" if machine else " --no-machine"),
         "",
         "Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: its language packs (upstream "
         "commit `%s`, vendored in `scripts/l10n/upstream`) are matched with the Mac's English texts. A Mac text whose "
         "English is also an upstream text (the same words; an ellipsis, a trailing colon, spaces and capitals don't "
-        "count) gets that text's translation; every other text stays English. The packs are GPL, like this app; the "
-        "translators' credits are in each pack (`about_translation`) and About shows the one of the language in use."
-        % (up.commit or "?"),
+        "count) gets that text's translation; %s. The packs are GPL, like this app; the translators' credits are in "
+        "each pack (`about_translation`) and About shows the one of the language in use." % (up.commit or "?", rest),
         "",
         "## How it works",
         "",
@@ -790,6 +846,10 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
         "near matches by hand or rejects a wrong one) and writes `Resources/Localizations/<language>.lproj/"
         "Localizable.strings`, the `Upstream.strings` table for texts that are also data (`L10nText.display`) and "
         "`LanguagePacks+Generated.swift`. `scripts/l10n/update.sh` runs both steps.",
+        "- `scripts/l10n/machine/<lproj>.tsv` holds the machine translations of a language (`English<TAB>translation"
+        "<TAB>source`, one row per Mac text without an upstream translation in that language). `generate` and `check` "
+        "use them unless they get `--no-machine`; an upstream translation or an overrides.tsv decision always wins over "
+        "a row.",
         "- `scripts/build-app.sh` copies the `.lproj` folders and the help pages (`Resources/Help`) into the app and "
         "lists the languages in `CFBundleLocalizations`, so macOS offers them in System Settings › General › Language "
         "& Region › Applications.",
@@ -831,6 +891,8 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
     lines += ["", "Right to left: %s." % ", ".join(l.ietf for l in languages if l.rtl),
               "Help pages (`Resources/Help`, from upstream): %s." % ", ".join(
                   f[len("help-"):-len(".html")] for f in help_files), ""]
+    if machine:
+        lines += machine_section(languages, result)
     if result.conflicts:
         lines += ["## Texts with several upstream keys", "",
                   "Their translations differ; the first key in upstream's order (Core, Editor, Settings, Welcome, "
@@ -863,6 +925,52 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
             lines.append("- %s — %s: %s" % (md(english), why, ", ".join(sorted(set(languages_dropped)))))
         lines.append("")
     return "\n".join(lines).rstrip("\n") + "\n"
+
+
+def machine_section(languages: List[Language], result: Result) -> List[str]:
+    machine_total = sum(result.machine_counts.values())
+    reviewed_total = sum(result.machine_reviewed.values())
+    with_rows = [l for l in languages if result.machine_counts.get(l.lproj)]
+    sources: Dict[str, int] = {}
+    for per_language in result.machine_sources.values():
+        for source, count in per_language.items():
+            sources[source] = sources.get(source, 0) + count
+    lines = [
+        "## Machine translations",
+        "",
+        "%d translations in %d languages are machine translations (%d of them reviewed by a person): the Mac's texts that "
+        "Greenshot's translators haven't translated, because the Mac wrote them or the language pack doesn't have them "
+        "yet. An AI model made them; `l10n.py` checks their placeholders and Windows wording, nobody checked their "
+        "language unless the row says reviewed. They are marked:" % (machine_total, len(with_rows), reviewed_total),
+        "",
+        "- in `Localizable.strings` by `/* machine */` above the entry (`/* machine, reviewed */` once a person checked "
+        "it), and in the Machine column of the table above;",
+        "- in the app: About shows \"Some texts in this language are machine translations.\" under the translators' "
+        "credit (`L10nText.hasMachineTranslations`).",
+        "",
+        "Correcting one: edit its row in `scripts/l10n/machine/<lproj>.tsv` (keep the English of the first column exactly "
+        "as it is; `\\n` is a line break; keep every `%@`, `%lld` …, numbered like `%2$@ … %1$@` to change their "
+        "order, and write a literal percent sign as `%%` in a text with placeholders), set its source (third column) to "
+        "`reviewed by <name>`, and run `scripts/l10n/update.sh`. Delete the row to show the English instead. A "
+        "translation of an upstream text belongs in Greenshot's language pack: once it is vendored, it replaces the "
+        "machine translation here.",
+        "",
+        "New texts in the code: `python3 -I scripts/l10n/l10n.py untranslated` lists the texts without a translation "
+        "(`<lproj><TAB>English`); add their rows to the tables with the model or person as the source.",
+        "",
+        "Sources: %s." % ", ".join("%s (%d rows)" % (source, count) for source, count in sorted(sources.items())),
+        "",
+    ]
+    unused: Dict[Tuple[str, str], List[str]] = {}
+    for language in languages:
+        for english, why in result.machine_unused.get(language.lproj, []):
+            unused.setdefault((english, why), []).append(language.lproj)
+    if unused:
+        lines += ["Rows not used (an upstream translation replaced them, or the Mac's English changed): delete them.", ""]
+        for (english, why), lprojs in sorted(unused.items()):
+            lines.append("- %s — %s: %s" % (md(english), why, ", ".join(sorted(lprojs))))
+        lines.append("")
+    return lines
 
 
 def english_key(keys: List[MacKey], english: str) -> str:
@@ -905,6 +1013,10 @@ def generate(out_root: str, machine: bool, machine_folder: str = MACHINE_DIR, up
         pack = "greenshot.%s.ini and its plug-in packs" % language.ietf
         header = ("Generated by scripts/l10n/l10n.py from Greenshot's language packs (upstream %s, %s), "
                   "GPL-3.0-or-later. Don't edit: see docs/translations.md." % (up.commit or "?", pack))
+        if result.machine_counts.get(language.lproj):
+            header = ("Generated by scripts/l10n/l10n.py from Greenshot's language packs (upstream %s, %s) and the "
+                      "machine translations of scripts/l10n/machine/%s.tsv (marked machine), GPL-3.0-or-later. Don't "
+                      "edit: see docs/translations.md." % (up.commit or "?", pack, language.lproj))
         if language.ietf == BASE_LANGUAGE:
             header = ("English is the key of every text; this table is empty. Generated by scripts/l10n/l10n.py, "
                       "see docs/translations.md.")
@@ -1245,7 +1357,10 @@ def main(argv: List[str]) -> int:
     p.add_argument("folder")
     for name in ("generate", "check"):
         p = sub.add_parser(name)
-        p.add_argument("--machine", action="store_true", help="also use scripts/l10n/machine/<lproj>.tsv")
+        p.add_argument("--no-machine", dest="machine", action="store_false",
+                       help="leave out the machine translations of scripts/l10n/machine")
+    p = sub.add_parser("untranslated")
+    p.add_argument("--language", help="only this language (lproj, e.g. de)")
     sub.add_parser("suggest")
     p = sub.add_parser("scan")
     p.add_argument("--strings", required=True, help="the -emit-localized-strings folder (scripts/l10n/scan.sh)")
@@ -1262,6 +1377,10 @@ def main(argv: List[str]) -> int:
         print("%d texts, %d with an upstream key; German %d, French %d, Japanese %d"
               % (len(load_mac_keys()), len(result.matched), result.upstream_counts.get("de", 0),
                  result.upstream_counts.get("fr", 0), result.upstream_counts.get("ja", 0)))
+        if args.machine:
+            print("Machine translations: %d (German %d); without any translation: %d (l10n.py untranslated)"
+                  % (sum(result.machine_counts.values()), result.machine_counts.get("de", 0),
+                     len(untranslated_rows(result, load_languages(), load_mac_keys()))))
     elif args.command == "check":
         with tempfile.TemporaryDirectory() as temporary:
             generate(temporary, args.machine)
@@ -1271,6 +1390,13 @@ def main(argv: List[str]) -> int:
             print("\n".join("  " + d for d in differences))
             return 1
         print("The translations are up to date.")
+    elif args.command == "untranslated":
+        languages = load_languages()
+        keys = load_mac_keys()
+        result = build(load_upstream(), languages, keys, load_overrides(), True)
+        for lproj, english in untranslated_rows(result, languages, keys):
+            if args.language in (None, lproj):
+                print("%s\t%s" % (lproj, escape_tsv(english)))
     elif args.command == "suggest":
         sys.stdout.write(suggest())
     elif args.command == "scan":

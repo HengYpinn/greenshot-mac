@@ -10043,6 +10043,12 @@
    ]
   },
   {
+   "key": "Some texts in this language are machine translations.",
+   "files": [
+    "Sources/GreenshotMac/SelfService/AboutWindow.swift"
+   ]
+  },
+  {
    "key": "Something went wrong",
    "files": [
     "Sources/GreenshotMac/SelfService/BugReportWindow.swift"
