@@ -196,6 +196,56 @@ class OutputTests(unittest.TestCase):
         self.assertEqual(old.count("charset"), 1)
 
 
+class HelpLinkTests(unittest.TestCase):
+    def test_links_to_a_translators_disk_become_anchors(self):
+        page = l10n.help_page_utf8(b'<head></head><a href="file:///G:/windowsxp/Projet/help-fr-FR2.html#settings">pr\xe9f</a>'
+                                   b' <a href="file:///C:/x.html">x</a>', "help-fr-FR.html")
+        self.assertIn('<a href="#settings">pr\u00e9f</a>', page)
+        self.assertNotIn("file:///", page)
+        self.assertIn(" x", page)
+
+
+class ScanTests(unittest.TestCase):
+    SOURCE = "\n".join([
+        '        Text("Ready to go")',
+        '        label.stringValue = "Ready to go"',
+        '        let done = String(localized: "Done", comment: "A note for translators")',
+        '        case "Window title": break',
+        '        title = BidiText.isolatedLTR("Shift Option")',
+        '        alert.messageText = "Width <= 10 px; use a larger value"',
+        '        log.info("Something happened here")',
+        '        let s = "\u20ac"; item.title = "Save it now"',
+        '        let id = "com.example.identifier"',
+        '        let lines = """',
+        '            Two lines',
+        '            of text',
+        '            """',
+        '        let name = "Hello \\(user), welcome"',
+    ])
+
+    def scan(self, localized):
+        return [(line, kind, text) for line, kind, text in l10n.scan_source(self.SOURCE, localized)]
+
+    def test_literals_and_columns(self):
+        found = {line: (column, text) for _, line, column, text in l10n.swift_literals(self.SOURCE)}
+        self.assertEqual(found[1], (14, "Ready to go"))
+        self.assertEqual(found[8][1], "Save it now")
+        self.assertEqual(found[8][0], len('        let s = "\u20ac"; item.title = '.encode("utf-8")) + 1)
+        self.assertEqual(found[10][1], "Two lines\nof text")
+        self.assertEqual(found[14][1], "Hello " + l10n.TOKEN + ", welcome")
+
+    def test_only_texts_the_compiler_didnt_extract(self):
+        save_column = len('        let s = "\u20ac"; item.title = '.encode("utf-8")) + 1
+        localized = {(1, 14), (3, 38), (8, save_column)}
+        lines = {line: (kind, text) for line, kind, text in self.scan(localized)}
+        self.assertEqual(lines[2], ("other", "Ready to go"))  # the same text elsewhere is still a plain String
+        self.assertEqual(lines[6], ("ui", "Width <= 10 px; use a larger value"))
+        self.assertIn(10, lines)
+        self.assertIn(14, lines)
+        for skipped in (1, 3, 4, 5, 7, 8, 9):
+            self.assertNotIn(skipped, lines)
+
+
 class GenerateTests(unittest.TestCase):
     """The real vendored packs with a few Mac texts, into a temporary root."""
 
