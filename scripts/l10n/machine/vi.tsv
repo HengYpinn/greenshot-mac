@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ không thành công	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ đã hoàn tất	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ có vấn đề: cần sửa %lld mục trước khi có thể chạy.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ chứa tối đa %lld ký tự; hiện có %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ không chứa công thức nào.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ trong %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ trong %@ – nhấp để hiển thị trong Finder	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ đã báo cáo một sự cố: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ chạy tập lệnh: chỉ tập lệnh ở trên được phép, không phải mọi tập lệnh mà %@ chạy.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ nên mở khi đăng nhập, nhưng macOS đang chờ bạn cho phép trong Mục đăng nhập và tiện ích mở rộng.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ nhận %lld chữ số, hoặc %lld chữ số nếu có chữ số kiểm tra.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ chỉ nhận chữ số.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ muốn dùng %@ để liệt kê các cửa sổ của bạn, chụp ảnh màn hình và chạy các công thức Greenshot.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ cắt  ⎋ hủy	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ cắt bỏ  ⎋ hủy	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: không tìm thấy chương trình	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld chú thích	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	Không thể hiển thị %lld phần tử ở đây: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld lỗi	claude-sonnet-5-5 2026-10-18
 %lld found	Tìm thấy %lld	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld Space	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld bước	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld trình kích hoạt đang tắt	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	%lld trình kích hoạt đã bị tắt khi công thức này được phê duyệt%@. Hãy xem lại phê duyệt để bật chúng.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld cảnh báo	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	'%@' không thể theo sau '%@': luồng sẽ bị lặp.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = Tất cả tệp	claude-sonnet-5-5 2026-10-18
 0 lines	0 dòng	claude-sonnet-5-5 2026-10-18
+1 annotation	1 chú thích	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 phần tử không thể hiển thị ở đây: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 lỗi	claude-sonnet-5-5 2026-10-18
 1 hour	1 giờ	claude-sonnet-5-5 2026-10-18
 1 minute	1 phút	claude-sonnet-5-5 2026-10-18
 1 step	1 bước	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 trình kích hoạt đang tắt	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	1 trình kích hoạt đã bị tắt khi công thức này được phê duyệt%@. Hãy xem lại phê duyệt để bật nó.	claude-sonnet-5-5 2026-10-18
 1 warning	1 cảnh báo	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Có biểu tượng trên Dock và một vị trí trong ⌘Tab khi trình soạn thảo hoặc Thiết lập đang mở; biểu tượng trên thanh menu luôn có, trừ khi bị ẩn bên dưới. Tắt: mở trình soạn thảo từ ứng dụng toàn màn hình sẽ ở lại Space đó thay vì chuyển sang màn hình nền.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	Mã UPC-E bắt đầu bằng hệ thống số của nó, 0 hoặc 1.	claude-sonnet-5-5 2026-10-18
 A command with this name already exists. Please choose a different name.	Đã có lệnh với tên này. Vui lòng chọn tên khác.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Một tệp của Greenshot for Windows: Lưu sẽ yêu cầu một tệp mới, nên tệp này được giữ nguyên.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Một tệp muốn thêm một bước tự động vào các công thức khác, kể cả công thức tích hợp sẵn. Hãy xem công thức nào bị thay đổi và nội dung được thêm trước khi phê duyệt.	claude-sonnet-5-5 2026-10-18
@@ -467,6 +475,11 @@ Close All	Đóng tất cả	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	Đóng trình soạn thảo có thay đổi sẽ bỏ các thay đổi mà không hỏi.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	Các trang Cloud kết thúc bằng /wiki.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Cloud: email và mã thông báo API	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar chứa chữ số và - $ : / . + giữa ký tự bắt đầu và ký tự kết thúc.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar bắt đầu và kết thúc bằng A, B, C hoặc D (hoặc T, N, *, E), hoặc không có ký tự nào trong số đó.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 chỉ chứa ký tự ASCII (không có chữ có dấu hay ký hiệu ngoài ASCII).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 chỉ chứa ký tự ASCII.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 chỉ chứa ký tự ASCII.	claude-sonnet-5-5 2026-10-18
 Code hash	Mã băm của mã	claude-sonnet-5-5 2026-10-18
 Code signature	Chữ ký mã	claude-sonnet-5-5 2026-10-18
 Color:	Màu:	claude-sonnet-5-5 2026-10-18
@@ -767,6 +780,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Mức �
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (biểu tượng)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF nhận số chữ số chẵn; hiện có %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Mã định danh	claude-sonnet-5-5 2026-10-18
 If %@: %@	Nếu %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Nếu đây là máy chủ của bạn, hãy thêm %@ hoặc dấu vân tay trong Thiết lập › Đích đến › Máy chủ riêng của bạn.	claude-sonnet-5-5 2026-10-18
@@ -779,7 +793,7 @@ Import Annotations from %@	Nhập chú thích từ %@	claude-sonnet-5-5 2026-10-
 Import Annotations from a Greenshot File	Nhập chú thích từ tệp Greenshot	claude-sonnet-5-5 2026-10-18
 Import From This Editor	Nhập từ trình soạn thảo này	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Đã nhập %lld chú thích từ %@	claude-sonnet-5-5 2026-10-18
-In	Vào	claude-sonnet-5-5 2026-10-18
+In	Đầu vào	claude-sonnet-5-5 2026-10-18
 In Settings › Output you choose the folder and the file name pattern of saved screenshots.	Trong Thiết lập › Xuất, bạn chọn thư mục và dạng tên tệp của ảnh chụp màn hình đã lưu.	claude-sonnet-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	Chỉ vài bước nữa là bạn thấy cách chụp hoạt động, và %@ kiểm tra mọi thứ đã được thiết lập tốt.	claude-sonnet-5-5 2026-10-18
 In parallel	Song song	claude-sonnet-5-5 2026-10-18
@@ -816,6 +830,7 @@ Inverted colours	Đảo màu	claude-sonnet-5-5 2026-10-18
 Issue identifier (stack trace hash)	Mã định danh sự cố (băm dấu vết ngăn xếp)	claude-sonnet-5-5 2026-10-18
 Issue key:	Khóa vấn đề:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	Đã kết thúc với mã thoát %d.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	Đây là phần đầu của “%@” (%@), nên phím tắt này sẽ không bao giờ được kích hoạt.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Chạy từ %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Nó ngừng chạy ngay và không được tải lại. Tệp của nó vẫn ở nguyên vị trí: hãy nhập lại để xem xét và phê duyệt.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Nó ngừng chạy ngay và không được tải lại. Tệp của nó vẫn ở nguyên vị trí: hãy mở lại để xem xét và phê duyệt.	claude-sonnet-5-5 2026-10-18
@@ -1117,7 +1132,7 @@ Orgchart	Sơ đồ tổ chức	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	Các ứng dụng chụp màn hình khác	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	Nếu không (%@)	claude-sonnet-5-5 2026-10-18
 Other…	Khác…	claude-sonnet-5-5 2026-10-18
-Out	Ra	claude-sonnet-5-5 2026-10-18
+Out	Đầu ra	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: cho phép xuất vào mục cuộc họp	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: định dạng email cho email mới	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	Ghi đè tệp có cùng tên	claude-sonnet-5-5 2026-10-18
@@ -1161,6 +1176,7 @@ Please enter text or a URL.	Vui lòng nhập văn bản hoặc URL.	claude-sonne
 Please enter your Confluence login data	Vui lòng nhập thông tin đăng nhập Confluence của bạn	claude-sonnet-5-5 2026-10-18
 Please enter your Jira login data	Vui lòng nhập thông tin đăng nhập Jira của bạn	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Vui lòng chọn cách bạn muốn xử lý lần chụp này:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey nhận chữ số và các chữ cái từ A đến F.	claude-sonnet-5-5 2026-10-18
 Pointer	Con trỏ	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Trỏ vào một cửa sổ trong Chụp cửa sổ từ danh sách sẽ hiển thị ảnh của nó. Cần quyền ghi màn hình.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Trỏ đến một ứng dụng bị thiếu: nhấp Cài đặt	claude-sonnet-5-5 2026-10-18
@@ -1195,6 +1211,7 @@ Quick settings	Thiết lập nhanh	claude-sonnet-5-5 2026-10-18
 Quit %@	Thoát %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Hãy thoát nó trước để khởi động bản sao này.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	CẤU HÌNH CÔNG THỨC	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	THAY THẾ TÍCH HỢP SẴN	claude-sonnet-5-5 2026-10-18
 Range	Phạm vi	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Chi tiết văn bản thô hoặc URL	claude-sonnet-5-5 2026-10-18
 Read error	Lỗi đọc	claude-sonnet-5-5 2026-10-18
@@ -1389,6 +1406,7 @@ Saved file	Tệp đã lưu	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	Đã lưu công thức vào %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	Lưu sẽ thay thế các công thức khác	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Đang lưu dưới dạng %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Việc lưu cần bạn phê duyệt: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	Đang lưu bản quay…	claude-sonnet-5-5 2026-10-18
 Saving…	Đang lưu…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Co giãn để lấp đầy video	claude-sonnet-5-5 2026-10-18
@@ -1587,6 +1605,7 @@ The area is not on a display.	Vùng này không nằm trên màn hình nào.	cla
 The automatic step is only used with every permission it needs.	Bước tự động chỉ được dùng khi có đủ mọi quyền nó cần.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	Chứng chỉ của %@ có dấu vân tay SHA-256 %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Công thức đã thay đổi cần %@, mà phê duyệt của nó chưa cho phép. Hãy lưu trước; khi lưu sẽ hỏi phê duyệt của bạn.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	Chữ số kiểm tra không đúng: chữ số cuối phải là %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	Clipboard chứa %lld loại.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	Clipboard chứa 1 loại.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	Clipboard trống.	claude-sonnet-5-5 2026-10-18
@@ -1681,6 +1700,7 @@ The sign-in window could not be opened.	Không thể mở cửa sổ đăng nh�
 The size of File › New Image, a white image to draw on.	Kích thước của Tệp › Ảnh mới, một ảnh trắng để vẽ lên.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	Không thể nhận dạng văn bản	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Không thể nhận dạng văn bản: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	Văn bản quá dài so với mã này.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	Các cạnh rách của ảnh này.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Các phần trong suốt của ảnh sẽ nhận màu này.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Các trình kích hoạt bắt đầu ở trạng thái tắt. Hãy bật từng trình được phép khởi động công thức này: trình nào để tắt vẫn tắt (bạn có thể bật sau trong Quyền). Không có trình kích hoạt, bạn vẫn có thể chạy công thức từ danh sách công thức.	claude-sonnet-5-5 2026-10-18
@@ -1702,6 +1722,7 @@ There is no border of one color around the content to crop away.	Không có vi�
 There is no image on the clipboard	Không có ảnh trong clipboard	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Không có ảnh để mở.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	Không có công thức '%@'.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Không có gì để mã hóa.	claude-sonnet-5-5 2026-10-18
 There was a problem during the login: %@	Đã xảy ra sự cố khi đăng nhập: %@	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Không có gì trên màn hình để chụp.	claude-sonnet-5-5 2026-10-18
 Thermal state	Trạng thái nhiệt	claude-sonnet-5-5 2026-10-18
@@ -1722,6 +1743,8 @@ This is a recipe; the editor has an automatic step open.	Đây là một công t
 This is an automatic step; the editor has a recipe open.	Đây là một bước tự động; trình soạn thảo đang mở một công thức.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Chương trình này KHÔNG CÓ BẤT KỲ BẢO HÀNH NÀO. Đây là phần mềm tự do, bạn được hoan nghênh phân phối lại theo một số điều kiện: %@ trở lên.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Chương trình này không được nhà phát triển ký.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Tệp công thức này đã thay đổi bên ngoài Greenshot. Greenshot sẽ yêu cầu bạn phê duyệt trước khi chạy.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Tệp công thức này chưa được phê duyệt. Greenshot sẽ yêu cầu bạn phê duyệt trước khi chạy.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Công thức này do công cụ AI viết, không phải do Greenshot hay bạn. Hãy xem bên dưới nó làm gì (Greenshot mô tả dựa trên chính công thức) và chỉ bật các trình kích hoạt bạn muốn.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Bước này không có tham số.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Trình kích hoạt này vẫn tắt, nên sẽ không khởi động công thức:	claude-sonnet-5-5 2026-10-18
@@ -1768,6 +1791,7 @@ Two objects and text	Hai đối tượng và văn bản	claude-sonnet-5-5 2026-1
 Two objects over text	Hai đối tượng phía trên văn bản	claude-sonnet-5-5 2026-10-18
 Type	Loại	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Nhập phím tắt…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E nhận 7 chữ số, hoặc 8 chữ số nếu có chữ số kiểm tra.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	Không khả dụng	claude-sonnet-5-5 2026-10-18
@@ -1789,6 +1813,7 @@ Unnamed Recipe	Công thức chưa đặt tên	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Đăng ký không đọc được: nhấp Cài đặt	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Thay đổi chưa lưu	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Thay đổi chưa lưu	claude-sonnet-5-5 2026-10-18
+Untitled	Chưa đặt tên	claude-sonnet-5-5 2026-10-18
 Updated at %@	Cập nhật lúc %@	claude-sonnet-5-5 2026-10-18
 Updates	Cập nhật	claude-sonnet-5-5 2026-10-18
 Upload	Tải lên	claude-sonnet-5-5 2026-10-18

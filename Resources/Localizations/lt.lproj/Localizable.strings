@@ -175,6 +175,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ turi problemų: reikia ištaisyti %lld, kad ją būtų galima paleisti.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ talpina daugiausia %lld simbolių; čia jų yra %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ neturi recepto.";
 
 /* machine */
@@ -250,6 +253,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ turėtų atsidaryti prisijungus, bet macOS laukia, kol tai leisite skiltyje Prisijungimo elementai ir plėtiniai.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ priima %lld skaitmenų arba %lld su kontroliniu skaitmeniu.";
+
+/* machine */
+"%@ takes digits only." = "%@ priima tik skaitmenis.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ nori naudoti %@, kad išvardytų jūsų langus, darytų ekrano nuotraukas ir paleistų Greenshot receptus.";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: programa nerasta";
+
+/* machine */
+"%lld annotations" = "Anotacijos: %lld";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elementų čia negalima rodyti: %@.";
@@ -323,6 +335,9 @@
 
 /* machine */
 "%lld triggers off" = "Išjungta paleidiklių: %lld";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Kai šis receptas buvo patvirtintas, neįjungta paleidiklių%2$@ (%1$lld). Peržiūrėkite patvirtinimą, kad juos įjungtumėte.";
 
 /* machine */
 "%lld warnings" = "Įspėjimų: %lld";
@@ -382,6 +397,9 @@
 "0 lines" = "0 eilučių";
 
 /* machine */
+"1 annotation" = "1 anotacija";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 elementas čia negali būti rodomas: %@.";
 
 /* machine */
@@ -400,10 +418,16 @@
 "1 trigger off" = "1 paleidiklis išjungtas";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Kai šis receptas buvo patvirtintas, 1 paleidiklis liko neįjungtas%@. Peržiūrėkite patvirtinimą, kad jį įjungtumėte.";
+
+/* machine */
 "1 warning" = "1 įspėjimas";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Dock piktograma ir vieta ⌘Tab, kol atidarytas redaktorius ar Nustatymai; meniu juostos piktograma yra bet kuriuo atveju, nebent ji paslėpta žemiau. Išjungta: atidarius redaktorių iš viso ekrano programos, lieka jos erdvėje, o ne perjungiama į darbalaukį.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E kodas prasideda numerių sistema, 0 arba 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Komanda tokiu pavadinimu jau yra. Pasirinkite kitą pavadinimą.";
@@ -1432,6 +1456,21 @@
 "Cloud: email and API token" = "Debesis: el. paštas ir API prieigos raktas";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar tarp pradžios ir pabaigos simbolių turi skaitmenis ir - $ : / . +.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar prasideda ir baigiasi A, B, C arba D (arba T, N, *, E) arba be jų.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 turi tik ASCII simbolius (be diakritinių ženklų ar simbolių už ASCII ribų).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 turi tik ASCII simbolius.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 turi tik ASCII simbolius.";
+
+/* machine */
 "Code hash" = "Kodo maiša";
 
 /* machine */
@@ -2413,6 +2452,9 @@
 "ICO (icon)" = "ICO (piktograma)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF priima lyginį skaitmenų skaičių; čia jų yra %lld.";
+
+/* machine */
 "Identifier" = "Identifikatorius";
 
 /* machine */
@@ -2464,7 +2506,7 @@
 "Imported %lld annotations from %@" = "Importuota anotacijų: %lld (iš %@)";
 
 /* machine */
-"In" = "Į";
+"In" = "Įvestis";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Skiltyje Nustatymai › Nuotraukos pasirenkate išsaugotų ekrano nuotraukų aplanką ir failo pavadinimo šabloną.";
@@ -2573,6 +2615,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Baigėsi su išėjimo kodu %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Tai yra „%@“ (%@) pradžia, todėl jis niekada nesuveiktų.";
 
 /* machine */
 "It runs from %@." = "Veikia iš %@.";
@@ -3508,6 +3553,9 @@
 "Other…" = "Kita…";
 
 /* machine */
+"Out" = "Išvestis";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: leisti eksportą į susitikimų elementus";
 
 /* machine */
@@ -3649,6 +3697,9 @@
 "Please select how you would like to proceed with this capture:" = "Pasirinkite, kaip norite tęsti su šia nuotrauka:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey priima skaitmenis ir raides nuo A iki F.";
+
+/* machine */
 "Pointer" = "Žymeklis";
 
 /* machine */
@@ -3769,7 +3820,10 @@
 "RECIPE CONFIGURATION" = "RECEPTO KONFIGŪRACIJA";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Receptai";
+"RECIPES" = "RECEPTAI";
+
+/* machine */
+"REPLACES BUILT-IN" = "PAKEIČIA INTEGRUOTĄ";
 
 /* machine */
 "Range" = "Diapazonas";
@@ -4385,6 +4439,9 @@
 
 /* machine */
 "Saving as %@." = "Išsaugoma kaip %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Norint išsaugoti, reikia jūsų patvirtinimo: %@";
 
 /* machine */
 "Saving the Recording…" = "Įrašas išsaugomas…";
@@ -5020,6 +5077,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Pakeistam receptui reikia %@, kurio jo patvirtinimas dar neleidžia. Pirmiausia jį išsaugokite; išsaugant bus paprašyta jūsų patvirtinimo.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrolinis skaitmuo neteisingas: paskutinis skaitmuo turėtų būti %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Iškarpinėje tipų: %lld.";
 
 /* machine */
@@ -5302,6 +5362,9 @@
 "The text could not be recognized: %@" = "Nepavyko atpažinti teksto: %@";
 
 /* machine */
+"The text is too long for this code." = "Tekstas per ilgas šiam kodui.";
+
+/* machine */
 "The torn edges of this image." = "Šio vaizdo nuplėšti kraštai.";
 
 /* machine */
@@ -5365,6 +5428,9 @@
 "There is no recipe '%@'." = "Recepto „%@“ nėra.";
 
 /* machine */
+"There is nothing to encode." = "Nėra ką koduoti.";
+
+/* machine */
 "There was a problem during the login: %@" = "Prisijungiant kilo problema: %@";
 
 /* machine */
@@ -5423,6 +5489,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Šios programos nepasirašė kūrėjas.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Šis recepto failas buvo pakeistas už „Greenshot“ ribų. Prieš jį paleisdama „Greenshot“ prašo jūsų patvirtinimo.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Šis recepto failas dar nepatvirtintas. Prieš jį paleisdama „Greenshot“ prašo jūsų patvirtinimo.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Šį receptą parašė DI įrankis, o ne Greenshot ar jūs. Žemiau patikrinkite, ką jis daro (Greenshot jį apibūdina pagal patį receptą), ir įjunkite tik norimus paleidiklius.";
@@ -5566,6 +5638,9 @@
 "Type the shortcut…" = "Įveskite klavišų derinį…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E priima 7 skaitmenis arba 8 su kontroliniu skaitmeniu.";
+
+/* machine */
 "Unavailable" = "Nepasiekiama";
 
 /* machine */
@@ -5621,6 +5696,9 @@
 
 /* machine */
 "Unsaved changes" = "Neišsaugoti pakeitimai";
+
+/* machine */
+"Untitled" = "Be pavadinimo";
 
 /* machine */
 "Updated at %@" = "Atnaujinta %@";
@@ -6424,7 +6502,7 @@
 "value" = "reikšmė";
 
 /* machine */
-"variable (default: the name)" = "kintamasis (numatytasis: pavadinimas)";
+"variable (default: the name)" = "kintamasis (kitaip pavadinimas)";
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Ne";

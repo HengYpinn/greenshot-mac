@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ selhal	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ dokončen	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ má problémy: před spuštěním je třeba opravit %lld.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	Nejvyšší počet znaků pro %@ je %lld; zadáno jich je %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ neobsahuje žádný recept.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ v %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ v %@ – kliknutím zobrazíte ve Finderu	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ nahlásil problém: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ spouští skripty: povolen je pouze skript výše, ne každý skript, který %@ spouští.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ se má otevírat při přihlášení, ale macOS čeká, až to povolíte v části Položky přihlášení a rozšíření.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ přijímá počet číslic: %lld, nebo %lld s kontrolní číslicí.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ přijímá pouze číslice.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ chce pomocí %@ zobrazit seznam vašich oken, pořizovat snímky obrazovky a spouštět recepty Greenshot.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ oříznout  ⎋ zrušit	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ vyjmout  ⎋ zrušit	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: program nebyl nalezen	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	Anotací: %lld	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld prvků zde nelze zobrazit: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	Chyby: %lld	claude-sonnet-5-5 2026-10-18
 %lld found	Nalezeno: %lld	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	Prostory: %lld	claude-sonnet-5-5 2026-10-18
 %lld steps	Kroky: %lld	claude-sonnet-5-5 2026-10-18
 %lld triggers off	Vypnuté spouštěče: %lld	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	Při schvalování tohoto receptu zůstaly vypnuté spouštěče (%lld)%@. Zkontrolujte schválení, abyste je zapnuli.	claude-sonnet-5-5 2026-10-18
 %lld warnings	Varování: %lld	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	„%@“ nemůže následovat po „%@“: tok by se zacyklil.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = všechny soubory	claude-sonnet-5-5 2026-10-18
 0 lines	0 řádků	claude-sonnet-5-5 2026-10-18
+1 annotation	1 anotace	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 prvek zde nelze zobrazit: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 chyba	claude-sonnet-5-5 2026-10-18
 1 hour	1 hodina	claude-sonnet-5-5 2026-10-18
 1 minute	1 minuta	claude-sonnet-5-5 2026-10-18
 1 step	1 krok	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 vypnutý spouštěč	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	Při schvalování tohoto receptu zůstal vypnutý 1 spouštěč%@. Zkontrolujte schválení, abyste jej zapnuli.	claude-sonnet-5-5 2026-10-18
 1 warning	1 varování	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Ikona v Docku a místo v přepínači ⌘Tab, když je otevřen editor nebo Nastavení; ikona v řádku nabídek je tam vždy, pokud ji níže neskryjete. Vypnuto: otevření editoru z aplikace v režimu celé obrazovky zůstane na jejím Space, místo aby se přepnulo na plochu.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	Kód UPC-E začíná číselným systémem: 0 nebo 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Soubor Greenshot pro Windows: Uložit se zeptá na nový soubor, takže tento zůstane beze změny.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Soubor chce přidat automatický krok do jiných receptů, včetně vestavěných. Před schválením zkontrolujte, které recepty mění a co přidává.	claude-sonnet-5-5 2026-10-18
 A link wanted to take a screenshot	Odkaz chtěl pořídit snímek obrazovky	claude-sonnet-5-5 2026-10-18
@@ -447,6 +455,11 @@ Clipboard monitor	Monitor schránky	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	Zavření editoru se změnami je zahodí bez dotazu.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	Weby v cloudu končí na /wiki.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Cloud: e-mail a token API	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar obsahuje číslice a znaky - $ : / . + mezi počátečním a koncovým znakem.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar začíná a končí znakem A, B, C nebo D (či T, N, *, E), nebo ani jedním z nich.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 obsahuje pouze znaky ASCII (bez diakritiky a symbolů mimo ASCII).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 obsahuje pouze znaky ASCII.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 obsahuje pouze znaky ASCII.	claude-sonnet-5-5 2026-10-18
 Code hash	Hash kódu	claude-sonnet-5-5 2026-10-18
 Code signature	Podpis kódu	claude-sonnet-5-5 2026-10-18
 Color:	Barva:	claude-sonnet-5-5 2026-10-18
@@ -730,6 +743,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Kolik %
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (ikona)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF přijímá sudý počet číslic; zadáno jich je %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Identifikátor	claude-sonnet-5-5 2026-10-18
 If %@: %@	Pokud %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Pokud je to váš vlastní server, přidejte %@ nebo otisk v Nastavení › Cíle › Vaše vlastní servery.	claude-sonnet-5-5 2026-10-18
@@ -774,6 +788,7 @@ Invalid JSON syntax or schema:\n%@	Neplatná syntaxe nebo schéma JSON:\n%@	clau
 Issue identifier (stack trace hash)	Identifikátor problému (hash zásobníku volání)	claude-sonnet-5-5 2026-10-18
 Issue key:	Klíč úkolu:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	Skončil s ukončovacím kódem %d.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	Je to začátek zkratky „%@“ (%@), ta by se pak nikdy nespustila.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Spouští se z %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Okamžitě se přestane spouštět a už se nenačte. Jeho soubor zůstane na místě: importujte ho znovu, abyste ho zkontrolovali a schválili.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Okamžitě se přestane spouštět a už se nenačte. Jeho soubor zůstane na místě: otevřete ho znovu, abyste ho zkontrolovali a schválili.	claude-sonnet-5-5 2026-10-18
@@ -1101,6 +1116,7 @@ Please enter recipient name and IBAN.	Zadejte jméno příjemce a IBAN.	claude-s
 Please enter recipient number.	Zadejte číslo příjemce.	claude-sonnet-5-5 2026-10-18
 Please enter text or a URL.	Zadejte text nebo URL.	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Vyberte, jak chcete s tímto zachycením naložit:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey přijímá číslice a písmena A až F.	claude-sonnet-5-5 2026-10-18
 Pointer	Ukazatel	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Najetí na okno v Snímat okno ze seznamu zobrazí jeho obraz. Vyžaduje oprávnění k nahrávání obrazovky.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Odkazuje na chybějící aplikaci: klikněte na Nainstalovat	claude-sonnet-5-5 2026-10-18
@@ -1135,6 +1151,7 @@ Quick settings	Rychlé nastavení	claude-sonnet-5-5 2026-10-18
 Quit %@	Ukončit %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Nejprve ji ukončete, abyste spustili tuto kopii.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	KONFIGURACE RECEPTU	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	NAHRAZUJE VESTAVĚNÉ	claude-sonnet-5-5 2026-10-18
 Range	Rozsah	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Podrobnosti prostého textu nebo URL	claude-sonnet-5-5 2026-10-18
 Read error	Chyba čtení	claude-sonnet-5-5 2026-10-18
@@ -1321,6 +1338,7 @@ Saved file	Uložený soubor	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	Recept uložen do %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	Uložení nahradí jiné recepty	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Ukládá se jako %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Uložení vyžaduje vaše schválení: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	Ukládá se nahrávka…	claude-sonnet-5-5 2026-10-18
 Saving…	Ukládá se…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Roztáhnout, aby vyplnil video	claude-sonnet-5-5 2026-10-18
@@ -1515,6 +1533,7 @@ The area is not on a display.	Oblast není na displeji.	claude-sonnet-5-5 2026-1
 The automatic step is only used with every permission it needs.	Automatický krok se používá jen se všemi oprávněními, která potřebuje.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	Certifikát %@ má otisk SHA-256 %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Změněný recept potřebuje %@, což jeho schválení zatím nepovoluje. Nejprve ho uložte; uložení požádá o vaše schválení.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	Kontrolní číslice je chybná: poslední číslice má být %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	Schránka obsahuje typů: %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	Schránka obsahuje 1 typ.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	Schránka je prázdná.	claude-sonnet-5-5 2026-10-18
@@ -1609,6 +1628,7 @@ The sign-in window could not be opened.	Přihlašovací okno se nepodařilo otev
 The size of File › New Image, a white image to draw on.	Velikost položky Soubor › Nový obrázek, bílého obrázku ke kreslení.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	Text se nepodařilo rozpoznat	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Text se nepodařilo rozpoznat: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	Text je pro tento kód příliš dlouhý.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	Potrhané okraje tohoto obrázku.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Průhledné části obrázku dostanou tuto barvu.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Spouštěče začínají vypnuté. Zapněte každý, který smí tento recept spouštět: spouštěč, který necháte vypnutý, zůstane vypnutý (později ho můžete zapnout v Oprávněních). Bez spouštěče můžete recept stále spustit ze seznamu receptů.	claude-sonnet-5-5 2026-10-18
@@ -1626,6 +1646,7 @@ There is no border of one color around the content to crop away.	Kolem obsahu ne
 There is no image on the clipboard	Ve schránce není žádný obrázek	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Není žádný obrázek k otevření.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	Recept „%@“ neexistuje.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Není co kódovat.	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Na obrazovce nebylo co zachytit.	claude-sonnet-5-5 2026-10-18
 Thermal state	Tepelný stav	claude-sonnet-5-5 2026-10-18
 These are for this print only.	Platí jen pro tento tisk.	claude-sonnet-5-5 2026-10-18
@@ -1644,6 +1665,8 @@ This is a recipe; the editor has an automatic step open.	Toto je recept; editor 
 This is an automatic step; the editor has a recipe open.	Toto je automatický krok; editor má otevřený recept.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Tento program je ABSOLUTNĚ BEZ ZÁRUKY. Je to svobodný software a můžete jej šířit za určitých podmínek: podle %@ nebo novější.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Tento program není podepsán vývojářem.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Tento soubor receptu byl změněn mimo Greenshot. Greenshot před spuštěním žádá o vaše schválení.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Tento soubor receptu ještě není schválen. Greenshot před spuštěním žádá o vaše schválení.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Tento recept napsal nástroj AI, ne Greenshot ani vy. Níže zkontrolujte, co dělá (Greenshot to popisuje podle samotného receptu), a zapněte jen spouštěče, které chcete.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Tento krok nemá žádné parametry.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Tento spouštěč zůstane vypnutý, takže recept nespustí:	claude-sonnet-5-5 2026-10-18
@@ -1683,6 +1706,7 @@ Two objects and text	Dva objekty a text	claude-sonnet-5-5 2026-10-18
 Two objects over text	Dva objekty nad textem	claude-sonnet-5-5 2026-10-18
 Type	Typ	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Zadejte zkratku…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E přijímá 7 číslic, nebo 8 s kontrolní číslicí.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	Nedostupné	claude-sonnet-5-5 2026-10-18
@@ -1703,6 +1727,7 @@ Unnamed Recipe	Nepojmenovaný recept	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Nečitelná registrace: klikněte na Nainstalovat	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Neuložené změny	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Neuložené změny	claude-sonnet-5-5 2026-10-18
+Untitled	Bez názvu	claude-sonnet-5-5 2026-10-18
 Updated at %@	Aktualizováno v %@	claude-sonnet-5-5 2026-10-18
 Updates	Aktualizace	claude-sonnet-5-5 2026-10-18
 Upload to Confluence – %@	Nahrát do Confluence – %@	claude-sonnet-5-5 2026-10-18

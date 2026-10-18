@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ ɣur-s uguren: %lld ilaq ad ttwaseɣṛen send ad iddu.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ yesɛa ugar n %lld n yisekkilen; yella %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ ur yesɛi ara aserwas.";
 
 /* machine */
@@ -244,6 +247,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ ilaq ad yeldi di tnekra, maca macOS ittraju ad tsirgeḍ-t deg Iferdisen n unekcum d yimaẓrag.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ yesɛa %lld n yiṭṭunen, neɣ %lld s uṭṭun n usenqed.";
+
+/* machine */
+"%@ takes digits only." = "%@ yesɛa kan iṭṭunen.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ yebɣa ad yesseqdec %@ i wakken ad d-yessken tisfaylin-ik u ad iṭṭef tuṭṭfiwin n ugdil, u ad isker iserwasen n Greenshot.";
 
 /* machine */
@@ -269,6 +278,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: ur yettwafa ara useɣwen";
+
+/* machine */
+"%lld annotations" = "%lld n tizmilin";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld iferdisen ur zmiren ara ad ttwaskanen da: %@.";
@@ -311,6 +323,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld imsenkaren ur teddun ara";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld n yimsenkaren ttwaǧǧan ur ttwarmden ara mi yettwasentem userwas-a%@. Wali asentem i wakken ad ten-tarmdeḍ.";
 
 /* machine */
 "%lld warnings" = "%lld Ɣur-k";
@@ -370,6 +385,9 @@
 "0 lines" = "0 n izirigen";
 
 /* machine */
+"1 annotation" = "1 tizmilt";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 n uferdis ur yezmir ara ad yettwaskan da: %@.";
 
 /* machine */
@@ -388,10 +406,16 @@
 "1 trigger off" = "1 amsenker ur yeddi ara";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "1 umsenker yeǧǧa ur yettwarmed ara mi yettwasentem userwas-a%@. Wali asentem i wakken ad t-tarmdeḍ.";
+
+/* machine */
 "1 warning" = "1 Ɣur-k";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Tignit n Dock d yiwen n umḍiq deg ⌘Tab mi ara yili umaẓrag neɣ Iɣewwaṛen yeldin; tignit n ufeggag n wumuɣ tella akken yebɣu yili, ala ma tettwaffer ddaw. Ma yensa: tlemmed n umaẓrag seg yiwen n usnas deg ugdil ummid ad yeqqim deg Space-is deg wadda ad yettusenfali ɣer tnarit.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Tangalt UPC-E ad tebdu s unagraw-is n yiṭṭunen, 0 neɣ 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Taladna s isem-agi tella zik. Ttxilk, fren isem nniḍen.";
@@ -1090,7 +1114,7 @@
 "Built-in" = "Yettwarnan";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Udmawan";
+"CUSTOM" = "UDMAWAN";
 
 /* machine */
 "Calendar Event" = "Tadyant n useggas";
@@ -1412,6 +1436,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Asigna: imayl d useknan API";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar yesɛa iṭṭunen d - $ : / . + gar yisekkilen-is n tazwara d taggara.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar ad yebdu u ad yemmed s A, B, C neɣ D (neɣ T, N, *, E), neɣ ulac gar-asen.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 yesɛa kan isekkilen ASCII (war iɣalen d izamulen beṛṛa n ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 yesɛa kan isekkilen ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 yesɛa kan isekkilen ASCII.";
 
 /* machine */
 "Code hash" = "Zuzer n tengalt";
@@ -2395,6 +2434,9 @@
 "ID" = "Asulay";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF yesɛa amḍan aqamum n yiṭṭunen; yella %lld.";
+
+/* machine */
 "Identifier" = "Asulay";
 
 /* machine */
@@ -2446,7 +2488,7 @@
 "Imported %lld annotations from %@" = "%lld tizmilin ttwakteren seg %@";
 
 /* machine */
-"In" = "Deg";
+"In" = "Anekcum";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Deg Iɣewwaṛen › Tuffɣa tferneḍ akaram d taneɣruft n yisem n ufaylu n tuṭṭfiwin n ugdil yettwaskelsen.";
@@ -2555,6 +2597,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Yekfa s tangalt n tuffɣa %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "D tazwara n « %@ » (%@), ayen ur yettwaseddu ara akk.";
 
 /* machine */
 "It runs from %@." = "Iteddu seg %@.";
@@ -3493,6 +3538,9 @@
 "Other…" = "Wiyaḍ…";
 
 /* machine */
+"Out" = "Tuffɣa";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: sireg asifeḍ deg yiferdisen n tmeɣra";
 
 /* machine */
@@ -3634,6 +3682,9 @@
 "Please select how you would like to proceed with this capture:" = "Fren amek tebɣiḍ ad tkemmleḍ s tuṭṭfa-agi:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey yesɛa iṭṭunen d yisekkilen seg A ɣer F.";
+
+/* machine */
 "Pointer" = "Taneqqiṭ";
 
 /* machine */
@@ -3754,7 +3805,10 @@
 "RECIPE CONFIGURATION" = "USWEL N USERWAS";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Iserwasen";
+"RECIPES" = "ISERWASEN";
+
+/* machine */
+"REPLACES BUILT-IN" = "YEBDDEL YETTWARNAN";
 
 /* machine */
 "Range" = "Azilal";
@@ -4370,6 +4424,9 @@
 
 /* machine */
 "Saving as %@." = "Asekles s yisem %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Asekles yesuter asentem-ik: %@";
 
 /* machine */
 "Saving the Recording…" = "Asekles n tvidyut…";
@@ -4993,6 +5050,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Aserwas yettusnifel yeḥwaǧ %@, ur t-yesmenyif ara asentem-is mazal. Sekles-it send; asekles isteqsi ɣef usentem-ik.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Uṭṭun n usenqed d arameɣtu: uṭṭun aneggaru ilaq ad yili %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Afus yesɛa %lld n yinawen.";
 
 /* machine */
@@ -5275,6 +5335,9 @@
 "The text could not be recognized: %@" = "Aḍris ur yezmir ara ad yettwagen: %@";
 
 /* machine */
+"The text is too long for this code." = "Aḍris yeṭṭawel aṭas i tengalt-a.";
+
+/* machine */
 "The torn edges of this image." = "Leryuf qqeṛsen n tugna-agi.";
 
 /* machine */
@@ -5337,6 +5400,9 @@
 /* machine */
 "There is no recipe '%@'." = "Ulac aserwas '%@'.";
 
+/* machine */
+"There is nothing to encode." = "Ulac acu ara yettwasettem.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Teḍra-d tuccḍa deg usesteb : %@";
 
@@ -5396,6 +5462,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Ahil-agi ur yettwazmel ara sɣur uneflay.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Afaylu-a n userwas yettusnifel berra n Greenshot. Greenshot yesuter asentem-ik uqbel ad t-iseddu.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Afaylu-a n userwas ur yettwasentem ara ukren. Greenshot yesuter asentem-ik uqbel ad t-iseddu.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Aserwas-agi yettwaru sɣur afecku AI, mačči sɣur Greenshot neɣ sɣur-k. Wali d acu ixeddem ddaw (Greenshot isemmal-it seg userwas s timmad-is) u rmed kan imsenkaren i tebɣiḍ.";
@@ -5538,6 +5610,9 @@
 /* machine */
 "Type the shortcut…" = "Aru anegzum…";
 
+/* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E yesɛa 7 n yiṭṭunen, neɣ 8 s uṭṭun n usenqed.";
+
 /* confluence:Confluence.label_url, normalised */
 "URL" = "Tansa Url";
 
@@ -5600,6 +5675,9 @@
 
 /* machine */
 "Unsaved changes" = "Isnifal ur yettwaskelsen ara";
+
+/* machine */
+"Untitled" = "War azwel";
 
 /* machine */
 "Updated at %@" = "Yettwaleqqem deg %@";

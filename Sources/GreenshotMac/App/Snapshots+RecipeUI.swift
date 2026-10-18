@@ -36,7 +36,7 @@ extension Snapshots {
         try write(window(RecipesSettingsTab(store: off, model: model), size: NSSize(width: 760, height: 360)), to: out("settings-recipes-off.png"))
         // The real window's width with all ten tabs, on Recipes (no runtime here: the list says so).
         try write(window(SettingsView(store: on, status: SystemStatus(), initialTab: SettingsPane.recipes.rawValue),
-                         size: NSSize(width: 760, height: 616)), to: out("settings-recipes-window.png"))
+                         size: NSSize(width: SettingsView.width, height: 616)), to: out("settings-recipes-window.png"))
 
         let entries = RecipeMenuEntries.statusMenu(recipes: samples.loadedRecipes, active: samples.activeTriggers)
         try writeText(recipeMenuText(RecipeMenus.makeStatusMenu(entries: entries, canImport: true)), to: out("recipes-menu.txt"))

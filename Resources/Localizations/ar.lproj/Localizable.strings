@@ -175,6 +175,9 @@
 "%@ has problems: %lld to fix before it can run." = "يوجد في %@ مشاكل: %lld لإصلاحها قبل أن يعمل.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ يستوعب %lld حرفًا كحد أقصى؛ والعدد الحالي %lld.";
+
+/* machine */
 "%@ holds no recipe." = "لا يحتوي %@ على أي وصفة.";
 
 /* machine */
@@ -250,6 +253,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "يجب أن يُفتح %@ عند تسجيل الدخول، لكن macOS ينتظر منك السماح به ضمن عناصر تسجيل الدخول والإضافات.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ يقبل %lld من الأرقام، أو %lld مع رقم التحقق.";
+
+/* machine */
+"%@ takes digits only." = "%@ يقبل الأرقام فقط.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "يريد %@ استخدام %@ لعرض نوافذك والتقاط اللقطات وتشغيل وصفات Greenshot.";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: لم يتم العثور على البرنامج";
+
+/* machine */
+"%lld annotations" = "%lld من التعليقات التوضيحية";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "لا يمكن عرض %lld عناصر هنا: %@.";
@@ -323,6 +335,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld مشغّلات متوقفة";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "تم إيقاف %lld من المشغّلات عند الموافقة على هذه الوصفة%@. راجع الموافقة لتفعيلها.";
 
 /* machine */
 "%lld warnings" = "%lld تحذيرات";
@@ -385,6 +400,9 @@
 "0 lines" = "0 أسطر";
 
 /* machine */
+"1 annotation" = "تعليق توضيحي واحد";
+
+/* machine */
 "1 element can't be shown here: %@." = "لا يمكن عرض عنصر واحد هنا: %@.";
 
 /* machine */
@@ -403,10 +421,16 @@
 "1 trigger off" = "مشغّل واحد متوقف";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "تم إيقاف مشغّل واحد عند الموافقة على هذه الوصفة%@. راجع الموافقة لتفعيله.";
+
+/* machine */
 "1 warning" = "تحذير واحد";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "أيقونة في Dock ومكان في ⌘Tab أثناء فتح محرر أو التفضيلات؛ وأيقونة شريط القوائم موجودة في الحالتين، ما لم تكن مخفية أدناه. عند الإيقاف: يبقى فتح محرر من تطبيق بملء الشاشة في مساحته بدل الانتقال إلى سطح المكتب.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "يبدأ رمز UPC-E بنظام الترقيم الخاص به، وهو 0 أو 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "يوجد أمر بهذا الاسم بالفعل. يُرجى اختيار اسم مختلف.";
@@ -1438,6 +1462,21 @@
 "Cloud: email and API token" = "Cloud: البريد الإلكتروني ورمز API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "يتضمن Codabar أرقامًا والرموز - $ : / . + بين حرفَي البداية والنهاية.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "يبدأ Codabar وينتهي بالحرف A أو B أو C أو D (أو T أو N أو * أو E)، أو بدون أي منها.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "يقبل Code 128 أحرف ASCII فقط (دون حروف بعلامات تشكيل أو رموز خارج ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "يقبل Code 39 أحرف ASCII فقط.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "يقبل Code 93 أحرف ASCII فقط.";
+
+/* machine */
 "Code hash" = "تجزئة الرمز";
 
 /* machine */
@@ -2416,6 +2455,9 @@
 "ICO (icon)" = "ICO (أيقونة)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "يقبل ITF عددًا زوجيًا من الأرقام؛ والعدد الحالي %lld.";
+
+/* machine */
 "Identifier" = "المعرّف";
 
 /* machine */
@@ -2576,6 +2618,9 @@
 
 /* machine */
 "It ended with exit code %d." = "انتهى برمز الخروج %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "إنه بداية «%@» (%@)، ولذلك لن يعمل أبدًا.";
 
 /* machine */
 "It runs from %@." = "يعمل من %@.";
@@ -3652,6 +3697,9 @@
 "Please select how you would like to proceed with this capture:" = "يُرجى اختيار كيفية المتابعة مع هذا الالتقاط:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "يقبل Plessey الأرقام والأحرف من A إلى F.";
+
+/* machine */
 "Pointer" = "المؤشر";
 
 /* machine */
@@ -3773,6 +3821,9 @@
 
 /* core:Core.contextmenu_recipes, normalised */
 "RECIPES" = "الوصفات";
+
+/* machine */
+"REPLACES BUILT-IN" = "يستبدل المدمج";
 
 /* machine */
 "Range" = "النطاق";
@@ -4388,6 +4439,9 @@
 
 /* machine */
 "Saving as %@." = "جارٍ الحفظ باسم %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "يتطلب الحفظ موافقتك: %@";
 
 /* machine */
 "Saving the Recording…" = "جارٍ حفظ التسجيل…";
@@ -5023,6 +5077,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "تحتاج الوصفة المتغيّرة إلى %@، وهو ما لا تسمح به موافقتها بعد. احفظها أولًا؛ يطلب الحفظ موافقتك.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "رقم التحقق غير صحيح: يجب أن يكون الرقم الأخير %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "تحتوي الحافظة على %lld أنواع.";
 
 /* machine */
@@ -5305,6 +5362,9 @@
 "The text could not be recognized: %@" = "تعذّر التعرّف على النص: %@";
 
 /* machine */
+"The text is too long for this code." = "النص أطول من أن يناسب هذا الرمز.";
+
+/* machine */
 "The torn edges of this image." = "الحواف الممزقة لهذه الصورة.";
 
 /* machine */
@@ -5368,6 +5428,9 @@
 "There is no recipe '%@'." = "لا توجد وصفة '%@'.";
 
 /* machine */
+"There is nothing to encode." = "لا يوجد ما يمكن ترميزه.";
+
+/* machine */
 "There was a problem during the login: %@" = "حدثت مشكلة أثناء تسجيل الدخول: %@";
 
 /* machine */
@@ -5426,6 +5489,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "هذا البرنامج غير موقّع من مطوّر.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "تغيّر ملف هذه الوصفة خارج Greenshot. يطلب Greenshot موافقتك قبل تشغيله.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "لم تتم الموافقة على ملف هذه الوصفة بعد. يطلب Greenshot موافقتك قبل تشغيله.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "كتبت هذه الوصفة أداة ذكاء اصطناعي، وليس Greenshot ولا أنت. تحقق مما تفعله أدناه (يصفها Greenshot من الوصفة نفسها) وفعّل المشغّلات التي تريدها فقط.";
@@ -5569,6 +5638,9 @@
 "Type the shortcut…" = "اكتب الاختصار…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "يقبل UPC-E ‏7 أرقام، أو 8 مع رقم التحقق.";
+
+/* machine */
 "Unavailable" = "غير متاح";
 
 /* machine */
@@ -5624,6 +5696,9 @@
 
 /* machine */
 "Unsaved changes" = "تغييرات غير محفوظة";
+
+/* machine */
+"Untitled" = "بدون عنوان";
 
 /* machine */
 "Updated at %@" = "تم التحديث في %@";

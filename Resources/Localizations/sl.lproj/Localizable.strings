@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ ima težave: pred zagonom je treba odpraviti %lld.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "Največ znakov za %@: %lld; trenutno jih je %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ ne vsebuje recepta.";
 
 /* machine */
@@ -244,6 +247,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ naj bi se odprl ob prijavi, vendar macOS čaka, da to dovolite v razdelku Elementi ob prijavi in razširitve.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ sprejme število števk: %lld ali %lld s kontrolno števko.";
+
+/* machine */
+"%@ takes digits only." = "%@ sprejme samo števke.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ želi uporabiti %@ za prikaz seznama vaših oken, ustvarjanje posnetkov zaslona in zagon receptov Greenshot.";
 
 /* machine */
@@ -269,6 +278,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: program ni bil najden";
+
+/* machine */
+"%lld annotations" = "Opomb: %lld";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "Elementov (%lld) tukaj ni mogoče prikazati: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld sprožilcev izklopljenih";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Ob odobritvi tega recepta so ostali izklopljeni sprožilci (%lld)%@. Preglejte odobritev, da jih vklopite.";
 
 /* machine */
 "%lld warnings" = "%lld opozoril";
@@ -373,6 +388,9 @@
 "0 lines" = "0 vrstic";
 
 /* machine */
+"1 annotation" = "1 opomba";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 element tukaj ni mogoče prikazati: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 sprožilec izklopljen";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Ob odobritvi tega recepta je ostal izklopljen 1 sprožilec%@. Preglejte odobritev, da ga vklopite.";
+
+/* machine */
 "1 warning" = "1 opozorilo";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Ikona v Docku in mesto v ⌘Tab, ko je odprt urejevalnik ali Nastavitve; ikona v menijski vrstici je vedno prisotna, razen če je spodaj skrita. Izklopljeno: odpiranje urejevalnika iz celozaslonske aplikacije ostane v njenem prostoru Space namesto preklopa na namizje.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Koda UPC-E se začne s številskim sistemom: 0 ali 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Ukaz s tem imenom že obstaja. Izberite drugo ime.";
@@ -1426,6 +1450,21 @@
 "Cloud: email and API token" = "Oblak: e-pošta in žeton API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar vsebuje števke in znake - $ : / . + med začetnim in končnim znakom.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar se začne in konča z znakom A, B, C ali D (ali T, N, *, E) ali z nobenim od njih.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 vsebuje samo znake ASCII (brez naglasov in simbolov zunaj ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 vsebuje samo znake ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 vsebuje samo znake ASCII.";
+
+/* machine */
 "Code hash" = "Zgoščena vrednost kode";
 
 /* machine */
@@ -2401,6 +2440,9 @@
 "ICO (icon)" = "ICO (ikona)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF sprejme sodo število števk; trenutno jih je %lld.";
+
+/* machine */
 "Identifier" = "Identifikator";
 
 /* machine */
@@ -2558,6 +2600,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Končal se je s kodo izhoda %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "To je začetek bližnjice »%@« (%@), zato se ta nikoli ne bi sprožila.";
 
 /* machine */
 "It runs from %@." = "Zažene se iz %@.";
@@ -3631,6 +3676,9 @@
 "Please select how you would like to proceed with this capture:" = "Izberite, kako želite nadaljevati s tem zajemom:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey sprejme števke in črke od A do F.";
+
+/* machine */
 "Pointer" = "Kazalec";
 
 /* machine */
@@ -3748,7 +3796,10 @@
 "RECIPE CONFIGURATION" = "KONFIGURACIJA RECEPTA";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Recepti";
+"RECIPES" = "RECEPTI";
+
+/* machine */
+"REPLACES BUILT-IN" = "ZAMENJA VGRAJENO";
 
 /* machine */
 "Range" = "Obseg";
@@ -4364,6 +4415,9 @@
 
 /* machine */
 "Saving as %@." = "Shranjevanje kot %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Shranjevanje zahteva vašo odobritev: %@";
 
 /* machine */
 "Saving the Recording…" = "Shranjevanje posnetka …";
@@ -4999,6 +5053,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Spremenjeni recept potrebuje %@, česar njegova odobritev še ne dovoljuje. Najprej ga shranite; shranjevanje zahteva vašo odobritev.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrolna števka je napačna: zadnja števka mora biti %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Odložišče vsebuje %lld vrst.";
 
 /* machine */
@@ -5281,6 +5338,9 @@
 "The text could not be recognized: %@" = "Besedila ni bilo mogoče prepoznati: %@";
 
 /* machine */
+"The text is too long for this code." = "Besedilo je za to kodo predolgo.";
+
+/* machine */
 "The torn edges of this image." = "Strgani robovi te slike.";
 
 /* machine */
@@ -5344,6 +5404,9 @@
 "There is no recipe '%@'." = "Recepta »%@« ni.";
 
 /* machine */
+"There is nothing to encode." = "Ni česa kodirati.";
+
+/* machine */
 "There was a problem during the login: %@" = "Pri prijavi je prišlo do težave: %@";
 
 /* machine */
@@ -5402,6 +5465,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Tega programa ni podpisal razvijalec.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Ta datoteka recepta je bila spremenjena zunaj Greenshota. Greenshot pred zagonom zahteva vašo odobritev.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Ta datoteka recepta še ni odobrena. Greenshot pred zagonom zahteva vašo odobritev.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Ta recept je napisalo orodje UI, ne Greenshot ali vi. Spodaj preverite, kaj počne (Greenshot ga opiše iz samega recepta), in vklopite samo sprožilce, ki jih želite.";
@@ -5545,6 +5614,9 @@
 "Type the shortcut…" = "Vnesite bližnjico …";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E sprejme 7 števk ali 8 s kontrolno števko.";
+
+/* machine */
 "Unavailable" = "Ni na voljo";
 
 /* machine */
@@ -5600,6 +5672,9 @@
 
 /* machine */
 "Unsaved changes" = "Neshranjene spremembe";
+
+/* machine */
+"Untitled" = "Brez naslova";
 
 /* machine */
 "Updated at %@" = "Posodobljeno ob %@";

@@ -102,11 +102,20 @@ struct SettingsView: View {
                 TabView(selection: $navigation.tab) { tabs }
             }
         }
-        // Ten tabs: their names need about 700 pt.
-        .frame(width: 760, height: 600)
+        .frame(width: Self.width, height: 600)
         .padding(.vertical, 8)
         // The administrator's locks for `.managed(\.keyPath)` on every tab.
         .environment(\.managedPolicy, store.policy)
+    }
+
+    /// Ten tabs: their names need about 700 pt in English; a longer language gets a wider window, so no name is cut.
+    static var width: CGFloat {
+        let font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+        let names = [String(localized: "General"), String(localized: "Capture"), String(localized: "Video"), String(localized: "Output"),
+                     String(localized: "Destinations"), String(localized: "Editor"), String(localized: "Printer"),
+                     String(localized: "Recipes"), String(localized: "AI Tools"), String(localized: "Expert")]
+        let text = names.reduce(0) { $0 + ($1 as NSString).size(withAttributes: [.font: font]).width }
+        return max(760, ceil(text + CGFloat(names.count) * 26 + 40))
     }
 
     @ViewBuilder private var tabs: some View {

@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ има проблеме: %lld за поправку пре покретања.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@: највећи број знакова је %lld; сада их је %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ не садржи ниједан рецепт.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ треба да се отвара при пријављивању, али macOS чека да то дозволите у одељку Ставке за пријављивање и проширења.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ прима цифара: %lld, или %lld са контролном цифром.";
+
+/* machine */
+"%@ takes digits only." = "%@ прима само цифре.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ жели да користи %@ да наведе ваше прозоре и направи снимке екрана и да покреће Greenshot рецепте.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: програм није пронађен";
+
+/* machine */
+"%lld annotations" = "Напомена: %lld";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld елемената не може да се прикаже овде: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "Искључених окидача: %lld";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Приликом одобравања овог рецепта остављени су искључени окидачи (%lld)%@. Прегледајте одобрење да бисте их укључили.";
 
 /* machine */
 "%lld warnings" = "Упозорења: %lld";
@@ -373,6 +388,9 @@
 "0 lines" = "0 редова";
 
 /* machine */
+"1 annotation" = "1 напомена";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 елемент не може да се прикаже овде: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 окидач искључен";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Приликом одобравања овог рецепта остављен је искључен 1 окидач%@. Прегледајте одобрење да бисте га укључили.";
+
+/* machine */
 "1 warning" = "1 упозорење";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Икона у Dock-у и место у ⌘Tab-у док је отворен уређивач или Поставке; икона у траци менија је ту у сваком случају, осим ако је сакривена испод. Искључено: отварање уређивача из апликације преко целог екрана остаје на њеном простору уместо пребацивања на радну површину.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E код почиње својим бројевним системом: 0 или 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Наредба са овим називом већ постоји. Молимо одаберите другачији назив.";
@@ -1096,7 +1120,7 @@
 "Built-in" = "Уграђено";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Прилагођено";
+"CUSTOM" = "ПРИЛАГОЂЕНО";
 
 /* machine */
 "Calendar Event" = "Догађај у календару";
@@ -1421,6 +1445,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Cloud: е-пошта и API токен";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar садржи цифре и знакове - $ : / . + између почетног и завршног знака.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar почиње и завршава се знаком A, B, C или D (или T, N, *, E), или ниједним од њих.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 садржи само ASCII знакове (без акцената и симбола ван ASCII-ја).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 садржи само ASCII знакове.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 садржи само ASCII знакове.";
 
 /* machine */
 "Code hash" = "Хеш кода";
@@ -2407,6 +2446,9 @@
 "ID" = "ИД";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF прима паран број цифара; сада их је %lld.";
+
+/* machine */
 "Identifier" = "Идентификатор";
 
 /* machine */
@@ -2458,7 +2500,7 @@
 "Imported %lld annotations from %@" = "Увезено %lld напомена из %@";
 
 /* machine */
-"In" = "У";
+"In" = "Улаз";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "У Поставке › Излаз бирате фасциклу и образац за називе сачуваних снимака екрана.";
@@ -2567,6 +2609,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Завршило се са излазним кодом %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "То је почетак „%@“ (%@), па се никада не би покренуо.";
 
 /* machine */
 "It runs from %@." = "Покреће се из %@.";
@@ -3502,6 +3547,9 @@
 "Other…" = "Друго…";
 
 /* machine */
+"Out" = "Излаз";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: дозволи извоз у ставке састанка";
 
 /* machine */
@@ -3643,6 +3691,9 @@
 "Please select how you would like to proceed with this capture:" = "Изаберите како желите да наставите са овим снимком:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey прима цифре и слова од A до F.";
+
+/* machine */
 "Pointer" = "Показивач";
 
 /* machine */
@@ -3763,7 +3814,10 @@
 "RECIPE CONFIGURATION" = "ПОДЕШАВАЊЕ РЕЦЕПТА";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Рецепти";
+"RECIPES" = "РЕЦЕПТИ";
+
+/* machine */
+"REPLACES BUILT-IN" = "ЗАМЕЊУЈЕ УГРАЂЕНО";
 
 /* machine */
 "Range" = "Опсег";
@@ -4379,6 +4433,9 @@
 
 /* machine */
 "Saving as %@." = "Чување као %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Чување тражи ваше одобрење: %@";
 
 /* machine */
 "Saving the Recording…" = "Чување снимка екрана…";
@@ -5014,6 +5071,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Измењени рецепт захтева %@, што његово одобрење још не дозвољава. Прво га сачувајте; чување тражи ваше одобрење.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Контролна цифра је погрешна: последња цифра треба да буде %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Остава садржи типова: %lld.";
 
 /* machine */
@@ -5296,6 +5356,9 @@
 "The text could not be recognized: %@" = "Текст није могао да се препозна: %@";
 
 /* machine */
+"The text is too long for this code." = "Текст је предугачак за овај код.";
+
+/* machine */
 "The torn edges of this image." = "Расцепане ивице ове слике.";
 
 /* machine */
@@ -5358,6 +5421,9 @@
 /* machine */
 "There is no recipe '%@'." = "Не постоји рецепт „%@“.";
 
+/* machine */
+"There is nothing to encode." = "Нема шта да се кодира.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Дошло је до грешке при пријављивању: %@";
 
@@ -5417,6 +5483,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Овај програм није потписао програмер.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Ова датотека рецепта је измењена ван Greenshot-а. Greenshot тражи ваше одобрење пре покретања.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Ова датотека рецепта још није одобрена. Greenshot тражи ваше одобрење пре покретања.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Овај рецепт је написао AI алат, а не Greenshot или ви. Проверите шта ради испод (Greenshot га описује из самог рецепта) и укључите само окидаче које желите.";
@@ -5559,6 +5631,9 @@
 /* machine */
 "Type the shortcut…" = "Укуцајте пречицу…";
 
+/* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E прима 7 цифара, или 8 са контролном цифром.";
+
 /* confluence:Confluence.label_url, normalised */
 "URL" = "Адреса";
 
@@ -5621,6 +5696,9 @@
 
 /* machine */
 "Unsaved changes" = "Несачуване измене";
+
+/* machine */
+"Untitled" = "Без наслова";
 
 /* machine */
 "Updated at %@" = "Ажурирано у %@";
@@ -6427,7 +6505,7 @@
 "value" = "вредност";
 
 /* machine */
-"variable (default: the name)" = "променљива (подразумевано: назив)";
+"variable (default: the name)" = "променљива (иначе назив)";
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Ништа";

@@ -279,7 +279,7 @@ private struct RecipeOnErrorSection: View {
                     Text("Forward to another Recipe…").tag("recipe")
                 }
                 .labelsHidden()
-                .frame(maxWidth: 320)
+                .width(atLeast: 320)
             }
             if mode.wrappedValue == "step" {
                 RecipeLabeled(String(localized: "Fallback Step")) {

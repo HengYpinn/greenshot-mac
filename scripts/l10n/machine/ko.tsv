@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ 실패	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ 완료	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@에 문제가 있습니다. 실행하려면 %lld개를 수정해야 합니다.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@은(는) 최대 %lld자까지 담을 수 있으며, 현재 %lld자입니다.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@에 레시피가 없습니다.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ - %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ - %@ – 클릭하면 Finder에 표시	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@에서 문제를 보고했습니다: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@은(는) 스크립트를 실행합니다. 위의 스크립트만 허용되며 %@에서 실행하는 모든 스크립트가 허용되는 것은 아닙니다.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@은(는) 로그인 시 열려야 하지만, macOS에서 로그인 항목 및 확장 프로그램에서 허용할 때까지 기다리고 있습니다.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@은(는) %lld자리 숫자, 또는 체크 디지트를 포함해 %lld자리 숫자를 사용합니다.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@은(는) 숫자만 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@에서 %@을(를) 사용하여 사용자의 창 목록을 가져오고 스크린샷을 찍고 Greenshot 레시피를 실행하려고 합니다.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ 자르기  ⎋ 취소	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ 잘라내기  ⎋ 취소	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: 프로그램을 찾을 수 없습니다	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	주석 %lld개	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	요소 %lld개를 여기에 표시할 수 없습니다: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	오류 %lld개	claude-sonnet-5-5 2026-10-18
 %lld found	%lld개 찾음	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	공간 %lld개	claude-sonnet-5-5 2026-10-18
 %lld steps	단계 %lld개	claude-sonnet-5-5 2026-10-18
 %lld triggers off	트리거 %lld개 꺼짐	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	이 레시피를 승인할 때 꺼져 있던 트리거가 %lld개 있습니다%@. 켜려면 승인을 검토하세요.	claude-sonnet-5-5 2026-10-18
 %lld warnings	경고 %lld개	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	'%@'은(는) '%@' 다음에 올 수 없습니다. 흐름이 반복됩니다.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = 모든 파일	claude-sonnet-5-5 2026-10-18
 0 lines	0줄	claude-sonnet-5-5 2026-10-18
+1 annotation	주석 1개	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	요소 1개를 여기에 표시할 수 없습니다: %@.	claude-sonnet-5-5 2026-10-18
 1 error	오류 1개	claude-sonnet-5-5 2026-10-18
 1 hour	1시간	claude-sonnet-5-5 2026-10-18
 1 minute	1분	claude-sonnet-5-5 2026-10-18
 1 step	단계 1개	claude-sonnet-5-5 2026-10-18
 1 trigger off	트리거 1개 꺼짐	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	이 레시피를 승인할 때 꺼져 있던 트리거가 1개 있습니다%@. 켜려면 승인을 검토하세요.	claude-sonnet-5-5 2026-10-18
 1 warning	경고 1개	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	편집기나 설정이 열려 있는 동안 Dock 아이콘과 ⌘Tab 항목이 표시됩니다. 메뉴 막대 아이콘은 아래에서 숨기지 않는 한 항상 표시됩니다. 끄면 전체 화면 앱에서 편집기를 열 때 데스크탑으로 전환하지 않고 해당 Space에 머뭅니다.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	UPC-E 코드는 번호 체계인 0 또는 1로 시작합니다.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Windows용 Greenshot의 파일입니다. 저장하면 새 파일을 묻기 때문에 이 파일은 그대로 유지됩니다.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	파일이 다른 레시피(기본 제공 레시피 포함)에 자동 단계를 추가하려고 합니다. 승인하기 전에 어떤 레시피가 변경되고 무엇이 추가되는지 검토하세요.	claude-sonnet-5-5 2026-10-18
 A link wanted to take a screenshot	링크에서 스크린샷을 찍으려고 했습니다	claude-sonnet-5-5 2026-10-18
@@ -449,6 +457,11 @@ Close All	모두 닫기	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	변경 사항이 있는 편집기를 닫으면 묻지 않고 변경 사항이 삭제됩니다.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	클라우드 사이트는 /wiki로 끝납니다.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	클라우드: 이메일 및 API 토큰	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar는 시작 문자와 종료 문자 사이에 숫자와 - $ : / . +를 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar는 A, B, C 또는 D(또는 T, N, *, E)로 시작하고 끝나거나, 둘 다 없습니다.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128은 ASCII 문자만 사용할 수 있습니다(악센트 문자나 ASCII 이외의 기호는 불가).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39는 ASCII 문자만 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93은 ASCII 문자만 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
 Code hash	코드 해시	claude-sonnet-5-5 2026-10-18
 Code signature	코드 서명	claude-sonnet-5-5 2026-10-18
 Color:	색상:	claude-sonnet-5-5 2026-10-18
@@ -730,6 +743,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	다시 
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO(아이콘)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF는 짝수 자리의 숫자를 사용합니다. 현재 %lld자리입니다.	claude-sonnet-5-5 2026-10-18
 Identifier	식별자	claude-sonnet-5-5 2026-10-18
 If %@: %@	%@인 경우: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	직접 운영하는 서버라면 설정 › 저장 방법 › 직접 운영하는 서버에 %@ 또는 지문을 추가하세요.	claude-sonnet-5-5 2026-10-18
@@ -774,6 +788,7 @@ Invalid JSON syntax or schema:\n%@	잘못된 JSON 구문 또는 스키마:\n%@	c
 Issue identifier (stack trace hash)	이슈 식별자(스택 추적 해시)	claude-sonnet-5-5 2026-10-18
 Issue key:	이슈 키:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	종료 코드 %d(으)로 끝났습니다.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	“%@”(%@)의 앞부분이어서 해당 단축키는 작동하지 않게 됩니다.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	%@에서 실행됩니다.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	즉시 실행이 중지되며 다시 로드되지 않습니다. 파일은 그대로 남아 있으므로 다시 가져와서 검토하고 승인하세요.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	즉시 실행이 중지되며 다시 로드되지 않습니다. 파일은 그대로 남아 있으므로 다시 열어서 검토하고 승인하세요.	claude-sonnet-5-5 2026-10-18
@@ -1061,7 +1076,7 @@ Orgchart	조직도	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	다른 화면 캡처 앱	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	그 외 (%@)	claude-sonnet-5-5 2026-10-18
 Other…	기타…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	출력	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: 회의 항목에서 내보내기 허용	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: 새 이메일의 이메일 형식	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	같은 이름의 파일 덮어쓰기	claude-sonnet-5-5 2026-10-18
@@ -1100,6 +1115,7 @@ Please enter recipient name and IBAN.	받는 사람 이름과 IBAN을 입력하�
 Please enter recipient number.	받는 사람 번호를 입력하세요.	claude-sonnet-5-5 2026-10-18
 Please enter text or a URL.	텍스트 또는 URL을 입력하세요.	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	이 캡처를 어떻게 처리할지 선택하세요:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey는 숫자와 A~F 문자를 사용할 수 있습니다.	claude-sonnet-5-5 2026-10-18
 Pointer	포인터	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	목록에서 창 캡처에서 창을 가리키면 해당 창의 그림이 표시됩니다. 화면 녹화 권한이 필요합니다.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	없는 앱을 가리킴: 설치를 클릭하세요	claude-sonnet-5-5 2026-10-18
@@ -1134,6 +1150,7 @@ Quick settings	빠른 설정	claude-sonnet-5-5 2026-10-18
 Quit %@	%@ 종료	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	이 사본을 시작하려면 먼저 종료하세요.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	레시피 구성	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	기본 제공 대체	claude-sonnet-5-5 2026-10-18
 Range	범위	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	원시 텍스트 또는 URL 세부 정보	claude-sonnet-5-5 2026-10-18
 Read error	읽기 오류	claude-sonnet-5-5 2026-10-18
@@ -1320,6 +1337,7 @@ Saved file	저장된 파일	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	레시피를 %@에 저장했습니다	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	저장하면 다른 레시피가 교체됩니다	claude-sonnet-5-5 2026-10-18
 Saving as %@.	%@(으)로 저장하는 중.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	저장하려면 승인이 필요합니다: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	녹화 저장 중…	claude-sonnet-5-5 2026-10-18
 Saving…	저장 중…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	비디오를 채우도록 확대	claude-sonnet-5-5 2026-10-18
@@ -1513,6 +1531,7 @@ The area is not on a display.	해당 영역이 디스플레이에 없습니다.	
 The automatic step is only used with every permission it needs.	자동 단계는 필요한 모든 권한이 있을 때만 사용됩니다.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	%@의 인증서 SHA-256 지문은 %@입니다.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	변경된 레시피에는 %@이(가) 필요하지만 현재 승인에서는 허용되지 않습니다. 먼저 저장하세요. 저장할 때 승인을 요청합니다.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	체크 디지트가 올바르지 않습니다. 마지막 숫자는 %lld(이)어야 합니다.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	클립보드에 %lld가지 유형이 있습니다.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	클립보드에 1가지 유형이 있습니다.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	클립보드가 비어 있습니다.	claude-sonnet-5-5 2026-10-18
@@ -1607,6 +1626,7 @@ The sign-in window could not be opened.	로그인 창을 열 수 없었습니다
 The size of File › New Image, a white image to draw on.	파일 › 새 이미지의 크기이며, 그림을 그릴 흰색 이미지입니다.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	텍스트를 인식할 수 없었습니다	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	텍스트를 인식할 수 없었습니다: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	이 코드에 넣기에는 텍스트가 너무 깁니다.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	이 이미지의 찢어진 가장자리입니다.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	이미지의 투명한 부분이 이 색상으로 채워집니다.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	트리거는 꺼진 상태로 시작합니다. 이 레시피를 시작할 수 있는 트리거를 각각 켜세요. 꺼 둔 트리거는 꺼진 상태로 유지됩니다(나중에 권한에서 켤 수 있습니다). 트리거가 없어도 레시피 목록에서 레시피를 실행할 수 있습니다.	claude-sonnet-5-5 2026-10-18
@@ -1624,6 +1644,7 @@ There is no border of one color around the content to crop away.	잘라낼 콘�
 There is no image on the clipboard	클립보드에 이미지가 없습니다	claude-sonnet-5-5 2026-10-18
 There is no image to open.	열 이미지가 없습니다.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	레시피 '%@'이(가) 없습니다.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	인코딩할 내용이 없습니다.	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	캡처할 화면 내용이 없었습니다.	claude-sonnet-5-5 2026-10-18
 Thermal state	열 상태	claude-sonnet-5-5 2026-10-18
 These are for this print only.	이 설정은 이번 인쇄에만 적용됩니다.	claude-sonnet-5-5 2026-10-18
@@ -1642,6 +1663,8 @@ This is a recipe; the editor has an automatic step open.	이것은 레시피이�
 This is an automatic step; the editor has a recipe open.	이것은 자동 단계이며, 편집기에는 레시피가 열려 있습니다.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	이 프로그램은 어떠한 보증도 하지 않습니다. 이 프로그램은 자유 소프트웨어이며, 특정 조건에 따라 재배포할 수 있습니다: %@ 이상.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	이 프로그램은 개발자가 서명하지 않았습니다.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	이 레시피 파일이 Greenshot 외부에서 변경되었습니다. Greenshot은 실행하기 전에 승인을 요청합니다.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	이 레시피 파일은 아직 승인되지 않았습니다. Greenshot은 실행하기 전에 승인을 요청합니다.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	이 레시피는 Greenshot이나 사용자가 아니라 AI 도구가 작성했습니다. 아래에서 동작을 확인하고(Greenshot이 레시피 자체에서 설명을 작성합니다) 원하는 트리거만 켜세요.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	이 단계에는 매개변수가 없습니다.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	이 트리거는 꺼진 상태로 유지되므로 레시피를 시작하지 않습니다:	claude-sonnet-5-5 2026-10-18
@@ -1680,6 +1703,7 @@ Two objects and text	객체 두 개와 텍스트	claude-sonnet-5-5 2026-10-18
 Two objects over text	텍스트 위의 객체 두 개	claude-sonnet-5-5 2026-10-18
 Type	유형	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	단축키를 입력하세요…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E는 7자리 숫자, 또는 체크 디지트를 포함해 8자리 숫자를 사용합니다.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	사용할 수 없음	claude-sonnet-5-5 2026-10-18
@@ -1700,6 +1724,7 @@ Unnamed Recipe	이름 없는 레시피	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	읽을 수 없는 등록: 설치를 클릭하세요	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	저장되지 않은 변경 사항	claude-sonnet-5-5 2026-10-18
 Unsaved changes	저장되지 않은 변경 사항	claude-sonnet-5-5 2026-10-18
+Untitled	제목 없음	claude-sonnet-5-5 2026-10-18
 Updated at %@	%@에 업데이트됨	claude-sonnet-5-5 2026-10-18
 Updates	업데이트	claude-sonnet-5-5 2026-10-18
 Upload to Confluence – %@	Confluence로 업로드 – %@	claude-sonnet-5-5 2026-10-18

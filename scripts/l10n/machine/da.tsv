@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ mislykkedes	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ er færdig	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ har problemer: %lld skal rettes, før den kan køre.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ rummer højst %lld tegn; her er der %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ indeholder ingen opskrift.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ i %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ i %@ – klik for at vise i Finder	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ meldte et problem: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ kører scripts: kun scriptet ovenfor er tilladt, ikke alle scripts, som %@ kører.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ skal åbne ved login, men macOS venter på, at du tillader det under Loginemner og udvidelser.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ tager %lld cifre, eller %lld med kontrolcifferet.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ tager kun cifre.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ vil bruge %@ til at vise dine vinduer, tage skærmklip og køre Greenshot-opskrifter.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ beskær  ⎋ annuller	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ klip ud  ⎋ annuller	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: programmet blev ikke fundet	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld anmærkninger	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld elementer kan ikke vises her: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld fejl	claude-sonnet-5-5 2026-10-18
 %lld found	%lld fundet	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld spaces	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld trin	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld udløsere fra	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	Da denne opskrift blev godkendt, blev %lld udløsere slået fra%@. Gennemgå godkendelsen for at slå dem til.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld advarsler	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	'%@' kan ikke følge efter '%@': forløbet ville danne en løkke.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = Alle filer	claude-sonnet-5-5 2026-10-18
 0 lines	0 linjer	claude-sonnet-5-5 2026-10-18
+1 annotation	1 anmærkning	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 element kan ikke vises her: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 fejl	claude-sonnet-5-5 2026-10-18
 1 hour	1 time	claude-sonnet-5-5 2026-10-18
 1 minute	1 minut	claude-sonnet-5-5 2026-10-18
 1 step	1 trin	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 udløser fra	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	Da denne opskrift blev godkendt, blev 1 udløser slået fra%@. Gennemgå godkendelsen for at slå den til.	claude-sonnet-5-5 2026-10-18
 1 warning	1 advarsel	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Et Dock-symbol og en plads i ⌘Tab, mens en editor eller Præferencer er åben; symbolet i menulinjen er der under alle omstændigheder, medmindre det er skjult nedenfor. Fra: Når en editor åbnes fra en app i fuld skærm, forbliver den på sit Space i stedet for at skifte til skrivebordet.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	En UPC-E-kode starter med sit nummersystem, 0 eller 1.	claude-sonnet-5-5 2026-10-18
 A command with this name already exists. Please choose a different name.	Der findes allerede en kommando med dette navn. Vælg et andet navn.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	En fil fra Greenshot til Windows: Gem beder om en ny fil, så denne forbliver uændret.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	En fil vil tilføje et automatisk trin til andre opskrifter, også de indbyggede. Gennemgå, hvilke opskrifter den ændrer, og hvad den tilføjer, før du godkender.	claude-sonnet-5-5 2026-10-18
@@ -466,6 +474,11 @@ Clipboard monitor	Overvågning af udklipsholder	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	Hvis du lukker en editor med ændringer, kasseres de uden spørgsmål.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	Cloud-websteder ender på /wiki.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Cloud: e-mail og API-token	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar rummer cifre og - $ : / . + mellem start- og stoptegnet.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar starter og slutter med A, B, C eller D (eller T, N, *, E), eller med ingen af dem.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 rummer kun ASCII-tegn (ingen accenter eller symboler ud over ASCII).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 rummer kun ASCII-tegn.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 rummer kun ASCII-tegn.	claude-sonnet-5-5 2026-10-18
 Code hash	Kodehash	claude-sonnet-5-5 2026-10-18
 Code signature	Kodesignatur	claude-sonnet-5-5 2026-10-18
 Color:	Farve:	claude-sonnet-5-5 2026-10-18
@@ -767,6 +780,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Hvor me
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (symbol)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF tager et lige antal cifre; her er der %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Identifikator	claude-sonnet-5-5 2026-10-18
 If %@: %@	Hvis %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Hvis det er din egen server, så tilføj %@ eller fingeraftrykket under Præferencer › Destinationer › Dine egne servere.	claude-sonnet-5-5 2026-10-18
@@ -779,7 +793,7 @@ Import Annotations from %@	Importér anmærkninger fra %@	claude-sonnet-5-5 2026
 Import Annotations from a Greenshot File	Importér anmærkninger fra en Greenshot-fil	claude-sonnet-5-5 2026-10-18
 Import From This Editor	Importér fra denne editor	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Importerede %lld anmærkninger fra %@	claude-sonnet-5-5 2026-10-18
-In	Ind	claude-sonnet-5-5 2026-10-18
+In	Indgang	claude-sonnet-5-5 2026-10-18
 In Settings › Output you choose the folder and the file name pattern of saved screenshots.	I Præferencer › Output vælger du mappen og mønsteret for filnavne på gemte skærmklip.	claude-sonnet-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	På få trin ser du, hvordan klipning fungerer, og %@ tjekker, at alt er sat godt op.	claude-sonnet-5-5 2026-10-18
 In parallel	Parallelt	claude-sonnet-5-5 2026-10-18
@@ -816,6 +830,7 @@ Inverted colours	Inverterede farver	claude-sonnet-5-5 2026-10-18
 Issue identifier (stack trace hash)	Fejlidentifikator (hash af stakspor)	claude-sonnet-5-5 2026-10-18
 Issue key:	Sagsnøgle:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	Det sluttede med slutkoden %d.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	Det er begyndelsen af “%@” (%@), som så aldrig ville blive udløst.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Det kører fra %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Det holder straks op med at køre og indlæses ikke igen. Dets fil bliver, hvor den er: importér den igen for at gennemgå og godkende den.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Det holder straks op med at køre og indlæses ikke igen. Dets fil bliver, hvor den er: åbn den igen for at gennemgå og godkende den.	claude-sonnet-5-5 2026-10-18
@@ -1117,7 +1132,7 @@ Orgchart	Organisationsdiagram	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	Andre apps til skærmklip	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	Ellers (%@)	claude-sonnet-5-5 2026-10-18
 Other…	Andet…	claude-sonnet-5-5 2026-10-18
-Out	Ud	claude-sonnet-5-5 2026-10-18
+Out	Udgang	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: tillad eksport i mødeelementer	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: e-mailformat til nye e-mails	claude-sonnet-5-5 2026-10-18
 Output	Output	claude-sonnet-5-5 2026-10-18
@@ -1162,6 +1177,7 @@ Please enter text or a URL.	Angiv tekst eller en URL.	claude-sonnet-5-5 2026-10-
 Please enter your Confluence login data	Angiv dine Confluence-loginoplysninger	claude-sonnet-5-5 2026-10-18
 Please enter your Jira login data	Angiv dine Jira-loginoplysninger	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Vælg, hvordan du vil fortsætte med dette klip:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey tager cifre og bogstaverne A til F.	claude-sonnet-5-5 2026-10-18
 Pointer	Markør	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Når du peger på et vindue i Klip vindue fra liste, vises et billede af det. Kræver tilladelsen til skærmoptagelse.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Peger på en manglende app: klik på Installer	claude-sonnet-5-5 2026-10-18
@@ -1197,6 +1213,7 @@ Quick settings	Hurtige præferencer	claude-sonnet-5-5 2026-10-18
 Quit %@	Afslut %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Afslut det først for at starte denne kopi.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	OPSKRIFTSKONFIGURATION	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	ERSTATTER INDBYGGET	claude-sonnet-5-5 2026-10-18
 Range	Interval	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Detaljer om rå tekst eller URL	claude-sonnet-5-5 2026-10-18
 Read error	Læsefejl	claude-sonnet-5-5 2026-10-18
@@ -1391,6 +1408,7 @@ Saved file	Gemt fil	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	Gemte opskriften i %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	Gemning erstatter andre opskrifter	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Gemmer som %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Når du gemmer, skal du give din godkendelse: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	Gemmer optagelsen…	claude-sonnet-5-5 2026-10-18
 Saving…	Gemmer…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Skaler den, så den udfylder videoen	claude-sonnet-5-5 2026-10-18
@@ -1589,6 +1607,7 @@ The area is not on a display.	Området er ikke på en skærm.	claude-sonnet-5-5 
 The automatic step is only used with every permission it needs.	Det automatiske trin bruges kun med alle de rettigheder, det kræver.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	Certifikatet for %@ har SHA-256-fingeraftrykket %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Den ændrede opskrift kræver %@, som dens godkendelse endnu ikke tillader. Gem den først; ved gemning bliver du bedt om godkendelse.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	Kontrolcifferet er forkert: det sidste ciffer skal være %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	Udklipsholderen indeholder %lld typer.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	Udklipsholderen indeholder 1 type.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	Udklipsholderen er tom.	claude-sonnet-5-5 2026-10-18
@@ -1683,6 +1702,7 @@ The sign-in window could not be opened.	Loginvinduet kunne ikke åbnes.	claude-s
 The size of File › New Image, a white image to draw on.	Størrelsen på Fil › Nyt billede, et hvidt billede at tegne på.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	Teksten kunne ikke genkendes	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Teksten kunne ikke genkendes: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	Teksten er for lang til denne kode.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	Dette billedes afrevne kanter.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	De gennemsigtige dele af billedet får denne farve.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Udløserne starter slået fra. Slå hver udløser til, som må starte denne opskrift: en udløser, du lader være fra, forbliver fra (du kan slå den til senere under Rettigheder). Uden en udløser kan du stadig køre opskriften fra opskriftslisten.	claude-sonnet-5-5 2026-10-18
@@ -1704,6 +1724,7 @@ There is no border of one color around the content to crop away.	Der er ingen ka
 There is no image on the clipboard	Der er intet billede på udklipsholderen	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Der er intet billede at åbne.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	Der er ingen opskrift '%@'.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Der er intet at kode.	claude-sonnet-5-5 2026-10-18
 There was a problem during the login: %@	Der opstod et problem under login: %@	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Der var intet på skærmen at klippe.	claude-sonnet-5-5 2026-10-18
 Thermal state	Termisk tilstand	claude-sonnet-5-5 2026-10-18
@@ -1724,6 +1745,8 @@ This is a recipe; the editor has an automatic step open.	Dette er en opskrift; e
 This is an automatic step; the editor has a recipe open.	Dette er et automatisk trin; editoren har en opskrift åben.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Dette program leveres UDEN NOGEN GARANTI. Det er gratis software, og du er velkommen til at redistribuere det på visse betingelser: %@ eller senere.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Dette program er ikke signeret af en udvikler.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Denne opskriftsfil er ændret uden for Greenshot. Greenshot beder om din godkendelse, før den kører.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Denne opskriftsfil er ikke godkendt endnu. Greenshot beder om din godkendelse, før den kører.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Denne opskrift er skrevet af et AI-værktøj, ikke af Greenshot eller af dig. Tjek nedenfor, hvad den gør (Greenshot beskriver det ud fra selve opskriften), og slå kun de udløsere til, du vil have.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Dette trin har ingen parametre.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Denne udløser forbliver fra, så den starter ikke opskriften:	claude-sonnet-5-5 2026-10-18
@@ -1771,6 +1794,7 @@ Two objects and text	To objekter og tekst	claude-sonnet-5-5 2026-10-18
 Two objects over text	To objekter over tekst	claude-sonnet-5-5 2026-10-18
 Type	Type	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Skriv genvejen…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E tager 7 cifre, eller 8 med kontrolcifferet.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	Ikke tilgængelig	claude-sonnet-5-5 2026-10-18
@@ -1792,6 +1816,7 @@ Unnamed Recipe	Opskrift uden navn	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Ulæselig registrering: klik på Installer	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Ikke-gemte ændringer	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Ikke-gemte ændringer	claude-sonnet-5-5 2026-10-18
+Untitled	Unavngivet	claude-sonnet-5-5 2026-10-18
 Updated at %@	Opdateret %@	claude-sonnet-5-5 2026-10-18
 Updates	Opdateringer	claude-sonnet-5-5 2026-10-18
 Upload	Upload	claude-sonnet-5-5 2026-10-18

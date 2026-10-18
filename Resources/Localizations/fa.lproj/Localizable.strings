@@ -175,6 +175,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ مشکل دارد: پیش از اجرا باید %lld مورد برطرف شود.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ حداکثر %lld نویسه می‌پذیرد؛ این مورد %lld نویسه است.";
+
+/* machine */
 "%@ holds no recipe." = "%@ هیچ دستورالعملی ندارد.";
 
 /* machine */
@@ -250,6 +253,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ باید هنگام ورود باز شود، اما macOS منتظر می‌ماند تا شما آن را در «موارد ورود و افزونه‌ها» مجاز کنید.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ %lld رقم می‌پذیرد، یا %lld رقم با رقم کنترل.";
+
+/* machine */
+"%@ takes digits only." = "%@ فقط رقم می‌پذیرد.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ می‌خواهد از %@ برای فهرست‌کردن پنجره‌های شما، گرفتن تصویر صفحه و اجرای دستورالعمل‌های Greenshot استفاده کند.";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: برنامه پیدا نشد";
+
+/* machine */
+"%lld annotations" = "%lld حاشیه‌نویسی";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld عنصر را نمی‌توان اینجا نشان داد: %@.";
@@ -317,6 +329,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld راه‌انداز خاموش";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld راه‌انداز هنگام تأیید این دستورالعمل خاموش مانده‌اند%@. تأیید را بررسی کنید تا روشن شوند.";
 
 /* machine */
 "%lld warnings" = "%lld هشدار";
@@ -376,6 +391,9 @@
 "0 lines" = "0 خط";
 
 /* machine */
+"1 annotation" = "1 حاشیه‌نویسی";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 عنصر را نمی‌توان اینجا نشان داد: %@.";
 
 /* machine */
@@ -394,10 +412,16 @@
 "1 trigger off" = "1 راه‌انداز خاموش";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "یک راه‌انداز هنگام تأیید این دستورالعمل خاموش مانده است%@. تأیید را بررسی کنید تا روشن شود.";
+
+/* machine */
 "1 warning" = "1 هشدار";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "یک نماد Dock و جایی در ⌘Tab تا زمانی که یک ویرایشگر یا تنظیمات باز است؛ نماد نوار منو در هر دو حالت هست، مگر اینکه در پایین پنهان شود. خاموش: باز کردن ویرایشگر از یک برنامهٔ تمام‌صفحه در همان Space می‌ماند و به دسکتاپ نمی‌رود.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "کد UPC-E با سامانهٔ شماره‌گذاری خود شروع می‌شود، یعنی 0 یا 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "دستوری با این نام از قبل وجود دارد. لطفاً نام دیگری انتخاب کنید.";
@@ -1423,6 +1447,21 @@
 "Cloud: email and API token" = "ابر: ایمیل و توکن API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar بین نویسه‌های شروع و پایان خود، رقم و - $ : / . + می‌پذیرد.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar با A، B، C یا D (یا T، N، *، E) شروع و پایان می‌یابد، یا با هیچ‌کدام.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 فقط نویسه‌های ASCII می‌پذیرد (بدون حروف دارای نشانه یا نمادهای فراتر از ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 فقط نویسه‌های ASCII می‌پذیرد.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 فقط نویسه‌های ASCII می‌پذیرد.";
+
+/* machine */
 "Code hash" = "هش کد";
 
 /* machine */
@@ -2401,6 +2440,9 @@
 "ICO (icon)" = "ICO (نماد)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF تعداد زوج رقم می‌پذیرد؛ این مورد %lld رقم است.";
+
+/* machine */
 "Identifier" = "شناسه";
 
 /* machine */
@@ -2561,6 +2603,9 @@
 
 /* machine */
 "It ended with exit code %d." = "با کد خروج %d پایان یافت.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "این ابتدای «%@» (%@) است که در این صورت هرگز اجرا نمی‌شود.";
 
 /* machine */
 "It runs from %@." = "از %@ اجرا می‌شود.";
@@ -3493,6 +3538,9 @@
 "Other…" = "دیگر…";
 
 /* machine */
+"Out" = "خروجی";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: اجازهٔ خروجی در موارد جلسه";
 
 /* machine */
@@ -3634,6 +3682,9 @@
 "Please select how you would like to proceed with this capture:" = "لطفاً انتخاب کنید می‌خواهید با این نمونه‌برداری چگونه ادامه دهید:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey رقم و حروف A تا F را می‌پذیرد.";
+
+/* machine */
 "Pointer" = "اشاره‌گر";
 
 /* machine */
@@ -3755,6 +3806,9 @@
 
 /* core:Core.contextmenu_recipes, normalised */
 "RECIPES" = "دستورالعمل‌ها";
+
+/* machine */
+"REPLACES BUILT-IN" = "جایگزین داخلی";
 
 /* machine */
 "Range" = "بازه";
@@ -4370,6 +4424,9 @@
 
 /* machine */
 "Saving as %@." = "در حال ذخیره با نام %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "ذخیره‌سازی تأیید شما را می‌خواهد: %@";
 
 /* machine */
 "Saving the Recording…" = "در حال ذخیرهٔ ضبط…";
@@ -4996,6 +5053,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "دستورالعمل تغییرکرده به %@ نیاز دارد که تأییدش هنوز اجازه نمی‌دهد. ابتدا ذخیره کنید؛ ذخیره‌کردن تأیید شما را می‌خواهد.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "رقم کنترل اشتباه است: آخرین رقم باید %lld باشد.";
+
+/* machine */
 "The clipboard holds %lld types." = "حافظه موقت %lld نوع دارد.";
 
 /* machine */
@@ -5278,6 +5338,9 @@
 "The text could not be recognized: %@" = "متن تشخیص داده نشد: %@";
 
 /* machine */
+"The text is too long for this code." = "متن برای این کد خیلی بلند است.";
+
+/* machine */
 "The torn edges of this image." = "لبه‌های پارهٔ این تصویر.";
 
 /* machine */
@@ -5341,6 +5404,9 @@
 "There is no recipe '%@'." = "دستورالعملی با نام «%@» نیست.";
 
 /* machine */
+"There is nothing to encode." = "چیزی برای کدگذاری وجود ندارد.";
+
+/* machine */
 "There was a problem during the login: %@" = "هنگام ورود مشکلی پیش آمد: %@";
 
 /* machine */
@@ -5399,6 +5465,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "این برنامه توسط توسعه‌دهنده امضا نشده است.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "این فایل دستورالعمل خارج از Greenshot تغییر کرده است. Greenshot پیش از اجرای آن تأیید شما را می‌خواهد.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "این فایل دستورالعمل هنوز تأیید نشده است. Greenshot پیش از اجرای آن تأیید شما را می‌خواهد.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "این دستورالعمل را یک ابزار هوش مصنوعی نوشته است، نه Greenshot یا شما. در زیر ببینید چه می‌کند (Greenshot آن را از روی خود دستورالعمل توصیف می‌کند) و فقط راه‌اندازهای موردنظرتان را روشن کنید.";
@@ -5539,6 +5611,9 @@
 "Type the shortcut…" = "میانبر را بزنید…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E 7 رقم می‌پذیرد، یا 8 رقم با رقم کنترل.";
+
+/* machine */
 "Unavailable" = "در دسترس نیست";
 
 /* machine */
@@ -5594,6 +5669,9 @@
 
 /* machine */
 "Unsaved changes" = "تغییرات ذخیره‌نشده";
+
+/* machine */
+"Untitled" = "بدون عنوان";
 
 /* machine */
 "Updated at %@" = "به‌روز شده در %@";

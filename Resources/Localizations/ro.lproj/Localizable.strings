@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ are probleme: %lld de remediat înainte de a putea rula.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ acceptă cel mult %lld caractere; aici sunt %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ nu conține nicio rețetă.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ ar trebui să se deschidă la autentificare, dar macOS așteaptă să permiteți acest lucru în Elemente de autentificare și extensii.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ acceptă %lld cifre, sau %lld cu cifra de control.";
+
+/* machine */
+"%@ takes digits only." = "%@ acceptă numai cifre.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ vrea să folosească %@ pentru a lista ferestrele dumneavoastră, a face capturi de ecran și a rula rețete Greenshot.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: programul nu a fost găsit";
+
+/* machine */
+"%lld annotations" = "%lld adnotări";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elemente nu pot fi afișate aici: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld declanșatoare oprite";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld declanșatoare au fost lăsate dezactivate când a fost aprobată această rețetă%@. Verificați aprobarea pentru a le activa.";
 
 /* machine */
 "%lld warnings" = "%lld avertismente";
@@ -373,6 +388,9 @@
 "0 lines" = "0 linii";
 
 /* machine */
+"1 annotation" = "1 adnotare";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 element nu poate fi afișat aici: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 declanșator oprit";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "1 declanșator a fost lăsat dezactivat când a fost aprobată această rețetă%@. Verificați aprobarea pentru a-l activa.";
+
+/* machine */
 "1 warning" = "1 avertisment";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "O pictogramă în Dock și un loc în ⌘Tab cât timp este deschis un editor sau Setările; pictograma din bara de meniu există oricum, dacă nu este ascunsă mai jos. Oprit: deschiderea unui editor dintr-o aplicație în ecran complet rămâne în Spațiul său, în loc să comute la desktop.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Un cod UPC-E începe cu sistemul său numeric, 0 sau 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Există deja o comandă cu acest nume. Alegeți alt nume.";
@@ -1414,6 +1438,21 @@
 "Cloud: email and API token" = "Cloud: e-mail și token API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar conține cifre și - $ : / . + între caracterele sale de început și de sfârșit.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar începe și se termină cu A, B, C sau D (ori T, N, *, E), sau cu niciunul dintre ele.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 conține numai caractere ASCII (fără diacritice sau simboluri în afara ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 conține numai caractere ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 conține numai caractere ASCII.";
+
+/* machine */
 "Code hash" = "Hash cod";
 
 /* machine */
@@ -2365,6 +2404,9 @@
 "ICO (icon)" = "ICO (pictogramă)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF acceptă un număr par de cifre; aici sunt %lld.";
+
+/* machine */
 "Identifier" = "Identificator";
 
 /* machine */
@@ -2522,6 +2564,9 @@
 
 /* machine */
 "It ended with exit code %d." = "S-a încheiat cu codul de ieșire %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Este începutul lui „%@” (%@), care astfel nu s-ar declanșa niciodată.";
 
 /* machine */
 "It runs from %@." = "Rulează din %@.";
@@ -3442,6 +3487,9 @@
 "Other…" = "Altele…";
 
 /* machine */
+"Out" = "Ieșire";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: permite exportul în elementele de întâlnire";
 
 /* machine */
@@ -3583,6 +3631,9 @@
 "Please select how you would like to proceed with this capture:" = "Selectați cum doriți să continuați cu această captură:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey acceptă cifre și literele de la A la F.";
+
+/* machine */
 "Pointer" = "Cursor";
 
 /* machine */
@@ -3700,7 +3751,10 @@
 "RECIPE CONFIGURATION" = "CONFIGURAȚIA REȚETEI";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Rețete";
+"RECIPES" = "REȚETE";
+
+/* machine */
+"REPLACES BUILT-IN" = "ÎNLOCUIEȘTE REȚETA ÎNCORPORATĂ";
 
 /* machine */
 "Range" = "Interval";
@@ -4318,6 +4372,9 @@
 "Saving as %@." = "Se salvează ca %@.";
 
 /* machine */
+"Saving asks for your approval: %@" = "Salvarea cere aprobarea dumneavoastră: %@";
+
+/* machine */
 "Saving the Recording…" = "Se salvează înregistrarea…";
 
 /* machine */
@@ -4933,6 +4990,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Rețeta modificată are nevoie de %@, ceea ce aprobarea sa nu permite încă. Salvați-o mai întâi; salvarea cere aprobarea dumneavoastră.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Cifra de control este greșită: ultima cifră ar trebui să fie %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Clipboardul conține %lld tipuri.";
 
 /* machine */
@@ -5215,6 +5275,9 @@
 "The text could not be recognized: %@" = "Textul nu a putut fi recunoscut: %@";
 
 /* machine */
+"The text is too long for this code." = "Textul este prea lung pentru acest cod.";
+
+/* machine */
 "The torn edges of this image." = "Marginile rupte ale acestei imagini.";
 
 /* machine */
@@ -5278,6 +5341,9 @@
 "There is no recipe '%@'." = "Nu există rețeta „%@”.";
 
 /* machine */
+"There is nothing to encode." = "Nu există nimic de codificat.";
+
+/* machine */
 "There was a problem during the login: %@" = "A apărut o problemă la autentificare: %@";
 
 /* machine */
@@ -5336,6 +5402,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Acest program nu este semnat de un dezvoltator.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Acest fișier de rețetă a fost modificat în afara Greenshot. Greenshot cere aprobarea dumneavoastră înainte de a-l rula.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Acest fișier de rețetă nu este încă aprobat. Greenshot cere aprobarea dumneavoastră înainte de a-l rula.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Această rețetă a fost scrisă de un instrument AI, nu de Greenshot sau de dumneavoastră. Verificați mai jos ce face (Greenshot o descrie pe baza rețetei însăși) și activați doar declanșatoarele dorite.";
@@ -5473,6 +5545,9 @@
 "Type the shortcut…" = "Tastați scurtătura…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E acceptă 7 cifre, sau 8 cu cifra de control.";
+
+/* machine */
 "Unavailable" = "Indisponibil";
 
 /* machine */
@@ -5528,6 +5603,9 @@
 
 /* machine */
 "Unsaved changes" = "Modificări nesalvate";
+
+/* machine */
+"Untitled" = "Fără titlu";
 
 /* machine */
 "Updated at %@" = "Actualizat la %@";

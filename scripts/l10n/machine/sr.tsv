@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ није успело	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ је завршено	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ има проблеме: %lld за поправку пре покретања.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@: највећи број знакова је %lld; сада их је %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ не садржи ниједан рецепт.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ у %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ у %@ – кликните да прикажете у Finder-у	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ је пријавио проблем: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ покреће скрипте: дозвољена је само горња скрипта, не свака скрипта коју %@ покреће.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ треба да се отвара при пријављивању, али macOS чека да то дозволите у одељку Ставке за пријављивање и проширења.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ прима цифара: %lld, или %lld са контролном цифром.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ прима само цифре.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ жели да користи %@ да наведе ваше прозоре и направи снимке екрана и да покреће Greenshot рецепте.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ опсеци  ⎋ откажи	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ исеци  ⎋ откажи	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: програм није пронађен	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	Напомена: %lld	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld елемената не може да се прикаже овде: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	Грешака: %lld	claude-sonnet-5-5 2026-10-18
 %lld found	Пронађено: %lld	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	Простора: %lld	claude-sonnet-5-5 2026-10-18
 %lld steps	Корака: %lld	claude-sonnet-5-5 2026-10-18
 %lld triggers off	Искључених окидача: %lld	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	Приликом одобравања овог рецепта остављени су искључени окидачи (%lld)%@. Прегледајте одобрење да бисте их укључили.	claude-sonnet-5-5 2026-10-18
 %lld warnings	Упозорења: %lld	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	„%@“ не може да следи „%@“: ток би правио петљу.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = све датотеке	claude-sonnet-5-5 2026-10-18
 0 lines	0 редова	claude-sonnet-5-5 2026-10-18
+1 annotation	1 напомена	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 елемент не може да се прикаже овде: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 грешка	claude-sonnet-5-5 2026-10-18
 1 hour	1 сат	claude-sonnet-5-5 2026-10-18
 1 minute	1 минут	claude-sonnet-5-5 2026-10-18
 1 step	1 корак	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 окидач искључен	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	Приликом одобравања овог рецепта остављен је искључен 1 окидач%@. Прегледајте одобрење да бисте га укључили.	claude-sonnet-5-5 2026-10-18
 1 warning	1 упозорење	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Икона у Dock-у и место у ⌘Tab-у док је отворен уређивач или Поставке; икона у траци менија је ту у сваком случају, осим ако је сакривена испод. Искључено: отварање уређивача из апликације преко целог екрана остаје на њеном простору уместо пребацивања на радну површину.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	UPC-E код почиње својим бројевним системом: 0 или 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Датотека Greenshot-а за Windows: Сачувај тражи нову датотеку, па ова остаје непромењена.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Датотека жели да дода аутоматски корак другим рецептима, укључујући уграђене. Пре одобравања прегледајте које рецепте мења и шта додаје.	claude-sonnet-5-5 2026-10-18
 A link wanted to take a screenshot	Веза је желела да направи снимак екрана	claude-sonnet-5-5 2026-10-18
@@ -455,6 +463,11 @@ Close All	Затвори све	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	Затварање уређивача са променама одбацује их без питања.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	Cloud сајтови се завршавају на /wiki.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Cloud: е-пошта и API токен	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar садржи цифре и знакове - $ : / . + између почетног и завршног знака.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar почиње и завршава се знаком A, B, C или D (или T, N, *, E), или ниједним од њих.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 садржи само ASCII знакове (без акцената и симбола ван ASCII-ја).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 садржи само ASCII знакове.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 садржи само ASCII знакове.	claude-sonnet-5-5 2026-10-18
 Code hash	Хеш кода	claude-sonnet-5-5 2026-10-18
 Code signature	Потпис кода	claude-sonnet-5-5 2026-10-18
 Color:	Боја:	claude-sonnet-5-5 2026-10-18
@@ -740,6 +753,7 @@ Hotkeys registered again.	Пречице су поново регистрова�
 How much %@ writes to the log, until it restarts. Debug writes the most.	Колико %@ пише у дневник, до поновног покретања. Debug пише највише.	claude-sonnet-5-5 2026-10-18
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (икона)	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF прима паран број цифара; сада их је %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Идентификатор	claude-sonnet-5-5 2026-10-18
 If %@: %@	Ако %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Ако је ово ваш сервер, додајте %@ или отисак у Поставке › Одредишта › Ваши сопствени сервери.	claude-sonnet-5-5 2026-10-18
@@ -752,7 +766,7 @@ Import Annotations from %@	Увези напомене из %@	claude-sonnet-5-5
 Import Annotations from a Greenshot File	Увези напомене из Greenshot датотеке	claude-sonnet-5-5 2026-10-18
 Import From This Editor	Увези из овог уређивача	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Увезено %lld напомена из %@	claude-sonnet-5-5 2026-10-18
-In	У	claude-sonnet-5-5 2026-10-18
+In	Улаз	claude-sonnet-5-5 2026-10-18
 In Settings › Output you choose the folder and the file name pattern of saved screenshots.	У Поставке › Излаз бирате фасциклу и образац за називе сачуваних снимака екрана.	claude-sonnet-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	У неколико корака видећете како снимање ради, а %@ проверава да ли је све добро подешено.	claude-sonnet-5-5 2026-10-18
 In parallel	Паралелно	claude-sonnet-5-5 2026-10-18
@@ -784,6 +798,7 @@ Invalid JSON syntax or schema:\n%@	Неисправна JSON синтакса и
 Issue identifier (stack trace hash)	Идентификатор проблема (хеш трага стека)	claude-sonnet-5-5 2026-10-18
 Issue key:	Кључ проблема:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	Завршило се са излазним кодом %d.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	То је почетак „%@“ (%@), па се никада не би покренуо.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Покреће се из %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Одмах престаје да ради и не учитава се поново. Његова датотека остаје где је: увезите је поново да је прегледате и одобрите.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Одмах престаје да ради и не учитава се поново. Његова датотека остаје где је: отворите је поново да је прегледате и одобрите.	claude-sonnet-5-5 2026-10-18
@@ -1073,7 +1088,7 @@ Orgchart	Организациони дијаграм	claude-sonnet-5-5 2026-10-1
 Other screen capture apps	Остале апликације за снимање екрана	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	У супротном (%@)	claude-sonnet-5-5 2026-10-18
 Other…	Друго…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	Излаз	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: дозволи извоз у ставке састанка	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: формат е-поште за нове е-поруке	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	Препиши датотеку са истим називом	claude-sonnet-5-5 2026-10-18
@@ -1112,6 +1127,7 @@ Please enter recipient name and IBAN.	Унесите име примаоца и 
 Please enter recipient number.	Унесите број примаоца.	claude-sonnet-5-5 2026-10-18
 Please enter text or a URL.	Унесите текст или адресу.	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Изаберите како желите да наставите са овим снимком:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey прима цифре и слова од A до F.	claude-sonnet-5-5 2026-10-18
 Pointer	Показивач	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Показивање на прозор у Усликај прозор са списка приказује његову слику. Потребна је дозвола за снимање екрана.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Показује на апликацију која недостаје: кликните Инсталирај	claude-sonnet-5-5 2026-10-18
@@ -1146,6 +1162,7 @@ Quick settings	Брзе поставке	claude-sonnet-5-5 2026-10-18
 Quit %@	Изађи из %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Прво га затворите да покренете ову копију.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	ПОДЕШАВАЊЕ РЕЦЕПТА	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	ЗАМЕЊУЈЕ УГРАЂЕНО	claude-sonnet-5-5 2026-10-18
 Range	Опсег	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Детаљи неформатираног текста или адресе	claude-sonnet-5-5 2026-10-18
 Read error	Грешка при читању	claude-sonnet-5-5 2026-10-18
@@ -1332,6 +1349,7 @@ Saved file	Сачувана датотека	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	Рецепт је сачуван у %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	Чување замењује друге рецепте	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Чување као %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Чување тражи ваше одобрење: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	Чување снимка екрана…	claude-sonnet-5-5 2026-10-18
 Saving…	Чување…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Развуци да испуни видео	claude-sonnet-5-5 2026-10-18
@@ -1525,6 +1543,7 @@ The area is not on a display.	Област није на екрану.	claude-so
 The automatic step is only used with every permission it needs.	Аутоматски корак се користи само са свим дозволама које му требају.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	Сертификат за %@ има SHA-256 отисак %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Измењени рецепт захтева %@, што његово одобрење још не дозвољава. Прво га сачувајте; чување тражи ваше одобрење.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	Контролна цифра је погрешна: последња цифра треба да буде %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	Остава садржи типова: %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	Остава садржи 1 тип.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	Остава је празна.	claude-sonnet-5-5 2026-10-18
@@ -1619,6 +1638,7 @@ The sign-in window could not be opened.	Прозор за пријављивањ
 The size of File › New Image, a white image to draw on.	Величина из Датотека › Нова слика, бела слика за цртање.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	Текст није могао да се препозна	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Текст није могао да се препозна: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	Текст је предугачак за овај код.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	Расцепане ивице ове слике.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Провидни делови слике добијају ову боју.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Окидачи почињу искључени. Укључите сваки који може да покрене овај рецепт: окидач који оставите искљученим остаје искључен (касније га можете укључити у Дозволама). Без окидача рецепт и даље можете покренути са списка рецепата.	claude-sonnet-5-5 2026-10-18
@@ -1636,6 +1656,7 @@ There is no border of one color around the content to crop away.	Нема иви
 There is no image on the clipboard	На остави нема слике	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Нема слике за отварање.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	Не постоји рецепт „%@“.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Нема шта да се кодира.	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	На екрану није било ничега за снимање.	claude-sonnet-5-5 2026-10-18
 Thermal state	Термичко стање	claude-sonnet-5-5 2026-10-18
 These are for this print only.	Ово важи само за овај испис.	claude-sonnet-5-5 2026-10-18
@@ -1655,6 +1676,8 @@ This is a recipe; the editor has an automatic step open.	Ово је рецеп�
 This is an automatic step; the editor has a recipe open.	Ово је аутоматски корак; уређивач има отворен рецепт.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Овај програм се издаје БЕЗ ИКАКВЕ ГАРАНЦИЈЕ. Он је бесплатан програм и можете га делити под одређеним условима: %@ или новија.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Овај програм није потписао програмер.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Ова датотека рецепта је измењена ван Greenshot-а. Greenshot тражи ваше одобрење пре покретања.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Ова датотека рецепта још није одобрена. Greenshot тражи ваше одобрење пре покретања.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Овај рецепт је написао AI алат, а не Greenshot или ви. Проверите шта ради испод (Greenshot га описује из самог рецепта) и укључите само окидаче које желите.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Овај корак нема параметара.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Овај окидач остаје искључен, па неће покренути рецепт:	claude-sonnet-5-5 2026-10-18
@@ -1696,6 +1719,7 @@ Two objects and text	Два објекта и текст	claude-sonnet-5-5 2026-
 Two objects over text	Два објекта изнад текста	claude-sonnet-5-5 2026-10-18
 Type	Врста	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Укуцајте пречицу…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E прима 7 цифара, или 8 са контролном цифром.	claude-sonnet-5-5 2026-10-18
 Unavailable	Недоступно	claude-sonnet-5-5 2026-10-18
 Undo	Опозови	claude-sonnet-5-5 2026-10-18
 Undo (⌘Z)	Опозови (⌘Z)	claude-sonnet-5-5 2026-10-18
@@ -1714,6 +1738,7 @@ Unnamed Recipe	Рецепт без назива	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Нечитљива регистрација: кликните Инсталирај	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Несачуване измене	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Несачуване измене	claude-sonnet-5-5 2026-10-18
+Untitled	Без наслова	claude-sonnet-5-5 2026-10-18
 Updated at %@	Ажурирано у %@	claude-sonnet-5-5 2026-10-18
 Updates	Ажурирања	claude-sonnet-5-5 2026-10-18
 Upload to Confluence – %@	Отпреми на Confluence – %@	claude-sonnet-5-5 2026-10-18
@@ -1952,7 +1977,7 @@ v%@	в%@	claude-sonnet-5-5 2026-10-18
 vCard Contact	vCard контакт	claude-sonnet-5-5 2026-10-18
 vCard Contact Card Details	Детаљи vCard контакт картице	claude-sonnet-5-5 2026-10-18
 value	вредност	claude-sonnet-5-5 2026-10-18
-variable (default: the name)	променљива (подразумевано: назив)	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	променљива (иначе назив)	claude-opus-5-5 2026-10-18
 what it does	шта ради	claude-sonnet-5-5 2026-10-18
 when %@	када %@	claude-sonnet-5-5 2026-10-18
 window details on or off	детаљи прозора укључени или искључени	claude-sonnet-5-5 2026-10-18

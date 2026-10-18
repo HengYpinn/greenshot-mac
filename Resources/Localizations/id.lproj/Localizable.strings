@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ bermasalah: %lld perlu diperbaiki sebelum dapat dijalankan.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ menampung paling banyak %lld karakter; saat ini %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ tidak memuat resep.";
 
 /* machine */
@@ -244,6 +247,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ seharusnya terbuka saat login, tetapi macOS menunggu Anda mengizinkannya di Item Login & Ekstensi.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ menerima %lld digit, atau %lld digit dengan digit pemeriksa.";
+
+/* machine */
+"%@ takes digits only." = "%@ hanya menerima digit.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ ingin menggunakan %@ untuk mendaftar jendela Anda dan mengambil tangkapan layar, serta menjalankan resep Greenshot.";
 
 /* machine */
@@ -269,6 +278,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: program tidak ditemukan";
+
+/* machine */
+"%lld annotations" = "%lld anotasi";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elemen tidak dapat ditampilkan di sini: %@.";
@@ -311,6 +323,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld pemicu mati";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld pemicu dibiarkan mati saat resep ini disetujui%@. Tinjau persetujuan untuk menyalakannya.";
 
 /* machine */
 "%lld warnings" = "%lld peringatan";
@@ -370,6 +385,9 @@
 "0 lines" = "0 baris";
 
 /* machine */
+"1 annotation" = "1 anotasi";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 elemen tidak dapat ditampilkan di sini: %@.";
 
 /* machine */
@@ -388,10 +406,16 @@
 "1 trigger off" = "1 pemicu mati";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "1 pemicu dibiarkan mati saat resep ini disetujui%@. Tinjau persetujuan untuk menyalakannya.";
+
+/* machine */
 "1 warning" = "1 peringatan";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Ikon Dock dan tempat di ⌘Tab saat editor atau Pengaturan terbuka; ikon bilah menu selalu ada, kecuali disembunyikan di bawah. Mati: membuka editor dari app layar penuh tetap berada di Space-nya, tidak beralih ke desktop.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Kode UPC-E diawali dengan sistem nomornya, 0 atau 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Perintah dengan nama ini sudah ada. Silakan pilih nama yang berbeda.";
@@ -1078,7 +1102,7 @@
 "Built-in" = "Bawaan";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Kustom";
+"CUSTOM" = "KUSTOM";
 
 /* machine */
 "Calendar Event" = "Acara Kalender";
@@ -1400,6 +1424,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Cloud: email dan token API";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar berisi digit dan - $ : / . + di antara karakter awal dan karakter akhirnya.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar diawali dan diakhiri dengan A, B, C, atau D (atau T, N, *, E), atau tanpa keduanya.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 hanya berisi karakter ASCII (tanpa aksen atau simbol di luar ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 hanya berisi karakter ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 hanya berisi karakter ASCII.";
 
 /* machine */
 "Code hash" = "Hash kode";
@@ -2323,6 +2362,9 @@
 "ICO (icon)" = "ICO (ikon)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF menerima jumlah digit genap; saat ini %lld.";
+
+/* machine */
 "Identifier" = "Pengenal";
 
 /* machine */
@@ -2374,7 +2416,7 @@
 "Imported %lld annotations from %@" = "%lld anotasi diimpor dari %@";
 
 /* machine */
-"In" = "Masuk";
+"In" = "Masukan";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Di Pengaturan › Keluaran Anda memilih folder dan pola nama berkas tangkapan layar yang disimpan.";
@@ -2480,6 +2522,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Berakhir dengan kode keluar %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Ini adalah awal dari “%@” (%@), sehingga tidak akan pernah aktif.";
 
 /* machine */
 "It runs from %@." = "Berjalan dari %@.";
@@ -3385,6 +3430,9 @@
 "Other…" = "Lainnya…";
 
 /* machine */
+"Out" = "Keluaran";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: izinkan ekspor di item rapat";
 
 /* machine */
@@ -3526,6 +3574,9 @@
 "Please select how you would like to proceed with this capture:" = "Pilih cara melanjutkan tangkapan ini:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey menerima digit dan huruf A sampai F.";
+
+/* machine */
 "Pointer" = "Penunjuk";
 
 /* machine */
@@ -3637,7 +3688,10 @@
 "RECIPE CONFIGURATION" = "KONFIGURASI RESEP";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Resep";
+"RECIPES" = "RESEP";
+
+/* machine */
+"REPLACES BUILT-IN" = "MENGGANTIKAN BAWAAN";
 
 /* machine */
 "Range" = "Rentang";
@@ -4247,6 +4301,9 @@
 
 /* machine */
 "Saving as %@." = "Menyimpan sebagai %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Penyimpanan meminta persetujuan Anda: %@";
 
 /* machine */
 "Saving the Recording…" = "Menyimpan Rekaman…";
@@ -4867,6 +4924,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Resep yang diubah memerlukan %@, yang belum diizinkan oleh persetujuannya. Simpan terlebih dahulu; menyimpan meminta persetujuan Anda.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Digit pemeriksa salah: digit terakhir seharusnya %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Papan klip berisi %lld tipe.";
 
 /* machine */
@@ -5149,6 +5209,9 @@
 "The text could not be recognized: %@" = "Teks tidak dapat dikenali: %@";
 
 /* machine */
+"The text is too long for this code." = "Teks terlalu panjang untuk kode ini.";
+
+/* machine */
 "The torn edges of this image." = "Tepi sobek gambar ini.";
 
 /* machine */
@@ -5211,6 +5274,9 @@
 /* machine */
 "There is no recipe '%@'." = "Tidak ada resep '%@'.";
 
+/* machine */
+"There is nothing to encode." = "Tidak ada yang perlu dienkode.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Ada masalah ketika login: %@";
 
@@ -5270,6 +5336,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Program ini tidak ditandatangani oleh pengembang.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Berkas resep ini berubah di luar Greenshot. Greenshot meminta persetujuan Anda sebelum menjalankannya.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Berkas resep ini belum disetujui. Greenshot meminta persetujuan Anda sebelum menjalankannya.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Resep ini ditulis oleh alat AI, bukan oleh Greenshot atau Anda. Periksa apa yang dilakukannya di bawah (Greenshot menjelaskannya dari resep itu sendiri) dan nyalakan hanya pemicu yang Anda inginkan.";
@@ -5410,6 +5482,9 @@
 "Type the shortcut…" = "Ketik pintasan…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E menerima 7 digit, atau 8 dengan digit pemeriksa.";
+
+/* machine */
 "Unavailable" = "Tidak tersedia";
 
 /* machine */
@@ -5465,6 +5540,9 @@
 
 /* machine */
 "Unsaved changes" = "Perubahan belum disimpan";
+
+/* machine */
+"Untitled" = "Tanpa Judul";
 
 /* machine */
 "Updated at %@" = "Diperbarui pada %@";

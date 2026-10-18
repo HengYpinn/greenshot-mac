@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ non riuscito	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ terminato	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ ha dei problemi: %lld da risolvere prima che possa essere eseguita.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ accetta al massimo %lld caratteri; qui sono %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ non contiene alcuna ricetta.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ in %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ in %@ – clicca per mostrare nel Finder	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ ha segnalato un problema: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ esegue script: è consentito solo lo script qui sopra, non ogni script eseguito da %@.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ dovrebbe aprirsi al login, ma macOS attende che tu lo consenta in Elementi login ed estensioni.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ accetta %lld cifre, oppure %lld con la cifra di controllo.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ accetta solo cifre.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ vuole usare %@ per elencare le tue finestre, catturare schermate ed eseguire ricette di Greenshot.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ ritaglia  ⎋ annulla	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ taglia  ⎋ annulla	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: programma non trovato	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld annotazioni	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld elementi non possono essere mostrati qui: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld errori	claude-sonnet-5-5 2026-10-18
 %lld found	%lld trovati	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld spazi	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld passaggi	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld attivatori disattivati	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	%lld attivatori sono stati lasciati disattivati quando questa ricetta è stata approvata%@. Rivedi l'approvazione per attivarli.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld avvisi	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	'%@' non può seguire '%@': il flusso andrebbe in ciclo.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = tutti i file	claude-sonnet-5-5 2026-10-18
 0 lines	0 righe	claude-sonnet-5-5 2026-10-18
+1 annotation	1 annotazione	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 elemento non può essere mostrato qui: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 errore	claude-sonnet-5-5 2026-10-18
 1 hour	1 ora	claude-sonnet-5-5 2026-10-18
 1 minute	1 minuto	claude-sonnet-5-5 2026-10-18
 1 step	1 passaggio	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 attivatore disattivato	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	1 attivatore è stato lasciato disattivato quando questa ricetta è stata approvata%@. Rivedi l'approvazione per attivarlo.	claude-sonnet-5-5 2026-10-18
 1 warning	1 avviso	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Un'icona nel Dock e un posto in ⌘Tab mentre è aperto un editor o Impostazioni; l'icona nella barra dei menu c'è comunque, a meno che non sia nascosta qui sotto. Disattivato: aprire un editor da un'app a schermo intero resta nel suo Space invece di passare alla scrivania.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	Un codice UPC-E inizia con il suo sistema numerico, 0 o 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Un file di Greenshot per Windows: Salva chiede un nuovo file, quindi questo resta com'è.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Un file vuole aggiungere un passaggio automatico ad altre ricette, comprese quelle integrate. Controlla quali ricette modifica e cosa aggiunge prima di approvare.	claude-sonnet-5-5 2026-10-18
 A link wanted to take a screenshot	Un link ha voluto catturare una schermata	claude-sonnet-5-5 2026-10-18
@@ -447,6 +455,11 @@ Close All	Chiudi tutto	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	La chiusura di un editor con modifiche le scarta senza chiedere.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	I siti cloud terminano con /wiki.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Cloud: email e token API	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar contiene cifre e - $ : / . + tra i caratteri di inizio e di fine.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar inizia e termina con A, B, C o D (oppure T, N, *, E), o con nessuno di essi.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 contiene solo caratteri ASCII (niente accenti né simboli oltre l'ASCII).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 contiene solo caratteri ASCII.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 contiene solo caratteri ASCII.	claude-sonnet-5-5 2026-10-18
 Code hash	Hash del codice	claude-sonnet-5-5 2026-10-18
 Code signature	Firma del codice	claude-sonnet-5-5 2026-10-18
 Color:	Colore:	claude-sonnet-5-5 2026-10-18
@@ -728,6 +741,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Quanto 
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (icona)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF accetta un numero pari di cifre; qui sono %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Identificatore	claude-sonnet-5-5 2026-10-18
 If %@: %@	Se %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Se è il tuo server, aggiungi %@ o l'impronta in Impostazioni › Destinazioni › I tuoi server.	claude-sonnet-5-5 2026-10-18
@@ -740,7 +754,7 @@ Import Annotations from %@	Importa annotazioni da %@	claude-sonnet-5-5 2026-10-1
 Import Annotations from a Greenshot File	Importa annotazioni da un file Greenshot	claude-sonnet-5-5 2026-10-18
 Import From This Editor	Importa da questo editor	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Importate %lld annotazioni da %@	claude-sonnet-5-5 2026-10-18
-In	Dentro	claude-sonnet-5-5 2026-10-18
+In	Ingresso	claude-sonnet-5-5 2026-10-18
 In Settings › Output you choose the folder and the file name pattern of saved screenshots.	In Impostazioni › Destinazione scegli la cartella e il modello del nome file delle schermate salvate.	claude-opus-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	In pochi passaggi vedrai come funziona la cattura e %@ verifica che tutto sia configurato bene.	claude-sonnet-5-5 2026-10-18
 In parallel	In parallelo	claude-sonnet-5-5 2026-10-18
@@ -772,6 +786,7 @@ Invalid JSON syntax or schema:\n%@	Sintassi o schema JSON non valido:\n%@	claude
 Issue identifier (stack trace hash)	Identificatore del problema (hash dello stack trace)	claude-sonnet-5-5 2026-10-18
 Issue key:	Chiave del problema:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	È terminato con codice di uscita %d.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	È l'inizio di «%@» (%@), che quindi non scatterebbe mai.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Viene eseguito da %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Smette subito di essere eseguita e non viene più caricata. Il suo file resta dov'è: importalo di nuovo per rivederla e approvarla.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Smette subito di essere eseguita e non viene più caricata. Il suo file resta dov'è: aprilo di nuovo per rivederla e approvarla.	claude-sonnet-5-5 2026-10-18
@@ -1060,7 +1075,7 @@ Orgchart	Organigramma	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	Altre app di cattura schermo	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	Altrimenti (%@)	claude-sonnet-5-5 2026-10-18
 Other…	Altro…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	Uscita	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: consenti esportazione negli elementi riunione	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: formato email per le nuove email	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	Sovrascrivi un file con lo stesso nome	claude-sonnet-5-5 2026-10-18
@@ -1101,6 +1116,7 @@ Please enter recipient name and IBAN.	Inserisci il nome del destinatario e l'IBA
 Please enter recipient number.	Inserisci il numero del destinatario.	claude-sonnet-5-5 2026-10-18
 Please enter text or a URL.	Inserisci un testo o un URL.	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Seleziona come procedere con questa cattura:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey accetta cifre e le lettere da A a F.	claude-sonnet-5-5 2026-10-18
 Pointer	Puntatore	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Puntare una finestra in Cattura finestra da elenco ne mostra un'immagine. Richiede il permesso di registrazione schermo.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Punta a un'app mancante: clicca Installa	claude-sonnet-5-5 2026-10-18
@@ -1135,6 +1151,7 @@ Quick settings	Impostazioni rapide	claude-sonnet-5-5 2026-10-18
 Quit %@	Esci da %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Chiudila prima di avviare questa copia.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	CONFIGURAZIONE RICETTA	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	SOSTITUISCE L'INTEGRATA	claude-sonnet-5-5 2026-10-18
 Range	Intervallo	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Dettagli testo semplice o URL	claude-sonnet-5-5 2026-10-18
 Read error	Errore di lettura	claude-sonnet-5-5 2026-10-18
@@ -1321,6 +1338,7 @@ Saved file	File salvato	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	Ricetta salvata in %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	Il salvataggio sostituisce altre ricette	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Salvataggio come %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Il salvataggio richiede la tua approvazione: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	Salvataggio della registrazione…	claude-sonnet-5-5 2026-10-18
 Saving…	Salvataggio…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Scala per riempire il video	claude-sonnet-5-5 2026-10-18
@@ -1514,6 +1532,7 @@ The area is not on a display.	L'area non si trova su un display.	claude-sonnet-5
 The automatic step is only used with every permission it needs.	Il passaggio automatico viene usato solo con tutti i permessi di cui ha bisogno.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	Il certificato di %@ ha l'impronta SHA-256 %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	La ricetta modificata richiede %@, che la sua approvazione non consente ancora. Salvala prima; il salvataggio chiede la tua approvazione.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	La cifra di controllo è sbagliata: l'ultima cifra dovrebbe essere %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	Gli Appunti contengono %lld tipi.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	Gli Appunti contengono 1 tipo.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	Gli Appunti sono vuoti.	claude-sonnet-5-5 2026-10-18
@@ -1608,6 +1627,7 @@ The sign-in window could not be opened.	Impossibile aprire la finestra di access
 The size of File › New Image, a white image to draw on.	Le dimensioni di File › Nuova immagine, un'immagine bianca su cui disegnare.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	Impossibile riconoscere il testo	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Impossibile riconoscere il testo: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	Il testo è troppo lungo per questo codice.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	I bordi strappati di questa immagine.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Le parti trasparenti dell'immagine prendono questo colore.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Gli attivatori partono disattivati. Attiva ognuno che può avviare questa ricetta: un attivatore lasciato disattivato resta disattivato (puoi attivarlo in seguito con Permessi). Senza un attivatore puoi comunque eseguire la ricetta dall'elenco ricette.	claude-sonnet-5-5 2026-10-18
@@ -1625,6 +1645,7 @@ There is no border of one color around the content to crop away.	Non c'è un bor
 There is no image on the clipboard	Non c'è nessuna immagine negli Appunti	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Non c'è nessuna immagine da aprire.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	Non esiste la ricetta '%@'.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Non c'è nulla da codificare.	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Non c'era nulla sullo schermo da catturare.	claude-sonnet-5-5 2026-10-18
 Thermal state	Stato termico	claude-sonnet-5-5 2026-10-18
 These are for this print only.	Valgono solo per questa stampa.	claude-sonnet-5-5 2026-10-18
@@ -1643,6 +1664,8 @@ This is a recipe; the editor has an automatic step open.	Questa è una ricetta; 
 This is an automatic step; the editor has a recipe open.	Questo è un passaggio automatico; l'editor ha aperto una ricetta.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Questo programma viene fornito SENZA ALCUNA GARANZIA. È software libero e puoi ridistribuirlo a certe condizioni: la %@ o successiva.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Questo programma non è firmato da uno sviluppatore.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Questo file di ricetta è cambiato fuori da Greenshot. Greenshot chiede la tua approvazione prima di eseguirlo.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Questo file di ricetta non è ancora approvato. Greenshot chiede la tua approvazione prima di eseguirlo.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Questa ricetta è stata scritta da uno strumento AI, non da Greenshot né da te. Controlla qui sotto cosa fa (Greenshot la descrive dalla ricetta stessa) e attiva solo gli attivatori che vuoi.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Questo passaggio non ha parametri.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Questo attivatore resta disattivato, quindi non avvierà la ricetta:	claude-sonnet-5-5 2026-10-18
@@ -1681,6 +1704,7 @@ Two objects and text	Due oggetti e testo	claude-sonnet-5-5 2026-10-18
 Two objects over text	Due oggetti sopra il testo	claude-sonnet-5-5 2026-10-18
 Type	Tipo	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Digita la scorciatoia…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E accetta 7 cifre, oppure 8 con la cifra di controllo.	claude-sonnet-5-5 2026-10-18
 Unavailable	Non disponibile	claude-sonnet-5-5 2026-10-18
 Undo	Annulla	claude-sonnet-5-5 2026-10-18
 Undo (⌘Z)	Annulla (⌘Z)	claude-sonnet-5-5 2026-10-18
@@ -1699,6 +1723,7 @@ Unnamed Recipe	Ricetta senza nome	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Registrazione illeggibile: clicca Installa	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Modifiche non salvate	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Modifiche non salvate	claude-sonnet-5-5 2026-10-18
+Untitled	Senza titolo	claude-sonnet-5-5 2026-10-18
 Updated at %@	Aggiornato alle %@	claude-sonnet-5-5 2026-10-18
 Updates	Aggiornamenti	claude-sonnet-5-5 2026-10-18
 Upload to Confluence – %@	Carica su Confluence – %@	claude-sonnet-5-5 2026-10-18

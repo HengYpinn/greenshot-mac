@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ に問題があります。実行するには %lld 件を修正してください。";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ は最大 %lld 文字までです。現在は %lld 文字です。";
+
+/* machine */
 "%@ holds no recipe." = "%@ にレシピが含まれていません。";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ はログイン時に開く設定ですが、macOS が「ログイン項目と機能拡張」での許可を待っています。";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ は %lld 桁、またはチェックディジット付きの %lld 桁です。";
+
+/* machine */
+"%@ takes digits only." = "%@ は数字のみ使用できます。";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ が %@ を使用してウィンドウの一覧表示とスクリーンショットの撮影、および Greenshot レシピの実行を行おうとしています。";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@：プログラムが見つかりませんでした";
+
+/* machine */
+"%lld annotations" = "注釈 %lld 件";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld 個の要素はここに表示できません：%@。";
@@ -317,6 +329,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld 個のトリガがオフ";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "このレシピの承認時にオフにされたままのトリガーが %lld 件あります%@。オンにするには承認を確認してください。";
 
 /* machine */
 "%lld warnings" = "%lld 件の警告";
@@ -376,6 +391,9 @@
 "0 lines" = "0 行";
 
 /* machine */
+"1 annotation" = "注釈 1 件";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 個の要素はここに表示できません：%@。";
 
 /* machine */
@@ -394,10 +412,16 @@
 "1 trigger off" = "1 個のトリガがオフ";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "このレシピの承認時にオフにされたままのトリガーが 1 件あります%@。オンにするには承認を確認してください。";
+
+/* machine */
 "1 warning" = "1 件の警告";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Dock のアイコンと ⌘Tab 内の項目は、エディターまたは「設定」を開いている間表示されます。メニューバーアイコンは、下で非表示にしていない限り常に表示されます。オフの場合：フルスクリーンアプリからエディターを開いても、デスクトップに切り替えず、そのスペースにとどまります。";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E コードは、番号体系の 0 または 1 で始まります。";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "この名前のコマンドは既に存在します。別の名前を選択してください。";
@@ -1423,6 +1447,21 @@
 "Cloud: email and API token" = "クラウド：メールアドレスと API トークン";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar には、開始文字と終了文字の間に数字と - $ : / . + を使用できます。";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar は、先頭と末尾に A、B、C、D（または T、N、*、E）のいずれかを付けるか、何も付けません。";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 は ASCII 文字のみ使用できます（アクセント付き文字や ASCII 以外の記号は使用不可）。";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 は ASCII 文字のみ使用できます。";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 は ASCII 文字のみ使用できます。";
+
+/* machine */
 "Code hash" = "コードハッシュ";
 
 /* machine */
@@ -2407,6 +2446,9 @@
 "ICO (icon)" = "ICO（アイコン）";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF は偶数桁の数字のみ使用できます。現在は %lld 桁です。";
+
+/* machine */
 "Identifier" = "識別子";
 
 /* machine */
@@ -2567,6 +2609,9 @@
 
 /* machine */
 "It ended with exit code %d." = "終了コード %d で終了しました。";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "これは「%@」（%@）の先頭にあたるため、そのホットキーは作動しなくなります。";
 
 /* machine */
 "It runs from %@." = "%@ から実行されます。";
@@ -3505,6 +3550,9 @@
 "Other…" = "その他…";
 
 /* machine */
+"Out" = "出力";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook：会議アイテムでの書き出しを許可";
 
 /* machine */
@@ -3649,6 +3697,9 @@
 "Please select how you would like to proceed with this capture:" = "このキャプチャの処理方法を選択してください：";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey は数字と A～F の文字を使用できます。";
+
+/* machine */
 "Pointer" = "ポインター";
 
 /* machine */
@@ -3770,6 +3821,9 @@
 
 /* core:Core.contextmenu_recipes, normalised */
 "RECIPES" = "レシピ";
+
+/* machine */
+"REPLACES BUILT-IN" = "内蔵を置き換え";
 
 /* machine */
 "Range" = "範囲";
@@ -4385,6 +4439,9 @@
 
 /* machine */
 "Saving as %@." = "%@ として保存しています。";
+
+/* machine */
+"Saving asks for your approval: %@" = "保存には承認が必要です：%@";
 
 /* machine */
 "Saving the Recording…" = "収録を保存中…";
@@ -5023,6 +5080,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "変更したレシピには %@ が必要ですが、承認ではまだ許可されていません。先に保存してください。保存すると承認を求められます。";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "チェックディジットが正しくありません。最後の桁は %lld になるはずです。";
+
+/* machine */
 "The clipboard holds %lld types." = "クリップボードには %lld 種類のデータがあります。";
 
 /* machine */
@@ -5305,6 +5365,9 @@
 "The text could not be recognized: %@" = "テキストを認識できませんでした：%@";
 
 /* machine */
+"The text is too long for this code." = "このコードにはテキストが長すぎます。";
+
+/* machine */
 "The torn edges of this image." = "この画像の引き裂き端。";
 
 /* machine */
@@ -5367,6 +5430,9 @@
 /* machine */
 "There is no recipe '%@'." = "レシピ「%@」はありません。";
 
+/* machine */
+"There is nothing to encode." = "エンコードする内容がありません。";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "ログイン中に問題が発生: %@";
 
@@ -5426,6 +5492,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "このプログラムはデベロッパによって署名されていません。";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "このレシピファイルは Greenshot の外部で変更されました。実行前に、Greenshot は承認を求めます。";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "このレシピファイルはまだ承認されていません。実行前に、Greenshot は承認を求めます。";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "このレシピは、Greenshot やあなたではなく、AI ツールが作成しました。以下でその動作を確認し（Greenshot がレシピ自体から説明しています）、必要なトリガーだけをオンにしてください。";
@@ -5569,6 +5641,9 @@
 "Type the shortcut…" = "ショートカットを入力…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E は 7 桁、またはチェックディジット付きの 8 桁です。";
+
+/* machine */
 "URL:" = "URL：";
 
 /* machine */
@@ -5627,6 +5702,9 @@
 
 /* machine */
 "Unsaved changes" = "未保存の変更";
+
+/* machine */
+"Untitled" = "名称未設定";
 
 /* machine */
 "Updated at %@" = "%@ に更新しました";

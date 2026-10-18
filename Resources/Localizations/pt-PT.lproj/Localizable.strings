@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ tem problemas: %lld a corrigir antes de poder ser executado.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ aceita no máximo %lld carateres; tem %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ não contém nenhuma receita.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "O %@ deve abrir no início de sessão, mas o macOS aguarda que o autorize em Itens de Início de Sessão e Extensões.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ aceita %lld dígitos, ou %lld com o dígito de controlo.";
+
+/* machine */
+"%@ takes digits only." = "%@ aceita apenas dígitos.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ quer usar o %@ para listar as suas janelas, fazer capturas de ecrã e executar receitas do Greenshot.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: o programa não foi encontrado";
+
+/* machine */
+"%lld annotations" = "%lld anotações";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "Não é possível mostrar aqui %lld elementos: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld acionadores desligados";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld acionadores foram deixados desativados quando esta receita foi aprovada%@. Reveja a aprovação para os ativar.";
 
 /* machine */
 "%lld warnings" = "%lld avisos";
@@ -373,6 +388,9 @@
 "0 lines" = "0 linhas";
 
 /* machine */
+"1 annotation" = "1 anotação";
+
+/* machine */
 "1 element can't be shown here: %@." = "Não é possível mostrar aqui 1 elemento: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 acionador desligado";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "1 acionador foi deixado desativado quando esta receita foi aprovada%@. Reveja a aprovação para o ativar.";
+
+/* machine */
 "1 warning" = "1 aviso";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Um ícone no Dock e um lugar em ⌘Tab enquanto um editor ou as Preferências estão abertos; o ícone da barra de menus está sempre presente, a menos que seja ocultado abaixo. Desligado: abrir um editor a partir de uma app em ecrã inteiro mantém-no no seu Espaço, em vez de mudar para a secretária.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Um código UPC-E começa pelo seu sistema numérico, 0 ou 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Já existe um comando com este nome. Por favor, escolha um nome diferente.";
@@ -1093,7 +1117,7 @@
 "Built-in" = "Integrada";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Personalizado";
+"CUSTOM" = "PERSONALIZADO";
 
 /* machine */
 "Calendar Event" = "Evento de calendário";
@@ -1415,6 +1439,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Cloud: e-mail e token de API";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar contém dígitos e - $ : / . + entre os seus carateres de início e de fim.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar começa e termina com A, B, C ou D (ou T, N, *, E), ou com nenhum deles.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 contém apenas carateres ASCII (sem acentos nem símbolos além do ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 contém apenas carateres ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 contém apenas carateres ASCII.";
 
 /* machine */
 "Code hash" = "Hash do código";
@@ -2386,6 +2425,9 @@
 "ICO (icon)" = "ICO (ícone)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF aceita um número par de dígitos; tem %lld.";
+
+/* machine */
 "Identifier" = "Identificador";
 
 /* machine */
@@ -2543,6 +2585,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Terminou com o código de saída %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "É o início de “%@” (%@), que então nunca seria acionada.";
 
 /* machine */
 "It runs from %@." = "É executado a partir de %@.";
@@ -3466,6 +3511,9 @@
 "Other…" = "Outro…";
 
 /* machine */
+"Out" = "Saída";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: permitir exportação em itens de reunião";
 
 /* machine */
@@ -3607,6 +3655,9 @@
 "Please select how you would like to proceed with this capture:" = "Selecione como pretende prosseguir com esta captura:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey aceita dígitos e as letras de A a F.";
+
+/* machine */
 "Pointer" = "Ponteiro";
 
 /* machine */
@@ -3727,7 +3778,10 @@
 "RECIPE CONFIGURATION" = "CONFIGURAÇÃO DA RECEITA";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Receitas";
+"RECIPES" = "RECEITAS";
+
+/* machine */
+"REPLACES BUILT-IN" = "SUBSTITUI A INTEGRADA";
 
 /* machine */
 "Range" = "Intervalo";
@@ -4343,6 +4397,9 @@
 
 /* machine */
 "Saving as %@." = "A guardar como %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Guardar pede a sua aprovação: %@";
 
 /* machine */
 "Saving the Recording…" = "A guardar a gravação…";
@@ -4975,6 +5032,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "A receita alterada precisa de %@, que a sua aprovação ainda não permite. Guarde-a primeiro; ao guardar, é pedida a sua aprovação.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "O dígito de controlo está errado: o último dígito devia ser %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "A área de transferência contém %lld tipos.";
 
 /* machine */
@@ -5257,6 +5317,9 @@
 "The text could not be recognized: %@" = "Não foi possível reconhecer o texto: %@";
 
 /* machine */
+"The text is too long for this code." = "O texto é demasiado longo para este código.";
+
+/* machine */
 "The torn edges of this image." = "As bordas rasgadas desta imagem.";
 
 /* machine */
@@ -5319,6 +5382,9 @@
 /* machine */
 "There is no recipe '%@'." = "Não existe a receita \"%@\".";
 
+/* machine */
+"There is nothing to encode." = "Não há nada para codificar.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Houve um problema com o início de sessão: %@";
 
@@ -5378,6 +5444,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Este programa não está assinado por um programador.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Este ficheiro de receita foi alterado fora do Greenshot. O Greenshot pede a sua aprovação antes de o executar.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Este ficheiro de receita ainda não foi aprovado. O Greenshot pede a sua aprovação antes de o executar.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Esta receita foi escrita por uma ferramenta de IA, não pelo Greenshot nem por si. Veja abaixo o que faz (o Greenshot descreve-a a partir da própria receita) e ligue apenas os acionadores que quer.";
@@ -5515,6 +5587,9 @@
 "Type the shortcut…" = "Escreva o atalho…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E aceita 7 dígitos, ou 8 com o dígito de controlo.";
+
+/* machine */
 "Unavailable" = "Indisponível";
 
 /* machine */
@@ -5570,6 +5645,9 @@
 
 /* machine */
 "Unsaved changes" = "Alterações por guardar";
+
+/* machine */
+"Untitled" = "Sem título";
 
 /* machine */
 "Updated at %@" = "Atualizado em %@";

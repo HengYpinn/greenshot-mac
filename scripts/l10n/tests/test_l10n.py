@@ -126,6 +126,9 @@ class ConvertTests(unittest.TestCase):
         self.assertEqual(l10n.align_punctuation("\u5e45", "Width:", "ja"), "\u5e45\uff1a")
         self.assertEqual(l10n.align_case("alle", "All"), "Alle")
         self.assertEqual(l10n.align_case("iPhone", "phone"), "iPhone")
+        self.assertEqual(l10n.align_case("Benutzerdefiniert", "CUSTOM", "de"), "BENUTZERDEFINIERT")
+        self.assertEqual(l10n.align_case("işlem", "ACTIVE", "tr"), "İŞLEM")
+        self.assertEqual(l10n.align_case("Tamam", "OK", "tr"), "Tamam")
 
     def test_upstream_hints_are_left_out(self):
         value, _ = l10n.convert("Pfeil zeichnen (A)", "Draw Arrow", "Draw Arrow", candidate("Draw arrow (A)", [], "override"), "de")

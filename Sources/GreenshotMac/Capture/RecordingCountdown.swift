@@ -91,9 +91,16 @@ final class RecordingCountdownView: NSView {
         ])
         let size = number.size()
         number.draw(at: NSPoint(x: bounds.midX - size.width / 2, y: bounds.midY - size.height / 2 + 10))
-        let caption = NSAttributedString(string: String(localized: "Recording starts", comment: "Below the countdown's seconds"), attributes: [
-            .font: NSFont.systemFont(ofSize: 13, weight: .medium), .foregroundColor: NSColor(white: 1, alpha: 0.85),
-        ])
+        let text = String(localized: "Recording starts", comment: "Below the countdown's seconds")
+        func captionText(_ size: CGFloat) -> NSAttributedString {
+            NSAttributedString(string: text, attributes: [
+                .font: NSFont.systemFont(ofSize: size, weight: .medium), .foregroundColor: NSColor(white: 1, alpha: 0.85),
+            ])
+        }
+        // Longer languages get a smaller font, so the caption keeps its margins.
+        var caption = captionText(13)
+        let room = bounds.width - 36
+        if caption.size().width > room { caption = captionText(max(9, floor(13 * room / caption.size().width))) }
         let captionSize = caption.size()
         caption.draw(at: NSPoint(x: bounds.midX - captionSize.width / 2, y: bounds.minY + 18))
     }

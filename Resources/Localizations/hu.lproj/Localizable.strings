@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ hibákat tartalmaz: %lld javítandó, mielőtt futtatható lenne.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "A(z) %@ legfeljebb %lld karaktert tartalmazhat; ez %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ nem tartalmaz receptet.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ megnyílna bejelentkezéskor, de a macOS arra vár, hogy engedélyezze a Bejelentkezési elemek és bővítmények alatt.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "A(z) %@ %lld számjegyet fogad el, vagy %lld számjegyet az ellenőrző számjeggyel.";
+
+/* machine */
+"%@ takes digits only." = "A(z) %@ csak számjegyeket fogad el.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ szeretné használni ezt: %@, hogy listázza az ablakait, képernyőképeket készítsen és Greenshot-recepteket futtasson.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: a program nem található";
+
+/* machine */
+"%lld annotations" = "%lld jegyzet";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elem nem jeleníthető meg itt: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld indító kikapcsolva";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "A recept jóváhagyásakor %lld indító maradt kikapcsolva%@. Tekintse át a jóváhagyást a bekapcsolásukhoz.";
 
 /* machine */
 "%lld warnings" = "%lld figyelmeztetés";
@@ -373,6 +388,9 @@
 "0 lines" = "0 sor";
 
 /* machine */
+"1 annotation" = "1 jegyzet";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 elem nem jeleníthető meg itt: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 indító kikapcsolva";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "A recept jóváhagyásakor 1 indító maradt kikapcsolva%@. Tekintse át a jóváhagyást a bekapcsolásához.";
+
+/* machine */
 "1 warning" = "1 figyelmeztetés";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Dock-ikon és hely a ⌘Tab váltóban, amíg szerkesztő vagy a Beállítások nyitva van; a menüsor ikonja mindkét esetben megjelenik, hacsak alább el nincs rejtve. Kikapcsolva: ha egy teljes képernyős alkalmazásból nyit meg szerkesztőt, az a saját Spaceén marad, és nem vált az asztalra.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Az UPC-E kód a számrendszerével kezdődik: 0 vagy 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Ilyen nevű parancs már létezik. Válasszon másik nevet.";
@@ -1423,6 +1447,21 @@
 "Cloud: email and API token" = "Felhő: e-mail-cím és API-token";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "A Codabar számjegyeket és a - $ : / . + jeleket tartalmazza a kezdő és a záró karakter között.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "A Codabar A, B, C vagy D (esetleg T, N, *, E) karakterrel kezdődik és végződik, vagy egyikkel sem.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "A Code 128 csak ASCII karaktereket tartalmaz (ékezetek és az ASCII-n kívüli szimbólumok nélkül).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "A Code 39 csak ASCII karaktereket tartalmaz.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "A Code 93 csak ASCII karaktereket tartalmaz.";
+
+/* machine */
 "Code hash" = "Kódhash";
 
 /* machine */
@@ -2398,6 +2437,9 @@
 "ICO (icon)" = "ICO (ikon)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "Az ITF páros számú számjegyet fogad el; ez %lld.";
+
+/* machine */
 "Identifier" = "Azonosító";
 
 /* machine */
@@ -2449,7 +2491,7 @@
 "Imported %lld annotations from %@" = "%lld jegyzet importálva innen: %@";
 
 /* machine */
-"In" = "Be";
+"In" = "Bemenet";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "A Beállítások › Mentés alatt választhatja ki a mentett képernyőképek mappáját és fájlnévmintáját.";
@@ -2555,6 +2597,9 @@
 
 /* machine */
 "It ended with exit code %d." = "%d kilépési kóddal fejeződött be.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Ez a(z) „%@” (%@) eleje, ezért az sosem indulna el.";
 
 /* machine */
 "It runs from %@." = "Innen fut: %@.";
@@ -3487,6 +3532,9 @@
 "Other…" = "Egyéb…";
 
 /* machine */
+"Out" = "Kimenet";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: exportálás engedélyezése megbeszéléselemekben";
 
 /* machine */
@@ -3628,6 +3676,9 @@
 "Please select how you would like to proceed with this capture:" = "Válassza ki, hogyan folytassa ezt a rögzítést:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "A Plessey számjegyeket és az A–F betűket fogadja el.";
+
+/* machine */
 "Pointer" = "Mutató";
 
 /* machine */
@@ -3745,7 +3796,10 @@
 "RECIPE CONFIGURATION" = "RECEPT KONFIGURÁCIÓJA";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Receptek";
+"RECIPES" = "RECEPTEK";
+
+/* machine */
+"REPLACES BUILT-IN" = "FELÜLÍRJA A BEÉPÍTETTET";
 
 /* machine */
 "Range" = "Tartomány";
@@ -4361,6 +4415,9 @@
 
 /* machine */
 "Saving as %@." = "Mentés mint %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "A mentéshez jóváhagyás szükséges: %@";
 
 /* machine */
 "Saving the Recording…" = "A felvétel mentése…";
@@ -4996,6 +5053,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "A módosított recept ezt igényli: %@, amit a jóváhagyása még nem engedélyez. Először mentse el; a mentés a jóváhagyását kéri.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Az ellenőrző számjegy hibás: az utolsó számjegynek %lld kell lennie.";
+
+/* machine */
 "The clipboard holds %lld types." = "A vágólap %lld típust tartalmaz.";
 
 /* machine */
@@ -5278,6 +5338,9 @@
 "The text could not be recognized: %@" = "A szöveg nem ismerhető fel: %@";
 
 /* machine */
+"The text is too long for this code." = "A szöveg túl hosszú ehhez a kódhoz.";
+
+/* machine */
 "The torn edges of this image." = "A kép szakadt szélei.";
 
 /* machine */
@@ -5341,6 +5404,9 @@
 "There is no recipe '%@'." = "Nincs „%@” recept.";
 
 /* machine */
+"There is nothing to encode." = "Nincs mit kódolni.";
+
+/* machine */
 "There was a problem during the login: %@" = "Probléma történt a bejelentkezés során: %@";
 
 /* machine */
@@ -5399,6 +5465,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Ezt a programot nem írta alá fejlesztő.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Ez a receptfájl a Greenshoton kívül módosult. A Greenshot futtatás előtt jóváhagyást kér.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Ez a receptfájl még nincs jóváhagyva. A Greenshot futtatás előtt jóváhagyást kér.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Ezt a receptet egy AI-eszköz írta, nem a Greenshot és nem Ön. Lent nézze meg, mit csinál (a Greenshot magából a receptből írja le), és csak a kívánt indítókat kapcsolja be.";
@@ -5542,6 +5614,9 @@
 "Type the shortcut…" = "Írja be a billentyűparancsot…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "Az UPC-E 7 számjegyet fogad el, vagy 8-at az ellenőrző számjeggyel.";
+
+/* machine */
 "Unavailable" = "Nem elérhető";
 
 /* machine */
@@ -5597,6 +5672,9 @@
 
 /* machine */
 "Unsaved changes" = "Nem mentett módosítások";
+
+/* machine */
+"Untitled" = "Névtelen";
 
 /* machine */
 "Updated at %@" = "Frissítve: %@";

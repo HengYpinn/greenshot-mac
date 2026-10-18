@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ har problemer: %lld skal rettes, før den kan køre.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ rummer højst %lld tegn; her er der %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ indeholder ingen opskrift.";
 
 /* machine */
@@ -244,6 +247,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ skal åbne ved login, men macOS venter på, at du tillader det under Loginemner og udvidelser.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ tager %lld cifre, eller %lld med kontrolcifferet.";
+
+/* machine */
+"%@ takes digits only." = "%@ tager kun cifre.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ vil bruge %@ til at vise dine vinduer, tage skærmklip og køre Greenshot-opskrifter.";
 
 /* machine */
@@ -269,6 +278,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: programmet blev ikke fundet";
+
+/* machine */
+"%lld annotations" = "%lld anmærkninger";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elementer kan ikke vises her: %@.";
@@ -308,6 +320,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld udløsere fra";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Da denne opskrift blev godkendt, blev %lld udløsere slået fra%@. Gennemgå godkendelsen for at slå dem til.";
 
 /* machine */
 "%lld warnings" = "%lld advarsler";
@@ -367,6 +382,9 @@
 "0 lines" = "0 linjer";
 
 /* machine */
+"1 annotation" = "1 anmærkning";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 element kan ikke vises her: %@.";
 
 /* machine */
@@ -385,10 +403,16 @@
 "1 trigger off" = "1 udløser fra";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Da denne opskrift blev godkendt, blev 1 udløser slået fra%@. Gennemgå godkendelsen for at slå den til.";
+
+/* machine */
 "1 warning" = "1 advarsel";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Et Dock-symbol og en plads i ⌘Tab, mens en editor eller Præferencer er åben; symbolet i menulinjen er der under alle omstændigheder, medmindre det er skjult nedenfor. Fra: Når en editor åbnes fra en app i fuld skærm, forbliver den på sit Space i stedet for at skifte til skrivebordet.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "En UPC-E-kode starter med sit nummersystem, 0 eller 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Der findes allerede en kommando med dette navn. Vælg et andet navn.";
@@ -1414,6 +1438,21 @@
 "Cloud: email and API token" = "Cloud: e-mail og API-token";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar rummer cifre og - $ : / . + mellem start- og stoptegnet.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar starter og slutter med A, B, C eller D (eller T, N, *, E), eller med ingen af dem.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 rummer kun ASCII-tegn (ingen accenter eller symboler ud over ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 rummer kun ASCII-tegn.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 rummer kun ASCII-tegn.";
+
+/* machine */
 "Code hash" = "Kodehash";
 
 /* machine */
@@ -2371,6 +2410,9 @@
 "ICO (icon)" = "ICO (symbol)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF tager et lige antal cifre; her er der %lld.";
+
+/* machine */
 "Identifier" = "Identifikator";
 
 /* machine */
@@ -2422,7 +2464,7 @@
 "Imported %lld annotations from %@" = "Importerede %lld anmærkninger fra %@";
 
 /* machine */
-"In" = "Ind";
+"In" = "Indgang";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "I Præferencer › Output vælger du mappen og mønsteret for filnavne på gemte skærmklip.";
@@ -2525,6 +2567,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Det sluttede med slutkoden %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Det er begyndelsen af “%@” (%@), som så aldrig ville blive udløst.";
 
 /* machine */
 "It runs from %@." = "Det kører fra %@.";
@@ -3448,7 +3493,7 @@
 "Other…" = "Andet…";
 
 /* machine */
-"Out" = "Ud";
+"Out" = "Udgang";
 
 /* machine */
 "Outlook: allow export in meeting items" = "Outlook: tillad eksport i mødeelementer";
@@ -3589,6 +3634,9 @@
 "Please select how you would like to proceed with this capture:" = "Vælg, hvordan du vil fortsætte med dette klip:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey tager cifre og bogstaverne A til F.";
+
+/* machine */
 "Pointer" = "Markør";
 
 /* machine */
@@ -3703,7 +3751,10 @@
 "RECIPE CONFIGURATION" = "OPSKRIFTSKONFIGURATION";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Opskrifter";
+"RECIPES" = "OPSKRIFTER";
+
+/* machine */
+"REPLACES BUILT-IN" = "ERSTATTER INDBYGGET";
 
 /* machine */
 "Range" = "Interval";
@@ -4316,6 +4367,9 @@
 
 /* machine */
 "Saving as %@." = "Gemmer som %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Når du gemmer, skal du give din godkendelse: %@";
 
 /* machine */
 "Saving the Recording…" = "Gemmer optagelsen…";
@@ -4936,6 +4990,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Den ændrede opskrift kræver %@, som dens godkendelse endnu ikke tillader. Gem den først; ved gemning bliver du bedt om godkendelse.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrolcifferet er forkert: det sidste ciffer skal være %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Udklipsholderen indeholder %lld typer.";
 
 /* machine */
@@ -5218,6 +5275,9 @@
 "The text could not be recognized: %@" = "Teksten kunne ikke genkendes: %@";
 
 /* machine */
+"The text is too long for this code." = "Teksten er for lang til denne kode.";
+
+/* machine */
 "The torn edges of this image." = "Dette billedes afrevne kanter.";
 
 /* machine */
@@ -5281,6 +5341,9 @@
 "There is no recipe '%@'." = "Der er ingen opskrift '%@'.";
 
 /* machine */
+"There is nothing to encode." = "Der er intet at kode.";
+
+/* machine */
 "There was a problem during the login: %@" = "Der opstod et problem under login: %@";
 
 /* machine */
@@ -5339,6 +5402,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Dette program er ikke signeret af en udvikler.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Denne opskriftsfil er ændret uden for Greenshot. Greenshot beder om din godkendelse, før den kører.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Denne opskriftsfil er ikke godkendt endnu. Greenshot beder om din godkendelse, før den kører.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Denne opskrift er skrevet af et AI-værktøj, ikke af Greenshot eller af dig. Tjek nedenfor, hvad den gør (Greenshot beskriver det ud fra selve opskriften), og slå kun de udløsere til, du vil have.";
@@ -5479,6 +5548,9 @@
 "Type the shortcut…" = "Skriv genvejen…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E tager 7 cifre, eller 8 med kontrolcifferet.";
+
+/* machine */
 "Unavailable" = "Ikke tilgængelig";
 
 /* machine */
@@ -5534,6 +5606,9 @@
 
 /* machine */
 "Unsaved changes" = "Ikke-gemte ændringer";
+
+/* machine */
+"Untitled" = "Unavngivet";
 
 /* machine */
 "Updated at %@" = "Opdateret %@";

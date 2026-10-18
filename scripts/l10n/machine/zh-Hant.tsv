@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ 失敗	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ 已完成	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ 有問題：需先修正 %lld 項才能執行。	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ 最多可容納 %lld 個字元；目前為 %lld 個。	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ 不包含任何配方。	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ 於 %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ 於 %@ – 按一下以在 Finder 中顯示	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ 回報了問題：%@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ 會執行 script：只允許上方的 script，而非 %@ 執行的所有 script。	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ 應在登入時開啟，但 macOS 正等待您在「登入項目與延伸功能」中允許。	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ 接受 %lld 位數字，含檢查碼則為 %lld 位。	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ 只接受數字。	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ 想要使用 %@ 列出您的視窗、擷取螢幕截圖，並執行 Greenshot 配方。	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ 裁剪  ⎋ 取消	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ 剪下  ⎋ 取消	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@：找不到該程式	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld 個註解	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	有 %lld 個元素無法在此顯示：%@。	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld 個錯誤	claude-sonnet-5-5 2026-10-18
 %lld found	找到 %lld 項	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld 個空間	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld 個步驟	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld 個觸發條件已關閉	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	核准此配方時有 %lld 個觸發條件處於關閉狀態%@。請檢視核准以將其開啟。	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld 個警告	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	「%@」無法接在「%@」之後：流程會形成迴圈。	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = 所有檔案	claude-sonnet-5-5 2026-10-18
 0 lines	0 行	claude-sonnet-5-5 2026-10-18
+1 annotation	1 個註解	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	有 1 個元素無法在此顯示：%@。	claude-sonnet-5-5 2026-10-18
 1 error	1 個錯誤	claude-sonnet-5-5 2026-10-18
 1 hour	1 小時	claude-sonnet-5-5 2026-10-18
 1 minute	1 分鐘	claude-sonnet-5-5 2026-10-18
 1 step	1 個步驟	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 個觸發條件已關閉	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	核准此配方時有 1 個觸發條件處於關閉狀態%@。請檢視核准以將其開啟。	claude-sonnet-5-5 2026-10-18
 1 warning	1 個警告	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	編輯器或設定開啟時，會顯示 Dock 圖像並可在 ⌘Tab 中切換；選單列圖像則不論如何都會顯示，除非在下方將其隱藏。關閉時：從全螢幕 App 開啟編輯器會停留在原本的 Space，而不會切換到桌面。	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	UPC-E 碼以其編號系統 0 或 1 開頭。	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows 的檔案：「儲存」會要求建立新檔案，因此此檔案維持不變。	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	有檔案想為其他配方（包含內建配方）加入自動步驟。核准前請檢視它會更改哪些配方以及加入什麼內容。	claude-sonnet-5-5 2026-10-18
 A link wanted to take a screenshot	有連結想要擷取螢幕截圖	claude-sonnet-5-5 2026-10-18
@@ -448,6 +456,11 @@ Close All	全部關閉	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	關閉有更動的編輯器時，會直接捨棄更動而不詢問。	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	雲端網站以 /wiki 結尾。	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	雲端：電子郵件和 API 權杖	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar 在起始字元與結束字元之間可包含數字以及 - $ : / . +。	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar 以 A、B、C 或 D（或 T、N、*、E）開頭和結尾，或兩者皆無。	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 僅能包含 ASCII 字元（不含帶重音符號的字母及 ASCII 以外的符號）。	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 僅能包含 ASCII 字元。	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 僅能包含 ASCII 字元。	claude-sonnet-5-5 2026-10-18
 Code hash	程式碼雜湊	claude-sonnet-5-5 2026-10-18
 Code signature	程式碼簽章	claude-sonnet-5-5 2026-10-18
 Color:	顏色：	claude-sonnet-5-5 2026-10-18
@@ -729,6 +742,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	%@ 寫�
 IBAN:	IBAN：	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO（圖像）	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF 接受偶數位數字；目前為 %lld 位。	claude-sonnet-5-5 2026-10-18
 Identifier	識別碼	claude-sonnet-5-5 2026-10-18
 If %@: %@	如果 %@：%@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	如果這是您自己的伺服器，請在「設定 › 目的地 › 您自己的伺服器」下加入 %@ 或指紋。	claude-sonnet-5-5 2026-10-18
@@ -741,7 +755,7 @@ Import Annotations from %@	從 %@ 匯入註解	claude-sonnet-5-5 2026-10-18
 Import Annotations from a Greenshot File	從 Greenshot 檔案匯入註解	claude-sonnet-5-5 2026-10-18
 Import From This Editor	從此編輯器匯入	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	已從 %2$@ 匯入 %1$lld 個註解	claude-sonnet-5-5 2026-10-18
-In	輸入	claude-sonnet-5-5 2026-10-18
+In	入口	claude-sonnet-5-5 2026-10-18
 In Settings › Output you choose the folder and the file name pattern of saved screenshots.	在「設定 › 輸出」中，您可以選擇已儲存螢幕截圖的檔案夾和檔案名稱樣式。	claude-sonnet-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	只需幾個步驟，您就會看到擷取的運作方式，%@ 也會檢查一切是否都已妥善設定。	claude-sonnet-5-5 2026-10-18
 In parallel	平行	claude-sonnet-5-5 2026-10-18
@@ -773,6 +787,7 @@ Invalid JSON syntax or schema:\n%@	無效的 JSON 語法或結構描述：\n%@	c
 Issue identifier (stack trace hash)	問題識別碼（堆疊追蹤雜湊）	claude-sonnet-5-5 2026-10-18
 Issue key:	議題鍵值：	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	它以結束代碼 %d 結束。	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	這是「%@」（%@）的開頭部分，因此永遠不會觸發。	claude-sonnet-5-5 2026-10-18
 It runs from %@.	它從 %@ 執行。	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	它會立即停止執行，且不會再次載入。其檔案會保留在原處：再次匯入即可檢視並核准。	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	它會立即停止執行，且不會再次載入。其檔案會保留在原處：再次開啟即可檢視並核准。	claude-sonnet-5-5 2026-10-18
@@ -1060,7 +1075,7 @@ Orgchart	組織圖	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	其他螢幕擷取 App	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	否則 (%@)	claude-sonnet-5-5 2026-10-18
 Other…	其他…	claude-sonnet-5-5 2026-10-18
-Out	輸出	claude-sonnet-5-5 2026-10-18
+Out	出口	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook：允許在會議項目中匯出	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook：新郵件的電子郵件格式	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	覆寫同名檔案	claude-sonnet-5-5 2026-10-18
@@ -1099,6 +1114,7 @@ Please enter recipient name and IBAN.	請輸入收款人姓名和 IBAN。	claude
 Please enter recipient number.	請輸入收件人號碼。	claude-sonnet-5-5 2026-10-18
 Please enter text or a URL.	請輸入文字或 URL。	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	請選擇要如何處理此次擷取：	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey 接受數字與字母 A 至 F。	claude-sonnet-5-5 2026-10-18
 Pointer	指標	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	在「從清單擷取視窗」中指向某個視窗時，會顯示它的圖片。需要「螢幕錄製」權限。	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	指向遺失的 App：請按一下「安裝」	claude-sonnet-5-5 2026-10-18
@@ -1134,6 +1150,7 @@ Quick settings	快速設定	claude-sonnet-5-5 2026-10-18
 Quit %@	結束 %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	請先結束它，才能啟動此副本。	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	配方設定	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	取代內建	claude-sonnet-5-5 2026-10-18
 Range	範圍	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	原始文字或 URL 詳細資料	claude-sonnet-5-5 2026-10-18
 Read error	讀取錯誤	claude-sonnet-5-5 2026-10-18
@@ -1320,6 +1337,7 @@ Saved file	已儲存的檔案	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	已將配方儲存到 %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	儲存會取代其他配方	claude-sonnet-5-5 2026-10-18
 Saving as %@.	以 %@ 儲存。	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	儲存需要您的核准：%@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	正在儲存錄影…	claude-sonnet-5-5 2026-10-18
 Saving…	正在儲存…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	縮放以填滿影片	claude-sonnet-5-5 2026-10-18
@@ -1514,6 +1532,7 @@ The area is not on a display.	該區域不在任何顯示器上。	claude-sonnet
 The automatic step is only used with every permission it needs.	自動步驟只有在取得其所需的所有權限時才會使用。	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	%@ 的憑證其 SHA-256 指紋為 %@。	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	更改後的配方需要 %@，但其核准尚未允許。請先儲存；儲存時會要求您核准。	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	檢查碼不正確：最後一位應為 %lld。	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	剪貼簿中有 %lld 種類型。	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	剪貼簿中有 1 種類型。	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	剪貼簿是空的。	claude-sonnet-5-5 2026-10-18
@@ -1608,6 +1627,7 @@ The sign-in window could not be opened.	無法開啟登入視窗。	claude-sonne
 The size of File › New Image, a white image to draw on.	「檔案 › 新增圖片」的大小，一張可供繪製的白色圖片。	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	無法辨識文字	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	無法辨識文字：%@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	文字對此碼而言太長。	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	此圖片的撕裂邊緣。	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	圖片的透明部分會套用此顏色。	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	觸發條件一開始是關閉的。請開啟每個可以啟動此配方的觸發條件：您保持關閉的觸發條件會維持關閉（之後可用「權限」開啟）。沒有觸發條件時，您仍可從配方清單執行此配方。	claude-sonnet-5-5 2026-10-18
@@ -1625,6 +1645,7 @@ There is no border of one color around the content to crop away.	沒有可裁掉
 There is no image on the clipboard	剪貼簿中沒有圖片	claude-sonnet-5-5 2026-10-18
 There is no image to open.	沒有可開啟的圖片。	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	沒有配方「%@」。	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	沒有可編碼的內容。	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	螢幕上沒有可擷取的內容。	claude-sonnet-5-5 2026-10-18
 Thermal state	熱狀態	claude-sonnet-5-5 2026-10-18
 These are for this print only.	這些僅適用於本次列印。	claude-sonnet-5-5 2026-10-18
@@ -1643,6 +1664,8 @@ This is a recipe; the editor has an automatic step open.	這是配方；編輯�
 This is an automatic step; the editor has a recipe open.	這是自動步驟；編輯器開啟的是配方。	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	本程式不提供任何擔保。這是自由軟體，歡迎您在特定條件下重新散布：%@ 或更新版本。	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	此程式未經開發者簽署。	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	此配方檔案已在 Greenshot 之外被更動。Greenshot 在執行它之前會請求您的核准。	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	此配方檔案尚未核准。Greenshot 在執行它之前會請求您的核准。	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	此配方由 AI 工具撰寫，並非由 Greenshot 或您撰寫。請在下方檢查它的作用（Greenshot 依配方本身加以描述），並只開啟您想要的觸發條件。	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	此步驟沒有參數。	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	此觸發條件維持關閉，因此不會啟動此配方：	claude-sonnet-5-5 2026-10-18
@@ -1681,6 +1704,7 @@ Two objects and text	兩個物件和文字	claude-sonnet-5-5 2026-10-18
 Two objects over text	兩個物件在文字上方	claude-sonnet-5-5 2026-10-18
 Type	類型	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	輸入快速鍵…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E 接受 7 位數字，含檢查碼則為 8 位。	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 Unavailable	無法使用	claude-sonnet-5-5 2026-10-18
 Undo	還原	claude-sonnet-5-5 2026-10-18
@@ -1700,6 +1724,7 @@ Unnamed Recipe	未命名的配方	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	無法讀取的註冊：請按一下「安裝」	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	有未儲存的更動	claude-sonnet-5-5 2026-10-18
 Unsaved changes	有未儲存的更動	claude-sonnet-5-5 2026-10-18
+Untitled	未命名	claude-sonnet-5-5 2026-10-18
 Updated at %@	更新於 %@	claude-sonnet-5-5 2026-10-18
 Updates	更新	claude-sonnet-5-5 2026-10-18
 Upload to Confluence – %@	上傳到 Confluence – %@	claude-sonnet-5-5 2026-10-18

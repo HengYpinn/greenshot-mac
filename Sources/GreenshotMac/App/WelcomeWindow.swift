@@ -70,7 +70,7 @@ struct WelcomeView: View {
             HStack(spacing: 14) {
                 Image(nsImage: NSApp.applicationIconImage ?? NSImage()).resizable().frame(width: 64, height: 64)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(WelcomeContent.title(app)).font(.title.weight(.semibold))
+                    Text(WelcomeContent.title(app)).font(.title.weight(.semibold)).fixedSize(horizontal: false, vertical: true)
                     Text(WelcomeContent.thanks(app)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
@@ -78,11 +78,16 @@ struct WelcomeView: View {
             ZStack(alignment: .topLeading) {
                 RoundedRectangle(cornerRadius: 10).fill(Color(nsColor: .controlBackgroundColor))
                 RoundedRectangle(cornerRadius: 10).stroke(Color(nsColor: .separatorColor))
+                // Every step, hidden: the card is as tall as the tallest step (330 pt in English), so nothing hides below
+                // its edge in a longer language and the window keeps its size from step to step.
+                ForEach(WelcomeModel.Step.allCases, id: \.rawValue) { step in
+                    stepView(step).padding(18).frame(maxWidth: .infinity, alignment: .leading).hidden()
+                }
                 ScrollView {
-                    stepView.padding(18).frame(maxWidth: .infinity, alignment: .leading)
+                    stepView(model.step).padding(18).frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-            .frame(height: 330)
+            .frame(minHeight: 330)
             HStack {
                 HStack(spacing: 7) {
                     ForEach(WelcomeModel.Step.allCases, id: \.rawValue) { step in
@@ -102,8 +107,14 @@ struct WelcomeView: View {
         .frame(width: 620)
     }
 
-    @ViewBuilder private var stepView: some View {
-        switch model.step {
+    /// 620 × 520 pt in English; taller when a longer language needs more room for the title or the tallest step.
+    static func windowSize(model: WelcomeModel) -> NSSize {
+        let fitting = NSHostingView(rootView: WelcomeView(model: model)).fittingSize
+        return NSSize(width: 620, height: max(520, ceil(fitting.height)))
+    }
+
+    @ViewBuilder private func stepView(_ step: WelcomeModel.Step) -> some View {
+        switch step {
         case .welcome:
             VStack(alignment: .leading, spacing: 12) {
                 Text(WelcomeContent.intro(app)).font(.title3).fixedSize(horizontal: false, vertical: true)
@@ -168,7 +179,7 @@ final class WelcomeWindowController: DiagnosticsWindowController {
     init(model: WelcomeModel) {
         self.model = model
         super.init(title: WelcomeContent.title(AppInfo.name), content: WelcomeView(model: model),
-                   size: NSSize(width: 620, height: 520), resizable: false)
+                   size: WelcomeView.windowSize(model: model), resizable: false)
         model.close = { [weak self] in self?.close() }
     }
 

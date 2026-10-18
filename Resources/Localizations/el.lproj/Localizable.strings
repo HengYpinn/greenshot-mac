@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "Το %@ έχει προβλήματα: %lld προς διόρθωση πριν μπορέσει να εκτελεστεί.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "Το %@ χωράει το πολύ %lld χαρακτήρες· τώρα είναι %lld.";
+
+/* machine */
 "%@ holds no recipe." = "Το %@ δεν περιέχει συνταγή.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "Το %@ πρέπει να ανοίγει κατά τη σύνδεση, αλλά το macOS περιμένει να το επιτρέψετε στην ενότητα «Στοιχεία σύνδεσης και επεκτάσεις».";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "Το %@ δέχεται %lld ψηφία ή %lld με το ψηφίο ελέγχου.";
+
+/* machine */
+"%@ takes digits only." = "Το %@ δέχεται μόνο ψηφία.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "Το %@ θέλει να χρησιμοποιήσει το %@ για να εμφανίσει τα παράθυρά σας, να τραβήξει στιγμιότυπα και να εκτελέσει συνταγές του Greenshot.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: το πρόγραμμα δεν βρέθηκε";
+
+/* machine */
+"%lld annotations" = "%lld σχολιασμοί";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "Δεν είναι δυνατή η εμφάνιση %lld στοιχείων εδώ: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld ενεργοποιητές ανενεργοί";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld ενεργοποιητές έμειναν ανενεργοί κατά την έγκριση αυτής της συνταγής%@. Ελέγξτε την έγκριση για να τους ενεργοποιήσετε.";
 
 /* machine */
 "%lld warnings" = "%lld προειδοποιήσεις";
@@ -373,6 +388,9 @@
 "0 lines" = "0 γραμμές";
 
 /* machine */
+"1 annotation" = "1 σχολιασμός";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 στοιχείο δεν μπορεί να εμφανιστεί εδώ: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 ενεργοποιητής ανενεργός";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "1 ενεργοποιητής έμεινε ανενεργός κατά την έγκριση αυτής της συνταγής%@. Ελέγξτε την έγκριση για να τον ενεργοποιήσετε.";
+
+/* machine */
 "1 warning" = "1 προειδοποίηση";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Εικονίδιο στο Dock και θέση στο ⌘Tab όταν είναι ανοιχτός ένας επεξεργαστής ή οι Προτιμήσεις· το εικονίδιο στη γραμμή μενού υπάρχει σε κάθε περίπτωση, εκτός αν αποκρύπτεται παρακάτω. Ανενεργό: το άνοιγμα επεξεργαστή από εφαρμογή πλήρους οθόνης παραμένει στο ίδιο Space αντί να μεταβεί στην επιφάνεια εργασίας.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Ένας κωδικός UPC-E ξεκινά με το σύστημα αρίθμησής του, 0 ή 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Υπάρχει ήδη εντολή με αυτό το όνομα. Επιλέξτε διαφορετικό όνομα.";
@@ -1411,6 +1435,21 @@
 "Cloud: email and API token" = "Cloud: email και διακριτικό API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Το Codabar περιέχει ψηφία και τους χαρακτήρες - $ : / . + ανάμεσα στον χαρακτήρα έναρξης και λήξης.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Το Codabar ξεκινά και τελειώνει με A, B, C ή D (ή T, N, *, E), ή με κανένα από αυτά.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Το Code 128 περιέχει μόνο χαρακτήρες ASCII (χωρίς τόνους ή σύμβολα εκτός ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Το Code 39 περιέχει μόνο χαρακτήρες ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Το Code 93 περιέχει μόνο χαρακτήρες ASCII.";
+
+/* machine */
 "Code hash" = "Κατακερματισμός κώδικα";
 
 /* machine */
@@ -2380,6 +2419,9 @@
 "ICO (icon)" = "ICO (εικονίδιο)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "Το ITF δέχεται άρτιο αριθμό ψηφίων· τώρα είναι %lld.";
+
+/* machine */
 "Identifier" = "Αναγνωριστικό";
 
 /* machine */
@@ -2431,7 +2473,7 @@
 "Imported %lld annotations from %@" = "Εισήχθησαν %lld σχολιασμοί από το %@";
 
 /* machine */
-"In" = "Σε";
+"In" = "Είσοδος";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Στις Προτιμήσεις › Αρχείο εξόδου επιλέγετε το φάκελο και το πρότυπο ονόματος αρχείου των αποθηκευμένων στιγμιότυπων.";
@@ -2540,6 +2582,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Τερμάτισε με κωδικό εξόδου %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Είναι η αρχή του «%@» (%@), οπότε αυτό δεν θα ενεργοποιούνταν ποτέ.";
 
 /* machine */
 "It runs from %@." = "Εκτελείται από το %@.";
@@ -3475,6 +3520,9 @@
 "Other…" = "Άλλο…";
 
 /* machine */
+"Out" = "Έξοδος";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: να επιτρέπεται η εξαγωγή σε στοιχεία σύσκεψης";
 
 /* machine */
@@ -3616,6 +3664,9 @@
 "Please select how you would like to proceed with this capture:" = "Επιλέξτε πώς θέλετε να συνεχίσετε με αυτή την καταγραφή:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Το Plessey δέχεται ψηφία και τα γράμματα από A έως F.";
+
+/* machine */
 "Pointer" = "Δείκτης";
 
 /* machine */
@@ -3736,7 +3787,10 @@
 "RECIPE CONFIGURATION" = "ΔΙΑΜΟΡΦΩΣΗ ΣΥΝΤΑΓΗΣ";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Συνταγές";
+"RECIPES" = "ΣΥΝΤΑΓΈΣ";
+
+/* machine */
+"REPLACES BUILT-IN" = "ΑΝΤΙΚΑΘΙΣΤΑ ΤΟ ΕΝΣΩΜΑΤΩΜΕΝΟ";
 
 /* machine */
 "Range" = "Εύρος";
@@ -4354,6 +4408,9 @@
 "Saving as %@." = "Αποθήκευση ως %@.";
 
 /* machine */
+"Saving asks for your approval: %@" = "Η αποθήκευση ζητά την έγκρισή σας: %@";
+
+/* machine */
 "Saving the Recording…" = "Αποθήκευση της εγγραφής…";
 
 /* machine */
@@ -4411,7 +4468,7 @@
 "Search in:" = "Αναζήτηση σε:";
 
 /* machine */
-"Search name, id, triggers, file" = "Αναζήτηση ονόματος, αναγνωριστικού, ενεργοποιητών, αρχείου";
+"Search name, id, triggers, file" = "Αναζήτηση: όνομα, ID, ενεργοποιητές, αρχείο";
 
 /* machine */
 "Search pages" = "Αναζήτηση σελίδων";
@@ -4978,6 +5035,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Η αλλαγμένη συνταγή χρειάζεται το %@, που η έγκρισή της δεν επιτρέπει ακόμη. Αποθηκεύστε την πρώτα· η αποθήκευση ζητά την έγκρισή σας.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Το ψηφίο ελέγχου είναι λάθος: το τελευταίο ψηφίο πρέπει να είναι %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Το πρόχειρο περιέχει %lld τύπους.";
 
 /* machine */
@@ -5260,6 +5320,9 @@
 "The text could not be recognized: %@" = "Δεν ήταν δυνατή η αναγνώριση του κειμένου: %@";
 
 /* machine */
+"The text is too long for this code." = "Το κείμενο είναι πολύ μεγάλο για αυτόν τον κωδικό.";
+
+/* machine */
 "The torn edges of this image." = "Τα ακανόνιστα ξακρίσματα αυτής της εικόνας.";
 
 /* machine */
@@ -5323,6 +5386,9 @@
 "There is no recipe '%@'." = "Δεν υπάρχει συνταγή '%@'.";
 
 /* machine */
+"There is nothing to encode." = "Δεν υπάρχει τίποτα για κωδικοποίηση.";
+
+/* machine */
 "There was a problem during the login: %@" = "Παρουσιάστηκε πρόβλημα κατά τη σύνδεση: %@";
 
 /* machine */
@@ -5381,6 +5447,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Αυτό το πρόγραμμα δεν είναι υπογεγραμμένο από προγραμματιστή.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Αυτό το αρχείο συνταγής άλλαξε εκτός Greenshot. Το Greenshot ζητά την έγκρισή σας πριν το εκτελέσει.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Αυτό το αρχείο συνταγής δεν έχει εγκριθεί ακόμη. Το Greenshot ζητά την έγκρισή σας πριν το εκτελέσει.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Αυτή η συνταγή γράφτηκε από εργαλείο AI, όχι από το Greenshot ή από εσάς. Ελέγξτε παρακάτω τι κάνει (το Greenshot την περιγράφει από την ίδια τη συνταγή) και ενεργοποιήστε μόνο τους ενεργοποιητές που θέλετε.";
@@ -5521,6 +5593,9 @@
 "Type the shortcut…" = "Πληκτρολογήστε τη συντόμευση…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "Το UPC-E δέχεται 7 ψηφία ή 8 με το ψηφίο ελέγχου.";
+
+/* machine */
 "Unavailable" = "Μη διαθέσιμο";
 
 /* machine */
@@ -5576,6 +5651,9 @@
 
 /* machine */
 "Unsaved changes" = "Μη αποθηκευμένες αλλαγές";
+
+/* machine */
+"Untitled" = "Χωρίς τίτλο";
 
 /* machine */
 "Updated at %@" = "Ενημερώθηκε στις %@";
@@ -6370,7 +6448,7 @@
 "value" = "τιμή";
 
 /* machine */
-"variable (default: the name)" = "μεταβλητή (προεπιλογή: το όνομα)";
+"variable (default: the name)" = "μεταβλητή (αλλιώς το όνομα)";
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Κανένα";

@@ -310,28 +310,47 @@ struct LogViewerView: View {
         .frame(minWidth: 640, minHeight: 360)
     }
 
+    /// One row when everything fits at its full width, else the buttons in a second row (longer languages).
     private var toolbar: some View {
-        HStack(spacing: 10) {
-            LogSearchField(text: $model.search, placeholder: String(localized: "Search")) { model.searchField = $0 }
-                .frame(minWidth: 160, maxWidth: 260)
-                .help("Shows only the log entries that contain this text, from the whole log file (⌘F)")
-            Picker("Log level", selection: Binding(get: { model.level }, set: { model.setLevel($0) })) {
-                ForEach(LogLevel.allCases.reversed(), id: \.self) { Text($0.name.capitalized).tag($0) }
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 10) {
+                filters
+                Spacer()
+                buttons
             }
-            .fixedSize()
-            .help("How much \(AppInfo.name) writes to the log, until it restarts. Debug writes the most.")
-            Toggle("Wrap text", isOn: $model.wrap)
-            Spacer()
-            Button("Load Earlier (+64 KB)") { model.loadEarlier() }
-                .disabled(!model.canLoadEarlier)
-                .help("Load the previous 64 KB of the log")
-            Button("Load Entire Log") { model.loadEarlier(all: true) }
-                .disabled(!model.canLoadEarlier)
-            Button("Refresh") { model.load() }
-                .keyboardShortcut("r", modifiers: .command)
-                .help("Read the log again (F5, ⌘R)")
-            Button("Copy Log") { model.copyLog() }
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 10) { filters }
+                HStack(spacing: 10) {
+                    Spacer()
+                    buttons
+                }
+            }
         }
+    }
+
+    @ViewBuilder private var filters: some View {
+        LogSearchField(text: $model.search, placeholder: String(localized: "Search")) { model.searchField = $0 }
+            .frame(minWidth: 160, maxWidth: 260)
+            .help("Shows only the log entries that contain this text, from the whole log file (⌘F)")
+        Picker("Log level", selection: Binding(get: { model.level }, set: { model.setLevel($0) })) {
+            ForEach(LogLevel.allCases.reversed(), id: \.self) { Text($0.name.capitalized).tag($0) }
+        }
+        .fixedSize()
+        .help("How much \(AppInfo.name) writes to the log, until it restarts. Debug writes the most.")
+        Toggle("Wrap text", isOn: $model.wrap)
+            .fixedSize()
+    }
+
+    @ViewBuilder private var buttons: some View {
+        Button("Load Earlier (+64 KB)") { model.loadEarlier() }
+            .disabled(!model.canLoadEarlier)
+            .help("Load the previous 64 KB of the log")
+        Button("Load Entire Log") { model.loadEarlier(all: true) }
+            .disabled(!model.canLoadEarlier)
+        Button("Refresh") { model.load() }
+            .keyboardShortcut("r", modifiers: .command)
+            .help("Read the log again (F5, ⌘R)")
+        Button("Copy Log") { model.copyLog() }
     }
 }
 

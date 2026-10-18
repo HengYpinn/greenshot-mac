@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ başarısız oldu	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ tamamlandı	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ sorunlu: çalışmadan önce düzeltilmesi gereken %lld sorun var.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ en fazla %lld karakter alır; şu an %lld karakter var.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ hiçbir tarif içermiyor.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ (%@ içinde)	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ (%@ içinde) – Finder'da göstermek için tıklayın	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ bir sorun bildirdi: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ komut dosyaları çalıştırır: yalnızca yukarıdaki komut dosyasına izin verilir, %@ tarafından çalıştırılan her komut dosyasına değil.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ oturum açıldığında açılmalı, ancak macOS bunun için Giriş Öğeleri ve Uzantılar bölümünden izin vermenizi bekliyor.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ %lld basamak alır; kontrol basamağıyla birlikte %lld.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ yalnızca rakam alır.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@, pencerelerinizi listelemek, ekran görüntüsü almak ve Greenshot tariflerini çalıştırmak için %@ kullanmak istiyor.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ kırp  ⎋ iptal	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ kes  ⎋ iptal	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: program bulunamadı	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%%%lld	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld ek açıklama	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld öğe burada gösterilemiyor: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld hata	claude-sonnet-5-5 2026-10-18
 %lld found	%lld bulundu	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld alan	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld adım	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld tetikleyici kapalı	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	Bu tarif onaylanırken %lld tetikleyici kapalı bırakıldı%@. Açmak için onayı gözden geçirin.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld uyarı	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	'%@' adımı '%@' adımından sonra gelemez: akış döngüye girer.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = Tüm Dosyalar	claude-sonnet-5-5 2026-10-18
 0 lines	0 satır	claude-sonnet-5-5 2026-10-18
+1 annotation	1 ek açıklama	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 öğe burada gösterilemiyor: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 hata	claude-sonnet-5-5 2026-10-18
 1 hour	1 saat	claude-sonnet-5-5 2026-10-18
 1 minute	1 dakika	claude-sonnet-5-5 2026-10-18
 1 step	1 adım	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 tetikleyici kapalı	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	Bu tarif onaylanırken 1 tetikleyici kapalı bırakıldı%@. Açmak için onayı gözden geçirin.	claude-sonnet-5-5 2026-10-18
 1 warning	1 uyarı	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Bir editör veya Ayarlar açıkken Dock'ta bir simge ve ⌘Tab'da bir yer; menü çubuğu simgesi aşağıda gizlenmedikçe her durumda görünür. Kapalıysa: tam ekran bir uygulamadan editör açmak masaüstüne geçmek yerine aynı Space'te kalır.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	UPC-E kodu, sayı sistemiyle başlar: 0 veya 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows dosyası: Kaydet yeni bir dosya ister, bu yüzden bu dosya olduğu gibi kalır.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Bir dosya, yerleşik olanlar dahil diğer tariflere otomatik bir adım eklemek istiyor. Onaylamadan önce hangi tarifleri değiştirdiğini ve neler eklediğini inceleyin.	claude-sonnet-5-5 2026-10-18
 A link wanted to take a screenshot	Bir bağlantı ekran görüntüsü almak istedi	claude-sonnet-5-5 2026-10-18
@@ -447,6 +455,11 @@ Clipboard monitor	Pano izleyici	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	Değişiklikleri olan bir editörü kapatmak, bunları sormadan siler.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	Bulut siteleri /wiki ile biter.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Bulut: e-posta ve API belirteci	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar, başlangıç ve bitiş karakterleri arasında rakamlar ile - $ : / . + karakterlerini içerir.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar A, B, C veya D (ya da T, N, *, E) ile başlar ve biter; ya da hiçbiriyle.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 yalnızca ASCII karakterleri içerir (aksanlar ve ASCII dışındaki simgeler olmadan).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 yalnızca ASCII karakterleri içerir.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 yalnızca ASCII karakterleri içerir.	claude-sonnet-5-5 2026-10-18
 Code hash	Kod karması	claude-sonnet-5-5 2026-10-18
 Code signature	Kod imzası	claude-sonnet-5-5 2026-10-18
 Color:	Renk:	claude-sonnet-5-5 2026-10-18
@@ -725,6 +738,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Yeniden
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (simge)	claude-sonnet-5-5 2026-10-18
 ID	Kimlik	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF çift sayıda basamak alır; şu an %lld basamak var.	claude-sonnet-5-5 2026-10-18
 Identifier	Tanımlayıcı	claude-sonnet-5-5 2026-10-18
 If %@: %@	%@ ise: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Bu kendi sunucunuzsa, %@ veya parmak izini Ayarlar › Hedefler › Kendi sunucularınız altına ekleyin.	claude-sonnet-5-5 2026-10-18
@@ -769,6 +783,7 @@ Invalid JSON syntax or schema:\n%@	Geçersiz JSON söz dizimi veya şeması:\n%@
 Issue identifier (stack trace hash)	Sorun tanımlayıcısı (yığın izi karması)	claude-sonnet-5-5 2026-10-18
 Issue key:	Sorun anahtarı:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	%d çıkış koduyla sona erdi.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	Bu, “%@” (%@) kısayolunun başıdır; bu yüzden hiç tetiklenmezdi.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Şuradan çalışır: %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Hemen çalışmayı durdurur ve bir daha yüklenmez. Dosyası olduğu yerde kalır: incelemek ve onaylamak için yeniden içe aktarın.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Hemen çalışmayı durdurur ve bir daha yüklenmez. Dosyası olduğu yerde kalır: incelemek ve onaylamak için yeniden açın.	claude-sonnet-5-5 2026-10-18
@@ -1056,7 +1071,7 @@ Orgchart	Organizasyon şeması	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	Diğer ekran yakalama uygulamaları	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	Aksi halde (%@)	claude-sonnet-5-5 2026-10-18
 Other…	Diğer…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	Çıkış	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: yeni e-postalar için e-posta biçimi	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	Aynı ada sahip bir dosyanın üzerine yaz	claude-sonnet-5-5 2026-10-18
 PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
@@ -1094,6 +1109,7 @@ Please enter recipient name and IBAN.	Lütfen alıcının adını ve IBAN'ını 
 Please enter recipient number.	Lütfen alıcı numarasını girin.	claude-sonnet-5-5 2026-10-18
 Please enter text or a URL.	Lütfen bir metin veya URL girin.	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Lütfen bu yakalamayla nasıl devam etmek istediğinizi seçin:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey rakamları ve A–F harflerini alır.	claude-sonnet-5-5 2026-10-18
 Pointer	İmleç	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Açık pencereleri yakala içinde bir pencereyi işaret etmek onun resmini gösterir. Ekran kaydı izni gerekir.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Eksik bir uygulamayı işaret ediyor: Kur'a tıklayın	claude-sonnet-5-5 2026-10-18
@@ -1128,6 +1144,7 @@ Quick settings	Hızlı ayarlar	claude-sonnet-5-5 2026-10-18
 Quit %@	%@ Uygulamasından Çık	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Bu kopyayı başlatmak için önce onu kapatın.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	TARİF YAPILANDIRMASI	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	YERLEŞİK OLANIN YERİNE GEÇER	claude-sonnet-5-5 2026-10-18
 Range	Aralık	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Ham Metin veya URL Ayrıntıları	claude-sonnet-5-5 2026-10-18
 Read error	Okuma hatası	claude-sonnet-5-5 2026-10-18
@@ -1314,6 +1331,7 @@ Saved file	Kaydedilen dosya	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	Tarif kaydedildi: %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	Kaydetmek Diğer Tarifleri Değiştirir	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Kaydediliyor: %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Kaydetmek onayınızı ister: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	Kayıt Kaydediliyor…	claude-sonnet-5-5 2026-10-18
 Saving…	Kaydediliyor…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Videoyu dolduracak şekilde ölçekle	claude-sonnet-5-5 2026-10-18
@@ -1506,6 +1524,7 @@ The area is not on a display.	Alan bir ekranda değil.	claude-sonnet-5-5 2026-10
 The automatic step is only used with every permission it needs.	Otomatik adım yalnızca gereken tüm izinlerle kullanılır.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	Sertifika (%@) SHA-256 parmak izine sahip: %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Değiştirilen tarif, onayının henüz izin vermediği %@ gerektiriyor. Önce kaydedin; kaydetmek onayınızı ister.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	Kontrol basamağı yanlış: son basamak %lld olmalı.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	Panoda %lld tür var.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	Panoda 1 tür var.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	Pano boş.	claude-sonnet-5-5 2026-10-18
@@ -1600,6 +1619,7 @@ The sign-in window could not be opened.	Oturum açma penceresi açılamadı.	cla
 The size of File › New Image, a white image to draw on.	Dosya › Yeni Görüntü boyutu; üzerine çizim yapılacak beyaz bir görüntü.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	Metin tanınamadı	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Metin tanınamadı: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	Metin bu kod için çok uzun.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	Bu görüntünün yırtık kenarları.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Görüntünün saydam bölümleri bu rengi alır.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Tetikleyiciler kapalı başlar. Bu tarifi başlatabilecek her birini açın: kapalı bıraktığınız tetikleyici kapalı kalır (daha sonra İzinler ile açabilirsiniz). Tetikleyici olmadan da tarifi tarif listesinden çalıştırabilirsiniz.	claude-sonnet-5-5 2026-10-18
@@ -1617,6 +1637,7 @@ There is no border of one color around the content to crop away.	Kırpılacak i�
 There is no image on the clipboard	Panoda görüntü yok	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Açılacak görüntü yok.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	'%@' adlı bir tarif yok.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Kodlanacak bir şey yok.	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Ekranda yakalanacak bir şey yoktu.	claude-sonnet-5-5 2026-10-18
 Thermal state	Isıl durum	claude-sonnet-5-5 2026-10-18
 These are for this print only.	Bunlar yalnızca bu yazdırma içindir.	claude-sonnet-5-5 2026-10-18
@@ -1635,6 +1656,8 @@ This is a recipe; the editor has an automatic step open.	Bu bir tarif; editörde
 This is an automatic step; the editor has a recipe open.	Bu bir otomatik adım; editörde bir tarif açık.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Bu programın HİÇBİR GARANTİSİ YOKTUR. Bu özgür bir yazılımdır ve belirli koşullar altında yeniden dağıtmakta serbestsiniz: %@ veya sonraki sürümü.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Bu program bir geliştirici tarafından imzalanmamış.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Bu tarif dosyası Greenshot dışında değiştirildi. Greenshot çalıştırmadan önce onayınızı ister.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Bu tarif dosyası henüz onaylanmadı. Greenshot çalıştırmadan önce onayınızı ister.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Bu tarifi Greenshot veya siz değil, bir yapay zekâ aracı yazdı. Ne yaptığını aşağıda inceleyin (Greenshot onu tarifin kendisinden tanımlar) ve yalnızca istediğiniz tetikleyicileri açın.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Bu adımın parametresi yok.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Bu tetikleyici kapalı kalır, bu yüzden tarifi başlatmaz:	claude-sonnet-5-5 2026-10-18
@@ -1673,6 +1696,7 @@ Two objects and text	İki nesne ve metin	claude-sonnet-5-5 2026-10-18
 Two objects over text	Metnin üstünde iki nesne	claude-sonnet-5-5 2026-10-18
 Type	Tür	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Kısayolu yazın…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E 7 basamak alır; kontrol basamağıyla birlikte 8.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	Kullanılamıyor	claude-sonnet-5-5 2026-10-18
@@ -1693,6 +1717,7 @@ Unnamed Recipe	Adsız Tarif	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Okunamayan kayıt: Kur'a tıklayın	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Kaydedilmemiş Değişiklikler	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Kaydedilmemiş değişiklikler	claude-sonnet-5-5 2026-10-18
+Untitled	Adsız	claude-sonnet-5-5 2026-10-18
 Updated at %@	Güncellenme zamanı: %@	claude-sonnet-5-5 2026-10-18
 Updates	Güncellemeler	claude-sonnet-5-5 2026-10-18
 Upload to Confluence – %@	Confluence'a Yükle – %@	claude-sonnet-5-5 2026-10-18

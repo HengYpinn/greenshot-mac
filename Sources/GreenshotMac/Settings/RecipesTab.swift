@@ -97,9 +97,9 @@ struct RecipeSettingsRowView: View {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
                     Text(row.name).fontWeight(.semibold)
-                    if row.isBuiltIn { ApprovalBadge(text: "BUILT-IN", tone: .neutral) }
-                    if row.replacesBuiltIn { ApprovalBadge(text: "REPLACES BUILT-IN", tone: .accent) }
-                    if row.proposedBy != nil { ApprovalBadge(text: "AI", tone: .warning) }
+                    if row.isBuiltIn { ApprovalBadge(text: String(localized: "BUILT-IN"), tone: .neutral) }
+                    if row.replacesBuiltIn { ApprovalBadge(text: String(localized: "REPLACES BUILT-IN"), tone: .accent) }
+                    if row.proposedBy != nil { ApprovalBadge(text: String(localized: "AI"), tone: .warning) }
                 }
                 Text(row.triggers).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                 Text(row.source).font(.caption).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)

@@ -41,7 +41,7 @@ struct RecipeInfoTab: View {
                             Text("Once at a time").tag(FlowConcurrency.exclusive.rawValue)
                             Text("Cancel the running one").tag(FlowConcurrency.replacePrevious.rawValue)
                         }
-                        .labelsHidden().frame(width: 220)
+                        .labelsHidden().width(atLeast: 220)
                     }
                     RecipeLabeled(String(localized: "Menus")) {
                         Toggle("Show in the Recipes menu", isOn: Binding(get: { model.recipe?.showInContextMenu ?? true },

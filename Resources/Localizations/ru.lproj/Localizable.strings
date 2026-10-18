@@ -175,6 +175,9 @@
 "%@ has problems: %lld to fix before it can run." = "В %@ есть проблемы: нужно исправить %lld, прежде чем рецепт сможет работать.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@: максимальное число символов — %lld; сейчас их %lld.";
+
+/* machine */
 "%@ holds no recipe." = "В %@ нет рецепта.";
 
 /* machine */
@@ -250,6 +253,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ должен открываться при входе, но macOS ждёт, пока вы разрешите это в разделе «Объекты входа и расширения».";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ принимает цифр: %lld, или %lld с контрольной цифрой.";
+
+/* machine */
+"%@ takes digits only." = "%@ принимает только цифры.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ хочет использовать %@, чтобы получать список ваших окон, делать снимки экрана и запускать рецепты Greenshot.";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: программа не найдена";
+
+/* machine */
+"%lld annotations" = "Аннотаций: %lld";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "Элементы (%lld) нельзя показать здесь: %@.";
@@ -323,6 +335,9 @@
 
 /* machine */
 "%lld triggers off" = "Выключено триггеров: %lld";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "При одобрении этого рецепта оставлены выключенными триггеры (%lld)%@. Проверьте одобрение, чтобы включить их.";
 
 /* machine */
 "%lld warnings" = "Предупреждений: %lld";
@@ -385,6 +400,9 @@
 "0 lines" = "0 строк";
 
 /* machine */
+"1 annotation" = "1 аннотация";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 элемент нельзя показать здесь: %@.";
 
 /* machine */
@@ -403,10 +421,16 @@
 "1 trigger off" = "1 триггер выключен";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "При одобрении этого рецепта оставлен выключенным 1 триггер%@. Проверьте одобрение, чтобы включить его.";
+
+/* machine */
 "1 warning" = "1 предупреждение";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Значок в Dock и место в ⌘Tab, пока открыт редактор или «Настройки»; значок в строке меню есть в любом случае, если он не скрыт ниже. Выкл.: при открытии редактора из полноэкранного приложения остаётся то же рабочее пространство, а не переключается на рабочий стол.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Код UPC-E начинается с системы нумерации: 0 или 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Команда с таким именем уже существует. Пожалуйста, выберите другое имя.";
@@ -1117,7 +1141,7 @@
 "CC" = "Копия";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Пользовательский";
+"CUSTOM" = "ПОЛЬЗОВАТЕЛЬСКИЙ";
 
 /* machine */
 "Calendar Event" = "Событие календаря";
@@ -1442,6 +1466,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Облако: адрес эл. почты и токен API";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar содержит цифры и знаки - $ : / . + между начальным и конечным символами.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar начинается и заканчивается символом A, B, C или D (или T, N, *, E) либо ни тем ни другим.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 содержит только символы ASCII (без диакритических знаков и символов вне ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 содержит только символы ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 содержит только символы ASCII.";
 
 /* machine */
 "Code hash" = "Хеш кода";
@@ -2428,6 +2467,9 @@
 "ICO (icon)" = "ICO (значок)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF принимает чётное число цифр; сейчас их %lld.";
+
+/* machine */
 "Identifier" = "Идентификатор";
 
 /* machine */
@@ -2588,6 +2630,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Завершено с кодом выхода %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Это начало «%@» (%@), поэтому он никогда не сработал бы.";
 
 /* machine */
 "It runs from %@." = "Запускается из %@.";
@@ -3517,6 +3562,9 @@
 "Other…" = "Другое…";
 
 /* machine */
+"Out" = "Выход";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: разрешить экспорт во встречи";
 
 /* machine */
@@ -3658,6 +3706,9 @@
 "Please select how you would like to proceed with this capture:" = "Выберите, как поступить с этим захватом:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey принимает цифры и буквы от A до F.";
+
+/* machine */
 "Pointer" = "Указатель";
 
 /* machine */
@@ -3778,7 +3829,10 @@
 "RECIPE CONFIGURATION" = "КОНФИГУРАЦИЯ РЕЦЕПТА";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Рецепты";
+"RECIPES" = "РЕЦЕПТЫ";
+
+/* machine */
+"REPLACES BUILT-IN" = "ЗАМЕНЯЕТ ВСТРОЕННЫЙ";
 
 /* machine */
 "Range" = "Диапазон";
@@ -4394,6 +4448,9 @@
 
 /* machine */
 "Saving as %@." = "Сохранение как %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Для сохранения требуется ваше одобрение: %@";
 
 /* machine */
 "Saving the Recording…" = "Сохранение записи…";
@@ -5026,6 +5083,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Изменённому рецепту нужно %@, а его одобрение это пока не разрешает. Сначала сохраните его; при сохранении запрашивается ваше одобрение.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Контрольная цифра неверна: последняя цифра должна быть %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "В буфере обмена типов: %lld.";
 
 /* machine */
@@ -5308,6 +5368,9 @@
 "The text could not be recognized: %@" = "Не удалось распознать текст: %@";
 
 /* machine */
+"The text is too long for this code." = "Текст слишком длинный для этого кода.";
+
+/* machine */
 "The torn edges of this image." = "Рваные края этого изображения.";
 
 /* machine */
@@ -5370,6 +5433,9 @@
 /* machine */
 "There is no recipe '%@'." = "Нет рецепта «%@».";
 
+/* machine */
+"There is nothing to encode." = "Нечего кодировать.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Произошла ошибка во время входа: %@";
 
@@ -5429,6 +5495,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Эта программа не подписана разработчиком.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Этот файл рецепта изменён вне Greenshot. Перед запуском Greenshot запрашивает ваше одобрение.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Этот файл рецепта ещё не одобрен. Перед запуском Greenshot запрашивает ваше одобрение.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Этот рецепт написан инструментом ИИ, а не Greenshot и не вами. Проверьте ниже, что он делает (Greenshot описывает его по самому рецепту), и включите только нужные вам триггеры.";
@@ -5569,6 +5641,9 @@
 "Type the shortcut…" = "Введите сочетание…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E принимает 7 цифр или 8 с контрольной цифрой.";
+
+/* machine */
 "Unavailable" = "Недоступно";
 
 /* machine */
@@ -5624,6 +5699,9 @@
 
 /* machine */
 "Unsaved changes" = "Несохранённые изменения";
+
+/* machine */
+"Untitled" = "Без названия";
 
 /* machine */
 "Updated at %@" = "Обновлено в %@";
@@ -6427,7 +6505,7 @@
 "value" = "значение";
 
 /* machine */
-"variable (default: the name)" = "переменная (по умолчанию: имя)";
+"variable (default: the name)" = "переменная (иначе имя)";
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Ничего";

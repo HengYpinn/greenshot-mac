@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ té problemes: %lld per corregir abans que puga eixecutar-se.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ admet com a màxim %lld caràcters; n'hi ha %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ no conté cap recepta.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ hauria d'obrir-se en iniciar la sessió, però macOS espera que ho permeta en Elements d'inici de sessió i extensions.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ admet %lld dígits, o %lld amb el dígit de control.";
+
+/* machine */
+"%@ takes digits only." = "%@ només admet dígits.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ vol usar %@ per llistar les seues finestres i fer captures, i per eixecutar receptes de Greenshot.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: no s'ha trobat el programa";
+
+/* machine */
+"%lld annotations" = "%lld anotacions";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elements no es poden mostrar ací: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld activadors desactivats";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld activadors es van deixar desactivats quan es va aprovar esta recepta%@. Revise l'aprovació per a activar-los.";
 
 /* machine */
 "%lld warnings" = "%lld advertències";
@@ -373,6 +388,9 @@
 "0 lines" = "0 línees";
 
 /* machine */
+"1 annotation" = "1 anotació";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 element no es pot mostrar ací: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 activador desactivat";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "1 activador es va deixar desactivat quan es va aprovar esta recepta%@. Revise l'aprovació per a activar-lo.";
+
+/* machine */
 "1 warning" = "1 advertència";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Una icona en el Dock i un lloc en ⌘Tab mentres hi ha un editor o les Preferències oberts; la icona de la barra de menús hi és en tot cas, excepte si s'oculta davall. Desactivat: obrir un editor des d'una app a pantalla completa es queda en el seu Espai en lloc de canviar a l'escriptori.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Un codi UPC-E comença pel seu sistema numèric, 0 o 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Ya hi ha una orde amb este nom. Trie un atre nom.";
@@ -1417,6 +1441,21 @@
 "Cloud: email and API token" = "Núvol: correu electrònic i token d'API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar conté dígits i - $ : / . + entre els seus caràcters d'inici i de fi.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar comença i acaba amb A, B, C o D (o T, N, *, E), o amb cap d'ells.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 només conté caràcters ASCII (sense accents ni símbols fora d'ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 només conté caràcters ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 només conté caràcters ASCII.";
+
+/* machine */
 "Code hash" = "Hash del codi";
 
 /* machine */
@@ -2371,6 +2410,9 @@
 "ICO (icon)" = "ICO (icona)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF admet un nombre parell de dígits; n'hi ha %lld.";
+
+/* machine */
 "Identifier" = "Identificador";
 
 /* machine */
@@ -2528,6 +2570,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Ha acabat amb el codi d'eixida %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "És el començament de «%@» (%@), que llavors no s'activaria mai.";
 
 /* machine */
 "It runs from %@." = "S'eixecuta des de %@.";
@@ -3595,6 +3640,9 @@
 "Please select how you would like to proceed with this capture:" = "Seleccione com vol continuar amb esta captura:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey admet dígits i les lletres de l'A a la F.";
+
+/* machine */
 "Pointer" = "Punter";
 
 /* machine */
@@ -3715,7 +3763,10 @@
 "RECIPE CONFIGURATION" = "CONFIGURACIÓ DE LA RECEPTA";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Receptes";
+"RECIPES" = "RECEPTES";
+
+/* machine */
+"REPLACES BUILT-IN" = "SUBSTITUÏX L'INTEGRAT";
 
 /* machine */
 "Range" = "Interval";
@@ -4328,6 +4379,9 @@
 
 /* machine */
 "Saving as %@." = "Guardant com %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Guardar demana la seua aprovació: %@";
 
 /* machine */
 "Saving the Recording…" = "Guardant la gravació…";
@@ -4954,6 +5008,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "La recepta canviada necessita %@, que la seua aprovació encara no permet. Guarde-la primer; en guardar, es demana la seua aprovació.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "El dígit de control no és correcte: l'últim dígit hauria de ser %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "El portapapers conté %lld tipus.";
 
 /* machine */
@@ -5236,6 +5293,9 @@
 "The text could not be recognized: %@" = "No s'ha pogut reconéixer el text: %@";
 
 /* machine */
+"The text is too long for this code." = "El text és massa llarg per a este codi.";
+
+/* machine */
 "The torn edges of this image." = "Les vores esgarrades d'esta image.";
 
 /* machine */
@@ -5299,6 +5359,9 @@
 "There is no recipe '%@'." = "No hi ha cap recepta «%@».";
 
 /* machine */
+"There is nothing to encode." = "No hi ha res per a codificar.";
+
+/* machine */
 "There was a problem during the login: %@" = "Hi ha hagut un problema durant l'inici de sessió: %@";
 
 /* machine */
@@ -5357,6 +5420,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Este programa no està signat per un desenvolupador.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Este archiu de recepta ha canviat fora de Greenshot. Greenshot demana la seua aprovació abans d'executar-lo.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Este archiu de recepta encara no està aprovat. Greenshot demana la seua aprovació abans d'executar-lo.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Esta recepta l'ha escrit una ferramenta d'IA, no Greenshot ni vosté. Comprove de davall què fa (Greenshot la descriu a partir de la mateixa recepta) i active només els activadors que vullga.";
@@ -5494,6 +5563,9 @@
 "Type the shortcut…" = "Escriga la drecera…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E admet 7 dígits, o 8 amb el dígit de control.";
+
+/* machine */
 "Unavailable" = "No disponible";
 
 /* machine */
@@ -5549,6 +5621,9 @@
 
 /* machine */
 "Unsaved changes" = "Canvis sense guardar";
+
+/* machine */
+"Untitled" = "Sense títol";
 
 /* machine */
 "Updated at %@" = "Actualisat a les %@";

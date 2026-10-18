@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ 有問題：需先修正 %lld 項才能執行。";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ 最多可容納 %lld 個字元；目前為 %lld 個。";
+
+/* machine */
 "%@ holds no recipe." = "%@ 不包含任何配方。";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ 應在登入時開啟，但 macOS 正等待您在「登入項目與延伸功能」中允許。";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ 接受 %lld 位數字，含檢查碼則為 %lld 位。";
+
+/* machine */
+"%@ takes digits only." = "%@ 只接受數字。";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ 想要使用 %@ 列出您的視窗、擷取螢幕截圖，並執行 Greenshot 配方。";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@：找不到該程式";
+
+/* machine */
+"%lld annotations" = "%lld 個註解";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "有 %lld 個元素無法在此顯示：%@。";
@@ -317,6 +329,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld 個觸發條件已關閉";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "核准此配方時有 %lld 個觸發條件處於關閉狀態%@。請檢視核准以將其開啟。";
 
 /* machine */
 "%lld warnings" = "%lld 個警告";
@@ -376,6 +391,9 @@
 "0 lines" = "0 行";
 
 /* machine */
+"1 annotation" = "1 個註解";
+
+/* machine */
 "1 element can't be shown here: %@." = "有 1 個元素無法在此顯示：%@。";
 
 /* machine */
@@ -394,10 +412,16 @@
 "1 trigger off" = "1 個觸發條件已關閉";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "核准此配方時有 1 個觸發條件處於關閉狀態%@。請檢視核准以將其開啟。";
+
+/* machine */
 "1 warning" = "1 個警告";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "編輯器或設定開啟時，會顯示 Dock 圖像並可在 ⌘Tab 中切換；選單列圖像則不論如何都會顯示，除非在下方將其隱藏。關閉時：從全螢幕 App 開啟編輯器會停留在原本的 Space，而不會切換到桌面。";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E 碼以其編號系統 0 或 1 開頭。";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "已存在相同名稱的命令。請選擇不同的名稱。";
@@ -1426,6 +1450,21 @@
 "Cloud: email and API token" = "雲端：電子郵件和 API 權杖";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar 在起始字元與結束字元之間可包含數字以及 - $ : / . +。";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar 以 A、B、C 或 D（或 T、N、*、E）開頭和結尾，或兩者皆無。";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 僅能包含 ASCII 字元（不含帶重音符號的字母及 ASCII 以外的符號）。";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 僅能包含 ASCII 字元。";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 僅能包含 ASCII 字元。";
+
+/* machine */
 "Code hash" = "程式碼雜湊";
 
 /* machine */
@@ -2410,6 +2449,9 @@
 "ICO (icon)" = "ICO（圖像）";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF 接受偶數位數字；目前為 %lld 位。";
+
+/* machine */
 "Identifier" = "識別碼";
 
 /* machine */
@@ -2461,7 +2503,7 @@
 "Imported %lld annotations from %@" = "已從 %2$@ 匯入 %1$lld 個註解";
 
 /* machine */
-"In" = "輸入";
+"In" = "入口";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "在「設定 › 輸出」中，您可以選擇已儲存螢幕截圖的檔案夾和檔案名稱樣式。";
@@ -2570,6 +2612,9 @@
 
 /* machine */
 "It ended with exit code %d." = "它以結束代碼 %d 結束。";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "這是「%@」（%@）的開頭部分，因此永遠不會觸發。";
 
 /* machine */
 "It runs from %@." = "它從 %@ 執行。";
@@ -3505,7 +3550,7 @@
 "Other…" = "其他…";
 
 /* machine */
-"Out" = "輸出";
+"Out" = "出口";
 
 /* machine */
 "Outlook: allow export in meeting items" = "Outlook：允許在會議項目中匯出";
@@ -3649,6 +3694,9 @@
 "Please select how you would like to proceed with this capture:" = "請選擇要如何處理此次擷取：";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey 接受數字與字母 A 至 F。";
+
+/* machine */
 "Pointer" = "指標";
 
 /* machine */
@@ -3770,6 +3818,9 @@
 
 /* core:Core.contextmenu_recipes, normalised */
 "RECIPES" = "配方";
+
+/* machine */
+"REPLACES BUILT-IN" = "取代內建";
 
 /* machine */
 "Range" = "範圍";
@@ -4388,6 +4439,9 @@
 
 /* machine */
 "Saving as %@." = "以 %@ 儲存。";
+
+/* machine */
+"Saving asks for your approval: %@" = "儲存需要您的核准：%@";
 
 /* machine */
 "Saving the Recording…" = "正在儲存錄影…";
@@ -5023,6 +5077,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "更改後的配方需要 %@，但其核准尚未允許。請先儲存；儲存時會要求您核准。";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "檢查碼不正確：最後一位應為 %lld。";
+
+/* machine */
 "The clipboard holds %lld types." = "剪貼簿中有 %lld 種類型。";
 
 /* machine */
@@ -5305,6 +5362,9 @@
 "The text could not be recognized: %@" = "無法辨識文字：%@";
 
 /* machine */
+"The text is too long for this code." = "文字對此碼而言太長。";
+
+/* machine */
 "The torn edges of this image." = "此圖片的撕裂邊緣。";
 
 /* machine */
@@ -5367,6 +5427,9 @@
 /* machine */
 "There is no recipe '%@'." = "沒有配方「%@」。";
 
+/* machine */
+"There is nothing to encode." = "沒有可編碼的內容。";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "登入期間發生問題: %@";
 
@@ -5426,6 +5489,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "此程式未經開發者簽署。";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "此配方檔案已在 Greenshot 之外被更動。Greenshot 在執行它之前會請求您的核准。";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "此配方檔案尚未核准。Greenshot 在執行它之前會請求您的核准。";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "此配方由 AI 工具撰寫，並非由 Greenshot 或您撰寫。請在下方檢查它的作用（Greenshot 依配方本身加以描述），並只開啟您想要的觸發條件。";
@@ -5568,6 +5637,9 @@
 /* machine */
 "Type the shortcut…" = "輸入快速鍵…";
 
+/* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E 接受 7 位數字，含檢查碼則為 8 位。";
+
 /* confluence:Confluence.label_url, normalised */
 "URL:" = "URL：";
 
@@ -5627,6 +5699,9 @@
 
 /* machine */
 "Unsaved changes" = "有未儲存的更動";
+
+/* machine */
+"Untitled" = "未命名";
 
 /* machine */
 "Updated at %@" = "更新於 %@";

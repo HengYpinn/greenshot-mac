@@ -175,6 +175,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ má problémy: pred spustením treba opraviť %lld.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "Najvyšší počet znakov pre %@ je %lld; zadaných je %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ neobsahuje žiadny recept.";
 
 /* machine */
@@ -250,6 +253,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ sa má otvárať pri prihlásení, ale macOS čaká, kým to povolíte v časti Položky prihlásenia a rozšírenia.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ prijíma počet číslic: %lld, alebo %lld s kontrolnou číslicou.";
+
+/* machine */
+"%@ takes digits only." = "%@ prijíma iba číslice.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ chce použiť %@ na zobrazenie zoznamu vašich okien, robenie snímok obrazovky a spúšťanie receptov Greenshotu.";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: program sa nenašiel";
+
+/* machine */
+"%lld annotations" = "Anotácií: %lld";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld prvkov sa tu nedá zobraziť: %@.";
@@ -320,6 +332,9 @@
 
 /* machine */
 "%lld triggers off" = "Vypnutých spúšťačov: %lld";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Pri schvaľovaní tohto receptu zostali vypnuté spúšťače (%lld)%@. Skontrolujte schválenie, aby ste ich zapli.";
 
 /* machine */
 "%lld warnings" = "Varovaní: %lld";
@@ -379,6 +394,9 @@
 "0 lines" = "0 riadkov";
 
 /* machine */
+"1 annotation" = "1 anotácia";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 prvok sa tu nedá zobraziť: %@.";
 
 /* machine */
@@ -397,10 +415,16 @@
 "1 trigger off" = "1 vypnutý spúšťač";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Pri schvaľovaní tohto receptu zostal vypnutý 1 spúšťač%@. Skontrolujte schválenie, aby ste ho zapli.";
+
+/* machine */
 "1 warning" = "1 varovanie";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Ikona v Docku a miesto v ⌘Tab, kým je otvorený editor alebo Nastavenia; ikona v lište ponúk je tam tak či tak, ak ju nižšie neskryjete. Vypnuté: otvorenie editora z aplikácie na celej obrazovke zostane na jej ploche namiesto prepnutia na pracovnú plochu.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Kód UPC-E začína číselným systémom: 0 alebo 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Príkaz s týmto názvom už existuje. Vyberte prosím iný názov.";
@@ -1105,7 +1129,7 @@
 "CC" = "Kópia";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Vlastné";
+"CUSTOM" = "VLASTNÉ";
 
 /* machine */
 "Calendar Event" = "Udalosť v kalendári";
@@ -1430,6 +1454,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Cloud: e-mail a token API";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar obsahuje číslice a znaky - $ : / . + medzi počiatočným a koncovým znakom.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar začína a končí znakom A, B, C alebo D (či T, N, *, E), alebo ani jedným z nich.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 obsahuje iba znaky ASCII (bez diakritiky a symbolov mimo ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 obsahuje iba znaky ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 obsahuje iba znaky ASCII.";
 
 /* machine */
 "Code hash" = "Hash kódu";
@@ -2398,6 +2437,9 @@
 "ICO (icon)" = "ICO (ikona)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF prijíma párny počet číslic; zadaných je %lld.";
+
+/* machine */
 "Identifier" = "Identifikátor";
 
 /* machine */
@@ -2558,6 +2600,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Skončil s ukončovacím kódom %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Je to začiatok skratky „%@“ (%@), tá by sa potom nikdy nespustila.";
 
 /* machine */
 "It runs from %@." = "Spúšťa sa z %@.";
@@ -3487,6 +3532,9 @@
 "Other…" = "Iné…";
 
 /* machine */
+"Out" = "Výstup";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: povoliť export v položkách schôdzí";
 
 /* machine */
@@ -3628,6 +3676,9 @@
 "Please select how you would like to proceed with this capture:" = "Vyberte, ako chcete s touto snímkou pokračovať:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey prijíma číslice a písmená A až F.";
+
+/* machine */
 "Pointer" = "Kurzor";
 
 /* machine */
@@ -3745,7 +3796,10 @@
 "RECIPE CONFIGURATION" = "KONFIGURÁCIA RECEPTU";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Recepty";
+"RECIPES" = "RECEPTY";
+
+/* machine */
+"REPLACES BUILT-IN" = "NAHRÁDZA VSTAVANÉ";
 
 /* machine */
 "Range" = "Rozsah";
@@ -4361,6 +4415,9 @@
 
 /* machine */
 "Saving as %@." = "Ukladá sa ako %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Uloženie vyžaduje vaše schválenie: %@";
 
 /* machine */
 "Saving the Recording…" = "Ukladá sa nahrávka…";
@@ -4984,6 +5041,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Zmenený recept potrebuje %@, čo jeho schválenie zatiaľ nepovoľuje. Najprv ho uložte; uloženie si vyžiada vaše schválenie.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrolná číslica je chybná: posledná číslica má byť %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Schránka obsahuje typov: %lld.";
 
 /* machine */
@@ -5266,6 +5326,9 @@
 "The text could not be recognized: %@" = "Text sa nepodarilo rozpoznať: %@";
 
 /* machine */
+"The text is too long for this code." = "Text je pre tento kód príliš dlhý.";
+
+/* machine */
 "The torn edges of this image." = "Potrhané okraje tohto obrázka.";
 
 /* machine */
@@ -5329,6 +5392,9 @@
 "There is no recipe '%@'." = "Recept „%@“ neexistuje.";
 
 /* machine */
+"There is nothing to encode." = "Nie je čo kódovať.";
+
+/* machine */
 "There was a problem during the login: %@" = "Pri prihlasovaní nastal problém: %@";
 
 /* machine */
@@ -5387,6 +5453,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Tento program nie je podpísaný vývojárom.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Tento súbor receptu bol zmenený mimo Greenshotu. Greenshot pred spustením žiada o vaše schválenie.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Tento súbor receptu ešte nie je schválený. Greenshot pred spustením žiada o vaše schválenie.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Tento recept napísal nástroj AI, nie Greenshot ani vy. Nižšie skontrolujte, čo robí (Greenshot ho opisuje z receptu samotného), a zapnite iba spúšťače, ktoré chcete.";
@@ -5530,6 +5602,9 @@
 "Type the shortcut…" = "Zadajte skratku…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E prijíma 7 číslic, alebo 8 s kontrolnou číslicou.";
+
+/* machine */
 "Unavailable" = "Nedostupné";
 
 /* machine */
@@ -5585,6 +5660,9 @@
 
 /* machine */
 "Unsaved changes" = "Neuložené zmeny";
+
+/* machine */
+"Untitled" = "Bez názvu";
 
 /* machine */
 "Updated at %@" = "Aktualizované o %@";

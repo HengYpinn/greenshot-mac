@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "ל-%@ יש בעיות: %lld לתיקון לפני שאפשר להריץ.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ מכיל לכל היותר %lld תווים; כאן יש %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ אינו מכיל מתכון.";
 
 /* machine */
@@ -244,6 +247,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ אמור להיפתח בכניסה, אך macOS ממתין שתאשר זאת תחת פריטי כניסה והרחבות.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ מקבל %lld ספרות, או %lld עם ספרת הביקורת.";
+
+/* machine */
+"%@ takes digits only." = "%@ מקבל ספרות בלבד.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ רוצה להשתמש ב-%@ כדי להציג את רשימת החלונות שלך, לצלם מסך ולהריץ מתכונים של Greenshot.";
 
 /* machine */
@@ -269,6 +278,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: התוכנית לא נמצאה";
+
+/* machine */
+"%lld annotations" = "%lld הערות";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "אי אפשר להציג כאן %lld רכיבים: %@.";
@@ -311,6 +323,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld טריגרים כבויים";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld טריגרים נשארו כבויים בעת אישור המתכון הזה%@. יש לעיין באישור כדי להפעיל אותם.";
 
 /* machine */
 "%lld warnings" = "%lld אזהרות";
@@ -370,6 +385,9 @@
 "0 lines" = "0 שורות";
 
 /* machine */
+"1 annotation" = "הערה אחת";
+
+/* machine */
 "1 element can't be shown here: %@." = "אי אפשר להציג כאן רכיב אחד: %@.";
 
 /* machine */
@@ -388,10 +406,16 @@
 "1 trigger off" = "טריגר אחד כבוי";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "טריגר אחד נשאר כבוי בעת אישור המתכון הזה%@. יש לעיין באישור כדי להפעיל אותו.";
+
+/* machine */
 "1 warning" = "אזהרה אחת";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "סמל ב-Dock ומקום ב-⌘Tab כשעורך או הגדרות פתוחים; סמל שורת התפריטים נמצא בכל מקרה, אלא אם הוא מוסתר להלן. כבוי: פתיחת עורך מאפליקציה במסך מלא נשארת ב-Space שלה במקום לעבור לשולחן העבודה.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "קוד UPC-E מתחיל במערכת המספור שלו, 0 או 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "כבר קיימת פקודה בשם הזה. יש לבחור שם אחר.";
@@ -1417,6 +1441,21 @@
 "Cloud: email and API token" = "ענן: אימייל ואסימון API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar מכיל ספרות ואת התווים - $ : / . + בין תווי ההתחלה והסיום שלו.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar מתחיל ומסתיים ב-A, B, C או D (או T, N, *, E), או באף אחד מהם.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 מכיל תווי ASCII בלבד (ללא תווים עם סימנים דיאקריטיים או סמלים מעבר ל-ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 מכיל תווי ASCII בלבד.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 מכיל תווי ASCII בלבד.";
+
+/* machine */
 "Code hash" = "גיבוב קוד";
 
 /* machine */
@@ -2395,6 +2434,9 @@
 "ICO (icon)" = "ICO (סמל)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF מקבל מספר זוגי של ספרות; כאן יש %lld.";
+
+/* machine */
 "Identifier" = "מזהה";
 
 /* machine */
@@ -2446,7 +2488,7 @@
 "Imported %lld annotations from %@" = "יובאו %lld הערות מ-%@";
 
 /* machine */
-"In" = "ב";
+"In" = "קלט";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "בהגדרות › פלט בוחרים את התיקייה ואת תבנית שם הקובץ של צילומי המסך שנשמרים.";
@@ -2555,6 +2597,9 @@
 
 /* machine */
 "It ended with exit code %d." = "הסתיים עם קוד יציאה %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "זהו תחילתו של “%@” (%@), ולכן הוא לעולם לא יופעל.";
 
 /* machine */
 "It runs from %@." = "פועל מתוך %@.";
@@ -3490,6 +3535,9 @@
 "Other…" = "אחר…";
 
 /* machine */
+"Out" = "פלט";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: אפשר ייצוא בפריטי פגישה";
 
 /* machine */
@@ -3631,6 +3679,9 @@
 "Please select how you would like to proceed with this capture:" = "יש לבחור איך להמשיך עם הלכידה הזו:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey מקבל ספרות ואת האותיות A עד F.";
+
+/* machine */
 "Pointer" = "מצביע";
 
 /* machine */
@@ -3752,6 +3803,9 @@
 
 /* core:Core.contextmenu_recipes, normalised */
 "RECIPES" = "מתכונים";
+
+/* machine */
+"REPLACES BUILT-IN" = "מחליף מובנה";
 
 /* machine */
 "Range" = "טווח";
@@ -4367,6 +4421,9 @@
 
 /* machine */
 "Saving as %@." = "נשמר בשם %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "השמירה מבקשת את אישורך: %@";
 
 /* machine */
 "Saving the Recording…" = "שומר את ההקלטה…";
@@ -4996,6 +5053,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "המתכון ששונה צריך את %@, שהאישור שלו עדיין אינו מתיר. יש לשמור אותו תחילה; השמירה מבקשת את אישורך.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "ספרת הביקורת שגויה: הספרה האחרונה צריכה להיות %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "בלוח יש %lld סוגים.";
 
 /* machine */
@@ -5278,6 +5338,9 @@
 "The text could not be recognized: %@" = "לא ניתן היה לזהות את הטקסט: %@";
 
 /* machine */
+"The text is too long for this code." = "הטקסט ארוך מדי עבור קוד זה.";
+
+/* machine */
 "The torn edges of this image." = "הקצוות הקרועים של התמונה הזו.";
 
 /* machine */
@@ -5341,6 +5404,9 @@
 "There is no recipe '%@'." = "אין מתכון '%@'.";
 
 /* machine */
+"There is nothing to encode." = "אין מה לקודד.";
+
+/* machine */
 "There was a problem during the login: %@" = "הייתה בעיה במהלך ההתחברות: %@";
 
 /* machine */
@@ -5399,6 +5465,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "התוכנית הזו אינה חתומה על ידי מפתח.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "קובץ המתכון הזה שונה מחוץ ל-Greenshot. Greenshot מבקש את אישורך לפני שהוא מריץ אותו.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "קובץ המתכון הזה עדיין לא אושר. Greenshot מבקש את אישורך לפני שהוא מריץ אותו.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "המתכון הזה נכתב על ידי כלי AI, לא על ידי Greenshot או על ידך. יש לבדוק להלן מה הוא עושה (Greenshot מתאר אותו לפי המתכון עצמו) ולהפעיל רק את הטריגרים שאתה רוצה.";
@@ -5539,6 +5611,9 @@
 "Type the shortcut…" = "יש להקליד את הקיצור…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E מקבל 7 ספרות, או 8 עם ספרת הביקורת.";
+
+/* machine */
 "Unavailable" = "לא זמין";
 
 /* machine */
@@ -5594,6 +5669,9 @@
 
 /* machine */
 "Unsaved changes" = "שינויים שלא נשמרו";
+
+/* machine */
+"Untitled" = "ללא שם";
 
 /* machine */
 "Updated at %@" = "עודכן ב-%@";

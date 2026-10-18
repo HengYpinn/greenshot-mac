@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ on ongelmia: %lld korjattavaa ennen kuin sen voi suorittaa.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ sisältää enintään %lld merkkiä; nyt niitä on %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ ei sisällä reseptiä.";
 
 /* machine */
@@ -244,6 +247,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ pitäisi avautua kirjautumisen yhteydessä, mutta macOS odottaa, että sallit sen kohdassa Kirjautumiskohteet ja laajennukset.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ hyväksyy %lld numeroa tai %lld tarkistenumeron kanssa.";
+
+/* machine */
+"%@ takes digits only." = "%@ hyväksyy vain numeroita.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ haluaa käyttää kohdetta %@ ikkunoidesi luetteloimiseen ja kuvakaappausten ottamiseen sekä Greenshot-reseptien suorittamiseen.";
 
 /* machine */
@@ -269,6 +278,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: ohjelmaa ei löytynyt";
+
+/* machine */
+"%lld annotations" = "%lld merkintää";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elementtiä ei voi näyttää tässä: %@.";
@@ -311,6 +323,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld liipaisinta pois";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Kun resepti hyväksyttiin, %lld liipaisinta jätettiin pois päältä%@. Tarkista hyväksyntä ottaaksesi ne käyttöön.";
 
 /* machine */
 "%lld warnings" = "%lld varoitusta";
@@ -370,6 +385,9 @@
 "0 lines" = "0 riviä";
 
 /* machine */
+"1 annotation" = "1 merkintä";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 elementtiä ei voi näyttää tässä: %@.";
 
 /* machine */
@@ -388,10 +406,16 @@
 "1 trigger off" = "1 liipaisin pois";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Kun resepti hyväksyttiin, 1 liipaisin jätettiin pois päältä%@. Tarkista hyväksyntä ottaaksesi sen käyttöön.";
+
+/* machine */
 "1 warning" = "1 varoitus";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Dock-kuvake ja paikka ⌘Tab-valitsimessa, kun muokkain tai Asetukset on auki. Valikkorivin kuvake näkyy joka tapauksessa, ellei sitä ole piilotettu alla. Pois: muokkaimen avaaminen koko näytön apista pysyy sen Spacessa sen sijaan, että vaihtaisi työpöydälle.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E-koodi alkaa numerojärjestelmällään, 0 tai 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Tämän niminen komento on jo olemassa. Valitse toinen nimi.";
@@ -1423,6 +1447,21 @@
 "Cloud: email and API token" = "Cloud: sähköposti ja API-tunnus";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar sisältää numeroita ja merkit - $ : / . + aloitus- ja lopetusmerkin välissä.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar alkaa ja päättyy merkkiin A, B, C tai D (tai T, N, *, E) tai ei kumpaankaan.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 sisältää vain ASCII-merkkejä (ei aksentteja tai ASCII-merkistön ulkopuolisia symboleja).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 sisältää vain ASCII-merkkejä.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 sisältää vain ASCII-merkkejä.";
+
+/* machine */
 "Code hash" = "Koodin tiiviste";
 
 /* machine */
@@ -2398,6 +2437,9 @@
 "ID" = "Tunniste";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF hyväksyy parillisen määrän numeroita; nyt niitä on %lld.";
+
+/* machine */
 "Identifier" = "Tunniste";
 
 /* machine */
@@ -2449,7 +2491,7 @@
 "Imported %lld annotations from %@" = "Tuotiin %lld merkintää kohteesta %@";
 
 /* machine */
-"In" = "Sisään";
+"In" = "Tulo";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Kohdassa Asetukset › Tallennus valitset tallennettujen kuvakaappausten kansion ja tiedostonimimallin.";
@@ -2558,6 +2600,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Se päättyi poistumiskoodiin %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Se on alku kohteesta ”%@” (%@), jolloin se ei koskaan laukeaisi.";
 
 /* machine */
 "It runs from %@." = "Se suoritetaan kohteesta %@.";
@@ -3238,7 +3283,7 @@
 "OTHER PARAMETERS" = "MUUT PARAMETRIT";
 
 /* machine */
-"OVERRIDDEN" = "ohitettu";
+"OVERRIDDEN" = "OHITETTU";
 
 /* core:Editor.obfuscate, override */
 "Obfuscate" = "Häivytä";
@@ -3487,6 +3532,9 @@
 "Other…" = "Muu…";
 
 /* machine */
+"Out" = "Lähtö";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: salli vienti kokouskohteisiin";
 
 /* machine */
@@ -3628,6 +3676,9 @@
 "Please select how you would like to proceed with this capture:" = "Valitse, miten haluat jatkaa tämän kaappauksen kanssa:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey hyväksyy numeroita ja kirjaimet A–F.";
+
+/* machine */
 "Pointer" = "Osoitin";
 
 /* machine */
@@ -3748,7 +3799,10 @@
 "RECIPE CONFIGURATION" = "RESEPTIN MÄÄRITYS";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Reseptit";
+"RECIPES" = "RESEPTIT";
+
+/* machine */
+"REPLACES BUILT-IN" = "KORVAA SISÄÄNRAKENNETUN";
 
 /* machine */
 "Range" = "Alue";
@@ -4364,6 +4418,9 @@
 
 /* machine */
 "Saving as %@." = "Tallennetaan muodossa %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Tallennus pyytää hyväksyntääsi: %@";
 
 /* machine */
 "Saving the Recording…" = "Tallennetaan tallennetta…";
@@ -4996,6 +5053,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Muutettu resepti tarvitsee kohteen %@, jota sen hyväksyntä ei vielä salli. Tallenna se ensin; tallennus pyytää hyväksyntääsi.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Tarkistenumero on väärä: viimeisen numeron pitäisi olla %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Leikepöydällä on %lld tyyppiä.";
 
 /* machine */
@@ -5278,6 +5338,9 @@
 "The text could not be recognized: %@" = "Tekstiä ei voitu tunnistaa: %@";
 
 /* machine */
+"The text is too long for this code." = "Teksti on liian pitkä tälle koodille.";
+
+/* machine */
 "The torn edges of this image." = "Tämän kuvan revityt reunat.";
 
 /* machine */
@@ -5341,6 +5404,9 @@
 "There is no recipe '%@'." = "Reseptiä ”%@” ei ole.";
 
 /* machine */
+"There is nothing to encode." = "Ei ole mitään koodattavaa.";
+
+/* machine */
 "There was a problem during the login: %@" = "Kirjautumisessa tapahtui ongelma: %@";
 
 /* machine */
@@ -5399,6 +5465,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Kehittäjä ei ole allekirjoittanut tätä ohjelmaa.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Tätä reseptitiedostoa muutettiin Greenshotin ulkopuolella. Greenshot pyytää hyväksyntääsi ennen sen suorittamista.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Tätä reseptitiedostoa ei ole vielä hyväksytty. Greenshot pyytää hyväksyntääsi ennen sen suorittamista.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Tämän reseptin on kirjoittanut tekoälytyökalu, ei Greenshot eikä sinä. Tarkista alta, mitä se tekee (Greenshot kuvaa sen reseptin perusteella), ja kytke päälle vain haluamasi liipaisimet.";
@@ -5542,6 +5614,9 @@
 "Type the shortcut…" = "Kirjoita oikotie…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E hyväksyy 7 numeroa tai 8 tarkistenumeron kanssa.";
+
+/* machine */
 "Unavailable" = "Ei saatavilla";
 
 /* machine */
@@ -5597,6 +5672,9 @@
 
 /* machine */
 "Unsaved changes" = "Tallentamattomia muutoksia";
+
+/* machine */
+"Untitled" = "Nimeämätön";
 
 /* machine */
 "Updated at %@" = "Päivitetty %@";

@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ sorunlu: çalışmadan önce düzeltilmesi gereken %lld sorun var.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ en fazla %lld karakter alır; şu an %lld karakter var.";
+
+/* machine */
 "%@ holds no recipe." = "%@ hiçbir tarif içermiyor.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ oturum açıldığında açılmalı, ancak macOS bunun için Giriş Öğeleri ve Uzantılar bölümünden izin vermenizi bekliyor.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ %lld basamak alır; kontrol basamağıyla birlikte %lld.";
+
+/* machine */
+"%@ takes digits only." = "%@ yalnızca rakam alır.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@, pencerelerinizi listelemek, ekran görüntüsü almak ve Greenshot tariflerini çalıştırmak için %@ kullanmak istiyor.";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%lld %%" = "%%%lld";
+
+/* machine */
+"%lld annotations" = "%lld ek açıklama";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld öğe burada gösterilemiyor: %@.";
@@ -317,6 +329,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld tetikleyici kapalı";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Bu tarif onaylanırken %lld tetikleyici kapalı bırakıldı%@. Açmak için onayı gözden geçirin.";
 
 /* machine */
 "%lld warnings" = "%lld uyarı";
@@ -376,6 +391,9 @@
 "0 lines" = "0 satır";
 
 /* machine */
+"1 annotation" = "1 ek açıklama";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 öğe burada gösterilemiyor: %@.";
 
 /* machine */
@@ -394,10 +412,16 @@
 "1 trigger off" = "1 tetikleyici kapalı";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Bu tarif onaylanırken 1 tetikleyici kapalı bırakıldı%@. Açmak için onayı gözden geçirin.";
+
+/* machine */
 "1 warning" = "1 uyarı";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Bir editör veya Ayarlar açıkken Dock'ta bir simge ve ⌘Tab'da bir yer; menü çubuğu simgesi aşağıda gizlenmedikçe her durumda görünür. Kapalıysa: tam ekran bir uygulamadan editör açmak masaüstüne geçmek yerine aynı Space'te kalır.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E kodu, sayı sistemiyle başlar: 0 veya 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Bu adda bir komut zaten mevcut. Lütfen farklı bir ad seçin.";
@@ -1105,7 +1129,7 @@
 "CC" = "Cc";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Özel";
+"CUSTOM" = "ÖZEL";
 
 /* machine */
 "Calendar Event" = "Takvim Etkinliği";
@@ -1430,6 +1454,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Bulut: e-posta ve API belirteci";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar, başlangıç ve bitiş karakterleri arasında rakamlar ile - $ : / . + karakterlerini içerir.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar A, B, C veya D (ya da T, N, *, E) ile başlar ve biter; ya da hiçbiriyle.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 yalnızca ASCII karakterleri içerir (aksanlar ve ASCII dışındaki simgeler olmadan).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 yalnızca ASCII karakterleri içerir.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 yalnızca ASCII karakterleri içerir.";
 
 /* machine */
 "Code hash" = "Kod karması";
@@ -2413,6 +2452,9 @@
 "ID" = "Kimlik";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF çift sayıda basamak alır; şu an %lld basamak var.";
+
+/* machine */
 "Identifier" = "Tanımlayıcı";
 
 /* machine */
@@ -2573,6 +2615,9 @@
 
 /* machine */
 "It ended with exit code %d." = "%d çıkış koduyla sona erdi.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Bu, “%@” (%@) kısayolunun başıdır; bu yüzden hiç tetiklenmezdi.";
 
 /* machine */
 "It runs from %@." = "Şuradan çalışır: %@.";
@@ -3501,6 +3546,9 @@
 /* machine */
 "Other…" = "Diğer…";
 
+/* machine */
+"Out" = "Çıkış";
+
 /* office:Office.outlook_allowmeetings, override */
 "Outlook: allow export in meeting items" = "Toplantı öğelerinde dışa aktarmaya izin ver";
 
@@ -3643,6 +3691,9 @@
 "Please select how you would like to proceed with this capture:" = "Lütfen bu yakalamayla nasıl devam etmek istediğinizi seçin:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey rakamları ve A–F harflerini alır.";
+
+/* machine */
 "Pointer" = "İmleç";
 
 /* machine */
@@ -3760,7 +3811,10 @@
 "RECIPE CONFIGURATION" = "TARİF YAPILANDIRMASI";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Tarifler";
+"RECIPES" = "TARİFLER";
+
+/* machine */
+"REPLACES BUILT-IN" = "YERLEŞİK OLANIN YERİNE GEÇER";
 
 /* machine */
 "Range" = "Aralık";
@@ -4376,6 +4430,9 @@
 
 /* machine */
 "Saving as %@." = "Kaydediliyor: %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Kaydetmek onayınızı ister: %@";
 
 /* machine */
 "Saving the Recording…" = "Kayıt Kaydediliyor…";
@@ -5011,6 +5068,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Değiştirilen tarif, onayının henüz izin vermediği %@ gerektiriyor. Önce kaydedin; kaydetmek onayınızı ister.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrol basamağı yanlış: son basamak %lld olmalı.";
+
+/* machine */
 "The clipboard holds %lld types." = "Panoda %lld tür var.";
 
 /* machine */
@@ -5293,6 +5353,9 @@
 "The text could not be recognized: %@" = "Metin tanınamadı: %@";
 
 /* machine */
+"The text is too long for this code." = "Metin bu kod için çok uzun.";
+
+/* machine */
 "The torn edges of this image." = "Bu görüntünün yırtık kenarları.";
 
 /* machine */
@@ -5355,6 +5418,9 @@
 /* machine */
 "There is no recipe '%@'." = "'%@' adlı bir tarif yok.";
 
+/* machine */
+"There is nothing to encode." = "Kodlanacak bir şey yok.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Oturum açma sırasında bir sorun oluştu: %@";
 
@@ -5414,6 +5480,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Bu program bir geliştirici tarafından imzalanmamış.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Bu tarif dosyası Greenshot dışında değiştirildi. Greenshot çalıştırmadan önce onayınızı ister.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Bu tarif dosyası henüz onaylanmadı. Greenshot çalıştırmadan önce onayınızı ister.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Bu tarifi Greenshot veya siz değil, bir yapay zekâ aracı yazdı. Ne yaptığını aşağıda inceleyin (Greenshot onu tarifin kendisinden tanımlar) ve yalnızca istediğiniz tetikleyicileri açın.";
@@ -5554,6 +5626,9 @@
 "Type the shortcut…" = "Kısayolu yazın…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E 7 basamak alır; kontrol basamağıyla birlikte 8.";
+
+/* machine */
 "Unavailable" = "Kullanılamıyor";
 
 /* machine */
@@ -5609,6 +5684,9 @@
 
 /* machine */
 "Unsaved changes" = "Kaydedilmemiş değişiklikler";
+
+/* machine */
+"Untitled" = "Adsız";
 
 /* machine */
 "Updated at %@" = "Güncellenme zamanı: %@";

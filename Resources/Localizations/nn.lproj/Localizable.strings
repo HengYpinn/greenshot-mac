@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ har problem: %lld å rette før det kan køyre.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ rommar høgst %lld teikn; her er det %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ inneheld ingen oppskrift.";
 
 /* machine */
@@ -244,6 +247,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ skal opne ved pålogging, men macOS ventar på at du tillèt det under Påloggingselement og utvidingar.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ tek %lld siffer, eller %lld med kontrollsifferet.";
+
+/* machine */
+"%@ takes digits only." = "%@ tek berre siffer.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ vil bruke %@ til å liste vindauga dine og ta skjermbilete, og til å køyre Greenshot-oppskrifter.";
 
 /* machine */
@@ -269,6 +278,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: programmet blei ikkje funne";
+
+/* machine */
+"%lld annotations" = "%lld merknader";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld element kan ikkje visast her: %@.";
@@ -311,6 +323,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld utløysarar av";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Då denne oppskrifta vart godkjend, vart %lld utløysarar ståande av%@. Gå gjennom godkjenninga for å slå dei på.";
 
 /* machine */
 "%lld warnings" = "%lld åtvaringar";
@@ -370,6 +385,9 @@
 "0 lines" = "0 liner";
 
 /* machine */
+"1 annotation" = "1 merknad";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 element kan ikkje visast her: %@.";
 
 /* machine */
@@ -388,10 +406,16 @@
 "1 trigger off" = "1 utløysar av";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Då denne oppskrifta vart godkjend, vart 1 utløysar ståande av%@. Gå gjennom godkjenninga for å slå han på.";
+
+/* machine */
 "1 warning" = "1 åtvaring";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Eit Dock-ikon og ein plass i ⌘Tab medan ein redigerar eller Innstillingar er open; menylinje-ikonet er der uansett, med mindre det er skjult under. Av: når ein opnar ein redigerar frå eit fullskjermprogram, blir han verande på sin Space i staden for å byte til skrivebordet.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Ein UPC-E-kode startar med nummersystemet sitt, 0 eller 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Ein kommando med dette namnet finst alt. Vel eit anna namn.";
@@ -1423,6 +1447,21 @@
 "Cloud: email and API token" = "Sky: e-post og API-token";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar rommar siffer og - $ : / . + mellom start- og stopptekn.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar startar og sluttar med A, B, C eller D (eller T, N, *, E), eller med ingen av dei.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 rommar berre ASCII-teikn (ingen aksentar eller symbol utover ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 rommar berre ASCII-teikn.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 rommar berre ASCII-teikn.";
+
+/* machine */
 "Code hash" = "Kodehash";
 
 /* machine */
@@ -2386,6 +2425,9 @@
 "ICO (icon)" = "ICO (ikon)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF tek eit partal siffer; her er det %lld.";
+
+/* machine */
 "Identifier" = "Identifikator";
 
 /* machine */
@@ -2437,7 +2479,7 @@
 "Imported %lld annotations from %@" = "Importerte %lld merknader frå %@";
 
 /* machine */
-"In" = "Inn";
+"In" = "Inngang";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "I Innstillingar › Utformat vel du mappa og filnamnsregelen for lagra skjermbilete.";
@@ -2543,6 +2585,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Det blei avslutta med utgangskode %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Det er byrjinga på «%@» (%@), som då aldri ville bli utløyst.";
 
 /* machine */
 "It runs from %@." = "Det køyrer frå %@.";
@@ -3469,7 +3514,7 @@
 "Other…" = "Anna …";
 
 /* machine */
-"Out" = "Ut";
+"Out" = "Utgang";
 
 /* machine */
 "Outlook: allow export in meeting items" = "Outlook: tillat eksport i møteelement";
@@ -3613,6 +3658,9 @@
 "Please select how you would like to proceed with this capture:" = "Vel korleis du vil halde fram med dette opptaket:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey tek siffer og bokstavane A til F.";
+
+/* machine */
 "Pointer" = "Peikar";
 
 /* machine */
@@ -3730,7 +3778,10 @@
 "RECIPE CONFIGURATION" = "OPPSKRIFTSKONFIGURASJON";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Oppskrifter";
+"RECIPES" = "OPPSKRIFTER";
+
+/* machine */
+"REPLACES BUILT-IN" = "ERSTATTAR INNEBYGD";
 
 /* machine */
 "Range" = "Spenn";
@@ -4346,6 +4397,9 @@
 
 /* machine */
 "Saving as %@." = "Lagrar som %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Lagringa krev godkjenninga di: %@";
 
 /* machine */
 "Saving the Recording…" = "Lagrar opptaket …";
@@ -4972,6 +5026,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Den endra oppskrifta treng %@, som godkjenninga ikkje tillèt enno. Lagre ho først; lagring spør om godkjenninga di.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrollsifferet er feil: det siste sifferet skal vere %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Utklyppstavla inneheld %lld typar.";
 
 /* machine */
@@ -5254,6 +5311,9 @@
 "The text could not be recognized: %@" = "Teksten kunne ikkje kjennast att: %@";
 
 /* machine */
+"The text is too long for this code." = "Teksten er for lang for denne koden.";
+
+/* machine */
 "The torn edges of this image." = "Rivekantane til dette bildet.";
 
 /* machine */
@@ -5317,6 +5377,9 @@
 "There is no recipe '%@'." = "Det finst inga oppskrift «%@».";
 
 /* machine */
+"There is nothing to encode." = "Det er ingenting å kode.";
+
+/* machine */
 "There was a problem during the login: %@" = "Det oppstod eit problem under pålogginga: %@";
 
 /* machine */
@@ -5375,6 +5438,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Dette programmet er ikkje signert av ein utviklar.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Denne oppskriftsfila vart endra utanfor Greenshot. Greenshot spør om godkjenninga di før ho køyrer.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Denne oppskriftsfila er ikkje godkjend enno. Greenshot spør om godkjenninga di før ho køyrer.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Denne oppskrifta er skriven av eit KI-verktøy, ikkje av Greenshot eller deg. Sjekk kva ho gjer nedanfor (Greenshot skildrar ho ut frå oppskrifta sjølv) og slå berre på utløysarane du vil ha.";
@@ -5515,6 +5584,9 @@
 "Type the shortcut…" = "Skriv snarvegen …";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E tek 7 siffer, eller 8 med kontrollsifferet.";
+
+/* machine */
 "Unavailable" = "Utilgjengeleg";
 
 /* machine */
@@ -5570,6 +5642,9 @@
 
 /* machine */
 "Unsaved changes" = "Ulagra endringar";
+
+/* machine */
+"Untitled" = "Utan namn";
 
 /* machine */
 "Updated at %@" = "Oppdatert ved %@";

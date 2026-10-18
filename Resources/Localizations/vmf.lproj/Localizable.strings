@@ -175,6 +175,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ hod Brobleme: %lld zum Berichdign, bevors laffa kann.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ nimmd höchsdns %lld Zeichn; hier san's %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ enthälld koa Rezebd.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ soll bei der Anmeldung aufgehn, aber macOS wardd, dass du des unner Anmeldeobjekte & Erweiterungen erlaubsd.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ nimmd %lld Ziffern oder %lld mid der Brüfziffer.";
+
+/* machine */
+"%@ takes digits only." = "%@ nimmd bloß Ziffern.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ will %@ nudzn, um deine Fensder aufzulisdn, Sgrienschods zu machn und Greenshot-Rezebde auszufiehrn.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: des Brogramm wurd ned gfunna";
+
+/* machine */
+"%lld annotations" = "%lld Beschrifdunga";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld Elemende könna do ned angezeichd wern: %@.";
@@ -320,6 +332,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld Ausleser aus";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Beim Freigebm vo dem Rezebd wurdn %lld Auslöser ned eigschalded%@. Schau dir die Freigab nochmal o, dass du sie eischaldn kannsd.";
 
 /* machine */
 "%lld warnings" = "%lld Warnunga";
@@ -379,6 +394,9 @@
 "0 lines" = "0 Zeiln";
 
 /* machine */
+"1 annotation" = "1 Beschrifdung";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 Element kann do ned angezeichd wern: %@.";
 
 /* machine */
@@ -397,10 +415,16 @@
 "1 trigger off" = "1 Auslöser aus";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Beim Freigebm vo dem Rezebd wurd 1 Auslöser ned eigschalded%@. Schau dir die Freigab nochmal o, dass du ihn eischaldn kannsd.";
+
+/* machine */
 "1 warning" = "1 Warnung";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "A Dock-Symbol und a Blädzla in ⌘Tab, solang a Edidor oder die Rumdogdern offn sin; es Symbol in der Menüleiste is auf jeden Fall do, außer es is undn versteggd. Aus: Wenn du an Edidor aus am Vollbild-Brogramm aufmachsd, bleibd er auf seim Space und schbringd ned auf'n Schreibtisch.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "A UPC-E-Code fängd mid seim Nummernsysdem o, 0 oder 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "A Befehl mid dem Namen gibds scho. Nimm bidde an andern Namen.";
@@ -1420,6 +1444,21 @@
 "Cloud: email and API token" = "Cloud: E-Mail und API-Token";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar hodd zwischn Schdard- und Schdoppzeichn Ziffern und - $ : / . +.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar fängd o und hörd auf mid A, B, C oder D (oder T, N, *, E), oder mid kaans vo denna.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 hodd bloß ASCII-Zeichn (kaane Akzende oder Symbole außerhalb vo ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 hodd bloß ASCII-Zeichn.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 hodd bloß ASCII-Zeichn.";
+
+/* machine */
 "Code hash" = "Code-Hash";
 
 /* machine */
@@ -2398,6 +2437,9 @@
 "ICO (icon)" = "ICO (Symbol)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF nimmd a gerade Anzahl Ziffern; hier san's %lld.";
+
+/* machine */
 "Identifier" = "Kennung";
 
 /* machine */
@@ -2447,6 +2489,9 @@
 
 /* machine */
 "Imported %lld annotations from %@" = "%lld Beschrifdunga aus %@ importierd";
+
+/* machine */
+"In" = "Eigang";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "In Rumdogdern › Ausgabe wählsd den Ordner und es Dadeinamen-Musder vo gschbeicherdn Sgrienschods aus.";
@@ -2546,6 +2591,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Es hod mid Beendigungscode %d aufgheerd.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Des is der Anfang vo „%@“ (%@), des dann nie ausgelösd werdn dädd.";
 
 /* machine */
 "It runs from %@." = "Es läffd aus %@.";
@@ -3478,6 +3526,9 @@
 "Other…" = "Andre…";
 
 /* machine */
+"Out" = "Ausgang";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: Exbord in Meeding-Eindrächn erlaubn";
 
 /* machine */
@@ -3619,6 +3670,9 @@
 "Please select how you would like to proceed with this capture:" = "Wähl bidde aus, wie du mid dera Aufnahme weidermachn willsd:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey nimmd Ziffern und die Buchschdabn A bis F.";
+
+/* machine */
 "Pointer" = "Zeiger";
 
 /* machine */
@@ -3739,7 +3793,10 @@
 "RECIPE CONFIGURATION" = "REZEBD-KONFIGURAZION";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Rezebde";
+"RECIPES" = "REZEBDE";
+
+/* machine */
+"REPLACES BUILT-IN" = "ERSEDZD EINGEBAUDES";
 
 /* machine */
 "Range" = "Breich";
@@ -4357,6 +4414,9 @@
 "Saving as %@." = "Wird als %@ gschbeichert.";
 
 /* machine */
+"Saving asks for your approval: %@" = "Es Speichern braugd deine Freigab: %@";
+
+/* machine */
 "Saving the Recording…" = "Die Aufnahme wird gschbeichert…";
 
 /* machine */
@@ -4972,6 +5032,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Es gänderde Rezebd braugd %@, was seine Freigab no ned erlaubd. Schbeichers zuerschd; beim Schbeichern wirsd um deine Freigab gebeedn.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Die Brüfziffer is falsch: Die lezde Ziffer sollad %lld sei.";
+
+/* machine */
 "The clipboard holds %lld types." = "Die Zwischnablach enthälld %lld Dibbn.";
 
 /* machine */
@@ -5254,6 +5317,9 @@
 "The text could not be recognized: %@" = "Der Text konnd ned erkannd wern: %@";
 
 /* machine */
+"The text is too long for this code." = "Der Text is für den Code zu lang.";
+
+/* machine */
 "The torn edges of this image." = "Die ausgrissenen Kandn vo dem Bild.";
 
 /* machine */
@@ -5317,6 +5383,9 @@
 "There is no recipe '%@'." = "Es gibd kaa Rezebd '%@'.";
 
 /* machine */
+"There is nothing to encode." = "Do gibds nix zum Verschlüsseln.";
+
+/* machine */
 "There was a problem during the login: %@" = "Bei der Anmeldung gab's a Problem: %@";
 
 /* machine */
@@ -5375,6 +5444,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Des Brogramm is ned vo am Endwickler signierd.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Die Rezebd-Dadei is außerhalb vo Greenshot gändert worn. Greenshot fragd vorm Ausfiehrn nach deiner Freigab.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Die Rezebd-Dadei is no ned freigebm. Greenshot fragd vorm Ausfiehrn nach deiner Freigab.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Des Rezebd wurd vo am KI-Werkzeuch gschriem, ned vo Greenshot oder vo dir. Schau undn nach, was es machd (Greenshot beschreibd's aus dem Rezebd selber), und schald nur die Auslöser ein, die du willsd.";
@@ -5518,6 +5593,9 @@
 "Type the shortcut…" = "Dibb es Dasdnkürzl ein…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E nimmd 7 Ziffern oder 8 mid der Brüfziffer.";
+
+/* machine */
 "Unavailable" = "Ned verfüchbor";
 
 /* machine */
@@ -5573,6 +5651,9 @@
 
 /* machine */
 "Unsaved changes" = "Ungschbeicherde Änderunga";
+
+/* machine */
+"Untitled" = "Ohne Diddl";
 
 /* machine */
 "Updated at %@" = "Aktualisierd bei %@";

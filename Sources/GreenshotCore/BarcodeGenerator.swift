@@ -52,10 +52,10 @@ public enum BarcodeError: Error, Equatable, LocalizedError {
 
     public var errorDescription: String? {
         switch self {
-        case .empty: return "There is nothing to encode."
+        case .empty: return String(localized: "There is nothing to encode.")
         case .invalidCharacters(let message), .wrongLength(let message): return message
-        case .wrongCheckDigit(let expected): return "The check digit is wrong: the last digit should be \(expected)."
-        case .tooLong: return "The text is too long for this code."
+        case .wrongCheckDigit(let expected): return String(localized: "The check digit is wrong: the last digit should be \(expected).")
+        case .tooLong: return String(localized: "The text is too long for this code.")
         }
     }
 }
@@ -105,7 +105,7 @@ public enum BarcodeGenerator {
     /// ZXing's Code128Writer: ASCII, 1 to 80 characters. Core Image picks the code sets.
     static func code128(_ payload: String) throws -> BarcodeMatrix {
         guard payload.unicodeScalars.allSatisfy(\.isASCII) else {
-            throw BarcodeError.invalidCharacters("Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).")
+            throw BarcodeError.invalidCharacters(String(localized: "Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)."))
         }
         try LinearBarcode.checkLength(payload, name: "Code 128")
         let matrix = try coreImage("CICode128BarcodeGenerator", Data(payload.utf8), border: 0,

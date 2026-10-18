@@ -431,17 +431,32 @@ private struct RecipeChoiceTableControl: View {
                     TextField("key", text: member(object, "Key")).textFieldStyle(.roundedBorder).frame(width: 90)
                     TextField("button label", text: member(object, "Label")).textFieldStyle(.roundedBorder)
                 }
-                HStack {
-                    Picker("", selection: member(object, "Style")) {
-                        ForEach(["Primary", "Secondary", "Danger"], id: \.self) { Text($0).tag($0) }
+                // The switches below the style when they don't fit beside it (longer languages).
+                ViewThatFits(in: .horizontal) {
+                    HStack {
+                        stylePicker(object)
+                        switches(object)
                     }
-                    .labelsHidden().frame(width: 120)
-                    Toggle("Default (Return)", isOn: flag(object, "IsDefault")).controlSize(.small).fixedSize()
-                    Toggle("Cancel (Esc)", isOn: flag(object, "IsCancel")).controlSize(.small).fixedSize()
+                    VStack(alignment: .leading, spacing: 3) {
+                        stylePicker(object)
+                        HStack { switches(object) }
+                    }
                 }
             }
         }
     }
+}
+
+private func stylePicker(_ object: Binding<JSONObject>) -> some View {
+    Picker("", selection: member(object, "Style")) {
+        ForEach(["Primary", "Secondary", "Danger"], id: \.self) { Text($0).tag($0) }
+    }
+    .labelsHidden().frame(width: 120)
+}
+
+@ViewBuilder private func switches(_ object: Binding<JSONObject>) -> some View {
+    Toggle("Default (Return)", isOn: flag(object, "IsDefault")).controlSize(.small).fixedSize()
+    Toggle("Cancel (Esc)", isOn: flag(object, "IsCancel")).controlSize(.small).fixedSize()
 }
 
 /// Commandline / AiTool `Arguments` (upstream `CommandlineArgument`).

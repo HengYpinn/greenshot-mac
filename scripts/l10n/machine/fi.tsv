@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ epäonnistui	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ valmis	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ on ongelmia: %lld korjattavaa ennen kuin sen voi suorittaa.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ sisältää enintään %lld merkkiä; nyt niitä on %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ ei sisällä reseptiä.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ kohteessa %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ kohteessa %@ – näytä Finderissa napsauttamalla	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ ilmoitti ongelmasta: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ suorittaa skriptejä: vain yllä oleva skripti sallitaan, ei jokainen skripti, jonka %@ suorittaa.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ pitäisi avautua kirjautumisen yhteydessä, mutta macOS odottaa, että sallit sen kohdassa Kirjautumiskohteet ja laajennukset.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ hyväksyy %lld numeroa tai %lld tarkistenumeron kanssa.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ hyväksyy vain numeroita.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ haluaa käyttää kohdetta %@ ikkunoidesi luetteloimiseen ja kuvakaappausten ottamiseen sekä Greenshot-reseptien suorittamiseen.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ rajaa  ⎋ peruuta	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ leikkaa pois  ⎋ peruuta	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: ohjelmaa ei löytynyt	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld merkintää	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld elementtiä ei voi näyttää tässä: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld virhettä	claude-sonnet-5-5 2026-10-18
 %lld found	%lld löytyi	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld Spacea	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld vaihetta	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld liipaisinta pois	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	Kun resepti hyväksyttiin, %lld liipaisinta jätettiin pois päältä%@. Tarkista hyväksyntä ottaaksesi ne käyttöön.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld varoitusta	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	”%@” ei voi seurata kohdetta ”%@”: kulku jäisi silmukkaan.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = kaikki tiedostot	claude-sonnet-5-5 2026-10-18
 0 lines	0 riviä	claude-sonnet-5-5 2026-10-18
+1 annotation	1 merkintä	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 elementtiä ei voi näyttää tässä: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 virhe	claude-sonnet-5-5 2026-10-18
 1 hour	1 tunti	claude-sonnet-5-5 2026-10-18
 1 minute	1 minuutti	claude-sonnet-5-5 2026-10-18
 1 step	1 vaihe	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 liipaisin pois	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	Kun resepti hyväksyttiin, 1 liipaisin jätettiin pois päältä%@. Tarkista hyväksyntä ottaaksesi sen käyttöön.	claude-sonnet-5-5 2026-10-18
 1 warning	1 varoitus	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Dock-kuvake ja paikka ⌘Tab-valitsimessa, kun muokkain tai Asetukset on auki. Valikkorivin kuvake näkyy joka tapauksessa, ellei sitä ole piilotettu alla. Pois: muokkaimen avaaminen koko näytön apista pysyy sen Spacessa sen sijaan, että vaihtaisi työpöydälle.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	UPC-E-koodi alkaa numerojärjestelmällään, 0 tai 1.	claude-sonnet-5-5 2026-10-18
 A command with this name already exists. Please choose a different name.	Tämän niminen komento on jo olemassa. Valitse toinen nimi.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windowsin tiedosto: Tallenna kysyy uutta tiedostoa, joten tämä pysyy ennallaan.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Tiedosto haluaa lisätä automaattisen vaiheen muihin reseptteihin, myös sisäänrakennettuihin. Tarkista, mitä reseptejä se muuttaa ja mitä se lisää, ennen kuin hyväksyt.	claude-sonnet-5-5 2026-10-18
@@ -468,6 +476,11 @@ Close All	Sulje kaikki	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	Muutoksia sisältävän muokkaimen sulkeminen hylkää ne kysymättä.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	Cloud-sivustot päättyvät merkkijonoon /wiki.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Cloud: sähköposti ja API-tunnus	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar sisältää numeroita ja merkit - $ : / . + aloitus- ja lopetusmerkin välissä.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar alkaa ja päättyy merkkiin A, B, C tai D (tai T, N, *, E) tai ei kumpaankaan.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 sisältää vain ASCII-merkkejä (ei aksentteja tai ASCII-merkistön ulkopuolisia symboleja).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 sisältää vain ASCII-merkkejä.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 sisältää vain ASCII-merkkejä.	claude-sonnet-5-5 2026-10-18
 Code hash	Koodin tiiviste	claude-sonnet-5-5 2026-10-18
 Code signature	Koodiallekirjoitus	claude-sonnet-5-5 2026-10-18
 Color:	Väri:	claude-sonnet-5-5 2026-10-18
@@ -768,6 +781,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Kuinka 
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (kuvake)	claude-sonnet-5-5 2026-10-18
 ID	Tunniste	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF hyväksyy parillisen määrän numeroita; nyt niitä on %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Tunniste	claude-sonnet-5-5 2026-10-18
 If %@: %@	Jos %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Jos tämä on oma palvelimesi, lisää %@ tai sormenjälki kohdassa Asetukset › Kohteet › Omat palvelimesi.	claude-sonnet-5-5 2026-10-18
@@ -780,7 +794,7 @@ Import Annotations from %@	Tuo merkinnät kohteesta %@	claude-sonnet-5-5 2026-10
 Import Annotations from a Greenshot File	Tuo merkinnät Greenshot-tiedostosta	claude-sonnet-5-5 2026-10-18
 Import From This Editor	Tuo tästä muokkaimesta	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Tuotiin %lld merkintää kohteesta %@	claude-sonnet-5-5 2026-10-18
-In	Sisään	claude-sonnet-5-5 2026-10-18
+In	Tulo	claude-sonnet-5-5 2026-10-18
 In Settings › Output you choose the folder and the file name pattern of saved screenshots.	Kohdassa Asetukset › Tallennus valitset tallennettujen kuvakaappausten kansion ja tiedostonimimallin.	claude-sonnet-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	Muutamassa vaiheessa näet, miten kaappaaminen toimii, ja %@ tarkistaa, että kaikki on asetettu hyvin.	claude-sonnet-5-5 2026-10-18
 In parallel	Rinnakkain	claude-sonnet-5-5 2026-10-18
@@ -817,6 +831,7 @@ Inverted colours	Käänteiset värit	claude-sonnet-5-5 2026-10-18
 Issue identifier (stack trace hash)	Ongelman tunniste (pinon jäljityksen tiiviste)	claude-sonnet-5-5 2026-10-18
 Issue key:	Tiketin avain:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	Se päättyi poistumiskoodiin %d.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	Se on alku kohteesta ”%@” (%@), jolloin se ei koskaan laukeaisi.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Se suoritetaan kohteesta %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Se lakkaa heti toimimasta eikä sitä ladata uudelleen. Sen tiedosto säilyy paikallaan: tuo se uudelleen tarkistaaksesi ja hyväksyäksesi sen.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Se lakkaa heti toimimasta eikä sitä ladata uudelleen. Sen tiedosto säilyy paikallaan: avaa se uudelleen tarkistaaksesi ja hyväksyäksesi sen.	claude-sonnet-5-5 2026-10-18
@@ -1046,7 +1061,7 @@ OCR Text	OCR-teksti	claude-sonnet-5-5 2026-10-18
 OK	OK	claude-sonnet-5-5 2026-10-18
 OPTIONS	VALINNAT	claude-sonnet-5-5 2026-10-18
 OTHER PARAMETERS	MUUT PARAMETRIT	claude-sonnet-5-5 2026-10-18
-OVERRIDDEN	ohitettu	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	OHITETTU	claude-opus-5-5 2026-10-18
 Object and text	Objekti ja teksti	claude-sonnet-5-5 2026-10-18
 Object and two objects	Objekti ja kaksi objektia	claude-sonnet-5-5 2026-10-18
 Object over text	Objekti tekstin päällä	claude-sonnet-5-5 2026-10-18
@@ -1119,7 +1134,7 @@ Orgchart	Organisaatiokaavio	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	Muut kuvakaappausappit	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	Muuten (%@)	claude-sonnet-5-5 2026-10-18
 Other…	Muu…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	Lähtö	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: salli vienti kokouskohteisiin	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: uusien sähköpostien muoto	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	Korvaa samanniminen tiedosto	claude-sonnet-5-5 2026-10-18
@@ -1165,6 +1180,7 @@ Please enter text or a URL.	Anna teksti tai URL.	claude-sonnet-5-5 2026-10-18
 Please enter your Confluence login data	Anna Confluence-kirjautumistietosi	claude-sonnet-5-5 2026-10-18
 Please enter your Jira login data	Anna Jira-kirjautumistietosi	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Valitse, miten haluat jatkaa tämän kaappauksen kanssa:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey hyväksyy numeroita ja kirjaimet A–F.	claude-sonnet-5-5 2026-10-18
 Pointer	Osoitin	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Ikkunaan osoittaminen kohdassa Kaappaa ikkuna luettelosta näyttää siitä kuvan. Vaatii näytön tallennusluvan.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Osoittaa puuttuvaan appiin: napsauta Asenna	claude-sonnet-5-5 2026-10-18
@@ -1199,6 +1215,7 @@ Quick settings	Pika-asetukset	claude-sonnet-5-5 2026-10-18
 Quit %@	Lopeta %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Lopeta se ensin käynnistääksesi tämän kopion.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	RESEPTIN MÄÄRITYS	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	KORVAA SISÄÄNRAKENNETUN	claude-sonnet-5-5 2026-10-18
 Range	Alue	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Raakatekstin tai URL:n tiedot	claude-sonnet-5-5 2026-10-18
 Read error	Lukuvirhe	claude-sonnet-5-5 2026-10-18
@@ -1393,6 +1410,7 @@ Saved file	Tallennettu tiedosto	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	Resepti tallennettu kohteeseen %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	Tallennus korvaa muita reseptejä	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Tallennetaan muodossa %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Tallennus pyytää hyväksyntääsi: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	Tallennetaan tallennetta…	claude-sonnet-5-5 2026-10-18
 Saving…	Tallennetaan…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Skaalaa se täyttämään video	claude-sonnet-5-5 2026-10-18
@@ -1592,6 +1610,7 @@ The area is not on a display.	Alue ei ole millään näytöllä.	claude-sonnet-5
 The automatic step is only used with every permission it needs.	Automaattista vaihetta käytetään vain kaikilla tarvitsemillaan käyttöoikeuksilla.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	Kohteen %@ varmenteen SHA-256-sormenjälki on %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Muutettu resepti tarvitsee kohteen %@, jota sen hyväksyntä ei vielä salli. Tallenna se ensin; tallennus pyytää hyväksyntääsi.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	Tarkistenumero on väärä: viimeisen numeron pitäisi olla %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	Leikepöydällä on %lld tyyppiä.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	Leikepöydällä on 1 tyyppi.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	Leikepöytä on tyhjä.	claude-sonnet-5-5 2026-10-18
@@ -1686,6 +1705,7 @@ The sign-in window could not be opened.	Kirjautumisikkunaa ei voitu avata.	claud
 The size of File › New Image, a white image to draw on.	Kohdan Tiedosto › Uusi kuva koko, valkoinen kuva piirtämistä varten.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	Tekstiä ei voitu tunnistaa	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Tekstiä ei voitu tunnistaa: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	Teksti on liian pitkä tälle koodille.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	Tämän kuvan revityt reunat.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Kuvan läpinäkyvät osat saavat tämän värin.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Liipaisimet ovat aluksi pois päältä. Kytke päälle jokainen, joka saa käynnistää tämän reseptin: pois jätetty liipaisin pysyy pois (voit kytkeä sen päälle myöhemmin Käyttöoikeudet-kohdassa). Ilman liipaisinta voit silti suorittaa reseptin reseptiluettelosta.	claude-sonnet-5-5 2026-10-18
@@ -1707,6 +1727,7 @@ There is no border of one color around the content to crop away.	Sisällön ymp�
 There is no image on the clipboard	Leikepöydällä ei ole kuvaa	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Avattavaa kuvaa ei ole.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	Reseptiä ”%@” ei ole.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Ei ole mitään koodattavaa.	claude-sonnet-5-5 2026-10-18
 There was a problem during the login: %@	Kirjautumisessa tapahtui ongelma: %@	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Näytöllä ei ollut mitään kaapattavaa.	claude-sonnet-5-5 2026-10-18
 Thermal state	Lämpötila	claude-sonnet-5-5 2026-10-18
@@ -1727,6 +1748,8 @@ This is a recipe; the editor has an automatic step open.	Tämä on resepti; muok
 This is an automatic step; the editor has a recipe open.	Tämä on automaattinen vaihe; muokkaimessa on auki resepti.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Tällä ohjelmalla EI OLE MITÄÄN TAKUUTA. Tämä on vapaa ohjelmisto, ja sitä saa levittää edelleen tietyin ehdoin: %@ tai uudempi.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Kehittäjä ei ole allekirjoittanut tätä ohjelmaa.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Tätä reseptitiedostoa muutettiin Greenshotin ulkopuolella. Greenshot pyytää hyväksyntääsi ennen sen suorittamista.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Tätä reseptitiedostoa ei ole vielä hyväksytty. Greenshot pyytää hyväksyntääsi ennen sen suorittamista.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Tämän reseptin on kirjoittanut tekoälytyökalu, ei Greenshot eikä sinä. Tarkista alta, mitä se tekee (Greenshot kuvaa sen reseptin perusteella), ja kytke päälle vain haluamasi liipaisimet.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Tällä vaiheella ei ole parametreja.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Tämä liipaisin pysyy pois päältä, joten se ei käynnistä reseptiä:	claude-sonnet-5-5 2026-10-18
@@ -1773,6 +1796,7 @@ Two objects and text	Kaksi objektia ja teksti	claude-sonnet-5-5 2026-10-18
 Two objects over text	Kaksi objektia tekstin päällä	claude-sonnet-5-5 2026-10-18
 Type	Tyyppi	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Kirjoita oikotie…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E hyväksyy 7 numeroa tai 8 tarkistenumeron kanssa.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	Ei saatavilla	claude-sonnet-5-5 2026-10-18
@@ -1794,6 +1818,7 @@ Unnamed Recipe	Nimetön resepti	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Lukukelvoton rekisteröinti: napsauta Asenna	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Tallentamattomia muutoksia	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Tallentamattomia muutoksia	claude-sonnet-5-5 2026-10-18
+Untitled	Nimeämätön	claude-sonnet-5-5 2026-10-18
 Updated at %@	Päivitetty %@	claude-sonnet-5-5 2026-10-18
 Updates	Päivitykset	claude-sonnet-5-5 2026-10-18
 Upload	Lataa	claude-sonnet-5-5 2026-10-18

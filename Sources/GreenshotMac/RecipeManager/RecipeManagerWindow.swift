@@ -289,7 +289,7 @@ struct RecipeManagerView: View {
                     Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
                     TextField("Search name, id, triggers, file", text: $model.query)
                         .textFieldStyle(.roundedBorder)
-                        .frame(width: 240)
+                        .width(atLeast: 240, atMost: 340, placeholder: "Search name, id, triggers, file")
                 }
             }
             // One row when the buttons fit beside the 400 pt filter, else the filter below the buttons at its full
@@ -364,14 +364,24 @@ struct RecipeManagerRow: View {
     let isSelected: Bool
     @ObservedObject var model: RecipeManagerModel
 
+    private func statusLabel(_ text: String, enabled: Bool) -> some View {
+        HStack(spacing: 5) {
+            Circle().fill(enabled ? Color.green : Color.secondary).frame(width: 8, height: 8)
+            Text(text).font(.caption2.weight(.bold))
+        }
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Button { model.toggle(item) } label: {
-                HStack(spacing: 5) {
-                    Circle().fill(item.isEnabled ? Color.green : Color.secondary).frame(width: 8, height: 8)
-                    Text(item.statusBadge).font(.caption2.weight(.bold))
+                // As wide as the longer of the two badges in every row, so the cards line up and nothing is cut.
+                ZStack {
+                    ForEach([true, false], id: \.self) { enabled in
+                        statusLabel(RecipeManagerItem.statusBadge(isEnabled: enabled), enabled: enabled).hidden()
+                    }
+                    statusLabel(item.statusBadge, enabled: item.isEnabled)
                 }
-                .frame(width: 96)
+                .frame(minWidth: 96)
             }
             .disabled(!item.canToggle)
             .help(item.isExtension ? "Switch the automatic step on or off (also in Settings › Recipes)" : "Click to activate or deactivate")

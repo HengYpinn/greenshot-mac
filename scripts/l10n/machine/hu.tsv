@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	Sikertelen: %@	claude-sonnet-5-5 2026-10-18
 %@ finished	Befejeződött: %@	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ hibákat tartalmaz: %lld javítandó, mielőtt futtatható lenne.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	A(z) %@ legfeljebb %lld karaktert tartalmazhat; ez %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ nem tartalmaz receptet.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ itt: %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ itt: %@ – kattintson a megjelenítéshez a Finderben	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ problémát jelentett: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ szkripteket futtat: csak a fenti szkript engedélyezett, nem minden szkript, amelyet %@ futtat.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ megnyílna bejelentkezéskor, de a macOS arra vár, hogy engedélyezze a Bejelentkezési elemek és bővítmények alatt.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	A(z) %@ %lld számjegyet fogad el, vagy %lld számjegyet az ellenőrző számjeggyel.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	A(z) %@ csak számjegyeket fogad el.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ szeretné használni ezt: %@, hogy listázza az ablakait, képernyőképeket készítsen és Greenshot-recepteket futtasson.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ vágás  ⎋ mégsem	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ kivágás  ⎋ mégsem	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: a program nem található	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld jegyzet	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld elem nem jeleníthető meg itt: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld hiba	claude-sonnet-5-5 2026-10-18
 %lld found	%lld találat	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld tér	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld lépés	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld indító kikapcsolva	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	A recept jóváhagyásakor %lld indító maradt kikapcsolva%@. Tekintse át a jóváhagyást a bekapcsolásukhoz.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld figyelmeztetés	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	„%@” nem követheti ezt: „%@”, mert a folyamat ciklusba kerülne.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = minden fájl	claude-sonnet-5-5 2026-10-18
 0 lines	0 sor	claude-sonnet-5-5 2026-10-18
+1 annotation	1 jegyzet	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 elem nem jeleníthető meg itt: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 hiba	claude-sonnet-5-5 2026-10-18
 1 hour	1 óra	claude-sonnet-5-5 2026-10-18
 1 minute	1 perc	claude-sonnet-5-5 2026-10-18
 1 step	1 lépés	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 indító kikapcsolva	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	A recept jóváhagyásakor 1 indító maradt kikapcsolva%@. Tekintse át a jóváhagyást a bekapcsolásához.	claude-sonnet-5-5 2026-10-18
 1 warning	1 figyelmeztetés	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Dock-ikon és hely a ⌘Tab váltóban, amíg szerkesztő vagy a Beállítások nyitva van; a menüsor ikonja mindkét esetben megjelenik, hacsak alább el nincs rejtve. Kikapcsolva: ha egy teljes képernyős alkalmazásból nyit meg szerkesztőt, az a saját Spaceén marad, és nem vált az asztalra.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	Az UPC-E kód a számrendszerével kezdődik: 0 vagy 1.	claude-sonnet-5-5 2026-10-18
 A command with this name already exists. Please choose a different name.	Ilyen nevű parancs már létezik. Válasszon másik nevet.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows-fájl: a Mentés új fájlt kér, így ez változatlan marad.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Egy fájl automatikus lépést szeretne hozzáadni más receptekhez, a beépítettekhez is. Jóváhagyás előtt nézze át, mely recepteket módosítja, és mit ad hozzá.	claude-sonnet-5-5 2026-10-18
@@ -467,6 +475,11 @@ Close All	Mind bezárása	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	A módosított szerkesztő bezárása kérdés nélkül elveti a módosításokat.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	A felhőalapú webhelyek /wiki-re végződnek.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Felhő: e-mail-cím és API-token	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	A Codabar számjegyeket és a - $ : / . + jeleket tartalmazza a kezdő és a záró karakter között.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	A Codabar A, B, C vagy D (esetleg T, N, *, E) karakterrel kezdődik és végződik, vagy egyikkel sem.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	A Code 128 csak ASCII karaktereket tartalmaz (ékezetek és az ASCII-n kívüli szimbólumok nélkül).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	A Code 39 csak ASCII karaktereket tartalmaz.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	A Code 93 csak ASCII karaktereket tartalmaz.	claude-sonnet-5-5 2026-10-18
 Code hash	Kódhash	claude-sonnet-5-5 2026-10-18
 Code signature	Kódaláírás	claude-sonnet-5-5 2026-10-18
 Color:	Szín:	claude-sonnet-5-5 2026-10-18
@@ -767,6 +780,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Mennyit
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (ikon)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	Az ITF páros számú számjegyet fogad el; ez %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Azonosító	claude-sonnet-5-5 2026-10-18
 If %@: %@	Ha %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Ha ez a saját kiszolgálója, adja hozzá a(z) %@ értéket vagy az ujjlenyomatot itt: Beállítások › Célok › Saját kiszolgálók.	claude-sonnet-5-5 2026-10-18
@@ -779,7 +793,7 @@ Import Annotations from %@	Jegyzetek importálása innen: %@	claude-sonnet-5-5 2
 Import Annotations from a Greenshot File	Jegyzetek importálása Greenshot-fájlból	claude-sonnet-5-5 2026-10-18
 Import From This Editor	Importálás ebből a szerkesztőből	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	%lld jegyzet importálva innen: %@	claude-sonnet-5-5 2026-10-18
-In	Be	claude-sonnet-5-5 2026-10-18
+In	Bemenet	claude-sonnet-5-5 2026-10-18
 In Settings › Output you choose the folder and the file name pattern of saved screenshots.	A Beállítások › Mentés alatt választhatja ki a mentett képernyőképek mappáját és fájlnévmintáját.	claude-opus-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	Néhány lépésben megmutatjuk, hogyan működik a rögzítés, és ellenőrizzük, hogy minden jól van beállítva (%@).	claude-sonnet-5-5 2026-10-18
 In parallel	Párhuzamosan	claude-sonnet-5-5 2026-10-18
@@ -816,6 +830,7 @@ Inverted colours	Invertált színek	claude-sonnet-5-5 2026-10-18
 Issue identifier (stack trace hash)	Hibaazonosító (veremnapló-hash)	claude-sonnet-5-5 2026-10-18
 Issue key:	Hibajegykulcs:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	%d kilépési kóddal fejeződött be.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	Ez a(z) „%@” (%@) eleje, ezért az sosem indulna el.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	Innen fut: %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Azonnal leáll, és többé nem töltődik be. A fájlja a helyén marad: importálja újra az áttekintéshez és jóváhagyáshoz.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Azonnal leáll, és többé nem töltődik be. A fájlja a helyén marad: nyissa meg újra az áttekintéshez és jóváhagyáshoz.	claude-sonnet-5-5 2026-10-18
@@ -1117,7 +1132,7 @@ Orgchart	Szervezeti diagram	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	Más képernyőrögzítő alkalmazások	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	Egyébként (%@)	claude-sonnet-5-5 2026-10-18
 Other…	Egyéb…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	Kimenet	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: exportálás engedélyezése megbeszéléselemekben	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: e-mail-formátum új e-mailekhez	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	Azonos nevű fájl felülírása	claude-sonnet-5-5 2026-10-18
@@ -1161,6 +1176,7 @@ Please enter text or a URL.	Adjon meg szöveget vagy URL-t.	claude-sonnet-5-5 20
 Please enter your Confluence login data	Adja meg a Confluence bejelentkezési adatait	claude-sonnet-5-5 2026-10-18
 Please enter your Jira login data	Adja meg a Jira bejelentkezési adatait	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Válassza ki, hogyan folytassa ezt a rögzítést:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	A Plessey számjegyeket és az A–F betűket fogadja el.	claude-sonnet-5-5 2026-10-18
 Pointer	Mutató	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Ha az Ablak rögzítése listából ablakára mutat, megjelenik a képe. Képernyőrögzítési engedély szükséges.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Hiányzó alkalmazásra mutat: kattintson a Telepítésre	claude-sonnet-5-5 2026-10-18
@@ -1195,6 +1211,7 @@ Quick settings	Gyors beállítások	claude-sonnet-5-5 2026-10-18
 Quit %@	Kilépés: %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Először lépjen ki belőle, hogy ezt a példányt indíthassa.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	RECEPT KONFIGURÁCIÓJA	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	FELÜLÍRJA A BEÉPÍTETTET	claude-sonnet-5-5 2026-10-18
 Range	Tartomány	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Nyers szöveg vagy URL részletei	claude-sonnet-5-5 2026-10-18
 Read error	Olvasási hiba	claude-sonnet-5-5 2026-10-18
@@ -1389,6 +1406,7 @@ Saved file	Mentett fájl	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	A recept mentve ide: %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	A mentés más recepteket cserél le	claude-sonnet-5-5 2026-10-18
 Saving as %@.	Mentés mint %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	A mentéshez jóváhagyás szükséges: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	A felvétel mentése…	claude-sonnet-5-5 2026-10-18
 Saving…	Mentés…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Méretezés a videó kitöltéséhez	claude-sonnet-5-5 2026-10-18
@@ -1588,6 +1606,7 @@ The area is not on a display.	A terület nincs kijelzőn.	claude-sonnet-5-5 2026
 The automatic step is only used with every permission it needs.	Az automatikus lépés csak a szükséges összes engedéllyel használható.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	A tanúsítvány SHA-256 ujjlenyomata (%@): %@	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	A módosított recept ezt igényli: %@, amit a jóváhagyása még nem engedélyez. Először mentse el; a mentés a jóváhagyását kéri.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	Az ellenőrző számjegy hibás: az utolsó számjegynek %lld kell lennie.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	A vágólap %lld típust tartalmaz.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	A vágólap 1 típust tartalmaz.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	A vágólap üres.	claude-sonnet-5-5 2026-10-18
@@ -1682,6 +1701,7 @@ The sign-in window could not be opened.	A bejelentkezési ablak nem nyitható me
 The size of File › New Image, a white image to draw on.	A Fájl › Új kép mérete, egy fehér kép, amire rajzolhat.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	A szöveg nem ismerhető fel	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	A szöveg nem ismerhető fel: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	A szöveg túl hosszú ehhez a kódhoz.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	A kép szakadt szélei.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	A kép átlátszó részei ezt a színt kapják.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Az indítók kikapcsolva indulnak. Kapcsolja be azokat, amelyek indíthatják ezt a receptet: a kikapcsolva hagyott indító kikapcsolva marad (később bekapcsolhatja az Engedélyekkel). Indító nélkül is futtathatja a receptet a receptlistából.	claude-sonnet-5-5 2026-10-18
@@ -1703,6 +1723,7 @@ There is no border of one color around the content to crop away.	Nincs egyszín�
 There is no image on the clipboard	Nincs kép a vágólapon	claude-sonnet-5-5 2026-10-18
 There is no image to open.	Nincs megnyitható kép.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	Nincs „%@” recept.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	Nincs mit kódolni.	claude-sonnet-5-5 2026-10-18
 There was a problem during the login: %@	Probléma történt a bejelentkezés során: %@	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Nem volt mit rögzíteni a képernyőn.	claude-sonnet-5-5 2026-10-18
 Thermal state	Hőállapot	claude-sonnet-5-5 2026-10-18
@@ -1723,6 +1744,8 @@ This is a recipe; the editor has an automatic step open.	Ez egy recept; a szerke
 This is an automatic step; the editor has a recipe open.	Ez egy automatikus lépés; a szerkesztőben recept van megnyitva.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	A program SEMMIFÉLE GARANCIÁVAL nem jár. Ez szabad szoftver, és szívesen terjesztheti bizonyos feltételekkel: %@ vagy újabb.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Ezt a programot nem írta alá fejlesztő.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Ez a receptfájl a Greenshoton kívül módosult. A Greenshot futtatás előtt jóváhagyást kér.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Ez a receptfájl még nincs jóváhagyva. A Greenshot futtatás előtt jóváhagyást kér.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Ezt a receptet egy AI-eszköz írta, nem a Greenshot és nem Ön. Lent nézze meg, mit csinál (a Greenshot magából a receptből írja le), és csak a kívánt indítókat kapcsolja be.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Ennek a lépésnek nincsenek paraméterei.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Ez az indító kikapcsolva marad, így nem indítja a receptet:	claude-sonnet-5-5 2026-10-18
@@ -1769,6 +1792,7 @@ Two objects and text	Két objektum és szöveg	claude-sonnet-5-5 2026-10-18
 Two objects over text	Két objektum a szöveg felett	claude-sonnet-5-5 2026-10-18
 Type	Típus	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Írja be a billentyűparancsot…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	Az UPC-E 7 számjegyet fogad el, vagy 8-at az ellenőrző számjeggyel.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	Nem elérhető	claude-sonnet-5-5 2026-10-18
@@ -1790,6 +1814,7 @@ Unnamed Recipe	Névtelen recept	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Olvashatatlan regisztráció: kattintson a Telepítésre	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Nem mentett módosítások	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Nem mentett módosítások	claude-sonnet-5-5 2026-10-18
+Untitled	Névtelen	claude-sonnet-5-5 2026-10-18
 Updated at %@	Frissítve: %@	claude-sonnet-5-5 2026-10-18
 Updates	Frissítések	claude-sonnet-5-5 2026-10-18
 Upload	Feltöltés	claude-sonnet-5-5 2026-10-18

@@ -54,7 +54,8 @@ public struct RecipeManagerItem: Identifiable, Equatable, Sendable {
         return isBuiltIn ? String(localized: "BUILT-IN", comment: "Badge of a built-in recipe")
             : String(localized: "CUSTOM", comment: "Badge of a recipe from a file")
     }
-    public var statusBadge: String {
+    public var statusBadge: String { Self.statusBadge(isEnabled: isEnabled) }
+    public static func statusBadge(isEnabled: Bool) -> String {
         isEnabled ? String(localized: "ACTIVE", comment: "Badge of a recipe that is switched on")
             : String(localized: "DEACTIVATED", comment: "Badge of a recipe that is switched off")
     }

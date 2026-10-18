@@ -58,7 +58,7 @@ public enum RecipeHotkeyClashes {
         // The other way round: this hotkey is the beginning of a longer one, which would then never fire.
         let mine = [(name: candidate.name, combo: candidate.combo)]
         for other in others where KeyCombo.conflict(of: other.combo, with: mine) != nil {
-            return "It is the beginning of “\(other.name)” (\(other.combo.displayString)), which would then never fire."
+            return String(localized: "It is the beginning of “\(other.name)” (\(other.combo.displayString)), which would then never fire.")
         }
         return nil
     }

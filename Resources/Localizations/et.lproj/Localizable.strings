@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ puhul on probleeme: enne käivitamist tuleb parandada %lld.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ mahutab kuni %lld märki; siin on neid %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ ei sisalda retsepti.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ peaks sisselogimisel avanema, kuid macOS ootab, et lubaksite selle jaotises Sisselogimisüksused ja laiendid.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ võtab %lld numbrit või %lld koos kontrollnumbriga.";
+
+/* machine */
+"%@ takes digits only." = "%@ võtab ainult numbreid.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ soovib kasutada rakendust %@, et loetleda teie aknad, teha kuvatõmmiseid ja käivitada Greenshoti retsepte.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: programmi ei leitud";
+
+/* machine */
+"%lld annotations" = "%lld märkust";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld elementi ei saa siin kuvada: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld päästikut väljas";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Selle retsepti heakskiitmisel jäeti %lld päästikut sisse lülitamata%@. Päästikute sisselülitamiseks vaadake heakskiit üle.";
 
 /* machine */
 "%lld warnings" = "%lld hoiatust";
@@ -373,6 +388,9 @@
 "0 lines" = "0 rida";
 
 /* machine */
+"1 annotation" = "1 märkus";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 element ei saa siin kuvada: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 päästik väljas";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Selle retsepti heakskiitmisel jäeti 1 päästik sisse lülitamata%@. Päästiku sisselülitamiseks vaadake heakskiit üle.";
+
+/* machine */
 "1 warning" = "1 hoiatus";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Docki ikoon ja koht ⌘Tab-loendis, kui kohandaja või eelistused on avatud; menüüriba ikoon on olemas igal juhul, kui seda pole allpool peidetud. Väljas: kohandaja avamisel täisekraanrakendusest jäädakse selle Space'i, mitte ei lülituta töölauale.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E-kood algab numbrisüsteemiga, 0 või 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Selle nimega käsk on juba olemas. Valige teine nimi.";
@@ -1426,6 +1450,21 @@
 "Cloud: email and API token" = "Pilv: e-post ja API tunnus";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar sisaldab alg- ja lõppmärgi vahel numbreid ning märke - $ : / . +.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar algab ja lõpeb märgiga A, B, C või D (või T, N, *, E) või ei ühegi nendega.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 sisaldab ainult ASCII-märke (ilma rõhumärkide ja ASCII-väliste sümboliteta).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 sisaldab ainult ASCII-märke.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 sisaldab ainult ASCII-märke.";
+
+/* machine */
 "Code hash" = "Koodi räsi";
 
 /* machine */
@@ -2398,6 +2437,9 @@
 "ICO (icon)" = "ICO (ikoon)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF võtab paarisarvu numbreid; siin on neid %lld.";
+
+/* machine */
 "Identifier" = "Identifikaator";
 
 /* machine */
@@ -2449,7 +2491,7 @@
 "Imported %lld annotations from %@" = "Imporditi %lld märkust failist %@";
 
 /* machine */
-"In" = "Sisse";
+"In" = "Sisend";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Menüüs Eelistused › Väljund valite salvestatud kuvatõmmiste kausta ja failinime mustri.";
@@ -2555,6 +2597,9 @@
 
 /* machine */
 "It ended with exit code %d." = "See lõppes väljumiskoodiga %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "See on „%@“ (%@) algus, mis ei käivituks siis kunagi.";
 
 /* machine */
 "It runs from %@." = "See töötab asukohast %@.";
@@ -3484,7 +3529,7 @@
 "Other…" = "Muu…";
 
 /* machine */
-"Out" = "Välja";
+"Out" = "Väljund";
 
 /* machine */
 "Outlook: allow export in meeting items" = "Outlook: luba eksport koosolekuelementides";
@@ -3628,6 +3673,9 @@
 "Please select how you would like to proceed with this capture:" = "Valige, kuidas soovite selle jäädvustusega jätkata:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey võtab numbreid ja tähti A kuni F.";
+
+/* machine */
 "Pointer" = "Kursor";
 
 /* machine */
@@ -3745,7 +3793,10 @@
 "RECIPE CONFIGURATION" = "RETSEPTI SEADISTUS";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Retseptid";
+"RECIPES" = "RETSEPTID";
+
+/* machine */
+"REPLACES BUILT-IN" = "ASENDAB SISSEEHITATUD";
 
 /* machine */
 "Range" = "Vahemik";
@@ -4361,6 +4412,9 @@
 
 /* machine */
 "Saving as %@." = "Salvestamine kujul %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Salvestamiseks on vaja teie heakskiitu: %@";
 
 /* machine */
 "Saving the Recording…" = "Salvestuse salvestamine…";
@@ -4996,6 +5050,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Muudetud retsept vajab %@, mida selle heakskiit veel ei luba. Salvestage see esmalt; salvestamine küsib teie heakskiitu.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrollnumber on vale: viimane number peaks olema %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Lõikelaual on %lld tüüpi.";
 
 /* machine */
@@ -5278,6 +5335,9 @@
 "The text could not be recognized: %@" = "Teksti ei õnnestunud tuvastada: %@";
 
 /* machine */
+"The text is too long for this code." = "Tekst on selle koodi jaoks liiga pikk.";
+
+/* machine */
 "The torn edges of this image." = "Selle pildi rebenenud servad.";
 
 /* machine */
@@ -5341,6 +5401,9 @@
 "There is no recipe '%@'." = "Retsepti '%@' pole.";
 
 /* machine */
+"There is nothing to encode." = "Kodeerida pole midagi.";
+
+/* machine */
 "There was a problem during the login: %@" = "Sisselogimisel ilmnes probleem: %@";
 
 /* machine */
@@ -5399,6 +5462,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Seda programmi ei ole arendaja allkirjastanud.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Seda retseptifaili muudeti väljaspool Greenshotti. Greenshot küsib enne käivitamist teie heakskiitu.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Seda retseptifaili pole veel heaks kiidetud. Greenshot küsib enne käivitamist teie heakskiitu.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Selle retsepti kirjutas AI-tööriist, mitte Greenshot ega teie. Vaadake allpool, mida see teeb (Greenshot kirjeldab seda retsepti enda põhjal), ja lülitage sisse ainult soovitud päästikud.";
@@ -5542,6 +5611,9 @@
 "Type the shortcut…" = "Tippige otsetee…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E võtab 7 numbrit või 8 koos kontrollnumbriga.";
+
+/* machine */
 "Unavailable" = "Pole saadaval";
 
 /* machine */
@@ -5597,6 +5669,9 @@
 
 /* machine */
 "Unsaved changes" = "Salvestamata muudatused";
+
+/* machine */
+"Untitled" = "Nimetu";
 
 /* machine */
 "Updated at %@" = "Värskendatud kell %@";

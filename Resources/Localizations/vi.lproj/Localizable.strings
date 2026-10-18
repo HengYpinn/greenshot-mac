@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ có vấn đề: cần sửa %lld mục trước khi có thể chạy.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ chứa tối đa %lld ký tự; hiện có %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ không chứa công thức nào.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ nên mở khi đăng nhập, nhưng macOS đang chờ bạn cho phép trong Mục đăng nhập và tiện ích mở rộng.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ nhận %lld chữ số, hoặc %lld chữ số nếu có chữ số kiểm tra.";
+
+/* machine */
+"%@ takes digits only." = "%@ chỉ nhận chữ số.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ muốn dùng %@ để liệt kê các cửa sổ của bạn, chụp ảnh màn hình và chạy các công thức Greenshot.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: không tìm thấy chương trình";
+
+/* machine */
+"%lld annotations" = "%lld chú thích";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "Không thể hiển thị %lld phần tử ở đây: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld trình kích hoạt đang tắt";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "%lld trình kích hoạt đã bị tắt khi công thức này được phê duyệt%@. Hãy xem lại phê duyệt để bật chúng.";
 
 /* machine */
 "%lld warnings" = "%lld cảnh báo";
@@ -373,6 +388,9 @@
 "0 lines" = "0 dòng";
 
 /* machine */
+"1 annotation" = "1 chú thích";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 phần tử không thể hiển thị ở đây: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 trình kích hoạt đang tắt";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "1 trình kích hoạt đã bị tắt khi công thức này được phê duyệt%@. Hãy xem lại phê duyệt để bật nó.";
+
+/* machine */
 "1 warning" = "1 cảnh báo";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Có biểu tượng trên Dock và một vị trí trong ⌘Tab khi trình soạn thảo hoặc Thiết lập đang mở; biểu tượng trên thanh menu luôn có, trừ khi bị ẩn bên dưới. Tắt: mở trình soạn thảo từ ứng dụng toàn màn hình sẽ ở lại Space đó thay vì chuyển sang màn hình nền.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Mã UPC-E bắt đầu bằng hệ thống số của nó, 0 hoặc 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Đã có lệnh với tên này. Vui lòng chọn tên khác.";
@@ -1414,6 +1438,21 @@
 "Cloud: email and API token" = "Cloud: email và mã thông báo API";
 
 /* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar chứa chữ số và - $ : / . + giữa ký tự bắt đầu và ký tự kết thúc.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar bắt đầu và kết thúc bằng A, B, C hoặc D (hoặc T, N, *, E), hoặc không có ký tự nào trong số đó.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 chỉ chứa ký tự ASCII (không có chữ có dấu hay ký hiệu ngoài ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 chỉ chứa ký tự ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 chỉ chứa ký tự ASCII.";
+
+/* machine */
 "Code hash" = "Mã băm của mã";
 
 /* machine */
@@ -2377,6 +2416,9 @@
 "ICO (icon)" = "ICO (biểu tượng)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF nhận số chữ số chẵn; hiện có %lld.";
+
+/* machine */
 "Identifier" = "Mã định danh";
 
 /* machine */
@@ -2428,7 +2470,7 @@
 "Imported %lld annotations from %@" = "Đã nhập %lld chú thích từ %@";
 
 /* machine */
-"In" = "Vào";
+"In" = "Đầu vào";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Trong Thiết lập › Xuất, bạn chọn thư mục và dạng tên tệp của ảnh chụp màn hình đã lưu.";
@@ -2537,6 +2579,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Đã kết thúc với mã thoát %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Đây là phần đầu của “%@” (%@), nên phím tắt này sẽ không bao giờ được kích hoạt.";
 
 /* machine */
 "It runs from %@." = "Chạy từ %@.";
@@ -3469,7 +3514,7 @@
 "Other…" = "Khác…";
 
 /* machine */
-"Out" = "Ra";
+"Out" = "Đầu ra";
 
 /* machine */
 "Outlook: allow export in meeting items" = "Outlook: cho phép xuất vào mục cuộc họp";
@@ -3613,6 +3658,9 @@
 "Please select how you would like to proceed with this capture:" = "Vui lòng chọn cách bạn muốn xử lý lần chụp này:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey nhận chữ số và các chữ cái từ A đến F.";
+
+/* machine */
 "Pointer" = "Con trỏ";
 
 /* machine */
@@ -3733,7 +3781,10 @@
 "RECIPE CONFIGURATION" = "CẤU HÌNH CÔNG THỨC";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Công thức";
+"RECIPES" = "CÔNG THỨC";
+
+/* machine */
+"REPLACES BUILT-IN" = "THAY THẾ TÍCH HỢP SẴN";
 
 /* machine */
 "Range" = "Phạm vi";
@@ -4349,6 +4400,9 @@
 
 /* machine */
 "Saving as %@." = "Đang lưu dưới dạng %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Việc lưu cần bạn phê duyệt: %@";
 
 /* machine */
 "Saving the Recording…" = "Đang lưu bản quay…";
@@ -4984,6 +5038,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Công thức đã thay đổi cần %@, mà phê duyệt của nó chưa cho phép. Hãy lưu trước; khi lưu sẽ hỏi phê duyệt của bạn.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Chữ số kiểm tra không đúng: chữ số cuối phải là %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Clipboard chứa %lld loại.";
 
 /* machine */
@@ -5266,6 +5323,9 @@
 "The text could not be recognized: %@" = "Không thể nhận dạng văn bản: %@";
 
 /* machine */
+"The text is too long for this code." = "Văn bản quá dài so với mã này.";
+
+/* machine */
 "The torn edges of this image." = "Các cạnh rách của ảnh này.";
 
 /* machine */
@@ -5329,6 +5389,9 @@
 "There is no recipe '%@'." = "Không có công thức '%@'.";
 
 /* machine */
+"There is nothing to encode." = "Không có gì để mã hóa.";
+
+/* machine */
 "There was a problem during the login: %@" = "Đã xảy ra sự cố khi đăng nhập: %@";
 
 /* machine */
@@ -5387,6 +5450,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Chương trình này không được nhà phát triển ký.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Tệp công thức này đã thay đổi bên ngoài Greenshot. Greenshot sẽ yêu cầu bạn phê duyệt trước khi chạy.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Tệp công thức này chưa được phê duyệt. Greenshot sẽ yêu cầu bạn phê duyệt trước khi chạy.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Công thức này do công cụ AI viết, không phải do Greenshot hay bạn. Hãy xem bên dưới nó làm gì (Greenshot mô tả dựa trên chính công thức) và chỉ bật các trình kích hoạt bạn muốn.";
@@ -5530,6 +5599,9 @@
 "Type the shortcut…" = "Nhập phím tắt…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E nhận 7 chữ số, hoặc 8 chữ số nếu có chữ số kiểm tra.";
+
+/* machine */
 "Unavailable" = "Không khả dụng";
 
 /* machine */
@@ -5585,6 +5657,9 @@
 
 /* machine */
 "Unsaved changes" = "Thay đổi chưa lưu";
+
+/* machine */
+"Untitled" = "Chưa đặt tên";
 
 /* machine */
 "Updated at %@" = "Cập nhật lúc %@";

@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ に失敗しました	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ が完了しました	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ に問題があります。実行するには %lld 件を修正してください。	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ は最大 %lld 文字までです。現在は %lld 文字です。	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ にレシピが含まれていません。	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ ／ %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@（%@）– クリックして Finder に表示	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ が問題を報告しました：%@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ はスクリプトを実行します。許可されるのは上記のスクリプトのみで、%@ が実行するすべてのスクリプトではありません。	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ はログイン時に開く設定ですが、macOS が「ログイン項目と機能拡張」での許可を待っています。	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ は %lld 桁、またはチェックディジット付きの %lld 桁です。	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ は数字のみ使用できます。	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ が %@ を使用してウィンドウの一覧表示とスクリーンショットの撮影、および Greenshot レシピの実行を行おうとしています。	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ トリミング  ⎋ キャンセル	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ 切り抜き  ⎋ キャンセル	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@：プログラムが見つかりませんでした	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	注釈 %lld 件	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld 個の要素はここに表示できません：%@。	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld 件のエラー	claude-sonnet-5-5 2026-10-18
 %lld found	%lld 件見つかりました	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld 個のスペース	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld ステップ	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld 個のトリガがオフ	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	このレシピの承認時にオフにされたままのトリガーが %lld 件あります%@。オンにするには承認を確認してください。	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld 件の警告	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	「%@」を「%@」の後に続けることはできません。フローがループします。	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = すべてのファイル	claude-sonnet-5-5 2026-10-18
 0 lines	0 行	claude-sonnet-5-5 2026-10-18
+1 annotation	注釈 1 件	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 個の要素はここに表示できません：%@。	claude-sonnet-5-5 2026-10-18
 1 error	1 件のエラー	claude-sonnet-5-5 2026-10-18
 1 hour	1 時間	claude-sonnet-5-5 2026-10-18
 1 minute	1 分	claude-sonnet-5-5 2026-10-18
 1 step	1 ステップ	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 個のトリガがオフ	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	このレシピの承認時にオフにされたままのトリガーが 1 件あります%@。オンにするには承認を確認してください。	claude-sonnet-5-5 2026-10-18
 1 warning	1 件の警告	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Dock のアイコンと ⌘Tab 内の項目は、エディターまたは「設定」を開いている間表示されます。メニューバーアイコンは、下で非表示にしていない限り常に表示されます。オフの場合：フルスクリーンアプリからエディターを開いても、デスクトップに切り替えず、そのスペースにとどまります。	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	UPC-E コードは、番号体系の 0 または 1 で始まります。	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows のファイル：「保存」では新しいファイルを指定するため、このファイルは変更されません。	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	ファイルが、内蔵のものを含む他のレシピに自動ステップを追加しようとしています。承認する前に、どのレシピが変更され、何が追加されるかを確認してください。	claude-sonnet-5-5 2026-10-18
 A link wanted to take a screenshot	リンクがスクリーンショットを撮影しようとしました	claude-sonnet-5-5 2026-10-18
@@ -448,6 +456,11 @@ Close All	すべてを閉じる	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	変更のあるエディターを閉じると、確認なしで変更が破棄されます。	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	クラウドのサイトは /wiki で終わります。	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	クラウド：メールアドレスと API トークン	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar には、開始文字と終了文字の間に数字と - $ : / . + を使用できます。	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar は、先頭と末尾に A、B、C、D（または T、N、*、E）のいずれかを付けるか、何も付けません。	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 は ASCII 文字のみ使用できます（アクセント付き文字や ASCII 以外の記号は使用不可）。	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 は ASCII 文字のみ使用できます。	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 は ASCII 文字のみ使用できます。	claude-sonnet-5-5 2026-10-18
 Code hash	コードハッシュ	claude-sonnet-5-5 2026-10-18
 Code signature	コード署名	claude-sonnet-5-5 2026-10-18
 Color:	カラー：	claude-sonnet-5-5 2026-10-18
@@ -729,6 +742,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	%@ が�
 IBAN:	IBAN：	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO（アイコン）	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF は偶数桁の数字のみ使用できます。現在は %lld 桁です。	claude-sonnet-5-5 2026-10-18
 Identifier	識別子	claude-sonnet-5-5 2026-10-18
 If %@: %@	%@ の場合：%@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	ご自身のサーバーである場合は、「設定」›「出力先」›「ご自身のサーバー」に %@ またはフィンガープリントを追加してください。	claude-opus-5-5 2026-10-18
@@ -773,6 +787,7 @@ Invalid JSON syntax or schema:\n%@	JSON の構文またはスキーマが無効�
 Issue identifier (stack trace hash)	問題の識別子（スタックトレースのハッシュ）	claude-sonnet-5-5 2026-10-18
 Issue key:	課題キー：	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	終了コード %d で終了しました。	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	これは「%@」（%@）の先頭にあたるため、そのホットキーは作動しなくなります。	claude-sonnet-5-5 2026-10-18
 It runs from %@.	%@ から実行されます。	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	すぐに実行が停止し、再び読み込まれることはありません。ファイルはそのまま残ります。確認して承認するには、もう一度読み込んでください。	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	すぐに実行が停止し、再び読み込まれることはありません。ファイルはそのまま残ります。確認して承認するには、もう一度開いてください。	claude-sonnet-5-5 2026-10-18
@@ -1059,7 +1074,7 @@ Orgchart	組織図	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	ほかの画面キャプチャ App	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	それ以外（%@）	claude-sonnet-5-5 2026-10-18
 Other…	その他…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	出力	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook：会議アイテムでの書き出しを許可	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook：新規メールのメール形式	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	同じ名前のファイルを上書き	claude-sonnet-5-5 2026-10-18
@@ -1098,6 +1113,7 @@ Please enter recipient name and IBAN.	受取人の名前と IBAN を入力して
 Please enter recipient number.	受取人の番号を入力してください。	claude-sonnet-5-5 2026-10-18
 Please enter text or a URL.	テキストまたは URL を入力してください。	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	このキャプチャの処理方法を選択してください：	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey は数字と A～F の文字を使用できます。	claude-sonnet-5-5 2026-10-18
 Pointer	ポインター	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	「リストから選択して "ウィンドウ キャプチャ"」でウィンドウをポイントすると、その画像が表示されます。画面収録の権限が必要です。	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	存在しない App を指しています：「インストール」をクリックしてください	claude-sonnet-5-5 2026-10-18
@@ -1132,6 +1148,7 @@ Quick settings	クイック設定	claude-sonnet-5-5 2026-10-18
 Quit %@	%@ を終了	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	このコピーを起動するには、先に終了してください。	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	レシピの構成	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	内蔵を置き換え	claude-sonnet-5-5 2026-10-18
 Range	範囲	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	プレーンテキストまたは URL の詳細	claude-sonnet-5-5 2026-10-18
 Read error	読み取りエラー	claude-sonnet-5-5 2026-10-18
@@ -1318,6 +1335,7 @@ Saved file	保存したファイル	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	レシピを %@ に保存しました	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	保存すると他のレシピが置き換えられます	claude-sonnet-5-5 2026-10-18
 Saving as %@.	%@ として保存しています。	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	保存には承認が必要です：%@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	収録を保存中…	claude-sonnet-5-5 2026-10-18
 Saving…	保存中…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	ビデオ全体に合わせて拡大縮小	claude-sonnet-5-5 2026-10-18
@@ -1511,6 +1529,7 @@ The area is not on a display.	その範囲はディスプレイ上にありま�
 The automatic step is only used with every permission it needs.	自動ステップは、必要なすべての権限がある場合にのみ使用されます。	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	%@ の証明書の SHA-256 フィンガープリントは %@ です。	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	変更したレシピには %@ が必要ですが、承認ではまだ許可されていません。先に保存してください。保存すると承認を求められます。	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	チェックディジットが正しくありません。最後の桁は %lld になるはずです。	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	クリップボードには %lld 種類のデータがあります。	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	クリップボードには 1 種類のデータがあります。	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	クリップボードは空です。	claude-sonnet-5-5 2026-10-18
@@ -1605,6 +1624,7 @@ The sign-in window could not be opened.	サインインウィンドウを開け�
 The size of File › New Image, a white image to draw on.	「ファイル」›「新規イメージ」のサイズ。描画用の白い画像です。	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	テキストを認識できませんでした	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	テキストを認識できませんでした：%@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	このコードにはテキストが長すぎます。	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	この画像の引き裂き端。	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	画像の透明な部分に、この色が設定されます。	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	トリガーは最初はオフになっています。このレシピを開始してよいトリガーをそれぞれオンにしてください。オフのままにしたトリガーはオフのままです（あとで「権限」からオンにできます）。トリガーがなくても、レシピリストからレシピを実行できます。	claude-sonnet-5-5 2026-10-18
@@ -1622,6 +1642,7 @@ There is no border of one color around the content to crop away.	トリミング
 There is no image on the clipboard	クリップボードにイメージがありません	claude-sonnet-5-5 2026-10-18
 There is no image to open.	開くイメージがありません。	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	レシピ「%@」はありません。	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	エンコードする内容がありません。	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	キャプチャする対象が画面上にありませんでした。	claude-sonnet-5-5 2026-10-18
 Thermal state	熱状態	claude-sonnet-5-5 2026-10-18
 These are for this print only.	これらは今回の印刷にのみ適用されます。	claude-sonnet-5-5 2026-10-18
@@ -1640,6 +1661,8 @@ This is a recipe; the editor has an automatic step open.	これはレシピで�
 This is an automatic step; the editor has a recipe open.	これは自動ステップです。エディターではレシピが開かれています。	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	このプログラムには一切の保証がありません。これはフリーソフトウェアであり、特定の条件下で再配布できます。条件：%@ 以降。	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	このプログラムはデベロッパによって署名されていません。	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	このレシピファイルは Greenshot の外部で変更されました。実行前に、Greenshot は承認を求めます。	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	このレシピファイルはまだ承認されていません。実行前に、Greenshot は承認を求めます。	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	このレシピは、Greenshot やあなたではなく、AI ツールが作成しました。以下でその動作を確認し（Greenshot がレシピ自体から説明しています）、必要なトリガーだけをオンにしてください。	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	このステップにはパラメータがありません。	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	このトリガーはオフのままなので、レシピは開始されません：	claude-sonnet-5-5 2026-10-18
@@ -1678,6 +1701,7 @@ Two objects and text	2つのオブジェクトとテキスト	claude-sonnet-5-5 
 Two objects over text	テキストの上に2つのオブジェクト	claude-sonnet-5-5 2026-10-18
 Type	種類	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	ショートカットを入力…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E は 7 桁、またはチェックディジット付きの 8 桁です。	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL：	claude-sonnet-5-5 2026-10-18
 Unavailable	利用不可	claude-sonnet-5-5 2026-10-18
@@ -1698,6 +1722,7 @@ Unnamed Recipe	名称未設定のレシピ	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	読み取れない登録：「インストール」をクリックしてください	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	未保存の変更	claude-sonnet-5-5 2026-10-18
 Unsaved changes	未保存の変更	claude-sonnet-5-5 2026-10-18
+Untitled	名称未設定	claude-sonnet-5-5 2026-10-18
 Updated at %@	%@ に更新しました	claude-sonnet-5-5 2026-10-18
 Updates	アップデート	claude-sonnet-5-5 2026-10-18
 Upload to Confluence – %@	Confluence にアップロード – %@	claude-sonnet-5-5 2026-10-18

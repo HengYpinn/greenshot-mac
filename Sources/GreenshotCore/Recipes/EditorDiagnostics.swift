@@ -93,7 +93,8 @@ public enum RecipeEditorDiagnostics {
     public static func saveNotice(reasons: [String]) -> String? {
         guard !reasons.isEmpty else { return nil }
         let trimmed = reasons.map { $0.trimmingCharacters(in: CharacterSet(charactersIn: ".")) + "." }
-        return "Saving asks for your approval: " + trimmed.joined(separator: " ")
+        return String(localized: "Saving asks for your approval: \(trimmed.joined(separator: " "))",
+                      comment: "Recipe editor banner; the reasons (English, from the approval) follow")
     }
 
     /// Saved: what is pending for the file's approval (upstream `DescribePendingApproval`); nil when nothing is.
@@ -101,8 +102,8 @@ public enum RecipeEditorDiagnostics {
         guard let details else { return nil }
         if fileExists, !details.isApprovalCurrent {
             return details.approvedHash == nil
-                ? "This recipe file isn't approved yet. Greenshot asks for your approval before it runs."
-                : "This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs."
+                ? String(localized: "This recipe file isn't approved yet. Greenshot asks for your approval before it runs.")
+                : String(localized: "This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.")
         }
         // Name them: "off" alone reads like a bug when the switch was simply left off in the approval.
         let offSuffix = " (off, not approved)"
@@ -110,8 +111,8 @@ public enum RecipeEditorDiagnostics {
         guard !names.isEmpty else { return nil }
         let which = ": " + names.joined(separator: ", ")
         return names.count == 1
-            ? "1 trigger was left off when this recipe was approved\(which). Review the approval to switch it on."
-            : "\(names.count) triggers were left off when this recipe was approved\(which). Review the approval to switch them on."
+            ? String(localized: "1 trigger was left off when this recipe was approved\(which). Review the approval to switch it on.")
+            : String(localized: "\(names.count) triggers were left off when this recipe was approved\(which). Review the approval to switch them on.")
     }
 
     // MARK: Test run

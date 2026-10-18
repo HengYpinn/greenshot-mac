@@ -453,9 +453,16 @@ def strip_hint(translation: str, english: str, upstream_english: str) -> str:
     return translation
 
 
-def align_case(translation: str, english: str) -> str:
+def align_case(translation: str, english: str, lproj: str = "") -> str:
     """A capital first letter where the Mac text starts with one (upstream's text may come from inside a sentence or a
-    submenu: "alle" for the Mac's "All")."""
+    submenu: "alle" for the Mac's "All"), and capitals only where the Mac text is a badge in capitals of five letters or
+    more ("CUSTOM": upstream's "Benutzerdefiniert"; not abbreviations like "OK" or "PDF")."""
+    letters = [c for c in english if c.isalpha()]
+    if len(letters) >= 5 and all(c.isupper() for c in letters):
+        # Turkish and Azerbaijani: the capital of i is İ.
+        if lproj.split("-")[0] in ("tr", "az"):
+            translation = translation.replace("i", "\u0130")
+        return translation.upper()
     if translation and english and english[0].isupper() and translation[0].islower():
         return translation[0].upper() + translation[1:]
     return translation
@@ -498,7 +505,7 @@ def convert(translation: str, key: str, english: str, candidate: Candidate, lpro
         return None, ""  # untranslated: English, not a drop
     specs = mac_specs(english)
     text = strip_hint(text, english, candidate.english)
-    text = align_case(align_punctuation(text, english, lproj), english)
+    text = align_case(align_punctuation(text, english, lproj), english, lproj)
     if specs:
         text = text.replace("%", "%%")
         positions: Dict[int, int] = {}

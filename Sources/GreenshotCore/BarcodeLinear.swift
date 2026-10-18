@@ -30,7 +30,7 @@ enum LinearBarcode {
     static func checkLength(_ payload: String, name: String, limit: Int = 80) throws {
         let count = payload.count
         guard count <= limit else {
-            throw BarcodeError.wrongLength("\(name) holds at most \(limit) characters; this is \(count).")
+            throw BarcodeError.wrongLength(String(localized: "\(name) holds at most \(limit) characters; this is \(count)."))
         }
     }
 
@@ -57,7 +57,7 @@ enum LinearBarcode {
         var result: [Int] = []
         for scalar in payload.unicodeScalars {
             guard scalar.isASCII, let digit = Int(String(scalar)) else {
-                throw BarcodeError.invalidCharacters("\(name) takes digits only.")
+                throw BarcodeError.invalidCharacters(String(localized: "\(name) takes digits only."))
             }
             result.append(digit)
         }
@@ -86,7 +86,7 @@ enum LinearBarcode {
             guard digits[length - 1] == expected else { throw BarcodeError.wrongCheckDigit(expected: expected) }
             return digits
         default:
-            throw BarcodeError.wrongLength("\(name) takes \(length - 1) digits, or \(length) with the check digit.")
+            throw BarcodeError.wrongLength(String(localized: "\(name) takes \(length - 1) digits, or \(length) with the check digit."))
         }
     }
 
@@ -163,10 +163,10 @@ enum LinearBarcode {
     static func upcE(_ payload: String) throws -> [Bool] {
         let given = try digits(payload, name: "UPC-E")
         guard given.count == 7 || given.count == 8 else {
-            throw BarcodeError.wrongLength("UPC-E takes 7 digits, or 8 with the check digit.")
+            throw BarcodeError.wrongLength(String(localized: "UPC-E takes 7 digits, or 8 with the check digit."))
         }
         guard given[0] == 0 || given[0] == 1 else {
-            throw BarcodeError.invalidCharacters("A UPC-E code starts with its number system, 0 or 1.")
+            throw BarcodeError.invalidCharacters(String(localized: "A UPC-E code starts with its number system, 0 or 1."))
         }
         let code = try withCheckDigit(given, length: 8, name: "UPC-E") { gtinCheckDigit(upcAExpansion($0)) }
         let parities = upcEParities[code[0]][code[7]]
@@ -234,7 +234,7 @@ enum LinearBarcode {
             case 97...122: pair("+", 65, c - 97)
             case 123...127: pair("%", 80, c - 123)
             default:
-                throw BarcodeError.invalidCharacters("Code 39 holds only ASCII characters.")
+                throw BarcodeError.invalidCharacters(String(localized: "Code 39 holds only ASCII characters."))
             }
         }
         return result
@@ -315,7 +315,7 @@ enum LinearBarcode {
             case 97...122: pair("d", 65, c - 97)
             case 123...127: pair("b", 80, c - 123)
             default:
-                throw BarcodeError.invalidCharacters("Code 93 holds only ASCII characters.")
+                throw BarcodeError.invalidCharacters(String(localized: "Code 93 holds only ASCII characters."))
             }
         }
         return result
@@ -335,7 +335,7 @@ enum LinearBarcode {
     /// The text with its start and stop characters: A…A when it has none (`CodaBarWriter.encode`).
     static func codabarText(_ payload: String) throws -> [Character] {
         let text = Array(payload.uppercased())
-        let invalidGuards = BarcodeError.invalidCharacters("Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.")
+        let invalidGuards = BarcodeError.invalidCharacters(String(localized: "Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither."))
         guard text.count >= 2, let first = text.first, let last = text.last else { return ["A"] + text + ["A"] }
         if codabarGuards.contains(first) {
             guard codabarGuards.contains(last) else { throw invalidGuards }
@@ -353,7 +353,7 @@ enum LinearBarcode {
         var text = try codabarText(payload)
         let inner = text.dropFirst().dropLast()
         guard inner.allSatisfy({ "0123456789-$:/.+".contains($0) }) else {
-            throw BarcodeError.invalidCharacters("Codabar holds digits and - $ : / . + between its start and stop characters.")
+            throw BarcodeError.invalidCharacters(String(localized: "Codabar holds digits and - $ : / . + between its start and stop characters."))
         }
         for (end, alternate) in [(0, text[0]), (text.count - 1, text[text.count - 1])] {
             if let index = codabarAlternateGuards.firstIndex(of: alternate) { text[end] = codabarGuards[index] }
@@ -378,7 +378,7 @@ enum LinearBarcode {
     static func itf(_ payload: String) throws -> [Bool] {
         let code = try digits(payload, name: "ITF")
         guard code.count % 2 == 0 else {
-            throw BarcodeError.wrongLength("ITF takes an even number of digits; this is \(code.count).")
+            throw BarcodeError.wrongLength(String(localized: "ITF takes an even number of digits; this is \(code.count)."))
         }
         try checkLength(payload, name: "ITF")
         var result = pattern([1, 1, 1, 1])
@@ -445,7 +445,7 @@ enum LinearBarcode {
         var dataBits: [Int] = []
         for character in text {
             guard let value = plesseyAlphabet.firstIndex(of: character) else {
-                throw BarcodeError.invalidCharacters("Plessey takes digits and the letters A to F.")
+                throw BarcodeError.invalidCharacters(String(localized: "Plessey takes digits and the letters A to F."))
             }
             dataBits += (0..<4).map { (value >> $0) & 1 }
         }

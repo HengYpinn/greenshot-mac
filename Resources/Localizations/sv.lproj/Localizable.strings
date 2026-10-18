@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ har problem: %lld att åtgärda innan den kan köras.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ rymmer högst %lld tecken; här är det %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ innehåller inget recept.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ ska öppnas vid inloggning, men macOS väntar på att du tillåter det under Inloggningsobjekt och tillägg.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ tar %lld siffror, eller %lld med kontrollsiffran.";
+
+/* machine */
+"%@ takes digits only." = "%@ tar bara siffror.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ vill använda %@ för att lista dina fönster och ta skärmdumpar samt för att köra Greenshot-recept.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: programmet hittades inte";
+
+/* machine */
+"%lld annotations" = "%lld kommentarer";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld element kan inte visas här: %@.";
@@ -317,6 +329,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld triggers avstängda";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "När det här receptet godkändes lämnades %lld triggers avstängda%@. Granska godkännandet för att slå på dem.";
 
 /* machine */
 "%lld warnings" = "%lld varningar";
@@ -376,6 +391,9 @@
 "0 lines" = "0 rader";
 
 /* machine */
+"1 annotation" = "1 kommentar";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 element kan inte visas här: %@.";
 
 /* machine */
@@ -394,10 +412,16 @@
 "1 trigger off" = "1 trigger avstängd";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "När det här receptet godkändes lämnades 1 trigger avstängd%@. Granska godkännandet för att slå på den.";
+
+/* machine */
 "1 warning" = "1 varning";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "En Dock-ikon och en plats i ⌘Tab medan en redigerare eller Inställningar är öppen; menyradsikonen finns i båda fallen, om den inte är dold nedan. Av: när du öppnar en redigerare från en app i helskärmsläge stannar den kvar på sitt Space i stället för att växla till skrivbordet.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "En UPC-E-kod börjar med sitt nummersystem, 0 eller 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Det finns redan ett kommando med det här namnet. Välj ett annat namn.";
@@ -1099,7 +1123,7 @@
 "CC" = "Kopia";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Anpassad";
+"CUSTOM" = "ANPASSAD";
 
 /* machine */
 "Calendar Event" = "Kalenderhändelse";
@@ -1421,6 +1445,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Moln: e-post och API-token";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar rymmer siffror och - $ : / . + mellan start- och stopptecknet.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar börjar och slutar med A, B, C eller D (eller T, N, *, E), eller med ingetdera.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 rymmer bara ASCII-tecken (inga accenter eller symboler utöver ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 rymmer bara ASCII-tecken.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 rymmer bara ASCII-tecken.";
 
 /* machine */
 "Code hash" = "Kodhash";
@@ -2386,6 +2425,9 @@
 "ICO (icon)" = "ICO (ikon)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF tar ett jämnt antal siffror; här är det %lld.";
+
+/* machine */
 "Identifier" = "Identifierare";
 
 /* machine */
@@ -2435,6 +2477,9 @@
 
 /* machine */
 "Imported %lld annotations from %@" = "Importerade %lld kommentarer från %@";
+
+/* machine */
+"In" = "Ingång";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "I Inställningar › Utdata väljer du mapp och filnamnsmönster för sparade skärmdumpar.";
@@ -2537,6 +2582,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Den avslutades med slutkod %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Det är början på ”%@” (%@), som då aldrig skulle utlösas.";
 
 /* machine */
 "It runs from %@." = "Den körs från %@.";
@@ -3466,6 +3514,9 @@
 "Other…" = "Annat…";
 
 /* machine */
+"Out" = "Utgång";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: tillåt export i mötesobjekt";
 
 /* machine */
@@ -3607,6 +3658,9 @@
 "Please select how you would like to proceed with this capture:" = "Välj hur du vill gå vidare med den här skärmdumpen:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey tar siffror och bokstäverna A till F.";
+
+/* machine */
 "Pointer" = "Pekare";
 
 /* machine */
@@ -3724,7 +3778,10 @@
 "RECIPE CONFIGURATION" = "RECEPTKONFIGURATION";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Recept";
+"RECIPES" = "RECEPT";
+
+/* machine */
+"REPLACES BUILT-IN" = "ERSÄTTER INBYGGD";
 
 /* machine */
 "Range" = "Intervall";
@@ -4342,6 +4399,9 @@
 "Saving as %@." = "Sparar som %@.";
 
 /* machine */
+"Saving asks for your approval: %@" = "Sparandet kräver ditt godkännande: %@";
+
+/* machine */
 "Saving the Recording…" = "Sparar inspelningen…";
 
 /* machine */
@@ -4951,6 +5011,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Det ändrade receptet behöver %@, vilket dess godkännande inte tillåter än. Spara det först; sparning ber om ditt godkännande.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrollsiffran är fel: den sista siffran ska vara %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Urklipp innehåller %lld typer.";
 
 /* machine */
@@ -5233,6 +5296,9 @@
 "The text could not be recognized: %@" = "Texten kunde inte kännas igen: %@";
 
 /* machine */
+"The text is too long for this code." = "Texten är för lång för den här koden.";
+
+/* machine */
 "The torn edges of this image." = "Rivna kanter på den här bilden.";
 
 /* machine */
@@ -5295,6 +5361,9 @@
 /* machine */
 "There is no recipe '%@'." = "Det finns inget recept ”%@”.";
 
+/* machine */
+"There is nothing to encode." = "Det finns inget att koda.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Ett fel uppstod vid inloggning: %@";
 
@@ -5354,6 +5423,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Det här programmet är inte signerat av en utvecklare.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Den här receptfilen ändrades utanför Greenshot. Greenshot ber om ditt godkännande innan den körs.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Den här receptfilen är inte godkänd än. Greenshot ber om ditt godkännande innan den körs.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Det här receptet skrevs av ett AI-verktyg, inte av Greenshot eller av dig. Kontrollera vad det gör nedan (Greenshot beskriver det utifrån själva receptet) och slå bara på de triggers du vill ha.";
@@ -5491,6 +5566,9 @@
 "Type the shortcut…" = "Skriv genvägen…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E tar 7 siffror, eller 8 med kontrollsiffran.";
+
+/* machine */
 "Unavailable" = "Inte tillgänglig";
 
 /* machine */
@@ -5546,6 +5624,9 @@
 
 /* machine */
 "Unsaved changes" = "Osparade ändringar";
+
+/* machine */
+"Untitled" = "Namnlös";
 
 /* machine */
 "Updated at %@" = "Uppdaterad kl. %@";

@@ -273,7 +273,8 @@ final class EditorManager {
         let scale = NSScreen.main?.backingScaleFactor ?? 2
         guard let image = EditorWindowPlacement.blankImage(points: CGSize(width: max(size.width, 1), height: max(size.height, 1)),
                                                            scale: scale) else { return }
-        open(EditorDocument(image: image, scale: scale, title: "Untitled", isModified: false))
+        open(EditorDocument(image: image, scale: scale, title: String(localized: "Untitled", comment: "The title of a new, blank image"),
+                            isModified: false))
     }
 }
 

@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ ha fallat	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ ha acabat	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ té problemes: cal corregir-ne %lld abans que es pugui executar.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ admet com a màxim %lld caràcters; n'hi ha %lld.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ no conté cap recepta.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ a %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ a %@ – feu clic per mostrar-ho al Finder	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ ha notificat un problema: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ executa scripts: només es permet el script anterior, no tots els scripts que executa %@.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ s'hauria d'obrir en iniciar la sessió, però el macOS espera que ho permeteu a Elements d'inici de sessió i extensions.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ admet %lld dígits, o %lld amb el dígit de control.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ només admet dígits.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ vol utilitzar %@ per llistar les finestres, fer captures de pantalla i executar receptes de Greenshot.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ retalla  ⎋ cancel·la	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ talla  ⎋ cancel·la	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: no s'ha trobat el programa	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld anotacions	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	Aquí no es poden mostrar %lld elements: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld errors	claude-sonnet-5-5 2026-10-18
 %lld found	%lld trobats	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld espais	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld passos	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld activadors desactivats	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	%lld activadors es van deixar desactivats quan es va aprovar aquesta recepta%@. Reviseu l'aprovació per activar-los.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld advertiments	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	"%@" no pot seguir "%@": el flux entraria en bucle.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = Tots els fitxers	claude-sonnet-5-5 2026-10-18
 0 lines	0 línies	claude-sonnet-5-5 2026-10-18
+1 annotation	1 anotació	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 element no es pot mostrar aquí: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 error	claude-sonnet-5-5 2026-10-18
 1 hour	1 hora	claude-sonnet-5-5 2026-10-18
 1 minute	1 minut	claude-sonnet-5-5 2026-10-18
 1 step	1 pas	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 activador desactivat	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	1 activador es va deixar desactivat quan es va aprovar aquesta recepta%@. Reviseu l'aprovació per activar-lo.	claude-sonnet-5-5 2026-10-18
 1 warning	1 advertiment	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Una icona al Dock i un lloc a ⌘Tab mentre hi ha un editor o les Preferències obertes; la icona de la barra de menús hi és en qualsevol cas, tret que s'amagui a sota. Desactivat: en obrir un editor des d'una app a pantalla completa, es queda al seu Espai en lloc de canviar a l'escriptori.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	Un codi UPC-E comença pel seu sistema numèric, 0 o 1.	claude-sonnet-5-5 2026-10-18
 A command with this name already exists. Please choose a different name.	Ja existeix una ordre amb aquest nom. Trieu-ne un altre.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Un fitxer de Greenshot per a Windows: Desa en demana un de nou, de manera que aquest es queda tal com és.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Un fitxer vol afegir un pas automàtic a altres receptes, incloses les integrades. Reviseu quines receptes canvia i què hi afegeix abans d'aprovar-ho.	claude-sonnet-5-5 2026-10-18
@@ -453,6 +461,11 @@ Close All	Tanca-ho tot	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	Tancar un editor amb canvis els descarta sense preguntar.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	Els llocs al núvol acaben en /wiki.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	Núvol: correu electrònic i testimoni d'API	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar conté dígits i - $ : / . + entre els seus caràcters d'inici i de fi.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar comença i acaba amb A, B, C o D (o T, N, *, E), o amb cap d'ells.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 només conté caràcters ASCII (sense accents ni símbols fora d'ASCII).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 només conté caràcters ASCII.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 només conté caràcters ASCII.	claude-sonnet-5-5 2026-10-18
 Code hash	Hash del codi	claude-sonnet-5-5 2026-10-18
 Code signature	Signatura del codi	claude-sonnet-5-5 2026-10-18
 Color:	Color:	claude-sonnet-5-5 2026-10-18
@@ -745,6 +758,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	Quant e
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (icona)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF admet un nombre parell de dígits; n'hi ha %lld.	claude-sonnet-5-5 2026-10-18
 Identifier	Identificador	claude-sonnet-5-5 2026-10-18
 If %@: %@	Si %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Si és el vostre propi servidor, afegiu %@ o l'empremta a Preferències › Destins › Servidors propis.	claude-sonnet-5-5 2026-10-18
@@ -790,6 +804,7 @@ Invalid JSON syntax or schema:\n%@	Sintaxi o esquema JSON no vàlid:\n%@	claude-
 Issue identifier (stack trace hash)	Identificador del problema (hash de la traça de pila)	claude-sonnet-5-5 2026-10-18
 Issue key:	Clau de la incidència:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	Ha acabat amb el codi de sortida %d.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	És el començament de «%@» (%@), que llavors no s'activaria mai.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	S'executa des de %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Deixa d'executar-se de seguida i no es torna a carregar. El fitxer es queda on és: importeu-lo de nou per revisar-lo i aprovar-lo.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Deixa d'executar-se de seguida i no es torna a carregar. El fitxer es queda on és: obriu-lo de nou per revisar-lo i aprovar-lo.	claude-sonnet-5-5 2026-10-18
@@ -1126,6 +1141,7 @@ Please enter text or a URL.	Introduïu text o un URL.	claude-sonnet-5-5 2026-10-
 Please enter your Confluence login data	Introduïu les dades d'inici de sessió de Confluence	claude-sonnet-5-5 2026-10-18
 Please enter your Jira login data	Introduïu les dades d'inici de sessió de Jira	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	Trieu com voleu continuar amb aquesta captura:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey admet dígits i les lletres de l'A a la F.	claude-sonnet-5-5 2026-10-18
 Pointer	Cursor	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Assenyalar una finestra a Captura la finestra de la llista en mostra una imatge. Cal el permís de gravació de pantalla.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	Apunta a una app que no hi és: feu clic a Instal·la	claude-sonnet-5-5 2026-10-18
@@ -1160,6 +1176,7 @@ Quick settings	Preferències ràpides	claude-sonnet-5-5 2026-10-18
 Quit %@	Surt de %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	Sortiu-ne primer per iniciar aquesta còpia.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	CONFIGURACIÓ DE LA RECEPTA	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	SUBSTITUEIX L'INTEGRAT	claude-sonnet-5-5 2026-10-18
 Range	Interval	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	Detalls del text net o URL	claude-sonnet-5-5 2026-10-18
 Read error	Error de lectura	claude-sonnet-5-5 2026-10-18
@@ -1349,6 +1366,7 @@ Saved file	Fitxer desat	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	S'ha desat la recepta a %@	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	En desar se substitueixen altres receptes	claude-sonnet-5-5 2026-10-18
 Saving as %@.	S'està desant com a %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	Desar demana la vostra aprovació: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	S'està desant la gravació…	claude-sonnet-5-5 2026-10-18
 Saving…	S'està desant…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	Escala-la per omplir el vídeo	claude-sonnet-5-5 2026-10-18
@@ -1544,6 +1562,7 @@ The area is not on a display.	L'àrea no és en cap pantalla.	claude-sonnet-5-5 
 The automatic step is only used with every permission it needs.	El pas automàtic només s'utilitza amb tots els permisos que necessita.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	El certificat de %@ té l'empremta SHA-256 %@.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	La recepta canviada necessita %@, que la seva aprovació encara no permet. Deseu-la primer; en desar es demana la vostra aprovació.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	El dígit de control no és correcte: l'últim dígit hauria de ser %lld.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	El porta-retalls conté %lld tipus.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	El porta-retalls conté 1 tipus.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	El porta-retalls és buit.	claude-sonnet-5-5 2026-10-18
@@ -1638,6 +1657,7 @@ The sign-in window could not be opened.	No s'ha pogut obrir la finestra d'inici 
 The size of File › New Image, a white image to draw on.	La mida de Fitxer › Imatge nova, una imatge blanca on dibuixar.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	No s'ha pogut reconèixer el text	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	No s'ha pogut reconèixer el text: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	El text és massa llarg per a aquest codi.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	Les vores esquinçades d'aquesta imatge.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Les parts transparents de la imatge adopten aquest color.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Els activadors comencen desactivats. Activeu cadascun dels que puguin iniciar aquesta recepta: un activador que deixeu desactivat es queda desactivat (el podeu activar més tard amb Permisos). Sense activador, encara podeu executar la recepta des de la llista de receptes.	claude-sonnet-5-5 2026-10-18
@@ -1659,6 +1679,7 @@ There is no border of one color around the content to crop away.	No hi ha cap vo
 There is no image on the clipboard	No hi ha cap imatge al porta-retalls	claude-sonnet-5-5 2026-10-18
 There is no image to open.	No hi ha cap imatge per obrir.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	No hi ha cap recepta "%@".	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	No hi ha res per codificar.	claude-sonnet-5-5 2026-10-18
 There was a problem during the login: %@	Hi ha hagut un problema durant l'inici de sessió: %@	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	No hi havia res a la pantalla per capturar.	claude-sonnet-5-5 2026-10-18
 Thermal state	Estat tèrmic	claude-sonnet-5-5 2026-10-18
@@ -1678,6 +1699,8 @@ This is a recipe; the editor has an automatic step open.	Això és una recepta; 
 This is an automatic step; the editor has a recipe open.	Això és un pas automàtic; l'editor té oberta una recepta.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Aquest programa s'ofereix SENSE CAP GARANTIA. És programari lliure, i podeu redistribuir-lo amb algunes condicions: la %@ o posterior.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	Aquest programa no està signat per un desenvolupador.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	Aquest fitxer de recepta ha canviat fora de Greenshot. Greenshot demana la vostra aprovació abans d'executar-lo.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	Aquest fitxer de recepta encara no està aprovat. Greenshot demana la vostra aprovació abans d'executar-lo.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Aquesta recepta l'ha escrit una eina d'IA, no Greenshot ni vosaltres. Comproveu a sota què fa (Greenshot la descriu a partir de la recepta mateixa) i activeu només els activadors que vulgueu.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	Aquest pas no té paràmetres.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	Aquest activador es queda desactivat, de manera que no iniciarà la recepta:	claude-sonnet-5-5 2026-10-18
@@ -1718,6 +1741,7 @@ Two objects and text	Dos objectes i text	claude-sonnet-5-5 2026-10-18
 Two objects over text	Dos objectes sobre text	claude-sonnet-5-5 2026-10-18
 Type	Tipus	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	Escriviu la drecera…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E admet 7 dígits, o 8 amb el dígit de control.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	No disponible	claude-sonnet-5-5 2026-10-18
@@ -1739,6 +1763,7 @@ Unnamed Recipe	Recepta sense nom	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	Registre il·legible: feu clic a Instal·la	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	Canvis sense desar	claude-sonnet-5-5 2026-10-18
 Unsaved changes	Canvis sense desar	claude-sonnet-5-5 2026-10-18
+Untitled	Sense títol	claude-sonnet-5-5 2026-10-18
 Updated at %@	Actualitzat a les %@	claude-sonnet-5-5 2026-10-18
 Updates	Actualitzacions	claude-sonnet-5-5 2026-10-18
 Upload	Puja	claude-sonnet-5-5 2026-10-18

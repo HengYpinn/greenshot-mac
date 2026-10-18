@@ -172,6 +172,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ ir problēmas: jānovērš %lld, lai to varētu palaist.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ satur ne vairāk kā %lld rakstzīmes; šeit to ir %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ nesatur nevienu recepti.";
 
 /* machine */
@@ -247,6 +250,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ vajadzētu atvērties pieteikšanās brīdī, taču macOS gaida, kamēr to atļausi sadaļā Pieteikšanās vienumi un paplašinājumi.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ pieņem %lld ciparus vai %lld ar kontrolciparu.";
+
+/* machine */
+"%@ takes digits only." = "%@ pieņem tikai ciparus.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ vēlas izmantot %@, lai uzskaitītu tavus logus, uzņemtu ekrānattēlus un palaistu Greenshot receptes.";
 
 /* machine */
@@ -272,6 +281,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: programma netika atrasta";
+
+/* machine */
+"%lld annotations" = "Anotācijas: %lld";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "Šeit nevar parādīt %lld elementus: %@.";
@@ -314,6 +326,9 @@
 
 /* machine */
 "%lld triggers off" = "Izslēgti trigeri: %lld";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Kad šī recepte tika apstiprināta, netika ieslēgti trigeri%2$@ (%1$lld). Pārskati apstiprinājumu, lai tos ieslēgtu.";
 
 /* machine */
 "%lld warnings" = "Brīdinājumi: %lld";
@@ -373,6 +388,9 @@
 "0 lines" = "0 rindas";
 
 /* machine */
+"1 annotation" = "1 anotācija";
+
+/* machine */
 "1 element can't be shown here: %@." = "Šeit nevar parādīt 1 elementu: %@.";
 
 /* machine */
@@ -391,10 +409,16 @@
 "1 trigger off" = "1 trigeris izslēgts";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Kad šī recepte tika apstiprināta, netika ieslēgts 1 trigeris%@. Pārskati apstiprinājumu, lai to ieslēgtu.";
+
+/* machine */
 "1 warning" = "1 brīdinājums";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Dock ikona un vieta ⌘Tab, kamēr ir atvērts redaktors vai iestatījumi; izvēļņu joslas ikona ir tur jebkurā gadījumā, ja vien tā nav paslēpta zemāk. Izslēgts: redaktora atvēršana no pilnekrāna lietotnes paliek tās darbtelpā, nevis pārslēdz uz darbvirsmu.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "UPC-E kods sākas ar savu numuru sistēmu, 0 vai 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Darbība ar šādu vārdu jau pastāv. Lūdzu, izvēlieties citu vārdu.";
@@ -1096,7 +1120,7 @@
 "Built-in" = "Iebūvēts";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Pielāgots";
+"CUSTOM" = "PIELĀGOTS";
 
 /* machine */
 "Calendar Event" = "Kalendāra notikums";
@@ -1421,6 +1445,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Mākonis: e-pasts un API žetons";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar starp sākuma un beigu rakstzīmi satur ciparus un - $ : / . +.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar sākas un beidzas ar A, B, C vai D (vai T, N, *, E) vai ne ar vienu no tām.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 satur tikai ASCII rakstzīmes (bez akcentiem vai simboliem ārpus ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 satur tikai ASCII rakstzīmes.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 satur tikai ASCII rakstzīmes.";
 
 /* machine */
 "Code hash" = "Koda jaucējkods";
@@ -2398,6 +2437,9 @@
 "ICO (icon)" = "ICO (ikona)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF pieņem pāra skaitu ciparu; šeit to ir %lld.";
+
+/* machine */
 "Identifier" = "Identifikators";
 
 /* machine */
@@ -2555,6 +2597,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Beidzās ar izejas kodu %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Tas ir „%@” (%@) sākums, tāpēc tas nekad nenostrādātu.";
 
 /* machine */
 "It runs from %@." = "Tā darbojas no %@.";
@@ -3493,6 +3538,9 @@
 "Other…" = "Cits…";
 
 /* machine */
+"Out" = "Izeja";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: atļaut eksportu sapulču vienumos";
 
 /* machine */
@@ -3634,6 +3682,9 @@
 "Please select how you would like to proceed with this capture:" = "Lūdzu, izvēlies, kā turpināt ar šo tvērumu:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey pieņem ciparus un burtus no A līdz F.";
+
+/* machine */
 "Pointer" = "Rādītājs";
 
 /* machine */
@@ -3754,7 +3805,10 @@
 "RECIPE CONFIGURATION" = "RECEPTES KONFIGURĀCIJA";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Receptes";
+"RECIPES" = "RECEPTES";
+
+/* machine */
+"REPLACES BUILT-IN" = "AIZSTĀJ IEBŪVĒTO";
 
 /* machine */
 "Range" = "Diapazons";
@@ -4370,6 +4424,9 @@
 
 /* machine */
 "Saving as %@." = "Saglabā kā %@.";
+
+/* machine */
+"Saving asks for your approval: %@" = "Saglabāšanai ir nepieciešams tavs apstiprinājums: %@";
 
 /* machine */
 "Saving the Recording…" = "Notiek ieraksta saglabāšana…";
@@ -4999,6 +5056,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Mainītajai receptei nepieciešams %@, ko tās apstiprinājums vēl neatļauj. Vispirms saglabā to; saglabāšana vaicā tavu apstiprinājumu.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Kontrolcipars ir nepareizs: pēdējam ciparam jābūt %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "Starpliktuvē ir %lld veidi.";
 
 /* machine */
@@ -5281,6 +5341,9 @@
 "The text could not be recognized: %@" = "Tekstu nevarēja atpazīt: %@";
 
 /* machine */
+"The text is too long for this code." = "Teksts ir pārāk garš šim kodam.";
+
+/* machine */
 "The torn edges of this image." = "Šī attēla noplēstās malas.";
 
 /* machine */
@@ -5343,6 +5406,9 @@
 /* machine */
 "There is no recipe '%@'." = "Nav receptes „%@”.";
 
+/* machine */
+"There is nothing to encode." = "Nav ko kodēt.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Neizdevās pieteikties: %@";
 
@@ -5402,6 +5468,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Šo programmu nav parakstījis izstrādātājs.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Šis receptes fails tika mainīts ārpus Greenshot. Greenshot pirms palaišanas lūdz tavu apstiprinājumu.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Šis receptes fails vēl nav apstiprināts. Greenshot pirms palaišanas lūdz tavu apstiprinājumu.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Šo recepti uzrakstīja MI rīks, nevis Greenshot vai tu. Tālāk pārbaudi, ko tā dara (Greenshot to apraksta no pašas receptes), un ieslēdz tikai tos trigerus, kurus vēlies.";
@@ -5542,6 +5614,9 @@
 "Type the shortcut…" = "Ievadi saīsni…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E pieņem 7 ciparus vai 8 ar kontrolciparu.";
+
+/* machine */
 "Unavailable" = "Nav pieejams";
 
 /* machine */
@@ -5597,6 +5672,9 @@
 
 /* machine */
 "Unsaved changes" = "Nesaglabātas izmaiņas";
+
+/* machine */
+"Untitled" = "Bez nosaukuma";
 
 /* machine */
 "Updated at %@" = "Atjaunināts: %@";
@@ -6394,7 +6472,7 @@
 "value" = "vērtība";
 
 /* machine */
-"variable (default: the name)" = "mainīgais (noklusējums: nosaukums)";
+"variable (default: the name)" = "mainīgais (citādi nosaukums)";
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Bez uzgaļiem";

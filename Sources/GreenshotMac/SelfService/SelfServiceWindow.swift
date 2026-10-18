@@ -177,7 +177,8 @@ struct SelfServiceSidebar: View {
         } label: {
             HStack(spacing: 8) {
                 Image(systemName: section.symbol).frame(width: 18)
-                Text(section.title)
+                // A long word (German "Tastenkombinationen") gets a little smaller instead of breaking in the middle.
+                Text(section.title).lineLimit(1).minimumScaleFactor(0.75)
                 Spacer()
                 if count > 0 {
                     Text("\(count)").font(.caption2.weight(.bold)).foregroundStyle(.white)

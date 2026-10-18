@@ -68,6 +68,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ failed	%@ ناموفق بود	claude-sonnet-5-5 2026-10-18
 %@ finished	%@ تمام شد	claude-sonnet-5-5 2026-10-18
 %@ has problems: %lld to fix before it can run.	%@ مشکل دارد: پیش از اجرا باید %lld مورد برطرف شود.	claude-sonnet-5-5 2026-10-18
+%@ holds at most %lld characters; this is %lld.	%@ حداکثر %lld نویسه می‌پذیرد؛ این مورد %lld نویسه است.	claude-sonnet-5-5 2026-10-18
 %@ holds no recipe.	%@ هیچ دستورالعملی ندارد.	claude-sonnet-5-5 2026-10-18
 %@ in %@	%@ در %@	claude-sonnet-5-5 2026-10-18
 %@ in %@ – click to show in Finder	%@ در %@ – برای نمایش در Finder کلیک کنید	claude-sonnet-5-5 2026-10-18
@@ -93,6 +94,8 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ reported a problem: %@	%@ مشکلی را گزارش کرد: %@	claude-sonnet-5-5 2026-10-18
 %@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ اسکریپت اجرا می‌کند: فقط اسکریپت بالا مجاز است، نه هر اسکریپتی که %@ اجرا می‌کند.	claude-sonnet-5-5 2026-10-18
 %@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ باید هنگام ورود باز شود، اما macOS منتظر می‌ماند تا شما آن را در «موارد ورود و افزونه‌ها» مجاز کنید.	claude-sonnet-5-5 2026-10-18
+%@ takes %lld digits, or %lld with the check digit.	%@ %lld رقم می‌پذیرد، یا %lld رقم با رقم کنترل.	claude-sonnet-5-5 2026-10-18
+%@ takes digits only.	%@ فقط رقم می‌پذیرد.	claude-sonnet-5-5 2026-10-18
 %@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ می‌خواهد از %@ برای فهرست‌کردن پنجره‌های شما، گرفتن تصویر صفحه و اجرای دستورالعمل‌های Greenshot استفاده کند.	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ چیدن  ⎋ لغو	claude-sonnet-5-5 2026-10-18
 %@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ برش میانی  ⎋ لغو	claude-sonnet-5-5 2026-10-18
@@ -105,6 +108,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@: the program was not found	%@: برنامه پیدا نشد	claude-sonnet-5-5 2026-10-18
 %lld	%lld	claude-sonnet-5-5 2026-10-18
 %lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld annotations	%lld حاشیه‌نویسی	claude-sonnet-5-5 2026-10-18
 %lld elements can't be shown here: %@.	%lld عنصر را نمی‌توان اینجا نشان داد: %@.	claude-sonnet-5-5 2026-10-18
 %lld errors	%lld خطا	claude-sonnet-5-5 2026-10-18
 %lld found	%lld مورد پیدا شد	claude-sonnet-5-5 2026-10-18
@@ -121,6 +125,7 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %lld spaces	%lld فضا	claude-sonnet-5-5 2026-10-18
 %lld steps	%lld مرحله	claude-sonnet-5-5 2026-10-18
 %lld triggers off	%lld راه‌انداز خاموش	claude-sonnet-5-5 2026-10-18
+%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.	%lld راه‌انداز هنگام تأیید این دستورالعمل خاموش مانده‌اند%@. تأیید را بررسی کنید تا روشن شوند.	claude-sonnet-5-5 2026-10-18
 %lld warnings	%lld هشدار	claude-sonnet-5-5 2026-10-18
 %lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
 '%@' can't follow '%@': the flow would loop.	«%@» نمی‌تواند پس از «%@» بیاید: جریان حلقه می‌شود.	claude-sonnet-5-5 2026-10-18
@@ -143,16 +148,19 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 0	0	claude-sonnet-5-5 2026-10-18
 0 = All Files	0 = همهٔ فایل‌ها	claude-sonnet-5-5 2026-10-18
 0 lines	0 خط	claude-sonnet-5-5 2026-10-18
+1 annotation	1 حاشیه‌نویسی	claude-sonnet-5-5 2026-10-18
 1 element can't be shown here: %@.	1 عنصر را نمی‌توان اینجا نشان داد: %@.	claude-sonnet-5-5 2026-10-18
 1 error	1 خطا	claude-sonnet-5-5 2026-10-18
 1 hour	1 ساعت	claude-sonnet-5-5 2026-10-18
 1 minute	1 دقیقه	claude-sonnet-5-5 2026-10-18
 1 step	1 مرحله	claude-sonnet-5-5 2026-10-18
 1 trigger off	1 راه‌انداز خاموش	claude-sonnet-5-5 2026-10-18
+1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.	یک راه‌انداز هنگام تأیید این دستورالعمل خاموش مانده است%@. تأیید را بررسی کنید تا روشن شود.	claude-sonnet-5-5 2026-10-18
 1 warning	1 هشدار	claude-sonnet-5-5 2026-10-18
 1.0	1.0	claude-sonnet-5-5 2026-10-18
 1280x720	1280x720	claude-sonnet-5-5 2026-10-18
 A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	یک نماد Dock و جایی در ⌘Tab تا زمانی که یک ویرایشگر یا تنظیمات باز است؛ نماد نوار منو در هر دو حالت هست، مگر اینکه در پایین پنهان شود. خاموش: باز کردن ویرایشگر از یک برنامهٔ تمام‌صفحه در همان Space می‌ماند و به دسکتاپ نمی‌رود.	claude-sonnet-5-5 2026-10-18
+A UPC-E code starts with its number system, 0 or 1.	کد UPC-E با سامانهٔ شماره‌گذاری خود شروع می‌شود، یعنی 0 یا 1.	claude-sonnet-5-5 2026-10-18
 A command with this name already exists. Please choose a different name.	دستوری با این نام از قبل وجود دارد. لطفاً نام دیگری انتخاب کنید.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	فایلی از Greenshot برای Windows: «ذخیره» یک فایل جدید می‌خواهد، پس این فایل بدون تغییر می‌ماند.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	یک فایل می‌خواهد به دستورالعمل‌های دیگر، از جمله دستورالعمل‌های داخلی، یک مرحلهٔ خودکار اضافه کند. پیش از تأیید بررسی کنید کدام دستورالعمل‌ها را تغییر می‌دهد و چه چیزی اضافه می‌کند.	claude-sonnet-5-5 2026-10-18
@@ -468,6 +476,11 @@ Close All	بستن همه	claude-sonnet-5-5 2026-10-18
 Closing an editor with changes discards them without a question.	بستن ویرایشگر دارای تغییرات، آن‌ها را بدون پرسش دور می‌ریزد.	claude-sonnet-5-5 2026-10-18
 Cloud sites end in /wiki.	سایت‌های ابری به /wiki ختم می‌شوند.	claude-sonnet-5-5 2026-10-18
 Cloud: email and API token	ابر: ایمیل و توکن API	claude-sonnet-5-5 2026-10-18
+Codabar holds digits and - $ : / . + between its start and stop characters.	Codabar بین نویسه‌های شروع و پایان خود، رقم و - $ : / . + می‌پذیرد.	claude-sonnet-5-5 2026-10-18
+Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.	Codabar با A، B، C یا D (یا T، N، *، E) شروع و پایان می‌یابد، یا با هیچ‌کدام.	claude-sonnet-5-5 2026-10-18
+Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).	Code 128 فقط نویسه‌های ASCII می‌پذیرد (بدون حروف دارای نشانه یا نمادهای فراتر از ASCII).	claude-sonnet-5-5 2026-10-18
+Code 39 holds only ASCII characters.	Code 39 فقط نویسه‌های ASCII می‌پذیرد.	claude-sonnet-5-5 2026-10-18
+Code 93 holds only ASCII characters.	Code 93 فقط نویسه‌های ASCII می‌پذیرد.	claude-sonnet-5-5 2026-10-18
 Code hash	هش کد	claude-sonnet-5-5 2026-10-18
 Code signature	امضای کد	claude-sonnet-5-5 2026-10-18
 Color:	رنگ:	claude-sonnet-5-5 2026-10-18
@@ -764,6 +777,7 @@ How much %@ writes to the log, until it restarts. Debug writes the most.	میز�
 IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
 ICO (icon)	ICO (نماد)	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
+ITF takes an even number of digits; this is %lld.	ITF تعداد زوج رقم می‌پذیرد؛ این مورد %lld رقم است.	claude-sonnet-5-5 2026-10-18
 Identifier	شناسه	claude-sonnet-5-5 2026-10-18
 If %@: %@	اگر %@: %@	claude-sonnet-5-5 2026-10-18
 If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	اگر این سرور خودتان است، %@ یا اثر انگشت را در تنظیمات › مقصدها › سرورهای خودتان اضافه کنید.	claude-sonnet-5-5 2026-10-18
@@ -813,6 +827,7 @@ Inverted colours	رنگ‌های معکوس	claude-sonnet-5-5 2026-10-18
 Issue identifier (stack trace hash)	شناسهٔ مشکل (هش ردپای پشته)	claude-sonnet-5-5 2026-10-18
 Issue key:	کلید مسئله:	claude-sonnet-5-5 2026-10-18
 It ended with exit code %d.	با کد خروج %d پایان یافت.	claude-sonnet-5-5 2026-10-18
+It is the beginning of “%@” (%@), which would then never fire.	این ابتدای «%@» (%@) است که در این صورت هرگز اجرا نمی‌شود.	claude-sonnet-5-5 2026-10-18
 It runs from %@.	از %@ اجرا می‌شود.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	بی‌درنگ از اجرا می‌ایستد و دوباره بارگذاری نمی‌شود. فایل آن سر جایش می‌ماند: برای بررسی و تأیید دوباره آن را درون‌ریزی کنید.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	بی‌درنگ از اجرا می‌ایستد و دوباره بارگذاری نمی‌شود. فایل آن سر جایش می‌ماند: برای بررسی و تأیید دوباره آن را باز کنید.	claude-sonnet-5-5 2026-10-18
@@ -1114,7 +1129,7 @@ Orgchart	سازمان‌نمودار	claude-sonnet-5-5 2026-10-18
 Other screen capture apps	برنامه‌های دیگر تصویربرداری از صفحه	claude-sonnet-5-5 2026-10-18
 Otherwise (%@)	در غیر این صورت (%@)	claude-sonnet-5-5 2026-10-18
 Other…	دیگر…	claude-sonnet-5-5 2026-10-18
-Out	Out	claude-sonnet-5-5 2026-10-18
+Out	خروجی	claude-sonnet-5-5 2026-10-18
 Outlook: allow export in meeting items	Outlook: اجازهٔ خروجی در موارد جلسه	claude-sonnet-5-5 2026-10-18
 Outlook: email format for new emails	Outlook: قالب ایمیل برای ایمیل‌های جدید	claude-sonnet-5-5 2026-10-18
 Overwrite a file with the same name	بازنویسی فایلی با همان نام	claude-sonnet-5-5 2026-10-18
@@ -1158,6 +1173,7 @@ Please enter text or a URL.	لطفاً متن یا یک URL وارد کنید.	c
 Please enter your Confluence login data	لطفاً اطلاعات ورود Confluence خود را وارد کنید	claude-sonnet-5-5 2026-10-18
 Please enter your Jira login data	لطفاً اطلاعات ورود Jira خود را وارد کنید	claude-sonnet-5-5 2026-10-18
 Please select how you would like to proceed with this capture:	لطفاً انتخاب کنید می‌خواهید با این نمونه‌برداری چگونه ادامه دهید:	claude-sonnet-5-5 2026-10-18
+Plessey takes digits and the letters A to F.	Plessey رقم و حروف A تا F را می‌پذیرد.	claude-sonnet-5-5 2026-10-18
 Pointer	اشاره‌گر	claude-sonnet-5-5 2026-10-18
 Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	اشاره به یک پنجره در «نمونه‌برداری از پنجره از فهرست» تصویری از آن نشان می‌دهد. به مجوز ضبط صفحه نیاز دارد.	claude-sonnet-5-5 2026-10-18
 Points to a missing app: click Install	به برنامه‌ای که وجود ندارد اشاره می‌کند: روی «نصب» کلیک کنید	claude-sonnet-5-5 2026-10-18
@@ -1192,6 +1208,7 @@ Quick settings	تنظیمات فوری	claude-sonnet-5-5 2026-10-18
 Quit %@	خروج از %@	claude-sonnet-5-5 2026-10-18
 Quit it first to start this copy.	ابتدا از آن خارج شوید تا این نسخه شروع شود.	claude-sonnet-5-5 2026-10-18
 RECIPE CONFIGURATION	پیکربندی دستورالعمل	claude-sonnet-5-5 2026-10-18
+REPLACES BUILT-IN	جایگزین داخلی	claude-sonnet-5-5 2026-10-18
 Range	بازه	claude-sonnet-5-5 2026-10-18
 Raw Text or URL Details	جزئیات متن خام یا URL	claude-sonnet-5-5 2026-10-18
 Read error	خطای خواندن	claude-sonnet-5-5 2026-10-18
@@ -1386,6 +1403,7 @@ Saved file	فایل ذخیره‌شده	claude-sonnet-5-5 2026-10-18
 Saved recipe to %@	دستورالعمل در %@ ذخیره شد	claude-sonnet-5-5 2026-10-18
 Saving Replaces Other Recipes	ذخیره‌کردن دستورالعمل‌های دیگر را جایگزین می‌کند	claude-sonnet-5-5 2026-10-18
 Saving as %@.	در حال ذخیره با نام %@.	claude-sonnet-5-5 2026-10-18
+Saving asks for your approval: %@	ذخیره‌سازی تأیید شما را می‌خواهد: %@	claude-sonnet-5-5 2026-10-18
 Saving the Recording…	در حال ذخیرهٔ ضبط…	claude-sonnet-5-5 2026-10-18
 Saving…	در حال ذخیره…	claude-sonnet-5-5 2026-10-18
 Scale it to fill the video	برای پر کردن ویدیو مقیاس‌بندی کن	claude-sonnet-5-5 2026-10-18
@@ -1584,6 +1602,7 @@ The area is not on a display.	ناحیه روی هیچ نمایشگری نیست
 The automatic step is only used with every permission it needs.	مرحلهٔ خودکار فقط با همهٔ مجوزهای لازمش به کار می‌رود.	claude-sonnet-5-5 2026-10-18
 The certificate of %@ has the SHA-256 fingerprint %@.	گواهی %@ اثر انگشت SHA-256 برابر %@ دارد.	claude-sonnet-5-5 2026-10-18
 The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	دستورالعمل تغییرکرده به %@ نیاز دارد که تأییدش هنوز اجازه نمی‌دهد. ابتدا ذخیره کنید؛ ذخیره‌کردن تأیید شما را می‌خواهد.	claude-sonnet-5-5 2026-10-18
+The check digit is wrong: the last digit should be %lld.	رقم کنترل اشتباه است: آخرین رقم باید %lld باشد.	claude-sonnet-5-5 2026-10-18
 The clipboard holds %lld types.	حافظه موقت %lld نوع دارد.	claude-sonnet-5-5 2026-10-18
 The clipboard holds 1 type.	حافظه موقت 1 نوع دارد.	claude-sonnet-5-5 2026-10-18
 The clipboard is empty.	حافظه موقت خالی است.	claude-sonnet-5-5 2026-10-18
@@ -1678,6 +1697,7 @@ The sign-in window could not be opened.	پنجرهٔ ورود باز نشد.	cla
 The size of File › New Image, a white image to draw on.	اندازهٔ فایل › تصویر جدید، یک تصویر سفید برای کشیدن روی آن.	claude-sonnet-5-5 2026-10-18
 The text could not be recognised	متن تشخیص داده نشد	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	متن تشخیص داده نشد: %@	claude-sonnet-5-5 2026-10-18
+The text is too long for this code.	متن برای این کد خیلی بلند است.	claude-sonnet-5-5 2026-10-18
 The torn edges of this image.	لبه‌های پارهٔ این تصویر.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	بخش‌های شفاف تصویر این رنگ را می‌گیرند.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	راه‌اندازها خاموش شروع می‌شوند. هر راه‌اندازی را که ممکن است این دستورالعمل را شروع کند روشن کنید: راه‌اندازی که خاموش بگذارید خاموش می‌ماند (بعداً با «مجوزها» می‌توانید روشنش کنید). بدون راه‌انداز هم می‌توانید دستورالعمل را از فهرست دستورالعمل‌ها اجرا کنید.	claude-sonnet-5-5 2026-10-18
@@ -1699,6 +1719,7 @@ There is no border of one color around the content to crop away.	هیچ حاشی
 There is no image on the clipboard	هیچ تصویری در حافظه موقت نیست	claude-sonnet-5-5 2026-10-18
 There is no image to open.	تصویری برای باز کردن نیست.	claude-sonnet-5-5 2026-10-18
 There is no recipe '%@'.	دستورالعملی با نام «%@» نیست.	claude-sonnet-5-5 2026-10-18
+There is nothing to encode.	چیزی برای کدگذاری وجود ندارد.	claude-sonnet-5-5 2026-10-18
 There was a problem during the login: %@	هنگام ورود مشکلی پیش آمد: %@	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	چیزی روی صفحه برای نمونه‌برداری نبود.	claude-sonnet-5-5 2026-10-18
 Thermal state	وضعیت گرمایی	claude-sonnet-5-5 2026-10-18
@@ -1719,6 +1740,8 @@ This is a recipe; the editor has an automatic step open.	این یک دستور�
 This is an automatic step; the editor has a recipe open.	این یک مرحلهٔ خودکار است؛ ویرایشگر یک دستورالعمل را باز دارد.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	این برنامه هیچ ضمانتی ندارد. این نرم‌افزار آزاد است و می‌توانید آن را تحت شرایطی دوباره توزیع کنید: %@ یا بالاتر.	claude-sonnet-5-5 2026-10-18
 This program is not signed by a developer.	این برنامه توسط توسعه‌دهنده امضا نشده است.	claude-sonnet-5-5 2026-10-18
+This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.	این فایل دستورالعمل خارج از Greenshot تغییر کرده است. Greenshot پیش از اجرای آن تأیید شما را می‌خواهد.	claude-sonnet-5-5 2026-10-18
+This recipe file isn't approved yet. Greenshot asks for your approval before it runs.	این فایل دستورالعمل هنوز تأیید نشده است. Greenshot پیش از اجرای آن تأیید شما را می‌خواهد.	claude-sonnet-5-5 2026-10-18
 This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	این دستورالعمل را یک ابزار هوش مصنوعی نوشته است، نه Greenshot یا شما. در زیر ببینید چه می‌کند (Greenshot آن را از روی خود دستورالعمل توصیف می‌کند) و فقط راه‌اندازهای موردنظرتان را روشن کنید.	claude-sonnet-5-5 2026-10-18
 This step has no parameters.	این مرحله پارامتر ندارد.	claude-sonnet-5-5 2026-10-18
 This trigger stays off, so it won't start the recipe:	این راه‌انداز خاموش می‌ماند، پس دستورالعمل را شروع نمی‌کند:	claude-sonnet-5-5 2026-10-18
@@ -1765,6 +1788,7 @@ Two objects and text	دو شیء و متن	claude-sonnet-5-5 2026-10-18
 Two objects over text	دو شیء روی متن	claude-sonnet-5-5 2026-10-18
 Type	نوع	claude-sonnet-5-5 2026-10-18
 Type the shortcut…	میانبر را بزنید…	claude-sonnet-5-5 2026-10-18
+UPC-E takes 7 digits, or 8 with the check digit.	UPC-E 7 رقم می‌پذیرد، یا 8 رقم با رقم کنترل.	claude-sonnet-5-5 2026-10-18
 URL	URL	claude-sonnet-5-5 2026-10-18
 URL:	URL:	claude-sonnet-5-5 2026-10-18
 Unavailable	در دسترس نیست	claude-sonnet-5-5 2026-10-18
@@ -1786,6 +1810,7 @@ Unnamed Recipe	دستورالعمل بی‌نام	claude-sonnet-5-5 2026-10-18
 Unreadable registration: click Install	ثبت ناخوانا: روی «نصب» کلیک کنید	claude-sonnet-5-5 2026-10-18
 Unsaved Changes	تغییرات ذخیره‌نشده	claude-sonnet-5-5 2026-10-18
 Unsaved changes	تغییرات ذخیره‌نشده	claude-sonnet-5-5 2026-10-18
+Untitled	بدون عنوان	claude-sonnet-5-5 2026-10-18
 Updated at %@	به‌روز شده در %@	claude-sonnet-5-5 2026-10-18
 Updates	به‌روزرسانی‌ها	claude-sonnet-5-5 2026-10-18
 Upload	بارگذاری	claude-sonnet-5-5 2026-10-18

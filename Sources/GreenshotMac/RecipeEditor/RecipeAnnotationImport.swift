@@ -95,7 +95,7 @@ struct RecipeSelectEditorView: View {
                     List(editors, selection: $selection) { editor in
                         VStack(alignment: .leading, spacing: 2) {
                             Text(editor.title).lineLimit(1)
-                            Text("\(editor.image.width) × \(editor.image.height) px · \(editor.elements.count == 1 ? "1 annotation" : "\(editor.elements.count) annotations")")
+                            Text("\(editor.image.width) × \(editor.image.height) px · \(editor.elements.count == 1 ? String(localized: "1 annotation") : String(localized: "\(editor.elements.count) annotations"))")
                                 .font(.caption).foregroundStyle(.secondary)
                         }
                         .tag(editor.id)

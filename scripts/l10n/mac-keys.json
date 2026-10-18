@@ -388,6 +388,12 @@
    ]
   },
   {
+   "key": "%@ holds at most %lld characters; this is %lld.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
    "key": "%@ holds no recipe.",
    "files": [
     "Sources/GreenshotMac/RecipeEditor/RecipeEditorFiles.swift"
@@ -538,6 +544,18 @@
    ]
   },
   {
+   "key": "%@ takes %lld digits, or %lld with the check digit.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
+   "key": "%@ takes digits only.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
    "key": "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.",
    "files": [
     "Sources/GreenshotMac/App/AIToolsConsentPanel.swift"
@@ -609,6 +627,12 @@
    "key": "%lld %%",
    "files": [
     "Sources/GreenshotMac/Settings/CaptureTab.swift"
+   ]
+  },
+  {
+   "key": "%lld annotations",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
    ]
   },
   {
@@ -706,6 +730,12 @@
    "key": "%lld triggers off",
    "files": [
     "Sources/GreenshotCore/AIToolSetup.swift"
+   ]
+  },
+  {
+   "key": "%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/EditorDiagnostics.swift"
    ]
   },
   {
@@ -842,6 +872,12 @@
    ]
   },
   {
+   "key": "1 annotation",
+   "files": [
+    "Sources/GreenshotMac/RecipeEditor/RecipeAnnotationImport.swift"
+   ]
+  },
+  {
    "key": "1 element can't be shown here: %@.",
    "files": [
     "Sources/GreenshotCore/GreenshotFile.swift"
@@ -878,6 +914,12 @@
    ]
   },
   {
+   "key": "1 trigger was left off when this recipe was approved%@. Review the approval to switch it on.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/EditorDiagnostics.swift"
+   ]
+  },
+  {
    "key": "1 warning",
    "files": [
     "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
@@ -899,6 +941,12 @@
    "key": "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.",
    "files": [
     "Sources/GreenshotMac/Settings/GeneralTab.swift"
+   ]
+  },
+  {
+   "key": "A UPC-E code starts with its number system, 0 or 1.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
    ]
   },
   {
@@ -1006,7 +1054,8 @@
   {
    "key": "AI",
    "files": [
-    "Sources/GreenshotCore/Recipes/ManagerList.swift"
+    "Sources/GreenshotCore/Recipes/ManagerList.swift",
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
    ]
   },
   {
@@ -2065,7 +2114,8 @@
    "key": "BUILT-IN",
    "files": [
     "Sources/GreenshotCore/Recipes/ApprovalSheet.swift",
-    "Sources/GreenshotCore/Recipes/ManagerList.swift"
+    "Sources/GreenshotCore/Recipes/ManagerList.swift",
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
    ]
   },
   {
@@ -3085,6 +3135,36 @@
    "key": "Cloud: email and API token",
    "files": [
     "Sources/GreenshotCore/Settings+Destinations.swift"
+   ]
+  },
+  {
+   "key": "Codabar holds digits and - $ : / . + between its start and stop characters.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
+   "key": "Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
+   "key": "Code 128 holds only ASCII characters (no accents or symbols beyond ASCII).",
+   "files": [
+    "Sources/GreenshotCore/BarcodeGenerator.swift"
+   ]
+  },
+  {
+   "key": "Code 39 holds only ASCII characters.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
+   "key": "Code 93 holds only ASCII characters.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
    ]
   },
   {
@@ -5164,6 +5244,12 @@
    ]
   },
   {
+   "key": "ITF takes an even number of digits; this is %lld.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
    "key": "Identifier",
    "files": [
     "Sources/GreenshotMac/SelfService/SelfServiceIntegrity.swift"
@@ -5491,6 +5577,12 @@
    "key": "It ended with exit code %d.",
    "files": [
     "Sources/GreenshotMac/Output/ExternalCommandRunner.swift"
+   ]
+  },
+  {
+   "key": "It is the beginning of “%@” (%@), which would then never fire.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/HotkeyClashes.swift"
    ]
   },
   {
@@ -7779,6 +7871,12 @@
    ]
   },
   {
+   "key": "Plessey takes digits and the letters A to F.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
    "key": "Pointer",
    "files": [
     "Sources/GreenshotMac/Capture/CaptureOverlayDrawing.swift"
@@ -8031,6 +8129,12 @@
    "key": "RECIPES",
    "files": [
     "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+   ]
+  },
+  {
+   "key": "REPLACES BUILT-IN",
+   "files": [
+    "Sources/GreenshotMac/Settings/RecipesTab.swift"
    ]
   },
   {
@@ -9322,6 +9426,12 @@
    "key": "Saving as %@.",
    "files": [
     "Sources/GreenshotMac/Output/QualityForm.swift"
+   ]
+  },
+  {
+   "key": "Saving asks for your approval: %@",
+   "files": [
+    "Sources/GreenshotCore/Recipes/EditorDiagnostics.swift"
    ]
   },
   {
@@ -10639,6 +10749,12 @@
    ]
   },
   {
+   "key": "The check digit is wrong: the last digit should be %lld.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeGenerator.swift"
+   ]
+  },
+  {
    "key": "The clipboard holds %lld types.",
    "files": [
     "Sources/GreenshotMac/SelfService/SelfServiceClipboard.swift"
@@ -11209,6 +11325,12 @@
    ]
   },
   {
+   "key": "The text is too long for this code.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeGenerator.swift"
+   ]
+  },
+  {
    "key": "The torn edges of this image.",
    "files": [
     "Sources/GreenshotMac/Editor/EditorWindowController+Elements.swift"
@@ -11339,6 +11461,12 @@
    ]
   },
   {
+   "key": "There is nothing to encode.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeGenerator.swift"
+   ]
+  },
+  {
    "key": "There was a problem during the login: %@",
    "files": [
     "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift"
@@ -11456,6 +11584,18 @@
    "key": "This program is not signed by a developer.",
    "files": [
     "Sources/GreenshotCore/AIToolAccess.swift"
+   ]
+  },
+  {
+   "key": "This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/EditorDiagnostics.swift"
+   ]
+  },
+  {
+   "key": "This recipe file isn't approved yet. Greenshot asks for your approval before it runs.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/EditorDiagnostics.swift"
    ]
   },
   {
@@ -11751,6 +11891,12 @@
    ]
   },
   {
+   "key": "UPC-E takes 7 digits, or 8 with the check digit.",
+   "files": [
+    "Sources/GreenshotCore/BarcodeLinear.swift"
+   ]
+  },
+  {
    "key": "URL",
    "files": [
     "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
@@ -11884,6 +12030,12 @@
    "key": "Unsaved changes",
    "files": [
     "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Untitled",
+   "files": [
+    "Sources/GreenshotMac/Editor/EditorManager.swift"
    ]
   },
   {

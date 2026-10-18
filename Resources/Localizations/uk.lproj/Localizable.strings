@@ -175,6 +175,9 @@
 "%@ has problems: %lld to fix before it can run." = "У %@ є проблеми: потрібно виправити %lld, щоб він міг працювати.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@: максимальна кількість символів — %lld; зараз їх %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ не містить рецепта.";
 
 /* machine */
@@ -250,6 +253,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ має відкриватися під час входу, але macOS чекає, поки ви дозволите це в розділі «Елементи входу та розширення».";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ приймає цифр: %lld, або %lld з контрольною цифрою.";
+
+/* machine */
+"%@ takes digits only." = "%@ приймає лише цифри.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ хоче використовувати %@, щоб показувати список ваших вікон, робити знімки екрана та запускати рецепти Greenshot.";
 
 /* machine */
@@ -275,6 +284,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: програму не знайдено";
+
+/* machine */
+"%lld annotations" = "Анотацій: %lld";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld елементів не можна тут показати: %@.";
@@ -323,6 +335,9 @@
 
 /* machine */
 "%lld triggers off" = "Вимкнено тригерів: %lld";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Під час підтвердження цього рецепта вимкненими залишено тригери (%lld)%@. Перегляньте підтвердження, щоб увімкнути їх.";
 
 /* machine */
 "%lld warnings" = "Попереджень: %lld";
@@ -385,6 +400,9 @@
 "0 lines" = "0 рядків";
 
 /* machine */
+"1 annotation" = "1 анотація";
+
+/* machine */
 "1 element can't be shown here: %@." = "Один елемент не можна тут показати: %@.";
 
 /* machine */
@@ -403,10 +421,16 @@
 "1 trigger off" = "1 тригер вимкнено";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Під час підтвердження цього рецепта вимкненим залишено 1 тригер%@. Перегляньте підтвердження, щоб увімкнути його.";
+
+/* machine */
 "1 warning" = "1 попередження";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Піктограма в Dock і місце в ⌘Tab, коли відкрито редактор або параметри; піктограма в рядку меню є завжди, якщо її не приховано нижче. Вимкнено: відкриття редактора з повноекранної програми залишає вас на її Просторі, а не перемикає на робочий стіл.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Код UPC-E починається з системи нумерації: 0 або 1.";
 
 /* externalcommand:ExternalCommand.tooltip_duplicate_name */
 "A command with this name already exists. Please choose a different name." = "Команда з такою назвою вже існує. Будь ласка, оберіть іншу назву.";
@@ -1117,7 +1141,7 @@
 "CC" = "Копія";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Власний";
+"CUSTOM" = "ВЛАСНИЙ";
 
 /* machine */
 "Calendar Event" = "Подія календаря";
@@ -1442,6 +1466,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Хмара: ел. пошта й токен API";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar містить цифри та знаки - $ : / . + між початковим і кінцевим символами.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar починається й закінчується символом A, B, C або D (чи T, N, *, E) або жодним із них.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 містить лише символи ASCII (без діакритичних знаків і символів поза ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 містить лише символи ASCII.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 містить лише символи ASCII.";
 
 /* machine */
 "Code hash" = "Хеш коду";
@@ -2428,6 +2467,9 @@
 "ID" = "Ідентифікатор";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF приймає парну кількість цифр; зараз їх %lld.";
+
+/* machine */
 "Identifier" = "Ідентифікатор";
 
 /* machine */
@@ -2588,6 +2630,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Завершено з кодом виходу %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Це початок «%@» (%@), тому він ніколи б не спрацював.";
 
 /* machine */
 "It runs from %@." = "Запускається з %@.";
@@ -3523,6 +3568,9 @@
 "Other…" = "Інше…";
 
 /* machine */
+"Out" = "Вихід";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: дозволити експорт в елементи зустрічей";
 
 /* machine */
@@ -3664,6 +3712,9 @@
 "Please select how you would like to proceed with this capture:" = "Виберіть, що робити з цим знімком:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey приймає цифри та літери від A до F.";
+
+/* machine */
 "Pointer" = "Курсор";
 
 /* machine */
@@ -3784,7 +3835,10 @@
 "RECIPE CONFIGURATION" = "КОНФІГУРАЦІЯ РЕЦЕПТА";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Рецепти";
+"RECIPES" = "РЕЦЕПТИ";
+
+/* machine */
+"REPLACES BUILT-IN" = "ЗАМІНЮЄ ВБУДОВАНИЙ";
 
 /* machine */
 "Range" = "Діапазон";
@@ -4402,6 +4456,9 @@
 "Saving as %@." = "Збереження як %@.";
 
 /* machine */
+"Saving asks for your approval: %@" = "Для збереження потрібне ваше підтвердження: %@";
+
+/* machine */
 "Saving the Recording…" = "Збереження запису…";
 
 /* machine */
@@ -4459,7 +4516,7 @@
 "Search in:" = "Шукати в:";
 
 /* machine */
-"Search name, id, triggers, file" = "Пошук за назвою, ідентифікатором, тригерами, файлом";
+"Search name, id, triggers, file" = "Пошук: назва, ID, тригери, файл";
 
 /* confluence:Confluence.search_pages */
 "Search pages" = "Пошук сторінок";
@@ -5032,6 +5089,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Змінений рецепт потребує %@, чого його підтвердження ще не дозволяє. Спочатку збережіть його; під час збереження запитується ваше підтвердження.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Контрольна цифра неправильна: остання цифра має бути %lld.";
+
+/* machine */
 "The clipboard holds %lld types." = "У буфері обміну типів: %lld.";
 
 /* machine */
@@ -5314,6 +5374,9 @@
 "The text could not be recognized: %@" = "Не вдалося розпізнати текст: %@";
 
 /* machine */
+"The text is too long for this code." = "Текст задовгий для цього коду.";
+
+/* machine */
 "The torn edges of this image." = "Розірвані краї цього зображення.";
 
 /* machine */
@@ -5376,6 +5439,9 @@
 /* machine */
 "There is no recipe '%@'." = "Рецепта «%@» немає.";
 
+/* machine */
+"There is nothing to encode." = "Немає що кодувати.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Відбулась помилка під час авторизації: %@";
 
@@ -5435,6 +5501,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Ця програма не підписана розробником.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Цей файл рецепта змінено поза Greenshot. Перед запуском Greenshot запитує ваше підтвердження.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Цей файл рецепта ще не підтверджено. Перед запуском Greenshot запитує ваше підтвердження.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Цей рецепт написав інструмент ШІ, а не Greenshot чи ви. Перевірте нижче, що він робить (Greenshot описує його за самим рецептом), і ввімкніть лише ті тригери, які вам потрібні.";
@@ -5577,6 +5649,9 @@
 /* machine */
 "Type the shortcut…" = "Введіть комбінацію…";
 
+/* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E приймає 7 цифр або 8 з контрольною цифрою.";
+
 /* confluence:Confluence.label_url, normalised */
 "URL" = "Посилання";
 
@@ -5639,6 +5714,9 @@
 
 /* machine */
 "Unsaved changes" = "Незбережені зміни";
+
+/* machine */
+"Untitled" = "Без назви";
 
 /* machine */
 "Updated at %@" = "Оновлено о %@";

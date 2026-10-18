@@ -266,18 +266,19 @@ struct RecipeFlyoutView: View {
                     .frame(width: 22)
                     .font(.title3)
                 VStack(alignment: .leading, spacing: 1) {
-                    HStack(spacing: 4) {
-                        Text(tile.title).font(.body.weight(.medium)).lineLimit(1)
-                        if let badge = tile.badge {
-                            Text(badge)
-                                .font(.caption2.weight(.semibold))
-                                .padding(.horizontal, 5)
-                                .padding(.vertical, 1)
-                                .background(Color.orange.opacity(0.25))
-                                .clipShape(Capsule())
+                    // The badge below the title when both don't fit on one line (longer languages).
+                    ViewThatFits(in: .horizontal) {
+                        HStack(spacing: 4) {
+                            Text(tile.title).font(.body.weight(.medium)).lineLimit(1)
+                            badge(tile)
+                        }
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(tile.title).font(.body.weight(.medium)).lineLimit(2).fixedSize(horizontal: false, vertical: true)
+                            badge(tile)
                         }
                     }
-                    Text(tile.subtitle).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                    Text(tile.subtitle).font(.caption).foregroundStyle(.secondary)
+                        .lineLimit(2).fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
             }
@@ -288,6 +289,17 @@ struct RecipeFlyoutView: View {
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(nsColor: .separatorColor)))
         }
         .buttonStyle(.plain)
+    }
+
+    @ViewBuilder private func badge(_ tile: RecipeFlyoutTile) -> some View {
+        if let badge = tile.badge {
+            Text(badge)
+                .font(.caption2.weight(.semibold))
+                .padding(.horizontal, 5)
+                .padding(.vertical, 1)
+                .background(Color.orange.opacity(0.25))
+                .clipShape(Capsule())
+        }
     }
 
     private func fullPreview(_ preview: NSImage) -> some View {

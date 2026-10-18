@@ -69,7 +69,7 @@ extension Snapshots {
         welcome.languageStore = settings
         for step in WelcomeModel.Step.allCases {
             welcome.show(step)
-            try write(window(WelcomeView(model: welcome), size: NSSize(width: 620, height: 520)),
+            try write(window(WelcomeView(model: welcome), size: WelcomeView.windowSize(model: welcome)),
                       to: folder.appendingPathComponent("app-welcome-\(step.rawValue + 1)-\(step).png"))
         }
         let aboutHeight = AboutView.windowHeight()

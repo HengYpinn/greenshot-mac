@@ -169,6 +169,9 @@
 "%@ has problems: %lld to fix before it can run." = "%@ heeft problemen: %lld te verhelpen voordat het kan worden uitgevoerd.";
 
 /* machine */
+"%@ holds at most %lld characters; this is %lld." = "%@ bevat maximaal %lld tekens; dit zijn er %lld.";
+
+/* machine */
 "%@ holds no recipe." = "%@ bevat geen recept.";
 
 /* machine */
@@ -241,6 +244,12 @@
 "%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions." = "%@ moet bij het inloggen worden geopend, maar macOS wacht tot u dit toestaat in Inlogonderdelen en extensies.";
 
 /* machine */
+"%@ takes %lld digits, or %lld with the check digit." = "%@ accepteert %lld cijfers, of %lld met het controlecijfer.";
+
+/* machine */
+"%@ takes digits only." = "%@ accepteert alleen cijfers.";
+
+/* machine */
 "%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes." = "%@ wil %@ gebruiken om uw vensters weer te geven, schermafbeeldingen te maken en Greenshot-recepten uit te voeren.";
 
 /* machine */
@@ -266,6 +275,9 @@
 
 /* machine */
 "%@: the program was not found" = "%@: het programma is niet gevonden";
+
+/* machine */
+"%lld annotations" = "%lld annotaties";
 
 /* machine */
 "%lld elements can't be shown here: %@." = "%lld onderdelen kunnen hier niet worden getoond: %@.";
@@ -305,6 +317,9 @@
 
 /* machine */
 "%lld triggers off" = "%lld triggers uit";
+
+/* machine */
+"%lld triggers were left off when this recipe was approved%@. Review the approval to switch them on." = "Toen dit recept werd goedgekeurd, zijn %lld triggers uitgeschakeld gelaten%@. Bekijk de goedkeuring om ze in te schakelen.";
 
 /* machine */
 "%lld warnings" = "%lld waarschuwingen";
@@ -364,6 +379,9 @@
 "0 lines" = "0 regels";
 
 /* machine */
+"1 annotation" = "1 annotatie";
+
+/* machine */
 "1 element can't be shown here: %@." = "1 onderdeel kan hier niet worden getoond: %@.";
 
 /* machine */
@@ -382,10 +400,16 @@
 "1 trigger off" = "1 trigger uit";
 
 /* machine */
+"1 trigger was left off when this recipe was approved%@. Review the approval to switch it on." = "Toen dit recept werd goedgekeurd, is 1 trigger uitgeschakeld gelaten%@. Bekijk de goedkeuring om hem in te schakelen.";
+
+/* machine */
 "1 warning" = "1 waarschuwing";
 
 /* machine */
 "A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop." = "Een Dock-symbool en een plek in ⌘Tab zolang een beeldbewerker of Instellingen open is; het symbool in de menubalk is er in beide gevallen, tenzij het hieronder is verborgen. Uit: een beeldbewerker openen vanuit een app in volledig scherm blijft in die Space, in plaats van naar het bureaublad te schakelen.";
+
+/* machine */
+"A UPC-E code starts with its number system, 0 or 1." = "Een UPC-E-code begint met het nummersysteem, 0 of 1.";
 
 /* machine */
 "A command with this name already exists. Please choose a different name." = "Er bestaat al een opdracht met deze naam. Kies een andere naam.";
@@ -1075,7 +1099,7 @@
 "Built-in" = "Ingebouwd";
 
 /* pdf:Pdf.page_custom, normalised */
-"CUSTOM" = "Aangepast";
+"CUSTOM" = "AANGEPAST";
 
 /* machine */
 "Calendar Event" = "Agenda-afspraak";
@@ -1394,6 +1418,21 @@
 
 /* machine */
 "Cloud: email and API token" = "Cloud: e-mail en API-token";
+
+/* machine */
+"Codabar holds digits and - $ : / . + between its start and stop characters." = "Codabar bevat cijfers en - $ : / . + tussen het start- en stopteken.";
+
+/* machine */
+"Codabar starts and ends with A, B, C or D (or T, N, *, E), or with neither." = "Codabar begint en eindigt met A, B, C of D (of T, N, *, E), of met geen van beide.";
+
+/* machine */
+"Code 128 holds only ASCII characters (no accents or symbols beyond ASCII)." = "Code 128 bevat alleen ASCII-tekens (geen accenten of symbolen buiten ASCII).";
+
+/* machine */
+"Code 39 holds only ASCII characters." = "Code 39 bevat alleen ASCII-tekens.";
+
+/* machine */
+"Code 93 holds only ASCII characters." = "Code 93 bevat alleen ASCII-tekens.";
 
 /* machine */
 "Code hash" = "Codehash";
@@ -2347,6 +2386,9 @@
 "ICO (icon)" = "ICO (pictogram)";
 
 /* machine */
+"ITF takes an even number of digits; this is %lld." = "ITF accepteert een even aantal cijfers; dit zijn er %lld.";
+
+/* machine */
 "Identifier" = "Identificatie";
 
 /* machine */
@@ -2396,6 +2438,9 @@
 
 /* machine */
 "Imported %lld annotations from %@" = "%lld annotaties geïmporteerd uit %@";
+
+/* machine */
+"In" = "Invoer";
 
 /* machine */
 "In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "Bij Instellingen › Opslaan kiest u de map en het bestandsnaampatroon van opgeslagen schermafbeeldingen.";
@@ -2498,6 +2543,9 @@
 
 /* machine */
 "It ended with exit code %d." = "Het eindigde met afsluitcode %d.";
+
+/* machine */
+"It is the beginning of “%@” (%@), which would then never fire." = "Het is het begin van “%@” (%@), dat dan nooit zou worden geactiveerd.";
 
 /* machine */
 "It runs from %@." = "Het wordt uitgevoerd vanuit %@.";
@@ -3406,6 +3454,9 @@
 "Other…" = "Overige…";
 
 /* machine */
+"Out" = "Uitvoer";
+
+/* machine */
 "Outlook: allow export in meeting items" = "Outlook: export in vergaderonderdelen toestaan";
 
 /* machine */
@@ -3541,6 +3592,9 @@
 "Please select how you would like to proceed with this capture:" = "Kies hoe u met deze opname wilt doorgaan:";
 
 /* machine */
+"Plessey takes digits and the letters A to F." = "Plessey accepteert cijfers en de letters A tot en met F.";
+
+/* machine */
 "Pointer" = "Aanwijzer";
 
 /* machine */
@@ -3661,7 +3715,10 @@
 "RECIPE CONFIGURATION" = "RECEPTCONFIGURATIE";
 
 /* core:Core.contextmenu_recipes, normalised */
-"RECIPES" = "Recepten";
+"RECIPES" = "RECEPTEN";
+
+/* machine */
+"REPLACES BUILT-IN" = "VERVANGT INGEBOUWD";
 
 /* machine */
 "Range" = "Bereik";
@@ -4276,6 +4333,9 @@
 "Saving as %@." = "Opslaan als %@.";
 
 /* machine */
+"Saving asks for your approval: %@" = "Voor het bewaren is uw goedkeuring nodig: %@";
+
+/* machine */
 "Saving the Recording…" = "De opname wordt opgeslagen…";
 
 /* machine */
@@ -4885,6 +4945,9 @@
 "The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval." = "Het gewijzigde recept heeft %@ nodig, wat de goedkeuring ervan nog niet toestaat. Sla het eerst op; bij het opslaan wordt om uw goedkeuring gevraagd.";
 
 /* machine */
+"The check digit is wrong: the last digit should be %lld." = "Het controlecijfer is onjuist: het laatste cijfer moet %lld zijn.";
+
+/* machine */
 "The clipboard holds %lld types." = "Het klembord bevat %lld typen.";
 
 /* machine */
@@ -5167,6 +5230,9 @@
 "The text could not be recognized: %@" = "De tekst kon niet worden herkend: %@";
 
 /* machine */
+"The text is too long for this code." = "De tekst is te lang voor deze code.";
+
+/* machine */
 "The torn edges of this image." = "De rafelige randen van deze afbeelding.";
 
 /* machine */
@@ -5229,6 +5295,9 @@
 /* machine */
 "There is no recipe '%@'." = "Er is geen recept '%@'.";
 
+/* machine */
+"There is nothing to encode." = "Er is niets om te coderen.";
+
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Tijden de login is een fout opgetreden: %@";
 
@@ -5288,6 +5357,12 @@
 
 /* machine */
 "This program is not signed by a developer." = "Dit programma is niet ondertekend door een ontwikkelaar.";
+
+/* machine */
+"This recipe file changed outside Greenshot. Greenshot asks for your approval before it runs." = "Dit receptbestand is buiten Greenshot gewijzigd. Greenshot vraagt om uw goedkeuring voordat het wordt uitgevoerd.";
+
+/* machine */
+"This recipe file isn't approved yet. Greenshot asks for your approval before it runs." = "Dit receptbestand is nog niet goedgekeurd. Greenshot vraagt om uw goedkeuring voordat het wordt uitgevoerd.";
 
 /* machine */
 "This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want." = "Dit recept is geschreven door een AI-tool, niet door Greenshot of door u. Controleer hieronder wat het doet (Greenshot beschrijft het aan de hand van het recept zelf) en schakel alleen de triggers in die u wilt.";
@@ -5419,6 +5494,9 @@
 "Type the shortcut…" = "Typ de sneltoets…";
 
 /* machine */
+"UPC-E takes 7 digits, or 8 with the check digit." = "UPC-E accepteert 7 cijfers, of 8 met het controlecijfer.";
+
+/* machine */
 "Unavailable" = "Niet beschikbaar";
 
 /* machine */
@@ -5474,6 +5552,9 @@
 
 /* machine */
 "Unsaved changes" = "Niet-opgeslagen wijzigingen";
+
+/* machine */
+"Untitled" = "Naamloos";
 
 /* machine */
 "Updated at %@" = "Bijgewerkt om %@";
