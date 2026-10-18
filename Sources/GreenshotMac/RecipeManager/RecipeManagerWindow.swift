@@ -292,29 +292,44 @@ struct RecipeManagerView: View {
                         .frame(width: 240)
                 }
             }
-            HStack(spacing: 8) {
-                Button("Load Recipe…", action: model.loadRecipe)
-                    .help("Load and register a .gsrecipe.json file")
-                Button("New Recipe", action: model.newRecipe)
-                    .help("Create a new capture recipe in the recipe editor")
-                Button("Reload All", action: model.reloadAll)
-                    .help("Reload the configured recipe files from disk")
-                Button("Reset All", action: model.resetAll)
-                    .help("Bring back the built-in version of every recipe a file replaces")
-                    .disabled(!model.anyOverridden)
-                Spacer()
-                Picker("Show", selection: $model.filter) {
-                    ForEach(RecipeManagerFilter.allCases, id: \.self) { filter in
-                        Text(filter.displayName).tag(filter)
-                    }
+            // One row when the buttons fit beside the 400 pt filter, else the filter below the buttons at its full
+            // width (longer languages).
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8) {
+                    actionButtons
+                    Spacer(minLength: 16)
+                    filterPicker.frame(width: 400)
                 }
-                .pickerStyle(.segmented)
-                .labelsHidden()
-                .frame(width: 400)
-                .help("AI: recipes written by AI tools")
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) { actionButtons }
+                    filterPicker.fixedSize()
+                }
             }
         }
         .padding(16)
+    }
+
+    @ViewBuilder private var actionButtons: some View {
+        Button("Load Recipe…", action: model.loadRecipe)
+            .help("Load and register a .gsrecipe.json file")
+        Button("New Recipe", action: model.newRecipe)
+            .help("Create a new capture recipe in the recipe editor")
+        Button("Reload All", action: model.reloadAll)
+            .help("Reload the configured recipe files from disk")
+        Button("Reset All", action: model.resetAll)
+            .help("Bring back the built-in version of every recipe a file replaces")
+            .disabled(!model.anyOverridden)
+    }
+
+    private var filterPicker: some View {
+        Picker("Show", selection: $model.filter) {
+            ForEach(RecipeManagerFilter.allCases, id: \.self) { filter in
+                Text(filter.displayName).tag(filter)
+            }
+        }
+        .pickerStyle(.segmented)
+        .labelsHidden()
+        .help("AI: recipes written by AI tools")
     }
 
     private func groupHeader(_ title: String, note: String?) -> some View {

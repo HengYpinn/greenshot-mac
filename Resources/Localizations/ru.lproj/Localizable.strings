@@ -4453,7 +4453,7 @@
 "Search in:" = "Искать в:";
 
 /* machine */
-"Search name, id, triggers, file" = "Поиск по имени, ID, триггерам, файлу";
+"Search name, id, triggers, file" = "Имя, ID, триггеры, файл";
 
 /* confluence:Confluence.search_pages */
 "Search pages" = "Поиск страниц";

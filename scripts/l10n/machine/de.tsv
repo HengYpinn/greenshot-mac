@@ -1293,7 +1293,7 @@ Screenshot shortcuts of macOS	Screenshot-Tastenkombinationen von macOS	claude-so
 Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Screenshots können alles enthalten, was auf Ihrem Bildschirm sichtbar ist. Fenster ausgeschlossener Programme (standardmäßig Passwortmanager) werden nie geteilt. Beides können Sie unter Einstellungen › KI-Tools ändern.	claude-sonnet-5-5 2026-10-18
 Script: %@	Skript: %@	claude-sonnet-5-5 2026-10-18
 Search Existing Issues	Vorhandene Probleme durchsuchen	claude-sonnet-5-5 2026-10-18
-Search name, id, triggers, file	Name, ID, Auslöser, Datei durchsuchen	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Name, ID, Auslöser, Datei	claude-opus-5-5 2026-10-18
 Search, follow and copy the whole log in the log viewer.	Das gesamte Protokoll in der Protokollanzeige durchsuchen, verfolgen und kopieren.	claude-sonnet-5-5 2026-10-18
 Searched at %@	Gesucht um %@	claude-sonnet-5-5 2026-10-18
 Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	Die Suche auf GitHub nach dieser Kennung hilft, dasselbe Problem nicht doppelt zu melden, und zeigt, ob eine Lösung oder ein Workaround bekannt ist.	claude-sonnet-5-5 2026-10-18
@@ -1868,6 +1868,7 @@ preview: in a corner, at the zoomer, off	Vorschau: in einer Ecke, an der Lupe, a
 previous or next size	vorherige oder nächste Größe	claude-sonnet-5-5 2026-10-18
 recipe	Rezept	claude-sonnet-5-5 2026-10-18
 recipe id	Rezept-ID	claude-sonnet-5-5 2026-10-18
+recipeManager.filter.custom	Eigene	claude-opus-5-5 2026-10-18
 required	erforderlich	claude-sonnet-5-5 2026-10-18
 right %@	rechts %@	claude-sonnet-5-5 2026-10-18
 select a region	einen Bereich wählen	claude-sonnet-5-5 2026-10-18

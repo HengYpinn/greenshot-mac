@@ -1,0 +1,1963 @@
+# Machine translations of Greenshot for Mac (Community) into Turkish (tr-TR): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	"%@" için tarif düzenleyicide kaydedilmemiş değişiklikler var. Çıkmadan önce kaydetmek ister misiniz?	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	"%@" için kaydedilmemiş değişiklikler var. Kaydetmek ister misiniz?	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	"{0}" görüntü dosyasıdır	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	Dosya adı biçimindeki ${NUM}, her dosyada bir artar; başında sıfırlarla altı basamaklıdır.	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@ (derleme %@)	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	%@ %@ mevcut, sizdeki sürüm %@.	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@ (+ web sayfaları)	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@ (devre dışı)	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@ (yerleşik)	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@ (yerleşik) (devre dışı)	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@ (tarifte devre dışı)	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@ (devre dışı)	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@ (harici komut)	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@ (eksik)	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@ (eksik, kamera sesi çalar)	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@ (yüklü değil)	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@ (kapalı)	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@ (kapalı, onaylanmadı)	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@ (bilinmiyor)	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@ (web sayfaları: onaylanmadı)	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	%@ Günlük Görüntüleyici	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mbps	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	%@ Self Servis	claude-sonnet-5-5 2026-10-18
+%@ Settings	%@ Ayarları	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@ dosyasında ayrıca %@ de var. Kaydetmek dosyaya yalnızca "%@" yazar; bu yüzden diğeri dosyadan ve Greenshot'tan kaldırılır.	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@ dosyasında ayrıca %@ de var. Kaydetmek dosyaya yalnızca "%@" yazar; bu yüzden diğerleri dosyadan ve Greenshot'tan kaldırılır.	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ ve %lld tane daha	claude-sonnet-5-5 2026-10-18
+%@ app	%@ uygulaması	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	Rosetta ile çalışan %@ uygulaması	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@ şunu istiyor: %@ “%@” tarifini çalıştırsın. Bu tarif %@ alır.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ şunu istiyor: %@ “%@” tarifini çalıştırsın. Bu tarif bir ekran kaydı alır.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ şunu istiyor: %@ “%@” tarifini çalıştırsın. Bu tarif bir bölgenin ekran görüntüsünü alır.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ şunu istiyor: %@ “%@” tarifini çalıştırsın. Bu tarif bir pencerenin ekran görüntüsünü alır.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ şunu istiyor: %@ “%@” tarifini çalıştırsın. Bu tarif etkin pencerenin ekran görüntüsünü alır.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ şunu istiyor: %@ “%@” tarifini çalıştırsın. Bu tarif son yakalanan bölgenin ekran görüntüsünü alır.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ şunu istiyor: %@ “%@” tarifini çalıştırsın. Bu tarif tüm ekranın ekran görüntüsünü alır.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@ şunu istiyor: %@ bir bölgenin ekran görüntüsünü alsın.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@ şunu istiyor: %@ bir pencerenin ekran görüntüsünü alsın.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@ şunu istiyor: %@ son yakalanan bölgenin ekran görüntüsünü alsın.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@ şunu istiyor: %@ bir bölgedeki metnin ekran görüntüsünü alsın.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@ şunu istiyor: %@ tüm ekranın ekran görüntüsünü alsın.	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ – konum %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@ bunu yapamıyor: sürümü bunu AppleScript ile desteklemiyor (%@).	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@ Greenshot ile %@ yakaladı.	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	Ulaşılamadı: %@	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	%@ dosyası Greenshot dosyası olarak okunamadı.	claude-sonnet-5-5 2026-10-18
+%@ could not be started	%@ başlatılamadı	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	%@ yazılamadı (hedef: %@): %@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@ kaydı açamadı	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@ ekran görüntüsünü açamadı	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@ şu anda yeni sürümü denetleyemedi.	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@ zamanında yanıt vermedi.	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@ henüz oturum açıldığında açılmıyor	claude-sonnet-5-5 2026-10-18
+%@ embedded	%@ gömülü	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@ en son çalıştığında bir hata nedeniyle sona erdi. Sorunun daha önce bildirilip bildirilmediğini kontrol edebilir veya aşağıdaki ayrıntılarla bildirebilirsiniz.	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ başarısız oldu	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ tamamlandı	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@ sorunlu: çalışmadan önce düzeltilmesi gereken %lld sorun var.	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@ hiçbir tarif içermiyor.	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ (%@ içinde)	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ (%@ içinde) – Finder'da göstermek için tıklayın	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@ ayrılmış bir tuştur ve klavye kısayolunda kullanılamaz.	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@ yeni sürümü denetliyor…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@ ücretsiz ve açık kaynaklıdır, gönüllüler tarafından geliştirilmiştir. Size yardımı oluyorsa arkadaşlarınıza da söyleyin.	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@ artık Greenshot'ta yüklü değil.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@ bir tarif dosyası değil. Kaydetmek içeriğini tarifle değiştirir.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@ bir tarif değil:\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	%@ yüklü değil	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	%@ yüklü değil.	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@ ayarlanmamış	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@ ayarlanmamış. Ayarlar › Hedefler bölümünden ekleyin.	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ çalışıyor	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	%@ kuruluşunuz tarafından kapatıldı.	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@ güncel	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@ çalışmıyor ve başlatılamadı.	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@ mikrofonu kullanamaz	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@ ekranı kaydedebilir, dolayısıyla ekran görüntüsü alabilir.	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@ nokta, %@ ölçekte = %@ piksel	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@ en son beklenmedik şekilde kapandı	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ bir hatayla karşılaştı ama çalışmaya devam ediyor. Sorunun daha önce bildirilip bildirilmediğini kontrol edebilir veya aşağıdaki ayrıntılarla bildirebilirsiniz.	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@ bir sorun bildirdi: %@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ komut dosyaları çalıştırır: yalnızca yukarıdaki komut dosyasına izin verilir, %@ tarafından çalıştırılan her komut dosyasına değil.	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ oturum açıldığında açılmalı, ancak macOS bunun için Giriş Öğeleri ve Uzantılar bölümünden izin vermenizi bekliyor.	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@, pencerelerinizi listelemek, ekran görüntüsü almak ve Greenshot tariflerini çalıştırmak için %@ kullanmak istiyor.	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ kırp  ⎋ iptal	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ kes  ⎋ iptal	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – Hata Raporu	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – Finder'da göstermek için tıklayın	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — Tarif Yöneticisi	claude-sonnet-5-5 2026-10-18
+%@: %@	%@: %@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@: %@ – işlemler için tıklayın	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@: URL kopyalandı	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@: program bulunamadı	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%%%lld	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	%lld öğe burada gösterilemiyor: %@.	claude-sonnet-5-5 2026-10-18
+%lld errors	%lld hata	claude-sonnet-5-5 2026-10-18
+%lld found	%lld bulundu	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld fps	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld saat	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kbps	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld dakika	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	Diğer seçimler için %lld parametre daha geçerli.	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	%lld / %lld yakalama	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	%lld / %lld öğe	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	%lld tarif hâlâ çalışıyor	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	%lld tarif yüklenemedi	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld saniye	claude-sonnet-5-5 2026-10-18
+%lld spaces	%lld alan	claude-sonnet-5-5 2026-10-18
+%lld steps	%lld adım	claude-sonnet-5-5 2026-10-18
+%lld triggers off	%lld tetikleyici kapalı	claude-sonnet-5-5 2026-10-18
+%lld warnings	%lld uyarı	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	'%@' adımı '%@' adımından sonra gelemez: akış döngüye girer.	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	'%@' adımı oraya gelemez: akış döngüye girer.	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	'%@' bir başlangıç adımı	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	'%@' artık bir başlangıç adımı değil	claude-sonnet-5-5 2026-10-18
+(%@)	(%@)	claude-sonnet-5-5 2026-10-18
+(Deactivated)	(Devre dışı)	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	(Günlük dosyası boş)	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	(Bölümde günlük girdisi yok)	claude-sonnet-5-5 2026-10-18
+(no stack)	(yığın yok)	claude-sonnet-5-5 2026-10-18
+(no title)	(başlık yok)	claude-sonnet-5-5 2026-10-18
+(nothing yet)	(henüz yok)	claude-sonnet-5-5 2026-10-18
+* (any step)	* (herhangi bir adım)	claude-sonnet-5-5 2026-10-18
+* = all errors	* = tüm hatalar	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ Hata Yedek Rotası Ekle	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ Tetikleyici Ekle	claude-sonnet-5-5 2026-10-18
++ Option	+ Seçenek	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open, /Applications/Preview.app veya PATH içindeki bir ad	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = Tüm Dosyalar	claude-sonnet-5-5 2026-10-18
+0 lines	0 satır	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	1 öğe burada gösterilemiyor: %@.	claude-sonnet-5-5 2026-10-18
+1 error	1 hata	claude-sonnet-5-5 2026-10-18
+1 hour	1 saat	claude-sonnet-5-5 2026-10-18
+1 minute	1 dakika	claude-sonnet-5-5 2026-10-18
+1 step	1 adım	claude-sonnet-5-5 2026-10-18
+1 trigger off	1 tetikleyici kapalı	claude-sonnet-5-5 2026-10-18
+1 warning	1 uyarı	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Bir editör veya Ayarlar açıkken Dock'ta bir simge ve ⌘Tab'da bir yer; menü çubuğu simgesi aşağıda gizlenmedikçe her durumda görünür. Kapalıysa: tam ekran bir uygulamadan editör açmak masaüstüne geçmek yerine aynı Space'te kalır.	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows dosyası: Kaydet yeni bir dosya ister, bu yüzden bu dosya olduğu gibi kalır.	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Bir dosya, yerleşik olanlar dahil diğer tariflere otomatik bir adım eklemek istiyor. Onaylamadan önce hangi tarifleri değiştirdiğini ve neler eklediğini inceleyin.	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	Bir bağlantı ekran görüntüsü almak istedi	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Yeni bir yakalama tarifi dosyası Greenshot'a kaydedilmek istiyor. Onaylamadan önce ayrıntılarını, tetikleyicilerini ve yürütme adımlarını inceleyin.	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Yeni bir yakalama, başka bir pencere açmak yerine kaydedilmemiş değişikliği olmayan bir editördeki ekran görüntüsünün yerini alır.	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	Yeni bir sürüm (%@) mevcut. Yükseltmek bu sorunu zaten çözebilir!	claude-sonnet-5-5 2026-10-18
+A problem while recording	Kayıt sırasında bir sorun oluştu	claude-sonnet-5-5 2026-10-18
+A program	Bir program	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	Bir tarifin başlattığı program, bu Mac'te yapabildiğiniz her şeyi yapabilir.	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	Bir tarif yüklenemedi	claude-sonnet-5-5 2026-10-18
+A recipe is still running	Bir tarif hâlâ çalışıyor	claude-sonnet-5-5 2026-10-18
+A recording is already running.	Bir kayıt zaten çalışıyor.	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	Bir bölge (Boşluk: bir pencere)	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	Görüntünün arkasında yumuşak bir gölge.	claude-sonnet-5-5 2026-10-18
+A window	Bir pencere	claude-sonnet-5-5 2026-10-18
+ACTIVE	ETKİN	claude-sonnet-5-5 2026-10-18
+AI	YZ	claude-sonnet-5-5 2026-10-18
+AI Tool Access	Yapay Zekâ Aracı Erişimi	claude-sonnet-5-5 2026-10-18
+AI Tools	Yapay Zekâ Araçları	claude-sonnet-5-5 2026-10-18
+AI tool	yapay zekâ aracı	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	yapay zekâ aracı “%@”	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	Yapay zekâ araçları (Claude Code, Claude Desktop, VS Code veya Cursor gibi) %@ ile birlikte gelen greenshot-mcp üzerinden bağlanır. Pencerelerinizi listeleyebilir, ekran görüntüsü alabilir ve tariflerinizi çalıştırabilirler. Bu kapalıyken Greenshot her isteği sormadan reddeder. Her program ilk bağlandığında yine de izninize ihtiyaç duyar.	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	YZ: yapay zekâ araçlarının yazdığı tarifler	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	ZATEN ONAYLANDI	claude-sonnet-5-5 2026-10-18
+API token	API belirteci	claude-sonnet-5-5 2026-10-18
+APPROVED	ONAYLANDI	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	OTOMATİK ADIM	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	OTOMATİK ADIMLAR	claude-sonnet-5-5 2026-10-18
+Access	Erişim	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	'%@' etkinleştirildi.	claude-sonnet-5-5 2026-10-18
+Active	Etkin	claude-sonnet-5-5 2026-10-18
+Active: %lld	Etkin: %lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	Ad hoc (sertifikasız: yerel bir derleme)	claude-sonnet-5-5 2026-10-18
+Add	Ekle	claude-sonnet-5-5 2026-10-18
+Add Argument	Parametre Ekle	claude-sonnet-5-5 2026-10-18
+Add Branch	Dal Ekle	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	E-postaya Cc ve Bcc ekle	claude-sonnet-5-5 2026-10-18
+Add Choice	Seçenek Ekle	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	Kesme İşareti Ekle	claude-sonnet-5-5 2026-10-18
+Add Destination	Hedef Ekle	claude-sonnet-5-5 2026-10-18
+Add Emoji	Emoji Ekle	claude-sonnet-5-5 2026-10-18
+Add External Command	Harici Komut Ekle	claude-sonnet-5-5 2026-10-18
+Add Lane	Şerit Ekle	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	Paralel Dal Ekle	claude-sonnet-5-5 2026-10-18
+Add Step	Adım Ekle	claude-sonnet-5-5 2026-10-18
+Add Variable	Değişken Ekle	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	Adım ekle: diğerlerinden sonra basılacak bir tuş, ⌃⌥⌘K, C içindeki C gibi	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	Ayarlar › Hedefler bölümünden bir tane ekleyin.	claude-sonnet-5-5 2026-10-18
+Add the first step	İlk adımı ekle	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	Bu adımı paralel bir giriş noktası olarak ekle	claude-sonnet-5-5 2026-10-18
+Add to Editor	Editöre ekle	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	Editöre ekle – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	Bir nota ekle	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	%@ tetikleyicisi eklendi	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	'%@' seçeneği eklendi: adımlar bunu ${option.%@} ile okur	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	Tarif hata yedek rotası eklendi	claude-sonnet-5-5 2026-10-18
+Added step: %@	Adım eklendi: %@	claude-sonnet-5-5 2026-10-18
+Add…	Ekle…	claude-sonnet-5-5 2026-10-18
+Adjust	Ayarla	claude-sonnet-5-5 2026-10-18
+Adjust…	Ayarla…	claude-sonnet-5-5 2026-10-18
+Advanced	Gelişmiş	claude-sonnet-5-5 2026-10-18
+After a Capture	Yakalamadan Sonra	claude-sonnet-5-5 2026-10-18
+After a capture	Yakalamadan sonra	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	Bir yakalamadan sonra, nereye gittiğini listeleyen bir bildirim görünür. Yakalamayı başka bir yere göndermek için bir saat içinde, yeniden başlatmadan sonra da, ona tıklayın. Odak ve Rahatsız Etme, bildirimleri diğer uygulamalarınki gibi geciktirir.	claude-sonnet-5-5 2026-10-18
+After a recording	Kayıttan sonra	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	Tüm %@ yüklendi.	claude-sonnet-5-5 2026-10-18
+All Lines	Tüm Çizgiler	claude-sonnet-5-5 2026-10-18
+All captures	Tüm yakalamalar	claude-sonnet-5-5 2026-10-18
+All screens	Tüm ekranlar	claude-sonnet-5-5 2026-10-18
+All spaces	Tüm alanlar	claude-sonnet-5-5 2026-10-18
+Allow	İzin Ver	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	%@ için ekran kaydına izin ver	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	%@ için %@ kullanımına izin verilsin mi?	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	Sistem Ayarları › Gizlilik ve Güvenlik › Mikrofon bölümünden izin verin veya mikrofonsuz kaydedin.	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	Bağlantıların ekran görüntüsü almasına izin ver	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	Tarayıcı uzantısının ekran görüntüsü göndermesine izin ver	claude-sonnet-5-5 2026-10-18
+Allow these actions	Bu eylemlere izin ver	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	Bu otomatik adımın bu dosya ve klasörleri okumasına veya yazmasına izin ver	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	Bu otomatik adımın bu Mac'te programlar çalıştırmasına izin ver	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	Bu otomatik adımın yakalamaları internete yüklemesine izin ver	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	Bu tarifin bu dosya ve klasörleri okumasına veya yazmasına izin ver	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	Bu tarifin bu Mac'te programlar çalıştırmasına izin ver	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	Bu tarifin yakalamaları internete yüklemesine izin ver	claude-sonnet-5-5 2026-10-18
+Allowed	İzin verildi	claude-sonnet-5-5 2026-10-18
+Allowed programs	İzin verilen programlar	claude-sonnet-5-5 2026-10-18
+Allow…	İzin ver…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	Güncellemeleri ararken %@ uygulamasının beta sürümlerini de sun.	claude-sonnet-5-5 2026-10-18
+Always	Her zaman	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	Tutar (EUR):	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	Bir Yapay Zekâ Aracı Tarif Öneriyor	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	Bir Yapay Zekâ Aracı Otomatik Adım Öneriyor	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	Bir Yapay Zekâ Aracı Bir Tarifi Değiştirmek İstiyor	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	Bir yapay zekâ aracı Greenshot ile %@ yakaladı.	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	Bir uygulamanın adı veya paket tanımlayıcısı; Return ile eklenir	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	Bir uygulama, örneğin KeePassXC veya com.example.vault	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	Otomatik adımın tetikleyicisi yoktur: genişlettiği tariflerde çalışır.	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	Otomatik adım, değiştirdiği tariflerin içinde çalışır: kaydedin, Ayarlar › Tarifler bölümünde açın ve bu tariflerden birini test edin.	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	Dışa aktarma sırasında hata oluştu (%@): %@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	256'dan az renk kullanan saydamsız bir görüntü 8 bit olarak kaydedilir: aynı resim, daha küçük bir dosyada.	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	Beklenmeyen bir hata oluştu.	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	Greenshot'ın, Windows için ücretsiz ve açık kaynaklı ekran görüntüsü aracının, topluluk tarafından yapılmış resmi olmayan macOS portu. Greenshot ekibiyle veya Mac App Store'daki resmi Greenshot uygulamasıyla bağlantılı değildir.	claude-sonnet-5-5 2026-10-18
+Annotate and export	Ek açıklama ekle ve dışa aktar	claude-sonnet-5-5 2026-10-18
+Annotations	Ek açıklamalar	claude-sonnet-5-5 2026-10-18
+Another Recipe	Başka Bir Tarif	claude-sonnet-5-5 2026-10-18
+Another Tip	Başka Bir İpucu	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Başka bir uygulama bunları kullanıyor olabilir. Ayarlar › Genel bölümünden başkalarını seçin veya tarifin klavye kısayolu tetikleyicisini değiştirin.	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	Her tetikleyici tarifi çalıştırabilir; her birinin kendi anahtarı vardır. Tarifi kendi kendine veya dışarıdan başlatan tetikleyiciler ayrıca onaylanır.	claude-sonnet-5-5 2026-10-18
+App	Uygulama	claude-sonnet-5-5 2026-10-18
+App key	Uygulama anahtarı	claude-sonnet-5-5 2026-10-18
+Appearance	Görünüm	claude-sonnet-5-5 2026-10-18
+Append to the annotations	Ek açıklamalara ekle	claude-sonnet-5-5 2026-10-18
+Application	Uygulama	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	Tarif JSON değişiklikleri uygulandı.	claude-sonnet-5-5 2026-10-18
+Apply Changes	Değişiklikleri Uygula	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	Kesik Kenarları Görüntüye Uygula	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	JSON Değişiklikleri Uygulansın mı?	claude-sonnet-5-5 2026-10-18
+Apply to the Image	Görüntüye Uygula	claude-sonnet-5-5 2026-10-18
+Approve	Onayla	claude-sonnet-5-5 2026-10-18
+Approve & Enable	Onayla ve Etkinleştir	claude-sonnet-5-5 2026-10-18
+Approve & Save	Onayla ve Kaydet	claude-sonnet-5-5 2026-10-18
+Approve Changes	Değişiklikleri Onayla	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	Değişikliklerinizi Onaylayın	claude-sonnet-5-5 2026-10-18
+Approved	Onaylandı	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	Onaylanan SHA-256	claude-sonnet-5-5 2026-10-18
+Approved recipes	Onaylanan tarifler	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	'%@' öğesini varsayılan yerleşik tanımına döndürmek istediğinizden emin misiniz?	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	'%@' öğesinin yüklemesini kaldırmak istediğinizden emin misiniz? %@ içindeki kaydı silinecek.	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	Bölge: %@ (%@) · %@	claude-sonnet-5-5 2026-10-18
+Areas	Bölgeler	claude-sonnet-5-5 2026-10-18
+Arrange	Sırala	claude-sonnet-5-5 2026-10-18
+Arrow	Ok	claude-sonnet-5-5 2026-10-18
+As recorded	Kaydedildiği gibi	claude-sonnet-5-5 2026-10-18
+Ask Again	Yeniden Sor	claude-sonnet-5-5 2026-10-18
+Ask Every Time	Her Seferinde Hedef Sor	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	İlk bildirimle sorulur	claude-sonnet-5-5 2026-10-18
+At most %lld colours	En fazla %lld renk	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	En fazla 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	En fazla 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	Bir sayfaya ekle	claude-sonnet-5-5 2026-10-18
+Attach to an issue	Bir soruna ekle	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	%@ şuna eklendi: %@	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	%@ şuna eklendi: “%@”	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	Otomatik kırp veya kırpma seçiminin satırlarını ya da sütunlarını kes	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	%lld sn içinde otomatik kapanacak...	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	%lld sn içinde varsayılan seçenek otomatik seçilecek...	claude-sonnet-5-5 2026-10-18
+Automatic	Otomatik	claude-sonnet-5-5 2026-10-18
+Automatic Step	Otomatik Adım	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	Otomatik Adım Onayı	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	Otomatik Adım Greenshot Dışında Değiştirildi	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	Otomatik Adım Ayrıntıları	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	Otomatik Adım Dosyası Algılandı	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	Otomatik Adım Kimliği	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	Otomatik Adım JSON	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	Otomatik Adım Değişikliği Algılandı	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	Bir Yapay Zekâ Aracının Önerdiği Otomatik Adım	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	Otomatik Adım İncelemesi	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	Otomatik Adım Doğrulaması Başarısız Oldu	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	Otomatik Adım — Tarif Düzenleyici	claude-sonnet-5-5 2026-10-18
+Automatic Steps	Otomatik Adımlar	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	Otomatik adım (%@), %lld tarife uyar	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	Otomatik adım yapılandırması doğrulamadan geçemedi.	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	Otomatik adım: %@	claude-sonnet-5-5 2026-10-18
+Automatic steps	Otomatik adımlar	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	Yakalamalarınız için kenarlık veya alt yazı gibi otomatik adımlar ve tarifleriniz sunduğu ayarlar. Sonraki yakalamadan itibaren kullanılırlar.	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	Şimdi devreye giren otomatik adımlar (Ayarlar › Tarifler bölümünde açılanlar):	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	Otomatik: en az 1,5 Mbps, büyük veya hızlı videolar için daha fazla. Bir ekran, gösterdiğinden fazla kare vermez.	claude-sonnet-5-5 2026-10-18
+Automation	Otomasyon	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	Birazdan kullanılabilir: bu pencere kendiliğinden açıldı.	claude-sonnet-5-5 2026-10-18
+A–Z	A–Z	claude-sonnet-5-5 2026-10-18
+BCC	Bcc	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC (isteğe bağlı):	claude-sonnet-5-5 2026-10-18
+BUILT-IN	YERLEŞİK	claude-sonnet-5-5 2026-10-18
+BY %@	%@ TARAFINDAN	claude-sonnet-5-5 2026-10-18
+Back	Geri	claude-sonnet-5-5 2026-10-18
+Back to one step	Tek adıma dön	claude-sonnet-5-5 2026-10-18
+Background	Arka plan	claude-sonnet-5-5 2026-10-18
+Background:	Arka plan:	claude-sonnet-5-5 2026-10-18
+Balanced	Dengeli	claude-sonnet-5-5 2026-10-18
+Barcode Format:	Barkod Biçimi:	claude-sonnet-5-5 2026-10-18
+Barcode: %@	Barkod: %@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	Greenshot'ı temel alır, Telif Hakkı © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	%100'ün altında ekran, büyüteçten görünür.	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	Beta sürümü %@ mevcut – indirmek için tıklayın	claude-sonnet-5-5 2026-10-18
+Bit rate	Bit hızı	claude-sonnet-5-5 2026-10-18
+Black and white	Siyah beyaz	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	Siyah beyaz eşiği: %lld	claude-sonnet-5-5 2026-10-18
+Blank	Boş	claude-sonnet-5-5 2026-10-18
+Body:	Gövde:	claude-sonnet-5-5 2026-10-18
+Bottom left	Sol alt	claude-sonnet-5-5 2026-10-18
+Bottom right	Sağ alt	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	Dal %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	Vurgunun çevresindeki alanın parlaklığı, yüzde olarak	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	Görüntünün parlaklığı, karşıtlığı ve gamması.	claude-sonnet-5-5 2026-10-18
+Bring All to Front	Tümünü Öne Getir	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	Bu dosyanın değiştirdiği yerleşik tarifi geri getir	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	Yerleşik sürümü geri getir	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	Bir dosyanın değiştirdiği her tarifin yerleşik sürümünü geri getir	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	Bu tariflerin yerleşik sürümü geri getirilsin mi?	claude-sonnet-5-5 2026-10-18
+Broken: %@	Bozuk: %@	claude-sonnet-5-5 2026-10-18
+Browser extension	Tarayıcı uzantısı	claude-sonnet-5-5 2026-10-18
+Browsers	Tarayıcılar	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	greenshot-mcp'yi derleyin (swift build) veya bir yapay zekâ aracı bağlamak için scripts/build-app.sh ile üretilen uygulamayı kullanın.	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Greenshot'a yerleşik	claude-sonnet-5-5 2026-10-18
+Built-in	Yerleşik	claude-sonnet-5-5 2026-10-18
+CC	Cc	claude-sonnet-5-5 2026-10-18
+Calendar Event	Takvim Etkinliği	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	Takvim Etkinliği (iCal) Ayrıntıları	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	Kamera (macOS)	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	İptal (Esc)	claude-sonnet-5-5 2026-10-18
+Cancel Recording	Kaydı İptal Et	claude-sonnet-5-5 2026-10-18
+Cancel the running one	Çalışanı iptal et	claude-sonnet-5-5 2026-10-18
+Cancelled.	İptal edildi.	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	Tarif test çalıştırılamıyor. Önce doğrulama hatalarını düzeltin:	claude-sonnet-5-5 2026-10-18
+Capture Mode	Yakalama Modu	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	Yakalama Tarifi Yöneticisi	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	Yakalama Tarifi İncelemesi	claude-sonnet-5-5 2026-10-18
+Capture Text	Metni Yakala	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	Greenshot for Mac ile bir pencere yakalayın.	claude-sonnet-5-5 2026-10-18
+Capture clipboard	Panoyu yakala	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	Yakalama akışı başarısız oldu.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	Yakalama bağlantıları kapalı. Ayarlar › Gelişmiş Ayarlar › Otomasyon bölümünden açın.	claude-sonnet-5-5 2026-10-18
+Capture text	Metni yakala	claude-sonnet-5-5 2026-10-18
+Capture the active window	Etkin pencereyi yakala	claude-sonnet-5-5 2026-10-18
+Capture the same region again	Aynı bölgeyi yeniden yakala	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	Tüm ekranı yakala	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	Greenshot for Mac ile tüm ekranı yakalayın.	claude-sonnet-5-5 2026-10-18
+Captures	Yakalamalar	claude-sonnet-5-5 2026-10-18
+Capturing	Yakalama	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	Yakalama tek tuşla yapılır	claude-sonnet-5-5 2026-10-18
+Change count	Değişiklik sayısı	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	Bu otomatik adımın neler yapabileceğini değiştirin. “Olduğu Gibi Bırak” veya pencereyi kapatmak hiçbir şeyi değiştirmez.	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	Bu tarifi hangi tetikleyicilerin başlatabileceğini ve neler yapabileceğini değiştirin. “Olduğu Gibi Bırak” veya pencereyi kapatmak hiçbir şeyi değiştirmez.	claude-sonnet-5-5 2026-10-18
+Changed	Değişti	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	Değişti (#%@): %@	claude-sonnet-5-5 2026-10-18
+Changed Lines	Değişen Satırlar	claude-sonnet-5-5 2026-10-18
+Changed recipes	Değişen tarifler	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	Fikrinizi mi değiştirdiniz? Esc, yakalamayı iptal eder.	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	Değişiklikler (− önce, + sonra)	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	Değişiklikler henüz uygulanmadı	claude-sonnet-5-5 2026-10-18
+Changes other recipes	Diğer tarifleri değiştirir	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	“%@” otomatik adımını değiştirir	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	“%@” tarifini değiştirir	claude-sonnet-5-5 2026-10-18
+Change…	Değiştir…	claude-sonnet-5-5 2026-10-18
+Chart	Grafik	claude-sonnet-5-5 2026-10-18
+Chart and text	Grafik ve metin	claude-sonnet-5-5 2026-10-18
+Check Now	Şimdi Denetle	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	En az bir hedef işaretleyin.	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	Kararsız güncellemeleri denetle (ön sürümler)	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	Güncellemeleri her %lld günde bir denetle	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	Şuraya yazabildiğinizi kontrol edin: %@.	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	Tarif JSON söz diziminde kaçışsız tırnak, sondaki virgül veya eşleşmeyen parantez olup olmadığını kontrol edin.	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	Tarifin 'options' bölümünü kontrol edin: anahtarlar, türler, varsayılanlar ve seçenekler.	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	Kurulumu denetleyin, günlüğü ve sistem bilgilerini okuyun (S)	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	Kurulumu, günlüğü ve sistemi denetleyin: %@	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	Kod imzası denetleniyor…	claude-sonnet-5-5 2026-10-18
+Checking…	Denetleniyor…	claude-sonnet-5-5 2026-10-18
+Checks	Denetimler	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	Kurulum, sistem, klavye kısayolları ve panonun denetimleri ile günlük: %@.	claude-sonnet-5-5 2026-10-18
+Chip	Çip	claude-sonnet-5-5 2026-10-18
+Choices	Seçenekler	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	Bir tarif dosyası (.gsrecipe.json) seçin. Greenshot kullanılmadan önce ne yaptığını gösterir.	claude-sonnet-5-5 2026-10-18
+Choose another one.	Başka birini seçin.	claude-sonnet-5-5 2026-10-18
+Choose folder & format	Klasör ve biçim seç	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	Yakalamadan sonra çalınacak sesi seçin.	claude-sonnet-5-5 2026-10-18
+Choose…	Seç…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome, Edge, Brave: Uzantılar sayfasını açın, Geliştirici modunu açın, Paketlenmemiş öğe yükle'ye tıklayın ve uzantı klasörünü seçin. Firefox 126 veya sonrası: about:debugging › This Firefox › Load Temporary Add-on… ve içinden manifest.json dosyasını seçin. Dosya adlarında sayfanın ${url} ve ${browser} değerleri ile tarayıcının etkin sekmesinin (uzantının sekme takibi) ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} değerleri kullanılabilir.	claude-sonnet-5-5 2026-10-18
+Clear	Temizle	claude-sonnet-5-5 2026-10-18
+Clear Background	Arka Planı Temizle	claude-sonnet-5-5 2026-10-18
+Click	Tıklama	claude-sonnet-5-5 2026-10-18
+Click a QR code	Bir QR koduna tıklayın	claude-sonnet-5-5 2026-10-18
+Click a line	Bir çizgiye tıklayın	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	Bir kısayola tıklayın, ardından yenisini yazın. ⌫ siler, ⎋ iptal eder. + bir adım ekler, ⌃⌥⌘K ardından C gibi kısayollar için (2,5 saniye içinde). Klavye menüsü, bir değiştirici tuşun yalnızca sol veya sağ tuşunda sayılmasını sağlar. F13 tuşu olan klavyeler bunu Print Screen gibi kullanabilir.	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	Geri dönmek için herhangi bir yere tıklayın veya Esc'ye basın	claude-sonnet-5-5 2026-10-18
+Click for more	Daha fazlası için tıklayın	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	Ayarlar için buraya tıklayın.	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	Etkinleştirmek veya devre dışı bırakmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	Tarifi etkinleştirmek için tıklayın	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	Tarifi devre dışı bırakmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Click to open	Açmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Click to open the issue	Sorunu açmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Click to open the page	Sayfayı açmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	Tam önizlemeyi görmek için tıklayın (çıkmak için Esc)	claude-sonnet-5-5 2026-10-18
+Click, Enter	Tıklama, Enter	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	%@ uygulamasının bir bildirimini kapattınız mı? Bildirim Merkezi'nde bekler: tıkladığınızda, %@ kapatılmış olsa bile yakalamanın nereye gideceğini yeniden seçebilirsiniz.	claude-sonnet-5-5 2026-10-18
+Client ID	İstemci Kimliği	claude-sonnet-5-5 2026-10-18
+Client secret	İstemci sırrı	claude-sonnet-5-5 2026-10-18
+Clipart and text	Küçük resim ve metin	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	Küçük resim ve dikey metin	claude-sonnet-5-5 2026-10-18
+Clipboard	Pano	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	Pano izleyici	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	Değişiklikleri olan bir editörü kapatmak, bunları sormadan siler.	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	Bulut siteleri /wiki ile biter.	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	Bulut: e-posta ve API belirteci	claude-sonnet-5-5 2026-10-18
+Code hash	Kod karması	claude-sonnet-5-5 2026-10-18
+Code signature	Kod imzası	claude-sonnet-5-5 2026-10-18
+Color:	Renk:	claude-sonnet-5-5 2026-10-18
+Command line tool	Komut satırı aracı	claude-sonnet-5-5 2026-10-18
+Command line: %@	Komut satırı: %@	claude-sonnet-5-5 2026-10-18
+Command “%@”	“%@” komutu	claude-sonnet-5-5 2026-10-18
+Company:	Şirket:	claude-sonnet-5-5 2026-10-18
+Comparison	Karşılaştırma	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	Günlüğün tamamı yüklendi (%@)	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	Tam günlük: ~%@ satır (%@)	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	Gizli (bir parola yöneticisi, uygulamaların bunu saklamamasını ister)	claude-sonnet-5-5 2026-10-18
+Configure QR…	QR'yi Yapılandır…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	Yapay zekâ aracı bağla	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	'%@' öğesi '%@' öğesine bağlandı	claude-sonnet-5-5 2026-10-18
+Connected as %@.	Bağlı hesap: %@.	claude-sonnet-5-5 2026-10-18
+Content with caption	Alt yazılı içerik	claude-sonnet-5-5 2026-10-18
+Continue At	Şuradan Devam Et	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	'%@' adımından devam eder	claude-sonnet-5-5 2026-10-18
+Contrast:	Karşıtlık:	claude-sonnet-5-5 2026-10-18
+Copied	Kopyalandı	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	%lld satır metin kopyalandı	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	1 satır metin kopyalandı	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	Mermaid DSL panoya kopyalandı.	claude-sonnet-5-5 2026-10-18
+Copied by	Kopyalayan	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	Tüm günlük içeriği panoya kopyalandı (%@ karakter)	claude-sonnet-5-5 2026-10-18
+Copied its output	Çıktısı kopyalandı	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	'%@' tarif kimliği panoya kopyalandı.	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	QR kodunun metni kopyalandı	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	Bütünlük raporu kopyalandı.	claude-sonnet-5-5 2026-10-18
+Copied the path.	Yol kopyalandı.	claude-sonnet-5-5 2026-10-18
+Copied the text	Metin kopyalandı	claude-sonnet-5-5 2026-10-18
+Copied!	Kopyalandı!	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	greenshot-cli'yi /usr/local/bin içine bağlayan bir Terminal komutunu kopyalar.	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	Uzantıyı Application Support içindeki Greenshot klasörüne kopyalar ve gösterir (Paketlenmemiş öğe yükle için).	claude-sonnet-5-5 2026-10-18
+Copy Details	Ayrıntıları Kopyala	claude-sonnet-5-5 2026-10-18
+Copy File Path	Dosya Yolunu Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Install Command	Kurulum Komutunu Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Link	Bağlantıyı Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Log	Günlüğü Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	Mermaid Kodunu Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Path	Yolu Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	Tarif Kimliğini Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	Tarif Kimliğini Panoya Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Report	Raporu Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	Yığın İzini Kopyala	claude-sonnet-5-5 2026-10-18
+Copy System Info	Sistem Bilgisini Kopyala	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	Metni Kopyala (OCR)	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	Paylaşılan bir bağlantıyı panoya kopyala	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	Tüm çıktıyı panoya kopyala	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	Önce bir görüntü kopyalayın, sonra yeniden deneyin.	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	Ekranın resmini panoya kopyala	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	Seçilen alanın resmini panoya kopyala	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	Metni kopyala (OCR)	claude-sonnet-5-5 2026-10-18
+Copy the file path	Dosya yolunu kopyala	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	Çıktıdaki ilk URL'yi panoya kopyala	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	Görüntüyü panoya kopyala (⇧⌘C)	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	Bağlantıyı panoya kopyala	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	Seçili öğeleri kopyala (⌘C)	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	Panoya kopyala	claude-sonnet-5-5 2026-10-18
+Copy “%@”	Kopyala: “%@”	claude-sonnet-5-5 2026-10-18
+Copy: %@	Kopyala: %@	claude-sonnet-5-5 2026-10-18
+Core Destinations	Çekirdek Hedefler	claude-sonnet-5-5 2026-10-18
+Could not be checked	Denetlenemedi	claude-sonnet-5-5 2026-10-18
+Could not check for updates	Güncellemeler denetlenemedi	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	%@ için uzantının bağlantısı kaydedilemedi; günlüğe bakın.	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	%@ için kayıt kaldırılamadı; günlüğe bakın.	claude-sonnet-5-5 2026-10-18
+Countdown	Geri sayım	claude-sonnet-5-5 2026-10-18
+Counter	Rakam	claude-sonnet-5-5 2026-10-18
+Crash reports	Çökme raporları	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	Tarif düzenleyicide yeni bir yakalama tarifi oluştur	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	%@ içinde profiliniz › Kişisel Erişim Belirteçleri altında bir kişisel erişim belirteci oluşturun (Data Center ve Server 8.14 veya sonrası). Anahtar Zinciri'nizde saklanır.	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	Atlassian hesabınız için [id.atlassian.com › Güvenlik › API belirteçleri](https://id.atlassian.com/manage-profile/security/api-tokens) adresinde bir API belirteci oluşturun (tek belirteç hem Jira hem Confluence için çalışır). Anahtar Zinciri'nizde saklanır.	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Yeni bir otomatik adım oluşturuldu: adımlarını Out'tan önce koyun, nereye gideceğini Tarif sekmesinde ayarlayın.	claude-sonnet-5-5 2026-10-18
+Created new recipe.	Yeni tarif oluşturuldu.	claude-sonnet-5-5 2026-10-18
+Custom	Özel	claude-sonnet-5-5 2026-10-18
+Custom size	Özel boyut	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	Kesik Kenar Ayarları	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	Kesik Kenar Ayarları…	claude-sonnet-5-5 2026-10-18
+Cut Mark	Kesme İşareti	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	Seçili Sütunları Kesip Çıkar	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	Seçili Satırları Kesip Çıkar	claude-sonnet-5-5 2026-10-18
+Cut edges	Kesik kenarlar	claude-sonnet-5-5 2026-10-18
+Cut off from %@	Şuradan kes: %@	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	Seçili öğeleri kes (⌘X)	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	DEVRE DIŞI	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	TANILAMA	claude-sonnet-5-5 2026-10-18
+Damaged element	Hasarlı öğe	claude-sonnet-5-5 2026-10-18
+Dark	Koyu	claude-sonnet-5-5 2026-10-18
+Deactivated	Devre dışı	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	'%@' devre dışı bırakıldı.	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	Devre dışı: %lld	claude-sonnet-5-5 2026-10-18
+Decision Required	Karar Gerekli	claude-sonnet-5-5 2026-10-18
+Default	Varsayılan	claude-sonnet-5-5 2026-10-18
+Default (%@)	Varsayılan (%@)	claude-sonnet-5-5 2026-10-18
+Default (Return)	Varsayılan (Return)	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	Varsayılan (Tarif Yedeğini Kullan / Sonlandır)	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	Varsayılan (paralel)	claude-sonnet-5-5 2026-10-18
+Default (system font)	Varsayılan (sistem yazı tipi)	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	Bir adım başarısız olduğunda ne olacağını tanımlayın (ör. pano kilidi, ağ zaman aşımı). Yakalamayı bir yedek adıma veya başka bir tarife yönlendirin.	claude-sonnet-5-5 2026-10-18
+Delete Connection	Bağlantıyı Sil	claude-sonnet-5-5 2026-10-18
+Delete Step	Adımı Sil	claude-sonnet-5-5 2026-10-18
+Delete Trigger	Tetikleyiciyi Sil	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	Seçili öğeleri sil (⌫)	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	'%@' (%@) adımı silindi	claude-sonnet-5-5 2026-10-18
+Description	Açıklama	claude-sonnet-5-5 2026-10-18
+Description:	Açıklama:	claude-sonnet-5-5 2026-10-18
+Destinations	Hedefler	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	Hedefler (%lld)	claude-sonnet-5-5 2026-10-18
+Details	Ayrıntılar	claude-sonnet-5-5 2026-10-18
+Details for the report	Rapor ayrıntıları	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	Bu tarifin ayrıntıları, izinleri ve dosyası	claude-sonnet-5-5 2026-10-18
+Details…	Ayrıntılar…	claude-sonnet-5-5 2026-10-18
+Did you know?	Biliyor muydunuz?	claude-sonnet-5-5 2026-10-18
+Discard	Vazgeç	claude-sonnet-5-5 2026-10-18
+Discard Recording	Kaydı At	claude-sonnet-5-5 2026-10-18
+Display %@	Ekran %@	claude-sonnet-5-5 2026-10-18
+Display Name	Görünen Ad	claude-sonnet-5-5 2026-10-18
+Do nothing	Hiçbir şey yapma	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	“%@” ekran görüntüsünü kaydetmek istiyor musunuz?	claude-sonnet-5-5 2026-10-18
+Don't Allow	İzin Verme	claude-sonnet-5-5 2026-10-18
+Don't Save	Kaydetme	claude-sonnet-5-5 2026-10-18
+Don't ask again	Bir daha sorma	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	Editörü kapatırken kaydetmeyi sorma	claude-sonnet-5-5 2026-10-18
+Double-click	Çift tıklama	claude-sonnet-5-5 2026-10-18
+Download It	İndir	claude-sonnet-5-5 2026-10-18
+Download Update	Güncellemeyi İndir	claude-sonnet-5-5 2026-10-18
+Drag	Sürükle	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	Tutulacak veya kesilip çıkarılacak alanı sürükleyin	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	Ekran görüntüsünü yeni e-postaya sürükleyin	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	Seçili kesik veya yırtık kenarları görüntüye çiz; sonradan değiştirilemezler	claude-sonnet-5-5 2026-10-18
+Drawing	Çizim	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	EPC SEPA Havale Ayrıntıları	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	EPC SEPA Havalesi	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	HATA YÖNETİMİ VE YEDEK	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	Her yapay zekâ aracı greenshot-mcp'yi kendisi başlatır. Yapılandırmasını değiştirdikten sonra yapay zekâ aracını yeniden başlatın veya MCP sunucularını yeniden yükleyin.	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	Her komut kendi başına bir hedeftir (“Harici: ad”). Parametrelerdeki {0}, ekran görüntüsünün dosyasıdır (editörün ekran görüntüsü kaydedilmiş ve değişmemişse kaydedilen dosya); komut ve parametreler dosya adı biçimi değişkenlerini kullanabilir. Programı eksik olan komut hedef menüsünde gösterilmez.	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	Tarifteki her düğümün benzersiz bir 'id' değeri olmalıdır.	claude-sonnet-5-5 2026-10-18
+Edges:	Kenarlar:	claude-sonnet-5-5 2026-10-18
+Edit External Command	Harici Komutu Düzenle	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	QR / Barkodu Düzenle	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	QR / Barkodu Düzenle…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	Tarif Dosyasını Düzenle	claude-sonnet-5-5 2026-10-18
+Edit Text	Metni Düzenle	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	Otomatik adımı tarif düzenleyicide düzenle	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	Kodu canlı önizlemeyle düzenle	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	Editör (“%@”)	claude-sonnet-5-5 2026-10-18
+Editor menu	Editör menüsü	claude-sonnet-5-5 2026-10-18
+Editor windows	Editör pencereleri	claude-sonnet-5-5 2026-10-18
+Effect:	Efekt:	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	Tüm görüntüye efektler (önce gölgenin ve yırtık kenarların ayarlarını değiştirmek için ⌥ tuşunu basılı tutun)	claude-sonnet-5-5 2026-10-18
+Either key	Herhangi bir tuş	claude-sonnet-5-5 2026-10-18
+Element of a newer version	Daha yeni bir sürümün öğesi	claude-sonnet-5-5 2026-10-18
+Ellipse	Elips	claude-sonnet-5-5 2026-10-18
+Email	E-posta	claude-sonnet-5-5 2026-10-18
+Email Message Details	E-posta İletisi Ayrıntıları	claude-sonnet-5-5 2026-10-18
+Email:	E-posta:	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	Göm (Base64)	claude-sonnet-5-5 2026-10-18
+Embed File…	Dosya Göm…	claude-sonnet-5-5 2026-10-18
+Emoji	Emoji	claude-sonnet-5-5 2026-10-18
+Empty log file	Boş günlük dosyası	claude-sonnet-5-5 2026-10-18
+Empty: all text	Boşsa: tüm metin	claude-sonnet-5-5 2026-10-18
+Encryption Type:	Şifreleme Türü:	claude-sonnet-5-5 2026-10-18
+End (UTC):	Bitiş (UTC):	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	Tuvali Genişlet	claude-sonnet-5-5 2026-10-18
+Enter	Enter	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	Ayarlar › Hedefler bölümünde %@ için bir kişisel erişim belirteci girin.	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	Düz metin veya URL girin:	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	Ayarlar › Hedefler bölümünde %@ URL'sini girin.	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	Önce URL'yi girin.	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	Önce e-postayı ve API belirtecini girin.	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	Önce kişisel erişim belirtecini girin.	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	Önce kullanıcı adını ve parolayı girin (veya ilk yüklemede test edin).	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	Ayarlar › Hedefler bölümünde %@ için e-postanızı ve bir API belirteci girin.	claude-sonnet-5-5 2026-10-18
+Error Filter	Hata Filtresi	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	Tarif Yüklenirken Hata	claude-sonnet-5-5 2026-10-18
+Error Routes	Hata Rotaları	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	Önceki bölüm yüklenirken hata: %@	claude-sonnet-5-5 2026-10-18
+Error message	Hata iletisi	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	Günlük dosyası okunurken hata:\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	Hata: %@	claude-sonnet-5-5 2026-10-18
+Errors only	Yalnızca hatalar	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc: Kapat  |  F5: Yenile  |  1–6: Bölümler	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	Her tarif benzersiz bir 'id' ve açıklayıcı bir 'name' özelliği gerektirir.	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	Her şey menü çubuğundaki %@ simgesinin menüsünde de bulunur.	claude-sonnet-5-5 2026-10-18
+Example: %@	Örnek: %@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	Yakalama tarifini Greenshot'ta çalıştır (⌘R)	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	'%@' için test çalıştırması yürütülüyor...	claude-sonnet-5-5 2026-10-18
+Execution Error	Yürütme Hatası	claude-sonnet-5-5 2026-10-18
+Export Capture	Yakalamayı Dışa Aktar	claude-sonnet-5-5 2026-10-18
+Expression	İfade	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	Harici Yakalama Tarifi Algılandı	claude-sonnet-5-5 2026-10-18
+External Command	Harici Komut	claude-sonnet-5-5 2026-10-18
+External command	Harici komut	claude-sonnet-5-5 2026-10-18
+External command %@	Harici komut %@	claude-sonnet-5-5 2026-10-18
+External commands	Harici komutlar	claude-sonnet-5-5 2026-10-18
+External: %@	Harici: %@	claude-sonnet-5-5 2026-10-18
+Extract text from image	Görüntüdeki metni ayıkla	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	Yakalama ekranında F, bu boyutlardan birinde bir alan yakalar; son beş bölge boyutu bunları izler.	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	Yedek Tarif	claude-sonnet-5-5 2026-10-18
+Fallback Step	Yedek Adım	claude-sonnet-5-5 2026-10-18
+File SHA-256	Dosya SHA-256	claude-sonnet-5-5 2026-10-18
+File name counter	Dosya adı sayacı	claude-sonnet-5-5 2026-10-18
+File not found	Dosya bulunamadı	claude-sonnet-5-5 2026-10-18
+Files	Dosyalar	claude-sonnet-5-5 2026-10-18
+Files and Log	Dosyalar ve Günlük	claude-sonnet-5-5 2026-10-18
+Files: %@, …	Dosyalar: %@, …	claude-sonnet-5-5 2026-10-18
+Filter:	Filtre:	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	Görüntüdeki metni bulur ve her eşleşmeyi hâlâ taşıyabileceğiniz veya kaldırabileceğiniz bir öğeyle kapatır.	claude-sonnet-5-5 2026-10-18
+First Name:	Ad:	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	Sabit yakalama boyutları	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Flameshot ekran görüntüsü aracı	claude-sonnet-5-5 2026-10-18
+Flow	Akış	claude-sonnet-5-5 2026-10-18
+Folder	Klasör	claude-sonnet-5-5 2026-10-18
+Folder ID	Klasör Kimliği	claude-sonnet-5-5 2026-10-18
+Font size in points	Yazı tipi boyutu (punto)	claude-sonnet-5-5 2026-10-18
+Footer	Alt bilgi	claude-sonnet-5-5 2026-10-18
+Footer pattern	Alt bilgi biçimi	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	Tarih ve Başlıklı Alt Bilgi	claude-sonnet-5-5 2026-10-18
+Foreground	Ön plan	claude-sonnet-5-5 2026-10-18
+Format	Biçim	claude-sonnet-5-5 2026-10-18
+Format:	Biçim:	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	Başka Bir Tarife Yönlendir…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	Tarife yönlendir	claude-sonnet-5-5 2026-10-18
+Four objects	Dört nesne	claude-sonnet-5-5 2026-10-18
+Frame rate	Kare hızı	claude-sonnet-5-5 2026-10-18
+Freehand	El ile çizim	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	El ile çizimi yumuşatma	claude-sonnet-5-5 2026-10-18
+From	Şuradan	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	.greenshot Dosyasından…	claude-sonnet-5-5 2026-10-18
+From Editor…	Editörden…	claude-sonnet-5-5 2026-10-18
+Full Screen	Tam Ekran	claude-sonnet-5-5 2026-10-18
+Full colour	Tam renkli	claude-sonnet-5-5 2026-10-18
+Full report	Tam rapor	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	Tam ekran klavye kısayolu	claude-sonnet-5-5 2026-10-18
+Gamma:	Gama:	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	Bir uygulama tarafından üretildi, kullanıcı kopyalamadı	claude-sonnet-5-5 2026-10-18
+Geo Location	Coğrafi Konum	claude-sonnet-5-5 2026-10-18
+Geo Location Details	Coğrafi Konum Ayrıntıları	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	GitHub'a ulaşılamadı.	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	Yapay zekâ aracı tetikleyicisine harf, rakam, '_' veya '-' içeren bir 'ToolName' verin.	claude-sonnet-5-5 2026-10-18
+Go Back	Geri Dön	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot (düzenlenebilir)	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Greenshot Son Kullanılanlar	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Greenshot Web Sitesi	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot bu adımları diğer tariflere ekler: bunları adım listesinde Out'tan önce koyun, otomatik adımı Ayarlar › Tarifler bölümünde açın.	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot, Safari ve Chrome'da açık sayfaların adreslerini okuyabilir. macOS, tarayıcı başına bir kez izin verip vermeyeceğinizi sorar.	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot bir Box uygulama anahtarı dağıtamaz, bu yüzden kendinizinkini kaydedin: [Box Developer Console](https://app.box.com/developers/console) içinde Kullanıcı Kimlik Doğrulamalı (OAuth 2.0) bir Özel Uygulama oluşturun, yönlendirme URI'sini `%@` yapın, Write all files kapsamını verin ve istemci kimliğini ve sırrını buraya yapıştırın. Sır ve oturum açma Anahtar Zinciri'nizde saklanır; klasör kimliği, klasörün URL'sindeki sayıdır.	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot bu yakalama tarifini yükleyemedi veya kaydedemedi çünkü yapılandırma hataları içeriyor. Aşağıdaki tanılama ayrıntılarını inceleyin:	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot bu otomatik adımı kullanamadı çünkü hata içeriyor. Aşağıdaki ayrıntıları inceleyin:	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac'te '%@' adlı bir adım yok: parametreleri olduğu gibi korunur.	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot for Mac hazır değil.	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot'un şu uygulamayı denetlemesine izin verilmemiş: %@. Sistem Ayarları › Gizlilik ve Güvenlik › Otomasyon › Greenshot bölümünden izin verin.	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot ekran görüntülerini bu uygulamalara AppleScript ile gönderir; macOS her uygulama için bir kez sorar.	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR, boşluk %@ / %@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML (görüntü gömülü)	claude-sonnet-5-5 2026-10-18
+Hardened runtime	Güçlendirilmiş çalışma zamanı	claude-sonnet-5-5 2026-10-18
+Has its own error route	Kendi hata rotası var	claude-sonnet-5-5 2026-10-18
+Hide %@	%@ Uygulamasını Gizle	claude-sonnet-5-5 2026-10-18
+Hide Icon	Simgeyi Gizle	claude-sonnet-5-5 2026-10-18
+Hide Others	Diğerlerini Gizle	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	Menü çubuğu simgesi gizlensin mi?	claude-sonnet-5-5 2026-10-18
+High frame rate	Yüksek kare hızı	claude-sonnet-5-5 2026-10-18
+High quality	Yüksek kalite	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	Yapışmadan yerleştirmek için ⌥ tuşunu basılı tutun	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	Yatay kaydırma:	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	Yatay dolgu:	claude-sonnet-5-5 2026-10-18
+Hotkey	Klavye kısayolu	claude-sonnet-5-5 2026-10-18
+Hotkey %@	Klavye kısayolu %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	Klavye kısayolları yeniden kaydedildi (bazı tuşlar hâlâ kullanımda).	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	Klavye kısayolları yeniden kaydedildi.	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	Yeniden başlatılana kadar %@ uygulamasının günlüğe ne kadar yazacağı. Hata ayıklama en çok yazar.	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO (simge)	claude-sonnet-5-5 2026-10-18
+ID	Kimlik	claude-sonnet-5-5 2026-10-18
+Identifier	Tanımlayıcı	claude-sonnet-5-5 2026-10-18
+If %@: %@	%@ ise: %@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Bu kendi sunucunuzsa, %@ veya parmak izini Ayarlar › Hedefler › Kendi sunucularınız altına ekleyin.	claude-sonnet-5-5 2026-10-18
+Image	Görüntü	claude-sonnet-5-5 2026-10-18
+Image Quality	Görüntü Kalitesi	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	Görüntü bağlantısı kopyalandı – sayfayı açmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Image size	Görüntü boyutu	claude-sonnet-5-5 2026-10-18
+Import	İçe Aktar	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	Ek Açıklamaları İçe Aktar: %@	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	Greenshot Dosyasından Ek Açıklamaları İçe Aktar	claude-sonnet-5-5 2026-10-18
+Import From This Editor	Bu Editörden İçe Aktar	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	%lld ek açıklama içe aktarıldı: %@	claude-sonnet-5-5 2026-10-18
+In	Giriş	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	Ayarlar › Çıkış bölümünde kaydedilen ekran görüntülerinin klasörünü ve dosya adı biçimini seçersiniz.	claude-sonnet-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	Birkaç adımda yakalamanın nasıl çalıştığını göreceksiniz ve %@ her şeyin iyi kurulduğunu denetler.	claude-sonnet-5-5 2026-10-18
+In parallel	Paralel	claude-sonnet-5-5 2026-10-18
+In the background	Arka planda	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	Pencere modunda seçim, fare altındaki en küçük alanı izler; kenar çubuğu, araç çubuğu veya bir web sayfası bölümü gibi. PgUp ve PgDn daha büyük veya daha küçük bir alan seçer. Erişilebilirlik izni gerekir.	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	~/.codeium/windsurf/mcp_config.json içinde.	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	~/.cursor/mcp.json (tüm projeler) veya .cursor/mcp.json (tek proje) içinde.	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	~/.gemini/config/mcp_config.json içinde (… › MCP Servers › Manage MCP Servers › View raw config), ardından Refresh.	claude-sonnet-5-5 2026-10-18
+Info	Bilgi	claude-sonnet-5-5 2026-10-18
+Information	Bilgi	claude-sonnet-5-5 2026-10-18
+Insert	Ekle	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	QR / Barkod Ekle	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	QR / Barkod Ekle…	claude-sonnet-5-5 2026-10-18
+Insert Step After	Sonrasına Adım Ekle	claude-sonnet-5-5 2026-10-18
+Insert Step Here	Buraya Adım Ekle	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	Microsoft Excel'e ekle	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	Microsoft PowerPoint'e ekle	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	Microsoft Word'e ekle	claude-sonnet-5-5 2026-10-18
+Insert into document	Belgeye ekle	claude-sonnet-5-5 2026-10-18
+Insert into presentation	Sunuya ekle	claude-sonnet-5-5 2026-10-18
+Insert into workbook	Çalışma kitabına ekle	claude-sonnet-5-5 2026-10-18
+Install	Kur	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	Kurun veya Ayarlar › Hedefler bölümünden başka bir hedef seçin.	claude-sonnet-5-5 2026-10-18
+Installed	Kurulu	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	Uygulamanın başka bir kopyası için kurulu	claude-sonnet-5-5 2026-10-18
+Installed version:	Kurulu sürüm:	claude-sonnet-5-5 2026-10-18
+Integrity	Bütünlük	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	Geçersiz JSON söz dizimi veya şeması:\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	Sorun tanımlayıcısı (yığın izi karması)	claude-sonnet-5-5 2026-10-18
+Issue key:	Sorun anahtarı:	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	%d çıkış koduyla sona erdi.	claude-sonnet-5-5 2026-10-18
+It runs from %@.	Şuradan çalışır: %@.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Hemen çalışmayı durdurur ve bir daha yüklenmez. Dosyası olduğu yerde kalır: incelemek ve onaylamak için yeniden içe aktarın.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Hemen çalışmayı durdurur ve bir daha yüklenmez. Dosyası olduğu yerde kalır: incelemek ve onaylamak için yeniden açın.	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	Yeniden adlandırıldı: %@. Greenshot varsayılan ayarlarla başladı.	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	Kaydetmezseniz kaybolacak.	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	Menü çubuğunda.	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	Açıklaması (yapay zekâ aracının sözleri, Greenshot tarafından denetlenmedi):	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	JPEG kalitesi (daha yüksek kalite daha büyük dosya demektir):	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	JPEG kalitesi: %lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	JSON Hatası	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	Tut	claude-sonnet-5-5 2026-10-18
+Keep as Is	Olduğu Gibi Bırak	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	Boyutunu koru, çevresinde siyah çubuklarla	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	Kayıt sırasında Mac'i uyanık tut	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	Pencere yakalamalarında pencere gölgesini koru	claude-sonnet-5-5 2026-10-18
+Key	Anahtar	claude-sonnet-5-5 2026-10-18
+Key %u	Tuş %u	claude-sonnet-5-5 2026-10-18
+Keys	Tuşlar	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	F1–F20 dışındaki tuşlar ⌃, ⌥ veya ⌘ gerektirir.	claude-sonnet-5-5 2026-10-18
+Label	Etiket	claude-sonnet-5-5 2026-10-18
+Lane %lld	Şerit %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	Metnin dili	claude-sonnet-5-5 2026-10-18
+Large object	Büyük nesne	claude-sonnet-5-5 2026-10-18
+Largest value	En büyük değer	claude-sonnet-5-5 2026-10-18
+Last Name:	Soyadı:	claude-sonnet-5-5 2026-10-18
+Last Region	Son Bölge	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	Son denetim: %@. Sürümünüz %@.	claude-sonnet-5-5 2026-10-18
+Last modified: %@	Son değiştirme: %@	claude-sonnet-5-5 2026-10-18
+Later	Daha Sonra	claude-sonnet-5-5 2026-10-18
+Latest release:	Son sürüm:	claude-sonnet-5-5 2026-10-18
+Latitude:	Enlem:	claude-sonnet-5-5 2026-10-18
+Launch at login	Oturum açıldığında başlat	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	Parolayı ilk yüklemede sorulması için boş bırakın; oturum açma penceresi onu Anahtar Zinciri'nizde saklayabilir. Kendi sertifikası olan bir sunucuya Kendi sunucularınız altında güvenilebilir.	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	Sol ve sağ tuşlar Erişilebilirlik izni gerektirir. O zamana kadar bu klavye kısayolu her iki tuşla da çalışır.	claude-sonnet-5-5 2026-10-18
+Left key	Sol tuş	claude-sonnet-5-5 2026-10-18
+Left or right key	Sol veya sağ tuş	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	Sol veya sağ değiştirici tuşlar	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	Sol veya sağ değiştirici tuşlar: ör. yalnızca sağ ⌘	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	Yapay zekâ araçlarının tarif önermesine izin ver	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	Yapay zekâ araçlarının Greenshot'u kullanmasına izin ver	claude-sonnet-5-5 2026-10-18
+Let's Go!	Başlayalım!	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Bu tarayıcıların uzantı için Greenshot'un bağlantısını başlatmasına izin verir (her tarayıcının NativeMessagingHosts klasöründeki bir dosya).	claude-sonnet-5-5 2026-10-18
+Letter	Letter	claude-sonnet-5-5 2026-10-18
+Light	Açık	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Lightshot ekran görüntüsü aracı	claude-sonnet-5-5 2026-10-18
+Line	Çizgi	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	Çizgi kalınlığı (punto; 0: çizgi yok)	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	Bağlantı kopyalandı – açmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Link to the image	Görüntünün bağlantısı	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	greenshotmac://settings?tab=editor gibi bağlantılar pencereleri açar; her web sayfası bir bağlantı açabilir, bu yüzden bağlantılar yalnızca burada izin verildiğinde ekran görüntüsü alır. greenshot-cli, AppleScript, Shortcuts ve Servisler menüsü her zaman yakalama yapabilir.	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	Yakalama Tarifini Yükle: %@	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	Öncekini Yükle (+64 KB)	claude-sonnet-5-5 2026-10-18
+Load Elements…	Öğeleri Yükle…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	Tüm Günlüğü Yükle	claude-sonnet-5-5 2026-10-18
+Load Recipe…	Tarifi Yükle…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	.gsrecipe.json dosyasını yükle ve kaydet	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	Günlüğün önceki 64 KB'ını yükle	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	Yüklendi ve kaydedildi: %@	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	Yüklendi ve kaydedildi: %@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	Yüklenme zamanı: %@	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	Önceki bölüm yüklendi (%@)	claude-sonnet-5-5 2026-10-18
+Loaded: %@	Yüklendi: %@	claude-sonnet-5-5 2026-10-18
+Loading %@…	%@ yükleniyor…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	Alanlar yükleniyor…	claude-sonnet-5-5 2026-10-18
+Location	Konum	claude-sonnet-5-5 2026-10-18
+Location:	Konum:	claude-sonnet-5-5 2026-10-18
+Log	Günlük	claude-sonnet-5-5 2026-10-18
+Log In	Oturum Aç	claude-sonnet-5-5 2026-10-18
+Log Viewer…	Günlük Görüntüleyici…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	Günlük dosyası (%@)	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	Günlük dosyası şu anda şu konumda yok:\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	Günlük dosyası şu anda şu konumda yok: %@	claude-sonnet-5-5 2026-10-18
+Log level	Günlük düzeyi	claude-sonnet-5-5 2026-10-18
+Longitude:	Boylam:	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	Yakalama ekranında QR kodlarını ara	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	Safari ve Chrome'da ara	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	QR kodları aranıyor…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	Açık belgeler aranıyor…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	Açık iletiler aranıyor…	claude-sonnet-5-5 2026-10-18
+Looking…	Aranıyor…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	Düşük Güç Modu	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	Yakalama ekranında M, bunu tek bir yakalama için değiştirir.	claude-sonnet-5-5 2026-10-18
+MCP server	MCP sunucusu	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	DİSKTE DEĞİŞTİRİLDİ	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	H.264 ile MP4 (her yerde oynatılır)	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	HEVC ile MP4 (daha küçük dosyalar)	claude-sonnet-5-5 2026-10-18
+Magnification:	Büyütme:	claude-sonnet-5-5 2026-10-18
+Manual	Elle	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	Başlangıç Adımı Olarak İşaretle	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	Editör penceresi boyutunu yakalamaya uydur	claude-sonnet-5-5 2026-10-18
+Media clip and text	Medya klibi ve metin	claude-sonnet-5-5 2026-10-18
+Memory	Bellek	claude-sonnet-5-5 2026-10-18
+Menu bar icon	Menü çubuğu simgesi	claude-sonnet-5-5 2026-10-18
+Menu entry	Menü öğesi	claude-sonnet-5-5 2026-10-18
+Menus	Menüler	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	İleti:	claude-sonnet-5-5 2026-10-18
+Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office ve Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Minimize	Dock'a Yerleştir	claude-sonnet-5-5 2026-10-18
+Mode	Mod	claude-sonnet-5-5 2026-10-18
+Model	Model	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Monosnap ekran görüntüsü aracı	claude-sonnet-5-5 2026-10-18
+More Emoji…	Daha Fazla Emoji…	claude-sonnet-5-5 2026-10-18
+More…	Daha fazla…	claude-sonnet-5-5 2026-10-18
+Most memory used	En çok kullanılan bellek	claude-sonnet-5-5 2026-10-18
+Mouse	Fare	claude-sonnet-5-5 2026-10-18
+Move Down	Aşağı Taşı	claude-sonnet-5-5 2026-10-18
+Move Up	Yukarı Taşı	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	'%@' aşağı taşındı	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	'%@' yukarı taşındı	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	YENİ OTOMATİK ADIM	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	YENİ TARİF	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	Sistem Ayarları › Gizlilik ve Güvenlik içinde Erişilebilirlik gerekir. O zamana kadar pencere modu tüm pencereleri seçer. Yeniden derlenmiş veya taşınmış bir uygulama kopyasına yeniden izin verilmelidir.	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	Ağ Adı (SSID):	claude-sonnet-5-5 2026-10-18
+Never	Asla	claude-sonnet-5-5 2026-10-18
+Never (switched off)	Asla (kapalı)	claude-sonnet-5-5 2026-10-18
+Never check for updates	Güncellemeleri asla denetleme	claude-sonnet-5-5 2026-10-18
+Never share these applications	Bu uygulamaları asla paylaşma	claude-sonnet-5-5 2026-10-18
+New Automatic Step	Yeni Otomatik Adım	claude-sonnet-5-5 2026-10-18
+New Document	Yeni Belge	claude-sonnet-5-5 2026-10-18
+New Email	Yeni E-posta	claude-sonnet-5-5 2026-10-18
+New Image	Yeni Görüntü	claude-sonnet-5-5 2026-10-18
+New Note	Yeni Not	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	Yeni Outlook komut dosyasıyla yönetilemez: kapatın (Outlook › Legacy Outlook) veya E-Posta gönder… seçeneğini kullanın.	claude-sonnet-5-5 2026-10-18
+New Presentation	Yeni Sunu	claude-sonnet-5-5 2026-10-18
+New Random Edges	Yeni Rastgele Kenarlar	claude-sonnet-5-5 2026-10-18
+New Recipe	Yeni Tarif	claude-sonnet-5-5 2026-10-18
+New Workbook	Yeni Çalışma Kitabı	claude-sonnet-5-5 2026-10-18
+New email attachment	Yeni e-posta eki	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Microsoft Outlook'ta yeni e-posta	claude-sonnet-5-5 2026-10-18
+New image size	Yeni görüntü boyutu	claude-sonnet-5-5 2026-10-18
+New meeting	Yeni toplantı	claude-sonnet-5-5 2026-10-18
+New note in Notes	Notes'ta yeni not	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	Yeni tarif (⌘N)	claude-sonnet-5-5 2026-10-18
+Next	İleri	claude-sonnet-5-5 2026-10-18
+Next number	Sonraki numara	claude-sonnet-5-5 2026-10-18
+No	Hayır	claude-sonnet-5-5 2026-10-18
+No QR code found	QR kodu bulunamadı	claude-sonnet-5-5 2026-10-18
+No Step Selected	Adım Seçilmedi	claude-sonnet-5-5 2026-10-18
+No Windows	Pencere Yok	claude-sonnet-5-5 2026-10-18
+No annotations yet.	Henüz ek açıklama yok.	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	Hiçbir otomatik adım bir tarifi değiştirmiyor; yukarıdan birini açın.	claude-sonnet-5-5 2026-10-18
+No captures	Yakalama yok	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	Tarifin yaptığı işte değişiklik yok (yalnızca adlar veya düzen gibi ayrıntılar).	claude-sonnet-5-5 2026-10-18
+No description provided.	Açıklama verilmedi.	claude-sonnet-5-5 2026-10-18
+No developer signature kept	Geliştirici imzası saklanmadı	claude-sonnet-5-5 2026-10-18
+No external command is set up	Hiçbir harici komut ayarlanmadı	claude-sonnet-5-5 2026-10-18
+No external command is set up.	Hiçbir harici komut ayarlanmadı.	claude-sonnet-5-5 2026-10-18
+No fill	Dolgu yok	claude-sonnet-5-5 2026-10-18
+No folder	Klasör yok	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	Açık bir görüntü editörü yok. Önce bir yakalamayı editörde açın.	claude-sonnet-5-5 2026-10-18
+No mail app is set up	Hiçbir posta uygulaması ayarlanmadı	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	Hiçbir posta uygulaması ayarlanmadı.	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	Bu Confluence'ın hiçbir sayfası Safari veya Chrome'da açık değil.	claude-sonnet-5-5 2026-10-18
+No problems	Sorun yok	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	Henüz izin verilen bir program yok.	claude-sonnet-5-5 2026-10-18
+No recipe	Tarif yok	claude-sonnet-5-5 2026-10-18
+No recipe matches.	Eşleşen tarif yok.	claude-sonnet-5-5 2026-10-18
+No recipe open	Açık tarif yok	claude-sonnet-5-5 2026-10-18
+No recipes from files.	Dosyalardan tarif yok.	claude-sonnet-5-5 2026-10-18
+No recipes loaded	Yüklü tarif yok	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	Henüz tarif yok. Bir tarif dosyası içe aktarın veya tarif düzenleyicide bir tane oluşturun.	claude-sonnet-5-5 2026-10-18
+No spaces	Alan yok	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	Hiçbir başlangıç adımı buraya çıkmıyor: bu adımları "Şuradan Devam Et" ile bağlayın	claude-sonnet-5-5 2026-10-18
+No text found	Metin bulunamadı	claude-sonnet-5-5 2026-10-18
+No text found.	Metin bulunamadı.	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	“%@” ile eşleşen metin yok.	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	Tetikleyici yok: tarif listesinden veya komut satırından	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	Tetikleyici yok: tarif, tarif listesinden, komut satırından veya başka bir tariften çalışır.	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	Tetikleyici yok (yalnızca tarif düzenleyici)	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	Tetikleyici yok: tarif yalnızca tarif yöneticisinden, bir test çalıştırmasından veya başka bir tariften başlar.	claude-sonnet-5-5 2026-10-18
+No, Cancel	Hayır, İptal	claude-sonnet-5-5 2026-10-18
+Nobody	Hiç kimse	claude-sonnet-5-5 2026-10-18
+Node ID	Düğüm Kimliği	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	Hiçbiri bulunamadı (Chrome, Edge, Firefox, Brave, Vivaldi veya Chromium)	claude-sonnet-5-5 2026-10-18
+None set up	Hiçbiri ayarlanmadı	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	Bu adımın bir parametresi değil	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	Düzenli ifade değil: %@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	Greenshot kapanana kadar izin verilmez	claude-sonnet-5-5 2026-10-18
+Not allowed yet	Henüz izin verilmedi	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	Onaylanmamış, onaydan sonra değişmiş veya tetikleyicileri kapalı	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	Kullanılamıyor, iletiler köşede görünür	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	Henüz denetlenmedi. Sürümünüz %@.	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	JPEG için değil. GIF dosyaları her zaman en fazla bu kadar renk alır.	claude-sonnet-5-5 2026-10-18
+Not found next to the app	Uygulamanın yanında bulunamadı	claude-sonnet-5-5 2026-10-18
+Not installed	Kurulu değil	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	Greenshot'ta yüklü değil	claude-sonnet-5-5 2026-10-18
+Not reached	Ulaşılmadı	claude-sonnet-5-5 2026-10-18
+Not registered yet	Henüz kayıtlı değil	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	Kayıtlı değil: başka bir uygulamada var	claude-sonnet-5-5 2026-10-18
+Not running	Çalışmıyor	claude-sonnet-5-5 2026-10-18
+Not saved yet	Henüz kaydedilmedi	claude-sonnet-5-5 2026-10-18
+Not set	Ayarlanmadı	claude-sonnet-5-5 2026-10-18
+Not signed	İmzalı değil	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	Oturum açılmadı: %@. Ayarlar › Hedefler bölümünden oturum açın.	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	Oturum açılmadı; ilk yükleme sorar.	claude-sonnet-5-5 2026-10-18
+Notarized	Notarize edildi	claude-sonnet-5-5 2026-10-18
+Notes	Notes	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	Çalışırken her değişikliği, her 600 ms'de bir not eder: ekran görüntüsünü yapıştırmak çalışmadığında kullanışlıdır.	claude-sonnet-5-5 2026-10-18
+Nothing	Hiçbiri	claude-sonnet-5-5 2026-10-18
+Nothing embedded	Hiçbir şey gömülü değil	claude-sonnet-5-5 2026-10-18
+Nothing found	Hiçbir şey bulunamadı	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	Ekran görüntüsündeki hiçbir şey QR kodu olarak okunamadı.	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	Hiçbir şey kaydedilmiyor.	claude-sonnet-5-5 2026-10-18
+Notification Settings…	Bildirim Ayarları…	claude-sonnet-5-5 2026-10-18
+Notifications	Bildirimler	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	Şimdi %@ × %@ piksel	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	Bir kılavuzun adımlarını editörün Rakam aracıyla numaralandırın.	claude-sonnet-5-5 2026-10-18
+OCR Text	OCR Metni	claude-sonnet-5-5 2026-10-18
+OPTIONS	SEÇENEKLER	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	DİĞER PARAMETRELER	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	GEÇERSİZ KILINDI	claude-sonnet-5-5 2026-10-18
+Object and text	Nesne ve metin	claude-sonnet-5-5 2026-10-18
+Object and two objects	Nesne ve iki nesne	claude-sonnet-5-5 2026-10-18
+Object over text	Metnin üstünde nesne	claude-sonnet-5-5 2026-10-18
+Off	Kapalı	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	Bu uygulama için kapalı: bildirim yok	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	Kapalıyken: “Doğrudan kaydet” bunun yerine ada (2), (3), … ekler.	claude-sonnet-5-5 2026-10-18
+Offset X:	Kaydırma X:	claude-sonnet-5-5 2026-10-18
+Offset Y:	Kaydırma Y:	claude-sonnet-5-5 2026-10-18
+On	Açık	claude-sonnet-5-5 2026-10-18
+On Error / Failure	Hata / Başarısızlık Durumunda	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	Bir Mac'te hiçbir uygulama panoyu kilitleyemez, bu yüzden başka hiçbir uygulama panoyu %@ uygulamasından esirgeyemez.	claude-sonnet-5-5 2026-10-18
+On the clipboard now	Şu anda panoda	claude-sonnet-5-5 2026-10-18
+Once at a time	Aynı anda bir tane	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	Satır başına bir tane: değer veya değer = etiket	claude-sonnet-5-5 2026-10-18
+One screen	Tek ekran	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	Yalnızca yukarıdaki Jira ve Confluence sunucuları için, sertifikasına macOS'in güvenmediği durumlarda; diğer her sunucuda yalnızca macOS denetimleri uygulanır. Satır başına bir ana makine; * ve ? joker karakterdir, bağlantı noktası yok sayılır. Parmak izi tam olarak bir sertifikaya güvenir ve ana makineden daha güvenlidir; sertifika nedeniyle başarısız olan bir yükleme sunucunun parmak izini gösterir. Boş listeler yalnızca macOS denetimlerini kullanır.	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	Yalnızca düz bir sıradaki adımlar taşınabilir.	claude-sonnet-5-5 2026-10-18
+Only when	Yalnızca şu durumda	claude-sonnet-5-5 2026-10-18
+Open	Aç	claude-sonnet-5-5 2026-10-18
+Open %@	Aç: %@	claude-sonnet-5-5 2026-10-18
+Open %@ at login	Oturum açıldığında %@ uygulamasını aç	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	Panoyu Greenshot'ta Aç	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	Greenshot Tarifi Aç	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	Görüntüyü Greenshot'ta Aç	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	Klavye Kısayollarını Aç	claude-sonnet-5-5 2026-10-18
+Open Link	Bağlantıyı Aç	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	Günlük Görüntüleyiciyi Aç	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	Günlük Görüntüleyiciyi Aç…	claude-sonnet-5-5 2026-10-18
+Open Login Items	Giriş Öğelerini Aç	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	Menü Çubuğu Ayarlarını Aç	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	Gizlilik Ayarlarını Aç	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	Self Servisi Aç…	claude-sonnet-5-5 2026-10-18
+Open Settings	Ayarları Aç	claude-sonnet-5-5 2026-10-18
+Open System Settings	Sistem Ayarlarını Aç	claude-sonnet-5-5 2026-10-18
+Open With	Birlikte Aç	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	Bir tarif dosyası aç (⌘O)	claude-sonnet-5-5 2026-10-18
+Open an empty editor	Boş bir editör aç	claude-sonnet-5-5 2026-10-18
+Open file	Dosyayı aç	claude-sonnet-5-5 2026-10-18
+Open in Editor	Editörde Aç	claude-sonnet-5-5 2026-10-18
+Open in another app	Başka bir uygulamada aç	claude-sonnet-5-5 2026-10-18
+Open in the default player	Varsayılan oynatıcıda aç	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	Kaydettikten sonra tarif düzenleyicide aç	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	Son yakalamayı editörde aç	claude-sonnet-5-5 2026-10-18
+Open the Recording With	Kaydı Şununla Aç	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	Ekran Görüntüsünü Şununla Aç	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	Uygulamayı yeniden açın veya Ayarlar için buraya tıklayın.	claude-sonnet-5-5 2026-10-18
+Open the image with another app	Görüntüyü başka bir uygulamada aç	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	Yüklemeden sonra sayfayı aç	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	Tarifi tarif düzenleyicide aç	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	Tarif yöneticisini aç (⇧⌘M)	claude-sonnet-5-5 2026-10-18
+Open with	Birlikte aç	claude-sonnet-5-5 2026-10-18
+Open with %@	%@ ile aç	claude-sonnet-5-5 2026-10-18
+Open with…	Birlikte aç…	claude-sonnet-5-5 2026-10-18
+Open: %@	Aç: %@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	%@ açıldı; Greenshot'ta yüklü değil.	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	Klavye ayarları açıldı.	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	Günlük görüntüleyici açıldı.	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	Bir görüntüyü Greenshot for Mac editöründe açar.	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	Panodaki görüntüyü Greenshot for Mac editöründe açar.	claude-sonnet-5-5 2026-10-18
+Open…	Aç…	claude-sonnet-5-5 2026-10-18
+Optional	İsteğe bağlı	claude-sonnet-5-5 2026-10-18
+Options	Seçenekler	claude-sonnet-5-5 2026-10-18
+Options (%lld)	Seçenekler (%lld)	claude-sonnet-5-5 2026-10-18
+Order	Sıra	claude-sonnet-5-5 2026-10-18
+Orgchart	Organizasyon şeması	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	Diğer ekran yakalama uygulamaları	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	Aksi halde (%@)	claude-sonnet-5-5 2026-10-18
+Other…	Diğer…	claude-sonnet-5-5 2026-10-18
+Out	Out	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook: yeni e-postalar için e-posta biçimi	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	Aynı ada sahip bir dosyanın üzerine yaz	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	YZ TARAFINDAN ÖNERİLDİ	claude-sonnet-5-5 2026-10-18
+Page	Sayfa	claude-sonnet-5-5 2026-10-18
+Parallel	Paralel	claude-sonnet-5-5 2026-10-18
+Parallel start	Paralel başlangıç	claude-sonnet-5-5 2026-10-18
+Parameters	Parametreler	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	Yapıştır (⌘V)	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	Markdown'a, GitHub README dosyalarına veya çekme isteklerine yapıştırın.	claude-sonnet-5-5 2026-10-18
+Path	Yol	claude-sonnet-5-5 2026-10-18
+Pattern variables	Biçim değişkenleri	claude-sonnet-5-5 2026-10-18
+Pause Recording	Kaydı Duraklat	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	Ekran kilitliyken duraklat	claude-sonnet-5-5 2026-10-18
+Permissions	İzinler	claude-sonnet-5-5 2026-10-18
+Permissions…	İzinler…	claude-sonnet-5-5 2026-10-18
+Personal access token	Kişisel erişim belirteci	claude-sonnet-5-5 2026-10-18
+Phone Call	Telefon Araması	claude-sonnet-5-5 2026-10-18
+Phone Call Details	Telefon Araması Ayrıntıları	claude-sonnet-5-5 2026-10-18
+Phone Number:	Telefon Numarası:	claude-sonnet-5-5 2026-10-18
+Phone:	Telefon:	claude-sonnet-5-5 2026-10-18
+Picture with caption	Alt yazılı resim	claude-sonnet-5-5 2026-10-18
+Pictures	Resimler	claude-sonnet-5-5 2026-10-18
+Play the camera sound	Kamera sesini çal	claude-sonnet-5-5 2026-10-18
+Play the sound	Sesi çal	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	Lütfen bir telefon numarası girin.	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	Barkodu oluşturmak için lütfen bir değer girin.	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	Lütfen kişi adını veya ayrıntılarını girin.	claude-sonnet-5-5 2026-10-18
+Please enter event title.	Lütfen etkinlik başlığını girin.	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	Lütfen enlem ve boylam koordinatlarını girin.	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	Lütfen ağ adını (SSID) girin.	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	Lütfen alıcının e-posta adresini girin.	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	Lütfen alıcının adını ve IBAN'ını girin.	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	Lütfen alıcı numarasını girin.	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	Lütfen bir metin veya URL girin.	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	Lütfen bu yakalamayla nasıl devam etmek istediğinizi seçin:	claude-sonnet-5-5 2026-10-18
+Pointer	İmleç	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Açık pencereleri yakala içinde bir pencereyi işaret etmek onun resmini gösterir. Ekran kaydı izni gerekir.	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	Eksik bir uygulamayı işaret ediyor: Kur'a tıklayın	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint beklenmeyen bir yanıt verdi: %@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint: görüntünün en boy oranını kilitle	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint: dışa aktarılan yakalamalar için slayt düzeni	claude-sonnet-5-5 2026-10-18
+Preset	Hazır ayar	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	Yakalamak için %@ tuşuna basın.	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	Bölümler arasında geçmek için 1–6, yenilemek için F5 tuşuna basın.	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	Kullanabileceğiniz tüm tuşları görmek için yakalarken F1 veya H tuşuna basın.	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	Ekran görüntüsünde fare imlecini göstermek veya gizlemek için yakalarken M tuşuna basın.	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	Başlamak için İleri'ye basın veya bu pencereyi istediğiniz zaman Esc ile kapatın.	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	Piksel hassasiyetinde seçimler için büyüteci göstermek veya gizlemek üzere yakalarken Z tuşuna basın.	claude-sonnet-5-5 2026-10-18
+Preview	Önizleme	claude-sonnet-5-5 2026-10-18
+Print a footer	Alt bilgi yazdır	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	Sayfanın altına tarih / saat ve başlık yazdır	claude-sonnet-5-5 2026-10-18
+Print in	Şu modda yazdır	claude-sonnet-5-5 2026-10-18
+Print – %@	Yazdır – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	Yazdır… (⌘P)	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	Gizlilik Ayarları…	claude-sonnet-5-5 2026-10-18
+Program not found	Program bulunamadı	claude-sonnet-5-5 2026-10-18
+Program: %@	Program: %@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	Bir yapay zekâ aracı tarafından önerildi	claude-sonnet-5-5 2026-10-18
+QR Code	QR Kodu	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	QR Kodu İşlemleri…	claude-sonnet-5-5 2026-10-18
+QR Type:	QR Türü:	claude-sonnet-5-5 2026-10-18
+QR code actions	QR kodu işlemleri	claude-sonnet-5-5 2026-10-18
+QR code: %@	QR kodu: %@	claude-sonnet-5-5 2026-10-18
+Quality	Kalite	claude-sonnet-5-5 2026-10-18
+Quarantined	Karantinada	claude-sonnet-5-5 2026-10-18
+Quick settings	Hızlı ayarlar	claude-sonnet-5-5 2026-10-18
+Quit %@	%@ Uygulamasından Çık	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	Bu kopyayı başlatmak için önce onu kapatın.	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	TARİF YAPILANDIRMASI	claude-sonnet-5-5 2026-10-18
+Range	Aralık	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	Ham Metin veya URL Ayrıntıları	claude-sonnet-5-5 2026-10-18
+Read error	Okuma hatası	claude-sonnet-5-5 2026-10-18
+Read the QR code	QR kodunu oku	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	Günlüğü yeniden oku (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	Bu bölümü yeniden oku (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Recent	Son kullanılanlar	claude-sonnet-5-5 2026-10-18
+Recent issues	Son sorunlar	claude-sonnet-5-5 2026-10-18
+Recently captured	Son yakalananlar	claude-sonnet-5-5 2026-10-18
+Recipe	Tarif	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	Tarif Greenshot Dışında Değiştirildi	claude-sonnet-5-5 2026-10-18
+Recipe Details	Tarif Ayrıntıları	claude-sonnet-5-5 2026-10-18
+Recipe Editor	Tarif Düzenleyici	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	Tarif Düzenleyici…	claude-sonnet-5-5 2026-10-18
+Recipe ID	Tarif Kimliği	claude-sonnet-5-5 2026-10-18
+Recipe JSON	Tarif JSON	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	Tarif Yöneticisi…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	Tarif Değişikliği Algılandı	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	Tarif Yüklenmedi	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	Tarif Kaydedilmedi	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	Tarif İzinleri	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	Bir Yapay Zekâ Aracının Önerdiği Tarif	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	Tarif Güvenlik Onayı	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	Tarif Güvenlik İncelemesi	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	Tarif Doğrulaması Başarısız Oldu	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	Tarif yapılandırması doğrulamadan geçemedi.	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	Tarif içeriği kullanılamıyor.	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	Tarif yürütülürken bir hata oluştu:	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	Tarif dosyası önizleme için çok büyük (> 1 MB).	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	Tarif dosyaları %@ ile biter, bu yüzden tarif %@ olarak kaydedilir.	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	Tarif klavye kısayolları kaydedilmedi	claude-sonnet-5-5 2026-10-18
+Recipe imported	Tarif içe aktarıldı	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	Tarif “%@”	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	Tarif “%@” (%@)	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	Tarif “%@” başarısız oldu	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	Tarifler şu anda Greenshot'ta çalışmıyor, bu yüzden tarif kaydedilemiyor.	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	Tarifler şu anda Greenshot'ta çalışmıyor.	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	Dosyalardan gelen tarifler (yapay zekâ araçlarının yazdıkları da dahil) ve bunlar için onayladıklarınız. Buradaki değişiklikler hemen geçerli olur.	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	Tarifler menüsü (varsayılan)	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	Tarifler menüsü (“%@”)	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	Tarifler yönlendirilmiş döngüsüz bir grafik (DAG) oluşturmalıdır. Geçişlerin ve yedeklerin önceki düğümlere geri dönmediğinden emin olun.	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	Tarifler bir yakalamayı, bir klavye kısayolu, menü girdisi, pano, Birlikte Aç veya komut satırı ile başlatılan bir dizi adım olarak çalıştırır. Bir tarif dosyası yalnızca ne yaptığını onayladıktan sonra kullanılır.	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	Tarifler: kimlikler, * (yuvası olan her tarif) veya *capture, virgülle ayrılmış	claude-sonnet-5-5 2026-10-18
+Recipient Number:	Alıcı Numarası:	claude-sonnet-5-5 2026-10-18
+Recipient:	Alıcı:	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	Yakalama ekranı açılır açılmaz metni tanı	claude-sonnet-5-5 2026-10-18
+Recognising text…	Metin tanınıyor…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	Metin tanınıyor…	claude-sonnet-5-5 2026-10-18
+Record	Kayıt	claude-sonnet-5-5 2026-10-18
+Record Region…	Bölgeyi Kaydet…	claude-sonnet-5-5 2026-10-18
+Record Screen	Ekranı Kaydet	claude-sonnet-5-5 2026-10-18
+Record Window…	Pencereyi Kaydet…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	Mikrofonsuz Kaydet	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	Fare imlecini kaydet	claude-sonnet-5-5 2026-10-18
+Recording	Kayıt	claude-sonnet-5-5 2026-10-18
+Recording starts	Kayıt başlıyor	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	Kaydediliyor. Durdurmak için tıklayın; duraklatmak veya atmak için ⌃-tıklayın.	claude-sonnet-5-5 2026-10-18
+Rectangle	Dikdörtgen	claude-sonnet-5-5 2026-10-18
+Redo	Yinele	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	Yinele (⇧⌘Z veya ⌘Y)	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	Yinele (⇧⌘Z)	claude-sonnet-5-5 2026-10-18
+Redone	Yinelendi	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	Renk sayısını en çok şu değere düşür: %lld	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	Renk sayısını azalt	claude-sonnet-5-5 2026-10-18
+Reference:	Referans:	claude-sonnet-5-5 2026-10-18
+Refresh	Yenile	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	Bu yapı için reddedildi, iletiler köşede görünür	claude-sonnet-5-5 2026-10-18
+Region	Bölge	claude-sonnet-5-5 2026-10-18
+Register Again	Yeniden Kaydet	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	Klavye kısayollarını macOS'a yeniden kaydet, ör. başka bir uygulama bir tuşu geri verdikten sonra	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	Kendi Box uygulamanızı kaydedin ve istemci kimliğini ve sırrını Ayarlar › Hedefler bölümüne girin.	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	Kendi Dropbox uygulamanızı kaydedin ve uygulama anahtarını Ayarlar › Hedefler bölümüne girin.	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	Kendi uygulamanızı [Dropbox App Console](https://www.dropbox.com/developers/apps) içinde kaydedin: Kapsamlı erişim, Uygulama klasörü veya Tam Dropbox, files.content.write, sharing.write ve sharing.read izinleri ve `%@` yönlendirme URI'si. Uygulama anahtarını buraya yapıştırın; sır gerekmez. Oturum açma Anahtar Zinciri'nizde saklanır.	claude-sonnet-5-5 2026-10-18
+Registered	Kayıtlı	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	Kayıtlı, ancak önce macOS alıyor (%@)	claude-sonnet-5-5 2026-10-18
+Reject / Block	Reddet / Engelle	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	%@ yeniden başlatılsın mı? Dil: %@	claude-sonnet-5-5 2026-10-18
+Relaunch Now	Şimdi Yeniden Başlat	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	Yeniden başlat (%@)	claude-sonnet-5-5 2026-10-18
+Reload All	Tümünü Yeniden Yükle	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	Yapılandırılmış tarif dosyalarını diskten yeniden yükle	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	Tarifler diskten yeniden yüklendi.	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	Anahtar Zinciri'nde hatırla	claude-sonnet-5-5 2026-10-18
+Remove	Kaldır	claude-sonnet-5-5 2026-10-18
+Remove %@	Kaldır: %@	claude-sonnet-5-5 2026-10-18
+Remove Start Step	Başlangıç Adımını Kaldır	claude-sonnet-5-5 2026-10-18
+Remove the option	Seçeneği kaldır	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	Tarifi Greenshot'tan kaldır	claude-sonnet-5-5 2026-10-18
+Remove this error route	Bu hata rotasını kaldır	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	Bu adımı başlangıç adımlarından kaldır	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	Kaldır: program bir sonraki bağlanışında yeniden sorulur.	claude-sonnet-5-5 2026-10-18
+Removed an option	Bir seçenek kaldırıldı	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	Tarif hata yedek rotası kaldırıldı	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	'%@' bağlantısı kaldırıldı	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	Adım kimliği yeniden adlandırıldı: '%@' → '%@'	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	Son oturum kapatma veya yeniden başlatmadan sonra yeniden açıldı, henüz kaydedilmedi.	claude-sonnet-5-5 2026-10-18
+Replace	Değiştir	claude-sonnet-5-5 2026-10-18
+Replace File	Dosyayı Değiştir	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	Tarif Olmayan Bir Dosya Değiştirilsin mi?	claude-sonnet-5-5 2026-10-18
+Replace the annotations	Ek açıklamaların yerine koy	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	Yerleşik “%@” otomatik adımının yerini alır	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	Yerleşik “%@” tarifinin yerini alır	claude-sonnet-5-5 2026-10-18
+Report	Rapor	claude-sonnet-5-5 2026-10-18
+Report a bug	Hata bildir	claude-sonnet-5-5 2026-10-18
+Report an Issue…	Sorun Bildir…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	GitHub'da Bildir…	claude-sonnet-5-5 2026-10-18
+Required	Gerekli	claude-sonnet-5-5 2026-10-18
+Reset	Sıfırla	claude-sonnet-5-5 2026-10-18
+Reset All	Tümünü Sıfırla	claude-sonnet-5-5 2026-10-18
+Reset All to Default	Tümünü Varsayılana Sıfırla	claude-sonnet-5-5 2026-10-18
+Reset Default	Varsayılanı Sıfırla	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	Tarifi Varsayılana Sıfırla	claude-sonnet-5-5 2026-10-18
+Reset to Default	Varsayılana Sıfırla	claude-sonnet-5-5 2026-10-18
+Reset to defaults	Varsayılanlara sıfırla	claude-sonnet-5-5 2026-10-18
+Resize	Yeniden boyutlandır	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	Görüntüyü yeniden boyutlandır (⌥⌘R)	claude-sonnet-5-5 2026-10-18
+Resize…	Yeniden Boyutlandır…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	Greenshot beklenmedik şekilde kapandıktan sonra geri yüklendi, henüz kaydedilmedi.	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	Geri yüklendi, henüz kaydedilmedi.	claude-sonnet-5-5 2026-10-18
+Resume Recording	Kayda Devam Et	claude-sonnet-5-5 2026-10-18
+Retry	Yeniden Dene	claude-sonnet-5-5 2026-10-18
+Revert	Eski Haline Döndür	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	'%@' varsayılan yerleşik tanımına döndürülsün mü?	claude-sonnet-5-5 2026-10-18
+Review approval…	Onayı incele…	claude-sonnet-5-5 2026-10-18
+Review…	İncele…	claude-sonnet-5-5 2026-10-18
+Revoke	Geri Çek	claude-sonnet-5-5 2026-10-18
+Revoke Approval	Onayı Geri Çek	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	Onayı Geri Çek…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	“%@” onayı geri çekilsin mi?	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	“%@” onayı geri çekilsin mi? Hemen çalışmayı durdurur ve bir daha yüklenmez. Dosyası olduğu yerde kalır: incelemek ve onaylamak için yeniden açın.	claude-sonnet-5-5 2026-10-18
+Right key	Sağ tuş	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	Sağ tık veya ⌃-tık menüyü gösterir. Çift tıklama eylemi varsa, bir tık önce çift tıklama süresini bekler.	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	Saat Yönünde Döndür	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	Saat Yönünün Tersine Döndür	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	Saat yönünde döndür (⌥⌘→)	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	Saat yönünün tersine döndür (⌥⌘←)	claude-sonnet-5-5 2026-10-18
+Rounded Dots	Yuvarlak Noktalar	claude-sonnet-5-5 2026-10-18
+Route To	Şuraya Yönlendir	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	Bu Tarifteki Adıma Yönlendir…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	"MCP: Add Server" (Command (stdio)) komutunu çalıştırın veya çalışma alanının .vscode/mcp.json dosyasına ekleyin.	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	Görüntüyle harici bir komut çalıştır	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	Arka planda çalıştır (hatalar pencere olarak değil, ileti olarak gösterilir)	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	Terminal'de çalıştırın (--scope user: tüm projelerde). claude mcp list veya /mcp ile denetleyin.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	Terminal'de çalıştırın veya ~/.codex/config.toml dosyasına command = yol olacak şekilde [mcp_servers.greenshot] ekleyin.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	Terminal'de çalıştırın veya mcpServers girdisini ~/.gemini/settings.json dosyasına ekleyin. /mcp ile denetleyin.	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	Yakalama tarifini şimdi çalıştır	claude-sonnet-5-5 2026-10-18
+Running	Çalışıyor	claude-sonnet-5-5 2026-10-18
+Running for	Çalışma süresi	claude-sonnet-5-5 2026-10-18
+Runs	Çalışır	claude-sonnet-5-5 2026-10-18
+Runs as	Şu olarak çalışır	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 veya SHA-1, ör. 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	SMS	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	SMS Kısa Mesaj Ayrıntıları	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	ADIM HATA YÖNETİMİ	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	ADIM PARAMETRELERİ	claude-sonnet-5-5 2026-10-18
+Same as macOS	macOS ile aynı	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	macOS ile aynı (%@)	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	Kısayolunuzla aynı tuşlar	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	Kaydet (⌘S)	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	Kaydet (⌘S); Farklı Kaydet ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	Farklı kaydet… (⇧⌘S)	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	Otomatik Adımı Farklı Kaydet…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	Test Çalıştırmasından Önce Kaydet	claude-sonnet-5-5 2026-10-18
+Save Changes	Değişiklikleri Kaydet	claude-sonnet-5-5 2026-10-18
+Save Directly	Doğrudan Kaydet	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	Doğrudan Kaydet (%@)	claude-sonnet-5-5 2026-10-18
+Save Elements…	Öğeleri Kaydet…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	Greenshot Tarifini Farklı Kaydet…	claude-sonnet-5-5 2026-10-18
+Save Recipe	Tarifi Kaydet	claude-sonnet-5-5 2026-10-18
+Save Screenshot	Ekran Görüntüsünü Kaydet	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	Ekran Görüntüsünü PDF Olarak Kaydet	claude-sonnet-5-5 2026-10-18
+Save and Run	Kaydet ve Çalıştır	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	Greenshot Dosyası Olarak Kaydet	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	Greenshot Dosyası Olarak Kaydet…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	PDF belgesi olarak kaydet	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	Kaydet yeni bir dosya ister, bu yüzden bu dosya bunları korur.	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	Ekranın resmini dosya olarak kaydet	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	Seçilen alanın resmini dosya olarak kaydet	claude-sonnet-5-5 2026-10-18
+Save to File	Dosyaya Kaydet	claude-sonnet-5-5 2026-10-18
+Save to folder	Klasöre kaydet	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	Görüntüde daha az renk varsa 256 renkle kaydet	claude-sonnet-5-5 2026-10-18
+Saved %@	Kaydedildi: %@	claude-sonnet-5-5 2026-10-18
+Saved file	Kaydedilen dosya	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	Tarif kaydedildi: %@	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	Kaydetmek Diğer Tarifleri Değiştirir	claude-sonnet-5-5 2026-10-18
+Saving as %@.	Kaydediliyor: %@.	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	Kayıt Kaydediliyor…	claude-sonnet-5-5 2026-10-18
+Saving…	Kaydediliyor…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	Videoyu dolduracak şekilde ölçekle	claude-sonnet-5-5 2026-10-18
+Scaling	Ölçekleme	claude-sonnet-5-5 2026-10-18
+Schedule	Zamanlama	claude-sonnet-5-5 2026-10-18
+Screen	Ekran	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	Ekran %lld (bağlı değil)	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	Ekran %lld: %@	claude-sonnet-5-5 2026-10-18
+Screen recording	Ekran kaydı	claude-sonnet-5-5 2026-10-18
+Screens	Ekranlar	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	Ekran görüntüsü ve kayıt seçenekleri	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	Kendi genel kısayolları olan ekran görüntüsü uygulaması	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	macOS ekran görüntüsü kısayolları	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Ekran görüntüleri ekranınızda görünen her şeyi içerebilir. Hariç tutulan uygulamaların (varsayılan olarak parola yöneticileri) pencereleri asla paylaşılmaz. İkisini de Ayarlar › Yapay Zekâ Araçları bölümünde değiştirebilirsiniz.	claude-sonnet-5-5 2026-10-18
+Script: %@	Komut dosyası: %@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	Mevcut Sorunları Ara	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Ad, kimlik, tetikleyici, dosya ara	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	Günlüğün tamamını günlük görüntüleyicide arayın, izleyin ve kopyalayın.	claude-sonnet-5-5 2026-10-18
+Searched at %@	Arama zamanı: %@	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	GitHub'da bu tanımlayıcıyı aramak aynı sorunun iki kez bildirilmesini önler ve bir düzeltme veya geçici çözüm olup olmadığını gösterir.	claude-sonnet-5-5 2026-10-18
+Searching…	Aranıyor…	claude-sonnet-5-5 2026-10-18
+Section header	Bölüm başlığı	claude-sonnet-5-5 2026-10-18
+Select	Seç	claude-sonnet-5-5 2026-10-18
+Select Image Editor	Görüntü Editörünü Seç	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	Greenshot for Mac ile yakalanacak bir ekran bölgesi seçin.	claude-sonnet-5-5 2026-10-18
+Select a region or a window	Bir bölge veya pencere seçin	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	Değiştirmek için listeden bir adım seçin veya Adım Ekle ile bir tane ekleyin: seçili adımdan sonra, seçili dala, şeride veya oka eklenir.	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	Önce bir adım veya ok seçin: yeni adım hemen onun ardına ya da oka eklenir.	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	Aşağıdan alternatif bir hedef seçin, başka bir tarife yönlendirin veya yeniden deneyin:	claude-sonnet-5-5 2026-10-18
+Select an editor	Bir editör seçin	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	Pencerelerin içindeki alanları seç	claude-sonnet-5-5 2026-10-18
+Selection	Seçim	claude-sonnet-5-5 2026-10-18
+Self-Service	Self Servis	claude-sonnet-5-5 2026-10-18
+Self-Service…	Self Servis…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	Ekran görüntüsünü şuraya gönder	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	Ekran görüntüsü gönderiliyor: %@…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	Yazıcıya gönderildi: “%@”	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Adresleri virgülle ayırın. Konu, dosya adı biçimi değişkenlerini kullanabilir, ör. ${title}. Outlook da bunları kullanır. Cc veya Bcc ile ve posta uygulamanız Mail ise, Mail tüm postayı yazar (macOS, Greenshot'un Mail'i denetleyip denetleyemeyeceğini bir kez sorar); aksi halde macOS posta servisi alıcıyı ve konuyu doldurur, Cc ve Bcc elle eklenmek üzere gösterilir.	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server veya Data Center: kişisel erişim belirteci	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server veya Data Center: kullanıcı adı ve parola	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	Komutları Ayarla…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	Kuruluşunuz tarafından ayarlandı	claude-sonnet-5-5 2026-10-18
+Set in the recipe	Tarifte ayarlandı	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	Klavye kısayolları bölümünden ayarlayın. Kaydın menü çubuğu simgesine tıklamak onu durdurur, ⌃-tıklama duraklatır.	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	Mail'de bir hesap ayarlayın (veya Mail › Ayarlar'da varsayılan bir e-posta uygulaması seçin), ardından yeniden deneyin.	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	Ayarlar (kullanıcı varsayılanlarında)	claude-sonnet-5-5 2026-10-18
+Settings are turned off	Ayarlar kapalı	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	Ayarlar dosyası (--settings-dir)	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	Ayarlar › Developer › Edit Config, ~/Library/Application Support/Claude/claude_desktop_config.json dosyasını açar; sunucuyu ekleyin ve Claude'u yeniden başlatın.	claude-sonnet-5-5 2026-10-18
+Settings… (⌘,)	Ayarlar… (⌘,)	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	Bir yuvada birden çok olanlar sıraya, sonra kimliğe göre çalışır	claude-sonnet-5-5 2026-10-18
+Shadow	Gölge	claude-sonnet-5-5 2026-10-18
+Shadow:	Gölge:	claude-sonnet-5-5 2026-10-18
+Share	Paylaş	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	Uygulamalar ve kişilerle paylaş	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	Paylaşılan bağlantı (bağlantıya sahip herkes), özel olan değil	claude-sonnet-5-5 2026-10-18
+Share…	Paylaş…	claude-sonnet-5-5 2026-10-18
+Shift	Shift	claude-sonnet-5-5 2026-10-18
+Show	Göster	claude-sonnet-5-5 2026-10-18
+Show All	Tümünü Göster	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	Uzantı Klasörünü Göster…	claude-sonnet-5-5 2026-10-18
+Show It	Göster	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	Açık Ekran Görüntülerini Göster	claude-sonnet-5-5 2026-10-18
+Show Welcome…	Karşılamayı Göster…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	Bir yapay zekâ aracı ekran görüntüsü aldığında bildirim göster	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	Bildirimde yakalamanın küçük resmini göster	claude-sonnet-5-5 2026-10-18
+Show all parameters	Tüm parametreleri göster	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	Bir pencere açıkken Dock'ta göster	claude-sonnet-5-5 2026-10-18
+Show in Finder	Finder'da Göster	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	Tarifler menüsünde göster	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	Menü çubuğunun Hızlı ayarlarında göster	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	Yazdırmadan önce her seferinde yazdırma ayarlarını göster	claude-sonnet-5-5 2026-10-18
+Show the menu	Menüyü göster	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	Menü çubuğu simgesini göster	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	Yakalama ekranında büyüteci göster	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	Pencere listesinde pencere küçük resimlerini göster	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	Şu an Greenshot'taki haliyle gösteriliyor: %@.	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	Toplam %2$@ içinden son %1$@ gösteriliyor. Önceki günlük satırları mevcut.	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	~%@ satır gösteriliyor (%@ / %@)	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	Yalnızca bu metni içeren günlük girdilerini, günlük dosyasının tamamından gösterir (⌘F)	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	Tuvali Daralt	claude-sonnet-5-5 2026-10-18
+Sign In…	Oturum Aç…	claude-sonnet-5-5 2026-10-18
+Sign Out	Oturumu Kapat	claude-sonnet-5-5 2026-10-18
+Sign in with	Şununla oturum aç	claude-sonnet-5-5 2026-10-18
+Signed by	İmzalayan	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	Bağlayıcı tarafından imzalandı (geliştirme yapısı)	claude-sonnet-5-5 2026-10-18
+Signed by: %@	İmzalayan: %@	claude-sonnet-5-5 2026-10-18
+Signed in	Oturum açıldı	claude-sonnet-5-5 2026-10-18
+Signed in.	Oturum açıldı.	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	Boyut: 0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	Boyutlar	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Skitch ekran görüntüsü aracı	claude-sonnet-5-5 2026-10-18
+Slot	Yuva	claude-sonnet-5-5 2026-10-18
+Small size	Küçük boyut	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	Daha küçük değer el ile çizilen çizginin daha fazla ayrıntısını korur, daha büyük değer daha yumuşak yapar.	claude-sonnet-5-5 2026-10-18
+Smallest value	En küçük değer	claude-sonnet-5-5 2026-10-18
+Software	Yazılım	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	Bazı klavye kısayolları kaydedilemedi	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	Bazı okuyucular bu kodda Batı Avrupa dışındaki karakterleri bozabilir; QR ve Data Matrix kodları bozmaz.	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	Bu dildeki bazı metinler makine çevirisidir.	claude-sonnet-5-5 2026-10-18
+Something went wrong	Bir şeyler ters gitti	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	Ek açıklamaları türe göre sırala	claude-sonnet-5-5 2026-10-18
+Sound	Ses	claude-sonnet-5-5 2026-10-18
+Source code	Kaynak kodu	claude-sonnet-5-5 2026-10-18
+Space	Boşluk	claude-sonnet-5-5 2026-10-18
+Space:	Alan:	claude-sonnet-5-5 2026-10-18
+Speech Bubble	Konuşma Balonu	claude-sonnet-5-5 2026-10-18
+Stack trace	Yığın izi	claude-sonnet-5-5 2026-10-18
+Start (UTC):	Başlangıç (UTC):	claude-sonnet-5-5 2026-10-18
+Start Watching	İzlemeyi Başlat	claude-sonnet-5-5 2026-10-18
+Start or stop recording	Kaydı başlat veya durdur	claude-sonnet-5-5 2026-10-18
+Start step	Başlangıç adımı	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	Başlangıç adımları önce çalışır; birden çok başlangıç adımı aynı anda çalışır (upstream START STEPS). Bunları adım listesinde işaretleyin.	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	Panoyu izlemeye başlandı (her 600 ms)	claude-sonnet-5-5 2026-10-18
+Starting and stopping	Başlatma ve durdurma	claude-sonnet-5-5 2026-10-18
+Starting…	Başlatılıyor…	claude-sonnet-5-5 2026-10-18
+Startup	Başlangıç	claude-sonnet-5-5 2026-10-18
+Step	Adım	claude-sonnet-5-5 2026-10-18
+Step %lld	Adım %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	Adım %lld: %@ ayrılmış bir tuştur ve klavye kısayolunda kullanılamaz.	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Adım %lld: F1–F20 dışındaki tuşlar ⌃, ⌥ veya ⌘ gerektirir.	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	Adım %lld: F1–F20 dışında ⇧ tek değiştirici tuş olamaz.	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	Bu Tarifteki Adım	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	%@ uygulamasının uygun yuvası olan tariflere eklediği adımlar, Ayarlar › Tarifler bölümünde açılanlar.	claude-sonnet-5-5 2026-10-18
+Stop Recording	Kaydı Durdur	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	Kaydı Durdur (%@)	claude-sonnet-5-5 2026-10-18
+Stop Watching	İzlemeyi Durdur	claude-sonnet-5-5 2026-10-18
+Stop after	Şu süreden sonra durdur	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	Pencere kapanınca durdur	claude-sonnet-5-5 2026-10-18
+Stopped watching	İzleme durduruldu	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	Pano izleme durduruldu.	claude-sonnet-5-5 2026-10-18
+Subject	Konu	claude-sonnet-5-5 2026-10-18
+Subject:	Konu:	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	İstemediğiniz tetikleyicileri kapatın.	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	Otomatik adımı aç veya kapat (Ayarlar › Tarifler bölümünde de)	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	Tarifin tetikleyicilerini ve izinlerini aç veya kapat	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	Onayın tetikleyicilerini ve izinlerini aç veya kapat	claude-sonnet-5-5 2026-10-18
+System	Sistem	claude-sonnet-5-5 2026-10-18
+System Font	Sistem Yazı Tipi	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	Sistem bilgileri panoya kopyalandı.	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	TETİKLEYİCİLER	claude-sonnet-5-5 2026-10-18
+Table	Tablo	claude-sonnet-5-5 2026-10-18
+Take Screenshot	Ekran Görüntüsü Al	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	Greenshot for Mac ile bir ekran görüntüsü alır. Klavye kısayollarında olduğu gibi hedeflerinize gider.	claude-sonnet-5-5 2026-10-18
+Target step	Hedef adım	claude-sonnet-5-5 2026-10-18
+Team	Ekip	claude-sonnet-5-5 2026-10-18
+Team ID: %@	Ekip Kimliği: %@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	Görüntünün seçilen kenarlarını yırtar.	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	TechSmith Snagit ekran yakalama	claude-sonnet-5-5 2026-10-18
+Teeth	Dişler	claude-sonnet-5-5 2026-10-18
+Template	Şablon	claude-sonnet-5-5 2026-10-18
+Test Connection	Bağlantıyı Sına	claude-sonnet-5-5 2026-10-18
+Test Run	Test Çalıştırması	claude-sonnet-5-5 2026-10-18
+Test run error: %@	Test çalıştırması hatası: %@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	Test çalıştırması başlatılmadı: %@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	%@ test çalıştırması başarısız oldu.	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	%@ test çalıştırması başlatıldı.	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	%@ test çalıştırması: iptal edildi.	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	%@ test çalıştırması: tamamlandı.	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	'%@' test çalıştırması sona erdi: %@.	claude-sonnet-5-5 2026-10-18
+Text (OCR)	Metin (OCR)	claude-sonnet-5-5 2026-10-18
+Text / Number Value	Metin / Sayı Değeri	claude-sonnet-5-5 2026-10-18
+Text / URL	Metin / URL	claude-sonnet-5-5 2026-10-18
+Text and chart	Metin ve grafik	claude-sonnet-5-5 2026-10-18
+Text and clipart	Metin ve küçük resim	claude-sonnet-5-5 2026-10-18
+Text and media clip	Metin ve medya klibi	claude-sonnet-5-5 2026-10-18
+Text and object	Metin ve nesne	claude-sonnet-5-5 2026-10-18
+Text and two objects	Metin ve iki nesne	claude-sonnet-5-5 2026-10-18
+Text over object	Nesnenin üstünde metin	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	Metin tanıma (OCR)	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	%@ uygulamasını yüklediğiniz için teşekkürler! Şu anda çalışıyor ve ekranın sağ üstündeki menü çubuğunda sizi bekliyor.	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	Başlamak için gereken tek şey bu. %@ menü çubuğunda bekler ve diğer her şeyi istediğiniz zaman Ayarlar'dan değiştirebilirsiniz.	claude-sonnet-5-5 2026-10-18
+The %@ app key	%@ uygulama anahtarı	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	%@ simgesi menü çubuğunda gösteriliyor.	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	Greenshot dosyası açılamadı	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Chrome, Edge ve Firefox için Greenshot for Mac (Community) Companion uzantısı, görünür sayfayı ve sayfanın adresini gönderir.	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON tam olarak bir tarif içermelidir (%lld tane içeriyor).	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	JSON sekmesinde henüz tarife uygulanmamış değişiklikler var.	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	Anahtar Zinciri öğeyi ekleyemedi: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	Anahtar Zinciri öğeyi okuyamadı: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	Anahtar Zinciri öğeyi kaldıramadı: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	Anahtar Zinciri öğeyi güncelleyemedi: %@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Editörün Bulanıklaştır aracı, bir ekran görüntüsünün kimsenin görmemesi gereken bölümlerini pikselleştirir veya bulanıklaştırır.	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	PDF kaydedilemedi	claude-sonnet-5-5 2026-10-18
+The action failed.	İşlem başarısız oldu.	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	Kopyalayan uygulama belirtmiyor.	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	“%@” onayı geri çekilemedi. Değişmedi; nedenini günlükte görün.	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	Alan bir ekranda değil.	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	Otomatik adım yalnızca gereken tüm izinlerle kullanılır.	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	Sertifika (%@) SHA-256 parmak izine sahip: %@.	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Değiştirilen tarif, onayının henüz izin vermediği %@ gerektiriyor. Önce kaydedin; kaydetmek onayınızı ister.	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	Panoda %lld tür var.	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	Panoda 1 tür var.	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	Pano boş.	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	Pano olduğu gibi bırakıldı.	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	Uygulamanın kod imzası, notarizasyon ve karantina	claude-sonnet-5-5 2026-10-18
+The color behind the image	Görüntünün arkasındaki renk	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	Yırtılan parçaların rengi; varsayılan olarak saydam	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Hedef menüsü, düzenlediğiniz açık toplantıları da listeler; ekran görüntüsü toplantıya eklenir.	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	“%@” ayrıntıları kullanılamıyor: artık yüklü değil.	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	Ekran artık bağlı değil.	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	Bu kesme işaretinin kenarları ve gölgesi.	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	Bir kırpmanın kestiği tarafların kenarları ve satırlar veya sütunlar kesilip çıkarıldığında birleşim yeri; Hiçbiri bunları düz ve dikişsiz tutar	claude-sonnet-5-5 2026-10-18
+The editor was closed.	Editör kapatıldı.	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	Öğeler yüklenemedi	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	Öğeler kaydedilemedi	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	Bu dosyanın öğeleri okunamadı, görüntü onlar olmadan gösteriliyor.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	Dosya yeniden açıldığında öğeler düzenlenebilir kalır.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	Dosya editörde yeniden açıldığında öğeler düzenlenebilir kalır. Birlikte Aç, Office, e-posta ve paylaşım PNG alır.	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	Uzantı klasörü kopyalanamadı: %@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	%@ dosyası okunamadı.	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	Dosya onayınızdan sonra değişti	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	Klavye kısayolu %@ kaydı başlatır ve durdurur.	claude-sonnet-5-5 2026-10-18
+The hotkey records	Klavye kısayolu kaydeder	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	Klavye kısayolları çalışmaya devam eder. Ayarlar'a dönmek için %@ uygulamasını Spotlight, Launchpad veya Uygulamalar klasöründen yeniden açın.	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	Görüntü şu biçimde kodlanamadı: %@.	claude-sonnet-5-5 2026-10-18
+The image could not be opened	Görüntü açılamadı	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	Görüntü açılamadı.	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	Görüntü %@ için çok büyük: en çok %lld piksel genişlik ve yükseklikte olabilir.	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	Bir Boolean seçeneğin anahtarı: bu seçenek yalnızca o açıkken değiştirilebilir	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Greenshot metinlerinin dili. Greenshot for Windows'un çevirisi olmayan metinler İngilizce kalır.	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	Satırlar T'ye bastığınızda hazır olur. Upstream: AlwaysRunOCROnCapture.	claude-sonnet-5-5 2026-10-18
+The log at a glance	Günlüğe bir bakış	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	Günlük dosyası okunamadı.	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	Posta uygulaması başka uygulamalardan ek alamaz. Dosyayı Finder'da göstermek için tıklayın.	claude-sonnet-5-5 2026-10-18
+The mail could not be written	E-posta yazılamadı	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	Menü çubuğu simgesi gizli mi? Buradan çıkın.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Menü çubuğu simgesi Ayarlar › Genel bölümünde kapatılmış. Menüsü, %@ uygulamasının çoğuna açılan kapıdır.	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	Menü ilk tıklamada açılır, bu yüzden çift tıklama başka bir şey yapmaz. Sağ tık veya ⌃-tık menüyü her zaman gösterir.	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	Mikrofon kullanılamadı.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	Yeni dil yeniden başlatmadan sonra görünür.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	Yeni dil yeniden başlatmadan sonra görünür. Kaydedilmemiş ekran görüntüleri için önce sorulur.	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	Görüntünün yeni boyutu. Öğeler onunla birlikte taşınır.	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	Önceki sürüm bilinmiyor, tarifin tamamını inceleyin	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	“%@” yazıcısı artık yok	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	“%@” yazıcısı artık yok.	claude-sonnet-5-5 2026-10-18
+The program was not found.	Program bulunamadı.	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	Tarif, JSON'u düzenlemeye başladıktan sonra değişti: Uygula bu değişikliklerin yerini alır, Eski Haline Döndür tarifi olduğu gibi gösterir.	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	Tarif dosyası okunamadı.	claude-sonnet-5-5 2026-10-18
+The recipe goes on	Tarif devam eder	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	Tarif yalnızca gereken tüm izinlerle kullanılır.	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	Tarif, Greenshot for Mac'te olmayan bir eklenti gerektiriyor.	claude-sonnet-5-5 2026-10-18
+The recipe to edit	Düzenlenecek tarif	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	Tarif kaydedilmedi.	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	Tarif, Greenshot'un olağan çıkış klasörü dışındaki dosyalarla çalışıyor.	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	%@ uygulamasının bildiği tarifler ve otomatik adımlar.	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	Tarifler karşılaştırılamayacak kadar büyük (%lld satırdan fazla).	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	Tarifler Greenshot ile başlar.	claude-sonnet-5-5 2026-10-18
+The recording could not be started	Kayıt başlatılamadı	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	Kayıt, bir şey kaydedilmeden önce sona erdi.	claude-sonnet-5-5 2026-10-18
+The recording failed	Kayıt başarısız oldu	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	Kayıt kaydediliyor.	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	Kayıt duraklatıldı. Durdurmak için tıklayın; devam etmek veya atmak için ⌃-tıklayın.	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	Kayıt başlıyor. Çalışır çalışmaz durdurmak için tıklayın.	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	Kayıt %lld sn içinde başlıyor. İptal etmek için tıklayın.	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	Kayıt zaten bitmişti.	claude-sonnet-5-5 2026-10-18
+The recording was discarded	Kayıt atıldı	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	İstek greenshot-cli üzerinden geldi. Yalnızca siz başlattıysanız izin verin: tarifin sonucu tarifin gönderdiği yere gider.	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	İstek greenshot-cli üzerinden geldi. Yalnızca siz başlattıysanız izin verin: ekran görüntüsü hedeflerinize gider.	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Dosya adı biçimiyle aynı değişkenler, ör. ${title} ve ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	Fare olan ekran	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	Fare imlecinin olduğu ekran	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	Ekran görüntüsü eklenemedi	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	Ekran görüntüsü kodlanamadı	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	Ekran görüntüsü kaydedilemedi	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	Ekran görüntüsü kaydedilemedi: %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	Ekran görüntüsü dosyaya kaydedilemedi	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	Ekran görüntüsü kaydedilemedi, lütfen başka bir yer seçin	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	Ekran görüntüsü gönderilemedi: %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	Ekran görüntüsü paylaşılamadı	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	Ekran görüntüsü alınamadı	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	Ekran görüntüsü yazılamadı	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	Ekran görüntüsü yazılamadı: %@	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	macOS ekran görüntüsü kısayolları sizin klavye kısayollarınızı kullanmaz.	claude-sonnet-5-5 2026-10-18
+The script failed.	Komut dosyası başarısız oldu.	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	Komut dosyası %lld saniyeden uzun sürdü.	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	Sunucu HTTP %lld ile yanıt verdi.	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	Ayarlar dosyası okunamadı	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	Ayarlar dosyası, günlük ve çökme raporları	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	Oturum açma yanıtı isteğe uymadı (state).	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	Oturum açma yanıtında kod yoktu.	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	Oturum açma penceresi açılamadı.	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	Dosya › Yeni Görüntü boyutu; üzerine çizim yapılacak beyaz bir görüntü.	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	Metin tanınamadı	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	Metin tanınamadı: %@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	Bu görüntünün yırtık kenarları.	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	Görüntünün saydam bölümleri bu rengi alır.	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Tetikleyiciler kapalı başlar. Bu tarifi başlatabilecek her birini açın: kapalı bıraktığınız tetikleyici kapalı kalır (daha sonra İzinler ile açabilirsiniz). Tetikleyici olmadan da tarifi tarif listesinden çalıştırabilirsiniz.	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	Yükleme sorunu ister: bir anahtar, son ondan biri, favori bir filtre veya bir arama. Açık pencerelerin başlıklarındaki sorunlar (ör. tarayıcı) hedef menüsünde sunulur.	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	Yükleme sayfayı ister: Safari veya Chrome'da açık olan biri, başlığa göre arama veya bir alanın sayfa ağacı. Son on sayfa da hedef menüsündedir.	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	Değer bir şablondur (içinde ${…} çalışır)	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	Video dosyası tamamlanamadı: %@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	Video dosyası ayarlanamadı.	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	Video dosyası yazılamadı: %@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	Pencere yakalanamadı	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	Pencere klavye kısayolu, etkin pencereyi yakalamak yerine yakalama ekranını pencere modunda açar.	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	Pencere artık ekranda değil.	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	Böylece klavye kısayolları oturum açtıktan hemen sonra çalışır.	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	Kırpılacak içerik çevresinde tek renkli bir kenarlık yok.	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	Panoda görüntü yok	claude-sonnet-5-5 2026-10-18
+There is no image to open.	Açılacak görüntü yok.	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	'%@' adlı bir tarif yok.	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	Ekranda yakalanacak bir şey yoktu.	claude-sonnet-5-5 2026-10-18
+Thermal state	Isıl durum	claude-sonnet-5-5 2026-10-18
+These are for this print only.	Bunlar yalnızca bu yazdırma içindir.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	Bunlar daha sonra Ayarlar › Yazıcı bölümünden değiştirilebilir.	claude-sonnet-5-5 2026-10-18
+These lanes run at the same time	Bu şeritler aynı anda çalışır	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	Bu programlar Greenshot'u kullanabilir. Bir sonraki bağlanışında yeniden sorulması için birini ✕ ile kaldırın. Bir çalışma zamanı (node, python, …) için yalnızca çalıştırdığı komut dosyasına izin verilir; bir geliştirici tarafından imzalanmış programa ise yalnızca hâlâ aynı geliştirici tarafından imzalıyken.	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	Bu tetikleyiciler kapalı kalır, bu yüzden tarifi başlatmaz:	claude-sonnet-5-5 2026-10-18
+These:	Bunlar:	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	Bu Mac'te mikrofon yok.	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	Bu URL http:// ile başlıyor: belirteç veya parola şifrelenmeden iletilir. Sunucu sunuyorsa https:// kullanın.	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	Bu adres http:// ile başlıyor: parola şifrelenmeden iletilir.	claude-sonnet-5-5 2026-10-18
+This app	Bu uygulama	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Bu otomatik adım, işaretli tariflerin yakalamalarını işaretli hedefler için değiştirir. Yeni tarifler de bunu alır.	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Bu otomatik adımı bir yapay zekâ aracı yazdı. Yerleşik olanlar dahil diğer tarifleri değiştirir: hangilerini ve neler eklediğini aşağıda inceleyin. Kapalı başlar, Ayarlar › Tarifler bölümünde açın.	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	Bu bir tarif; editörde bir otomatik adım açık.	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	Bu bir otomatik adım; editörde bir tarif açık.	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Bu programın HİÇBİR GARANTİSİ YOKTUR. Bu özgür bir yazılımdır ve belirli koşullar altında yeniden dağıtmakta serbestsiniz: %@ veya sonraki sürümü.	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	Bu program bir geliştirici tarafından imzalanmamış.	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Bu tarifi Greenshot veya siz değil, bir yapay zekâ aracı yazdı. Ne yaptığını aşağıda inceleyin (Greenshot onu tarifin kendisinden tanımlar) ve yalnızca istediğiniz tetikleyicileri açın.	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	Bu adımın parametresi yok.	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	Bu tetikleyici kapalı kalır, bu yüzden tarifi başlatmaz:	claude-sonnet-5-5 2026-10-18
+Threads	İş parçacıkları	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	İpucu: oturum açıldığında açılmaya devam etmesi için önce uygulamayı Uygulamalar klasörünüze taşıyın.	claude-sonnet-5-5 2026-10-18
+Title	Başlık	claude-sonnet-5-5 2026-10-18
+Title only	Yalnızca başlık	claude-sonnet-5-5 2026-10-18
+Title:	Başlık:	claude-sonnet-5-5 2026-10-18
+To	Kime	claude-sonnet-5-5 2026-10-18
+To:	Kime:	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	HDR ekranlarda HDR içeriğine ton eşleme uygula	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	HDR ekranlarda HDR içeriğine ton eşleme uygula (macOS 15 veya sonrası)	claude-sonnet-5-5 2026-10-18
+Top left	Sol üst	claude-sonnet-5-5 2026-10-18
+Top right	Sağ üst	claude-sonnet-5-5 2026-10-18
+Torn	Yırtık	claude-sonnet-5-5 2026-10-18
+Total: %lld	Toplam: %lld	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	Geçici (yakında silinmesi amaçlanır)	claude-sonnet-5-5 2026-10-18
+Translocated	Translocated	claude-sonnet-5-5 2026-10-18
+Trigger Name	Tetikleyici Adı	claude-sonnet-5-5 2026-10-18
+Trigger removed	Tetikleyici kaldırıldı	claude-sonnet-5-5 2026-10-18
+Triggers	Tetikleyiciler	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	Tetikleyiciler (%lld)	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	Kapalı Bırakılan Tetikleyiciler	claude-sonnet-5-5 2026-10-18
+Troubleshooting	Sorun Giderme	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	Bu parmak izlerine sahip sertifikalara güven	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	Sertifika hatalarına rağmen bu ana makinelere güven	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	Otomatik adım hakkında Greenshot'un aşağıda yazdıklarına güvenin, bu sözlere değil.	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	Tarif hakkında Greenshot'un aşağıda yazdıklarına güvenin, bu sözlere değil.	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	Sistem Ayarları › Genel › Giriş Öğeleri ve Uzantılar bölümünde %@ uygulamasını açın.	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Bildirimleri yeniden görmek için Sistem Ayarları › Bildirimler bölümünde %@ için Bildirimlere İzin Ver'i açın.	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Diğerlerinden herhangi birini açmak menüyü kapatır. Birden çoğu açık olabilir, ör. kopyala ve kaydet.	claude-sonnet-5-5 2026-10-18
+Two column text	İki sütunlu metin	claude-sonnet-5-5 2026-10-18
+Two objects	İki nesne	claude-sonnet-5-5 2026-10-18
+Two objects and object	İki nesne ve nesne	claude-sonnet-5-5 2026-10-18
+Two objects and text	İki nesne ve metin	claude-sonnet-5-5 2026-10-18
+Two objects over text	Metnin üstünde iki nesne	claude-sonnet-5-5 2026-10-18
+Type	Tür	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	Kısayolu yazın…	claude-sonnet-5-5 2026-10-18
+URL	URL	claude-sonnet-5-5 2026-10-18
+URL:	URL:	claude-sonnet-5-5 2026-10-18
+Unavailable	Kullanılamıyor	claude-sonnet-5-5 2026-10-18
+Undo	Geri Al	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	Geri Al (⌘Z)	claude-sonnet-5-5 2026-10-18
+Undone	Geri alındı	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	Şifrelenmemiş (Yok)	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	Sunucudan beklenmeyen yanıt: %@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	Bu adımın benzersiz tanımlayıcısı. Bu kimliği düzenlemek tüm başvuruları günceller.	claude-sonnet-5-5 2026-10-18
+Unknown	Bilinmiyor	claude-sonnet-5-5 2026-10-18
+Unload	Yüklemeyi Kaldır	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	'%@' Greenshot'ta yüklü olmaktan çıkarılsın mı?	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	Otomatik Adımın Yüklemesini Kaldır	claude-sonnet-5-5 2026-10-18
+Unload Recipe	Tarifin Yüklemesini Kaldır	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	Dosyanın yüklemesini kaldır ve unut	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	'%@' tarifinin yüklemesi kaldırıldı.	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	Adsız Tarif	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	Okunamayan kayıt: Kur'a tıklayın	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	Kaydedilmemiş Değişiklikler	claude-sonnet-5-5 2026-10-18
+Unsaved changes	Kaydedilmemiş değişiklikler	claude-sonnet-5-5 2026-10-18
+Updated at %@	Güncellenme zamanı: %@	claude-sonnet-5-5 2026-10-18
+Updates	Güncellemeler	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	Confluence'a Yükle – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	Confluence'a Yükle: “%@”	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	Jira'ya Yükle – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	Jira, Confluence, Box veya Dropbox'a yükle	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	%@ Box'a yüklendi	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	%@ Dropbox'a yüklendi	claude-sonnet-5-5 2026-10-18
+Use Default	Varsayılanı Kullan	claude-sonnet-5-5 2026-10-18
+Use Expression	İfade Kullan	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	Greenshot for Mac'in bu sürümünde bulunan bir adım türü kullanın veya Greenshot'u güncelleyin.	claude-sonnet-5-5 2026-10-18
+Use recipes	Tarifleri kullan	claude-sonnet-5-5 2026-10-18
+Used for:	Kullanım:	claude-sonnet-5-5 2026-10-18
+User name	Kullanıcı adı	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	DOĞRULAMA HATASI	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	Geçerli SourceType değerleri: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	Geçerli: uygulamanın hiçbir dosyası değişmedi	claude-sonnet-5-5 2026-10-18
+Validation Error	Doğrulama Hatası	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	Doğrulama başarısız oldu: %@	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	Kullanıcının Ayarlar › Tarifler bölümünde belirlediği değerler; adımlar bunları ${option.key} olarak okur.	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	Hedef düğüm kimliğinin, tarifin 'nodes' listesindeki mevcut bir düğümün 'id' değeriyle eşleştiğini doğrulayın.	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	Sürüm %@ (%@)	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	Sürüm %@ mevcut – indirmek için tıklayın	claude-sonnet-5-5 2026-10-18
+Version %@.	Sürüm %@.	claude-sonnet-5-5 2026-10-18
+Vertical offset:	Dikey kaydırma:	claude-sonnet-5-5 2026-10-18
+Vertical padding:	Dikey dolgu:	claude-sonnet-5-5 2026-10-18
+Vertical text	Dikey metin	claude-sonnet-5-5 2026-10-18
+Vertical title and text	Dikey başlık ve metin	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	Grafiğin üstünde dikey başlık ve metin	claude-sonnet-5-5 2026-10-18
+Video	Video	claude-sonnet-5-5 2026-10-18
+View	Görünüm	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	Otomatik Adım JSON'unu Görüntüle	claude-sonnet-5-5 2026-10-18
+View Changes	Değişiklikleri Görüntüle	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	Tarif JSON'unu Görüntüle	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	Yakalamadan önce bekle: %lld ms	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	Bekler, hatalar pencerede	claude-sonnet-5-5 2026-10-18
+Warnings and errors	Uyarılar ve hatalar	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	Panoyu izle	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	Pano izleniyor.	claude-sonnet-5-5 2026-10-18
+Wave	Dalga	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP (kayıpsız)	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	Karşılama Kılavuzu…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	Hoş Geldiniz: %@	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	%@ uygulamasının beklendiği gibi çalışması için gerekenler; bir şey yolunda değilse çözümüyle.	claude-sonnet-5-5 2026-10-18
+What AI tools may do	Yapay zekâ araçlarının yapabilecekleri	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	Son onaydan beri neyin değiştiği	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	Bir yakalamaya ne olacağı size kalmış: editörde aç, kaydet, panoya kopyala, yazdır ve daha fazlası. Ayarlar'dan seçersiniz.	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	Panoda şu anda ne olduğu ve ne zaman değiştiği	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	Yüklenenler bu Mac'ten çıkar, kimin göreceğine hizmet karar verir.	claude-sonnet-5-5 2026-10-18
+What is wrong	Neyin yanlış olduğu	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	Ne yaptığı (Greenshot tarafından otomatik adımdan yazıldı)	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	Ne yaptığı (Greenshot tarafından tariften yazıldı)	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	Ne yaptığı, tetikleyicileri, onayı ve yerleşik sürüme göre değişiklikler	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	Ondan istenen (yapay zekâ aracının sözleri, Greenshot tarafından denetlenmedi):	claude-sonnet-5-5 2026-10-18
+What the Mac plays	Mac'in çaldıkları	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	Mac'in çaldıkları ve mikrofon	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	Uygulamanın beklendiği gibi çalışması için gerekenler; bir şey yolunda değilse çözümüyle	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	Bu otomatik adımın ne yaptığı, hangi tarifleri değiştirdiği ve onun için neyi onayladığınız.	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	Bu yerleşik tarifin ne yaptığı ve hangi tetikleyicilerin onu başlattığı.	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	Bu tarifin ne yaptığı ve onun için neyi onayladığınız. Burada hiçbir şey değiştirilemez; bunun için Ayarlar › Tarifler bölümündeki veya tarif yöneticisindeki İzinler'i kullanın.	claude-sonnet-5-5 2026-10-18
+What to change: %@	Neyi değiştirmeli: %@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	“Panoya kopyala”nın oraya koyduğu. Uygulamalar anladıkları ilk biçimi alır; HTML, görüntüyü posta ve web editörleri için PNG olarak gömer.	claude-sonnet-5-5 2026-10-18
+When	Ne zaman	claude-sonnet-5-5 2026-10-18
+When it runs again	Yeniden çalıştığında	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	Kullanıcı '%@' seçtiğinde	claude-sonnet-5-5 2026-10-18
+When the window changes size	Pencere boyutu değiştiğinde	claude-sonnet-5-5 2026-10-18
+When…	Ne zaman…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	%@ nerede kullanılır	claude-sonnet-5-5 2026-10-18
+Where it runs from	Nereden çalıştığı	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	Tarifin akışının girdiği yer	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	Bir HDR video, fotoğraf veya oyun gösterilirken, parlak bölümleri ekran görüntüsünde kesilmek yerine ayrıntısını korur. HDR içeriği olmayan yakalamalar renklerini tam olarak korur. Yalnızca Apple silicon.	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	Yakalarken, bölge seçme ile pencere yakalama arasında geçiş yapmak için Boşluk tuşuna basın.	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	Yakalarken ok tuşları imleci bir piksel, ⌃ veya ⌘ ile on piksel taşır.	claude-sonnet-5-5 2026-10-18
+White	Beyaz	claude-sonnet-5-5 2026-10-18
+WiFi Network	Wi-Fi Ağı	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	Wi-Fi Ağı Bağlantı Ayrıntıları	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	Wiki işaretlemesi (!name!)	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	Wiki işaretlemesi kopyalandı – sayfayı açmak için tıklayın	claude-sonnet-5-5 2026-10-18
+Window	Pencere	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	Pencere %@ · %@ (pid %@)	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	Menülerde pencere başlıkları: en çok %lld karakter	claude-sonnet-5-5 2026-10-18
+Windows	Pencereler	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	Bu uygulamaların pencereleri yapay zekâ araçları için asla listelenmez veya yakalanmaz ve yapay zekâ araçlarının aldığı ekran görüntülerinde karartılır. Adlar uygulama adları veya paket tanımlayıcılarıdır; büyük/küçük harf, boşluklar ve ".app" fark etmez.	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word, PowerPoint ve Outlook yeni bir belgeye, sunuya veya postaya ya da açık olana ekler (hedef menüsü bunları listeler). Excel, açık veya yeni bir çalışma kitabının etkin sayfasına ekler. Outlook ekran görüntüsünü ekler ve E-posta bölümünün konusunu, Kime, Cc ve Bcc alanlarını kullanır; “Toplantı öğelerinde dışa aktarmaya izin ver” ile ayrıca düzenlediğiniz açık toplantıları listeler ve ekran görüntüsünü toplantıya ekler. Yeni Outlook komut dosyasıyla yönetilemez. Mac için OneNote da yönetilemez: yerine Notes geçer (veya Birlikte Aç'ı kullanın). Resim yer tutucusu olmayan bir düzende ekran görüntüsü slaytta ortalanır; PowerPoint'in reddettiği bir düzen boş slayt verir.	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word: görüntünün en boy oranını kilitle	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	Sayfa başlığındaki kelimeler veya CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	Özetteki kelimeler veya JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	Metni kaydır	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	Uzantıları noktalarıyla ve ';' ile ayırarak yazın, ör. ".png;.jpg".	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	Klavye kısayolunu "Ctrl + Shift + B" gibi yazın; Mac'te Ctrl ⌘, Win ise ⌃ demektir.	claude-sonnet-5-5 2026-10-18
+Write the output to the log	Çıktıyı günlüğe yaz	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	Posta Mail'de yazılıyor…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	Bir yapay zekâ aracı tarafından yazıldı	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	Bir yapay zekâ aracı tarafından yazıldı ve sizin tarafınızdan onaylandı	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	Bir yapay zekâ aracı tarafından yazıldı ve sizin tarafınızdan onaylandı: %@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	DEĞİŞİKLİĞİNİZ	claude-sonnet-5-5 2026-10-18
+Yes	Evet	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	Evet, Devam Et	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	Evet: indirildi ve henüz Finder'dan açılmadı	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	Bu programlar için "İzin Verme"yi seçtiniz (veya soruyu kapattınız), bu yüzden Greenshot onları sormadan reddeder. Birine buradan izin verin veya Greenshot'un bir sonraki bağlanışında yeniden sormasını sağlayın.	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	Bu otomatik adımı daha önce onayladınız, ancak dosyası o zamandan beri Greenshot dışında değiştirildi. Değişiklikleri onaylayana kadar hiçbir tarifi değiştirmez.	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	Bu yakalama tarifini daha önce onayladınız, ancak dosyası o zamandan beri Greenshot dışında (başka bir program tarafından veya elle) değiştirildi. Onaylamadan önce aşağıdaki değişiklikleri inceleyin.	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	En son sürümü (%@) kullanıyorsunuz.	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	Bu pencereyi kapatıp Greenshot'a dönebilirsiniz.	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	Tetikleyicileri daha sonra İzinler ile açabilir ve tarifi tarif listesinden çalıştırabilirsiniz.	claude-sonnet-5-5 2026-10-18
+You have %@.	Sürümünüz: %@.	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	Şu anda yakalama klavye kısayolunuz yok. Ayarlar › Genel bölümünden seçin.	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	En son %@ sürümünü kullanıyorsunuz: %@.	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	Bu otomatik adımı tarif düzenleyicide kaydettiniz. Çoğu değişiklik sormadan onaylanır, ancak bunun için kararınız gerekiyor: %@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	Bu tarifi tarif düzenleyicide kaydettiniz. Çoğu değişiklik sormadan onaylanır, ancak bu, kararınızı gerektiren bir şey ekliyor: %@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	Önerilen her tarifi görür ve onaylayıp onaylamayacağınıza karar verirsiniz. Tetikleyicileri ve riskli eylemleri kapalı başlar.	claude-sonnet-5-5 2026-10-18
+You're all set	Her şey hazır	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	%lld klavye kısayolunuz çalışıyor.	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	Değişikliğiniz Bir Karar Gerektiriyor	claude-sonnet-5-5 2026-10-18
+Your Setup	Kurulumunuz	claude-sonnet-5-5 2026-10-18
+Your approval	Onayınız	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	Klavye kısayolunuz çalışıyor.	claude-sonnet-5-5 2026-10-18
+Your hotkeys	Klavye kısayollarınız	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	Klavye kısayollarınız, macOS ekran görüntüsü kısayolları ve diğer yakalama uygulamaları	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	Kuruluşunuz bu Mac'te %@ uygulamasını yönetiyor ve ayarlarını kapattı.	claude-sonnet-5-5 2026-10-18
+Your own servers	Kendi sunucularınız	claude-sonnet-5-5 2026-10-18
+Your recipes	Tarifleriniz	claude-sonnet-5-5 2026-10-18
+Your setup	Kurulumunuz	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	Kaydedilmemiş değişiklikleriniz silinir.	claude-sonnet-5-5 2026-10-18
+Zig-zag	Zikzak	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Zight (CloudApp) ekran yakalama	claude-sonnet-5-5 2026-10-18
+Zoom	Yakınlaştırma	claude-sonnet-5-5 2026-10-18
+Zoom In	Yakınlaştır	claude-sonnet-5-5 2026-10-18
+Zoom Out	Uzaklaştır	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	Sığacak Şekilde Yakınlaştır	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	Büyüteç opaklığı	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[Yığın Yok]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	bir Greenshot klavye kısayolu	claude-sonnet-5-5 2026-10-18
+all destinations	tüm hedefler	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	Ayarlar › Yakalama bölümünde Erişilebilirliğe izin verin	claude-sonnet-5-5 2026-10-18
+approved %@	onaylandı: %@	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	en çok %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	otomatik adım	claude-sonnet-5-5 2026-10-18
+back to region	bölgeye dön	claude-sonnet-5-5 2026-10-18
+build %@	derleme %@	claude-sonnet-5-5 2026-10-18
+button label	düğme etiketi	claude-sonnet-5-5 2026-10-18
+capture a fixed size	sabit boyutta yakala	claude-sonnet-5-5 2026-10-18
+capture text	metni yakala	claude-sonnet-5-5 2026-10-18
+capture the area	alanı yakala	claude-sonnet-5-5 2026-10-18
+capture the window	pencereyi yakala	claude-sonnet-5-5 2026-10-18
+capture the window or area	pencereyi veya alanı yakala	claude-sonnet-5-5 2026-10-18
+changed since its approval	onaydan sonra değişti	claude-sonnet-5-5 2026-10-18
+checking…	denetleniyor…	claude-sonnet-5-5 2026-10-18
+continues at:	şuradan devam eder:	claude-sonnet-5-5 2026-10-18
+copies a URL	bir URL kopyalar	claude-sonnet-5-5 2026-10-18
+copies the output	çıktıyı kopyalar	claude-sonnet-5-5 2026-10-18
+copy its text	metnini kopyala	claude-sonnet-5-5 2026-10-18
+copy or open what it says	yazdığını kopyala veya aç	claude-sonnet-5-5 2026-10-18
+critical	kritik	claude-sonnet-5-5 2026-10-18
+default	varsayılan	claude-sonnet-5-5 2026-10-18
+default: %@	varsayılan: %@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	varsayılan: ayarlardaki hedefler	claude-sonnet-5-5 2026-10-18
+description	açıklama	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	ör. PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	ör. Ekran Görüntüleri; boş = uygulamanın klasörü	claude-sonnet-5-5 2026-10-18
+empty	boş	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	ifade, ör. ${payload.width > 800} veya else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	orta	claude-sonnet-5-5 2026-10-18
+file name prefix	dosya adı öneki	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	greenshot-mcp uygulamanın yanında bulunamadı	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text ve greenshotmac://clipboard, ör. Alfred, Raycast veya bir web sayfasından.	claude-sonnet-5-5 2026-10-18
+hide the info	bilgiyi gizle	claude-sonnet-5-5 2026-10-18
+hide the keys	tuşları gizle	claude-sonnet-5-5 2026-10-18
+hold it at another corner	başka bir köşede tut	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	yapışmadan yerleştirmek için basılı tut	claude-sonnet-5-5 2026-10-18
+hosted by %@	%@ tarafından barındırılıyor	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+id	id	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	kimlikler, * veya *capture	claude-sonnet-5-5 2026-10-18
+in the capture	yakalamada	claude-sonnet-5-5 2026-10-18
+inch	inç	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	fare imlecini dahil et	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	sürüklemeyi tek yönde tut	claude-sonnet-5-5 2026-10-18
+key	anahtar	claude-sonnet-5-5 2026-10-18
+larger or smaller area	daha büyük veya küçük alan	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	fare imlecini hariç tut	claude-sonnet-5-5 2026-10-18
+left %@	sol %@	claude-sonnet-5-5 2026-10-18
+level %@	düzey %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS, ekran görüntüsü alan her uygulamadan bu izni ister.\n\nSistem Ayarları › Gizlilik ve Güvenlik › Ekran ve Sistem Ses Kaydı bölümünü açın, %@ için anahtarı açın, ardından çıkıp yeniden açın.\n\nListede yok mu? Altındaki + düğmesine tıklayıp %@ uygulamasını Uygulamalar'dan ekleyin.\n\nZaten açık mı? Yeniden derlenmiş veya taşınmış bir kopya yeni uygulama sayılır: onu seçin, − ile kaldırın, ardından %@ uygulamasını yeniden açıp tekrar izin verin.	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS, %@ uygulamasının mikrofonu kullanıp kullanamayacağını ilk seferde sorar.	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS bu yapının bildirim göndermesine izin vermedi. Kararlı bir kimlikle imzalanmış bir yapı genellikle gönderebilir (README'ye bakın).	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS henüz %@ uygulamasının ekranı kaydetmesine izin vermiyor. Ekran görüntüleri bu izni gerektirir: Gizlilik ve Güvenlik › Ekran ve Sistem Ses Kaydı altında %@ için anahtarı açın.	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS bu tuşları herhangi bir uygulamadan önce işler. Biri bir klavye kısayolunun tuşlarına sahipse, onu Klavye › Klavye Kestirmeleri › Ekran Resimleri altında kapatın veya başka bir klavye kısayolu seçin.	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS'ta %@ uygulamasına ait çökme raporu yok.	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS %@ simgesini çentiğin arkasına veya menü çubuğu ayarlarına gizler. ⌘ tuşuyla daha sağa sürükleyin veya Sistem Ayarları › Menü Çubuğu bölümünde izin verin.	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	macOS, ~/Library/Logs/DiagnosticReports içinde %2$@ uygulamasına ait %1$lld çökme raporu tuttu.	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS, ~/Library/Logs/DiagnosticReports içinde %@ uygulamasına ait 1 çökme raporu tuttu.	claude-sonnet-5-5 2026-10-18
+macOS notifications	macOS bildirimleri	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	macOS bildirimleri uygulama paketini gerektirir (scripts/build-app.sh); onsuz iletiler sağ üst köşede görünür.	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS bu klavye kısayollarını reddetti, başka bir uygulama kullanıyor olabilir: %@.	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS geçici bir kopya çalıştırıyor (App Translocation). İzinleri ve giriş öğesi korunsun diye uygulamayı Uygulamalar klasörüne taşıyın ve oradan açın.	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS %@ tuşlarını kendi ekran görüntüleri için kullanır ve tuşları ilk o alır. Bunları Klavye Kestirmeleri › Ekran Resimleri altında kapatın veya başka klavye kısayolları seçin.	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS, Mac, bellek, ekranlar ve ölçekleme	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	bir piksel taşı, ⌃ ile on	claude-sonnet-5-5 2026-10-18
+no	hayır	claude-sonnet-5-5 2026-10-18
+nominal	nominal	claude-sonnet-5-5 2026-10-18
+not a colour	renk değil	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	geçerli değil (Developer ID ile imzalanmamış)	claude-sonnet-5-5 2026-10-18
+not approved	onaylanmadı	claude-sonnet-5-5 2026-10-18
+not in the capture	yakalamada değil	claude-sonnet-5-5 2026-10-18
+off	kapalı	claude-sonnet-5-5 2026-10-18
+one per line	satır başına bir tane	claude-sonnet-5-5 2026-10-18
+or a designation	veya bir tanım	claude-sonnet-5-5 2026-10-18
+pick a size	boyut seç	claude-sonnet-5-5 2026-10-18
+picture	resim	claude-sonnet-5-5 2026-10-18
+points	punto	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	önizleme: köşede, büyüteçte, kapalı	claude-sonnet-5-5 2026-10-18
+previous or next size	önceki veya sonraki boyut	claude-sonnet-5-5 2026-10-18
+recipe	tarif	claude-sonnet-5-5 2026-10-18
+recipe id	tarif kimliği	claude-sonnet-5-5 2026-10-18
+required	gerekli	claude-sonnet-5-5 2026-10-18
+right %@	sağ %@	claude-sonnet-5-5 2026-10-18
+select a region	bir bölge seç	claude-sonnet-5-5 2026-10-18
+select words, copy their text	kelimeleri seç, metnini kopyala	claude-sonnet-5-5 2026-10-18
+serious	ciddi	claude-sonnet-5-5 2026-10-18
+show the info	bilgiyi göster	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	seçimi tuşlarla başlat ve bitir	claude-sonnet-5-5 2026-10-18
+switch between region and window	bölge ile pencere arasında geç	claude-sonnet-5-5 2026-10-18
+to	şuraya	claude-sonnet-5-5 2026-10-18
+unknown	bilinmiyor	claude-sonnet-5-5 2026-10-18
+unknown error	bilinmeyen hata	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	vCard Kişisi	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	vCard Kişi Kartı Ayrıntıları	claude-sonnet-5-5 2026-10-18
+value	değer	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	değişken (varsayılan: ad)	claude-sonnet-5-5 2026-10-18
+what it does	ne yapar	claude-sonnet-5-5 2026-10-18
+when %@	%@ olduğunda	claude-sonnet-5-5 2026-10-18
+window details on or off	pencere ayrıntılarını aç veya kapat	claude-sonnet-5-5 2026-10-18
+with the menu bar	menü çubuğu ile	claude-sonnet-5-5 2026-10-18
+written by %@	%@ tarafından yazıldı	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	evet, Apple bu yapıyı denetledi	claude-sonnet-5-5 2026-10-18
+zoomer on or off	büyüteci aç veya kapat	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	Parametrelerdeki {0} ekran görüntüsünün dosyasıdır; tırnak işaretleri kelimeleri gruplar. Komut ve parametreler dosya adı biçimi değişkenlerini kullanabilir, ör. ${title}.	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) her iki tarafta da aynı tuşlara sahip, bu yüzden ikisi de tetiklenirdi.	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) bu klavye kısayolunun başlangıcıdır, bu yüzden bu kısayol hiç tetiklenmez.	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	“%@” zaten var. Değiştirmek istiyor musunuz?	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	“%@” aynı klavye kısayoluna sahip.	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	“%@” bitmedi. Şimdi çıkarsanız, henüz dışa aktarılmayanlar kaybolur.	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	“%@” bir Jira sorun anahtarı değil.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	“%@” geçerli bir URL değil.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	“%@” geçerli bir düzenli ifade değil.	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	“%@” çalıştırılabilir bir dosya değil. Ayarlar › Hedefler bölümünde denetleyin.	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	“%@”, yakalamasının nereye gideceğini seçmenizi bekliyor. Şimdi çıkarsanız yakalaması kaybolur.	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	“%@”, “%@” sorusuna yanıtınızı bekliyor. Şimdi çıkarsanız yakalaması kaybolur.	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	“Görüntü boyutu” sayfayı ekran görüntüsü artı kenar boşlukları kadar büyük yapar. Görüntü sayfada ortalanır.	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	“Dropbox kullanarak ekran görüntülerini paylaş” macOS ekran görüntüsü tuşlarını alır	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Shift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	F1–F20 dışında ⇧ tek değiştirici tuş olamaz.	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Control	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Command	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Option	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ Tarifi Çalıştır	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18

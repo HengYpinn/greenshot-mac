@@ -4372,7 +4372,7 @@
 "Search in:" = "Suchen in:";
 
 /* machine */
-"Search name, id, triggers, file" = "Name, ID, Auslöser, Datei durchsuchen";
+"Search name, id, triggers, file" = "Name, ID, Auslöser, Datei";
 
 /* confluence:Confluence.search_pages */
 "Search pages" = "Seiten suchen";
@@ -6238,7 +6238,7 @@
 "recipeManager.filter.all" = "Alle";
 
 /* machine */
-"recipeManager.filter.custom" = "Benutzerdefiniert";
+"recipeManager.filter.custom" = "Eigene";
 
 /* machine */
 "required" = "erforderlich";

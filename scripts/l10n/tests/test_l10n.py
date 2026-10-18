@@ -219,6 +219,15 @@ class MachineTests(unittest.TestCase):
         marker = [e for e in result.upstream_entries["de"] if e.key == l10n.MACHINE_KEY]
         self.assertEqual([e.value for e in marker], ["2"])
 
+    def test_an_identifier_key_row_wins_over_its_english(self):
+        with open(os.path.join(self.folder, "de.tsv"), "a", encoding="utf-8") as f:
+            f.write("Custom\tBenutzerdefiniert\ttest\nfilter.custom\tEigene\ttest\n")
+        keys = [l10n.MacKey("filter.custom", "Custom", []), l10n.MacKey("preset.custom", "Custom", [])]
+        result = l10n.build(self.up, self.languages, keys, [], True, self.folder)
+        entries = {e.key: e.value for e in result.entries["de"]}
+        self.assertEqual(entries, {"filter.custom": "Eigene", "preset.custom": "Benutzerdefiniert"})
+        self.assertNotIn("filter.custom", [english for english, _ in result.machine_unused["de"]])
+
     def test_untranslated_rows(self):
         result = l10n.build(self.up, self.languages, self.keys, [], True, self.folder)
         # PNG's row keeps the English on purpose; the dropped rows need a fix.

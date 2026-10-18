@@ -1339,7 +1339,7 @@ Screenshot shortcuts of macOS	Сочетания клавиш macOS для сн�
 Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Снимки экрана могут содержать всё, что видно на вашем экране. Окна исключённых приложений (по умолчанию менеджеров паролей) никогда не передаются. Оба параметра можно изменить в «Настройки» › «Инструменты ИИ».	claude-sonnet-5-5 2026-10-18
 Script: %@	Сценарий: %@	claude-sonnet-5-5 2026-10-18
 Search Existing Issues	Искать среди существующих проблем	claude-sonnet-5-5 2026-10-18
-Search name, id, triggers, file	Поиск по имени, ID, триггерам, файлу	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Имя, ID, триггеры, файл	claude-opus-5-5 2026-10-18
 Search, follow and copy the whole log in the log viewer.	Ищите, отслеживайте и копируйте весь журнал в просмотре журнала.	claude-sonnet-5-5 2026-10-18
 Searched at %@	Поиск выполнен в %@	claude-sonnet-5-5 2026-10-18
 Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	Поиск этого идентификатора на GitHub помогает не создавать одну и ту же проблему дважды и показывает, известно ли исправление или обходной путь.	claude-sonnet-5-5 2026-10-18

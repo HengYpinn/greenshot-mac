@@ -563,6 +563,14 @@ def convert_machine(translation: str, key: str, english: str) -> Tuple[Optional[
     return text, ""
 
 
+def machine_row(table: Dict[str, Tuple[str, str]], mac: "MacKey") -> Optional[str]:
+    """The row of a machine table for a Mac text: its identifier key (editor.color.line) when the table has one, which
+    wins over its English, else its English."""
+    if mac.value is not None and mac.key in table:
+        return mac.key
+    return mac.english if mac.english in table else None
+
+
 def load_machine(lproj: str, folder: str = MACHINE_DIR) -> Dict[str, Tuple[str, str]]:
     """english -> (translation, source) of scripts/l10n/machine/<lproj>.tsv; empty when there is none."""
     path = os.path.join(folder, lproj + ".tsv")
@@ -657,7 +665,7 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
             result.matched[mac.key] = candidates
             kind = candidates[0].kind
             result.kinds[kind] = result.kinds.get(kind, 0) + 1
-    mac_english = {mac.english for mac in keys}
+    mac_english = {mac.english for mac in keys} | {mac.key for mac in keys if mac.value is not None}
     for language in languages:
         entries: List[Entry] = []
         machine_table = load_machine(language.lproj, machine_folder) if machine else {}
@@ -686,11 +694,12 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
                 if len({o[0] for o in outputs}) > 1:
                     result.conflicts.setdefault(mac.english, []).append(language.ietf)
                 upstream_count += 1
-            elif machine and mac.english in machine_table:
+            elif machine and machine_row(machine_table, mac):
                 # No upstream translation in this language (no upstream key, none in this pack, or one rejected or
                 # dropped): the machine translation, if any. Upstream and overrides.tsv always win.
-                translation, source = machine_table[mac.english]
-                machine_used.add(mac.english)
+                row_key = machine_row(machine_table, mac)
+                translation, source = machine_table[row_key]
+                machine_used.add(row_key)
                 converted, why = convert_machine(translation, mac.key, mac.english)
                 if converted is None:
                     if why:
@@ -733,7 +742,8 @@ def untranslated_rows(result: Result, languages: List[Language], keys: List[MacK
         if language.ietf == BASE_LANGUAGE:
             continue
         translated = {e.key for e in result.entries.get(language.lproj, [])}
-        missing = {k.english for k in keys if k.key not in translated} - result.machine_english.get(language.lproj, set())
+        kept = result.machine_english.get(language.lproj, set())
+        missing = {k.english for k in keys if k.key not in translated and k.english not in kept and k.key not in kept}
         rows += [(language.lproj, english) for english in sorted(missing)]
     return rows
 
@@ -851,9 +861,10 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
         "Localizable.strings`, the `Upstream.strings` table for texts that are also data (`L10nText.display`) and "
         "`LanguagePacks+Generated.swift`. `scripts/l10n/update.sh` runs both steps.",
         "- `scripts/l10n/machine/<lproj>.tsv` holds the machine translations of a language (`English<TAB>translation"
-        "<TAB>source`, one row per Mac text without an upstream translation in that language). `generate` and `check` "
-        "use them unless they get `--no-machine`; an upstream translation or an overrides.tsv decision always wins over "
-        "a row.",
+        "<TAB>source`, one row per Mac text without an upstream translation in that language; the first column may be "
+        "the Mac key instead when it is an identifier, recipeManager.filter.custom, which then wins over its English). "
+        "`generate` and `check` use them unless they get `--no-machine`; an upstream translation or an overrides.tsv "
+        "decision always wins over a row.",
         "- `scripts/build-app.sh` copies the `.lproj` folders and the help pages (`Resources/Help`) into the app and "
         "lists the languages in `CFBundleLocalizations`, so macOS offers them in System Settings › General › Language "
         "& Region › Applications.",

@@ -8,7 +8,7 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 
 - `scripts/l10n/extract.sh` builds the app with the compiler's `-emit-localized-strings` and writes every localizable text (SwiftUI literals, `String(localized:)`) to `scripts/l10n/mac-keys.json`.
 - `scripts/l10n/l10n.py generate` matches them with the upstream English (`scripts/l10n/overrides.tsv` maps near matches by hand or rejects a wrong one) and writes `Resources/Localizations/<language>.lproj/Localizable.strings`, the `Upstream.strings` table for texts that are also data (`L10nText.display`) and `LanguagePacks+Generated.swift`. `scripts/l10n/update.sh` runs both steps.
-- `scripts/l10n/machine/<lproj>.tsv` holds the machine translations of a language (`English<TAB>translation<TAB>source`, one row per Mac text without an upstream translation in that language). `generate` and `check` use them unless they get `--no-machine`; an upstream translation or an overrides.tsv decision always wins over a row.
+- `scripts/l10n/machine/<lproj>.tsv` holds the machine translations of a language (`English<TAB>translation<TAB>source`, one row per Mac text without an upstream translation in that language; the first column may be the Mac key instead when it is an identifier, recipeManager.filter.custom, which then wins over its English). `generate` and `check` use them unless they get `--no-machine`; an upstream translation or an overrides.tsv decision always wins over a row.
 - `scripts/build-app.sh` copies the `.lproj` folders and the help pages (`Resources/Help`) into the app and lists the languages in `CFBundleLocalizations`, so macOS offers them in System Settings › General › Language & Region › Applications.
 - `scripts/l10n/l10n.py check` (CI) fails when the committed files differ from what `generate` writes.
 - New texts in the code: SwiftUI literals need nothing; AppKit and other texts use `String(localized: "…")`. Logs, data, identifiers and recipe/IPC/MCP texts stay English. `scripts/l10n/scan.sh [--summary] <paths>` lists the texts of a file that aren't localizable yet.
@@ -54,7 +54,7 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 | Slovenščina | sl-SI | sl | 181 | 1977 | 2158 | 97 % |
 | Српски | sr-RS | sr | 235 | 1933 | 2168 | 97 % |
 | Svenska | sv-SE | sv | 254 | 1883 | 2137 | 96 % |
-| Turkish | tr-TR | tr | 262 | 0 | 262 | 12 % |
+| Turkish | tr-TR | tr | 262 | 1899 | 2161 | 97 % |
 | Українська | uk-UA | uk | 257 | 1917 | 2174 | 98 % |
 | Valencià (RACV) | va-VA | ca-ES-valencia | 210 | 1927 | 2137 | 96 % |
 | Việt | vi-VN | vi | 140 | 2011 | 2151 | 97 % |
@@ -66,7 +66,7 @@ Help pages (`Resources/Help`, from upstream): de-DE, en-US, es-ES, fr-FR, hu-HU,
 
 ## Machine translations
 
-73787 translations in 38 languages are machine translations (0 of them reviewed by a person): the Mac's texts that Greenshot's translators haven't translated, because the Mac wrote them or the language pack doesn't have them yet. An AI model made them; `l10n.py` checks their placeholders and Windows wording, nobody checked their language unless the row says reviewed. They are marked:
+75686 translations in 39 languages are machine translations (0 of them reviewed by a person): the Mac's texts that Greenshot's translators haven't translated, because the Mac wrote them or the language pack doesn't have them yet. An AI model made them; `l10n.py` checks their placeholders and Windows wording, nobody checked their language unless the row says reviewed. They are marked:
 
 - in `Localizable.strings` by `/* machine */` above the entry (`/* machine, reviewed */` once a person checked it), and in the Machine column of the table above;
 - in the app: About shows "Some texts in this language are machine translations." under the translators' credit (`L10nText.hasMachineTranslations`).
@@ -75,7 +75,7 @@ Correcting one: edit its row in `scripts/l10n/machine/<lproj>.tsv` (keep the Eng
 
 New texts in the code: `python3 -I scripts/l10n/l10n.py untranslated` lists the texts without a translation (`<lproj><TAB>English`); add their rows to the tables with the model or person as the source.
 
-Sources: claude-opus-5-5 2026-10-18 (92 rows), claude-sonnet-5-5 2026-10-18 (76168 rows). 2798 rows keep the English on purpose (names, formats, codes and symbols: the row's translation is the English), so no language reaches 100 %.
+Sources: claude-opus-5-5 2026-10-18 (95 rows), claude-sonnet-5-5 2026-10-18 (78123 rows). 2862 rows keep the English on purpose (names, formats, codes and symbols: the row's translation is the English), so no language reaches 100 %.
 
 ## Texts with several upstream keys
 
@@ -131,14 +131,14 @@ Two texts of one source file that a language translates the same way. Reviewed: 
 - `Cancel Recording` / `Discard Recording`: kab
 - `Captures` / `Capturing`: cs, ja, ko, nn
 - `Center` / `Middle`: de, et, fa, id, ja, kab, ko, lv, nl, sl, sv, vi, vmf
-- `Choices` / `OPTIONS`: ar, ca, ca-ES-valencia, cs, es, et, fa, fi, nn, pt-BR, pt-PT, zh-Hans, zh-Hant
+- `Choices` / `OPTIONS`: ar, ca, ca-ES-valencia, cs, es, et, fa, fi, nn, pt-BR, pt-PT, tr, zh-Hans, zh-Hant
 - `Colour` / `Colours`: vi, vmf
 - `Continue At` / `continues at:`: ca, es, fa, hu, it, ja, nn, pt-PT, ro, vi, zh-Hans, zh-Hant
 - `Draw Freehand` / `Freehand`: ar, ca, el, he, nl, pt-PT, sr, uk, vi, zh-Hant
 - `Draw Line` / `Line`: nl, uk
 - `Horizontal offset:` / `Vertical offset:`: kab
 - `Looking…` / `Search:`: el, hu, nl, uk
-- `Looking…` / `Searching…`: ar, ca, ca-ES-valencia, cs, da, de, el, es, et, fa, fr, fr-CA, he, hu, id, it, kab, lt, lv, nl, pl, pt-BR, pt-PT, ro, ru, sk, sl, sv, uk, vmf
+- `Looking…` / `Searching…`: ar, ca, ca-ES-valencia, cs, da, de, el, es, et, fa, fr, fr-CA, he, hu, id, it, kab, lt, lv, nl, pl, pt-BR, pt-PT, ro, ru, sk, sl, sv, tr, uk, vmf
 - `Magnification:` / `Magnify`: el, he, hu, pl, uk
 - `Magnify` / `Zoom`: hu, pl
 - `No heads` / `None`: ar, ca, ca-ES-valencia, cs, da, de, el, es, et, fa, fi, fr, fr-CA, he, hu, id, it, ja, kab, ko, lt, lv, nl, nn, pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tr, uk, vi, vmf, zh-Hans, zh-Hant
@@ -150,11 +150,11 @@ Two texts of one source file that a language translates the same way. Reviewed: 
 - `Pause Recording` / `Stop Recording`: sl
 - `Pictures` / `picture`: id, ko, nn, uk, vi, zh-Hans, zh-Hant
 - `Recipe` / `Recipes`: id, ja, ko, sv, vi, zh-Hans, zh-Hant
-- `Recipe Not Saved` / `The recipe was not saved.`: ar, el, et, fa, fi, he, id, kab, lt, sr, uk, vi
+- `Recipe Not Saved` / `The recipe was not saved.`: ar, el, et, fa, fi, he, id, kab, lt, sr, tr, uk, vi
 - `Recipient:` / `To:`: fi, hu, ko, zh-Hant
 - `Recording` / `Saving…`: et
 - `Reference:` / `URL:`: uk
-- `Saving the Recording…` / `The recording is being saved.`: ar, ca, lt, nl, vmf
+- `Saving the Recording…` / `The recording is being saved.`: ar, ca, lt, nl, tr, vmf
 - `Screen` / `Screens`: id, ja, ko, vi, zh-Hans, zh-Hant
 - `Search` / `Search for:`: ca, cs, el, es, et, fa, fi, fr, fr-CA, he, hu, id, it, ja, kab, ko, lt, lv, pl, pt-PT, ro, ru, sk, sl, sr, sv, tr, uk, vi, zh-Hans, zh-Hant
 - `Search` / `Search in:`: lv
