@@ -283,7 +283,7 @@ All notable changes to this project are documented here. The format follows
 
 - Translations: texts no longer cut off in longer languages. The Settings window grows to show all ten tab names; the
   log viewer's buttons, the recipe manager's status badges and search field, the Export Capture tiles, the recipe
-  editor's pickers and prompt choices, the welcome window and the Self-Service sidebar make room for them; English
+  editor's toolbar (symbols only when the titles don't fit), pickers, prompt choices and arguments, the welcome window and the Self-Service sidebar make room for them; English
   looks as before. The recipe badges BUILT-IN, REPLACES BUILT-IN and AI, the recipe editor's approval notes, the
   barcode errors, the hotkey clash note, "Untitled" and the recipe outline's In/Out are translated now, and badges
   stay in capitals.
