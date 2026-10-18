@@ -10,28 +10,37 @@ import GreenshotCore
 @MainActor
 enum AppRelaunch {
     private static var observer: NSObjectProtocol?
+    private static var beforeRestart: (() -> Void)?
     private static let log = Log("Language")
 
-    /// Quits like the Quit menu item (unsaved screenshots are asked about first); once the app has ended, it starts
-    /// again with the same `--settings-dir`. When quitting is cancelled nothing happens; a quit within two minutes
-    /// (a recording still being saved) still relaunches.
-    static func relaunch() {
-        if observer == nil {
-            observer = NotificationCenter.default.addObserver(forName: NSApplication.willTerminateNotification,
-                                                              object: nil, queue: nil) { _ in
-                MainActor.assumeIsolated { startAgainAfterExit() }
+    /// Quits like the Quit menu item (unsaved screenshots are asked about first); once the app really ends,
+    /// `beforeRestart` runs (the welcome asks to come back) and the app starts again with the same `--settings-dir`.
+    ///
+    /// `NSApp.terminate` returns only when quitting was cancelled (an unsaved screenshot, a running recipe): then
+    /// nothing is left behind, and a later Quit is an ordinary quit. A quit that waits (`.terminateLater` while a
+    /// recording is saved, VideoRecordingController.terminateReply) stays inside `terminate` in AppKit's modal loop
+    /// until the reply, which always lets the app end; a second request meanwhile changes nothing.
+    static func relaunch(beforeRestart: (() -> Void)? = nil) {
+        guard observer == nil else { return }
+        self.beforeRestart = beforeRestart
+        observer = NotificationCenter.default.addObserver(forName: NSApplication.willTerminateNotification,
+                                                          object: nil, queue: nil) { _ in
+            MainActor.assumeIsolated {
+                AppRelaunch.beforeRestart?()
+                startAgainAfterExit()
             }
         }
         log.info("Relaunching for the language")
         NSApp.terminate(nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 120) {
-            MainActor.assumeIsolated { cancel() }
-        }
+        // Still running: quitting was cancelled.
+        log.info("Quitting was cancelled; no relaunch")
+        cancel()
     }
 
     private static func cancel() {
         if let observer { NotificationCenter.default.removeObserver(observer) }
         observer = nil
+        beforeRestart = nil
     }
 
     /// A shell waits for this process to end (the single-instance lock is free then), then opens the app again: the

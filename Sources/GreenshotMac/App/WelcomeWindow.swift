@@ -192,8 +192,8 @@ final class WelcomeWindowController: DiagnosticsWindowController {
         if firstLaunch, settings.value.language.isEmpty, !settings.isLocked(\.language), LanguagePacks.all.count > 1 {
             model.languageStore = settings
             model.relaunchForLanguage = {
-                settings.update { $0.welcomeShown = false }
-                AppRelaunch.relaunch()
+                // Only when the app really quits (a cancelled quit leaves the welcome as shown).
+                AppRelaunch.relaunch { settings.update { $0.welcomeShown = false } }
             }
         }
         let controller = WelcomeWindowController(model: model)
