@@ -7,6 +7,23 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Translations: menus, the editor, Settings and dialogs show Greenshot's translations in 39 languages from Greenshot's
+  language packs; texts only the Mac has stay English (German about 1 in 7 texts, other languages 6–12 %; coverage per
+  language in docs/translations.md). Choose the language in Settings › General or on the welcome window's first page (it
+  shows after a relaunch), or start with `--language <code>`. Arabic, Persian and Hebrew windows are laid out right to
+  left, with numbers and hotkeys kept in order. Help opens Greenshot's help in your language, offline too.
+- Editor: SVG pictures, pictures, emoji and QR codes / barcodes turn with Rotate instead of being squeezed, and turned
+  SVG and emoji elements from Greenshot for Windows files keep their turn. Several area highlights no longer darken each
+  other's areas. The colour panel lists the 12 colours you used last as the "Greenshot Recent" palette.
+- Destinations: Jira issues you looked at in any window are offered in the destination menu and the upload window (only
+  keys of your Jira's own projects; needs Screen Recording; pauses while the Mac sleeps or is locked). Outlook can attach
+  screenshots to open meetings you organise (legacy Outlook; Settings › Destinations › "Outlook: allow export in meeting
+  items"). External commands can write their output to the log ("Write the output to the log"); their errors are logged
+  when the command fails, at most 600 characters, with passwords and tokens replaced.
+- Recipes: the InteractiveSelection step's SelectionTool accepts Region, Window and Text; the RecordVideo step's
+  ShowCaptureBorder draws a yellow frame around what is recorded that is not in the video; a recipe's print options
+  apply only to its own print, and options locked by your organisation win and show greyed out with a lock.
+
 - Screen recording: Record Screen, Record Window… and Record Region… in the menu bar menu record to an MP4 (H.264 or
   HEVC) with what the Mac plays, the microphone, or both. A "Start or stop recording" hotkey; a countdown; a menu bar indicator
   with the recorded time (click to stop, ⌃-click to pause, resume or discard). A window recording follows the window,
@@ -234,6 +251,10 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- The grayscale highlight now greys everything outside its area and keeps the area in colour, like Greenshot for
+  Windows. Existing images with a grayscale highlight look different.
+- The clipboard hotkey is called "Open image from clipboard" everywhere. File names use Latin digits in every language
+  and region.
 - New text is 11 pt and speech bubbles 20 pt by default, pasted text 12 pt: the same size as in Greenshot for Windows
   (it was a third bigger). Cut marks use Greenshot's shadow.
 - The duplicate Messages section of Settings › Output is gone; the notification options are on the Capture tab, like

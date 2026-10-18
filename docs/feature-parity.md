@@ -1,6 +1,6 @@
 # Feature parity with Greenshot for Windows
 
-This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 4: recipes in the app, recipe editor and manager, MCP server for AI tools, browser extension). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
+This is the checklist for bringing everything Greenshot for Windows does to this Mac port. It compares upstream [greenshot/greenshot](https://github.com/greenshot/greenshot) at commit `0aedcf04` (2026-10-17) with this repository at `fddb81b`, and is updated as the work packages land (last: wave 5: translations and the remaining partial features; every row is now done or not applicable on the Mac). To update it against a newer upstream, start from `git log 0aedcf04..HEAD` upstream.
 
 ## How it was made
 
@@ -12,15 +12,15 @@ This is the checklist for bringing everything Greenshot for Windows does to this
 
 | Area | ✅ | 🟡 | ❌ | 🍎 | ➖ | ➕ | Rows |
 |---|---|---|---|---|---|---|---|
-| [Capture](parity/cap.md) | 114 | 1 | 0 | 2 | 10 | 0 | 127 |
-| [Editor](parity/edt.md) | 141 | 2 | 0 | 13 | 10 | 0 | 168 |
-| [Image operations and file formats](parity/img.md) | 67 | 0 | 0 | 6 | 6 | 0 | 80 |
-| [Destinations and plugins](parity/dst.md) | 122 | 2 | 0 | 12 | 12 | 0 | 148 |
-| [App shell, settings, notifications](parity/app.md) | 134 | 2 | 9 | 11 | 27 | 0 | 185 |
-| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 68 | 0 | 0 | 0 | 6 | 0 | 74 |
-| [Recipes](parity/rcp.md) | 192 | 4 | 0 | 0 | 7 | 0 | 203 |
+| [Capture](parity/cap.md) | 115 | 0 | 0 | 3 | 9 | 0 | 127 |
+| [Editor](parity/edt.md) | 147 | 0 | 0 | 11 | 8 | 0 | 168 |
+| [Image operations and file formats](parity/img.md) | 68 | 0 | 0 | 5 | 6 | 0 | 80 |
+| [Destinations and plugins](parity/dst.md) | 125 | 0 | 0 | 12 | 11 | 0 | 148 |
+| [App shell, settings, notifications](parity/app.md) | 150 | 0 | 0 | 8 | 25 | 0 | 185 |
+| [Automation (command line, URL scheme, MCP, browser extension)](parity/aut.md) | 69 | 0 | 0 | 0 | 5 | 0 | 74 |
+| [Recipes](parity/rcp.md) | 196 | 0 | 0 | 0 | 7 | 0 | 203 |
 | Found by the checks | 7 | 0 | 0 | 0 | 0 | 0 | 7 |
-| **All** | **845** | **11** | **9** | **44** | **78** | **0** | **992** |
+| **All** | **877** | **0** | **0** | **39** | **71** | **0** | **992** |
 
 ➕ marks Mac-only additions with no upstream counterpart (AppleScript, Shortcuts, the Services menu, extra `greenshotmac://` actions).
 
@@ -33,11 +33,11 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
 | [A1. Capture screen and hotkeys polish](#a1) | ✅ | 29 | 4-5 |
-| [A2. Editor canvas: elements, styles, selection, paste and drop](#a2) | 1 | 47 | 5-6 |
+| [A2. Editor canvas: elements, styles, selection, paste and drop](#a2) | ✅ | 47 | 5-6 |
 | [A3. Editor window: toolbar, status bar, zoom, colour dialog, add to editor](#a3) | ✅ | 16 | 3-4 |
 | [A4. Image operations, file formats and output options](#a4) | ✅ | 36 | 4-5 |
-| [A5. Destinations, picker, saving and upload polish](#a5) | 1 | 39 | 4-5 |
-| [A6. Menu bar icon, app shell and settings polish](#a6) | 1 | 27 | 3-4 |
+| [A5. Destinations, picker, saving and upload polish](#a5) | ✅ | 39 | 4-5 |
+| [A6. Menu bar icon, app shell and settings polish](#a6) | ✅ | 27 | 3-4 |
 
 ### B. Medium features with a clear Mac design
 
@@ -49,11 +49,11 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 | [B4. Torn edges and cut marks as editable elements with Apply to image](#b4) | ✅ | 4 | 3-4 |
 | [B5. .greenshot files: open upstream files, save editable documents](#b5) | ✅ | 4 | 5-8 |
 | [B6. QR code and barcode generator (editable element)](#b6) | ✅ | 4 | 4-5 |
-| [B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)](#b7) | 1 | 12 | 4-6 |
+| [B7. Office and Mail via AppleScript (Word, Excel, PowerPoint, Outlook, Mail, Notes)](#b7) | ✅ | 12 | 4-6 |
 | [B8. Jira/Confluence Server and Data Center, TLS exceptions, Confluence browsing](#b8) | ✅ | 7 | 3 |
 | [B9. Window mode: inner windows and areas via Accessibility](#b9) | ✅ | 3 | 3-5 |
 | [B10. HDR / wide-colour capture](#b10) | ✅ | 1 | 1-2 |
-| [B11. Mouse pointer and SVG as editable elements](#b11) | 1 | 4 | 2-3 |
+| [B11. Mouse pointer and SVG as editable elements](#b11) | ✅ | 4 | 2-3 |
 | [B12. Admin policy via managed preferences (locked settings, hidden items)](#b12) | ✅ | 5 | 3-4 |
 | [B13. Restore open editors after quit, log out or crash](#b13) | ✅ | 5 | 2-3 |
 
@@ -61,12 +61,12 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 | Package | Open | Rows | Estimate (days) |
 |---|---|---|---|
-| [C1. Translations: localisation plumbing + upstream language packs](#c1) | 10 | 10 | 7-10 (+ review by native speakers) |
+| [C1. Translations: localisation plumbing + upstream language packs](#c1) | ✅ | 10 | 7-10 (+ review by native speakers) |
 | [C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services](#c2) | ✅ | 39 | 6-8 |
 | [C3. MCP server for AI tools (capture, list windows, consent)](#c3) | ✅ | 18 | 4-6 |
 | [C4. Browser extension (Chrome/Edge/Firefox, then Safari)](#c4) | ✅ | 9 | 4-6 |
 | [C5. Video recording (screen, window, region to MP4)](#c5) | 1 | 22 | 5 reduced / 10 full |
-| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | 4 | 156 | 15-20 |
+| [C6. Recipes: engine, triggers, steps, approval (MVP)](#c6) | ✅ | 156 | 15-20 |
 | [C7. Recipes: editor, manager, options, extensions](#c7) | ✅ | 72 | 25-40 (list editor); node graph +25-40 |
 
 ### D. Optional
@@ -208,7 +208,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `DST-079` ✅ Built-in default commands: MS Paint, Paint.NET (not recreated once deleted: `DeletedBuildInCommands`)
 - `DST-080` ✅ Invalid commands (program no longer exists) removed from the configuration at startup
 - `DST-081` ✅ Icon of the command's program shown in menus (`IconCache`, also for UWP/Store apps via `WindowsAppHelper`)
-- `DST-088` 🟡 Recent Jira issues offered as destinations: the app watches window titles for issue keys (`ABC-123`) and lists issues the user recently looked at
+- `DST-088` ✅ Recent Jira issues offered as destinations: the app watches window titles for issue keys (`ABC-123`) and lists issues the user recently looked at
 - `DST-089` ✅ Issue list from a Jira favourite filter (dropdown), sortable columns: type icon, key, created, assignee, reporter, summary
 - `DST-090` ✅ Issue-type icons and the server favicon on Jira destinations
 - `DST-095` ✅ Page chooser tab "Search pages" (title text, optional space)
@@ -226,7 +226,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `APP-006` ✅ Window list titles cut to `MaxMenuItemLength` (default 25) so the menu does not get too wide
 - `APP-007` ✅ Hover over a window-list entry shows a live thumbnail of that window beside the menu (`ThumnailPreview`, default on)
 - `APP-010` ✅ Menu: Open last capture location (opens the last saved file in the file manager; falls back to the output folder when the file is gone)
-- `APP-019` 🟡 Menu: Help (opens the offline help file in the UI language)
+- `APP-019` ✅ Menu: Help (opens the offline help file in the UI language)
 - `APP-031` ✅ Left click on the tray icon runs `LeftClickAction` (default show menu); choices: open last in explorer, open last in editor, open settings, show menu, capture clipboard, open clipboard in editor, open file in editor, capture region, capture screen, capture window, open empty editor, do nothing
 - `APP-032` ✅ Double click on the tray icon runs `DoubleClickAction` (default open last capture in explorer); the single click is then delayed by the system double-click time
 - `APP-033` ✅ Click action: Open empty editor (a blank image to draw on)
@@ -334,7 +334,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `DST-124` ✅ PowerPoint: new presentation or open presentation, one slide per capture, picture centred, title as slide text
 - `DST-125` ✅ PowerPoint settings: lock aspect ratio; slide layout (`PowerpointSlideLayout`, default picture with caption, falls back to blank)
 - `DST-126` ✅ Outlook: new e-mail with the image inline (HTML) or attached (text), subject pattern, default To/CC/BCC
-- `DST-127` 🟡 Outlook: insert into an open message/inspector window (and meeting items when allowed)
+- `DST-127` ✅ Outlook: insert into an open message/inspector window (and meeting items when allowed)
 - `DST-128` ✅ OneNote: new page in the default notebook, or an existing page (dynamic list of notebooks/sections/pages)
 - `DST-130` ✅ Office settings window (Outlook format, subject, To/CC/BCC, allow meetings, Word/PowerPoint options)
 
@@ -366,7 +366,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 - `CAP-019` ✅ Mouse cursor is captured as its own object (icon, hotspot, position) and stays an editable/movable/removable element in the editor; CursorVisible flag
 - `EDT-027` ✅ Mouse cursor as separate movable element from capture (CursorContainer)
-- `EDT-030` 🟡 SVG vector element (drop/paste SVG stays scalable)
+- `EDT-030` ✅ SVG vector element (drop/paste SVG stays scalable)
 - `IMG-064` ✅ Open SVG (rasterised; as SvgContainer element when inserted)
 
 <a id="b12"></a>
@@ -390,21 +390,21 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 <a id="c1"></a>
 ### C1. Translations: localisation plumbing + upstream language packs
 
-- `APP-043` ❌ First run: language picker window when `Language` is empty
-- `APP-070` ❌ Language drop-down (all installed language packs, "Description=" shown); change applies at once to all windows
-- `APP-129` ❌ Language selection window (first start)
-- `APP-170` ❌ Localisation infrastructure: UI strings from language files, English fallback per missing key, runtime language switch (live in all windows), language list with `Description=`, `--language` flag (AUT)
-- `APP-171` ❌ 40 language packs: ar-SY, ca-CA, cs-CZ, da-DK, de-DE, de-x-franconia, el-GR, en-US (base), es-ES, et-EE, fa-IR, fi-FI, fr-FR, fr-QC, he-IL, hu-HU, id-ID, it-IT, ja-JP, kab-DZ, ko-KR, lt-LT, lv-LV, nl-NL, nn-NO, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sl-SI, sr-RS, sv-SE, tr-TR, uk-UA, va-VA, vi-VN, zh-CN, zh-TW
-- `APP-172` ❌ Right-to-left languages (ar-SY, fa-IR, he-IL) layout
-- `APP-173` ❌ Plugin language files (jira, office, pdf, confluence, externalcommand, dropbox, box) translated per language
-- `APP-176` 🟡 Offline help pages in 17 languages (de, en, es, fr, hu, it, ko, nl, nn, pl, pt-BR, pt-PT, ru, sv, tr, va, zh-CN), opened from Help menu by UI language
-- `APP-180` ❌ `Language`
-- `APP-207` ❌ Translation updates (Turkish, Swedish, Polish, Japanese, Persian) and the translation agent
+- `APP-043` ✅ First run: language picker window when `Language` is empty
+- `APP-070` ✅ Language drop-down (all installed language packs, "Description=" shown); change applies at once to all windows
+- `APP-129` ✅ Language selection window (first start)
+- `APP-170` ✅ Localisation infrastructure: UI strings from language files, English fallback per missing key, runtime language switch (live in all windows), language list with `Description=`, `--language` flag (AUT)
+- `APP-171` ✅ 40 language packs: ar-SY, ca-CA, cs-CZ, da-DK, de-DE, de-x-franconia, el-GR, en-US (base), es-ES, et-EE, fa-IR, fi-FI, fr-FR, fr-QC, he-IL, hu-HU, id-ID, it-IT, ja-JP, kab-DZ, ko-KR, lt-LT, lv-LV, nl-NL, nn-NO, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sl-SI, sr-RS, sv-SE, tr-TR, uk-UA, va-VA, vi-VN, zh-CN, zh-TW
+- `APP-172` ✅ Right-to-left languages (ar-SY, fa-IR, he-IL) layout
+- `APP-173` ✅ Plugin language files (jira, office, pdf, confluence, externalcommand, dropbox, box) translated per language
+- `APP-176` ✅ Offline help pages in 17 languages (de, en, es, fr, hu, it, ko, nl, nn, pl, pt-BR, pt-PT, ru, sv, tr, va, zh-CN), opened from Help menu by UI language
+- `APP-180` ✅ `Language`
+- `APP-207` ✅ Translation updates (Turkish, Swedish, Polish, Japanese, Persian) and the translation agent
 
 <a id="c2"></a>
 ### C2. Automation: greenshotmac:// actions, command line tool, AppleScript, Shortcuts, Services
 
-- `AUT-001` ➖ `--language <code>` startup option: set UI language and save config
+- `AUT-001` ✅ `--language <code>` startup option: set UI language and save config
 - `AUT-003` ➖ `--no-run`: exit immediately without starting or showing Greenshot (used by installer/scripts)
 - `AUT-004` ✅ `--restore` (hidden): started by Windows Restart Manager after update/reboot; ends silently if already running
 - `AUT-005` ✅ `--autostart`: started at logon; ends silently if another instance runs
@@ -492,7 +492,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `CAP-207` ✅ Output size: TargetWidth/TargetHeight or ScaleFactor (0..2, e.g. 0.5/0.75), GPU scaling; even dimensions forced for H.264/HEVC
 - `CAP-208` ✅ Colour mode FullColor or Grayscale
 - `CAP-209` ✅ Record the mouse cursor (CaptureMouseCursor, default true)
-- `CAP-210` ➖ Show OS capture border during recording (Windows 11 yellow border, default off)
+- `CAP-210` 🍎 Show OS capture border during recording (Windows 11 yellow border, default off)
 - `CAP-211` ✅ What happens when the target window is resized: LetterboxFixedCanvas (default, keeps canvas size) or ScaleToFit
 - `CAP-212` ✅ Audio: None / system audio (loopback) / microphone / both mixed, AAC 192 kbps, custom audio provider
 - `CAP-213` ✅ Pause and resume the recording (API; used for auto-pause)
@@ -502,7 +502,7 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 - `CAP-217` ✅ Recording events: state changes (Unstarted, Recording, Paused, Finalizing, Stopped, Cancelled, Failed), duration ticks, errors
 - `CAP-218` ✅ Hardware-accelerated pipeline: D3D11 staging ring buffer, GPU crop for region/window, Media Foundation transcoder; first-frame wait of 2 s
 - `CAP-219` ➖ HDR in video
-- `CAP-220` 🟡 Recorded video flows into destinations (Save/Share/Upload)
+- `CAP-220` ✅ Recorded video flows into destinations (Save/Share/Upload)
 - `CAP-221` ✅ Permissions needed: Screen Recording (shared), Microphone (only for mic audio)
 
 <a id="c6"></a>
@@ -522,5 +522,5 @@ Every 🟡 and ❌ row, and the 🍎 and ➕ rows that still need Mac work, belo
 
 ## Not applicable on a Mac
 
-78 rows are Windows-only with no Mac meaning (installer, registry, Active Setup, Restart Manager, DPI manifests, DIB clipboard formats, Windows OCR engine choice, …); each says why in its area file. Upstream also removed some features, which are not to be ported: the Imgur upload plugin (#1529; the Self-Service page that deletes old Imgur uploads is not needed here either), the Flickr, Google Photos/Picasa and Photobucket plugins (#928), Office before 2013 (#1485), Internet Explorer capture, the WM_COPYDATA messages (replaced by named pipes) and the XML language files.
+71 rows are Windows-only with no Mac meaning (installer, registry, Active Setup, Restart Manager, DPI manifests, DIB clipboard formats, Windows OCR engine choice, …); each says why in its area file. Upstream also removed some features, which are not to be ported: the Imgur upload plugin (#1529; the Self-Service page that deletes old Imgur uploads is not needed here either), the Flickr, Google Photos/Picasa and Photobucket plugins (#928), Office before 2013 (#1485), Internet Explorer capture, the WM_COPYDATA messages (replaced by named pipes) and the XML language files.
 

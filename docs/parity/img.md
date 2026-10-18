@@ -63,7 +63,7 @@ Status: ✅ done, 🟡 partial, ❌ missing, 🍎 a Mac equivalent is the way to
 |---|---|---|---|---|---|---|---|
 | IMG-050 | Pixelate that cannot be reversed: secret (AES-CBC) noise per block, stable for repaint/export (1aa2febb) | ✅ done | M | A4 | Drawing/Filters/PixelizationFilter.cs | wave 1: done | Custom block average with per-block random noise seeded once per element |
 | IMG-051 | Faster box blur (f2e2a885) | ➖ not applicable | - |  | ImageHelper.cs:459 ApplyBoxBlur | Mac uses `CIGaussianBlur` (AnnotationRenderer.swift:481); performance only |  |
-| IMG-052 | Inverted filters (obfuscate/highlight "invert" of selection) drawn once for multiple areas (4b3d9dee) | 🍎 Mac equivalent | - |  | DrawableContainerList.cs; AbstractFilter.cs | EDT slice; behaviour/perf. Check "Shift-area invert"-style option in EDT. |  |
+| IMG-052 | Inverted filters (obfuscate/highlight "invert" of selection) drawn once for multiple areas (4b3d9dee) | ✅ done | - |  | DrawableContainerList.cs; AbstractFilter.cs | wave 5: inverted highlights drawn once per group, as upstream |  |
 
 ## Opening files / reading formats
 
