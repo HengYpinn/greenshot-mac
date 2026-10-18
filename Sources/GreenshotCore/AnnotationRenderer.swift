@@ -40,11 +40,12 @@ public enum AnnotationRenderer {
             ? CutShadow(cutSource, canvas: CGRect(x: 0, y: 0, width: base.width, height: base.height), scale: scale)
             : nil
         let canvas = CGRect(x: 0, y: 0, width: base.width, height: base.height)
-        let inverted = invertedHighlightAreas(annotations.filter { $0.id != hiddenID || $0.kind.hasEditableText },
-                                              canvas: canvas)
-        var invertedDrawn: Set<HighlightMode> = []
+        let inverted = invertedHighlightGroups(annotations.filter { $0.id != hiddenID || $0.kind.hasEditableText },
+                                               canvas: canvas)
+        let cutKinds = cutSource.filter { AnnotationKind.cutEdgeKinds.contains($0.kind) }
+        var drawnGroups: [InvertedHighlightGroup] = []
         var counter = counterStart - 1
-        for annotation in annotations {
+        for (index, annotation) in annotations.enumerated() {
             if annotation.kind == .counter { counter += 1 }
             var shown = annotation
             if annotation.id == hiddenID {
@@ -52,10 +53,17 @@ public enum AnnotationRenderer {
                 shown.text = ""
             }
             let mode = annotation.style.highlightMode
-            if annotation.kind == .highlight, let areas = inverted[mode], invertedDrawn.insert(mode).inserted {
+            // Upstream draws the group where the first of its highlights that is on the canvas (the repainted area)
+            // comes in the drawing order (`DrawingBounds.IntersectsWith(clipRectangle)`).
+            if annotation.kind == .highlight, let group = inverted[mode], !drawnGroups.contains(where: { $0.mode == mode }),
+               !annotation.bounds.integral.intersection(canvas).isEmpty {
+                let key = InvertedEffectKey(base: base, below: Array(annotations[..<index]), hiddenID: hiddenID,
+                                            counterStart: counterStart, cutElements: cutKinds, scale: scale, mode: mode,
+                                            style: group.style, earlierAreas: drawnGroups.map(\.areas))
                 context.saveGState()
-                drawInvertedHighlight(mode, style: annotation.style, sparing: areas, in: context, scale: scale)
+                drawInvertedHighlight(group, in: context, scale: scale, key: key)
                 context.restoreGState()
+                drawnGroups.append(group)
             }
             context.saveGState()
             draw(shown, number: counter, in: context, scale: scale, cuts: cuts)
@@ -64,17 +72,28 @@ public enum AnnotationRenderer {
         return context.makeImage()
     }
 
-    /// The areas of the highlights that change the image outside their area (area and grayscale, upstream's filters
-    /// with `Invert`), by mode: whole pixels on the canvas, in drawing order. A mode whose highlights are all off the
-    /// canvas is missing.
-    static func invertedHighlightAreas(_ annotations: [Annotation], canvas: CGRect) -> [HighlightMode: [CGRect]] {
-        var areas: [HighlightMode: [CGRect]] = [:]
+    /// The highlights of one mode that change the image outside their area (area and grayscale, upstream's filters with
+    /// `Invert`), drawn once together.
+    struct InvertedHighlightGroup: Equatable {
+        var mode: HighlightMode
+        /// The first highlight's of the mode in the drawing order, on the canvas or not (upstream's
+        /// `idleContainers.First()`; upstream prefers a selected one, which the renderer doesn't know).
+        var style: AnnotationStyle
+        /// Their areas on the canvas, whole pixels, in drawing order.
+        var areas: [CGRect]
+    }
+
+    /// The groups of `annotations` by mode. A mode whose highlights are all off the canvas has none: it changes nothing.
+    static func invertedHighlightGroups(_ annotations: [Annotation], canvas: CGRect) -> [HighlightMode: InvertedHighlightGroup] {
+        var groups: [HighlightMode: InvertedHighlightGroup] = [:]
         for a in annotations where a.kind == .highlight && a.style.highlightMode.changesOutside {
+            let mode = a.style.highlightMode
+            var group = groups[mode] ?? InvertedHighlightGroup(mode: mode, style: a.style, areas: [])
             let rect = a.bounds.integral.intersection(canvas)
-            guard !rect.isEmpty else { continue }
-            areas[a.style.highlightMode, default: []].append(rect)
+            if !rect.isEmpty { group.areas.append(rect) }
+            groups[mode] = group
         }
-        return areas
+        return groups.filter { !$0.value.areas.isEmpty }
     }
 
     /// The font of a text element; `size` in pixels.
@@ -709,28 +728,20 @@ public enum AnnotationRenderer {
     }
 
     /// Upstream `DrawableContainerList.Draw` since 4b3d9dee: the highlights whose filter works outside their area are
-    /// drawn once per mode, where the first of them is in the drawing order, with every one of their `areas` left out
-    /// (`AbstractFilter.ApplyWithClipping` with `Invert`: the whole bitmap, `ExcludeClip` of each area). So a second
-    /// area highlight doesn't darken the first one's area, and elements drawn between them stay on top. `style` is the
-    /// first highlight's; upstream takes the selected one's when one is selected, which the renderer doesn't know.
+    /// drawn once per mode, where the first of them on the canvas is in the drawing order, with every one of their
+    /// `areas` left out (`AbstractFilter.ApplyWithClipping` with `Invert`: the whole bitmap, `ExcludeClip` of each
+    /// area). So a second area highlight doesn't darken the first one's area, and elements drawn between them stay on
+    /// top. The group's style is the first highlight's (`InvertedHighlightGroup.style`).
     /// - Area: everything outside darker and blurred (upstream `BrightnessFilter` and `BlurFilter`, `Invert = true`).
     /// - Grayscale: everything outside grey (upstream `GrayscaleFilter { Invert = true }`, `HighlightContainer.cs`).
-    static func drawInvertedHighlight(_ mode: HighlightMode, style: AnnotationStyle, sparing areas: [CGRect],
-                                      in context: CGContext, scale: CGFloat) {
-        guard !areas.isEmpty, let whole = context.makeImage() else { return }
-        let changed: CGImage?
-        switch mode {
-        case .area:
-            changed = areaHighlightOutside(whole, blurRadius: CGFloat(style.blurRadius) * scale,
-                                           brightness: CGFloat(style.brightness))
-        case .grayscale:
-            changed = grayscale(whole)
-        case .text, .magnify:
-            changed = nil
-        }
-        guard let changed else { return }
+    ///
+    /// The changed picture of the whole canvas is kept (`invertedEffects`, by `key`), so a redraw where nothing below
+    /// the group changed, such as dragging an element above it or one of the highlights, doesn't make it again.
+    static func drawInvertedHighlight(_ group: InvertedHighlightGroup, in context: CGContext, scale: CGFloat,
+                                      key: InvertedEffectKey? = nil) {
+        guard !group.areas.isEmpty, let changed = invertedEffect(group, of: context, scale: scale, key: key) else { return }
         let holes = CGMutablePath()
-        for area in areas { holes.addRect(area) }
+        for area in group.areas { holes.addRect(area) }
         // The canvas without the areas; subtracting their union also leaves out where two areas overlap (an even-odd
         // clip would bring the overlap back).
         let outside = CGPath(rect: canvasBounds(context), transform: nil).subtracting(holes)
@@ -740,6 +751,71 @@ public enum AnnotationRenderer {
         context.setBlendMode(.copy)
         drawUpright(changed, in: canvasBounds(context), context: context)
     }
+
+    /// The whole canvas as `group`'s filter changes it: kept from an earlier draw with the same `key`, else made from
+    /// what `context` holds now.
+    static func invertedEffect(_ group: InvertedHighlightGroup, of context: CGContext, scale: CGFloat,
+                               key: InvertedEffectKey?) -> CGImage? {
+        let name = group.mode.rawValue as NSString
+        if let key, let kept = invertedEffects.object(forKey: name), kept.key == key { return kept.image }
+        guard let whole = context.makeImage() else { return nil }
+        let changed: CGImage?
+        switch group.mode {
+        case .area:
+            changed = areaHighlightOutside(whole, blurRadius: CGFloat(group.style.blurRadius) * scale,
+                                           brightness: CGFloat(group.style.brightness))
+        case .grayscale:
+            changed = grayscale(whole)
+        case .text, .magnify:
+            changed = nil
+        }
+        if let key, let changed {
+            invertedEffects.setObject(InvertedEffect(key: key, image: changed), forKey: name,
+                                      cost: changed.bytesPerRow * changed.height)
+        }
+        return changed
+    }
+
+    /// Everything the canvas below an inverted highlight group depends on: the image (the same object; images never
+    /// change), the elements drawn before the group with the one being edited, how counters are numbered, the cut marks
+    /// and torn edges (their shadow is shared), the scale, the group's mode and style, and the areas of groups drawn
+    /// earlier.
+    struct InvertedEffectKey: Equatable {
+        let base: CGImage
+        let below: [Annotation]
+        let hiddenID: UUID?
+        let counterStart: Int
+        let cutElements: [Annotation]
+        let scale: CGFloat
+        let mode: HighlightMode
+        let style: AnnotationStyle
+        let earlierAreas: [[CGRect]]
+
+        static func == (lhs: InvertedEffectKey, rhs: InvertedEffectKey) -> Bool {
+            guard lhs.base === rhs.base, lhs.mode == rhs.mode, lhs.scale == rhs.scale, lhs.hiddenID == rhs.hiddenID,
+                  lhs.counterStart == rhs.counterStart, lhs.style == rhs.style, lhs.earlierAreas == rhs.earlierAreas else {
+                return false
+            }
+            return lhs.below == rhs.below && lhs.cutElements == rhs.cutElements
+        }
+    }
+
+    final class InvertedEffect {
+        let key: InvertedEffectKey
+        let image: CGImage
+
+        init(key: InvertedEffectKey, image: CGImage) {
+            self.key = key
+            self.image = image
+        }
+    }
+
+    /// The last changed canvas per mode (two at most); given back under memory pressure.
+    static let invertedEffects: NSCache<NSString, InvertedEffect> = {
+        let cache = NSCache<NSString, InvertedEffect>()
+        cache.totalCostLimit = 512 * 1024 * 1024
+        return cache
+    }()
 
     /// The image without colour.
     static func grayscale(_ image: CGImage) -> CGImage? {
