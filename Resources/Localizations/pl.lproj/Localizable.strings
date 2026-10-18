@@ -462,12 +462,6 @@
 /* core:Settings.playsound, normalised */
 "Play Camera Sound" = "Odtwarzaj dźwięk migawki aparatu";
 
-/* confluence:Confluence.login_title */
-"Please enter your Confluence login data" = "Wprowadź swoje dane logowania";
-
-/* jira:Jira.login_title */
-"Please enter your Jira login data" = "Wprowadź swoje dane logowania";
-
 /* core:Editor.print */
 "Print" = "Drukuj";
 
@@ -623,9 +617,6 @@
 
 /* confluence:Confluence.login_error, normalised */
 "There was a problem during the login: %@" = "Wystąpił problem podczas logowania: %@";
-
-/* core:Editor.dropshadow_thickness, override */
-"Thickness:" = "Intensywność cienia:";
 
 /* core:Editor.tornedge_toothsize, normalised */
 "Tooth size:" = "Rozmiar poszarpania:";

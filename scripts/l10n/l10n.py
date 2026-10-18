@@ -271,6 +271,11 @@ class Override:
     action: str  # map, pin, reject
     ref: Optional[Ref]
     note: str
+    # reject@sl,pt-BR: only in these languages (lproj or upstream code); None: in all.
+    languages: Optional[Tuple[str, ...]] = None
+
+    def applies_to(self, language: "Language") -> bool:
+        return self.languages is None or language.lproj in self.languages or language.ietf in self.languages
 
 
 def load_overrides(path: str = OVERRIDES_TSV) -> List[Override]:
@@ -286,14 +291,17 @@ def load_overrides(path: str = OVERRIDES_TSV) -> List[Override]:
             if len(columns) < 2:
                 raise SystemExit("overrides.tsv:%d: expected english<TAB>action<TAB>ref<TAB>note" % number)
             english = unescape_tsv(columns[0])
-            action = columns[1].strip()
+            action, _, scope = columns[1].strip().partition("@")
+            languages = tuple(code.strip() for code in scope.split(",") if code.strip()) or None
             ref = Ref.parse(columns[2].strip()) if len(columns) > 2 and columns[2].strip() else None
             note = columns[3].strip() if len(columns) > 3 else ""
             if action not in ("map", "pin", "reject"):
                 raise SystemExit("overrides.tsv:%d: unknown action %r" % (number, action))
             if action in ("map", "pin") and ref is None:
                 raise SystemExit("overrides.tsv:%d: %s needs an upstream key" % (number, action))
-            overrides.append(Override(english, action, ref, note))
+            if languages and action != "reject":
+                raise SystemExit("overrides.tsv:%d: only reject can be limited to languages" % number)
+            overrides.append(Override(english, action, ref, note, languages))
     return overrides
 
 
@@ -373,7 +381,7 @@ class Matcher:
                     if len(tokens) == len(specs):
                         found[ref] = Candidate(ref, value, "app name", tokens)
         for o in overrides:
-            if o.action == "reject":
+            if o.action == "reject" and o.languages is None:
                 if o.ref is None:
                     found.clear()
                 else:
@@ -596,6 +604,8 @@ class Result:
     conflicts: Dict[str, List[str]] = field(default_factory=dict)
     drops: Dict[Tuple[str, str], List[str]] = field(default_factory=dict)
     machine_counts: Dict[str, int] = field(default_factory=dict)
+    # Per language: (translation, English, English) of two different texts of one source file with the same translation.
+    collisions: Dict[str, List[Tuple[str, str, str]]] = field(default_factory=dict)
     upstream_counts: Dict[str, int] = field(default_factory=dict)
 
 
@@ -612,11 +622,16 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
           machine: bool, machine_folder: str = MACHINE_DIR) -> Result:
     matcher = Matcher(up, overrides)
     result = Result()
+    scoped: Dict[str, List[Override]] = {}
     for mac in keys:
         candidates, applied = matcher.candidates(mac.english, mac.key)
         for o in applied:
             if o.action == "reject":
-                result.rejected.append((mac.english, str(o.ref) if o.ref else "all keys"))
+                where = str(o.ref) if o.ref else "all keys"
+                if o.languages:
+                    where += " (%s)" % ", ".join(o.languages)
+                    scoped.setdefault(mac.key, []).append(o)
+                result.rejected.append((mac.english, where))
         if candidates:
             result.matched[mac.key] = candidates
             kind = candidates[0].kind
@@ -631,6 +646,8 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
             value, comment = None, ""
             outputs = []
             for candidate in result.matched.get(mac.key, []):
+                if any(o.applies_to(language) and (o.ref is None or o.ref == candidate.ref) for o in scoped.get(mac.key, [])):
+                    continue
                 raw = up.value(candidate.ref.module, language.ietf, candidate.ref.section, candidate.ref.key)
                 if not raw.strip():
                     continue
@@ -658,10 +675,35 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
             if value is not None:
                 entries.append(Entry(mac.key, value, comment))
         result.entries[language.lproj] = sorted(entries, key=lambda e: e.key)
+        result.collisions[language.lproj] = collisions(entries, keys)
         result.upstream_counts[language.lproj] = upstream_count
         result.machine_counts[language.lproj] = machine_count
         result.upstream_entries[language.lproj] = upstream_table(up, language)
     return result
+
+
+def collisions(entries: List[Entry], keys: List[MacKey]) -> List[Tuple[str, str, str]]:
+    """Two different Mac texts of one source file that got the same translation (upstream gives Cut and Copy the same
+    word in one language): candidates for a `reject@<language>` in overrides.tsv."""
+    by_key = {k.key: k for k in keys}
+
+    def plain(text: str) -> str:
+        return re.sub(r"[\s.:\u2026\uff1a]+$", "", text).casefold()
+
+    found = []
+    by_value: Dict[str, List[Entry]] = {}
+    for e in entries:
+        by_value.setdefault(plain(e.value), []).append(e)
+    for same in by_value.values():
+        for i, a in enumerate(same):
+            for b in same[i + 1:]:
+                ka, kb = by_key.get(a.key), by_key.get(b.key)
+                if not ka or not kb or plain(ka.english) == plain(kb.english):
+                    continue
+                if set(ka.files) & set(kb.files):
+                    first, second = sorted([ka.english, kb.english])
+                    found.append((a.value, first, second))
+    return sorted(set(found))
 
 
 def upstream_table(up: Upstream, language: Language) -> List[Entry]:
@@ -796,6 +838,18 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
         for english in sorted(result.conflicts):
             refs = ", ".join(str(c.ref) for c in result.matched.get(english_key(keys, english), []))
             lines.append("- %s — %s (%d languages)" % (md(english), refs, len(result.conflicts[english])))
+        lines.append("")
+    shown = {}
+    for lproj, pairs in result.collisions.items():
+        for value, first, second in pairs:
+            shown.setdefault((first, second), []).append(lproj)
+    if shown:
+        lines += ["## Different texts with the same translation", "",
+                  "Two texts of one source file that a language translates the same way. Reviewed: these are different "
+                  "controls where the same word is right (a label and its button, two separate lists); a pair that would "
+                  "make two controls look alike gets `reject@<language>` in overrides.tsv.", ""]
+        for (first, second), lprojs in sorted(shown.items()):
+            lines.append("- %s / %s: %s" % (md(first), md(second), ", ".join(sorted(lprojs))))
         lines.append("")
     if result.rejected:
         lines += ["## Rejected matches", ""]

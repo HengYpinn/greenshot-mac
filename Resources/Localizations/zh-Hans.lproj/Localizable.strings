@@ -24,8 +24,8 @@
 /* core:Core.error_multipleinstances, app name */
 "An instance of %@ is already running." = "%@ 已经运行。";
 
-/* core:Core.colorpicker_apply */
-"Apply" = "确定";
+/* core:Editor.obfuscate_text_apply */
+"Apply" = "应用";
 
 /* externalcommand:ExternalCommand.label_argument, normalised */
 "Arguments:" = "参数：";

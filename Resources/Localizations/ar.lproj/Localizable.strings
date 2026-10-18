@@ -180,9 +180,6 @@
 /* core:Editor.highlight_grayscale */
 "Grayscale" = "مقياس اللون الرمادي";
 
-/* core:Core.help_title */
-"Greenshot Help" = "مساعدة";
-
 /* core:Editor.arrowheads_end, override */
 "Head at end" = "نقطة النهاية";
 

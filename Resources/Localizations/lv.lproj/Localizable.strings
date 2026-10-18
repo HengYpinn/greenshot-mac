@@ -564,9 +564,6 @@
 /* core:Editor.obfuscate_text_search */
 "Search for:" = "Meklēt:";
 
-/* core:Editor.obfuscate_text_search_scope */
-"Search in:" = "Meklēt:";
-
 /* confluence:Confluence.search_pages */
 "Search pages" = "Meklēt lapas";
 

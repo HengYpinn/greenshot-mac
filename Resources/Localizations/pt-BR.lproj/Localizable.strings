@@ -411,9 +411,6 @@
 /* office:Office.outlook_allowmeetings, override */
 "Outlook: allow export in meeting items" = "Permitir a exportação em itens de reunião";
 
-/* core:Settings.output */
-"Output" = "Captura";
-
 /* pdf:Pdf.label_page_size */
 "Page size" = "Tamanho da página";
 
@@ -443,9 +440,6 @@
 
 /* jira:Jira.login_title */
 "Please enter your Jira login data" = "Por favor insira seus dados de login do Jira";
-
-/* office:Office.powerpoint_lockaspect, override */
-"PowerPoint: lock aspect ratio of the image" = "Manter a proporção da imagem";
 
 /* core:Editor.print */
 "Print" = "Imprimir";
@@ -656,9 +650,6 @@
 
 /* pdf:Pdf.label_page_width, normalised */
 "Width:" = "Largura:";
-
-/* office:Office.word_lockaspect, override */
-"Word: lock aspect ratio of the image" = "Manter a proporção da imagem";
 
 /* core:Editor.obfuscate_text_scope_words */
 "Words" = "Palavras";

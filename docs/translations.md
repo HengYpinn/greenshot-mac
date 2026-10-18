@@ -16,17 +16,17 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 
 ## Coverage
 
-2224 texts of the Mac are localizable; 424 of them have an upstream key (app name 10, exact 199, normalised 105, override 110); 3 rejected by overrides.tsv.
+2224 texts of the Mac are localizable; 424 of them have an upstream key (app name 10, exact 199, normalised 105, override 110); 19 rejected by overrides.tsv.
 
 | Language | Code | macOS | Translated | Share |
 |---|---|---|---:|---:|
-| العربية | ar-SY | ar | 139 | 6 % |
+| العربية | ar-SY | ar | 138 | 6 % |
 | Català | ca-CA | ca | 203 | 9 % |
 | Čeština | cs-CZ | cs | 250 | 11 % |
 | Dansk | da-DK | da | 137 | 6 % |
 | Deutsch | de-DE | de | 305 | 14 % |
 | Frängisch | de-x-franconia | vmf | 183 | 8 % |
-| Ελληνικά | el-GR | el | 200 | 9 % |
+| Ελληνικά | el-GR | el | 198 | 9 % |
 | Español | es-ES | es | 177 | 8 % |
 | Eesti | et-EE | et | 197 | 9 % |
 | پارسی | fa-IR | fa | 143 | 6 % |
@@ -34,26 +34,26 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 | Français | fr-FR | fr | 251 | 11 % |
 | Français - Québec | fr-QC | fr-CA | 173 | 8 % |
 | Hebrew - עִבְרִית | he-IL | he | 140 | 6 % |
-| Magyar | hu-HU | hu | 140 | 6 % |
+| Magyar | hu-HU | hu | 139 | 6 % |
 | Bahasa Indonesia | id-ID | id | 245 | 11 % |
 | Italiano | it-IT | it | 253 | 11 % |
 | 日本語 | ja-JP | ja | 254 | 11 % |
 | Taqbaylit | kab-DZ | kab | 256 | 12 % |
 | 한국어 | ko-KR | ko | 252 | 11 % |
 | Lietuvių | lt-LT | lt | 141 | 6 % |
-| Latviski | lv-LV | lv | 253 | 11 % |
-| Nederlands | nl-NL | nl | 233 | 10 % |
+| Latviski | lv-LV | lv | 252 | 11 % |
+| Nederlands | nl-NL | nl | 232 | 10 % |
 | Nynorsk | nn-NO | nn | 179 | 8 % |
-| Polski | pl-PL | pl | 249 | 11 % |
-| Português do Brasil | pt-BR | pt-BR | 237 | 11 % |
+| Polski | pl-PL | pl | 246 | 11 % |
+| Português do Brasil | pt-BR | pt-BR | 234 | 11 % |
 | Português de Portugal | pt-PT | pt-PT | 253 | 11 % |
 | Română | ro-RO | ro | 137 | 6 % |
 | Pусский | ru-RU | ru | 248 | 11 % |
 | Slovenčina | sk-SK | sk | 198 | 9 % |
-| Slovenščina | sl-SI | sl | 182 | 8 % |
-| Српски | sr-RS | sr | 236 | 11 % |
+| Slovenščina | sl-SI | sl | 181 | 8 % |
+| Српски | sr-RS | sr | 235 | 11 % |
 | Svenska | sv-SE | sv | 254 | 11 % |
-| Turkish | tr-TR | tr | 265 | 12 % |
+| Turkish | tr-TR | tr | 262 | 12 % |
 | Українська | uk-UA | uk | 257 | 12 % |
 | Valencià (RACV) | va-VA | ca-ES-valencia | 210 | 9 % |
 | Việt | vi-VN | vi | 140 | 6 % |
@@ -68,9 +68,9 @@ Help pages (`Resources/Help`, from upstream): de-DE, en-US, es-ES, fr-FR, hu-HU,
 Their translations differ; the first key in upstream's order (Core, Editor, Settings, Welcome, SelfService, Recipe, then the plug-ins) is used. Pin another one in overrides.tsv.
 
 - `About %@` — core:Core.about_title, core:Core.contextmenu_about (4 languages)
-- `Apply` — core:Core.colorpicker_apply, core:Editor.obfuscate_text_apply (9 languages)
+- `Apply` — core:Core.colorpicker_apply, core:Editor.obfuscate_text_apply (8 languages)
 - `Bottom` — core:Core.contextmenu_capturefullscreen_bottom, core:Editor.align_bottom, pdf:Pdf.label_bottom (17 languages)
-- `Close` — core:Core.bugreport_cancel, core:Editor.close (3 languages)
+- `Close` — core:Core.bugreport_cancel, core:Editor.close (2 languages)
 - `Delete` — core:Editor.deleteelement, externalcommand:ExternalCommand.settings_delete (5 languages)
 - `Edit` — core:Core.notification_button_edit, core:Editor.edit, externalcommand:ExternalCommand.settings_edit (4 languages)
 - `Edit…` — core:Core.notification_button_edit, core:Editor.edit, externalcommand:ExternalCommand.settings_edit (4 languages)
@@ -96,11 +96,35 @@ Their translations differ; the first key in upstream's order (Core, Editor, Sett
 - `right` — core:Core.contextmenu_capturefullscreen_right, core:Editor.align_right, pdf:Pdf.label_right (23 languages)
 - `top` — core:Core.contextmenu_capturefullscreen_top, core:Editor.align_top, pdf:Pdf.label_top (24 languages)
 
+## Different texts with the same translation
+
+Two texts of one source file that a language translates the same way. Reviewed: these are different controls where the same word is right (a label and its button, two separate lists); a pair that would make two controls look alike gets `reject@<language>` in overrides.tsv.
+
+- `Center` / `Middle`: de, et, id, ja, kab, ko, lv, nl, sv, vmf
+- `No heads` / `None`: ar, ca, ca-ES-valencia, cs, da, de, el, es, et, fa, fi, fr, fr-CA, he, hu, id, it, ja, kab, ko, lt, lv, nl, nn, pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tr, uk, vi, vmf, zh-Hans, zh-Hant
+- `Search` / `Search for:`: ca, cs, el, es, et, fa, fi, fr, fr-CA, he, hu, id, it, ja, kab, ko, lt, lv, pl, pt-PT, ro, ru, sk, sl, sr, sv, tr, uk, vi, zh-Hans, zh-Hant
+
 ## Rejected matches
 
+- `Apply` — core:Core.colorpicker_apply (zh-Hans)
+- `Arrange` — core:Editor.arrange (tr)
+- `Blur radius` — core:Editor.blur_radius (el)
+- `Blur radius:` — core:Editor.blur_radius (el)
+- `Close` — core:Core.bugreport_cancel (vmf)
 - `Custom` — all keys
 - `Custom` — all keys
 - `Custom` — all keys
+- `Cut` — core:Editor.cuttoclipboard (sl)
+- `Greenshot Help` — core:Core.help_title (ar, sr)
+- `Layout` — core:Core.printoptions_layout (nl)
+- `Output` — core:Settings.output (pt-BR)
+- `Please enter your Confluence login data` — confluence:Confluence.login_title (pl)
+- `Please enter your Jira login data` — jira:Jira.login_title (pl)
+- `PowerPoint: lock aspect ratio of the image` — office:Office.powerpoint_lockaspect (pt-BR, tr)
+- `Search in:` — core:Editor.obfuscate_text_search_scope (lv)
+- `Send to printer` — core:Settings.destination_printer (hu)
+- `Thickness:` — core:Editor.dropshadow_thickness (pl)
+- `Word: lock aspect ratio of the image` — office:Office.word_lockaspect (pt-BR, tr)
 
 ## Translations not used
 

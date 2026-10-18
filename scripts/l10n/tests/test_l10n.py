@@ -152,6 +152,12 @@ class ConvertTests(unittest.TestCase):
         self.assertEqual(l10n.convert("Settings...", "Settings", "Settings", candidate("Settings...", []), "de"),
                          (None, ""))
 
+    def test_texts_without_placeholders_keep_their_percent_sign(self):
+        # Neither String(localized:) nor SwiftUI formats a text without arguments (probed: a table value "100 % A" and
+        # "Rate %d ok" show as written), so no escaping; a printf specifier there would show as written too.
+        value, _ = l10n.convert("Qualit\u00e4t 100 %", "Quality 100%", "Quality 100%", candidate("Quality 100%", []), "de")
+        self.assertEqual(value, "Qualit\u00e4t 100 %")
+
     def test_identifier_keys_use_the_default_value(self):
         value, _ = l10n.convert("Öffnen {0}", "menu.open", "Open %@", candidate("Open {0}", [0]), "de")
         self.assertEqual(value, "Öffnen %@")
@@ -218,6 +224,40 @@ class HelpLinkTests(unittest.TestCase):
         self.assertIn('<a href="#settings">pr\u00e9f</a>', page)
         self.assertNotIn("file:///", page)
         self.assertIn(" x", page)
+
+
+class ScopedRejectTests(unittest.TestCase):
+    def test_a_reject_for_one_language(self):
+        up = upstream({
+            ("core", "en-US"): {("Editor", "cut"): "Cut", ("Editor", "copy"): "Copy"},
+            ("core", "de-DE"): {("Editor", "cut"): "Kopieren", ("Editor", "copy"): "Kopieren"},
+            ("core", "ja-JP"): {("Editor", "cut"): "\u5207\u308a\u53d6\u308a", ("Editor", "copy"): "\u30b3\u30d4\u30fc"},
+        })
+        languages = [l10n.Language("de-DE", "de", False), l10n.Language("ja-JP", "ja", False)]
+        keys = [l10n.MacKey("Cut", None, ["Menu.swift"]), l10n.MacKey("Copy", None, ["Menu.swift"])]
+        plain = l10n.build(up, languages, keys, [], False)
+        self.assertEqual(plain.collisions["de"], [("Kopieren", "Copy", "Cut")])
+        self.assertEqual(plain.collisions["ja"], [])
+        reject = l10n.Override("Cut", "reject", l10n.Ref.parse("core:Editor.cut"), "", ("de",))
+        scoped = l10n.build(up, languages, keys, [reject], False)
+        self.assertEqual([e.key for e in scoped.entries["de"]], ["Copy"])
+        self.assertEqual([e.key for e in scoped.entries["ja"]], ["Copy", "Cut"])
+        self.assertEqual(scoped.collisions["de"], [])
+
+    def test_only_reject_takes_languages(self):
+        folder = tempfile.mkdtemp()
+        try:
+            path = os.path.join(folder, "overrides.tsv")
+            with open(path, "w", encoding="utf-8") as f:
+                f.write("Cut\treject@sl,pt-BR\tcore:Editor.cut\tnote\n")
+            overrides = l10n.load_overrides(path)
+            self.assertEqual(overrides[0].languages, ("sl", "pt-BR"))
+            with open(path, "w", encoding="utf-8") as f:
+                f.write("Cut\tmap@sl\tcore:Editor.cut\tnote\n")
+            with self.assertRaises(SystemExit):
+                l10n.load_overrides(path)
+        finally:
+            shutil.rmtree(folder)
 
 
 class ScanTests(unittest.TestCase):
