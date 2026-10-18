@@ -53,14 +53,35 @@ struct GeneratedStringsTests {
         #expect(english.isEmpty)
     }
 
+    /// The Mac's English of every key (`value` for an identifier key with a default value), from scripts/l10n/mac-keys.json.
+    private static func englishTexts() throws -> [String: String] {
+        let data = try Data(contentsOf: root.appendingPathComponent("scripts/l10n/mac-keys.json"))
+        let object = try JSONSerialization.jsonObject(with: data)
+        let json = try #require(object as? [String: Any])
+        let keys = try #require(json["keys"] as? [[String: Any]])
+        var english: [String: String] = [:]
+        for entry in keys {
+            guard let key = entry["key"] as? String else { continue }
+            english[key] = entry["value"] as? String ?? key
+        }
+        return english
+    }
+
+    /// A translation has the placeholders of the Mac's English (the default value for an identifier key), so it can't
+    /// break a format at run time. A text without placeholders isn't formatted, by `String(localized:)` or SwiftUI (a
+    /// table value "100 %" or "%d" shows as written), so its translation may contain a `%`, but no specifier.
     @Test func translationsKeepTheirPlaceholders() throws {
+        let english = try Self.englishTexts()
         for pack in LanguagePacks.all {
             for (key, value) in try Self.table(pack.lproj, "Localizable") {
-                let keySpecifiers = Self.specifiers(key)
-                // A key without specifiers is no format: its translation is shown as written.
-                guard let keySpecifiers, !keySpecifiers.isEmpty else { continue }
-                let valueSpecifiers = Self.specifiers(value)
-                #expect(valueSpecifiers == keySpecifiers, "\(pack.lproj): \(key)")
+                let text = try #require(english[key], "\(pack.lproj): \(key) is no key of mac-keys.json")
+                let expected = Self.specifiers(text) ?? []
+                let found = Self.specifiers(value)
+                if expected.isEmpty {
+                    #expect(found?.isEmpty ?? true, "\(pack.lproj): \(key)")
+                } else {
+                    #expect(found == expected, "\(pack.lproj): \(key)")
+                }
             }
         }
     }
