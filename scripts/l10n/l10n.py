@@ -856,13 +856,15 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
         "Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: its language packs (upstream "
         "commit `%s`, vendored in `scripts/l10n/upstream`) are matched with the Mac's English texts. A Mac text whose "
         "English is also an upstream text (the same words; an ellipsis, a trailing colon, spaces and capitals don't "
-        "count) gets that text's translation; %s. The packs are GPL, like this app; the translators' credits are in "
+        "count) gets that text's translation (in capitals when the Mac's text is a badge in capitals); %s. The packs are GPL, like this app; the translators' credits are in "
         "each pack (`about_translation`) and About shows the one of the language in use." % (up.commit or "?", rest),
         "",
         "## How it works",
         "",
         "- `scripts/l10n/extract.sh` builds the app with the compiler's `-emit-localized-strings` and writes every "
-        "localizable text (SwiftUI literals, `String(localized:)`) to `scripts/l10n/mac-keys.json`.",
+        "localizable text (SwiftUI literals, `String(localized:)`) to `scripts/l10n/mac-keys.json`. The compiler writes "
+        "one file per source file name, so GreenshotCore and GreenshotMac may not have files of the same name (the "
+        "script stops and names them).",
         "- `scripts/l10n/l10n.py generate` matches them with the upstream English (`scripts/l10n/overrides.tsv` maps "
         "near matches by hand or rejects a wrong one) and writes `Resources/Localizations/<language>.lproj/"
         "Localizable.strings`, the `Upstream.strings` table for texts that are also data (`L10nText.display`) and "
