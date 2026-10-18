@@ -83,23 +83,26 @@ public struct AppleScriptFailure: Error, Equatable, LocalizedError {
         }
     }
 
-    public var errorDescription: String? { message.isEmpty ? "The script failed." : message }
+    public var errorDescription: String? { message.isEmpty ? String(localized: "The script failed.") : message }
 
     /// What to tell the user, naming the app.
     public func explanation(appName: String) -> String {
         switch kind {
         case .notAllowed, .needsConsent:
-            return "Greenshot isn't allowed to control \(appName). Allow it in System Settings › Privacy & Security › Automation › Greenshot."
+            return String(localized: "Greenshot isn't allowed to control \(appName). Allow it in System Settings › Privacy & Security › Automation › Greenshot.",
+                          comment: "%@ is an app such as Microsoft Word")
         case .notRunning:
-            return "\(appName) isn't running and could not be started."
+            return String(localized: "\(appName) isn't running and could not be started.", comment: "%@ is an app such as Microsoft Word")
         case .timedOut:
-            return "\(appName) didn't answer in time."
+            return String(localized: "\(appName) didn't answer in time.", comment: "%@ is an app such as Microsoft Word")
         case .notSupported:
-            return "\(appName) can't do this: its version doesn't support it by AppleScript (\(message))."
+            return String(localized: "\(appName) can't do this: its version doesn't support it by AppleScript (\(message)).",
+                          comment: "The first %@ is an app such as Microsoft Word, the second the app's error message")
         case .cancelled:
-            return "Cancelled."
+            return String(localized: "Cancelled.")
         case .other:
-            return "\(appName) reported a problem: \(message)"
+            return String(localized: "\(appName) reported a problem: \(message)",
+                          comment: "The first %@ is an app such as Microsoft Word, the second the app's error message")
         }
     }
 }

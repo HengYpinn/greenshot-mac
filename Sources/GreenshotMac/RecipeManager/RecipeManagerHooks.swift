@@ -60,7 +60,12 @@ enum RecipeQuickSettingsMenu {
         for entry in entries {
             // A built-in automatic step's texts in the language of the app; a file's as they are.
             let shown = { (text: String) in RecipeOptionTexts.shown(text, ownerId: entry.ownerId, in: library) }
-            let label = shown(entry.label)
+            // Two options with the same label: "<owner>: <label>", each part translated on its own.
+            let optionText = shown(entry.optionLabel)
+            let label = entry.ownerName.map {
+                String(localized: "\(shown($0)): \(optionText)",
+                       comment: "A quick setting: the automatic step or recipe (first %@), then its option (second %@)")
+            } ?? optionText
             if entry.option.type == .boolean {
                 let on = entry.value == .bool(true)
                 let item = ClosureMenuItem(title: label) {

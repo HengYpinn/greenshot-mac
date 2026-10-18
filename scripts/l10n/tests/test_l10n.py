@@ -89,6 +89,13 @@ class MatchTests(unittest.TestCase):
         found, _ = l10n.Matcher(self.up, [pinned]).candidates("Settings" + ELLIPSIS)
         self.assertEqual([str(c.ref) for c in found], ["core:Editor.settings"])
 
+    def test_an_identifier_keys_override_wins_over_its_english(self):
+        by_key = l10n.Override("editor.width", "map", l10n.Ref.parse("core:Settings.width"), "")
+        reject = l10n.Override("Width", "reject", None, "")
+        matcher = l10n.Matcher(self.up, [by_key, reject])
+        self.assertEqual([str(c.ref) for c in matcher.candidates("Width", "editor.width")[0]], ["core:Settings.width"])
+        self.assertEqual(matcher.candidates("Width", "Width")[0], [])
+
     def test_override_with_windows_wording_is_refused(self):
         windows = l10n.Override("Show in Finder", "map", l10n.Ref.parse("core:Core.explorer"), "")
         with self.assertRaises(SystemExit):
@@ -119,6 +126,14 @@ class ConvertTests(unittest.TestCase):
         self.assertEqual(l10n.align_punctuation("\u5e45", "Width:", "ja"), "\u5e45\uff1a")
         self.assertEqual(l10n.align_case("alle", "All"), "Alle")
         self.assertEqual(l10n.align_case("iPhone", "phone"), "iPhone")
+
+    def test_upstream_hints_are_left_out(self):
+        value, _ = l10n.convert("Pfeil zeichnen (A)", "Draw Arrow", "Draw Arrow", candidate("Draw arrow (A)", [], "override"), "de")
+        self.assertEqual(value, "Pfeil zeichnen")
+        value, _ = l10n.convert("\u77e2\u5370\uff08A\uff09", "Draw Arrow", "Draw Arrow", candidate("Draw arrow (A)", [], "override"), "ja")
+        self.assertEqual(value, "\u77e2\u5370")
+        value, _ = l10n.convert("Seite (A4)", "Page (A4)", "Page (A4)", candidate("Page (A4)", []), "de")
+        self.assertEqual(value, "Seite (A4)")
 
     def test_app_name(self):
         value, _ = l10n.convert("Über Greenshot", "About %@", "About %@", candidate("About Greenshot", [None]), "de")
@@ -194,6 +209,56 @@ class OutputTests(unittest.TestCase):
         old = l10n.help_page_utf8(b"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/></head>",
                                   "help-zh-CN.html")
         self.assertEqual(old.count("charset"), 1)
+
+
+class HelpLinkTests(unittest.TestCase):
+    def test_links_to_a_translators_disk_become_anchors(self):
+        page = l10n.help_page_utf8(b'<head></head><a href="file:///G:/windowsxp/Projet/help-fr-FR2.html#settings">pr\xe9f</a>'
+                                   b' <a href="file:///C:/x.html">x</a>', "help-fr-FR.html")
+        self.assertIn('<a href="#settings">pr\u00e9f</a>', page)
+        self.assertNotIn("file:///", page)
+        self.assertIn(" x", page)
+
+
+class ScanTests(unittest.TestCase):
+    SOURCE = "\n".join([
+        '        Text("Ready to go")',
+        '        label.stringValue = "Ready to go"',
+        '        let done = String(localized: "Done", comment: "A note for translators")',
+        '        case "Window title": break',
+        '        title = BidiText.isolatedLTR("Shift Option")',
+        '        alert.messageText = "Width <= 10 px; use a larger value"',
+        '        log.info("Something happened here")',
+        '        let s = "\u20ac"; item.title = "Save it now"',
+        '        let id = "com.example.identifier"',
+        '        let lines = """',
+        '            Two lines',
+        '            of text',
+        '            """',
+        '        let name = "Hello \\(user), welcome"',
+    ])
+
+    def scan(self, localized):
+        return [(line, kind, text) for line, kind, text in l10n.scan_source(self.SOURCE, localized)]
+
+    def test_literals_and_columns(self):
+        found = {line: (column, text) for _, line, column, text in l10n.swift_literals(self.SOURCE)}
+        self.assertEqual(found[1], (14, "Ready to go"))
+        self.assertEqual(found[8][1], "Save it now")
+        self.assertEqual(found[8][0], len('        let s = "\u20ac"; item.title = '.encode("utf-8")) + 1)
+        self.assertEqual(found[10][1], "Two lines\nof text")
+        self.assertEqual(found[14][1], "Hello " + l10n.TOKEN + ", welcome")
+
+    def test_only_texts_the_compiler_didnt_extract(self):
+        save_column = len('        let s = "\u20ac"; item.title = '.encode("utf-8")) + 1
+        localized = {(1, 14), (3, 38), (8, save_column)}
+        lines = {line: (kind, text) for line, kind, text in self.scan(localized)}
+        self.assertEqual(lines[2], ("other", "Ready to go"))  # the same text elsewhere is still a plain String
+        self.assertEqual(lines[6], ("ui", "Width <= 10 px; use a larger value"))
+        self.assertIn(10, lines)
+        self.assertIn(14, lines)
+        for skipped in (1, 3, 4, 5, 7, 8, 9):
+            self.assertNotIn(skipped, lines)
 
 
 class GenerateTests(unittest.TestCase):

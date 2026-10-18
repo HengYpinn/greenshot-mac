@@ -1,8 +1,125 @@
 # Reviewed decisions for scripts/l10n/l10n.py generate (docs/translations.md).
-# english<TAB>action<TAB>upstream key<TAB>note
+# key-or-english<TAB>action<TAB>upstream key<TAB>note
 #   map     use this upstream key for a Mac text that is worded a little differently (a near match)
 #   pin     of several upstream keys with this English, use this one
 #   reject  don't use this upstream key (or, without a key, any) for the Mac text: the meaning differs on the Mac
-# The English is the Mac's text exactly as in scripts/l10n/mac-keys.json (\n for a line break); the key is
+# The first column is the Mac's English exactly as in scripts/l10n/mac-keys.json (\n for a line break), or the Mac key
+# when it is an identifier (editor.color.line), which then wins over its English. The upstream key is
 # module:Section.key, e.g. core:Editor.tornedge_settings or jira:Jira.upload_menu_item. An upstream text with Windows
-# wording (Explorer, tray, Ctrl, ...) is refused unless the note starts with "ok:".
+# wording (Explorer, tray, Ctrl, ...) is refused unless the note starts with "ok:". A trailing hint in parentheses of
+# upstream's text ("Draw arrow (A)") is left out of the translation when the Mac text has none.
+# Reviewed in wave 5 phase C from the phase B coders' lists and `l10n.py suggest`.
+Settings…	map	core:Core.contextmenu_settings	Preferences... on Windows
+Quit	map	core:Core.contextmenu_exit	Exit on Windows; the translations use the word for quitting
+Quick Settings	map	core:Core.contextmenu_quicksettings	Quick preferences
+All Screens	map	core:Core.contextmenu_capturefullscreen_all	all (submenu of Capture full screen)
+Capture Mouse Pointer	map	core:Settings.capture_mousepointer	Capture mousepointer
+Capture the mouse pointer	map	core:Settings.capture_mousepointer	Capture mousepointer
+Capture text	map	core:Core.capture_key_text	Capture text (OCR)
+Copied	map	core:SelfService.copied	Copied!
+Open Settings	map	core:Welcome.button_settings	Open the settings
+Not allowed until Greenshot quits	map	core:Settings.aitools_denied	until Greenshot restarts: the same here
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	map	core:Welcome.basics_after	in the settings
+Number the steps of a how-to with the Counter tool of the editor.	map	core:Welcome.tip8	the counter of the editor
+Press M while capturing to show or hide the mouse pointer in the screenshot.	map	core:Welcome.tip4	mouse cursor
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	map	core:Welcome.tip9	In the settings
+What %@ needs to work as expected, with a fix where something is off.	map	core:Welcome.setup_sub	app name
+What the app needs to work as expected, with a fix where something is off	map	core:Welcome.setup_sub	names Greenshot where the Mac says the app
+Reduce the amount of colours to a maximum of 256	map	core:Settings.reducecolors	colors
+File name pattern	map	core:Settings.filenamepattern	Filename pattern
+Show the quality dialog every time an image is saved	map	core:Settings.alwaysshowqualitydialog	
+Copy the file path to the clipboard every time an image is saved	map	core:Settings.copypathtoclipboard	
+Reuse the editor if possible	map	core:Settings.expert_reuseeditorifpossible	
+Reset to Default	map	core:Settings.recipes_reset	Reset to defaults
+Reset Default	map	core:Settings.recipes_reset	Reset to defaults (the manager's button resets a built-in)
+Ask every time	map	core:Settings.destination_picker	Ask for destination every time
+Save directly	map	core:Settings.destination_file	Save directly (using settings below): hint left out
+Save as…	map	core:Settings.destination_fileas	Save as (displaying dialog): hint left out
+Print…	map	core:Editor.print	Print
+Email…	map	core:Settings.destination_email	E-Mail
+Save as PDF…	map	pdf:Pdf.destination	Save as PDF
+Upload to Jira…	map	jira:Jira.upload_menu_item	
+Upload to Confluence…	map	confluence:Confluence.upload_menu_item	
+The upload to Box failed	map	box:Box.upload_failure	An error occurred while uploading to Box
+The upload to Confluence failed	map	confluence:Confluence.upload_failure	An error occurred while uploading to Confluence
+The upload to Dropbox failed	map	dropbox:Dropbox.upload_failure	An error occurred while uploading to Dropbox
+The upload to Jira failed	map	jira:Jira.upload_failure	An error occurred while uploading to Jira
+Communicating with Box, please wait…	map	box:Box.communication_wait	
+Communicating with Dropbox, please wait…	map	dropbox:Dropbox.communication_wait	
+File name:	map	jira:Jira.label_filename	Filename
+Comment:	map	jira:Jira.label_comment	Comment
+User name:	map	confluence:Confluence.label_user	User
+Password:	map	confluence:Confluence.label_password	Password
+Word: lock aspect ratio of the image	map	office:Office.word_lockaspect	
+PowerPoint: lock aspect ratio of the image	map	office:Office.powerpoint_lockaspect	
+Outlook: allow export in meeting items	map	office:Office.outlook_allowmeetings	
+Margin:	map	pdf:Pdf.label_margins	Margins
+pdf.pageSize.custom	pin	pdf:Pdf.page_custom	the PDF's custom page size
+%lld of %lld captures	map	core:Settings.recipes_scope_somecaptures	{0} of {1} captures
+Shrink to Fit	map	core:Core.printoptions_allowshrink	Shrink printout to fit paper size
+Enlarge to Fit	map	core:Core.printoptions_allowenlarge	Enlarge printout to fit paper size
+Rotate to Page	map	core:Core.printoptions_allowrotate	Rotate printout to page orientation
+Center on Page	map	core:Core.printoptions_allowcenter	Center printout on page
+Black and White	map	core:Core.printoptions_printmonochrome	Force black/white printing
+Draw Line	map	core:Editor.drawline	Draw line (L)
+Draw Arrow	map	core:Editor.drawarrow	Draw arrow (A)
+Draw Freehand	map	core:Editor.drawfreehand	Draw freehand (F)
+Add Rectangle	map	core:Editor.drawrectangle	Draw rectangle (R)
+Add Ellipse	map	core:Editor.drawellipse	Draw ellipse (E)
+Add Text	map	core:Editor.drawtextbox	Add textbox (T)
+Add Counter	map	core:Editor.counter	Add counter (I)
+Add Speech Bubble	map	core:Editor.speechbubble	Add speechbubble (S)
+Highlight	map	core:Editor.drawhighlighter	Highlight (H)
+Obfuscate	map	core:Editor.obfuscate	Obfuscate (O)
+Crop	map	core:Editor.crop	Crop (C)
+Pixelate	map	core:Editor.obfuscate_pixelize	Pixelize
+Obfuscate Text…	map	core:Editor.obfuscate_text	Redact Text...
+Obfuscate Text	map	core:Editor.obfuscate_text_title	Redact Text
+Regular expression	map	core:Editor.obfuscate_text_regex	Use Regular Expression
+No text found in the image.	map	core:Editor.obfuscate_text_no_text	
+Text marker	map	core:Editor.highlight_text	Highlight text
+Keep aspect ratio	map	core:Editor.resize_aspectratio	Maintain aspect ratio
+Start at	map	core:Editor.counter_startvalue	Start value
+editor.fill	map	core:Editor.backcolor	Fill color (0-9): hint left out
+editor.color.line	map	core:Editor.forecolor	Line color (NumPad0-9, Shift+0-9): hint left out
+editor.cutEdge.line	map	core:Editor.cut_mark_line	Straight
+Wave	map	core:Editor.cut_mark_wave	Wavy
+Cut Edge Settings…	map	core:Editor.cut_mark_settings	
+New Random Edges	map	core:Editor.cut_mark_reseed	New random edge
+No heads	map	core:Editor.arrowheads_none	None
+Head at start	map	core:Editor.arrowheads_start	Start point
+Head at end	map	core:Editor.arrowheads_end	End point
+Both heads	map	core:Editor.arrowheads_both	Both
+Torn Edges	map	core:Editor.torn_edge	Torn edge
+Torn Edges…	map	core:Editor.torn_edge	Torn edge
+Torn Edge Settings	map	core:Editor.tornedge_settings	Torn edges settings
+Torn Edge Settings…	map	core:Editor.tornedge_settings	Torn edges settings
+With shadow	map	core:Editor.tornedge_shadow	Generate shadow
+Horizontal range:	map	core:Editor.tornedge_horizontaltoothrange	Horizontal tooth range
+Vertical range:	map	core:Editor.tornedge_verticaltoothrange	Vertical tooth range
+Thickness:	map	core:Editor.dropshadow_thickness	Shadow thickness
+Darkness:	map	core:Editor.dropshadow_darkness	Shadow darkness
+Bring to Front	map	core:Editor.uptotop	Up to top
+Bring Forward	map	core:Editor.uponelevel	Up one level
+Send Backward	map	core:Editor.downonelevel	Down one level
+Send to Back	map	core:Editor.downtobottom	Down to bottom
+Duplicate	map	core:Editor.duplicate	Duplicate selected element
+Copied to the clipboard	map	core:Editor.storedtoclipboard	Image stored to clipboard.
+Auto crop is not possible	map	core:Editor.autocrop_not_possible	
+Crop modes	map	core:Editor.crop_mode	Crop mode
+Load the previous 64 KB of the log	map	core:SelfService.logviewer_tooltip_load_earlier	
+recipeManager.filter.custom	reject		the manager's filter for recipes from files, not a custom page size or memory profile
+video.preset.custom	reject		a custom video preset; upstream's Custom keys are a page size and a memory profile
+office.slideLayout.custom	reject		a custom slide layout; upstream's Custom keys are a page size and a memory profile
+# printing (the print dialog and Settings › Printer)
+Ask every time (destination menu)	map	core:Settings.destination_picker	Ask for destination every time
+Inverted Colours	map	core:Core.printoptions_inverted	Print with inverted colors
+Inverted colours	map	core:Core.printoptions_inverted	Print with inverted colors
+Shrink to fit the paper	map	core:Core.printoptions_allowshrink	Shrink printout to fit paper size
+Enlarge to fit the paper	map	core:Core.printoptions_allowenlarge	Enlarge printout to fit paper size
+Rotate to the page orientation	map	core:Core.printoptions_allowrotate	Rotate printout to page orientation
+Center on the page	map	core:Core.printoptions_allowcenter	Center printout on page
+Black and white (monochrome)	map	core:Core.printoptions_printmonochrome	Force black/white printing
+Colour	map	core:Core.printoptions_printcolor	Full color print (the print dialog and Settings › Printer only)
+Colours	map	core:Core.printoptions_colors	Color settings (print dialog, Settings › Printer and › Video section titles)
+Layout	map	core:Core.printoptions_layout	Page layout settings (print dialog and Settings › Printer only)

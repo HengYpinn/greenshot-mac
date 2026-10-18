@@ -15,7 +15,7 @@ Commands (run from anywhere, `python3 -I scripts/l10n/l10n.py <command>`):
   generate [--machine]           write Resources/Localizations, LanguagePacks+Generated.swift, docs/translations.md
   check [--machine]              fail when the committed files differ from what generate writes
   suggest                        near matches for texts without an upstream key (for overrides.tsv), TSV on stdout
-  candidates <paths...>          string literals that may need `String(localized:)`, for wrapping work
+  scan --strings <folder> <paths...>  texts in the code that aren't localizable yet (scripts/l10n/scan.sh)
 
 Python 3.9, standard library only.
 """
@@ -340,10 +340,11 @@ class Matcher:
         if self.problems:
             raise SystemExit("\n".join(self.problems))
 
-    def candidates(self, english: str) -> Tuple[List[Candidate], List[Override]]:
-        """The upstream keys of `english`, best first, and the overrides that applied."""
+    def candidates(self, english: str, key: Optional[str] = None) -> Tuple[List[Candidate], List[Override]]:
+        """The upstream keys of `english`, best first, and the overrides that applied: those of the Mac key (an
+        identifier key such as editor.color.line), else those of the English text."""
         specs = mac_specs(english)
-        overrides = self.overrides.get(english, [])
+        overrides = (self.overrides.get(key, []) if key and key != english else []) or self.overrides.get(english, [])
         forced = [o for o in overrides if o.action in ("map", "pin")]
         if forced:
             result = []
@@ -422,6 +423,14 @@ def align_punctuation(translation: str, english: str, lproj: str) -> str:
     return text
 
 
+def strip_hint(translation: str, english: str, upstream_english: str) -> str:
+    """Without upstream's trailing hint in parentheses ("Draw arrow (A)", "Fill color (0-9)", "Capture text (OCR)") when
+    the Mac text has none: the Mac's keys differ, and the menus show them anyway."""
+    if re.search(r"\s\([^()]*\)\s*$", upstream_english) and not english.rstrip().endswith(")"):
+        return re.sub(r"\s*[(\uff08][^()\uff08\uff09]*[)\uff09]\s*$", "", translation.rstrip())
+    return translation
+
+
 def align_case(translation: str, english: str) -> str:
     """A capital first letter where the Mac text starts with one (upstream's text may come from inside a sentence or a
     submenu: "alle" for the Mac's "All")."""
@@ -466,6 +475,7 @@ def convert(translation: str, key: str, english: str, candidate: Candidate, lpro
     if not text or text == candidate.english.strip():
         return None, ""  # untranslated: English, not a drop
     specs = mac_specs(english)
+    text = strip_hint(text, english, candidate.english)
     text = align_case(align_punctuation(text, english, lproj), english)
     if specs:
         text = text.replace("%", "%%")
@@ -603,7 +613,7 @@ def build(up: Upstream, languages: List[Language], keys: List[MacKey], overrides
     matcher = Matcher(up, overrides)
     result = Result()
     for mac in keys:
-        candidates, applied = matcher.candidates(mac.english)
+        candidates, applied = matcher.candidates(mac.english, mac.key)
         for o in applied:
             if o.action == "reject":
                 result.rejected.append((mac.english, str(o.ref) if o.ref else "all keys"))
@@ -743,7 +753,8 @@ def report(up: Upstream, languages: List[Language], keys: List[MacKey], result: 
         "& Region › Applications.",
         "- `scripts/l10n/l10n.py check` (CI) fails when the committed files differ from what `generate` writes.",
         "- New texts in the code: SwiftUI literals need nothing; AppKit and other texts use `String(localized: \"…\")`. "
-        "Logs, data, identifiers and recipe/IPC/MCP texts stay English.",
+        "Logs, data, identifiers and recipe/IPC/MCP texts stay English. `scripts/l10n/scan.sh [--summary] <paths>` lists "
+        "the texts of a file that aren't localizable yet.",
         "- Updating from upstream: `python3 -I scripts/l10n/l10n.py vendor --upstream <checkout>`, then "
         "`scripts/l10n/update.sh`, then review `python3 -I scripts/l10n/l10n.py suggest` for new near matches.",
         "- Trying a language in a development build: `scripts/l10n/stage-dev.sh`, then `GreenshotMac --language de-DE` "
@@ -923,6 +934,10 @@ def help_page_utf8(data: bytes, name: str) -> str:
     text = text.replace("\r\n", "\n")
     text = re.sub(r"<meta[^>]*charset[^>]*>\s*", "", text, flags=re.IGNORECASE)
     text = re.sub(r"<head>", "<head>\n\t\t<meta charset=\"utf-8\">", text, count=1, flags=re.IGNORECASE)
+    # Links to a translator's own disk (help-fr-FR.html: file:///G:/windowsxp/…/help-fr-FR2.html#settings) point at
+    # anchors of the page itself: keep the anchor, drop the path; a file link without an anchor loses the link.
+    text = re.sub(r'href="file:///[^"#]*(#[^"]*)"', r'href="\1"', text, flags=re.IGNORECASE)
+    text = re.sub(r'<a\s+href="file:///[^"]*"[^>]*>(.*?)</a>', r"\1", text, flags=re.IGNORECASE | re.DOTALL)
     return text
 
 
@@ -959,7 +974,7 @@ def read_keys(folder: str) -> dict:
     return {"keys": keys}
 
 
-# MARK: suggestions and wrapping candidates
+# MARK: suggestions and the scan for texts that aren't localizable
 
 def suggest() -> str:
     up = load_upstream()
@@ -971,7 +986,7 @@ def suggest() -> str:
     choices = list(normals)
     lines = ["# english\tratio\tupstream key\tupstream English"]
     for mac in keys:
-        candidates, applied = matcher.candidates(mac.english)
+        candidates, applied = matcher.candidates(mac.english, mac.key)
         if candidates or applied:
             continue
         normal = normalise_mac(mac.english)
@@ -985,19 +1000,32 @@ def suggest() -> str:
     return "\n".join(lines) + "\n"
 
 
-UI_CONTEXT = re.compile(r"(Text|Button|Toggle|Picker|Section|LabeledContent|Label|TextField|SecureField|\.help|Stepper|"
-                        r"Menu|GroupBox|DisclosureGroup|\.alert|\.confirmationDialog|Link)\(\s*$|"
-                        r"(title|withTitle|checkboxWithTitle|radioButtonWithTitle|labelWithString|"
-                        r"wrappingLabelWithString|label|message|placeholder|help|tooltip|toolTip)\s*:\s*$|"
-                        r"(messageText|informativeText|placeholderString|toolTip|\.title|prompt|\.message|"
-                        r"nameFieldLabel|stringValue)\s*=\s*$|setAccessibilityLabel\(\s*$")
-SKIP_CONTEXT = re.compile(r"\blog\.(debug|info|warn|error)\(\s*$|\bprint\(\s*$|fatalError\(\s*$|forKey:\s*$|"
-                          r"systemImage:\s*$|systemSymbolName:\s*$|named:\s*$|identifier:\s*$|URL\(string:\s*$|"
-                          r"keyEquivalent:\s*$|String\(localized:\s*$|verbatim:\s*$")
+# The literal is an argument of a UI call: the scan's "ui" column.
+STRONG_UI = re.compile(
+    r"(Text|Button|Toggle|Picker|Section|LabeledContent|Label|TextField|SecureField|\.help|Stepper|Menu|GroupBox|"
+    r"DisclosureGroup|\.alert|\.confirmationDialog|Link|\.navigationTitle)\(\s*$|"
+    r"(title|withTitle|checkboxWithTitle|radioButtonWithTitle|labelWithString|wrappingLabelWithString)\s*:\s*$|"
+    r"(messageText|informativeText|placeholderString|toolTip|\.title|\.message|nameFieldLabel)\s*=\s*$|"
+    r"setAccessibilityLabel\(\s*$")
+# Literals that are never UI texts: logs, identifiers, keys, comments for translators, switch-case labels (English
+# comparison values), isolated left-to-right parts.
+SKIP_CONTEXT = re.compile(
+    r"\.(debug|info|warn|warning|error|notice|fault)\(\s*$|\bLog\([^)]*$|\bprint\(\s*$|"
+    r"fatalError\(\s*$|precondition(Failure)?\([^\"]*$|assert(ionFailure)?\([^\"]*$|forKey:\s*$|systemImage:\s*$|"
+    r"systemSymbolName:\s*$|systemName:\s*$|named:\s*$|identifier:\s*$|NSUserInterfaceItemIdentifier\(\s*$|"
+    r"URL\(string:\s*$|fileURLWithPath:\s*$|appendingPathComponent\(\s*$|appendingPathExtension\(\s*$|"
+    r"keyEquivalent:\s*$|forResource:\s*$|withExtension:\s*$|ofType:\s*$|dateFormat\s*=\s*$|pattern:\s*$|"
+    r"Notification\.Name\(\s*$|PasteboardType\(\s*$|UTType\(|exportedAs:\s*$|importedAs:\s*$|rawValue:\s*$|"
+    r"\bcase\s+\w+\s*=\s*$|\bcase\s+(\"[^\"]*\"\s*,\s*)*$|"
+    r"String\(localized:\s*$|LocalizedStringResource\(\s*$|defaultValue:\s*$|comment:\s*$|verbatim:\s*$|"
+    r"isolatedLTR\(\s*$|(\w|\)|\])\[\s*$|\.string\(\s*$|\.text\(\s*$|\.int\(\s*$|\.bool\(\s*$|\.number\(\s*$|"
+    r"#selector|tell application|script:\s*$|source:\s*$|executableURL|arguments\s*=\s*\[|environment\[")
+SWIFT_ESCAPES = {"n": "\n", "t": "\t", "\"": "\"", "\\": "\\", "0": "\0", "r": "\r", "'": "'"}
 
 
-def swift_literals(source: str) -> Iterable[Tuple[int, int, str]]:
-    """(offset, line, text) of the plain string literals of Swift source outside comments."""
+def swift_literals(source: str) -> Iterable[Tuple[int, int, int, str]]:
+    """(offset, line, column, text) of the string literals of Swift source outside comments, the column 1-based in
+    UTF-8 bytes like the compiler's; interpolations are TOKEN in the text."""
     i, n = 0, len(source)
     while i < n:
         if source.startswith("//", i):
@@ -1005,57 +1033,150 @@ def swift_literals(source: str) -> Iterable[Tuple[int, int, str]]:
             i = n if j < 0 else j
             continue
         if source.startswith("/*", i):
-            j = source.find("*/", i + 2)
-            i = n if j < 0 else j + 2
+            depth, i = 1, i + 2
+            while i < n and depth:
+                if source.startswith("/*", i):
+                    depth, i = depth + 1, i + 2
+                elif source.startswith("*/", i):
+                    depth, i = depth - 1, i + 2
+                else:
+                    i += 1
             continue
-        if source.startswith('"""', i):
-            j = source.find('"""', i + 3)
-            if j < 0:
-                return
-            yield i, source.count("\n", 0, i) + 1, source[i + 3:j]
-            i = j + 3
-            continue
-        if source[i] == "#" and source.startswith('#"', i):
+        if source.startswith('#"', i):
             j = source.find('"#', i + 2)
             i = n if j < 0 else j + 2
             continue
-        if source[i] == '"':
-            j, depth = i + 1, 0
-            while j < n and source[j] not in '"\n':
-                if source[j] == "\\" and j + 1 < n and source[j + 1] == "(":
+        multiline = source.startswith('"""', i)
+        if not (multiline or source[i] == '"'):
+            i += 1
+            continue
+        start = i
+        j = i + (3 if multiline else 1)
+        out: List[str] = []
+        while j < n:
+            if multiline and source.startswith('"""', j):
+                break
+            if not multiline and source[j] in '"\n':
+                break
+            if source[j] == "\\" and j + 1 < n:
+                following = source[j + 1]
+                if following == "(":
                     depth, j = 1, j + 2
                     while j < n and depth:
+                        if source[j] == '"':
+                            k = j + 1
+                            while k < n and source[k] != '"':
+                                k += 2 if source[k] == "\\" else 1
+                            j = k + 1
+                            continue
                         depth += {"(": 1, ")": -1}.get(source[j], 0)
                         j += 1
+                    out.append(TOKEN)
                     continue
-                j += 2 if source[j] == "\\" else 1
-            yield i, source.count("\n", 0, i) + 1, source[i + 1:j]
-            i = j + 1
+                if following == "u" and j + 2 < n and source[j + 2] == "{":
+                    k = source.find("}", j)
+                    try:
+                        out.append(chr(int(source[j + 3:k], 16)))
+                    except ValueError:
+                        pass
+                    j = k + 1
+                    continue
+                if following == "\n" and multiline:
+                    j += 2
+                    while j < n and source[j] in " \t":
+                        j += 1
+                    continue
+                out.append(SWIFT_ESCAPES.get(following, following))
+                j += 2
+                continue
+            out.append(source[j])
+            j += 1
+        text = "".join(out)
+        if multiline:
+            closing = source[source.rfind("\n", 0, j) + 1:j]
+            indent = len(closing) - len(closing.lstrip())
+            text = "\n".join(line[indent:] for line in text.split("\n")[1:]).rstrip("\n")
+        line_start = source.rfind("\n", 0, start) + 1
+        column = len(source[line_start:start].encode("utf-8")) + 1
+        yield start, source.count("\n", 0, start) + 1, column, text
+        i = j + (3 if multiline else 1)
+
+
+def looks_textual(text: str) -> bool:
+    """A literal that may be a user-visible text: two letters or more, not a URL, path or format; one word only when it
+    is a capitalised word ("Cancel", "Self-Service…", not "jpeg", "ProcessName", "PNG")."""
+    t = text.replace(TOKEN, " X ").strip()
+    if len(re.findall(r"[^\W\d_]", t)) < 2:
+        return False
+    if re.search(r"://|^[/~.%\\#]", t):
+        return False
+    if " " not in t:
+        return t == "OK" or re.fullmatch(r"[A-Z][a-zÀ-ɏ]+(-[A-Za-z][a-zÀ-ɏ]*)*(…|\.\.\.|:)?",
+                                         t) is not None or re.fullmatch(r"[^\x00-\x7f]+", t) is not None
+    if re.fullmatch(r"[A-Za-z0-9_.\-]+( [A-Za-z0-9_.\-]+)*", t) and not re.search(r"[a-z]", t):
+        return False
+    return True
+
+
+def localized_positions(folder: str) -> Dict[str, set]:
+    """Where the compiler found localizable texts: {Sources/… path: {(line, column)}} of -emit-localized-strings."""
+    positions: Dict[str, set] = {}
+    for dirpath, _dirnames, filenames in os.walk(folder):
+        for name in filenames:
+            if not name.endswith(".stringsdata"):
+                continue
+            with open(os.path.join(dirpath, name), encoding="utf-8") as f:
+                data = json.load(f)
+            source = data.get("source", "")
+            relative = source[source.rfind("Sources/"):] if "Sources/" in source else source
+            for entries in data.get("tables", {}).values():
+                for entry in entries:
+                    location = entry.get("location", {})
+                    positions.setdefault(relative, set()).add((location.get("startingLine"),
+                                                              location.get("startingColumn")))
+    return positions
+
+
+def scan_source(source: str, localized: set) -> List[Tuple[int, str, str]]:
+    """(line, ui|other, text) of the literals of `source` that look like texts and aren't localizable: not at a
+    position the compiler extracted (a SwiftUI literal, `String(localized:)`), and not in a never-a-text context."""
+    found = []
+    for offset, line, column, text in swift_literals(source):
+        if (line, column) in localized or not looks_textual(text):
             continue
-        i += 1
+        before = source[source.rfind("\n", 0, offset) + 1:offset]
+        if SKIP_CONTEXT.search(before):
+            continue
+        found.append((line, "ui" if STRONG_UI.search(before) else "other", text))
+    return found
 
 
-def candidates(paths: List[str]) -> str:
-    out = []
-    files = []
+def scan(paths: List[str], strings: str, root: str, summary: bool) -> str:
+    """The scan's report: one line per candidate, or with `summary` the counts per file."""
+    positions = localized_positions(strings)
+    files: List[str] = []
     for path in paths:
-        if os.path.isdir(path):
-            files += sorted(os.path.join(d, f) for d, _, fs in os.walk(path) for f in fs if f.endswith(".swift"))
+        full = os.path.join(root, path)
+        if os.path.isdir(full):
+            files += sorted(os.path.join(d, f) for d, _, fs in os.walk(full) for f in fs if f.endswith(".swift"))
         else:
-            files.append(path)
+            files.append(full)
+    out, total = [], 0
     for path in files:
+        relative = os.path.relpath(path, root)
         if os.path.basename(path).startswith("Snapshots"):
             continue
         with open(path, encoding="utf-8") as f:
-            source = f.read()
-        for offset, line, text in swift_literals(source):
-            if len(re.findall(r"[^\W\d_]", text)) < 2 or re.fullmatch(r"[a-z0-9_.\-/:]+", text):
-                continue
-            before = source[source.rfind("\n", 0, offset) + 1:offset]
-            if SKIP_CONTEXT.search(before):
-                continue
-            kind = "ui" if UI_CONTEXT.search(before) else "other"
-            out.append("%s:%d\t%s\t%s" % (path, line, kind, text.replace("\n", "\\n")))
+            found = scan_source(f.read(), positions.get(relative, set()))
+        total += len(found)
+        if summary:
+            if found:
+                out.append("%5d %4d  %s" % (len(found), sum(1 for f in found if f[1] == "ui"), relative))
+        else:
+            out += ["%s:%d\t%s\t%s" % (relative, line, kind, text.replace("\n", "\\n").replace(TOKEN, "\\(…)"))
+                    for line, kind, text in found]
+    if summary:
+        out.append("%5d candidates (columns: candidates, of them in a UI call, file)" % total)
     return "\n".join(out) + ("\n" if out else "")
 
 
@@ -1072,7 +1193,9 @@ def main(argv: List[str]) -> int:
         p = sub.add_parser(name)
         p.add_argument("--machine", action="store_true", help="also use scripts/l10n/machine/<lproj>.tsv")
     sub.add_parser("suggest")
-    p = sub.add_parser("candidates")
+    p = sub.add_parser("scan")
+    p.add_argument("--strings", required=True, help="the -emit-localized-strings folder (scripts/l10n/scan.sh)")
+    p.add_argument("--summary", action="store_true")
     p.add_argument("paths", nargs="+")
     args = parser.parse_args(argv)
     if args.command == "vendor":
@@ -1096,8 +1219,8 @@ def main(argv: List[str]) -> int:
         print("The translations are up to date.")
     elif args.command == "suggest":
         sys.stdout.write(suggest())
-    elif args.command == "candidates":
-        sys.stdout.write(candidates(args.paths))
+    elif args.command == "scan":
+        sys.stdout.write(scan(args.paths, args.strings, ROOT, args.summary))
     return 0
 
 
