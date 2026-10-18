@@ -215,6 +215,13 @@ final class TextObfuscationSheet: NSObject, NSTextFieldDelegate {
         stack.edgeInsets = NSEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         stack.translatesAutoresizingMaskIntoConstraints = false
         buttons.widthAnchor.constraint(equalTo: stack.widthAnchor, constant: -40).isActive = true
+        // The stack keeps its rows inside its 20 pt margins only weakly: with longer texts (translations) the panel
+        // grew just to the options' width and they ran into its edges. Required, the panel grows by the margins too.
+        // (Not the Advanced form: the stack detaches it while it is hidden, which would drop its constraint; it is
+        // narrower than the options.)
+        for row in [title, info, options, advancedRow, status] {
+            row.widthAnchor.constraint(lessThanOrEqualTo: stack.widthAnchor, constant: -40).isActive = true
+        }
         let content = NSView()
         content.addSubview(stack)
         NSLayoutConstraint.activate([
