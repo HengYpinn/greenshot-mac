@@ -172,6 +172,16 @@ public enum RecipePrintOptions {
         }
         return changed ? options : nil
     }
+
+    /// `options` with the print options an administrator locked (a configuration profile, `ManagedPolicy`) put back:
+    /// a recipe's options and the dialog of one print can't print with other values than Settings › Printer can.
+    /// `settings` are the settings in effect, which `options` replace for this print.
+    public static func enforcingLocks(_ options: PrintSettings, policy: ManagedPolicy, settings: AppSettings) -> PrintSettings {
+        guard policy.isLocked("printing") else { return options }
+        var forThisPrint = settings
+        forThisPrint.printing = options
+        return policy.effective(forThisPrint).printing
+    }
 }
 
 /// The Clipboard step (upstream `ExecuteClipboardExportAsync`): what goes on the clipboard and in which formats.

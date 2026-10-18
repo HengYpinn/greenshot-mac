@@ -18,6 +18,9 @@ extension Snapshots {
         try write(recordingBorder(sample: sample), to: folder.appendingPathComponent("recording-border.png"))
         try write(recordingBorderDisplays(sample: sample), to: folder.appendingPathComponent("recording-border-displays.png"))
         try writeText(recordingMenus(settings: settings), to: folder.appendingPathComponent("recording-menu.txt"))
+        // Not video: the print options with an administrator's locks (RCP-132's dialog of one print; this file is the
+        // recipe steps' snapshot file this wave).
+        try write(form(lockedPrintOptions()), to: folder.appendingPathComponent("dialog-print-options-locked.png"))
         let file = URL(fileURLWithPath: "/Users/me/Movies/Greenshot/Greenshot_Recording_20261017_143005.mp4")
         try writeText(menuText(VideoOutput.pickerMenu(for: file)), to: folder.appendingPathComponent("video-picker-menu.txt"))
     }
@@ -136,6 +139,17 @@ extension Snapshots {
         let window = NSWindow(contentRect: container.frame, styleMask: [.borderless], backing: .buffered, defer: false)
         window.contentView = container
         return capture(container)
+    }
+
+    /// The print options form with the colours, rotation and footer locked by a profile.
+    private static func lockedPrintOptions() -> NSView {
+        let policy = ManagedPolicy(source: ManagedValues(forced: ["Greenshot.printing.grayscale": true,
+                                                                  "Greenshot.printing.allowRotate": true,
+                                                                  "Greenshot.printing.footer": false]))
+        let options = policy.effective(AppSettings()).printing
+        let form = PrintOptionsForm(options: options, policy: policy)
+        keepAlive.append(form)
+        return form.view
     }
 
     /// The menu bar menu's record items without a recording, then the items of a running one.
