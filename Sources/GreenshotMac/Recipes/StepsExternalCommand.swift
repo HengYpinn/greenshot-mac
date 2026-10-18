@@ -30,7 +30,8 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
         // Upstream sets `Verb` with `UseShellExecute = false` (ExternalCommandStep.cs:333-343), where .NET doesn't use it
         // (only its ShellExecute start reads `Verb`): the verb has no effect there either.
         if let verb = plan.verb { context.log("ExternalCommandStep: the shell verb '\(verb)' has no effect (upstream runs the command without the shell too), ignored.") }
-        // "Write the output to the log" of the configured command (upstream `ShowStandardOutputInLog`); errors always.
+        // "Write the output to the log" of the configured command (upstream `ShowStandardOutputInLog`); the errors also
+        // when the command failed (`ExternalCommandLog`).
         let commandName = step.string("Command")?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let showOutput = !commandName.isEmpty && (commands.first { recipeEquals($0.name, commandName) }?.showOutputInLog ?? false)
         let designation = "External \(plan.name)"
@@ -55,7 +56,7 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
             Task.detached {
                 guard let ran = try? await RecipeProcess.run(prepared.executable, arguments: prepared.arguments, in: prepared.workingDirectory)
                 else { return }
-                ExternalCommandRunner.logOutput(of: name, output: ran.output, errors: ran.error, showOutput: showOutput)
+                ExternalCommandRunner.logOutput(of: name, output: ran.output, errors: ran.error, status: ran.status, showOutput: showOutput)
             }
             await MainActor.run {
                 RecipeStepExports.finish(.succeeded(fileURL: prepared.file, target: plan.name, clearsModified: false), designation: designation,
@@ -76,7 +77,7 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
             }
             throw RecipeStepError("\(plan.name) could not be started: \(error.localizedDescription)", errorType: "Win32Exception")
         }
-        ExternalCommandRunner.logOutput(of: plan.name, output: ran.output, errors: ran.error, showOutput: showOutput)
+        ExternalCommandRunner.logOutput(of: plan.name, output: ran.output, errors: ran.error, status: ran.status, showOutput: showOutput)
         for (name, value) in plan.outputs(exitCode: ran.status, output: ran.output, error: ran.error) { context[variable: name] = value }
         let result = plan.result(exitCode: ran.status, output: ran.output, error: ran.error, file: prepared.file)
         await MainActor.run {
