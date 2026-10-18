@@ -817,6 +817,11 @@ public enum AnnotationRenderer {
         return cache
     }()
 
+    /// Lets go of the kept canvases (an editor closed: its base image and elements needn't stay in memory).
+    public static func forgetKeptEffects() {
+        invertedEffects.removeAllObjects()
+    }
+
     /// The image without colour.
     static func grayscale(_ image: CGImage) -> CGImage? {
         filtered(image) { input in

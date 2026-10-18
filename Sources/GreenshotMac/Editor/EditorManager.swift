@@ -192,6 +192,7 @@ final class EditorManager {
         let controller = EditorWindowController(document: document, settings: settings, saver: saver) { [weak self] closed in
             self?.controllers.removeAll { $0 === closed }
             self?.sessions.forget(closed.editorDocument.id)
+            AnnotationRenderer.forgetKeptEffects()
             self?.onWindowsChange?()
         }
         controller.onCloseAll = { [weak self] in self?.closeAll() }
