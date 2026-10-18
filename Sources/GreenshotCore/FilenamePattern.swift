@@ -294,17 +294,26 @@ public enum FilenamePattern {
 }
 
 /// Formats dates with .NET date format strings (standard ones like `D` and custom ones like `yyyy-MM-dd HH_mm_ss`),
-/// so patterns written for Greenshot on Windows give the same file names on the Mac.
+/// so patterns written for Greenshot on Windows give the same file names on the Mac. Digits are always Latin (0-9),
+/// like .NET's `DateTime.ToString`: an Arabic or Persian language or region would otherwise give "٢٠٢٦-١٠-١٨" in file
+/// names. The calendar stays the locale's (a Hijri year for Saudi Arabia, as upstream's ar-SA culture).
 public enum DotNetDateFormat {
     public static func string(from date: Date, format: String, locale: Locale, timeZone: TimeZone) -> String {
         let formatter = DateFormatter()
-        formatter.locale = locale
+        formatter.locale = latinDigits(locale)
         formatter.timeZone = timeZone
         if format.count == 1, let standard = standardFormat(format, formatter: formatter, date: date) {
             return standard
         }
         formatter.dateFormat = icuPattern(fromDotNet: format)
         return formatter.string(from: date)
+    }
+
+    /// `locale` with Latin digits, everything else (language, region, calendar) as it is.
+    public static func latinDigits(_ locale: Locale) -> Locale {
+        var components = Locale.Components(locale: locale)
+        components.numberingSystem = Locale.NumberingSystem("latn")
+        return Locale(components: components)
     }
 
     private static func standardFormat(_ format: String, formatter: DateFormatter, date: Date) -> String? {
