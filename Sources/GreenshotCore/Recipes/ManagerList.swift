@@ -104,13 +104,19 @@ public enum RecipeManagerFilter: String, CaseIterable, Sendable {
 
 /// Filtering and counting the manager's rows (upstream `ApplyFilter`, `UpdateStats`).
 public enum RecipeManagerList {
-    /// The rows of the category whose name, id, description, triggers or file contain the query (case-insensitive).
-    public static func filter(_ items: [RecipeManagerItem], by filter: RecipeManagerFilter, query: String) -> [RecipeManagerItem] {
+    /// The rows of the category whose name, id, description, triggers or file contain the query (case-insensitive). A
+    /// built-in row's name and description also match as the manager shows them, in the language of the app
+    /// (`display`, `L10nText.display`).
+    public static func filter(_ items: [RecipeManagerItem], by filter: RecipeManagerFilter, query: String,
+                              display: (String) -> String = { L10nText.display($0) }) -> [RecipeManagerItem] {
         let text = query.trimmingCharacters(in: .whitespacesAndNewlines)
         return items.filter { item in
             guard filter.matches(item) else { return false }
             guard !text.isEmpty else { return true }
-            let fields = [item.name, item.id, item.description, item.triggersSummary, item.filePath ?? ""]
+            var fields = [item.name, item.id, item.description, item.triggersSummary, item.filePath ?? ""]
+            if item.isBuiltIn && !item.isOverridden {
+                fields += [display(item.name), display(item.description)]
+            }
             return fields.contains { $0.range(of: text, options: [.caseInsensitive, .diacriticInsensitive]) != nil }
         }
     }

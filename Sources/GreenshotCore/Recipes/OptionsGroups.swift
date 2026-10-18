@@ -68,15 +68,22 @@ public struct RecipeOptionGroup: Identifiable, Equatable, Sendable {
 public struct RecipeQuickSetting: Equatable, Sendable {
     public var ownerId: String
     public var option: RecipeOption
-    /// The option label, with the owner's name in front when two options have the same label.
+    /// The option label, with the owner's name in front when two options have the same label (English, as written).
     public var label: String
     public var value: JSONValue
+    /// The option's own label, and the owner's name when `label` has it in front: the menu translates each and puts
+    /// them together (`label` as one text would never find a translation).
+    public var optionLabel: String
+    public var ownerName: String?
 
-    public init(ownerId: String, option: RecipeOption, label: String, value: JSONValue) {
+    public init(ownerId: String, option: RecipeOption, label: String, value: JSONValue, optionLabel: String? = nil,
+                ownerName: String? = nil) {
         self.ownerId = ownerId
         self.option = option
         self.label = label
         self.value = value
+        self.optionLabel = optionLabel ?? label
+        self.ownerName = ownerName
     }
 
     /// Upstream `MaxRecipeQuickSettings`.
@@ -129,9 +136,10 @@ extension RecipeLibrary {
         }
         return found.prefix(RecipeQuickSetting.maximum).map { entry in
             let text = label(entry.option)
-            let shown = (counts[text.lowercased()] ?? 0) > 1 ? "\(Self.displayName(entry.owner)): \(text)" : text
-            return RecipeQuickSetting(ownerId: entry.owner.id, option: entry.option, label: shown,
-                                      value: values.value(of: entry.option, recipeId: entry.owner.id))
+            let owner = (counts[text.lowercased()] ?? 0) > 1 ? Self.displayName(entry.owner) : nil
+            return RecipeQuickSetting(ownerId: entry.owner.id, option: entry.option, label: owner.map { "\($0): \(text)" } ?? text,
+                                      value: values.value(of: entry.option, recipeId: entry.owner.id), optionLabel: text,
+                                      ownerName: owner)
         }
     }
 

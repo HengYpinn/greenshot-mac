@@ -119,6 +119,9 @@ import Testing
         // Two "Add a border" labels: the owner's name in front.
         let labels = entries.map(\.label)
         #expect(labels == ["Add a caption", "Border: Add a border", "Add a drop shadow", "Frame", "Capture window: Add a border"])
+        // The parts on their own, for the menu to translate each.
+        #expect(entries.map(\.optionLabel) == ["Add a caption", "Add a border", "Add a drop shadow", "Frame", "Add a border"])
+        #expect(entries.map(\.ownerName) == [nil, "Border", nil, nil, "Capture window"])
         #expect(entries[1].value == .bool(true))
         #expect(entries[4].option.type == .enumeration)
         #expect(RecipeQuickSetting.maximum == 6)

@@ -116,24 +116,37 @@ extension RecipeLibrary {
 
     /// Settings › Recipes › "Changed recipes": one line per combination of automatic steps, with the recipes they change
     /// (upstream `UpdateRecipeChanges`); empty when none changes a recipe.
+    /// The names as Settings shows them: a built-in recipe's or automatic step's in the language of the app
+    /// (`L10nText.display`), a file's as written.
     public func recipeChanges() -> [RecipeChangeLine] {
         let values = optionValues
         let all = extensions.map(\.recipe)
-        var lines: [RecipeChangeLine] = []
-        let sorted = recipes.map(\.recipe).sorted {
-            Self.displayName($0).localizedCaseInsensitiveCompare(Self.displayName($1)) == .orderedAscending
+        var extensionNames: [String: String] = [:]
+        for loaded in extensions where extensionNames[loaded.recipe.id.lowercased()] == nil {
+            extensionNames[loaded.recipe.id.lowercased()] = Self.shownName(loaded)
         }
-        for recipe in sorted {
+        var lines: [RecipeChangeLine] = []
+        let sorted = recipes.sorted {
+            Self.shownName($0).localizedCaseInsensitiveCompare(Self.shownName($1)) == .orderedAscending
+        }
+        for loaded in sorted {
+            let recipe = loaded.recipe
             let applied = RecipeComposer.applicable(to: recipe, among: all) { RecipeExtensionSettings.stored(for: $0, in: values) }
             guard !applied.isEmpty else { continue }
-            let names = applied.map(Self.displayName).joined(separator: ", ")
+            let names = applied.map { extensionNames[$0.id.lowercased()] ?? Self.displayName($0) }.joined(separator: ", ")
             if let index = lines.firstIndex(where: { $0.extensions == names }) {
-                lines[index].recipes += ", " + Self.displayName(recipe)
+                lines[index].recipes += ", " + Self.shownName(loaded)
             } else {
-                lines.append(RecipeChangeLine(extensions: names, recipes: Self.displayName(recipe)))
+                lines.append(RecipeChangeLine(extensions: names, recipes: Self.shownName(loaded)))
             }
         }
         return lines
+    }
+
+    /// A recipe's or automatic step's name as shown: a built-in's in the language of the app, a file's as written.
+    static func shownName(_ loaded: LoadedRecipe) -> String {
+        let name = displayName(loaded.recipe)
+        return loaded.isBuiltIn ? L10nText.display(name) : name
     }
 
     static func displayName(_ recipe: CaptureRecipe) -> String {
