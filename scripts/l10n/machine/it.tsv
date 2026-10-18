@@ -523,6 +523,7 @@ Create an API token for your Atlassian account at [id.atlassian.com › Security
 Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Creato un nuovo passaggio automatico: metti i suoi passaggi prima di Out, imposta dove va nella scheda Ricetta.	claude-sonnet-5-5 2026-10-18
 Created new recipe.	Nuova ricetta creata.	claude-sonnet-5-5 2026-10-18
 Crop modes	Modalità di ritaglio	claude-sonnet-5-5 2026-10-18
+Custom	Personalizzato	claude-opus-5-5 2026-10-18
 Custom size	Dimensioni personalizzate	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	Impostazioni bordi tagliati	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	Impostazioni bordi tagliati…	claude-sonnet-5-5 2026-10-18
@@ -740,7 +741,7 @@ Import Annotations from a Greenshot File	Importa annotazioni da un file Greensho
 Import From This Editor	Importa da questo editor	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Importate %lld annotazioni da %@	claude-sonnet-5-5 2026-10-18
 In	Dentro	claude-sonnet-5-5 2026-10-18
-In Settings › Output you choose the folder and the file name pattern of saved screenshots.	In Impostazioni › Output scegli la cartella e il modello del nome file delle schermate salvate.	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	In Impostazioni › Destinazione scegli la cartella e il modello del nome file delle schermate salvate.	claude-opus-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	In pochi passaggi vedrai come funziona la cattura e %@ verifica che tutto sia configurato bene.	claude-sonnet-5-5 2026-10-18
 In parallel	In parallelo	claude-sonnet-5-5 2026-10-18
 In the background	In background	claude-sonnet-5-5 2026-10-18
@@ -818,6 +819,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	Lettera	claude-sonnet-5-5 2026-10-18
 Light	Chiaro	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Strumento di screenshot Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Linea	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Spessore della linea in punti (0: nessuna linea)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Link copiato – clicca per aprire	claude-sonnet-5-5 2026-10-18
 Link to the image	Link all'immagine	claude-sonnet-5-5 2026-10-18

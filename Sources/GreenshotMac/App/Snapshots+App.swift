@@ -72,7 +72,7 @@ extension Snapshots {
             try write(window(WelcomeView(model: welcome), size: NSSize(width: 620, height: 520)),
                       to: folder.appendingPathComponent("app-welcome-\(step.rawValue + 1)-\(step).png"))
         }
-        let aboutHeight = CreditsText.height(width: AboutView.textWidth) + 260
+        let aboutHeight = AboutView.windowHeight()
         try write(window(AboutView(openSelfService: { _ in }, close: {}), size: NSSize(width: AboutView.textWidth + 48, height: aboutHeight)),
                   to: folder.appendingPathComponent("app-about.png"))
 

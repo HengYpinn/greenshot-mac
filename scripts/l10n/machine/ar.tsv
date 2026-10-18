@@ -393,7 +393,7 @@ Capture Window from List	التقاط نافذة من القائمة	claude-sonn
 Capture a window with Greenshot for Mac.	التقط نافذة باستخدام Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
 Capture clipboard	التقاط الحافظة	claude-sonnet-5-5 2026-10-18
 Capture flow failed.	فشل تدفق الالتقاط.	claude-sonnet-5-5 2026-10-18
-Capture links are off. Turn them on in Settings › Expert › Automation.	روابط الالتقاط متوقفة. فعّلها في التفضيلات › متقدم › الأتمتة.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	روابط الالتقاط متوقفة. فعّلها في التفضيلات › خبير › الأتمتة.	claude-opus-5-5 2026-10-18
 Capture text	التقاط النص	claude-sonnet-5-5 2026-10-18
 Capture the active window	التقاط النافذة النشطة	claude-sonnet-5-5 2026-10-18
 Capture the same region again	التقاط المنطقة نفسها مرة أخرى	claude-sonnet-5-5 2026-10-18
@@ -868,6 +868,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	Letter	claude-sonnet-5-5 2026-10-18
 Light	فاتح	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	أداة لقطات الشاشة Lightshot	claude-sonnet-5-5 2026-10-18
+Line	خط	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	سماكة الخط بالنقاط (0: بلا خط)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	تم نسخ الرابط – انقر للفتح	claude-sonnet-5-5 2026-10-18
 Link to the image	رابط الصورة	claude-sonnet-5-5 2026-10-18
@@ -1051,7 +1052,7 @@ Object and two objects	عنصر وعنصران	claude-sonnet-5-5 2026-10-18
 Object over text	عنصر فوق النص	claude-sonnet-5-5 2026-10-18
 Off	إيقاف	claude-sonnet-5-5 2026-10-18
 Off for this app: no notifications	متوقف لهذا التطبيق: لا إشعارات	claude-sonnet-5-5 2026-10-18
-Off: “Save directly” adds (2), (3), … to the name instead.	إيقاف: يضيف "الحفظ المباشر" (2) و(3) و… إلى الاسم بدلًا من ذلك.	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	إيقاف: يضيف "احفظ مباشرة" (2) و(3) و… إلى الاسم بدلًا من ذلك.	claude-opus-5-5 2026-10-18
 Offset X:	الإزاحة X:	claude-sonnet-5-5 2026-10-18
 Offset Y:	الإزاحة Y:	claude-sonnet-5-5 2026-10-18
 On	تشغيل	claude-sonnet-5-5 2026-10-18
@@ -1861,7 +1862,7 @@ What this automatic step does, which recipes it changes and what you approved fo
 What this built-in recipe does and which triggers start it.	ما تفعله هذه الوصفة المدمجة وأي المشغّلات تبدأها.	claude-sonnet-5-5 2026-10-18
 What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	ما تفعله هذه الوصفة وما وافقت عليه لها. لا يمكن تغيير أي شيء هنا، استخدم الأذونات في التفضيلات › الوصفات أو في مدير الوصفات لذلك.	claude-sonnet-5-5 2026-10-18
 What to change: %@	ما يجب تغييره: %@	claude-sonnet-5-5 2026-10-18
-What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	ما يضعه "نسخ إلى الحافظة" هناك. تأخذ التطبيقات أول تنسيق تفهمه؛ ويضمّن HTML الصورة كـ PNG لبرامج البريد ومحررات الويب.	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	ما يضعه "انسخ للذاكرة" هناك. تأخذ التطبيقات أول تنسيق تفهمه؛ ويضمّن HTML الصورة كـ PNG لبرامج البريد ومحررات الويب.	claude-opus-5-5 2026-10-18
 When	عندما	claude-sonnet-5-5 2026-10-18
 When it runs again	متى تعمل مجددًا	claude-sonnet-5-5 2026-10-18
 When the user picks '%@'	عندما يختار المستخدم '%@'	claude-sonnet-5-5 2026-10-18
@@ -1938,7 +1939,7 @@ Zoomer opacity	عتامة المكبّر	claude-sonnet-5-5 2026-10-18
 [No Stack]	[لا توجد حزمة استدعاءات]	claude-sonnet-5-5 2026-10-18
 a Greenshot hotkey	اختصار Greenshot	claude-sonnet-5-5 2026-10-18
 all destinations	كل الوجهات	claude-sonnet-5-5 2026-10-18
-allow Accessibility in Settings › Capture	اسمح بتسهيلات الاستخدام في التفضيلات › الالتقاط	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	اسمح بتسهيلات الاستخدام في التفضيلات › إلتقط صورة	claude-opus-5-5 2026-10-18
 approved %@	تمت الموافقة على %@	claude-sonnet-5-5 2026-10-18
 at most %@ × %@	%@ × %@ كحد أقصى	claude-sonnet-5-5 2026-10-18
 automatic step	خطوة تلقائية	claude-sonnet-5-5 2026-10-18

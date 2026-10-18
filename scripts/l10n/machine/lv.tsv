@@ -1,0 +1,1970 @@
+# Machine translations of Greenshot for Mac (Community) into Latviski (lv-LV): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	„%@” receptes redaktorā ir nesaglabātas izmaiņas. Vai vēlies tās saglabāt pirms iziešanas?	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	„%@” ir nesaglabātas izmaiņas. Vai vēlies tās saglabāt?	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	„{0}” ir attēla fails	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	${NUM} faila vārda paraugā skaita augšup ar katru failu: seši cipari ar sākuma nullēm.	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@ (būve %@)	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	Pieejama %@ %@, tev ir %@.	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@ (+ tīmekļa lapas)	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@ (deaktivizēts)	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@ (iebūvēts)	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@ (iebūvēts) (deaktivizēts)	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@ (atspējots receptē)	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@ (atspējots)	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@ (pielāgota darbība)	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@ (trūkst)	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@ (trūkst, atskan kameras skaņa)	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@ (nav instalēts)	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@ (izslēgts)	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@ (izslēgts, nav apstiprināts)	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@ (nezināms)	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@ (tīmekļa lapas: nav apstiprinātas)	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	%@ žurnāla skatītājs	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mbps	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	%@ pašapkalpošanās	claude-sonnet-5-5 2026-10-18
+%@ Settings	%@ iestatījumi	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@ satur arī %@. Saglabājot tajā tiks ierakstīts tikai „%@”, tāpēc tas tiks noņemts no faila un no Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@ satur arī %@. Saglabājot tajā tiks ierakstīts tikai „%@”, tāpēc tie tiks noņemti no faila un no Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ un vēl %lld	claude-sonnet-5-5 2026-10-18
+%@ app	%@ lietotne	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	%@ lietotne ar Rosetta	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@ lūdz %@ palaist recepti „%@”, kas veic %@.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ lūdz %@ palaist recepti „%@”, kas veic ekrāna ierakstu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ lūdz %@ palaist recepti „%@”, kas uzņem apgabala ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ lūdz %@ palaist recepti „%@”, kas uzņem loga ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ lūdz %@ palaist recepti „%@”, kas uzņem aktīvā loga ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ lūdz %@ palaist recepti „%@”, kas uzņem pēdējā tvertā apgabala ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ lūdz %@ palaist recepti „%@”, kas uzņem viena ekrāna ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@ lūdz %@ uzņemt apgabala ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@ lūdz %@ uzņemt loga ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@ lūdz %@ uzņemt pēdējā tvertā apgabala ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@ lūdz %@ uzņemt apgabalā esošā teksta ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@ lūdz %@ uzņemt viena ekrāna ekrānattēlu.	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ pozīcijā %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@ to nevar izdarīt: tā versija to neatbalsta ar AppleScript (%@).	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@ ar Greenshot tvēra %@.	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	%@ nevarēja sasniegt	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	%@ nevarēja nolasīt kā Greenshot failu.	claude-sonnet-5-5 2026-10-18
+%@ could not be started	%@ nevarēja startēt	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	%@ nevarēja ierakstīt vietā %@: %@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@ nevarēja atvērt ierakstu	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@ nevarēja atvērt ekrānattēlu	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@ šobrīd nevarēja pārbaudīt, vai ir pieejama jaunāka versija.	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@ neatbildēja laikus.	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@ vēl neatveras pieteikšanās brīdī	claude-sonnet-5-5 2026-10-18
+%@ embedded	%@ iegults	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@ pēdējoreiz beidza darbu ar kļūdu. Vari pārbaudīt, vai par problēmu jau ir ziņots, vai arī ziņot par to ar tālāk norādīto informāciju.	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ neizdevās	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ pabeigts	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@ ir problēmas: jānovērš %lld, lai to varētu palaist.	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@ nesatur nevienu recepti.	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ lietotnē %@	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ mapē %@ – noklikšķini, lai parādītu Finder	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@ ir rezervēts taustiņš, un to nevar izmantot karstajā taustiņā.	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@ pārbauda, vai ir pieejama jaunāka versija…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@ ir bezmaksas un atvērtā koda programma, ko veido brīvprātīgie. Ja tā tev palīdz, pastāsti par to draugiem.	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@ vairs nav ielādēts Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@ nav receptes fails. Saglabājot tā saturs tiks aizstāts ar recepti.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@ nav recepte:\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	%@ nav instalēts	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	%@ nav instalēts.	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@ nav iestatīts	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@ nav iestatīts. Pievieno to sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ darbojas	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	Tava organizācija ir izslēgusi %@.	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@ ir atjaunināts	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@ nedarbojas, un to nevarēja startēt.	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@ nedrīkst izmantot mikrofonu	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@ drīkst ierakstīt ekrānu, tāpēc var uzņemt ekrānattēlus.	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@ atbilst %@ = %@ pikseļiem	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@ pēdējoreiz negaidīti beidza darbu	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ saskārās ar kļūdu, taču joprojām darbojas. Vari pārbaudīt, vai par problēmu jau ir ziņots, vai arī ziņot par to ar tālāk norādīto informāciju.	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@ ziņoja par problēmu: %@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ palaiž skriptus: atļauts tikai iepriekš norādītais skripts, nevis ikviens skripts, ko palaiž %@.	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ vajadzētu atvērties pieteikšanās brīdī, taču macOS gaida, kamēr to atļausi sadaļā Pieteikšanās vienumi un paplašinājumi.	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ vēlas izmantot %@, lai uzskaitītu tavus logus, uzņemtu ekrānattēlus un palaistu Greenshot receptes.	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ apcirst  ⎋ atcelt	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ izgriezt  ⎋ atcelt	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – kļūdas ziņojums	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – noklikšķini, lai parādītu Finder	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — recepšu pārvaldnieks	claude-sonnet-5-5 2026-10-18
+%@: %@	%@: %@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@: %@ – noklikšķini, lai skatītu darbības	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@: URL nokopēts	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@: programma netika atrasta	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	Šeit nevar parādīt %lld elementus: %@.	claude-sonnet-5-5 2026-10-18
+%lld errors	Kļūdas: %lld	claude-sonnet-5-5 2026-10-18
+%lld found	Atrasti: %lld	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld fps	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld h	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kbps	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld min	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	Vēl %lld parametri attiecas uz citām izvēlēm.	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	%lld no %lld tvērumiem	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	%lld no %lld elementiem	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	Joprojām darbojas receptes: %lld	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	Nevarēja ielādēt receptes: %lld	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld s	claude-sonnet-5-5 2026-10-18
+%lld spaces	Telpas: %lld	claude-sonnet-5-5 2026-10-18
+%lld steps	Soļi: %lld	claude-sonnet-5-5 2026-10-18
+%lld triggers off	Izslēgti trigeri: %lld	claude-sonnet-5-5 2026-10-18
+%lld warnings	Brīdinājumi: %lld	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	'%@' nevar sekot aiz '%@': plūsma ietu ciklā.	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	'%@' tur nevar sekot: plūsma ietu ciklā.	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	'%@' ir sākuma solis	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	'%@' vairs nav sākuma solis	claude-sonnet-5-5 2026-10-18
+(%@)	(%@)	claude-sonnet-5-5 2026-10-18
+(Deactivated)	(deaktivizēts)	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	(žurnāla fails ir tukšs)	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	(fragmentā nav žurnāla ierakstu)	claude-sonnet-5-5 2026-10-18
+(no stack)	(nav steka)	claude-sonnet-5-5 2026-10-18
+(no title)	(bez nosaukuma)	claude-sonnet-5-5 2026-10-18
+(nothing yet)	(pagaidām nekā)	claude-sonnet-5-5 2026-10-18
+* (any step)	* (jebkurš solis)	claude-sonnet-5-5 2026-10-18
+* = all errors	* = visas kļūdas	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ Pievienot kļūdu rezerves maršrutu	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ Pievienot trigeri	claude-sonnet-5-5 2026-10-18
++ Option	+ Opcija	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open, /Applications/Preview.app vai nosaukums no PATH	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = visi faili	claude-sonnet-5-5 2026-10-18
+0 lines	0 rindas	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	Šeit nevar parādīt 1 elementu: %@.	claude-sonnet-5-5 2026-10-18
+1 error	1 kļūda	claude-sonnet-5-5 2026-10-18
+1 hour	1 h	claude-sonnet-5-5 2026-10-18
+1 minute	1 min	claude-sonnet-5-5 2026-10-18
+1 step	1 solis	claude-sonnet-5-5 2026-10-18
+1 trigger off	1 trigeris izslēgts	claude-sonnet-5-5 2026-10-18
+1 warning	1 brīdinājums	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Dock ikona un vieta ⌘Tab, kamēr ir atvērts redaktors vai iestatījumi; izvēļņu joslas ikona ir tur jebkurā gadījumā, ja vien tā nav paslēpta zemāk. Izslēgts: redaktora atvēršana no pilnekrāna lietotnes paliek tās darbtelpā, nevis pārslēdz uz darbvirsmu.	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows fails: saglabāšana prasa jaunu failu, tāpēc šis fails paliek nemainīts.	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Fails vēlas pievienot automātisku soli citām receptēm, arī iebūvētajām. Pirms apstiprināšanas pārskati, kuras receptes tas maina un ko pievieno.	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	Saite vēlējās uzņemt ekrānattēlu	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Jauns tveršanas receptes fails pieprasa reģistrāciju Greenshot. Pirms apstiprināšanas pārskati tā informāciju, trigerus un izpildes soļus.	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Jauns tvērums aizstāj tāda redaktora ekrānattēlu, kurā nav nesaglabātu izmaiņu, nevis atver citu logu.	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	Pieejama jaunāka versija (%@). Jaunināšana, iespējams, jau atrisinās šo problēmu!	claude-sonnet-5-5 2026-10-18
+A problem while recording	Problēma ierakstīšanas laikā	claude-sonnet-5-5 2026-10-18
+A program	Programma	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	Receptes palaista programma šajā Mac datorā var darīt visu, ko vari darīt tu.	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	Recepti nevarēja ielādēt	claude-sonnet-5-5 2026-10-18
+A recipe is still running	Recepte joprojām darbojas	claude-sonnet-5-5 2026-10-18
+A recording is already running.	Ierakstīšana jau notiek.	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	Apgabals (Space: logs)	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	Maiga ēna aiz attēla.	claude-sonnet-5-5 2026-10-18
+A window	Logs	claude-sonnet-5-5 2026-10-18
+ACTIVE	AKTĪVS	claude-sonnet-5-5 2026-10-18
+AI	MI	claude-sonnet-5-5 2026-10-18
+AI Tool Access	MI rīku piekļuve	claude-sonnet-5-5 2026-10-18
+AI Tools	MI rīki	claude-sonnet-5-5 2026-10-18
+AI tool	MI rīks	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	MI rīks „%@”	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	MI rīki (piemēram, Claude Code, Claude Desktop, VS Code vai Cursor) savienojas, izmantojot greenshot-mcp, kas ir iekļauts %@. Tie var uzskaitīt tavus logus, uzņemt ekrānattēlus un palaist tavas receptes. Kamēr tas ir izslēgts, Greenshot noraida visus pieprasījumus bez jautāšanas. Katrai programmai pirmoreiz savienojoties joprojām ir nepieciešama tava atļauja.	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	MI: MI rīku rakstītas receptes	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	JAU APSTIPRINĀTS	claude-sonnet-5-5 2026-10-18
+API token	API žetons	claude-sonnet-5-5 2026-10-18
+APPROVED	APSTIPRINĀTS	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	AUTOMĀTISKS SOLIS	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	AUTOMĀTISKIE SOĻI	claude-sonnet-5-5 2026-10-18
+Access	Piekļuve	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	Aktivizēts: '%@'.	claude-sonnet-5-5 2026-10-18
+Active	Aktīvs	claude-sonnet-5-5 2026-10-18
+Active: %lld	Aktīvi: %lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	Ad-hoc (bez sertifikāta: lokāla būve)	claude-sonnet-5-5 2026-10-18
+Add	Pievienot	claude-sonnet-5-5 2026-10-18
+Add Argument	Pievienot parametru	claude-sonnet-5-5 2026-10-18
+Add Branch	Pievienot zaru	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	Pievienot CC un BCC e-pastam	claude-sonnet-5-5 2026-10-18
+Add Choice	Pievienot izvēli	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	Pievienot izgriešanas atzīmi	claude-sonnet-5-5 2026-10-18
+Add Destination	Pievienot mērķi	claude-sonnet-5-5 2026-10-18
+Add Emoji	Pievienot emocijzīmi	claude-sonnet-5-5 2026-10-18
+Add External Command	Pievienot pielāgotu darbību	claude-sonnet-5-5 2026-10-18
+Add Lane	Pievienot joslu	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	Pievienot paralēlu zaru	claude-sonnet-5-5 2026-10-18
+Add Step	Pievienot soli	claude-sonnet-5-5 2026-10-18
+Add Variable	Pievienot mainīgo	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	Pievienot soli: taustiņš, kas jānospiež pēc pārējiem, piemēram, C no ⌃⌥⌘K, C	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	Pievieno kādu sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Add the first step	Pievienot pirmo soli	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	Pievienot šo soli kā paralēlu ieejas punktu	claude-sonnet-5-5 2026-10-18
+Add to Editor	Pievienot redaktoram	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	Pievienot redaktoram – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	Pievienot piezīmei	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	Pievienots %@ trigeris	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	Pievienota opcija '%@': soļi to nolasa ar ${option.%@}	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	Pievienots receptes kļūdu rezerves maršruts	claude-sonnet-5-5 2026-10-18
+Added step: %@	Pievienots solis: %@	claude-sonnet-5-5 2026-10-18
+Add…	Pievienot…	claude-sonnet-5-5 2026-10-18
+Adjust	Pielāgot	claude-sonnet-5-5 2026-10-18
+Adjust…	Pielāgot…	claude-sonnet-5-5 2026-10-18
+Advanced	Papildu	claude-sonnet-5-5 2026-10-18
+After a Capture	Pēc tveršanas	claude-sonnet-5-5 2026-10-18
+After a capture	Pēc tveršanas	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	Pēc tveršanas viens paziņojums uzskaita, kurp tā nonāca. Noklikšķini uz tā stundas laikā, lai nosūtītu tvērumu citur, arī pēc restartēšanas. Fokuss un Netraucēt aizkavē paziņojumus tāpat kā citām lietotnēm.	claude-sonnet-5-5 2026-10-18
+After a recording	Pēc ierakstīšanas	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	Ielādēti visi %@.	claude-sonnet-5-5 2026-10-18
+All Lines	Visas rindas	claude-sonnet-5-5 2026-10-18
+All captures	Visi tvērumi	claude-sonnet-5-5 2026-10-18
+All screens	Visi ekrāni	claude-sonnet-5-5 2026-10-18
+All spaces	Visas telpas	claude-sonnet-5-5 2026-10-18
+Allow	Atļaut	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	Atļaut %@ ierakstīt tavu ekrānu	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	Vai atļaut %@ izmantot %@?	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	Atļauj to sadaļā Sistēmas iestatījumi › Privātums un drošība › Mikrofons vai ieraksti bez tā.	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	Atļaut saitēm uzņemt ekrānattēlus	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	Atļaut pārlūka paplašinājumam sūtīt ekrānattēlus	claude-sonnet-5-5 2026-10-18
+Allow these actions	Atļaut šīs darbības	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	Atļaut šim automātiskajam solim lasīt vai rakstīt šos failus un mapes	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	Atļaut šim automātiskajam solim palaist programmas šajā Mac datorā	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	Atļaut šim automātiskajam solim augšupielādēt tvērumus internetā	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	Atļaut šai receptei lasīt vai rakstīt šos failus un mapes	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	Atļaut šai receptei palaist programmas šajā Mac datorā	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	Atļaut šai receptei augšupielādēt tvērumus internetā	claude-sonnet-5-5 2026-10-18
+Allowed	Atļauts	claude-sonnet-5-5 2026-10-18
+Allowed programs	Atļautās programmas	claude-sonnet-5-5 2026-10-18
+Allow…	Atļaut…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	Meklējot atjauninājumus, piedāvāt arī %@ beta versijas.	claude-sonnet-5-5 2026-10-18
+Always	Vienmēr	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	Summa (EUR):	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	MI rīks piedāvā recepti	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	MI rīks piedāvā automātisku soli	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	MI rīks vēlas mainīt recepti	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	MI rīks ar Greenshot tvēra %@.	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	Lietotnes nosaukums vai pakotnes identifikators; ar Return to pievieno	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	Lietotne, piemēram, KeePassXC vai com.example.vault	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	Automātiskajam solim nav trigeru: tas darbojas receptēs, kuras tas paplašina.	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	Automātisks solis darbojas receptēs, kuras tas maina: saglabā to, ieslēdz sadaļā Iestatījumi › Receptes un pārbaudes palaišanā palaid kādu no šīm receptēm.	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	Eksportējot uz %@ radās kļūda: %@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	Attēls bez caurspīdīguma, kurā ir mazāk par 256 krāsām, tiek saglabāts kā 8 bitu attēls: tas pats attēls mazākā failā.	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	Radās neparedzēta kļūda.	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	Neoficiāls, kopienas veidots Greenshot macOS ports – bezmaksas un atvērtā koda ekrānattēlu rīka operētājsistēmai Windows. Tam nav sakara ar Greenshot komandu vai oficiālo Greenshot lietotni Mac App Store.	claude-sonnet-5-5 2026-10-18
+Annotate and export	Anotēt un eksportēt	claude-sonnet-5-5 2026-10-18
+Annotations	Anotācijas	claude-sonnet-5-5 2026-10-18
+Another Recipe	Cita recepte	claude-sonnet-5-5 2026-10-18
+Another Tip	Vēl viens padoms	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Tos var izmantot kāda cita lietotne. Izvēlies citus sadaļā Iestatījumi › Vispārīgi vai maini receptes karstā taustiņa trigeri.	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	Recepti var palaist jebkurš trigeris; katram ir sava atslēga. Trigeri, kas recepti palaiž paši vai no ārpuses, tiek apstiprināti atsevišķi.	claude-sonnet-5-5 2026-10-18
+App	Lietotne	claude-sonnet-5-5 2026-10-18
+App key	Lietotnes atslēga	claude-sonnet-5-5 2026-10-18
+Appearance	Izskats	claude-sonnet-5-5 2026-10-18
+Append to the annotations	Pievienot anotācijām	claude-sonnet-5-5 2026-10-18
+Application	Lietotne	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	Receptes JSON izmaiņas pielietotas.	claude-sonnet-5-5 2026-10-18
+Apply Changes	Pielietot izmaiņas	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	Pielietot attēlam izgrieztās malas	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	Vai pielietot JSON izmaiņas?	claude-sonnet-5-5 2026-10-18
+Apply to the Image	Pielietot attēlam	claude-sonnet-5-5 2026-10-18
+Approve	Apstiprināt	claude-sonnet-5-5 2026-10-18
+Approve & Enable	Apstiprināt un ieslēgt	claude-sonnet-5-5 2026-10-18
+Approve & Save	Apstiprināt un saglabāt	claude-sonnet-5-5 2026-10-18
+Approve Changes	Apstiprināt izmaiņas	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	Apstiprini savas izmaiņas	claude-sonnet-5-5 2026-10-18
+Approved	Apstiprināts	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	Apstiprinātais SHA-256	claude-sonnet-5-5 2026-10-18
+Approved recipes	Apstiprinātās receptes	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	Vai tiešām vēlies atjaunot „%@” noklusējuma iebūvēto definīciju?	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	Vai tiešām vēlies izlādēt „%@”? Tā tiks atreģistrēta no %@.	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	Apgabals: %@ (%@) · %@	claude-sonnet-5-5 2026-10-18
+Areas	Apgabali	claude-sonnet-5-5 2026-10-18
+Arrow	Bulta	claude-sonnet-5-5 2026-10-18
+As recorded	Kā ierakstīts	claude-sonnet-5-5 2026-10-18
+Ask Again	Vaicāt vēlreiz	claude-sonnet-5-5 2026-10-18
+Ask Every Time	Jautāt katru reizi	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	Tiek vaicāts ar pirmo paziņojumu	claude-sonnet-5-5 2026-10-18
+At most %lld colours	Ne vairāk kā %lld krāsas	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	Ne vairāk kā 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	Ne vairāk kā 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	Pievienot lapai	claude-sonnet-5-5 2026-10-18
+Attach to an issue	Pievienot problēmai	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	%@ pievienots: %@	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	%@ pievienots: „%@”	claude-sonnet-5-5 2026-10-18
+Auto crop is not possible	Automātiskā apcirpšana nav iespējama	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	Automātiski apcirst vai izgriezt apcirpšanas atlases rindas vai kolonnas	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	Automātiska aizvēršana pēc %llds...	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	Noklusējuma izvēle tiks atlasīta automātiski pēc %llds...	claude-sonnet-5-5 2026-10-18
+Automatic	Automātiski	claude-sonnet-5-5 2026-10-18
+Automatic Step	Automātisks solis	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	Automātiskā soļa apstiprināšana	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	Automātisks solis mainīts ārpus Greenshot	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	Automātiskā soļa informācija	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	Konstatēts automātiskā soļa fails	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	Automātiskā soļa ID	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	Automātiskā soļa JSON	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	Konstatēta automātiskā soļa modifikācija	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	MI rīka piedāvāts automātisks solis	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	Automātiskā soļa pārskatīšana	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	Automātiskā soļa validācija neizdevās	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	Automātisks solis — receptes redaktors	claude-sonnet-5-5 2026-10-18
+Automatic Steps	Automātiskie soļi	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	Automātisks solis pie %@, der %lld receptēm	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	Automātiskā soļa konfigurācija neizturēja validāciju.	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	Automātisks solis: %@	claude-sonnet-5-5 2026-10-18
+Automatic steps	Automātiskie soļi	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	Automātiski soļi taviem tvērumiem, piemēram, apmale vai paraksts, un iestatījumi, ko piedāvā tavas receptes. Tie tiek izmantoti, sākot ar nākamo tvērumu.	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	Automātiskie soļi, kas tagad tiek pieslēgti (ieslēgti sadaļā Iestatījumi › Receptes):	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	Automātiski: vismaz 1,5 Mbps, vairāk lieliem vai ātriem video. Ekrāns dod ne vairāk kadru, nekā tas parāda.	claude-sonnet-5-5 2026-10-18
+Automation	Automatizācija	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	Būs pieejams pēc brīža: šis logs atvērās pats.	claude-sonnet-5-5 2026-10-18
+A–Z	A–Z	claude-sonnet-5-5 2026-10-18
+BCC	BCC	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC (neobligāts):	claude-sonnet-5-5 2026-10-18
+BUILT-IN	IEBŪVĒTS	claude-sonnet-5-5 2026-10-18
+BY %@	AUTORS: %@	claude-sonnet-5-5 2026-10-18
+Back	Atpakaļ	claude-sonnet-5-5 2026-10-18
+Back to one step	Atpakaļ uz vienu soli	claude-sonnet-5-5 2026-10-18
+Background	Fons	claude-sonnet-5-5 2026-10-18
+Background:	Fons:	claude-sonnet-5-5 2026-10-18
+Balanced	Līdzsvarots	claude-sonnet-5-5 2026-10-18
+Barcode Format:	Svītrkoda formāts:	claude-sonnet-5-5 2026-10-18
+Barcode: %@	Svītrkods: %@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	Balstīts uz Greenshot, autortiesības © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	Zem 100 % ekrāns spīd cauri palielinātājam.	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	Pieejama beta versija %@ – noklikšķini, lai lejupielādētu	claude-sonnet-5-5 2026-10-18
+Bit rate	Bitu pārraides ātrums	claude-sonnet-5-5 2026-10-18
+Black and white	Melnbalts	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	Melnbalta slieksnis: %lld	claude-sonnet-5-5 2026-10-18
+Blank	Tukšs	claude-sonnet-5-5 2026-10-18
+Body:	Pamatteksts:	claude-sonnet-5-5 2026-10-18
+Bottom left	Apakšā pa kreisi	claude-sonnet-5-5 2026-10-18
+Bottom right	Apakšā pa labi	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	Zars %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	Apgabala ap izcēlumu spilgtums procentos	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	Attēla gaišums, kontrasts un gamma.	claude-sonnet-5-5 2026-10-18
+Bring All to Front	Pārvietot visu uz priekšplānu	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	Atjaunot iebūvēto recepti, ko šis fails aizstāj	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	Atjaunot iebūvēto versiju	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	Atjaunot iebūvēto versiju katrai receptei, ko fails aizstāj	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	Vai atjaunot šo recepšu iebūvēto versiju?	claude-sonnet-5-5 2026-10-18
+Broken: %@	Bojāts: %@	claude-sonnet-5-5 2026-10-18
+Browser extension	Pārlūka paplašinājums	claude-sonnet-5-5 2026-10-18
+Browsers	Pārlūkprogrammas	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	Izveido greenshot-mcp (swift build) vai izmanto lietotni no scripts/build-app.sh, lai pieslēgtu MI rīku.	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Iebūvēts Greenshot	claude-sonnet-5-5 2026-10-18
+Built-in	Iebūvēts	claude-sonnet-5-5 2026-10-18
+CC	CC	claude-sonnet-5-5 2026-10-18
+Calendar Event	Kalendāra notikums	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	Kalendāra notikuma (iCal) informācija	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	Kamera (macOS)	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	Atcelt (Esc)	claude-sonnet-5-5 2026-10-18
+Cancel Recording	Atcelt ierakstīšanu	claude-sonnet-5-5 2026-10-18
+Cancel the running one	Atcelt darbojošos	claude-sonnet-5-5 2026-10-18
+Cancelled.	Atcelts.	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	Receptes izmēģinājuma palaišana nav iespējama. Vispirms labo validācijas kļūdas:	claude-sonnet-5-5 2026-10-18
+Capture Mode	Tveršanas režīms	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	Tveršanas recepšu pārvaldnieks	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	Tveršanas receptes pārskatīšana	claude-sonnet-5-5 2026-10-18
+Capture Text	Tvert tekstu	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	Tvert logu ar Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Capture clipboard	Tvert starpliktuvi	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	Tveršanas plūsma neizdevās.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	Tveršanas saites ir izslēgtas. Ieslēdz tās sadaļā Iestatījumi › Paplašināti › Automatizācija.	claude-sonnet-5-5 2026-10-18
+Capture text	Tvert tekstu	claude-sonnet-5-5 2026-10-18
+Capture the active window	Tvert aktīvo logu	claude-sonnet-5-5 2026-10-18
+Capture the same region again	Tvert to pašu apgabalu vēlreiz	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	Tvert visu ekrānu	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	Tvert visu ekrānu ar Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Captures	Tvērumi	claude-sonnet-5-5 2026-10-18
+Capturing	Tveršana	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	Tveršanai pietiek ar vienu taustiņu	claude-sonnet-5-5 2026-10-18
+Change count	Izmaiņu skaits	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	Maini, ko šis automātiskais solis drīkst darīt. „Paturēt kā ir” vai loga aizvēršana neko nemaina.	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	Maini, kuri trigeri drīkst palaist šo recepti un ko tā drīkst darīt. „Paturēt kā ir” vai loga aizvēršana neko nemaina.	claude-sonnet-5-5 2026-10-18
+Changed	Mainīts	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	Mainīts (#%@): %@	claude-sonnet-5-5 2026-10-18
+Changed Lines	Mainītās rindas	claude-sonnet-5-5 2026-10-18
+Changed recipes	Mainītās receptes	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	Pārdomāji? Esc atceļ tveršanu.	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	Izmaiņas (− pirms, + pēc)	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	Izmaiņas vēl nav pielietotas	claude-sonnet-5-5 2026-10-18
+Changes other recipes	Maina citas receptes	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	Maina automātisko soli „%@”	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	Maina recepti „%@”	claude-sonnet-5-5 2026-10-18
+Change…	Mainīt…	claude-sonnet-5-5 2026-10-18
+Chart	Diagramma	claude-sonnet-5-5 2026-10-18
+Chart and text	Diagramma un teksts	claude-sonnet-5-5 2026-10-18
+Check Now	Pārbaudīt tagad	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	Atzīmē vismaz vienu mērķi.	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	Pārbaudīt nestabilus atjauninājumus (pirmsizlaides)	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	Pārbaudīt atjauninājumus ik pēc %lld dienām	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	Pārbaudi, vai vari rakstīt vietā %@.	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	Pārbaudi receptes JSON sintaksi: neekranētas pēdiņas, liekas komati beigās vai nesaskanošas iekavas.	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	Pārbaudi receptes „options”: atslēgas, tipus, noklusējuma vērtības un izvēles.	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	Pārbaudi iestatījumus, izlasi žurnālu un sistēmas informāciju (S)	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	Pārbaudi %@ iestatījumus, žurnālu un sistēmu	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	Notiek koda paraksta pārbaude…	claude-sonnet-5-5 2026-10-18
+Checking…	Notiek pārbaude…	claude-sonnet-5-5 2026-10-18
+Checks	Pārbaudes	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	Iestatījumu, sistēmas, karsto taustiņu un starpliktuves pārbaudes, kā arī %@ žurnāls.	claude-sonnet-5-5 2026-10-18
+Chip	Mikroshēma	claude-sonnet-5-5 2026-10-18
+Choices	Izvēles	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	Izvēlies receptes failu (.gsrecipe.json). Greenshot parāda, ko tas dara, pirms to izmanto.	claude-sonnet-5-5 2026-10-18
+Choose another one.	Izvēlies citu.	claude-sonnet-5-5 2026-10-18
+Choose folder & format	Izvēlēties mapi un formātu	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	Izvēlies skaņu, ko atskaņot pēc tveršanas.	claude-sonnet-5-5 2026-10-18
+Choose…	Izvēlēties…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome, Edge, Brave: atver paplašinājumu lapu, ieslēdz izstrādātāja režīmu, noklikšķini uz Load unpacked un izvēlies paplašinājuma mapi. Firefox 126 vai jaunāks: about:debugging › This Firefox › Load Temporary Add-on… un izvēlies tajā manifest.json. Failu vārdos tad var izmantot lapas ${url} un ${browser}, kā arī pārlūka aktīvās cilnes ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} (paplašinājuma cilņu izsekošana).	claude-sonnet-5-5 2026-10-18
+Clear	Notīrīt	claude-sonnet-5-5 2026-10-18
+Clear Background	Notīrīt fonu	claude-sonnet-5-5 2026-10-18
+Click	Klikšķis	claude-sonnet-5-5 2026-10-18
+Click a QR code	Noklikšķini uz QR koda	claude-sonnet-5-5 2026-10-18
+Click a line	Noklikšķini uz līnijas	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	Noklikšķini uz saīsnes, tad ievadi jauno. ⌫ to notīra, ⎋ atceļ. + pievieno soli karstajiem taustiņiem, piemēram, ⌃⌥⌘K, tad C (2,5 sekunžu laikā). Tastatūras izvēlnē modifikatora taustiņš tiek ņemts vērā tikai kreisajā vai labajā pusē. Tastatūras ar F13 taustiņu to var izmantot kā Print Screen.	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	Noklikšķini jebkur vai nospied Esc, lai atgrieztos	claude-sonnet-5-5 2026-10-18
+Click for more	Noklikšķini, lai uzzinātu vairāk	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	Noklikšķini šeit, lai atvērtu iestatījumus.	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	Noklikšķini, lai aktivizētu vai deaktivizētu	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	Noklikšķini, lai aktivizētu recepti	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	Noklikšķini, lai deaktivizētu recepti	claude-sonnet-5-5 2026-10-18
+Click to open	Noklikšķini, lai atvērtu	claude-sonnet-5-5 2026-10-18
+Click to open the issue	Noklikšķini, lai atvērtu problēmu	claude-sonnet-5-5 2026-10-18
+Click to open the page	Noklikšķini, lai atvērtu lapu	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	Noklikšķini, lai skatītu pilnu priekšskatījumu (Esc, lai izietu)	claude-sonnet-5-5 2026-10-18
+Click, Enter	Klikšķis, Enter	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	Aizklikšķināji %@ paziņojumu? Tas gaida paziņojumu centrā: noklikšķinot uz tā, vari vēlreiz izvēlēties, kurp tvērums nonāk, arī pēc %@ aizvēršanas.	claude-sonnet-5-5 2026-10-18
+Client ID	Klienta ID	claude-sonnet-5-5 2026-10-18
+Client secret	Klienta noslēpums	claude-sonnet-5-5 2026-10-18
+Clipart and text	Klipart un teksts	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	Klipart un vertikāls teksts	claude-sonnet-5-5 2026-10-18
+Clipboard	Starpliktuve	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	Starpliktuves monitors	claude-sonnet-5-5 2026-10-18
+Close All	Aizvērt visu	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	Aizverot redaktoru ar izmaiņām, tās tiek atmestas bez jautājuma.	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	Mākoņa vietnes beidzas ar /wiki.	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	Mākonis: e-pasts un API žetons	claude-sonnet-5-5 2026-10-18
+Code hash	Koda jaucējkods	claude-sonnet-5-5 2026-10-18
+Code signature	Koda paraksts	claude-sonnet-5-5 2026-10-18
+Color:	Krāsa:	claude-sonnet-5-5 2026-10-18
+Command line tool	Komandrindas rīks	claude-sonnet-5-5 2026-10-18
+Command line: %@	Komandrinda: %@	claude-sonnet-5-5 2026-10-18
+Command “%@”	Komanda „%@”	claude-sonnet-5-5 2026-10-18
+Company:	Uzņēmums:	claude-sonnet-5-5 2026-10-18
+Comparison	Salīdzinājums	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	Pilns žurnāls ielādēts: %@	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	Pilns žurnāls: ~%@ rindas (%@)	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	Slēpts (paroļu pārvaldnieks lūdz lietotnēm to neglabāt)	claude-sonnet-5-5 2026-10-18
+Configure QR…	Konfigurēt QR…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	Pieslēgt MI rīku	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	„%@” savienots ar „%@”	claude-sonnet-5-5 2026-10-18
+Connected as %@.	Pieslēgts kā %@.	claude-sonnet-5-5 2026-10-18
+Content with caption	Saturs ar parakstu	claude-sonnet-5-5 2026-10-18
+Continue At	Turpināt pie	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	Turpinās pie „%@”	claude-sonnet-5-5 2026-10-18
+Contrast:	Kontrasts:	claude-sonnet-5-5 2026-10-18
+Copied	Nokopēts	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	Nokopētas teksta rindas: %lld	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	Nokopēta 1 teksta rinda	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	Mermaid DSL nokopēts starpliktuvē.	claude-sonnet-5-5 2026-10-18
+Copied by	Nokopēja	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	Viss žurnāla saturs nokopēts starpliktuvē (%@ rakstzīmes)	claude-sonnet-5-5 2026-10-18
+Copied its output	Nokopēja tās izvadi	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	Receptes ID „%@” nokopēts starpliktuvē.	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	Nokopēts QR koda teksts	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	Integritātes pārskats nokopēts.	claude-sonnet-5-5 2026-10-18
+Copied the path.	Ceļš nokopēts.	claude-sonnet-5-5 2026-10-18
+Copied the text	Teksts nokopēts	claude-sonnet-5-5 2026-10-18
+Copied!	Nokopēts!	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	Nokopē Terminal komandu, kas saista greenshot-cli ar /usr/local/bin.	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	Nokopē paplašinājumu uz Greenshot mapi sadaļā Application Support un parāda to, lai izmantotu Load unpacked.	claude-sonnet-5-5 2026-10-18
+Copy Details	Kopēt informāciju	claude-sonnet-5-5 2026-10-18
+Copy File Path	Kopēt faila ceļu	claude-sonnet-5-5 2026-10-18
+Copy Install Command	Kopēt instalēšanas komandu	claude-sonnet-5-5 2026-10-18
+Copy Link	Kopēt saiti	claude-sonnet-5-5 2026-10-18
+Copy Log	Kopēt žurnālu	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	Kopēt Mermaid kodu	claude-sonnet-5-5 2026-10-18
+Copy Path	Kopēt ceļu	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	Kopēt receptes ID	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	Kopēt receptes ID starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy Report	Kopēt pārskatu	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	Kopēt steka izsekojumu	claude-sonnet-5-5 2026-10-18
+Copy System Info	Kopēt sistēmas informāciju	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	Kopēt tekstu (OCR)	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	Kopēt koplietotu saiti starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	Kopēt visu izvadi starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	Vispirms nokopē attēlu un tad mēģini vēlreiz.	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	Kopēt ekrāna attēlu starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	Kopēt atlasītā apgabala attēlu starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	Kopēt tekstu (OCR)	claude-sonnet-5-5 2026-10-18
+Copy the file path	Kopēt faila ceļu	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	Kopēt pirmo URL no izvades starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	Kopēt attēlu starpliktuvē (⇧⌘C)	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	Kopēt saiti starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	Kopēt atlasītos elementus (⌘C)	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	Kopēt starpliktuvē	claude-sonnet-5-5 2026-10-18
+Copy “%@”	Kopēt „%@”	claude-sonnet-5-5 2026-10-18
+Copy: %@	Kopēt: %@	claude-sonnet-5-5 2026-10-18
+Core Destinations	Pamata mērķi	claude-sonnet-5-5 2026-10-18
+Could not be checked	Nevarēja pārbaudīt	claude-sonnet-5-5 2026-10-18
+Could not check for updates	Nevarēja pārbaudīt atjauninājumus	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	Nevarēja reģistrēt paplašinājuma savienojumu priekš %@; skatīt žurnālu.	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	Nevarēja noņemt reģistrāciju priekš %@; skatīt žurnālu.	claude-sonnet-5-5 2026-10-18
+Countdown	Atpakaļskaitīšana	claude-sonnet-5-5 2026-10-18
+Counter	Skaitītājs	claude-sonnet-5-5 2026-10-18
+Crash reports	Avārijas pārskati	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	Izveidot jaunu tveršanas recepti receptes redaktorā	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	Izveido personīgo piekļuves žetonu %@ sadaļā tavs profils › Personal Access Tokens (Data Center un Server 8.14 vai jaunāks). Tas tiek glabāts tavā atslēgu saišķī.	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	Izveido API žetonu savam Atlassian kontam vietnē [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (viens žetons der gan Jira, gan Confluence). Tas tiek glabāts tavā atslēgu saišķī.	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Izveidots jauns automātiskais solis: ievieto tā soļus pirms Out, vietu norādi cilnē Recipe.	claude-sonnet-5-5 2026-10-18
+Created new recipe.	Izveidota jauna recepte.	claude-sonnet-5-5 2026-10-18
+Crop Out Horizontally	Izgriezt horizontāli	claude-sonnet-5-5 2026-10-18
+Crop Out Vertically	Izgriezt vertikāli	claude-sonnet-5-5 2026-10-18
+Crop modes	Apcirpšanas režīmi	claude-sonnet-5-5 2026-10-18
+Custom	Pielāgots	claude-sonnet-5-5 2026-10-18
+Custom size	Pielāgots izmērs	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	Izgriešanas malu iestatījumi	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	Izgriešanas malu iestatījumi…	claude-sonnet-5-5 2026-10-18
+Cut Mark	Izgriešanas atzīme	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	Izgriezt atlasītās kolonnas	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	Izgriezt atlasītās rindas	claude-sonnet-5-5 2026-10-18
+Cut edges	Izgriešanas malas	claude-sonnet-5-5 2026-10-18
+Cut off from %@	Nogriezt no %@	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	Izgriezt atlasītos elementus (⌘X)	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	DEAKTIVIZĒTS	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	DIAGNOSTIKA	claude-sonnet-5-5 2026-10-18
+Damaged element	Bojāts elements	claude-sonnet-5-5 2026-10-18
+Dark	Tumšs	claude-sonnet-5-5 2026-10-18
+Deactivated	Deaktivizēts	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	Deaktivizēts: '%@'.	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	Deaktivizēti: %lld	claude-sonnet-5-5 2026-10-18
+Decision Required	Nepieciešams lēmums	claude-sonnet-5-5 2026-10-18
+Default	Noklusējums	claude-sonnet-5-5 2026-10-18
+Default (%@)	Noklusējums (%@)	claude-sonnet-5-5 2026-10-18
+Default (Return)	Noklusējums (Return)	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	Noklusējums (izmantot receptes rezerves variantu / beigt)	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	Noklusējums (paralēli)	claude-sonnet-5-5 2026-10-18
+Default (system font)	Noklusējums (sistēmas fonts)	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	Nosaki, kas notiek, ja solis neizdodas (piemēram, starpliktuves bloķēšana, tīkla noilgums). Novirzi tvērumu uz rezerves soli vai citu recepti.	claude-sonnet-5-5 2026-10-18
+Delete Connection	Dzēst savienojumu	claude-sonnet-5-5 2026-10-18
+Delete Step	Dzēst soli	claude-sonnet-5-5 2026-10-18
+Delete Trigger	Dzēst trigeri	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	Dzēst atlasītos elementus (⌫)	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	Izdzēsts solis '%@' (%@)	claude-sonnet-5-5 2026-10-18
+Description	Apraksts	claude-sonnet-5-5 2026-10-18
+Description:	Apraksts:	claude-sonnet-5-5 2026-10-18
+Destinations	Mērķi	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	Mērķi (%lld)	claude-sonnet-5-5 2026-10-18
+Details	Informācija	claude-sonnet-5-5 2026-10-18
+Details for the report	Informācija pārskatam	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	Šīs receptes informācija, atļaujas un fails	claude-sonnet-5-5 2026-10-18
+Details…	Informācija…	claude-sonnet-5-5 2026-10-18
+Did you know?	Vai zināji?	claude-sonnet-5-5 2026-10-18
+Discard	Atmest	claude-sonnet-5-5 2026-10-18
+Discard Recording	Atmest ierakstu	claude-sonnet-5-5 2026-10-18
+Display %@	Displejs %@	claude-sonnet-5-5 2026-10-18
+Display Name	Parādāmais nosaukums	claude-sonnet-5-5 2026-10-18
+Do nothing	Nedarīt neko	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	Vai vēlies saglabāt ekrānattēlu „%@”?	claude-sonnet-5-5 2026-10-18
+Don't Allow	Neatļaut	claude-sonnet-5-5 2026-10-18
+Don't Save	Nesaglabāt	claude-sonnet-5-5 2026-10-18
+Don't ask again	Vairs nevaicāt	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	Aizverot redaktoru, nevaicāt par saglabāšanu	claude-sonnet-5-5 2026-10-18
+Double-click	Dubultklikšķis	claude-sonnet-5-5 2026-10-18
+Download It	Lejupielādēt	claude-sonnet-5-5 2026-10-18
+Download Update	Lejupielādēt atjauninājumu	claude-sonnet-5-5 2026-10-18
+Drag	Vilkt	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	Velc apgabalu, ko paturēt vai izgriezt	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	Velc ekrānattēlu jaunajā e-pasta vēstulē	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	Ievilkt atlasītās izgriešanas vai noplēstās malas attēlā; vēlāk tās vairs nevar mainīt	claude-sonnet-5-5 2026-10-18
+Drawing	Zīmēšana	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	EPC SEPA kredīta pārskaitījuma informācija	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	EPC SEPA pārskaitījums	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	KĻŪDU APSTRĀDE UN REZERVES VARIANTS	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	Katrs MI rīks pats palaiž greenshot-mcp. Pēc MI rīka konfigurācijas maiņas pārstartē to vai pārlādē tā MCP serverus.	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	Katra komanda ir savs mērķis („Ārēja: nosaukums”). {0} parametros ir ekrānattēla fails (saglabātais fails, ja redaktora ekrānattēls ir saglabāts un nemainīts); komanda un parametri var izmantot faila vārda parauga mainīgos. Komanda, kuras programmas trūkst, mērķu izvēlnē netiek rādīta.	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	Katram receptes mezglam jābūt unikālam „id”.	claude-sonnet-5-5 2026-10-18
+Edges:	Malas:	claude-sonnet-5-5 2026-10-18
+Edit External Command	Labot pielāgotu darbību	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	Labot QR / svītrkodu	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	Labot QR / svītrkodu…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	Labot receptes failu	claude-sonnet-5-5 2026-10-18
+Edit Text	Labot tekstu	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	Labot automātisko soli receptes redaktorā	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	Labot kodu ar tiešo priekšskatījumu	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	Redaktors („%@”)	claude-sonnet-5-5 2026-10-18
+Editor menu	Redaktora izvēlne	claude-sonnet-5-5 2026-10-18
+Editor windows	Redaktora logi	claude-sonnet-5-5 2026-10-18
+Effect:	Efekts:	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	Efekti visam attēlam (turi ⌥, lai vispirms mainītu ēnas un noplēsto malu iestatījumus)	claude-sonnet-5-5 2026-10-18
+Either key	Jebkurš taustiņš	claude-sonnet-5-5 2026-10-18
+Element of a newer version	Jaunākas versijas elements	claude-sonnet-5-5 2026-10-18
+Ellipse	Elipse	claude-sonnet-5-5 2026-10-18
+Email	E-pasts	claude-sonnet-5-5 2026-10-18
+Email Message Details	E-pasta vēstules informācija	claude-sonnet-5-5 2026-10-18
+Email:	E-pasts:	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	Iegult (Base64)	claude-sonnet-5-5 2026-10-18
+Embed File…	Iegult failu…	claude-sonnet-5-5 2026-10-18
+Emoji	Emocijzīme	claude-sonnet-5-5 2026-10-18
+Empty log file	Tukšs žurnāla fails	claude-sonnet-5-5 2026-10-18
+Empty: all text	Tukšs: viss teksts	claude-sonnet-5-5 2026-10-18
+Encryption Type:	Šifrēšanas veids:	claude-sonnet-5-5 2026-10-18
+End (UTC):	Beigas (UTC):	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	Palielināt audeklu	claude-sonnet-5-5 2026-10-18
+Enter	Enter	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	Ievadi %@ personīgo piekļuves žetonu sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	Ievadi vienkāršu tekstu vai URL:	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	Ievadi %@ URL sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	Vispirms ievadi URL.	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	Vispirms ievadi e-pastu un API žetonu.	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	Vispirms ievadi personīgo piekļuves žetonu.	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	Vispirms ievadi lietotāju un paroli (vai pārbaudi pirmās augšupielādes laikā).	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	Ievadi savu e-pastu un API žetonu priekš %@ sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Error Filter	Kļūdu filtrs	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	Kļūda, ielādējot recepti	claude-sonnet-5-5 2026-10-18
+Error Routes	Kļūdu maršruti	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	Kļūda, ielādējot iepriekšējo fragmentu: %@	claude-sonnet-5-5 2026-10-18
+Error message	Kļūdas ziņojums	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	Kļūda, lasot žurnāla failu:\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	Kļūda: %@	claude-sonnet-5-5 2026-10-18
+Errors only	Tikai kļūdas	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc: aizvērt  |  F5: atsvaidzināt  |  1–6: sadaļas	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	Katrai receptei nepieciešams unikāls „id” un aprakstošs „name” rekvizīts.	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	Viss ir pieejams arī %@ ikonas izvēlnē izvēļņu joslā.	claude-sonnet-5-5 2026-10-18
+Example: %@	Piemērs: %@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	Izpildīt tveršanas recepti Greenshot (⌘R)	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	Notiek „%@” izmēģinājuma palaišana...	claude-sonnet-5-5 2026-10-18
+Execution Error	Izpildes kļūda	claude-sonnet-5-5 2026-10-18
+Export Capture	Eksportēt tvērumu	claude-sonnet-5-5 2026-10-18
+Expression	Izteiksme	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	Konstatēta ārēja tveršanas recepte	claude-sonnet-5-5 2026-10-18
+External Command	Pielāgota darbība	claude-sonnet-5-5 2026-10-18
+External command	Pielāgota darbība	claude-sonnet-5-5 2026-10-18
+External command %@	Pielāgota darbība %@	claude-sonnet-5-5 2026-10-18
+External commands	Pielāgotas darbības	claude-sonnet-5-5 2026-10-18
+External: %@	Ārēja: %@	claude-sonnet-5-5 2026-10-18
+Extract text from image	Izvilkt tekstu no attēla	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	Tveršanas ekrānā F tver apgabalu vienā no šiem izmēriem; tiem seko pēdējie pieci apgabalu izmēri.	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	Rezerves recepte	claude-sonnet-5-5 2026-10-18
+Fallback Step	Rezerves solis	claude-sonnet-5-5 2026-10-18
+File SHA-256	Faila SHA-256	claude-sonnet-5-5 2026-10-18
+File name counter	Faila vārda skaitītājs	claude-sonnet-5-5 2026-10-18
+File not found	Fails nav atrasts	claude-sonnet-5-5 2026-10-18
+Files	Faili	claude-sonnet-5-5 2026-10-18
+Files and Log	Faili un žurnāls	claude-sonnet-5-5 2026-10-18
+Files: %@, …	Faili: %@, …	claude-sonnet-5-5 2026-10-18
+Filter:	Filtrs:	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	Atrod tekstu attēlā un pārklāj katru sakritību ar elementu, ko vēl var pārvietot vai noņemt.	claude-sonnet-5-5 2026-10-18
+First Name:	Vārds:	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	Fiksēti tveršanas izmēri	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Flameshot ekrānattēlu rīks	claude-sonnet-5-5 2026-10-18
+Flow	Plūsma	claude-sonnet-5-5 2026-10-18
+Folder	Mape	claude-sonnet-5-5 2026-10-18
+Folder ID	Mapes ID	claude-sonnet-5-5 2026-10-18
+Font size in points	Fonta izmērs punktos	claude-sonnet-5-5 2026-10-18
+Footer	Kājene	claude-sonnet-5-5 2026-10-18
+Footer pattern	Kājenes paraugs	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	Kājene ar datumu un nosaukumu	claude-sonnet-5-5 2026-10-18
+Foreground	Priekšplāns	claude-sonnet-5-5 2026-10-18
+Format	Formāts	claude-sonnet-5-5 2026-10-18
+Format:	Formāts:	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	Pārsūtīt uz citu recepti…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	Pārsūtīt uz recepti	claude-sonnet-5-5 2026-10-18
+Four objects	Četri objekti	claude-sonnet-5-5 2026-10-18
+Frame rate	Kadru ātrums	claude-sonnet-5-5 2026-10-18
+Freehand	Brīvroku zīmējums	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	Brīvroku zīmējuma nogludināšana	claude-sonnet-5-5 2026-10-18
+From	No	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	No .greenshot faila…	claude-sonnet-5-5 2026-10-18
+From Editor…	No redaktora…	claude-sonnet-5-5 2026-10-18
+Full Screen	Pilnekrāna režīms	claude-sonnet-5-5 2026-10-18
+Full colour	Pilnkrāsu	claude-sonnet-5-5 2026-10-18
+Full report	Pilns pārskats	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	Visa ekrāna karstais taustiņš	claude-sonnet-5-5 2026-10-18
+Gamma:	Gamma:	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	Izveidojusi lietotne, nevis nokopējis lietotājs	claude-sonnet-5-5 2026-10-18
+Geo Location	Ģeogrāfiskā atrašanās vieta	claude-sonnet-5-5 2026-10-18
+Geo Location Details	Ģeogrāfiskās atrašanās vietas informācija	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	Nevarēja sasniegt GitHub.	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	Dod MI rīka trigerim „ToolName” no burtiem, cipariem, „_” vai „-”.	claude-sonnet-5-5 2026-10-18
+Go Back	Atgriezties	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot (rediģējams)	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Greenshot nesenās	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Greenshot vietne	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot pievieno šos soļus citām receptēm: ievieto tos soļu sarakstā pirms Out, ieslēdz automātisko soli sadaļā Iestatījumi › Receptes.	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot var nolasīt Safari un Chrome atvērto lapu adreses. macOS vienreiz katrai pārlūkprogrammai vaicā, vai to atļaut.	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot nevar piegādāt Box lietotnes atslēgu, tāpēc reģistrē savu: [Box Developer Console](https://app.box.com/developers/console) izveido Custom App ar User Authentication (OAuth 2.0), iestati tās redirect URI uz `%@`, piešķir Write all files tvērumu un ielīmē šeit tās klienta ID un noslēpumu. Noslēpums un pieteikšanās tiek glabāti tavā atslēgu saišķī; mapes ID ir skaitlis mapes URL.	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot nevarēja ielādēt vai reģistrēt šo tveršanas recepti, jo tajā ir konfigurācijas kļūdas. Pārskati tālāk norādīto diagnostikas informāciju:	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot nevarēja izmantot šo automātisko soli, jo tajā ir kļūdas. Pārskati tālāk norādīto informāciju:	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac nav soļa „%@”: tā parametri tiek saglabāti nemainīti.	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot for Mac nav gatavs.	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot nav atļauts vadīt %@. Atļauj to sadaļā Sistēmas iestatījumi › Privātums un drošība › Automatizācija › Greenshot.	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot sūta ekrānattēlus šīm lietotnēm ar AppleScript; macOS vienreiz katrai lietotnei vaicā.	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR, rezerve %@ no %@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML (attēls iegults)	claude-sonnet-5-5 2026-10-18
+Hardened runtime	Hardened runtime	claude-sonnet-5-5 2026-10-18
+Has its own error route	Ir savs kļūdu maršruts	claude-sonnet-5-5 2026-10-18
+Hide %@	Paslēpt %@	claude-sonnet-5-5 2026-10-18
+Hide Icon	Paslēpt ikonu	claude-sonnet-5-5 2026-10-18
+Hide Others	Paslēpt citas	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	Vai paslēpt izvēļņu joslas ikonu?	claude-sonnet-5-5 2026-10-18
+High frame rate	Augsts kadru ātrums	claude-sonnet-5-5 2026-10-18
+High quality	Augsta kvalitāte	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	Turi ⌥, lai novietotu bez piesaistes	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	Horizontālā nobīde:	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	Horizontālais atstatums:	claude-sonnet-5-5 2026-10-18
+Hotkey	Karstais taustiņš	claude-sonnet-5-5 2026-10-18
+Hotkey %@	Karstais taustiņš %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	Karstie taustiņi reģistrēti atkārtoti (daži taustiņi joprojām ir aizņemti).	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	Karstie taustiņi reģistrēti atkārtoti.	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	Cik daudz %@ raksta žurnālā līdz pārstartēšanai. Debug raksta visvairāk.	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO (ikona)	claude-sonnet-5-5 2026-10-18
+ID	ID	claude-sonnet-5-5 2026-10-18
+Identifier	Identifikators	claude-sonnet-5-5 2026-10-18
+If %@: %@	Ja %@: %@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Ja šis ir tavs serveris, pievieno %@ vai pirkstu nospiedumu sadaļā Iestatījumi › Mērķi › Tavi serveri.	claude-sonnet-5-5 2026-10-18
+Image	Attēls	claude-sonnet-5-5 2026-10-18
+Image Quality	Attēla kvalitāte	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	Attēla saite nokopēta – noklikšķini, lai atvērtu lapu	claude-sonnet-5-5 2026-10-18
+Image size	Attēla izmērs	claude-sonnet-5-5 2026-10-18
+Import	Importēt	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	Importēt anotācijas no %@	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	Importēt anotācijas no Greenshot faila	claude-sonnet-5-5 2026-10-18
+Import From This Editor	Importēt no šī redaktora	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	Importētas %lld anotācijas no %@	claude-sonnet-5-5 2026-10-18
+In	Ieeja	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	Sadaļā Iestatījumi › Saglabāšana izvēlies saglabāto ekrānattēlu mapi un faila vārda paraugu.	claude-opus-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	Dažos soļos redzēsi, kā darbojas tveršana, un %@ pārbaudīs, vai viss ir labi iestatīts.	claude-sonnet-5-5 2026-10-18
+In parallel	Paralēli	claude-sonnet-5-5 2026-10-18
+In the background	Fonā	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	Loga režīmā atlase seko mazākajam apgabalam zem peles, piemēram, sānjoslai, rīkjoslai vai tīmekļa lapas daļai; PgUp un PgDn atlasa lielāku vai mazāku apgabalu. Nepieciešama pieejamības atļauja.	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	Failā ~/.codeium/windsurf/mcp_config.json.	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	Failā ~/.cursor/mcp.json (visi projekti) vai .cursor/mcp.json (viens projekts).	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	Failā ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), pēc tam Refresh.	claude-sonnet-5-5 2026-10-18
+Info	Info	claude-sonnet-5-5 2026-10-18
+Information	Informācija	claude-sonnet-5-5 2026-10-18
+Insert	Ievietot	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	Ievietot QR / svītrkodu	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	Ievietot QR / svītrkodu…	claude-sonnet-5-5 2026-10-18
+Insert Step After	Ievietot soli pēc	claude-sonnet-5-5 2026-10-18
+Insert Step Here	Ievietot soli šeit	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	Ievietot Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	Ievietot Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	Ievietot Microsoft Word	claude-sonnet-5-5 2026-10-18
+Insert into document	Ievietot dokumentā	claude-sonnet-5-5 2026-10-18
+Insert into presentation	Ievietot prezentācijā	claude-sonnet-5-5 2026-10-18
+Insert into workbook	Ievietot darbgrāmatā	claude-sonnet-5-5 2026-10-18
+Install	Instalēt	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	Instalē to vai izvēlies citu mērķi sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Installed	Instalēts	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	Instalēts citai lietotnes kopijai	claude-sonnet-5-5 2026-10-18
+Installed version:	Instalētā versija:	claude-sonnet-5-5 2026-10-18
+Integrity	Integritāte	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	Nederīga JSON sintakse vai shēma:\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	Problēmas identifikators (steka izsekojuma jaucējkods)	claude-sonnet-5-5 2026-10-18
+Issue key:	Problēmas atslēga:	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	Beidzās ar izejas kodu %d.	claude-sonnet-5-5 2026-10-18
+It runs from %@.	Tā darbojas no %@.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Tā uzreiz pārstāj darboties un vairs netiek ielādēta. Tās fails paliek savā vietā: importē to vēlreiz, lai pārskatītu un apstiprinātu.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Tā uzreiz pārstāj darboties un vairs netiek ielādēta. Tās fails paliek savā vietā: atver to vēlreiz, lai pārskatītu un apstiprinātu.	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	Tā tika pārdēvēta par %@, un Greenshot startēja ar noklusējuma iestatījumiem.	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	Tas tiks zaudēts, ja nesaglabāsi.	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	Tā ir izvēļņu joslā.	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	Tā paskaidrojums (MI rīka vārdi, Greenshot tos nepārbauda):	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	JPEG kvalitāte (augstāka kvalitāte dod lielākus failus):	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	JPEG kvalitāte: %lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	JSON kļūda	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	Paturēt	claude-sonnet-5-5 2026-10-18
+Keep as Is	Paturēt kā ir	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	Saglabāt tā izmēru ar melnām joslām visapkārt	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	Ierakstīšanas laikā neļaut Mac aizmigt	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	Paturēt loga ēnu logu tvērumos	claude-sonnet-5-5 2026-10-18
+Key	Atslēga	claude-sonnet-5-5 2026-10-18
+Key %u	Taustiņš %u	claude-sonnet-5-5 2026-10-18
+Keys	Taustiņi	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Taustiņiem, kas nav F1–F20, nepieciešams ⌃, ⌥ vai ⌘.	claude-sonnet-5-5 2026-10-18
+Label	Etiķete	claude-sonnet-5-5 2026-10-18
+Lane %lld	Josla %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	Teksta valoda	claude-sonnet-5-5 2026-10-18
+Large object	Liels objekts	claude-sonnet-5-5 2026-10-18
+Largest value	Lielākā vērtība	claude-sonnet-5-5 2026-10-18
+Last Name:	Uzvārds:	claude-sonnet-5-5 2026-10-18
+Last Region	Pēdējais apgabals	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	Pēdējā pārbaude: %@. Tev ir versija %@.	claude-sonnet-5-5 2026-10-18
+Last modified: %@	Pēdējoreiz mainīts: %@	claude-sonnet-5-5 2026-10-18
+Later	Vēlāk	claude-sonnet-5-5 2026-10-18
+Latest release:	Jaunākā izlaide:	claude-sonnet-5-5 2026-10-18
+Latitude:	Ģeogrāfiskais platums:	claude-sonnet-5-5 2026-10-18
+Launch at login	Palaist pieteikšanās brīdī	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	Atstāj paroli tukšu, lai tā tiktu vaicāta pirmajā augšupielādē; pieteikšanās dialogs var to paturēt tavā atslēgu saišķī. Serveri ar paša sertifikātu var uzticēties sadaļā Tavi serveri.	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	Kreisajam un labajam taustiņam nepieciešama pieejamības atļauja. Līdz tam šis karstais taustiņš darbojas ar jebkuru no tiem.	claude-sonnet-5-5 2026-10-18
+Left key	Kreisais taustiņš	claude-sonnet-5-5 2026-10-18
+Left or right key	Kreisais vai labais taustiņš	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	Kreisie vai labie modifikatoru taustiņi	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	Kreisie vai labie modifikatoru taustiņi: piemēram, tikai labais ⌘	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	Ļaut MI rīkiem piedāvāt receptes	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	Ļaut MI rīkiem izmantot Greenshot	claude-sonnet-5-5 2026-10-18
+Let's Go!	Aiziet!	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Ļauj šīm pārlūkprogrammām startēt Greenshot savienojumu paplašinājumam (fails katras pārlūkprogrammas NativeMessagingHosts mapē).	claude-sonnet-5-5 2026-10-18
+Letter	Burts	claude-sonnet-5-5 2026-10-18
+Light	Gaišs	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Lightshot ekrānattēlu rīks	claude-sonnet-5-5 2026-10-18
+Line	Līnija	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	Līnijas biezums punktos (0: bez līnijas)	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	Saite nokopēta – noklikšķini, lai atvērtu	claude-sonnet-5-5 2026-10-18
+Link to the image	Saite uz attēlu	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Saites, piemēram, greenshotmac://settings?tab=editor, atver logus; jebkura tīmekļa lapa var atvērt saiti, tāpēc saites uzņem ekrānattēlus tikai tad, ja tas šeit atļauts. greenshot-cli, AppleScript, Shortcuts un Pakalpojumu izvēlne vienmēr var tvert.	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	Ielādēt tveršanas recepti %@	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	Ielādēt agrāko (+64 KB)	claude-sonnet-5-5 2026-10-18
+Load Elements…	Ielādēt elementus…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	Ielādēt visu žurnālu	claude-sonnet-5-5 2026-10-18
+Load Recipe…	Ielādēt recepti…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	Ielādēt un reģistrēt .gsrecipe.json failu	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	Ielādēt iepriekšējos 64 KB no žurnāla	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	Ielādēts un reģistrēts: %@	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	Ielādēts un reģistrēts: %@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	Ielādēts: %@	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	Agrākais fragments ielādēts: %@	claude-sonnet-5-5 2026-10-18
+Loaded: %@	Ielādēts: %@	claude-sonnet-5-5 2026-10-18
+Loading %@…	Notiek %@ ielāde…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	Notiek telpu ielāde…	claude-sonnet-5-5 2026-10-18
+Location	Atrašanās vieta	claude-sonnet-5-5 2026-10-18
+Location:	Vieta:	claude-sonnet-5-5 2026-10-18
+Log	Žurnāls	claude-sonnet-5-5 2026-10-18
+Log In	Pieteikties	claude-sonnet-5-5 2026-10-18
+Log Viewer…	Žurnāla skatītājs…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	Žurnāla fails (%@)	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	Žurnāla fails šobrīd neeksistē vietā:\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	Žurnāla fails šobrīd neeksistē vietā: %@	claude-sonnet-5-5 2026-10-18
+Log level	Žurnāla līmenis	claude-sonnet-5-5 2026-10-18
+Longitude:	Ģeogrāfiskais garums:	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	Meklēt QR kodus tveršanas ekrānā	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	Meklēt Safari un Chrome	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	Notiek QR kodu meklēšana…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	Notiek atvērto dokumentu meklēšana…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	Notiek atvērto vēstuļu meklēšana…	claude-sonnet-5-5 2026-10-18
+Looking…	Notiek meklēšana…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	Zema enerģijas patēriņa režīms	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	M tveršanas ekrānā to pārslēdz vienam tvērumam.	claude-sonnet-5-5 2026-10-18
+MCP server	MCP serveris	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	MAINĪTS UZ DISKA	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	MP4 ar H.264 (darbojas visur)	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	MP4 ar HEVC (mazāki faili)	claude-sonnet-5-5 2026-10-18
+Magnification:	Palielinājums:	claude-sonnet-5-5 2026-10-18
+Manual	Manuāli	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	Atzīmēt kā sākuma soli	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	Pielāgot redaktora loga izmēru tvērumam	claude-sonnet-5-5 2026-10-18
+Media clip and text	Multivides klips un teksts	claude-sonnet-5-5 2026-10-18
+Memory	Atmiņa	claude-sonnet-5-5 2026-10-18
+Menu bar icon	Izvēļņu joslas ikona	claude-sonnet-5-5 2026-10-18
+Menu entry	Izvēlnes vienums	claude-sonnet-5-5 2026-10-18
+Menus	Izvēlnes	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	Ziņojums:	claude-sonnet-5-5 2026-10-18
+Microphone	Mikrofons	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office un Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Minimize	Minimizēt	claude-sonnet-5-5 2026-10-18
+Mode	Režīms	claude-sonnet-5-5 2026-10-18
+Model	Modelis	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Monosnap ekrānattēlu rīks	claude-sonnet-5-5 2026-10-18
+More Emoji…	Vairāk emocijzīmju…	claude-sonnet-5-5 2026-10-18
+More…	Vairāk…	claude-sonnet-5-5 2026-10-18
+Most memory used	Lielākais atmiņas patēriņš	claude-sonnet-5-5 2026-10-18
+Mouse	Pele	claude-sonnet-5-5 2026-10-18
+Move Down	Pārvietot uz leju	claude-sonnet-5-5 2026-10-18
+Move Up	Pārvietot uz augšu	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	„%@” pārvietots uz leju	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	„%@” pārvietots uz augšu	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	JAUNS AUTOMĀTISKAIS SOLIS	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	JAUNA RECEPTE	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	Nepieciešama pieejamība sadaļā Sistēmas iestatījumi › Privātums un drošība. Līdz tam loga režīms atlasa veselus logus. Pārbūvēta vai pārvietota lietotnes kopija ir jāatļauj no jauna.	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	Tīkla nosaukums (SSID):	claude-sonnet-5-5 2026-10-18
+Never	Nekad	claude-sonnet-5-5 2026-10-18
+Never (switched off)	Nekad (izslēgts)	claude-sonnet-5-5 2026-10-18
+Never check for updates	Nekad nepārbaudīt atjauninājumus	claude-sonnet-5-5 2026-10-18
+Never share these applications	Nekad nekoplietot šīs lietotnes	claude-sonnet-5-5 2026-10-18
+New Automatic Step	Jauns automātiskais solis	claude-sonnet-5-5 2026-10-18
+New Document	Jauns dokuments	claude-sonnet-5-5 2026-10-18
+New Email	Jauns e-pasts	claude-sonnet-5-5 2026-10-18
+New Image	Jauns attēls	claude-sonnet-5-5 2026-10-18
+New Note	Jauna piezīme	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	Jauno Outlook nevar vadīt ar skriptiem: izslēdz to (Outlook › Legacy Outlook) vai izmanto E-pasts…	claude-sonnet-5-5 2026-10-18
+New Presentation	Jauna prezentācija	claude-sonnet-5-5 2026-10-18
+New Random Edges	Jaunas nejaušas malas	claude-sonnet-5-5 2026-10-18
+New Recipe	Jauna recepte	claude-sonnet-5-5 2026-10-18
+New Workbook	Jauna darbgrāmata	claude-sonnet-5-5 2026-10-18
+New email attachment	Jauns e-pasta pielikums	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Jauns e-pasts Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+New image size	Jaunais attēla izmērs	claude-sonnet-5-5 2026-10-18
+New meeting	Jauna sapulce	claude-sonnet-5-5 2026-10-18
+New note in Notes	Jauna piezīme lietotnē Notes	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	Jauna recepte (⌘N)	claude-sonnet-5-5 2026-10-18
+Next	Tālāk	claude-sonnet-5-5 2026-10-18
+Next number	Nākamais numurs	claude-sonnet-5-5 2026-10-18
+No	Nē	claude-sonnet-5-5 2026-10-18
+No QR code found	QR kods nav atrasts	claude-sonnet-5-5 2026-10-18
+No Step Selected	Solis nav atlasīts	claude-sonnet-5-5 2026-10-18
+No Windows	Nav logu	claude-sonnet-5-5 2026-10-18
+No annotations yet.	Anotāciju vēl nav.	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	Neviens automātiskais solis nemaina recepti; ieslēdz kādu augstāk.	claude-sonnet-5-5 2026-10-18
+No captures	Nav tvērumu	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	Nav izmaiņu tajā, ko recepte dara (tikai detaļas, piemēram, nosaukumi vai izkārtojums).	claude-sonnet-5-5 2026-10-18
+No description provided.	Apraksts nav sniegts.	claude-sonnet-5-5 2026-10-18
+No developer signature kept	Izstrādātāja paraksts netiek paturēts	claude-sonnet-5-5 2026-10-18
+No external command is set up	Nav iestatīta neviena pielāgota darbība	claude-sonnet-5-5 2026-10-18
+No external command is set up.	Nav iestatīta neviena pielāgota darbība.	claude-sonnet-5-5 2026-10-18
+No fill	Bez aizpildījuma	claude-sonnet-5-5 2026-10-18
+No folder	Nav mapes	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	Nav atvērts neviens attēlu redaktors. Vispirms atver tvērumu redaktorā.	claude-sonnet-5-5 2026-10-18
+No mail app is set up	Nav iestatīta pasta lietotne	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	Nav iestatīta pasta lietotne.	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	Šī Confluence neviena lapa nav atvērta Safari vai Chrome.	claude-sonnet-5-5 2026-10-18
+No problems	Nav problēmu	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	Neviena programma vēl nav atļauta.	claude-sonnet-5-5 2026-10-18
+No recipe	Nav receptes	claude-sonnet-5-5 2026-10-18
+No recipe matches.	Neviena recepte neatbilst.	claude-sonnet-5-5 2026-10-18
+No recipe open	Nav atvērtas receptes	claude-sonnet-5-5 2026-10-18
+No recipes from files.	Nav recepšu no failiem.	claude-sonnet-5-5 2026-10-18
+No recipes loaded	Nav ielādētu recepšu	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	Recepšu vēl nav. Importē receptes failu vai izveido recepti receptes redaktorā.	claude-sonnet-5-5 2026-10-18
+No spaces	Nav telpu	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	Neviens sākuma solis uz šo neved: savieno šos soļus ar „Turpināt pie”	claude-opus-5-5 2026-10-18
+No text found	Teksts nav atrasts	claude-sonnet-5-5 2026-10-18
+No text found.	Teksts nav atrasts.	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	Neviens teksts neatbilst „%@”.	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	Nav trigera: no recepšu saraksta vai komandrindas	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	Nav trigera: recepte tiek palaista no recepšu saraksta, komandrindas vai citas receptes.	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	Nav trigeru (tikai receptes redaktors)	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	Nav trigeru: recepte sākas tikai no recepšu pārvaldnieka, izmēģinājuma palaišanas vai citas receptes.	claude-sonnet-5-5 2026-10-18
+No, Cancel	Nē, atcelt	claude-sonnet-5-5 2026-10-18
+Nobody	Neviens	claude-sonnet-5-5 2026-10-18
+Node ID	Mezgla ID	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	Nav atrasts (Chrome, Edge, Firefox, Brave, Vivaldi vai Chromium)	claude-sonnet-5-5 2026-10-18
+None set up	Nav iestatīts	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	Nav šī soļa parametrs	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	Nav regulārā izteiksme: %@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	Nav atļauts, līdz Greenshot tiek aizvērts	claude-sonnet-5-5 2026-10-18
+Not allowed yet	Vēl nav atļauts	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	Nav apstiprināts, mainīts pēc apstiprināšanas vai trigeri atstāti izslēgti	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	Nav pieejams, ziņojumi parādās stūrī	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	Vēl nav pārbaudīts. Tev ir versija %@.	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	Nav paredzēts JPEG. GIF failos vienmēr ir ne vairāk par šādu krāsu skaitu.	claude-sonnet-5-5 2026-10-18
+Not found next to the app	Nav atrasts blakus lietotnei	claude-sonnet-5-5 2026-10-18
+Not installed	Nav instalēts	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	Nav ielādēts Greenshot	claude-sonnet-5-5 2026-10-18
+Not reached	Nav sasniegts	claude-sonnet-5-5 2026-10-18
+Not registered yet	Vēl nav reģistrēts	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	Nav reģistrēts: to izmanto cita lietotne	claude-sonnet-5-5 2026-10-18
+Not running	Nedarbojas	claude-sonnet-5-5 2026-10-18
+Not saved yet	Vēl nav saglabāts	claude-sonnet-5-5 2026-10-18
+Not set	Nav iestatīts	claude-sonnet-5-5 2026-10-18
+Not signed	Nav parakstīts	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	Pieteikšanās %@ nav veikta. Piesakies sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	Pieteikšanās nav veikta; pirmajā augšupielādē tiks vaicāts.	claude-sonnet-5-5 2026-10-18
+Notarized	Notarizēts	claude-sonnet-5-5 2026-10-18
+Notes	Piezīmes	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	Piefiksē katru izmaiņu, kamēr darbojas, ik pēc 600 ms: noder, ja ekrānattēla ielīmēšana nedarbojas.	claude-sonnet-5-5 2026-10-18
+Nothing	Nekas	claude-sonnet-5-5 2026-10-18
+Nothing embedded	Nekas nav iegults	claude-sonnet-5-5 2026-10-18
+Nothing found	Nekas nav atrasts	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	Ekrānattēlā nekā nevarēja nolasīt kā QR kodu.	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	Nekas netiek ierakstīts.	claude-sonnet-5-5 2026-10-18
+Notification Settings…	Paziņojumu iestatījumi…	claude-sonnet-5-5 2026-10-18
+Notifications	Paziņojumi	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	Tagad %@ × %@ pikseļi	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	Numurē pamācības soļus ar redaktora skaitītāja rīku.	claude-sonnet-5-5 2026-10-18
+OCR Text	OCR teksts	claude-sonnet-5-5 2026-10-18
+OPTIONS	OPCIJAS	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	CITI PARAMETRI	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	PĀRRAKSTĪTS	claude-sonnet-5-5 2026-10-18
+Object and text	Objekts un teksts	claude-sonnet-5-5 2026-10-18
+Object and two objects	Objekts un divi objekti	claude-sonnet-5-5 2026-10-18
+Object over text	Objekts virs teksta	claude-sonnet-5-5 2026-10-18
+Off	Izslēgts	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	Izslēgts šai lietotnei: nav paziņojumu	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	Izslēgts: „Saglabāt nejautājot” nosaukumam pievieno (2), (3), …	claude-sonnet-5-5 2026-10-18
+Offset X:	Nobīde X:	claude-sonnet-5-5 2026-10-18
+Offset Y:	Nobīde Y:	claude-sonnet-5-5 2026-10-18
+On	Ieslēgts	claude-sonnet-5-5 2026-10-18
+On Error / Failure	Kļūdas / neveiksmes gadījumā	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	Mac datorā neviena lietotne nevar bloķēt starpliktuvi, tāpēc neviena cita lietotne nevar liegt %@ piekļuvi tai.	claude-sonnet-5-5 2026-10-18
+On the clipboard now	Tagad starpliktuvē	claude-sonnet-5-5 2026-10-18
+Once at a time	Pa vienam	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	Viens katrā rindā: vērtība vai vērtība = etiķete	claude-sonnet-5-5 2026-10-18
+One screen	Viens ekrāns	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	Tikai augstāk norādītajiem Jira un Confluence serveriem, kuru sertifikātam macOS neuzticas; visiem pārējiem serveriem tiek veiktas tikai macOS pārbaudes. Viens resursdators katrā rindā; * un ? ir aizstājējzīmes, ports tiek ignorēts. Pirkstu nospiedums uzticas tieši vienam sertifikātam un ir drošāks nekā resursdators; augšupielāde, kas neizdodas sertifikāta dēļ, parāda servera pirkstu nospiedumu. Ja saraksti ir tukši, tiek izmantotas tikai macOS pārbaudes.	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	Pārvietot var tikai soļus parastā secībā.	claude-sonnet-5-5 2026-10-18
+Only when	Tikai ja	claude-sonnet-5-5 2026-10-18
+Open	Atvērt	claude-sonnet-5-5 2026-10-18
+Open %@	Atvērt %@	claude-sonnet-5-5 2026-10-18
+Open %@ at login	Atvērt %@ pieteikšanās brīdī	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	Atvērt starpliktuvi Greenshot	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	Atvērt Greenshot recepti	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	Atvērt attēlu Greenshot	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	Atvērt tastatūras īsinājumtaustiņus	claude-sonnet-5-5 2026-10-18
+Open Link	Atvērt saiti	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	Atvērt žurnāla skatītāju	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	Atvērt žurnāla skatītāju…	claude-sonnet-5-5 2026-10-18
+Open Login Items	Atvērt pieteikšanās vienumus	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	Atvērt izvēļņu joslas iestatījumus	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	Atvērt privātuma iestatījumus	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	Atvērt pašapkalpošanos…	claude-sonnet-5-5 2026-10-18
+Open Settings	Atvērt iestatījumus	claude-sonnet-5-5 2026-10-18
+Open System Settings	Atvērt sistēmas iestatījumus	claude-sonnet-5-5 2026-10-18
+Open With	Atvērt ar	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	Atvērt receptes failu (⌘O)	claude-sonnet-5-5 2026-10-18
+Open an empty editor	Atvērt tukšu redaktoru	claude-sonnet-5-5 2026-10-18
+Open file	Atvērt failu	claude-sonnet-5-5 2026-10-18
+Open in Editor	Atvērt redaktorā	claude-sonnet-5-5 2026-10-18
+Open in another app	Atvērt citā lietotnē	claude-sonnet-5-5 2026-10-18
+Open in the default player	Atvērt noklusējuma atskaņotājā	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	Pēc saglabāšanas atvērt receptes redaktorā	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	Atvērt pēdējo tvērumu redaktorā	claude-sonnet-5-5 2026-10-18
+Open the Recording With	Atvērt ierakstu ar	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	Atvērt ekrānattēlu ar	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	Atver lietotni vēlreiz vai noklikšķini šeit, lai atvērtu iestatījumus.	claude-sonnet-5-5 2026-10-18
+Open the image with another app	Atvērt attēlu citā lietotnē	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	Pēc augšupielādes atvērt lapu	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	Atvērt recepti receptes redaktorā	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	Atvērt recepšu pārvaldnieku (⇧⌘M)	claude-sonnet-5-5 2026-10-18
+Open with	Atvērt ar	claude-sonnet-5-5 2026-10-18
+Open with %@	Atvērt ar %@	claude-sonnet-5-5 2026-10-18
+Open with…	Atvērt ar…	claude-sonnet-5-5 2026-10-18
+Open: %@	Atvērt: %@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	Atvērts %@; tas nav ielādēts Greenshot.	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	Atvērti tastatūras iestatījumi.	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	Atvērts žurnāla skatītājs.	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	Atver attēlu Greenshot for Mac redaktorā.	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	Atver starpliktuvē esošo attēlu Greenshot for Mac redaktorā.	claude-sonnet-5-5 2026-10-18
+Open…	Atvērt…	claude-sonnet-5-5 2026-10-18
+Optional	Neobligāts	claude-sonnet-5-5 2026-10-18
+Options	Opcijas	claude-sonnet-5-5 2026-10-18
+Options (%lld)	Opcijas (%lld)	claude-sonnet-5-5 2026-10-18
+Order	Secība	claude-sonnet-5-5 2026-10-18
+Orgchart	Organizācijas shēma	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	Citas ekrāna tveršanas lietotnes	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	Pretējā gadījumā (%@)	claude-sonnet-5-5 2026-10-18
+Other…	Cits…	claude-sonnet-5-5 2026-10-18
+Out	Out	claude-sonnet-5-5 2026-10-18
+Outlook: allow export in meeting items	Outlook: atļaut eksportu sapulču vienumos	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook: jaunu e-pastu formāts	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	Pārrakstīt failu ar tādu pašu vārdu	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	MI PIEDĀVĀTS	claude-sonnet-5-5 2026-10-18
+Page	Lapa	claude-sonnet-5-5 2026-10-18
+Parallel	Paralēli	claude-sonnet-5-5 2026-10-18
+Parallel start	Paralēls sākums	claude-sonnet-5-5 2026-10-18
+Parameters	Parametri	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	Ielīmēt (⌘V)	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	Ielīmē to Markdown, GitHub README failos vai pull request.	claude-sonnet-5-5 2026-10-18
+Path	Ceļš	claude-sonnet-5-5 2026-10-18
+Pattern variables	Parauga mainīgie	claude-sonnet-5-5 2026-10-18
+Pause Recording	Pauzēt ierakstu	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	Pauzēt, kamēr ekrāns ir bloķēts	claude-sonnet-5-5 2026-10-18
+Permissions	Atļaujas	claude-sonnet-5-5 2026-10-18
+Permissions…	Atļaujas…	claude-sonnet-5-5 2026-10-18
+Personal access token	Personīgais piekļuves žetons	claude-sonnet-5-5 2026-10-18
+Phone Call	Tālruņa zvans	claude-sonnet-5-5 2026-10-18
+Phone Call Details	Tālruņa zvana informācija	claude-sonnet-5-5 2026-10-18
+Phone Number:	Tālruņa numurs:	claude-sonnet-5-5 2026-10-18
+Phone:	Tālrunis:	claude-sonnet-5-5 2026-10-18
+Picture with caption	Attēls ar parakstu	claude-sonnet-5-5 2026-10-18
+Pictures	Attēli	claude-sonnet-5-5 2026-10-18
+Play the camera sound	Atskaņot kameras skaņu	claude-sonnet-5-5 2026-10-18
+Play the sound	Atskaņot skaņu	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	Lūdzu, ievadi tālruņa numuru.	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	Lūdzu, ievadi vērtību, lai izveidotu svītrkodu.	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	Lūdzu, ievadi kontaktpersonas vārdu vai informāciju.	claude-sonnet-5-5 2026-10-18
+Please enter event title.	Lūdzu, ievadi notikuma nosaukumu.	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	Lūdzu, ievadi ģeogrāfiskā platuma un garuma koordinātas.	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	Lūdzu, ievadi tīkla nosaukumu (SSID).	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	Lūdzu, ievadi saņēmēja e-pasta adresi.	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	Lūdzu, ievadi saņēmēja vārdu un IBAN.	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	Lūdzu, ievadi saņēmēja numuru.	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	Lūdzu, ievadi tekstu vai URL.	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	Lūdzu, izvēlies, kā turpināt ar šo tvērumu:	claude-sonnet-5-5 2026-10-18
+Pointer	Rādītājs	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Norādot uz logu sarakstā Tvert kādu no logiem, tiek parādīts tā attēls. Nepieciešama ekrāna ierakstīšanas atļauja.	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	Norāda uz trūkstošu lietotni: noklikšķini uz Instalēt	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint sniedza negaidītu atbildi: %@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint: bloķēt attēla proporcijas	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint: slaida izkārtojums eksportētiem tvērumiem	claude-sonnet-5-5 2026-10-18
+Preset	Sagatave	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	Nospied %@, lai tvertu.	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	Nospied 1–6, lai pārslēgtu sadaļas, F5, lai atsvaidzinātu.	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	Tveršanas laikā nospied F1 vai H, lai redzētu visus izmantojamos taustiņus.	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	Tveršanas laikā nospied M, lai ekrānattēlā parādītu vai paslēptu peles kursoru.	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	Nospied Tālāk, lai sāktu, vai Esc, lai jebkurā brīdī aizvērtu šo logu.	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	Tveršanas laikā nospied Z, lai parādītu vai paslēptu palielinātāju, ja vajadzīga atlase ar pikseļa precizitāti.	claude-sonnet-5-5 2026-10-18
+Preview	Priekšskatījums	claude-sonnet-5-5 2026-10-18
+Print a footer	Drukāt kājeni	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	Lapas apakšā drukāt datumu / laiku un nosaukumu	claude-sonnet-5-5 2026-10-18
+Print in	Drukas krāsas	claude-sonnet-5-5 2026-10-18
+Print – %@	Drukāt – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	Drukāt… (⌘P)	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	Privātuma iestatījumi…	claude-sonnet-5-5 2026-10-18
+Program not found	Programma nav atrasta	claude-sonnet-5-5 2026-10-18
+Program: %@	Programma: %@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	MI rīka piedāvāts	claude-sonnet-5-5 2026-10-18
+QR Code	QR kods	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	QR koda darbības…	claude-sonnet-5-5 2026-10-18
+QR Type:	QR veids:	claude-sonnet-5-5 2026-10-18
+QR code actions	QR koda darbības	claude-sonnet-5-5 2026-10-18
+QR code: %@	QR kods: %@	claude-sonnet-5-5 2026-10-18
+Quality	Kvalitāte	claude-sonnet-5-5 2026-10-18
+Quarantined	Karantīnā	claude-sonnet-5-5 2026-10-18
+Quick settings	Ātrie iestatījumi	claude-sonnet-5-5 2026-10-18
+Quit %@	Iziet no %@	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	Vispirms iziet no tās, lai startētu šo kopiju.	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	RECEPTES KONFIGURĀCIJA	claude-sonnet-5-5 2026-10-18
+Range	Diapazons	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	Neapstrādāta teksta vai URL informācija	claude-sonnet-5-5 2026-10-18
+Read error	Lasīšanas kļūda	claude-sonnet-5-5 2026-10-18
+Read the QR code	Nolasīt QR kodu	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	Lasīt žurnālu vēlreiz (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	Lasīt šo sadaļu vēlreiz (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Recent	Nesenie	claude-sonnet-5-5 2026-10-18
+Recent issues	Nesenās problēmas	claude-sonnet-5-5 2026-10-18
+Recently captured	Nesen tvertie	claude-sonnet-5-5 2026-10-18
+Recipe	Recepte	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	Recepte mainīta ārpus Greenshot	claude-sonnet-5-5 2026-10-18
+Recipe Details	Receptes informācija	claude-sonnet-5-5 2026-10-18
+Recipe Editor	Receptes redaktors	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	Receptes redaktors…	claude-sonnet-5-5 2026-10-18
+Recipe ID	Receptes ID	claude-sonnet-5-5 2026-10-18
+Recipe JSON	Receptes JSON	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	Recepšu pārvaldnieks…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	Konstatēta receptes modifikācija	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	Recepte nav ielādēta	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	Recepte nav saglabāta	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	Receptes atļaujas	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	MI rīka piedāvāta recepte	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	Receptes drošības apstiprināšana	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	Receptes drošības pārskatīšana	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	Receptes validācija neizdevās	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	Receptes konfigurācija neizturēja validāciju.	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	Receptes saturs nav pieejams.	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	Receptes izpildē radās kļūda:	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	Receptes fails ir pārāk liels priekšskatīšanai (> 1MB).	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	Recepšu faili beidzas ar %@, tāpēc recepte tiek saglabāta kā %@.	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	Recepšu karstie taustiņi nav reģistrēti	claude-sonnet-5-5 2026-10-18
+Recipe imported	Recepte importēta	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	Recepte „%@”	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	Recepte „%@” (%@)	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	Recepte „%@” neizdevās	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	Receptes šobrīd Greenshot nedarbojas, tāpēc recepti nevar saglabāt.	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	Receptes šobrīd Greenshot nedarbojas.	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	Receptes no failiem, arī MI rīku rakstītās, un tas, ko tu tām apstiprināji. Izmaiņas šeit stājas spēkā nekavējoties.	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	Recepšu izvēlne (noklusējums)	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	Recepšu izvēlne („%@”)	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	Receptēm jāveido virzīts acikls grafs (DAG). Pārliecinies, ka pārejas un rezerves varianti neatgriežas pie iepriekšējiem mezgliem.	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	Receptes veic tveršanu kā soļu virkni, ko palaiž karstais taustiņš, izvēlnes vienums, starpliktuve, Atvērt ar vai komandrinda. Receptes fails tiek izmantots tikai pēc tam, kad esi apstiprinājis, ko tas dara.	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	Receptes: ID, * (katra recepte ar slotu) vai *capture, atdalīti ar komatiem	claude-sonnet-5-5 2026-10-18
+Recipient Number:	Saņēmēja numurs:	claude-sonnet-5-5 2026-10-18
+Recipient:	Saņēmējs:	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	Atpazīt tekstu, tiklīdz atveras tveršanas ekrāns	claude-sonnet-5-5 2026-10-18
+Recognising text…	Notiek teksta atpazīšana…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	Notiek teksta atpazīšana…	claude-sonnet-5-5 2026-10-18
+Record	Ierakstīt	claude-sonnet-5-5 2026-10-18
+Record Region…	Ierakstīt apgabalu…	claude-sonnet-5-5 2026-10-18
+Record Screen	Ierakstīt ekrānu	claude-sonnet-5-5 2026-10-18
+Record Window…	Ierakstīt logu…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	Ierakstīt bez mikrofona	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	Ierakstīt peles kursoru	claude-sonnet-5-5 2026-10-18
+Recording	Notiek ierakstīšana	claude-sonnet-5-5 2026-10-18
+Recording starts	Ierakstīšana sākas	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	Notiek ierakstīšana. Noklikšķini, lai apturētu; ⌃-klikšķis, lai pauzētu vai atmestu.	claude-sonnet-5-5 2026-10-18
+Rectangle	Taisnstūris	claude-sonnet-5-5 2026-10-18
+Redo	Atcelt atsaukšanu	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	Atcelt atsaukšanu (⇧⌘Z vai ⌘Y)	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	Atcelt atsaukšanu (⇧⌘Z)	claude-sonnet-5-5 2026-10-18
+Redone	Atsaukšana atcelta	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	Samazināt krāsu skaitu līdz ne vairāk kā %lld	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	Samazināt krāsu skaitu	claude-sonnet-5-5 2026-10-18
+Reference:	Atsauce:	claude-sonnet-5-5 2026-10-18
+Refresh	Atsvaidzināt	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	Šai būvei atteikts, ziņojumi parādās stūrī	claude-sonnet-5-5 2026-10-18
+Region	Apgabals	claude-sonnet-5-5 2026-10-18
+Register Again	Reģistrēt vēlreiz	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	Reģistrēt karstos taustiņus macOS vēlreiz, piemēram, pēc tam, kad cita lietotne atdevusi taustiņu	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	Reģistrē savu Box lietotni un ievadi tās klienta ID un noslēpumu sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	Reģistrē savu Dropbox lietotni un ievadi tās lietotnes atslēgu sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	Reģistrē savu lietotni [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder vai Full Dropbox, atļaujas files.content.write, sharing.write un sharing.read, un redirect URI `%@`. Ielīmē šeit tās App key; noslēpums nav vajadzīgs. Pieteikšanās tiek glabāta tavā atslēgu saišķī.	claude-sonnet-5-5 2026-10-18
+Registered	Reģistrēts	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	Reģistrēts, taču macOS to ņem pirmais (%@)	claude-sonnet-5-5 2026-10-18
+Reject / Block	Noraidīt / bloķēt	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	Vai pārstartēt %@ šajā valodā: %@?	claude-sonnet-5-5 2026-10-18
+Relaunch Now	Pārstartēt tagad	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	Pārstartēt šajā valodā: %@	claude-sonnet-5-5 2026-10-18
+Reload All	Pārlādēt visu	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	Pārlādēt konfigurētos receptes failus no diska	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	Receptes pārlādētas no diska.	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	Atcerēties atslēgu saišķī	claude-sonnet-5-5 2026-10-18
+Remove	Noņemt	claude-sonnet-5-5 2026-10-18
+Remove %@	Noņemt %@	claude-sonnet-5-5 2026-10-18
+Remove Start Step	Noņemt sākuma soli	claude-sonnet-5-5 2026-10-18
+Remove the option	Noņemt opciju	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	Noņemt recepti no Greenshot	claude-sonnet-5-5 2026-10-18
+Remove this error route	Noņemt šo kļūdu maršrutu	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	Noņemt šo soli no sākuma soļiem	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	Noņemt: programma tiks vaicāta vēlreiz nākamajā savienošanās reizē.	claude-sonnet-5-5 2026-10-18
+Removed an option	Noņemta opcija	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	Noņemts receptes kļūdu rezerves maršruts	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	Noņemts savienojums ar „%@”	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	Soļa ID pārdēvēts no „%@” uz „%@”	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	Atvērts atkārtoti pēc pēdējās izrakstīšanās vai restartēšanas, vēl nav saglabāts.	claude-sonnet-5-5 2026-10-18
+Replace	Aizstāt	claude-sonnet-5-5 2026-10-18
+Replace File	Aizstāt failu	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	Vai aizstāt failu, kas nav recepte?	claude-sonnet-5-5 2026-10-18
+Replace the annotations	Aizstāt anotācijas	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	Aizstāj iebūvēto automātisko soli „%@”	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	Aizstāj iebūvēto recepti „%@”	claude-sonnet-5-5 2026-10-18
+Report	Pārskats	claude-sonnet-5-5 2026-10-18
+Report a bug	Ziņot par kļūdu	claude-sonnet-5-5 2026-10-18
+Report an Issue…	Ziņot par problēmu…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	Ziņot GitHub…	claude-sonnet-5-5 2026-10-18
+Required	Obligāts	claude-sonnet-5-5 2026-10-18
+Reset	Atiestatīt	claude-sonnet-5-5 2026-10-18
+Reset All	Atiestatīt visu	claude-sonnet-5-5 2026-10-18
+Reset All to Default	Atiestatīt visu uz noklusējumu	claude-sonnet-5-5 2026-10-18
+Reset Default	Atiestatīt noklusējumu	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	Atiestatīt recepti uz noklusējumu	claude-sonnet-5-5 2026-10-18
+Reset to Default	Atiestatīt uz noklusējumu	claude-sonnet-5-5 2026-10-18
+Reset to defaults	Atiestatīt uz noklusējumiem	claude-sonnet-5-5 2026-10-18
+Resize	Mainīt izmēru	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	Mainīt attēla izmēru (⌥⌘R)	claude-sonnet-5-5 2026-10-18
+Resize…	Mainīt izmēru…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	Atjaunots pēc negaidītas Greenshot aizvēršanās, vēl nav saglabāts.	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	Atjaunots, vēl nav saglabāts.	claude-sonnet-5-5 2026-10-18
+Resume Recording	Atsākt ierakstu	claude-sonnet-5-5 2026-10-18
+Retry	Mēģināt vēlreiz	claude-sonnet-5-5 2026-10-18
+Revert	Atgriezt	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	Vai atgriezt „%@” uz noklusējuma iebūvēto definīciju?	claude-sonnet-5-5 2026-10-18
+Review approval…	Pārskatīt apstiprinājumu…	claude-sonnet-5-5 2026-10-18
+Review…	Pārskatīt…	claude-sonnet-5-5 2026-10-18
+Revoke	Atsaukt	claude-sonnet-5-5 2026-10-18
+Revoke Approval	Atsaukt apstiprinājumu	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	Atsaukt apstiprinājumu…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	Vai atsaukt „%@” apstiprinājumu?	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Vai atsaukt „%@” apstiprinājumu? Tā uzreiz pārstāj darboties un vairs netiek ielādēta. Tās fails paliek savā vietā: atver to vēlreiz, lai pārskatītu un apstiprinātu.	claude-sonnet-5-5 2026-10-18
+Right key	Labais taustiņš	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	Ar peles labo pogu vai ⌃-klikšķi tiek parādīta izvēlne. Ja ir dubultklikšķa darbība, klikšķis vispirms gaida dubultklikšķa laiku.	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	Pagriezt pulksteņrādītāja virzienā	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	Pagriezt pretēji pulksteņrādītāja virzienam	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	Pagriezt pulksteņrādītāja virzienā (⌥⌘→)	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	Pagriezt pretēji pulksteņrādītāja virzienam (⌥⌘←)	claude-sonnet-5-5 2026-10-18
+Rounded Dots	Noapaļoti punkti	claude-sonnet-5-5 2026-10-18
+Route To	Novirzīt uz	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	Novirzīt uz soli šajā receptē…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	Palaid „MCP: Add Server” (Command (stdio)) vai ievieto to darbvietas failā .vscode/mcp.json.	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	Palaist pielāgotu darbību ar attēlu	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	Palaist fonā (kļūdas kā ziņojums, nevis dialogs)	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	Palaid to Terminal (--scope user: visos projektos). Pārbaudi ar claude mcp list vai /mcp.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	Palaid to Terminal vai pievieno [mcp_servers.greenshot] ar command = ceļš uz ~/.codex/config.toml.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	Palaid to Terminal vai pievieno mcpServers ierakstu failā ~/.gemini/settings.json. Pārbaudi ar /mcp.	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	Palaist tveršanas recepti tagad	claude-sonnet-5-5 2026-10-18
+Running	Darbojas	claude-sonnet-5-5 2026-10-18
+Running for	Darbojas jau	claude-sonnet-5-5 2026-10-18
+Runs	Palaiž	claude-sonnet-5-5 2026-10-18
+Runs as	Darbojas kā	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 vai SHA-1, piemēram, 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	SMS	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	SMS īsziņas informācija	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	SOĻA KĻŪDU APSTRĀDE	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	SOĻA PARAMETRI	claude-sonnet-5-5 2026-10-18
+Same as macOS	Tāpat kā macOS	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	Tāpat kā macOS (%@)	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	Tie paši taustiņi kā tavam karstajam taustiņam	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	Saglabāt (⌘S)	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	Saglabāt (⌘S); Saglabāt kā ir ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	Saglabāt kā… (⇧⌘S)	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	Saglabāt automātisko soli kā…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	Saglabāt pirms izmēģinājuma palaišanas	claude-sonnet-5-5 2026-10-18
+Save Changes	Saglabāt izmaiņas	claude-sonnet-5-5 2026-10-18
+Save Directly	Saglabāt nejautājot	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	Saglabāt nejautājot (%@)	claude-sonnet-5-5 2026-10-18
+Save Elements…	Saglabāt elementus…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	Saglabāt Greenshot recepti kā…	claude-sonnet-5-5 2026-10-18
+Save Recipe	Saglabāt recepti	claude-sonnet-5-5 2026-10-18
+Save Screenshot	Saglabāt ekrānattēlu	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	Saglabāt ekrānattēlu kā PDF	claude-sonnet-5-5 2026-10-18
+Save and Run	Saglabāt un palaist	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	Saglabāt kā Greenshot failu	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	Saglabāt kā Greenshot failu…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	Saglabāt kā PDF dokumentu	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	Saglabāšana prasa jaunu failu, tāpēc šis tos paturēs.	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	Saglabāt ekrāna attēlu kā failu	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	Saglabāt atlasītā apgabala attēlu kā failu	claude-sonnet-5-5 2026-10-18
+Save to File	Saglabāt failā	claude-sonnet-5-5 2026-10-18
+Save to folder	Saglabāt mapē	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	Saglabāt ar 256 krāsām, ja attēlā to ir mazāk	claude-sonnet-5-5 2026-10-18
+Saved %@	Saglabāts: %@	claude-sonnet-5-5 2026-10-18
+Saved file	Saglabātais fails	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	Recepte saglabāta: %@	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	Saglabāšana aizstāj citas receptes	claude-sonnet-5-5 2026-10-18
+Saving as %@.	Saglabā kā %@.	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	Notiek ieraksta saglabāšana…	claude-sonnet-5-5 2026-10-18
+Saving…	Notiek saglabāšana…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	Mērogot, lai aizpildītu video	claude-sonnet-5-5 2026-10-18
+Scaling	Mērogošana	claude-sonnet-5-5 2026-10-18
+Schedule	Grafiks	claude-sonnet-5-5 2026-10-18
+Screen	Ekrāns	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	Ekrāns %lld (nav pieslēgts)	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	Ekrāns %lld: %@	claude-sonnet-5-5 2026-10-18
+Screen recording	Ekrāna ierakstīšana	claude-sonnet-5-5 2026-10-18
+Screens	Ekrāni	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	Ekrānattēlu un ierakstu opcijas	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	Ekrānattēlu lietotne ar saviem globālajiem īsinājumtaustiņiem	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	macOS ekrānattēlu īsinājumtaustiņi	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Ekrānattēlos var būt viss, kas ir redzams tavā ekrānā. Izslēgto lietotņu (pēc noklusējuma paroļu pārvaldnieku) logi netiek koplietoti nekad. Abus var mainīt sadaļā Iestatījumi › MI rīki.	claude-sonnet-5-5 2026-10-18
+Script: %@	Skripts: %@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	Meklēt esošās problēmas	claude-sonnet-5-5 2026-10-18
+Search in:	Meklēt:	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Meklēt nosaukumu, id, trigerus, failu	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	Meklē, seko un kopē visu žurnālu žurnāla skatītājā.	claude-sonnet-5-5 2026-10-18
+Searched at %@	Meklēts: %@	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	Meklēšana GitHub pēc šī identifikatora palīdz izvairīties no vienas un tās pašas problēmas ziņošanas divreiz un parāda, vai ir zināms labojums vai apiešanas risinājums.	claude-sonnet-5-5 2026-10-18
+Searching…	Notiek meklēšana…	claude-sonnet-5-5 2026-10-18
+Section header	Sadaļas virsraksts	claude-sonnet-5-5 2026-10-18
+Select	Atlasīt	claude-sonnet-5-5 2026-10-18
+Select Image Editor	Izvēlēties attēlu redaktoru	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	Atlasi ekrāna apgabalu, ko tvert ar Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Select a region or a window	Atlasi apgabalu vai logu	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	Atlasi soli sarakstā, lai to mainītu, vai pievieno jaunu ar Pievienot soli: tas nonāk aiz atlasītā soļa, atlasītajā zarā, joslā vai bultā.	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	Vispirms atlasi soli vai bultu: jaunais solis nonāk tieši aiz tā vai bultā.	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	Atlasi alternatīvu mērķi tālāk, pārsūti uz citu recepti vai mēģini vēlreiz:	claude-sonnet-5-5 2026-10-18
+Select an editor	Izvēlies redaktoru	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	Atlasīt apgabalus logu iekšienē	claude-sonnet-5-5 2026-10-18
+Selection	Atlase	claude-sonnet-5-5 2026-10-18
+Self-Service	Pašapkalpošanās	claude-sonnet-5-5 2026-10-18
+Self-Service…	Pašapkalpošanās…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	Sūtīt ekrānattēlu uz	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	Notiek ekrānattēla sūtīšana uz %@…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	Nosūtīts uz printeri „%@”	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Atdali adreses ar komatiem. Tēmā var izmantot faila vārda parauga mainīgos, piemēram, ${title}. Outlook tos izmanto arī. Ar CC vai BCC un Mail kā pasta lietotni Mail uzraksta visu vēstuli (macOS vienreiz vaicā, vai Greenshot drīkst vadīt Mail); pretējā gadījumā macOS pasta pakalpojums aizpilda Kam un tēmu, bet CC un BCC tiek parādīti pievienošanai ar roku.	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server vai Data Center: personīgais piekļuves žetons	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server vai Data Center: lietotājvārds un parole	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	Iestatīt komandas…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	Iestatījusi tava organizācija	claude-sonnet-5-5 2026-10-18
+Set in the recipe	Iestatīts receptē	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	Iestati to sadaļā Vispārīgi › Karstie taustiņi. Klikšķis uz ieraksta ikonas izvēļņu joslā to aptur, ⌃-klikšķis pauzē.	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	Iestati kontu Mail (vai izvēlies noklusējuma e-pasta lietotni sadaļā Mail › Iestatījumi) un mēģini vēlreiz.	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	Iestatījumi (lietotāja noklusējumos)	claude-sonnet-5-5 2026-10-18
+Settings are turned off	Iestatījumi ir izslēgti	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	Iestatījumu fails (--settings-dir)	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	Settings › Developer › Edit Config atver ~/Library/Application Support/Claude/claude_desktop_config.json; pievieno serveri un pārstartē Claude.	claude-sonnet-5-5 2026-10-18
+Settings… (⌘,)	Iestatījumi… (⌘,)	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	Vairāki vienā slotā tiek palaisti pēc secības, tad pēc id	claude-sonnet-5-5 2026-10-18
+Shadow	Ēna	claude-sonnet-5-5 2026-10-18
+Shadow:	Ēna:	claude-sonnet-5-5 2026-10-18
+Share	Koplietot	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	Koplietot ar lietotnēm un kontaktiem	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	Koplietota saite (ikviens ar saiti), nevis privātā	claude-sonnet-5-5 2026-10-18
+Share…	Koplietot…	claude-sonnet-5-5 2026-10-18
+Shift	Shift	claude-sonnet-5-5 2026-10-18
+Show	Rādīt	claude-sonnet-5-5 2026-10-18
+Show All	Rādīt visu	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	Rādīt paplašinājuma mapi…	claude-sonnet-5-5 2026-10-18
+Show It	Parādīt	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	Rādīt atvērtos ekrānattēlus	claude-sonnet-5-5 2026-10-18
+Show Welcome…	Rādīt sveiciena logu…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	Rādīt paziņojumu, kad MI rīks uzņem ekrānattēlu	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	Paziņojumā rādīt tvēruma sīktēlu	claude-sonnet-5-5 2026-10-18
+Show all parameters	Rādīt visus parametrus	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	Rādīt Dock, kamēr ir atvērts logs	claude-sonnet-5-5 2026-10-18
+Show in Finder	Parādīt Finder	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	Rādīt receptu izvēlnē	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	Rādīt izvēļņu joslas ātrajos iestatījumos	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	Pirms katras drukāšanas rādīt drukas opcijas	claude-sonnet-5-5 2026-10-18
+Show the menu	Rādīt izvēlni	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	Rādīt izvēļņu joslas ikonu	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	Rādīt palielinātāju tveršanas ekrānā	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	Rādīt logu sīktēlus logu sarakstā	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	Rāda %@ tādu, kāds tas ir Greenshot pašlaik.	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	Rāda beigas: %@ no %@. Pieejamas agrākas žurnāla rindas.	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	Rāda ~%@ rindas (%@ no %@)	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	Rāda tikai tos žurnāla ierakstus, kas satur šo tekstu, no visa žurnāla faila (⌘F)	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	Samazināt audeklu	claude-sonnet-5-5 2026-10-18
+Sign In…	Pieteikties…	claude-sonnet-5-5 2026-10-18
+Sign Out	Izrakstīties	claude-sonnet-5-5 2026-10-18
+Sign in with	Pieteikties ar	claude-sonnet-5-5 2026-10-18
+Signed by	Parakstījis	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	Parakstījis saistītājs (izstrādes būve)	claude-sonnet-5-5 2026-10-18
+Signed by: %@	Parakstījis: %@	claude-sonnet-5-5 2026-10-18
+Signed in	Pieteicies	claude-sonnet-5-5 2026-10-18
+Signed in.	Pieteicies.	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	Izmērs: 0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	Izmēri	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Skitch ekrānattēlu rīks	claude-sonnet-5-5 2026-10-18
+Slot	Slots	claude-sonnet-5-5 2026-10-18
+Small size	Mazs izmērs	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	Mazāka vērtība saglabā vairāk brīvas līnijas detaļu, lielāka padara to gludāku.	claude-sonnet-5-5 2026-10-18
+Smallest value	Mazākā vērtība	claude-sonnet-5-5 2026-10-18
+Software	Programmatūra	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	Dažus karstos taustiņus nevarēja reģistrēt	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	Daži lasītāji var sakropļot rakstzīmes ārpus Rietumeiropas rakstzīmēm šajā kodā; QR un Data Matrix kodi to nedara.	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	Daži šīs valodas teksti ir mašīntulkojumi.	claude-sonnet-5-5 2026-10-18
+Something went wrong	Kaut kas nogāja greizi	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	Kārtot anotācijas pēc veida	claude-sonnet-5-5 2026-10-18
+Sound	Skaņa	claude-sonnet-5-5 2026-10-18
+Source code	Pirmkods	claude-sonnet-5-5 2026-10-18
+Space	Space	claude-sonnet-5-5 2026-10-18
+Space:	Telpa:	claude-sonnet-5-5 2026-10-18
+Speech Bubble	Teksta norāde	claude-sonnet-5-5 2026-10-18
+Stack trace	Steka izsekojums	claude-sonnet-5-5 2026-10-18
+Start (UTC):	Sākums (UTC):	claude-sonnet-5-5 2026-10-18
+Start Watching	Sākt uzraudzību	claude-sonnet-5-5 2026-10-18
+Start or stop recording	Sākt vai beigt ierakstu	claude-sonnet-5-5 2026-10-18
+Start step	Sākuma solis	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	Sākuma soļi tiek palaisti pirmie; vairāki sākuma soļi darbojas vienlaikus (upstream START STEPS). Atzīmē tos soļu sarakstā.	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	Sākta starpliktuves uzraudzība (ik pēc 600 ms)	claude-sonnet-5-5 2026-10-18
+Starting and stopping	Sākšana un beigšana	claude-sonnet-5-5 2026-10-18
+Starting…	Notiek sākšana…	claude-sonnet-5-5 2026-10-18
+Startup	Startēšana	claude-sonnet-5-5 2026-10-18
+Step	Solis	claude-sonnet-5-5 2026-10-18
+Step %lld	Solis %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	Solis %lld: %@ ir rezervēts taustiņš, un to nevar izmantot karstajā taustiņā.	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Solis %lld: taustiņiem, kas nav F1–F20, nepieciešams ⌃, ⌥ vai ⌘.	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	Solis %lld: ⇧ nevar būt vienīgais modifikators, izņemot F1–F20.	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	Solis šajā receptē	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	Soļi, ko %@ pievieno receptēm ar piemērotu slotu, ieslēgti sadaļā Iestatījumi › Receptes.	claude-sonnet-5-5 2026-10-18
+Stop Recording	Beigt ierakstu	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	Beigt ierakstu (%@)	claude-sonnet-5-5 2026-10-18
+Stop Watching	Beigt uzraudzību	claude-sonnet-5-5 2026-10-18
+Stop after	Beigt pēc	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	Beigt, kad logs tiek aizvērts	claude-sonnet-5-5 2026-10-18
+Stopped watching	Uzraudzība beigta	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	Starpliktuves uzraudzība beigta.	claude-sonnet-5-5 2026-10-18
+Subject	Tēma	claude-sonnet-5-5 2026-10-18
+Subject:	Tēma:	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	Izslēdz trigerus, kurus nevēlies.	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	Ieslēgt vai izslēgt automātisko soli (arī sadaļā Iestatījumi › Receptes)	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	Ieslēgt vai izslēgt receptes trigerus un atļaujas	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	Ieslēgt vai izslēgt apstiprinājuma trigerus un atļaujas	claude-sonnet-5-5 2026-10-18
+System	Sistēma	claude-sonnet-5-5 2026-10-18
+System Font	Sistēmas fonts	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	Sistēmas informācija nokopēta starpliktuvē.	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	TRIGERI	claude-sonnet-5-5 2026-10-18
+Table	Tabula	claude-sonnet-5-5 2026-10-18
+Take Screenshot	Uzņemt ekrānattēlu	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	Uzņem ekrānattēlu ar Greenshot for Mac. Tas nonāk tavos mērķos, tāpat kā ar karstajiem taustiņiem.	claude-sonnet-5-5 2026-10-18
+Target step	Mērķa solis	claude-sonnet-5-5 2026-10-18
+Team	Komanda	claude-sonnet-5-5 2026-10-18
+Team ID: %@	Team ID: %@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	Noplēš izvēlētās attēla malas.	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	TechSmith Snagit ekrāna tveršana	claude-sonnet-5-5 2026-10-18
+Teeth	Zobi	claude-sonnet-5-5 2026-10-18
+Template	Veidne	claude-sonnet-5-5 2026-10-18
+Test Connection	Pārbaudīt savienojumu	claude-sonnet-5-5 2026-10-18
+Test Run	Izmēģinājuma palaišana	claude-sonnet-5-5 2026-10-18
+Test run error: %@	Izmēģinājuma palaišanas kļūda: %@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	Izmēģinājuma palaišana nav sākta: %@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	%@ izmēģinājuma palaišana neizdevās.	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	%@ izmēģinājuma palaišana sākta.	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	%@ izmēģinājuma palaišana: atcelta.	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	%@ izmēģinājuma palaišana: pabeigta.	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	„%@” izmēģinājuma palaišana beigusies: %@.	claude-sonnet-5-5 2026-10-18
+Text	Teksts	claude-sonnet-5-5 2026-10-18
+Text (OCR)	Teksts (OCR)	claude-sonnet-5-5 2026-10-18
+Text / Number Value	Teksta / skaitļa vērtība	claude-sonnet-5-5 2026-10-18
+Text / URL	Teksts / URL	claude-sonnet-5-5 2026-10-18
+Text and chart	Teksts un diagramma	claude-sonnet-5-5 2026-10-18
+Text and clipart	Teksts un klipart	claude-sonnet-5-5 2026-10-18
+Text and media clip	Teksts un multivides klips	claude-sonnet-5-5 2026-10-18
+Text and object	Teksts un objekts	claude-sonnet-5-5 2026-10-18
+Text and two objects	Teksts un divi objekti	claude-sonnet-5-5 2026-10-18
+Text over object	Teksts virs objekta	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	Teksta atpazīšana (OCR)	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	Paldies, ka instalēji %@! Tā tagad darbojas un gaida tevi izvēļņu joslā ekrāna augšējā labajā stūrī.	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	Tas ir viss, kas nepieciešams, lai sāktu. %@ gaida izvēļņu joslā, un visu pārējo vari mainīt iestatījumos, kad vien vēlies.	claude-sonnet-5-5 2026-10-18
+The %@ app key	%@ lietotnes atslēga	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	%@ ikona tiek rādīta izvēļņu joslā.	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	Greenshot failu nevarēja atvērt	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Greenshot for Mac (Community) Companion paplašinājums Chrome, Edge un Firefox sūta redzamo lapu un lapas adresi.	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON jāsatur tieši viena recepte (tajā ir %lld).	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	JSON cilnē ir izmaiņas, kas vēl nav pielietotas receptei.	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	Atslēgu saišķis nevarēja pievienot vienumu: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	Atslēgu saišķis nevarēja nolasīt vienumu: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	Atslēgu saišķis nevarēja noņemt vienumu: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	Atslēgu saišķis nevarēja atjaunināt vienumu: %@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Redaktora rīks Aizmiglošana sadrumstalo vai izpludina ekrānattēla daļas, ko nevajadzētu redzēt nevienam citam.	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	PDF nevarēja saglabāt	claude-sonnet-5-5 2026-10-18
+The action failed.	Darbība neizdevās.	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	Lietotne, kas to nokopēja, to nenorāda.	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	„%@” apstiprinājumu nevarēja atsaukt. Tas nav mainīts; iemeslu skatīt žurnālā.	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	Apgabals neatrodas uz displeja.	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	Automātisko soli izmanto tikai ar visām tā nepieciešamajām atļaujām.	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	%@ sertifikāta SHA-256 pirkstu nospiedums ir %@.	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Mainītajai receptei nepieciešams %@, ko tās apstiprinājums vēl neatļauj. Vispirms saglabā to; saglabāšana vaicā tavu apstiprinājumu.	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	Starpliktuvē ir %lld veidi.	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	Starpliktuvē ir 1 veids.	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	Starpliktuve ir tukša.	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	Starpliktuve tika atstāta tāda, kāda tā bija.	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	Lietotnes koda paraksts, notarizācija un karantīna	claude-sonnet-5-5 2026-10-18
+The color behind the image	Krāsa aiz attēla	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	Noplēsto daļu krāsa; pēc noklusējuma caurspīdīga	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Mērķu izvēlnē tiek uzskaitītas arī atvērtās sapulces, ko tu organizē; ekrānattēls tiek pievienots sapulcei.	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	„%@” informācija nav pieejama: tā vairs nav ielādēta.	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	Displejs vairs nav pieslēgts.	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	Šīs izgriešanas atzīmes malas un ēna.	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	Malas pusēm, ko apcirpšana nogriež, un savienojumam, kad tiek izgrieztas rindas vai kolonnas; Nav tās atstāj taisnas un bez šuvēm	claude-sonnet-5-5 2026-10-18
+The editor was closed.	Redaktors tika aizvērts.	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	Elementus nevarēja ielādēt	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	Elementus nevarēja saglabāt	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	Šī faila elementus nevarēja nolasīt, attēls tiek rādīts bez tiem.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	Elementi paliek rediģējami, kad fails tiek atvērts vēlreiz.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	Elementi paliek rediģējami, kad fails tiek atvērts redaktorā vēlreiz. Atvērt ar, Office, e-pasts un koplietošana saņem PNG.	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	Paplašinājuma mapi nevarēja nokopēt: %@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	Failu %@ nevarēja nolasīt.	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	Fails ir mainīts kopš tā apstiprināšanas	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	Karstais taustiņš %@ sāk un beidz ierakstu.	claude-sonnet-5-5 2026-10-18
+The hotkey records	Karstais taustiņš ieraksta	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	Karstie taustiņi turpina darboties. Lai atgrieztos pie iestatījumiem, atver %@ vēlreiz no Spotlight, Launchpad vai mapes Lietotnes.	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	Attēlu nevarēja kodēt kā %@.	claude-sonnet-5-5 2026-10-18
+The image could not be opened	Attēlu nevarēja atvērt	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	Attēlu nevarēja atvērt.	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	Attēls ir pārāk liels priekš %@: tas var būt ne vairāk kā %lld pikseļus plats un augsts.	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	Būla opcijas atslēga: šo opciju var mainīt tikai tad, kad tā ir ieslēgta	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Greenshot tekstu valoda. Teksti, kuriem Greenshot for Windows nav tulkojuma, paliek angļu valodā.	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	Rindas ir gatavas, kad nospied T. Upstream: AlwaysRunOCROnCapture.	claude-sonnet-5-5 2026-10-18
+The log at a glance	Žurnāls īsumā	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	Žurnāla failu nevarēja nolasīt.	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	Pasta lietotne nevar pieņemt pielikumus no citām lietotnēm. Noklikšķini, lai parādītu failu Finder.	claude-sonnet-5-5 2026-10-18
+The mail could not be written	Vēstuli nevarēja uzrakstīt	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	Izvēļņu joslas ikona paslēpta? Iziet var no šejienes.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Izvēļņu joslas ikona ir izslēgta sadaļā Iestatījumi › Vispārīgi. Tās izvēlne ir ceļš uz lielāko daļu no %@.	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	Izvēlne atveras ar pirmo klikšķi, tāpēc dubultklikšķis vairs neko nedara. Ar peles labo pogu vai ⌃-klikšķi izvēlne tiek parādīta vienmēr.	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	Mikrofonu nevarēja izmantot.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	Jaunā valoda parādīsies pēc pārstartēšanas.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	Jaunā valoda parādīsies pēc pārstartēšanas. Vispirms tiks vaicāts par nesaglabātajiem ekrānattēliem.	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	Jaunais attēla izmērs. Elementi pārvietojas līdzi.	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	Iepriekšējā versija nav zināma, pārskati visu recepti	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	Printera „%@” vairs nav	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	Printera „%@” vairs nav.	claude-sonnet-5-5 2026-10-18
+The program was not found.	Programma netika atrasta.	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	Recepte mainījās pēc tam, kad sāki rediģēt JSON: Pielietot aizstāj šīs izmaiņas, Atgriezt parāda recepti tādu, kāda tā ir.	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	Receptes failu nevarēja nolasīt.	claude-sonnet-5-5 2026-10-18
+The recipe goes on	Recepte turpinās	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	Recepti izmanto tikai ar visām tai nepieciešamajām atļaujām.	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	Receptei nepieciešams spraudnis, kura Greenshot for Mac nav.	claude-sonnet-5-5 2026-10-18
+The recipe to edit	Rediģējamā recepte	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	Recepte netika saglabāta.	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	Recepte darbojas ar failiem ārpus Greenshot parastās izvades mapes.	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	Receptes un automātiskie soļi, ko pazīst %@.	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	Receptes ir pārāk lielas salīdzināšanai (vairāk nekā %lld rindu).	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	Receptes sāk darboties kopā ar Greenshot.	claude-sonnet-5-5 2026-10-18
+The recording could not be started	Ierakstu nevarēja sākt	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	Ieraksts beidzās, pirms kaut kas tika ierakstīts.	claude-sonnet-5-5 2026-10-18
+The recording failed	Ieraksts neizdevās	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	Ieraksts tiek saglabāts.	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	Ieraksts ir pauzēts. Noklikšķini, lai apturētu; ⌃-klikšķis, lai turpinātu vai atmestu.	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	Ieraksts sākas. Noklikšķini, lai to apturētu, tiklīdz tas darbojas.	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	Ieraksts sāksies pēc %lld s. Noklikšķini, lai atceltu.	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	Ieraksts jau bija pabeigts.	claude-sonnet-5-5 2026-10-18
+The recording was discarded	Ieraksts tika atmests	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Pieprasījums nāca caur greenshot-cli. Atļauj to tikai tad, ja pats to startēji: receptes rezultāts nonāk tur, kur recepte to sūta.	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Pieprasījums nāca caur greenshot-cli. Atļauj to tikai tad, ja pats to startēji: ekrānattēls nonāk tavos mērķos.	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Tie paši mainīgie kā faila vārda paraugā, piemēram, ${title} un ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	Ekrāns ar peli	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	Ekrāns ar peles kursoru	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	Ekrānattēlu nevarēja pievienot	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	Ekrānattēlu nevarēja kodēt	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	Ekrānattēlu nevarēja saglabāt	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	Ekrānattēlu nevarēja saglabāt vietā %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	Ekrānattēlu nevarēja saglabāt failā	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	Ekrānattēlu nevarēja saglabāt, izvēlies citu vietu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	Ekrānattēlu nevarēja nosūtīt uz %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	Ekrānattēlu nevarēja koplietot	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	Ekrānattēlu nevarēja uzņemt	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	Ekrānattēlu nevarēja ierakstīt	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	Ekrānattēlu nevarēja ierakstīt priekš %@	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	macOS ekrānattēlu īsinājumtaustiņi neizmanto tavus karstos taustiņus.	claude-sonnet-5-5 2026-10-18
+The script failed.	Skripts neizdevās.	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	Skripts ilga ilgāk nekā %lld sekundes.	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	Serveris atbildēja ar HTTP %lld.	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	Iestatījumu failu nevarēja nolasīt	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	Iestatījumu fails, žurnāls un avārijas pārskati	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	Pieteikšanās atbilde neatbilda pieprasījumam (state).	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	Pieteikšanās atbildē nebija koda.	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	Pieteikšanās logu nevarēja atvērt.	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	Izmērs sadaļā Fails › Jauns attēls, balts attēls zīmēšanai.	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	Tekstu nevarēja atpazīt	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	Tekstu nevarēja atpazīt: %@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	Šī attēla noplēstās malas.	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	Attēla caurspīdīgās daļas iegūst šo krāsu.	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Trigeri sākumā ir izslēgti. Ieslēdz katru, kas drīkst palaist šo recepti: trigeris, ko atstāj izslēgtu, paliek izslēgts (vēlāk to var ieslēgt ar Atļaujas). Bez trigera recepti joprojām var palaist no recepšu saraksta.	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	Augšupielādei nepieciešama problēma: atslēga, viena no pēdējām desmit, izlases filtrs vai meklēšana. Problēmas atvērto logu nosaukumos (piemēram, pārlūkprogrammā) tiek piedāvātas mērķu izvēlnē.	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	Augšupielādei nepieciešama lapa: viena, kas atvērta Safari vai Chrome, meklēšana pēc nosaukuma vai telpas lapu koks. Pēdējās desmit ir arī mērķu izvēlnē.	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	Vērtība ir veidne (tajā darbojas ${…})	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	Video failu nevarēja pabeigt: %@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	Video failu nevarēja sagatavot.	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	Video failu nevarēja ierakstīt: %@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	Logu nevarēja tvert	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	Loga karstais taustiņš atver tveršanas ekrānu loga režīmā, nevis tver aktīvo logu.	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	Logs vairs nav ekrānā.	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	Tad karstie taustiņi darbojas uzreiz pēc pieteikšanās.	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	Nav vienas krāsas apmales ap saturu, ko apcirst.	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	Starpliktuvē nav attēla	claude-sonnet-5-5 2026-10-18
+There is no image to open.	Nav attēla, ko atvērt.	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	Nav receptes „%@”.	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	Ekrānā nebija ko tvert.	claude-sonnet-5-5 2026-10-18
+Thermal state	Termiskais stāvoklis	claude-sonnet-5-5 2026-10-18
+These are for this print only.	Tie attiecas tikai uz šo drukāšanu.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	Tos var mainīt vēlāk sadaļā Iestatījumi › Drukas iekārta.	claude-opus-5-5 2026-10-18
+These lanes run at the same time	Šīs joslas darbojas vienlaikus	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	Šīs programmas drīkst izmantot Greenshot. Noņem kādu ar ✕, lai tā tiktu vaicāta vēlreiz nākamajā savienošanās reizē. Izpildlaikam (node, python, …) tiek atļauts tikai tā palaistais skripts, bet izstrādātāja parakstītai programmai tikai tik ilgi, kamēr to joprojām paraksta tas pats izstrādātājs.	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	Šie trigeri paliek izslēgti, tāpēc tie nepalaidīs recepti:	claude-sonnet-5-5 2026-10-18
+These:	Šie:	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	Šim Mac nav mikrofona.	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	Šis URL sākas ar http://: žetons vai parole tiktu nosūtīti nešifrēti. Izmanto https://, ja serveris to piedāvā.	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	Šī adrese sākas ar http://: parole tiek nosūtīta nešifrēta.	claude-sonnet-5-5 2026-10-18
+This app	Šī lietotne	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Šis automātiskais solis maina atzīmēto recepšu tvērumus atzīmētajiem mērķiem. Jaunas receptes to saņem arī.	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Šo automātisko soli uzrakstīja MI rīks. Tas maina citas receptes, arī iebūvētās: tālāk pārbaudi, kuras un ko tas pievieno. Tas sākumā ir izslēgts, ieslēdz to sadaļā Iestatījumi › Receptes.	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	Šī ir recepte; redaktorā ir atvērts automātiskais solis.	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	Šis ir automātiskais solis; redaktorā ir atvērta recepte.	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Šai programmai NAV NEKĀDU GARANTIJU. Šī ir brīva programmatūra, un tu vari to izplatīt atkārtoti noteiktos apstākļos: %@ vai jaunāka.	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	Šo programmu nav parakstījis izstrādātājs.	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Šo recepti uzrakstīja MI rīks, nevis Greenshot vai tu. Tālāk pārbaudi, ko tā dara (Greenshot to apraksta no pašas receptes), un ieslēdz tikai tos trigerus, kurus vēlies.	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	Šim solim nav parametru.	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	Šis trigeris paliek izslēgts, tāpēc tas nepalaidīs recepti:	claude-sonnet-5-5 2026-10-18
+Threads	Pavedieni	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	Padoms: vispirms pārvieto lietotni uz mapi Lietotnes, lai tā turpinātu atvērties pieteikšanās brīdī.	claude-sonnet-5-5 2026-10-18
+Title	Nosaukums	claude-sonnet-5-5 2026-10-18
+Title only	Tikai nosaukums	claude-sonnet-5-5 2026-10-18
+Title:	Nosaukums:	claude-sonnet-5-5 2026-10-18
+To	Kam	claude-sonnet-5-5 2026-10-18
+To:	Kam:	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	Toņu kartēt HDR saturu HDR ekrānos	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	Toņu kartēt HDR saturu HDR ekrānos (macOS 15 vai jaunāka)	claude-sonnet-5-5 2026-10-18
+Top left	Augšā pa kreisi	claude-sonnet-5-5 2026-10-18
+Top right	Augšā pa labi	claude-sonnet-5-5 2026-10-18
+Torn	Noplēsts	claude-sonnet-5-5 2026-10-18
+Total: %lld	Kopā: %lld	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	Pārejošs (paredzēts drīz izzust)	claude-sonnet-5-5 2026-10-18
+Translocated	Translocated	claude-sonnet-5-5 2026-10-18
+Trigger Name	Trigera nosaukums	claude-sonnet-5-5 2026-10-18
+Trigger removed	Trigeris noņemts	claude-sonnet-5-5 2026-10-18
+Triggers	Trigeri	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	Trigeri (%lld)	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	Atstātie izslēgtie trigeri	claude-sonnet-5-5 2026-10-18
+Troubleshooting	Problēmu novēršana	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	Uzticēties sertifikātiem ar šiem pirkstu nospiedumiem	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	Uzticēties šiem resursdatoriem, neskatoties uz sertifikātu kļūdām	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	Uzticies tam, ko Greenshot tālāk raksta par automātisko soli, nevis šiem vārdiem.	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	Uzticies tam, ko Greenshot tālāk raksta par recepti, nevis šiem vārdiem.	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	Ieslēdz %@ sadaļā Sistēmas iestatījumi › Vispārīgi › Pieteikšanās vienumi un paplašinājumi.	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Ieslēdz Atļaut paziņojumus priekš %@ sadaļā Sistēmas iestatījumi › Paziņojumi, lai tos redzētu atkal.	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Ieslēdzot kādu no pārējiem, izvēlne tiek izslēgta. Var būt ieslēgti vairāki, piemēram, kopēt un saglabāt.	claude-sonnet-5-5 2026-10-18
+Two column text	Divu kolonnu teksts	claude-sonnet-5-5 2026-10-18
+Two objects	Divi objekti	claude-sonnet-5-5 2026-10-18
+Two objects and object	Divi objekti un objekts	claude-sonnet-5-5 2026-10-18
+Two objects and text	Divi objekti un teksts	claude-sonnet-5-5 2026-10-18
+Two objects over text	Divi objekti virs teksta	claude-sonnet-5-5 2026-10-18
+Type	Veids	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	Ievadi saīsni…	claude-sonnet-5-5 2026-10-18
+URL	URL	claude-sonnet-5-5 2026-10-18
+URL:	URL:	claude-sonnet-5-5 2026-10-18
+Unavailable	Nav pieejams	claude-sonnet-5-5 2026-10-18
+Undo	Atsaukt	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	Atsaukt (⌘Z)	claude-sonnet-5-5 2026-10-18
+Undone	Atsaukts	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	Nešifrēts (nav)	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	Negaidīta atbilde no servera: %@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	Šī soļa unikālais identifikators. Šī ID maiņa atjaunina visas atsauces.	claude-sonnet-5-5 2026-10-18
+Unknown	Nezināms	claude-sonnet-5-5 2026-10-18
+Unload	Izlādēt	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	Vai izlādēt „%@” no Greenshot?	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	Izlādēt automātisko soli	claude-sonnet-5-5 2026-10-18
+Unload Recipe	Izlādēt recepti	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	Izlādēt un aizmirst failu	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	Recepte „%@” izlādēta.	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	Recepte bez nosaukuma	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	Nenolasāma reģistrācija: noklikšķini uz Instalēt	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	Nesaglabātas izmaiņas	claude-sonnet-5-5 2026-10-18
+Unsaved changes	Nesaglabātas izmaiņas	claude-sonnet-5-5 2026-10-18
+Updated at %@	Atjaunināts: %@	claude-sonnet-5-5 2026-10-18
+Updates	Atjauninājumi	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	Augšupielādēt uz Confluence – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	Augšupielādēt uz Confluence: „%@”	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	Augšupielādēt uz Jira – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	Augšupielādēt uz Jira, Confluence, Box vai Dropbox	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	%@ augšupielādēts uz Box	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	%@ augšupielādēts uz Dropbox	claude-sonnet-5-5 2026-10-18
+Use Default	Izmantot noklusējumu	claude-sonnet-5-5 2026-10-18
+Use Expression	Izmantot izteiksmi	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	Izmanto soļa veidu, kas ir šajā Greenshot for Mac versijā, vai atjaunini Greenshot.	claude-sonnet-5-5 2026-10-18
+Use recipes	Izmantot receptes	claude-sonnet-5-5 2026-10-18
+Used for:	Izmanto priekš:	claude-sonnet-5-5 2026-10-18
+User name	Lietotājvārds	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	VALIDĀCIJAS KĻŪDA	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	Derīgās SourceType vērtības ir: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	Derīgs: neviens lietotnes fails nav mainīts	claude-sonnet-5-5 2026-10-18
+Validation Error	Validācijas kļūda	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	Validācija neizdevās priekš %@	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	Vērtības, ko lietotājs iestata sadaļā Iestatījumi › Receptes; soļi tās nolasa kā ${option.key}.	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	Pārbaudi, vai mērķa mezgla ID atbilst esoša mezgla „id” receptes sarakstā „nodes”.	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	Versija %@ (%@)	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	Pieejama versija %@ – noklikšķini, lai lejupielādētu	claude-sonnet-5-5 2026-10-18
+Version %@.	Versija %@.	claude-sonnet-5-5 2026-10-18
+Vertical offset:	Vertikālā nobīde:	claude-sonnet-5-5 2026-10-18
+Vertical padding:	Vertikālais atstatums:	claude-sonnet-5-5 2026-10-18
+Vertical text	Vertikāls teksts	claude-sonnet-5-5 2026-10-18
+Vertical title and text	Vertikāls nosaukums un teksts	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	Vertikāls nosaukums un teksts virs diagrammas	claude-sonnet-5-5 2026-10-18
+Video	Video	claude-sonnet-5-5 2026-10-18
+View	Skats	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	Skatīt automātiskā soļa JSON	claude-sonnet-5-5 2026-10-18
+View Changes	Skatīt izmaiņas	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	Skatīt receptes JSON	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	Gaidīt pirms tveršanas: %lld ms	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	Gaida, kļūdas dialogā	claude-sonnet-5-5 2026-10-18
+Warnings and errors	Brīdinājumi un kļūdas	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	Uzraudzīt starpliktuvi	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	Notiek starpliktuves uzraudzība.	claude-sonnet-5-5 2026-10-18
+Wave	Vilnis	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP (bez zudumiem)	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	Sveiciena ceļvedis…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	Laipni lūdzam %@	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	Ko %@ nepieciešams, lai darbotos kā paredzēts, ar labojumu, ja kaut kas nav kārtībā.	claude-sonnet-5-5 2026-10-18
+What AI tools may do	Ko MI rīki drīkst darīt	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	Kas mainījies kopš pēdējā apstiprinājuma	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	Ko darīt ar tvērumu, izlem tu: atvērt to redaktorā, saglabāt, kopēt starpliktuvē, drukāt un vairāk. Izvēli veic iestatījumos.	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	Kas šobrīd ir starpliktuvē un kad tas mainās	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	Tas, kas tiek augšupielādēts, atstāj šo Mac; pakalpojums nosaka, kas to var redzēt.	claude-sonnet-5-5 2026-10-18
+What is wrong	Kas ir nepareizi	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	Ko tā dara (Greenshot uzrakstījis no automātiskā soļa)	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	Ko tā dara (Greenshot uzrakstījis no receptes)	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	Ko tā dara, tās trigeri, apstiprinājums un izmaiņas salīdzinājumā ar iebūvēto versiju	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	Kas tika lūgts (MI rīka vārdi, Greenshot tos nepārbauda):	claude-sonnet-5-5 2026-10-18
+What the Mac plays	Ko atskaņo Mac	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	Ko atskaņo Mac un mikrofons	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	Ko lietotnei nepieciešams, lai darbotos kā paredzēts, ar labojumu, ja kaut kas nav kārtībā	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	Ko šis automātiskais solis dara, kuras receptes tas maina un ko tu tam apstiprināji.	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	Ko šī iebūvētā recepte dara un kuri trigeri to palaiž.	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	Ko šī recepte dara un ko tu tai apstiprināji. Šeit neko nevar mainīt; to dara ar Atļaujas sadaļā Iestatījumi › Receptes vai recepšu pārvaldniekā.	claude-sonnet-5-5 2026-10-18
+What to change: %@	Ko mainīt: %@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	Ko tur ievieto „Ievietot atmiņā”. Lietotnes ņem pirmo formātu, ko tās saprot; HTML iegulst attēlu kā PNG e-pastam un tīmekļa redaktoriem.	claude-opus-5-5 2026-10-18
+When	Kad	claude-sonnet-5-5 2026-10-18
+When it runs again	Kad tā tiek palaista atkal	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	Kad lietotājs izvēlas „%@”	claude-sonnet-5-5 2026-10-18
+When the window changes size	Kad loga izmērs mainās	claude-sonnet-5-5 2026-10-18
+When…	Kad…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	Kur tiek izmantots %@	claude-sonnet-5-5 2026-10-18
+Where it runs from	No kurienes tā darbojas	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	Kur ienāk receptes plūsma	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	Kamēr tiek rādīts HDR video, foto vai spēle, to spilgtās daļas ekrānattēlā saglabā detaļas, nevis tiek nogrieztas. Tvērumi bez HDR satura saglabā krāsas precīzi. Tikai Apple silicon.	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	Tveršanas laikā nospied Space, lai pārslēgtos starp apgabala atlasi un loga tveršanu.	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	Tveršanas laikā bulttaustiņi pārvieto rādītāju par vienu pikseli, ar ⌃ vai ⌘ par desmit pikseļiem.	claude-sonnet-5-5 2026-10-18
+White	Balts	claude-sonnet-5-5 2026-10-18
+WiFi Network	WiFi tīkls	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	WiFi tīkla savienojuma informācija	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	Wiki marķējums (!name!)	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	Wiki marķējums nokopēts – noklikšķini, lai atvērtu lapu	claude-sonnet-5-5 2026-10-18
+Window	Logs	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	Logs %@ · %@ (pid %@)	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	Logu nosaukumi izvēlnēs: līdz %lld rakstzīmēm	claude-sonnet-5-5 2026-10-18
+Windows	Logi	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	Šo lietotņu logi MI rīkiem nekad netiek uzskaitīti vai tverti, un MI rīku uzņemtajos ekrānattēlos tie tiek aizmelnēti. Nosaukumi ir lietotņu nosaukumi vai pakotņu identifikatori; lielie un mazie burti, atstarpes un „.app” nav svarīgi.	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word, PowerPoint un Outlook ievieto jaunā dokumentā, prezentācijā vai vēstulē, vai tādā, kas ir atvērta (mērķu izvēlne tos uzskaita). Excel ievieto atvērtas vai jaunas darbgrāmatas aktīvajā lapā. Outlook pievieno ekrānattēlu un izmanto sadaļas E-pasts tēmu, Kam, CC un BCC; ar „atļaut eksportu sapulču vienumos” tas uzskaita arī atvērtās sapulces, ko tu organizē, un pievieno ekrānattēlu sapulcei. Jauno Outlook nevar vadīt ar skriptiem. OneNote for Mac arī nevar vadīt ar skriptiem: tā vietā ir Notes (vai izmanto Atvērt ar). Izkārtojumā bez attēla vietturi ekrānattēls tiek centrēts slaidā; izkārtojums, ko PowerPoint noraida, dod tukšu slaidu.	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word: bloķēt attēla proporcijas	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	Vārdi lapas nosaukumā vai CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	Vārdi kopsavilkumā vai JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	Aplauzt tekstu	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	Raksti paplašinājumus ar punktu, atdalītus ar „;”, piemēram, „.png;.jpg”.	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	Raksti karsto taustiņu kā „Ctrl + Shift + B”; Mac datorā Ctrl ir ⌘ un Win ir ⌃.	claude-sonnet-5-5 2026-10-18
+Write the output to the log	Rakstīt izvadi žurnālā	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	Notiek vēstules rakstīšana Mail…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	Uzrakstījis MI rīks	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	Uzrakstījis MI rīks un tevis apstiprināts	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	Uzrakstījis MI rīks un tevis apstiprināts: %@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	TAVA IZMAIŅA	claude-sonnet-5-5 2026-10-18
+Yes	Jā	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	Jā, turpināt	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	Jā: lejupielādēts un vēl neatvērts no Finder	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	Tu atbildēji „Neatļaut” (vai aizvēri jautājumu) šīm programmām, tāpēc Greenshot tās noraida bez jautāšanas. Atļauj kādu šeit vai ļauj Greenshot jautāt vēlreiz nākamajā savienošanās reizē.	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	Tu iepriekš apstiprināji šo automātisko soli, taču tā fails kopš tā laika ir mainīts ārpus Greenshot. Kamēr neesi apstiprinājis izmaiņas, tas nemaina nevienu recepti.	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	Tu iepriekš apstiprināji šo tveršanas recepti, taču tās fails kopš tā laika ir mainīts ārpus Greenshot (ar citu programmu vai ar roku). Pirms apstiprināšanas pārskati izmaiņas tālāk.	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	Tu izmanto jaunāko versiju (%@).	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	Vari aizvērt šo logu un atgriezties Greenshot.	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	Trigerus vari ieslēgt vēlāk ar Atļaujas un palaist recepti no recepšu saraksta.	claude-sonnet-5-5 2026-10-18
+You have %@.	Tev ir %@.	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	Pašlaik tev nav tveršanas karsto taustiņu. Izvēlies tos sadaļā Iestatījumi › Vispārīgi.	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	Tev ir jaunākā %@ versija, %@.	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	Tu saglabāji šo automātisko soli receptes redaktorā. Vairums izmaiņu tiek apstiprinātas bez jautāšanas, taču šai nepieciešams tavs lēmums: %@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	Tu saglabāji šo recepti receptes redaktorā. Vairums izmaiņu tiek apstiprinātas bez jautāšanas, taču šī pievieno ko tādu, kam nepieciešams tavs lēmums: %@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	Tu redzi katru piedāvāto recepti un izlem, vai to apstiprināt. Tās trigeri un riskantās darbības sākumā ir izslēgtas.	claude-sonnet-5-5 2026-10-18
+You're all set	Viss ir gatavs	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	Tavi %lld karstie taustiņi darbojas.	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	Tavai izmaiņai nepieciešams lēmums	claude-sonnet-5-5 2026-10-18
+Your Setup	Tavi iestatījumi	claude-sonnet-5-5 2026-10-18
+Your approval	Tavs apstiprinājums	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	Tavs karstais taustiņš darbojas.	claude-sonnet-5-5 2026-10-18
+Your hotkeys	Tavi karstie taustiņi	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	Tavi karstie taustiņi, macOS ekrānattēlu īsinājumtaustiņi un citas tveršanas lietotnes	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	Tava organizācija pārvalda %@ šajā Mac un izslēdza tā iestatījumus.	claude-sonnet-5-5 2026-10-18
+Your own servers	Tavi serveri	claude-sonnet-5-5 2026-10-18
+Your recipes	Tavas receptes	claude-sonnet-5-5 2026-10-18
+Your setup	Tavi iestatījumi	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	Tavas nesaglabātās izmaiņas tiek atmestas.	claude-sonnet-5-5 2026-10-18
+Zig-zag	Zigzags	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Zight (CloudApp) ekrāna tveršana	claude-sonnet-5-5 2026-10-18
+Zoom	Tālummaiņa	claude-sonnet-5-5 2026-10-18
+Zoom In	Tuvināt	claude-sonnet-5-5 2026-10-18
+Zoom Out	Tālināt	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	Tālummaiņa, lai ietilptu	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	Palielinātāja necaurspīdīgums	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[Nav steka]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	Greenshot karstais taustiņš	claude-sonnet-5-5 2026-10-18
+all destinations	visi mērķi	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	atļauj pieejamību sadaļā Iestatījumi › Tvert	claude-opus-5-5 2026-10-18
+approved %@	apstiprināts: %@	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	ne vairāk kā %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	automātiskais solis	claude-sonnet-5-5 2026-10-18
+back to region	atpakaļ uz apgabalu	claude-sonnet-5-5 2026-10-18
+build %@	būve %@	claude-sonnet-5-5 2026-10-18
+button label	pogas etiķete	claude-sonnet-5-5 2026-10-18
+capture a fixed size	tvert fiksētu izmēru	claude-sonnet-5-5 2026-10-18
+capture text	tvert tekstu	claude-sonnet-5-5 2026-10-18
+capture the area	tvert apgabalu	claude-sonnet-5-5 2026-10-18
+capture the window	tvert logu	claude-sonnet-5-5 2026-10-18
+capture the window or area	tvert logu vai apgabalu	claude-sonnet-5-5 2026-10-18
+changed since its approval	mainīts pēc apstiprināšanas	claude-sonnet-5-5 2026-10-18
+checking…	notiek pārbaude…	claude-sonnet-5-5 2026-10-18
+continues at:	turpinās pie:	claude-sonnet-5-5 2026-10-18
+copies a URL	kopē URL	claude-sonnet-5-5 2026-10-18
+copies the output	kopē izvadi	claude-sonnet-5-5 2026-10-18
+copy its text	kopēt tā tekstu	claude-sonnet-5-5 2026-10-18
+copy or open what it says	kopēt vai atvērt to, ko tas saka	claude-sonnet-5-5 2026-10-18
+critical	kritisks	claude-sonnet-5-5 2026-10-18
+default	noklusējums	claude-sonnet-5-5 2026-10-18
+default: %@	noklusējums: %@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	noklusējums: iestatījumos norādītie mērķi	claude-sonnet-5-5 2026-10-18
+description	apraksts	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	piem., PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	piem., Screenshots; tukšs = lietotnes mape	claude-sonnet-5-5 2026-10-18
+empty	tukšs	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	izteiksme, piem., ${payload.width > 800} vai else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	apmierinošs	claude-sonnet-5-5 2026-10-18
+file name prefix	faila vārda prefikss	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	greenshot-mcp netika atrasts blakus lietotnei	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text un greenshotmac://clipboard, piemēram, no Alfred, Raycast vai tīmekļa lapas.	claude-sonnet-5-5 2026-10-18
+hide the info	paslēpt informāciju	claude-sonnet-5-5 2026-10-18
+hide the keys	paslēpt taustiņus	claude-sonnet-5-5 2026-10-18
+hold it at another corner	turēt pie cita stūra	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	turi, lai novietotu bez piesaistes	claude-sonnet-5-5 2026-10-18
+hosted by %@	mitina %@	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+id	id	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	id, * vai *capture	claude-sonnet-5-5 2026-10-18
+in the capture	tvērumā	claude-sonnet-5-5 2026-10-18
+inch	colla	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	iekļaut peles kursoru	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	vilkt tikai vienā virzienā	claude-sonnet-5-5 2026-10-18
+key	atslēga	claude-sonnet-5-5 2026-10-18
+larger or smaller area	lielāks vai mazāks apgabals	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	neiekļaut peles kursoru	claude-sonnet-5-5 2026-10-18
+left %@	kreisais %@	claude-sonnet-5-5 2026-10-18
+level %@	līmenis %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS šo atļauju vaicā katrai lietotnei, kas uzņem ekrānattēlus.\n\nAtver Sistēmas iestatījumi › Privātums un drošība › Ekrāna un sistēmas audio ierakstīšana, ieslēdz %@, tad iziet no tās un atver vēlreiz.\n\nNav sarakstā? Noklikšķini + zem tā un pievieno %@ no mapes Lietotnes.\n\nJau ieslēgts? Pārbūvēta vai pārvietota kopija tiek uzskatīta par jaunu lietotni: atlasi to, noņem ar −, tad atver %@ vēlreiz un atļauj no jauna.	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS pirmo reizi vaicā, vai %@ drīkst izmantot mikrofonu.	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS neļāva šai būvei publicēt paziņojumus. Būve, kas parakstīta ar stabilu identitāti, parasti var (skat. README).	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS vēl neļauj %@ ierakstīt ekrānu. Ekrānattēliem nepieciešama šī atļauja: ieslēdz %@ sadaļā Privātums un drošība › Ekrāna un sistēmas audio ierakstīšana.	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS apstrādā šos taustiņus pirms jebkuras lietotnes. Ja kāds no tiem izmanto karstā taustiņa taustiņus, izslēdz to sadaļā Tastatūra › Tastatūras īsinājumtaustiņi › Ekrānattēli vai izvēlies citu karsto taustiņu.	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS nav avārijas pārskata par %@.	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS paslēpj %@ ikonu aiz izgriezuma vai izvēļņu joslas iestatījumos. Velc to ar ⌘ tālāk pa labi vai atļauj to sadaļā Sistēmas iestatījumi › Izvēļņu josla.	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	macOS saglabāja %lld %@ avārijas pārskatus mapē ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS saglabāja 1 %@ avārijas pārskatu mapē ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS notifications	macOS paziņojumi	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	macOS paziņojumiem nepieciešams lietotnes pakotne (scripts/build-app.sh); bez tās ziņojumi parādās augšējā labajā stūrī.	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS noraidīja šos karstos taustiņus, tos var izmantot cita lietotne: %@.	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS palaiž pagaidu kopiju (App Translocation). Pārvieto lietotni uz mapi Lietotnes un atver no turienes, lai tās atļaujas un pieteikšanās vienums saglabātos.	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS izmanto %@ saviem ekrānattēliem un saņem taustiņus pirmā. Izslēdz tos sadaļā Tastatūras īsinājumtaustiņi › Ekrānattēli vai izvēlies citus karstos taustiņus.	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS, Mac, atmiņa, ekrāni un mērogošana	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	pārvietot par vienu pikseli, ar ⌃ par desmit	claude-sonnet-5-5 2026-10-18
+no	nē	claude-sonnet-5-5 2026-10-18
+nominal	nomināls	claude-sonnet-5-5 2026-10-18
+not a colour	nav krāsa	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	nav piemērojams (nav parakstīts ar Developer ID)	claude-sonnet-5-5 2026-10-18
+not approved	nav apstiprināts	claude-sonnet-5-5 2026-10-18
+not in the capture	nav tvērumā	claude-sonnet-5-5 2026-10-18
+off	izslēgts	claude-sonnet-5-5 2026-10-18
+one per line	viens katrā rindā	claude-sonnet-5-5 2026-10-18
+or a designation	vai apzīmējums	claude-sonnet-5-5 2026-10-18
+pick a size	izvēlēties izmēru	claude-sonnet-5-5 2026-10-18
+picture	attēls	claude-sonnet-5-5 2026-10-18
+points	punkti	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	priekšskatījums: stūrī, pie palielinātāja, izslēgts	claude-sonnet-5-5 2026-10-18
+previous or next size	iepriekšējais vai nākamais izmērs	claude-sonnet-5-5 2026-10-18
+recipe	recepte	claude-sonnet-5-5 2026-10-18
+recipe id	receptes id	claude-sonnet-5-5 2026-10-18
+required	obligāts	claude-sonnet-5-5 2026-10-18
+right %@	labais %@	claude-sonnet-5-5 2026-10-18
+select a region	atlasīt apgabalu	claude-sonnet-5-5 2026-10-18
+select words, copy their text	atlasīt vārdus, kopēt to tekstu	claude-sonnet-5-5 2026-10-18
+serious	nopietns	claude-sonnet-5-5 2026-10-18
+show the info	rādīt informāciju	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	sākt un pabeigt atlasi ar taustiņiem	claude-sonnet-5-5 2026-10-18
+switch between region and window	pārslēgties starp apgabalu un logu	claude-sonnet-5-5 2026-10-18
+to	uz	claude-sonnet-5-5 2026-10-18
+unknown	nezināms	claude-sonnet-5-5 2026-10-18
+unknown error	nezināma kļūda	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	vCard kontakts	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	vCard kontaktkartes informācija	claude-sonnet-5-5 2026-10-18
+value	vērtība	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	mainīgais (noklusējums: nosaukums)	claude-sonnet-5-5 2026-10-18
+what it does	ko tas dara	claude-sonnet-5-5 2026-10-18
+when %@	kad %@	claude-sonnet-5-5 2026-10-18
+window details on or off	logu informācija ieslēgta vai izslēgta	claude-sonnet-5-5 2026-10-18
+with the menu bar	ar izvēļņu joslu	claude-sonnet-5-5 2026-10-18
+written by %@	uzrakstījis %@	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	jā, Apple pārbaudīja šo būvi	claude-sonnet-5-5 2026-10-18
+zoomer on or off	palielinātājs ieslēgts vai izslēgts	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} parametros ir ekrānattēla fails; pēdiņas grupē vārdus. Komanda un parametri var izmantot faila vārda parauga mainīgos, piemēram, ${title}.	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	„%@” (%@) ir tie paši taustiņi abās pusēs, tāpēc iedarbotos abi.	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@” (%@) ir šī karstā taustiņa sākums, tāpēc šis nekad neiedarbosies.	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	„%@” jau pastāv. Vai vēlies to aizstāt?	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	„%@” ir tas pats karstais taustiņš.	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	„%@” nav pabeigts. Ja iziesi tagad, tas, ko tas vēl nav eksportējis, tiks zaudēts.	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	„%@” nav Jira problēmas atslēga.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	„%@” nav derīgs URL.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	„%@” nav derīga regulārā izteiksme.	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	„%@” nav izpildāms fails. Pārbaudi to sadaļā Iestatījumi › Mērķi.	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	„%@” gaida, kad izvēlēsies, kurp nonāk tā tvērums. Ja iziesi tagad, tā tvērums tiks zaudēts.	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	„%@” gaida tavu atbildi uz „%@”. Ja iziesi tagad, tā tvērums tiks zaudēts.	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	„Attēla izmērs” padara lapu tikpat lielu kā ekrānattēls plus malas. Attēls tiek centrēts lapā.	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	„Share screenshots using Dropbox” ņem macOS ekrānattēlu taustiņus	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Shift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	⇧ nevar būt vienīgais modifikators, izņemot F1–F20.	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Control	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Command	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Option	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ Palaist recepti	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18

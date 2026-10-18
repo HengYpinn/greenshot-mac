@@ -526,6 +526,7 @@ Created new recipe.	新しいレシピを作成しました。	claude-sonnet-5-5
 Crop Out Horizontally	横方向を切り抜く	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	縦方向を切り抜く	claude-sonnet-5-5 2026-10-18
 Crop modes	トリミングモード	claude-sonnet-5-5 2026-10-18
+Custom	カスタム	claude-opus-5-5 2026-10-18
 Custom size	カスタムサイズ	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	切り取り端の設定	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	切り取り端の設定…	claude-sonnet-5-5 2026-10-18
@@ -730,7 +731,7 @@ ICO (icon)	ICO（アイコン）	claude-sonnet-5-5 2026-10-18
 ID	ID	claude-sonnet-5-5 2026-10-18
 Identifier	識別子	claude-sonnet-5-5 2026-10-18
 If %@: %@	%@ の場合：%@	claude-sonnet-5-5 2026-10-18
-If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	ご自身のサーバである場合は、「設定」›「出力先」›「ご自身のサーバ」に %@ またはフィンガープリントを追加してください。	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	ご自身のサーバーである場合は、「設定」›「出力先」›「ご自身のサーバー」に %@ またはフィンガープリントを追加してください。	claude-opus-5-5 2026-10-18
 Image	イメージ	claude-sonnet-5-5 2026-10-18
 Image Quality	画質	claude-sonnet-5-5 2026-10-18
 Image link copied – click to open the page	画像のリンクをコピーしました – クリックしてページを開く	claude-sonnet-5-5 2026-10-18
@@ -817,6 +818,7 @@ Let's Go!	始めましょう！	claude-sonnet-5-5 2026-10-18
 Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	これらのブラウザーが、拡張機能用の Greenshot の接続を開始できるようにします（各ブラウザーの NativeMessagingHosts フォルダー内のファイル）。	claude-sonnet-5-5 2026-10-18
 Light	ライト	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Lightshot スクリーンショットツール	claude-sonnet-5-5 2026-10-18
+Line	直線	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	線の太さ（ポイント）（0：線なし）	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	リンクをコピーしました – クリックして開く	claude-sonnet-5-5 2026-10-18
 Link to the image	画像へのリンク	claude-sonnet-5-5 2026-10-18

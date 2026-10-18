@@ -526,6 +526,7 @@ Created new recipe.	已建立新配方。	claude-sonnet-5-5 2026-10-18
 Crop Out Horizontally	水平裁切掉	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	垂直裁切掉	claude-sonnet-5-5 2026-10-18
 Crop modes	裁剪模式	claude-sonnet-5-5 2026-10-18
+Custom	自訂	claude-opus-5-5 2026-10-18
 Custom size	自訂大小	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	剪裁邊緣設定	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	剪裁邊緣設定…	claude-sonnet-5-5 2026-10-18
@@ -819,6 +820,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	Letter	claude-sonnet-5-5 2026-10-18
 Light	淺色	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Lightshot 螢幕截圖工具	claude-sonnet-5-5 2026-10-18
+Line	直線	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	線條粗細（點數；0：無線條）	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	已複製連結 – 按一下以開啟	claude-sonnet-5-5 2026-10-18
 Link to the image	圖片連結	claude-sonnet-5-5 2026-10-18
@@ -843,8 +845,8 @@ Log	記錄	claude-sonnet-5-5 2026-10-18
 Log In	登入	claude-sonnet-5-5 2026-10-18
 Log Viewer…	記錄檢視器…	claude-sonnet-5-5 2026-10-18
 Log file (%@)	記錄檔 (%@)	claude-sonnet-5-5 2026-10-18
-Log file does not currently exist at: %@	記錄檔目前不存在於：%@	claude-sonnet-5-5 2026-10-18
 Log file does not currently exist at:\n%@	記錄檔目前不存在於：\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	記錄檔目前不存在於：%@	claude-sonnet-5-5 2026-10-18
 Log level	記錄等級	claude-sonnet-5-5 2026-10-18
 Longitude:	經度：	claude-sonnet-5-5 2026-10-18
 Look for QR codes on the capture screen	在擷取畫面上尋找 QR 碼	claude-sonnet-5-5 2026-10-18

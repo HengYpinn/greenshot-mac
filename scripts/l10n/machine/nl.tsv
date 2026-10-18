@@ -530,6 +530,7 @@ Created new recipe.	Nieuw recept gemaakt.	claude-sonnet-5-5 2026-10-18
 Crop Out Horizontally	Horizontaal uitknippen	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	Verticaal uitknippen	claude-sonnet-5-5 2026-10-18
 Crop modes	Bijsnijdmodi	claude-sonnet-5-5 2026-10-18
+Custom	Aangepast	claude-opus-5-5 2026-10-18
 Custom size	Aangepaste grootte	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	Instellingen voor afgesneden randen	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	Instellingen voor afgesneden randen…	claude-sonnet-5-5 2026-10-18
@@ -829,6 +830,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	Letter	claude-sonnet-5-5 2026-10-18
 Light	Licht	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Lightshot-tool voor schermafbeeldingen	claude-sonnet-5-5 2026-10-18
+Line	Lijn	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Lijndikte in punten (0: geen lijn)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Link gekopieerd – klik om te openen	claude-sonnet-5-5 2026-10-18
 Link to the image	Link naar de afbeelding	claude-sonnet-5-5 2026-10-18
@@ -1641,7 +1643,7 @@ There is no recipe '%@'.	Er is geen recept '%@'.	claude-sonnet-5-5 2026-10-18
 There was nothing on the screen to capture.	Er was niets op het scherm om op te nemen.	claude-sonnet-5-5 2026-10-18
 Thermal state	Thermische status	claude-sonnet-5-5 2026-10-18
 These are for this print only.	Deze gelden alleen voor deze afdruk.	claude-sonnet-5-5 2026-10-18
-These can be changed later in Settings › Printer.	Deze kunnen later worden gewijzigd in Instellingen › Printer.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	Deze kunnen later worden gewijzigd in Instellingen › Afdrukken.	claude-opus-5-5 2026-10-18
 These lanes run at the same time	Deze banen worden tegelijk uitgevoerd	claude-sonnet-5-5 2026-10-18
 These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	Deze programma's mogen Greenshot gebruiken. Verwijder er een met ✕ om er de volgende keer dat het verbinding maakt opnieuw naar te worden gevraagd. Voor een runtime (node, python, …) is alleen het script toegestaan dat het uitvoert, en een programma dat door een ontwikkelaar is ondertekend alleen zolang het nog door dezelfde is ondertekend.	claude-sonnet-5-5 2026-10-18
 These triggers stay off, so they won't start the recipe:	Deze triggers blijven uit, dus ze starten het recept niet:	claude-sonnet-5-5 2026-10-18
@@ -1852,7 +1854,7 @@ Zoomer opacity	Dekking van vergrootglas	claude-sonnet-5-5 2026-10-18
 [No Stack]	[Geen stack]	claude-sonnet-5-5 2026-10-18
 a Greenshot hotkey	een Greenshot-sneltoets	claude-sonnet-5-5 2026-10-18
 all destinations	alle bestemmingen	claude-sonnet-5-5 2026-10-18
-allow Accessibility in Settings › Capture	sta Toegankelijkheid toe in Instellingen › Opnemen	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	sta Toegankelijkheid toe in Instellingen › Schermopname	claude-opus-5-5 2026-10-18
 approved %@	%@ goedgekeurd	claude-sonnet-5-5 2026-10-18
 at most %@ × %@	maximaal %@ × %@	claude-sonnet-5-5 2026-10-18
 automatic step	automatische stap	claude-sonnet-5-5 2026-10-18

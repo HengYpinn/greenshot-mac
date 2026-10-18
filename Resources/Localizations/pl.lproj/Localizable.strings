@@ -2455,7 +2455,7 @@
 "In" = "Wejście";
 
 /* machine */
-"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "W Ustawienia › Wyjście wybierasz folder i wzorzec nazwy zapisywanych zrzutów ekranu.";
+"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "W Ustawienia › Plik wyjściowy wybierasz folder i wzorzec nazwy zapisywanych zrzutów ekranu.";
 
 /* machine */
 "In a few steps you'll see how capturing works, and %@ checks that everything is set up well." = "W kilku krokach zobaczysz, jak działa zrzucanie, a %@ sprawdzi, czy wszystko jest dobrze ustawione.";
@@ -2708,6 +2708,9 @@
 
 /* machine */
 "Lightshot screenshot tool" = "Narzędzie do zrzutów ekranu Lightshot";
+
+/* machine */
+"Line" = "Linia";
 
 /* machine */
 "Line thickness in points (0: no line)" = "Grubość linii w punktach (0: bez linii)";
@@ -6046,7 +6049,7 @@
 "all destinations" = "wszystkie miejsca docelowe";
 
 /* machine */
-"allow Accessibility in Settings › Capture" = "zezwól na Dostępność w Ustawienia › Zrzucanie";
+"allow Accessibility in Settings › Capture" = "zezwól na Dostępność w Ustawienia › Zrzucanie ekranu";
 
 /* machine */
 "approved %@" = "zatwierdzono %@";
@@ -6134,6 +6137,9 @@
 
 /* machine */
 "editor.color.text" = "Tekst";
+
+/* machine */
+"editor.cutEdge.line" = "Linia";
 
 /* core:Editor.backcolor, override */
 "editor.fill" = "Kolor wypełnienia";
@@ -6292,6 +6298,9 @@
 "office.emailFormat.text" = "Tekst";
 
 /* machine */
+"office.slideLayout.custom" = "Niestandardowy";
+
+/* machine */
 "office.slideLayout.text" = "Tekst";
 
 /* machine */
@@ -6332,6 +6341,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "Całość";
+
+/* machine */
+"recipeManager.filter.custom" = "Niestandardowy";
 
 /* machine */
 "required" = "wymagane";
@@ -6392,6 +6404,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Żaden";
+
+/* machine */
+"video.preset.custom" = "Niestandardowy";
 
 /* machine */
 "what it does" = "co robi";

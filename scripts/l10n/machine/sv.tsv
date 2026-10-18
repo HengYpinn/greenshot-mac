@@ -1,0 +1,1968 @@
+# Machine translations of Greenshot for Mac (Community) into Svenska (sv-SE): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	”%@” har osparade ändringar i receptredigeraren. Vill du spara dem innan du avslutar?	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	”%@” har osparade ändringar. Vill du spara dem?	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	”{0}” är bildfilen	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	${NUM} i filnamnsmönstret räknar upp för varje fil, sex siffror med inledande nollor.	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@ (build %@)	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	%@ %@ finns tillgänglig, du har %@.	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@ (+ webbsidor)	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@ (avaktiverad)	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@ (inbyggd)	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@ (inbyggd) (avaktiverad)	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@ (avstängd i receptet)	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@ (avstängd)	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@ (externt kommando)	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@ (saknas)	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@ (saknas, kameraljudet spelas upp)	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@ (inte installerad)	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@ (av)	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@ (av, inte godkänd)	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@ (okänd)	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@ (webbsidor: inte godkända)	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	%@ Loggvisare	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mbit/s	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	%@ Självbetjäning	claude-sonnet-5-5 2026-10-18
+%@ Settings	%@ Inställningar	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@ innehåller även %@. Vid sparning skrivs bara ”%@” dit, så den tas bort från filen och från Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@ innehåller även %@. Vid sparning skrivs bara ”%@” dit, så de tas bort från filen och från Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ och %lld till	claude-sonnet-5-5 2026-10-18
+%@ app	%@-app	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	%@-app under Rosetta	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@ ber %@ köra receptet “%@”, som tar %@.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ ber %@ köra receptet “%@”, som gör en skärminspelning.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ ber %@ köra receptet “%@”, som tar en skärmdump av en yta.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ ber %@ köra receptet “%@”, som tar en skärmdump av ett fönster.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ ber %@ köra receptet “%@”, som tar en skärmdump av det aktiva fönstret.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ ber %@ köra receptet “%@”, som tar en skärmdump av den senaste ytan.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ ber %@ köra receptet “%@”, som tar en skärmdump av hela skärmen.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@ ber %@ ta en skärmdump av en yta.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@ ber %@ ta en skärmdump av ett fönster.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@ ber %@ ta en skärmdump av den senaste ytan.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@ ber %@ ta en skärmdump av texten i en yta.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@ ber %@ ta en skärmdump av hela skärmen.	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ kl. %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@ kan inte göra detta: versionen stöder det inte via AppleScript (%@).	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@ tog %@ med Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	%@ kunde inte nås	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	%@ kunde inte läsas som en Greenshot-fil.	claude-sonnet-5-5 2026-10-18
+%@ could not be started	%@ kunde inte startas	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	%@ kunde inte skrivas till %@: %@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@ kunde inte öppna inspelningen	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@ kunde inte öppna skärmdumpen	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@ kunde inte söka efter en nyare version just nu.	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@ svarade inte i tid.	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@ öppnas inte vid inloggning än	claude-sonnet-5-5 2026-10-18
+%@ embedded	%@ inbäddad	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@ avslutades på grund av ett fel förra gången den kördes. Du kan kontrollera om problemet redan har rapporterats, eller rapportera det med uppgifterna nedan.	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ misslyckades	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ klar	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@ har problem: %lld att åtgärda innan den kan köras.	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@ innehåller inget recept.	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ i %@	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ i %@ – klicka för att visa i Finder	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@ är en reserverad tangent och kan inte användas i ett kortkommando.	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@ söker efter en nyare version…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@ är gratis och öppen källkod, gjort av volontärer. Om det hjälper dig, berätta för dina vänner om det.	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@ är inte längre inläst i Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@ är inte en receptfil. Vid sparning ersätts innehållet med receptet.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@ är inte ett recept:\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	%@ är inte installerad	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	%@ är inte installerad.	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@ är inte konfigurerad	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@ är inte konfigurerad. Lägg till den i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ körs	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	%@ är avstängd av din organisation.	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@ är uppdaterad	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@ körs inte och kunde inte startas.	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@ får inte använda mikrofonen	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@ kan spela in skärmen och därmed ta skärmdumpar.	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@ pekar på %@ = %@ pixlar	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@ avslutades oväntat förra gången	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ stötte på ett fel men körs fortfarande. Du kan kontrollera om problemet redan har rapporterats, eller rapportera det med uppgifterna nedan.	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@ rapporterade ett problem: %@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ kör skript: bara skriptet ovan tillåts, inte alla skript som %@ kör.	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ ska öppnas vid inloggning, men macOS väntar på att du tillåter det under Inloggningsobjekt och tillägg.	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ vill använda %@ för att lista dina fönster och ta skärmdumpar samt för att köra Greenshot-recept.	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ beskär  ⎋ avbryt	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ klipp ut  ⎋ avbryt	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – Felrapport	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – klicka för att visa i Finder	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — Receptshanterare	claude-sonnet-5-5 2026-10-18
+%@: %@	%@: %@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@: %@ – klicka för åtgärder	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@: URL:en kopierades	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@: programmet hittades inte	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	%lld element kan inte visas här: %@.	claude-sonnet-5-5 2026-10-18
+%lld errors	%lld fel	claude-sonnet-5-5 2026-10-18
+%lld found	%lld hittades	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld bilder/s	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld timmar	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kbit/s	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld minuter	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	%lld parametrar till gäller för andra val.	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	%lld av %lld skärmdumpar	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	%lld av %lld element	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	%lld recept körs fortfarande	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	%lld recept kunde inte läsas in	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld sekunder	claude-sonnet-5-5 2026-10-18
+%lld spaces	%lld spaces	claude-sonnet-5-5 2026-10-18
+%lld steps	%lld steg	claude-sonnet-5-5 2026-10-18
+%lld triggers off	%lld triggers avstängda	claude-sonnet-5-5 2026-10-18
+%lld warnings	%lld varningar	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	”%@” kan inte följa efter ”%@”: flödet skulle loopa.	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	”%@” kan inte följa efter där: flödet skulle loopa.	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	”%@” är ett startsteg	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	”%@” är inte längre ett startsteg	claude-sonnet-5-5 2026-10-18
+(%@)	(%@)	claude-sonnet-5-5 2026-10-18
+(Deactivated)	(avaktiverad)	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	(Loggfilen är tom)	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	(Inga loggposter i delen)	claude-sonnet-5-5 2026-10-18
+(no stack)	(ingen stack)	claude-sonnet-5-5 2026-10-18
+(no title)	(ingen titel)	claude-sonnet-5-5 2026-10-18
+(nothing yet)	(inget ännu)	claude-sonnet-5-5 2026-10-18
+* (any step)	* (valfritt steg)	claude-sonnet-5-5 2026-10-18
+* = all errors	* = alla fel	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ Lägg till reservväg vid fel	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ Lägg till trigger	claude-sonnet-5-5 2026-10-18
++ Option	+ Alternativ	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open, /Applications/Preview.app eller ett namn i PATH	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = alla filer	claude-sonnet-5-5 2026-10-18
+0 lines	0 rader	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	1 element kan inte visas här: %@.	claude-sonnet-5-5 2026-10-18
+1 error	1 fel	claude-sonnet-5-5 2026-10-18
+1 hour	1 timme	claude-sonnet-5-5 2026-10-18
+1 minute	1 minut	claude-sonnet-5-5 2026-10-18
+1 step	1 steg	claude-sonnet-5-5 2026-10-18
+1 trigger off	1 trigger avstängd	claude-sonnet-5-5 2026-10-18
+1 warning	1 varning	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	En Dock-ikon och en plats i ⌘Tab medan en redigerare eller Inställningar är öppen; menyradsikonen finns i båda fallen, om den inte är dold nedan. Av: när du öppnar en redigerare från en app i helskärmsläge stannar den kvar på sitt Space i stället för att växla till skrivbordet.	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	En fil från Greenshot för Windows: Spara frågar efter en ny fil, så den här lämnas som den är.	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	En fil vill lägga till ett automatiskt steg i andra recept, även de inbyggda. Granska vilka recept den ändrar och vad den lägger till innan du godkänner.	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	En länk ville ta en skärmdump	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	En ny receptfil begär att bli registrerad i Greenshot. Granska dess uppgifter, triggers och körsteg innan du godkänner.	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	En ny skärmdump ersätter bilden i en redigerare utan osparade ändringar, i stället för att öppna ett nytt fönster.	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	En nyare version (%@) finns tillgänglig. En uppgradering kan redan lösa problemet!	claude-sonnet-5-5 2026-10-18
+A problem while recording	Ett problem under inspelningen	claude-sonnet-5-5 2026-10-18
+A program	Ett program	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	Ett program som startas av ett recept kan göra allt som du kan göra på den här Macen.	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	Ett recept kunde inte läsas in	claude-sonnet-5-5 2026-10-18
+A recipe is still running	Ett recept körs fortfarande	claude-sonnet-5-5 2026-10-18
+A recording is already running.	En inspelning pågår redan.	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	En yta (Blanksteg: ett fönster)	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	En mjuk skugga bakom bilden.	claude-sonnet-5-5 2026-10-18
+A window	Ett fönster	claude-sonnet-5-5 2026-10-18
+ACTIVE	AKTIV	claude-sonnet-5-5 2026-10-18
+AI	AI	claude-sonnet-5-5 2026-10-18
+AI Tool Access	Åtkomst för AI-verktyg	claude-sonnet-5-5 2026-10-18
+AI Tools	AI-verktyg	claude-sonnet-5-5 2026-10-18
+AI tool	AI-verktyg	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	AI-verktyget “%@”	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	AI-verktyg (som Claude Code, Claude Desktop, VS Code eller Cursor) ansluter via greenshot-mcp, som följer med %@. De kan lista dina fönster, ta skärmdumpar och köra dina recept. Medan det här är av avvisar Greenshot alla förfrågningar utan att fråga. Varje program behöver fortfarande ditt tillstånd första gången det ansluter.	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	AI: recept skrivna av AI-verktyg	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	REDAN GODKÄND	claude-sonnet-5-5 2026-10-18
+API token	API-token	claude-sonnet-5-5 2026-10-18
+APPROVED	GODKÄND	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	AUTOMATISKT STEG	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	AUTOMATISKA STEG	claude-sonnet-5-5 2026-10-18
+Access	Åtkomst	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	Aktiverade ”%@”.	claude-sonnet-5-5 2026-10-18
+Active	Aktiv	claude-sonnet-5-5 2026-10-18
+Active: %lld	Aktiva: %lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	Ad hoc (inget certifikat: ett lokalt bygge)	claude-sonnet-5-5 2026-10-18
+Add	Lägg till	claude-sonnet-5-5 2026-10-18
+Add Argument	Lägg till argument	claude-sonnet-5-5 2026-10-18
+Add Branch	Lägg till gren	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	Lägg till Kopia och Dold kopia i e-postmeddelandet	claude-sonnet-5-5 2026-10-18
+Add Choice	Lägg till val	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	Lägg till klippmärke	claude-sonnet-5-5 2026-10-18
+Add Destination	Lägg till destination	claude-sonnet-5-5 2026-10-18
+Add Emoji	Lägg till emoji	claude-sonnet-5-5 2026-10-18
+Add External Command	Lägg till externt kommando	claude-sonnet-5-5 2026-10-18
+Add Lane	Lägg till bana	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	Lägg till parallell gren	claude-sonnet-5-5 2026-10-18
+Add Step	Lägg till steg	claude-sonnet-5-5 2026-10-18
+Add Variable	Lägg till variabel	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	Lägg till ett steg: en tangent att trycka efter de andra, som C i ⌃⌥⌘K, C	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	Lägg till en i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Add the first step	Lägg till det första steget	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	Lägg till det här steget som en parallell startpunkt	claude-sonnet-5-5 2026-10-18
+Add to Editor	Lägg till i redigerare	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	Lägg till i redigerare – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	Lägg till i en anteckning	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	La till triggern %@	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	La till alternativet ”%@”: stegen läser det med ${option.%@}	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	La till reservväg vid fel för receptet	claude-sonnet-5-5 2026-10-18
+Added step: %@	La till steg: %@	claude-sonnet-5-5 2026-10-18
+Add…	Lägg till…	claude-sonnet-5-5 2026-10-18
+Adjust	Justera	claude-sonnet-5-5 2026-10-18
+Adjust…	Justera…	claude-sonnet-5-5 2026-10-18
+Advanced	Avancerat	claude-sonnet-5-5 2026-10-18
+After a Capture	Efter en skärmdump	claude-sonnet-5-5 2026-10-18
+After a capture	Efter en skärmdump	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	Efter en skärmdump visar en avisering vart den hamnade. Klicka på den inom en timme för att skicka skärmdumpen någon annanstans, även efter en omstart. Fokus och Stör ej håller tillbaka aviseringar som för andra appar.	claude-sonnet-5-5 2026-10-18
+After a recording	Efter en inspelning	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	Alla %@ lästes in.	claude-sonnet-5-5 2026-10-18
+All Lines	Alla rader	claude-sonnet-5-5 2026-10-18
+All captures	Alla skärmdumpar	claude-sonnet-5-5 2026-10-18
+All screens	Alla skärmar	claude-sonnet-5-5 2026-10-18
+All spaces	Alla spaces	claude-sonnet-5-5 2026-10-18
+Allow	Tillåt	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	Tillåt %@ att spela in din skärm	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	Tillåt %@ att använda %@?	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	Tillåt det i Systeminställningar › Integritet och säkerhet › Mikrofon, eller spela in utan den.	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	Tillåt att länkar tar skärmdumpar	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	Tillåt att webbläsartillägget skickar skärmdumpar	claude-sonnet-5-5 2026-10-18
+Allow these actions	Tillåt dessa åtgärder	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	Låt det här automatiska steget läsa eller skriva dessa filer och mappar	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	Låt det här automatiska steget köra program på den här Macen	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	Låt det här automatiska steget ladda upp skärmdumpar till internet	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	Låt det här receptet läsa eller skriva dessa filer och mappar	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	Låt det här receptet köra program på den här Macen	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	Låt det här receptet ladda upp skärmdumpar till internet	claude-sonnet-5-5 2026-10-18
+Allowed	Tillåtet	claude-sonnet-5-5 2026-10-18
+Allowed programs	Tillåtna program	claude-sonnet-5-5 2026-10-18
+Allow…	Tillåt…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	Erbjud även betaversioner av %@ när den söker efter uppdateringar.	claude-sonnet-5-5 2026-10-18
+Always	Alltid	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	Belopp (EUR):	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	Ett AI-verktyg föreslår ett recept	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	Ett AI-verktyg föreslår ett automatiskt steg	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	Ett AI-verktyg vill ändra ett recept	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	Ett AI-verktyg tog %@ med Greenshot.	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	Ett programs namn eller bundle-ID; Retur lägger till det	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	Ett program, som KeePassXC eller com.example.vault	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	Ett automatiskt steg har inga triggers: det körs i de recept det utökar.	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	Ett automatiskt steg körs i de recept det ändrar: spara det, slå på det i Inställningar › Recept och testkör ett av recepten.	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	Ett fel uppstod vid export till %@: %@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	En bild utan genomskinlighet som använder färre än 256 färger sparas som en 8-bitarsbild: samma bild i en mindre fil.	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	Ett oväntat fel uppstod.	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	En inofficiell, community-gjord macOS-port av Greenshot, det kostnadsfria skärmdumpsverktyget med öppen källkod för Windows. Den är inte kopplad till Greenshot-teamet eller den officiella Greenshot-appen i Mac App Store.	claude-sonnet-5-5 2026-10-18
+Annotate and export	Kommentera och exportera	claude-sonnet-5-5 2026-10-18
+Annotations	Kommentarer	claude-sonnet-5-5 2026-10-18
+Another Recipe	Ett annat recept	claude-sonnet-5-5 2026-10-18
+Another Tip	Ett annat tips	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Ett annat program kan använda dem. Välj andra i Inställningar › Allmänt, eller ändra receptets kortkommando-trigger.	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	Valfri trigger kan köra receptet; varje trigger har ett eget reglage. Triggers som startar receptet på egen hand eller utifrån godkänns separat.	claude-sonnet-5-5 2026-10-18
+App	App	claude-sonnet-5-5 2026-10-18
+App key	Appnyckel	claude-sonnet-5-5 2026-10-18
+Appearance	Utseende	claude-sonnet-5-5 2026-10-18
+Append to the annotations	Lägg till i kommentarerna	claude-sonnet-5-5 2026-10-18
+Application	Program	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	Ändringarna i receptets JSON tillämpades.	claude-sonnet-5-5 2026-10-18
+Apply Changes	Tillämpa ändringar	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	Tillämpa skurna kanter på bilden	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	Tillämpa JSON-ändringarna?	claude-sonnet-5-5 2026-10-18
+Apply to the Image	Tillämpa på bilden	claude-sonnet-5-5 2026-10-18
+Approve	Godkänn	claude-sonnet-5-5 2026-10-18
+Approve & Enable	Godkänn och aktivera	claude-sonnet-5-5 2026-10-18
+Approve & Save	Godkänn och spara	claude-sonnet-5-5 2026-10-18
+Approve Changes	Godkänn ändringar	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	Godkänn dina ändringar	claude-sonnet-5-5 2026-10-18
+Approved	Godkänd	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	Godkänd SHA-256	claude-sonnet-5-5 2026-10-18
+Approved recipes	Godkända recept	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	Vill du verkligen återställa ”%@” till sin inbyggda standarddefinition?	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	Vill du verkligen ta bort ”%@” från minnet? Det avregistreras från %@.	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	Område: %@ (%@) · %@	claude-sonnet-5-5 2026-10-18
+Areas	Områden	claude-sonnet-5-5 2026-10-18
+Arrow	Pil	claude-sonnet-5-5 2026-10-18
+As recorded	Som inspelat	claude-sonnet-5-5 2026-10-18
+Ask Again	Fråga igen	claude-sonnet-5-5 2026-10-18
+Ask Every Time	Fråga varje gång	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	Frågas vid den första aviseringen	claude-sonnet-5-5 2026-10-18
+At most %lld colours	Högst %lld färger	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	Högst 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	Högst 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	Bifoga till en sida	claude-sonnet-5-5 2026-10-18
+Attach to an issue	Bifoga till ett ärende	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	Bifogade %@ till %@	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	Bifogade %@ till “%@”	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	Autobeskärning, eller klipp ut raderna eller kolumnerna i beskärningsmarkeringen	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	Stängs automatiskt om %llds…	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	Väljer standardvalet automatiskt om %llds…	claude-sonnet-5-5 2026-10-18
+Automatic	Automatiskt	claude-sonnet-5-5 2026-10-18
+Automatic Step	Automatiskt steg	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	Godkännande av automatiskt steg	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	Automatiskt steg ändrat utanför Greenshot	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	Information om automatiskt steg	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	Fil med automatiskt steg hittad	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	ID för automatiskt steg	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	JSON för automatiskt steg	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	Ändring av automatiskt steg upptäckt	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	Automatiskt steg föreslaget av ett AI-verktyg	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	Granskning av automatiskt steg	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	Valideringen av automatiskt steg misslyckades	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	Automatiskt steg — Receptredigerare	claude-sonnet-5-5 2026-10-18
+Automatic Steps	Automatiska steg	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	Automatiskt steg vid %@, passar %lld recept	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	Det automatiska stegets konfiguration klarade inte valideringen.	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	Automatiskt steg: %@	claude-sonnet-5-5 2026-10-18
+Automatic steps	Automatiska steg	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	Automatiska steg för dina skärmdumpar, som en ram eller en bildtext, och de inställningar dina recept erbjuder. De används från nästa skärmdump.	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	Automatiska steg som kopplas in nu (aktiveras i Inställningar › Recept):	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	Automatiskt: minst 1,5 Mbit/s, mer för stora eller snabba videor. En skärm ger som mest lika många bildrutor som den visar.	claude-sonnet-5-5 2026-10-18
+Automation	Automation	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	Tillgänglig om en stund: det här fönstret öppnades av sig självt.	claude-sonnet-5-5 2026-10-18
+A–Z	A–Ö	claude-sonnet-5-5 2026-10-18
+BCC	Dold kopia	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC (valfritt):	claude-sonnet-5-5 2026-10-18
+BUILT-IN	INBYGGD	claude-sonnet-5-5 2026-10-18
+BY %@	AV %@	claude-sonnet-5-5 2026-10-18
+Back	Tillbaka	claude-sonnet-5-5 2026-10-18
+Back to one step	Tillbaka till ett steg	claude-sonnet-5-5 2026-10-18
+Background	Bakgrund	claude-sonnet-5-5 2026-10-18
+Background:	Bakgrund:	claude-sonnet-5-5 2026-10-18
+Balanced	Balanserad	claude-sonnet-5-5 2026-10-18
+Barcode Format:	Streckkodsformat:	claude-sonnet-5-5 2026-10-18
+Barcode: %@	Streckkod: %@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	Baserad på Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	Under 100 % syns skärmen igenom zoomen.	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	Betaversion %@ finns tillgänglig – klicka för att ladda ner	claude-sonnet-5-5 2026-10-18
+Bit rate	Bithastighet	claude-sonnet-5-5 2026-10-18
+Black and white	Svartvitt	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	Tröskel för svartvitt: %lld	claude-sonnet-5-5 2026-10-18
+Blank	Tom	claude-sonnet-5-5 2026-10-18
+Body:	Innehåll:	claude-sonnet-5-5 2026-10-18
+Bottom left	Nere till vänster	claude-sonnet-5-5 2026-10-18
+Bottom right	Nere till höger	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	Gren %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	Ljusstyrka i området runt markeringen, i procent	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	Ljusstyrka, kontrast och gamma för bilden.	claude-sonnet-5-5 2026-10-18
+Bring All to Front	Lägg alla överst	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	Återställ det inbyggda receptet som den här filen ersätter	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	Återställ den inbyggda versionen	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	Återställ den inbyggda versionen av varje recept som en fil ersätter	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	Återställ den inbyggda versionen av de här recepten?	claude-sonnet-5-5 2026-10-18
+Broken: %@	Trasig: %@	claude-sonnet-5-5 2026-10-18
+Browser extension	Webbläsartillägg	claude-sonnet-5-5 2026-10-18
+Browsers	Webbläsare	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	Bygg greenshot-mcp (swift build) eller använd appen från scripts/build-app.sh för att ansluta ett AI-verktyg.	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Inbyggd i Greenshot	claude-sonnet-5-5 2026-10-18
+Built-in	Inbyggd	claude-sonnet-5-5 2026-10-18
+CC	Kopia	claude-sonnet-5-5 2026-10-18
+Calendar Event	Kalenderhändelse	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	Information om kalenderhändelse (iCal)	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	Kamera (macOS)	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	Avbryt (Esc)	claude-sonnet-5-5 2026-10-18
+Cancel Recording	Avbryt inspelningen	claude-sonnet-5-5 2026-10-18
+Cancel the running one	Avbryt det som körs	claude-sonnet-5-5 2026-10-18
+Cancelled.	Avbröts.	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	Receptet kan inte testköras. Åtgärda först valideringsfelen:	claude-sonnet-5-5 2026-10-18
+Capture Mode	Skärmdumpsläge	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	Receptshanterare	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	Granskning av recept	claude-sonnet-5-5 2026-10-18
+Capture Text	Skärmdump av text	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	Ta en skärmdump av ett fönster med Greenshot för Mac.	claude-sonnet-5-5 2026-10-18
+Capture clipboard	Ta en skärmdump av urklipp	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	Skärmdumpsflödet misslyckades.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	Skärmdumpslänkar är av. Slå på dem i Inställningar › Expert › Automation.	claude-sonnet-5-5 2026-10-18
+Capture text	Skärmdump av text	claude-sonnet-5-5 2026-10-18
+Capture the active window	Ta en skärmdump av det aktiva fönstret	claude-sonnet-5-5 2026-10-18
+Capture the same region again	Ta en skärmdump av samma yta igen	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	Ta en skärmdump av hela skärmen	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	Ta en skärmdump av hela skärmen med Greenshot för Mac.	claude-sonnet-5-5 2026-10-18
+Captures	Skärmdumpar	claude-sonnet-5-5 2026-10-18
+Capturing	Tar skärmdump	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	Att ta en skärmdump kräver en tangent	claude-sonnet-5-5 2026-10-18
+Change count	Ändringsantal	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	Ändra vad det här automatiska steget får göra. ”Behåll som det är” eller att stänga fönstret ändrar ingenting.	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	Ändra vilka triggers som får starta det här receptet och vad det får göra. ”Behåll som det är” eller att stänga fönstret ändrar ingenting.	claude-sonnet-5-5 2026-10-18
+Changed	Ändrad	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	Ändrad (#%@): %@	claude-sonnet-5-5 2026-10-18
+Changed Lines	Ändrade rader	claude-sonnet-5-5 2026-10-18
+Changed recipes	Ändrade recept	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	Ångrat dig? Esc avbryter en skärmdump.	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	Ändringar (− före, + efter)	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	Ändringar inte tillämpade än	claude-sonnet-5-5 2026-10-18
+Changes other recipes	Ändrar andra recept	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	Ändrar det automatiska steget “%@”	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	Ändrar receptet “%@”	claude-sonnet-5-5 2026-10-18
+Change…	Ändra…	claude-sonnet-5-5 2026-10-18
+Chart	Diagram	claude-sonnet-5-5 2026-10-18
+Chart and text	Diagram och text	claude-sonnet-5-5 2026-10-18
+Check Now	Sök nu	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	Markera minst en destination.	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	Sök efter instabila uppdateringar (förhandsversioner)	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	Sök efter uppdateringar var %lld:e dag	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	Kontrollera att du kan skriva till %@.	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	Kontrollera receptets JSON-syntax efter oescapade citattecken, avslutande kommatecken eller oparade parenteser.	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	Kontrollera receptets ”options”: nycklar, typer, standardvärden och val.	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	Kontrollera konfigurationen, läs loggen och systeminformationen (S)	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	Kontrollera konfigurationen, loggen och systemet för %@	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	Kontrollerar kodsignaturen…	claude-sonnet-5-5 2026-10-18
+Checking…	Kontrollerar…	claude-sonnet-5-5 2026-10-18
+Checks	Kontroller	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	Kontroller av konfigurationen, systemet, kortkommandona och urklipp, samt loggen för %@.	claude-sonnet-5-5 2026-10-18
+Chip	Chip	claude-sonnet-5-5 2026-10-18
+Choices	Val	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	Välj en receptfil (.gsrecipe.json). Greenshot visar vad den gör innan den används.	claude-sonnet-5-5 2026-10-18
+Choose another one.	Välj en annan.	claude-sonnet-5-5 2026-10-18
+Choose folder & format	Välj mapp och format	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	Välj ljudet som spelas efter en skärmdump.	claude-sonnet-5-5 2026-10-18
+Choose…	Välj…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome, Edge, Brave: öppna sidan Tillägg, slå på Utvecklarläge, klicka på Load unpacked och välj tilläggsmappen. Firefox 126 eller senare: about:debugging › This Firefox › Load Temporary Add-on… och välj manifest.json i den. Filnamn kan sedan använda ${url} och ${browser} för sidan, och ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} för webbläsarens aktiva flik (tilläggets flikspårning).	claude-sonnet-5-5 2026-10-18
+Clear	Rensa	claude-sonnet-5-5 2026-10-18
+Clear Background	Rensa bakgrund	claude-sonnet-5-5 2026-10-18
+Click	Klicka	claude-sonnet-5-5 2026-10-18
+Click a QR code	Klicka på en QR-kod	claude-sonnet-5-5 2026-10-18
+Click a line	Klicka på en rad	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	Klicka på en genväg och skriv sedan den nya. ⌫ rensar den, ⎋ avbryter. + lägger till ett steg, för kortkommandon som ⌃⌥⌘K och sedan C (inom 2,5 sekunder). Tangentbordsmenyn gör att en modifierartangent bara räknas på sin vänstra eller högra tangent. Tangentbord med en F13-tangent kan använda den som Print Screen.	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	Klicka var som helst eller tryck på Esc för att återgå	claude-sonnet-5-5 2026-10-18
+Click for more	Klicka för mer	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	Klicka här för Inställningar.	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	Klicka för att aktivera eller avaktivera	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	Klicka för att aktivera receptet	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	Klicka för att avaktivera receptet	claude-sonnet-5-5 2026-10-18
+Click to open	Klicka för att öppna	claude-sonnet-5-5 2026-10-18
+Click to open the issue	Klicka för att öppna ärendet	claude-sonnet-5-5 2026-10-18
+Click to open the page	Klicka för att öppna sidan	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	Klicka för att se hela förhandsvisningen (Esc för att avsluta)	claude-sonnet-5-5 2026-10-18
+Click, Enter	Klicka, Retur	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	Klickade du bort en avisering från %@? Den väntar i Aviseringscenter: ett klick på den låter dig välja igen vart skärmdumpen ska, även efter att %@ har stängts.	claude-sonnet-5-5 2026-10-18
+Client ID	Klient-ID	claude-sonnet-5-5 2026-10-18
+Client secret	Klienthemlighet	claude-sonnet-5-5 2026-10-18
+Clipart and text	Clipart och text	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	Clipart och vertikal text	claude-sonnet-5-5 2026-10-18
+Clipboard	Urklipp	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	Urklippsövervakare	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	Om du stänger en redigerare med ändringar förkastas de utan fråga.	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	Molnwebbplatser slutar på /wiki.	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	Moln: e-post och API-token	claude-sonnet-5-5 2026-10-18
+Code hash	Kodhash	claude-sonnet-5-5 2026-10-18
+Code signature	Kodsignatur	claude-sonnet-5-5 2026-10-18
+Color:	Färg:	claude-sonnet-5-5 2026-10-18
+Command line tool	Kommandoradsverktyg	claude-sonnet-5-5 2026-10-18
+Command line: %@	Kommandorad: %@	claude-sonnet-5-5 2026-10-18
+Command “%@”	Kommando “%@”	claude-sonnet-5-5 2026-10-18
+Company:	Företag:	claude-sonnet-5-5 2026-10-18
+Comparison	Jämförelse	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	Hela loggen inläst kl. %@	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	Hela loggen: ~%@ rader (%@)	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	Dold (en lösenordshanterare ber appar att inte spara den)	claude-sonnet-5-5 2026-10-18
+Configure QR…	Konfigurera QR…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	Anslut ett AI-verktyg	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	Anslöt ”%@” till ”%@”	claude-sonnet-5-5 2026-10-18
+Connected as %@.	Ansluten som %@.	claude-sonnet-5-5 2026-10-18
+Content with caption	Innehåll med bildtext	claude-sonnet-5-5 2026-10-18
+Continue At	Fortsätt vid	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	Fortsätter vid ”%@”	claude-sonnet-5-5 2026-10-18
+Contrast:	Kontrast:	claude-sonnet-5-5 2026-10-18
+Copied	Kopierad	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	Kopierade %lld rader text	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	Kopierade 1 rad text	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	Mermaid DSL kopierades till urklipp.	claude-sonnet-5-5 2026-10-18
+Copied by	Kopierad av	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	Hela logginnehållet kopierades till urklipp (%@ tecken)	claude-sonnet-5-5 2026-10-18
+Copied its output	Kopierade dess utdata	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	Recept-ID ”%@” kopierades till urklipp.	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	Kopierade QR-kodens text	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	Rapporten om kodintegritet kopierades.	claude-sonnet-5-5 2026-10-18
+Copied the path.	Sökvägen kopierades.	claude-sonnet-5-5 2026-10-18
+Copied the text	Texten kopierades	claude-sonnet-5-5 2026-10-18
+Copied!	Kopierat!	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	Kopierar ett Terminal-kommando som länkar greenshot-cli till /usr/local/bin.	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	Kopierar tillägget till Greenshots mapp i Application Support och visar det, för Load unpacked.	claude-sonnet-5-5 2026-10-18
+Copy Details	Kopiera information	claude-sonnet-5-5 2026-10-18
+Copy File Path	Kopiera filsökväg	claude-sonnet-5-5 2026-10-18
+Copy Install Command	Kopiera installationskommando	claude-sonnet-5-5 2026-10-18
+Copy Link	Kopiera länk	claude-sonnet-5-5 2026-10-18
+Copy Log	Kopiera logg	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	Kopiera Mermaid-kod	claude-sonnet-5-5 2026-10-18
+Copy Path	Kopiera sökväg	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	Kopiera recept-ID	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	Kopiera recept-ID till urklipp	claude-sonnet-5-5 2026-10-18
+Copy Report	Kopiera rapport	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	Kopiera stackspårning	claude-sonnet-5-5 2026-10-18
+Copy System Info	Kopiera systeminformation	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	Kopiera text (OCR)	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	Kopiera en delad länk till urklipp	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	Kopiera all utdata till urklipp	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	Kopiera först en bild och försök sedan igen.	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	Kopiera en bild av skärmen till urklipp	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	Kopiera en bild av det markerade området till urklipp	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	Kopiera text (OCR)	claude-sonnet-5-5 2026-10-18
+Copy the file path	Kopiera filsökvägen	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	Kopiera den första URL:en i utdata till urklipp	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	Kopiera bilden till urklipp (⇧⌘C)	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	Kopiera länken till urklipp	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	Kopiera de markerade elementen (⌘C)	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	Kopiera till urklipp	claude-sonnet-5-5 2026-10-18
+Copy “%@”	Kopiera “%@”	claude-sonnet-5-5 2026-10-18
+Copy: %@	Kopiera: %@	claude-sonnet-5-5 2026-10-18
+Core Destinations	Grunddestinationer	claude-sonnet-5-5 2026-10-18
+Could not be checked	Kunde inte kontrolleras	claude-sonnet-5-5 2026-10-18
+Could not check for updates	Kunde inte söka efter uppdateringar	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	Kunde inte registrera tilläggets anslutning för %@; se loggen.	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	Kunde inte ta bort registreringen för %@; se loggen.	claude-sonnet-5-5 2026-10-18
+Countdown	Nedräkning	claude-sonnet-5-5 2026-10-18
+Counter	Räknare	claude-sonnet-5-5 2026-10-18
+Crash reports	Kraschrapporter	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	Skapa ett nytt recept i receptredigeraren	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	Skapa en personlig åtkomsttoken i %@ under din profil › Personal Access Tokens (Data Center och Server 8.14 eller senare). Den sparas i din Nyckelring.	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	Skapa en API-token för ditt Atlassian-konto på [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (en token fungerar för Jira och Confluence). Den sparas i din Nyckelring.	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Skapade ett nytt automatiskt steg: lägg dess steg före Out och ställ in vart det går på fliken Recept.	claude-sonnet-5-5 2026-10-18
+Created new recipe.	Skapade ett nytt recept.	claude-sonnet-5-5 2026-10-18
+Custom	Anpassad	claude-sonnet-5-5 2026-10-18
+Custom size	Anpassad storlek	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	Inställningar för skurna kanter	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	Inställningar för skurna kanter…	claude-sonnet-5-5 2026-10-18
+Cut Mark	Klippmärke	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	Klipp ut de markerade kolumnerna	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	Klipp ut de markerade raderna	claude-sonnet-5-5 2026-10-18
+Cut edges	Skurna kanter	claude-sonnet-5-5 2026-10-18
+Cut off from %@	Avskuren från %@	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	Klipp ut de markerade elementen (⌘X)	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	AVAKTIVERAD	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	DIAGNOSTIK	claude-sonnet-5-5 2026-10-18
+Damaged element	Skadat element	claude-sonnet-5-5 2026-10-18
+Dark	Mörkt	claude-sonnet-5-5 2026-10-18
+Deactivated	Avaktiverad	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	Avaktiverade ”%@”.	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	Avaktiverade: %lld	claude-sonnet-5-5 2026-10-18
+Decision Required	Beslut krävs	claude-sonnet-5-5 2026-10-18
+Default	Standard	claude-sonnet-5-5 2026-10-18
+Default (%@)	Standard (%@)	claude-sonnet-5-5 2026-10-18
+Default (Return)	Standard (Retur)	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	Standard (använd receptets reserv / avsluta)	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	Standard (parallellt)	claude-sonnet-5-5 2026-10-18
+Default (system font)	Standard (systemtypsnitt)	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	Ange vad som ska hända när ett steg misslyckas (t.ex. låst urklipp eller nätverkstimeout). Led skärmdumpen till ett reservsteg eller ett annat recept.	claude-sonnet-5-5 2026-10-18
+Delete Connection	Radera anslutning	claude-sonnet-5-5 2026-10-18
+Delete Step	Radera steg	claude-sonnet-5-5 2026-10-18
+Delete Trigger	Radera trigger	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	Radera de markerade elementen (⌫)	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	Raderade steget ”%@” (%@)	claude-sonnet-5-5 2026-10-18
+Description	Beskrivning	claude-sonnet-5-5 2026-10-18
+Description:	Beskrivning:	claude-sonnet-5-5 2026-10-18
+Destinations	Destinationer	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	Destinationer (%lld)	claude-sonnet-5-5 2026-10-18
+Details	Detaljer	claude-sonnet-5-5 2026-10-18
+Details for the report	Detaljer för rapporten	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	Detaljer, behörigheter och filen för det här receptet	claude-sonnet-5-5 2026-10-18
+Details…	Detaljer…	claude-sonnet-5-5 2026-10-18
+Did you know?	Visste du att?	claude-sonnet-5-5 2026-10-18
+Discard	Kassera	claude-sonnet-5-5 2026-10-18
+Discard Recording	Kassera inspelningen	claude-sonnet-5-5 2026-10-18
+Display %@	Bildskärm %@	claude-sonnet-5-5 2026-10-18
+Display Name	Visningsnamn	claude-sonnet-5-5 2026-10-18
+Do nothing	Gör ingenting	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	Vill du spara skärmdumpen “%@”?	claude-sonnet-5-5 2026-10-18
+Don't Allow	Tillåt inte	claude-sonnet-5-5 2026-10-18
+Don't Save	Spara inte	claude-sonnet-5-5 2026-10-18
+Don't ask again	Fråga inte igen	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	Fråga inte om sparning när en redigerare stängs	claude-sonnet-5-5 2026-10-18
+Double-click	Dubbelklicka	claude-sonnet-5-5 2026-10-18
+Download It	Ladda ner	claude-sonnet-5-5 2026-10-18
+Download Update	Ladda ner uppdatering	claude-sonnet-5-5 2026-10-18
+Drag	Dra	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	Dra området som ska behållas eller klippas ut	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	Dra skärmdumpen till det nya e-postmeddelandet	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	Rita de markerade skurna eller rivna kanterna i bilden; de kan inte ändras efteråt	claude-sonnet-5-5 2026-10-18
+Drawing	Ritning	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	Information om EPC SEPA-kreditöverföring	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	EPC SEPA-överföring	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	FELHANTERING OCH RESERV	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	Varje AI-verktyg startar greenshot-mcp själv. Starta om AI-verktyget eller läs in dess MCP-servrar igen efter att du ändrat dess konfiguration.	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	Varje kommando är en egen destination (“Externt: namn”). {0} i argumenten är skärmdumpens fil (den sparade filen när redigerarens bild är sparad och oförändrad); kommandot och argumenten kan använda variablerna i filnamnsmönstret. Ett kommando vars program saknas utelämnas från destinationsmenyn.	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	Varje nod i receptet måste ha ett unikt ”id”.	claude-sonnet-5-5 2026-10-18
+Edges:	Kanter:	claude-sonnet-5-5 2026-10-18
+Edit External Command	Redigera externt kommando	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	Redigera QR-/streckkod	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	Redigera QR-/streckkod…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	Redigera receptfil	claude-sonnet-5-5 2026-10-18
+Edit Text	Redigera text	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	Redigera det automatiska steget i receptredigeraren	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	Redigera koden med liveförhandsvisning	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	Redigerare (“%@”)	claude-sonnet-5-5 2026-10-18
+Editor menu	Redigerarmeny	claude-sonnet-5-5 2026-10-18
+Editor windows	Redigerarfönster	claude-sonnet-5-5 2026-10-18
+Effect:	Effekt:	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	Effekter på hela bilden (håll ⌥ för att först ändra inställningarna för fallskugga och rivna kanter)	claude-sonnet-5-5 2026-10-18
+Either key	Någon av tangenterna	claude-sonnet-5-5 2026-10-18
+Element of a newer version	Element från en nyare version	claude-sonnet-5-5 2026-10-18
+Ellipse	Ellips	claude-sonnet-5-5 2026-10-18
+Email	E-post	claude-sonnet-5-5 2026-10-18
+Email Message Details	Information om e-postmeddelande	claude-sonnet-5-5 2026-10-18
+Email:	E-post:	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	Bädda in (Base64)	claude-sonnet-5-5 2026-10-18
+Embed File…	Bädda in fil…	claude-sonnet-5-5 2026-10-18
+Emoji	Emoji	claude-sonnet-5-5 2026-10-18
+Empty log file	Tom loggfil	claude-sonnet-5-5 2026-10-18
+Empty: all text	Tom: all text	claude-sonnet-5-5 2026-10-18
+Encryption Type:	Krypteringstyp:	claude-sonnet-5-5 2026-10-18
+End (UTC):	Slut (UTC):	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	Förstora arbetsytan	claude-sonnet-5-5 2026-10-18
+Enter	Retur	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	Ange en personlig åtkomsttoken för %@ i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	Ange vanlig text eller URL:	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	Ange URL:en för %@ i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	Ange först URL:en.	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	Ange först e-postadressen och API-token.	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	Ange först den personliga åtkomsttoken.	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	Ange först användarnamn och lösenord (eller testa vid den första uppladdningen).	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	Ange din e-postadress och en API-token för %@ i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Error Filter	Felfilter	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	Fel vid inläsning av recept	claude-sonnet-5-5 2026-10-18
+Error Routes	Felvägar	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	Fel vid inläsning av tidigare del: %@	claude-sonnet-5-5 2026-10-18
+Error message	Felmeddelande	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	Fel vid läsning av loggfilen:\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	Fel: %@	claude-sonnet-5-5 2026-10-18
+Errors only	Endast fel	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc: Stäng  |  F5: Uppdatera  |  1–6: Avsnitt	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	Varje recept kräver ett unikt ”id” och en beskrivande egenskap ”name”.	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	Allt finns också i menyn för ikonen %@ i menyraden.	claude-sonnet-5-5 2026-10-18
+Example: %@	Exempel: %@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	Kör receptet i Greenshot (⌘R)	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	Kör testkörning för ”%@”...	claude-sonnet-5-5 2026-10-18
+Execution Error	Körningsfel	claude-sonnet-5-5 2026-10-18
+Expert	Expert	claude-sonnet-5-5 2026-10-18
+Export Capture	Exportera skärmdump	claude-sonnet-5-5 2026-10-18
+Expression	Uttryck	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	Externt recept upptäckt	claude-sonnet-5-5 2026-10-18
+External Command	Externt kommando	claude-sonnet-5-5 2026-10-18
+External command	Externt kommando	claude-sonnet-5-5 2026-10-18
+External command %@	Externt kommando %@	claude-sonnet-5-5 2026-10-18
+External commands	Externa kommandon	claude-sonnet-5-5 2026-10-18
+External: %@	Externt: %@	claude-sonnet-5-5 2026-10-18
+Extract text from image	Extrahera text ur bilden	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	F på skärmdumpsskärmen tar en skärmdump av ett område i någon av dessa storlekar; de fem senaste ytstorlekarna följer efter dem.	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	Reservrecept	claude-sonnet-5-5 2026-10-18
+Fallback Step	Reservsteg	claude-sonnet-5-5 2026-10-18
+File SHA-256	Filens SHA-256	claude-sonnet-5-5 2026-10-18
+File name counter	Filnamnsräknare	claude-sonnet-5-5 2026-10-18
+File not found	Filen hittades inte	claude-sonnet-5-5 2026-10-18
+Files	Filer	claude-sonnet-5-5 2026-10-18
+Files and Log	Filer och logg	claude-sonnet-5-5 2026-10-18
+Files: %@, …	Filer: %@, …	claude-sonnet-5-5 2026-10-18
+Filter:	Filter:	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	Hittar text i bilden och täcker varje träff med ett element som du fortfarande kan flytta eller ta bort.	claude-sonnet-5-5 2026-10-18
+First Name:	Förnamn:	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	Fasta skärmdumpsstorlekar	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Skärmdumpsverktyget Flameshot	claude-sonnet-5-5 2026-10-18
+Flow	Flöde	claude-sonnet-5-5 2026-10-18
+Folder	Mapp	claude-sonnet-5-5 2026-10-18
+Folder ID	Mapp-ID	claude-sonnet-5-5 2026-10-18
+Font size in points	Teckenstorlek i punkter	claude-sonnet-5-5 2026-10-18
+Footer	Sidfot	claude-sonnet-5-5 2026-10-18
+Footer pattern	Sidfotsmönster	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	Sidfot med datum och titel	claude-sonnet-5-5 2026-10-18
+Foreground	Förgrund	claude-sonnet-5-5 2026-10-18
+Format	Format	claude-sonnet-5-5 2026-10-18
+Format:	Format:	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	Vidarebefordra till ett annat recept…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	Vidarebefordra till recept	claude-sonnet-5-5 2026-10-18
+Four objects	Fyra objekt	claude-sonnet-5-5 2026-10-18
+Frame rate	Bildfrekvens	claude-sonnet-5-5 2026-10-18
+Freehand	Frihand	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	Utjämning av frihandsritning	claude-sonnet-5-5 2026-10-18
+From	Från	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	Från .greenshot-fil…	claude-sonnet-5-5 2026-10-18
+From Editor…	Från redigerare…	claude-sonnet-5-5 2026-10-18
+Full Screen	Helskärm	claude-sonnet-5-5 2026-10-18
+Full colour	Fullfärg	claude-sonnet-5-5 2026-10-18
+Full report	Fullständig rapport	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	Kortkommando för hela skärmen	claude-sonnet-5-5 2026-10-18
+Gamma:	Gamma:	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	Skapad av en app, inte kopierad av användaren	claude-sonnet-5-5 2026-10-18
+Geo Location	Geografisk plats	claude-sonnet-5-5 2026-10-18
+Geo Location Details	Information om geografisk plats	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	GitHub kunde inte nås.	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	Ge AI-verktygstriggern ett ”ToolName” av bokstäver, siffror, ”_” eller ”-”.	claude-sonnet-5-5 2026-10-18
+Go Back	Gå tillbaka	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot (redigerbar)	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Senaste i Greenshot	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Greenshots webbplats	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot lägger till de här stegen i andra recept: lägg dem före Out i steglistan och slå på det automatiska steget i Inställningar › Recept.	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot kan läsa adresserna till sidorna som är öppna i Safari och Chrome. macOS frågar en gång per webbläsare om det ska tillåtas.	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot kan inte tillhandahålla en Box-appnyckel, så registrera din egen: skapa en Custom App med User Authentication (OAuth 2.0) i [Box Developer Console](https://app.box.com/developers/console), ange dess redirect-URI till `%@`, ge den behörigheten Write all files och klistra in dess klient-ID och hemlighet här. Hemligheten och inloggningen sparas i din Nyckelring; mapp-ID:t är numret i mappens URL.	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot kunde inte läsa in eller registrera det här receptet eftersom det innehåller konfigurationsfel. Granska diagnostikinformationen nedan:	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot kunde inte använda det här automatiska steget eftersom det innehåller fel. Granska informationen nedan:	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot för Mac har inget steg ”%@”: dess parametrar behålls som de är.	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot för Mac är inte redo.	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot får inte styra %@. Tillåt det i Systeminställningar › Integritet och säkerhet › Automation › Greenshot.	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot skickar skärmdumpar till de här apparna via AppleScript; macOS frågar en gång per app.	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR, headroom %@ av %@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML (bild inbäddad)	claude-sonnet-5-5 2026-10-18
+Hardened runtime	Hardened runtime	claude-sonnet-5-5 2026-10-18
+Has its own error route	Har en egen felväg	claude-sonnet-5-5 2026-10-18
+Hide %@	Göm %@	claude-sonnet-5-5 2026-10-18
+Hide Icon	Göm ikon	claude-sonnet-5-5 2026-10-18
+Hide Others	Göm övriga	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	Vill du dölja ikonen i menyraden?	claude-sonnet-5-5 2026-10-18
+High frame rate	Hög bildfrekvens	claude-sonnet-5-5 2026-10-18
+High quality	Hög kvalitet	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	Håll ⌥ för att placera den utan att fästa	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	Horisontell förskjutning:	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	Horisontell utfyllnad:	claude-sonnet-5-5 2026-10-18
+Hotkey	Kortkommando	claude-sonnet-5-5 2026-10-18
+Hotkey %@	Kortkommando %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	Kortkommandona registrerades igen (vissa tangenter är fortfarande upptagna).	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	Kortkommandona registrerades igen.	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	Hur mycket %@ skriver till loggen, tills det startas om. Debug skriver mest.	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO (ikon)	claude-sonnet-5-5 2026-10-18
+ID	ID	claude-sonnet-5-5 2026-10-18
+Identifier	Identifierare	claude-sonnet-5-5 2026-10-18
+If %@: %@	Om %@: %@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Om det här är din egen server, lägg till %@ eller fingeravtrycket under Inställningar › Destinationer › Dina egna servrar.	claude-sonnet-5-5 2026-10-18
+Image	Bild	claude-sonnet-5-5 2026-10-18
+Image Quality	Bildkvalitet	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	Bildlänken kopierades – klicka för att öppna sidan	claude-sonnet-5-5 2026-10-18
+Image size	Bildstorlek	claude-sonnet-5-5 2026-10-18
+Import	Importera	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	Importera kommentarer från %@	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	Importera kommentarer från en Greenshot-fil	claude-sonnet-5-5 2026-10-18
+Import From This Editor	Importera från den här redigeraren	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	Importerade %lld kommentarer från %@	claude-sonnet-5-5 2026-10-18
+In	In	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	I Inställningar › Utdata väljer du mapp och filnamnsmönster för sparade skärmdumpar.	claude-sonnet-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	På några steg ser du hur skärmdumpar fungerar, och %@ kontrollerar att allt är rätt konfigurerat.	claude-sonnet-5-5 2026-10-18
+In parallel	Parallellt	claude-sonnet-5-5 2026-10-18
+In the background	I bakgrunden	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	I fönsterläge följer markeringen det minsta området under musen, som en sidopanel, ett verktygsfält eller en del av en webbsida; PgUp och PgDn väljer ett större eller mindre område. Kräver behörigheten Hjälpmedel.	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	I ~/.codeium/windsurf/mcp_config.json.	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	I ~/.cursor/mcp.json (alla projekt) eller .cursor/mcp.json (ett projekt).	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	I ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), uppdatera sedan.	claude-sonnet-5-5 2026-10-18
+Info	Info	claude-sonnet-5-5 2026-10-18
+Information	Information	claude-sonnet-5-5 2026-10-18
+Insert	Infoga	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	Infoga QR-/streckkod	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	Infoga QR-/streckkod…	claude-sonnet-5-5 2026-10-18
+Insert Step After	Infoga steg efter	claude-sonnet-5-5 2026-10-18
+Insert Step Here	Infoga steg här	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	Infoga i Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	Infoga i Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	Infoga i Microsoft Word	claude-sonnet-5-5 2026-10-18
+Insert into document	Infoga i dokument	claude-sonnet-5-5 2026-10-18
+Insert into presentation	Infoga i presentation	claude-sonnet-5-5 2026-10-18
+Insert into workbook	Infoga i arbetsbok	claude-sonnet-5-5 2026-10-18
+Install	Installera	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	Installera den, eller välj en annan destination i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Installed	Installerad	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	Installerad för en annan kopia av appen	claude-sonnet-5-5 2026-10-18
+Installed version:	Installerad version:	claude-sonnet-5-5 2026-10-18
+Integrity	Integritet	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	Ogiltig JSON-syntax eller ogiltigt schema:\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	Ärendeidentifierare (stackspårningshash)	claude-sonnet-5-5 2026-10-18
+Issue key:	Ärendenyckel:	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	Den avslutades med slutkod %d.	claude-sonnet-5-5 2026-10-18
+It runs from %@.	Den körs från %@.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Den slutar köras direkt och läses inte in igen. Dess fil ligger kvar: importera den igen för att granska och godkänna den.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Den slutar köras direkt och läses inte in igen. Dess fil ligger kvar: öppna den igen för att granska och godkänna den.	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	Den döptes om till %@ och Greenshot startade med standardinställningarna.	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	Den går förlorad om du inte sparar den.	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	Den finns i menyraden.	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	Dess förklaring (AI-verktygets egna ord, inte kontrollerade av Greenshot):	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	JPEG-kvalitet (högre kvalitet ger större filer):	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	JPEG-kvalitet: %lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	JSON-fel	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	Behåll	claude-sonnet-5-5 2026-10-18
+Keep as Is	Behåll som det är	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	Behåll storleken, med svarta fält runt om	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	Håll Macen vaken under inspelning	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	Behåll fönsterskuggan i skärmdumpar av fönster	claude-sonnet-5-5 2026-10-18
+Key	Tangent	claude-sonnet-5-5 2026-10-18
+Key %u	Tangent %u	claude-sonnet-5-5 2026-10-18
+Keys	Tangenter	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Andra tangenter än F1–F20 kräver ⌃, ⌥ eller ⌘.	claude-sonnet-5-5 2026-10-18
+Label	Etikett	claude-sonnet-5-5 2026-10-18
+Lane %lld	Bana %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	Textens språk	claude-sonnet-5-5 2026-10-18
+Large object	Stort objekt	claude-sonnet-5-5 2026-10-18
+Largest value	Största värde	claude-sonnet-5-5 2026-10-18
+Last Name:	Efternamn:	claude-sonnet-5-5 2026-10-18
+Last Region	Senaste yta	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	Senast kontrollerat %@. Du har version %@.	claude-sonnet-5-5 2026-10-18
+Last modified: %@	Senast ändrad: %@	claude-sonnet-5-5 2026-10-18
+Later	Senare	claude-sonnet-5-5 2026-10-18
+Latest release:	Senaste version:	claude-sonnet-5-5 2026-10-18
+Latitude:	Latitud:	claude-sonnet-5-5 2026-10-18
+Launch at login	Starta vid inloggning	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	Lämna lösenordet tomt för att bli tillfrågad vid den första uppladdningen; inloggningsdialogen kan spara det i din Nyckelring. En server med ett eget certifikat kan betros under Dina egna servrar.	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	Vänster och höger tangent kräver behörigheten Hjälpmedel. Tills dess fungerar det här kortkommandot med någon av tangenterna.	claude-sonnet-5-5 2026-10-18
+Left key	Vänster tangent	claude-sonnet-5-5 2026-10-18
+Left or right key	Vänster eller höger tangent	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	Vänster eller höger modifierartangent	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	Vänster eller höger modifierartangent: t.ex. bara höger ⌘	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	Låt AI-verktyg föreslå recept	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	Låt AI-verktyg använda Greenshot	claude-sonnet-5-5 2026-10-18
+Let's Go!	Kör igång!	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Låter de här webbläsarna starta Greenshots anslutning för tillägget (en fil i varje webbläsares mapp NativeMessagingHosts).	claude-sonnet-5-5 2026-10-18
+Letter	Letter	claude-sonnet-5-5 2026-10-18
+Light	Ljust	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Skärmdumpsverktyget Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Linje	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	Linjetjocklek i punkter (0: ingen linje)	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	Länken kopierades – klicka för att öppna	claude-sonnet-5-5 2026-10-18
+Link to the image	Länk till bilden	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Länkar som greenshotmac://settings?tab=editor öppnar fönster; vilken webbsida som helst kan öppna en länk, så länkar tar skärmdumpar bara när det tillåts här. greenshot-cli, AppleScript, Genvägar och Tjänster-menyn kan alltid ta skärmdumpar.	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	Läs in receptet i %@	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	Läs in tidigare (+64 KB)	claude-sonnet-5-5 2026-10-18
+Load Elements…	Läs in element…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	Läs in hela loggen	claude-sonnet-5-5 2026-10-18
+Load Recipe…	Läs in recept…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	Läs in och registrera en .gsrecipe.json-fil	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	Läs in de föregående 64 KB av loggen	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	Läste in och registrerade %@	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	Läste in och registrerade: %@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	Inläst kl. %@	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	Läste in tidigare del kl. %@	claude-sonnet-5-5 2026-10-18
+Loaded: %@	Inläst: %@	claude-sonnet-5-5 2026-10-18
+Loading %@…	Läser in %@…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	Läser in spaces…	claude-sonnet-5-5 2026-10-18
+Location	Plats	claude-sonnet-5-5 2026-10-18
+Location:	Plats:	claude-sonnet-5-5 2026-10-18
+Log	Logg	claude-sonnet-5-5 2026-10-18
+Log In	Logga in	claude-sonnet-5-5 2026-10-18
+Log Viewer…	Loggvisare…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	Loggfil (%@)	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	Loggfilen finns inte just nu på:\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	Loggfilen finns inte just nu på: %@	claude-sonnet-5-5 2026-10-18
+Log level	Loggnivå	claude-sonnet-5-5 2026-10-18
+Longitude:	Longitud:	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	Sök efter QR-koder på skärmdumpsskärmen	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	Sök i Safari och Chrome	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	Söker efter QR-koder…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	Söker efter öppna dokument…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	Söker efter öppna meddelanden…	claude-sonnet-5-5 2026-10-18
+Looking…	Söker…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	Lågenergiläge	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	M på skärmdumpsskärmen växlar det för en skärmdump.	claude-sonnet-5-5 2026-10-18
+MCP server	MCP-server	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	ÄNDRAD PÅ DISKEN	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	MP4 med H.264 (spelas överallt)	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	MP4 med HEVC (mindre filer)	claude-sonnet-5-5 2026-10-18
+Magnification:	Förstoring:	claude-sonnet-5-5 2026-10-18
+Manual	Manuell	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	Markera som startsteg	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	Anpassa redigerarfönstrets storlek till skärmdumpen	claude-sonnet-5-5 2026-10-18
+Media clip and text	Mediaklipp och text	claude-sonnet-5-5 2026-10-18
+Memory	Minne	claude-sonnet-5-5 2026-10-18
+Menu bar icon	Menyradsikon	claude-sonnet-5-5 2026-10-18
+Menu entry	Menyalternativ	claude-sonnet-5-5 2026-10-18
+Menus	Menyer	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	Meddelande:	claude-sonnet-5-5 2026-10-18
+Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office och Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Minimize	Minimera	claude-sonnet-5-5 2026-10-18
+Mode	Läge	claude-sonnet-5-5 2026-10-18
+Model	Modell	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Skärmdumpsverktyget Monosnap	claude-sonnet-5-5 2026-10-18
+More Emoji…	Fler emojis…	claude-sonnet-5-5 2026-10-18
+More…	Mer…	claude-sonnet-5-5 2026-10-18
+Most memory used	Mest minne använt	claude-sonnet-5-5 2026-10-18
+Mouse	Mus	claude-sonnet-5-5 2026-10-18
+Move Down	Flytta ner	claude-sonnet-5-5 2026-10-18
+Move Up	Flytta upp	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	Flyttade ”%@” ner	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	Flyttade ”%@” upp	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	NYTT AUTOMATISKT STEG	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	NYTT RECEPT	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	Kräver Hjälpmedel i Systeminställningar › Integritet och säkerhet. Tills dess markerar fönsterläget hela fönster. En ombyggd eller flyttad kopia av appen måste tillåtas igen.	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	Nätverksnamn (SSID):	claude-sonnet-5-5 2026-10-18
+Never	Aldrig	claude-sonnet-5-5 2026-10-18
+Never (switched off)	Aldrig (avstängt)	claude-sonnet-5-5 2026-10-18
+Never check for updates	Sök aldrig efter uppdateringar	claude-sonnet-5-5 2026-10-18
+Never share these applications	Dela aldrig de här programmen	claude-sonnet-5-5 2026-10-18
+New Automatic Step	Nytt automatiskt steg	claude-sonnet-5-5 2026-10-18
+New Document	Nytt dokument	claude-sonnet-5-5 2026-10-18
+New Email	Nytt e-postmeddelande	claude-sonnet-5-5 2026-10-18
+New Image	Ny bild	claude-sonnet-5-5 2026-10-18
+New Note	Ny anteckning	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	Nya Outlook kan inte skriptstyras: stäng av det (Outlook › Äldre Outlook) eller använd E-post…	claude-sonnet-5-5 2026-10-18
+New Presentation	Ny presentation	claude-sonnet-5-5 2026-10-18
+New Random Edges	Nya slumpmässiga kanter	claude-sonnet-5-5 2026-10-18
+New Recipe	Nytt recept	claude-sonnet-5-5 2026-10-18
+New Workbook	Ny arbetsbok	claude-sonnet-5-5 2026-10-18
+New email attachment	Ny e-postbilaga	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Nytt e-postmeddelande i Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+New image size	Ny bildstorlek	claude-sonnet-5-5 2026-10-18
+New meeting	Nytt möte	claude-sonnet-5-5 2026-10-18
+New note in Notes	Ny anteckning i Notes	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	Nytt recept (⌘N)	claude-sonnet-5-5 2026-10-18
+Next	Nästa	claude-sonnet-5-5 2026-10-18
+Next number	Nästa nummer	claude-sonnet-5-5 2026-10-18
+No	Nej	claude-sonnet-5-5 2026-10-18
+No QR code found	Ingen QR-kod hittades	claude-sonnet-5-5 2026-10-18
+No Step Selected	Inget steg markerat	claude-sonnet-5-5 2026-10-18
+No Windows	Inga fönster	claude-sonnet-5-5 2026-10-18
+No annotations yet.	Inga kommentarer än.	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	Inget automatiskt steg ändrar ett recept; slå på ett ovan.	claude-sonnet-5-5 2026-10-18
+No captures	Inga skärmdumpar	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	Ingen ändring i vad receptet gör (bara detaljer som namn eller layout).	claude-sonnet-5-5 2026-10-18
+No description provided.	Ingen beskrivning angiven.	claude-sonnet-5-5 2026-10-18
+No developer signature kept	Ingen utvecklarsignatur sparad	claude-sonnet-5-5 2026-10-18
+No external command is set up	Inget externt kommando är konfigurerat	claude-sonnet-5-5 2026-10-18
+No external command is set up.	Inget externt kommando är konfigurerat.	claude-sonnet-5-5 2026-10-18
+No fill	Ingen fyllning	claude-sonnet-5-5 2026-10-18
+No folder	Ingen mapp	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	Ingen bildredigerare är öppen. Öppna först en skärmdump i redigeraren.	claude-sonnet-5-5 2026-10-18
+No mail app is set up	Ingen e-postapp är konfigurerad	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	Ingen e-postapp är konfigurerad.	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	Ingen sida i den här Confluence är öppen i Safari eller Chrome.	claude-sonnet-5-5 2026-10-18
+No problems	Inga problem	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	Inget program är tillåtet än.	claude-sonnet-5-5 2026-10-18
+No recipe	Inget recept	claude-sonnet-5-5 2026-10-18
+No recipe matches.	Inget recept matchar.	claude-sonnet-5-5 2026-10-18
+No recipe open	Inget recept öppet	claude-sonnet-5-5 2026-10-18
+No recipes from files.	Inga recept från filer.	claude-sonnet-5-5 2026-10-18
+No recipes loaded	Inga recept inlästa	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	Inga recept än. Importera en receptfil eller skapa ett i receptredigeraren.	claude-sonnet-5-5 2026-10-18
+No spaces	Inga spaces	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	Inget startsteg leder hit: koppla ihop de här stegen med ”Fortsätt vid”	claude-sonnet-5-5 2026-10-18
+No text found	Ingen text hittades	claude-sonnet-5-5 2026-10-18
+No text found.	Ingen text hittades.	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	Ingen text matchar “%@”.	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	Ingen trigger: från receptlistan eller kommandoraden	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	Ingen trigger: receptet körs från receptlistan, kommandoraden eller ett annat recept.	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	Inga triggers (bara receptredigeraren)	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	Inga triggers: receptet startar bara från receptshanteraren, en testkörning eller ett annat recept.	claude-sonnet-5-5 2026-10-18
+No, Cancel	Nej, avbryt	claude-sonnet-5-5 2026-10-18
+Nobody	Ingen	claude-sonnet-5-5 2026-10-18
+Node ID	Nod-ID	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	Ingen hittades (Chrome, Edge, Firefox, Brave, Vivaldi eller Chromium)	claude-sonnet-5-5 2026-10-18
+None set up	Inga konfigurerade	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	Inte en parameter i det här steget	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	Inte ett reguljärt uttryck: %@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	Inte tillåtet förrän Greenshot avslutas	claude-sonnet-5-5 2026-10-18
+Not allowed yet	Inte tillåtet än	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	Inte godkänd, ändrad sedan godkännandet, eller triggers avstängda	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	Inte tillgängligt, meddelanden visas i hörnet	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	Inte kontrollerat än. Du har version %@.	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	Inte för JPEG. GIF-filer får alltid högst så här många färger.	claude-sonnet-5-5 2026-10-18
+Not found next to the app	Hittades inte bredvid appen	claude-sonnet-5-5 2026-10-18
+Not installed	Inte installerad	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	Inte inläst i Greenshot	claude-sonnet-5-5 2026-10-18
+Not reached	Inte nådd	claude-sonnet-5-5 2026-10-18
+Not registered yet	Inte registrerad än	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	Inte registrerad: en annan app har den	claude-sonnet-5-5 2026-10-18
+Not running	Körs inte	claude-sonnet-5-5 2026-10-18
+Not saved yet	Inte sparad än	claude-sonnet-5-5 2026-10-18
+Not set	Inte angiven	claude-sonnet-5-5 2026-10-18
+Not signed	Inte signerad	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	Inte inloggad på %@. Logga in under Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	Inte inloggad; den första uppladdningen frågar.	claude-sonnet-5-5 2026-10-18
+Notarized	Notariserad	claude-sonnet-5-5 2026-10-18
+Notes	Notes	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	Noterar varje ändring medan den körs, var 600:e ms: praktiskt när det inte fungerar att klistra in en skärmdump.	claude-sonnet-5-5 2026-10-18
+Nothing	Ingenting	claude-sonnet-5-5 2026-10-18
+Nothing embedded	Inget inbäddat	claude-sonnet-5-5 2026-10-18
+Nothing found	Ingenting hittades	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	Inget i skärmdumpen kunde läsas som en QR-kod.	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	Ingenting spelas in.	claude-sonnet-5-5 2026-10-18
+Notification Settings…	Aviseringsinställningar…	claude-sonnet-5-5 2026-10-18
+Notifications	Aviseringar	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	Nu %@ × %@ pixlar	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	Numrera stegen i en instruktion med redigerarens räknarverktyg.	claude-sonnet-5-5 2026-10-18
+OCR Text	OCR-text	claude-sonnet-5-5 2026-10-18
+OK	OK	claude-sonnet-5-5 2026-10-18
+OPTIONS	ALTERNATIV	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	ÖVRIGA PARAMETRAR	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	ÅSIDOSATT	claude-sonnet-5-5 2026-10-18
+Object and text	Objekt och text	claude-sonnet-5-5 2026-10-18
+Object and two objects	Objekt och två objekt	claude-sonnet-5-5 2026-10-18
+Object over text	Objekt över text	claude-sonnet-5-5 2026-10-18
+Off	Av	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	Av för den här appen: inga aviseringar	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	Av: ”Spara direkt” lägger i stället till (2), (3), … i namnet.	claude-sonnet-5-5 2026-10-18
+Offset X:	Förskjutning X:	claude-sonnet-5-5 2026-10-18
+Offset Y:	Förskjutning Y:	claude-sonnet-5-5 2026-10-18
+On	På	claude-sonnet-5-5 2026-10-18
+On Error / Failure	Vid fel / misslyckande	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	På en Mac kan ingen app låsa urklipp, så ingen annan app kan hindra %@ från att använda det.	claude-sonnet-5-5 2026-10-18
+On the clipboard now	Just nu i urklipp	claude-sonnet-5-5 2026-10-18
+Once at a time	En i taget	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	En per rad: värde, eller värde = etikett	claude-sonnet-5-5 2026-10-18
+One screen	En skärm	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	Endast för Jira- och Confluence-servrarna ovan vars certifikat macOS inte litar på; alla andra servrar får enbart macOS kontroller. En värd per rad; * och ? är jokertecken, en port ignoreras. Ett fingeravtryck litar på exakt ett certifikat och är säkrare än en värd; en uppladdning som misslyckas på grund av ett certifikat visar serverns fingeravtryck. Tomma listor använder enbart macOS kontroller.	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	Bara steg i en vanlig sekvens kan flyttas.	claude-sonnet-5-5 2026-10-18
+Only when	Bara när	claude-sonnet-5-5 2026-10-18
+Open	Öppna	claude-sonnet-5-5 2026-10-18
+Open %@	Öppna %@	claude-sonnet-5-5 2026-10-18
+Open %@ at login	Öppna %@ vid inloggning	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	Öppna urklipp i Greenshot	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	Öppna Greenshot-recept	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	Öppna bild i Greenshot	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	Öppna tangentbordsgenvägar	claude-sonnet-5-5 2026-10-18
+Open Link	Öppna länk	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	Öppna loggvisaren	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	Öppna loggvisaren…	claude-sonnet-5-5 2026-10-18
+Open Login Items	Öppna Inloggningsobjekt	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	Öppna menyradsinställningar	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	Öppna integritetsinställningar	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	Öppna självbetjäning…	claude-sonnet-5-5 2026-10-18
+Open Settings	Öppna Inställningar	claude-sonnet-5-5 2026-10-18
+Open System Settings	Öppna Systeminställningar	claude-sonnet-5-5 2026-10-18
+Open With	Öppna med	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	Öppna en receptfil (⌘O)	claude-sonnet-5-5 2026-10-18
+Open an empty editor	Öppna en tom redigerare	claude-sonnet-5-5 2026-10-18
+Open file	Öppna fil	claude-sonnet-5-5 2026-10-18
+Open in Editor	Öppna i redigeraren	claude-sonnet-5-5 2026-10-18
+Open in another app	Öppna i en annan app	claude-sonnet-5-5 2026-10-18
+Open in the default player	Öppna i standardspelaren	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	Öppna i receptredigeraren efter sparning	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	Öppna senaste skärmdumpen i redigeraren	claude-sonnet-5-5 2026-10-18
+Open the Recording With	Öppna inspelningen med	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	Öppna skärmdumpen med	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	Öppna appen igen eller klicka här för Inställningar.	claude-sonnet-5-5 2026-10-18
+Open the image with another app	Öppna bilden med en annan app	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	Öppna sidan efter uppladdningen	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	Öppna receptet i receptredigeraren	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	Öppna receptshanteraren (⇧⌘M)	claude-sonnet-5-5 2026-10-18
+Open with	Öppna med	claude-sonnet-5-5 2026-10-18
+Open with %@	Öppna med %@	claude-sonnet-5-5 2026-10-18
+Open with…	Öppna med…	claude-sonnet-5-5 2026-10-18
+Open: %@	Öppna: %@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	Öppnade %@; den är inte inläst i Greenshot.	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	Öppnade tangentbordsinställningarna.	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	Öppnade loggvisaren.	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	Öppnar en bild i redigeraren i Greenshot för Mac.	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	Öppnar bilden i urklipp i redigeraren i Greenshot för Mac.	claude-sonnet-5-5 2026-10-18
+Open…	Öppna…	claude-sonnet-5-5 2026-10-18
+Optional	Valfritt	claude-sonnet-5-5 2026-10-18
+Options	Alternativ	claude-sonnet-5-5 2026-10-18
+Options (%lld)	Alternativ (%lld)	claude-sonnet-5-5 2026-10-18
+Order	Ordning	claude-sonnet-5-5 2026-10-18
+Orgchart	Organisationsschema	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	Andra skärmdumpsappar	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	Annars (%@)	claude-sonnet-5-5 2026-10-18
+Other…	Annat…	claude-sonnet-5-5 2026-10-18
+Out	Out	claude-sonnet-5-5 2026-10-18
+Outlook: allow export in meeting items	Outlook: tillåt export i mötesobjekt	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook: e-postformat för nya e-postmeddelanden	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	Skriv över en fil med samma namn	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	FÖRESLAGEN AV AI	claude-sonnet-5-5 2026-10-18
+Page	Sida	claude-sonnet-5-5 2026-10-18
+Parallel	Parallell	claude-sonnet-5-5 2026-10-18
+Parallel start	Parallell start	claude-sonnet-5-5 2026-10-18
+Parameters	Parametrar	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	Klistra in (⌘V)	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	Klistra in det i Markdown, GitHub-README-filer eller pull requests.	claude-sonnet-5-5 2026-10-18
+Path	Sökväg	claude-sonnet-5-5 2026-10-18
+Pattern variables	Mönstervariabler	claude-sonnet-5-5 2026-10-18
+Pause Recording	Pausa inspelningen	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	Pausa medan skärmen är låst	claude-sonnet-5-5 2026-10-18
+Permissions	Behörigheter	claude-sonnet-5-5 2026-10-18
+Permissions…	Behörigheter…	claude-sonnet-5-5 2026-10-18
+Personal access token	Personlig åtkomsttoken	claude-sonnet-5-5 2026-10-18
+Phone Call	Telefonsamtal	claude-sonnet-5-5 2026-10-18
+Phone Call Details	Information om telefonsamtal	claude-sonnet-5-5 2026-10-18
+Phone Number:	Telefonnummer:	claude-sonnet-5-5 2026-10-18
+Phone:	Telefon:	claude-sonnet-5-5 2026-10-18
+Picture with caption	Bild med bildtext	claude-sonnet-5-5 2026-10-18
+Pictures	Bilder	claude-sonnet-5-5 2026-10-18
+Play the camera sound	Spela upp kameraljudet	claude-sonnet-5-5 2026-10-18
+Play the sound	Spela upp ljudet	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	Ange ett telefonnummer.	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	Ange ett värde för att skapa streckkoden.	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	Ange kontaktens namn eller uppgifter.	claude-sonnet-5-5 2026-10-18
+Please enter event title.	Ange händelsens titel.	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	Ange koordinater för latitud och longitud.	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	Ange nätverksnamn (SSID).	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	Ange mottagarens e-postadress.	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	Ange mottagarens namn och IBAN.	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	Ange mottagarens nummer.	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	Ange text eller en URL.	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	Välj hur du vill gå vidare med den här skärmdumpen:	claude-sonnet-5-5 2026-10-18
+Pointer	Pekare	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Att peka på ett fönster i Skärmdump av fönster från lista visar en bild av det. Kräver behörigheten för skärminspelning.	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	Pekar på en saknad app: klicka på Installera	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint gav ett oväntat svar: %@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint: lås bildens proportioner	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint: bildspelslayout för exporterade skärmdumpar	claude-sonnet-5-5 2026-10-18
+Preset	Förinställning	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	Tryck på %@ för att ta en skärmdump.	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	Tryck på 1–6 för att växla avsnitt, F5 för att uppdatera.	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	Tryck på F1 eller H under en skärmdump för att se alla tangenter du kan använda.	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	Tryck på M under en skärmdump för att visa eller dölja muspekaren i skärmdumpen.	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	Tryck på Nästa för att börja, eller Esc för att stänga det här fönstret när som helst.	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	Tryck på Z under en skärmdump för att visa eller dölja zoomen, för markeringar på pixeln.	claude-sonnet-5-5 2026-10-18
+Preview	Förhandsvisning	claude-sonnet-5-5 2026-10-18
+Print a footer	Skriv ut en sidfot	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	Skriv ut datum/klockslag och titel i sidans nedre kant	claude-sonnet-5-5 2026-10-18
+Print in	Skriv ut i	claude-sonnet-5-5 2026-10-18
+Print – %@	Skriv ut – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	Skriv ut… (⌘P)	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	Integritetsinställningar…	claude-sonnet-5-5 2026-10-18
+Program not found	Programmet hittades inte	claude-sonnet-5-5 2026-10-18
+Program: %@	Program: %@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	Föreslagen av ett AI-verktyg	claude-sonnet-5-5 2026-10-18
+QR Code	QR-kod	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	QR-kodsåtgärder…	claude-sonnet-5-5 2026-10-18
+QR Type:	QR-typ:	claude-sonnet-5-5 2026-10-18
+QR code actions	QR-kodsåtgärder	claude-sonnet-5-5 2026-10-18
+QR code: %@	QR-kod: %@	claude-sonnet-5-5 2026-10-18
+Quality	Kvalitet	claude-sonnet-5-5 2026-10-18
+Quarantined	Satt i karantän	claude-sonnet-5-5 2026-10-18
+Quick settings	Snabbinställningar	claude-sonnet-5-5 2026-10-18
+Quit %@	Avsluta %@	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	Avsluta den först för att starta den här kopian.	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	RECEPTKONFIGURATION	claude-sonnet-5-5 2026-10-18
+Range	Intervall	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	Information om råtext eller URL	claude-sonnet-5-5 2026-10-18
+Read error	Läsfel	claude-sonnet-5-5 2026-10-18
+Read the QR code	Läs QR-koden	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	Läs loggen igen (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	Läs det här avsnittet igen (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Recent	Senaste	claude-sonnet-5-5 2026-10-18
+Recent issues	Senaste ärenden	claude-sonnet-5-5 2026-10-18
+Recently captured	Nyligen tagna skärmdumpar	claude-sonnet-5-5 2026-10-18
+Recipe	Recept	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	Recept ändrat utanför Greenshot	claude-sonnet-5-5 2026-10-18
+Recipe Details	Receptinformation	claude-sonnet-5-5 2026-10-18
+Recipe Editor	Receptredigerare	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	Receptredigerare…	claude-sonnet-5-5 2026-10-18
+Recipe ID	Recept-ID	claude-sonnet-5-5 2026-10-18
+Recipe JSON	Recept-JSON	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	Receptshanterare…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	Receptändring upptäckt	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	Receptet är inte inläst	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	Receptet är inte sparat	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	Receptbehörigheter	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	Recept föreslaget av ett AI-verktyg	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	Säkerhetsgodkännande av recept	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	Säkerhetsgranskning av recept	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	Receptvalideringen misslyckades	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	Receptets konfiguration klarade inte valideringen.	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	Receptinnehållet är inte tillgängligt.	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	Receptkörningen stötte på ett fel:	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	Receptfilen är för stor för förhandsvisning (> 1 MB).	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	Receptfiler slutar på %@, så receptet sparas som %@.	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	Receptkortkommandon är inte registrerade	claude-sonnet-5-5 2026-10-18
+Recipe imported	Receptet importerades	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	Recept “%@”	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	Recept “%@” (%@)	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	Receptet “%@” misslyckades	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	Recept körs inte i Greenshot just nu, så receptet kan inte sparas.	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	Recept körs inte i Greenshot just nu.	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	Recept från filer, även sådana som skrivits av AI-verktyg, och det du godkänt för dem. Ändringar här gäller direkt.	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	Receptmenyn (standard)	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	Receptmenyn (“%@”)	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	Recept måste bilda en riktad acyklisk graf (DAG). Se till att övergångar och reservvägar inte loopar tillbaka till tidigare noder.	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	Recept kör en skärmdump som en serie steg, startade av ett kortkommando, ett menyalternativ, urklipp, Öppna med eller kommandoraden. En receptfil används först efter att du godkänt vad den gör.	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	Recept: ID:n, * (varje recept med facket) eller *capture, åtskilda med kommatecken	claude-sonnet-5-5 2026-10-18
+Recipient Number:	Mottagarnummer:	claude-sonnet-5-5 2026-10-18
+Recipient:	Mottagare:	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	Känn igen texten så snart skärmdumpsskärmen öppnas	claude-sonnet-5-5 2026-10-18
+Recognising text…	Känner igen text…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	Känner igen text…	claude-sonnet-5-5 2026-10-18
+Record	Spela in	claude-sonnet-5-5 2026-10-18
+Record Region…	Spela in yta…	claude-sonnet-5-5 2026-10-18
+Record Screen	Spela in skärmen	claude-sonnet-5-5 2026-10-18
+Record Window…	Spela in fönster…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	Spela in utan mikrofon	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	Spela in muspekaren	claude-sonnet-5-5 2026-10-18
+Recording	Inspelning	claude-sonnet-5-5 2026-10-18
+Recording starts	Inspelningen startar	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	Spelar in. Klicka för att stoppa; ⌃-klicka för att pausa eller kassera.	claude-sonnet-5-5 2026-10-18
+Rectangle	Rektangel	claude-sonnet-5-5 2026-10-18
+Redo	Gör om	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	Gör om (⇧⌘Z eller ⌘Y)	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	Gör om (⇧⌘Z)	claude-sonnet-5-5 2026-10-18
+Redone	Gjorde om	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	Reducera antalet färger till högst %lld	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	Reducera antalet färger	claude-sonnet-5-5 2026-10-18
+Reference:	Referens:	claude-sonnet-5-5 2026-10-18
+Refresh	Uppdatera	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	Avvisad för det här bygget, meddelanden visas i hörnet	claude-sonnet-5-5 2026-10-18
+Region	Yta	claude-sonnet-5-5 2026-10-18
+Register Again	Registrera igen	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	Registrera kortkommandona hos macOS igen, t.ex. när en annan app har släppt en tangent	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	Registrera din egen Box-app och ange dess klient-ID och hemlighet i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	Registrera din egen Dropbox-app och ange dess appnyckel i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	Registrera din egen app i [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder eller Full Dropbox, behörigheterna files.content.write, sharing.write och sharing.read, samt redirect-URI:n `%@`. Klistra in dess appnyckel här; ingen hemlighet behövs. Inloggningen sparas i din Nyckelring.	claude-sonnet-5-5 2026-10-18
+Registered	Registrerad	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	Registrerad, men macOS tar den först (%@)	claude-sonnet-5-5 2026-10-18
+Reject / Block	Avvisa / blockera	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	Starta om %@ i %@?	claude-sonnet-5-5 2026-10-18
+Relaunch Now	Starta om nu	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	Starta om i %@	claude-sonnet-5-5 2026-10-18
+Reload All	Läs in alla igen	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	Läs in de konfigurerade receptfilerna från disk igen	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	Läste in recepten från disk igen.	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	Kom ihåg i Nyckelring	claude-sonnet-5-5 2026-10-18
+Remove	Ta bort	claude-sonnet-5-5 2026-10-18
+Remove %@	Ta bort %@	claude-sonnet-5-5 2026-10-18
+Remove Start Step	Ta bort startsteg	claude-sonnet-5-5 2026-10-18
+Remove the option	Ta bort alternativet	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	Ta bort receptet från Greenshot	claude-sonnet-5-5 2026-10-18
+Remove this error route	Ta bort den här felvägen	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	Ta bort det här steget från startstegen	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	Ta bort: programmet frågas igen nästa gång det ansluter.	claude-sonnet-5-5 2026-10-18
+Removed an option	Tog bort ett alternativ	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	Tog bort receptets reservväg vid fel	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	Tog bort anslutningen till ”%@”	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	Döpte om steg-ID från ”%@” till ”%@”	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	Öppnades igen efter senaste utloggning eller omstart, inte sparad än.	claude-sonnet-5-5 2026-10-18
+Replace	Ersätt	claude-sonnet-5-5 2026-10-18
+Replace File	Ersätt fil	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	Ersätta en fil som inte är ett recept?	claude-sonnet-5-5 2026-10-18
+Replace the annotations	Ersätt kommentarerna	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	Ersätter det inbyggda automatiska steget “%@”	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	Ersätter det inbyggda receptet “%@”	claude-sonnet-5-5 2026-10-18
+Report	Rapportera	claude-sonnet-5-5 2026-10-18
+Report a bug	Rapportera ett fel	claude-sonnet-5-5 2026-10-18
+Report an Issue…	Rapportera ett problem…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	Rapportera på GitHub…	claude-sonnet-5-5 2026-10-18
+Required	Obligatoriskt	claude-sonnet-5-5 2026-10-18
+Reset	Återställ	claude-sonnet-5-5 2026-10-18
+Reset All	Återställ alla	claude-sonnet-5-5 2026-10-18
+Reset All to Default	Återställ alla till standard	claude-sonnet-5-5 2026-10-18
+Reset Default	Återställ standard	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	Återställ receptet till standard	claude-sonnet-5-5 2026-10-18
+Reset to Default	Återställ till standard	claude-sonnet-5-5 2026-10-18
+Reset to defaults	Återställ till standardvärden	claude-sonnet-5-5 2026-10-18
+Resize	Ändra storlek	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	Ändra bildens storlek (⌥⌘R)	claude-sonnet-5-5 2026-10-18
+Resize…	Ändra storlek…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	Återställd efter att Greenshot avslutats oväntat, inte sparad än.	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	Återställd, inte sparad än.	claude-sonnet-5-5 2026-10-18
+Resume Recording	Återuppta inspelningen	claude-sonnet-5-5 2026-10-18
+Retry	Försök igen	claude-sonnet-5-5 2026-10-18
+Revert	Återgå	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	Återställa ”%@” till inbyggd standarddefinition?	claude-sonnet-5-5 2026-10-18
+Review approval…	Granska godkännande…	claude-sonnet-5-5 2026-10-18
+Review…	Granska…	claude-sonnet-5-5 2026-10-18
+Revoke	Återkalla	claude-sonnet-5-5 2026-10-18
+Revoke Approval	Återkalla godkännande	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	Återkalla godkännande…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	Återkalla godkännandet av “%@”?	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Återkalla godkännandet av “%@”? Det slutar köras direkt och läses inte in igen. Dess fil ligger kvar: öppna den igen för att granska och godkänna den.	claude-sonnet-5-5 2026-10-18
+Right key	Höger tangent	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	Högerklick eller ⌃-klick visar menyn. Vid en dubbelklicksåtgärd väntar ett klick först under dubbelklickstiden.	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	Rotera medurs	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	Rotera moturs	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	Rotera medurs (⌥⌘→)	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	Rotera moturs (⌥⌘←)	claude-sonnet-5-5 2026-10-18
+Rounded Dots	Rundade prickar	claude-sonnet-5-5 2026-10-18
+Route To	Led till	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	Led till steg i det här receptet…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	Kör ”MCP: Add Server” (Command (stdio)), eller lägg det i .vscode/mcp.json i arbetsytan.	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	Kör ett externt kommando med bilden	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	Kör i bakgrunden (fel som meddelande, inte som dialogruta)	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	Kör det i Terminal (--scope user: i alla projekt). Kontrollera det med claude mcp list eller /mcp.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	Kör det i Terminal, eller lägg till [mcp_servers.greenshot] med command = sökvägen i ~/.codex/config.toml.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	Kör det i Terminal, eller lägg till mcpServers-posten i ~/.gemini/settings.json. Kontrollera det med /mcp.	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	Kör receptet nu	claude-sonnet-5-5 2026-10-18
+Running	Körs	claude-sonnet-5-5 2026-10-18
+Running for	Körs i	claude-sonnet-5-5 2026-10-18
+Runs	Körningar	claude-sonnet-5-5 2026-10-18
+Runs as	Körs som	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 eller SHA-1, t.ex. 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	SMS	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	Information om SMS	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	FELHANTERING FÖR STEG	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	STEGPARAMETRAR	claude-sonnet-5-5 2026-10-18
+Same as macOS	Samma som macOS	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	Samma som macOS (%@)	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	Samma tangenter som ditt kortkommando	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	Spara (⌘S)	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	Spara (⌘S); Spara som är ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	Spara som… (⇧⌘S)	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	Spara automatiskt steg som…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	Spara före testkörningen	claude-sonnet-5-5 2026-10-18
+Save Changes	Spara ändringar	claude-sonnet-5-5 2026-10-18
+Save Directly	Spara direkt	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	Spara direkt (%@)	claude-sonnet-5-5 2026-10-18
+Save Elements…	Spara element…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	Spara Greenshot-recept som…	claude-sonnet-5-5 2026-10-18
+Save Recipe	Spara recept	claude-sonnet-5-5 2026-10-18
+Save Screenshot	Spara skärmdump	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	Spara skärmdump som PDF	claude-sonnet-5-5 2026-10-18
+Save and Run	Spara och kör	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	Spara som Greenshot-fil	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	Spara som Greenshot-fil…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	Spara som PDF-dokument	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	Spara frågar efter en ny fil, så den här behåller dem.	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	Spara en bild av skärmen som fil	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	Spara en bild av det markerade området som fil	claude-sonnet-5-5 2026-10-18
+Save to File	Spara till fil	claude-sonnet-5-5 2026-10-18
+Save to folder	Spara i mapp	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	Spara med 256 färger när bilden har färre	claude-sonnet-5-5 2026-10-18
+Saved %@	Sparade %@	claude-sonnet-5-5 2026-10-18
+Saved file	Sparad fil	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	Sparade receptet till %@	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	Sparning ersätter andra recept	claude-sonnet-5-5 2026-10-18
+Saving as %@.	Sparar som %@.	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	Sparar inspelningen…	claude-sonnet-5-5 2026-10-18
+Saving…	Sparar…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	Skala den så att den fyller videon	claude-sonnet-5-5 2026-10-18
+Scaling	Skalning	claude-sonnet-5-5 2026-10-18
+Schedule	Schema	claude-sonnet-5-5 2026-10-18
+Screen	Skärm	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	Skärm %lld (inte ansluten)	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	Skärm %lld: %@	claude-sonnet-5-5 2026-10-18
+Screen recording	Skärminspelning	claude-sonnet-5-5 2026-10-18
+Screens	Skärmar	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	Alternativ för skärmdump och inspelning	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	Skärmdumpsapp med egna globala genvägar	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	macOS skärmdumpsgenvägar	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Skärmdumpar kan innehålla allt som syns på din skärm. Fönster från undantagna program (lösenordshanterare som standard) delas aldrig. Du kan ändra båda i Inställningar › AI-verktyg.	claude-sonnet-5-5 2026-10-18
+Script: %@	Skript: %@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	Sök bland befintliga ärenden	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Sök namn, ID, triggers, fil	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	Sök, följ och kopiera hela loggen i loggvisaren.	claude-sonnet-5-5 2026-10-18
+Searched at %@	Sökte kl. %@	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	Att söka efter den här identifieraren på GitHub hjälper till att undvika att samma ärende skapas två gånger och visar om en fix eller en lösning finns.	claude-sonnet-5-5 2026-10-18
+Searching…	Söker…	claude-sonnet-5-5 2026-10-18
+Section header	Avsnittsrubrik	claude-sonnet-5-5 2026-10-18
+Select	Markera	claude-sonnet-5-5 2026-10-18
+Select Image Editor	Välj bildredigerare	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	Markera en yta på skärmen att ta en skärmdump av med Greenshot för Mac.	claude-sonnet-5-5 2026-10-18
+Select a region or a window	Markera en yta eller ett fönster	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	Markera ett steg i listan för att ändra det, eller lägg till ett med Lägg till steg: det hamnar efter det markerade steget, i den markerade grenen, banan eller pilen.	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	Markera först ett steg eller en pil: det nya steget hamnar direkt efter det, eller i pilen.	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	Välj en alternativ destination nedan, vidarebefordra till ett annat recept, eller försök igen:	claude-sonnet-5-5 2026-10-18
+Select an editor	Välj en redigerare	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	Markera områden inuti fönster	claude-sonnet-5-5 2026-10-18
+Selection	Markering	claude-sonnet-5-5 2026-10-18
+Self-Service	Självbetjäning	claude-sonnet-5-5 2026-10-18
+Self-Service…	Självbetjäning…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	Skicka skärmdump till	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	Skickar skärmdumpen till %@…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	Skickad till skrivaren “%@”	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Separera adresser med kommatecken. Ämnet kan använda variablerna i filnamnsmönstret, t.ex. ${title}. Outlook använder dem också. Med Kopia eller Dold kopia och Mail som e-postapp skriver Mail hela e-postmeddelandet (macOS frågar en gång om Greenshot får styra Mail); annars fyller macOS e-posttjänst i Till och ämnet, och Kopia och Dold kopia visas för att läggas till manuellt.	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server eller Data Center: personlig åtkomsttoken	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server eller Data Center: användarnamn och lösenord	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	Konfigurera kommandon…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	Angivet av din organisation	claude-sonnet-5-5 2026-10-18
+Set in the recipe	Angivet i receptet	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	Ange det i Allmänt › Kortkommandon. Ett klick på inspelningens menyradsikon stoppar, ⌃-klick pausar.	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	Konfigurera ett konto i Mail (eller välj en standardapp för e-post i Mail › Inställningar) och försök sedan igen.	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	Inställningar (i användarstandarderna)	claude-sonnet-5-5 2026-10-18
+Settings are turned off	Inställningar är avstängda	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	Inställningsfil (--settings-dir)	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	Inställningar › Developer › Edit Config öppnar ~/Library/Application Support/Claude/claude_desktop_config.json; lägg till servern och starta om Claude.	claude-sonnet-5-5 2026-10-18
+Settings… (⌘,)	Inställningar… (⌘,)	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	Flera på ett fack körs i ordning, sedan efter ID	claude-sonnet-5-5 2026-10-18
+Shadow	Skugga	claude-sonnet-5-5 2026-10-18
+Shadow:	Skugga:	claude-sonnet-5-5 2026-10-18
+Share	Dela	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	Dela med appar och kontakter	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	Delad länk (alla med länken), inte den privata	claude-sonnet-5-5 2026-10-18
+Share…	Dela…	claude-sonnet-5-5 2026-10-18
+Shift	Skift	claude-sonnet-5-5 2026-10-18
+Show	Visa	claude-sonnet-5-5 2026-10-18
+Show All	Visa alla	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	Visa tilläggsmappen…	claude-sonnet-5-5 2026-10-18
+Show It	Visa den	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	Visa öppna skärmdumpar	claude-sonnet-5-5 2026-10-18
+Show Welcome…	Visa välkomstfönstret…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	Visa en avisering när ett AI-verktyg tar en skärmdump	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	Visa en miniatyr av skärmdumpen i aviseringen	claude-sonnet-5-5 2026-10-18
+Show all parameters	Visa alla parametrar	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	Visa i Dock när ett fönster är öppet	claude-sonnet-5-5 2026-10-18
+Show in Finder	Visa i Finder	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	Visa i receptmenyn	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	Visa i menyradens Snabbinställningar	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	Visa utskriftsalternativ varje gång före utskrift	claude-sonnet-5-5 2026-10-18
+Show the menu	Visa menyn	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	Visa ikonen i menyraden	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	Visa zoomen på skärmdumpsskärmen	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	Visa fönsterminiatyrer i fönsterlistan	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	Visar %@ som Greenshot har det nu.	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	Visar slutet %@ av totalt %@. Tidigare loggrader finns.	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	Visar ~%@ rader (%@ av %@)	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	Visar bara de loggposter som innehåller den här texten, från hela loggfilen (⌘F)	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	Förminska arbetsytan	claude-sonnet-5-5 2026-10-18
+Sign In…	Logga in…	claude-sonnet-5-5 2026-10-18
+Sign Out	Logga ut	claude-sonnet-5-5 2026-10-18
+Sign in with	Logga in med	claude-sonnet-5-5 2026-10-18
+Signed by	Signerad av	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	Signerad av länkaren (ett utvecklingsbygge)	claude-sonnet-5-5 2026-10-18
+Signed by: %@	Signerad av: %@	claude-sonnet-5-5 2026-10-18
+Signed in	Inloggad	claude-sonnet-5-5 2026-10-18
+Signed in.	Inloggad.	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	Storlek: 0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	Storlekar	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Skärmdumpsverktyget Skitch	claude-sonnet-5-5 2026-10-18
+Slot	Fack	claude-sonnet-5-5 2026-10-18
+Small size	Liten storlek	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	Mindre behåller fler detaljer i en frihandslinje, större gör den mjukare.	claude-sonnet-5-5 2026-10-18
+Smallest value	Minsta värde	claude-sonnet-5-5 2026-10-18
+Software	Programvara	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	Vissa kortkommandon kunde inte registreras	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	Vissa läsare kan förvanska tecken utöver västeuropeiska i den här koden; QR- och Data Matrix-koder gör det inte.	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	Vissa texter på det här språket är maskinöversatta.	claude-sonnet-5-5 2026-10-18
+Something went wrong	Något gick fel	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	Sortera kommentarerna efter typ	claude-sonnet-5-5 2026-10-18
+Sound	Ljud	claude-sonnet-5-5 2026-10-18
+Source code	Källkod	claude-sonnet-5-5 2026-10-18
+Space	Space	claude-sonnet-5-5 2026-10-18
+Space:	Space:	claude-sonnet-5-5 2026-10-18
+Speech Bubble	Pratbubbla	claude-sonnet-5-5 2026-10-18
+Stack trace	Stackspårning	claude-sonnet-5-5 2026-10-18
+Start (UTC):	Start (UTC):	claude-sonnet-5-5 2026-10-18
+Start Watching	Börja bevaka	claude-sonnet-5-5 2026-10-18
+Start or stop recording	Starta eller stoppa inspelning	claude-sonnet-5-5 2026-10-18
+Start step	Startsteg	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	Startsteg körs först; flera startsteg körs samtidigt (upstream START STEPS). Markera dem i steglistan.	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	Började bevaka urklipp (var 600:e ms)	claude-sonnet-5-5 2026-10-18
+Starting and stopping	Start och stopp	claude-sonnet-5-5 2026-10-18
+Starting…	Startar…	claude-sonnet-5-5 2026-10-18
+Startup	Start	claude-sonnet-5-5 2026-10-18
+Step	Steg	claude-sonnet-5-5 2026-10-18
+Step %lld	Steg %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	Steg %lld: %@ är en reserverad tangent och kan inte användas i ett kortkommando.	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Steg %lld: Andra tangenter än F1–F20 kräver ⌃, ⌥ eller ⌘.	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	Steg %lld: ⇧ kan inte vara den enda modifierartangenten, utom för F1–F20.	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	Steg i det här receptet	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	Steg som %@ lägger till i recepten med ett passande fack, aktiveras i Inställningar › Recept.	claude-sonnet-5-5 2026-10-18
+Stop Recording	Stoppa inspelningen	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	Stoppa inspelningen (%@)	claude-sonnet-5-5 2026-10-18
+Stop Watching	Sluta bevaka	claude-sonnet-5-5 2026-10-18
+Stop after	Stoppa efter	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	Stoppa när fönstret stängs	claude-sonnet-5-5 2026-10-18
+Stopped watching	Slutade bevaka	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	Slutade bevaka urklipp.	claude-sonnet-5-5 2026-10-18
+Subject	Ämne	claude-sonnet-5-5 2026-10-18
+Subject:	Ämne:	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	Stäng av de triggers du inte vill ha.	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	Slå på eller av det automatiska steget (även i Inställningar › Recept)	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	Slå på eller av receptets triggers och behörigheter	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	Slå på eller av triggers och behörigheter för godkännandet	claude-sonnet-5-5 2026-10-18
+System	System	claude-sonnet-5-5 2026-10-18
+System Font	Systemtypsnitt	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	Systeminformationen kopierades till urklipp.	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	TRIGGERS	claude-sonnet-5-5 2026-10-18
+Table	Tabell	claude-sonnet-5-5 2026-10-18
+Take Screenshot	Ta skärmdump	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	Tar en skärmdump med Greenshot för Mac. Den går till dina destinationer, som med kortkommandona.	claude-sonnet-5-5 2026-10-18
+Target step	Målsteg	claude-sonnet-5-5 2026-10-18
+Team	Team	claude-sonnet-5-5 2026-10-18
+Team ID: %@	Team-ID: %@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	River de valda kanterna på bilden.	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	Skärmdumpsverktyget TechSmith Snagit	claude-sonnet-5-5 2026-10-18
+Teeth	Tänder	claude-sonnet-5-5 2026-10-18
+Template	Mall	claude-sonnet-5-5 2026-10-18
+Test Connection	Testa anslutning	claude-sonnet-5-5 2026-10-18
+Test Run	Testkörning	claude-sonnet-5-5 2026-10-18
+Test run error: %@	Fel vid testkörning: %@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	Testkörningen startade inte: %@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	Testkörningen av %@ misslyckades.	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	Testkörningen av %@ startade.	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	Testkörning av %@: avbruten.	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	Testkörning av %@: slutförd.	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	Testkörningen av ”%@” avslutades: %@.	claude-sonnet-5-5 2026-10-18
+Text	Text	claude-sonnet-5-5 2026-10-18
+Text (OCR)	Text (OCR)	claude-sonnet-5-5 2026-10-18
+Text / Number Value	Text-/talvärde	claude-sonnet-5-5 2026-10-18
+Text / URL	Text / URL	claude-sonnet-5-5 2026-10-18
+Text and chart	Text och diagram	claude-sonnet-5-5 2026-10-18
+Text and clipart	Text och clipart	claude-sonnet-5-5 2026-10-18
+Text and media clip	Text och mediaklipp	claude-sonnet-5-5 2026-10-18
+Text and object	Text och objekt	claude-sonnet-5-5 2026-10-18
+Text and two objects	Text och två objekt	claude-sonnet-5-5 2026-10-18
+Text over object	Text över objekt	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	Textigenkänning (OCR)	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	Tack för att du installerade %@! Den körs nu och väntar på dig i menyraden, uppe till höger på skärmen.	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	Det är allt du behöver för att komma igång. %@ väntar i menyraden, och allt annat kan ändras i Inställningar när du vill.	claude-sonnet-5-5 2026-10-18
+The %@ app key	Appnyckeln för %@	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	Ikonen för %@ visas i menyraden.	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	Greenshot-filen kunde inte öppnas	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Tillägget Greenshot for Mac (Community) Companion för Chrome, Edge och Firefox skickar den synliga sidan och sidans adress.	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON måste innehålla exakt ett recept (den innehåller %lld).	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	JSON-fliken har ändringar som ännu inte tillämpats på receptet.	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	Nyckelringen kunde inte lägga till objektet: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	Nyckelringen kunde inte läsa objektet: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	Nyckelringen kunde inte ta bort objektet: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	Nyckelringen kunde inte uppdatera objektet: %@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Verktyget Censurera i redigeraren pixelerar eller gör oskarpa de delar av en skärmdump som ingen annan ska se.	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	PDF-filen kunde inte sparas	claude-sonnet-5-5 2026-10-18
+The action failed.	Åtgärden misslyckades.	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	Appen som kopierade det anger det inte.	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	Godkännandet av “%@” kunde inte återkallas. Det är oförändrat; se loggen för orsaken.	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	Området finns inte på en bildskärm.	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	Det automatiska steget används bara med alla behörigheter det behöver.	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	Certifikatet för %@ har SHA-256-fingeravtrycket %@.	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Det ändrade receptet behöver %@, vilket dess godkännande inte tillåter än. Spara det först; sparning ber om ditt godkännande.	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	Urklipp innehåller %lld typer.	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	Urklipp innehåller 1 typ.	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	Urklipp är tomt.	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	Urklipp lämnades som det var.	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	Appens kodsignatur, notarisering och karantän	claude-sonnet-5-5 2026-10-18
+The color behind the image	Färgen bakom bilden	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	Färgen på de bortrivna delarna; genomskinlig som standard	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Destinationsmenyn listar också de öppna möten du organiserar; skärmdumpen bifogas mötet.	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	Detaljerna för “%@” är inte tillgängliga: den är inte längre inläst.	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	Bildskärmen är inte längre ansluten.	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	Kanterna och skuggan på det här klippmärket.	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	Kanterna på de sidor som en beskärning skär bort, och på skarven när rader eller kolumner klipps ut; Ingen behåller dem raka och sömlösa	claude-sonnet-5-5 2026-10-18
+The editor was closed.	Redigeraren stängdes.	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	Elementen kunde inte läsas in	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	Elementen kunde inte sparas	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	Elementen i den här filen kunde inte läsas, bilden visas utan dem.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	Elementen förblir redigerbara när filen öppnas igen.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	Elementen förblir redigerbara när filen öppnas i redigeraren igen. Öppna med, Office, e-post och delning får en PNG.	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	Tilläggsmappen kunde inte kopieras: %@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	Filen %@ kunde inte läsas.	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	Filen har ändrats sedan du godkände den	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	Kortkommandot %@ startar och stoppar en inspelning.	claude-sonnet-5-5 2026-10-18
+The hotkey records	Kortkommandot spelar in	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	Kortkommandona fungerar fortfarande. För att komma tillbaka till Inställningar, öppna %@ igen från Spotlight, Launchpad eller mappen Program.	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	Bilden kunde inte kodas som %@.	claude-sonnet-5-5 2026-10-18
+The image could not be opened	Bilden kunde inte öppnas	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	Bilden kunde inte öppnas.	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	Bilden är för stor för %@: den kan vara högst %lld pixlar bred och hög.	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	Nyckeln för ett booleskt alternativ: det här alternativet kan bara ändras medan det är på	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Språket för Greenshots texter. Texter som Greenshot för Windows inte har någon översättning av förblir på engelska.	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	Raderna är då klara när du trycker på T. Upstream: AlwaysRunOCROnCapture.	claude-sonnet-5-5 2026-10-18
+The log at a glance	Loggen i korthet	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	Loggfilen kunde inte läsas.	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	E-postappen kan inte ta emot bilagor från andra appar. Klicka för att visa filen i Finder.	claude-sonnet-5-5 2026-10-18
+The mail could not be written	E-postmeddelandet kunde inte skrivas	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	Är menyradsikonen dold? Avsluta härifrån.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Menyradsikonen är avstängd i Inställningar › Allmänt. Dess meny är vägen till det mesta i %@.	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	Menyn öppnas vid första klicket, så en dubbelklick gör inget mer. Högerklick eller ⌃-klick visar alltid menyn.	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	Mikrofonen kunde inte användas.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	Det nya språket visas efter en omstart.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	Det nya språket visas efter en omstart. Osparade skärmdumpar frågas det om först.	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	Bildens nya storlek. Elementen flyttas med.	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	Den föregående versionen är okänd, granska hela receptet	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	Skrivaren “%@” finns inte längre	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	Skrivaren “%@” finns inte längre.	claude-sonnet-5-5 2026-10-18
+The program was not found.	Programmet hittades inte.	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	Receptet ändrades efter att du började redigera JSON: Tillämpa ersätter de ändringarna, Återgå visar receptet som det är.	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	Receptfilen kunde inte läsas.	claude-sonnet-5-5 2026-10-18
+The recipe goes on	Receptet fortsätter	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	Receptet används bara med alla behörigheter det behöver.	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	Receptet behöver ett plugin som Greenshot för Mac inte har.	claude-sonnet-5-5 2026-10-18
+The recipe to edit	Receptet som ska redigeras	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	Receptet sparades inte.	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	Receptet arbetar med filer utanför Greenshots vanliga utdatamapp.	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	Recepten och de automatiska stegen som %@ känner till.	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	Recepten är för stora för att jämföras (fler än %lld rader).	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	Recepten startar med Greenshot.	claude-sonnet-5-5 2026-10-18
+The recording could not be started	Inspelningen kunde inte startas	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	Inspelningen avslutades innan något hade spelats in.	claude-sonnet-5-5 2026-10-18
+The recording failed	Inspelningen misslyckades	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	Inspelningen sparas.	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	Inspelningen är pausad. Klicka för att stoppa; ⌃-klicka för att fortsätta eller kassera.	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	Inspelningen startar. Klicka för att stoppa den så snart den körs.	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	Inspelningen startar om %lld s. Klicka för att avbryta.	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	Inspelningen var redan klar.	claude-sonnet-5-5 2026-10-18
+The recording was discarded	Inspelningen kasserades	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Begäran kom via greenshot-cli. Tillåt den bara om du startade den: receptets resultat går dit receptet skickar det.	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Begäran kom via greenshot-cli. Tillåt den bara om du startade den: skärmdumpen går till dina destinationer.	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Samma variabler som filnamnsmönstret, t.ex. ${title} och ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	Skärmen med musen	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	Skärmen med muspekaren	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	Skärmdumpen kunde inte bifogas	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	Skärmdumpen kunde inte kodas	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	Skärmdumpen kunde inte sparas	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	Skärmdumpen kunde inte sparas till %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	Skärmdumpen kunde inte sparas till filen	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	Skärmdumpen kunde inte sparas, välj en annan plats	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	Skärmdumpen kunde inte skickas till %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	Skärmdumpen kunde inte delas	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	Skärmdumpen kunde inte tas	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	Skärmdumpen kunde inte skrivas	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	Skärmdumpen kunde inte skrivas för %@	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	macOS skärmdumpsgenvägar använder inte dina kortkommandon.	claude-sonnet-5-5 2026-10-18
+The script failed.	Skriptet misslyckades.	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	Skriptet tog längre tid än %lld sekunder.	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	Servern svarade med HTTP %lld.	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	Inställningsfilen kunde inte läsas	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	Inställningsfilen, loggen och kraschrapporterna	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	Inloggningssvaret stämde inte med begäran (state).	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	Inloggningssvaret hade ingen kod.	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	Inloggningsfönstret kunde inte öppnas.	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	Storleken för Arkiv › Ny bild, en vit bild att rita på.	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	Texten kunde inte kännas igen	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	Texten kunde inte kännas igen: %@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	Rivna kanter på den här bilden.	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	De genomskinliga delarna av bilden får den här färgen.	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Triggers startar avstängda. Slå på var och en som får starta det här receptet: en trigger du låter vara av förblir av (du kan slå på den senare med Behörigheter). Utan trigger kan du fortfarande köra receptet från receptlistan.	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	Uppladdningen frågar efter ärendet: en nyckel, ett av de tio senaste, ett favoritfilter eller en sökning. Ärenden i titlarna på öppna fönster (t.ex. webbläsaren) erbjuds i destinationsmenyn.	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	Uppladdningen frågar efter sidan: en som är öppen i Safari eller Chrome, en sökning på titel eller sidträdet för ett utrymme. De tio senaste finns också i destinationsmenyn.	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	Värdet är en mall (${…} fungerar i den)	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	Videofilen kunde inte slutföras: %@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	Videofilen kunde inte förberedas.	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	Videofilen kunde inte skrivas: %@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	Fönstret kunde inte fångas	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	Fönsterkortkommandot öppnar skärmdumpsskärmen i fönsterläge i stället för att ta en skärmdump av det aktiva fönstret.	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	Fönstret finns inte längre på skärmen.	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	Då fungerar kortkommandona direkt efter att du loggat in.	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	Det finns ingen ram i en enda färg runt innehållet att beskära bort.	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	Det finns ingen bild i urklipp	claude-sonnet-5-5 2026-10-18
+There is no image to open.	Det finns ingen bild att öppna.	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	Det finns inget recept ”%@”.	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	Det fanns inget på skärmen att ta en skärmdump av.	claude-sonnet-5-5 2026-10-18
+Thermal state	Termiskt tillstånd	claude-sonnet-5-5 2026-10-18
+These are for this print only.	Dessa gäller bara för den här utskriften.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	Dessa kan ändras senare i Inställningar › Utskrift.	claude-sonnet-5-5 2026-10-18
+These lanes run at the same time	De här banorna körs samtidigt	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	De här programmen får använda Greenshot. Ta bort ett med ✕ för att bli tillfrågad igen nästa gång det ansluter. För en runtime (node, python, …) tillåts bara skriptet den kör, och ett program signerat av en utvecklare bara så länge det fortfarande är signerat av samma.	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	Dessa triggers förblir av, så de startar inte receptet:	claude-sonnet-5-5 2026-10-18
+These:	Dessa:	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	Den här Macen har ingen mikrofon.	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	Den här URL:en börjar med http://: token eller lösenord skulle skickas okrypterat. Använd https:// om servern erbjuder det.	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	Den här adressen börjar med http://: lösenordet skickas okrypterat.	claude-sonnet-5-5 2026-10-18
+This app	Den här appen	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Det här automatiska steget ändrar skärmdumparna i de markerade recepten, för de markerade destinationerna. Nya recept får det också.	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Det här automatiska steget skrevs av ett AI-verktyg. Det ändrar andra recept, även de inbyggda: kontrollera vilka och vad det lägger till nedan. Det startar avstängt, slå på det i Inställningar › Recept.	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	Det här är ett recept; redigeraren har ett automatiskt steg öppet.	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	Det här är ett automatiskt steg; redigeraren har ett recept öppet.	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Det här programmet lämnar ABSOLUT INGA GARANTIER. Detta är ett gratisprogram, och du får vidaredistribuera det under vissa villkor: %@ eller senare.	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	Det här programmet är inte signerat av en utvecklare.	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Det här receptet skrevs av ett AI-verktyg, inte av Greenshot eller av dig. Kontrollera vad det gör nedan (Greenshot beskriver det utifrån själva receptet) och slå bara på de triggers du vill ha.	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	Det här steget har inga parametrar.	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	Den här triggern förblir av, så den startar inte receptet:	claude-sonnet-5-5 2026-10-18
+Threads	Trådar	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	Tips: flytta först appen till mappen Program, så att den fortsätter öppnas vid inloggning.	claude-sonnet-5-5 2026-10-18
+Title	Titel	claude-sonnet-5-5 2026-10-18
+Title only	Endast titel	claude-sonnet-5-5 2026-10-18
+Title:	Titel:	claude-sonnet-5-5 2026-10-18
+To	Till	claude-sonnet-5-5 2026-10-18
+To:	Till:	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	Tonmappa HDR-innehåll på HDR-skärmar	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	Tonmappa HDR-innehåll på HDR-skärmar (macOS 15 eller senare)	claude-sonnet-5-5 2026-10-18
+Top left	Uppe till vänster	claude-sonnet-5-5 2026-10-18
+Top right	Uppe till höger	claude-sonnet-5-5 2026-10-18
+Torn	Riven	claude-sonnet-5-5 2026-10-18
+Total: %lld	Totalt: %lld	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	Tillfällig (avsedd att snart försvinna)	claude-sonnet-5-5 2026-10-18
+Translocated	Translokerad	claude-sonnet-5-5 2026-10-18
+Transparent	Genomskinlig	claude-sonnet-5-5 2026-10-18
+Trigger Name	Triggernamn	claude-sonnet-5-5 2026-10-18
+Trigger removed	Triggern togs bort	claude-sonnet-5-5 2026-10-18
+Triggers	Triggers	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	Triggers (%lld)	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	Triggers som lämnats av	claude-sonnet-5-5 2026-10-18
+Troubleshooting	Felsökning	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	Lita på certifikat med dessa fingeravtryck	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	Lita på dessa värdar trots certifikatfel	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	Lita på det Greenshot skriver nedan om det automatiska steget, inte på de här orden.	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	Lita på det Greenshot skriver nedan om receptet, inte på de här orden.	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	Slå på %@ i Systeminställningar › Allmänt › Inloggningsobjekt och tillägg.	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Slå på Tillåt aviseringar för %@ i Systeminställningar › Aviseringar för att se dem igen.	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Om du slår på någon av de andra stängs menyn av. Flera kan vara på, t.ex. kopiera och spara.	claude-sonnet-5-5 2026-10-18
+Two column text	Text i två kolumner	claude-sonnet-5-5 2026-10-18
+Two objects	Två objekt	claude-sonnet-5-5 2026-10-18
+Two objects and object	Två objekt och objekt	claude-sonnet-5-5 2026-10-18
+Two objects and text	Två objekt och text	claude-sonnet-5-5 2026-10-18
+Two objects over text	Två objekt över text	claude-sonnet-5-5 2026-10-18
+Type	Typ	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	Skriv genvägen…	claude-sonnet-5-5 2026-10-18
+URL	URL	claude-sonnet-5-5 2026-10-18
+URL:	URL:	claude-sonnet-5-5 2026-10-18
+Unavailable	Inte tillgänglig	claude-sonnet-5-5 2026-10-18
+Undo	Ångra	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	Ångra (⌘Z)	claude-sonnet-5-5 2026-10-18
+Undone	Ångrad	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	Okrypterad (Ingen)	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	Oväntat svar från servern: %@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	Unik identifierare för det här steget. Om du redigerar det här ID:t uppdateras alla referenser.	claude-sonnet-5-5 2026-10-18
+Unknown	Okänd	claude-sonnet-5-5 2026-10-18
+Unload	Ta bort från minnet	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	Ta bort ”%@” från Greenshot?	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	Ta bort automatiskt steg från minnet	claude-sonnet-5-5 2026-10-18
+Unload Recipe	Ta bort recept från minnet	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	Ta bort från minnet och glöm filen	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	Tog bort receptet ”%@” från minnet.	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	Namnlöst recept	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	Oläsbar registrering: klicka på Installera	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	Osparade ändringar	claude-sonnet-5-5 2026-10-18
+Unsaved changes	Osparade ändringar	claude-sonnet-5-5 2026-10-18
+Updated at %@	Uppdaterad kl. %@	claude-sonnet-5-5 2026-10-18
+Updates	Uppdateringar	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	Ladda upp till Confluence – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	Ladda upp till Confluence: “%@”	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	Ladda upp till Jira – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	Ladda upp till Jira, Confluence, Box eller Dropbox	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	Laddade upp %@ till Box	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	Laddade upp %@ till Dropbox	claude-sonnet-5-5 2026-10-18
+Use Default	Använd standard	claude-sonnet-5-5 2026-10-18
+Use Expression	Använd uttryck	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	Använd en steg-typ som den här versionen av Greenshot för Mac har, eller uppdatera Greenshot.	claude-sonnet-5-5 2026-10-18
+Use recipes	Använd recept	claude-sonnet-5-5 2026-10-18
+Used for:	Används för:	claude-sonnet-5-5 2026-10-18
+User name	Användarnamn	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	VALIDERINGSFEL	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	Giltiga SourceType-värden är: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	Giltig: ingen fil i appen ändrades	claude-sonnet-5-5 2026-10-18
+Validation Error	Valideringsfel	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	Valideringen misslyckades för %@	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	Värden som användaren anger i Inställningar › Recept; steg läser dem som ${option.key}.	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	Kontrollera att målnodens ID matchar ett befintligt ”id” i receptets lista ”nodes”.	claude-sonnet-5-5 2026-10-18
+Version	Version	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	Version %@ (%@)	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	Version %@ finns tillgänglig – klicka för att ladda ner	claude-sonnet-5-5 2026-10-18
+Version %@.	Version %@.	claude-sonnet-5-5 2026-10-18
+Vertical offset:	Vertikal förskjutning:	claude-sonnet-5-5 2026-10-18
+Vertical padding:	Vertikal utfyllnad:	claude-sonnet-5-5 2026-10-18
+Vertical text	Vertikal text	claude-sonnet-5-5 2026-10-18
+Vertical title and text	Vertikal titel och text	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	Vertikal titel och text över diagram	claude-sonnet-5-5 2026-10-18
+Video	Video	claude-sonnet-5-5 2026-10-18
+View	Visa	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	Visa JSON för automatiskt steg	claude-sonnet-5-5 2026-10-18
+View Changes	Visa ändringar	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	Visa recept-JSON	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	Vänta före skärmdump: %lld ms	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	Väntar, fel i en dialogruta	claude-sonnet-5-5 2026-10-18
+Warnings and errors	Varningar och fel	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	Bevaka urklipp	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	Bevakar urklipp.	claude-sonnet-5-5 2026-10-18
+Wave	Våg	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP (förlustfri)	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	Välkomstguide…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	Välkommen till %@	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	Vad %@ behöver för att fungera som väntat, med en åtgärd där något är fel.	claude-sonnet-5-5 2026-10-18
+What AI tools may do	Vad AI-verktyg får göra	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	Vad som ändrats sedan senaste godkännandet	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	Vad som händer med en skärmdump bestämmer du: öppna den i redigeraren, spara den, kopiera den till urklipp, skriv ut den och mer. Du väljer i Inställningar.	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	Vad som finns i urklipp nu, och när det ändras	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	Det som laddas upp lämnar den här Macen; tjänsten avgör vem som kan se det.	claude-sonnet-5-5 2026-10-18
+What is wrong	Vad som är fel	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	Vad det gör (skrivet av Greenshot utifrån det automatiska steget)	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	Vad det gör (skrivet av Greenshot utifrån receptet)	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	Vad det gör, dess triggers, dess godkännande och ändringarna jämfört med den inbyggda versionen	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	Vad det fick frågan om (AI-verktygets egna ord, inte kontrollerade av Greenshot):	claude-sonnet-5-5 2026-10-18
+What the Mac plays	Vad Macen spelar upp	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	Vad Macen spelar upp och mikrofonen	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	Vad appen behöver för att fungera som väntat, med en åtgärd där något är fel	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	Vad det här automatiska steget gör, vilka recept det ändrar och vad du godkänt för det.	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	Vad det här inbyggda receptet gör och vilka triggers som startar det.	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	Vad det här receptet gör och vad du godkänt för det. Inget kan ändras här, använd Behörigheter i Inställningar › Recept eller i receptshanteraren för det.	claude-sonnet-5-5 2026-10-18
+What to change: %@	Vad som ska ändras: %@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	Vad ”Kopiera till urklipp” lägger där. Appar tar det första format de förstår; HTML bäddar in bilden som PNG för e-post och webbredigerare.	claude-sonnet-5-5 2026-10-18
+When	När	claude-sonnet-5-5 2026-10-18
+When it runs again	När det körs igen	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	När användaren väljer ”%@”	claude-sonnet-5-5 2026-10-18
+When the window changes size	När fönstret ändrar storlek	claude-sonnet-5-5 2026-10-18
+When…	När…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	Var %@ används	claude-sonnet-5-5 2026-10-18
+Where it runs from	Varifrån det körs	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	Där receptets flöde kommer in	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	Medan en HDR-video, ett HDR-foto eller ett HDR-spel visas behåller dess ljusa delar sina detaljer i skärmdumpen i stället för att klippas bort. Skärmdumpar utan HDR-innehåll behåller sina färger exakt. Endast Apple silicon.	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	Under en skärmdump kan du trycka på Blanksteg för att växla mellan att markera en yta och att ta en skärmdump av ett fönster.	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	Under en skärmdump flyttar piltangenterna pekaren en pixel i taget, med ⌃ eller ⌘ tio pixlar.	claude-sonnet-5-5 2026-10-18
+White	Vit	claude-sonnet-5-5 2026-10-18
+WiFi Network	WiFi-nätverk	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	Anslutningsinformation för WiFi-nätverk	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	Wiki-markup (!name!)	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	Wiki-markup kopierades – klicka för att öppna sidan	claude-sonnet-5-5 2026-10-18
+Window	Fönster	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	Fönster %@ · %@ (pid %@)	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	Fönstertitlar i menyer: upp till %lld tecken	claude-sonnet-5-5 2026-10-18
+Windows	Fönster	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	Fönster från de här programmen listas eller fångas aldrig för AI-verktyg, och de svärtas ut i skärmdumpar som AI-verktyg tar. Namn är programnamn eller bundle-ID; versaler och gemener, blanksteg och ”.app” spelar ingen roll.	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word, PowerPoint och Outlook infogar i ett nytt dokument, en ny presentation eller ett nytt e-postmeddelande, eller i ett som är öppet (destinationsmenyn listar dem). Excel infogar i det aktiva bladet i en öppen eller ny arbetsbok. Outlook bifogar skärmdumpen och använder ämne, Till, Kopia och Dold kopia från avsnittet E-post; med ”tillåt export i mötesobjekt” listar det också de öppna möten du organiserar och bifogar skärmdumpen till mötet. Nya Outlook kan inte skriptstyras. OneNote för Mac kan inte heller skriptstyras: Notes tar dess plats (eller använd Öppna med). På en layout utan bildplatshållare centreras skärmdumpen på bilden; en layout som PowerPoint avvisar ger en tom bild.	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word: lås bildens proportioner	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	Ord i sidtiteln, eller CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	Ord i sammanfattningen, eller JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	Radbryt text	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	Skriv filnamnstilläggen med punkt, åtskilda med ”;”, t.ex. ”.png;.jpg”.	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	Skriv kortkommandot som ”Ctrl + Shift + B”; på Mac är Ctrl ⌘ och Win ⌃.	claude-sonnet-5-5 2026-10-18
+Write the output to the log	Skriv utdata till loggen	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	Skriver e-postmeddelandet i Mail…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	Skrivet av ett AI-verktyg	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	Skrivet av ett AI-verktyg och godkänt av dig	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	Skrivet av ett AI-verktyg och godkänt av dig: %@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	DIN ÄNDRING	claude-sonnet-5-5 2026-10-18
+Yes	Ja	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	Ja, fortsätt	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	Ja: nedladdad och inte öppnad från Finder än	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	Du svarade ”Tillåt inte” (eller stängde frågan) för de här programmen, så Greenshot avvisar dem utan att fråga. Tillåt ett här, eller låt Greenshot fråga igen nästa gång det ansluter.	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	Du godkände det här automatiska steget tidigare, men dess fil har ändrats utanför Greenshot sedan dess. Tills du godkänner ändringarna ändrar det inget recept.	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	Du godkände det här receptet tidigare, men dess fil har ändrats utanför Greenshot sedan dess (av ett annat program eller för hand). Granska ändringarna nedan innan du godkänner dem.	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	Du använder den senaste versionen (%@).	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	Du kan stänga det här fönstret och gå tillbaka till Greenshot.	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	Du kan slå på triggers senare med Behörigheter, och köra receptet från receptlistan.	claude-sonnet-5-5 2026-10-18
+You have %@.	Du har %@.	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	Du har inga kortkommandon för skärmdumpar just nu. Välj dem i Inställningar › Allmänt.	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	Du har den senaste versionen av %@, %@.	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	Du sparade det här automatiska steget i receptredigeraren. De flesta ändringar godkänns utan att fråga, men den här behöver ditt beslut: %@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	Du sparade det här receptet i receptredigeraren. De flesta ändringar godkänns utan att fråga, men den här lägger till något som behöver ditt beslut: %@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	Du ser varje föreslaget recept och bestämmer om det ska godkännas. Dess triggers och riskfyllda åtgärder startar avstängda.	claude-sonnet-5-5 2026-10-18
+You're all set	Allt är klart	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	Dina %lld kortkommandon fungerar.	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	Din ändring behöver ett beslut	claude-sonnet-5-5 2026-10-18
+Your Setup	Din konfiguration	claude-sonnet-5-5 2026-10-18
+Your approval	Ditt godkännande	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	Ditt kortkommando fungerar.	claude-sonnet-5-5 2026-10-18
+Your hotkeys	Dina kortkommandon	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	Dina kortkommandon, macOS skärmdumpsgenvägar och andra skärmdumpsappar	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	Din organisation hanterar %@ på den här Macen och har stängt av dess inställningar.	claude-sonnet-5-5 2026-10-18
+Your own servers	Dina egna servrar	claude-sonnet-5-5 2026-10-18
+Your recipes	Dina recept	claude-sonnet-5-5 2026-10-18
+Your setup	Din konfiguration	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	Dina osparade ändringar kasseras.	claude-sonnet-5-5 2026-10-18
+Zig-zag	Sicksack	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Skärmdumpsverktyget Zight (CloudApp)	claude-sonnet-5-5 2026-10-18
+Zoom	Zooma	claude-sonnet-5-5 2026-10-18
+Zoom In	Zooma in	claude-sonnet-5-5 2026-10-18
+Zoom Out	Zooma ut	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	Zooma för att passa	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	Zoomens opacitet	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[Ingen stack]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	ett Greenshot-kortkommando	claude-sonnet-5-5 2026-10-18
+all destinations	alla destinationer	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	tillåt Hjälpmedel i Inställningar › Skärmdump	claude-sonnet-5-5 2026-10-18
+approved %@	godkände %@	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	högst %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	automatiskt steg	claude-sonnet-5-5 2026-10-18
+back to region	tillbaka till ytan	claude-sonnet-5-5 2026-10-18
+build %@	build %@	claude-sonnet-5-5 2026-10-18
+button label	knappetikett	claude-sonnet-5-5 2026-10-18
+capture a fixed size	ta en skärmdump med fast storlek	claude-sonnet-5-5 2026-10-18
+capture text	fånga text	claude-sonnet-5-5 2026-10-18
+capture the area	ta en skärmdump av området	claude-sonnet-5-5 2026-10-18
+capture the window	ta en skärmdump av fönstret	claude-sonnet-5-5 2026-10-18
+capture the window or area	ta en skärmdump av fönstret eller området	claude-sonnet-5-5 2026-10-18
+changed since its approval	ändrad sedan godkännandet	claude-sonnet-5-5 2026-10-18
+checking…	kontrollerar…	claude-sonnet-5-5 2026-10-18
+continues at:	fortsätter vid:	claude-sonnet-5-5 2026-10-18
+copies a URL	kopierar en URL	claude-sonnet-5-5 2026-10-18
+copies the output	kopierar utdata	claude-sonnet-5-5 2026-10-18
+copy its text	kopiera dess text	claude-sonnet-5-5 2026-10-18
+copy or open what it says	kopiera eller öppna det den säger	claude-sonnet-5-5 2026-10-18
+critical	kritiskt	claude-sonnet-5-5 2026-10-18
+default	standard	claude-sonnet-5-5 2026-10-18
+default: %@	standard: %@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	standard: inställningarnas destinationer	claude-sonnet-5-5 2026-10-18
+description	beskrivning	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	t.ex. PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	t.ex. Skärmdumpar; tomt = appens mapp	claude-sonnet-5-5 2026-10-18
+empty	tom	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	uttryck, t.ex. ${payload.width > 800} eller else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	måttligt	claude-sonnet-5-5 2026-10-18
+file name prefix	filnamnsprefix	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	greenshot-mcp hittades inte bredvid appen	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text och greenshotmac://clipboard, t.ex. från Alfred, Raycast eller en webbsida.	claude-sonnet-5-5 2026-10-18
+hide the info	dölj informationen	claude-sonnet-5-5 2026-10-18
+hide the keys	dölj tangenterna	claude-sonnet-5-5 2026-10-18
+hold it at another corner	håll den i ett annat hörn	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	håll för att placera utan att fästa	claude-sonnet-5-5 2026-10-18
+hosted by %@	hostas av %@	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+id	id	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	ID:n, * eller *capture	claude-sonnet-5-5 2026-10-18
+in the capture	i skärmdumpen	claude-sonnet-5-5 2026-10-18
+inch	tum	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	ta med muspekaren	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	håll ett drag i en riktning	claude-sonnet-5-5 2026-10-18
+key	tangent	claude-sonnet-5-5 2026-10-18
+larger or smaller area	större eller mindre område	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	utelämna muspekaren	claude-sonnet-5-5 2026-10-18
+left %@	vänster %@	claude-sonnet-5-5 2026-10-18
+level %@	nivå %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS ber alla appar som tar skärmdumpar om den här behörigheten.\n\nÖppna Systeminställningar › Integritet och säkerhet › Skärm- och systemljudsinspelning, slå på %@ och avsluta och öppna den sedan igen.\n\nFinns den inte i listan? Klicka på + under listan och lägg till %@ från Program.\n\nRedan på? En ombyggd eller flyttad kopia räknas som en ny app: markera den, ta bort den med −, öppna sedan %@ igen och tillåt den på nytt.	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS frågar första gången om %@ får använda mikrofonen.	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS lät inte det här bygget skicka aviseringar. Ett bygge signerat med en stabil identitet kan oftast det (se README).	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS låter inte %@ spela in skärmen än. Skärmdumpar kräver den här behörigheten: slå på %@ under Integritet och säkerhet › Skärm- och systemljudsinspelning.	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS hanterar de här tangenterna före alla appar. När en har tangenterna i ett kortkommando, stäng av den under Tangentbord › Tangentbordsgenvägar › Skärmavbilder, eller välj ett annat kortkommando.	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS har ingen kraschrapport för %@.	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS döljer ikonen för %@, bakom notchen eller i menyradsinställningarna. ⌘-dra den längre åt höger, eller tillåt den i Systeminställningar › Menyrad.	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	macOS sparade %lld kraschrapporter för %@ i ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS sparade 1 kraschrapport för %@ i ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS notifications	macOS-aviseringar	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	macOS-aviseringar kräver appbunten (scripts/build-app.sh); utan den visas meddelanden i det övre högra hörnet.	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS avvisade de här kortkommandona, en annan app kan använda dem: %@.	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS kör en tillfällig kopia (App Translocation). Flytta appen till mappen Program och öppna den därifrån, så att dess behörigheter och inloggningsobjekt behålls.	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS använder %@ för sina egna skärmdumpar och får tangenterna först. Stäng av dem under Tangentbordsgenvägar › Skärmavbilder, eller välj andra kortkommandon.	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS, Macen, minne, skärmar och skalning	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	flytta en pixel, med ⌃ tio	claude-sonnet-5-5 2026-10-18
+no	nej	claude-sonnet-5-5 2026-10-18
+nominal	normalt	claude-sonnet-5-5 2026-10-18
+not a colour	inte en färg	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	inte tillämpligt (inte signerad med ett Developer ID)	claude-sonnet-5-5 2026-10-18
+not approved	inte godkänd	claude-sonnet-5-5 2026-10-18
+not in the capture	inte med i skärmdumpen	claude-sonnet-5-5 2026-10-18
+off	av	claude-sonnet-5-5 2026-10-18
+one per line	en per rad	claude-sonnet-5-5 2026-10-18
+or a designation	eller en beteckning	claude-sonnet-5-5 2026-10-18
+pick a size	välj en storlek	claude-sonnet-5-5 2026-10-18
+picture	bild	claude-sonnet-5-5 2026-10-18
+points	punkter	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	förhandsvisning: i ett hörn, vid zoomen, av	claude-sonnet-5-5 2026-10-18
+previous or next size	föregående eller nästa storlek	claude-sonnet-5-5 2026-10-18
+recipe	recept	claude-sonnet-5-5 2026-10-18
+recipe id	recept-ID	claude-sonnet-5-5 2026-10-18
+required	obligatoriskt	claude-sonnet-5-5 2026-10-18
+right %@	höger %@	claude-sonnet-5-5 2026-10-18
+select a region	markera en yta	claude-sonnet-5-5 2026-10-18
+select words, copy their text	markera ord, kopiera deras text	claude-sonnet-5-5 2026-10-18
+serious	allvarligt	claude-sonnet-5-5 2026-10-18
+show the info	visa informationen	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	starta och avsluta en markering med tangenterna	claude-sonnet-5-5 2026-10-18
+switch between region and window	växla mellan yta och fönster	claude-sonnet-5-5 2026-10-18
+to	till	claude-sonnet-5-5 2026-10-18
+unknown	okänd	claude-sonnet-5-5 2026-10-18
+unknown error	okänt fel	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	vCard-kontakt	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	Information om vCard-kontaktkort	claude-sonnet-5-5 2026-10-18
+value	värde	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	variabel (standard: namnet)	claude-sonnet-5-5 2026-10-18
+what it does	vad det gör	claude-sonnet-5-5 2026-10-18
+when %@	när %@	claude-sonnet-5-5 2026-10-18
+window details on or off	fönsterinformation på eller av	claude-sonnet-5-5 2026-10-18
+with the menu bar	med menyraden	claude-sonnet-5-5 2026-10-18
+written by %@	skrivet av %@	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	ja, Apple har kontrollerat det här bygget	claude-sonnet-5-5 2026-10-18
+zoomer on or off	zoom på eller av	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} i argumenten är skärmdumpens fil; citattecken grupperar ord. Kommandot och argumenten kan använda variablerna i filnamnsmönstret, t.ex. ${title}.	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) har samma tangenter med båda sidor, så båda skulle utlösas.	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) är början på det här kortkommandot, så det här utlöses aldrig.	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	“%@” finns redan. Vill du ersätta det?	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	“%@” har samma kortkommando.	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	“%@” är inte klar. Om du avslutar nu går det som ännu inte har exporterats förlorat.	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	“%@” är ingen Jira-ärendenyckel.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	“%@” är inte en giltig URL.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	“%@” är inte ett giltigt reguljärt uttryck.	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	“%@” är inte en körbar fil. Kontrollera den i Inställningar › Destinationer.	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	“%@” väntar på att du väljer vart dess skärmdump ska gå. Om du avslutar nu går skärmdumpen förlorad.	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	“%@” väntar på ditt svar på “%@”. Om du avslutar nu går dess skärmdump förlorad.	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	”Bildstorlek” gör sidan lika stor som skärmdumpen plus marginalerna. Bilden centreras på sidan.	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	“Share screenshots using Dropbox” tar macOS skärmdumpstangenter	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Skift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	⇧ kan inte vara den enda modifierartangenten, utom för F1–F20.	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Kontroll	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Kommando	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Alternativ	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ Kör recept	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18

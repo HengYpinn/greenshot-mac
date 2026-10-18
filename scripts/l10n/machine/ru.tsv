@@ -260,7 +260,7 @@ Annotate and export	Аннотировать и экспортировать	cla
 Annotations	Аннотации	claude-sonnet-5-5 2026-10-18
 Another Recipe	Другой рецепт	claude-sonnet-5-5 2026-10-18
 Another Tip	Другой совет	claude-sonnet-5-5 2026-10-18
-Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Их может использовать другое приложение. Выберите другие в разделе «Настройки» › «Основные» или измените триггер «Горячая клавиша» в рецепте.	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Их может использовать другое приложение. Выберите другие в разделе «Настройки» › «Общие» или измените триггер «Горячая клавиша» в рецепте.	claude-opus-5-5 2026-10-18
 Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	Рецепт может запускаться любым триггером; у каждого свой переключатель. Триггеры, запускающие рецепт сами или извне, одобряются отдельно.	claude-sonnet-5-5 2026-10-18
 App	Приложение	claude-sonnet-5-5 2026-10-18
 App key	Ключ приложения	claude-sonnet-5-5 2026-10-18
@@ -527,6 +527,7 @@ Created new recipe.	Создан новый рецепт.	claude-sonnet-5-5 2026
 Crop Out Horizontally	Вырезать по горизонтали	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	Вырезать по вертикали	claude-sonnet-5-5 2026-10-18
 Crop modes	Режимы обрезки	claude-sonnet-5-5 2026-10-18
+Custom	Пользовательский	claude-opus-5-5 2026-10-18
 Custom size	Свой размер	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	Настройки среза краёв	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	Настройки среза краёв…	claude-sonnet-5-5 2026-10-18
@@ -743,7 +744,7 @@ Import Annotations from a Greenshot File	Импорт аннотаций из ф
 Import From This Editor	Импорт из этого редактора	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Импортировано аннотаций из %2$@: %1$lld	claude-sonnet-5-5 2026-10-18
 In	Вход	claude-sonnet-5-5 2026-10-18
-In Settings › Output you choose the folder and the file name pattern of saved screenshots.	В «Настройки» › «Вывод» вы выбираете папку и шаблон имени файла для сохраняемых снимков экрана.	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	В «Настройки» › «Выходные данные» вы выбираете папку и шаблон имени файла для сохраняемых снимков экрана.	claude-opus-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	За несколько шагов вы увидите, как работает захват, а %@ проверит, что всё настроено правильно.	claude-sonnet-5-5 2026-10-18
 In parallel	Параллельно	claude-sonnet-5-5 2026-10-18
 In the background	В фоновом режиме	claude-sonnet-5-5 2026-10-18
@@ -822,6 +823,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	Letter	claude-sonnet-5-5 2026-10-18
 Light	Светлая	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Инструмент для снимков экрана Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Линия	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Толщина линии в пунктах (0: без линии)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Ссылка скопирована – нажмите, чтобы открыть	claude-sonnet-5-5 2026-10-18
 Link to the image	Ссылка на изображение	claude-sonnet-5-5 2026-10-18
@@ -1550,7 +1552,7 @@ The log file could not be read.	Не удалось прочитать файл 
 The mail app can't take attachments from other apps. Click to show the file in Finder.	Почтовое приложение не принимает вложения из других приложений. Нажмите, чтобы показать файл в Finder.	claude-sonnet-5-5 2026-10-18
 The mail could not be written	Не удалось составить письмо	claude-sonnet-5-5 2026-10-18
 The menu bar icon hidden? Quit from here.	Значок в строке меню скрыт? Выйдите отсюда.	claude-sonnet-5-5 2026-10-18
-The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Значок в строке меню выключен в «Настройки» › «Основные». Его меню — путь к большинству функций %@.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Значок в строке меню выключен в «Настройки» › «Общие». Его меню — путь к большинству функций %@.	claude-opus-5-5 2026-10-18
 The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	Меню открывается по первому щелчку, поэтому двойной щелчок ничего больше не делает. Правый щелчок или щелчок с ⌃ всегда показывает меню.	claude-sonnet-5-5 2026-10-18
 The microphone could not be used.	Не удалось использовать микрофон.	claude-sonnet-5-5 2026-10-18
 The new language shows after a relaunch.	Новый язык применится после перезапуска.	claude-sonnet-5-5 2026-10-18
@@ -1808,7 +1810,7 @@ You are using the latest version (%@).	Вы используете послед�
 You can close this window and go back to Greenshot.	Вы можете закрыть это окно и вернуться в Greenshot.	claude-sonnet-5-5 2026-10-18
 You can switch triggers on later with Permissions, and run the recipe from the recipe list.	Триггеры можно включить позже в «Разрешения», а рецепт запустить из списка рецептов.	claude-sonnet-5-5 2026-10-18
 You have %@.	У вас %@.	claude-sonnet-5-5 2026-10-18
-You have no capture hotkeys at the moment. Choose them in Settings › General.	Сейчас у вас нет горячих клавиш захвата. Выберите их в «Настройки» › «Основные».	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	Сейчас у вас нет горячих клавиш захвата. Выберите их в «Настройки» › «Общие».	claude-opus-5-5 2026-10-18
 You have the latest version of %@, %@.	У вас последняя версия %@, %@.	claude-sonnet-5-5 2026-10-18
 You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	Вы сохранили этот автоматический шаг в редакторе рецептов. Большинство изменений одобряется без вопросов, но это требует вашего решения: %@	claude-sonnet-5-5 2026-10-18
 You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	Вы сохранили этот рецепт в редакторе рецептов. Большинство изменений одобряется без вопросов, но это добавляет то, что требует вашего решения: %@	claude-sonnet-5-5 2026-10-18

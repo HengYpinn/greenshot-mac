@@ -530,6 +530,7 @@ Created new recipe.	Nova receita criada.	claude-sonnet-5-5 2026-10-18
 Crop Out Horizontally	Recortar na horizontal	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	Recortar na vertical	claude-sonnet-5-5 2026-10-18
 Crop modes	Modos de corte	claude-sonnet-5-5 2026-10-18
+Custom	Personalizado	claude-opus-5-5 2026-10-18
 Custom size	Tamanho personalizado	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	Ajustes de borda cortada	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	Ajustes de borda cortada…	claude-sonnet-5-5 2026-10-18
@@ -829,6 +830,7 @@ Let's Go!	Vamos lá!	claude-sonnet-5-5 2026-10-18
 Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Permite que estes navegadores iniciem a conexão do Greenshot para a extensão (um arquivo na pasta NativeMessagingHosts de cada navegador).	claude-sonnet-5-5 2026-10-18
 Light	Claro	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Ferramenta de captura de tela Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Linha	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Espessura da linha em pontos (0: sem linha)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Link copiado – clique para abrir	claude-sonnet-5-5 2026-10-18
 Link to the image	Link para a imagem	claude-sonnet-5-5 2026-10-18

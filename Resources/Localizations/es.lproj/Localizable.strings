@@ -2680,6 +2680,9 @@
 "Lightshot screenshot tool" = "Herramienta de capturas Lightshot";
 
 /* machine */
+"Line" = "Línea";
+
+/* machine */
 "Line thickness in points (0: no line)" = "Grosor de línea en puntos (0: sin línea)";
 
 /* core:Editor.obfuscate_text_scope_lines */
@@ -6010,7 +6013,7 @@
 "all destinations" = "todos los destinos";
 
 /* machine */
-"allow Accessibility in Settings › Capture" = "permite Accesibilidad en Preferencias › Captura";
+"allow Accessibility in Settings › Capture" = "permite Accesibilidad en Preferencias › Capturar";
 
 /* machine */
 "approved %@" = "aprobado %@";
@@ -6098,6 +6101,9 @@
 
 /* machine */
 "editor.color.text" = "Texto";
+
+/* machine */
+"editor.cutEdge.line" = "Línea";
 
 /* core:Editor.backcolor, override */
 "editor.fill" = "Color de relleno";

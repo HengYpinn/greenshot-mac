@@ -2641,6 +2641,9 @@
 "Lightshot screenshot tool" = "Lightshot-tool voor schermafbeeldingen";
 
 /* machine */
+"Line" = "Lijn";
+
+/* machine */
 "Line thickness in points (0: no line)" = "Lijndikte in punten (0: geen lijn)";
 
 /* core:Editor.obfuscate_text_scope_lines */
@@ -5239,7 +5242,7 @@
 "These are for this print only." = "Deze gelden alleen voor deze afdruk.";
 
 /* machine */
-"These can be changed later in Settings › Printer." = "Deze kunnen later worden gewijzigd in Instellingen › Printer.";
+"These can be changed later in Settings › Printer." = "Deze kunnen later worden gewijzigd in Instellingen › Afdrukken.";
 
 /* machine */
 "These lanes run at the same time" = "Deze banen worden tegelijk uitgevoerd";
@@ -5917,7 +5920,7 @@
 "all destinations" = "alle bestemmingen";
 
 /* machine */
-"allow Accessibility in Settings › Capture" = "sta Toegankelijkheid toe in Instellingen › Opnemen";
+"allow Accessibility in Settings › Capture" = "sta Toegankelijkheid toe in Instellingen › Schermopname";
 
 /* machine */
 "approved %@" = "%@ goedgekeurd";
@@ -6002,6 +6005,9 @@
 
 /* machine */
 "editor.color.text" = "Tekst";
+
+/* machine */
+"editor.cutEdge.line" = "Lijn";
 
 /* core:Editor.backcolor, override */
 "editor.fill" = "Vulkleur";
@@ -6157,6 +6163,9 @@
 "office.emailFormat.text" = "Tekst";
 
 /* machine */
+"office.slideLayout.custom" = "Aangepast";
+
+/* machine */
 "office.slideLayout.text" = "Tekst";
 
 /* machine */
@@ -6194,6 +6203,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "Alles";
+
+/* machine */
+"recipeManager.filter.custom" = "Aangepast";
 
 /* machine */
 "required" = "vereist";
@@ -6251,6 +6263,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Geen";
+
+/* machine */
+"video.preset.custom" = "Aangepast";
 
 /* machine */
 "what it does" = "wat het doet";

@@ -260,7 +260,7 @@ Annotate and export	标注并导出	claude-sonnet-5-5 2026-10-18
 Annotations	标注	claude-sonnet-5-5 2026-10-18
 Another Recipe	另一个配方	claude-sonnet-5-5 2026-10-18
 Another Tip	另一条提示	claude-sonnet-5-5 2026-10-18
-Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	其他 App 可能正在使用它们。请在“设置 › 通用”中选择其他按键，或更改配方的热键触发器。	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	其他 App 可能正在使用它们。请在“设置 › 常规”中选择其他按键，或更改配方的热键触发器。	claude-opus-5-5 2026-10-18
 Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	任何触发器都可以运行该配方；每个触发器各有开关。自行启动或从外部启动配方的触发器需单独批准。	claude-sonnet-5-5 2026-10-18
 App	App	claude-sonnet-5-5 2026-10-18
 App key	App 密钥	claude-sonnet-5-5 2026-10-18
@@ -529,6 +529,7 @@ Created new recipe.	已创建新配方。	claude-sonnet-5-5 2026-10-18
 Crop Out Horizontally	横向剪除	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	纵向剪除	claude-sonnet-5-5 2026-10-18
 Crop modes	裁剪模式	claude-sonnet-5-5 2026-10-18
+Custom	自定义	claude-opus-5-5 2026-10-18
 Custom size	自定义尺寸	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	剪切边缘设置	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	剪切边缘设置…	claude-sonnet-5-5 2026-10-18
@@ -823,6 +824,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	信纸	claude-sonnet-5-5 2026-10-18
 Light	浅色	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Lightshot 截图工具	claude-sonnet-5-5 2026-10-18
+Line	直线	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	线条粗细（点）（0：无线条）	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	链接已复制 – 点按以打开	claude-sonnet-5-5 2026-10-18
 Link to the image	图像链接	claude-sonnet-5-5 2026-10-18
@@ -1000,7 +1002,7 @@ Object and two objects	对象和两个对象	claude-sonnet-5-5 2026-10-18
 Object over text	对象在文字之上	claude-sonnet-5-5 2026-10-18
 Off	关	claude-sonnet-5-5 2026-10-18
 Off for this app: no notifications	此 App 已关闭：无通知	claude-sonnet-5-5 2026-10-18
-Off: “Save directly” adds (2), (3), … to the name instead.	关闭：“直接保存”会改为在名称后添加 (2)、(3)……	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	关闭：“直接保存而不询问”会改为在名称后添加 (2)、(3)……	claude-opus-5-5 2026-10-18
 Offset X:	偏移 X：	claude-sonnet-5-5 2026-10-18
 Offset Y:	偏移 Y：	claude-sonnet-5-5 2026-10-18
 On	开	claude-sonnet-5-5 2026-10-18
@@ -1551,7 +1553,7 @@ The log file could not be read.	无法读取日志文件。	claude-sonnet-5-5 20
 The mail app can't take attachments from other apps. Click to show the file in Finder.	邮件 App 无法接收来自其他 App 的附件。点按以在访达中显示该文件。	claude-sonnet-5-5 2026-10-18
 The mail could not be written	无法写入邮件	claude-sonnet-5-5 2026-10-18
 The menu bar icon hidden? Quit from here.	菜单栏图标已隐藏？可在此退出。	claude-sonnet-5-5 2026-10-18
-The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	菜单栏图标已在“设置 › 通用”中关闭。通过它的菜单可使用 %@ 的大部分功能。	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	菜单栏图标已在“设置 › 常规”中关闭。通过它的菜单可使用 %@ 的大部分功能。	claude-opus-5-5 2026-10-18
 The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	菜单在第一次点按时打开，因此双击不再有其他作用。按右键点按或 ⌃ 点按始终会显示菜单。	claude-sonnet-5-5 2026-10-18
 The microphone could not be used.	无法使用麦克风。	claude-sonnet-5-5 2026-10-18
 The new language shows after a relaunch.	新语言将在重新打开后生效。	claude-sonnet-5-5 2026-10-18
@@ -1761,7 +1763,7 @@ What this automatic step does, which recipes it changes and what you approved fo
 What this built-in recipe does and which triggers start it.	此内置配方的作用以及由哪些触发器启动它。	claude-sonnet-5-5 2026-10-18
 What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	此配方的作用以及你为它批准的内容。此处无法更改任何内容，请使用“设置 › 配方”或配方管理器中的“权限”。	claude-sonnet-5-5 2026-10-18
 What to change: %@	要更改的内容：%@	claude-sonnet-5-5 2026-10-18
-What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	“复制到剪贴板”放入剪贴板的内容。App 会采用它们能理解的第一种格式；HTML 会将图像作为 PNG 嵌入，供邮件和网页编辑器使用。	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	“复制图片到剪贴板”放入剪贴板的内容。App 会采用它们能理解的第一种格式；HTML 会将图像作为 PNG 嵌入，供邮件和网页编辑器使用。	claude-opus-5-5 2026-10-18
 When	何时	claude-sonnet-5-5 2026-10-18
 When it runs again	再次运行时	claude-sonnet-5-5 2026-10-18
 When the user picks '%@'	当用户选取“%@”时	claude-sonnet-5-5 2026-10-18
@@ -1807,7 +1809,7 @@ You are using the latest version (%@).	你正在使用最新版本（%@）。	cl
 You can close this window and go back to Greenshot.	你可以关闭此窗口并返回 Greenshot。	claude-sonnet-5-5 2026-10-18
 You can switch triggers on later with Permissions, and run the recipe from the recipe list.	你之后可以通过“权限”打开触发器，并从配方列表运行该配方。	claude-sonnet-5-5 2026-10-18
 You have %@.	你的版本是 %@。	claude-sonnet-5-5 2026-10-18
-You have no capture hotkeys at the moment. Choose them in Settings › General.	你目前没有抓取热键。请在“设置 › 通用”中选择。	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	你目前没有抓取热键。请在“设置 › 常规”中选择。	claude-opus-5-5 2026-10-18
 You have the latest version of %@, %@.	你使用的是 %@ 的最新版本 %@。	claude-sonnet-5-5 2026-10-18
 You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	你在配方编辑器中保存了此自动步骤。大多数更改无需询问即可批准，但这一项需要你来决定：%@	claude-sonnet-5-5 2026-10-18
 You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	你在配方编辑器中保存了此配方。大多数更改无需询问即可批准，但这次添加了需要你来决定的内容：%@	claude-sonnet-5-5 2026-10-18
@@ -1836,7 +1838,7 @@ Zoomer opacity	放大镜不透明度	claude-sonnet-5-5 2026-10-18
 [No Stack]	[无堆栈]	claude-sonnet-5-5 2026-10-18
 a Greenshot hotkey	Greenshot 热键	claude-sonnet-5-5 2026-10-18
 all destinations	所有目标位置	claude-sonnet-5-5 2026-10-18
-allow Accessibility in Settings › Capture	请在“设置 › 抓取”中允许辅助功能	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	请在“设置 › 抓图”中允许辅助功能	claude-opus-5-5 2026-10-18
 approved %@	已批准 %@	claude-sonnet-5-5 2026-10-18
 at most %@ × %@	最大 %@ × %@	claude-sonnet-5-5 2026-10-18
 automatic step	自动步骤	claude-sonnet-5-5 2026-10-18

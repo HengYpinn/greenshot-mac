@@ -2455,7 +2455,7 @@
 "In" = "입력";
 
 /* machine */
-"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "설정 › 출력에서 저장한 스크린샷의 폴더와 파일명 패턴을 선택합니다.";
+"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "설정 › 출력 파일 설정에서 저장한 스크린샷의 폴더와 파일명 패턴을 선택합니다.";
 
 /* machine */
 "In a few steps you'll see how capturing works, and %@ checks that everything is set up well." = "몇 단계만 거치면 캡처 방법을 볼 수 있으며, %@이(가) 모든 설정이 제대로 되어 있는지 확인합니다.";
@@ -2711,6 +2711,9 @@
 
 /* machine */
 "Lightshot screenshot tool" = "Lightshot 스크린샷 도구";
+
+/* machine */
+"Line" = "선";
 
 /* machine */
 "Line thickness in points (0: no line)" = "선 두께(포인트, 0: 선 없음)";
@@ -5365,7 +5368,7 @@
 "These are for this print only." = "이 설정은 이번 인쇄에만 적용됩니다.";
 
 /* machine */
-"These can be changed later in Settings › Printer." = "나중에 설정 › 프린터에서 변경할 수 있습니다.";
+"These can be changed later in Settings › Printer." = "나중에 설정 › 인쇄기에서 변경할 수 있습니다.";
 
 /* machine */
 "These lanes run at the same time" = "이 레인들은 동시에 실행됩니다";
@@ -6150,6 +6153,9 @@
 /* machine */
 "editor.color.text" = "텍스트";
 
+/* machine */
+"editor.cutEdge.line" = "선";
+
 /* core:Editor.backcolor, override */
 "editor.fill" = "채움 색상";
 
@@ -6307,6 +6313,9 @@
 "office.emailFormat.text" = "텍스트";
 
 /* machine */
+"office.slideLayout.custom" = "사용자 지정";
+
+/* machine */
 "office.slideLayout.text" = "텍스트";
 
 /* machine */
@@ -6347,6 +6356,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "전체";
+
+/* machine */
+"recipeManager.filter.custom" = "사용자 지정";
 
 /* machine */
 "required" = "필수";
@@ -6407,6 +6419,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "없음";
+
+/* machine */
+"video.preset.custom" = "사용자 지정";
 
 /* machine */
 "what it does" = "동작";

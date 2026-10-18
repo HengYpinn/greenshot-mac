@@ -527,6 +527,7 @@ Created new recipe.	Utworzono nowy przepis.	claude-sonnet-5-5 2026-10-18
 Crop Out Horizontally	Wytnij poziomo	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	Wytnij pionowo	claude-sonnet-5-5 2026-10-18
 Crop modes	Tryby przycinania	claude-sonnet-5-5 2026-10-18
+Custom	Niestandardowy	claude-opus-5-5 2026-10-18
 Custom size	Rozmiar niestandardowy	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	Ustawienia wyciętych krawędzi	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	Ustawienia wyciętych krawędzi…	claude-sonnet-5-5 2026-10-18
@@ -742,7 +743,7 @@ Import Annotations from a Greenshot File	Importuj adnotacje z pliku Greenshota	c
 Import From This Editor	Importuj z tego edytora	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	Zaimportowano adnotacje: %lld z %@	claude-sonnet-5-5 2026-10-18
 In	Wejście	claude-sonnet-5-5 2026-10-18
-In Settings › Output you choose the folder and the file name pattern of saved screenshots.	W Ustawienia › Wyjście wybierasz folder i wzorzec nazwy zapisywanych zrzutów ekranu.	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	W Ustawienia › Plik wyjściowy wybierasz folder i wzorzec nazwy zapisywanych zrzutów ekranu.	claude-opus-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	W kilku krokach zobaczysz, jak działa zrzucanie, a %@ sprawdzi, czy wszystko jest dobrze ustawione.	claude-sonnet-5-5 2026-10-18
 In parallel	Równolegle	claude-sonnet-5-5 2026-10-18
 In the background	W tle	claude-sonnet-5-5 2026-10-18
@@ -821,6 +822,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	Letter	claude-sonnet-5-5 2026-10-18
 Light	Jasny	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Narzędzie do zrzutów ekranu Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Linia	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Grubość linii w punktach (0: bez linii)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Skopiowano link – kliknij, aby otworzyć	claude-sonnet-5-5 2026-10-18
 Link to the image	Link do obrazu	claude-sonnet-5-5 2026-10-18
@@ -845,8 +847,8 @@ Log	Dziennik	claude-sonnet-5-5 2026-10-18
 Log In	Zaloguj się	claude-sonnet-5-5 2026-10-18
 Log Viewer…	Podgląd dziennika…	claude-sonnet-5-5 2026-10-18
 Log file (%@)	Plik dziennika (%@)	claude-sonnet-5-5 2026-10-18
-Log file does not currently exist at: %@	Plik dziennika obecnie nie istnieje w: %@	claude-sonnet-5-5 2026-10-18
 Log file does not currently exist at:\n%@	Plik dziennika obecnie nie istnieje w:\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	Plik dziennika obecnie nie istnieje w: %@	claude-sonnet-5-5 2026-10-18
 Log level	Poziom dziennika	claude-sonnet-5-5 2026-10-18
 Longitude:	Długość geograficzna:	claude-sonnet-5-5 2026-10-18
 Look for QR codes on the capture screen	Szukaj kodów QR na ekranie zrzutu	claude-sonnet-5-5 2026-10-18
@@ -1841,7 +1843,7 @@ Zoomer opacity	Przezroczystość lupy	claude-sonnet-5-5 2026-10-18
 [No Stack]	[Brak stosu]	claude-sonnet-5-5 2026-10-18
 a Greenshot hotkey	skrót klawiszowy Greenshota	claude-sonnet-5-5 2026-10-18
 all destinations	wszystkie miejsca docelowe	claude-sonnet-5-5 2026-10-18
-allow Accessibility in Settings › Capture	zezwól na Dostępność w Ustawienia › Zrzucanie	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	zezwól na Dostępność w Ustawienia › Zrzucanie ekranu	claude-opus-5-5 2026-10-18
 approved %@	zatwierdzono %@	claude-sonnet-5-5 2026-10-18
 at most %@ × %@	najwyżej %@ × %@	claude-sonnet-5-5 2026-10-18
 automatic step	krok automatyczny	claude-sonnet-5-5 2026-10-18

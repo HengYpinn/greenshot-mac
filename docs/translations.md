@@ -21,52 +21,52 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 
 | Language | Code | macOS | Upstream | Machine | Translated | Share |
 |---|---|---|---:|---:|---:|---:|
-| العربية | ar-SY | ar | 138 | 2028 | 2166 | 97 % |
-| Català | ca-CA | ca | 203 | 0 | 203 | 9 % |
-| Čeština | cs-CZ | cs | 250 | 0 | 250 | 11 % |
-| Dansk | da-DK | da | 137 | 0 | 137 | 6 % |
-| Deutsch | de-DE | de | 305 | 1817 | 2122 | 95 % |
-| Frängisch | de-x-franconia | vmf | 183 | 0 | 183 | 8 % |
-| Ελληνικά | el-GR | el | 198 | 0 | 198 | 9 % |
-| Español | es-ES | es | 177 | 1968 | 2145 | 96 % |
-| Eesti | et-EE | et | 197 | 0 | 197 | 9 % |
-| پارسی | fa-IR | fa | 143 | 0 | 143 | 6 % |
-| Suomi | fi-FI | fi | 135 | 0 | 135 | 6 % |
+| العربية | ar-SY | ar | 138 | 2030 | 2168 | 97 % |
+| Català | ca-CA | ca | 203 | 1932 | 2135 | 96 % |
+| Čeština | cs-CZ | cs | 249 | 1904 | 2153 | 97 % |
+| Dansk | da-DK | da | 137 | 1995 | 2132 | 96 % |
+| Deutsch | de-DE | de | 305 | 1821 | 2126 | 96 % |
+| Frängisch | de-x-franconia | vmf | 183 | 1967 | 2150 | 97 % |
+| Ελληνικά | el-GR | el | 198 | 1951 | 2149 | 97 % |
+| Español | es-ES | es | 177 | 1970 | 2147 | 96 % |
+| Eesti | et-EE | et | 197 | 1961 | 2158 | 97 % |
+| پارسی | fa-IR | fa | 143 | 2015 | 2158 | 97 % |
+| Suomi | fi-FI | fi | 135 | 2026 | 2161 | 97 % |
 | Français | fr-FR | fr | 249 | 1883 | 2132 | 96 % |
-| Français - Québec | fr-QC | fr-CA | 173 | 0 | 173 | 8 % |
-| Hebrew - עִבְרִית | he-IL | he | 140 | 0 | 140 | 6 % |
-| Magyar | hu-HU | hu | 139 | 0 | 139 | 6 % |
-| Bahasa Indonesia | id-ID | id | 245 | 0 | 245 | 11 % |
-| Italiano | it-IT | it | 253 | 1880 | 2133 | 96 % |
-| 日本語 | ja-JP | ja | 254 | 1910 | 2164 | 97 % |
-| Taqbaylit | kab-DZ | kab | 256 | 0 | 256 | 12 % |
-| 한국어 | ko-KR | ko | 252 | 1907 | 2159 | 97 % |
-| Lietuvių | lt-LT | lt | 141 | 0 | 141 | 6 % |
-| Latviski | lv-LV | lv | 252 | 0 | 252 | 11 % |
-| Nederlands | nl-NL | nl | 232 | 1875 | 2107 | 95 % |
-| Nynorsk | nn-NO | nn | 179 | 0 | 179 | 8 % |
-| Polski | pl-PL | pl | 244 | 1910 | 2154 | 97 % |
-| Português do Brasil | pt-BR | pt-BR | 234 | 1902 | 2136 | 96 % |
-| Português de Portugal | pt-PT | pt-PT | 253 | 0 | 253 | 11 % |
-| Română | ro-RO | ro | 137 | 0 | 137 | 6 % |
-| Pусский | ru-RU | ru | 248 | 1915 | 2163 | 97 % |
-| Slovenčina | sk-SK | sk | 198 | 0 | 198 | 9 % |
-| Slovenščina | sl-SI | sl | 181 | 0 | 181 | 8 % |
-| Српски | sr-RS | sr | 235 | 0 | 235 | 11 % |
-| Svenska | sv-SE | sv | 254 | 0 | 254 | 11 % |
+| Français - Québec | fr-QC | fr-CA | 173 | 1965 | 2138 | 96 % |
+| Hebrew - עִבְרִית | he-IL | he | 140 | 2017 | 2157 | 97 % |
+| Magyar | hu-HU | hu | 139 | 2020 | 2159 | 97 % |
+| Bahasa Indonesia | id-ID | id | 245 | 1858 | 2103 | 95 % |
+| Italiano | it-IT | it | 253 | 1885 | 2138 | 96 % |
+| 日本語 | ja-JP | ja | 254 | 1915 | 2169 | 97 % |
+| Taqbaylit | kab-DZ | kab | 254 | 1904 | 2158 | 97 % |
+| 한국어 | ko-KR | ko | 252 | 1912 | 2164 | 97 % |
+| Lietuvių | lt-LT | lt | 140 | 2027 | 2167 | 97 % |
+| Latviski | lv-LV | lv | 252 | 1905 | 2157 | 97 % |
+| Nederlands | nl-NL | nl | 232 | 1880 | 2112 | 95 % |
+| Nynorsk | nn-NO | nn | 179 | 1969 | 2148 | 97 % |
+| Polski | pl-PL | pl | 244 | 1915 | 2159 | 97 % |
+| Português do Brasil | pt-BR | pt-BR | 234 | 1907 | 2141 | 96 % |
+| Português de Portugal | pt-PT | pt-PT | 253 | 1898 | 2151 | 97 % |
+| Română | ro-RO | ro | 135 | 1993 | 2128 | 96 % |
+| Pусский | ru-RU | ru | 248 | 1920 | 2168 | 97 % |
+| Slovenčina | sk-SK | sk | 197 | 1952 | 2149 | 97 % |
+| Slovenščina | sl-SI | sl | 181 | 1977 | 2158 | 97 % |
+| Српски | sr-RS | sr | 235 | 1933 | 2168 | 97 % |
+| Svenska | sv-SE | sv | 254 | 1883 | 2137 | 96 % |
 | Turkish | tr-TR | tr | 262 | 0 | 262 | 12 % |
-| Українська | uk-UA | uk | 257 | 0 | 257 | 12 % |
-| Valencià (RACV) | va-VA | ca-ES-valencia | 210 | 0 | 210 | 9 % |
-| Việt | vi-VN | vi | 140 | 0 | 140 | 6 % |
-| 简体中文 | zh-CN | zh-Hans | 249 | 1920 | 2169 | 97 % |
-| 正體中文 | zh-TW | zh-Hant | 252 | 1912 | 2164 | 97 % |
+| Українська | uk-UA | uk | 257 | 1917 | 2174 | 98 % |
+| Valencià (RACV) | va-VA | ca-ES-valencia | 210 | 1927 | 2137 | 96 % |
+| Việt | vi-VN | vi | 140 | 2011 | 2151 | 97 % |
+| 简体中文 | zh-CN | zh-Hans | 249 | 1925 | 2174 | 98 % |
+| 正體中文 | zh-TW | zh-Hant | 252 | 1917 | 2169 | 97 % |
 
 Right to left: ar-SY, fa-IR, he-IL.
 Help pages (`Resources/Help`, from upstream): de-DE, en-US, es-ES, fr-FR, hu-HU, it-IT, ko-KR, nl-NL, nn-NO, pl-PL, pt-BR, pt-PT, ru-RU, sv-SE, tr-TR, va-VA, zh-CN.
 
 ## Machine translations
 
-24827 translations in 13 languages are machine translations (0 of them reviewed by a person): the Mac's texts that Greenshot's translators haven't translated, because the Mac wrote them or the language pack doesn't have them yet. An AI model made them; `l10n.py` checks their placeholders and Windows wording, nobody checked their language unless the row says reviewed. They are marked:
+73787 translations in 38 languages are machine translations (0 of them reviewed by a person): the Mac's texts that Greenshot's translators haven't translated, because the Mac wrote them or the language pack doesn't have them yet. An AI model made them; `l10n.py` checks their placeholders and Windows wording, nobody checked their language unless the row says reviewed. They are marked:
 
 - in `Localizable.strings` by `/* machine */` above the entry (`/* machine, reviewed */` once a person checked it), and in the Machine column of the table above;
 - in the app: About shows "Some texts in this language are machine translations." under the translators' credit (`L10nText.hasMachineTranslations`).
@@ -75,7 +75,7 @@ Correcting one: edit its row in `scripts/l10n/machine/<lproj>.tsv` (keep the Eng
 
 New texts in the code: `python3 -I scripts/l10n/l10n.py untranslated` lists the texts without a translation (`<lproj><TAB>English`); add their rows to the tables with the model or person as the source.
 
-Sources: claude-opus-5-5 2026-10-18 (6 rows), claude-sonnet-5-5 2026-10-18 (25693 rows).
+Sources: claude-opus-5-5 2026-10-18 (92 rows), claude-sonnet-5-5 2026-10-18 (76168 rows).
 
 ## Texts with several upstream keys
 
@@ -114,37 +114,59 @@ Their translations differ; the first key in upstream's order (Core, Editor, Sett
 
 Two texts of one source file that a language translates the same way. Reviewed: these are different controls where the same word is right (a label and its button, two separate lists); a pair that would make two controls look alike gets `reject@<language>` in overrides.tsv.
 
-- `%@ (disabled)` / `%@ (off)`: fr, it
-- `ALREADY APPROVED` / `APPROVED`: ja, zh-Hans, zh-Hant
-- `Add Ellipse` / `Ellipse`: nl
-- `Add Rectangle` / `Rectangle`: nl
+- `%@ (disabled)` / `%@ (off)`: ca, ca-ES-valencia, fr, fr-CA, it, lt, sk, sr
+- `%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.` / `%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.`: id, sr
+- `ALREADY APPROVED` / `APPROVED`: ja, vi, zh-Hans, zh-Hant
+- `Add Ellipse` / `Ellipse`: lt, nl, uk
+- `Add Rectangle` / `Rectangle`: lt, nl, uk
+- `Add Speech Bubble` / `Speech Bubble`: kab
 - `Approve Changes` / `Approve Your Changes`: ja, ko
-- `Arrow` / `Draw Arrow`: nl
-- `Cancel` / `Revoke`: ko
-- `Captures` / `Capturing`: ja, ko
-- `Center` / `Middle`: de, et, id, ja, kab, ko, lv, nl, sv, vmf
-- `Choices` / `OPTIONS`: ar, es, pt-BR, zh-Hans, zh-Hant
-- `Continue At` / `continues at:`: es, it, ja, zh-Hans, zh-Hant
-- `Draw Freehand` / `Freehand`: ar, nl, zh-Hant
-- `Looking…` / `Search:`: nl
-- `Looking…` / `Searching…`: ar, de, es, fr, it, nl, pl, pt-BR, ru
-- `Magnification:` / `Magnify`: pl
-- `Magnify` / `Zoom`: pl
+- `Arrow` / `Draw Arrow`: lt, nl, uk
+- `Black and White` / `Grayscale`: sl
+- `Black and white` / `Grayscale`: sl
+- `Bottom left` / `Top left`: kab
+- `Bottom right` / `Top right`: kab
+- `Cancel` / `Discard`: kab
+- `Cancel` / `Revoke`: fa, he, kab, ko, sl
+- `Cancel Recording` / `Discard Recording`: kab
+- `Captures` / `Capturing`: cs, ja, ko, nn
+- `Center` / `Middle`: de, et, fa, id, ja, kab, ko, lv, nl, sl, sv, vi, vmf
+- `Choices` / `OPTIONS`: ar, ca, ca-ES-valencia, cs, es, et, fa, fi, nn, pt-BR, pt-PT, zh-Hans, zh-Hant
+- `Colour` / `Colours`: vi, vmf
+- `Continue At` / `continues at:`: ca, es, fa, hu, it, ja, nn, pt-PT, ro, vi, zh-Hans, zh-Hant
+- `Draw Freehand` / `Freehand`: ar, ca, el, he, nl, pt-PT, sr, uk, vi, zh-Hant
+- `Draw Line` / `Line`: nl, uk
+- `Horizontal offset:` / `Vertical offset:`: kab
+- `Looking…` / `Search:`: el, hu, nl, uk
+- `Looking…` / `Searching…`: ar, ca, ca-ES-valencia, cs, da, de, el, es, et, fa, fr, fr-CA, he, hu, id, it, kab, lt, lv, nl, pl, pt-BR, pt-PT, ro, ru, sk, sl, sv, uk, vmf
+- `Magnification:` / `Magnify`: el, he, hu, pl, uk
+- `Magnify` / `Zoom`: hu, pl
 - `No heads` / `None`: ar, ca, ca-ES-valencia, cs, da, de, el, es, et, fa, fi, fr, fr-CA, he, hu, id, it, ja, kab, ko, lt, lv, nl, nn, pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tr, uk, vi, vmf, zh-Hans, zh-Hant
-- `None` / `Nothing`: es, ja, ko, ru, zh-Hant
-- `OPTIONS` / `Parameters`: ru
+- `None` / `Nothing`: es, ja, ko, ru, sl, sr, zh-Hant
+- `OK` / `Yes`: kab
+- `OPTIONS` / `Parameters`: ru, uk
+- `On` / `Running`: he
 - `Only when` / `When`: ja
-- `Pictures` / `picture`: ko, zh-Hans, zh-Hant
-- `Recipe` / `Recipes`: ja, ko, zh-Hans, zh-Hant
-- `Recipe Not Saved` / `The recipe was not saved.`: ar
-- `Recipient:` / `To:`: ko, zh-Hant
-- `Saving the Recording…` / `The recording is being saved.`: ar, nl
-- `Screen` / `Screens`: ja, ko, zh-Hans, zh-Hant
+- `Pause Recording` / `Stop Recording`: sl
+- `Pictures` / `picture`: id, ko, nn, uk, vi, zh-Hans, zh-Hant
+- `Recipe` / `Recipes`: id, ja, ko, sv, vi, zh-Hans, zh-Hant
+- `Recipe Not Saved` / `The recipe was not saved.`: ar, el, et, fa, fi, he, id, kab, lt, sr, uk, vi
+- `Recipient:` / `To:`: fi, hu, ko, zh-Hant
+- `Recording` / `Saving…`: et
+- `Reference:` / `URL:`: uk
+- `Saving the Recording…` / `The recording is being saved.`: ar, ca, lt, nl, vmf
+- `Screen` / `Screens`: id, ja, ko, vi, zh-Hans, zh-Hant
 - `Search` / `Search for:`: ca, cs, el, es, et, fa, fi, fr, fr-CA, he, hu, id, it, ja, kab, ko, lt, lv, pl, pt-PT, ro, ru, sk, sl, sr, sv, tr, uk, vi, zh-Hans, zh-Hant
-- `Search:` / `Searching…`: nl
+- `Search` / `Search in:`: lv
+- `Search for:` / `Search in:`: lv
+- `Search:` / `Searching…`: el, hu, nl, uk
 - `Shadow:` / `With shadow`: nl
+- `Stop Watching` / `Stopped watching`: id
+- `Subject` / `Unit`: kab
 - `Subject:` / `Title:`: ko
-- `These triggers stay off, so they won't start the recipe:` / `This trigger stays off, so it won't start the recipe:`: ko
+- `These triggers stay off, so they won't start the recipe:` / `This trigger stays off, so it won't start the recipe:`: id, ko
+- `Watch the clipboard` / `Watching the clipboard.`: el
+- `critical` / `serious`: vi
 
 ## Rejected matches
 
@@ -163,10 +185,10 @@ Two texts of one source file that a language translates the same way. Reviewed: 
 - `Please enter your Confluence login data` — confluence:Confluence.login_title (pl)
 - `Please enter your Jira login data` — jira:Jira.login_title (pl)
 - `PowerPoint: lock aspect ratio of the image` — office:Office.powerpoint_lockaspect (pt-BR, tr)
-- `Quick Settings` — core:Core.contextmenu_quicksettings (fr, pl, zh-Hant)
+- `Quick Settings` — core:Core.contextmenu_quicksettings (fr, pl, zh-Hant, ro, kab)
 - `Search in:` — core:Editor.obfuscate_text_search_scope (lv)
 - `Send to printer` — core:Settings.destination_printer (hu)
-- `Settings…` — core:Core.contextmenu_settings (fr, pl, zh-Hant)
+- `Settings…` — core:Core.contextmenu_settings (fr, pl, zh-Hant, cs, sk, ro, kab, lt)
 - `Thickness:` — core:Editor.dropshadow_thickness (pl)
 - `Word: lock aspect ratio of the image` — office:Office.word_lockaspect (pt-BR, tr)
 

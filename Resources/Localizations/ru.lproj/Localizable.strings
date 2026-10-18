@@ -754,7 +754,7 @@
 "Another Tip" = "Другой совет";
 
 /* machine */
-"Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger." = "Их может использовать другое приложение. Выберите другие в разделе «Настройки» › «Основные» или измените триггер «Горячая клавиша» в рецепте.";
+"Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger." = "Их может использовать другое приложение. Выберите другие в разделе «Настройки» › «Общие» или измените триггер «Горячая клавиша» в рецепте.";
 
 /* machine */
 "Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately." = "Рецепт может запускаться любым триггером; у каждого свой переключатель. Триггеры, запускающие рецепт сами или извне, одобряются отдельно.";
@@ -2482,7 +2482,7 @@
 "In" = "Вход";
 
 /* machine */
-"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "В «Настройки» › «Вывод» вы выбираете папку и шаблон имени файла для сохраняемых снимков экрана.";
+"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "В «Настройки» › «Выходные данные» вы выбираете папку и шаблон имени файла для сохраняемых снимков экрана.";
 
 /* machine */
 "In a few steps you'll see how capturing works, and %@ checks that everything is set up well." = "За несколько шагов вы увидите, как работает захват, а %@ проверит, что всё настроено правильно.";
@@ -2735,6 +2735,9 @@
 
 /* machine */
 "Lightshot screenshot tool" = "Инструмент для снимков экрана Lightshot";
+
+/* machine */
+"Line" = "Линия";
 
 /* machine */
 "Line thickness in points (0: no line)" = "Толщина линии в пунктах (0: без линии)";
@@ -5131,7 +5134,7 @@
 "The menu bar icon hidden? Quit from here." = "Значок в строке меню скрыт? Выйдите отсюда.";
 
 /* machine */
-"The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@." = "Значок в строке меню выключен в «Настройки» › «Основные». Его меню — путь к большинству функций %@.";
+"The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@." = "Значок в строке меню выключен в «Настройки» › «Общие». Его меню — путь к большинству функций %@.";
 
 /* machine */
 "The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu." = "Меню открывается по первому щелчку, поэтому двойной щелчок ничего больше не делает. Правый щелчок или щелчок с ⌃ всегда показывает меню.";
@@ -5989,7 +5992,7 @@
 "You have %@." = "У вас %@.";
 
 /* machine */
-"You have no capture hotkeys at the moment. Choose them in Settings › General." = "Сейчас у вас нет горячих клавиш захвата. Выберите их в «Настройки» › «Основные».";
+"You have no capture hotkeys at the moment. Choose them in Settings › General." = "Сейчас у вас нет горячих клавиш захвата. Выберите их в «Настройки» › «Общие».";
 
 /* machine */
 "You have the latest version of %@, %@." = "У вас последняя версия %@, %@.";
@@ -6162,6 +6165,9 @@
 /* machine */
 "editor.color.text" = "Текст";
 
+/* machine */
+"editor.cutEdge.line" = "Линия";
+
 /* core:Editor.backcolor, override */
 "editor.fill" = "Цвет заливки";
 
@@ -6319,6 +6325,9 @@
 "office.emailFormat.text" = "Текст";
 
 /* machine */
+"office.slideLayout.custom" = "Пользовательский";
+
+/* machine */
 "office.slideLayout.text" = "Текст";
 
 /* machine */
@@ -6359,6 +6368,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "Все";
+
+/* machine */
+"recipeManager.filter.custom" = "Пользовательский";
 
 /* machine */
 "required" = "обязательно";
@@ -6419,6 +6431,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Ничего";
+
+/* machine */
+"video.preset.custom" = "Пользовательский";
 
 /* machine */
 "what it does" = "что он делает";

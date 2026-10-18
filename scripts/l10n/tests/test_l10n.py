@@ -158,6 +158,14 @@ class ConvertTests(unittest.TestCase):
         value, _ = l10n.convert("Qualit\u00e4t 100 %", "Quality 100%", "Quality 100%", candidate("Quality 100%", []), "de")
         self.assertEqual(value, "Qualit\u00e4t 100 %")
 
+
+    def test_a_leading_ellipsis_of_a_right_to_left_pack(self):
+        self.assertEqual(l10n.align_punctuation("...\u05e9\u05de\u05d9\u05e8\u05d4", "Save As" + ELLIPSIS, "he"),
+                         "\u05e9\u05de\u05d9\u05e8\u05d4" + ELLIPSIS)
+        self.assertEqual(l10n.align_punctuation("...\u05e9\u05de\u05d9\u05e8\u05d4", "Save As", "he"),
+                         "\u05e9\u05de\u05d9\u05e8\u05d4")
+        self.assertEqual(l10n.align_punctuation("...weiter", "...more", "de"), "...weiter")
+
     def test_identifier_keys_use_the_default_value(self):
         value, _ = l10n.convert("Öffnen {0}", "menu.open", "Open %@", candidate("Open {0}", [0]), "de")
         self.assertEqual(value, "Öffnen %@")

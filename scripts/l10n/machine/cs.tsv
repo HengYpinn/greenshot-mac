@@ -1,0 +1,1973 @@
+# Machine translations of Greenshot for Mac (Community) into Čeština (cs-CZ): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	Recept „%@“ v editoru receptů obsahuje neuložené změny. Chcete je před ukončením uložit?	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	„%@“ obsahuje neuložené změny. Chcete je uložit?	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	„{0}“ je soubor s obrázkem	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	${NUM} ve vzoru názvu souboru se zvyšuje s každým souborem, šest číslic s úvodními nulami.	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@ (sestavení %@)	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	Je dostupná verze %@ %@, vy máte %@.	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@ (+ webové stránky)	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@ (deaktivováno)	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@ (vestavěné)	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@ (vestavěné) (deaktivováno)	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@ (v receptu vypnuto)	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@ (vypnuto)	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@ (externí příkaz)	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@ (chybí)	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@ (chybí, přehraje se zvuk fotoaparátu)	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@ (není nainstalováno)	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@ (vyp.)	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@ (vyp., neschváleno)	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@ (neznámé)	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@ (webové stránky: neschváleno)	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	Prohlížeč protokolu %@	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mb/s	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	Samoobsluha %@	claude-sonnet-5-5 2026-10-18
+%@ Settings	Nastavení %@	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@ obsahuje také %@. Uložením se do něj zapíše pouze „%@“, takže bude odebráno ze souboru i z Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@ obsahuje také %@. Uložením se do něj zapíše pouze „%@“, takže budou odebrány ze souboru i z Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ a dalších %lld	claude-sonnet-5-5 2026-10-18
+%@ app	Aplikace %@	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	Aplikace %@ v Rosetta	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@ žádá %@ o spuštění receptu „%@“, který pořídí %@.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ žádá %@ o spuštění receptu „%@“, který pořídí záznam obrazovky.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ žádá %@ o spuštění receptu „%@“, který pořídí snímek oblasti.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ žádá %@ o spuštění receptu „%@“, který pořídí snímek okna.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ žádá %@ o spuštění receptu „%@“, který pořídí snímek aktivního okna.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ žádá %@ o spuštění receptu „%@“, který pořídí snímek naposledy zachycené oblasti.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ žádá %@ o spuštění receptu „%@“, který pořídí snímek celé obrazovky.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@ žádá %@ o pořízení snímku oblasti.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@ žádá %@ o pořízení snímku okna.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@ žádá %@ o pořízení snímku naposledy zachycené oblasti.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@ žádá %@ o pořízení snímku textu v oblasti.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@ žádá %@ o pořízení snímku celé obrazovky.	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ v %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@ to nemůže provést: jeho verze to přes AppleScript nepodporuje (%@).	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@ pořídil %@ pomocí Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	%@ se nepodařilo kontaktovat	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	%@ nelze přečíst jako soubor Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ could not be started	%@ se nepodařilo spustit	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	%@ nelze zapsat do %@: %@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@ nemohl otevřít záznam	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@ nemohl otevřít snímek obrazovky	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@ teď nemohl zjistit, zda je dostupná novější verze.	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@ neodpověděl včas.	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@ se ještě neotevírá při přihlášení	claude-sonnet-5-5 2026-10-18
+%@ embedded	%@ vloženo	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@ se při posledním spuštění ukončil kvůli chybě. Můžete zkontrolovat, zda už byl problém nahlášen, nebo ho nahlásit s podrobnostmi níže.	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ selhal	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ dokončen	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@ má problémy: před spuštěním je třeba opravit %lld.	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@ neobsahuje žádný recept.	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ v %@	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ v %@ – kliknutím zobrazíte ve Finderu	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@ je vyhrazená klávesa a nelze ji použít v klávesové zkratce.	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@ hledá novější verzi…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@ je zdarma a open source, vytvořili ho dobrovolníci. Pokud vám pomáhá, doporučte ho přátelům.	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@ už není v Greenshot načteno.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@ není soubor receptu. Uložením se jeho obsah nahradí receptem.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@ není recept:\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	%@ není nainstalováno	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	%@ není nainstalováno.	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@ není nastaveno	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@ není nastaveno. Přidejte to v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ je spuštěn	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	%@ je vypnuto vaší organizací.	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@ je aktuální	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@ není spuštěn a nepodařilo se ho spustit.	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@ nesmí používat mikrofon	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@ smí nahrávat obrazovku, takže může pořizovat snímky obrazovky.	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@ odpovídá %@ = %@ pixelům	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@ se naposledy neočekávaně ukončil	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ narazil na chybu, ale stále běží. Můžete zkontrolovat, zda už byl problém nahlášen, nebo ho nahlásit s podrobnostmi níže.	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@ nahlásil problém: %@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ spouští skripty: povolen je pouze skript výše, ne každý skript, který %@ spouští.	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ se má otevírat při přihlášení, ale macOS čeká, až to povolíte v části Položky přihlášení a rozšíření.	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ chce pomocí %@ zobrazit seznam vašich oken, pořizovat snímky obrazovky a spouštět recepty Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ oříznout  ⎋ zrušit	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ vyjmout  ⎋ zrušit	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – hlášení o chybě	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – kliknutím zobrazíte ve Finderu	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — Správce receptů	claude-sonnet-5-5 2026-10-18
+%@: %@	%@: %@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@: %@ – kliknutím zobrazíte akce	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@: URL zkopírováno	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@: program nebyl nalezen	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	%lld prvků zde nelze zobrazit: %@.	claude-sonnet-5-5 2026-10-18
+%lld errors	Chyby: %lld	claude-sonnet-5-5 2026-10-18
+%lld found	Nalezeno: %lld	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld sn./s	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld hodin	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kb/s	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld minut	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	Dalších %lld parametrů platí pro jiné volby.	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	%lld z %lld zachycení	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	%lld z %lld prvků	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	Stále běží %lld receptů	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	%lld receptů se nepodařilo načíst	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld sekund	claude-sonnet-5-5 2026-10-18
+%lld spaces	Prostory: %lld	claude-sonnet-5-5 2026-10-18
+%lld steps	Kroky: %lld	claude-sonnet-5-5 2026-10-18
+%lld triggers off	Vypnuté spouštěče: %lld	claude-sonnet-5-5 2026-10-18
+%lld warnings	Varování: %lld	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	„%@“ nemůže následovat po „%@“: tok by se zacyklil.	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	„%@“ tam nemůže následovat: tok by se zacyklil.	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	„%@“ je počáteční krok	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	„%@“ už není počáteční krok	claude-sonnet-5-5 2026-10-18
+(%@)	(%@)	claude-sonnet-5-5 2026-10-18
+(Deactivated)	(deaktivováno)	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	(soubor protokolu je prázdný)	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	(v tomto úseku nejsou žádné záznamy protokolu)	claude-sonnet-5-5 2026-10-18
+(no stack)	(žádný zásobník volání)	claude-sonnet-5-5 2026-10-18
+(no title)	(bez názvu)	claude-sonnet-5-5 2026-10-18
+(nothing yet)	(zatím nic)	claude-sonnet-5-5 2026-10-18
+* (any step)	* (libovolný krok)	claude-sonnet-5-5 2026-10-18
+* = all errors	* = všechny chyby	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ Přidat záložní trasu při chybě	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ Přidat spouštěč	claude-sonnet-5-5 2026-10-18
++ Option	+ Volba	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open, /Applications/Preview.app nebo název v PATH	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = všechny soubory	claude-sonnet-5-5 2026-10-18
+0 lines	0 řádků	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	1 prvek zde nelze zobrazit: %@.	claude-sonnet-5-5 2026-10-18
+1 error	1 chyba	claude-sonnet-5-5 2026-10-18
+1 hour	1 hodina	claude-sonnet-5-5 2026-10-18
+1 minute	1 minuta	claude-sonnet-5-5 2026-10-18
+1 step	1 krok	claude-sonnet-5-5 2026-10-18
+1 trigger off	1 vypnutý spouštěč	claude-sonnet-5-5 2026-10-18
+1 warning	1 varování	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Ikona v Docku a místo v přepínači ⌘Tab, když je otevřen editor nebo Nastavení; ikona v řádku nabídek je tam vždy, pokud ji níže neskryjete. Vypnuto: otevření editoru z aplikace v režimu celé obrazovky zůstane na jejím Space, místo aby se přepnulo na plochu.	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Soubor Greenshot pro Windows: Uložit se zeptá na nový soubor, takže tento zůstane beze změny.	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Soubor chce přidat automatický krok do jiných receptů, včetně vestavěných. Před schválením zkontrolujte, které recepty mění a co přidává.	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	Odkaz chtěl pořídit snímek obrazovky	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Nový soubor receptu zachycení žádá o registraci v Greenshot. Před schválením zkontrolujte jeho podrobnosti, spouštěče a kroky provádění.	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Nové zachycení nahradí snímek v editoru bez neuložených změn místo otevření dalšího okna.	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	Je dostupná novější verze (%@). Aktualizace už může tento problém vyřešit!	claude-sonnet-5-5 2026-10-18
+A problem while recording	Problém při nahrávání	claude-sonnet-5-5 2026-10-18
+A program	Program	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	Program spuštěný receptem může na tomto Macu dělat cokoli, co můžete dělat vy.	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	Recept se nepodařilo načíst	claude-sonnet-5-5 2026-10-18
+A recipe is still running	Recept stále běží	claude-sonnet-5-5 2026-10-18
+A recording is already running.	Nahrávání už běží.	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	Oblast (mezerník: okno)	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	Měkký stín za obrázkem.	claude-sonnet-5-5 2026-10-18
+A window	Okno	claude-sonnet-5-5 2026-10-18
+ACTIVE	AKTIVNÍ	claude-sonnet-5-5 2026-10-18
+AI	AI	claude-sonnet-5-5 2026-10-18
+AI Tool Access	Přístup nástrojů AI	claude-sonnet-5-5 2026-10-18
+AI Tools	Nástroje AI	claude-sonnet-5-5 2026-10-18
+AI tool	Nástroj AI	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	Nástroj AI „%@“	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	Nástroje AI (jako Claude Code, Claude Desktop, VS Code nebo Cursor) se připojují přes greenshot-mcp, který je součástí %@. Mohou zobrazit seznam vašich oken, pořizovat snímky obrazovky a spouštět vaše recepty. Když je to vypnuto, Greenshot všechny požadavky odmítne bez dotazu. Každý program stále potřebuje vaše povolení při prvním připojení.	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	AI: recepty napsané nástroji AI	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	JIŽ SCHVÁLENO	claude-sonnet-5-5 2026-10-18
+API token	Token API	claude-sonnet-5-5 2026-10-18
+APPROVED	SCHVÁLENO	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	AUTOMATICKÝ KROK	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	AUTOMATICKÉ KROKY	claude-sonnet-5-5 2026-10-18
+Access	Přístup	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	Aktivováno: „%@“.	claude-sonnet-5-5 2026-10-18
+Active	Aktivní	claude-sonnet-5-5 2026-10-18
+Active: %lld	Aktivní: %lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	Ad hoc (bez certifikátu: místní sestavení)	claude-sonnet-5-5 2026-10-18
+Add	Přidat	claude-sonnet-5-5 2026-10-18
+Add Argument	Přidat argument	claude-sonnet-5-5 2026-10-18
+Add Branch	Přidat větev	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	Přidat do e-mailu Kopii a Skrytou kopii	claude-sonnet-5-5 2026-10-18
+Add Choice	Přidat volbu	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	Přidat značku střihu	claude-sonnet-5-5 2026-10-18
+Add Destination	Přidat cíl	claude-sonnet-5-5 2026-10-18
+Add Emoji	Přidat emoji	claude-sonnet-5-5 2026-10-18
+Add External Command	Přidat externí příkaz	claude-sonnet-5-5 2026-10-18
+Add Lane	Přidat dráhu	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	Přidat paralelní větev	claude-sonnet-5-5 2026-10-18
+Add Step	Přidat krok	claude-sonnet-5-5 2026-10-18
+Add Variable	Přidat proměnnou	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	Přidat krok: klávesa stisknutá po ostatních, například C v ⌃⌥⌘K, C	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	Přidejte jeden v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Add the first step	Přidat první krok	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	Přidat tento krok jako paralelní vstupní bod	claude-sonnet-5-5 2026-10-18
+Add to Editor	Přidat do editoru	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	Přidat do editoru – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	Přidat do poznámky	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	Přidán spouštěč %@	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	Přidána volba „%@“: kroky ji čtou pomocí ${option.%@}	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	Přidána záložní trasa receptu při chybě	claude-sonnet-5-5 2026-10-18
+Added step: %@	Přidán krok: %@	claude-sonnet-5-5 2026-10-18
+Add…	Přidat…	claude-sonnet-5-5 2026-10-18
+Adjust	Upravit	claude-sonnet-5-5 2026-10-18
+Adjust…	Upravit…	claude-sonnet-5-5 2026-10-18
+Advanced	Pokročilé	claude-sonnet-5-5 2026-10-18
+After a Capture	Po zachycení	claude-sonnet-5-5 2026-10-18
+After a capture	Po zachycení	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	Po zachycení jedno upozornění uvádí, kam se snímek dostal. Kliknutím na něj do hodiny můžete snímek odeslat jinam, i po restartu. Soustředění a Nerušit upozornění zadržují stejně jako u jiných aplikací.	claude-sonnet-5-5 2026-10-18
+After a recording	Po nahrávání	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	Načteno vše: %@.	claude-sonnet-5-5 2026-10-18
+All Lines	Všechny řádky	claude-sonnet-5-5 2026-10-18
+All captures	Všechna zachycení	claude-sonnet-5-5 2026-10-18
+All screens	Všechny obrazovky	claude-sonnet-5-5 2026-10-18
+All spaces	Všechny prostory	claude-sonnet-5-5 2026-10-18
+Allow	Povolit	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	Povolit %@ nahrávat obrazovku	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	Povolit %@ používat %@?	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	Povolte to v Nastavení systému › Soukromí a zabezpečení › Mikrofon, nebo nahrávejte bez něj.	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	Povolit odkazům pořizovat snímky obrazovky	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	Povolit rozšíření prohlížeče odesílat snímky obrazovky	claude-sonnet-5-5 2026-10-18
+Allow these actions	Povolit tyto akce	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	Povolit tomuto automatickému kroku číst nebo zapisovat tyto soubory a složky	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	Povolit tomuto automatickému kroku spouštět programy na tomto Macu	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	Povolit tomuto automatickému kroku nahrávat zachycení na internet	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	Povolit tomuto receptu číst nebo zapisovat tyto soubory a složky	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	Povolit tomuto receptu spouštět programy na tomto Macu	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	Povolit tomuto receptu nahrávat zachycení na internet	claude-sonnet-5-5 2026-10-18
+Allowed	Povoleno	claude-sonnet-5-5 2026-10-18
+Allowed programs	Povolené programy	claude-sonnet-5-5 2026-10-18
+Allow…	Povolit…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	Při hledání aktualizací nabízet také beta verze %@.	claude-sonnet-5-5 2026-10-18
+Always	Vždy	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	Částka (EUR):	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	Nástroj AI navrhuje recept	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	Nástroj AI navrhuje automatický krok	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	Nástroj AI chce změnit recept	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	Nástroj AI pořídil %@ pomocí Greenshot.	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	Název aplikace nebo identifikátor balíčku; přidáte ho klávesou Return	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	Aplikace, například KeePassXC nebo com.example.vault	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	Automatický krok nemá žádné spouštěče: běží v receptech, které rozšiřuje.	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	Automatický krok běží uvnitř receptů, které mění: uložte ho, zapněte v Nastavení › Recepty a vyzkoušejte jeden z těchto receptů.	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	Při exportu do %@ došlo k chybě: %@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	Obrázek bez průhlednosti, který používá méně než 256 barev, se uloží jako 8bitový: stejný obraz v menším souboru.	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	Došlo k neočekávané chybě.	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	Neoficiální komunitní port Greenshot pro macOS, svobodného open source nástroje pro snímání obrazovky ve Windows. Není spojen s týmem Greenshot ani s oficiální aplikací Greenshot v Mac App Store.	claude-sonnet-5-5 2026-10-18
+Annotate and export	Anotovat a exportovat	claude-sonnet-5-5 2026-10-18
+Annotations	Anotace	claude-sonnet-5-5 2026-10-18
+Another Recipe	Další recept	claude-sonnet-5-5 2026-10-18
+Another Tip	Další tip	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Může je používat jiná aplikace. Vyberte jiné v Nastavení › Obecné nebo změňte spouštěč klávesové zkratky receptu.	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	Recept může spustit kterýkoli spouštěč; každý má vlastní přepínač. Spouštěče, které recept spouštějí samy nebo zvenčí, se schvalují zvlášť.	claude-sonnet-5-5 2026-10-18
+App	Aplikace	claude-sonnet-5-5 2026-10-18
+App key	Klíč aplikace	claude-sonnet-5-5 2026-10-18
+Appearance	Vzhled	claude-sonnet-5-5 2026-10-18
+Append to the annotations	Připojit k anotacím	claude-sonnet-5-5 2026-10-18
+Application	Aplikace	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	Změny JSON receptu byly použity.	claude-sonnet-5-5 2026-10-18
+Apply Changes	Použít změny	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	Použít ořezané okraje na obrázek	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	Použít změny JSON?	claude-sonnet-5-5 2026-10-18
+Apply to the Image	Použít na obrázek	claude-sonnet-5-5 2026-10-18
+Approve	Schválit	claude-sonnet-5-5 2026-10-18
+Approve & Enable	Schválit a zapnout	claude-sonnet-5-5 2026-10-18
+Approve & Save	Schválit a uložit	claude-sonnet-5-5 2026-10-18
+Approve Changes	Schválit změny	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	Schválit vaše změny	claude-sonnet-5-5 2026-10-18
+Approved	Schváleno	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	Schválený SHA-256	claude-sonnet-5-5 2026-10-18
+Approved recipes	Schválené recepty	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	Opravdu chcete vrátit „%@“ k výchozí vestavěné definici?	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	Opravdu chcete uvolnit „%@“? Bude odregistrováno z %@.	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	Oblast: %@ (%@) · %@	claude-sonnet-5-5 2026-10-18
+Areas	Oblasti	claude-sonnet-5-5 2026-10-18
+Arrow	Šipka	claude-sonnet-5-5 2026-10-18
+As recorded	Jak bylo nahráno	claude-sonnet-5-5 2026-10-18
+Ask Again	Zeptat se znovu	claude-sonnet-5-5 2026-10-18
+Ask Every Time	Zeptat se pokaždé	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	Zeptá se při prvním upozornění	claude-sonnet-5-5 2026-10-18
+At most %lld colours	Nejvýše %lld barev	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	Nejvýše 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	Nejvýše 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	Připojit ke stránce	claude-sonnet-5-5 2026-10-18
+Attach to an issue	Připojit k úkolu	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	%@ připojeno k %@	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	%@ připojeno k „%@“	claude-sonnet-5-5 2026-10-18
+Auto crop is not possible	Automatické oříznutí není možné	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	Automaticky oříznout, nebo vyjmout řádky či sloupce výběru oříznutí	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	Automatické zavření za %llds…	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	Výchozí volba se automaticky vybere za %llds…	claude-sonnet-5-5 2026-10-18
+Automatic	Automaticky	claude-sonnet-5-5 2026-10-18
+Automatic Step	Automatický krok	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	Schválení automatického kroku	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	Automatický krok změněn mimo Greenshot	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	Podrobnosti automatického kroku	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	Zjištěn soubor automatického kroku	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	ID automatického kroku	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	JSON automatického kroku	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	Zjištěna úprava automatického kroku	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	Automatický krok navržený nástrojem AI	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	Kontrola automatického kroku	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	Ověření automatického kroku selhalo	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	Automatický krok — Editor receptů	claude-sonnet-5-5 2026-10-18
+Automatic Steps	Automatické kroky	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	Automatický krok v %@, vhodný pro %lld receptů	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	Konfigurace automatického kroku neprošla ověřením.	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	Automatický krok: %@	claude-sonnet-5-5 2026-10-18
+Automatic steps	Automatické kroky	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	Automatické kroky pro vaše zachycení, například ohraničení nebo popisek, a nastavení, která vaše recepty nabízejí. Používají se od dalšího zachycení.	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	Automatické kroky, které se nyní zapojují (zapnuté v Nastavení › Recepty):	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	Automaticky: alespoň 1,5 Mb/s, více pro velká nebo rychlá videa. Obrazovka poskytne nejvýše tolik snímků, kolik zobrazuje.	claude-sonnet-5-5 2026-10-18
+Automation	Automatizace	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	Za chvíli bude k dispozici: toto okno se otevřelo samo.	claude-sonnet-5-5 2026-10-18
+A–Z	A–Z	claude-sonnet-5-5 2026-10-18
+BCC	Skrytá kopie	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC (volitelné):	claude-sonnet-5-5 2026-10-18
+BUILT-IN	VESTAVĚNÉ	claude-sonnet-5-5 2026-10-18
+BY %@	OD %@	claude-sonnet-5-5 2026-10-18
+Back	Zpět	claude-sonnet-5-5 2026-10-18
+Back to one step	Zpět na jeden krok	claude-sonnet-5-5 2026-10-18
+Background	Pozadí	claude-sonnet-5-5 2026-10-18
+Background:	Pozadí:	claude-sonnet-5-5 2026-10-18
+Balanced	Vyvážené	claude-sonnet-5-5 2026-10-18
+Barcode Format:	Formát čárového kódu:	claude-sonnet-5-5 2026-10-18
+Barcode: %@	Čárový kód: %@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	Vychází z Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	Pod 100 % obrazovka prosvítá skrz zvětšovací okno.	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	Je dostupná beta verze %@ – kliknutím ji stáhnete	claude-sonnet-5-5 2026-10-18
+Bit rate	Datový tok	claude-sonnet-5-5 2026-10-18
+Black and white	Černobíle	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	Práh černobílého tisku: %lld	claude-sonnet-5-5 2026-10-18
+Blank	Prázdné	claude-sonnet-5-5 2026-10-18
+Body:	Text zprávy:	claude-sonnet-5-5 2026-10-18
+Bottom left	Vlevo dole	claude-sonnet-5-5 2026-10-18
+Bottom right	Vpravo dole	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	Větev %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	Jas oblasti kolem zvýraznění v procentech	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	Jas, kontrast a gama obrázku.	claude-sonnet-5-5 2026-10-18
+Bring All to Front	Přenést vše do popředí	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	Obnovit vestavěný recept, který tento soubor nahrazuje	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	Obnovit vestavěnou verzi	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	Obnovit vestavěnou verzi každého receptu, který soubor nahrazuje	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	Obnovit vestavěnou verzi těchto receptů?	claude-sonnet-5-5 2026-10-18
+Broken: %@	Poškozeno: %@	claude-sonnet-5-5 2026-10-18
+Browser extension	Rozšíření prohlížeče	claude-sonnet-5-5 2026-10-18
+Browsers	Prohlížeče	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	Sestavte greenshot-mcp (swift build) nebo použijte aplikaci ze scripts/build-app.sh, abyste mohli připojit nástroj AI.	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Vestavěno v Greenshot	claude-sonnet-5-5 2026-10-18
+Built-in	Vestavěné	claude-sonnet-5-5 2026-10-18
+CC	Kopie	claude-sonnet-5-5 2026-10-18
+Calendar Event	Událost v kalendáři	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	Podrobnosti události v kalendáři (iCal)	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	Fotoaparát (macOS)	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	Zrušit (Esc)	claude-sonnet-5-5 2026-10-18
+Cancel Recording	Zrušit nahrávání	claude-sonnet-5-5 2026-10-18
+Cancel the running one	Zrušit běžící	claude-sonnet-5-5 2026-10-18
+Cancelled.	Zrušeno.	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	Testovací spuštění receptu není možné. Nejprve opravte chyby ověření:	claude-sonnet-5-5 2026-10-18
+Capture Mode	Režim zachycení	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	Správce receptů zachycení	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	Kontrola receptu zachycení	claude-sonnet-5-5 2026-10-18
+Capture Text	Zachytit text	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	Zachytit okno pomocí Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Capture clipboard	Zachytit schránku	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	Tok zachycení selhal.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	Odkazy pro zachycení jsou vypnuté. Zapněte je v Nastavení › Pro experty › Automatizace.	claude-sonnet-5-5 2026-10-18
+Capture text	Zachytit text	claude-sonnet-5-5 2026-10-18
+Capture the active window	Zachytit aktivní okno	claude-sonnet-5-5 2026-10-18
+Capture the same region again	Znovu zachytit stejnou oblast	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	Zachytit celou obrazovku	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	Zachytit celou obrazovku pomocí Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Captures	Zachycení	claude-sonnet-5-5 2026-10-18
+Capturing	Zachycení	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	Zachycení vyžaduje jednu klávesu	claude-sonnet-5-5 2026-10-18
+Change count	Počet změn	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	Změňte, co smí tento automatický krok dělat. „Ponechat beze změny“ nebo zavření okna nic nezmění.	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	Změňte, které spouštěče smí tento recept spouštět a co smí dělat. „Ponechat beze změny“ nebo zavření okna nic nezmění.	claude-sonnet-5-5 2026-10-18
+Changed	Změněno	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	Změněno (#%@): %@	claude-sonnet-5-5 2026-10-18
+Changed Lines	Změněné řádky	claude-sonnet-5-5 2026-10-18
+Changed recipes	Změněné recepty	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	Rozmysleli jste si to? Esc zachycení zruší.	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	Změny (− před, + po)	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	Změny ještě nebyly použity	claude-sonnet-5-5 2026-10-18
+Changes other recipes	Mění jiné recepty	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	Mění automatický krok „%@“	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	Mění recept „%@“	claude-sonnet-5-5 2026-10-18
+Change…	Změnit…	claude-sonnet-5-5 2026-10-18
+Chart	Graf	claude-sonnet-5-5 2026-10-18
+Chart and text	Graf a text	claude-sonnet-5-5 2026-10-18
+Check Now	Zkontrolovat nyní	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	Zaškrtněte alespoň jeden cíl.	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	Kontrolovat nestabilní aktualizace (předběžné verze)	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	Kontrolovat aktualizace každých %lld dní	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	Zkontrolujte, že můžete zapisovat do %@.	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	Zkontrolujte syntaxi JSON receptu: neescapované uvozovky, čárky na konci nebo nespárované závorky.	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	Zkontrolujte „options“ receptu: klíče, typy, výchozí hodnoty a volby.	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	Zkontrolovat nastavení, přečíst protokol a informace o systému (S)	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	Zkontrolovat nastavení, protokol a systém aplikace %@	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	Kontroluje se podpis kódu…	claude-sonnet-5-5 2026-10-18
+Checking…	Kontroluje se…	claude-sonnet-5-5 2026-10-18
+Checks	Kontroly	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	Kontroly nastavení, systému, klávesových zkratek a schránky a protokol aplikace %@.	claude-sonnet-5-5 2026-10-18
+Chip	Čip	claude-sonnet-5-5 2026-10-18
+Choices	Volby	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	Vyberte soubor receptu (.gsrecipe.json). Greenshot před použitím ukáže, co dělá.	claude-sonnet-5-5 2026-10-18
+Choose another one.	Vyberte jinou.	claude-sonnet-5-5 2026-10-18
+Choose folder & format	Vybrat složku a formát	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	Vyberte zvuk, který se přehraje po zachycení.	claude-sonnet-5-5 2026-10-18
+Choose…	Vybrat…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome, Edge, Brave: otevřete stránku Rozšíření, zapněte Režim vývojáře, klikněte na Načíst rozbalené a vyberte složku rozšíření. Firefox 126 nebo novější: about:debugging › This Firefox › Load Temporary Add-on… a v ní vyberte manifest.json. Názvy souborů pak mohou používat ${url} a ${browser} stránky a ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} aktivní karty prohlížeče (sledování karet rozšířením).	claude-sonnet-5-5 2026-10-18
+Clear	Vymazat	claude-sonnet-5-5 2026-10-18
+Clear Background	Vymazat pozadí	claude-sonnet-5-5 2026-10-18
+Click	Kliknutí	claude-sonnet-5-5 2026-10-18
+Click a QR code	Kliknout na QR kód	claude-sonnet-5-5 2026-10-18
+Click a line	Kliknout na řádek	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	Klikněte na zkratku a zadejte novou. ⌫ ji smaže, ⎋ zruší. + přidá krok pro zkratky jako ⌃⌥⌘K a pak C (do 2,5 sekundy). Nabídka klávesnice způsobí, že modifikátor se počítá jen na levé nebo pravé klávese. Klávesnice s klávesou F13 ji mohou používat jako Print Screen.	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	Kliknutím kamkoli nebo stisknutím Esc se vrátíte	claude-sonnet-5-5 2026-10-18
+Click for more	Kliknutím zobrazíte více	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	Nastavení otevřete kliknutím sem.	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	Kliknutím aktivujete nebo deaktivujete	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	Kliknutím recept aktivujete	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	Kliknutím recept deaktivujete	claude-sonnet-5-5 2026-10-18
+Click to open	Kliknutím otevřete	claude-sonnet-5-5 2026-10-18
+Click to open the issue	Kliknutím otevřete úkol	claude-sonnet-5-5 2026-10-18
+Click to open the page	Kliknutím otevřete stránku	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	Kliknutím zobrazíte celý náhled (Esc ukončí)	claude-sonnet-5-5 2026-10-18
+Click, Enter	Kliknutí, Enter	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	Kliknuli jste pryč z upozornění od %@? Čeká v Oznamovacím centru: kliknutím na něj můžete znovu zvolit, kam zachycení půjde, i po zavření %@.	claude-sonnet-5-5 2026-10-18
+Client ID	ID klienta	claude-sonnet-5-5 2026-10-18
+Client secret	Tajný klíč klienta	claude-sonnet-5-5 2026-10-18
+Clipart and text	Klipart a text	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	Klipart a svislý text	claude-sonnet-5-5 2026-10-18
+Clipboard	Schránka	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	Monitor schránky	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	Zavření editoru se změnami je zahodí bez dotazu.	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	Weby v cloudu končí na /wiki.	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	Cloud: e-mail a token API	claude-sonnet-5-5 2026-10-18
+Code hash	Hash kódu	claude-sonnet-5-5 2026-10-18
+Code signature	Podpis kódu	claude-sonnet-5-5 2026-10-18
+Color:	Barva:	claude-sonnet-5-5 2026-10-18
+Command line tool	Nástroj příkazového řádku	claude-sonnet-5-5 2026-10-18
+Command line: %@	Příkazový řádek: %@	claude-sonnet-5-5 2026-10-18
+Command “%@”	Příkaz „%@“	claude-sonnet-5-5 2026-10-18
+Company:	Společnost:	claude-sonnet-5-5 2026-10-18
+Comparison	Porovnání	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	Úplný protokol načten v %@	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	Úplný protokol: ~%@ řádků (%@)	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	Skryté (správce hesel žádá aplikace, aby je neukládaly)	claude-sonnet-5-5 2026-10-18
+Configure QR…	Nastavit QR…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	Připojit nástroj AI	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	Propojeno „%@“ s „%@“	claude-sonnet-5-5 2026-10-18
+Connected as %@.	Připojeno jako %@.	claude-sonnet-5-5 2026-10-18
+Content with caption	Obsah s popiskem	claude-sonnet-5-5 2026-10-18
+Continue At	Pokračovat v	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	Pokračuje v „%@“	claude-sonnet-5-5 2026-10-18
+Contrast:	Kontrast:	claude-sonnet-5-5 2026-10-18
+Copied	Zkopírováno	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	Zkopírováno řádků textu: %lld	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	Zkopírován 1 řádek textu	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	Mermaid DSL zkopírováno do schránky.	claude-sonnet-5-5 2026-10-18
+Copied by	Zkopíroval(a)	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	Celý obsah protokolu zkopírován do schránky (znaků: %@)	claude-sonnet-5-5 2026-10-18
+Copied its output	Zkopírován jeho výstup	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	ID receptu „%@“ zkopírováno do schránky.	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	Zkopírován text QR kódu	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	Zpráva o integritě zkopírována.	claude-sonnet-5-5 2026-10-18
+Copied the path.	Cesta zkopírována.	claude-sonnet-5-5 2026-10-18
+Copied the text	Text zkopírován	claude-sonnet-5-5 2026-10-18
+Copied!	Zkopírováno!	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	Zkopíruje příkaz pro Terminál, který propojí greenshot-cli do /usr/local/bin.	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	Zkopíruje rozšíření do složky Greenshot v Application Support a zobrazí ji pro Načíst rozbalené.	claude-sonnet-5-5 2026-10-18
+Copy Details	Kopírovat podrobnosti	claude-sonnet-5-5 2026-10-18
+Copy File Path	Kopírovat cestu k souboru	claude-sonnet-5-5 2026-10-18
+Copy Install Command	Kopírovat instalační příkaz	claude-sonnet-5-5 2026-10-18
+Copy Link	Kopírovat odkaz	claude-sonnet-5-5 2026-10-18
+Copy Log	Kopírovat protokol	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	Kopírovat kód Mermaid	claude-sonnet-5-5 2026-10-18
+Copy Path	Kopírovat cestu	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	Kopírovat ID receptu	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	Kopírovat ID receptu do schránky	claude-sonnet-5-5 2026-10-18
+Copy Report	Kopírovat zprávu	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	Kopírovat zásobník volání	claude-sonnet-5-5 2026-10-18
+Copy System Info	Kopírovat informace o systému	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	Kopírovat text (OCR)	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	Zkopírovat sdílený odkaz do schránky	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	Zkopírovat veškerý výstup do schránky	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	Nejprve zkopírujte obrázek a zkuste to znovu.	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	Zkopírovat obraz obrazovky do schránky	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	Zkopírovat obraz vybrané oblasti do schránky	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	Kopírovat text (OCR)	claude-sonnet-5-5 2026-10-18
+Copy the file path	Kopírovat cestu k souboru	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	Zkopírovat první URL z výstupu do schránky	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	Kopírovat obrázek do schránky (⇧⌘C)	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	Zkopírovat odkaz do schránky	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	Kopírovat vybrané prvky (⌘C)	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	Kopírovat do schránky	claude-sonnet-5-5 2026-10-18
+Copy “%@”	Kopírovat „%@“	claude-sonnet-5-5 2026-10-18
+Copy: %@	Kopírovat: %@	claude-sonnet-5-5 2026-10-18
+Core Destinations	Základní cíle	claude-sonnet-5-5 2026-10-18
+Could not be checked	Nepodařilo se zkontrolovat	claude-sonnet-5-5 2026-10-18
+Could not check for updates	Nepodařilo se zkontrolovat aktualizace	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	Nepodařilo se zaregistrovat připojení rozšíření pro %@; viz protokol.	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	Nepodařilo se odebrat registraci pro %@; viz protokol.	claude-sonnet-5-5 2026-10-18
+Countdown	Odpočet	claude-sonnet-5-5 2026-10-18
+Counter	Počítadlo	claude-sonnet-5-5 2026-10-18
+Crash reports	Zprávy o pádech	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	Vytvořit nový recept zachycení v editoru receptů	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	Vytvořte osobní přístupový token v %@ ve svém profilu › Personal Access Tokens (Data Center a Server 8.14 nebo novější). Je uložen v Klíčence.	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	Vytvořte token API pro svůj účet Atlassian na [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (jeden token funguje pro Jira i Confluence). Je uložen v Klíčence.	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Vytvořen nový automatický krok: jeho kroky vložte před Výstup, místo jeho použití nastavte na kartě Recept.	claude-sonnet-5-5 2026-10-18
+Created new recipe.	Vytvořen nový recept.	claude-sonnet-5-5 2026-10-18
+Crop Out Horizontally	Vyříznout vodorovně	claude-sonnet-5-5 2026-10-18
+Crop Out Vertically	Vyříznout svisle	claude-sonnet-5-5 2026-10-18
+Crop modes	Režimy oříznutí	claude-sonnet-5-5 2026-10-18
+Custom	Vlastní	claude-sonnet-5-5 2026-10-18
+Custom size	Vlastní velikost	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	Nastavení střižených okrajů	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	Nastavení střižených okrajů…	claude-sonnet-5-5 2026-10-18
+Cut Mark	Značka střihu	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	Vyjmout vybrané sloupce	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	Vyjmout vybrané řádky	claude-sonnet-5-5 2026-10-18
+Cut edges	Střižené okraje	claude-sonnet-5-5 2026-10-18
+Cut off from %@	Odříznuto od %@	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	Vyjmout vybrané prvky (⌘X)	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	DEAKTIVOVÁNO	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	DIAGNOSTIKA	claude-sonnet-5-5 2026-10-18
+Damaged element	Poškozený prvek	claude-sonnet-5-5 2026-10-18
+Dark	Tmavý	claude-sonnet-5-5 2026-10-18
+Deactivated	Deaktivováno	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	Deaktivováno: „%@“.	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	Deaktivováno: %lld	claude-sonnet-5-5 2026-10-18
+Decision Required	Vyžadováno rozhodnutí	claude-sonnet-5-5 2026-10-18
+Default	Výchozí	claude-sonnet-5-5 2026-10-18
+Default (%@)	Výchozí (%@)	claude-sonnet-5-5 2026-10-18
+Default (Return)	Výchozí (Return)	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	Výchozí (použít záložní recept / ukončit)	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	Výchozí (paralelně)	claude-sonnet-5-5 2026-10-18
+Default (system font)	Výchozí (systémové písmo)	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	Určete, co se má stát, když krok selže (např. zámek schránky, vypršení času sítě). Nasměrujte zachycení na záložní krok nebo jiný recept.	claude-sonnet-5-5 2026-10-18
+Delete Connection	Smazat spojení	claude-sonnet-5-5 2026-10-18
+Delete Step	Smazat krok	claude-sonnet-5-5 2026-10-18
+Delete Trigger	Smazat spouštěč	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	Smazat vybrané prvky (⌫)	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	Smazán krok „%@“ (%@)	claude-sonnet-5-5 2026-10-18
+Description	Popis	claude-sonnet-5-5 2026-10-18
+Description:	Popis:	claude-sonnet-5-5 2026-10-18
+Destinations	Cíle	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	Cíle (%lld)	claude-sonnet-5-5 2026-10-18
+Details	Podrobnosti	claude-sonnet-5-5 2026-10-18
+Details for the report	Podrobnosti hlášení	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	Podrobnosti, oprávnění a soubor tohoto receptu	claude-sonnet-5-5 2026-10-18
+Details…	Podrobnosti…	claude-sonnet-5-5 2026-10-18
+Did you know?	Víte, že…?	claude-sonnet-5-5 2026-10-18
+Discard	Zahodit	claude-sonnet-5-5 2026-10-18
+Discard Recording	Zahodit nahrávání	claude-sonnet-5-5 2026-10-18
+Display %@	Displej %@	claude-sonnet-5-5 2026-10-18
+Display Name	Zobrazovaný název	claude-sonnet-5-5 2026-10-18
+Do nothing	Nedělat nic	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	Chcete uložit snímek obrazovky „%@“?	claude-sonnet-5-5 2026-10-18
+Don't Allow	Nepovolit	claude-sonnet-5-5 2026-10-18
+Don't Save	Neukládat	claude-sonnet-5-5 2026-10-18
+Don't ask again	Příště se neptat	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	Při zavírání editoru se neptat na uložení	claude-sonnet-5-5 2026-10-18
+Double-click	Dvojité kliknutí	claude-sonnet-5-5 2026-10-18
+Download It	Stáhnout	claude-sonnet-5-5 2026-10-18
+Download Update	Stáhnout aktualizaci	claude-sonnet-5-5 2026-10-18
+Drag	Tažení	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	Přetáhněte oblast, kterou chcete ponechat nebo vyříznout	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	Přetáhněte snímek obrazovky do nového e-mailu	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	Vykreslit vybrané střižené nebo potrhané okraje do obrázku; poté je nelze změnit	claude-sonnet-5-5 2026-10-18
+Drawing	Kreslení	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	Podrobnosti platby EPC SEPA	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	Platba EPC SEPA	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	OŠETŘENÍ CHYB A ZÁLOHA	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	Každý nástroj AI spouští greenshot-mcp sám. Po změně jeho konfigurace nástroj AI restartujte nebo znovu načtěte jeho servery MCP.	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	Každý příkaz je samostatný cíl („Externí: název“). {0} v argumentech je soubor snímku obrazovky (uložený soubor, pokud je snímek v editoru uložen a beze změny); příkaz i argumenty mohou používat proměnné vzoru názvu souboru. Příkaz, jehož program chybí, se v nabídce cílů vynechá.	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	Každý uzel v receptu musí mít jedinečné „id“.	claude-sonnet-5-5 2026-10-18
+Edges:	Okraje:	claude-sonnet-5-5 2026-10-18
+Edit External Command	Upravit externí příkaz	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	Upravit QR / čárový kód	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	Upravit QR / čárový kód…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	Upravit soubor receptu	claude-sonnet-5-5 2026-10-18
+Edit Text	Upravit text	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	Upravit automatický krok v editoru receptů	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	Upravit kód s živým náhledem	claude-sonnet-5-5 2026-10-18
+Editor	Editor	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	Editor („%@“)	claude-sonnet-5-5 2026-10-18
+Editor menu	Nabídka editoru	claude-sonnet-5-5 2026-10-18
+Editor windows	Okna editoru	claude-sonnet-5-5 2026-10-18
+Effect:	Efekt:	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	Efekty na celý obrázek (podržením ⌥ nejprve změníte nastavení vrženého stínu a potrhaných okrajů)	claude-sonnet-5-5 2026-10-18
+Either key	Kterákoli klávesa	claude-sonnet-5-5 2026-10-18
+Element of a newer version	Prvek novější verze	claude-sonnet-5-5 2026-10-18
+Ellipse	Elipsa	claude-sonnet-5-5 2026-10-18
+Email	E-mail	claude-sonnet-5-5 2026-10-18
+Email Message Details	Podrobnosti e-mailové zprávy	claude-sonnet-5-5 2026-10-18
+Email:	E-mail:	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	Vložit (Base64)	claude-sonnet-5-5 2026-10-18
+Embed File…	Vložit soubor…	claude-sonnet-5-5 2026-10-18
+Emoji	Emoji	claude-sonnet-5-5 2026-10-18
+Empty log file	Prázdný soubor protokolu	claude-sonnet-5-5 2026-10-18
+Empty: all text	Prázdné: veškerý text	claude-sonnet-5-5 2026-10-18
+Encryption Type:	Typ šifrování:	claude-sonnet-5-5 2026-10-18
+End (UTC):	Konec (UTC):	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	Zvětšit plátno	claude-sonnet-5-5 2026-10-18
+Enter	Enter	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	Zadejte osobní přístupový token pro %@ v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	Zadejte prostý text nebo URL:	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	Zadejte URL %@ v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	Nejprve zadejte URL.	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	Nejprve zadejte e-mail a token API.	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	Nejprve zadejte osobní přístupový token.	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	Nejprve zadejte uživatelské jméno a heslo (nebo vyzkoušejte při prvním nahrání).	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	Zadejte svůj e-mail a token API pro %@ v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Error Filter	Filtr chyb	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	Chyba při načítání receptu	claude-sonnet-5-5 2026-10-18
+Error Routes	Trasy chyb	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	Chyba při načítání dřívějšího úseku: %@	claude-sonnet-5-5 2026-10-18
+Error message	Chybová zpráva	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	Chyba při čtení souboru protokolu:\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	Chyba: %@	claude-sonnet-5-5 2026-10-18
+Errors only	Pouze chyby	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc: Zavřít  |  F5: Obnovit  |  1–6: Sekce	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	Každý recept vyžaduje jedinečné „id“ a popisnou vlastnost „name“.	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	Vše je také v nabídce ikony %@ v řádku nabídek.	claude-sonnet-5-5 2026-10-18
+Example: %@	Příklad: %@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	Spustit recept zachycení v Greenshot (⌘R)	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	Probíhá testovací spuštění „%@“…	claude-sonnet-5-5 2026-10-18
+Execution Error	Chyba provádění	claude-sonnet-5-5 2026-10-18
+Expert	Pro experty	claude-sonnet-5-5 2026-10-18
+Export Capture	Exportovat zachycení	claude-sonnet-5-5 2026-10-18
+Expression	Výraz	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	Zjištěn externí recept zachycení	claude-sonnet-5-5 2026-10-18
+External Command	Externí příkaz	claude-sonnet-5-5 2026-10-18
+External command	Externí příkaz	claude-sonnet-5-5 2026-10-18
+External command %@	Externí příkaz %@	claude-sonnet-5-5 2026-10-18
+External commands	Externí příkazy	claude-sonnet-5-5 2026-10-18
+External: %@	Externí: %@	claude-sonnet-5-5 2026-10-18
+Extract text from image	Extrahovat text z obrázku	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	Klávesa F na obrazovce zachycení zachytí oblast jedné z těchto velikostí; za nimi následuje posledních pět velikostí oblastí.	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	Záložní recept	claude-sonnet-5-5 2026-10-18
+Fallback Step	Záložní krok	claude-sonnet-5-5 2026-10-18
+File SHA-256	SHA-256 souboru	claude-sonnet-5-5 2026-10-18
+File name counter	Počítadlo názvu souboru	claude-sonnet-5-5 2026-10-18
+File not found	Soubor nenalezen	claude-sonnet-5-5 2026-10-18
+Files	Soubory	claude-sonnet-5-5 2026-10-18
+Files and Log	Soubory a protokol	claude-sonnet-5-5 2026-10-18
+Files: %@, …	Soubory: %@, …	claude-sonnet-5-5 2026-10-18
+Filter:	Filtr:	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	Najde text v obrázku a každou shodu překryje prvkem, který můžete dál přesouvat nebo odstranit.	claude-sonnet-5-5 2026-10-18
+First Name:	Křestní jméno:	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	Pevné velikosti zachycení	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Nástroj pro snímky obrazovky Flameshot	claude-sonnet-5-5 2026-10-18
+Flow	Tok	claude-sonnet-5-5 2026-10-18
+Folder	Složka	claude-sonnet-5-5 2026-10-18
+Folder ID	ID složky	claude-sonnet-5-5 2026-10-18
+Font size in points	Velikost písma v bodech	claude-sonnet-5-5 2026-10-18
+Footer	Zápatí	claude-sonnet-5-5 2026-10-18
+Footer pattern	Vzor zápatí	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	Zápatí s datem a názvem	claude-sonnet-5-5 2026-10-18
+Foreground	Popředí	claude-sonnet-5-5 2026-10-18
+Format	Formát	claude-sonnet-5-5 2026-10-18
+Format:	Formát:	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	Předat jinému receptu…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	Předat receptu	claude-sonnet-5-5 2026-10-18
+Four objects	Čtyři objekty	claude-sonnet-5-5 2026-10-18
+Frame rate	Snímková frekvence	claude-sonnet-5-5 2026-10-18
+Freehand	Od ruky	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	Vyhlazení kresby od ruky	claude-sonnet-5-5 2026-10-18
+From	Od	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	Ze souboru .greenshot…	claude-sonnet-5-5 2026-10-18
+From Editor…	Z editoru…	claude-sonnet-5-5 2026-10-18
+Full Screen	Celá obrazovka	claude-sonnet-5-5 2026-10-18
+Full colour	Plné barvy	claude-sonnet-5-5 2026-10-18
+Full report	Úplná zpráva	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	Klávesová zkratka pro celou obrazovku	claude-sonnet-5-5 2026-10-18
+Gamma:	Gama:	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	Vytvořeno aplikací, nezkopírováno uživatelem	claude-sonnet-5-5 2026-10-18
+Geo Location	Zeměpisná poloha	claude-sonnet-5-5 2026-10-18
+Geo Location Details	Podrobnosti zeměpisné polohy	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	GitHub se nepodařilo kontaktovat.	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	Zadejte spouštěči nástroje AI „ToolName“ z písmen, číslic, „_“ nebo „-“.	claude-sonnet-5-5 2026-10-18
+Go Back	Zpět	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot (upravitelné)	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Naposledy použité v Greenshot	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Web Greenshot	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot přidá tyto kroky do jiných receptů: vložte je v seznamu kroků před Výstup a automatický krok zapněte v Nastavení › Recepty.	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot může číst adresy stránek otevřených v Safari a Chrome. macOS se pro každý prohlížeč jednou zeptá, zda to povolit.	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot nemůže dodávat klíč aplikace Box, proto si zaregistrujte vlastní: v [Box Developer Console](https://app.box.com/developers/console) vytvořte Custom App s User Authentication (OAuth 2.0), nastavte její redirect URI na `%@`, přidělte jí rozsah Write all files a sem vložte její ID klienta a tajný klíč. Tajný klíč a přihlášení jsou uloženy v Klíčence; ID složky je číslo v URL složky.	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot nemohl tento recept zachycení načíst ani zaregistrovat, protože obsahuje chyby konfigurace. Prohlédněte si diagnostické podrobnosti níže:	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot nemohl tento automatický krok použít, protože obsahuje chyby. Prohlédněte si podrobnosti níže:	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac nemá krok „%@“: jeho parametry zůstanou beze změny.	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot for Mac není připraven.	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot nesmí ovládat %@. Povolte to v Nastavení systému › Soukromí a zabezpečení › Automatizace › Greenshot.	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot posílá snímky obrazovky do těchto aplikací přes AppleScript; macOS se pro každou aplikaci jednou zeptá.	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR, rezerva %@ z %@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML (obrázek vložen)	claude-sonnet-5-5 2026-10-18
+Hardened runtime	Posílený běh (Hardened runtime)	claude-sonnet-5-5 2026-10-18
+Has its own error route	Má vlastní trasu chyb	claude-sonnet-5-5 2026-10-18
+Hide %@	Skrýt %@	claude-sonnet-5-5 2026-10-18
+Hide Icon	Skrýt ikonu	claude-sonnet-5-5 2026-10-18
+Hide Others	Skrýt ostatní	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	Skrýt ikonu v řádku nabídek?	claude-sonnet-5-5 2026-10-18
+High frame rate	Vysoká snímková frekvence	claude-sonnet-5-5 2026-10-18
+High quality	Vysoká kvalita	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	Podržením ⌥ umístíte bez přichycení	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	Vodorovný posun:	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	Vodorovné odsazení:	claude-sonnet-5-5 2026-10-18
+Hotkey	Klávesová zkratka	claude-sonnet-5-5 2026-10-18
+Hotkey %@	Klávesová zkratka %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	Klávesové zkratky znovu zaregistrovány (některé klávesy jsou stále obsazeny).	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	Klávesové zkratky znovu zaregistrovány.	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	Kolik %@ zapisuje do protokolu, než se restartuje. Ladění zapisuje nejvíce.	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO (ikona)	claude-sonnet-5-5 2026-10-18
+ID	ID	claude-sonnet-5-5 2026-10-18
+Identifier	Identifikátor	claude-sonnet-5-5 2026-10-18
+If %@: %@	Pokud %@: %@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Pokud je to váš vlastní server, přidejte %@ nebo otisk v Nastavení › Cíle › Vaše vlastní servery.	claude-sonnet-5-5 2026-10-18
+Image	Obrázek	claude-sonnet-5-5 2026-10-18
+Image Quality	Kvalita obrázku	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	Odkaz na obrázek zkopírován – kliknutím otevřete stránku	claude-sonnet-5-5 2026-10-18
+Image size	Velikost obrázku	claude-sonnet-5-5 2026-10-18
+Import	Importovat	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	Importovat anotace z %@	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	Importovat anotace ze souboru Greenshot	claude-sonnet-5-5 2026-10-18
+Import From This Editor	Importovat z tohoto editoru	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	Importováno %lld anotací z %@	claude-sonnet-5-5 2026-10-18
+In	Vstup	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	V Nastavení › Výstup zvolíte složku a vzor názvu souboru uložených snímků obrazovky.	claude-sonnet-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	Za několik kroků uvidíte, jak zachycení funguje, a %@ zkontroluje, zda je vše správně nastaveno.	claude-sonnet-5-5 2026-10-18
+In parallel	Paralelně	claude-sonnet-5-5 2026-10-18
+In the background	Na pozadí	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	V režimu okna výběr sleduje nejmenší oblast pod myší, například postranní panel, panel nástrojů nebo část webové stránky; PgUp a PgDn vyberou větší nebo menší oblast. Vyžaduje oprávnění Zpřístupnění.	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	V ~/.codeium/windsurf/mcp_config.json.	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	V ~/.cursor/mcp.json (všechny projekty) nebo .cursor/mcp.json (jeden projekt).	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	V ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), potom Refresh.	claude-sonnet-5-5 2026-10-18
+Info	Informace	claude-sonnet-5-5 2026-10-18
+Information	Informace	claude-sonnet-5-5 2026-10-18
+Insert	Vložit	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	Vložit QR / čárový kód	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	Vložit QR / čárový kód…	claude-sonnet-5-5 2026-10-18
+Insert Step After	Vložit krok za	claude-sonnet-5-5 2026-10-18
+Insert Step Here	Vložit krok sem	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	Vložit do Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	Vložit do Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	Vložit do Microsoft Word	claude-sonnet-5-5 2026-10-18
+Insert into document	Vložit do dokumentu	claude-sonnet-5-5 2026-10-18
+Insert into presentation	Vložit do prezentace	claude-sonnet-5-5 2026-10-18
+Insert into workbook	Vložit do sešitu	claude-sonnet-5-5 2026-10-18
+Install	Nainstalovat	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	Nainstalujte ji, nebo zvolte jiný cíl v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Installed	Nainstalováno	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	Nainstalováno pro jinou kopii aplikace	claude-sonnet-5-5 2026-10-18
+Installed version:	Nainstalovaná verze:	claude-sonnet-5-5 2026-10-18
+Integrity	Integrita	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	Neplatná syntaxe nebo schéma JSON:\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	Identifikátor problému (hash zásobníku volání)	claude-sonnet-5-5 2026-10-18
+Issue key:	Klíč úkolu:	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	Skončil s ukončovacím kódem %d.	claude-sonnet-5-5 2026-10-18
+It runs from %@.	Spouští se z %@.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Okamžitě se přestane spouštět a už se nenačte. Jeho soubor zůstane na místě: importujte ho znovu, abyste ho zkontrolovali a schválili.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Okamžitě se přestane spouštět a už se nenačte. Jeho soubor zůstane na místě: otevřete ho znovu, abyste ho zkontrolovali a schválili.	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	Byl přejmenován na %@ a Greenshot se spustil s výchozím nastavením.	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	Bez uložení bude ztracen.	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	Je v řádku nabídek.	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	Jeho vysvětlení (slova nástroje AI, Greenshot je nekontroluje):	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	Kvalita JPEG (vyšší kvalita znamená větší soubory):	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	Kvalita JPEG: %lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	Chyba JSON	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	Ponechat	claude-sonnet-5-5 2026-10-18
+Keep as Is	Ponechat beze změny	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	Zachovat jeho velikost s černými pruhy kolem	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	Během nahrávání nenechat Mac usnout	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	Zachovat stín okna v zachycení oken	claude-sonnet-5-5 2026-10-18
+Key	Klíč	claude-sonnet-5-5 2026-10-18
+Key %u	Klávesa %u	claude-sonnet-5-5 2026-10-18
+Keys	Klávesy	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Jiné klávesy než F1–F20 vyžadují ⌃, ⌥ nebo ⌘.	claude-sonnet-5-5 2026-10-18
+Label	Popisek	claude-sonnet-5-5 2026-10-18
+Lane %lld	Dráha %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	Jazyk textu	claude-sonnet-5-5 2026-10-18
+Large object	Velký objekt	claude-sonnet-5-5 2026-10-18
+Largest value	Největší hodnota	claude-sonnet-5-5 2026-10-18
+Last Name:	Příjmení:	claude-sonnet-5-5 2026-10-18
+Last Region	Poslední oblast	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	Naposledy zkontrolováno %@. Máte verzi %@.	claude-sonnet-5-5 2026-10-18
+Last modified: %@	Naposledy změněno: %@	claude-sonnet-5-5 2026-10-18
+Later	Později	claude-sonnet-5-5 2026-10-18
+Latest release:	Nejnovější vydání:	claude-sonnet-5-5 2026-10-18
+Latitude:	Zeměpisná šířka:	claude-sonnet-5-5 2026-10-18
+Launch at login	Spustit při přihlášení	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	Nechte heslo prázdné, aby se zeptalo při prvním nahrání; přihlašovací dialog ho může uložit do Klíčenky. Serveru s vlastním certifikátem lze důvěřovat v části Vaše vlastní servery.	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	Levé a pravé klávesy vyžadují oprávnění Zpřístupnění. Do té doby tato klávesová zkratka funguje s kteroukoli klávesou.	claude-sonnet-5-5 2026-10-18
+Left key	Levá klávesa	claude-sonnet-5-5 2026-10-18
+Left or right key	Levá nebo pravá klávesa	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	Levé nebo pravé modifikační klávesy	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	Levé nebo pravé modifikační klávesy: např. jen pravá ⌘	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	Povolit nástrojům AI navrhovat recepty	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	Povolit nástrojům AI používat Greenshot	claude-sonnet-5-5 2026-10-18
+Let's Go!	Začínáme!	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Umožní těmto prohlížečům spustit připojení Greenshot pro rozšíření (soubor ve složce NativeMessagingHosts každého prohlížeče).	claude-sonnet-5-5 2026-10-18
+Letter	Letter	claude-sonnet-5-5 2026-10-18
+Light	Světlý	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Nástroj pro snímky obrazovky Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Čára	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	Tloušťka čáry v bodech (0: žádná čára)	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	Odkaz zkopírován – kliknutím otevřete	claude-sonnet-5-5 2026-10-18
+Link to the image	Odkaz na obrázek	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Odkazy jako greenshotmac://settings?tab=editor otevírají okna; odkaz může otevřít jakákoli webová stránka, proto odkazy pořizují snímky obrazovky, jen když to zde povolíte. greenshot-cli, AppleScript, Zkratky a nabídka Služby mohou zachytávat vždy.	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	Načíst recept zachycení do %@	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	Načíst dřívější (+64 KB)	claude-sonnet-5-5 2026-10-18
+Load Elements…	Načíst prvky…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	Načíst celý protokol	claude-sonnet-5-5 2026-10-18
+Load Recipe…	Načíst recept…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	Načíst a zaregistrovat soubor .gsrecipe.json	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	Načíst předchozích 64 KB protokolu	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	Načteno a zaregistrováno: %@	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	Načteno a zaregistrováno: %@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	Načteno v %@	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	Dřívější úsek načten v %@	claude-sonnet-5-5 2026-10-18
+Loaded: %@	Načteno: %@	claude-sonnet-5-5 2026-10-18
+Loading %@…	Načítá se %@…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	Načítají se prostory…	claude-sonnet-5-5 2026-10-18
+Location	Umístění	claude-sonnet-5-5 2026-10-18
+Location:	Místo:	claude-sonnet-5-5 2026-10-18
+Log	Protokol	claude-sonnet-5-5 2026-10-18
+Log In	Přihlásit se	claude-sonnet-5-5 2026-10-18
+Log Viewer…	Prohlížeč protokolu…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	Soubor protokolu (%@)	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	Soubor protokolu aktuálně neexistuje na:\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	Soubor protokolu aktuálně neexistuje na: %@	claude-sonnet-5-5 2026-10-18
+Log level	Úroveň protokolu	claude-sonnet-5-5 2026-10-18
+Longitude:	Zeměpisná délka:	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	Hledat QR kódy na obrazovce zachycení	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	Hledat v Safari a Chrome	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	Hledají se QR kódy…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	Hledají se otevřené dokumenty…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	Hledají se otevřené zprávy…	claude-sonnet-5-5 2026-10-18
+Looking…	Hledá se…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	Úsporný režim	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	Klávesa M na obrazovce zachycení to přepne pro jedno zachycení.	claude-sonnet-5-5 2026-10-18
+MCP server	Server MCP	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	ZMĚNĚNO NA DISKU	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	MP4 s H.264 (přehraje se všude)	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	MP4 s HEVC (menší soubory)	claude-sonnet-5-5 2026-10-18
+Magnification:	Zvětšení:	claude-sonnet-5-5 2026-10-18
+Manual	Ručně	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	Označit jako počáteční krok	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	Přizpůsobit velikost okna editoru zachycení	claude-sonnet-5-5 2026-10-18
+Media clip and text	Mediální klip a text	claude-sonnet-5-5 2026-10-18
+Memory	Paměť	claude-sonnet-5-5 2026-10-18
+Menu bar icon	Ikona v řádku nabídek	claude-sonnet-5-5 2026-10-18
+Menu entry	Položka nabídky	claude-sonnet-5-5 2026-10-18
+Menus	Nabídky	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	Zpráva:	claude-sonnet-5-5 2026-10-18
+Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office a Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Minimize	Minimalizovat	claude-sonnet-5-5 2026-10-18
+Mode	Režim	claude-sonnet-5-5 2026-10-18
+Model	Model	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Nástroj pro snímky obrazovky Monosnap	claude-sonnet-5-5 2026-10-18
+More Emoji…	Další emoji…	claude-sonnet-5-5 2026-10-18
+More…	Více…	claude-sonnet-5-5 2026-10-18
+Most memory used	Nejvíce použité paměti	claude-sonnet-5-5 2026-10-18
+Mouse	Myš	claude-sonnet-5-5 2026-10-18
+Move Down	Posunout dolů	claude-sonnet-5-5 2026-10-18
+Move Up	Posunout nahoru	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	Posunuto dolů: „%@“	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	Posunuto nahoru: „%@“	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	NOVÝ AUTOMATICKÝ KROK	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	NOVÝ RECEPT	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	Vyžaduje Zpřístupnění v Nastavení systému › Soukromí a zabezpečení. Do té doby režim okna vybírá celá okna. Znovu sestavená nebo přesunutá kopie aplikace musí být povolena znovu.	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	Název sítě (SSID):	claude-sonnet-5-5 2026-10-18
+Never	Nikdy	claude-sonnet-5-5 2026-10-18
+Never (switched off)	Nikdy (vypnuto)	claude-sonnet-5-5 2026-10-18
+Never check for updates	Nikdy nekontrolovat aktualizace	claude-sonnet-5-5 2026-10-18
+Never share these applications	Tyto aplikace nikdy nesdílet	claude-sonnet-5-5 2026-10-18
+New Automatic Step	Nový automatický krok	claude-sonnet-5-5 2026-10-18
+New Document	Nový dokument	claude-sonnet-5-5 2026-10-18
+New Email	Nový e-mail	claude-sonnet-5-5 2026-10-18
+New Image	Nový obrázek	claude-sonnet-5-5 2026-10-18
+New Note	Nová poznámka	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	Nový Outlook nelze ovládat skriptem: vypněte jej (Outlook › Legacy Outlook) nebo použijte E-mail…	claude-sonnet-5-5 2026-10-18
+New Presentation	Nová prezentace	claude-sonnet-5-5 2026-10-18
+New Random Edges	Nové náhodné okraje	claude-sonnet-5-5 2026-10-18
+New Recipe	Nový recept	claude-sonnet-5-5 2026-10-18
+New Workbook	Nový sešit	claude-sonnet-5-5 2026-10-18
+New email attachment	Nová příloha e-mailu	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Nový e-mail v Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+New image size	Nová velikost obrázku	claude-sonnet-5-5 2026-10-18
+New meeting	Nová schůzka	claude-sonnet-5-5 2026-10-18
+New note in Notes	Nová poznámka v Notes	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	Nový recept (⌘N)	claude-sonnet-5-5 2026-10-18
+Next	Další	claude-sonnet-5-5 2026-10-18
+Next number	Další číslo	claude-sonnet-5-5 2026-10-18
+No	Ne	claude-sonnet-5-5 2026-10-18
+No QR code found	Nenalezen žádný QR kód	claude-sonnet-5-5 2026-10-18
+No Step Selected	Není vybrán žádný krok	claude-sonnet-5-5 2026-10-18
+No Windows	Žádná okna	claude-sonnet-5-5 2026-10-18
+No annotations yet.	Zatím žádné anotace.	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	Žádný automatický krok recept nemění; nahoře některý zapněte.	claude-sonnet-5-5 2026-10-18
+No captures	Žádná zachycení	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	Beze změny v tom, co recept dělá (pouze podrobnosti jako názvy nebo rozvržení).	claude-sonnet-5-5 2026-10-18
+No description provided.	Nebyl uveden žádný popis.	claude-sonnet-5-5 2026-10-18
+No developer signature kept	Nezachován žádný podpis vývojáře	claude-sonnet-5-5 2026-10-18
+No external command is set up	Není nastaven žádný externí příkaz	claude-sonnet-5-5 2026-10-18
+No external command is set up.	Není nastaven žádný externí příkaz.	claude-sonnet-5-5 2026-10-18
+No fill	Bez výplně	claude-sonnet-5-5 2026-10-18
+No folder	Žádná složka	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	Není otevřen žádný editor obrázků. Nejprve otevřete zachycení v editoru.	claude-sonnet-5-5 2026-10-18
+No mail app is set up	Není nastavena žádná poštovní aplikace	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	Není nastavena žádná poštovní aplikace.	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	V Safari ani Chrome není otevřena žádná stránka tohoto Confluence.	claude-sonnet-5-5 2026-10-18
+No problems	Žádné problémy	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	Zatím není povolen žádný program.	claude-sonnet-5-5 2026-10-18
+No recipe	Žádný recept	claude-sonnet-5-5 2026-10-18
+No recipe matches.	Žádný recept neodpovídá.	claude-sonnet-5-5 2026-10-18
+No recipe open	Není otevřen žádný recept	claude-sonnet-5-5 2026-10-18
+No recipes from files.	Žádné recepty ze souborů.	claude-sonnet-5-5 2026-10-18
+No recipes loaded	Nejsou načteny žádné recepty	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	Zatím žádné recepty. Importujte soubor receptu nebo jeden vytvořte v editoru receptů.	claude-sonnet-5-5 2026-10-18
+No spaces	Žádné prostory	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	Žádný počáteční krok sem nevede: propojte tyto kroky pomocí „Pokračovat v“	claude-sonnet-5-5 2026-10-18
+No text found	Nenalezen žádný text	claude-sonnet-5-5 2026-10-18
+No text found.	Nenalezen žádný text.	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	Žádný text neodpovídá „%@“.	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	Bez spouštěče: ze seznamu receptů nebo z příkazového řádku	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	Bez spouštěče: recept se spouští ze seznamu receptů, z příkazového řádku nebo jiným receptem.	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	Bez spouštěčů (pouze editor receptů)	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	Bez spouštěčů: recept se spouští pouze ze správce receptů, testovacím spuštěním nebo jiným receptem.	claude-sonnet-5-5 2026-10-18
+No, Cancel	Ne, zrušit	claude-sonnet-5-5 2026-10-18
+Nobody	Nikdo	claude-sonnet-5-5 2026-10-18
+Node ID	ID uzlu	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	Nic nenalezeno (Chrome, Edge, Firefox, Brave, Vivaldi ani Chromium)	claude-sonnet-5-5 2026-10-18
+None set up	Žádné nenastaveny	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	Není parametrem tohoto kroku	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	Není regulární výraz: %@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	Nepovoleno, dokud se Greenshot neukončí	claude-sonnet-5-5 2026-10-18
+Not allowed yet	Zatím nepovoleno	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	Neschváleno, změněno od schválení nebo vypnuté spouštěče	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	Není k dispozici, zprávy se zobrazují v rohu	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	Zatím nezkontrolováno. Máte verzi %@.	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	Netýká se JPEG. Soubory GIF mají vždy nejvýše tolik barev.	claude-sonnet-5-5 2026-10-18
+Not found next to the app	Nenalezeno vedle aplikace	claude-sonnet-5-5 2026-10-18
+Not installed	Nenainstalováno	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	Není načteno v Greenshot	claude-sonnet-5-5 2026-10-18
+Not reached	Nedosažen	claude-sonnet-5-5 2026-10-18
+Not registered yet	Zatím nezaregistrováno	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	Nezaregistrováno: používá ji jiná aplikace	claude-sonnet-5-5 2026-10-18
+Not running	Neběží	claude-sonnet-5-5 2026-10-18
+Not saved yet	Zatím neuloženo	claude-sonnet-5-5 2026-10-18
+Not set	Nenastaveno	claude-sonnet-5-5 2026-10-18
+Not signed	Nepodepsáno	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	Nejste přihlášeni k %@. Přihlaste se v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	Nepřihlášeno; zeptá se při prvním nahrání.	claude-sonnet-5-5 2026-10-18
+Notarized	Notarizováno	claude-sonnet-5-5 2026-10-18
+Notes	Notes	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	Zaznamená každou změnu za běhu, každých 600 ms: užitečné, když vložení snímku obrazovky nefunguje.	claude-sonnet-5-5 2026-10-18
+Nothing	Nic	claude-sonnet-5-5 2026-10-18
+Nothing embedded	Nic není vloženo	claude-sonnet-5-5 2026-10-18
+Nothing found	Nic nenalezeno	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	Nic na snímku obrazovky nešlo přečíst jako QR kód.	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	Nic se nenahrává.	claude-sonnet-5-5 2026-10-18
+Notification Settings…	Nastavení upozornění…	claude-sonnet-5-5 2026-10-18
+Notifications	Upozornění	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	Nyní %@ × %@ pixelů	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	Očíslujte kroky návodu nástrojem Počítadlo v editoru.	claude-sonnet-5-5 2026-10-18
+OCR Text	Text z OCR	claude-sonnet-5-5 2026-10-18
+OK	OK	claude-sonnet-5-5 2026-10-18
+OPTIONS	VOLBY	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	DALŠÍ PARAMETRY	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	PŘEPSÁNO	claude-sonnet-5-5 2026-10-18
+Object and text	Objekt a text	claude-sonnet-5-5 2026-10-18
+Object and two objects	Objekt a dva objekty	claude-sonnet-5-5 2026-10-18
+Object over text	Objekt nad textem	claude-sonnet-5-5 2026-10-18
+Off	Vyp.	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	Pro tuto aplikaci vypnuto: žádná upozornění	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	Vypnuto: „Uložit přímo“ místo toho přidá k názvu (2), (3), …	claude-sonnet-5-5 2026-10-18
+Offset X:	Posun X:	claude-sonnet-5-5 2026-10-18
+Offset Y:	Posun Y:	claude-sonnet-5-5 2026-10-18
+On	Zap.	claude-sonnet-5-5 2026-10-18
+On Error / Failure	Při chybě / selhání	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	Na Macu nemůže žádná aplikace zamknout schránku, takže žádná jiná aplikace nemůže %@ zabránit v přístupu k ní.	claude-sonnet-5-5 2026-10-18
+On the clipboard now	Nyní ve schránce	claude-sonnet-5-5 2026-10-18
+Once at a time	Jen jednou najednou	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	Jedna na řádek: hodnota, nebo hodnota = popisek	claude-sonnet-5-5 2026-10-18
+One screen	Jedna obrazovka	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	Jen pro výše uvedené servery Jira a Confluence, jejichž certifikátu macOS nedůvěřuje; každý další server prochází pouze kontrolami macOS. Jeden hostitel na řádek; * a ? jsou zástupné znaky, port se ignoruje. Otisk důvěřuje přesně jednomu certifikátu a je bezpečnější než hostitel; při nahrání, které selže kvůli certifikátu, se zobrazí otisk serveru. Prázdné seznamy používají pouze kontroly macOS.	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	Přesouvat lze jen kroky v prosté posloupnosti.	claude-sonnet-5-5 2026-10-18
+Only when	Jen když	claude-sonnet-5-5 2026-10-18
+Open	Otevřít	claude-sonnet-5-5 2026-10-18
+Open %@	Otevřít %@	claude-sonnet-5-5 2026-10-18
+Open %@ at login	Otevírat %@ při přihlášení	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	Otevřít schránku v Greenshot	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	Otevřít recept Greenshot	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	Otevřít obrázek v Greenshot	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	Otevřít klávesové zkratky	claude-sonnet-5-5 2026-10-18
+Open Link	Otevřít odkaz	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	Otevřít prohlížeč protokolu	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	Otevřít prohlížeč protokolu…	claude-sonnet-5-5 2026-10-18
+Open Login Items	Otevřít Položky přihlášení	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	Otevřít nastavení řádku nabídek	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	Otevřít nastavení soukromí	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	Otevřít samoobsluhu…	claude-sonnet-5-5 2026-10-18
+Open Settings	Otevřít Nastavení	claude-sonnet-5-5 2026-10-18
+Open System Settings	Otevřít Nastavení systému	claude-sonnet-5-5 2026-10-18
+Open With	Otevřít v aplikaci	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	Otevřít soubor receptu (⌘O)	claude-sonnet-5-5 2026-10-18
+Open an empty editor	Otevřít prázdný editor	claude-sonnet-5-5 2026-10-18
+Open file	Otevřít soubor	claude-sonnet-5-5 2026-10-18
+Open in Editor	Otevřít v editoru	claude-sonnet-5-5 2026-10-18
+Open in another app	Otevřít v jiné aplikaci	claude-sonnet-5-5 2026-10-18
+Open in the default player	Otevřít ve výchozím přehrávači	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	Po uložení otevřít v editoru receptů	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	Otevřít poslední zachycení v editoru	claude-sonnet-5-5 2026-10-18
+Open the Recording With	Otevřít záznam v aplikaci	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	Otevřít snímek obrazovky v aplikaci	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	Otevřete aplikaci znovu nebo klikněte sem pro Nastavení.	claude-sonnet-5-5 2026-10-18
+Open the image with another app	Otevřít obrázek v jiné aplikaci	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	Po nahrání otevřít stránku	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	Otevřít recept v editoru receptů	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	Otevřít správce receptů (⇧⌘M)	claude-sonnet-5-5 2026-10-18
+Open with	Otevřít v aplikaci	claude-sonnet-5-5 2026-10-18
+Open with %@	Otevřít v aplikaci %@	claude-sonnet-5-5 2026-10-18
+Open with…	Otevřít v aplikaci…	claude-sonnet-5-5 2026-10-18
+Open: %@	Otevřít: %@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	Otevřeno %@; není načteno v Greenshot.	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	Otevřeno nastavení klávesnice.	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	Otevřen prohlížeč protokolu.	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	Otevře obrázek v editoru Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	Otevře obrázek ze schránky v editoru Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Open…	Otevřít…	claude-sonnet-5-5 2026-10-18
+Optional	Volitelné	claude-sonnet-5-5 2026-10-18
+Options	Volby	claude-sonnet-5-5 2026-10-18
+Options (%lld)	Volby (%lld)	claude-sonnet-5-5 2026-10-18
+Order	Pořadí	claude-sonnet-5-5 2026-10-18
+Orgchart	Organigram	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	Jiné aplikace pro snímání obrazovky	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	Jinak (%@)	claude-sonnet-5-5 2026-10-18
+Other…	Jiné…	claude-sonnet-5-5 2026-10-18
+Out	Výstup	claude-sonnet-5-5 2026-10-18
+Outlook: allow export in meeting items	Outlook: povolit export do schůzek	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook: formát e-mailu pro nové e-maily	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	Přepsat soubor se stejným názvem	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	NAVRŽENO AI	claude-sonnet-5-5 2026-10-18
+Page	Stránka	claude-sonnet-5-5 2026-10-18
+Parallel	Paralelně	claude-sonnet-5-5 2026-10-18
+Parallel start	Paralelní začátek	claude-sonnet-5-5 2026-10-18
+Parameters	Parametry	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	Vložit (⌘V)	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	Vložte to do Markdownu, README na GitHubu nebo pull requestů.	claude-sonnet-5-5 2026-10-18
+Path	Cesta	claude-sonnet-5-5 2026-10-18
+Pattern variables	Proměnné vzoru	claude-sonnet-5-5 2026-10-18
+Pause Recording	Pozastavit nahrávání	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	Pozastavit, když je obrazovka zamčená	claude-sonnet-5-5 2026-10-18
+Permissions	Oprávnění	claude-sonnet-5-5 2026-10-18
+Permissions…	Oprávnění…	claude-sonnet-5-5 2026-10-18
+Personal access token	Osobní přístupový token	claude-sonnet-5-5 2026-10-18
+Phone Call	Telefonní hovor	claude-sonnet-5-5 2026-10-18
+Phone Call Details	Podrobnosti telefonního hovoru	claude-sonnet-5-5 2026-10-18
+Phone Number:	Telefonní číslo:	claude-sonnet-5-5 2026-10-18
+Phone:	Telefon:	claude-sonnet-5-5 2026-10-18
+Picture with caption	Obrázek s popiskem	claude-sonnet-5-5 2026-10-18
+Pictures	Obrázky	claude-sonnet-5-5 2026-10-18
+Play the camera sound	Přehrát zvuk fotoaparátu	claude-sonnet-5-5 2026-10-18
+Play the sound	Přehrát zvuk	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	Zadejte telefonní číslo.	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	Zadejte hodnotu pro vytvoření čárového kódu.	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	Zadejte jméno nebo podrobnosti kontaktu.	claude-sonnet-5-5 2026-10-18
+Please enter event title.	Zadejte název události.	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	Zadejte zeměpisnou šířku a délku.	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	Zadejte název sítě (SSID).	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	Zadejte e-mailovou adresu příjemce.	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	Zadejte jméno příjemce a IBAN.	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	Zadejte číslo příjemce.	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	Zadejte text nebo URL.	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	Vyberte, jak chcete s tímto zachycením naložit:	claude-sonnet-5-5 2026-10-18
+Pointer	Ukazatel	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Najetí na okno v Snímat okno ze seznamu zobrazí jeho obraz. Vyžaduje oprávnění k nahrávání obrazovky.	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	Odkazuje na chybějící aplikaci: klikněte na Nainstalovat	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint dal neočekávanou odpověď: %@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint: zamknout poměr stran obrázku	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint: rozvržení snímku pro exportovaná zachycení	claude-sonnet-5-5 2026-10-18
+Preset	Předvolba	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	Zachytíte stisknutím %@.	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	Sekce přepnete klávesami 1–6, obnovíte klávesou F5.	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	Stisknutím F1 nebo H při zachytávání zobrazíte všechny klávesy, které můžete použít.	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	Stisknutím M při zachytávání zobrazíte nebo skryjete ukazatel myši na snímku obrazovky.	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	Stisknutím Další začnete, nebo kdykoli zavřete toto okno klávesou Esc.	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	Stisknutím Z při zachytávání zobrazíte nebo skryjete lupu pro výběr s přesností na pixel.	claude-sonnet-5-5 2026-10-18
+Preview	Náhled	claude-sonnet-5-5 2026-10-18
+Print a footer	Tisknout zápatí	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	Tisknout datum / čas a název v dolní části stránky	claude-sonnet-5-5 2026-10-18
+Print in	Tisknout	claude-sonnet-5-5 2026-10-18
+Print – %@	Tisk – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	Tisk… (⌘P)	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	Nastavení soukromí…	claude-sonnet-5-5 2026-10-18
+Program not found	Program nenalezen	claude-sonnet-5-5 2026-10-18
+Program: %@	Program: %@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	Navrženo nástrojem AI	claude-sonnet-5-5 2026-10-18
+QR Code	QR kód	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	Akce QR kódu…	claude-sonnet-5-5 2026-10-18
+QR Type:	Typ QR:	claude-sonnet-5-5 2026-10-18
+QR code actions	Akce QR kódu	claude-sonnet-5-5 2026-10-18
+QR code: %@	QR kód: %@	claude-sonnet-5-5 2026-10-18
+Quality	Kvalita	claude-sonnet-5-5 2026-10-18
+Quarantined	V karanténě	claude-sonnet-5-5 2026-10-18
+Quick settings	Rychlé nastavení	claude-sonnet-5-5 2026-10-18
+Quit %@	Ukončit %@	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	Nejprve ji ukončete, abyste spustili tuto kopii.	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	KONFIGURACE RECEPTU	claude-sonnet-5-5 2026-10-18
+Range	Rozsah	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	Podrobnosti prostého textu nebo URL	claude-sonnet-5-5 2026-10-18
+Read error	Chyba čtení	claude-sonnet-5-5 2026-10-18
+Read the QR code	Přečíst QR kód	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	Znovu přečíst protokol (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	Znovu přečíst tuto sekci (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Recent	Nedávné	claude-sonnet-5-5 2026-10-18
+Recent issues	Nedávné úkoly	claude-sonnet-5-5 2026-10-18
+Recently captured	Nedávno zachyceno	claude-sonnet-5-5 2026-10-18
+Recipe	Recept	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	Recept změněn mimo Greenshot	claude-sonnet-5-5 2026-10-18
+Recipe Details	Podrobnosti receptu	claude-sonnet-5-5 2026-10-18
+Recipe Editor	Editor receptů	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	Editor receptů…	claude-sonnet-5-5 2026-10-18
+Recipe ID	ID receptu	claude-sonnet-5-5 2026-10-18
+Recipe JSON	JSON receptu	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	Správce receptů…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	Zjištěna úprava receptu	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	Recept není načten	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	Recept není uložen	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	Oprávnění receptu	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	Recept navržený nástrojem AI	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	Schválení zabezpečení receptu	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	Kontrola zabezpečení receptu	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	Ověření receptu selhalo	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	Konfigurace receptu neprošla ověřením.	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	Obsah receptu není k dispozici.	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	Při provádění receptu došlo k chybě:	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	Soubor receptu je příliš velký pro náhled (> 1 MB).	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	Soubory receptů končí na %@, proto se recept uloží jako %@.	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	Klávesové zkratky receptů nejsou zaregistrovány	claude-sonnet-5-5 2026-10-18
+Recipe imported	Recept importován	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	Recept „%@“	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	Recept „%@“ (%@)	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	Recept „%@“ selhal	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	Recepty v Greenshot právě neběží, proto recept nelze uložit.	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	Recepty v Greenshot právě neběží.	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	Recepty ze souborů, i ty napsané nástroji AI, a co jste pro ně schválili. Změny zde se projeví okamžitě.	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	Nabídka receptů (výchozí)	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	Nabídka receptů („%@“)	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	Recepty musí tvořit orientovaný acyklický graf (DAG). Zajistěte, aby přechody a záložní trasy nevedly zpět k dřívějším uzlům.	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	Recepty provádějí zachycení jako řadu kroků, spuštěných klávesovou zkratkou, položkou nabídky, schránkou, Otevřít v aplikaci nebo příkazovým řádkem. Soubor receptu se použije, až když schválíte, co dělá.	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	Recepty: id, * (každý recept s tímto slotem) nebo *capture, oddělené čárkami	claude-sonnet-5-5 2026-10-18
+Recipient Number:	Číslo příjemce:	claude-sonnet-5-5 2026-10-18
+Recipient:	Příjemce:	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	Rozpoznat text, jakmile se otevře obrazovka zachycení	claude-sonnet-5-5 2026-10-18
+Recognising text…	Rozpoznává se text…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	Rozpoznává se text…	claude-sonnet-5-5 2026-10-18
+Record	Nahrávat	claude-sonnet-5-5 2026-10-18
+Record Region…	Nahrát oblast…	claude-sonnet-5-5 2026-10-18
+Record Screen	Nahrát obrazovku	claude-sonnet-5-5 2026-10-18
+Record Window…	Nahrát okno…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	Nahrát bez mikrofonu	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	Nahrávat ukazatel myši	claude-sonnet-5-5 2026-10-18
+Recording	Nahrávání	claude-sonnet-5-5 2026-10-18
+Recording starts	Nahrávání začíná	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	Nahrávání. Kliknutím zastavíte; ⌃-kliknutím pozastavíte nebo zahodíte.	claude-sonnet-5-5 2026-10-18
+Rectangle	Obdélník	claude-sonnet-5-5 2026-10-18
+Redo	Znovu	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	Znovu (⇧⌘Z nebo ⌘Y)	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	Znovu (⇧⌘Z)	claude-sonnet-5-5 2026-10-18
+Redone	Provedeno znovu	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	Snížit počet barev na nejvýše %lld	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	Snížit počet barev	claude-sonnet-5-5 2026-10-18
+Reference:	Reference:	claude-sonnet-5-5 2026-10-18
+Refresh	Obnovit	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	Pro toto sestavení odmítnuto, zprávy se zobrazují v rohu	claude-sonnet-5-5 2026-10-18
+Region	Oblast	claude-sonnet-5-5 2026-10-18
+Register Again	Zaregistrovat znovu	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	Znovu zaregistrovat klávesové zkratky v macOS, např. poté, co jiná aplikace klávesu uvolnila	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	Zaregistrujte si vlastní aplikaci Box a zadejte její ID klienta a tajný klíč v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	Zaregistrujte si vlastní aplikaci Dropbox a zadejte její klíč aplikace v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	Zaregistrujte si vlastní aplikaci v [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder nebo Full Dropbox, oprávnění files.content.write, sharing.write a sharing.read a redirect URI `%@`. Sem vložte její klíč aplikace; tajný klíč není potřeba. Přihlášení je uloženo v Klíčence.	claude-sonnet-5-5 2026-10-18
+Registered	Zaregistrováno	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	Zaregistrováno, ale macOS ji bere jako první (%@)	claude-sonnet-5-5 2026-10-18
+Reject / Block	Odmítnout / zablokovat	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	Znovu spustit %@ v jazyce %@?	claude-sonnet-5-5 2026-10-18
+Relaunch Now	Znovu spustit nyní	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	Znovu spustit v jazyce %@	claude-sonnet-5-5 2026-10-18
+Reload All	Znovu načíst vše	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	Znovu načíst nakonfigurované soubory receptů z disku	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	Recepty znovu načteny z disku.	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	Zapamatovat v Klíčence	claude-sonnet-5-5 2026-10-18
+Remove	Odebrat	claude-sonnet-5-5 2026-10-18
+Remove %@	Odebrat %@	claude-sonnet-5-5 2026-10-18
+Remove Start Step	Odebrat počáteční krok	claude-sonnet-5-5 2026-10-18
+Remove the option	Odebrat volbu	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	Odebrat recept z Greenshot	claude-sonnet-5-5 2026-10-18
+Remove this error route	Odebrat tuto trasu chyb	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	Odebrat tento krok z počátečních kroků	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	Odebrat: program se zeptá znovu při dalším připojení.	claude-sonnet-5-5 2026-10-18
+Removed an option	Volba odebrána	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	Záložní trasa receptu při chybě odebrána	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	Odebráno spojení s „%@“	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	ID kroku přejmenováno z „%@“ na „%@“	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	Znovu otevřeno po posledním odhlášení nebo restartu, zatím neuloženo.	claude-sonnet-5-5 2026-10-18
+Replace	Nahradit	claude-sonnet-5-5 2026-10-18
+Replace File	Nahradit soubor	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	Nahradit soubor, který není receptem?	claude-sonnet-5-5 2026-10-18
+Replace the annotations	Nahradit anotace	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	Nahrazuje vestavěný automatický krok „%@“	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	Nahrazuje vestavěný recept „%@“	claude-sonnet-5-5 2026-10-18
+Report	Zpráva	claude-sonnet-5-5 2026-10-18
+Report a bug	Nahlásit chybu	claude-sonnet-5-5 2026-10-18
+Report an Issue…	Nahlásit problém…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	Nahlásit na GitHubu…	claude-sonnet-5-5 2026-10-18
+Required	Povinné	claude-sonnet-5-5 2026-10-18
+Reset	Obnovit	claude-sonnet-5-5 2026-10-18
+Reset All	Obnovit vše	claude-sonnet-5-5 2026-10-18
+Reset All to Default	Obnovit vše na výchozí	claude-sonnet-5-5 2026-10-18
+Reset Default	Obnovit výchozí	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	Obnovit výchozí recept	claude-sonnet-5-5 2026-10-18
+Reset to Default	Obnovit výchozí	claude-sonnet-5-5 2026-10-18
+Reset to defaults	Obnovit výchozí hodnoty	claude-sonnet-5-5 2026-10-18
+Resize	Změnit velikost	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	Změnit velikost obrázku (⌥⌘R)	claude-sonnet-5-5 2026-10-18
+Resize…	Změnit velikost…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	Obnoveno po neočekávaném ukončení Greenshot, zatím neuloženo.	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	Obnoveno, zatím neuloženo.	claude-sonnet-5-5 2026-10-18
+Resume Recording	Pokračovat v nahrávání	claude-sonnet-5-5 2026-10-18
+Retry	Zkusit znovu	claude-sonnet-5-5 2026-10-18
+Revert	Vrátit zpět	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	Vrátit „%@“ k výchozí vestavěné definici?	claude-sonnet-5-5 2026-10-18
+Review approval…	Zkontrolovat schválení…	claude-sonnet-5-5 2026-10-18
+Review…	Zkontrolovat…	claude-sonnet-5-5 2026-10-18
+Revoke	Odvolat	claude-sonnet-5-5 2026-10-18
+Revoke Approval	Odvolat schválení	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	Odvolat schválení…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	Odvolat schválení „%@“?	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Odvolat schválení „%@“? Okamžitě se přestane spouštět a už se nenačte. Jeho soubor zůstane na místě: otevřete ho znovu, abyste ho zkontrolovali a schválili.	claude-sonnet-5-5 2026-10-18
+Right key	Pravá klávesa	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	Kliknutí pravým tlačítkem nebo ⌃-kliknutí zobrazí nabídku. U akce s dvojitým kliknutím klik nejprve počká po dobu dvojkliku.	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	Otočit po směru hodinových ručiček	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	Otočit proti směru hodinových ručiček	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	Otočit po směru hodinových ručiček (⌥⌘→)	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	Otočit proti směru hodinových ručiček (⌥⌘←)	claude-sonnet-5-5 2026-10-18
+Rounded Dots	Zaoblené tečky	claude-sonnet-5-5 2026-10-18
+Route To	Nasměrovat na	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	Nasměrovat na krok v tomto receptu…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	Spusťte „MCP: Add Server“ (Command (stdio)) nebo ho vložte do .vscode/mcp.json pracovního prostoru.	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	Spustit externí příkaz s obrázkem	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	Spustit na pozadí (chyby jako zpráva, ne dialog)	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	Spusťte to v Terminálu (--scope user: ve všech projektech). Ověřte pomocí claude mcp list nebo /mcp.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	Spusťte to v Terminálu nebo přidejte [mcp_servers.greenshot] s command = cesta do ~/.codex/config.toml.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	Spusťte to v Terminálu nebo přidejte položku mcpServers do ~/.gemini/settings.json. Ověřte pomocí /mcp.	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	Spustit recept zachycení nyní	claude-sonnet-5-5 2026-10-18
+Running	Běží	claude-sonnet-5-5 2026-10-18
+Running for	Běží již	claude-sonnet-5-5 2026-10-18
+Runs	Spouští	claude-sonnet-5-5 2026-10-18
+Runs as	Běží jako	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 nebo SHA-1, např. 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	SMS	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	Podrobnosti textové zprávy SMS	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	OŠETŘENÍ CHYB KROKU	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	PARAMETRY KROKU	claude-sonnet-5-5 2026-10-18
+Same as macOS	Stejný jako macOS	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	Stejný jako macOS (%@)	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	Stejné klávesy jako vaše klávesová zkratka	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	Uložit (⌘S)	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	Uložit (⌘S); Uložit jako je ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	Uložit jako… (⇧⌘S)	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	Uložit automatický krok jako…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	Uložit před testovacím spuštěním	claude-sonnet-5-5 2026-10-18
+Save Changes	Uložit změny	claude-sonnet-5-5 2026-10-18
+Save Directly	Uložit přímo	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	Uložit přímo (%@)	claude-sonnet-5-5 2026-10-18
+Save Elements…	Uložit prvky…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	Uložit recept Greenshot jako…	claude-sonnet-5-5 2026-10-18
+Save Recipe	Uložit recept	claude-sonnet-5-5 2026-10-18
+Save Screenshot	Uložit snímek obrazovky	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	Uložit snímek obrazovky jako PDF	claude-sonnet-5-5 2026-10-18
+Save and Run	Uložit a spustit	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	Uložit jako soubor Greenshot	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	Uložit jako soubor Greenshot…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	Uložit jako dokument PDF	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	Uložit se zeptá na nový soubor, takže tento je zachová.	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	Uložit obraz obrazovky jako soubor	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	Uložit obraz vybrané oblasti jako soubor	claude-sonnet-5-5 2026-10-18
+Save to File	Uložit do souboru	claude-sonnet-5-5 2026-10-18
+Save to folder	Uložit do složky	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	Uložit s 256 barvami, když má obrázek méně	claude-sonnet-5-5 2026-10-18
+Saved %@	Uloženo %@	claude-sonnet-5-5 2026-10-18
+Saved file	Uložený soubor	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	Recept uložen do %@	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	Uložení nahradí jiné recepty	claude-sonnet-5-5 2026-10-18
+Saving as %@.	Ukládá se jako %@.	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	Ukládá se nahrávka…	claude-sonnet-5-5 2026-10-18
+Saving…	Ukládá se…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	Roztáhnout, aby vyplnil video	claude-sonnet-5-5 2026-10-18
+Scaling	Měřítko	claude-sonnet-5-5 2026-10-18
+Schedule	Plán	claude-sonnet-5-5 2026-10-18
+Screen	Obrazovka	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	Obrazovka %lld (nepřipojena)	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	Obrazovka %lld: %@	claude-sonnet-5-5 2026-10-18
+Screen recording	Nahrávání obrazovky	claude-sonnet-5-5 2026-10-18
+Screens	Obrazovky	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	Možnosti snímků obrazovky a nahrávání	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	Aplikace pro snímky obrazovky s vlastními globálními zkratkami	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	Zkratky macOS pro snímky obrazovky	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Snímky obrazovky mohou obsahovat cokoli, co je vidět na vaší obrazovce. Okna vyloučených aplikací (ve výchozím nastavení správců hesel) se nikdy nesdílejí. Obojí můžete změnit v Nastavení › Nástroje AI.	claude-sonnet-5-5 2026-10-18
+Script: %@	Skript: %@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	Hledat existující problémy	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Hledat název, id, spouštěče, soubor	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	Prohledávejte, sledujte a kopírujte celý protokol v prohlížeči protokolu.	claude-sonnet-5-5 2026-10-18
+Searched at %@	Hledáno v %@	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	Hledání tohoto identifikátoru na GitHubu pomáhá předejít nahlášení stejného problému dvakrát a ukáže, zda je známa oprava nebo náhradní řešení.	claude-sonnet-5-5 2026-10-18
+Searching…	Hledá se…	claude-sonnet-5-5 2026-10-18
+Section header	Záhlaví sekce	claude-sonnet-5-5 2026-10-18
+Select	Vybrat	claude-sonnet-5-5 2026-10-18
+Select Image Editor	Vybrat editor obrázků	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	Vyberte oblast obrazovky, kterou má zachytit Greenshot for Mac.	claude-sonnet-5-5 2026-10-18
+Select a region or a window	Vybrat oblast nebo okno	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	Vyberte krok v seznamu, abyste ho změnili, nebo jeden přidejte pomocí Přidat krok: přidá se za vybraný krok, do vybrané větve, dráhy nebo šipky.	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	Nejprve vyberte krok nebo šipku: nový krok se přidá hned za něj, nebo do šipky.	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	Níže vyberte alternativní cíl, předejte jinému receptu nebo zkuste znovu:	claude-sonnet-5-5 2026-10-18
+Select an editor	Vyberte editor	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	Vybírat oblasti uvnitř oken	claude-sonnet-5-5 2026-10-18
+Selection	Výběr	claude-sonnet-5-5 2026-10-18
+Self-Service	Samoobsluha	claude-sonnet-5-5 2026-10-18
+Self-Service…	Samoobsluha…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	Odeslat snímek obrazovky do	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	Odesílá se snímek obrazovky do %@…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	Odesláno na tiskárnu „%@“	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Adresy oddělujte čárkami. Předmět může používat proměnné vzoru názvu souboru, např. ${title}. Používá je i Outlook. Při použití Kopie nebo Skryté kopie a Mail jako poštovní aplikace Mail napíše celý e-mail (macOS se jednou zeptá, zda smí Greenshot ovládat Mail); jinak poštovní služba macOS vyplní Komu a předmět a Kopie a Skrytá kopie se zobrazí k ručnímu přidání.	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server nebo Data Center: osobní přístupový token	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server nebo Data Center: uživatelské jméno a heslo	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	Nastavit příkazy…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	Nastaveno vaší organizací	claude-sonnet-5-5 2026-10-18
+Set in the recipe	Nastaveno v receptu	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	Nastavte to v Obecné › Klávesové zkratky. Kliknutí na ikonu nahrávání v řádku nabídek ho zastaví, ⌃-kliknutí pozastaví.	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	Nastavte účet v Mail (nebo vyberte výchozí e-mailovou aplikaci v Mail › Nastavení) a zkuste to znovu.	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	Nastavení (ve výchozích hodnotách uživatele)	claude-sonnet-5-5 2026-10-18
+Settings are turned off	Nastavení jsou vypnuta	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	Soubor nastavení (--settings-dir)	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	Nastavení › Developer › Edit Config otevře ~/Library/Application Support/Claude/claude_desktop_config.json; přidejte server a restartujte Claude.	claude-sonnet-5-5 2026-10-18
+Settings…	Nastavení…	claude-opus-5-5 2026-10-18
+Settings… (⌘,)	Nastavení… (⌘,)	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	Několik na jednom slotu se spouští podle pořadí, pak podle id	claude-sonnet-5-5 2026-10-18
+Shadow	Stín	claude-sonnet-5-5 2026-10-18
+Shadow:	Stín:	claude-sonnet-5-5 2026-10-18
+Share	Sdílet	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	Sdílet s aplikacemi a kontakty	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	Sdílený odkaz (kdokoli s odkazem), ne soukromý	claude-sonnet-5-5 2026-10-18
+Share…	Sdílet…	claude-sonnet-5-5 2026-10-18
+Shift	Shift	claude-sonnet-5-5 2026-10-18
+Show	Zobrazit	claude-sonnet-5-5 2026-10-18
+Show All	Zobrazit vše	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	Zobrazit složku rozšíření…	claude-sonnet-5-5 2026-10-18
+Show It	Zobrazit	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	Zobrazit otevřené snímky obrazovky	claude-sonnet-5-5 2026-10-18
+Show Welcome…	Zobrazit uvítání…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	Zobrazit upozornění, když nástroj AI pořídí snímek obrazovky	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	Zobrazit v upozornění náhled zachycení	claude-sonnet-5-5 2026-10-18
+Show all parameters	Zobrazit všechny parametry	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	Zobrazit v Docku, když je otevřeno okno	claude-sonnet-5-5 2026-10-18
+Show in Finder	Zobrazit ve Finderu	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	Zobrazit v nabídce Recepty	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	Zobrazit v Rychlém nastavení v řádku nabídek	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	Před každým tiskem zobrazit možnosti tisku	claude-sonnet-5-5 2026-10-18
+Show the menu	Zobrazit nabídku	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	Zobrazit ikonu v řádku nabídek	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	Zobrazit lupu na obrazovce zachycení	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	Zobrazit náhledy oken v seznamu oken	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	Zobrazuje se %@ tak, jak ho má Greenshot nyní.	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	Zobrazuje se konec %@ z celkových %@. K dispozici jsou dřívější řádky protokolu.	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	Zobrazuje se ~%@ řádků (%@ z %@)	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	Zobrazí jen záznamy protokolu obsahující tento text, z celého souboru protokolu (⌘F)	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	Zmenšit plátno	claude-sonnet-5-5 2026-10-18
+Sign In…	Přihlásit se…	claude-sonnet-5-5 2026-10-18
+Sign Out	Odhlásit se	claude-sonnet-5-5 2026-10-18
+Sign in with	Přihlásit se pomocí	claude-sonnet-5-5 2026-10-18
+Signed by	Podepsal	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	Podepsáno linkerem (vývojářské sestavení)	claude-sonnet-5-5 2026-10-18
+Signed by: %@	Podepsal: %@	claude-sonnet-5-5 2026-10-18
+Signed in	Přihlášeno	claude-sonnet-5-5 2026-10-18
+Signed in.	Přihlášeno.	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	Velikost: 0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	Velikosti	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Nástroj pro snímky obrazovky Skitch	claude-sonnet-5-5 2026-10-18
+Slot	Slot	claude-sonnet-5-5 2026-10-18
+Small size	Malá velikost	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	Menší hodnota zachová více detailů čáry od ruky, větší ji vyhladí.	claude-sonnet-5-5 2026-10-18
+Smallest value	Nejmenší hodnota	claude-sonnet-5-5 2026-10-18
+Software	Software	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	Některé klávesové zkratky se nepodařilo zaregistrovat	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	Některé čtečky mohou v tomto kódu pokazit znaky mimo západoevropské; QR kódy a Data Matrix ne.	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	Některé texty v tomto jazyce jsou strojové překlady.	claude-sonnet-5-5 2026-10-18
+Something went wrong	Něco se pokazilo	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	Seřadit anotace podle typu	claude-sonnet-5-5 2026-10-18
+Sound	Zvuk	claude-sonnet-5-5 2026-10-18
+Source code	Zdrojový kód	claude-sonnet-5-5 2026-10-18
+Space	Mezerník	claude-sonnet-5-5 2026-10-18
+Space:	Prostor:	claude-sonnet-5-5 2026-10-18
+Speech Bubble	Textová bublina	claude-sonnet-5-5 2026-10-18
+Stack trace	Zásobník volání	claude-sonnet-5-5 2026-10-18
+Start (UTC):	Začátek (UTC):	claude-sonnet-5-5 2026-10-18
+Start Watching	Začít sledovat	claude-sonnet-5-5 2026-10-18
+Start or stop recording	Spustit nebo zastavit nahrávání	claude-sonnet-5-5 2026-10-18
+Start step	Počáteční krok	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	Počáteční kroky se spouštějí první; více počátečních kroků běží současně (upstream START STEPS). Označte je v seznamu kroků.	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	Zahájeno sledování schránky (každých 600 ms)	claude-sonnet-5-5 2026-10-18
+Starting and stopping	Zahájení a zastavení	claude-sonnet-5-5 2026-10-18
+Starting…	Spouští se…	claude-sonnet-5-5 2026-10-18
+Startup	Spuštění	claude-sonnet-5-5 2026-10-18
+Step	Krok	claude-sonnet-5-5 2026-10-18
+Step %lld	Krok %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	Krok %lld: %@ je vyhrazená klávesa a nelze ji použít v klávesové zkratce.	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Krok %lld: Jiné klávesy než F1–F20 vyžadují ⌃, ⌥ nebo ⌘.	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	Krok %lld: ⇧ nemůže být jediným modifikátorem, kromě F1–F20.	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	Krok v tomto receptu	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	Kroky, které %@ přidává do receptů s vhodným slotem, zapnuté v Nastavení › Recepty.	claude-sonnet-5-5 2026-10-18
+Stop Recording	Zastavit nahrávání	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	Zastavit nahrávání (%@)	claude-sonnet-5-5 2026-10-18
+Stop Watching	Přestat sledovat	claude-sonnet-5-5 2026-10-18
+Stop after	Zastavit po	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	Zastavit při zavření okna	claude-sonnet-5-5 2026-10-18
+Stopped watching	Sledování zastaveno	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	Sledování schránky zastaveno.	claude-sonnet-5-5 2026-10-18
+Subject	Předmět	claude-sonnet-5-5 2026-10-18
+Subject:	Předmět:	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	Vypněte spouštěče, které nechcete.	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	Zapnout nebo vypnout automatický krok (také v Nastavení › Recepty)	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	Zapnout nebo vypnout spouštěče a oprávnění receptu	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	Zapnout nebo vypnout spouštěče a oprávnění schválení	claude-sonnet-5-5 2026-10-18
+System	Systém	claude-sonnet-5-5 2026-10-18
+System Font	Systémové písmo	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	Informace o systému zkopírovány do schránky.	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	SPOUŠTĚČE	claude-sonnet-5-5 2026-10-18
+Table	Tabulka	claude-sonnet-5-5 2026-10-18
+Take Screenshot	Pořídit snímek obrazovky	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	Pořídí snímek obrazovky pomocí Greenshot for Mac. Půjde do vašich cílů, stejně jako u klávesových zkratek.	claude-sonnet-5-5 2026-10-18
+Target step	Cílový krok	claude-sonnet-5-5 2026-10-18
+Team	Tým	claude-sonnet-5-5 2026-10-18
+Team ID: %@	ID týmu: %@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	Potrhá vybrané okraje obrázku.	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	Snímání obrazovky TechSmith Snagit	claude-sonnet-5-5 2026-10-18
+Teeth	Zuby	claude-sonnet-5-5 2026-10-18
+Template	Šablona	claude-sonnet-5-5 2026-10-18
+Test Connection	Vyzkoušet připojení	claude-sonnet-5-5 2026-10-18
+Test Run	Testovací spuštění	claude-sonnet-5-5 2026-10-18
+Test run error: %@	Chyba testovacího spuštění: %@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	Testovací spuštění nezahájeno: %@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	Testovací spuštění %@ selhalo.	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	Testovací spuštění %@ zahájeno.	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	Testovací spuštění %@: zrušeno.	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	Testovací spuštění %@: dokončeno.	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	Testovací spuštění „%@“ skončilo: %@.	claude-sonnet-5-5 2026-10-18
+Text	Text	claude-sonnet-5-5 2026-10-18
+Text (OCR)	Text (OCR)	claude-sonnet-5-5 2026-10-18
+Text / Number Value	Text / číselná hodnota	claude-sonnet-5-5 2026-10-18
+Text / URL	Text / URL	claude-sonnet-5-5 2026-10-18
+Text and chart	Text a graf	claude-sonnet-5-5 2026-10-18
+Text and clipart	Text a klipart	claude-sonnet-5-5 2026-10-18
+Text and media clip	Text a mediální klip	claude-sonnet-5-5 2026-10-18
+Text and object	Text a objekt	claude-sonnet-5-5 2026-10-18
+Text and two objects	Text a dva objekty	claude-sonnet-5-5 2026-10-18
+Text over object	Text nad objektem	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	Rozpoznávání textu (OCR)	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	Děkujeme, že jste nainstalovali %@! Právě běží a čeká na vás v řádku nabídek, vpravo nahoře na obrazovce.	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	To je vše, co potřebujete ke startu. %@ čeká v řádku nabídek a vše ostatní můžete kdykoli změnit v Nastavení.	claude-sonnet-5-5 2026-10-18
+The %@ app key	Klíč aplikace %@	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	Ikona %@ je zobrazena v řádku nabídek.	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	Soubor Greenshot se nepodařilo otevřít	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Rozšíření Greenshot for Mac (Community) Companion pro Chrome, Edge a Firefox odesílá viditelnou stránku a adresu stránky.	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON musí obsahovat právě jeden recept (obsahuje %lld).	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	Karta JSON obsahuje změny, které ještě nebyly použity v receptu.	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	Klíčenka nemohla položku přidat: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	Klíčenka nemohla položku přečíst: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	Klíčenka nemohla položku odebrat: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	Klíčenka nemohla položku aktualizovat: %@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Nástroj Zamlžit v editoru pixelizuje nebo rozostří části snímku obrazovky, které nikdo jiný nemá vidět.	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	PDF se nepodařilo uložit	claude-sonnet-5-5 2026-10-18
+The action failed.	Akce selhala.	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	Aplikace, která to zkopírovala, to neuvádí.	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	Schválení „%@“ se nepodařilo odvolat. Zůstává beze změny; důvod viz protokol.	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	Oblast není na displeji.	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	Automatický krok se používá jen se všemi oprávněními, která potřebuje.	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	Certifikát %@ má otisk SHA-256 %@.	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Změněný recept potřebuje %@, což jeho schválení zatím nepovoluje. Nejprve ho uložte; uložení požádá o vaše schválení.	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	Schránka obsahuje typů: %lld.	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	Schránka obsahuje 1 typ.	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	Schránka je prázdná.	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	Schránka zůstala beze změny.	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	Podpis kódu aplikace, notarizace a karanténa	claude-sonnet-5-5 2026-10-18
+The color behind the image	Barva za obrázkem	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	Barva odtržených částí; ve výchozím nastavení průhledná	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Nabídka cílů také uvádí otevřené schůzky, které pořádáte; snímek obrazovky se připojí ke schůzce.	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	Podrobnosti „%@“ nejsou k dispozici: už není načteno.	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	Displej už není připojen.	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	Okraje a stín této značky střihu.	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	Okraje stran, které oříznutí odřízne, a spoje při vyjmutí řádků nebo sloupců; Žádný je ponechá rovné a bez švů	claude-sonnet-5-5 2026-10-18
+The editor was closed.	Editor byl zavřen.	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	Prvky se nepodařilo načíst	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	Prvky se nepodařilo uložit	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	Prvky tohoto souboru nelze přečíst, obrázek se zobrazí bez nich.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	Prvky zůstanou upravitelné, když soubor znovu otevřete.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	Prvky zůstanou upravitelné, když soubor znovu otevřete v editoru. Otevřít v aplikaci, Office, pošta a sdílení dostanou PNG.	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	Složku rozšíření se nepodařilo zkopírovat: %@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	Soubor %@ nelze přečíst.	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	Soubor se od vašeho schválení změnil	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	Klávesová zkratka %@ spustí a zastaví nahrávání.	claude-sonnet-5-5 2026-10-18
+The hotkey records	Klávesová zkratka nahrává	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	Klávesové zkratky dál fungují. Chcete-li se vrátit do Nastavení, otevřete %@ znovu ze Spotlightu, Launchpadu nebo složky Aplikace.	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	Obrázek nelze zakódovat jako %@.	claude-sonnet-5-5 2026-10-18
+The image could not be opened	Obrázek se nepodařilo otevřít	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	Obrázek se nepodařilo otevřít.	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	Obrázek je pro %@ příliš velký: může být nejvýše %lld pixelů na šířku i výšku.	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	Klíč booleovské volby: tuto volbu lze změnit, jen když je ta zapnutá	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Jazyk textů Greenshot. Texty, které Greenshot pro Windows nemá přeložené, zůstanou anglicky.	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	Řádky jsou pak připravené, když stisknete T. Upstream: AlwaysRunOCROnCapture.	claude-sonnet-5-5 2026-10-18
+The log at a glance	Protokol ve zkratce	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	Soubor protokolu nelze přečíst.	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	Poštovní aplikace nemůže přijímat přílohy z jiných aplikací. Kliknutím zobrazíte soubor ve Finderu.	claude-sonnet-5-5 2026-10-18
+The mail could not be written	E-mail se nepodařilo vytvořit	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	Ikona v řádku nabídek je skrytá? Ukončete odsud.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Ikona v řádku nabídek je vypnuta v Nastavení › Obecné. Její nabídka je cesta k většině funkcí %@.	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	Nabídka se otevře prvním kliknutím, takže dvojité kliknutí už nic dalšího neudělá. Kliknutí pravým tlačítkem nebo ⌃-kliknutí nabídku zobrazí vždy.	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	Mikrofon se nepodařilo použít.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	Nový jazyk se projeví po opětovném spuštění.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	Nový jazyk se projeví po opětovném spuštění. Nejprve se zeptá na neuložené snímky obrazovky.	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	Nová velikost obrázku. Prvky se posunou s ním.	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	Předchozí verze není známa, zkontrolujte celý recept	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	Tiskárna „%@“ už neexistuje	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	Tiskárna „%@“ už neexistuje.	claude-sonnet-5-5 2026-10-18
+The program was not found.	Program nebyl nalezen.	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	Recept se změnil po zahájení úprav JSON: Použít tyto změny nahradí, Vrátit zpět zobrazí recept tak, jak je.	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	Soubor receptu nelze přečíst.	claude-sonnet-5-5 2026-10-18
+The recipe goes on	Recept pokračuje	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	Recept se používá jen se všemi oprávněními, která potřebuje.	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	Recept potřebuje zásuvný modul, který Greenshot for Mac nemá.	claude-sonnet-5-5 2026-10-18
+The recipe to edit	Recept k úpravě	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	Recept nebyl uložen.	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	Recept pracuje se soubory mimo obvyklou výstupní složku Greenshot.	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	Recepty a automatické kroky, které %@ zná.	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	Recepty jsou příliš velké na porovnání (více než %lld řádků).	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	Recepty se spouštějí s Greenshot.	claude-sonnet-5-5 2026-10-18
+The recording could not be started	Nahrávání se nepodařilo spustit	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	Nahrávání skončilo dříve, než se cokoli nahrálo.	claude-sonnet-5-5 2026-10-18
+The recording failed	Nahrávání selhalo	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	Nahrávka se ukládá.	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	Nahrávání je pozastaveno. Kliknutím zastavíte; ⌃-kliknutím budete pokračovat nebo nahrávku zahodíte.	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	Nahrávání se spouští. Kliknutím ho zastavíte, jakmile poběží.	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	Nahrávání začne za %lld s. Kliknutím zrušíte.	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	Nahrávání už bylo dokončeno.	claude-sonnet-5-5 2026-10-18
+The recording was discarded	Nahrávka byla zahozena	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Požadavek přišel přes greenshot-cli. Povolte jej, jen pokud jste jej spustili vy: výsledek receptu jde tam, kam ho recept posílá.	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Požadavek přišel přes greenshot-cli. Povolte jej, jen pokud jste jej spustili vy: snímek obrazovky půjde do vašich cílů.	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Stejné proměnné jako ve vzoru názvu souboru, např. ${title} a ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	Obrazovka s myší	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	Obrazovka s ukazatelem myši	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	Snímek obrazovky se nepodařilo připojit	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	Snímek obrazovky se nepodařilo zakódovat	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	Snímek obrazovky se nepodařilo uložit	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	Snímek obrazovky se nepodařilo uložit do %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	Snímek obrazovky se nepodařilo uložit do souboru	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	Snímek obrazovky se nepodařilo uložit, zvolte prosím jiné místo	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	Snímek obrazovky se nepodařilo odeslat do %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	Snímek obrazovky se nepodařilo sdílet	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	Snímek obrazovky se nepodařilo pořídit	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	Snímek obrazovky se nepodařilo zapsat	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	Snímek obrazovky se nepodařilo zapsat pro %@	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	Zkratky macOS pro snímky obrazovky nepoužívají vaše klávesové zkratky.	claude-sonnet-5-5 2026-10-18
+The script failed.	Skript selhal.	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	Skript trval déle než %lld sekund.	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	Server odpověděl s HTTP %lld.	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	Soubor nastavení nelze přečíst	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	Soubor nastavení, protokol a zprávy o pádech	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	Odpověď při přihlášení neodpovídala požadavku (state).	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	Odpověď při přihlášení neobsahovala kód.	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	Přihlašovací okno se nepodařilo otevřít.	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	Velikost položky Soubor › Nový obrázek, bílého obrázku ke kreslení.	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	Text se nepodařilo rozpoznat	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	Text se nepodařilo rozpoznat: %@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	Potrhané okraje tohoto obrázku.	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	Průhledné části obrázku dostanou tuto barvu.	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Spouštěče začínají vypnuté. Zapněte každý, který smí tento recept spouštět: spouštěč, který necháte vypnutý, zůstane vypnutý (později ho můžete zapnout v Oprávněních). Bez spouštěče můžete recept stále spustit ze seznamu receptů.	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	Nahrání se ptá na úkol: klíč, jeden z posledních deseti, oblíbený filtr nebo hledání. Úkoly v názvech otevřených oken (např. prohlížeče) se nabízejí v nabídce cílů.	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	Nahrání se ptá na stránku: otevřenou v Safari nebo Chrome, hledání podle názvu nebo strom stránek prostoru. Posledních deset je také v nabídce cílů.	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	Hodnota je šablona (funguje v ní ${…})	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	Videosoubor se nepodařilo dokončit: %@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	Videosoubor se nepodařilo připravit.	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	Videosoubor se nepodařilo zapsat: %@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	Okno se nepodařilo zachytit	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	Klávesová zkratka okna otevře obrazovku zachycení v režimu okna místo zachycení aktivního okna.	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	Okno už není na obrazovce.	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	Klávesové zkratky pak fungují hned po přihlášení.	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	Kolem obsahu není jednobarevné ohraničení, které by šlo oříznout.	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	Ve schránce není žádný obrázek	claude-sonnet-5-5 2026-10-18
+There is no image to open.	Není žádný obrázek k otevření.	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	Recept „%@“ neexistuje.	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	Na obrazovce nebylo co zachytit.	claude-sonnet-5-5 2026-10-18
+Thermal state	Tepelný stav	claude-sonnet-5-5 2026-10-18
+These are for this print only.	Platí jen pro tento tisk.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	Lze je později změnit v Nastavení › Tisk.	claude-sonnet-5-5 2026-10-18
+These lanes run at the same time	Tyto dráhy běží současně	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	Tyto programy smějí používat Greenshot. Odeberte program pomocí ✕, aby se zeptalo znovu při dalším připojení. Pro runtime (node, python, …) je povolen jen skript, který spouští, a program podepsaný vývojářem jen dokud je stále podepsán stejným.	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	Tyto spouštěče zůstanou vypnuté, takže recept nespustí:	claude-sonnet-5-5 2026-10-18
+These:	Tyto:	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	Tento Mac nemá mikrofon.	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	Tato URL začíná http://: token nebo heslo by putovaly nešifrovaně. Použijte https://, pokud ho server nabízí.	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	Tato adresa začíná http://: heslo putuje nešifrovaně.	claude-sonnet-5-5 2026-10-18
+This app	Tato aplikace	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Tento automatický krok mění zachycení zaškrtnutých receptů pro zaškrtnuté cíle. Dostanou ho i nové recepty.	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Tento automatický krok napsal nástroj AI. Mění jiné recepty, včetně vestavěných: níže zkontrolujte které a co přidává. Začíná vypnutý, zapněte ho v Nastavení › Recepty.	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	Toto je recept; editor má otevřený automatický krok.	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	Toto je automatický krok; editor má otevřený recept.	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Tento program je ABSOLUTNĚ BEZ ZÁRUKY. Je to svobodný software a můžete jej šířit za určitých podmínek: podle %@ nebo novější.	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	Tento program není podepsán vývojářem.	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Tento recept napsal nástroj AI, ne Greenshot ani vy. Níže zkontrolujte, co dělá (Greenshot to popisuje podle samotného receptu), a zapněte jen spouštěče, které chcete.	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	Tento krok nemá žádné parametry.	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	Tento spouštěč zůstane vypnutý, takže recept nespustí:	claude-sonnet-5-5 2026-10-18
+Threads	Vlákna	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	Tip: nejprve přesuňte aplikaci do složky Aplikace, aby se dál otevírala při přihlášení.	claude-sonnet-5-5 2026-10-18
+Title	Název	claude-sonnet-5-5 2026-10-18
+Title only	Pouze název	claude-sonnet-5-5 2026-10-18
+Title:	Název:	claude-sonnet-5-5 2026-10-18
+To	Komu	claude-sonnet-5-5 2026-10-18
+To:	Komu:	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	Mapovat tóny obsahu HDR na obrazovkách HDR	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	Mapovat tóny obsahu HDR na obrazovkách HDR (macOS 15 nebo novější)	claude-sonnet-5-5 2026-10-18
+Top left	Vlevo nahoře	claude-sonnet-5-5 2026-10-18
+Top right	Vpravo nahoře	claude-sonnet-5-5 2026-10-18
+Torn	Potrhané	claude-sonnet-5-5 2026-10-18
+Total: %lld	Celkem: %lld	claude-sonnet-5-5 2026-10-18
+Transferring data to Confluence, please wait…	Přenášejí se data do Confluence, počkejte prosím…	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	Přechodné (má brzy zmizet)	claude-sonnet-5-5 2026-10-18
+Translocated	Translokováno	claude-sonnet-5-5 2026-10-18
+Trigger Name	Název spouštěče	claude-sonnet-5-5 2026-10-18
+Trigger removed	Spouštěč odebrán	claude-sonnet-5-5 2026-10-18
+Triggers	Spouštěče	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	Spouštěče (%lld)	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	Vypnuté spouštěče	claude-sonnet-5-5 2026-10-18
+Troubleshooting	Řešení problémů	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	Důvěřovat certifikátům s těmito otisky	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	Důvěřovat těmto hostitelům navzdory chybám certifikátu	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	Věřte tomu, co o automatickém kroku píše níže Greenshot, ne těmto slovům.	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	Věřte tomu, co o receptu píše níže Greenshot, ne těmto slovům.	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	Zapněte %@ v Nastavení systému › Obecné › Položky přihlášení a rozšíření.	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Zapněte Povolit upozornění pro %@ v Nastavení systému › Upozornění, aby se zobrazovala znovu.	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Zapnutí kterékoli z ostatních nabídku vypne. Může jich být zapnuto několik, např. kopírování a uložení.	claude-sonnet-5-5 2026-10-18
+Two column text	Text ve dvou sloupcích	claude-sonnet-5-5 2026-10-18
+Two objects	Dva objekty	claude-sonnet-5-5 2026-10-18
+Two objects and object	Dva objekty a objekt	claude-sonnet-5-5 2026-10-18
+Two objects and text	Dva objekty a text	claude-sonnet-5-5 2026-10-18
+Two objects over text	Dva objekty nad textem	claude-sonnet-5-5 2026-10-18
+Type	Typ	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	Zadejte zkratku…	claude-sonnet-5-5 2026-10-18
+URL	URL	claude-sonnet-5-5 2026-10-18
+URL:	URL:	claude-sonnet-5-5 2026-10-18
+Unavailable	Nedostupné	claude-sonnet-5-5 2026-10-18
+Undo	Zpět	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	Zpět (⌘Z)	claude-sonnet-5-5 2026-10-18
+Undone	Vráceno zpět	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	Nešifrováno (žádné)	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	Neočekávaná odpověď serveru: %@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	Jedinečný identifikátor tohoto kroku. Úprava tohoto ID aktualizuje všechny odkazy.	claude-sonnet-5-5 2026-10-18
+Unknown	Neznámé	claude-sonnet-5-5 2026-10-18
+Unload	Uvolnit	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	Uvolnit „%@“ z Greenshot?	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	Uvolnit automatický krok	claude-sonnet-5-5 2026-10-18
+Unload Recipe	Uvolnit recept	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	Uvolnit a zapomenout soubor	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	Recept „%@“ uvolněn.	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	Nepojmenovaný recept	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	Nečitelná registrace: klikněte na Nainstalovat	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	Neuložené změny	claude-sonnet-5-5 2026-10-18
+Unsaved changes	Neuložené změny	claude-sonnet-5-5 2026-10-18
+Updated at %@	Aktualizováno v %@	claude-sonnet-5-5 2026-10-18
+Updates	Aktualizace	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	Nahrát do Confluence – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	Nahrát do Confluence: „%@“	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	Nahrát na Jira – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	Nahrát na Jira, Confluence, Box nebo Dropbox	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	%@ odesláno do Box	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	%@ odesláno do Dropbox	claude-sonnet-5-5 2026-10-18
+Use Default	Použít výchozí	claude-sonnet-5-5 2026-10-18
+Use Expression	Použít výraz	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	Použijte typ kroku, který tato verze Greenshot for Mac má, nebo Greenshot aktualizujte.	claude-sonnet-5-5 2026-10-18
+Use recipes	Používat recepty	claude-sonnet-5-5 2026-10-18
+Used for:	Použito pro:	claude-sonnet-5-5 2026-10-18
+User name	Uživatelské jméno	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	CHYBA OVĚŘENÍ	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	Platné hodnoty SourceType jsou: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	Platný: žádný soubor aplikace nebyl změněn	claude-sonnet-5-5 2026-10-18
+Validation Error	Chyba ověření	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	Ověření selhalo pro %@	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	Hodnoty, které uživatel nastaví v Nastavení › Recepty; kroky je čtou jako ${option.key}.	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	Ověřte, že ID cílového uzlu odpovídá „id“ existujícího uzlu v seznamu „nodes“ receptu.	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	Verze %@ (%@)	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	Je dostupná verze %@ – kliknutím ji stáhnete	claude-sonnet-5-5 2026-10-18
+Version %@.	Verze %@.	claude-sonnet-5-5 2026-10-18
+Vertical offset:	Svislý posun:	claude-sonnet-5-5 2026-10-18
+Vertical padding:	Svislé odsazení:	claude-sonnet-5-5 2026-10-18
+Vertical text	Svislý text	claude-sonnet-5-5 2026-10-18
+Vertical title and text	Svislý název a text	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	Svislý název a text nad grafem	claude-sonnet-5-5 2026-10-18
+Video	Video	claude-sonnet-5-5 2026-10-18
+View	Zobrazení	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	Zobrazit JSON automatického kroku	claude-sonnet-5-5 2026-10-18
+View Changes	Zobrazit změny	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	Zobrazit JSON receptu	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	Čekat před zachycením: %lld ms	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	Čeká, chyby v dialogu	claude-sonnet-5-5 2026-10-18
+Warnings and errors	Varování a chyby	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	Sledovat schránku	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	Sleduje se schránka.	claude-sonnet-5-5 2026-10-18
+Wave	Vlna	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP (bezztrátové)	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	Úvodní průvodce…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	Vítá vás %@	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	Co %@ potřebuje k očekávané funkci, s opravou tam, kde něco nesedí.	claude-sonnet-5-5 2026-10-18
+What AI tools may do	Co smějí nástroje AI dělat	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	Co se změnilo od posledního schválení	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	Co se se zachycením stane, je na vás: otevřít v editoru, uložit, zkopírovat do schránky, vytisknout a další. Vybíráte v Nastavení.	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	Co je nyní ve schránce a kdy se to změní	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	Co se nahraje, opustí tento Mac; kdo to uvidí, rozhoduje služba.	claude-sonnet-5-5 2026-10-18
+What is wrong	Co je špatně	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	Co dělá (popsal Greenshot podle automatického kroku)	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	Co dělá (popsal Greenshot podle receptu)	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	Co dělá, jeho spouštěče, jeho schválení a změny oproti vestavěné verzi	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	Na co se ptal (slova nástroje AI, Greenshot je nekontroluje):	claude-sonnet-5-5 2026-10-18
+What the Mac plays	Co přehrává Mac	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	Co přehrává Mac a mikrofon	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	Co aplikace potřebuje k očekávané funkci, s opravou tam, kde něco nesedí	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	Co tento automatický krok dělá, které recepty mění a co jste pro něj schválili.	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	Co tento vestavěný recept dělá a které spouštěče ho spouštějí.	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	Co tento recept dělá a co jste pro něj schválili. Nic zde nelze změnit, použijte k tomu Oprávnění v Nastavení › Recepty nebo ve správci receptů.	claude-sonnet-5-5 2026-10-18
+What to change: %@	Co změnit: %@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	Co „Kopírovat do schránky“ do schránky vloží. Aplikace převezmou první formát, kterému rozumí; HTML vloží obrázek jako PNG pro poštu a webové editory.	claude-sonnet-5-5 2026-10-18
+When	Kdy	claude-sonnet-5-5 2026-10-18
+When it runs again	Když se spustí znovu	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	Když uživatel vybere „%@“	claude-sonnet-5-5 2026-10-18
+When the window changes size	Když okno změní velikost	claude-sonnet-5-5 2026-10-18
+When…	Kdy…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	Kde se %@ používá	claude-sonnet-5-5 2026-10-18
+Where it runs from	Odkud se spouští	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	Kudy do receptu vstupuje tok	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	Když se zobrazuje video, fotografie nebo hra v HDR, jejich jasné části si na snímku obrazovky zachovají detaily, místo aby byly oříznuty. Zachycení bez obsahu HDR si zachovají barvy přesně. Pouze Apple silicon.	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	Při zachytávání stisknutím mezerníku přepnete mezi výběrem oblasti a zachycením okna.	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	Při zachytávání šipky posouvají ukazatel o jeden pixel, s ⌃ nebo ⌘ o deset pixelů.	claude-sonnet-5-5 2026-10-18
+White	Bílá	claude-sonnet-5-5 2026-10-18
+WiFi Network	Síť Wi-Fi	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	Podrobnosti připojení k síti Wi-Fi	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	Wiki značky (!name!)	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	Wiki značky zkopírovány – kliknutím otevřete stránku	claude-sonnet-5-5 2026-10-18
+Window	Okno	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	Okno %@ · %@ (pid %@)	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	Názvy oken v nabídkách: nejvýše %lld znaků	claude-sonnet-5-5 2026-10-18
+Windows	Okna	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	Okna těchto aplikací se nikdy nevypisují ani nezachycují pro nástroje AI a na snímcích obrazovky pořízených nástroji AI jsou začerněna. Názvy jsou názvy aplikací nebo identifikátory balíčků; na velikosti písmen, mezerách a „.app“ nezáleží.	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word, PowerPoint a Outlook vkládají do nového dokumentu, prezentace nebo e-mailu, nebo do otevřeného (nabídka cílů je uvádí). Excel vkládá do aktivního listu otevřeného nebo nového sešitu. Outlook připojí snímek obrazovky a použije předmět, Komu, Kopii a Skrytou kopii z části E-mail; s volbou „povolit export do schůzek“ také uvádí otevřené schůzky, které pořádáte, a snímek obrazovky ke schůzce připojí. Nový Outlook nelze ovládat skriptem. OneNote pro Mac také nelze ovládat skriptem: nahradí ho Notes (nebo použijte Otevřít v aplikaci). U rozvržení bez zástupného obrázku se snímek obrazovky vystředí na snímku; rozvržení, které PowerPoint odmítne, dá prázdný snímek.	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word: zamknout poměr stran obrázku	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	Slova v názvu stránky nebo CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	Slova v souhrnu nebo JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	Zalamovat text	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	Přípony pište s tečkou a oddělené „;“, např. „.png;.jpg“.	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	Klávesovou zkratku pište jako „Ctrl + Shift + B“; na Macu je Ctrl ⌘ a Win je ⌃.	claude-sonnet-5-5 2026-10-18
+Write the output to the log	Zapsat výstup do protokolu	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	E-mail se píše v Mail…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	Napsal nástroj AI	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	Napsal nástroj AI a schválili jste vy	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	Napsal nástroj AI a schválili jste vy: %@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	VAŠE ZMĚNA	claude-sonnet-5-5 2026-10-18
+Yes	Ano	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	Ano, pokračovat	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	Ano: stažený a ještě neotevřený z Finderu	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	U těchto programů jste odpověděli „Nepovolit“ (nebo jste otázku zavřeli), takže je Greenshot odmítá bez dotazu. Jeden zde povolte, nebo nechte Greenshot zeptat se znovu při dalším připojení.	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	Tento automatický krok jste dříve schválili, ale jeho soubor byl od té doby změněn mimo Greenshot. Dokud změny neschválíte, nemění žádný recept.	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	Tento recept zachycení jste dříve schválili, ale jeho soubor byl od té doby změněn mimo Greenshot (jiným programem nebo ručně). Před schválením změny níže zkontrolujte.	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	Používáte nejnovější verzi (%@).	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	Toto okno můžete zavřít a vrátit se do Greenshot.	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	Spouštěče můžete později zapnout v Oprávněních a recept spustit ze seznamu receptů.	claude-sonnet-5-5 2026-10-18
+You have %@.	Máte %@.	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	Momentálně nemáte žádné klávesové zkratky pro zachycení. Vyberte je v Nastavení › Obecné.	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	Máte nejnovější verzi %@, %@.	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	Tento automatický krok jste uložili v editoru receptů. Většina změn se schvaluje bez dotazu, ale tato vyžaduje vaše rozhodnutí: %@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	Tento recept jste uložili v editoru receptů. Většina změn se schvaluje bez dotazu, ale tato přidává něco, co vyžaduje vaše rozhodnutí: %@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	Uvidíte každý navržený recept a rozhodnete, zda ho schválit. Jeho spouštěče a rizikové akce začínají vypnuté.	claude-sonnet-5-5 2026-10-18
+You're all set	Vše je připraveno	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	Vaše klávesové zkratky (%lld) fungují.	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	Vaše změna vyžaduje rozhodnutí	claude-sonnet-5-5 2026-10-18
+Your Setup	Vaše nastavení	claude-sonnet-5-5 2026-10-18
+Your approval	Vaše schválení	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	Vaše klávesová zkratka funguje.	claude-sonnet-5-5 2026-10-18
+Your hotkeys	Vaše klávesové zkratky	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	Vaše klávesové zkratky, zkratky macOS pro snímky obrazovky a další aplikace pro snímání	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	Vaše organizace spravuje %@ na tomto Macu a vypnula jeho nastavení.	claude-sonnet-5-5 2026-10-18
+Your own servers	Vaše vlastní servery	claude-sonnet-5-5 2026-10-18
+Your recipes	Vaše recepty	claude-sonnet-5-5 2026-10-18
+Your setup	Vaše nastavení	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	Vaše neuložené změny budou zahozeny.	claude-sonnet-5-5 2026-10-18
+Zig-zag	Klikatě	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Snímání obrazovky Zight (CloudApp)	claude-sonnet-5-5 2026-10-18
+Zoom	Lupa	claude-sonnet-5-5 2026-10-18
+Zoom In	Přiblížit	claude-sonnet-5-5 2026-10-18
+Zoom Out	Oddálit	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	Přizpůsobit velikosti	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	Průhlednost lupy	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[Žádný zásobník volání]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	klávesová zkratka Greenshot	claude-sonnet-5-5 2026-10-18
+all destinations	všechny cíle	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	povolte Zpřístupnění v Nastavení › Zachycení	claude-sonnet-5-5 2026-10-18
+approved %@	schváleno %@	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	nejvýše %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	automatický krok	claude-sonnet-5-5 2026-10-18
+back to region	zpět na oblast	claude-sonnet-5-5 2026-10-18
+build %@	sestavení %@	claude-sonnet-5-5 2026-10-18
+button label	popisek tlačítka	claude-sonnet-5-5 2026-10-18
+capture a fixed size	zachytit pevnou velikost	claude-sonnet-5-5 2026-10-18
+capture text	zachytit text	claude-sonnet-5-5 2026-10-18
+capture the area	zachytit oblast	claude-sonnet-5-5 2026-10-18
+capture the window	zachytit okno	claude-sonnet-5-5 2026-10-18
+capture the window or area	zachytit okno nebo oblast	claude-sonnet-5-5 2026-10-18
+changed since its approval	změněno od schválení	claude-sonnet-5-5 2026-10-18
+checking…	kontroluje se…	claude-sonnet-5-5 2026-10-18
+continues at:	pokračuje v:	claude-sonnet-5-5 2026-10-18
+copies a URL	zkopíruje URL	claude-sonnet-5-5 2026-10-18
+copies the output	zkopíruje výstup	claude-sonnet-5-5 2026-10-18
+copy its text	zkopírovat jeho text	claude-sonnet-5-5 2026-10-18
+copy or open what it says	zkopírovat nebo otevřít, co říká	claude-sonnet-5-5 2026-10-18
+critical	kritický	claude-sonnet-5-5 2026-10-18
+default	výchozí	claude-sonnet-5-5 2026-10-18
+default: %@	výchozí: %@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	výchozí: cíle z nastavení	claude-sonnet-5-5 2026-10-18
+description	popis	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	např. PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	např. Snímky obrazovky; prázdné = složka aplikace	claude-sonnet-5-5 2026-10-18
+empty	prázdné	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	výraz, např. ${payload.width > 800} nebo else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	přijatelný	claude-sonnet-5-5 2026-10-18
+file name prefix	předpona názvu souboru	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	greenshot-mcp nebyl nalezen vedle aplikace	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text a greenshotmac://clipboard, např. z Alfred, Raycast nebo webové stránky.	claude-sonnet-5-5 2026-10-18
+hide the info	skrýt informace	claude-sonnet-5-5 2026-10-18
+hide the keys	skrýt klávesy	claude-sonnet-5-5 2026-10-18
+hold it at another corner	podržet v jiném rohu	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	podržením umístíte bez přichycení	claude-sonnet-5-5 2026-10-18
+hosted by %@	hostováno na %@	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+id	id	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	id, * nebo *capture	claude-sonnet-5-5 2026-10-18
+in the capture	v zachycení	claude-sonnet-5-5 2026-10-18
+inch	palec	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	zahrnout ukazatel myši	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	držet tažení v jednom směru	claude-sonnet-5-5 2026-10-18
+key	klíč	claude-sonnet-5-5 2026-10-18
+larger or smaller area	větší nebo menší oblast	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	vynechat ukazatel myši	claude-sonnet-5-5 2026-10-18
+left %@	levá %@	claude-sonnet-5-5 2026-10-18
+level %@	úroveň %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS žádá o toto oprávnění každou aplikaci, která pořizuje snímky obrazovky.\n\nOtevřete Nastavení systému › Soukromí a zabezpečení › Nahrávání obrazovky a zvuku systému, zapněte %@ a poté aplikaci ukončete a znovu otevřete.\n\nNení v seznamu? Klikněte pod ním na + a přidejte %@ ze složky Aplikace.\n\nJiž zapnuto? Znovu sestavená nebo přesunutá kopie se počítá jako nová aplikace: vyberte ji, odeberte pomocí −, poté znovu otevřete %@ a povolte ji znovu.	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS se poprvé zeptá, zda smí %@ používat mikrofon.	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS tomuto sestavení nedovolil zobrazovat upozornění. Sestavení podepsané stabilní identitou to obvykle může (viz README).	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS zatím nedovoluje %@ nahrávat obrazovku. Snímky obrazovky toto oprávnění potřebují: zapněte %@ v Soukromí a zabezpečení › Nahrávání obrazovky a zvuku systému.	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS zpracuje tyto klávesy před jakoukoli aplikací. Když některá má klávesy klávesové zkratky, vypněte ji v Klávesnice › Klávesové zkratky › Snímky obrazovky, nebo zvolte jinou klávesovou zkratku.	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS nemá žádnou zprávu o pádu aplikace %@.	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS skrývá ikonu %@, za výřezem nebo v nastavení řádku nabídek. Přetáhněte ji se ⌘ více doprava, nebo ji povolte v Nastavení systému › Řádek nabídek.	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	Počet zpráv o pádech aplikace %2$@ uchovaných macOS v ~/Library/Logs/DiagnosticReports: %1$lld	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS uchovává 1 zprávu o pádu aplikace %@ v ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS notifications	Upozornění macOS	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	Upozornění macOS vyžadují balíček aplikace (scripts/build-app.sh); bez něj se zprávy zobrazují v pravém horním rohu.	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS tyto klávesové zkratky odmítl, může je používat jiná aplikace: %@.	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS spouští dočasnou kopii (App Translocation). Přesuňte aplikaci do složky Aplikace a otevřete ji odtud, aby jí zůstala oprávnění a položka přihlášení.	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS používá %@ pro vlastní snímky obrazovky a dostane klávesy první. Vypněte je v Klávesové zkratky › Snímky obrazovky, nebo zvolte jiné klávesové zkratky.	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS, Mac, paměť, obrazovky a měřítko	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	posun o jeden pixel, s ⌃ o deset	claude-sonnet-5-5 2026-10-18
+no	ne	claude-sonnet-5-5 2026-10-18
+nominal	nominální	claude-sonnet-5-5 2026-10-18
+not a colour	není barva	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	nelze použít (nepodepsáno pomocí Developer ID)	claude-sonnet-5-5 2026-10-18
+not approved	neschváleno	claude-sonnet-5-5 2026-10-18
+not in the capture	ne v zachycení	claude-sonnet-5-5 2026-10-18
+off	vyp.	claude-sonnet-5-5 2026-10-18
+one per line	jedna na řádek	claude-sonnet-5-5 2026-10-18
+or a designation	nebo označení	claude-sonnet-5-5 2026-10-18
+pick a size	vybrat velikost	claude-sonnet-5-5 2026-10-18
+picture	obrázek	claude-sonnet-5-5 2026-10-18
+points	bodů	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	náhled: v rohu, u lupy, vypnuto	claude-sonnet-5-5 2026-10-18
+previous or next size	předchozí nebo další velikost	claude-sonnet-5-5 2026-10-18
+recipe	recept	claude-sonnet-5-5 2026-10-18
+recipe id	id receptu	claude-sonnet-5-5 2026-10-18
+required	povinné	claude-sonnet-5-5 2026-10-18
+right %@	pravá %@	claude-sonnet-5-5 2026-10-18
+select a region	vybrat oblast	claude-sonnet-5-5 2026-10-18
+select words, copy their text	vybrat slova, kopírovat jejich text	claude-sonnet-5-5 2026-10-18
+serious	vážný	claude-sonnet-5-5 2026-10-18
+show the info	zobrazit informace	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	zahájit a dokončit výběr klávesami	claude-sonnet-5-5 2026-10-18
+switch between region and window	přepnout mezi oblastí a oknem	claude-sonnet-5-5 2026-10-18
+to	do	claude-sonnet-5-5 2026-10-18
+unknown	neznámé	claude-sonnet-5-5 2026-10-18
+unknown error	neznámá chyba	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	Kontakt vCard	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	Podrobnosti vizitky vCard	claude-sonnet-5-5 2026-10-18
+value	hodnota	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	proměnná (výchozí: název)	claude-sonnet-5-5 2026-10-18
+what it does	co dělá	claude-sonnet-5-5 2026-10-18
+when %@	když %@	claude-sonnet-5-5 2026-10-18
+window details on or off	podrobnosti okna zap. nebo vyp.	claude-sonnet-5-5 2026-10-18
+with the menu bar	s řádkem nabídek	claude-sonnet-5-5 2026-10-18
+written by %@	napsal %@	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	ano, Apple toto sestavení zkontroloval	claude-sonnet-5-5 2026-10-18
+zoomer on or off	lupa zap. nebo vyp.	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} v argumentech je soubor snímku obrazovky; uvozovky seskupují slova. Příkaz i argumenty mohou používat proměnné vzoru názvu souboru, např. ${title}.	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	„%@“ (%@) má stejné klávesy na obou stranách, takže by se spustily obě.	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@“ (%@) je začátek této klávesové zkratky, takže tato se nikdy nespustí.	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	„%@“ už existuje. Chcete jej nahradit?	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	„%@“ má stejnou klávesovou zkratku.	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	„%@“ neskončil. Pokud nyní skončíte, co ještě nebylo exportováno, bude ztraceno.	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	„%@“ není klíč úkolu Jira.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	„%@“ není platná URL.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	„%@“ není platný regulární výraz.	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	„%@“ není spustitelný soubor. Zkontrolujte ho v Nastavení › Cíle.	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	„%@“ čeká, až vyberete, kam půjde jeho zachycení. Pokud nyní skončíte, jeho zachycení bude ztraceno.	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	„%@“ čeká na vaši odpověď na „%@“. Pokud nyní skončíte, jeho zachycení bude ztraceno.	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	„Velikost obrázku“ udělá stránku tak velkou jako snímek obrazovky plus okraje. Obrázek je na stránce vystředěn.	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	„Sdílet snímky obrazovky pomocí Dropboxu“ přebírá klávesy macOS pro snímky obrazovky	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Shift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	⇧ nemůže být jediným modifikátorem, kromě F1–F20.	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Control	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Command	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Option	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ Spustit recept	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18

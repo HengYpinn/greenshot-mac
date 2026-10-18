@@ -510,6 +510,7 @@ Create a personal access token in %@ under your profile › Personal Access Toke
 Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	Erstellen Sie unter [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) ein API-Token für Ihr Atlassian-Konto (ein Token funktioniert für Jira und Confluence). Es wird in Ihrem Schlüsselbund aufbewahrt.	claude-sonnet-5-5 2026-10-18
 Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Neuer automatischer Schritt erstellt: Setzen Sie seine Schritte vor „Out“, legen Sie im Tab „Rezept“ fest, wohin er geht.	claude-sonnet-5-5 2026-10-18
 Created new recipe.	Neues Rezept erstellt.	claude-sonnet-5-5 2026-10-18
+Custom	Benutzerdefiniert	claude-opus-5-5 2026-10-18
 Custom size	Benutzerdefinierte Größe	claude-sonnet-5-5 2026-10-18
 Cut Mark	Schnittmarke	claude-sonnet-5-5 2026-10-18
 Cut Out the Selected Columns	Gewählte Spalten ausschneiden	claude-sonnet-5-5 2026-10-18
@@ -795,6 +796,7 @@ Let's Go!	Los geht’s!	claude-sonnet-5-5 2026-10-18
 Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Erlaubt diesen Browsern, die Verbindung von Greenshot für die Erweiterung zu starten (eine Datei im Ordner „NativeMessagingHosts“ jedes Browsers).	claude-sonnet-5-5 2026-10-18
 Letter	Letter	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Lightshot-Screenshot-Tool	claude-sonnet-5-5 2026-10-18
+Line	Linie	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Linienstärke in Punkt (0: keine Linie)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Link kopiert – Klicken zum Öffnen	claude-sonnet-5-5 2026-10-18
 Link to the image	Link zum Bild	claude-sonnet-5-5 2026-10-18
@@ -1780,7 +1782,7 @@ Zoomer opacity	Deckkraft der Lupe	claude-sonnet-5-5 2026-10-18
 [No Stack]	[Kein Stack]	claude-sonnet-5-5 2026-10-18
 a Greenshot hotkey	eine Greenshot-Tastenkombination	claude-sonnet-5-5 2026-10-18
 all destinations	alle Ziele	claude-sonnet-5-5 2026-10-18
-allow Accessibility in Settings › Capture	„Bedienungshilfen“ unter Einstellungen › Aufnahme erlauben	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	„Bedienungshilfen“ unter Einstellungen › Abfotografieren erlauben	claude-opus-5-5 2026-10-18
 approved %@	%@ freigegeben	claude-sonnet-5-5 2026-10-18
 at most %@ × %@	höchstens %@ × %@	claude-sonnet-5-5 2026-10-18
 automatic step	automatischer Schritt	claude-sonnet-5-5 2026-10-18

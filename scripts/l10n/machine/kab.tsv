@@ -1,0 +1,1968 @@
+# Machine translations of Greenshot for Mac (Community) into Taqbaylit (kab-DZ): the Mac's texts that have no upstream
+# translation in this language (docs/translations.md, Machine translations). An AI model made them (the source
+# column); nobody checked the language of a row unless its source says reviewed. To correct a row, change its
+# translation, set its source to "reviewed by <name>" and run scripts/l10n/update.sh; delete it to show the English.
+# English<TAB>translation<TAB>source, \n is a line break; a translation that is the English keeps the English.
+# SPDX-License-Identifier: GPL-3.0-or-later
+"%@" has unsaved changes in the recipe editor. Do you want to save them before quitting?	"%@" ɣur-s isnifal ur yettwaskelsen ara deg umaẓrag n iserwasen. Tebɣiḍ ad tsekleseḍ-iten uqbel ad teffɣeḍ?	claude-sonnet-5-5 2026-10-18
+"%@" has unsaved changes. Do you want to save them?	"%@" ɣur-s isnifal ur yettwaskelsen ara. Tebɣiḍ ad tsekleseḍ-iten?	claude-sonnet-5-5 2026-10-18
+"{0}" is the image file	"{0}" d afaylu n tugna	claude-sonnet-5-5 2026-10-18
+${NUM} in the file name pattern counts up with every file, six digits with leading zeros.	${NUM} deg taneɣruft n yisem n ufaylu yettwarni s yal afaylu, sḍis n yimḍanen s ziro deg tazwara.	claude-sonnet-5-5 2026-10-18
+${option.%@}	${option.%@}	claude-sonnet-5-5 2026-10-18
+${option.key}	${option.key}	claude-sonnet-5-5 2026-10-18
+${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
+%@	%@	claude-sonnet-5-5 2026-10-18
+%@ %@	%@ %@	claude-sonnet-5-5 2026-10-18
+%@ %@ (build %@)	%@ %@ (taneggaruyt %@)	claude-sonnet-5-5 2026-10-18
+%@ %@ is available, you have %@.	%@ %@ yella, tesɛiḍ %@.	claude-sonnet-5-5 2026-10-18
+%@ (+ web pages)	%@ (+ isebtar web)	claude-sonnet-5-5 2026-10-18
+%@ (Deactivated)	%@ (yettwakkes)	claude-sonnet-5-5 2026-10-18
+%@ (built-in)	%@ (yettwarna)	claude-sonnet-5-5 2026-10-18
+%@ (built-in) (Deactivated)	%@ (yettwarna) (yettwakkes)	claude-sonnet-5-5 2026-10-18
+%@ (disabled in the recipe)	%@ (yettwakkes deg userwas)	claude-sonnet-5-5 2026-10-18
+%@ (disabled)	%@ (yettwakkes)	claude-sonnet-5-5 2026-10-18
+%@ (external command)	%@ (taladna tazɣarayt)	claude-sonnet-5-5 2026-10-18
+%@ (missing)	%@ (ulac-it)	claude-sonnet-5-5 2026-10-18
+%@ (missing, the camera plays)	%@ (ulac-it, tawlaft tettwali)	claude-sonnet-5-5 2026-10-18
+%@ (not installed)	%@ (ur yettwasbedd ara)	claude-sonnet-5-5 2026-10-18
+%@ (off)	%@ (yensa)	claude-sonnet-5-5 2026-10-18
+%@ (off, not approved)	%@ (yensa, ur yettwasentem ara)	claude-sonnet-5-5 2026-10-18
+%@ (unknown)	%@ (arussin)	claude-sonnet-5-5 2026-10-18
+%@ (web pages: not approved)	%@ (isebtar web: ur ttwasentmen ara)	claude-sonnet-5-5 2026-10-18
+%@ Log Viewer	Amaɣnu n yiɣmisen n %@	claude-sonnet-5-5 2026-10-18
+%@ Mbps	%@ Mbps	claude-sonnet-5-5 2026-10-18
+%@ Self-Service	%@ Self-Service	claude-sonnet-5-5 2026-10-18
+%@ Settings	Iɣewwaṛen n %@	claude-sonnet-5-5 2026-10-18
+%@ [%@]	%@ [%@]	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so it is removed from the file and from Greenshot.	%@ yesɛa daɣen %@. Asekles yekteb kan "%@" deg-s, ihi yettwakkes seg ufaylu d Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ also holds %@. Saving writes only "%@" to it, so they are removed from the file and from Greenshot.	%@ yesɛa daɣen %@. Asekles yekteb kan "%@" deg-s, ihi ttwakksen seg ufaylu d Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ and %lld more	%@ d %lld nniḍen	claude-sonnet-5-5 2026-10-18
+%@ app	asnas %@	claude-sonnet-5-5 2026-10-18
+%@ app under Rosetta	asnas %@ s Rosetta	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@ yettuter ɣer %@ ad isker aserwas “%@”, i yesran %@.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ yettuter ɣer %@ ad isker aserwas “%@”, i yesran tavidyut n ugdil.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ yettuter ɣer %@ ad isker aserwas “%@”, i yesran tuṭṭfa n ugdil n tmnaṭ.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ yettuter ɣer %@ ad isker aserwas “%@”, i yesran tuṭṭfa n ugdil n usfaylu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ yettuter ɣer %@ ad isker aserwas “%@”, i yesran tuṭṭfa n ugdil n usfaylu urmid.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ yettuter ɣer %@ ad isker aserwas “%@”, i yesran tuṭṭfa n ugdil n tmnaṭ taneggarut yettwaṭṭfen.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ yettuter ɣer %@ ad isker aserwas “%@”, i yesran tuṭṭfa n ugdil meṛṛa.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a region.	%@ yettuter ɣer %@ ad iṭṭef tuṭṭfa n ugdil n tmnaṭ.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of a window.	%@ yettuter ɣer %@ ad iṭṭef tuṭṭfa n ugdil n usfaylu.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the last captured region.	%@ yettuter ɣer %@ ad iṭṭef tuṭṭfa n ugdil n tmnaṭ taneggarut yettwaṭṭfen.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the text in a region.	%@ yettuter ɣer %@ ad iṭṭef tuṭṭfa n ugdil n uḍris deg tmnaṭ.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to take a screenshot of the whole screen.	%@ yettuter ɣer %@ ad iṭṭef tuṭṭfa n ugdil meṛṛa.	claude-sonnet-5-5 2026-10-18
+%@ at %@	%@ ɣer %@	claude-sonnet-5-5 2026-10-18
+%@ can't do this: its version doesn't support it by AppleScript (%@).	%@ ur izmir ara ad yexdem aya: lqem-is ur yessefrak ara aya s AppleScript (%@).	claude-sonnet-5-5 2026-10-18
+%@ captured %@ with Greenshot.	%@ iṭṭef %@ s Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ could not be reached	Ur yezmir ara ad yettwaweḍ %@	claude-sonnet-5-5 2026-10-18
+%@ could not be read as a Greenshot file.	%@ ur yezmir ara ad yettwaɣer d afaylu n Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ could not be started	Ur yezmir ara ad yettwasenker %@	claude-sonnet-5-5 2026-10-18
+%@ could not be written to %@: %@	%@ ur yezmir ara ad yettwaru ɣer %@: %@	claude-sonnet-5-5 2026-10-18
+%@ could not open the recording	%@ ur yezmir ara ad yeldi tavidyut	claude-sonnet-5-5 2026-10-18
+%@ could not open the screenshot	%@ ur yezmir ara ad yeldi tuṭṭfa n ugdil	claude-sonnet-5-5 2026-10-18
+%@ couldn't check for a newer version right now.	%@ ur yezmir ara ad isenqed lqem amaynut tura.	claude-sonnet-5-5 2026-10-18
+%@ didn't answer in time.	%@ ur yerri ara deg wakud.	claude-sonnet-5-5 2026-10-18
+%@ doesn't open at login yet	%@ ur yettalday ara akken ara teldiḍ tiɣimit	claude-sonnet-5-5 2026-10-18
+%@ embedded	%@ yettwarnu	claude-sonnet-5-5 2026-10-18
+%@ ended because of an error the last time it ran. You can check whether the problem was reported already, or report it with the details below.	%@ yekfa s tuccḍa tikelt taneggarut ideg yeddem. Tzemreḍ ad tesneqdeḍ ma yella wugur yettwanba yakan, neɣ ad t-tbeṛṛḥeḍ s telqayt ddaw.	claude-sonnet-5-5 2026-10-18
+%@ failed	%@ ur yeddi ara	claude-sonnet-5-5 2026-10-18
+%@ finished	%@ yekfa	claude-sonnet-5-5 2026-10-18
+%@ has problems: %lld to fix before it can run.	%@ ɣur-s uguren: %lld ilaq ad ttwaseɣṛen send ad iddu.	claude-sonnet-5-5 2026-10-18
+%@ holds no recipe.	%@ ur yesɛi ara aserwas.	claude-sonnet-5-5 2026-10-18
+%@ in %@	%@ deg %@	claude-sonnet-5-5 2026-10-18
+%@ in %@ – click to show in Finder	%@ deg %@ – senned i wakken ad d-teskneḍ deg Finder	claude-sonnet-5-5 2026-10-18
+%@ is a reserved key and can't be used in a hotkey.	%@ d tasarut yettwaḥerzen ur tezmir ara ad tettwaseqdec deg unegzum n unasiw.	claude-sonnet-5-5 2026-10-18
+%@ is checking for a newer version…	%@ yettwali ma llan leqwam imaynuten…	claude-sonnet-5-5 2026-10-18
+%@ is free and open source, made by volunteers. If it helps you, tell your friends about it.	%@ d ilelli yerna d aɣbalu yeldin, yettwarna sɣur imdanen n lxiṛ. Ma yella ay k-d-yettɛawan, ini-yas i yimeddukkal-ik.	claude-sonnet-5-5 2026-10-18
+%@ is no longer loaded in Greenshot.	%@ ur yettwasali ara ugar deg Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe file. Saving replaces its content with the recipe.	%@ mačči d afaylu n userwas. Asekles ad isenfel agbur-is s userwas.	claude-sonnet-5-5 2026-10-18
+%@ is not a recipe:\n%@	%@ mačči d aserwas:\n%@	claude-sonnet-5-5 2026-10-18
+%@ is not installed	%@ ur yettwasbedd ara	claude-sonnet-5-5 2026-10-18
+%@ is not installed.	%@ ur yettwasbedd ara.	claude-sonnet-5-5 2026-10-18
+%@ is not set up	%@ ur yettwaswel ara	claude-sonnet-5-5 2026-10-18
+%@ is not set up. Add it in Settings › Destinations.	%@ ur yettwaswel ara. Rnu-t deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+%@ is running	%@ iteddu	claude-sonnet-5-5 2026-10-18
+%@ is turned off by your organisation.	%@ yettwasens sɣur tkebbanit-ik.	claude-sonnet-5-5 2026-10-18
+%@ is up to date	%@ yettwaleqqem	claude-sonnet-5-5 2026-10-18
+%@ isn't running and could not be started.	%@ ur iteddu ara u ur yezmir ara ad yettwasenker.	claude-sonnet-5-5 2026-10-18
+%@ may not use the microphone	%@ yezmer ur yesseqdac ara asawaḍ	claude-sonnet-5-5 2026-10-18
+%@ may record the screen, so it can take screenshots.	%@ yezmer ad yeɣmes ugdil, ihi yezmer ad iṭṭef tuṭṭfiwin n ugdil.	claude-sonnet-5-5 2026-10-18
+%@ points at %@ = %@ pixels	%@ yettuεawad ɣer %@ = %@ ipiksilen	claude-sonnet-5-5 2026-10-18
+%@ quit unexpectedly the last time	%@ yeffeɣ-d s ttexliṭ tikelt taneggarut	claude-sonnet-5-5 2026-10-18
+%@ ran into an error, but it is still running. You can check whether the problem was reported already, or report it with the details below.	%@ yemḍel-d s tuccḍa, maca mazal iteddu. Tzemreḍ ad tesneqdeḍ ma yella wugur yettwanba yakan, neɣ ad t-tbeṛṛḥeḍ s telqayt ddaw.	claude-sonnet-5-5 2026-10-18
+%@ reported a problem: %@	%@ yebla-d i wugur: %@	claude-sonnet-5-5 2026-10-18
+%@ runs scripts: only the script above is allowed, not every script %@ runs.	%@ iseddu isekripten: kan asekript s ufella i yettwasirgen, mačči yal asekript i iseddu %@.	claude-sonnet-5-5 2026-10-18
+%@ should open at login, but macOS waits for you to allow it under Login Items & Extensions.	%@ ilaq ad yeldi di tnekra, maca macOS ittraju ad tsirgeḍ-t deg Iferdisen n unekcum d yimaẓrag.	claude-sonnet-5-5 2026-10-18
+%@ wants to use %@ to list your windows and take screenshots, and to run Greenshot recipes.	%@ yebɣa ad yesseqdec %@ i wakken ad d-yessken tisfaylin-ik u ad iṭṭef tuṭṭfiwin n ugdil, u ad isker iserwasen n Greenshot.	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ crop  ⎋ cancel	%@ × %@  ↩ seggem  ⎋ sefsex	claude-sonnet-5-5 2026-10-18
+%@ × %@  ↩ cut out  ⎋ cancel	%@ × %@  ↩ gzem  ⎋ sefsex	claude-sonnet-5-5 2026-10-18
+%@ – Error Report	%@ – Aneqqis n tuccḍa	claude-sonnet-5-5 2026-10-18
+%@ – click to show in Finder	%@ – senned i wakken ad d-teskneḍ deg Finder	claude-sonnet-5-5 2026-10-18
+%@ — Recipe Manager	%@ — Amsefrak n iserwasen	claude-sonnet-5-5 2026-10-18
+%@: %@	%@: %@	claude-sonnet-5-5 2026-10-18
+%@: %@ – click for actions	%@: %@ – senned i tigawin	claude-sonnet-5-5 2026-10-18
+%@: copied the URL	%@: tansa URL tettwanɣel	claude-sonnet-5-5 2026-10-18
+%@: the program was not found	%@: ur yettwafa ara useɣwen	claude-sonnet-5-5 2026-10-18
+%lld	%lld	claude-sonnet-5-5 2026-10-18
+%lld %%	%lld %%	claude-sonnet-5-5 2026-10-18
+%lld elements can't be shown here: %@.	%lld iferdisen ur zmiren ara ad ttwaskanen da: %@.	claude-sonnet-5-5 2026-10-18
+%lld errors	%lld tuccḍiwin	claude-sonnet-5-5 2026-10-18
+%lld found	%lld yettwafen	claude-sonnet-5-5 2026-10-18
+%lld fps	%lld fps	claude-sonnet-5-5 2026-10-18
+%lld hours	%lld isragen	claude-sonnet-5-5 2026-10-18
+%lld kbps	%lld kbps	claude-sonnet-5-5 2026-10-18
+%lld minutes	%lld tisdidin	claude-sonnet-5-5 2026-10-18
+%lld more parameters apply to other choices.	%lld iɣewwaṛen nniḍen ttuseqdacen i ufran-nniḍen.	claude-sonnet-5-5 2026-10-18
+%lld of %lld captures	%lld seg %lld tuṭṭfiwin	claude-sonnet-5-5 2026-10-18
+%lld of %lld elements	%lld seg %lld iferdisen	claude-sonnet-5-5 2026-10-18
+%lld recipes are still running	%lld iserwasen mazal ddan	claude-sonnet-5-5 2026-10-18
+%lld recipes could not be loaded	%lld iserwasen ur zmiren ara ad d-ali	claude-sonnet-5-5 2026-10-18
+%lld seconds	%lld tasinin	claude-sonnet-5-5 2026-10-18
+%lld spaces	%lld iḍulan	claude-sonnet-5-5 2026-10-18
+%lld steps	%lld isurifen	claude-sonnet-5-5 2026-10-18
+%lld triggers off	%lld imsenkaren ur teddun ara	claude-sonnet-5-5 2026-10-18
+%lld warnings	%lld Ɣur-k	claude-sonnet-5-5 2026-10-18
+%lld × %lld px · %@	%lld × %lld px · %@	claude-sonnet-5-5 2026-10-18
+'%@' can't follow '%@': the flow would loop.	'%@' ur izmir ara ad yeḍfer '%@': ad d-yeffeɣ ubrid ɣer deffir.	claude-sonnet-5-5 2026-10-18
+'%@' can't follow there: the flow would loop.	'%@' ur izmir ara ad yeḍfer da: ad d-yeffeɣ ubrid ɣer deffir.	claude-sonnet-5-5 2026-10-18
+'%@' is a start step	'%@' d asurif n tazwara	claude-sonnet-5-5 2026-10-18
+'%@' is no longer a start step	'%@' ur yelli ara d asurif n tazwara	claude-sonnet-5-5 2026-10-18
+(%@)	(%@)	claude-sonnet-5-5 2026-10-18
+(Deactivated)	(yettwakkes)	claude-sonnet-5-5 2026-10-18
+(Log file is empty)	(Afaylu n yiɣmisen d ilem)	claude-sonnet-5-5 2026-10-18
+(No log entries in chunk)	(Ulac iɣmisen deg uḥric)	claude-sonnet-5-5 2026-10-18
+(no stack)	(ulac tanzagt)	claude-sonnet-5-5 2026-10-18
+(no title)	(ulac azwel)	claude-sonnet-5-5 2026-10-18
+(nothing yet)	(ulac-it mazal)	claude-sonnet-5-5 2026-10-18
+* (any step)	* (yal asurif)	claude-sonnet-5-5 2026-10-18
+* = all errors	* = akk tuccḍiwin	claude-sonnet-5-5 2026-10-18
++ Add Error Fallback Route	+ Rnu abrid n tuccḍa	claude-sonnet-5-5 2026-10-18
++ Add Trigger	+ Rnu amsenker	claude-sonnet-5-5 2026-10-18
++ Option	+ Taxtiṛt	claude-sonnet-5-5 2026-10-18
+/usr/bin/open, /Applications/Preview.app or a name in the PATH	/usr/bin/open, /Applications/Preview.app neɣ isem deg PATH	claude-sonnet-5-5 2026-10-18
+0	0	claude-sonnet-5-5 2026-10-18
+0 = All Files	0 = Akk ifuyla	claude-sonnet-5-5 2026-10-18
+0 lines	0 n izirigen	claude-sonnet-5-5 2026-10-18
+1 element can't be shown here: %@.	1 n uferdis ur yezmir ara ad yettwaskan da: %@.	claude-sonnet-5-5 2026-10-18
+1 error	1 tuccḍa	claude-sonnet-5-5 2026-10-18
+1 hour	1 usrag	claude-sonnet-5-5 2026-10-18
+1 minute	1 tasdidt	claude-sonnet-5-5 2026-10-18
+1 step	1 asurif	claude-sonnet-5-5 2026-10-18
+1 trigger off	1 amsenker ur yeddi ara	claude-sonnet-5-5 2026-10-18
+1 warning	1 Ɣur-k	claude-sonnet-5-5 2026-10-18
+1.0	1.0	claude-sonnet-5-5 2026-10-18
+1280x720	1280x720	claude-sonnet-5-5 2026-10-18
+A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu bar icon is there either way, unless it is hidden below. Off: opening an editor from a full screen app stays on its Space instead of switching to the desktop.	Tignit n Dock d yiwen n umḍiq deg ⌘Tab mi ara yili umaẓrag neɣ Iɣewwaṛen yeldin; tignit n ufeggag n wumuɣ tella akken yebɣu yili, ala ma tettwaffer ddaw. Ma yensa: tlemmed n umaẓrag seg yiwen n usnas deg ugdil ummid ad yeqqim deg Space-is deg wadda ad yettusenfali ɣer tnarit.	claude-sonnet-5-5 2026-10-18
+A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Afaylu n Greenshot i Windows: Asekles yessuter afaylu amaynut, ihi wa ad yeqqim akken yella.	claude-sonnet-5-5 2026-10-18
+A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Afaylu yebɣa ad yerr asurif awurman i yiserwasen-nniḍen, ula d wid yettwarnan. Wali anwa iserwasen i isnifel d wayen ara yerr uqbel ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
+A link wanted to take a screenshot	Aseɣwen yebɣa ad iṭṭef tuṭṭfa n ugdil	claude-sonnet-5-5 2026-10-18
+A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Afaylu amaynut n userwas n tuṭṭfa yettwasuter ad yettwarsem deg Greenshot. Wali talqayt-is, imsenkaren d yisurifen n uselkem uqbel ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
+A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Tuṭṭfa tamaynut ad tbeddel tuṭṭfa n ugdil n umaẓrag ur nesɛi ara isnifal ur yettwaskelsen ara, deg wadda n usali n usfaylu nniḍen.	claude-sonnet-5-5 2026-10-18
+A newer version (%@) is available. Upgrading may already solve this problem!	Lqem amaynut (%@) yella. Aleqqem yezmer ad yefru ugur-agi yakan!	claude-sonnet-5-5 2026-10-18
+A problem while recording	Ugur deg wakud n tvidyut	claude-sonnet-5-5 2026-10-18
+A program	Ahil	claude-sonnet-5-5 2026-10-18
+A program started by a recipe can do anything you can do on this Mac.	Ahil i d-yesker userwas izmer ad yexdem kullec i tzemreḍ ad txedmeḍ ɣef Mac-a.	claude-sonnet-5-5 2026-10-18
+A recipe could not be loaded	Aserwas ur yezmir ara ad d-yali	claude-sonnet-5-5 2026-10-18
+A recipe is still running	Aserwas mazal iteddu	claude-sonnet-5-5 2026-10-18
+A recording is already running.	Tavidyut tetteddu yakan.	claude-sonnet-5-5 2026-10-18
+A region (Space: a window)	Tamnaṭ (Space: asfaylu)	claude-sonnet-5-5 2026-10-18
+A soft shadow behind the image.	Tili tarruyant deffir n tugna.	claude-sonnet-5-5 2026-10-18
+A window	Asfaylu	claude-sonnet-5-5 2026-10-18
+ACTIVE	YETTWAKTIV	claude-sonnet-5-5 2026-10-18
+AI	AI	claude-sonnet-5-5 2026-10-18
+AI Tool Access	Anekcum n yifecka AI	claude-sonnet-5-5 2026-10-18
+AI Tools	Ifecka AI	claude-sonnet-5-5 2026-10-18
+AI tool	Afecku AI	claude-sonnet-5-5 2026-10-18
+AI tool “%@”	Afecku AI “%@”	claude-sonnet-5-5 2026-10-18
+AI tools (like Claude Code, Claude Desktop, VS Code or Cursor) connect through greenshot-mcp, which comes with %@. They can list your windows, take screenshots and run your recipes. While this is off, Greenshot refuses every request without asking. Each program still needs your permission the first time it connects.	Ifecka AI (am Claude Code, Claude Desktop, VS Code neɣ Cursor) ttuqqlen s greenshot-mcp, i d-yusan d %@. Zemren ad d-sskanen isfaylen-ik, ad ṭṭfen tuṭṭfiwin n ugdil u ad skren iserwasen-ik. Mi ara yensi wa, Greenshot yugi akk isuturen war ma isteqsi. Yal ahil mazal yeḥwaǧ turagt-ik tikkelt tamezwarut ideg yeqqen.	claude-sonnet-5-5 2026-10-18
+AI: recipes written by AI tools	AI: iserwasen yettwarun sɣur yifecka AI	claude-sonnet-5-5 2026-10-18
+ALREADY APPROVED	YETTWASENTEM YAKAN	claude-sonnet-5-5 2026-10-18
+API token	Atukkin API	claude-sonnet-5-5 2026-10-18
+APPROVED	YETTWASENTEM	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEP	ASURIF AWURMAN	claude-sonnet-5-5 2026-10-18
+AUTOMATIC STEPS	ISURIFEN IWURMANEN	claude-sonnet-5-5 2026-10-18
+Access	Anekcum	claude-sonnet-5-5 2026-10-18
+Activated '%@'.	'%@' yettwakteb.	claude-sonnet-5-5 2026-10-18
+Active	Urmid	claude-sonnet-5-5 2026-10-18
+Active: %lld	Urmid: %lld	claude-sonnet-5-5 2026-10-18
+Ad-hoc (no certificate: a local build)	Ad-hoc (war aselkin: taneggarut tazeggaɣt)	claude-sonnet-5-5 2026-10-18
+Add	Rnu	claude-sonnet-5-5 2026-10-18
+Add Argument	Rnu aɣir	claude-sonnet-5-5 2026-10-18
+Add Branch	Rnu tagrumma	claude-sonnet-5-5 2026-10-18
+Add CC and BCC in the mail	Rnu CC d BCC deg yimayl	claude-sonnet-5-5 2026-10-18
+Add Choice	Rnu afran	claude-sonnet-5-5 2026-10-18
+Add Cut Mark	Rnu azamul n tuseggemt	claude-sonnet-5-5 2026-10-18
+Add Destination	Rnu taniɣert	claude-sonnet-5-5 2026-10-18
+Add Emoji	Rnu emoji	claude-sonnet-5-5 2026-10-18
+Add External Command	Rnu taladna tazɣarayt	claude-sonnet-5-5 2026-10-18
+Add Lane	Rnu tanebdurt	claude-sonnet-5-5 2026-10-18
+Add Parallel Branch	Rnu tagrumma tamyellalt	claude-sonnet-5-5 2026-10-18
+Add Step	Rnu asurif	claude-sonnet-5-5 2026-10-18
+Add Variable	Rnu asnifel	claude-sonnet-5-5 2026-10-18
+Add a step: a key to press after the others, like the C of ⌃⌥⌘K, C	Rnu asurif: tasarut ara yettwaḥerzen deffir tid-nniḍen, am C n ⌃⌥⌘K, C	claude-sonnet-5-5 2026-10-18
+Add one in Settings › Destinations.	Rnu yiwen deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Add the first step	Rnu asurif amezwaru	claude-sonnet-5-5 2026-10-18
+Add this step as a parallel entry point	Rnu asurif-agi am tawwurt n tazwara tamyellalt	claude-sonnet-5-5 2026-10-18
+Add to Editor	Rnu ɣer umaẓrag	claude-sonnet-5-5 2026-10-18
+Add to Editor – %@	Rnu ɣer umaẓrag – %@	claude-sonnet-5-5 2026-10-18
+Add to a note	Rnu ɣer tezmilt	claude-sonnet-5-5 2026-10-18
+Added %@ trigger	Amsenker %@ yettwarnan	claude-sonnet-5-5 2026-10-18
+Added option '%@': the steps read it with ${option.%@}	Taxtiṛt '%@' tettwarna: isurifen ttɣaṛen-tt s ${option.%@}	claude-sonnet-5-5 2026-10-18
+Added recipe error fallback route	Abrid n tuccḍa n userwas yettwarnan	claude-sonnet-5-5 2026-10-18
+Added step: %@	Asurif yettwarnan: %@	claude-sonnet-5-5 2026-10-18
+Add…	Rnu…	claude-sonnet-5-5 2026-10-18
+Adjust	Swel	claude-sonnet-5-5 2026-10-18
+Adjust…	Swel…	claude-sonnet-5-5 2026-10-18
+Advanced	Leqqayen	claude-sonnet-5-5 2026-10-18
+After a Capture	Ticki ṭṭfen	claude-sonnet-5-5 2026-10-18
+After a capture	Ticki ṭṭfen	claude-sonnet-5-5 2026-10-18
+After a capture one notification lists where it went. Click it within an hour to send the capture somewhere else, also after a restart. Focus and Do Not Disturb hold notifications back like those of other apps.	Ticki ṭṭfen, alɣu yettwaskanen anida teḍra. Senned fell-as deg usrag i wakken ad tazneḍ tuṭṭfa ɣer wanda nniḍen, ula d deffir usenker. Taḍfirt d Ur Ttnuɣuy ḥebsen alɣuyen am wid n yesnasen-nniḍen.	claude-sonnet-5-5 2026-10-18
+After a recording	Ticki tvidyut	claude-sonnet-5-5 2026-10-18
+All %@ loaded.	%@ meṛṛa ttwalin.	claude-sonnet-5-5 2026-10-18
+All Lines	Akk izirigen	claude-sonnet-5-5 2026-10-18
+All captures	Akk tuṭṭfiwin	claude-sonnet-5-5 2026-10-18
+All screens	Akk ugdilen	claude-sonnet-5-5 2026-10-18
+All spaces	Akk Spaces	claude-sonnet-5-5 2026-10-18
+Allow	Sireg	claude-sonnet-5-5 2026-10-18
+Allow %@ to record your screen	Sireg i %@ ad yeɣmes ugdil-ik	claude-sonnet-5-5 2026-10-18
+Allow %@ to use %@?	Sireg i %@ ad yesseqdec %@?	claude-sonnet-5-5 2026-10-18
+Allow it in System Settings › Privacy & Security › Microphone, or record without it.	Sireg-it deg Iɣewwaṛen n unagraw › Taɣellist d tɣellist › Asawaḍ, neɣ sekles war-it.	claude-sonnet-5-5 2026-10-18
+Allow links to take screenshots	Sireg iseɣwan ad ṭṭfen tuṭṭfiwin n ugdil	claude-sonnet-5-5 2026-10-18
+Allow the browser extension to send screenshots	Sireg asiɣzef n yiminig ad yazen tuṭṭfiwin n ugdil	claude-sonnet-5-5 2026-10-18
+Allow these actions	Sireg tigawin-agi	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to read or write these files and folders	Sireg asurif awurman-agi ad d-yɣer neɣ ad yaru ifuyla d yiķeramen-agi	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to run programs on this Mac	Sireg asurif awurman-agi ad yesker ahilen ɣef Mac-a	claude-sonnet-5-5 2026-10-18
+Allow this automatic step to upload captures to the internet	Sireg asurif awurman-agi ad isali tuṭṭfiwin ɣer internet	claude-sonnet-5-5 2026-10-18
+Allow this recipe to read or write these files and folders	Sireg aserwas-agi ad d-yɣer neɣ ad yaru ifuyla d yiķeramen-agi	claude-sonnet-5-5 2026-10-18
+Allow this recipe to run programs on this Mac	Sireg aserwas-agi ad yesker ahilen ɣef Mac-a	claude-sonnet-5-5 2026-10-18
+Allow this recipe to upload captures to the internet	Sireg aserwas-agi ad isali tuṭṭfiwin ɣer internet	claude-sonnet-5-5 2026-10-18
+Allowed	Yettusireg	claude-sonnet-5-5 2026-10-18
+Allowed programs	Ahilen yettusirgen	claude-sonnet-5-5 2026-10-18
+Allow…	Sireg…	claude-sonnet-5-5 2026-10-18
+Also offer beta versions of %@ when it looks for updates.	Sken daɣen leqwam beta n %@ mi ara yeqqim yettwali ma llan leqwam imaynuten.	claude-sonnet-5-5 2026-10-18
+Always	Yal tikelt	claude-sonnet-5-5 2026-10-18
+Amount (EUR):	Amḍan (EUR):	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes a Recipe	Afecku AI yessumer aserwas	claude-sonnet-5-5 2026-10-18
+An AI Tool Proposes an Automatic Step	Afecku AI yessumer asurif awurman	claude-sonnet-5-5 2026-10-18
+An AI Tool Wants to Change a Recipe	Afecku AI yebɣa ad isnifel aserwas	claude-sonnet-5-5 2026-10-18
+An AI tool captured %@ with Greenshot.	Afecku AI iṭṭef %@ s Greenshot.	claude-sonnet-5-5 2026-10-18
+An application's name or bundle identifier; Return adds it	Isem n usnas neɣ asulay n tɣupt; Return yerna-t	claude-sonnet-5-5 2026-10-18
+An application, like KeePassXC or com.example.vault	Asnas, am KeePassXC neɣ com.example.vault	claude-sonnet-5-5 2026-10-18
+An automatic step has no triggers: it runs in the recipes it extends.	Asurif awurman ur yesɛi ara imsenkaren: iteddu deg yiserwasen i yettwattal.	claude-sonnet-5-5 2026-10-18
+An automatic step runs inside the recipes it changes: save it, switch it on in Settings › Recipes and test run one of those recipes.	Asurif awurman iteddu deg yiserwasen i isnifel: sekles-it, sker-it deg Iɣewwaṛen › Iserwasen u xdem ɣer yiwen seg yiserwasen-agi.	claude-sonnet-5-5 2026-10-18
+An error occurred while exporting to %@: %@	Teḍra-d tuccḍa deg usifeḍ ɣer %@: %@	claude-sonnet-5-5 2026-10-18
+An image without transparency that uses fewer than 256 colours is saved as an 8-bit image: the same picture in a smaller file.	Tugna war tanmislit i yesseqdacen kra n 256 yiniten ad tettwasekles d tugna 8-bit: tugna tamcumt deg ufaylu meẓẓiy.	claude-sonnet-5-5 2026-10-18
+An unexpected error occurred.	Teḍra-d tuccḍa ur nettwaqeɛ ara.	claude-sonnet-5-5 2026-10-18
+An unofficial, community-made macOS port of Greenshot, the free and open source screenshot tool for Windows. It is not affiliated with the Greenshot team or the official Greenshot app in the Mac App Store.	Asnas n Greenshot ur yettwarnu ara sɣur tarbaɛt n Greenshot yeččuren, ur yeqqin ara i usnas n Greenshot unṣib deg Mac App Store. D asnas n macOS yettwarnan sɣur tmezdaɣt, d tamsayt n Greenshot, afecku ilelli yerna d aɣbalu yeldin i Windows n tuṭṭfa n ugdil.	claude-sonnet-5-5 2026-10-18
+Annotate and export	Err tizmilin u sifeḍ	claude-sonnet-5-5 2026-10-18
+Annotations	Tizmilin	claude-sonnet-5-5 2026-10-18
+Another Recipe	Aserwas nniḍen	claude-sonnet-5-5 2026-10-18
+Another Tip	Ameddakel nniḍen	claude-sonnet-5-5 2026-10-18
+Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.	Asnas nniḍen yezmer ad ten-yesseqdec. Fren wid nniḍen deg Iɣewwaṛen › Amatu, neɣ snifel amsenker n tsarut n unasiw n userwas.	claude-sonnet-5-5 2026-10-18
+Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately.	Yal amsenker izmer ad isker aserwas; yal yiwen yesɛa taqeffalt-is. Imsenkaren i yesnekren aserwas s timmad-nsen neɣ seg berra ttwasentmen s wudem uzzig.	claude-sonnet-5-5 2026-10-18
+App	Asnas	claude-sonnet-5-5 2026-10-18
+App key	Tasarut n usnas	claude-sonnet-5-5 2026-10-18
+Appearance	Udem	claude-sonnet-5-5 2026-10-18
+Append to the annotations	Rnu ɣer tezmilin	claude-sonnet-5-5 2026-10-18
+Application	Asnas	claude-sonnet-5-5 2026-10-18
+Applied recipe JSON changes.	Isnifal JSON n userwas ttwaseqdcen.	claude-sonnet-5-5 2026-10-18
+Apply Changes	Snes isnifal	claude-sonnet-5-5 2026-10-18
+Apply Cut Edges to the Image	Snes tiwtilin yettwagzamen ɣef tugna	claude-sonnet-5-5 2026-10-18
+Apply the JSON Changes?	Snes isnifal JSON?	claude-sonnet-5-5 2026-10-18
+Apply to the Image	Snes ɣef tugna	claude-sonnet-5-5 2026-10-18
+Approve	Sentem	claude-sonnet-5-5 2026-10-18
+Approve & Enable	Sentem u rmed	claude-sonnet-5-5 2026-10-18
+Approve & Save	Sentem u sekles	claude-sonnet-5-5 2026-10-18
+Approve Changes	Sentem isnifal	claude-sonnet-5-5 2026-10-18
+Approve Your Changes	Sentem isnifal-ik	claude-sonnet-5-5 2026-10-18
+Approved	Yettwasentem	claude-sonnet-5-5 2026-10-18
+Approved SHA-256	SHA-256 yettwasentem	claude-sonnet-5-5 2026-10-18
+Approved recipes	Iserwasen yettwasentmen	claude-sonnet-5-5 2026-10-18
+Are you sure you want to revert '%@' back to its default built-in definition?	Tebɣiḍ ad d-terreḍ '%@' ɣer usentel-is amezwer yettwarnan?	claude-sonnet-5-5 2026-10-18
+Are you sure you want to unload '%@'? It will be unregistered from %@.	Tebɣiḍ ad tekkseḍ asali n '%@'? Ad yettwakkes seg %@.	claude-sonnet-5-5 2026-10-18
+Area: %@ (%@) · %@	Tamnaṭ: %@ (%@) · %@	claude-sonnet-5-5 2026-10-18
+Areas	Timnaṭ	claude-sonnet-5-5 2026-10-18
+Arrow	Aneccab	claude-sonnet-5-5 2026-10-18
+As recorded	Akken yettwasekles	claude-sonnet-5-5 2026-10-18
+Ask Again	Steqsi daɣen	claude-sonnet-5-5 2026-10-18
+Ask Every Time	Steqsi deg yal tikelt	claude-sonnet-5-5 2026-10-18
+Asked with the first notification	Yettwasuter s ulɣu amezwaru	claude-sonnet-5-5 2026-10-18
+At most %lld colours	Ugar-it %lld initen	claude-sonnet-5-5 2026-10-18
+At most 1280 × 720	Ugar-it 1280 × 720	claude-sonnet-5-5 2026-10-18
+At most 1920 × 1080	Ugar-it 1920 × 1080	claude-sonnet-5-5 2026-10-18
+Attach to a page	Seddu ɣer usebter	claude-sonnet-5-5 2026-10-18
+Attach to an issue	Seddu ɣer wugur	claude-sonnet-5-5 2026-10-18
+Attached %@ to %@	%@ yettwaseddu ɣer %@	claude-sonnet-5-5 2026-10-18
+Attached %@ to “%@”	%@ yettwaseddu ɣer “%@”	claude-sonnet-5-5 2026-10-18
+Auto crop is not possible	Aseggem awurman ur yezmir ara	claude-sonnet-5-5 2026-10-18
+Auto crop, or cut the rows or columns of the crop selection out	Aseggem awurman, neɣ gzem izirigen neɣ tigejdiwin seg uferrez n useggem	claude-sonnet-5-5 2026-10-18
+Auto-closing in %llds...	Amdal awurman deg %llds...	claude-sonnet-5-5 2026-10-18
+Auto-selecting default choice in %llds...	Afran awurman n ufran amezwer deg %llds...	claude-sonnet-5-5 2026-10-18
+Automatic	Awurman	claude-sonnet-5-5 2026-10-18
+Automatic Step	Asurif awurman	claude-sonnet-5-5 2026-10-18
+Automatic Step Approval	Asentem n usurif awurman	claude-sonnet-5-5 2026-10-18
+Automatic Step Changed Outside Greenshot	Asurif awurman yettusnifel berra n Greenshot	claude-sonnet-5-5 2026-10-18
+Automatic Step Details	Talqayt n usurif awurman	claude-sonnet-5-5 2026-10-18
+Automatic Step File Detected	Afaylu n usurif awurman yettwafen	claude-sonnet-5-5 2026-10-18
+Automatic Step ID	Asulay n usurif awurman	claude-sonnet-5-5 2026-10-18
+Automatic Step JSON	JSON n usurif awurman	claude-sonnet-5-5 2026-10-18
+Automatic Step Modification Detected	Asnifel n usurif awurman yettwafen	claude-sonnet-5-5 2026-10-18
+Automatic Step Proposed by an AI Tool	Asurif awurman yettwasumer sɣur afecku AI	claude-sonnet-5-5 2026-10-18
+Automatic Step Review	Aselken n usurif awurman	claude-sonnet-5-5 2026-10-18
+Automatic Step Validation Failed	Asenqed n usurif awurman ur yeddi ara	claude-sonnet-5-5 2026-10-18
+Automatic Step — Recipe Editor	Asurif awurman — Amaẓrag n userwas	claude-sonnet-5-5 2026-10-18
+Automatic Steps	Isurifen iwurmanen	claude-sonnet-5-5 2026-10-18
+Automatic step at %@, fits %lld recipe(s)	Asurif awurman deg %@, yemṣada d %lld n userwas/iserwasen	claude-sonnet-5-5 2026-10-18
+Automatic step configuration failed validation.	Asenqed n uswel n usurif awurman ur yeddi ara.	claude-sonnet-5-5 2026-10-18
+Automatic step: %@	Asurif awurman: %@	claude-sonnet-5-5 2026-10-18
+Automatic steps	Isurifen iwurmanen	claude-sonnet-5-5 2026-10-18
+Automatic steps for your captures, like a border or a caption, and the settings your recipes offer. They are used from the next capture on.	Isurifen iwurmanen i tuṭṭfiwin-ik, am uzɣal neɣ azwel, d yiɣewwaṛen i d-sedhen iserwasen-ik. Ttuseqdacen seg tuṭṭfa i d-iteddun.	claude-sonnet-5-5 2026-10-18
+Automatic steps which plug in now (switched in Settings › Recipes):	Isurifen iwurmanen i yettwaqqnen tura (yettwarmeden deg Iɣewwaṛen › Iserwasen):	claude-sonnet-5-5 2026-10-18
+Automatic: at least 1.5 Mbps, more for large or fast videos. A screen gives at most as many frames as it shows.	Awurman: 1.5 Mbps ɣef drus, ugar i tvidyutin tigejdanin neɣ tiɣerfanin. Ugdil yefka ugar-it amḍan n tugniwin i d-yesskan.	claude-sonnet-5-5 2026-10-18
+Automation	Aswurman	claude-sonnet-5-5 2026-10-18
+Available in a moment: this window opened on its own.	Ad yili deg kra n wakud: asfaylu-agi yeldi s timmad-is.	claude-sonnet-5-5 2026-10-18
+A–Z	A–Z	claude-sonnet-5-5 2026-10-18
+BCC	BCC	claude-sonnet-5-5 2026-10-18
+BIC (optional):	BIC (afrayan):	claude-sonnet-5-5 2026-10-18
+BUILT-IN	YETTWARNAN	claude-sonnet-5-5 2026-10-18
+BY %@	SɣUR %@	claude-sonnet-5-5 2026-10-18
+Back	Uɣal	claude-sonnet-5-5 2026-10-18
+Back to one step	Uɣal ɣer yiwen n usurif	claude-sonnet-5-5 2026-10-18
+Background	Agilal	claude-sonnet-5-5 2026-10-18
+Background:	Agilal:	claude-sonnet-5-5 2026-10-18
+Balanced	Yemsawan	claude-sonnet-5-5 2026-10-18
+Barcode Format:	Amasal n tengalt n yizirigen:	claude-sonnet-5-5 2026-10-18
+Barcode: %@	Tangalt n yizirigen: %@	claude-sonnet-5-5 2026-10-18
+Based on Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	Yebna ɣef Greenshot, Copyright © 2007-2026 Thomas Braun, Jens Klingen, Robin Krom.	claude-sonnet-5-5 2026-10-18
+Below 100 % the screen shows through the zoomer.	Ddaw 100 % ugdil ittwali s uzaglu n useɣzef.	claude-sonnet-5-5 2026-10-18
+Beta version %@ is available – click to download	Lqem beta %@ yella – senned i wakken ad t-tsidreḍ	claude-sonnet-5-5 2026-10-18
+Bit rate	Arkad n yibiten	claude-sonnet-5-5 2026-10-18
+Black and white	Aberkan d umellal	claude-sonnet-5-5 2026-10-18
+Black and white threshold: %lld	Aswir n uberkan d umellal: %lld	claude-sonnet-5-5 2026-10-18
+Blank	Ilem	claude-sonnet-5-5 2026-10-18
+Body:	Agbur:	claude-sonnet-5-5 2026-10-18
+Bottom left	Akesser azelmaḍ	claude-sonnet-5-5 2026-10-18
+Bottom right	Akesser ayeffus	claude-sonnet-5-5 2026-10-18
+Box	Box	claude-sonnet-5-5 2026-10-18
+Branch %@	Tagrumma %@	claude-sonnet-5-5 2026-10-18
+Brightness of the area around the highlight, in percent	Tafat n tmnaṭ i d-yezzin ɣer usenneṛ, s tmeṭ	claude-sonnet-5-5 2026-10-18
+Brightness, contrast and gamma of the image.	Tafat, usentel d gamma n tugna.	claude-sonnet-5-5 2026-10-18
+Bring All to Front	Err akk ɣer zdat	claude-sonnet-5-5 2026-10-18
+Bring back the built-in recipe this file replaces	Err-d aserwas yettwarnan i yettusemmel afaylu-agi	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version	Err-d lqem yettwarnan	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of every recipe a file replaces	Err-d lqem yettwarnan n yal aserwas i yettusemmel afaylu	claude-sonnet-5-5 2026-10-18
+Bring back the built-in version of these recipes?	Err-d lqem yettwarnan n yiserwasen-agi?	claude-sonnet-5-5 2026-10-18
+Broken: %@	Yeṛẓa: %@	claude-sonnet-5-5 2026-10-18
+Browser extension	Asiɣzef n yiminig	claude-sonnet-5-5 2026-10-18
+Browsers	Iminigen	claude-sonnet-5-5 2026-10-18
+Build greenshot-mcp (swift build) or use the app from scripts/build-app.sh to connect an AI tool.	Rnu greenshot-mcp (swift build) neɣ seqdec asnas seg scripts/build-app.sh i wakken ad teqqneḍ afecku AI.	claude-sonnet-5-5 2026-10-18
+Built into Greenshot	Yettwarnan deg Greenshot	claude-sonnet-5-5 2026-10-18
+Built-in	Yettwarnan	claude-sonnet-5-5 2026-10-18
+CC	CC	claude-sonnet-5-5 2026-10-18
+Calendar Event	Tadyant n useggas	claude-sonnet-5-5 2026-10-18
+Calendar Event (iCal) Details	Talqayt n tedyant n useggas (iCal)	claude-sonnet-5-5 2026-10-18
+Camera (macOS)	Tawlaft (macOS)	claude-sonnet-5-5 2026-10-18
+Cancel (Esc)	Sefsex (Esc)	claude-sonnet-5-5 2026-10-18
+Cancel Recording	Sefsex tavidyut	claude-sonnet-5-5 2026-10-18
+Cancel the running one	Sefsex wa iteddun	claude-sonnet-5-5 2026-10-18
+Cancelled.	Yettwasefsex.	claude-sonnet-5-5 2026-10-18
+Cannot test run recipe. Fix validation errors first:	Ur izmir ara ad yettwaɛreḍ userwas. Seggem tuccḍiwin n usenqed qbel:	claude-sonnet-5-5 2026-10-18
+Capture Mode	Askar n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Capture Recipe Manager	Amsefrak n yiserwasen n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Capture Recipe Review	Aselken n userwas n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Capture Text	Ṭṭef aḍris	claude-sonnet-5-5 2026-10-18
+Capture a window with Greenshot for Mac.	Ṭṭef asfaylu s Greenshot i Mac.	claude-sonnet-5-5 2026-10-18
+Capture clipboard	Ṭṭef afus	claude-sonnet-5-5 2026-10-18
+Capture flow failed.	Tuṭṭfa ur teddi ara.	claude-sonnet-5-5 2026-10-18
+Capture links are off. Turn them on in Settings › Expert › Automation.	Iseɣwan n tuṭṭfa ttwakksen. Rmed-iten deg Iɣewwaṛen › Amazzag › Aswurman.	claude-sonnet-5-5 2026-10-18
+Capture text	Ṭṭef aḍris	claude-sonnet-5-5 2026-10-18
+Capture the active window	Ṭṭef asfaylu urmid	claude-sonnet-5-5 2026-10-18
+Capture the same region again	Ṭṭef tamnaṭ-nni daɣen	claude-sonnet-5-5 2026-10-18
+Capture the whole screen	Ṭṭef akk agdil	claude-sonnet-5-5 2026-10-18
+Capture the whole screen with Greenshot for Mac.	Ṭṭef akk agdil s Greenshot i Mac.	claude-sonnet-5-5 2026-10-18
+Captures	Tuṭṭfiwin	claude-sonnet-5-5 2026-10-18
+Capturing	Tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Capturing takes one key	Tuṭṭfa teḥwaǧ yiwet n tsarut	claude-sonnet-5-5 2026-10-18
+Change count	Amḍan n yisnifal	claude-sonnet-5-5 2026-10-18
+Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.	Snifel d acu i izemmer usurif awurman-agi ad yexdem. “Eǧǧ-it akken yella” neɣ imdel n usfaylu ur isnifel ara acemma.	claude-sonnet-5-5 2026-10-18
+Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing.	Snifel d wuhi imsenkaren izemren ad snekren aserwas-agi u d acu i izemmer ad yexdem. “Eǧǧ-it akken yella” neɣ imdel n usfaylu ur isnifel ara acemma.	claude-sonnet-5-5 2026-10-18
+Changed	Yettusnifel	claude-sonnet-5-5 2026-10-18
+Changed (#%@): %@	Yettusnifel (#%@): %@	claude-sonnet-5-5 2026-10-18
+Changed Lines	Izirigen yettusnifelen	claude-sonnet-5-5 2026-10-18
+Changed recipes	Iserwasen yettusnifelen	claude-sonnet-5-5 2026-10-18
+Changed your mind? Esc cancels a capture.	Tbeddleḍ iman-ik? Esc yesefsex tuṭṭfa.	claude-sonnet-5-5 2026-10-18
+Changes (− before, + after)	Isnifal (− uqbel, + deffir)	claude-sonnet-5-5 2026-10-18
+Changes not applied yet	Isnifal ur ttwasnasen ara mazal	claude-sonnet-5-5 2026-10-18
+Changes other recipes	Isnifel iserwasen nniḍen	claude-sonnet-5-5 2026-10-18
+Changes the automatic step “%@”	Isnifel asurif awurman “%@”	claude-sonnet-5-5 2026-10-18
+Changes the recipe “%@”	Isnifel aserwas “%@”	claude-sonnet-5-5 2026-10-18
+Change…	Snifel…	claude-sonnet-5-5 2026-10-18
+Chart	Takurba	claude-sonnet-5-5 2026-10-18
+Chart and text	Takurba d uḍris	claude-sonnet-5-5 2026-10-18
+Check Now	Senqed tura	claude-sonnet-5-5 2026-10-18
+Check at least one destination.	Fren taniɣert yiwen ɣef drus.	claude-sonnet-5-5 2026-10-18
+Check for unstable updates (pre-releases)	Senqed leqwam urkiden (isenfaren uqbel)	claude-sonnet-5-5 2026-10-18
+Check for updates every %lld days	Senqed leqwam yal %lld n wussan	claude-sonnet-5-5 2026-10-18
+Check that you can write to %@.	Senqed ma tzemreḍ ad tarueḍ ɣer %@.	claude-sonnet-5-5 2026-10-18
+Check the recipe JSON syntax for unescaped quotes, trailing commas, or mismatched brackets.	Senqed tseddast JSON n userwas: tizenzit ur nettwaɛdi ara, tiḥricin taneggarutin, neɣ tiqwasin ur ttemṣadan ara.	claude-sonnet-5-5 2026-10-18
+Check the recipe's 'options': keys, types, defaults and choices.	Senqed 'options' n userwas: tisura, tiwsiwin, azalen imezwar d ufran.	claude-sonnet-5-5 2026-10-18
+Check the setup, read the log and the system information (S)	Senqed aswel, ɣer aɣmis d talɣut n unagraw (S)	claude-sonnet-5-5 2026-10-18
+Check the setup, the log and the system of %@	Senqed aswel, aɣmis d unagraw n %@	claude-sonnet-5-5 2026-10-18
+Checking the code signature…	Asenqed n uzmul n tengalt…	claude-sonnet-5-5 2026-10-18
+Checking…	Asenqed…	claude-sonnet-5-5 2026-10-18
+Checks	Isenqad	claude-sonnet-5-5 2026-10-18
+Checks of the setup, the system, the hotkeys and the clipboard, and the log of %@.	Isenqad n uswel, n unagraw, n yinegzumen n unasiw d ufus, d uɣmis n %@.	claude-sonnet-5-5 2026-10-18
+Chip	Chip	claude-sonnet-5-5 2026-10-18
+Choices	Afran	claude-sonnet-5-5 2026-10-18
+Choose a recipe file (.gsrecipe.json). Greenshot shows what it does before it is used.	Fren afaylu n userwas (.gsrecipe.json). Greenshot yessken d acu i ixeddem uqbel ad yettwaseqdec.	claude-sonnet-5-5 2026-10-18
+Choose another one.	Fren wayeḍ.	claude-sonnet-5-5 2026-10-18
+Choose folder & format	Fren akaram d umasal	claude-sonnet-5-5 2026-10-18
+Choose the sound to play after a capture.	Fren imesli ara yettwurar ticki tuṭṭfa.	claude-sonnet-5-5 2026-10-18
+Choose…	Fren…	claude-sonnet-5-5 2026-10-18
+Chrome, Edge, Brave: open the Extensions page, turn on Developer mode, click Load unpacked and choose the extension folder. Firefox 126 or later: about:debugging › This Firefox › Load Temporary Add-on… and choose manifest.json in it. File names can then use ${url} and ${browser} of the page, and ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} of the browser's active tab (the extension's tab tracking).	Chrome, Edge, Brave: ldi asebter n Isiɣzaf, rmed askar n uneflay, senned ɣef Load unpacked u fren akaram n usiɣzef. Firefox 126 neɣ ugar: about:debugging › This Firefox › Load Temporary Add-on… u fren manifest.json deg-s. Ismawen n ifuyla zemren ad seqdcen ${url} d ${browser} n usebter, d ${Browser.Url}, ${Browser.Domain}, ${Browser.Title}, ${Browser.Ticket} n yiccer urmid n yiminig (aḍfar n yiccaren n usiɣzef).	claude-sonnet-5-5 2026-10-18
+Clear	Sfeḍ	claude-sonnet-5-5 2026-10-18
+Clear Background	Sfeḍ agilal	claude-sonnet-5-5 2026-10-18
+Click	Senned	claude-sonnet-5-5 2026-10-18
+Click a QR code	Senned ɣef tengalt QR	claude-sonnet-5-5 2026-10-18
+Click a line	Senned ɣef yizirig	claude-sonnet-5-5 2026-10-18
+Click a shortcut, then type the new one. ⌫ clears it, ⎋ cancels. + adds a step, for hotkeys like ⌃⌥⌘K then C (within 2.5 seconds). The keyboard menu makes a modifier count only on its left or right key. Keyboards with an F13 key can use it like Print Screen.	Senned ɣef unegzum, sakin aru amaynut. ⌫ ixeddem aḥerfi, ⎋ yesefsex. + yerna asurif, i yinegzumen n unasiw am ⌃⌥⌘K sakin C (deg 2.5 tasinin). Umuɣ n unasiw yerra aẓnad ad yettwaḥseb kan ɣef tsarut-is tazelmaḍt neɣ tayeffust. Allalen yesɛan tasarut F13 zemren ad tt-seqdcen am Print Screen.	claude-sonnet-5-5 2026-10-18
+Click anywhere or press Esc to return	Senned anda tebɣiḍ neɣ ssed ɣef Esc i wakken ad d-tuɣaleḍ	claude-sonnet-5-5 2026-10-18
+Click for more	Senned i wugar	claude-sonnet-5-5 2026-10-18
+Click here for Settings.	Senned da i Iɣewwaṛen.	claude-sonnet-5-5 2026-10-18
+Click to activate or deactivate	Senned i wakken ad tremdeḍ neɣ ad tsenseḍ	claude-sonnet-5-5 2026-10-18
+Click to activate the recipe	Senned i wakken ad tremdeḍ aserwas	claude-sonnet-5-5 2026-10-18
+Click to deactivate the recipe	Senned i wakken ad tsenseḍ aserwas	claude-sonnet-5-5 2026-10-18
+Click to open	Senned i wakken ad teldiḍ	claude-sonnet-5-5 2026-10-18
+Click to open the issue	Senned i wakken ad teldiḍ ugur	claude-sonnet-5-5 2026-10-18
+Click to open the page	Senned i wakken ad teldiḍ asebter	claude-sonnet-5-5 2026-10-18
+Click to view full preview (Esc to exit)	Senned i wakken ad twaliḍ taskant tummidt (Esc i tuffɣa)	claude-sonnet-5-5 2026-10-18
+Click, Enter	Senned, Kcem	claude-sonnet-5-5 2026-10-18
+Clicked away a notification of %@? It waits in Notification Center: a click on it lets you choose again where the capture goes, even after %@ was closed.	Tessenseḍ alɣu n %@? Yettraju deg Yiɣbula n Walɣuyen: asiwel fell-as ad ak-d-yeǧǧ ad tferneḍ daɣen anda ara yedder tuṭṭfa, ula ma yettwamdel %@.	claude-sonnet-5-5 2026-10-18
+Client ID	Asulay n umsaɣ	claude-sonnet-5-5 2026-10-18
+Client secret	Aẓeṭṭa uffir n umsaɣ	claude-sonnet-5-5 2026-10-18
+Clipart and text	Clipart d uḍris	claude-sonnet-5-5 2026-10-18
+Clipart and vertical text	Clipart d uḍris ubdid	claude-sonnet-5-5 2026-10-18
+Clipboard	Afus	claude-sonnet-5-5 2026-10-18
+Clipboard monitor	Aḍfar n ufus	claude-sonnet-5-5 2026-10-18
+Close All	Mdel akk	claude-sonnet-5-5 2026-10-18
+Closing an editor with changes discards them without a question.	Imdel n umaẓrag s yisnifal ad ten-yesfeḍ war ma isteqsi.	claude-sonnet-5-5 2026-10-18
+Cloud sites end in /wiki.	Isebtar n usigna ttfakkan s /wiki.	claude-sonnet-5-5 2026-10-18
+Cloud: email and API token	Asigna: imayl d useknan API	claude-sonnet-5-5 2026-10-18
+Code hash	Zuzer n tengalt	claude-sonnet-5-5 2026-10-18
+Code signature	Azmul n tengalt	claude-sonnet-5-5 2026-10-18
+Color:	Ini:	claude-sonnet-5-5 2026-10-18
+Command line tool	Afecku n yizirig n taladna	claude-sonnet-5-5 2026-10-18
+Command line: %@	Izirig n taladna: %@	claude-sonnet-5-5 2026-10-18
+Command “%@”	Taladna “%@”	claude-sonnet-5-5 2026-10-18
+Company:	Takebbanit:	claude-sonnet-5-5 2026-10-18
+Comparison	Amsaraɣ	claude-sonnet-5-5 2026-10-18
+Complete log loaded at %@	Aɣmis ummid yettwasali deg %@	claude-sonnet-5-5 2026-10-18
+Complete log: ~%@ lines (%@)	Aɣmis ummid: ~%@ izirigen (%@)	claude-sonnet-5-5 2026-10-18
+Concealed (a password manager asks apps not to keep it)	Yettwaffer (amsefrak n wawalen uffiren yessuter seg yesnasen ur t-ḥerzen ara)	claude-sonnet-5-5 2026-10-18
+Configure QR…	Swel QR…	claude-sonnet-5-5 2026-10-18
+Confluence	Confluence	claude-sonnet-5-5 2026-10-18
+Connect an AI tool	Qqen afecku AI	claude-sonnet-5-5 2026-10-18
+Connected '%@' to '%@'	'%@' yeqqen ɣer '%@'	claude-sonnet-5-5 2026-10-18
+Connected as %@.	Yeqqen am %@.	claude-sonnet-5-5 2026-10-18
+Content with caption	Agbur s uzwel	claude-sonnet-5-5 2026-10-18
+Continue At	Kemmel deg	claude-sonnet-5-5 2026-10-18
+Continues at '%@'	Yettkemmil deg '%@'	claude-sonnet-5-5 2026-10-18
+Contrast:	Usentel:	claude-sonnet-5-5 2026-10-18
+Copied	Yettwanɣel	claude-sonnet-5-5 2026-10-18
+Copied %lld lines of text	%lld izirigen n uḍris ttwanɣalen	claude-sonnet-5-5 2026-10-18
+Copied 1 line of text	1 n yizirig n uḍris yettwanɣel	claude-sonnet-5-5 2026-10-18
+Copied Mermaid DSL to clipboard.	Mermaid DSL yettwanɣel ɣef afus.	claude-sonnet-5-5 2026-10-18
+Copied by	Yettwanɣel sɣur	claude-sonnet-5-5 2026-10-18
+Copied entire log content to clipboard (%@ characters)	Agbur ummid n uɣmis yettwanɣel ɣef afus (%@ n yisekkilen)	claude-sonnet-5-5 2026-10-18
+Copied its output	Tuffɣa-ines tettwanɣel	claude-sonnet-5-5 2026-10-18
+Copied recipe ID '%@' to the clipboard.	Asulay n userwas '%@' yettwanɣel ɣef afus.	claude-sonnet-5-5 2026-10-18
+Copied the QR code's text	Aḍris n tengalt QR yettwanɣel	claude-sonnet-5-5 2026-10-18
+Copied the integrity report.	Aneqqis n uḥric yettwanɣel.	claude-sonnet-5-5 2026-10-18
+Copied the path.	Abrid yettwanɣel.	claude-sonnet-5-5 2026-10-18
+Copied the text	Aḍris yettwanɣel	claude-sonnet-5-5 2026-10-18
+Copied!	Yettwanɣel!	claude-sonnet-5-5 2026-10-18
+Copies a Terminal command that links greenshot-cli into /usr/local/bin.	Yenɣel taladna Terminal i d-yeqqnen greenshot-cli ɣer /usr/local/bin.	claude-sonnet-5-5 2026-10-18
+Copies the extension to Greenshot's folder in Application Support and shows it, for Load unpacked.	Yenɣel asiɣzef ɣer ukaram n Greenshot deg Application Support u yesken-it, i Load unpacked.	claude-sonnet-5-5 2026-10-18
+Copy Details	Nɣel talqayt	claude-sonnet-5-5 2026-10-18
+Copy File Path	Nɣel abrid n ufaylu	claude-sonnet-5-5 2026-10-18
+Copy Install Command	Nɣel taladna n usbeddi	claude-sonnet-5-5 2026-10-18
+Copy Link	Nɣel useɣwen	claude-sonnet-5-5 2026-10-18
+Copy Log	Nɣel aɣmis	claude-sonnet-5-5 2026-10-18
+Copy Mermaid Code	Nɣel tangalt Mermaid	claude-sonnet-5-5 2026-10-18
+Copy Path	Nɣel abrid	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID	Nɣel asulay n userwas	claude-sonnet-5-5 2026-10-18
+Copy Recipe ID to Clipboard	Nɣel asulay n userwas ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy Report	Nɣel aneqqis	claude-sonnet-5-5 2026-10-18
+Copy Stack Trace	Nɣel tanzagt n tuccḍa	claude-sonnet-5-5 2026-10-18
+Copy System Info	Nɣel talɣut n unagraw	claude-sonnet-5-5 2026-10-18
+Copy Text (OCR)	Nɣel aḍris (OCR)	claude-sonnet-5-5 2026-10-18
+Copy a shared link to the clipboard	Nɣel aseɣwen yettwabḍan ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy all output to the clipboard	Nɣel akk tuffɣa ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy an image first, then try again.	Nɣel tugna qbel, sakin ɛreḍ daɣen.	claude-sonnet-5-5 2026-10-18
+Copy picture of screen to the clipboard	Nɣel tugna n ugdil ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy picture of selected area to the clipboard	Nɣel tugna n tmnaṭ yettwafernen ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy text (OCR)	Nɣel aḍris (OCR)	claude-sonnet-5-5 2026-10-18
+Copy the file path	Nɣel abrid n ufaylu	claude-sonnet-5-5 2026-10-18
+Copy the first URL in the output to the clipboard	Nɣel URL amezwaru deg tuffɣa ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy the image to the clipboard (⇧⌘C)	Nɣel tugna ɣef afus (⇧⌘C)	claude-sonnet-5-5 2026-10-18
+Copy the link to the clipboard	Nɣel aseɣwen ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy the selected elements (⌘C)	Nɣel iferdisen yettwafernen (⌘C)	claude-sonnet-5-5 2026-10-18
+Copy to the clipboard	Ɣef afus	claude-sonnet-5-5 2026-10-18
+Copy “%@”	Nɣel “%@”	claude-sonnet-5-5 2026-10-18
+Copy: %@	Nɣel: %@	claude-sonnet-5-5 2026-10-18
+Core Destinations	Tiniɣriwin n wadda	claude-sonnet-5-5 2026-10-18
+Could not be checked	Ur yezmir ara ad yettwasenqed	claude-sonnet-5-5 2026-10-18
+Could not check for updates	Ur izmir ara ad isenqed leqwam	claude-sonnet-5-5 2026-10-18
+Couldn't register the extension's connection for %@; see the log.	Ur izmir ara ad yarsem tuqqna n usiɣzef i %@; wali aɣmis.	claude-sonnet-5-5 2026-10-18
+Couldn't remove the registration for %@; see the log.	Ur izmir ara ad yekkes arsam i %@; wali aɣmis.	claude-sonnet-5-5 2026-10-18
+Countdown	Aṭṭal	claude-sonnet-5-5 2026-10-18
+Counter	Amesmiḍan	claude-sonnet-5-5 2026-10-18
+Crash reports	Iznan n uɣaḍ	claude-sonnet-5-5 2026-10-18
+Create a new capture recipe in the recipe editor	Rnu aserwas amaynut n tuṭṭfa deg umaẓrag n iserwasen	claude-sonnet-5-5 2026-10-18
+Create a personal access token in %@ under your profile › Personal Access Tokens (Data Center, and Server 8.14 or later). It is kept in your Keychain.	Rnu atukkin n unekcum udmawan deg %@ deg umaɣnu-ik › Personal Access Tokens (Data Center, d Server 8.14 neɣ ugar). Yettwaḥrez deg Taxzant n tsura.	claude-sonnet-5-5 2026-10-18
+Create an API token for your Atlassian account at [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (one token works for Jira and Confluence). It is kept in your Keychain.	Rnu atukkin API i umiḍan-ik Atlassian deg [id.atlassian.com › Security › API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) (yiwen n tukkin iteddu i Jira d Confluence). Yettwaḥrez deg Taxzant n tsura.	claude-sonnet-5-5 2026-10-18
+Created a new automatic step: put its steps before Out, set where it goes in the Recipe tab.	Yettwarna usurif awurman amaynut: err isurifen-is send Out, fren anda iteddu deg yiccer n Userwas.	claude-sonnet-5-5 2026-10-18
+Created new recipe.	Aserwas amaynut yettwarna.	claude-sonnet-5-5 2026-10-18
+Crop Out Horizontally	Seggem s ugmuḍ	claude-sonnet-5-5 2026-10-18
+Crop Out Vertically	Seggem s ubdid	claude-sonnet-5-5 2026-10-18
+Crop modes	Iskaren n useggem	claude-sonnet-5-5 2026-10-18
+Custom	Udmawan	claude-sonnet-5-5 2026-10-18
+Custom size	Teɣzi tudmawant	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings	Iɣewwaṛen n yiri n tuseggemt	claude-sonnet-5-5 2026-10-18
+Cut Edge Settings…	Iɣewwaṛen n yiri n tuseggemt…	claude-sonnet-5-5 2026-10-18
+Cut Mark	Azamul n tuseggemt	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Columns	Gzem tigejdiwin yettwafernen	claude-sonnet-5-5 2026-10-18
+Cut Out the Selected Rows	Gzem izirigen yettwafernen	claude-sonnet-5-5 2026-10-18
+Cut edges	Leryuf yettwagzamen	claude-sonnet-5-5 2026-10-18
+Cut off from %@	Yettwagzem seg %@	claude-sonnet-5-5 2026-10-18
+Cut the selected elements (⌘X)	Gzem iferdisen yettwafernen (⌘X)	claude-sonnet-5-5 2026-10-18
+DEACTIVATED	YETTWAKKES	claude-sonnet-5-5 2026-10-18
+DIAGNOSTICS	UFRIN	claude-sonnet-5-5 2026-10-18
+Damaged element	Aferdis yeḍran	claude-sonnet-5-5 2026-10-18
+Dark	Aberkan	claude-sonnet-5-5 2026-10-18
+Deactivated	Yettwakkes	claude-sonnet-5-5 2026-10-18
+Deactivated '%@'.	'%@' yettwakkes.	claude-sonnet-5-5 2026-10-18
+Deactivated: %lld	Yettwakkes: %lld	claude-sonnet-5-5 2026-10-18
+Decision Required	Ilaq ad tferneḍ	claude-sonnet-5-5 2026-10-18
+Default	Amezwer	claude-sonnet-5-5 2026-10-18
+Default (%@)	Amezwer (%@)	claude-sonnet-5-5 2026-10-18
+Default (Return)	Amezwer (Return)	claude-sonnet-5-5 2026-10-18
+Default (Use Recipe Fallback / Terminate)	Amezwer (seqdec abrid n tuccḍa n userwas / Fak)	claude-sonnet-5-5 2026-10-18
+Default (in parallel)	Amezwer (s wudem amyellal)	claude-sonnet-5-5 2026-10-18
+Default (system font)	Amezwer (tasefsit n unagraw)	claude-sonnet-5-5 2026-10-18
+Define what should happen when a step fails (e.g. clipboard lock, network timeout). Route the capture to a fallback step or another recipe.	Sefru d acu ara yeḍru ticki yeḍra wugur deg usurif (am tuffra n ufus, aṭṭal n uẓeṭṭa). Err tuṭṭfa ɣer usurif n tuccḍa neɣ ɣer userwas nniḍen.	claude-sonnet-5-5 2026-10-18
+Delete Connection	Kkes tuqqna	claude-sonnet-5-5 2026-10-18
+Delete Step	Kkes asurif	claude-sonnet-5-5 2026-10-18
+Delete Trigger	Kkes amsenker	claude-sonnet-5-5 2026-10-18
+Delete the selected elements (⌫)	Kkes iferdisen yettwafernen (⌫)	claude-sonnet-5-5 2026-10-18
+Deleted step '%@' (%@)	Asurif '%@' (%@) yettwakkes	claude-sonnet-5-5 2026-10-18
+Description	Aglam	claude-sonnet-5-5 2026-10-18
+Description:	Aglam:	claude-sonnet-5-5 2026-10-18
+Destinations	Tiniɣriwin	claude-sonnet-5-5 2026-10-18
+Destinations (%lld)	Tiniɣriwin (%lld)	claude-sonnet-5-5 2026-10-18
+Details	Talqayt	claude-sonnet-5-5 2026-10-18
+Details for the report	Talqayt n uneqqis	claude-sonnet-5-5 2026-10-18
+Details, permissions and the file of this recipe	Talqayt, turagt d afaylu n userwas-agi	claude-sonnet-5-5 2026-10-18
+Details…	Talqayt…	claude-sonnet-5-5 2026-10-18
+Did you know?	Teẓriḍ?	claude-sonnet-5-5 2026-10-18
+Discard	Sefsex	claude-sonnet-5-5 2026-10-18
+Discard Recording	Sefsex tavidyut	claude-sonnet-5-5 2026-10-18
+Display %@	Ugdil %@	claude-sonnet-5-5 2026-10-18
+Display Name	Isem n uskan	claude-sonnet-5-5 2026-10-18
+Do nothing	Ur xedmeḍ acemma	claude-sonnet-5-5 2026-10-18
+Do you want to save the screenshot “%@”?	Tebɣiḍ ad tsekleseḍ tuṭṭfa n ugdil “%@”?	claude-sonnet-5-5 2026-10-18
+Don't Allow	Ur sirig ara	claude-sonnet-5-5 2026-10-18
+Don't Save	Ur sekles ara	claude-sonnet-5-5 2026-10-18
+Don't ask again	Ur steqsi ara tikelt-nniḍen	claude-sonnet-5-5 2026-10-18
+Don't ask to save when closing an editor	Ur steqsi ara i usekles ticki ara tmdelḍ amaẓrag	claude-sonnet-5-5 2026-10-18
+Double-click	Senned snat n tikkal	claude-sonnet-5-5 2026-10-18
+Download It	Sider-it	claude-sonnet-5-5 2026-10-18
+Download Update	Sider aleqqem	claude-sonnet-5-5 2026-10-18
+Drag	Zuɣer	claude-sonnet-5-5 2026-10-18
+Drag the area to keep or to cut out	Zuɣer tamnaṭ ara teǧǧeḍ neɣ ara tgezmeḍ	claude-sonnet-5-5 2026-10-18
+Drag the screenshot into the new mail	Zuɣer tuṭṭfa n ugdil ɣer yimayl amaynut	claude-sonnet-5-5 2026-10-18
+Draw the selected cut edges or torn edges into the image; they can't be changed afterwards	Suneɣ iri n tuseggemt neɣ leryuf qqeṛsen yettwafernen ɣef tugna; ur zmiren ara ad ttwasnifel deffir waya	claude-sonnet-5-5 2026-10-18
+Drawing	Asuneɣ	claude-sonnet-5-5 2026-10-18
+Dropbox	Dropbox	claude-sonnet-5-5 2026-10-18
+EPC SEPA Credit Transfer Details	Talqayt n usiweḍ EPC SEPA Credit Transfer	claude-sonnet-5-5 2026-10-18
+EPC SEPA Transfer	Asiweḍ EPC SEPA	claude-sonnet-5-5 2026-10-18
+ERROR HANDLING & FALLBACK	TAGARA N TUCCḌIWIN & ABRID N TUCCḌA	claude-sonnet-5-5 2026-10-18
+Each AI tool starts greenshot-mcp itself. Restart the AI tool or reload its MCP servers after changing its configuration.	Yal afecku AI yesenker greenshot-mcp s timmad-is. Ales asenker n ufecku AI neɣ ales asali n yiqeddacen-is MCP deffir ma tsenfaleḍ aswel-is.	claude-sonnet-5-5 2026-10-18
+Each command is a destination of its own (“External: name”). {0} in the arguments is the screenshot's file (the saved file when the editor's screenshot is saved and unchanged); the command and the arguments can use the file name pattern variables. A command whose program is missing is left out of the destination menu.	Yal taladna d taniɣert s timmad-is (“Azɣaray: isem”). {0} deg yiɣir d afaylu n tuṭṭfa n ugdil (afaylu yettwasekles mi ara yettwasekles u ur yettusnifel ara umaẓrag); taladna d yiɣir zemren ad seqdcen timsal n taneɣruft n yisem n ufaylu. Taladna ur nesɛi ara aseɣwen-is ur tettwasken ara deg wumuɣ n tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Each node in the recipe must have a unique 'id'.	Yal tigejdit deg userwas ilaq ad tesɛu 'id' ugaren.	claude-sonnet-5-5 2026-10-18
+Edges:	Leryuf:	claude-sonnet-5-5 2026-10-18
+Edit External Command	Snifel taladna tazɣarayt	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode	Snifel QR / tangalt n yizirigen	claude-sonnet-5-5 2026-10-18
+Edit QR / Barcode…	Snifel QR / tangalt n yizirigen…	claude-sonnet-5-5 2026-10-18
+Edit Recipe File	Snifel afaylu n userwas	claude-sonnet-5-5 2026-10-18
+Edit Text	Snifel aḍris	claude-sonnet-5-5 2026-10-18
+Edit the automatic step in the recipe editor	Snifel asurif awurman deg umaẓrag n userwas	claude-sonnet-5-5 2026-10-18
+Edit the code with live preview	Snifel tangalt s uskan s srid	claude-sonnet-5-5 2026-10-18
+Editor (“%@”)	Amaẓrag (“%@”)	claude-sonnet-5-5 2026-10-18
+Editor menu	Umuɣ n umaẓrag	claude-sonnet-5-5 2026-10-18
+Editor windows	Isfaylen n umaẓrag	claude-sonnet-5-5 2026-10-18
+Effect:	Asemda:	claude-sonnet-5-5 2026-10-18
+Effects on the whole image (hold ⌥ to change the settings of the drop shadow and the torn edges first)	Isemda ɣef tugna meṛṛa (ṭṭef ⌥ i wakken ad tsenfaleḍ iɣewwaṛen n tili d leryuf qqeṛsen send)	claude-sonnet-5-5 2026-10-18
+Either key	Yiwet seg tsura	claude-sonnet-5-5 2026-10-18
+Element of a newer version	Aferdis n lqem amaynut	claude-sonnet-5-5 2026-10-18
+Ellipse	Taglayt	claude-sonnet-5-5 2026-10-18
+Email	Imayl	claude-sonnet-5-5 2026-10-18
+Email Message Details	Talqayt n yizen imayl	claude-sonnet-5-5 2026-10-18
+Email:	Imayl:	claude-sonnet-5-5 2026-10-18
+Embed (Base64)	Seddu (Base64)	claude-sonnet-5-5 2026-10-18
+Embed File…	Seddu afaylu…	claude-sonnet-5-5 2026-10-18
+Emoji	Emoji	claude-sonnet-5-5 2026-10-18
+Empty log file	Afaylu n uɣmis d ilem	claude-sonnet-5-5 2026-10-18
+Empty: all text	Ilem: akk aḍris	claude-sonnet-5-5 2026-10-18
+Encryption Type:	Anaw n uwgelhen:	claude-sonnet-5-5 2026-10-18
+End (UTC):	Taggara (UTC):	claude-sonnet-5-5 2026-10-18
+Enlarge Canvas	Sehrew taɣeṛɣert	claude-sonnet-5-5 2026-10-18
+Enter	Kcem	claude-sonnet-5-5 2026-10-18
+Enter a personal access token for %@ in Settings › Destinations.	Sekcem atukkin n unekcum udmawan i %@ deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Enter plain text or URL:	Sekcem aḍris aččuran neɣ URL:	claude-sonnet-5-5 2026-10-18
+Enter the %@ URL in Settings › Destinations.	Sekcem URL n %@ deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Enter the URL first.	Sekcem URL send.	claude-sonnet-5-5 2026-10-18
+Enter the email and API token first.	Sekcem imayl d useknan API send.	claude-sonnet-5-5 2026-10-18
+Enter the personal access token first.	Sekcem atukkin n unekcum udmawan send.	claude-sonnet-5-5 2026-10-18
+Enter the user name and password first (or test at the first upload).	Sekcem isem n useqdac d wawal uffir send (neɣ ɛreḍ deg usali amezwaru).	claude-sonnet-5-5 2026-10-18
+Enter your email and an API token for %@ in Settings › Destinations.	Sekcem imayl-ik d useknan API i %@ deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Error Filter	Imsizdeg n tuccḍiwin	claude-sonnet-5-5 2026-10-18
+Error Loading Recipe	Tuccḍa deg usali n userwas	claude-sonnet-5-5 2026-10-18
+Error Routes	Idurar n tuccḍiwin	claude-sonnet-5-5 2026-10-18
+Error loading earlier chunk: %@	Tuccḍa deg usali n uḥric uzwir: %@	claude-sonnet-5-5 2026-10-18
+Error message	Izen n tuccḍa	claude-sonnet-5-5 2026-10-18
+Error reading log file:\n%@	Tuccḍa deg tɣuri n ufaylu n uɣmis:\n%@	claude-sonnet-5-5 2026-10-18
+Error: %@	Tuccḍa: %@	claude-sonnet-5-5 2026-10-18
+Errors only	Tuccḍiwin kan	claude-sonnet-5-5 2026-10-18
+Esc	Esc	claude-sonnet-5-5 2026-10-18
+Esc: Close  |  F5: Refresh  |  1–6: Sections	Esc: Mdel  |  F5: Smiren  |  1–6: Iḥricen	claude-sonnet-5-5 2026-10-18
+Every recipe requires a unique 'id' and a descriptive 'name' property.	Yal aserwas yeḥwaǧ 'id' ugaren d tmeẓẓut 'name' i d-yessnen.	claude-sonnet-5-5 2026-10-18
+Everything is also in the menu of the %@ icon in the menu bar.	Kullec yella daɣen deg wumuɣ n tignit n %@ deg ufeggag n wumuɣ.	claude-sonnet-5-5 2026-10-18
+Example: %@	Amedya: %@	claude-sonnet-5-5 2026-10-18
+Execute capture recipe in Greenshot (⌘R)	Sker aserwas n tuṭṭfa deg Greenshot (⌘R)	claude-sonnet-5-5 2026-10-18
+Executing test run for '%@'...	Asekker n uɛraḍ i '%@'...	claude-sonnet-5-5 2026-10-18
+Execution Error	Tuccḍa n usekker	claude-sonnet-5-5 2026-10-18
+Export Capture	Sifeḍ tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Expression	Tafyirt	claude-sonnet-5-5 2026-10-18
+External Capture Recipe Detected	Aserwas n tuṭṭfa azɣaray yettwafen	claude-sonnet-5-5 2026-10-18
+External Command	Taladna tazɣarayt	claude-sonnet-5-5 2026-10-18
+External command	Taladna tazɣarayt	claude-sonnet-5-5 2026-10-18
+External command %@	Taladna tazɣarayt %@	claude-sonnet-5-5 2026-10-18
+External commands	Tiladna tizɣarayin	claude-sonnet-5-5 2026-10-18
+External: %@	Azɣaray: %@	claude-sonnet-5-5 2026-10-18
+Extract text from image	Sinser aḍris seg tugna	claude-sonnet-5-5 2026-10-18
+F on the capture screen captures an area of one of these sizes; the last five region sizes follow them.	F deg ugdil n tuṭṭfa yeṭṭef tamnaṭ n yiwet seg teɣzi-agi; tteɣzi n tmnaṭ taneggarut ttidiren deffir-sent.	claude-sonnet-5-5 2026-10-18
+Fallback Recipe	Aserwas n tuccḍa	claude-sonnet-5-5 2026-10-18
+Fallback Step	Asurif n tuccḍa	claude-sonnet-5-5 2026-10-18
+File SHA-256	SHA-256 n ufaylu	claude-sonnet-5-5 2026-10-18
+File name counter	Amesmiḍan n yisem n ufaylu	claude-sonnet-5-5 2026-10-18
+File not found	Afaylu ulac-it	claude-sonnet-5-5 2026-10-18
+Files	Ifuyla	claude-sonnet-5-5 2026-10-18
+Files and Log	Ifuyla d uɣmis	claude-sonnet-5-5 2026-10-18
+Files: %@, …	Ifuyla: %@, …	claude-sonnet-5-5 2026-10-18
+Filter:	Imsizdeg:	claude-sonnet-5-5 2026-10-18
+Finds text in the image and covers every match with an element you can still move or remove.	Yufa aḍris deg tugna u yeɣɣef yal yiwen deg-s s uferdis i tzemreḍ ad t-tzuɣreḍ neɣ ad t-tekkseḍ.	claude-sonnet-5-5 2026-10-18
+First Name:	Isem amezwaru:	claude-sonnet-5-5 2026-10-18
+Fixed capture sizes	Teɣzi n tuṭṭfa yettwaḥerzen	claude-sonnet-5-5 2026-10-18
+Flameshot screenshot tool	Afecku n tuṭṭfa n ugdil Flameshot	claude-sonnet-5-5 2026-10-18
+Flow	Aseddu	claude-sonnet-5-5 2026-10-18
+Folder	Akaram	claude-sonnet-5-5 2026-10-18
+Folder ID	Asulay n ukaram	claude-sonnet-5-5 2026-10-18
+Font size in points	Teɣzi n tsefsit s tneqqiḍin	claude-sonnet-5-5 2026-10-18
+Footer	Aḍar	claude-sonnet-5-5 2026-10-18
+Footer pattern	Taneɣruft n uḍar	claude-sonnet-5-5 2026-10-18
+Footer with Date and Title	Aḍar s uzemz d uzwel	claude-sonnet-5-5 2026-10-18
+Foreground	Zdat	claude-sonnet-5-5 2026-10-18
+Format	Amasal	claude-sonnet-5-5 2026-10-18
+Format:	Amasal:	claude-sonnet-5-5 2026-10-18
+Forward to another Recipe…	Err ɣer userwas nniḍen…	claude-sonnet-5-5 2026-10-18
+Forward to recipe	Err ɣer userwas	claude-sonnet-5-5 2026-10-18
+Four objects	Kuẓ n tɣawsiwin	claude-sonnet-5-5 2026-10-18
+Frame rate	Arkad n tugniwin	claude-sonnet-5-5 2026-10-18
+Freehand	S ufus	claude-sonnet-5-5 2026-10-18
+Freehand smoothing	Asleɣ n usuneɣ s ufus	claude-sonnet-5-5 2026-10-18
+From	Seg	claude-sonnet-5-5 2026-10-18
+From .greenshot File…	Seg ufaylu .greenshot…	claude-sonnet-5-5 2026-10-18
+From Editor…	Seg umaẓrag…	claude-sonnet-5-5 2026-10-18
+Full Screen	Agdil ummid	claude-sonnet-5-5 2026-10-18
+Full colour	Ini ummid	claude-sonnet-5-5 2026-10-18
+Full report	Aneqqis ummid	claude-sonnet-5-5 2026-10-18
+Full screen hotkey	Anegzum n unasiw n ugdil ummid	claude-sonnet-5-5 2026-10-18
+Gamma:	Gamma:	claude-sonnet-5-5 2026-10-18
+Generated by an app, not copied by the user	Yettwarna sɣur usnas, ur yettwanɣel ara sɣur useqdac	claude-sonnet-5-5 2026-10-18
+Geo Location	Adig n tgara	claude-sonnet-5-5 2026-10-18
+Geo Location Details	Talqayt n wadig n tgara	claude-sonnet-5-5 2026-10-18
+GitHub could not be reached.	Ur yezmir ara ad yettwaweḍ GitHub.	claude-sonnet-5-5 2026-10-18
+Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.	Efk i unekcum n ufecku AI 'ToolName' n isekkilen, uṭṭunen, '_' neɣ '-'.	claude-sonnet-5-5 2026-10-18
+Go Back	Uɣal	claude-sonnet-5-5 2026-10-18
+Greenshot (editable)	Greenshot (yezmer ad yettusnifel)	claude-sonnet-5-5 2026-10-18
+Greenshot Recent	Greenshot n melmi kan	claude-sonnet-5-5 2026-10-18
+Greenshot Website	Asmel n Greenshot	claude-sonnet-5-5 2026-10-18
+Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot yerna isurifen-agi ɣer yiserwasen nniḍen: err-iten send Out deg tebdart n yisurifen, rmed asurif awurman deg Iɣewwaṛen › Iserwasen.	claude-sonnet-5-5 2026-10-18
+Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot yezmer ad iɣer tansiwin n yisebtar yeldin deg Safari d Chrome. macOS isteqsi yiwet n tikkelt i yal asiɣzef ma yella tettwasirgeḍ.	claude-sonnet-5-5 2026-10-18
+Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot ur yezmir ara ad yefk tasarut n usnas Box, ihi ḥrez-d tin-ik: deg [Box Developer Console](https://app.box.com/developers/console) rnu Custom App s User Authentication (OAuth 2.0), sbadu URI n uwennez ɣer `%@`, efk-as tazmert Write all files u sekcem dagi asulay n umsaɣ d uẓeṭṭa-ines. Aẓeṭṭa d usesteb ttwaḥerzen deg Taxzant n tsura; asulay n ukaram d uṭṭun deg URL n ukaram.	claude-sonnet-5-5 2026-10-18
+Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot ur izmir ara ad d-yessali neɣ ad yarsem aserwas n tuṭṭfa-agi acku yesɛa tuccḍiwin n uswel. Wali talqayt n usenqed ddaw:	claude-sonnet-5-5 2026-10-18
+Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot ur izmir ara ad yesseqdec asurif awurman-agi acku yesɛa tuccḍiwin. Wali talqayt ddaw:	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot i Mac ur yesɛi ara asurif '%@': iɣewwaṛen-is ttwaḥerzen akken llan.	claude-sonnet-5-5 2026-10-18
+Greenshot for Mac isn't ready.	Greenshot i Mac ur yewjid ara.	claude-sonnet-5-5 2026-10-18
+Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot ur yettusirag ara ad iḍfer %@. Sireg-it deg Iɣewwaṛen n unagraw › Taɣellist d tɣellist › Aswurman › Greenshot.	claude-sonnet-5-5 2026-10-18
+Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot yazen tuṭṭfiwin n ugdil ɣer yisnasen-agi s AppleScript; macOS isteqsi yiwet n tikkelt i yal asnas.	claude-sonnet-5-5 2026-10-18
+Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
+HDR, headroom %@ of %@	HDR, tallunt %@ seg %@	claude-sonnet-5-5 2026-10-18
+HTML (image embedded)	HTML (tugna tettwaseddu)	claude-sonnet-5-5 2026-10-18
+Hardened runtime	Asikel yettwaḥerzen	claude-sonnet-5-5 2026-10-18
+Has its own error route	Yesɛa abrid-is n tuccḍa	claude-sonnet-5-5 2026-10-18
+Hide %@	Ffer %@	claude-sonnet-5-5 2026-10-18
+Hide Icon	Ffer tignit	claude-sonnet-5-5 2026-10-18
+Hide Others	Ffer wiyaḍ	claude-sonnet-5-5 2026-10-18
+Hide the menu bar icon?	Ffer tignit n ufeggag n wumuɣ?	claude-sonnet-5-5 2026-10-18
+High frame rate	Arkad n tugniwin ameqqran	claude-sonnet-5-5 2026-10-18
+High quality	Taɣara ɛlayen	claude-sonnet-5-5 2026-10-18
+Hold ⌥ to place it without snapping	Ṭṭef ⌥ i wakken ad t-tserseḍ war timmuɣli	claude-sonnet-5-5 2026-10-18
+Horizontal offset:	Asemmiḍ ubdid:	claude-sonnet-5-5 2026-10-18
+Horizontal padding:	Aɣwenzi n usuref:	claude-sonnet-5-5 2026-10-18
+Hotkey	Anegzum n unasiw	claude-sonnet-5-5 2026-10-18
+Hotkey %@	Anegzum n unasiw %@	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again (some keys are still taken).	Inegzumen n unasiw ttwarsmen daɣen (kra n tsura mazal ttwaṭṭfent).	claude-sonnet-5-5 2026-10-18
+Hotkeys registered again.	Inegzumen n unasiw ttwarsmen daɣen.	claude-sonnet-5-5 2026-10-18
+How much %@ writes to the log, until it restarts. Debug writes the most.	Acḥal i yettaru %@ deg uɣmis, almed ad d-yales asenker. Debug yettaru akk.	claude-sonnet-5-5 2026-10-18
+IBAN:	IBAN:	claude-sonnet-5-5 2026-10-18
+ICO (icon)	ICO (tignit)	claude-sonnet-5-5 2026-10-18
+Identifier	Asulay	claude-sonnet-5-5 2026-10-18
+If %@: %@	Ma %@: %@	claude-sonnet-5-5 2026-10-18
+If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers.	Ma yella aqeddac-ik, rnu %@ neɣ azmul deg Iɣewwaṛen › Tiniɣriwin › Iqeddacen-ik.	claude-sonnet-5-5 2026-10-18
+Image	Tugna	claude-sonnet-5-5 2026-10-18
+Image Quality	Taɣara n tugna	claude-sonnet-5-5 2026-10-18
+Image link copied – click to open the page	Aseɣwen n tugna yettwanɣel – senned i wakken ad teldiḍ asebter	claude-sonnet-5-5 2026-10-18
+Image size	Teɣzi n tugna	claude-sonnet-5-5 2026-10-18
+Import	Kter	claude-sonnet-5-5 2026-10-18
+Import Annotations from %@	Kter tizmilin seg %@	claude-sonnet-5-5 2026-10-18
+Import Annotations from a Greenshot File	Kter tizmilin seg ufaylu Greenshot	claude-sonnet-5-5 2026-10-18
+Import From This Editor	Kter seg umaẓrag-agi	claude-sonnet-5-5 2026-10-18
+Imported %lld annotations from %@	%lld tizmilin ttwakteren seg %@	claude-sonnet-5-5 2026-10-18
+In	Deg	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	Deg Iɣewwaṛen › Tuffɣa tferneḍ akaram d taneɣruft n yisem n ufaylu n tuṭṭfiwin n ugdil yettwaskelsen.	claude-sonnet-5-5 2026-10-18
+In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	Deg kra n yisurifen ad twaliḍ amek teddu tuṭṭfa, u %@ isenqed ma yella kullec yewjid.	claude-sonnet-5-5 2026-10-18
+In parallel	S wudem amyellal	claude-sonnet-5-5 2026-10-18
+In the background	Deg ugilal	claude-sonnet-5-5 2026-10-18
+In window mode the selection follows the smallest area under the mouse, like a sidebar, a toolbar or a part of a web page; PgUp and PgDn select a larger or smaller area. Needs the Accessibility permission.	Deg uskar n usfaylu, afran yeḍfer tamnaṭ tamecṭuḥt ddaw uḍebsi, am yiccer n yidis, afeggag n yifecka neɣ aḥric n usebter web; PgUp d PgDn fernen tamnaṭ tameqqrant neɣ tamecṭuḥt. Yeḥwaǧ tiremt n unekcum.	claude-sonnet-5-5 2026-10-18
+In ~/.codeium/windsurf/mcp_config.json.	Deg ~/.codeium/windsurf/mcp_config.json.	claude-sonnet-5-5 2026-10-18
+In ~/.cursor/mcp.json (all projects) or .cursor/mcp.json (one project).	Deg ~/.cursor/mcp.json (akk i isenfaren) neɣ .cursor/mcp.json (yiwen n usenfar).	claude-sonnet-5-5 2026-10-18
+In ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), then Refresh.	Deg ~/.gemini/config/mcp_config.json (… › MCP Servers › Manage MCP Servers › View raw config), sakin Smiren.	claude-sonnet-5-5 2026-10-18
+Info	Talɣut	claude-sonnet-5-5 2026-10-18
+Information	Talɣut	claude-sonnet-5-5 2026-10-18
+Insert	Ger	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode	Ger QR / tangalt n yizirigen	claude-sonnet-5-5 2026-10-18
+Insert QR / Barcode…	Ger QR / tangalt n yizirigen…	claude-sonnet-5-5 2026-10-18
+Insert Step After	Ger asurif deffir	claude-sonnet-5-5 2026-10-18
+Insert Step Here	Ger asurif da	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Excel	Ger ɣer Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft PowerPoint	Ger ɣer Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Insert into Microsoft Word	Ger ɣer Microsoft Word	claude-sonnet-5-5 2026-10-18
+Insert into document	Ger ɣer warrat	claude-sonnet-5-5 2026-10-18
+Insert into presentation	Ger ɣer tuddsa	claude-sonnet-5-5 2026-10-18
+Insert into workbook	Ger ɣer ukaru	claude-sonnet-5-5 2026-10-18
+Install	Sbedd	claude-sonnet-5-5 2026-10-18
+Install it, or choose another destination in Settings › Destinations.	Sbedd-it, neɣ fren taniɣert nniḍen deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Installed	Yettwasbedd	claude-sonnet-5-5 2026-10-18
+Installed for another copy of the app	Yettwasbedd i tuɣalin-nniḍen n usnas	claude-sonnet-5-5 2026-10-18
+Installed version:	Lqem yettwasbedden:	claude-sonnet-5-5 2026-10-18
+Integrity	Aččuran	claude-sonnet-5-5 2026-10-18
+Invalid JSON syntax or schema:\n%@	Tseddast neɣ azenziɣ JSON arussin:\n%@	claude-sonnet-5-5 2026-10-18
+Issue identifier (stack trace hash)	Asulay n wugur (zuzer n tanzagt n tuccḍa)	claude-sonnet-5-5 2026-10-18
+Issue key:	Tasarut n wugur:	claude-sonnet-5-5 2026-10-18
+It ended with exit code %d.	Yekfa s tangalt n tuffɣa %d.	claude-sonnet-5-5 2026-10-18
+It runs from %@.	Iteddu seg %@.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Ad yeḥbes ad iteddu tura u ur yettwasali ara daɣen. Afaylu-ines yeqqim anda yella: kter-it daɣen i wakken ad t-twaliḍ u ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
+It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Ad yeḥbes ad iteddu tura u ur yettwasali ara daɣen. Afaylu-ines yeqqim anda yella: ldi-t daɣen i wakken ad t-twaliḍ u ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
+It was renamed to %@ and Greenshot started with the default settings.	Yettwasenfel isem-is ɣer %@ u Greenshot yesker s yiɣewwaṛen imezwar.	claude-sonnet-5-5 2026-10-18
+It will be lost if you don't save it.	Ad iruḥ ma ur t-tsekleseḍ ara.	claude-sonnet-5-5 2026-10-18
+It's in the menu bar.	Yella deg ufeggag n wumuɣ.	claude-sonnet-5-5 2026-10-18
+Its explanation (the AI tool's words, not checked by Greenshot):	Asegzi-ines (awalen n ufecku AI, ur ten-isenqed ara Greenshot):	claude-sonnet-5-5 2026-10-18
+JPEG quality (higher quality makes bigger files):	Taɣara JPEG (ma tɛlay taɣara, ifuyla ttmeqqṛen):	claude-sonnet-5-5 2026-10-18
+JPEG quality: %lld	Taɣara JPEG: %lld	claude-sonnet-5-5 2026-10-18
+JSON	JSON	claude-sonnet-5-5 2026-10-18
+JSON Error	Tuccḍa JSON	claude-sonnet-5-5 2026-10-18
+Jira	Jira	claude-sonnet-5-5 2026-10-18
+Keep	Eǧǧ	claude-sonnet-5-5 2026-10-18
+Keep as Is	Eǧǧ-it akken yella	claude-sonnet-5-5 2026-10-18
+Keep its size, with black bars around it	Eǧǧ teɣzi-s, s yizirigen yeberkanen ɣer tama-s	claude-sonnet-5-5 2026-10-18
+Keep the Mac awake while recording	Eǧǧ Mac ur yettnamas ara deg wakud n tvidyut	claude-sonnet-5-5 2026-10-18
+Keep the window shadow in window captures	Eǧǧ tili n usfaylu deg tuṭṭfiwin n yisfaylen	claude-sonnet-5-5 2026-10-18
+Key	Tasarut	claude-sonnet-5-5 2026-10-18
+Key %u	Tasarut %u	claude-sonnet-5-5 2026-10-18
+Keys	Tisura	claude-sonnet-5-5 2026-10-18
+Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Tisura mačči F1–F20 ttḥwaǧent ⌃, ⌥ neɣ ⌘.	claude-sonnet-5-5 2026-10-18
+Label	Tabzimt	claude-sonnet-5-5 2026-10-18
+Lane %lld	Tanebdurt %lld	claude-sonnet-5-5 2026-10-18
+Language of the text	Tutlayt n uḍris	claude-sonnet-5-5 2026-10-18
+Large object	Tɣawsa tameqqrant	claude-sonnet-5-5 2026-10-18
+Largest value	Azal ameqqran akk	claude-sonnet-5-5 2026-10-18
+Last Name:	Isem n twacult:	claude-sonnet-5-5 2026-10-18
+Last Region	Tamnaṭ taneggarut	claude-sonnet-5-5 2026-10-18
+Last checked %@. You have version %@.	Asenqed aneggaru %@. Tesɛiḍ lqem %@.	claude-sonnet-5-5 2026-10-18
+Last modified: %@	Asnifel aneggaru: %@	claude-sonnet-5-5 2026-10-18
+Later	Ticki	claude-sonnet-5-5 2026-10-18
+Latest release:	Lqem aneggaru:	claude-sonnet-5-5 2026-10-18
+Latitude:	Tehri n tmurt:	claude-sonnet-5-5 2026-10-18
+Launch at login	Senker deg tnekra	claude-sonnet-5-5 2026-10-18
+Leave the password empty to be asked at the first upload; the login dialog can keep it in your Keychain. A server with a certificate of its own can be trusted under Your own servers.	Eǧǧ awal uffir d ilem i wakken ad d-yettwasuter deg usali amezwaru; asfaylu n usesteb izmer ad t-iḥrez deg Taxzant n tsura. Aqeddac s uselkem-is yezmer ad yettwattkal deg Iqeddacen-ik.	claude-sonnet-5-5 2026-10-18
+Left and right keys need the Accessibility permission. Until then this hotkey works with either key.	Tisura azelmaḍ d tayeffust ttḥwaǧent tiremt n unekcum. Almed, anegzum n unasiw-agi iteddu s yiwet seg tsura.	claude-sonnet-5-5 2026-10-18
+Left key	Tasarut tazelmaḍt	claude-sonnet-5-5 2026-10-18
+Left or right key	Tasarut tazelmaḍt neɣ tayeffust	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys	Tisura n usnifel azelmaḍ neɣ ayeffus	claude-sonnet-5-5 2026-10-18
+Left or right modifier keys: e.g. only the right ⌘	Tisura n usnifel azelmaḍ neɣ ayeffus: amedya kan ⌘ ayeffus	claude-sonnet-5-5 2026-10-18
+Let AI tools propose recipes	Eǧǧ ifecka AI ad sumren iserwasen	claude-sonnet-5-5 2026-10-18
+Let AI tools use Greenshot	Eǧǧ ifecka AI ad seqdcen Greenshot	claude-sonnet-5-5 2026-10-18
+Let's Go!	Ihi aydi!	claude-sonnet-5-5 2026-10-18
+Lets these browsers start Greenshot's connection for the extension (a file in each browser's NativeMessagingHosts folder).	Yeǧǧa iminigen-agi ad snekren tuqqna n Greenshot i usiɣzef (afaylu deg yal akaram NativeMessagingHosts n yiminig).	claude-sonnet-5-5 2026-10-18
+Letter	Asekkil	claude-sonnet-5-5 2026-10-18
+Light	Aceɛlal	claude-sonnet-5-5 2026-10-18
+Lightshot screenshot tool	Afecku n tuṭṭfa n ugdil Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Izirig	claude-sonnet-5-5 2026-10-18
+Line thickness in points (0: no line)	Tuzert n yizirig s tneqqiḍin (0: ulac izirig)	claude-sonnet-5-5 2026-10-18
+Link copied – click to open	Aseɣwen yettwanɣel – senned i wakken ad teldiḍ	claude-sonnet-5-5 2026-10-18
+Link to the image	Aseɣwen ɣer tugna	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Iseɣwan am greenshotmac://settings?tab=editor ldin isfaylen; yal asebter web yezmer ad yeldi aseɣwen, ihi iseɣwan ṭṭfen tuṭṭfiwin n ugdil kan ma yettusirag da. greenshot-cli, AppleScript, Shortcuts d wumuɣ n Yibeddilen zemren ad ṭṭfen yal tikelt.	claude-sonnet-5-5 2026-10-18
+Load Capture Recipe into %@	Sali aserwas n tuṭṭfa ɣer %@	claude-sonnet-5-5 2026-10-18
+Load Earlier (+64 KB)	Sali uzwir (+64 KB)	claude-sonnet-5-5 2026-10-18
+Load Elements…	Sali iferdisen…	claude-sonnet-5-5 2026-10-18
+Load Entire Log	Sali aɣmis ummid	claude-sonnet-5-5 2026-10-18
+Load Recipe…	Sali aserwas…	claude-sonnet-5-5 2026-10-18
+Load and register a .gsrecipe.json file	Sali u arsem afaylu .gsrecipe.json	claude-sonnet-5-5 2026-10-18
+Load the previous 64 KB of the log	Sali 64 KB yezwaren n uɣmis	claude-sonnet-5-5 2026-10-18
+Loaded and registered %@	%@ yettwasali u yettwarsem	claude-sonnet-5-5 2026-10-18
+Loaded and registered: %@	Yettwasali u yettwarsem: %@	claude-sonnet-5-5 2026-10-18
+Loaded at %@	Yettwasali deg %@	claude-sonnet-5-5 2026-10-18
+Loaded earlier chunk at %@	Aḥric uzwir yettwasali deg %@	claude-sonnet-5-5 2026-10-18
+Loaded: %@	Yettwasali: %@	claude-sonnet-5-5 2026-10-18
+Loading %@…	Asali n %@…	claude-sonnet-5-5 2026-10-18
+Loading the spaces…	Asali n Spaces…	claude-sonnet-5-5 2026-10-18
+Location	Adig	claude-sonnet-5-5 2026-10-18
+Location:	Adig:	claude-sonnet-5-5 2026-10-18
+Log	Aɣmis	claude-sonnet-5-5 2026-10-18
+Log In	Kcem	claude-sonnet-5-5 2026-10-18
+Log Viewer…	Amaɣnu n uɣmis…	claude-sonnet-5-5 2026-10-18
+Log file (%@)	Afaylu n uɣmis (%@)	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at:\n%@	Afaylu n uɣmis ulac-it tura deg:\n%@	claude-sonnet-5-5 2026-10-18
+Log file does not currently exist at: %@	Afaylu n uɣmis ulac-it tura deg: %@	claude-sonnet-5-5 2026-10-18
+Log level	Aswir n uɣmis	claude-sonnet-5-5 2026-10-18
+Longitude:	Teɣzi n tmurt:	claude-sonnet-5-5 2026-10-18
+Look for QR codes on the capture screen	Nadi ɣef tengalin QR deg ugdil n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Look in Safari and Chrome	Nadi deg Safari d Chrome	claude-sonnet-5-5 2026-10-18
+Looking for QR codes…	Anadi ɣef tengalin QR…	claude-sonnet-5-5 2026-10-18
+Looking for open documents…	Anadi ɣef warraten yeldin…	claude-sonnet-5-5 2026-10-18
+Looking for open messages…	Anadi ɣef yiznan yeldin…	claude-sonnet-5-5 2026-10-18
+Looking…	Anadi…	claude-sonnet-5-5 2026-10-18
+Low Power Mode	Askar n tezmert tamecṭuḥt	claude-sonnet-5-5 2026-10-18
+M on the capture screen switches it for one capture.	M deg ugdil n tuṭṭfa isenfal-it i yiwet n tuṭṭfa.	claude-sonnet-5-5 2026-10-18
+MCP server	Aqeddac MCP	claude-sonnet-5-5 2026-10-18
+MODIFIED ON DISK	YETTWASNIFEL ƔEF UḌAR	claude-sonnet-5-5 2026-10-18
+MP4 with H.264 (plays everywhere)	MP4 s H.264 (iteddu ɣef yal tama)	claude-sonnet-5-5 2026-10-18
+MP4 with HEVC (smaller files)	MP4 s HEVC (ifuyla imecṭuḥen)	claude-sonnet-5-5 2026-10-18
+Magnification:	Asemɣer:	claude-sonnet-5-5 2026-10-18
+Manual	S ufus	claude-sonnet-5-5 2026-10-18
+Mark as Start Step	Rcem d asurif n tazwara	claude-sonnet-5-5 2026-10-18
+Match the editor window size to the capture	Err teɣzi n usfaylu n umaẓrag am tin n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Media clip and text	Aɣmis n umidya d uḍris	claude-sonnet-5-5 2026-10-18
+Memory	Takatut	claude-sonnet-5-5 2026-10-18
+Menu bar icon	Tignit n ufeggag n wumuɣ	claude-sonnet-5-5 2026-10-18
+Menu entry	Aferdis n wumuɣ	claude-sonnet-5-5 2026-10-18
+Menus	Imuɣen	claude-sonnet-5-5 2026-10-18
+Mermaid	Mermaid	claude-sonnet-5-5 2026-10-18
+Message:	Izen:	claude-sonnet-5-5 2026-10-18
+Microphone	Asawaḍ	claude-sonnet-5-5 2026-10-18
+Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
+Microsoft Office and Notes	Microsoft Office d Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
+Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
+Minimize	Semẓi	claude-sonnet-5-5 2026-10-18
+Mode	Askar	claude-sonnet-5-5 2026-10-18
+Model	Tamudemt	claude-sonnet-5-5 2026-10-18
+Monosnap screenshot tool	Afecku n tuṭṭfa n ugdil Monosnap	claude-sonnet-5-5 2026-10-18
+More Emoji…	Ugar n yemoji…	claude-sonnet-5-5 2026-10-18
+More…	Ugar…	claude-sonnet-5-5 2026-10-18
+Most memory used	Takatut ittuseqdacen ugar	claude-sonnet-5-5 2026-10-18
+Mouse	Taɣerdayt	claude-sonnet-5-5 2026-10-18
+Move Down	Ṣubb	claude-sonnet-5-5 2026-10-18
+Move Up	Rfed	claude-sonnet-5-5 2026-10-18
+Moved '%@' down	'%@' yettwaṣubb	claude-sonnet-5-5 2026-10-18
+Moved '%@' up	'%@' yettwarfed	claude-sonnet-5-5 2026-10-18
+NEW AUTOMATIC STEP	ASURIF AWURMAN AMAYNUT	claude-sonnet-5-5 2026-10-18
+NEW RECIPE	ASERWAS AMAYNUT	claude-sonnet-5-5 2026-10-18
+Needs Accessibility in System Settings › Privacy & Security. Until then window mode selects whole windows. A rebuilt or moved copy of the app has to be allowed again.	Yeḥwaǧ Anekcum deg Iɣewwaṛen n unagraw › Taɣellist d tɣellist. Almed, askar n usfaylu yefren isfaylen ummiden. Anɣal yettwasnifel neɣ yettwamutti n usnas ilaq ad yettwasireg daɣen.	claude-sonnet-5-5 2026-10-18
+Network Name (SSID):	Isem n uẓeṭṭa (SSID):	claude-sonnet-5-5 2026-10-18
+Never	Ala	claude-sonnet-5-5 2026-10-18
+Never (switched off)	Ala (yensa)	claude-sonnet-5-5 2026-10-18
+Never check for updates	Ur senqed ara leqwam	claude-sonnet-5-5 2026-10-18
+Never share these applications	Ur beṭṭu ara isnasen-agi	claude-sonnet-5-5 2026-10-18
+New Automatic Step	Asurif awurman amaynut	claude-sonnet-5-5 2026-10-18
+New Document	Warrat amaynut	claude-sonnet-5-5 2026-10-18
+New Email	Imayl amaynut	claude-sonnet-5-5 2026-10-18
+New Image	Tugna tamaynut	claude-sonnet-5-5 2026-10-18
+New Note	Tizmilt tamaynut	claude-sonnet-5-5 2026-10-18
+New Outlook can't be scripted: turn it off (Outlook › Legacy Outlook) or use Email…	Outlook amaynut ur yezmir ara ad yettwakkes s script: senses-it (Outlook › Legacy Outlook) neɣ seqdec Imayl…	claude-sonnet-5-5 2026-10-18
+New Presentation	Tuddsa tamaynut	claude-sonnet-5-5 2026-10-18
+New Random Edges	Leryuf amaynuten s tiɣbula	claude-sonnet-5-5 2026-10-18
+New Recipe	Aserwas amaynut	claude-sonnet-5-5 2026-10-18
+New Workbook	Akaru amaynut	claude-sonnet-5-5 2026-10-18
+New email attachment	Taɣawsa n yimayl tamaynut	claude-sonnet-5-5 2026-10-18
+New email in Microsoft Outlook	Imayl amaynut deg Microsoft Outlook	claude-sonnet-5-5 2026-10-18
+New image size	Teɣzi tamaynut n tugna	claude-sonnet-5-5 2026-10-18
+New meeting	Tameɣra tamaynut	claude-sonnet-5-5 2026-10-18
+New note in Notes	Tizmilt tamaynut deg Notes	claude-sonnet-5-5 2026-10-18
+New recipe (⌘N)	Aserwas amaynut (⌘N)	claude-sonnet-5-5 2026-10-18
+Next	Ameḍfar	claude-sonnet-5-5 2026-10-18
+Next number	Uṭṭun ameḍfar	claude-sonnet-5-5 2026-10-18
+No	Uhu	claude-sonnet-5-5 2026-10-18
+No QR code found	Ulac tangalt QR yettwafen	claude-sonnet-5-5 2026-10-18
+No Step Selected	Ulac asurif yettwafernen	claude-sonnet-5-5 2026-10-18
+No Windows	Ulac isfaylen	claude-sonnet-5-5 2026-10-18
+No annotations yet.	Ulac tizmilin mazal.	claude-sonnet-5-5 2026-10-18
+No automatic step changes a recipe; switch one on above.	Ulac asurif awurman isnifel aserwas; rmed yiwen ufella.	claude-sonnet-5-5 2026-10-18
+No captures	Ulac tuṭṭfiwin	claude-sonnet-5-5 2026-10-18
+No change in what the recipe does (only details like names or layout).	Ulac asnifel deg wayen i ixeddem aserwas (kan talqayt am yismawen neɣ tarrayt).	claude-sonnet-5-5 2026-10-18
+No description provided.	Ulac aglam yettunefken.	claude-sonnet-5-5 2026-10-18
+No developer signature kept	Ulac azmul n uneflay yettwaḥerzen	claude-sonnet-5-5 2026-10-18
+No external command is set up	Ulac taladna tazɣarayt yettwaswelen	claude-sonnet-5-5 2026-10-18
+No external command is set up.	Ulac taladna tazɣarayt yettwaswelen.	claude-sonnet-5-5 2026-10-18
+No fill	Ulac taččart	claude-sonnet-5-5 2026-10-18
+No folder	Ulac akaram	claude-sonnet-5-5 2026-10-18
+No image editor is open. Open a capture in the editor first.	Ulac amaẓrag n tugniwin yeldin. Ldi tuṭṭfa deg umaẓrag send.	claude-sonnet-5-5 2026-10-18
+No mail app is set up	Ulac asnas n yimayl yettwaswelen	claude-sonnet-5-5 2026-10-18
+No mail app is set up.	Ulac asnas n yimayl yettwaswelen.	claude-sonnet-5-5 2026-10-18
+No page of this Confluence is open in Safari or Chrome.	Ulac asebter n Confluence-agi yeldin deg Safari neɣ Chrome.	claude-sonnet-5-5 2026-10-18
+No problems	Ulac uguren	claude-sonnet-5-5 2026-10-18
+No program is allowed yet.	Ulac ahil yettusirgen mazal.	claude-sonnet-5-5 2026-10-18
+No recipe	Ulac aserwas	claude-sonnet-5-5 2026-10-18
+No recipe matches.	Ulac aserwas yemṣadan.	claude-sonnet-5-5 2026-10-18
+No recipe open	Ulac aserwas yeldin	claude-sonnet-5-5 2026-10-18
+No recipes from files.	Ulac iserwasen seg yifuyla.	claude-sonnet-5-5 2026-10-18
+No recipes loaded	Ulac iserwasen yettwasalin	claude-sonnet-5-5 2026-10-18
+No recipes yet. Import a recipe file or create one in the recipe editor.	Ulac iserwasen mazal. Kter afaylu n userwas neɣ rnu yiwen deg umaẓrag n iserwasen.	claude-sonnet-5-5 2026-10-18
+No spaces	Ulac Spaces	claude-sonnet-5-5 2026-10-18
+No start step leads here: connect these steps with "Continue At"	Ulac asurif n tazwara i d-yeṭṭafaren ɣer da: qqen isurifen-agi s "Kemmel deg"	claude-sonnet-5-5 2026-10-18
+No text found	Ulac aḍris yettwafen	claude-sonnet-5-5 2026-10-18
+No text found.	Ulac aḍris yettwafen.	claude-sonnet-5-5 2026-10-18
+No text matches “%@”.	Ulac aḍris i yemṣadan d “%@”.	claude-sonnet-5-5 2026-10-18
+No trigger: from the recipe list or the command line	Ulac amsenker: seg tebdart n yiserwasen neɣ seg yizirig n taladna	claude-sonnet-5-5 2026-10-18
+No trigger: the recipe runs from the recipe list, the command line or another recipe.	Ulac amsenker: aserwas iteddu seg tebdart n yiserwasen, seg yizirig n taladna neɣ seg userwas nniḍen.	claude-sonnet-5-5 2026-10-18
+No triggers (recipe editor only)	Ulac imsenkaren (amaẓrag n userwas kan)	claude-sonnet-5-5 2026-10-18
+No triggers: the recipe starts only from the recipe manager, a test run or another recipe.	Ulac imsenkaren: aserwas yettsenker kan seg umsefrak n iserwasen, seg uɛraḍ neɣ seg userwas nniḍen.	claude-sonnet-5-5 2026-10-18
+No, Cancel	Uhu, sefsex	claude-sonnet-5-5 2026-10-18
+Nobody	Yiwen	claude-sonnet-5-5 2026-10-18
+Node ID	Asulay n tgejdit	claude-sonnet-5-5 2026-10-18
+None found (Chrome, Edge, Firefox, Brave, Vivaldi or Chromium)	Ulac-it (Chrome, Edge, Firefox, Brave, Vivaldi neɣ Chromium)	claude-sonnet-5-5 2026-10-18
+None set up	Ulac yettwaswelen	claude-sonnet-5-5 2026-10-18
+Not a parameter of this step	Mačči d iɣewwaṛ n usurif-agi	claude-sonnet-5-5 2026-10-18
+Not a regular expression: %@	Mačči d tanfalit tuzligt: %@	claude-sonnet-5-5 2026-10-18
+Not allowed until Greenshot quits	Ur yettusireg ara almi yeffeɣ Greenshot	claude-sonnet-5-5 2026-10-18
+Not allowed yet	Ur yettusireg ara mazal	claude-sonnet-5-5 2026-10-18
+Not approved, changed since its approval, or triggers left off	Ur yettwasentem ara, yettusnifel seld usentem, neɣ imsenkaren ttwaǧǧan nsan	claude-sonnet-5-5 2026-10-18
+Not available, messages appear in the corner	Ulac-it, iznan ttbanen deg yiri	claude-sonnet-5-5 2026-10-18
+Not checked yet. You have version %@.	Ur yettwasenqed ara mazal. Tesɛiḍ lqem %@.	claude-sonnet-5-5 2026-10-18
+Not for JPEG. GIF files always get at most this many colours.	Mačči i JPEG. Ifuyla GIF ttwafen yal tikelt ugar-it n yiniten-agi.	claude-sonnet-5-5 2026-10-18
+Not found next to the app	Ur yettwafa ara ɣer tama n usnas	claude-sonnet-5-5 2026-10-18
+Not installed	Ur yettwasbedd ara	claude-sonnet-5-5 2026-10-18
+Not loaded in Greenshot	Ur yettwasali ara deg Greenshot	claude-sonnet-5-5 2026-10-18
+Not reached	Ur yewweḍ ara	claude-sonnet-5-5 2026-10-18
+Not registered yet	Ur yettwarsem ara mazal	claude-sonnet-5-5 2026-10-18
+Not registered: another app has it	Ur yettwarsem ara: asnas nniḍen yesɛa-t	claude-sonnet-5-5 2026-10-18
+Not running	Ur iteddu ara	claude-sonnet-5-5 2026-10-18
+Not saved yet	Ur yettwasekles ara mazal	claude-sonnet-5-5 2026-10-18
+Not set	Ur yettwasbadu ara	claude-sonnet-5-5 2026-10-18
+Not signed	Ur yettwazmel ara	claude-sonnet-5-5 2026-10-18
+Not signed in to %@. Sign in under Settings › Destinations.	Ur teqqneḍ ara ɣer %@. Kcem deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Not signed in; the first upload asks.	Ur teqqneḍ ara; asali amezwaru ad isteqsi.	claude-sonnet-5-5 2026-10-18
+Notarized	Yettwasenqed s Apple	claude-sonnet-5-5 2026-10-18
+Notes	Tizmilin	claude-sonnet-5-5 2026-10-18
+Notes every change while it runs, every 600 ms: handy when pasting a screenshot doesn't work.	Yesmekti kra n usnifel kul 600 ms mi iteddu: ilaq ma yella asenḍes n tuṭṭfa ur yeddi ara.	claude-sonnet-5-5 2026-10-18
+Nothing	Ula d yiwen	claude-sonnet-5-5 2026-10-18
+Nothing embedded	Ulac-it deg-s	claude-sonnet-5-5 2026-10-18
+Nothing found	Ulac-it	claude-sonnet-5-5 2026-10-18
+Nothing in the screenshot could be read as a QR code.	Ulac acu deg tuṭṭfa n ugdil i yezmer ad yettwaɣer d tangalt QR.	claude-sonnet-5-5 2026-10-18
+Nothing is being recorded.	Ulac tavidyut tetteddun.	claude-sonnet-5-5 2026-10-18
+Notification Settings…	Iɣewwaṛen n walɣuyen…	claude-sonnet-5-5 2026-10-18
+Notifications	Alɣuyen	claude-sonnet-5-5 2026-10-18
+Now %@ × %@ pixels	Tura %@ × %@ ipiksilen	claude-sonnet-5-5 2026-10-18
+Number the steps of a how-to with the Counter tool of the editor.	Rcem isurifen n usegmi s ufecku Amesmiḍan n umaẓrag.	claude-sonnet-5-5 2026-10-18
+OCR Text	Aḍris OCR	claude-sonnet-5-5 2026-10-18
+OPTIONS	TIXTIṚIN	claude-sonnet-5-5 2026-10-18
+OTHER PARAMETERS	IƔEWWAṚEN NNIḌEN	claude-sonnet-5-5 2026-10-18
+OVERRIDDEN	YETTWASNIFEL	claude-sonnet-5-5 2026-10-18
+Object and text	Tɣawsa d uḍris	claude-sonnet-5-5 2026-10-18
+Object and two objects	Tɣawsa d snat n tɣawsiwin	claude-sonnet-5-5 2026-10-18
+Object over text	Tɣawsa ɣef uḍris	claude-sonnet-5-5 2026-10-18
+Off	Yensa	claude-sonnet-5-5 2026-10-18
+Off for this app: no notifications	Yensa i usnas-agi: ulac alɣuyen	claude-sonnet-5-5 2026-10-18
+Off: “Save directly” adds (2), (3), … to the name instead.	Yensa: “Sekles s srid” ad yerna (2), (3), … ɣer yisem deg wadda.	claude-sonnet-5-5 2026-10-18
+Offset X:	Asemmiḍ X:	claude-sonnet-5-5 2026-10-18
+Offset Y:	Asemmiḍ Y:	claude-sonnet-5-5 2026-10-18
+On	Yermed	claude-sonnet-5-5 2026-10-18
+On Error / Failure	Deg tuccḍa / Ur yeddi ara	claude-sonnet-5-5 2026-10-18
+On a Mac no app can lock the clipboard, so no other app can keep %@ from it.	Ɣef Mac ulac asnas izemren ad isekkar afus, ihi ulac asnas nniḍen izemren ad d-yeǧǧ %@ ɣef-s.	claude-sonnet-5-5 2026-10-18
+On the clipboard now	Ɣef afus tura	claude-sonnet-5-5 2026-10-18
+Once at a time	Yiwen yal tikelt	claude-sonnet-5-5 2026-10-18
+One per line: value, or value = label	Yiwen deg yal izirig: azal, neɣ azal = tabzimt	claude-sonnet-5-5 2026-10-18
+One screen	Yiwen ugdil	claude-sonnet-5-5 2026-10-18
+Only for the Jira and Confluence servers above whose certificate macOS doesn't trust; every other server gets the macOS checks alone. One host per line; * and ? are wildcards, a port is ignored. A fingerprint trusts exactly one certificate and is safer than a host; an upload that fails because of a certificate shows the server's fingerprint. Empty lists use the macOS checks alone.	I yiqeddacen n Jira d Confluence ufella kan i yellan uselkem-nsen ur ten-yettamen ara macOS; wid nniḍen ṭṭafaren isenqad n macOS kan. Yiwen n usneftaɣ deg yal izirig; * d ? d tinɣalin, tanekra tettwattu. Azmul yettamen yiwen n uselkem kan u yella-d d aɣellis ugar n usneftaɣ; asali ur yeddi ara ɣef lebda n uselkem ad yesken azmul n uqeddac. Tibdarin timlalin kan ttwaseqdacent isenqad n macOS.	claude-sonnet-5-5 2026-10-18
+Only steps in a plain sequence can move.	Isurifen kan deg uḍfar ameẓlu zemren ad ttwaṣubben.	claude-sonnet-5-5 2026-10-18
+Only when	Kan ticki	claude-sonnet-5-5 2026-10-18
+Open	Ldi	claude-sonnet-5-5 2026-10-18
+Open %@	Ldi %@	claude-sonnet-5-5 2026-10-18
+Open %@ at login	Ldi %@ deg tnekra	claude-sonnet-5-5 2026-10-18
+Open Clipboard in Greenshot	Ldi afus deg Greenshot	claude-sonnet-5-5 2026-10-18
+Open Greenshot Recipe	Ldi aserwas Greenshot	claude-sonnet-5-5 2026-10-18
+Open Image in Greenshot	Ldi tugna deg Greenshot	claude-sonnet-5-5 2026-10-18
+Open Keyboard Shortcuts	Ldi inegzumen n unasiw	claude-sonnet-5-5 2026-10-18
+Open Link	Ldi aseɣwen	claude-sonnet-5-5 2026-10-18
+Open Log Viewer	Ldi amaɣnu n uɣmis	claude-sonnet-5-5 2026-10-18
+Open Log Viewer…	Ldi amaɣnu n uɣmis…	claude-sonnet-5-5 2026-10-18
+Open Login Items	Ldi iferdisen n unekcum	claude-sonnet-5-5 2026-10-18
+Open Menu Bar Settings	Ldi iɣewwaṛen n ufeggag n wumuɣ	claude-sonnet-5-5 2026-10-18
+Open Privacy Settings	Ldi iɣewwaṛen n tɣellist	claude-sonnet-5-5 2026-10-18
+Open Self-Service…	Ldi Self-Service…	claude-sonnet-5-5 2026-10-18
+Open Settings	Ldi Iɣewwaṛen	claude-sonnet-5-5 2026-10-18
+Open System Settings	Ldi Iɣewwaṛen n unagraw	claude-sonnet-5-5 2026-10-18
+Open With	Ldi s	claude-sonnet-5-5 2026-10-18
+Open a recipe file (⌘O)	Ldi afaylu n userwas (⌘O)	claude-sonnet-5-5 2026-10-18
+Open an empty editor	Ldi amaẓrag ilem	claude-sonnet-5-5 2026-10-18
+Open file	Ldi afaylu	claude-sonnet-5-5 2026-10-18
+Open in Editor	Ldi deg umaẓrag	claude-sonnet-5-5 2026-10-18
+Open in another app	Ldi deg usnas nniḍen	claude-sonnet-5-5 2026-10-18
+Open in the default player	Ldi deg umeslay amezwer	claude-sonnet-5-5 2026-10-18
+Open in the recipe editor after saving	Ldi deg umaẓrag n userwas seld usekles	claude-sonnet-5-5 2026-10-18
+Open last capture in the editor	Ldi tuṭṭfa taneggarut deg umaẓrag	claude-sonnet-5-5 2026-10-18
+Open the Recording With	Ldi tavidyut s	claude-sonnet-5-5 2026-10-18
+Open the Screenshot With	Ldi tuṭṭfa n ugdil s	claude-sonnet-5-5 2026-10-18
+Open the app again or click here for Settings.	Ldi asnas daɣen neɣ senned da i Iɣewwaṛen.	claude-sonnet-5-5 2026-10-18
+Open the image with another app	Ldi tugna s usnas nniḍen	claude-sonnet-5-5 2026-10-18
+Open the page after the upload	Ldi asebter seld usali	claude-sonnet-5-5 2026-10-18
+Open the recipe in the recipe editor	Ldi aserwas deg umaẓrag n userwas	claude-sonnet-5-5 2026-10-18
+Open the recipe manager (⇧⌘M)	Ldi amsefrak n iserwasen (⇧⌘M)	claude-sonnet-5-5 2026-10-18
+Open with	Ldi s	claude-sonnet-5-5 2026-10-18
+Open with %@	Ldi s %@	claude-sonnet-5-5 2026-10-18
+Open with…	Ldi s…	claude-sonnet-5-5 2026-10-18
+Open: %@	Ldi: %@	claude-sonnet-5-5 2026-10-18
+Opened %@; it isn't loaded in Greenshot.	%@ yeldi; ur yettwasali ara deg Greenshot.	claude-sonnet-5-5 2026-10-18
+Opened the keyboard settings.	Iɣewwaṛen n unasiw ldin.	claude-sonnet-5-5 2026-10-18
+Opened the log viewer.	Amaɣnu n uɣmis yeldi.	claude-sonnet-5-5 2026-10-18
+Opens an image in the Greenshot for Mac editor.	Yeldi tugna deg umaẓrag n Greenshot i Mac.	claude-sonnet-5-5 2026-10-18
+Opens the image on the clipboard in the Greenshot for Mac editor.	Yeldi tugna yellan ɣef afus deg umaẓrag n Greenshot i Mac.	claude-sonnet-5-5 2026-10-18
+Open…	Ldi…	claude-sonnet-5-5 2026-10-18
+Optional	Afrayan	claude-sonnet-5-5 2026-10-18
+Options	Tixtiṛin	claude-sonnet-5-5 2026-10-18
+Options (%lld)	Tixtiṛin (%lld)	claude-sonnet-5-5 2026-10-18
+Order	Amaṭṭaf	claude-sonnet-5-5 2026-10-18
+Orgchart	Aɣsan n tkebbanit	claude-sonnet-5-5 2026-10-18
+Other screen capture apps	Isnasen nniḍen n tuṭṭfa n ugdil	claude-sonnet-5-5 2026-10-18
+Otherwise (%@)	Neɣ (%@)	claude-sonnet-5-5 2026-10-18
+Other…	Wiyaḍ…	claude-sonnet-5-5 2026-10-18
+Out	Out	claude-sonnet-5-5 2026-10-18
+Outlook: allow export in meeting items	Outlook: sireg asifeḍ deg yiferdisen n tmeɣra	claude-sonnet-5-5 2026-10-18
+Outlook: email format for new emails	Outlook: amasal n yimayl i yimaylen imaynuten	claude-sonnet-5-5 2026-10-18
+Overwrite a file with the same name	Beddel afaylu s yisem-is	claude-sonnet-5-5 2026-10-18
+PBM (Netpbm)	PBM (Netpbm)	claude-sonnet-5-5 2026-10-18
+PDF	PDF	claude-sonnet-5-5 2026-10-18
+PROPOSED BY AI	YETTWASUMER SƔUR AI	claude-sonnet-5-5 2026-10-18
+Page	Asebter	claude-sonnet-5-5 2026-10-18
+Parallel	Amyellal	claude-sonnet-5-5 2026-10-18
+Parallel start	Tazwara tamyellalt	claude-sonnet-5-5 2026-10-18
+Parameters	Iɣewwaṛen	claude-sonnet-5-5 2026-10-18
+Paste (⌘V)	Sented (⌘V)	claude-sonnet-5-5 2026-10-18
+Paste it into Markdown, GitHub READMEs or pull requests.	Sented-it deg Markdown, GitHub READMEs neɣ pull requests.	claude-sonnet-5-5 2026-10-18
+Path	Abrid	claude-sonnet-5-5 2026-10-18
+Pattern variables	Imsal n taneɣruft	claude-sonnet-5-5 2026-10-18
+Pause Recording	Sbaḍ tavidyut	claude-sonnet-5-5 2026-10-18
+Pause while the screen is locked	Sbaḍ ticki ugdil yettwasekkeṛ	claude-sonnet-5-5 2026-10-18
+Permissions	Tisirag	claude-sonnet-5-5 2026-10-18
+Permissions…	Tisirag…	claude-sonnet-5-5 2026-10-18
+Personal access token	Atukkin n unekcum udmawan	claude-sonnet-5-5 2026-10-18
+Phone Call	Asiwel s tiliɣri	claude-sonnet-5-5 2026-10-18
+Phone Call Details	Talqayt n usiwel s tiliɣri	claude-sonnet-5-5 2026-10-18
+Phone Number:	Uṭṭun n tiliɣri:	claude-sonnet-5-5 2026-10-18
+Phone:	Tiliɣri:	claude-sonnet-5-5 2026-10-18
+Picture with caption	Tugna s uzwel	claude-sonnet-5-5 2026-10-18
+Pictures	Tugniwin	claude-sonnet-5-5 2026-10-18
+Play the camera sound	Urar imesli n usagu n tewlafin	claude-sonnet-5-5 2026-10-18
+Play the sound	Urar imesli	claude-sonnet-5-5 2026-10-18
+Please enter a phone number.	Ma ulac aɣilif, sekcem uṭṭun n tiliɣri.	claude-sonnet-5-5 2026-10-18
+Please enter a value to generate the barcode.	Ma ulac aɣilif, sekcem azal i wakken ad d-tesnulfuḍ tangalt n yizirigen.	claude-sonnet-5-5 2026-10-18
+Please enter contact name or details.	Ma ulac aɣilif, sekcem isem neɣ talqayt n unermas.	claude-sonnet-5-5 2026-10-18
+Please enter event title.	Ma ulac aɣilif, sekcem azwel n tedyant.	claude-sonnet-5-5 2026-10-18
+Please enter latitude and longitude coordinates.	Ma ulac aɣilif, sekcem imsidaf n teɣzi d tehri n tmurt.	claude-sonnet-5-5 2026-10-18
+Please enter network name (SSID).	Ma ulac aɣilif, sekcem isem n uẓeṭṭa (SSID).	claude-sonnet-5-5 2026-10-18
+Please enter recipient email address.	Ma ulac aɣilif, sekcem tansa imayl n umenɣi.	claude-sonnet-5-5 2026-10-18
+Please enter recipient name and IBAN.	Ma ulac aɣilif, sekcem isem n umcabi d IBAN.	claude-sonnet-5-5 2026-10-18
+Please enter recipient number.	Ma ulac aɣilif, sekcem uṭṭun n umcabi.	claude-sonnet-5-5 2026-10-18
+Please enter text or a URL.	Ma ulac aɣilif, sekcem aḍris neɣ URL.	claude-sonnet-5-5 2026-10-18
+Please select how you would like to proceed with this capture:	Fren amek tebɣiḍ ad tkemmleḍ s tuṭṭfa-agi:	claude-sonnet-5-5 2026-10-18
+Pointer	Taneqqiṭ	claude-sonnet-5-5 2026-10-18
+Pointing at a window in Capture Window from List shows a picture of it. Needs the screen recording permission.	Ticki tettwaliḍ asfaylu deg Ṭṭef asfaylu seg tebdart, ad d-banen tugna-ines. Yeḥwaǧ tiremt n usekles n ugdil.	claude-sonnet-5-5 2026-10-18
+Points to a missing app: click Install	Yettawi ɣer usnas ulac-it: senned Sbedd	claude-sonnet-5-5 2026-10-18
+PowerPoint gave an unexpected answer: %@	PowerPoint yerra-d tiririt ur nettwaqeɛ ara: %@	claude-sonnet-5-5 2026-10-18
+PowerPoint: lock aspect ratio of the image	PowerPoint: sekkeṛ afmiḍi n tugna	claude-sonnet-5-5 2026-10-18
+PowerPoint: slide layout for exported captures	PowerPoint: arrad n tsutin i tuṭṭfiwin yettusifḍen	claude-sonnet-5-5 2026-10-18
+Preset	Aswel yettwarnan	claude-sonnet-5-5 2026-10-18
+Press %@ to capture.	Ssed ɣef %@ i wakken ad tṭṭfeḍ.	claude-sonnet-5-5 2026-10-18
+Press 1–6 to switch sections, F5 to refresh.	Ssed ɣef 1–6 i usenfel n yiḥricen, F5 i usmiren.	claude-sonnet-5-5 2026-10-18
+Press F1 or H while capturing to see all the keys you can use.	Ssed ɣef F1 neɣ H deg wakud n tuṭṭfa i wakken ad twaliḍ akk tisura i tzemreḍ ad tseqdceḍ.	claude-sonnet-5-5 2026-10-18
+Press M while capturing to show or hide the mouse pointer in the screenshot.	Ssed ɣef M deg wakud n tuṭṭfa i wakken ad tskeneḍ neɣ ad tfeṛṛeḍ taneqqiṭ n tɣerdayt deg tuṭṭfa n ugdil.	claude-sonnet-5-5 2026-10-18
+Press Next to begin, or Esc to close this window at any time.	Ssed ɣef Ameḍfar i wakken ad tebduḍ, neɣ Esc i wakken ad tmdeleḍ asfaylu-agi deg yal akud.	claude-sonnet-5-5 2026-10-18
+Press Z while capturing to show or hide the zoomer, for selections to the pixel.	Ssed ɣef Z deg wakud n tuṭṭfa i wakken ad tskeneḍ neɣ ad tfeṛṛeḍ asemɣer, i yifranen s upiksil.	claude-sonnet-5-5 2026-10-18
+Preview	Taskant	claude-sonnet-5-5 2026-10-18
+Print a footer	Siggez aḍar	claude-sonnet-5-5 2026-10-18
+Print date / time and title at the bottom of the page	Siggez azemz / akud d uzwel deg uḍar n usebter	claude-sonnet-5-5 2026-10-18
+Print in	Siggez deg	claude-sonnet-5-5 2026-10-18
+Print – %@	Asiggez – %@	claude-sonnet-5-5 2026-10-18
+Print… (⌘P)	Siggez… (⌘P)	claude-sonnet-5-5 2026-10-18
+Privacy Settings…	Iɣewwaṛen n tɣellist…	claude-sonnet-5-5 2026-10-18
+Program not found	Ahil ulac-it	claude-sonnet-5-5 2026-10-18
+Program: %@	Ahil: %@	claude-sonnet-5-5 2026-10-18
+Proposed by an AI tool	Yettwasumer sɣur afecku AI	claude-sonnet-5-5 2026-10-18
+QR Code	Tangalt QR	claude-sonnet-5-5 2026-10-18
+QR Code Actions…	Tigawin n tengalt QR…	claude-sonnet-5-5 2026-10-18
+QR Type:	Anaw n QR:	claude-sonnet-5-5 2026-10-18
+QR code actions	Tigawin n tengalt QR	claude-sonnet-5-5 2026-10-18
+QR code: %@	Tangalt QR: %@	claude-sonnet-5-5 2026-10-18
+Quality	Taɣara	claude-sonnet-5-5 2026-10-18
+Quarantined	Deg usekkil	claude-sonnet-5-5 2026-10-18
+Quick Settings	Iɣewwaṛen iruraden	claude-opus-5-5 2026-10-18
+Quick settings	Iɣewwaṛen iruraden	claude-sonnet-5-5 2026-10-18
+Quit %@	Ffeɣ seg %@	claude-sonnet-5-5 2026-10-18
+Quit it first to start this copy.	Ffeɣ seg-s send i wakken ad tesenkreḍ tanɣalt-agi.	claude-sonnet-5-5 2026-10-18
+RECIPE CONFIGURATION	USWEL N USERWAS	claude-sonnet-5-5 2026-10-18
+Range	Azilal	claude-sonnet-5-5 2026-10-18
+Raw Text or URL Details	Talqayt n uḍris ilem neɣ URL	claude-sonnet-5-5 2026-10-18
+Read error	Tuccḍa n tɣuri	claude-sonnet-5-5 2026-10-18
+Read the QR code	Ɣer tangalt QR	claude-sonnet-5-5 2026-10-18
+Read the log again (F5, ⌘R)	Ɣer aɣmis daɣen (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Read this section again (F5, ⌘R)	Ɣer aḥric-agi daɣen (F5, ⌘R)	claude-sonnet-5-5 2026-10-18
+Recent	Imaynuten	claude-sonnet-5-5 2026-10-18
+Recent issues	Uguren imaynuten	claude-sonnet-5-5 2026-10-18
+Recently captured	Yettwaṭṭef melmi kan	claude-sonnet-5-5 2026-10-18
+Recipe	Aserwas	claude-sonnet-5-5 2026-10-18
+Recipe Changed Outside Greenshot	Aserwas yettusnifel berra n Greenshot	claude-sonnet-5-5 2026-10-18
+Recipe Details	Talqayt n userwas	claude-sonnet-5-5 2026-10-18
+Recipe Editor	Amaẓrag n userwas	claude-sonnet-5-5 2026-10-18
+Recipe Editor…	Amaẓrag n userwas…	claude-sonnet-5-5 2026-10-18
+Recipe ID	Asulay n userwas	claude-sonnet-5-5 2026-10-18
+Recipe JSON	JSON n userwas	claude-sonnet-5-5 2026-10-18
+Recipe Manager…	Amsefrak n iserwasen…	claude-sonnet-5-5 2026-10-18
+Recipe Modification Detected	Asnifel n userwas yettwafen	claude-sonnet-5-5 2026-10-18
+Recipe Not Loaded	Aserwas ur yettwasali ara	claude-sonnet-5-5 2026-10-18
+Recipe Not Saved	Aserwas ur yettwasekles ara	claude-sonnet-5-5 2026-10-18
+Recipe Permissions	Tisirag n userwas	claude-sonnet-5-5 2026-10-18
+Recipe Proposed by an AI Tool	Aserwas yettwasumer sɣur afecku AI	claude-sonnet-5-5 2026-10-18
+Recipe Security Approval	Asentem n tɣellist n userwas	claude-sonnet-5-5 2026-10-18
+Recipe Security Review	Aselken n tɣellist n userwas	claude-sonnet-5-5 2026-10-18
+Recipe Validation Failed	Asenqed n userwas ur yeddi ara	claude-sonnet-5-5 2026-10-18
+Recipe configuration failed validation.	Asenqed n uswel n userwas ur yeddi ara.	claude-sonnet-5-5 2026-10-18
+Recipe content unavailable.	Agbur n userwas ulac-it.	claude-sonnet-5-5 2026-10-18
+Recipe execution encountered an error:	Asekker n userwas yemlal d tuccḍa:	claude-sonnet-5-5 2026-10-18
+Recipe file is too large to preview (> 1MB).	Afaylu n userwas ameqqran aṭas i uskan (> 1MB).	claude-sonnet-5-5 2026-10-18
+Recipe files end in %@, so the recipe is saved as %@.	Ifuyla n iserwasen ttfakkan s %@, ihi aserwas yettwasekles d %@.	claude-sonnet-5-5 2026-10-18
+Recipe hotkeys not registered	Inegzumen n unasiw n userwas ur ttwarsmen ara	claude-sonnet-5-5 2026-10-18
+Recipe imported	Aserwas yettwakter	claude-sonnet-5-5 2026-10-18
+Recipe “%@”	Aserwas “%@”	claude-sonnet-5-5 2026-10-18
+Recipe “%@” (%@)	Aserwas “%@” (%@)	claude-sonnet-5-5 2026-10-18
+Recipe “%@” failed	Aserwas “%@” ur yeddi ara	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now, so the recipe can't be saved.	Iserwasen ur ddan ara deg Greenshot tura, ihi aserwas ur yezmir ara ad yettwasekles.	claude-sonnet-5-5 2026-10-18
+Recipes aren't running in Greenshot right now.	Iserwasen ur ddan ara deg Greenshot tura.	claude-sonnet-5-5 2026-10-18
+Recipes from files, also those written by AI tools, and what you approved for them. Changes here take effect right away.	Iserwasen seg yifuyla, ula d wid yettwarun sɣur yifecka AI, d wayen i tsentmeḍ i-sen. Isnifal da ttwasnasen s yiwen n wakud.	claude-sonnet-5-5 2026-10-18
+Recipes menu (default)	Umuɣ n iserwasen (amezwer)	claude-sonnet-5-5 2026-10-18
+Recipes menu (“%@”)	Umuɣ n iserwasen (“%@”)	claude-sonnet-5-5 2026-10-18
+Recipes must form a directed acyclic graph (DAG). Make sure transitions and fallbacks don't loop back to earlier nodes.	Iserwasen ilaq ad rnun aɣsan n tkerrust ur nesɛi ara aseggez (DAG). Ɣer ma ur ttɛiwiden ara ɣer yigemmaḍ n zik.	claude-sonnet-5-5 2026-10-18
+Recipes run a capture as a series of steps, started by a hotkey, a menu entry, the clipboard, Open With or the command line. A recipe file is only used after you approved what it does.	Iserwasen skeddben tuṭṭfa am tagrumma n yisurifen, yettwasenkren s unegzum n unasiw, aferdis n wumuɣ, afus, Ldi s neɣ izirig n taladna. Afaylu n userwas ittwaseqdac kan seld ma tsentmeḍ d acu i ixeddem.	claude-sonnet-5-5 2026-10-18
+Recipes: ids, * (every recipe with the slot) or *capture, separated by commas	Iserwasen: isulayen, * (yal aserwas s wanekcum) neɣ *capture, ttwagzamen s tefrut	claude-sonnet-5-5 2026-10-18
+Recipient Number:	Uṭṭun n umcabi:	claude-sonnet-5-5 2026-10-18
+Recipient:	Amcabi:	claude-sonnet-5-5 2026-10-18
+Recognise the text as soon as the capture screen opens	Gen aḍris ticki teldi tmenḍawt n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Recognising text…	Agan n uḍris…	claude-sonnet-5-5 2026-10-18
+Recognizing text…	Agan n uḍris…	claude-sonnet-5-5 2026-10-18
+Record	Ɣmes	claude-sonnet-5-5 2026-10-18
+Record Region…	Ɣmes tamnaṭ…	claude-sonnet-5-5 2026-10-18
+Record Screen	Ɣmes ugdil	claude-sonnet-5-5 2026-10-18
+Record Window…	Ɣmes asfaylu…	claude-sonnet-5-5 2026-10-18
+Record Without Microphone	Ɣmes war usawaḍ	claude-sonnet-5-5 2026-10-18
+Record the mouse pointer	Ɣmes taneqqiṭ n tɣerdayt	claude-sonnet-5-5 2026-10-18
+Recording	Tavidyut	claude-sonnet-5-5 2026-10-18
+Recording starts	Tavidyut tebda	claude-sonnet-5-5 2026-10-18
+Recording. Click to stop; ⌃-click to pause or discard.	Tavidyut tetteddu. Senned i wakken ad tḥebseḍ; ⌃-senned i usbaḍ neɣ asefsex.	claude-sonnet-5-5 2026-10-18
+Rectangle	Asrem	claude-sonnet-5-5 2026-10-18
+Redo	Err	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z or ⌘Y)	Err (⇧⌘Z neɣ ⌘Y)	claude-sonnet-5-5 2026-10-18
+Redo (⇧⌘Z)	Err (⇧⌘Z)	claude-sonnet-5-5 2026-10-18
+Redone	Yettwarra	claude-sonnet-5-5 2026-10-18
+Reduce the amount of colours to a maximum of %lld	Senɣes amḍan n yiniten ar %lld ugar-it	claude-sonnet-5-5 2026-10-18
+Reduce the number of colours	Senɣes amḍan n yiniten	claude-sonnet-5-5 2026-10-18
+Reference:	Asezdi:	claude-sonnet-5-5 2026-10-18
+Refresh	Smiren	claude-sonnet-5-5 2026-10-18
+Refused for this build, messages appear in the corner	Yettwagi i taneggarut-agi, iznan ttbanen deg yiri	claude-sonnet-5-5 2026-10-18
+Region	Tamnaṭ	claude-sonnet-5-5 2026-10-18
+Register Again	Arsem daɣen	claude-sonnet-5-5 2026-10-18
+Register the hotkeys with macOS again, e.g. after another app gave a key back	Arsem inegzumen n unasiw ɣer macOS daɣen, am mi ara d-yefk usnas nniḍen tasarut	claude-sonnet-5-5 2026-10-18
+Register your own Box app and enter its client ID and secret in Settings › Destinations.	Arsem asnas Box inek u sekcem asulay n umsaɣ d uẓeṭṭa-ines deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Register your own Dropbox app and enter its app key in Settings › Destinations.	Arsem asnas Dropbox inek u sekcem tasarut n usnas-ines deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+Register your own app in the [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder or Full Dropbox, the permissions files.content.write, sharing.write and sharing.read, and the redirect URI `%@`. Paste its App key here; no secret is needed. The sign-in is kept in your Keychain.	Arsem asnas inek deg [Dropbox App Console](https://www.dropbox.com/developers/apps): Scoped access, App folder neɣ Full Dropbox, tisirag files.content.write, sharing.write d sharing.read, d URI n uwennez `%@`. Sekcem tasarut n usnas da; ulac aẓeṭṭa i yettwaḥwaǧen. Asesteb yettwaḥrez deg Taxzant n tsura.	claude-sonnet-5-5 2026-10-18
+Registered	Yettwarsem	claude-sonnet-5-5 2026-10-18
+Registered, but macOS takes it first (%@)	Yettwarsem, maca macOS yeṭṭef-it send (%@)	claude-sonnet-5-5 2026-10-18
+Reject / Block	Agi / Sewḥel	claude-sonnet-5-5 2026-10-18
+Relaunch %@ in %@?	Ales asenker %@ deg %@?	claude-sonnet-5-5 2026-10-18
+Relaunch Now	Ales asenker tura	claude-sonnet-5-5 2026-10-18
+Relaunch in %@	Ales asenker deg %@	claude-sonnet-5-5 2026-10-18
+Reload All	Ales asali n yal yiwen	claude-sonnet-5-5 2026-10-18
+Reload the configured recipe files from disk	Ales asali n yifuyla n iserwasen yettwaswelen seg uḍar	claude-sonnet-5-5 2026-10-18
+Reloaded recipes from disk.	Iserwasen ttwasalin daɣen seg uḍar.	claude-sonnet-5-5 2026-10-18
+Remember in Keychain	Ɣer deg Taxzant n tsura	claude-sonnet-5-5 2026-10-18
+Remove	Kkes	claude-sonnet-5-5 2026-10-18
+Remove %@	Kkes %@	claude-sonnet-5-5 2026-10-18
+Remove Start Step	Kkes asurif n tazwara	claude-sonnet-5-5 2026-10-18
+Remove the option	Kkes taxtiṛt	claude-sonnet-5-5 2026-10-18
+Remove the recipe from Greenshot	Kkes aserwas seg Greenshot	claude-sonnet-5-5 2026-10-18
+Remove this error route	Kkes abrid-agi n tuccḍa	claude-sonnet-5-5 2026-10-18
+Remove this step from the start steps	Kkes asurif-agi seg yisurifen n tazwara	claude-sonnet-5-5 2026-10-18
+Remove: the program is asked again the next time it connects.	Kkes: ahil ad yettwasteqsi daɣen tikelt-nniḍen ara yeqqen.	claude-sonnet-5-5 2026-10-18
+Removed an option	Taxtiṛt tettwakkes	claude-sonnet-5-5 2026-10-18
+Removed recipe error fallback route	Abrid n tuccḍa n userwas yettwakkes	claude-sonnet-5-5 2026-10-18
+Removed the connection to '%@'	Tuqqna ɣer '%@' tettwakkes	claude-sonnet-5-5 2026-10-18
+Renamed step ID from '%@' to '%@'	Asulay n usurif yettwasenfel seg '%@' ɣer '%@'	claude-sonnet-5-5 2026-10-18
+Reopened after the last logout or restart, not saved yet.	Yettwaldi daɣen seld tuffɣa taneggarut neɣ asenker, mazal ur yettwasekles ara.	claude-sonnet-5-5 2026-10-18
+Replace	Beddel	claude-sonnet-5-5 2026-10-18
+Replace File	Beddel afaylu	claude-sonnet-5-5 2026-10-18
+Replace a File That Isn't a Recipe?	Beddel afaylu ur nelli d aserwas?	claude-sonnet-5-5 2026-10-18
+Replace the annotations	Beddel tizmilin	claude-sonnet-5-5 2026-10-18
+Replaces the built-in automatic step “%@”	Yettbeddil asurif awurman yettwarnan “%@”	claude-sonnet-5-5 2026-10-18
+Replaces the built-in recipe “%@”	Yettbeddil aserwas yettwarnan “%@”	claude-sonnet-5-5 2026-10-18
+Report	Aneqqis	claude-sonnet-5-5 2026-10-18
+Report a bug	Eḍḍel-d ugur	claude-sonnet-5-5 2026-10-18
+Report an Issue…	Eḍḍel-d ugur…	claude-sonnet-5-5 2026-10-18
+Report on GitHub…	Eḍḍel-d ɣef GitHub…	claude-sonnet-5-5 2026-10-18
+Required	Yettwaḥwaǧ	claude-sonnet-5-5 2026-10-18
+Reset	Wennez	claude-sonnet-5-5 2026-10-18
+Reset All	Wennez kullec	claude-sonnet-5-5 2026-10-18
+Reset All to Default	Wennez kullec ɣer wayen yellan s wudem amezwer	claude-sonnet-5-5 2026-10-18
+Reset Default	Wennez amezwer	claude-sonnet-5-5 2026-10-18
+Reset Recipe to Default	Wennez aserwas ɣer wudem amezwer	claude-sonnet-5-5 2026-10-18
+Reset to Default	Wennez ɣer wudem amezwer	claude-sonnet-5-5 2026-10-18
+Reset to defaults	Wennez ɣer wuddem amezwer	claude-sonnet-5-5 2026-10-18
+Resize	Snifel teɣzi	claude-sonnet-5-5 2026-10-18
+Resize the image (⌥⌘R)	Snifel teɣzi n tugna (⌥⌘R)	claude-sonnet-5-5 2026-10-18
+Resize…	Snifel teɣzi…	claude-sonnet-5-5 2026-10-18
+Restored after Greenshot quit unexpectedly, not saved yet.	Yettwarra seld tuffɣa ur nettwaqeɛ ara n Greenshot, mazal ur yettwasekles ara.	claude-sonnet-5-5 2026-10-18
+Restored, not saved yet.	Yettwarra, mazal ur yettwasekles ara.	claude-sonnet-5-5 2026-10-18
+Resume Recording	Kemmel tavidyut	claude-sonnet-5-5 2026-10-18
+Retry	Ɛreḍ daɣen	claude-sonnet-5-5 2026-10-18
+Revert	Err ɣer zik	claude-sonnet-5-5 2026-10-18
+Revert '%@' to default built-in definition?	Err '%@' ɣer lqem yettwarnan amezwer?	claude-sonnet-5-5 2026-10-18
+Review approval…	Wali asentem…	claude-sonnet-5-5 2026-10-18
+Review…	Wali…	claude-sonnet-5-5 2026-10-18
+Revoke	Sefsex	claude-sonnet-5-5 2026-10-18
+Revoke Approval	Sefsex asentem	claude-sonnet-5-5 2026-10-18
+Revoke Approval…	Sefsex asentem…	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”?	Sefsex asentem n “%@”?	claude-sonnet-5-5 2026-10-18
+Revoke the approval of “%@”? It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Sefsex asentem n “%@”? Ad yeḥbes ad iteddu tura u ur yettwasali ara daɣen. Afaylu-ines yeqqim anda yella: ldi-t daɣen i wakken ad t-twaliḍ u ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
+Right key	Tasarut tayeffust	claude-sonnet-5-5 2026-10-18
+Right-click or ⌃-click shows the menu. With a double-click action, a click waits the double-click time first.	Senned ayeffus neɣ ⌃-senned i wakken ad d-tbeddeḍ umuɣ. S tigawt n usiwel n snat n tikkal, yiwen n usiwel ittraju akud n snat n tikkal send.	claude-sonnet-5-5 2026-10-18
+Rotate Clockwise	Zzi s ayeffus	claude-sonnet-5-5 2026-10-18
+Rotate Counter-Clockwise	Zzi s uzelmaḍ	claude-sonnet-5-5 2026-10-18
+Rotate clockwise (⌥⌘→)	Zzi s ayeffus (⌥⌘→)	claude-sonnet-5-5 2026-10-18
+Rotate counter-clockwise (⌥⌘←)	Zzi s uzelmaḍ (⌥⌘←)	claude-sonnet-5-5 2026-10-18
+Rounded Dots	Ticcert tummidin	claude-sonnet-5-5 2026-10-18
+Route To	Err ɣer	claude-sonnet-5-5 2026-10-18
+Route to Step in this Recipe…	Err ɣer usurif deg userwas-agi…	claude-sonnet-5-5 2026-10-18
+Run "MCP: Add Server" (Command (stdio)), or put it in .vscode/mcp.json of the workspace.	Sker "MCP: Add Server" (Command (stdio)), neɣ sers-it deg .vscode/mcp.json n tallunt n umahil.	claude-sonnet-5-5 2026-10-18
+Run an external command with the image	Sker taladna tazɣarayt s tugna	claude-sonnet-5-5 2026-10-18
+Run in the background (errors as a message, not a dialog)	Sker deg ugilal (tuccḍiwin d izen, mačči asfaylu)	claude-sonnet-5-5 2026-10-18
+Run it in Terminal (--scope user: in all projects). Check it with claude mcp list or /mcp.	Sker-it deg Terminal (--scope user: deg akk isenfaren). Senqed-it s claude mcp list neɣ /mcp.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add [mcp_servers.greenshot] with command = the path to ~/.codex/config.toml.	Sker-it deg Terminal, neɣ rnu [mcp_servers.greenshot] s command = abrid ɣer ~/.codex/config.toml.	claude-sonnet-5-5 2026-10-18
+Run it in Terminal, or add the mcpServers entry to ~/.gemini/settings.json. Check it with /mcp.	Sker-it deg Terminal, neɣ rnu tabdart mcpServers ɣer ~/.gemini/settings.json. Senqed-it s /mcp.	claude-sonnet-5-5 2026-10-18
+Run the capture recipe now	Sker aserwas n tuṭṭfa tura	claude-sonnet-5-5 2026-10-18
+Running	Iteddu	claude-sonnet-5-5 2026-10-18
+Running for	Iteddu azal n	claude-sonnet-5-5 2026-10-18
+Runs	Isekkaren	claude-sonnet-5-5 2026-10-18
+Runs as	Iteddu am	claude-sonnet-5-5 2026-10-18
+SHA-256 or SHA-1, e.g. 2F:D2:CC:…	SHA-256 neɣ SHA-1, amedya 2F:D2:CC:…	claude-sonnet-5-5 2026-10-18
+SMS	SMS	claude-sonnet-5-5 2026-10-18
+SMS Text Message Details	Talqayt n yizen SMS	claude-sonnet-5-5 2026-10-18
+STEP ERROR HANDLING	AMDAN N TUCCḌIWIN N USURIF	claude-sonnet-5-5 2026-10-18
+STEP PARAMETERS	IƔEWWAṚEN N USURIF	claude-sonnet-5-5 2026-10-18
+Same as macOS	Am macOS	claude-sonnet-5-5 2026-10-18
+Same as macOS (%@)	Am macOS (%@)	claude-sonnet-5-5 2026-10-18
+Same keys as your hotkey	Tisura am inegzumen n unasiw-ik	claude-sonnet-5-5 2026-10-18
+Save (⌘S)	Sekles (⌘S)	claude-sonnet-5-5 2026-10-18
+Save (⌘S); Save As is ⇧⌘S	Sekles (⌘S); Sekles s yisem d ⇧⌘S	claude-sonnet-5-5 2026-10-18
+Save As… (⇧⌘S)	Sekles s yisem… (⇧⌘S)	claude-sonnet-5-5 2026-10-18
+Save Automatic Step As…	Sekles asurif awurman s yisem…	claude-sonnet-5-5 2026-10-18
+Save Before the Test Run	Sekles send asekker n uɛraḍ	claude-sonnet-5-5 2026-10-18
+Save Changes	Sekles isnifal	claude-sonnet-5-5 2026-10-18
+Save Directly	Sekles s srid	claude-sonnet-5-5 2026-10-18
+Save Directly (%@)	Sekles s srid (%@)	claude-sonnet-5-5 2026-10-18
+Save Elements…	Sekles iferdisen…	claude-sonnet-5-5 2026-10-18
+Save Greenshot Recipe As…	Sekles aserwas Greenshot s yisem…	claude-sonnet-5-5 2026-10-18
+Save Recipe	Sekles aserwas	claude-sonnet-5-5 2026-10-18
+Save Screenshot	Sekles tuṭṭfa n ugdil	claude-sonnet-5-5 2026-10-18
+Save Screenshot as PDF	Sekles tuṭṭfa n ugdil s PDF	claude-sonnet-5-5 2026-10-18
+Save and Run	Sekles u sker	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File	Sekles d afaylu Greenshot	claude-sonnet-5-5 2026-10-18
+Save as Greenshot File…	Sekles d afaylu Greenshot…	claude-sonnet-5-5 2026-10-18
+Save as PDF document	Sekles d warrat PDF	claude-sonnet-5-5 2026-10-18
+Save asks for a new file, so this one keeps them.	Asekles yessuter afaylu amaynut, ihi wa ad yeḥrez-iten.	claude-sonnet-5-5 2026-10-18
+Save picture of screen as a file	Sekles tugna n ugdil d afaylu	claude-sonnet-5-5 2026-10-18
+Save picture of selected area as a file	Sekles tugna n tmnaṭ yettwafernen d afaylu	claude-sonnet-5-5 2026-10-18
+Save to File	Sekles deg ufaylu	claude-sonnet-5-5 2026-10-18
+Save to folder	Sekles deg ukaram	claude-sonnet-5-5 2026-10-18
+Save with 256 colours when the image has fewer	Sekles s 256 yiniten ma yella tugna tesɛa drus	claude-sonnet-5-5 2026-10-18
+Saved %@	%@ yettwasekles	claude-sonnet-5-5 2026-10-18
+Saved file	Afaylu yettwasekles	claude-sonnet-5-5 2026-10-18
+Saved recipe to %@	Aserwas yettwasekles deg %@	claude-sonnet-5-5 2026-10-18
+Saving Replaces Other Recipes	Asekles ibeddel iserwasen nniḍen	claude-sonnet-5-5 2026-10-18
+Saving as %@.	Asekles s yisem %@.	claude-sonnet-5-5 2026-10-18
+Saving the Recording…	Asekles n tvidyut…	claude-sonnet-5-5 2026-10-18
+Saving…	Asekles…	claude-sonnet-5-5 2026-10-18
+Scale it to fill the video	Smɣer-it i wakken ad yecḍu tavidyut	claude-sonnet-5-5 2026-10-18
+Scaling	Asemɣer	claude-sonnet-5-5 2026-10-18
+Schedule	Asuddes	claude-sonnet-5-5 2026-10-18
+Screen	Ugdil	claude-sonnet-5-5 2026-10-18
+Screen %lld (not connected)	Ugdil %lld (ur yeqqin ara)	claude-sonnet-5-5 2026-10-18
+Screen %lld: %@	Ugdil %lld: %@	claude-sonnet-5-5 2026-10-18
+Screen recording	Tavidyut n ugdil	claude-sonnet-5-5 2026-10-18
+Screens	Ugdilen	claude-sonnet-5-5 2026-10-18
+Screenshot and recording options	Tixtiṛin n tuṭṭfa n ugdil d tvidyut	claude-sonnet-5-5 2026-10-18
+Screenshot app with its own global shortcuts	Asnas n tuṭṭfa n ugdil s yinegzumen-is imeṭṭawen	claude-sonnet-5-5 2026-10-18
+Screenshot shortcuts of macOS	Inegzumen n tuṭṭfa n ugdil n macOS	claude-sonnet-5-5 2026-10-18
+Screenshots can contain anything that is visible on your screen. Windows of excluded applications (password managers by default) are never shared. You can change both in Settings › AI Tools.	Tuṭṭfiwin n ugdil zemrent ad ṭṭfent kullec i d-ibanen ɣef ugdil-ik. Isfaylen n yisnasen yettwasebḍen (imsefrak n wawalen uffiren s wudem amezwer) ur ttwabḍan ara. Tzemreḍ ad tsenfaleḍ sin deg Iɣewwaṛen › Ifecka AI.	claude-sonnet-5-5 2026-10-18
+Script: %@	Asekript: %@	claude-sonnet-5-5 2026-10-18
+Search Existing Issues	Nadi ɣef yiguren yellan	claude-sonnet-5-5 2026-10-18
+Search name, id, triggers, file	Nadi isem, asulay, imsenkaren, afaylu	claude-sonnet-5-5 2026-10-18
+Search, follow and copy the whole log in the log viewer.	Nadi, ḍfer u nɣel aɣmis ummid deg umaɣnu n uɣmis.	claude-sonnet-5-5 2026-10-18
+Searched at %@	Anadi deg %@	claude-sonnet-5-5 2026-10-18
+Searching GitHub for this identifier helps avoid filing the same issue twice and shows whether a fix or a workaround is known.	Anadi ɣef GitHub ɣef usulay-agi ɛawen ad yekkes tuccḍiwin n unɣal ugar n yiwet n tikkelt u yeskan ma yella tifrat neɣ abrid nniḍen ittwassen.	claude-sonnet-5-5 2026-10-18
+Searching…	Anadi…	claude-sonnet-5-5 2026-10-18
+Section header	Azwel n uḥric	claude-sonnet-5-5 2026-10-18
+Select	Fren	claude-sonnet-5-5 2026-10-18
+Select Image Editor	Fren amaẓrag n tugniwin	claude-sonnet-5-5 2026-10-18
+Select a region of the screen to capture with Greenshot for Mac.	Fren tamnaṭ n ugdil i wakken ad tṭṭfeḍ s Greenshot i Mac.	claude-sonnet-5-5 2026-10-18
+Select a region or a window	Fren tamnaṭ neɣ asfaylu	claude-sonnet-5-5 2026-10-18
+Select a step in the list to change it, or add one with Add Step: it goes after the selected step, into the selected branch, lane or arrow.	Fren asurif deg tebdart i wakken ad t-tsenfaleḍ, neɣ rnu yiwen s Rnu asurif: ad yeddu deffir usurif yettwafernen, deg tegrumma, tanebdurt neɣ aneccab yettwafernen.	claude-sonnet-5-5 2026-10-18
+Select a step or an arrow first: the new step goes right after it, or into the arrow.	Fren asurif neɣ aneccab send: asurif amaynut ad yeddu deffir-s, neɣ deg uneccab.	claude-sonnet-5-5 2026-10-18
+Select an alternative destination below, forward to another recipe, or retry:	Fren taniɣert nniḍen ddaw, err ɣer userwas nniḍen, neɣ ɛreḍ daɣen:	claude-sonnet-5-5 2026-10-18
+Select an editor	Fren amaẓrag	claude-sonnet-5-5 2026-10-18
+Select areas inside windows	Fren tamnaṭ ɣef yisfaylen	claude-sonnet-5-5 2026-10-18
+Selection	Afran	claude-sonnet-5-5 2026-10-18
+Self-Service	Self-Service	claude-sonnet-5-5 2026-10-18
+Self-Service…	Self-Service…	claude-sonnet-5-5 2026-10-18
+Send screenshot to	Azen tuṭṭfa n ugdil ɣer	claude-sonnet-5-5 2026-10-18
+Sending the screenshot to %@…	Azen tuṭṭfa n ugdil ɣer %@…	claude-sonnet-5-5 2026-10-18
+Sent to the printer “%@”	Yettwazen ɣer tsaggazt “%@”	claude-sonnet-5-5 2026-10-18
+Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Bḍu tansiwin s tefrut. Azwel izmer ad seqdec imsal n taneɣruft n yisem n ufaylu, amedya ${title}. Outlook ittuseqdac-iten daɣen. S CC neɣ BCC u Mail d asnas n yimayl-ik, Mail yaru imayl meṛṛa (macOS isteqsi yiwet n tikelt ma yezmer Greenshot ad iṭṭef Mail); ma ulac, tanamit n yimayl n macOS tččar “Ɣer” d azwel, u CC d BCC ttbanen i wakken ad ten-trnuḍ s ufus.	claude-sonnet-5-5 2026-10-18
+Server or Data Center: personal access token	Server neɣ Data Center: atukkin n unekcum udmawan	claude-sonnet-5-5 2026-10-18
+Server or Data Center: user name and password	Server neɣ Data Center: isem n useqdac d wawal uffir	claude-sonnet-5-5 2026-10-18
+Set Up Commands…	Swel tiladna…	claude-sonnet-5-5 2026-10-18
+Set by your organisation	Yettusbadu sɣur tkebbanit-ik	claude-sonnet-5-5 2026-10-18
+Set in the recipe	Yettusbadu deg userwas	claude-sonnet-5-5 2026-10-18
+Set it in General › Hotkeys. A click on the recording's menu bar icon stops it, ⌃-click pauses.	Sbadu-t deg Amatu › Inegzumen n unasiw. Senned ɣef tignit n ufeggag n wumuɣ n tvidyut i usekkeṛ-ines, ⌃-senned i usbaḍ.	claude-sonnet-5-5 2026-10-18
+Set up an account in Mail (or choose a default email app in Mail › Settings), then try again.	Rnu amiḍan deg Mail (neɣ fren asnas n yimayl amezwer deg Mail › Iɣewwaṛen), sakin ɛreḍ daɣen.	claude-sonnet-5-5 2026-10-18
+Settings (in the user defaults)	Iɣewwaṛen (deg user defaults)	claude-sonnet-5-5 2026-10-18
+Settings are turned off	Iɣewwaṛen ttwasensen	claude-sonnet-5-5 2026-10-18
+Settings file (--settings-dir)	Afaylu n yiɣewwaṛen (--settings-dir)	claude-sonnet-5-5 2026-10-18
+Settings › Developer › Edit Config opens ~/Library/Application Support/Claude/claude_desktop_config.json; add the server and restart Claude.	Iɣewwaṛen › Developer › Edit Config yeldi ~/Library/Application Support/Claude/claude_desktop_config.json; rnu aqeddac sakin ales asenker n Claude.	claude-sonnet-5-5 2026-10-18
+Settings…	Iɣewwaṛen…	claude-opus-5-5 2026-10-18
+Settings… (⌘,)	Iɣewwaṛen… (⌘,)	claude-sonnet-5-5 2026-10-18
+Several on one slot run by order, then by id	Kra n yiserwasen deg yiwen n wanekcum teddun s umaṭṭaf, sakin s usulay	claude-sonnet-5-5 2026-10-18
+Shadow	Tili	claude-sonnet-5-5 2026-10-18
+Shadow:	Tili:	claude-sonnet-5-5 2026-10-18
+Share	Bḍu	claude-sonnet-5-5 2026-10-18
+Share with apps & contacts	Bḍu d yisnasen d yinermasen	claude-sonnet-5-5 2026-10-18
+Shared link (anyone with the link), not the private one	Aseɣwen yettwabḍan (yal yiwen s useɣwen), mačči win uslig	claude-sonnet-5-5 2026-10-18
+Share…	Bḍu…	claude-sonnet-5-5 2026-10-18
+Shift	Shift	claude-sonnet-5-5 2026-10-18
+Show	Sken	claude-sonnet-5-5 2026-10-18
+Show All	Sken akk	claude-sonnet-5-5 2026-10-18
+Show Extension Folder…	Sken akaram n usiɣzef…	claude-sonnet-5-5 2026-10-18
+Show It	Sken-it	claude-sonnet-5-5 2026-10-18
+Show Open Screenshots	Sken tuṭṭfiwin n ugdil yeldin	claude-sonnet-5-5 2026-10-18
+Show Welcome…	Sken Ansuf…	claude-sonnet-5-5 2026-10-18
+Show a notification when an AI tool takes a screenshot	Sken alɣu mi ara iṭṭef afecku AI tuṭṭfa n ugdil	claude-sonnet-5-5 2026-10-18
+Show a thumbnail of the capture in the notification	Sken taskant tamecṭuḥt n tuṭṭfa deg walɣu	claude-sonnet-5-5 2026-10-18
+Show all parameters	Sken akk iɣewwaṛen	claude-sonnet-5-5 2026-10-18
+Show in Dock while a window is open	Sken deg Dock ticki yeldi usfaylu	claude-sonnet-5-5 2026-10-18
+Show in Finder	Sken deg Finder	claude-sonnet-5-5 2026-10-18
+Show in the Recipes menu	Sken deg wumuɣ n iserwasen	claude-sonnet-5-5 2026-10-18
+Show in the menu bar's Quick Settings	Sken deg yiɣewwaṛen iruraden n ufeggag n wumuɣ	claude-sonnet-5-5 2026-10-18
+Show print options every time before printing	Sken tixtiṛin n usiggez deg yal tikelt send usiggez	claude-sonnet-5-5 2026-10-18
+Show the menu	Sken umuɣ	claude-sonnet-5-5 2026-10-18
+Show the menu bar icon	Sken tignit n ufeggag n wumuɣ	claude-sonnet-5-5 2026-10-18
+Show the zoomer on the capture screen	Sken asemɣer deg ugdil n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Show window thumbnails in the window list	Sken tiskantin n yisfaylen deg tebdart n yisfaylen	claude-sonnet-5-5 2026-10-18
+Showing %@ as Greenshot has it now.	Askan n %@ am akken yella deg Greenshot tura.	claude-sonnet-5-5 2026-10-18
+Showing tail %@ of %@ total. Earlier log lines available.	Askan n taggara %@ seg %@ ummid. Izirigen n uɣmis zik llan.	claude-sonnet-5-5 2026-10-18
+Showing ~%@ lines (%@ of %@)	Askan n ~%@ izirigen (%@ seg %@)	claude-sonnet-5-5 2026-10-18
+Shows only the log entries that contain this text, from the whole log file (⌘F)	Yesskan kan inekcamen n uɣmis i yesɛan aḍris-agi, seg afaylu n uɣmis ummid (⌘F)	claude-sonnet-5-5 2026-10-18
+Shrink Canvas	Senɣes taɣeṛɣert	claude-sonnet-5-5 2026-10-18
+Sign In…	Kcem…	claude-sonnet-5-5 2026-10-18
+Sign Out	Ffeɣ	claude-sonnet-5-5 2026-10-18
+Sign in with	Kcem s	claude-sonnet-5-5 2026-10-18
+Signed by	Yettwazmel sɣur	claude-sonnet-5-5 2026-10-18
+Signed by the linker (a development build)	Yettwazmel sɣur ukerri (taneggaruyt n uneflay)	claude-sonnet-5-5 2026-10-18
+Signed by: %@	Yettwazmel sɣur: %@	claude-sonnet-5-5 2026-10-18
+Signed in	Teqqneḍ	claude-sonnet-5-5 2026-10-18
+Signed in.	Teqqneḍ.	claude-sonnet-5-5 2026-10-18
+Size: 0 KB	Teɣzi: 0 KB	claude-sonnet-5-5 2026-10-18
+Sizes	Teɣzi	claude-sonnet-5-5 2026-10-18
+Skitch screenshot tool	Afecku n tuṭṭfa n ugdil Skitch	claude-sonnet-5-5 2026-10-18
+Slot	Anekcum	claude-sonnet-5-5 2026-10-18
+Small size	Teɣzi tamecṭuḥt	claude-sonnet-5-5 2026-10-18
+Smaller keeps more detail of a freehand line, larger makes it smoother.	Ameẓẓyan yeḥrez ugar n lqem n yizirig s ufus, ameqqran yerra-t yelsa.	claude-sonnet-5-5 2026-10-18
+Smallest value	Azal ameẓẓyan akk	claude-sonnet-5-5 2026-10-18
+Software	Aseɣzan	claude-sonnet-5-5 2026-10-18
+Some hotkeys could not be registered	Kra n yinegzumen n unasiw ur ttwarsmen ara	claude-sonnet-5-5 2026-10-18
+Some readers may garble characters beyond Western European ones in this code; QR and Data Matrix codes don't.	Kra n yimɣaren zemren ad skeṛfen isekkilen ur nelli d isekkilen n Tuṛuft n Ugafa deg tengalt-agi; tingalin QR d Data Matrix ur skeṛfent ara.	claude-sonnet-5-5 2026-10-18
+Some texts in this language are machine translations.	Kra n yiḍrisen deg tutlayt-agi d tsuqilin tiwurmanin.	claude-sonnet-5-5 2026-10-18
+Something went wrong	Yella wayen ur nteddu ara	claude-sonnet-5-5 2026-10-18
+Sort the annotations by type	Smizzwer tizmilin s unaw	claude-sonnet-5-5 2026-10-18
+Sound	Imesli	claude-sonnet-5-5 2026-10-18
+Source code	Tangalt taɣbalut	claude-sonnet-5-5 2026-10-18
+Space	Space	claude-sonnet-5-5 2026-10-18
+Space:	Space:	claude-sonnet-5-5 2026-10-18
+Speech Bubble	Tačuffiṭ n uḍris	claude-sonnet-5-5 2026-10-18
+Stack trace	Tanzagt n tuccḍa	claude-sonnet-5-5 2026-10-18
+Start (UTC):	Tazwara (UTC):	claude-sonnet-5-5 2026-10-18
+Start Watching	Bdu aḍfar	claude-sonnet-5-5 2026-10-18
+Start or stop recording	Bdu neɣ ḥbes tavidyut	claude-sonnet-5-5 2026-10-18
+Start step	Asurif n tazwara	claude-sonnet-5-5 2026-10-18
+Start steps run first; several start steps run at the same time (upstream START STEPS). Mark them in the step list.	Isurifen n tazwara teddun send; aṭas n yisurifen n tazwara teddun deg yiwen n wakud (upstream START STEPS). Rcem-iten deg tebdart n yisurifen.	claude-sonnet-5-5 2026-10-18
+Started watching the clipboard (every 600 ms)	Aḍfar n ufus yebda (kul 600 ms)	claude-sonnet-5-5 2026-10-18
+Starting and stopping	Asenker d usbaḍ	claude-sonnet-5-5 2026-10-18
+Starting…	Abeddu…	claude-sonnet-5-5 2026-10-18
+Startup	Asenker	claude-sonnet-5-5 2026-10-18
+Step	Asurif	claude-sonnet-5-5 2026-10-18
+Step %lld	Asurif %lld	claude-sonnet-5-5 2026-10-18
+Step %lld: %@ is a reserved key and can't be used in a hotkey.	Asurif %lld: %@ d tasarut yettwaḥerzen ur tezmir ara ad tettwaseqdec deg unegzum n unasiw.	claude-sonnet-5-5 2026-10-18
+Step %lld: Keys other than F1–F20 need ⌃, ⌥ or ⌘.	Asurif %lld: Tisura mačči F1–F20 ttḥwaǧent ⌃, ⌥ neɣ ⌘.	claude-sonnet-5-5 2026-10-18
+Step %lld: ⇧ can't be the only modifier, except for F1–F20.	Asurif %lld: ⇧ ur izmir ara ad yili d asnifel kan, ala i F1–F20.	claude-sonnet-5-5 2026-10-18
+Step in this Recipe	Asurif deg userwas-agi	claude-sonnet-5-5 2026-10-18
+Steps %@ adds to the recipes with a fitting slot, switched in Settings › Recipes.	Isurifen i yerna %@ ɣer yiserwasen s wanekcum yemṣadan, yettwarmeden deg Iɣewwaṛen › Iserwasen.	claude-sonnet-5-5 2026-10-18
+Stop Recording	Ḥbes tavidyut	claude-sonnet-5-5 2026-10-18
+Stop Recording (%@)	Ḥbes tavidyut (%@)	claude-sonnet-5-5 2026-10-18
+Stop Watching	Ḥbes aḍfar	claude-sonnet-5-5 2026-10-18
+Stop after	Ḥbes seld	claude-sonnet-5-5 2026-10-18
+Stop when the window closes	Ḥbes mi ara yemdel usfaylu	claude-sonnet-5-5 2026-10-18
+Stopped watching	Aḍfar yeḥbes	claude-sonnet-5-5 2026-10-18
+Stopped watching the clipboard.	Aḍfar n ufus yeḥbes.	claude-sonnet-5-5 2026-10-18
+Subject	Aferdis	claude-sonnet-5-5 2026-10-18
+Subject:	Aferdis:	claude-sonnet-5-5 2026-10-18
+Switch off the triggers you don't want.	Sens imsenkaren ur tebɣiḍ ara.	claude-sonnet-5-5 2026-10-18
+Switch the automatic step on or off (also in Settings › Recipes)	Rmed neɣ sens asurif awurman (daɣen deg Iɣewwaṛen › Iserwasen)	claude-sonnet-5-5 2026-10-18
+Switch the recipe's triggers and permissions	Rmed neɣ sens imsenkaren d tsirag n userwas	claude-sonnet-5-5 2026-10-18
+Switch the triggers and permissions of the approval on or off	Rmed neɣ sens imsenkaren d tsirag n usentem	claude-sonnet-5-5 2026-10-18
+System	Anagraw	claude-sonnet-5-5 2026-10-18
+System Font	Tasefsit n unagraw	claude-sonnet-5-5 2026-10-18
+System information copied to the clipboard.	Talɣut n unagraw tettwanɣel ɣef afus.	claude-sonnet-5-5 2026-10-18
+TGA (Targa)	TGA (Targa)	claude-sonnet-5-5 2026-10-18
+TRIGGERS	IMSENKAREN	claude-sonnet-5-5 2026-10-18
+Table	Tafelwit	claude-sonnet-5-5 2026-10-18
+Take Screenshot	Ṭṭef tuṭṭfa n ugdil	claude-sonnet-5-5 2026-10-18
+Takes a screenshot with Greenshot for Mac. It goes to your destinations, as with the hotkeys.	Iṭṭef tuṭṭfa n ugdil s Greenshot i Mac. Teddu ɣer tiniɣriwin-ik, am inegzumen n unasiw.	claude-sonnet-5-5 2026-10-18
+Target step	Asurif amulan	claude-sonnet-5-5 2026-10-18
+Team	Tarbaɛt	claude-sonnet-5-5 2026-10-18
+Team ID: %@	Asulay n tarbaɛt: %@	claude-sonnet-5-5 2026-10-18
+Tears the chosen edges of the image.	Iceqqeq leryuf yettwafernen n tugna.	claude-sonnet-5-5 2026-10-18
+TechSmith Snagit screen capture	Tuṭṭfa n ugdil TechSmith Snagit	claude-sonnet-5-5 2026-10-18
+Teeth	Tuɣmas	claude-sonnet-5-5 2026-10-18
+Template	Tamudemt	claude-sonnet-5-5 2026-10-18
+Test Connection	Senqed tuqqna	claude-sonnet-5-5 2026-10-18
+Test Run	Asekker n uɛraḍ	claude-sonnet-5-5 2026-10-18
+Test run error: %@	Tuccḍa n usekker n uɛraḍ: %@	claude-sonnet-5-5 2026-10-18
+Test run not started: %@	Asekker n uɛraḍ ur ibdi ara: %@	claude-sonnet-5-5 2026-10-18
+Test run of %@ failed.	Asekker n uɛraḍ n %@ ur yeddi ara.	claude-sonnet-5-5 2026-10-18
+Test run of %@ started.	Asekker n uɛraḍ n %@ yebda.	claude-sonnet-5-5 2026-10-18
+Test run of %@: cancelled.	Asekker n uɛraḍ n %@: yettwasefsex.	claude-sonnet-5-5 2026-10-18
+Test run of %@: completed.	Asekker n uɛraḍ n %@: yekfa.	claude-sonnet-5-5 2026-10-18
+Test run of '%@' ended: %@.	Asekker n uɛraḍ n '%@' yekfa: %@.	claude-sonnet-5-5 2026-10-18
+Text	Aḍris	claude-sonnet-5-5 2026-10-18
+Text (OCR)	Aḍris (OCR)	claude-sonnet-5-5 2026-10-18
+Text / Number Value	Aḍris / azal n uṭṭun	claude-sonnet-5-5 2026-10-18
+Text / URL	Aḍris / URL	claude-sonnet-5-5 2026-10-18
+Text and chart	Aḍris d takurba	claude-sonnet-5-5 2026-10-18
+Text and clipart	Aḍris d clipart	claude-sonnet-5-5 2026-10-18
+Text and media clip	Aḍris d uɣmis n umidya	claude-sonnet-5-5 2026-10-18
+Text and object	Aḍris d tɣawsa	claude-sonnet-5-5 2026-10-18
+Text and two objects	Aḍris d snat n tɣawsiwin	claude-sonnet-5-5 2026-10-18
+Text over object	Aḍris ɣef tɣawsa	claude-sonnet-5-5 2026-10-18
+Text recognition (OCR)	Tigzi n uḍris (OCR)	claude-sonnet-5-5 2026-10-18
+Thank you for installing %@! It's running now and waits for you in the menu bar, at the top right of the screen.	Tanemmirt ɣef usbeddi n %@! Iteddu tura u yettraju-k deg ufeggag n wumuɣ, ɣer ufella ayeffus n ugdil.	claude-sonnet-5-5 2026-10-18
+That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	Wagi i d-ilaq i wakken ad tebduḍ. %@ yettraju deg ufeggag n wumuɣ, u kullec nniḍen yezmer ad yettusnifel deg Iɣewwaṛen melmi i tebɣiḍ.	claude-sonnet-5-5 2026-10-18
+The %@ app key	Tasarut n usnas %@	claude-sonnet-5-5 2026-10-18
+The %@ icon is shown in the menu bar.	Tignit n %@ tettwaskan deg ufeggag n wumuɣ.	claude-sonnet-5-5 2026-10-18
+The Greenshot file could not be opened	Afaylu Greenshot ur yezmir ara ad yettwaldi	claude-sonnet-5-5 2026-10-18
+The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Asiɣzef Companion n Greenshot i Mac (Community) i Chrome, Edge d Firefox yazen asebter yettwaskanen d tansa-ines.	claude-sonnet-5-5 2026-10-18
+The JSON must hold exactly one recipe (it holds %lld).	JSON ilaq ad yesɛu aserwas yiwen kan (yesɛa %lld).	claude-sonnet-5-5 2026-10-18
+The JSON tab has changes that aren't applied to the recipe yet.	Iccer JSON yesɛa isnifal ur ttwasnasen ara mazal ɣef userwas.	claude-sonnet-5-5 2026-10-18
+The Keychain could not add the item: %@	Taxzant n tsura ur tezmir ara ad ternu aferdis: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not read the item: %@	Taxzant n tsura ur tezmir ara ad teɣer aferdis: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not remove the item: %@	Taxzant n tsura ur tezmir ara ad tekkes aferdis: %@	claude-sonnet-5-5 2026-10-18
+The Keychain could not update the item: %@	Taxzant n tsura ur tezmir ara ad tleqqem aferdis: %@	claude-sonnet-5-5 2026-10-18
+The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Afecku Sdaɛmumec n umaẓrag isenfal ipiksilen neɣ isdeɛmumec iḥricen n tuṭṭfa n ugdil i ur ilaq ad ten-twali yiwen nniḍen.	claude-sonnet-5-5 2026-10-18
+The PDF could not be saved	Ur izmir ara ad yettwasekles PDF	claude-sonnet-5-5 2026-10-18
+The action failed.	Tigawt ur teddi ara.	claude-sonnet-5-5 2026-10-18
+The app that copied it doesn't say.	Asnas i t-yenɣalen ur t-yeqqar ara.	claude-sonnet-5-5 2026-10-18
+The approval of “%@” could not be revoked. It is unchanged; see the log for why.	Asentem n “%@” ur yezmir ara ad yettwasefsex. Ur yettusnifel ara; wali aɣmis i wakken ad teẓreḍ acimi.	claude-sonnet-5-5 2026-10-18
+The area is not on a display.	Tamnaṭ ur tella ara ɣef ugdil.	claude-sonnet-5-5 2026-10-18
+The automatic step is only used with every permission it needs.	Asurif awurman ittuseqdac kan s akk tisirag i yeḥwaǧ.	claude-sonnet-5-5 2026-10-18
+The certificate of %@ has the SHA-256 fingerprint %@.	Aselkem n %@ yesɛa azmul SHA-256 %@.	claude-sonnet-5-5 2026-10-18
+The changed recipe needs %@, which its approval doesn't allow yet. Save it first; saving asks for your approval.	Aserwas yettusnifel yeḥwaǧ %@, ur t-yesmenyif ara asentem-is mazal. Sekles-it send; asekles isteqsi ɣef usentem-ik.	claude-sonnet-5-5 2026-10-18
+The clipboard holds %lld types.	Afus yesɛa %lld n yinawen.	claude-sonnet-5-5 2026-10-18
+The clipboard holds 1 type.	Afus yesɛa 1 n unaw.	claude-sonnet-5-5 2026-10-18
+The clipboard is empty.	Afus d ilem.	claude-sonnet-5-5 2026-10-18
+The clipboard was left as it was.	Afus yeqqim akken yella.	claude-sonnet-5-5 2026-10-18
+The code signature of the app, notarization and quarantine	Azmul n tengalt n usnas, aseklu d tuɣalin n usenqed	claude-sonnet-5-5 2026-10-18
+The color behind the image	Ini deffir tugna	claude-sonnet-5-5 2026-10-18
+The color of the torn off parts; transparent by default	Ini n yiḥricen yettwaɣzifen; afrawan s wudem amezwer	claude-sonnet-5-5 2026-10-18
+The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Umuɣ n tiniɣriwin yesskan daɣen tameɣrin yeldin i tsebbaḍeḍ; tuṭṭfa n ugdil tettwaseddu ɣer tmeɣra.	claude-sonnet-5-5 2026-10-18
+The details of “%@” aren't available: it isn't loaded any more.	Talqayt n “%@” ulac-it: ur yettwasali ara ugar.	claude-sonnet-5-5 2026-10-18
+The display is no longer connected.	Ugdil ur yeqqin ara ugar.	claude-sonnet-5-5 2026-10-18
+The edges and the shadow of this cut mark.	Leryuf d tili n uzamul-agi n tuseggemt.	claude-sonnet-5-5 2026-10-18
+The edges of the sides a crop cuts off, and of the joint when rows or columns are cut out; None keeps them straight and seamless	Leryuf n yidisen i yettgezmen useggem, d tama n useggem mi ara ttwagzamen izirigen neɣ tigejdiwin; Ula yiwen yeǧǧa-ten d iẓgan	claude-sonnet-5-5 2026-10-18
+The editor was closed.	Amaẓrag yettwamdel.	claude-sonnet-5-5 2026-10-18
+The elements could not be loaded	Iferdisen ur zmiren ara ad d-ali	claude-sonnet-5-5 2026-10-18
+The elements could not be saved	Iferdisen ur zmiren ara ad ttwasekles	claude-sonnet-5-5 2026-10-18
+The elements of this file could not be read, the image is shown without them.	Iferdisen n ufaylu-agi ur zmiren ara ad ttwaɣren, tugna tettwaskan war-sen.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened again.	Iferdisen ttqimen d imaẓriwen mi ara yettwaldi ufaylu daɣen.	claude-sonnet-5-5 2026-10-18
+The elements stay editable when the file is opened in the editor again. Open With, Office, mail and share get a PNG.	Iferdisen ttqimen d imaẓriwen mi ara yettwaldi ufaylu deg umaẓrag daɣen. Ldi s, Office, imayl d beḍḍu ttawin PNG.	claude-sonnet-5-5 2026-10-18
+The extension folder couldn't be copied: %@	Akaram n usiɣzef ur yezmir ara ad yettwanɣel: %@	claude-sonnet-5-5 2026-10-18
+The file %@ could not be read.	Afaylu %@ ur yezmir ara ad yettwaɣer.	claude-sonnet-5-5 2026-10-18
+The file changed since you approved it	Afaylu yettusnifel seld ma tsentmeḍ-it	claude-sonnet-5-5 2026-10-18
+The hotkey %@ starts and stops a recording.	Anegzum n unasiw %@ ibeddu u yeḥbes tavidyut.	claude-sonnet-5-5 2026-10-18
+The hotkey records	Anegzum n unasiw yeɣmes	claude-sonnet-5-5 2026-10-18
+The hotkeys keep working. To come back to Settings, open %@ again from Spotlight, Launchpad or the Applications folder.	Inegzumen n unasiw ttkemmilen ad xedmen. I wakken ad d-tuɣaleḍ ɣer Iɣewwaṛen, ldi %@ daɣen seg Spotlight, Launchpad neɣ akaram n Yisnasen.	claude-sonnet-5-5 2026-10-18
+The image could not be encoded as %@.	Tugna ur tezmir ara ad tettwawgelhen d %@.	claude-sonnet-5-5 2026-10-18
+The image could not be opened	Tugna ur tezmir ara ad tettwaldi	claude-sonnet-5-5 2026-10-18
+The image could not be opened.	Tugna ur tezmir ara ad tettwaldi.	claude-sonnet-5-5 2026-10-18
+The image is too big for %@: it can be at most %lld pixels wide and high.	Tugna tameqqrant aṭas i %@: tezmer ad tili d %lld ipiksilen s tehri d teɣzi akk.	claude-sonnet-5-5 2026-10-18
+The key of a Boolean option: this option can only be changed while that one is on	Tasarut n taxtiṛt Boolean: taxtiṛt-agi tettusnifel kan mi ara yili wa urmid	claude-sonnet-5-5 2026-10-18
+The language of Greenshot's texts. Texts that Greenshot for Windows has no translation of stay English.	Tutlayt n yiḍrisen n Greenshot. Iḍrisen ur nesɛi ara Greenshot i Windows tasuqilt ttqimen s teglizit.	claude-sonnet-5-5 2026-10-18
+The lines are then ready when you press T. Upstream: AlwaysRunOCROnCapture.	Izirigen ad ilin ihi mi ara tessiḍeḍ ɣef T. Upstream: AlwaysRunOCROnCapture.	claude-sonnet-5-5 2026-10-18
+The log at a glance	Aɣmis s tmuɣli	claude-sonnet-5-5 2026-10-18
+The log file could not be read.	Afaylu n uɣmis ur yezmir ara ad yettwaɣer.	claude-sonnet-5-5 2026-10-18
+The mail app can't take attachments from other apps. Click to show the file in Finder.	Asnas n yimayl ur yezmir ara ad yeṭṭef iferdisen seg yisnasen nniḍen. Senned i wakken ad d-tbeddeḍ afaylu deg Finder.	claude-sonnet-5-5 2026-10-18
+The mail could not be written	Imayl ur yezmir ara ad yettwaru	claude-sonnet-5-5 2026-10-18
+The menu bar icon hidden? Quit from here.	Tignit n ufeggag n wumuɣ tettwaffer? Ffeɣ seg da.	claude-sonnet-5-5 2026-10-18
+The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@.	Tignit n ufeggag n wumuɣ tensa deg Iɣewwaṛen › Amatu. Umuɣ-is d abrid ɣer uṭṭas n %@.	claude-sonnet-5-5 2026-10-18
+The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu.	Umuɣ yeldi s usiwel amezwaru, ihi asiwel n snat n tikkal ur ixeddem ara ugar. Senned ayeffus neɣ ⌃-senned yeskan umuɣ yal tikelt.	claude-sonnet-5-5 2026-10-18
+The microphone could not be used.	Asawaḍ ur yezmir ara ad yettwaseqdec.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch.	Tutlayt tamaynut tettban seld usenker daɣen.	claude-sonnet-5-5 2026-10-18
+The new language shows after a relaunch. Unsaved screenshots are asked about first.	Tutlayt tamaynut tettban seld usenker daɣen. Tuṭṭfiwin n ugdil ur nettwaskelsen ara ttwasteqsint send.	claude-sonnet-5-5 2026-10-18
+The new size of the image. The elements move along.	Teɣzi tamaynut n tugna. Iferdisen ttemmuttin yides.	claude-sonnet-5-5 2026-10-18
+The previous version is not known, review the whole recipe	Lqem n zik ur yettwassen ara, wali aserwas meṛṛa	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more	Tasaggazt “%@” ulac-itt ugar	claude-sonnet-5-5 2026-10-18
+The printer “%@” is not there any more.	Tasaggazt “%@” ulac-itt ugar.	claude-sonnet-5-5 2026-10-18
+The program was not found.	Ahil ur yettwafa ara.	claude-sonnet-5-5 2026-10-18
+The recipe changed after you started editing the JSON: Apply replaces those changes, Revert shows the recipe as it is.	Aserwas yettusnifel seld ma tebduḍ ad tẓergeḍ JSON: Snes yessenfal isnifal-agi, Err yeskan aserwas akken yella.	claude-sonnet-5-5 2026-10-18
+The recipe file could not be read.	Afaylu n userwas ur yezmir ara ad yettwaɣer.	claude-sonnet-5-5 2026-10-18
+The recipe goes on	Aserwas ikemmel	claude-sonnet-5-5 2026-10-18
+The recipe is only used with every permission it needs.	Aserwas ittuseqdac kan s akk tisirag i yeḥwaǧ.	claude-sonnet-5-5 2026-10-18
+The recipe needs a plug-in Greenshot for Mac doesn't have.	Aserwas yeḥwaǧ aseddu ur yesɛi ara Greenshot i Mac.	claude-sonnet-5-5 2026-10-18
+The recipe to edit	Aserwas ara yettwasnifel	claude-sonnet-5-5 2026-10-18
+The recipe was not saved.	Aserwas ur yettwasekles ara.	claude-sonnet-5-5 2026-10-18
+The recipe works with files outside Greenshot's usual output folder.	Aserwas yeddu d yifuyla berra n ukaram n tuffɣa n Greenshot.	claude-sonnet-5-5 2026-10-18
+The recipes and automatic steps %@ knows.	Iserwasen d yisurifen iwurmanen i issen %@.	claude-sonnet-5-5 2026-10-18
+The recipes are too large to compare (more than %lld lines).	Iserwasen d imeqqranen aṭas i usemṣada (ugar n %lld izirigen).	claude-sonnet-5-5 2026-10-18
+The recipes start with Greenshot.	Iserwasen bdun s Greenshot.	claude-sonnet-5-5 2026-10-18
+The recording could not be started	Tavidyut ur tezmir ara ad tebdu	claude-sonnet-5-5 2026-10-18
+The recording ended before anything was recorded.	Tavidyut tekfa send ma yella wayen yettwasekles	claude-sonnet-5-5 2026-10-18
+The recording failed	Tavidyut ur teddi ara	claude-sonnet-5-5 2026-10-18
+The recording is being saved.	Tavidyut tettwasekles.	claude-sonnet-5-5 2026-10-18
+The recording is paused. Click to stop; ⌃-click to go on or discard.	Tavidyut tebḥes. Senned i usbaḍ; ⌃-senned i usekkeṛ neɣ asefsex.	claude-sonnet-5-5 2026-10-18
+The recording is starting. Click to stop it as soon as it runs.	Tavidyut tettebda. Senned i wakken ad tt-tḥebseḍ ticki ara teddu.	claude-sonnet-5-5 2026-10-18
+The recording starts in %lld s. Click to cancel.	Tavidyut tebda deg %lld s. Senned i usefsex.	claude-sonnet-5-5 2026-10-18
+The recording was already finished.	Tavidyut tekfa yakan.	claude-sonnet-5-5 2026-10-18
+The recording was discarded	Tavidyut tettwasefsex	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Asuter yekka-d seg greenshot-cli. Sireg-it kan ma ibda-t s timmad-ik: agmuḍ n userwas iteddu anda yazen-it.	claude-sonnet-5-5 2026-10-18
+The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Asuter yekka-d seg greenshot-cli. Sireg-it kan ma ibda-t s timmad-ik: tuṭṭfa n ugdil teddu ɣer tiniɣriwin-ik.	claude-sonnet-5-5 2026-10-18
+The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Imsal i d-yemṣadan d taneɣruft n yisem n ufaylu, amedya ${title} d ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18
+The screen with the mouse	Ugdil s tɣerdayt	claude-sonnet-5-5 2026-10-18
+The screen with the mouse pointer	Ugdil s taneqqiṭ n tɣerdayt	claude-sonnet-5-5 2026-10-18
+The screenshot could not be attached	Tuṭṭfa n ugdil ur tezmir ara ad tettwaseddu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be encoded	Tuṭṭfa n ugdil ur tezmir ara ad tettwawgelhen	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved	Tuṭṭfa n ugdil ur tezmir ara ad tettwasekles	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to %@	Tuṭṭfa n ugdil ur tezmir ara ad tettwasekles ɣer %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved to the file	Tuṭṭfa n ugdil ur tezmir ara ad tettwasekles deg ufaylu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be saved, please choose another place	Tuṭṭfa n ugdil ur tezmir ara ad tettwasekles, fren adig nniḍen	claude-sonnet-5-5 2026-10-18
+The screenshot could not be sent to %@	Tuṭṭfa n ugdil ur tezmir ara ad tettwazen ɣer %@	claude-sonnet-5-5 2026-10-18
+The screenshot could not be shared	Tuṭṭfa n ugdil ur tezmir ara ad tettwabḍu	claude-sonnet-5-5 2026-10-18
+The screenshot could not be taken	Tuṭṭfa n ugdil ur tezmir ara ad tettwaṭṭef	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written	Tuṭṭfa n ugdil ur tezmir ara ad tettwaru	claude-sonnet-5-5 2026-10-18
+The screenshot could not be written for %@	Tuṭṭfa n ugdil ur tezmir ara ad tettwaru i %@	claude-sonnet-5-5 2026-10-18
+The screenshot shortcuts of macOS don't use your hotkeys.	Inegzumen n tuṭṭfa n ugdil n macOS ur seqdacen ara inegzumen-ik n unasiw.	claude-sonnet-5-5 2026-10-18
+The script failed.	Asekript ur yeddi ara.	claude-sonnet-5-5 2026-10-18
+The script took longer than %lld seconds.	Asekript yewwi aṭas n wakud ɣef %lld tasinin.	claude-sonnet-5-5 2026-10-18
+The server answered with HTTP %lld.	Aqeddac yerra-d s HTTP %lld.	claude-sonnet-5-5 2026-10-18
+The settings file could not be read	Afaylu n yiɣewwaṛen ur yezmir ara ad yettwaɣer	claude-sonnet-5-5 2026-10-18
+The settings file, the log and crash reports	Afaylu n yiɣewwaṛen, aɣmis d yiznan n uɣaḍ	claude-sonnet-5-5 2026-10-18
+The sign-in answer did not match the request (state).	Tiririt n usesteb ur temṣada ara d usuter (state).	claude-sonnet-5-5 2026-10-18
+The sign-in answer had no code.	Tiririt n usesteb ur tesɛi ara tangalt.	claude-sonnet-5-5 2026-10-18
+The sign-in window could not be opened.	Asfaylu n usesteb ur yezmir ara ad yettwaldi.	claude-sonnet-5-5 2026-10-18
+The size of File › New Image, a white image to draw on.	Teɣzi n Afaylu › Tugna tamaynut, tugna tumlilt i usuneɣ.	claude-sonnet-5-5 2026-10-18
+The text could not be recognised	Aḍris ur yezmir ara ad yettwagen	claude-sonnet-5-5 2026-10-18
+The text could not be recognized: %@	Aḍris ur yezmir ara ad yettwagen: %@	claude-sonnet-5-5 2026-10-18
+The torn edges of this image.	Leryuf qqeṛsen n tugna-agi.	claude-sonnet-5-5 2026-10-18
+The transparent parts of the image get this color.	Iḥricen yeẓẓayen n tugna ad d-awin ini-agi.	claude-sonnet-5-5 2026-10-18
+The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Imsenkaren bdun yensan. Rmed yal yiwen izemren ad isenker aserwas: amsenker i teǧǧiḍ yensa ad yeqqim yensa (tzemreḍ ad t-termdeḍ ticki s Tisirag). War amsenker tzemreḍ ad tsekkreḍ aserwas seg tebdart n iserwasen.	claude-sonnet-5-5 2026-10-18
+The upload asks for the issue: a key, one of the last ten, a favourite filter or a search. Issues in the titles of open windows (e.g. the browser) are offered in the destination menu.	Asali yessuter ugur: tasarut, yiwen seg tid taneggarutin 10, imsizdeg ismenyifen neɣ anadi. Uguren deg yizwal n yisfaylen yeldin (amedya iminig) ttunefken deg wumuɣ n tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+The upload asks for the page: one open in Safari or Chrome, a search by title, or the page tree of a space. The last ten are in the destination menu too.	Asali yessuter asebter: yiwen yeldin deg Safari neɣ Chrome, anadi s uzwel, neɣ aɣsan n yisebtar n Space. Tid taneggarutin 10 llant daɣen deg wumuɣ n tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+The value is a template (${…} work in it)	Azal d tamudemt (${…} ttemlalen deg-s)	claude-sonnet-5-5 2026-10-18
+The video file could not be finished: %@	Afaylu n tvidyut ur yezmir ara ad yettwakfu: %@	claude-sonnet-5-5 2026-10-18
+The video file could not be set up.	Afaylu n tvidyut ur yezmir ara ad yettwaswel.	claude-sonnet-5-5 2026-10-18
+The video file could not be written: %@	Afaylu n tvidyut ur yezmir ara ad yettwaru: %@	claude-sonnet-5-5 2026-10-18
+The window could not be captured	Asfaylu ur yezmir ara ad yettwaṭṭef	claude-sonnet-5-5 2026-10-18
+The window hotkey opens the capture screen in window mode instead of capturing the active window.	Anegzum n unasiw n usfaylu yeldi agdil n tuṭṭfa deg uskar n usfaylu deg wadda n tuṭṭfa n usfaylu urmid.	claude-sonnet-5-5 2026-10-18
+The window is no longer on the screen.	Asfaylu ur yella ara ɣef ugdil ugar.	claude-sonnet-5-5 2026-10-18
+Then the hotkeys work right after you log in.	Ihi inegzumen n unasiw ttxeddmen kan akken ara teldiḍ tiɣimit.	claude-sonnet-5-5 2026-10-18
+There is no border of one color around the content to crop away.	Ulac iri n yiwen n yini ɣef agbur i useggem.	claude-sonnet-5-5 2026-10-18
+There is no image on the clipboard	Ulac tugna ɣef afus	claude-sonnet-5-5 2026-10-18
+There is no image to open.	Ulac tugna i wakken ad teldiḍ.	claude-sonnet-5-5 2026-10-18
+There is no recipe '%@'.	Ulac aserwas '%@'.	claude-sonnet-5-5 2026-10-18
+There was nothing on the screen to capture.	Ulac acu ɣef ugdil i wakken ad yettwaṭṭef.	claude-sonnet-5-5 2026-10-18
+Thermal state	Addad aḥraqan	claude-sonnet-5-5 2026-10-18
+These are for this print only.	Wagi i usiggez-agi kan.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	Zemrent ad ttwasnifelent ticki deg Iɣewwaṛen › Tasaggazt.	claude-sonnet-5-5 2026-10-18
+These lanes run at the same time	Tinebdurin-agi ttteddunt deg yiwen n wakud	claude-sonnet-5-5 2026-10-18
+These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	Ahilen-agi zemren ad seqdcen Greenshot. Kkes yiwen s ✕ i wakken ad d-yettwasteqsi daɣen tikelt-nniḍen ara yeqqen. I runtime (node, python, …) asekript kan i yettwasirgen, d ahil yettwazmel sɣur uneflay kan ticki mazal yettwazmel sɣur-s.	claude-sonnet-5-5 2026-10-18
+These triggers stay off, so they won't start the recipe:	Imsenkaren-agi qqimen d yensan, ihi ur ttsenkaren ara aserwas:	claude-sonnet-5-5 2026-10-18
+These:	Wigi:	claude-sonnet-5-5 2026-10-18
+This Mac has no microphone.	Mac-a ur yesɛi ara asawaḍ.	claude-sonnet-5-5 2026-10-18
+This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.	URL-agi ibda s http://: atukkin neɣ awal uffir ad ddun war uwgelhen. Seqdec https:// ma yefka-t uqeddac.	claude-sonnet-5-5 2026-10-18
+This address starts with http://: the password travels unencrypted.	Tansa-agi tebda s http://: awal uffir iteddu war uwgelhen.	claude-sonnet-5-5 2026-10-18
+This app	Asnas-agi	claude-sonnet-5-5 2026-10-18
+This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Asurif awurman-agi isnifel tuṭṭfiwin n yiserwasen yettwafernen, i tniɣriwin yettwafernen. Iserwasen imaynuten sɛan-t daɣen.	claude-sonnet-5-5 2026-10-18
+This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Asurif awurman-agi yettwaru sɣur afecku AI. Isnifel iserwasen nniḍen, ula d wid yettwarnan: wali anwa d acu yerna ddaw. Yebda yensa, rmed-it deg Iɣewwaṛen › Iserwasen.	claude-sonnet-5-5 2026-10-18
+This is a recipe; the editor has an automatic step open.	Wagi d aserwas; amaẓrag yesɛa asurif awurman yeldin.	claude-sonnet-5-5 2026-10-18
+This is an automatic step; the editor has a recipe open.	Wagi d asurif awurman; amaẓrag yesɛa aserwas yeldin.	claude-sonnet-5-5 2026-10-18
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Ahil-agi ur yesɛi ULAC TAḌMANT. D aseɣzan ilelli, u tetteɣɣimeḍ d tilelli ad t-tessufɣeḍ ddaw kra n usentel: %@ neɣ ugar.	claude-sonnet-5-5 2026-10-18
+This program is not signed by a developer.	Ahil-agi ur yettwazmel ara sɣur uneflay.	claude-sonnet-5-5 2026-10-18
+This recipe was written by an AI tool, not by Greenshot or by you. Check what it does below (Greenshot describes it from the recipe itself) and switch on only the triggers you want.	Aserwas-agi yettwaru sɣur afecku AI, mačči sɣur Greenshot neɣ sɣur-k. Wali d acu ixeddem ddaw (Greenshot isemmal-it seg userwas s timmad-is) u rmed kan imsenkaren i tebɣiḍ.	claude-sonnet-5-5 2026-10-18
+This step has no parameters.	Asurif-agi ur yesɛi ara iɣewwaṛen.	claude-sonnet-5-5 2026-10-18
+This trigger stays off, so it won't start the recipe:	Amsenker-agi yeqqim yensa, ihi ur isnekkar ara aserwas:	claude-sonnet-5-5 2026-10-18
+Threads	Idumen	claude-sonnet-5-5 2026-10-18
+Tip: move the app to your Applications folder first, so it keeps opening at login.	Tuffra: err asnas ɣer ukaram n Yisnasen send, i wakken ad yettkemmil ad yeldi di tnekra.	claude-sonnet-5-5 2026-10-18
+Title	Azwel	claude-sonnet-5-5 2026-10-18
+Title only	Azwel kan	claude-sonnet-5-5 2026-10-18
+Title:	Azwel:	claude-sonnet-5-5 2026-10-18
+To	Ɣer	claude-sonnet-5-5 2026-10-18
+To:	Ɣer:	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens	Err ini n ugdil HDR ɣef ugdilen HDR	claude-sonnet-5-5 2026-10-18
+Tone map HDR content on HDR screens (macOS 15 or later)	Err ini n ugdil HDR ɣef ugdilen HDR (macOS 15 neɣ ugar)	claude-sonnet-5-5 2026-10-18
+Top left	Akesser azelmaḍ	claude-sonnet-5-5 2026-10-18
+Top right	Akesser ayeffus	claude-sonnet-5-5 2026-10-18
+Torn	Yeqqṛen	claude-sonnet-5-5 2026-10-18
+Total: %lld	Amatu: %lld	claude-sonnet-5-5 2026-10-18
+Transferring data to Confluence, please wait…	Asiweḍ n yisefka ɣer Confluence, ṛǧu ma ulac aɣilif…	claude-sonnet-5-5 2026-10-18
+Transient (meant to be gone soon)	Askar (yettwaxdem i wakken ad iruḥ s lemɛen)	claude-sonnet-5-5 2026-10-18
+Translocated	Yettwasenfel adig	claude-sonnet-5-5 2026-10-18
+Trigger Name	Isem n umsenker	claude-sonnet-5-5 2026-10-18
+Trigger removed	Amsenker yettwakkes	claude-sonnet-5-5 2026-10-18
+Triggers	Imsenkaren	claude-sonnet-5-5 2026-10-18
+Triggers (%lld)	Imsenkaren (%lld)	claude-sonnet-5-5 2026-10-18
+Triggers Left Off	Imsenkaren ur teddun ara	claude-sonnet-5-5 2026-10-18
+Troubleshooting	Tifrat n ugur	claude-sonnet-5-5 2026-10-18
+Trust certificates with these fingerprints	Wali iselkamen s yizmulen-agi	claude-sonnet-5-5 2026-10-18
+Trust these hosts despite certificate errors	Wali imsaneḍ-agi ɣas ma llan tuccḍiwin n uselkem	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the automatic step, not these words.	Wali d acu i yettaru Greenshot ddaw ɣef usurif awurman, mačči awalen-agi.	claude-sonnet-5-5 2026-10-18
+Trust what Greenshot writes below about the recipe, not these words.	Wali d acu i yettaru Greenshot ddaw ɣef userwas, mačči awalen-agi.	claude-sonnet-5-5 2026-10-18
+Turn on %@ in System Settings › General › Login Items & Extensions.	Rmed %@ deg Iɣewwaṛen n unagraw › Amatu › Iferdisen n unekcum d yimaẓrag.	claude-sonnet-5-5 2026-10-18
+Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Rmed Sireg Alɣuyen i %@ deg Iɣewwaṛen n unagraw › Alɣuyen i wakken ad ten-twaliḍ daɣen.	claude-sonnet-5-5 2026-10-18
+Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Armed n wiyaḍ yensa umuɣ. Aṭas zemren ad ilin, amedya nɣel d usekles.	claude-sonnet-5-5 2026-10-18
+Two column text	Aḍris s snat n tfelwitin	claude-sonnet-5-5 2026-10-18
+Two objects	Snat n tɣawsiwin	claude-sonnet-5-5 2026-10-18
+Two objects and object	Snat n tɣawsiwin d tɣawsa	claude-sonnet-5-5 2026-10-18
+Two objects and text	Snat n tɣawsiwin d uḍris	claude-sonnet-5-5 2026-10-18
+Two objects over text	Snat n tɣawsiwin ɣef uḍris	claude-sonnet-5-5 2026-10-18
+Type	Anaw	claude-sonnet-5-5 2026-10-18
+Type the shortcut…	Aru anegzum…	claude-sonnet-5-5 2026-10-18
+Unavailable	Ulac-it	claude-sonnet-5-5 2026-10-18
+Undo	Sefsex	claude-sonnet-5-5 2026-10-18
+Undo (⌘Z)	Sefsex (⌘Z)	claude-sonnet-5-5 2026-10-18
+Undone	Yettwasefsex	claude-sonnet-5-5 2026-10-18
+Unencrypted (None)	War awgelhen (Ula yiwen)	claude-sonnet-5-5 2026-10-18
+Unexpected answer from the server: %@	Tiririt ur nettwaqeɛ ara seg uqeddac: %@	claude-sonnet-5-5 2026-10-18
+Unique identifier for this step. Editing this ID updates all references.	Asulay ayaw i usurif-agi. Asnifel n usulay-agi isenfal akk iceggaɛen.	claude-sonnet-5-5 2026-10-18
+Unknown	Arussin	claude-sonnet-5-5 2026-10-18
+Unload	Kkes asali	claude-sonnet-5-5 2026-10-18
+Unload '%@' from Greenshot?	Kkes asali n '%@' seg Greenshot?	claude-sonnet-5-5 2026-10-18
+Unload Automatic Step	Kkes asali n usurif awurman	claude-sonnet-5-5 2026-10-18
+Unload Recipe	Kkes asali n userwas	claude-sonnet-5-5 2026-10-18
+Unload and forget the file	Kkes asali u ttu afaylu	claude-sonnet-5-5 2026-10-18
+Unloaded recipe '%@'.	Asali n userwas '%@' yettwakkes.	claude-sonnet-5-5 2026-10-18
+Unnamed Recipe	Aserwas war isem	claude-sonnet-5-5 2026-10-18
+Unreadable registration: click Install	Arsam ur yezmir ara ad yettwaɣer: senned Sbedd	claude-sonnet-5-5 2026-10-18
+Unsaved Changes	Isnifal ur yettwaskelsen ara	claude-sonnet-5-5 2026-10-18
+Unsaved changes	Isnifal ur yettwaskelsen ara	claude-sonnet-5-5 2026-10-18
+Updated at %@	Yettwaleqqem deg %@	claude-sonnet-5-5 2026-10-18
+Updates	Ileqqmen	claude-sonnet-5-5 2026-10-18
+Upload to Confluence – %@	Sali ɣer Confluence – %@	claude-sonnet-5-5 2026-10-18
+Upload to Confluence: “%@”	Sali ɣer Confluence: “%@”	claude-sonnet-5-5 2026-10-18
+Upload to Jira – %@	Sali ɣer Jira – %@	claude-sonnet-5-5 2026-10-18
+Upload to Jira, Confluence, Box or Dropbox	Sali ɣer Jira, Confluence, Box neɣ Dropbox	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Box	%@ yettwasali ɣer Box	claude-sonnet-5-5 2026-10-18
+Uploaded %@ to Dropbox	%@ yettwasali ɣer Dropbox	claude-sonnet-5-5 2026-10-18
+Use Default	Seqdec amezwer	claude-sonnet-5-5 2026-10-18
+Use Expression	Seqdec tafyirt	claude-sonnet-5-5 2026-10-18
+Use a step type this version of Greenshot for Mac has, or update Greenshot.	Seqdec anaw n usurif i yesɛa lqem-agi n Greenshot i Mac, neɣ leqqem Greenshot.	claude-sonnet-5-5 2026-10-18
+Use recipes	Seqdec iserwasen	claude-sonnet-5-5 2026-10-18
+Used for:	Yettuseqdac i:	claude-sonnet-5-5 2026-10-18
+User name	Isem n useqdac	claude-sonnet-5-5 2026-10-18
+VALIDATION ERROR	TUCCḌA N USENQED	claude-sonnet-5-5 2026-10-18
+Valid SourceType values are: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	Azalen n SourceType yettwasirgen d: Region, Window, ActiveWindow, FullScreen, LastRegion, Clipboard, File, TextOcr, CurrentEditor, Extension.	claude-sonnet-5-5 2026-10-18
+Valid: no file of the app was changed	Ittwasenqed: ulac afaylu n usnas i yettusnifel	claude-sonnet-5-5 2026-10-18
+Validation Error	Tuccḍa n usenqed	claude-sonnet-5-5 2026-10-18
+Validation failed for %@	Asenqed ur yeddi ara i %@	claude-sonnet-5-5 2026-10-18
+Values the user sets in Settings › Recipes; steps read them as ${option.key}.	Azalen i d-yesbadu useqdac deg Iɣewwaṛen › Iserwasen; isurifen ttaɣaren-ten s ${option.key}.	claude-sonnet-5-5 2026-10-18
+Verify that the target node ID matches an existing node's 'id' in the recipe's 'nodes' list.	Senqed ma yemṣada usulay n tgejdit n uḍaf d 'id' n tgejdit yellan deg tebdart 'nodes' n userwas.	claude-sonnet-5-5 2026-10-18
+Version %@ (%@)	Lqem %@ (%@)	claude-sonnet-5-5 2026-10-18
+Version %@ is available – click to download	Lqem %@ yella – senned i wakken ad t-tsidreḍ	claude-sonnet-5-5 2026-10-18
+Version %@.	Lqem %@.	claude-sonnet-5-5 2026-10-18
+Vertical offset:	Asemmiḍ ubdid:	claude-sonnet-5-5 2026-10-18
+Vertical padding:	Aɣwenzi ubdid:	claude-sonnet-5-5 2026-10-18
+Vertical text	Aḍris ubdid	claude-sonnet-5-5 2026-10-18
+Vertical title and text	Azwel d uḍris ubdid	claude-sonnet-5-5 2026-10-18
+Vertical title and text over chart	Azwel d uḍris ubdid ɣef takurba	claude-sonnet-5-5 2026-10-18
+Video	Tavidyut	claude-sonnet-5-5 2026-10-18
+View	Askan	claude-sonnet-5-5 2026-10-18
+View Automatic Step JSON	Wali JSON n usurif awurman	claude-sonnet-5-5 2026-10-18
+View Changes	Wali isnifal	claude-sonnet-5-5 2026-10-18
+View Recipe JSON	Wali JSON n userwas	claude-sonnet-5-5 2026-10-18
+Wait before capturing: %lld ms	Ṛǧu send tuṭṭfa: %lld ms	claude-sonnet-5-5 2026-10-18
+Waits, errors in a dialog	Yettraju, tuccḍiwin deg usfaylu	claude-sonnet-5-5 2026-10-18
+Warnings and errors	Ɣur-k d tuccḍiwin	claude-sonnet-5-5 2026-10-18
+Watch the clipboard	Ḍfer afus	claude-sonnet-5-5 2026-10-18
+Watching the clipboard.	Aḍfar n ufus.	claude-sonnet-5-5 2026-10-18
+Wave	Talaɣ	claude-sonnet-5-5 2026-10-18
+WebP (lossless)	WebP (war ullis)	claude-sonnet-5-5 2026-10-18
+Welcome Guide…	Amaɣnu n unekcum…	claude-sonnet-5-5 2026-10-18
+Welcome to %@	Ansuf ɣer %@	claude-sonnet-5-5 2026-10-18
+What %@ needs to work as expected, with a fix where something is off.	D acu i yeḥwaǧ %@ i wakken ad iteddu akken ilaq, s tifrat anda yella wugur.	claude-sonnet-5-5 2026-10-18
+What AI tools may do	D acu izemren ifecka AI ad xedmen	claude-sonnet-5-5 2026-10-18
+What changed since the last approval	D acu i d-yettusnifel seg usentem aneggaru	claude-sonnet-5-5 2026-10-18
+What happens with a capture is up to you: open it in the editor, save it, copy it to the clipboard, print it and more. You choose in Settings.	D acu i d-yeḍran s tuṭṭfa d ayen i tebɣiḍ: ldi-tt deg umaẓrag, sekles-itt, nɣel-itt ɣef afus, siggez-itt d wayen nniḍen. Teferneḍ deg Iɣewwaṛen.	claude-sonnet-5-5 2026-10-18
+What is on the clipboard now, and when it changes	D acu yellan ɣef afus tura, u melmi i d-yettbeddil	claude-sonnet-5-5 2026-10-18
+What is uploaded leaves this Mac, the service decides who can see it.	Ayen yettwasalin yeffeɣ seg Mac-a, ameẓlu ad yeḥkem anwa izemren ad t-iwali.	claude-sonnet-5-5 2026-10-18
+What is wrong	D acu ur nteddu ara	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the automatic step)	D acu i ixeddem (yettwaru sɣur Greenshot seg usurif awurman)	claude-sonnet-5-5 2026-10-18
+What it does (written by Greenshot from the recipe)	D acu i ixeddem (yettwaru sɣur Greenshot seg userwas)	claude-sonnet-5-5 2026-10-18
+What it does, its triggers, its approval and the changes against the built-in version	D acu i ixeddem, imsenkaren-is, asentem-is d yisnifal ɣef lqem yettwarnan	claude-sonnet-5-5 2026-10-18
+What it was asked (the AI tool's words, not checked by Greenshot):	D acu i yettwasuter (awalen n ufecku AI, ur ten-isenqed ara Greenshot):	claude-sonnet-5-5 2026-10-18
+What the Mac plays	D acu iseqdec Mac	claude-sonnet-5-5 2026-10-18
+What the Mac plays and the microphone	D acu iseqdec Mac d usawaḍ	claude-sonnet-5-5 2026-10-18
+What the app needs to work as expected, with a fix where something is off	D acu i yeḥwaǧ usnas i wakken ad iteddu akken ilaq, s tifrat anda yella wugur	claude-sonnet-5-5 2026-10-18
+What this automatic step does, which recipes it changes and what you approved for it.	D acu i ixeddem usurif awurman-agi, anwa iserwasen i isnifel u d acu i tsentmeḍ i-s.	claude-sonnet-5-5 2026-10-18
+What this built-in recipe does and which triggers start it.	D acu i ixeddem userwas-agi yettwarnan u anwa imsenkaren i t-isnekkaren.	claude-sonnet-5-5 2026-10-18
+What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	D acu i ixeddem userwas-agi u d acu i tsentmeḍ i-s. Ulac acu ara yettusnifel da, seqdec Tisirag deg Iɣewwaṛen › Iserwasen neɣ deg umsefrak n iserwasen i waya.	claude-sonnet-5-5 2026-10-18
+What to change: %@	D acu ara yettusnifel: %@	claude-sonnet-5-5 2026-10-18
+What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	D acu i yesers “Ɣef afus” da. Isnasen ṭṭafen amasal amezwaru i fehmen; HTML yeseddu tugna d PNG i yimaylen d yimaẓrag web.	claude-sonnet-5-5 2026-10-18
+When	Ticki	claude-sonnet-5-5 2026-10-18
+When it runs again	Ticki ara yales ad iteddu	claude-sonnet-5-5 2026-10-18
+When the user picks '%@'	Ticki yferneḍ '%@'	claude-sonnet-5-5 2026-10-18
+When the window changes size	Ticki yettbeddil teɣzi n usfaylu	claude-sonnet-5-5 2026-10-18
+When…	Ticki…	claude-sonnet-5-5 2026-10-18
+Where %@ is used	Anda yettuseqdac %@	claude-sonnet-5-5 2026-10-18
+Where it runs from	Anda iteddu seg	claude-sonnet-5-5 2026-10-18
+Where the recipe's flow comes in	Anda i d-ikcem uḍfar n userwas	claude-sonnet-5-5 2026-10-18
+While an HDR video, photo or game shows, its bright parts keep their detail in the screenshot instead of being cut off. Captures without HDR content keep their colours exactly. Apple silicon only.	Mi ara d-yettwaskan tavidyut, tugna neɣ urar HDR, iḥricen-is yeṭṭafen ddaw n telqayt deg tuṭṭfa n ugdil deg wadda n wakken ad ttwagzamen. Tuṭṭfiwin war agbur HDR ḥerzent initen-nsent akken llant. Apple silicon kan.	claude-sonnet-5-5 2026-10-18
+While capturing, press Space to switch between selecting a region and capturing a window.	Deg wakud n tuṭṭfa, ssed ɣef Space i usenfel gar afran n tmnaṭ d tuṭṭfa n usfaylu.	claude-sonnet-5-5 2026-10-18
+While capturing, the arrow keys move the pointer one pixel at a time, with ⌃ or ⌘ ten pixels.	Deg wakud n tuṭṭfa, tisura n yineccaben ssemmuttint taneqqiṭ s yiwen n upiksil, s ⌃ neɣ ⌘ s yiṭṭen ipiksilen.	claude-sonnet-5-5 2026-10-18
+White	Amellal	claude-sonnet-5-5 2026-10-18
+WiFi Network	Aẓeṭṭa WiFi	claude-sonnet-5-5 2026-10-18
+WiFi Network Connection Details	Talqayt n tuqqna n uẓeṭṭa WiFi	claude-sonnet-5-5 2026-10-18
+Wiki markup (!name!)	Wiki markup (!name!)	claude-sonnet-5-5 2026-10-18
+Wiki markup copied – click to open the page	Wiki markup yettwanɣel – senned i wakken ad teldiḍ asebter	claude-sonnet-5-5 2026-10-18
+Window	Asfaylu	claude-sonnet-5-5 2026-10-18
+Window %@ · %@ (pid %@)	Asfaylu %@ · %@ (pid %@)	claude-sonnet-5-5 2026-10-18
+Window titles in menus: up to %lld characters	Izwal n yisfaylen deg yimuɣen: ugar-it %lld n yisekkilen	claude-sonnet-5-5 2026-10-18
+Windows	Isfaylen	claude-sonnet-5-5 2026-10-18
+Windows of these applications are never listed or captured for AI tools, and they are blacked out in screenshots AI tools take. Names are application names or bundle identifiers; upper and lower case, spaces and ".app" don't matter.	Isfaylen n yisnasen-agi ur ttwaskanen yiwen ur ttwaṭṭfen i yifecka AI, u ttwabrken deg tuṭṭfiwin n ugdil i d-ṭṭfen ifecka AI. Ismawen d ismawen n yisnasen neɣ isulayen n tɣupt; ur ttwaḥsabent ara tecfawt n isekkilen imeqqranen d imecṭuḥen, tallunt d ".app".	claude-sonnet-5-5 2026-10-18
+Word, PowerPoint and Outlook insert into a new document, presentation or mail, or one that is open (the destination menu lists them). Excel inserts into the active sheet of an open or a new workbook. Outlook attaches the screenshot and uses the Email section's subject, To, CC and BCC; with “allow export in meeting items” it also lists the open meetings you organise and attaches the screenshot to the meeting. New Outlook can't be scripted. OneNote for Mac can't be scripted either: Notes takes its place (or use Open With). On a layout without a picture placeholder the screenshot is centred on the slide; a layout PowerPoint refuses gives a blank slide.	Word, PowerPoint d Outlook ggeren ɣer warrat amaynut, tuddsa neɣ imayl, neɣ wid yeldin (umuɣ n tiniɣriwin yesskan-iten). Excel igger ɣer tebdart tamlellit n ukaru yeldin neɣ amaynut. Outlook yessiweḍ tuṭṭfa n ugdil u yesseqdac azwel, Ɣer, CC d BCC n uḥric Imayl; s “sireg asifeḍ deg yiferdisen n tmeɣra” yesskan daɣen tameɣrin yeldin i tsebbaḍeḍ u yessiweḍ tuṭṭfa ɣer tmeɣra. Outlook amaynut ur yezmir ara ad yettwakkes s script. OneNote i Mac ur yezmir ara daɣen: Notes ad yeddu deg umkan-is (neɣ seqdec Ldi s). Deg tarrayt war amkan n tugna, tuṭṭfa n ugdil tettwasṭerḍ deg tlemmast n tsutin; tarrayt ur yeqbil ara PowerPoint tefk tasutin tilemt.	claude-sonnet-5-5 2026-10-18
+Word: lock aspect ratio of the image	Word: sekkeṛ afmiḍi n tugna	claude-sonnet-5-5 2026-10-18
+Words in the page title, or CQL	Awalen deg uzwel n usebter, neɣ CQL	claude-sonnet-5-5 2026-10-18
+Words in the summary, or JQL	Awalen deg ugzul, neɣ JQL	claude-sonnet-5-5 2026-10-18
+Wrap text	Err aḍris ɣer yizirig-nniḍen	claude-sonnet-5-5 2026-10-18
+Write the extensions with their dot, separated by ';', e.g. ".png;.jpg".	Aru iseggiyen s tneqqiṭ-nsen, yebḍa s ';', amedya ".png;.jpg".	claude-sonnet-5-5 2026-10-18
+Write the hotkey like "Ctrl + Shift + B"; on the Mac Ctrl is ⌘ and Win is ⌃.	Aru anegzum n unasiw am "Ctrl + Shift + B"; ɣef Mac, Ctrl d ⌘ u Win d ⌃.	claude-sonnet-5-5 2026-10-18
+Write the output to the log	Aru tuffɣa ɣer uɣmis	claude-sonnet-5-5 2026-10-18
+Writing the mail in Mail…	Tira n yimayl deg Mail…	claude-sonnet-5-5 2026-10-18
+Written by an AI tool	Yettwaru sɣur afecku AI	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you	Yettwaru sɣur afecku AI u tsentmeḍ-it	claude-sonnet-5-5 2026-10-18
+Written by an AI tool and approved by you: %@	Yettwaru sɣur afecku AI u tsentmeḍ-it: %@	claude-sonnet-5-5 2026-10-18
+YOUR CHANGE	ASNIFEL-IK	claude-sonnet-5-5 2026-10-18
+Yes	Ih	claude-sonnet-5-5 2026-10-18
+Yes, Proceed	Ih, kemmel	claude-sonnet-5-5 2026-10-18
+Yes: downloaded and not opened from Finder yet	Ih: yettwasider u ur yeldi ara seg Finder mazal	claude-sonnet-5-5 2026-10-18
+You answered "Don't Allow" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects.	Terriḍ "Ur sirig ara" (neɣ tmdeleḍ asteqsi) i yihilen-agi, ihi Greenshot yugi-ten war asteqsi. Sireg yiwen da, neɣ eǧǧ Greenshot ad isteqsi daɣen tikelt-nniḍen ara yeqqen.	claude-sonnet-5-5 2026-10-18
+You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.	Tsentmeḍ asurif awurman-agi send, maca afaylu-ines yettusnifel berra n Greenshot seld waya. Almed ara tsentmeḍ isnifal, ur isnifel ula d yiwen n userwas.	claude-sonnet-5-5 2026-10-18
+You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.	Tsentmeḍ aserwas n tuṭṭfa-agi send, maca afaylu-ines yettusnifel berra n Greenshot seld waya (sɣur ahil nniḍen neɣ s ufus). Wali isnifal ddaw send ad ten-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
+You are using the latest version (%@).	Tseqdaceḍ lqem aneggaru (%@).	claude-sonnet-5-5 2026-10-18
+You can close this window and go back to Greenshot.	Tzemreḍ ad tmdeleḍ asfaylu-agi u ad d-tuɣaleḍ ɣer Greenshot.	claude-sonnet-5-5 2026-10-18
+You can switch triggers on later with Permissions, and run the recipe from the recipe list.	Tzemreḍ ad trmedeḍ imsenkaren ticki s Tisirag, u ad tsekkreḍ aserwas seg tebdart n iserwasen.	claude-sonnet-5-5 2026-10-18
+You have %@.	Tesɛiḍ %@.	claude-sonnet-5-5 2026-10-18
+You have no capture hotkeys at the moment. Choose them in Settings › General.	Ulac inegzumen n unasiw n tuṭṭfa i tesɛiḍ tura. Fren-iten deg Iɣewwaṛen › Amatu.	claude-sonnet-5-5 2026-10-18
+You have the latest version of %@, %@.	Tesɛiḍ lqem aneggaru n %@, %@.	claude-sonnet-5-5 2026-10-18
+You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: %@	Tsekleseḍ asurif awurman-agi deg umaẓrag n userwas. Aṭas n yisnifal ttwasentmen war asteqsi, maca wagi yeḥwaǧ ayen ara tferneḍ: %@	claude-sonnet-5-5 2026-10-18
+You saved this recipe in the recipe editor. Most changes are approved without asking, but this one adds something that needs your decision: %@	Tsekleseḍ aserwas-agi deg umaẓrag n userwas. Aṭas n yisnifal ttwasentmen war asteqsi, maca wagi yerna kra i yeḥwaǧen ayen ara tferneḍ: %@	claude-sonnet-5-5 2026-10-18
+You see every proposed recipe and decide whether to approve it. Its triggers and risky actions start switched off.	Twaliḍ yal aserwas i d-yettwasumer u tferneḍ ma ara t-tsentmeḍ. Imsenkaren-is d tigawin iḥerqen bdun d yensan.	claude-sonnet-5-5 2026-10-18
+You're all set	Kullec iwjed	claude-sonnet-5-5 2026-10-18
+Your %lld hotkeys work.	%lld n yinegzumen-ik n unasiw ttxeddmen.	claude-sonnet-5-5 2026-10-18
+Your Change Needs a Decision	Asnifel-ik yeḥwaǧ afran	claude-sonnet-5-5 2026-10-18
+Your Setup	Aswel-ik	claude-sonnet-5-5 2026-10-18
+Your approval	Asentem-ik	claude-sonnet-5-5 2026-10-18
+Your hotkey works.	Anegzum-ik n unasiw iteddu.	claude-sonnet-5-5 2026-10-18
+Your hotkeys	Inegzumen-ik n unasiw	claude-sonnet-5-5 2026-10-18
+Your hotkeys, the screenshot shortcuts of macOS and other capture apps	Inegzumen-ik n unasiw, inegzumen n tuṭṭfa n ugdil n macOS d yisnasen nniḍen n tuṭṭfa	claude-sonnet-5-5 2026-10-18
+Your organisation manages %@ on this Mac and turned off its settings.	Tkebbanit-ik tsewwer %@ ɣef Mac-a u tensa iɣewwaṛen-is.	claude-sonnet-5-5 2026-10-18
+Your own servers	Iqeddacen-ik	claude-sonnet-5-5 2026-10-18
+Your recipes	Iserwasen-ik	claude-sonnet-5-5 2026-10-18
+Your setup	Aswel-ik	claude-sonnet-5-5 2026-10-18
+Your unsaved changes are discarded.	Isnifal-ik ur ttwaskelsen ara ad ttwasefsen.	claude-sonnet-5-5 2026-10-18
+Zig-zag	Zig-zag	claude-sonnet-5-5 2026-10-18
+Zight (CloudApp) screen capture	Tuṭṭfa n ugdil Zight (CloudApp)	claude-sonnet-5-5 2026-10-18
+Zoom	Asemɣer	claude-sonnet-5-5 2026-10-18
+Zoom In	Semɣer	claude-sonnet-5-5 2026-10-18
+Zoom Out	Semẓi asemɣer	claude-sonnet-5-5 2026-10-18
+Zoom to Fit	Asemɣer i wakken ad yemṣada	claude-sonnet-5-5 2026-10-18
+Zoomer opacity	Tafrawt n usemɣer	claude-sonnet-5-5 2026-10-18
+[%@]	[%@]	claude-sonnet-5-5 2026-10-18
+[No Stack]	[Ulac tanzagt]	claude-sonnet-5-5 2026-10-18
+a Greenshot hotkey	anegzum n unasiw n Greenshot	claude-sonnet-5-5 2026-10-18
+all destinations	akk tiniɣriwin	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	sireg Anekcum deg Iɣewwaṛen › Tuṭṭfa	claude-sonnet-5-5 2026-10-18
+approved %@	yettwasentem %@	claude-sonnet-5-5 2026-10-18
+at most %@ × %@	ugar-it %@ × %@	claude-sonnet-5-5 2026-10-18
+automatic step	asurif awurman	claude-sonnet-5-5 2026-10-18
+back to region	uɣal ɣer tmnaṭ	claude-sonnet-5-5 2026-10-18
+build %@	taneggarut %@	claude-sonnet-5-5 2026-10-18
+button label	tabzimt n tqeffalt	claude-sonnet-5-5 2026-10-18
+capture a fixed size	ṭṭef teɣzi yettwaḥerzen	claude-sonnet-5-5 2026-10-18
+capture text	ṭṭef aḍris	claude-sonnet-5-5 2026-10-18
+capture the area	ṭṭef tamnaṭ	claude-sonnet-5-5 2026-10-18
+capture the window	ṭṭef asfaylu	claude-sonnet-5-5 2026-10-18
+capture the window or area	ṭṭef asfaylu neɣ tamnaṭ	claude-sonnet-5-5 2026-10-18
+changed since its approval	yettusnifel seld usentem	claude-sonnet-5-5 2026-10-18
+checking…	asenqed…	claude-sonnet-5-5 2026-10-18
+continues at:	ikemmel deg:	claude-sonnet-5-5 2026-10-18
+copies a URL	yenɣel URL	claude-sonnet-5-5 2026-10-18
+copies the output	yenɣel tuffɣa	claude-sonnet-5-5 2026-10-18
+copy its text	nɣel aḍris-ines	claude-sonnet-5-5 2026-10-18
+copy or open what it says	nɣel neɣ ldi ayen yeqqar	claude-sonnet-5-5 2026-10-18
+critical	uzzig	claude-sonnet-5-5 2026-10-18
+default	amezwer	claude-sonnet-5-5 2026-10-18
+default: %@	amezwer: %@	claude-sonnet-5-5 2026-10-18
+default: the destinations of the settings	amezwer: tiniɣriwin n yiɣewwaṛen	claude-sonnet-5-5 2026-10-18
+description	aglam	claude-sonnet-5-5 2026-10-18
+e.g. PROJ-123	amedya PROJ-123	claude-sonnet-5-5 2026-10-18
+e.g. Screenshots; empty = the app's folder	amedya Tuṭṭfiwin n ugdil; ilem = akaram n usnas	claude-sonnet-5-5 2026-10-18
+empty	ilem	claude-sonnet-5-5 2026-10-18
+expression, e.g. ${payload.width > 800} or else	tafyirt, amedya ${payload.width > 800} neɣ else	claude-sonnet-5-5 2026-10-18
+ext_border, ext_caption	ext_border, ext_caption	claude-sonnet-5-5 2026-10-18
+fair	yelha	claude-sonnet-5-5 2026-10-18
+file name prefix	azwir n yisem n ufaylu	claude-sonnet-5-5 2026-10-18
+greenshot-mcp was not found next to the app	greenshot-mcp ur yettwafa ara ɣer tama n usnas	claude-sonnet-5-5 2026-10-18
+greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text and greenshotmac://clipboard, e.g. from Alfred, Raycast or a web page.	greenshotmac://capture/region, …/window, …/fullscreen, …/last, …/text d greenshotmac://clipboard, amedya seg Alfred, Raycast neɣ asebter web.	claude-sonnet-5-5 2026-10-18
+hide the info	ffer talɣut	claude-sonnet-5-5 2026-10-18
+hide the keys	ffer tisura	claude-sonnet-5-5 2026-10-18
+hold it at another corner	ṭṭef-it deg tiɣimit nniḍen	claude-sonnet-5-5 2026-10-18
+hold to place it without snapping	ṭṭef i wakken ad t-tserseḍ war timmuɣli	claude-sonnet-5-5 2026-10-18
+hosted by %@	yettwarna sɣur %@	claude-sonnet-5-5 2026-10-18
+https://confluence.yourcompany.com	https://confluence.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://jira.yourcompany.com	https://jira.yourcompany.com	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net	https://yourcompany.atlassian.net	claude-sonnet-5-5 2026-10-18
+https://yourcompany.atlassian.net/wiki	https://yourcompany.atlassian.net/wiki	claude-sonnet-5-5 2026-10-18
+ids, * or *capture	isulayen, * neɣ *capture	claude-sonnet-5-5 2026-10-18
+in the capture	deg tuṭṭfa	claude-sonnet-5-5 2026-10-18
+inch	inc	claude-sonnet-5-5 2026-10-18
+include the mouse pointer	seddu taneqqiṭ n tɣerdayt	claude-sonnet-5-5 2026-10-18
+keep a drag to one direction	eǧǧ asuzzer s yiwet n tama	claude-sonnet-5-5 2026-10-18
+key	tasarut	claude-sonnet-5-5 2026-10-18
+larger or smaller area	tamnaṭ tameqqrant neɣ tamecṭuḥt	claude-sonnet-5-5 2026-10-18
+leave out the mouse pointer	ur seddu ara taneqqiṭ n tɣerdayt	claude-sonnet-5-5 2026-10-18
+left %@	azelmaḍ %@	claude-sonnet-5-5 2026-10-18
+level %@	aswir %@	claude-sonnet-5-5 2026-10-18
+macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS isteqsi yal asnas iṭṭfen tuṭṭfiwin n ugdil ɣef turagt-agi.\n\nLdi Iɣewwaṛen n unagraw › Taɣellist d tɣellist › Asekles n ugdil d yimesli n unagraw, rmed %@, sakin ffeɣ seg-s u ldi-t daɣen.\n\nUlac-it deg tebdart? Senned ɣef + ddaw-s u rnu %@ seg Yisnasen.\n\nYermed yakan? Anɣal yettwasnifel neɣ yettwamutti yettwaḥseb d asnas amaynut: fren-itt, kkes-itt s −, sakin ldi %@ daɣen u sireg-it daɣen.	claude-sonnet-5-5 2026-10-18
+macOS asks the first time whether %@ may use the microphone.	macOS isteqsi tikkelt tamezwarut ma yezmer %@ ad yesseqdec asawaḍ.	claude-sonnet-5-5 2026-10-18
+macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS ur yeǧǧi ara tanɣalt-agi ad d-tessufeɣ alɣuyen. Tanɣalt yettwazmelen s tikti tɣellist tzemmer ad t-tgen (wali README).	claude-sonnet-5-5 2026-10-18
+macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS ur yeǧǧi ara %@ ad yeɣmes ugdil mazal. Tuṭṭfiwin n ugdil ttḥwaǧent turagt-agi: rmed %@ deg Taɣellist d tɣellist › Asekles n ugdil d yimesli n unagraw.	claude-sonnet-5-5 2026-10-18
+macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS iseddu tisura-agi send yal asnas. Ma yella yiwet seg-sent tesɛa tisura n unegzum n unasiw, senses-itt deg Unasiw › Inegzumen n unasiw › Tuṭṭfiwin n ugdil, neɣ fren anegzum nniḍen.	claude-sonnet-5-5 2026-10-18
+macOS has no crash report of %@.	macOS ur yesɛi ara aneqqis n uɣaḍ n %@.	claude-sonnet-5-5 2026-10-18
+macOS hides the %@ icon, behind the notch or in the menu bar settings. ⌘-drag it further right, or allow it in System Settings › Menu Bar.	macOS yeffer tignit n %@, deffir ukerru neɣ deg yiɣewwaṛen n ufeggag n wumuɣ. ⌘-zuɣer-itt ɣer ayeffus, neɣ sireg-itt deg Iɣewwaṛen n unagraw › Afeggag n wumuɣ.	claude-sonnet-5-5 2026-10-18
+macOS kept %lld crash reports of %@ in ~/Library/Logs/DiagnosticReports.	macOS yeḥrez %lld n yiznan n uɣaḍ n %@ deg ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS kept 1 crash report of %@ in ~/Library/Logs/DiagnosticReports.	macOS yeḥrez 1 n uznan n uɣaḍ n %@ deg ~/Library/Logs/DiagnosticReports.	claude-sonnet-5-5 2026-10-18
+macOS notifications	alɣuyen n macOS	claude-sonnet-5-5 2026-10-18
+macOS notifications need the app bundle (scripts/build-app.sh); without it messages appear in the top right corner.	alɣuyen n macOS ttḥwaǧen ɣer usnas (scripts/build-app.sh); war-s, iznan ttbanen deg yiri ufella ayeffus.	claude-sonnet-5-5 2026-10-18
+macOS refused these hotkeys, another app may use them: %@.	macOS yugi inegzumen-agi n unasiw, asnas nniḍen yezmer ad ten-yesseqdec: %@.	claude-sonnet-5-5 2026-10-18
+macOS runs a temporary copy (App Translocation). Move the app to the Applications folder and open it from there, so its permissions and login item stay.	macOS iseddu tanɣalt n wakud (App Translocation). Err asnas ɣer ukaram n Yisnasen u ldi-t seg da, i wakken ad qimen tisirag-is d uferdis n tnekra.	claude-sonnet-5-5 2026-10-18
+macOS uses %@ for its own screenshots and gets the keys first. Turn them off under Keyboard Shortcuts › Screenshots, or choose other hotkeys.	macOS yesseqdac %@ i tuṭṭfiwin-is n ugdil u yeṭṭaf tisura send. Senses-itent deg Inegzumen n unasiw › Tuṭṭfiwin n ugdil, neɣ fren inegzumen nniḍen.	claude-sonnet-5-5 2026-10-18
+macOS, the Mac, memory, screens and scaling	macOS, Mac, takatut, ugdilen d usemɣer	claude-sonnet-5-5 2026-10-18
+move one pixel, with ⌃ ten	ssemmet s yiwen n upiksil, s ⌃ s yiṭṭen	claude-sonnet-5-5 2026-10-18
+no	uhu	claude-sonnet-5-5 2026-10-18
+nominal	yemṣada	claude-sonnet-5-5 2026-10-18
+not a colour	mačči d ini	claude-sonnet-5-5 2026-10-18
+not applicable (not signed with a Developer ID)	ur yettwabdar ara (ur yettwazmel ara s Developer ID)	claude-sonnet-5-5 2026-10-18
+not approved	ur yettwasentem ara	claude-sonnet-5-5 2026-10-18
+not in the capture	mačči deg tuṭṭfa	claude-sonnet-5-5 2026-10-18
+off	yensa	claude-sonnet-5-5 2026-10-18
+one per line	yiwen deg yal izirig	claude-sonnet-5-5 2026-10-18
+or a designation	neɣ aglam	claude-sonnet-5-5 2026-10-18
+pick a size	fren teɣzi	claude-sonnet-5-5 2026-10-18
+picture	tugna	claude-sonnet-5-5 2026-10-18
+points	tineqqiḍin	claude-sonnet-5-5 2026-10-18
+preview: in a corner, at the zoomer, off	taskant: deg yiri, ɣer usemɣer, yensa	claude-sonnet-5-5 2026-10-18
+previous or next size	teɣzi n zik neɣ ameḍfar	claude-sonnet-5-5 2026-10-18
+recipe	aserwas	claude-sonnet-5-5 2026-10-18
+recipe id	asulay n userwas	claude-sonnet-5-5 2026-10-18
+required	yettwaḥwaǧ	claude-sonnet-5-5 2026-10-18
+right %@	ayeffus %@	claude-sonnet-5-5 2026-10-18
+select a region	fren tamnaṭ	claude-sonnet-5-5 2026-10-18
+select words, copy their text	fren awalen, nɣel aḍris-nsen	claude-sonnet-5-5 2026-10-18
+serious	ameqqran	claude-sonnet-5-5 2026-10-18
+show the info	sken talɣut	claude-sonnet-5-5 2026-10-18
+start and finish a selection with the keys	bdu u kfu afran s tsura	claude-sonnet-5-5 2026-10-18
+switch between region and window	senfel gar tamnaṭ d usfaylu	claude-sonnet-5-5 2026-10-18
+to	ar	claude-sonnet-5-5 2026-10-18
+unknown	arussin	claude-sonnet-5-5 2026-10-18
+unknown error	tuccḍa tarussint	claude-sonnet-5-5 2026-10-18
+v%@	v%@	claude-sonnet-5-5 2026-10-18
+vCard Contact	Anermas vCard	claude-sonnet-5-5 2026-10-18
+vCard Contact Card Details	Talqayt n tkarḍit n unermas vCard	claude-sonnet-5-5 2026-10-18
+value	azal	claude-sonnet-5-5 2026-10-18
+variable (default: the name)	asnifel (amezwer: isem)	claude-sonnet-5-5 2026-10-18
+what it does	d acu ixeddem	claude-sonnet-5-5 2026-10-18
+when %@	ticki %@	claude-sonnet-5-5 2026-10-18
+window details on or off	talqayt n usfaylu termed neɣ tensa	claude-sonnet-5-5 2026-10-18
+with the menu bar	s ufeggag n wumuɣ	claude-sonnet-5-5 2026-10-18
+written by %@	yettwaru sɣur %@	claude-sonnet-5-5 2026-10-18
+yes, Apple checked this build	ih, Apple isenqed tanɣalt-agi	claude-sonnet-5-5 2026-10-18
+zoomer on or off	asemɣer yermed neɣ yensa	claude-sonnet-5-5 2026-10-18
+{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} deg yiɣir d afaylu n tuṭṭfa n ugdil; tiɣmisin tebḍu awalen. Taladna d yiɣir zemren ad seqdcen timsal n taneɣruft n yisem n ufaylu, amedya ${title}.	claude-sonnet-5-5 2026-10-18
+|	|	claude-sonnet-5-5 2026-10-18
+×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) yesɛa tisura kif-kif s yal tama, ihi sin ad teddun.	claude-sonnet-5-5 2026-10-18
+“%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) d tazwara n unegzum n unasiw-agi, ihi wa ur iteddu ara.	claude-sonnet-5-5 2026-10-18
+“%@” already exists. Do you want to replace it?	“%@” yella yakan. Tebɣiḍ ad t-tbeddleḍ?	claude-sonnet-5-5 2026-10-18
+“%@” has the same hotkey.	“%@” yesɛa anegzum n unasiw kif-kif.	claude-sonnet-5-5 2026-10-18
+“%@” hasn't finished. If you quit now, what it hasn't exported yet is lost.	“%@” ur yekfi ara. Ma teffɣeḍ tura, ayen ur yettwasifeḍ ara mazal ad iruḥ.	claude-sonnet-5-5 2026-10-18
+“%@” is no Jira issue key.	“%@” mačči d tasarut n wugur Jira.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid URL.	“%@” mačči d URL ameɣtu.	claude-sonnet-5-5 2026-10-18
+“%@” is not a valid regular expression.	“%@” mačči d tanfalit tuzligt tameɣtut.	claude-sonnet-5-5 2026-10-18
+“%@” is not an executable file. Check it in Settings › Destinations.	“%@” mačči d afaylu aselkim. Senqed-it deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
+“%@” waits for you to choose where its capture goes. If you quit now, its capture is lost.	“%@” yettraju ad tferneḍ anda ara teddu tuṭṭfa-ines. Ma teffɣeḍ tura, tuṭṭfa-ines ad truḥ.	claude-sonnet-5-5 2026-10-18
+“%@” waits for your answer to “%@”. If you quit now, its capture is lost.	“%@” yettraju tiririt-ik i “%@”. Ma teffɣeḍ tura, tuṭṭfa-ines ad truḥ.	claude-sonnet-5-5 2026-10-18
+“Image size” makes the page as big as the screenshot plus the margins. The image is centred on the page.	“Teɣzi n tugna” tgeṛ asebter d aqeṛṛu am tuṭṭfa n ugdil d yiɣezran. Tugna tettwaslemmes ɣef usebter.	claude-sonnet-5-5 2026-10-18
+“Share screenshots using Dropbox” takes the macOS screenshot keys	“Bḍu tuṭṭfiwin n ugdil s Dropbox” yeṭṭef tisura n tuṭṭfa n ugdil n macOS	claude-sonnet-5-5 2026-10-18
+⇧ Shift	⇧ Shift	claude-sonnet-5-5 2026-10-18
+⇧ can't be the only modifier, except for F1–F20.	⇧ ur izmir ara ad yili d asnifel kan, ala i F1–F20.	claude-sonnet-5-5 2026-10-18
+⌃ Control	⌃ Control	claude-sonnet-5-5 2026-10-18
+⌘ Command	⌘ Command	claude-sonnet-5-5 2026-10-18
+⌥ Option	⌥ Option	claude-sonnet-5-5 2026-10-18
+▶ Run Recipe	▶ Sker aserwas	claude-sonnet-5-5 2026-10-18
+⚠	⚠	claude-sonnet-5-5 2026-10-18
+✔	✔	claude-sonnet-5-5 2026-10-18
+✘	✘	claude-sonnet-5-5 2026-10-18

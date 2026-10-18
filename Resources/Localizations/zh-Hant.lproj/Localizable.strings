@@ -2719,6 +2719,9 @@
 "Lightshot screenshot tool" = "Lightshot 螢幕截圖工具";
 
 /* machine */
+"Line" = "直線";
+
+/* machine */
 "Line thickness in points (0: no line)" = "線條粗細（點數；0：無線條）";
 
 /* core:Editor.obfuscate_text_scope_lines */
@@ -6165,6 +6168,9 @@
 /* machine */
 "editor.color.text" = "文字";
 
+/* machine */
+"editor.cutEdge.line" = "直線";
+
 /* core:Editor.backcolor, override */
 "editor.fill" = "填色";
 
@@ -6322,6 +6328,9 @@
 "office.emailFormat.text" = "文字";
 
 /* machine */
+"office.slideLayout.custom" = "自訂";
+
+/* machine */
 "office.slideLayout.text" = "文字";
 
 /* machine */
@@ -6362,6 +6371,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "全部";
+
+/* machine */
+"recipeManager.filter.custom" = "自訂";
 
 /* machine */
 "required" = "必填";
@@ -6422,6 +6434,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "無";
+
+/* machine */
+"video.preset.custom" = "自訂";
 
 /* machine */
 "what it does" = "它的作用";

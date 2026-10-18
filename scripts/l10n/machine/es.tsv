@@ -852,6 +852,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	Letra	claude-sonnet-5-5 2026-10-18
 Light	Claro	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Herramienta de capturas Lightshot	claude-sonnet-5-5 2026-10-18
+Line	Línea	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Grosor de línea en puntos (0: sin línea)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Enlace copiado – clic para abrir	claude-sonnet-5-5 2026-10-18
 Link to the image	Enlace a la imagen	claude-sonnet-5-5 2026-10-18
@@ -1906,7 +1907,7 @@ Zoomer opacity	Opacidad de la lupa	claude-sonnet-5-5 2026-10-18
 [No Stack]	[Sin pila]	claude-sonnet-5-5 2026-10-18
 a Greenshot hotkey	una tecla rápida de Greenshot	claude-sonnet-5-5 2026-10-18
 all destinations	todos los destinos	claude-sonnet-5-5 2026-10-18
-allow Accessibility in Settings › Capture	permite Accesibilidad en Preferencias › Captura	claude-sonnet-5-5 2026-10-18
+allow Accessibility in Settings › Capture	permite Accesibilidad en Preferencias › Capturar	claude-opus-5-5 2026-10-18
 approved %@	aprobado %@	claude-sonnet-5-5 2026-10-18
 at most %@ × %@	como máximo %@ × %@	claude-sonnet-5-5 2026-10-18
 automatic step	paso automático	claude-sonnet-5-5 2026-10-18

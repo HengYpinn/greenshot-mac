@@ -18,6 +18,22 @@ struct AboutView: View {
 
     static let textWidth: CGFloat = 360
 
+    /// Said below the translator credit when the language in use has machine translations (docs/translations.md).
+    static var machineTranslationNote: String? {
+        L10nText.hasMachineTranslations() ? String(localized: "Some texts in this language are machine translations.") : nil
+    }
+
+    /// The window's height: the credits and, when there is one, the machine translation note.
+    static func windowHeight() -> CGFloat {
+        var height = CreditsText.height(width: textWidth) + 260
+        if let note = machineTranslationNote {
+            let text = NSAttributedString(string: note, attributes: [.font: NSFont.preferredFont(forTextStyle: .callout)])
+            let size = NSSize(width: textWidth, height: .greatestFiniteMagnitude)
+            height += ceil(text.boundingRect(with: size, options: [.usesLineFragmentOrigin, .usesFontLeading]).height) + 10
+        }
+        return height
+    }
+
     var body: some View {
         VStack(spacing: 10) {
             Image(nsImage: NSApp.applicationIconImage ?? NSImage()).resizable().frame(width: 96, height: 96)
@@ -29,9 +45,9 @@ struct AboutView: View {
                 Text(verbatim: credit).font(.callout).foregroundStyle(.secondary).multilineTextAlignment(.center)
                     .frame(width: Self.textWidth)
             }
-            if L10nText.hasMachineTranslations() {
-                Text("Some texts in this language are machine translations.").font(.callout)
-                    .foregroundStyle(.secondary).multilineTextAlignment(.center).frame(width: Self.textWidth)
+            if let note = Self.machineTranslationNote {
+                Text(verbatim: note).font(.callout).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true).frame(width: Self.textWidth)
             }
             HStack {
                 Button("Self-Service…") { openSelfService(nil) }
@@ -81,7 +97,7 @@ final class AboutWindowController: DiagnosticsWindowController {
     init(app: AppDelegate?) {
         var close: () -> Void = {}
         let view = AboutView(openSelfService: { section in app?.showSelfService(section: section) }, close: { close() })
-        let height = CreditsText.height(width: AboutView.textWidth) + 260
+        let height = AboutView.windowHeight()
         super.init(title: String(localized: "About \(AppInfo.name)"), content: view, size: NSSize(width: AboutView.textWidth + 48, height: height),
                    resizable: false)
         close = { [weak self] in self?.close() }

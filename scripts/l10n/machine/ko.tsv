@@ -527,6 +527,7 @@ Created new recipe.	새 레시피를 만들었습니다.	claude-sonnet-5-5 2026-
 Crop Out Horizontally	가로로 잘라내기	claude-sonnet-5-5 2026-10-18
 Crop Out Vertically	세로로 잘라내기	claude-sonnet-5-5 2026-10-18
 Crop modes	자르기 모드	claude-sonnet-5-5 2026-10-18
+Custom	사용자 지정	claude-opus-5-5 2026-10-18
 Custom size	사용자 지정 크기	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings	잘라낸 가장자리 설정	claude-sonnet-5-5 2026-10-18
 Cut Edge Settings…	잘라낸 가장자리 설정…	claude-sonnet-5-5 2026-10-18
@@ -742,7 +743,7 @@ Import Annotations from a Greenshot File	Greenshot 파일에서 주석 가져오
 Import From This Editor	이 편집기에서 가져오기	claude-sonnet-5-5 2026-10-18
 Imported %lld annotations from %@	%2$@에서 주석 %1$lld개를 가져왔습니다	claude-sonnet-5-5 2026-10-18
 In	입력	claude-sonnet-5-5 2026-10-18
-In Settings › Output you choose the folder and the file name pattern of saved screenshots.	설정 › 출력에서 저장한 스크린샷의 폴더와 파일명 패턴을 선택합니다.	claude-sonnet-5-5 2026-10-18
+In Settings › Output you choose the folder and the file name pattern of saved screenshots.	설정 › 출력 파일 설정에서 저장한 스크린샷의 폴더와 파일명 패턴을 선택합니다.	claude-opus-5-5 2026-10-18
 In a few steps you'll see how capturing works, and %@ checks that everything is set up well.	몇 단계만 거치면 캡처 방법을 볼 수 있으며, %@이(가) 모든 설정이 제대로 되어 있는지 확인합니다.	claude-sonnet-5-5 2026-10-18
 In parallel	병렬	claude-sonnet-5-5 2026-10-18
 In the background	백그라운드	claude-sonnet-5-5 2026-10-18
@@ -820,6 +821,7 @@ Lets these browsers start Greenshot's connection for the extension (a file in ea
 Letter	레터	claude-sonnet-5-5 2026-10-18
 Light	라이트	claude-sonnet-5-5 2026-10-18
 Lightshot screenshot tool	Lightshot 스크린샷 도구	claude-sonnet-5-5 2026-10-18
+Line	선	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	선 두께(포인트, 0: 선 없음)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	링크를 복사했습니다 – 클릭하여 열기	claude-sonnet-5-5 2026-10-18
 Link to the image	이미지 링크	claude-sonnet-5-5 2026-10-18
@@ -1625,7 +1627,7 @@ There is no recipe '%@'.	레시피 '%@'이(가) 없습니다.	claude-sonnet-5-5 
 There was nothing on the screen to capture.	캡처할 화면 내용이 없었습니다.	claude-sonnet-5-5 2026-10-18
 Thermal state	열 상태	claude-sonnet-5-5 2026-10-18
 These are for this print only.	이 설정은 이번 인쇄에만 적용됩니다.	claude-sonnet-5-5 2026-10-18
-These can be changed later in Settings › Printer.	나중에 설정 › 프린터에서 변경할 수 있습니다.	claude-sonnet-5-5 2026-10-18
+These can be changed later in Settings › Printer.	나중에 설정 › 인쇄기에서 변경할 수 있습니다.	claude-opus-5-5 2026-10-18
 These lanes run at the same time	이 레인들은 동시에 실행됩니다	claude-sonnet-5-5 2026-10-18
 These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.	이 프로그램들은 Greenshot을 사용할 수 있습니다. ✕로 제거하면 다음에 연결할 때 다시 묻습니다. 런타임(node, python 등)은 실행하는 스크립트만 허용되며, 개발자가 서명한 프로그램은 같은 개발자가 계속 서명하고 있는 동안에만 허용됩니다.	claude-sonnet-5-5 2026-10-18
 These triggers stay off, so they won't start the recipe:	이 트리거는 꺼진 상태로 유지되므로 레시피를 시작하지 않습니다:	claude-sonnet-5-5 2026-10-18

@@ -2668,6 +2668,9 @@
 "Lightshot screenshot tool" = "Lightshot-Screenshot-Tool";
 
 /* machine */
+"Line" = "Linie";
+
+/* machine */
 "Line thickness in points (0: no line)" = "Linienstärke in Punkt (0: keine Linie)";
 
 /* core:Editor.obfuscate_text_scope_lines */
@@ -5953,7 +5956,7 @@
 "all destinations" = "alle Ziele";
 
 /* machine */
-"allow Accessibility in Settings › Capture" = "„Bedienungshilfen“ unter Einstellungen › Aufnahme erlauben";
+"allow Accessibility in Settings › Capture" = "„Bedienungshilfen“ unter Einstellungen › Abfotografieren erlauben";
 
 /* machine */
 "approved %@" = "%@ freigegeben";
@@ -6193,6 +6196,9 @@
 "off" = "aus";
 
 /* machine */
+"office.slideLayout.custom" = "Benutzerdefiniert";
+
+/* machine */
 "one per line" = "eins pro Zeile";
 
 /* machine */
@@ -6230,6 +6236,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "Alle";
+
+/* machine */
+"recipeManager.filter.custom" = "Benutzerdefiniert";
 
 /* machine */
 "required" = "erforderlich";
@@ -6287,6 +6296,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Keine";
+
+/* machine */
+"video.preset.custom" = "Benutzerdefiniert";
 
 /* machine */
 "what it does" = "was es tut";

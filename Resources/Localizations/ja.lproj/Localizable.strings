@@ -2413,7 +2413,7 @@
 "If %@: %@" = "%@ の場合：%@";
 
 /* machine */
-"If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers." = "ご自身のサーバである場合は、「設定」›「出力先」›「ご自身のサーバ」に %@ またはフィンガープリントを追加してください。";
+"If this is your own server, add %@ or the fingerprint under Settings › Destinations › Your own servers." = "ご自身のサーバーである場合は、「設定」›「出力先」›「ご自身のサーバー」に %@ またはフィンガープリントを追加してください。";
 
 /* machine */
 "Image" = "イメージ";
@@ -2720,6 +2720,9 @@
 
 /* machine */
 "Lightshot screenshot tool" = "Lightshot スクリーンショットツール";
+
+/* machine */
+"Line" = "直線";
 
 /* machine */
 "Line thickness in points (0: no line)" = "線の太さ（ポイント）（0：線なし）";
@@ -6165,6 +6168,9 @@
 /* machine */
 "editor.color.text" = "テキスト";
 
+/* machine */
+"editor.cutEdge.line" = "直線";
+
 /* core:Editor.backcolor, override */
 "editor.fill" = "塗りつぶし";
 
@@ -6322,6 +6328,9 @@
 "office.emailFormat.text" = "テキスト";
 
 /* machine */
+"office.slideLayout.custom" = "カスタム";
+
+/* machine */
 "office.slideLayout.text" = "テキスト";
 
 /* machine */
@@ -6362,6 +6371,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "すべて";
+
+/* machine */
+"recipeManager.filter.custom" = "カスタム";
 
 /* machine */
 "required" = "必須";
@@ -6422,6 +6434,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "なし";
+
+/* machine */
+"video.preset.custom" = "カスタム";
 
 /* machine */
 "what it does" = "動作内容";

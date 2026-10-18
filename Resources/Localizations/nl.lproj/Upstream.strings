@@ -892,7 +892,7 @@
 "__about_translation__" = "Nederlandse vertaling door Jurjen Ladenius, Thomas Smid en Stephan Paternotte";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1875";
+"__machine_translations__" = "1880";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "alles";

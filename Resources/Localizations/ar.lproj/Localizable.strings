@@ -1189,7 +1189,7 @@
 "Capture last region" = "التقط المنطقة السابقة";
 
 /* machine */
-"Capture links are off. Turn them on in Settings › Expert › Automation." = "روابط الالتقاط متوقفة. فعّلها في التفضيلات › متقدم › الأتمتة.";
+"Capture links are off. Turn them on in Settings › Expert › Automation." = "روابط الالتقاط متوقفة. فعّلها في التفضيلات › خبير › الأتمتة.";
 
 /* core:Core.contextmenu_capturearea */
 "Capture region" = "منطقة الالتقاط";
@@ -2725,6 +2725,9 @@
 "Lightshot screenshot tool" = "أداة لقطات الشاشة Lightshot";
 
 /* machine */
+"Line" = "خط";
+
+/* machine */
 "Line thickness in points (0: no line)" = "سماكة الخط بالنقاط (0: بلا خط)";
 
 /* core:Editor.obfuscate_text_scope_lines */
@@ -3286,7 +3289,7 @@
 "Off for this app: no notifications" = "متوقف لهذا التطبيق: لا إشعارات";
 
 /* machine */
-"Off: “Save directly” adds (2), (3), … to the name instead." = "إيقاف: يضيف \"الحفظ المباشر\" (2) و(3) و… إلى الاسم بدلًا من ذلك.";
+"Off: “Save directly” adds (2), (3), … to the name instead." = "إيقاف: يضيف \"احفظ مباشرة\" (2) و(3) و… إلى الاسم بدلًا من ذلك.";
 
 /* machine */
 "Offset X:" = "الإزاحة X:";
@@ -5842,7 +5845,7 @@
 "What to change: %@" = "ما يجب تغييره: %@";
 
 /* machine */
-"What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "ما يضعه \"نسخ إلى الحافظة\" هناك. تأخذ التطبيقات أول تنسيق تفهمه؛ ويضمّن HTML الصورة كـ PNG لبرامج البريد ومحررات الويب.";
+"What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "ما يضعه \"انسخ للذاكرة\" هناك. تأخذ التطبيقات أول تنسيق تفهمه؛ ويضمّن HTML الصورة كـ PNG لبرامج البريد ومحررات الويب.";
 
 /* machine */
 "When" = "عندما";
@@ -6073,7 +6076,7 @@
 "all destinations" = "كل الوجهات";
 
 /* machine */
-"allow Accessibility in Settings › Capture" = "اسمح بتسهيلات الاستخدام في التفضيلات › الالتقاط";
+"allow Accessibility in Settings › Capture" = "اسمح بتسهيلات الاستخدام في التفضيلات › إلتقط صورة";
 
 /* machine */
 "approved %@" = "تمت الموافقة على %@";
@@ -6161,6 +6164,9 @@
 
 /* machine */
 "editor.color.text" = "نص";
+
+/* machine */
+"editor.cutEdge.line" = "خط";
 
 /* core:Editor.backcolor, override */
 "editor.fill" = "لون التعبئة";

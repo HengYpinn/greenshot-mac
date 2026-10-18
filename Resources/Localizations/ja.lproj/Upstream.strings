@@ -1003,7 +1003,7 @@
 "__about_translation__" = "Japanese translation by Rukoto Luther";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1910";
+"__machine_translations__" = "1915";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "すべて";

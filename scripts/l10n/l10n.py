@@ -426,6 +426,10 @@ def align_punctuation(translation: str, english: str, lproj: str) -> str:
     colon = colon_match.group(0) if colon_match else ""
     if colon_match:
         text = text[:colon_match.start()].rstrip()
+    # Right-to-left packs write the ellipsis first ("...שמירה בשם"); on the Mac it is the trailing one.
+    leading = re.match(r"(\.\.\.|\u2026)\s*", text)
+    if leading and not mac.startswith(("...", "\u2026")):
+        text = text[leading.end():] + "..."
     ellipsis = text.endswith("\u2026") or text.endswith("...")
     mac_colon = mac.endswith(":") or mac.endswith("\uff1a")
     mac_core = mac[:-1].rstrip() if mac_colon else mac

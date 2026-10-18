@@ -751,7 +751,7 @@
 "Another Tip" = "另一条提示";
 
 /* machine */
-"Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger." = "其他 App 可能正在使用它们。请在“设置 › 通用”中选择其他按键，或更改配方的热键触发器。";
+"Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger." = "其他 App 可能正在使用它们。请在“设置 › 常规”中选择其他按键，或更改配方的热键触发器。";
 
 /* machine */
 "Any trigger can run the recipe; each has its own switch. Triggers that start the recipe on their own or from outside are approved separately." = "任何触发器都可以运行该配方；每个触发器各有开关。自行启动或从外部启动配方的触发器需单独批准。";
@@ -2734,6 +2734,9 @@
 "Lightshot screenshot tool" = "Lightshot 截图工具";
 
 /* machine */
+"Line" = "直线";
+
+/* machine */
 "Line thickness in points (0: no line)" = "线条粗细（点）（0：无线条）";
 
 /* core:Editor.obfuscate_text_scope_lines */
@@ -3298,7 +3301,7 @@
 "Off for this app: no notifications" = "此 App 已关闭：无通知";
 
 /* machine */
-"Off: “Save directly” adds (2), (3), … to the name instead." = "关闭：“直接保存”会改为在名称后添加 (2)、(3)……";
+"Off: “Save directly” adds (2), (3), … to the name instead." = "关闭：“直接保存而不询问”会改为在名称后添加 (2)、(3)……";
 
 /* machine */
 "Offset X:" = "偏移 X：";
@@ -5143,7 +5146,7 @@
 "The menu bar icon hidden? Quit from here." = "菜单栏图标已隐藏？可在此退出。";
 
 /* machine */
-"The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@." = "菜单栏图标已在“设置 › 通用”中关闭。通过它的菜单可使用 %@ 的大部分功能。";
+"The menu bar icon is switched off in Settings › General. Its menu is the way to most of %@." = "菜单栏图标已在“设置 › 常规”中关闭。通过它的菜单可使用 %@ 的大部分功能。";
 
 /* machine */
 "The menu opens on the first click, so a double-click does nothing more. Right-click or ⌃-click always shows the menu." = "菜单在第一次点按时打开，因此双击不再有其他作用。按右键点按或 ⌃ 点按始终会显示菜单。";
@@ -5863,7 +5866,7 @@
 "What to change: %@" = "要更改的内容：%@";
 
 /* machine */
-"What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "“复制到剪贴板”放入剪贴板的内容。App 会采用它们能理解的第一种格式；HTML 会将图像作为 PNG 嵌入，供邮件和网页编辑器使用。";
+"What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "“复制图片到剪贴板”放入剪贴板的内容。App 会采用它们能理解的第一种格式；HTML 会将图像作为 PNG 嵌入，供邮件和网页编辑器使用。";
 
 /* machine */
 "When" = "何时";
@@ -6010,7 +6013,7 @@
 "You have %@." = "你的版本是 %@。";
 
 /* machine */
-"You have no capture hotkeys at the moment. Choose them in Settings › General." = "你目前没有抓取热键。请在“设置 › 通用”中选择。";
+"You have no capture hotkeys at the moment. Choose them in Settings › General." = "你目前没有抓取热键。请在“设置 › 常规”中选择。";
 
 /* machine */
 "You have the latest version of %@, %@." = "你使用的是 %@ 的最新版本 %@。";
@@ -6094,7 +6097,7 @@
 "all destinations" = "所有目标位置";
 
 /* machine */
-"allow Accessibility in Settings › Capture" = "请在“设置 › 抓取”中允许辅助功能";
+"allow Accessibility in Settings › Capture" = "请在“设置 › 抓图”中允许辅助功能";
 
 /* machine */
 "approved %@" = "已批准 %@";
@@ -6179,6 +6182,9 @@
 
 /* machine */
 "editor.color.text" = "文字";
+
+/* machine */
+"editor.cutEdge.line" = "直线";
 
 /* core:Editor.backcolor, override */
 "editor.fill" = "填充颜色";
@@ -6337,6 +6343,9 @@
 "office.emailFormat.text" = "文字";
 
 /* machine */
+"office.slideLayout.custom" = "自定义";
+
+/* machine */
 "office.slideLayout.text" = "文字";
 
 /* machine */
@@ -6377,6 +6386,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "全部";
+
+/* machine */
+"recipeManager.filter.custom" = "自定义";
 
 /* machine */
 "required" = "必填";
@@ -6437,6 +6449,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "不显示箭头";
+
+/* machine */
+"video.preset.custom" = "自定义";
 
 /* machine */
 "what it does" = "作用";

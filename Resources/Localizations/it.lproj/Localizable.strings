@@ -2422,7 +2422,7 @@
 "In" = "Dentro";
 
 /* machine */
-"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "In Impostazioni › Output scegli la cartella e il modello del nome file delle schermate salvate.";
+"In Settings › Output you choose the folder and the file name pattern of saved screenshots." = "In Impostazioni › Destinazione scegli la cartella e il modello del nome file delle schermate salvate.";
 
 /* machine */
 "In a few steps you'll see how capturing works, and %@ checks that everything is set up well." = "In pochi passaggi vedrai come funziona la cattura e %@ verifica che tutto sia configurato bene.";
@@ -2672,6 +2672,9 @@
 
 /* machine */
 "Lightshot screenshot tool" = "Strumento di screenshot Lightshot";
+
+/* machine */
+"Line" = "Linea";
 
 /* machine */
 "Line thickness in points (0: no line)" = "Spessore della linea in punti (0: nessuna linea)";
@@ -6069,6 +6072,9 @@
 /* machine */
 "editor.color.text" = "Testo";
 
+/* machine */
+"editor.cutEdge.line" = "Linea";
+
 /* core:Editor.backcolor, override */
 "editor.fill" = "Colore di riempimento";
 
@@ -6217,6 +6223,9 @@
 "office.emailFormat.text" = "Testo";
 
 /* machine */
+"office.slideLayout.custom" = "Personalizzato";
+
+/* machine */
 "office.slideLayout.text" = "Testo";
 
 /* machine */
@@ -6257,6 +6266,9 @@
 
 /* core:Core.contextmenu_capturefullscreen_all, normalised */
 "recipeManager.filter.all" = "Tutto";
+
+/* machine */
+"recipeManager.filter.custom" = "Personalizzato";
 
 /* machine */
 "required" = "obbligatorio";
@@ -6317,6 +6329,9 @@
 
 /* core:Editor.arrowheads_none */
 "video.audio.none" = "Nessuna";
+
+/* machine */
+"video.preset.custom" = "Personalizzato";
 
 /* machine */
 "what it does" = "cosa fa";
