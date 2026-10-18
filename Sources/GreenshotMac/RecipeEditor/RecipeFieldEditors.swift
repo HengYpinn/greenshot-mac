@@ -459,6 +459,18 @@ private func stylePicker(_ object: Binding<JSONObject>) -> some View {
     Toggle("Cancel (Esc)", isOn: flag(object, "IsCancel")).controlSize(.small).fixedSize()
 }
 
+private func variableField(_ object: Binding<JSONObject>) -> some View {
+    // The hidden placeholder makes the field at least as wide as its placeholder.
+    ZStack(alignment: .leading) {
+        Text("variable (default: the name)").lineLimit(1).padding(.horizontal, 10).hidden()
+        TextField("variable (default: the name)", text: member(object, "variable")).textFieldStyle(.roundedBorder)
+    }
+}
+
+private func defaultField(_ object: Binding<JSONObject>) -> some View {
+    TextField("default", text: member(object, "defaultValue")).textFieldStyle(.roundedBorder).frame(width: 110)
+}
+
 /// Commandline / AiTool `Arguments` (upstream `CommandlineArgument`).
 private struct RecipeArgumentsControl: View {
     @Binding var value: JSONValue?
@@ -475,9 +487,16 @@ private struct RecipeArgumentsControl: View {
                     .labelsHidden().frame(width: 120)
                     Toggle("Required", isOn: flag(object, "required")).controlSize(.small).fixedSize()
                 }
-                HStack {
-                    TextField("variable (default: the name)", text: member(object, "variable")).textFieldStyle(.roundedBorder)
-                    TextField("default", text: member(object, "defaultValue")).textFieldStyle(.roundedBorder).frame(width: 110)
+                // The default below the variable when the variable's placeholder doesn't fit beside it.
+                ViewThatFits(in: .horizontal) {
+                    HStack {
+                        variableField(object)
+                        defaultField(object)
+                    }
+                    VStack(alignment: .leading, spacing: 3) {
+                        variableField(object)
+                        defaultField(object)
+                    }
                 }
                 TextField("description", text: member(object, "description")).textFieldStyle(.roundedBorder)
             }

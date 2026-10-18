@@ -55,6 +55,18 @@ private struct RecipeEditorToolbar: View {
     @ObservedObject var model: RecipeEditorModel
 
     var body: some View {
+        // The buttons' titles when they fit, else only their symbols (longer languages, narrow windows); the help
+        // names every button.
+        ViewThatFits(in: .horizontal) {
+            row(compact: false)
+            row(compact: true)
+        }
+        .buttonStyle(.borderless)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 7)
+    }
+
+    private func row(compact: Bool) -> some View {
         HStack(spacing: 8) {
             RecipePickerMenu(model: model)
             Divider().frame(height: 18)
@@ -62,37 +74,43 @@ private struct RecipeEditorToolbar: View {
                 Button("New Recipe") { Task { await model.newRecipeAsking() } }
                 Button("New Automatic Step") { Task { await model.newExtensionAsking() } }
             } label: {
-                Label("New", systemImage: "doc.badge.plus")
+                label("New", "doc.badge.plus", compact: compact)
             }
             .help("New recipe (⌘N)")
             .fixedSize()
-            toolButton("Open…", "folder", "Open a recipe file (⌘O)") { Task { await model.openFileAsking() } }
-            toolButton("Save", "square.and.arrow.down", "Save (⌘S); Save As is ⇧⌘S") { Task { await model.save() } }
+            toolButton("Open…", "folder", "Open a recipe file (⌘O)", compact: compact) { Task { await model.openFileAsking() } }
+            toolButton("Save", "square.and.arrow.down", "Save (⌘S); Save As is ⇧⌘S", compact: compact) { Task { await model.save() } }
                 .disabled(model.library == nil)
             Divider().frame(height: 18)
-            toolButton("Undo", "arrow.uturn.backward", "Undo (⌘Z)") { model.undo() }
+            toolButton("Undo", "arrow.uturn.backward", "Undo (⌘Z)", compact: compact) { model.undo() }
                 .disabled(!model.canUndo)
-            toolButton("Redo", "arrow.uturn.forward", "Redo (⇧⌘Z or ⌘Y)") { model.redo() }
+            toolButton("Redo", "arrow.uturn.forward", "Redo (⇧⌘Z or ⌘Y)", compact: compact) { model.redo() }
                 .disabled(!model.canRedo)
             Divider().frame(height: 18)
             RecipeAddStepMenu(model: model, title: "Add Step") { model.addStep($0) }
                 .help("Select a step or an arrow first: the new step goes right after it, or into the arrow.")
             Spacer()
-            toolButton("Test Run", "play.fill", "Execute capture recipe in Greenshot (⌘R)") { Task { await model.testRun() } }
+            toolButton("Test Run", "play.fill", "Execute capture recipe in Greenshot (⌘R)", compact: compact) { Task { await model.testRun() } }
                 .disabled(model.environment.runtime() == nil)
-            toolButton("Recipe Manager…", "list.bullet.rectangle", "Open the recipe manager (⇧⌘M)") {
+            toolButton("Recipe Manager…", "list.bullet.rectangle", "Open the recipe manager (⇧⌘M)", compact: compact) {
                 RecipeManagerService.show(selecting: model.recipe?.id)
             }
         }
-        .buttonStyle(.borderless)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 7)
     }
 
-    private func toolButton(_ title: LocalizedStringKey, _ symbol: String, _ help: LocalizedStringKey,
+    private func toolButton(_ title: LocalizedStringKey, _ symbol: String, _ help: LocalizedStringKey, compact: Bool,
                             action: @escaping () -> Void) -> some View {
-        Button(action: action) { Label(title, systemImage: symbol) }
+        Button(action: action) { label(title, symbol, compact: compact) }
             .help(help)
+            .fixedSize()
+    }
+
+    @ViewBuilder private func label(_ title: LocalizedStringKey, _ symbol: String, compact: Bool) -> some View {
+        if compact {
+            Label(title, systemImage: symbol).labelStyle(.iconOnly)
+        } else {
+            Label(title, systemImage: symbol)
+        }
     }
 }
 
