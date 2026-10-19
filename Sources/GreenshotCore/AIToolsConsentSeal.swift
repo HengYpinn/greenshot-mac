@@ -89,6 +89,13 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
     public func save(_ settings: AIToolsSettings) {
         guard !Self.isDefault(settings) else {
             writeStoredSeal(nil)
+            // The key goes too: it signed the last state that wasn't the defaults, and that state's old seal (a client
+            // the user has just removed) must not verify again when it is put back.
+            do {
+                try secrets.setSecret(nil, for: Self.keyName)
+            } catch {
+                log.warn("The AI tools consent key could not be removed (\(error)).")
+            }
             return
         }
         do {

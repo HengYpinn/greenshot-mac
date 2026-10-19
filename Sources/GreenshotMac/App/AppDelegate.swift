@@ -234,7 +234,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     }
 
     @objc func captureRegion(_ sender: Any?) {
-        capture.captureRegion()
+        capture.captureRegion(byAutomation: false)
     }
 
     @objc func openImageFile(_ sender: Any?) {

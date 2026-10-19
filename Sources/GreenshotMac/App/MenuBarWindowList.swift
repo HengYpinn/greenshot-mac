@@ -45,7 +45,7 @@ final class MenuBarWindowList: NSObject, NSMenuDelegate {
         let capture = app.capture
         for window in windows.prefix(40) {
             let title = MenuBarText.windowTitle(appName: window.appName, title: window.title, maxLength: maxLength)
-            let entry = ClosureMenuItem(title: title) { capture.capture(window: window) }
+            let entry = ClosureMenuItem(title: title) { capture.capture(window: window, byAutomation: false) }
             entry.representedObject = NSNumber(value: window.id)
             if title != window.menuTitle { entry.toolTip = window.menuTitle }
             if let icon = NSRunningApplication(processIdentifier: window.pid)?.icon?.copy() as? NSImage {

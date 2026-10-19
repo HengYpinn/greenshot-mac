@@ -180,11 +180,11 @@ final class HotkeyManager {
             names.append(name)
             actions.append(action)
         }
-        bind(hotkeys.region, String(localized: "Capture region")) { [weak capture] in capture?.captureRegion() }
-        bind(hotkeys.window, String(localized: "Capture window")) { [weak capture] in capture?.captureWindowFromHotkey() }
-        bind(hotkeys.fullScreen, String(localized: "Capture full screen")) { [weak capture] in capture?.captureFullScreenFromHotkey() }
-        bind(hotkeys.lastRegion, String(localized: "Capture last region")) { [weak capture] in capture?.captureLastRegion() }
-        bind(hotkeys.text, String(localized: "Capture text")) { [weak capture] in capture?.captureText() }
+        bind(hotkeys.region, String(localized: "Capture region")) { [weak capture] in capture?.captureRegion(byAutomation: false) }
+        bind(hotkeys.window, String(localized: "Capture window")) { [weak capture] in capture?.captureWindowFromHotkey(byAutomation: false) }
+        bind(hotkeys.fullScreen, String(localized: "Capture full screen")) { [weak capture] in capture?.captureFullScreenFromHotkey(byAutomation: false) }
+        bind(hotkeys.lastRegion, String(localized: "Capture last region")) { [weak capture] in capture?.captureLastRegion(byAutomation: false) }
+        bind(hotkeys.text, String(localized: "Capture text")) { [weak capture] in capture?.captureText(byAutomation: false) }
         bind(hotkeys.recordVideo, String(localized: "Start or stop recording")) { [weak video] in video?.hotkeyPressed() }
         bind(hotkeys.clipboard, String(localized: "Open image from clipboard")) { [weak editors] in editors?.openClipboard() }
         // The Hotkey triggers of the recipes (RUI), after the app's own, which win a clash.

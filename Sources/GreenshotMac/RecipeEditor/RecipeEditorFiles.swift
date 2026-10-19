@@ -249,11 +249,11 @@ extension RecipeEditorModel {
         // A file that was never approved (rejected, or opened to fix it) gets the approval window at its first save, also
         // when the library would renew the approval of harmless triggers without asking.
         let reasons = recipe.kind == .extension ? library.extensionSaveDecisionReasons(for: recipe, at: target)
-            : library.saveDecisionReasons(for: recipe, at: target, loadedSha256: target == fileURL ? loadedSha256 : nil)
+            : library.saveDecisionReasons(for: recipe, at: target, loadedSha256: isOwnFile ? loadedSha256 : nil)
         let reviewAfterSaving = openedUnapproved && reasons.isEmpty
         // The bytes the library writes; edits made while its approval window is open stay unsaved.
         let written = RecipeSerializer.encode(recipe)
-        let result = recipe.kind == .extension ? await library.saveExtension(recipe, to: target) : await library.save(recipe, to: target, loadedSha256: target == fileURL ? loadedSha256 : nil)
+        let result = recipe.kind == .extension ? await library.saveExtension(recipe, to: target) : await library.save(recipe, to: target, loadedSha256: isOwnFile ? loadedSha256 : nil)
         guard result.isValid else {
             await tell(String(localized: "Recipe Not Saved"), detail: result.errors.joined(separator: "\n"))
             status = String(localized: "The recipe was not saved.")

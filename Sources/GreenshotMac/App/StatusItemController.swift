@@ -145,13 +145,13 @@ final class StatusItemController: NSObject, NSMenuDelegate {
             menu.addItem(.separator())
         }
 
-        menu.addItem(item(String(localized: "Capture Region"), hotkeys.region) { capture.captureRegion() })
-        let lastRegion = item(String(localized: "Capture Last Region"), hotkeys.lastRegion) { capture.captureLastRegion() }
+        menu.addItem(item(String(localized: "Capture Region"), hotkeys.region) { capture.captureRegion(byAutomation: false) })
+        let lastRegion = item(String(localized: "Capture Last Region"), hotkeys.lastRegion) { capture.captureLastRegion(byAutomation: false) }
         // Upstream greys it out until a region was captured (TrayMenu.cs).
         lastRegion.isEnabled = settings.lastCapturedRegion != nil
         menu.addItem(lastRegion)
-        menu.addItem(item(String(localized: "Capture Window"), hotkeys.window) { capture.captureWindowInteractively() })
-        menu.addItem(item(String(localized: "Capture Text"), hotkeys.text) { capture.captureText() })
+        menu.addItem(item(String(localized: "Capture Window"), hotkeys.window) { capture.captureWindowInteractively(byAutomation: false) })
+        menu.addItem(item(String(localized: "Capture Text"), hotkeys.text) { capture.captureText(byAutomation: false) })
         menu.addItem(fullScreenItem(hotkey: hotkeys.fullScreen))
         menu.addItem(windowList.makeItem())
         app.video.addMenuItems(to: menu)
@@ -180,17 +180,17 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         let capture = app.capture
         let screens = NSScreen.screens
         guard screens.count > 1 else {
-            return item(String(localized: "Capture Full Screen"), hotkey) { capture.captureFullScreen() }
+            return item(String(localized: "Capture Full Screen"), hotkey) { capture.captureFullScreen(byAutomation: false) }
         }
         let fullScreen = NSMenuItem(title: String(localized: "Capture Full Screen"), action: nil, keyEquivalent: "")
         let submenu = NSMenu()
-        submenu.addItem(item(String(localized: "All Screens"), hotkey) { capture.captureFullScreen() })
+        submenu.addItem(item(String(localized: "All Screens"), hotkey) { capture.captureFullScreen(byAutomation: false) })
         submenu.addItem(.separator())
         let frames = screens.map { CGDisplayBounds($0.displayID) }
         for (screen, frame) in zip(screens, frames) {
             let id = screen.displayID
             let title = ScreenPosition.label(name: screen.localizedName, frame: frame, among: frames)
-            submenu.addItem(ClosureMenuItem(title: title) { capture.captureFullScreen(displayID: id) })
+            submenu.addItem(ClosureMenuItem(title: title) { capture.captureFullScreen(displayID: id, byAutomation: false) })
         }
         fullScreen.submenu = submenu
         return fullScreen

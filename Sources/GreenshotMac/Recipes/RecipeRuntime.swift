@@ -284,7 +284,7 @@ final class RecipeRuntime {
     /// refused because the built-in is switched off); false: the caller captures as before.
     /// `byAutomation`: a command line, a link, AppleScript or Shortcuts started it; the recipe's capture screen then waits
     /// for a click (`OverlayInputArming`). The mark travels in the run request, not in a global that a delay could outlast.
-    func interceptBuiltIn(_ capture: BuiltInCapture, byAutomation: Bool = false) -> Bool {
+    func interceptBuiltIn(_ capture: BuiltInCapture, byAutomation: Bool) -> Bool {
         var request = BuiltInCaptureRequest(capture, settings: app.settings.value)
         if byAutomation { request.objects[OverlayInputArming.automationMarkKey] = AutomationStartMark() }
         return intercept(request)

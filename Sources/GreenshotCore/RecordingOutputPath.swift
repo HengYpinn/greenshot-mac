@@ -76,10 +76,25 @@ public enum RecordingOutputPath {
     /// `rawOutputFilePath` is the node's parameter as the author wrote it (default: `outputFilePath`): `outputFilePath` is
     /// evaluated, so a value from outside (a QR text, a page title) can bring in "/", "~" or "..". Only an absolute raw
     /// path goes where it says, and values stay inside its fixed start; else the file stays in the default folder.
+    /// The file always ends in a video extension: a value can't make the recording overwrite a file of another kind
+    /// (a `.zshrc`, a LaunchAgent's `.plist`) inside the folder the path names.
     public static func recipeURL(outputFilePath: String?, rawOutputFilePath: String? = nil, outputDirectory: String?,
                                  filenamePattern: String?, date: Date,
                                  environment: [String: String], homeDirectory: URL,
                                  timeZone: TimeZone = .current) -> URL {
+        let url = uncheckedRecipeURL(outputFilePath: outputFilePath, rawOutputFilePath: rawOutputFilePath,
+                                     outputDirectory: outputDirectory, filenamePattern: filenamePattern, date: date,
+                                     environment: environment, homeDirectory: homeDirectory, timeZone: timeZone)
+        return videoExtensions.contains(url.pathExtension.lowercased()) ? url : url.appendingPathExtension(fileExtension)
+    }
+
+    /// What a recording may be called: what the recorder writes, and QuickTime's own names for it.
+    static let videoExtensions: Set<String> = ["mp4", "m4v", "mov"]
+
+    private static func uncheckedRecipeURL(outputFilePath: String?, rawOutputFilePath: String?, outputDirectory: String?,
+                                           filenamePattern: String?, date: Date,
+                                           environment: [String: String], homeDirectory: URL,
+                                           timeZone: TimeZone) -> URL {
         let stamp = timestamp(date, timeZone: timeZone)
         let defaultFolderURL = homeDirectory.appendingPathComponent("Movies/Greenshot", isDirectory: true)
         var path = outputFilePath?.trimmingCharacters(in: .whitespaces) ?? ""
@@ -110,7 +125,9 @@ public enum RecordingOutputPath {
             return FilenamePattern.file(named: relative.isEmpty ? "Greenshot_Recording_\(stamp).\(fileExtension)" : relative, in: defaultFolderURL)
         }
         if path == "~" || path.hasPrefix("~/") { path = homeDirectory.path + path.dropFirst() }
-        guard path.hasPrefix("/") else { return defaultFolderURL.appendingPathComponent(path) }
+        // An absolute raw path whose value no longer starts at "/" (raw "~${X}" with X = "../../tmp/x"): the default
+        // folder, contained like a relative path.
+        guard path.hasPrefix("/") else { return FilenamePattern.file(named: path, in: defaultFolderURL) }
         return RecipeFileTarget.contained(URL(fileURLWithPath: path), byRawPattern: raw, home: homeDirectory)
     }
 

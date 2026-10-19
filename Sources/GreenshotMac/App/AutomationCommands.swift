@@ -139,8 +139,8 @@ enum AutomationCommands {
             switch mode {
             case .region: app.capture.captureRegion(byAutomation: true)
             case .window: app.capture.captureWindowFromHotkey(byAutomation: true)
-            case .fullScreen: app.capture.captureFullScreenFromHotkey()
-            case .lastRegion: app.capture.captureLastRegion()
+            case .fullScreen: app.capture.captureFullScreenFromHotkey(byAutomation: true)
+            case .lastRegion: app.capture.captureLastRegion(byAutomation: true)
             case .text: app.capture.captureText(byAutomation: true)
             }
         }

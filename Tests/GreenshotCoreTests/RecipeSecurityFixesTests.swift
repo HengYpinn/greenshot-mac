@@ -218,5 +218,12 @@ import Testing
         // The author's own absolute path works.
         let own = url("/Volumes/Clips/x.mp4", raw: "/Volumes/Clips/x.mp4")
         #expect(own.path == "/Volumes/Clips/x.mp4")
+        // Raw "~${X}": a value that no longer starts at "/" stays in the default folder (second review, 3).
+        let tilde = url("~../../../../../tmp/evil", raw: "~${X}")
+        #expect(FilenamePattern.isInside(tilde, folder: defaultFolder), "\(tilde.path)")
+        // Whatever the value, the file is a video: it can't replace a file of another kind in the folder.
+        let dotfile = url("~/.zshrc", raw: "~/${X}")
+        #expect(dotfile.pathExtension == "mp4")
+        #expect(dotfile.lastPathComponent != ".zshrc")
     }
 }

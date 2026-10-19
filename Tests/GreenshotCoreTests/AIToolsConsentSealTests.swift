@@ -155,6 +155,24 @@ import Testing
         #expect(seal.verifiedOrReset(a).wasReset)
     }
 
+    @Test func anOldSealDoesNotVerifyAfterTheDefaultsWereSaved() {
+        // Allow X, then remove it (back to the defaults): putting X and its old seal back must reset (second review, 1).
+        let name = "seal-test-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: name)!
+        defer { defaults.removePersistentDomain(forName: name) }
+        let seal = AIToolsConsentSeal(secrets: InMemorySecretStore(), location: .defaults(defaults))
+        var allowed = AIToolsSettings()
+        allowed.allowedClients = ["/tmp/x"]
+        seal.save(allowed)
+        let oldSeal = defaults.string(forKey: AIToolsConsentSeal.defaultsKey)
+        #expect(oldSeal != nil)
+        seal.save(AIToolsSettings())
+        defaults.set(oldSeal, forKey: AIToolsConsentSeal.defaultsKey)
+        let outcome = seal.verifiedOrReset(allowed)
+        #expect(outcome.wasReset)
+        #expect(outcome.settings.allowedClients.isEmpty)
+    }
+
     @Test func sealOfAnotherLocationDoesNotVerify() throws {
         let secrets = InMemorySecretStore()
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent("seal-\(UUID().uuidString)")

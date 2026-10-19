@@ -22,33 +22,35 @@ final class CaptureCoordinator {
     /// The capture screen in region mode.
     /// `byAutomation`: greenshot-cli, a link, AppleScript or Shortcuts started it (the capture screen waits for a click,
     /// `OverlayInputArming`); passed along with the call, also into the recipe that replaces the built-in capture.
-    func captureRegion(byAutomation: Bool = false) {
+    func captureRegion(byAutomation: Bool) {
         if RecipeRuntime.shared?.interceptBuiltIn(.region, byAutomation: byAutomation) == true { return }
         interactive(.region, startedByUser: !byAutomation)
     }
 
     /// The window hotkey: the active window right away, or the capture screen in window mode when
     /// "interactive window capture" is on.
-    func captureWindowFromHotkey(byAutomation: Bool = false) {
-        settings.value.interactiveWindowCapture ? captureWindowInteractively(byAutomation: byAutomation) : captureActiveWindow()
+    func captureWindowFromHotkey(byAutomation: Bool) {
+        settings.value.interactiveWindowCapture ? captureWindowInteractively(byAutomation: byAutomation)
+            : captureActiveWindow(byAutomation: byAutomation)
     }
 
     /// The menu's "Capture window" always opens the capture screen in window mode, like upstream.
-    func captureWindowInteractively(byAutomation: Bool = false) {
+    func captureWindowInteractively(byAutomation: Bool) {
         if RecipeRuntime.shared?.interceptBuiltIn(.window, byAutomation: byAutomation) == true { return }
         interactive(.window, startedByUser: !byAutomation)
     }
 
     /// Every display, or the one with `displayID` (the menu bar's items).
-    func captureFullScreen(displayID: CGDirectDisplayID? = nil) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.fullScreen(display: displayID)) == true { return }
+    func captureFullScreen(displayID: CGDirectDisplayID? = nil, byAutomation: Bool) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.fullScreen(display: displayID), byAutomation: byAutomation) == true { return }
         captureFullScreen { screens in displayID.map { id in screens.filter { $0.displayID == id } } ?? screens }
     }
 
     /// The full screen hotkey: the display with the mouse, every display, or display number `screenToCapture`,
     /// as "Capture full screen" is set (upstream `ScreenCaptureMode`).
-    func captureFullScreenFromHotkey() {
-        if RecipeRuntime.shared?.interceptBuiltIn(.fullScreenFromHotkey) == true { return }
+    /// `byAutomation`: a recipe that replaces this capture may show the capture screen (`captureRegion`).
+    func captureFullScreenFromHotkey(byAutomation: Bool) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.fullScreenFromHotkey, byAutomation: byAutomation) == true { return }
         let mode = settings.value.screenCaptureMode
         let number = settings.value.screenToCapture
         // Numbered like the menu bar's list: in the order of NSScreen.screens, the main display first.
@@ -78,15 +80,15 @@ final class CaptureCoordinator {
 
     /// "Capture text", upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode, the text
     /// goes to the clipboard.
-    func captureText(byAutomation: Bool = false) {
+    func captureText(byAutomation: Bool) {
         if RecipeRuntime.shared?.interceptBuiltIn(.text, byAutomation: byAutomation) == true { return }
         interactive(.text, startedByUser: !byAutomation)
     }
 
     /// The same area as the last capture again, without the capture screen. Without a last area nothing is captured,
     /// like upstream (`LastRegionCaptureSource.cs` aborts); the Mac beeps.
-    func captureLastRegion() {
-        if RecipeRuntime.shared?.interceptBuiltIn(.lastRegion) == true { return }
+    func captureLastRegion(byAutomation: Bool) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.lastRegion, byAutomation: byAutomation) == true { return }
         guard let region = settings.value.lastCapturedRegion, !region.isEmpty else {
             NSSound.beep()
             return
@@ -103,8 +105,8 @@ final class CaptureCoordinator {
         }
     }
 
-    func captureActiveWindow() {
-        if RecipeRuntime.shared?.interceptBuiltIn(.activeWindow) == true { return }
+    func captureActiveWindow(byAutomation: Bool) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.activeWindow, byAutomation: byAutomation) == true { return }
         let settings = self.settings.value
         run {
             guard let window = ScreenCapturer.frontWindow(in: ScreenCapturer.onScreenWindows()) else {
@@ -117,8 +119,8 @@ final class CaptureCoordinator {
     }
 
     /// "Capture window from list".
-    func capture(window: WindowInfo) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.windowFromList(window)) == true { return }
+    func capture(window: WindowInfo, byAutomation: Bool) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.windowFromList(window), byAutomation: byAutomation) == true { return }
         let settings = self.settings.value
         run {
             try await ScreenCapturer.capture(window: window, showsCursor: settings.captureMousePointer,
