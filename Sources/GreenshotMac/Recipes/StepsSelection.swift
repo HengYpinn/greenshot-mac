@@ -47,7 +47,9 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
             }
         }
         let snapping = step.bool("AllowWindowSnapping") ?? true
-        let outcome = await Self.select(screens, mode: mode, snapping: snapping, runtime: runtime)
+        // A flow that a command line, a link, an AI tool or a schedule started: the capture screen waits for a click first.
+        let startedByUser = OverlayInputArming.startedByUser(triggerType: context.trigger?.triggerType)
+        let outcome = await Self.select(screens, mode: mode, snapping: snapping, startedByUser: startedByUser, runtime: runtime)
         // The capture screen is closed: another one may open (RecipeRuntime.launch).
         await MainActor.run { runtime.releaseSelection(of: context.executionId) }
         payload.attachments[RecipeFrozenScreens.key] = nil
@@ -104,12 +106,12 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
     /// The capture screen on the frozen displays; the selection as a payload (`CaptureCoordinator.interactive`).
     @MainActor
     private static func select(_ screens: RecipeFrozenScreens, mode: CaptureOverlayController.Mode, snapping: Bool,
-                               runtime: RecipeRuntime) async -> Outcome {
+                               startedByUser: Bool, runtime: RecipeRuntime) async -> Outcome {
         let settings = runtime.app.settings
         let frozen = screens.frozen
         guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
                                                                     windows: snapping ? screens.windows : [], mode: mode,
-                                                                    settings: settings)
+                                                                    settings: settings, startedByUser: startedByUser)
         else { return .cancelled }
         if let action = selection.barcodeAction {
             switch action {

@@ -58,14 +58,32 @@ final class CaptureOverlayController {
         (underCursor ?? active.overlayWindows[0]).makeKeyAndOrderFront(nil)
     }
 
+    private static var automationRequestedAt: Date?
+
+    /// An automation (greenshot-cli, a link, AppleScript, Shortcuts) started a capture that may show the capture screen:
+    /// the next one to open takes input only after a click. Built-in captures can run as recipes, so the start itself
+    /// can't carry this along; a request that finds no screen within `OverlayInputArming.requestLifetime` lapses.
+    static func noteAutomationRequest() {
+        automationRequestedAt = Date()
+    }
+
+    private static func consumeAutomationRequest() -> Bool {
+        defer { automationRequestedAt = nil }
+        return OverlayInputArming.isRequestFresh(requestedAt: automationRequestedAt, now: Date())
+    }
+
     /// Shows the capture screen and returns the selection, or nil when it was cancelled.
     /// `screens` is the picture without the mouse pointer, `pointerScreens` the one with it (for M).
+    /// `startedByUser` false: a command line, a link or a recipe of those started it, so it takes input only after a
+    /// click (`OverlayInputArming`). A start by automation noted with `noteAutomationRequest` counts the same way.
     static func select(screens: [FrozenScreen], pointerScreens: [FrozenScreen]?, windows: [WindowInfo], mode: Mode,
-                       settings: SettingsStore) async -> OverlaySelection? {
-        await withCheckedContinuation { continuation in
+                       settings: SettingsStore, startedByUser: Bool = true) async -> OverlaySelection? {
+        let requiresArming = consumeAutomationRequest() || !startedByUser
+        return await withCheckedContinuation { continuation in
             let controller = CaptureOverlayController(
                 screens: screens, windows: windows, mode: mode, zoomer: settings.value.zoomerEnabled, settings: settings,
-                pointerScreens: pointerScreens, pointerVisible: settings.value.captureMousePointer && pointerScreens != nil
+                pointerScreens: pointerScreens, pointerVisible: settings.value.captureMousePointer && pointerScreens != nil,
+                requiresArming: requiresArming
             ) {
                 continuation.resume(returning: $0)
             }
@@ -148,6 +166,8 @@ final class CaptureOverlayController {
 
     // Movement (CaptureOverlayAnimator.swift). Only while the capture screen is on the screen: the snapshots draw the
     // end state.
+    /// Whether keys and the mouse's buttons count yet (an overlay that automation started needs a click first).
+    private var arming: OverlayInputArming
     /// The capture screen is on the screen.
     private(set) var isShown = false
     /// Things slide and fade; not with Reduce motion (upstream: not in a remote session).
@@ -164,7 +184,7 @@ final class CaptureOverlayController {
     lazy var animator = CaptureOverlayAnimator { [weak self] in self?.redraw() }
 
     init(screens: [FrozenScreen], windows: [WindowInfo], mode: Mode, zoomer: Bool, settings: SettingsStore? = nil,
-         pointerScreens: [FrozenScreen]? = nil, pointerVisible: Bool = false,
+         pointerScreens: [FrozenScreen]? = nil, pointerVisible: Bool = false, requiresArming: Bool = false,
          completion: @escaping (OverlaySelection?) -> Void) {
         let values = settings?.value ?? AppSettings()
         self.plainScreens = screens
@@ -189,6 +209,7 @@ final class CaptureOverlayController {
         self.zoomerOpacity = CGFloat(min(max(values.zoomerOpacity, 0), 1))
         self.selectsAreas = values.windowCaptureSelectsAreas
         self.completion = completion
+        self.arming = OverlayInputArming(requiresArming: requiresArming, shownAt: Date())
     }
 
     var desktopBounds: CGRect { ScreenComposer.union(of: screens) }
@@ -224,6 +245,7 @@ final class CaptureOverlayController {
         // to the Space of an open editor. The panels show over the current app, even a full screen one, and take
         // the mouse and keys without activating this app.
         isShown = true
+        arming = OverlayInputArming(requiresArming: arming.requiresArming, shownAt: Date())
         animates = !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
         growsFromCursor = mode == .window
         overlayWindows.forEach { $0.orderFrontRegardless() }
@@ -275,6 +297,8 @@ final class CaptureOverlayController {
 
     func mouseDown(at point: CGPoint) {
         cursor = point
+        // A click in the first second, or before the screen is armed, selects nothing; the one after arms it.
+        guard arming.mouseDown(at: Date()) else { return }
         if barcodeMenu != nil {
             pickBarcodeMenuItem(at: point)
             return
@@ -289,6 +313,7 @@ final class CaptureOverlayController {
 
     func mouseDragged(to point: CGPoint, shift: Bool) {
         cursor = point
+        guard arming.allowsMouse else { return }
         guard barcodeMenu == nil else { return }
         if !shift {
             shiftStart = nil
@@ -298,6 +323,7 @@ final class CaptureOverlayController {
     }
 
     func mouseUp(at point: CGPoint) {
+        guard arming.allowsMouse else { return }
         guard barcodeMenu == nil else { return }
         if ignoresMouseUp {
             ignoresMouseUp = false
@@ -330,6 +356,8 @@ final class CaptureOverlayController {
 
     func keyDown(_ event: NSEvent) {
         let keyCode = Int(event.keyCode)
+        // Keys typed into another app must not pick or finish a capture that automation started.
+        guard arming.allowsKey(isEscape: keyCode == kVK_Escape) else { return }
         if barcodeMenu != nil {
             if keyCode == kVK_Escape {
                 barcodeMenu = nil

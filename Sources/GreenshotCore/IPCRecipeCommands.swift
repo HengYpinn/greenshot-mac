@@ -151,7 +151,7 @@ public enum IPCRecipeCommands {
         // The arguments: the command line's key=value, or the query of a link; "recipe" is the target itself
         var supplied = envelope.parameters
         for key in supplied.keys where key.caseInsensitiveCompare("recipe") == .orderedSame { supplied.removeValue(forKey: key) }
-        if let refusal = argumentRefusal(declared: match.arguments, supplied: supplied, aiTool: false) {
+        if let refusal = argumentRefusal(declared: match.arguments, supplied: supplied, aiTool: false, fromBrowser: browser) {
             return .error(refusal, exitCode: IPCExitCode.usage)
         }
         var request: RecipeRunRequest
@@ -209,13 +209,19 @@ public enum IPCRecipeCommands {
     }
 
     /// Declared Window arguments only for AI tools; Region arguments must be "x,y,width,height" (upstream
-    /// `CommandlineArgumentBinder.TryConvert`).
-    static func argumentRefusal(declared: [CommandlineArgument], supplied: [String: String], aiTool: Bool) -> String? {
+    /// `CommandlineArgumentBinder.TryConvert`). From a browser (a link, the extension) also no FilePath or DirectoryPath:
+    /// the user approved the recipe for web pages, which doesn't mean a web page may choose where it reads or writes
+    /// (`greenshotmac://recipe/save?Folder=~/Library/LaunchAgents`).
+    static func argumentRefusal(declared: [CommandlineArgument], supplied: [String: String], aiTool: Bool,
+                                fromBrowser: Bool = false) -> String? {
         for argument in declared {
             guard let value = supplied.first(where: { $0.key.caseInsensitiveCompare(argument.name) == .orderedSame })?.value,
                   !value.trimmingCharacters(in: .whitespaces).isEmpty else { continue }
             if argument.type == .window, !aiTool {
                 return "Error: argument '--\(argument.name)' is a window, window arguments are only available to AI tools."
+            }
+            if fromBrowser, argument.type == .filePath || argument.type == .directoryPath {
+                return "Error: argument '--\(argument.name)' is a path, path arguments are not available from a browser."
             }
             if argument.type == .region, AIToolRegion(text: value) == nil {
                 return "Error: argument '--\(argument.name)' expects a region 'x,y,width,height' in screen coordinates (width and height above 0), got '\(value)'."

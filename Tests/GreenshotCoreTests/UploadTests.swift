@@ -240,7 +240,8 @@ struct StubAuthorizer: OAuthAuthorizer {
         seen.url = url
         let state = URLComponents(url: url, resolvingAgainstBaseURL: false)!.queryItems!.first { $0.name == "state" }!.value!
         var callback = URLComponents(url: port.map(redirect.onPort)?.url ?? redirect.url, resolvingAgainstBaseURL: false)!
-        callback.queryItems = deny ? [URLQueryItem(name: "error", value: "access_denied")]
+        // A provider returns the state with an error too (RFC 6749 4.1.2.1)
+        callback.queryItems = deny ? [URLQueryItem(name: "error", value: "access_denied"), URLQueryItem(name: "state", value: state)]
             : [URLQueryItem(name: "code", value: code), URLQueryItem(name: "state", value: state)]
         return callback.url!
     }
