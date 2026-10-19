@@ -48,7 +48,7 @@ final class SettingsStore: ObservableObject {
         let sealLocation: AIToolsConsentSeal.Location = fileURL.map { .file($0) } ?? .defaults(defaults)
         let seal = AIToolsConsentSeal(secrets: sealSecrets, location: sealLocation)
         self.seal = seal
-        var loaded = fileURL.map { url in
+        let loaded = fileURL.map { url in
             SettingsStorage.load(fromFile: url) { aside in
                 DispatchQueue.main.async {
                     ErrorPresenter.show(message: String(localized: "The settings file could not be read"),
@@ -56,15 +56,23 @@ final class SettingsStore: ObservableObject {
                 }
             }
         } ?? SettingsStorage.load(from: defaults)
-        let sealed = seal.verifiedOrReset(loaded.aiTools)
-        if sealed.wasReset {
-            loaded.aiTools = sealed.settings
-            Self.write(loaded, defaults: defaults, fileURL: fileURL)
-        }
-        let stored = policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL))
+        let stored = Self.sealChecked(policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL)),
+                                      seal: seal, defaults: defaults, fileURL: fileURL)
         self.policy = policy
         self.stored = stored
         value = policy.effective(stored)
+    }
+
+    /// The settings that are about to be the user's, with the AI tools consent checked last: whatever filled values in
+    /// (the stored ones, a managed default), the sealed ones must carry a valid seal or are reset, and the reset is saved.
+    private static func sealChecked(_ settings: AppSettings, seal: AIToolsConsentSeal, defaults: UserDefaults,
+                                    fileURL: URL?) -> AppSettings {
+        let sealed = seal.verifiedOrReset(settings.aiTools)
+        guard sealed.wasReset else { return settings }
+        var result = settings
+        result.aiTools = sealed.settings
+        write(result, defaults: defaults, fileURL: fileURL)
+        return result
     }
 
     /// The saved settings as they are, to see which values they have (defaults fill in the others).
@@ -90,13 +98,9 @@ final class SettingsStore: ObservableObject {
             Log("Settings").error("The settings were not reloaded, the ones in use stay: \(error)")
             throw error
         }
-        var settings = reloaded.settings
-        let sealed = seal.verifiedOrReset(settings.aiTools)
-        if sealed.wasReset {
-            settings.aiTools = sealed.settings
-            Self.write(settings, defaults: defaults, fileURL: fileURL)
-        }
-        commit(stored: policy.loaded(settings, storedJSON: reloaded.json), save: false)
+        let settings = Self.sealChecked(policy.loaded(reloaded.settings, storedJSON: reloaded.json),
+                                        seal: seal, defaults: defaults, fileURL: fileURL)
+        commit(stored: settings, save: false)
     }
 
     /// Reads the managed values again (a profile installed or removed while the app runs): when Settings or the menu

@@ -135,3 +135,58 @@ import Testing
         #expect(seal.verifiedOrReset(settings.aiTools).wasReset)
     }
 }
+
+@Suite struct AIToolsConsentSealRollbackTests {
+    @Test func oldSettingsWithOldSealAreReset() {
+        let name = "seal-test-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: name)!
+        defer { defaults.removePersistentDomain(forName: name) }
+        let secrets = InMemorySecretStore()
+        let seal = AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults))
+        var a = AIToolsSettings()
+        a.allowedClients = ["/usr/local/bin/node", "/tmp/old"]
+        seal.save(a)
+        let sealA = defaults.string(forKey: AIToolsConsentSeal.defaultsKey)
+        var b = a
+        b.allowedClients = ["/usr/local/bin/node"]
+        seal.save(b)
+        #expect(!seal.verifiedOrReset(b).wasReset)
+        defaults.set(sealA, forKey: AIToolsConsentSeal.defaultsKey)
+        #expect(seal.verifiedOrReset(a).wasReset)
+    }
+
+    @Test func sealOfAnotherLocationDoesNotVerify() throws {
+        let secrets = InMemorySecretStore()
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("seal-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let one = folder.appendingPathComponent("one.json")
+        let two = folder.appendingPathComponent("two.json")
+        var a = AIToolsSettings()
+        a.allowedClients = ["/usr/local/bin/node"]
+        AIToolsConsentSeal(secrets: secrets, location: .file(one)).save(a)
+        try FileManager.default.copyItem(at: URL(fileURLWithPath: one.path + ".aitools-seal"), to: URL(fileURLWithPath: two.path + ".aitools-seal"))
+        #expect(AIToolsConsentSeal(secrets: secrets, location: .file(two)).verifiedOrReset(a).wasReset)
+    }
+
+    @Test func unforcedDefaultsCannotSetSealedValues() {
+        let source = ManagedValues(unforced: [
+            "Greenshot.aiTools.allowedClients": ["/tmp/attacker"], "Greenshot.aiTools.notifyOnCapture": false,
+            "Greenshot.defaults": ["aiTools": ["excludedApplications": []]],
+            "Greenshot.aiTools.enabled": true,
+        ])
+        let policy = ManagedPolicy(source: source)
+        let loaded = policy.loaded(AppSettings(), storedJSON: Data("{}".utf8))
+        #expect(loaded.aiTools.allowedClients.isEmpty)
+        #expect(loaded.aiTools.notifyOnCapture)
+        #expect(loaded.aiTools.excludedApplications == AIToolsSettings.defaultExcludedApplications)
+        #expect(policy.problems.count == 3)
+        #expect(policy.problems.allSatisfy { $0.contains("AI tools consent") })
+    }
+
+    @Test func forcedValuesStillApply() {
+        let policy = ManagedPolicy(source: ManagedValues(forced: ["Greenshot.aiTools.allowedClients": ["/opt/approved"]]))
+        let effective = policy.effective(AppSettings())
+        #expect(effective.aiTools.allowedClients == ["/opt/approved"])
+        #expect(policy.problems.isEmpty)
+    }
+}

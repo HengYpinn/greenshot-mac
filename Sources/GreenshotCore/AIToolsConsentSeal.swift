@@ -58,20 +58,33 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
     }
 
     /// The text that is signed: exactly the three sealed values, in a fixed order and encoding.
-    static func canonicalPayload(_ settings: AIToolsSettings) -> Data {
+    func canonicalPayload(_ settings: AIToolsSettings) -> Data {
         struct Payload: Encodable {
+            var location: String
             var allowedClients: [String]
             var excludedApplications: [String]
             var notifyOnCapture: Bool
         }
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
-        let payload = Payload(allowedClients: settings.allowedClients, excludedApplications: settings.excludedApplications,
+        let payload = Payload(location: locationName, allowedClients: settings.allowedClients, excludedApplications: settings.excludedApplications,
                               notifyOnCapture: settings.notifyOnCapture)
         return (try? encoder.encode(payload)) ?? Data()
     }
 
-    /// Writes the seal for `settings` (Greenshot saving them). With the defaults the seal and key aren't needed and a
+    /// Where the seal is for: the settings file's path, or the user defaults. Part of the signed text, so a seal of
+    /// one place doesn't verify in another.
+    private var locationName: String {
+        switch location {
+        case .defaults: return "defaults"
+        case .file(let url): return "file:" + url.standardizedFileURL.path
+        }
+    }
+
+    /// Writes the seal for `settings` (Greenshot saving them). Every save makes a new random key first, so every earlier
+    /// seal stops verifying: putting back an old settings blob with its old seal (a client the user removed, the
+    /// notification off) is reset. A crash between the key and the seal leaves a seal that doesn't verify: the next load
+    /// resets (safe: AI tools are asked again). With the defaults the seal and key aren't needed and a
     /// seal that is there goes. A key that can't be read or made is logged: the next load then resets the values.
     public func save(_ settings: AIToolsSettings) {
         guard !Self.isDefault(settings) else {
@@ -79,8 +92,8 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
             return
         }
         do {
-            let key = try existingKey() ?? newKey()
-            let mac = HMAC<SHA256>.authenticationCode(for: Self.canonicalPayload(settings), using: key)
+            let key = try newKey()
+            let mac = HMAC<SHA256>.authenticationCode(for: canonicalPayload(settings), using: key)
             writeStoredSeal(Data(mac).base64EncodedString())
         } catch {
             writeStoredSeal(nil)
@@ -92,7 +105,7 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
     public func isValid(_ settings: AIToolsSettings) -> Bool {
         guard let text = readStoredSeal(), let signature = Data(base64Encoded: text),
               let key = try? existingKey() else { return false }
-        return HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: Self.canonicalPayload(settings), using: key)
+        return HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: canonicalPayload(settings), using: key)
     }
 
     /// The settings as loaded, checked: values that differ from the defaults and have no valid seal are reset, a fresh
