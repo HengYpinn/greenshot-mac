@@ -88,6 +88,9 @@ final class RecipeEditorModel: ObservableObject {
     @Published var status = ""
     @Published private(set) var isDirty = false
     @Published private(set) var fileURL: URL?
+    /// SHA-256 of the file bytes the recipe was loaded from (`openFile`); the library compares it with the approved bytes,
+    /// as the file on disk at save time could have been put back. Nil for a recipe that wasn't read from a file here.
+    var loadedSha256: String?
     @Published var showAllParameters = false
     /// Bumped when the library changed (the recipe picker and the header read the library).
     @Published private(set) var libraryRevision = 0
@@ -180,6 +183,7 @@ final class RecipeEditorModel: ObservableObject {
         let selection = selectedRow
         self.recipe = recipe
         self.fileURL = fileURL
+        loadedSha256 = nil
         savedContent = saved ? text : nil
         jsonDraft = nil
         jsonDraftBase = nil
@@ -211,6 +215,7 @@ final class RecipeEditorModel: ObservableObject {
         history.keep(recipeId: recipe?.id)
         recipe = nil
         fileURL = nil
+        loadedSha256 = nil
         savedContent = nil
         jsonDraft = nil
         openedUnapproved = false
@@ -303,7 +308,7 @@ final class RecipeEditorModel: ObservableObject {
         }
         if isDirty {
             let reasons = recipe.kind == .extension ? library.extensionSaveDecisionReasons(for: recipe, at: fileURL)
-                : library.saveDecisionReasons(for: recipe, at: fileURL)
+                : library.saveDecisionReasons(for: recipe, at: fileURL, loadedSha256: loadedSha256)
             notice = RecipeEditorDiagnostics.saveNotice(reasons: reasons)
             canReviewApproval = false
             return
@@ -583,6 +588,7 @@ final class RecipeEditorModel: ObservableObject {
     /// After a save: `savedText` is what the library wrote (edits made while its approval window was open stay unsaved).
     func markSaved(at url: URL, savedText: String) {
         fileURL = url
+        loadedSha256 = nil
         savedContent = savedText
         openedUnapproved = false
         openedFromLibrary = true

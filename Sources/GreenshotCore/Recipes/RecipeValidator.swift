@@ -368,9 +368,8 @@ public struct RecipeValidator: Sendable {
     }
 
     /// The normal transitions plus the error edges (a node's `onErrorNodeId` and the error transitions): a failing error
-    /// handler routes to its own handler, so an error edge that leads back is a loop as much as a normal one. A wildcard
-    /// source stands for every node but the target itself (a failing handler of everything would loop at run time
-    /// only when its own step fails; the run-time cap ends that).
+    /// handler routes to its own handler, so an error edge that leads back is a loop as much as a normal one. Wildcard
+    /// error transitions are left out (see below).
     static func edgesIncludingErrorHandlers(_ recipe: CaptureRecipe) -> [String: [String]] {
         var map = recipe.flow.unifiedTransitions
         func add(_ from: String, _ to: String?) {
@@ -384,11 +383,10 @@ public struct RecipeValidator: Sendable {
         for transition in recipe.flow.errorTransitions {
             guard let to = transition.to else { continue }
             let source = transition.from ?? ""
-            if source.isEmpty || source == "*" {
-                for node in recipe.nodes where !recipeEquals(node.id, to) { add(node.id, to) }
-            } else {
-                add(source, to)
-            }
+            // A wildcard source isn't an edge of the flow: with the handler's own successors it would make a loop of every
+            // valid recipe. The run-time cap on error handlers ends a loop through a wildcard handler.
+            if source.isEmpty || source == "*" { continue }
+            add(source, to)
         }
         return map
     }

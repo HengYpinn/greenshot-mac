@@ -117,11 +117,13 @@ extension RecipeEditorModel {
         let name = url.lastPathComponent
         let fileURL = RecipeEditorFiles.standardized(url)
         let read: [CaptureRecipe]
+        var loadedHash: String?
         do {
             guard let data = RecipeLibrary.readRecipeFile(fileURL), let text = RecipeSerializer.text(of: data) else {
                 await tell(String(localized: "Error Loading Recipe"), detail: String(localized: "The file \(name) could not be read."))
                 return
             }
+            loadedHash = RecipeHash.sha256Hex(data)
             read = try RecipeSerializer.decode(text: text)
         } catch {
             let problem = (error as? RecipeFormatError)?.message ?? error.localizedDescription
@@ -135,6 +137,7 @@ extension RecipeEditorModel {
         let validation = RecipeValidator(contracts: contracts, gates: environment.gates()).validate(first)
         guard let library, validation.isValid else {
             openUnapproved(first, fileURL: fileURL)
+            loadedSha256 = loadedHash
             let problems = validation.errors.count
             status = validation.isValid ? String(localized: "Loaded: \(name)")
                 : String(localized: "\(name) has problems: \(problems) to fix before it can run.")
@@ -145,9 +148,11 @@ extension RecipeEditorModel {
             ?? library.extensions.first { $0.sourceFile?.path == fileURL.path }
         if let loaded {
             open(loaded.recipe, fileURL: loaded.sourceFile, saved: true)
+            loadedSha256 = loadedHash
             status = String(localized: "Loaded and registered: \(name)")
         } else {
             openUnapproved(first, fileURL: fileURL)
+            loadedSha256 = loadedHash
             status = String(localized: "Opened \(name); it isn't loaded in Greenshot.")
             if !result.errors.isEmpty {
                 await tell(String(localized: "Recipe Not Loaded"), detail: result.errors.joined(separator: "\n"), style: .informational)
@@ -244,11 +249,11 @@ extension RecipeEditorModel {
         // A file that was never approved (rejected, or opened to fix it) gets the approval window at its first save, also
         // when the library would renew the approval of harmless triggers without asking.
         let reasons = recipe.kind == .extension ? library.extensionSaveDecisionReasons(for: recipe, at: target)
-            : library.saveDecisionReasons(for: recipe, at: target)
+            : library.saveDecisionReasons(for: recipe, at: target, loadedSha256: target == fileURL ? loadedSha256 : nil)
         let reviewAfterSaving = openedUnapproved && reasons.isEmpty
         // The bytes the library writes; edits made while its approval window is open stay unsaved.
         let written = RecipeSerializer.encode(recipe)
-        let result = recipe.kind == .extension ? await library.saveExtension(recipe, to: target) : await library.save(recipe, to: target)
+        let result = recipe.kind == .extension ? await library.saveExtension(recipe, to: target) : await library.save(recipe, to: target, loadedSha256: target == fileURL ? loadedSha256 : nil)
         guard result.isValid else {
             await tell(String(localized: "Recipe Not Saved"), detail: result.errors.joined(separator: "\n"))
             status = String(localized: "The recipe was not saved.")
