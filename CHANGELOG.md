@@ -344,7 +344,7 @@ Greenshot's screen recording permission behind your back.
   greenshot-mcp itself. A program that starts greenshot-mcp and then turns itself into an allowed program is refused.
 - A capture screen that greenshot-cli, a link, AppleScript, Shortcuts or such a recipe opened waits for a click (a
   second after it shows) before keys work, so what you type into another app can't finish the capture. Escape cancels
-  at once.
+  at once. The wait before a capture is at most 10 seconds, also when the preferences say more.
 - greenshot-cli and the browser extension's helper send nothing to a program listening on Greenshot's socket that
   isn't Greenshot (greenshot-mcp already checked this); the extension then hears that the app is offline.
 - greenshot-cli shows control characters from a QR code, OCR or a window title as `\xNN` on a terminal, so a QR code
@@ -357,8 +357,9 @@ Greenshot's screen recording permission behind your back.
   invisible character can no longer hide a "/".
 - A recipe's file name that comes from a value (a QR code's text, a variable) stays in the output folder; only a
   pattern that itself starts with "/" or "~" names another folder. A pattern that starts with a folder variable such
-  as `${MyPictures}` now stays in the output folder too (set the step's folder instead). A recipe's recording stays in
-  its output directory.
+  as `${MyPictures}` now stays in the output folder too (set the step's folder instead), and a value in a pattern or
+  video path that does start with "/" can't climb out of the folder it names. A recipe's recording stays in its
+  output directory.
 - Links in an external command's output open only when they are http or https. Box and Dropbox links open only on
   box.com and dropbox.com, and the update check opens only this project's GitHub releases page.
 - Recipes: saving in the editor after the file was changed outside Greenshot asks about every new command, upload
