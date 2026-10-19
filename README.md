@@ -283,7 +283,10 @@ when it isn't running, and prints the reply:
 
 Any program on your Mac can run greenshot-cli, so a screenshot of the full screen, a window or the last region asks
 you first: "<program> asks Greenshot for Mac to take a screenshot of …" with Allow and Don't Allow (Don't Allow is
-the default; without an answer nothing is captured). Region and text captures don't ask, as you select the area.
+the default; without an answer nothing is captured). Region and text captures don't ask, as you select the area; their
+capture screen waits for a click (a second after it shows) before keys work, so what you type into another app at
+that moment can't finish it. Escape cancels at once. greenshot-cli shows control characters in what it prints (a QR
+code's text, OCR) as `\xNN` on a terminal.
 
 Exit codes: 0 success, 1 failure (also a screenshot you didn't allow), 2 invalid command line, 3 the app isn't
 available. To put it on your PATH, use Settings › Expert › Automation › Copy Install Command, or:
@@ -296,7 +299,8 @@ Links (from a browser, Alfred, Raycast, `open`):
 - `greenshotmac://settings?tab=general|capture|output|destinations|editor|printer|expert|video|recipes|aitools` (`plugin=<name>` opens Destinations)
 - `greenshotmac://about`, `greenshotmac://self-service?section=system|setup|files|clipboard|hotkeys|integrity`
 - `greenshotmac://log?search=<text>`
-- `greenshotmac://recipe/<id>?key=value` runs a recipe whose Commandline trigger allows browsers;
+- `greenshotmac://recipe/<id>?key=value` runs a recipe whose Commandline trigger allows browsers (a link can't give it
+  file or folder paths);
   `greenshotmac://recipe-editor` and `greenshotmac://recipe-manager` open those windows
 - `greenshotmac://capture/region|window|fullscreen|last|text` and `greenshotmac://clipboard`, only when
   "Allow links to take screenshots" is on in Settings › Expert › Automation (any web page can open a link)

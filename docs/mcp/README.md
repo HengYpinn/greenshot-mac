@@ -65,11 +65,19 @@ Review and Revoke.
   socket must be the `greenshot-mcp` of the same app bundle (a development build: the one next to `GreenshotMac`). When
   the app is signed with a Team ID or a certificate of its own, greenshot-mcp's signature must be intact and by the same
   signer; an ad hoc signed or unsigned build has no signer to compare, so there only the path is checked. greenshot-mcp
-  in turn sends nothing to a socket whose program isn't the `GreenshotMac` of its own bundle. The AI tool is the program
-  that started greenshot-mcp (shells like `zsh` or `env` in between are skipped), identified by its executable, its
-  arguments and its code signature.
+  in turn sends nothing to a socket whose program isn't the `GreenshotMac` of its own bundle (greenshot-cli and
+  greenshot-native-host check the same). The AI tool is the program that started greenshot-mcp, identified by its
+  executable, its arguments and its code signature. A shell or `env` in between is skipped only when it is a system
+  program (in `/bin` or `/usr/bin`) that starts greenshot-mcp directly, like `zsh -lc "exec …/greenshot-mcp"`; a shell
+  that runs a script file is that script's program (`sh | script: …/configure`), so a script an AI tool runs doesn't
+  get the AI tool's consent. An AI tool started through another shell (Homebrew's bash or zsh, fish) must start
+  greenshot-mcp itself. A program that starts greenshot-mcp and then turns itself into an allowed program (`exec`) is
+  refused.
 * Each AI tool must be allowed by you: the first request shows a question with the program's name, path and signer.
-  Allowed programs are stored in the settings and can be removed on the AI Tools tab. "Don't Allow" (or closing the
+  Allowed programs are stored in the settings and can be removed on the AI Tools tab. The allowed programs, the
+  excluded applications and the capture notification are sealed with a key in your Keychain: when another program
+  edits them in the preferences, Greenshot resets them (nobody allowed, the notification on, the default exclusions
+  back) and asks again. "Don't Allow" (or closing the
   question) is remembered until the app quits; the tab lists those programs with "Allow" and "Ask Again". The question
   stays on top but never takes the keyboard, has no default button, ignores Escape and Return, and its buttons react only
   after a second, so a keystroke meant for the AI tool can't answer it. It opens at a slightly different place each time
@@ -81,8 +89,9 @@ Review and Revoke.
 * AI tools that run in a runtime (Node.js, Bun, Deno, Python, Ruby, Perl, PHP, `osascript`, or an Electron app such as
   VS Code switched into Node.js with `ELECTRON_RUN_AS_NODE`) are allowed together with their script: the question shows
   "node" and the script, e.g. Claude Code's `cli.js`, and allowing it doesn't allow any other script that node runs.
-  Options that load more code (`--require`, `--import`, `NODE_OPTIONS`, …) are part of what is allowed, so a changed
-  option asks again. A runtime running inline code (`node -e`, `python -c`, a script from stdin) is refused, and so is
+  Every option before the script (`--require`, `--import`, `--env-file`, `--inspect`, `-M`, `-I`, …) and the runtime's
+  code-loading environment variables (`NODE_OPTIONS`, `NODE_PATH`, `PYTHONPATH`, `PYTHONSTARTUP`, `RUBYOPT`, `RUBYLIB`,
+  `PERL5OPT`, `PERL5LIB`, `PHPRC`, …) are part of what is allowed, so a changed option asks again. A runtime running inline code (`node -e`, `python -c`, a script from stdin) is refused, and so is
   every AI tool started with `DYLD_` variables. A signed program is allowed with its Team ID, and the app checks the
   running program's signature on every new greenshot-mcp session, so a copy of the program at the same path signed by
   someone else is asked about again.
@@ -101,7 +110,12 @@ Review and Revoke.
 * Every capture shows a notification (on by default).
 * Limits: a program running as you could still take screenshots without Greenshot if it has the screen recording
   permission itself, or control an allowed program. The checks keep web pages, extensions and other programs from using
-  Greenshot as a screenshot service, and make sure your consent goes to a named program.
+  Greenshot as a screenshot service, and make sure your consent goes to a named program. A program written to attack
+  Greenshot can get further: one that forks, turns itself into an allowed program and lets its child start
+  greenshot-mcp looks like that allowed program, and one that deletes and replaces the Keychain key can seal an allowed
+  list of its own (macOS lets any program of the user delete a login-keychain item without asking; the recipe
+  approvals have the same limit). Closing that needs a Developer ID build, whose keys can live in the data protection
+  keychain where other programs can't touch them.
 
 ## Install
 
