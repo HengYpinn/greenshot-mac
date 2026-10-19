@@ -552,7 +552,27 @@ public final class RecipeLibrary {
         let approvedVersion = RecipeEditApproval.findRecipe(in: approvedContent, id: recipe.id)
         let made = RecipeEditApproval.create(edited: recipe, validation: validation, approvedVersion: approvedVersion,
                                              previousApproval: previous, replacesBuiltIn: builtIns[recipe.id.lowercased()] != nil)
-        return (made.approval, made.decision, approvedContent)
+        var decision = made.decision
+        // The approval is per kind of permission, but it belongs to the approved bytes: a file on disk that isn't those bytes
+        // any more (changed behind Greenshot's back, then opened without approval) isn't a version the user approved, so
+        // each command, upload target or folder that the approved version lacks needs a decision of its own.
+        if let record, let path, Self.fileDiffers(from: record, at: path) {
+            for change in RecipeGates.unapprovedChanges(of: recipe, comparedWith: approvedVersion, contracts: contracts, environment: gates())
+            where !decision.reasons.contains(change) {
+                decision.reasons.append(change)
+            }
+        }
+        return (made.approval, decision, approvedContent)
+    }
+
+    /// The bytes of a recipe file, read with the size and regular-file limits of every other recipe read; nil (logged) otherwise.
+    public static func readRecipeFile(_ url: URL) -> Data? { RecipeFileReader.data(url) }
+
+    /// True when the file at `path` exists and isn't the bytes that `record` approved.
+    private static func fileDiffers(from record: RecipeTrustRecord, at path: String) -> Bool {
+        guard FileManager.default.fileExists(atPath: path) else { return false }
+        guard let data = RecipeFileReader.data(URL(fileURLWithPath: path)) else { return true }
+        return !recipeEquals(RecipeHash.sha256Hex(data), record.sha256)
     }
 
     /// An AI tool's proposal (RCP-204): written to `url` after the user approved it, triggers and permissions off.

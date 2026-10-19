@@ -118,7 +118,7 @@ extension RecipeEditorModel {
         let fileURL = RecipeEditorFiles.standardized(url)
         let read: [CaptureRecipe]
         do {
-            guard let data = try? Data(contentsOf: fileURL), let text = RecipeSerializer.text(of: data) else {
+            guard let data = RecipeLibrary.readRecipeFile(fileURL), let text = RecipeSerializer.text(of: data) else {
                 await tell(String(localized: "Error Loading Recipe"), detail: String(localized: "The file \(name) could not be read."))
                 return
             }

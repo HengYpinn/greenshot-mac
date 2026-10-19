@@ -367,9 +367,35 @@ public struct RecipeValidator: Sendable {
         }
     }
 
+    /// The normal transitions plus the error edges (a node's `onErrorNodeId` and the error transitions): a failing error
+    /// handler routes to its own handler, so an error edge that leads back is a loop as much as a normal one. A wildcard
+    /// source stands for every node but the target itself (a failing handler of everything would loop at run time
+    /// only when its own step fails; the run-time cap ends that).
+    static func edgesIncludingErrorHandlers(_ recipe: CaptureRecipe) -> [String: [String]] {
+        var map = recipe.flow.unifiedTransitions
+        func add(_ from: String, _ to: String?) {
+            guard let to, !to.trimmingCharacters(in: .whitespaces).isEmpty,
+                  !from.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+            var list = map[from.lowercased()] ?? []
+            if !list.contains(where: { recipeEquals($0, to) }) { list.append(to) }
+            map[from.lowercased()] = list
+        }
+        for node in recipe.nodes { add(node.id, node.onErrorNodeId) }
+        for transition in recipe.flow.errorTransitions {
+            guard let to = transition.to else { continue }
+            let source = transition.from ?? ""
+            if source.isEmpty || source == "*" {
+                for node in recipe.nodes where !recipeEquals(node.id, to) { add(node.id, to) }
+            } else {
+                add(source, to)
+            }
+        }
+        return map
+    }
+
     /// Depth-first search with three colours from the start nodes, then from the rest (upstream `DetectCycleDfs`).
     static func findCycle(_ recipe: CaptureRecipe, starts: [String], ids: Set<String>) -> [String]? {
-        let transitions = recipe.flow.unifiedTransitions
+        let transitions = Self.edgesIncludingErrorHandlers(recipe)
         var state: [String: Int] = [:]
         var names: [String: String] = [:]
         for node in recipe.nodes where ids.contains(node.id.lowercased()) {
