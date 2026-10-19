@@ -73,7 +73,11 @@ public enum RecordingOutputPath {
     /// `Greenshot_{yyyyMMdd_HHmmss}.mp4`), else `Greenshot_Recording_<time>.mp4` in the default folder. `%NAME%` is
     /// replaced by the environment variable (left as it is when not set, like .NET's `ExpandEnvironmentVariables`),
     /// `{yyyyMMdd_HHmmss}` by the time, a leading `~` by the home folder; a relative path is in the default folder.
-    public static func recipeURL(outputFilePath: String?, outputDirectory: String?, filenamePattern: String?, date: Date,
+    /// `rawOutputFilePath` is the node's parameter as the author wrote it (default: `outputFilePath`): `outputFilePath` is
+    /// evaluated, so a value from outside (a QR text, a page title) can bring in "/", "~" or "..". Only an absolute raw
+    /// path goes where it says, and values stay inside its fixed start; else the file stays in the default folder.
+    public static func recipeURL(outputFilePath: String?, rawOutputFilePath: String? = nil, outputDirectory: String?,
+                                 filenamePattern: String?, date: Date,
                                  environment: [String: String], homeDirectory: URL,
                                  timeZone: TimeZone = .current) -> URL {
         let stamp = timestamp(date, timeZone: timeZone)
@@ -97,10 +101,17 @@ public enum RecordingOutputPath {
         guard !path.isEmpty else {
             return defaultFolderURL.appendingPathComponent("Greenshot_Recording_\(stamp).\(fileExtension)")
         }
+        // Environment variables are the user's own, so they count as written by the author.
+        let raw = expanded((rawOutputFilePath ?? outputFilePath)?.trimmingCharacters(in: .whitespaces) ?? "")
         path = expanded(path)
+        guard RecipeFileExportOptions.isAbsolutePattern(raw) else {
+            var relative = path
+            while relative.hasPrefix("/") { relative.removeFirst() }
+            return FilenamePattern.file(named: relative.isEmpty ? "Greenshot_Recording_\(stamp).\(fileExtension)" : relative, in: defaultFolderURL)
+        }
         if path == "~" || path.hasPrefix("~/") { path = homeDirectory.path + path.dropFirst() }
         guard path.hasPrefix("/") else { return defaultFolderURL.appendingPathComponent(path) }
-        return URL(fileURLWithPath: path)
+        return RecipeFileTarget.contained(URL(fileURLWithPath: path), byRawPattern: raw, home: homeDirectory)
     }
 
     /// "20261017_143005" (upstream `DateTime.Now.ToString("yyyyMMdd_HHmmss")`).

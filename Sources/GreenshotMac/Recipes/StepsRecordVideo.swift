@@ -114,7 +114,8 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
             area = window.frame
             title = window.displayTitle
         }
-        let url = RecordingOutputPath.recipeURL(outputFilePath: step.string("OutputFilePath"), outputDirectory: step.string("OutputDirectory"),
+        let url = RecordingOutputPath.recipeURL(outputFilePath: step.string("OutputFilePath"),
+                                                rawOutputFilePath: step.node.parameters.string("OutputFilePath"), outputDirectory: step.string("OutputDirectory"),
                                                 filenamePattern: step.string("FilenamePattern"), date: Date(),
                                                 environment: ProcessInfo.processInfo.environment,
                                                 homeDirectory: FileManager.default.homeDirectoryForCurrentUser)

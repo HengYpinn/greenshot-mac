@@ -119,7 +119,7 @@ struct RecipeAppExporter: RecipeExporting {
         case .destination(.editor):
             result = openInEditor(payload, step: step, context: context, runtime: runtime)
         case .destination(.file) where !RecipeFileExportOptions(step).isEmpty:
-            result = saveFile(capture, options: RecipeFileExportOptions(step), rawPatternIsAbsolute: RecipeFileTarget.rawPatternIsAbsolute(step),
+            result = saveFile(capture, options: RecipeFileExportOptions(step), rawPattern: RecipeFileTarget.rawPattern(step),
                               context: context, runtime: runtime)
         case .destination(.printer), .printer:
             result = await printWithOptions(capture, to: destinationTarget, step: step, runtime: runtime)
@@ -209,7 +209,7 @@ struct RecipeAppExporter: RecipeExporting {
             let name = FilenamePattern.fileName(options.filenamePattern ?? s.filenamePattern,
                                                 context: settings.patternContext(title: payload.title, date: payload.captureDate))
             let format = options.format ?? s.outputFormat
-            let file = RecipeFileTarget.file(forName: name, rawPatternIsAbsolute: RecipeFileTarget.rawPatternIsAbsolute(step), in: folder,
+            let file = RecipeFileTarget.file(forName: name, rawPattern: options.filenamePattern == nil ? s.filenamePattern : RecipeFileTarget.rawPattern(step), in: folder,
                                              fileExtension: format.fileExtension)
             values["Destination.SaveDirectory"] = .string(folder.path)
             values["Destination.Filename"] = .string(file.path)
@@ -219,7 +219,7 @@ struct RecipeAppExporter: RecipeExporting {
 
     /// "Save directly" with the step's options (upstream `FileDestination` with `FileDestinationOptions`).
     @MainActor
-    static func saveFile(_ capture: Capture, options: RecipeFileExportOptions, rawPatternIsAbsolute: Bool,
+    static func saveFile(_ capture: Capture, options: RecipeFileExportOptions, rawPattern: String?,
                          context: RecipeFlowContext, runtime: RecipeRuntime) -> ExportResult {
         let settings = runtime.app.settings
         let saver = runtime.app.saver
@@ -227,7 +227,8 @@ struct RecipeAppExporter: RecipeExporting {
         let format = options.format ?? s.outputFormat
         let pattern = options.filenamePattern ?? s.filenamePattern
         // The user's own setting may be absolute too; a recipe's pattern only by what its author wrote.
-        let rawPatternIsAbsolute = rawPatternIsAbsolute || (options.filenamePattern == nil && RecipeFileExportOptions.isAbsolutePattern(pattern))
+        let rawPattern = options.filenamePattern == nil ? pattern : rawPattern
+        let rawPatternIsAbsolute = rawPattern.map(RecipeFileExportOptions.isAbsolutePattern) ?? false
         let plannedFolder = context[variable: "Destination.SaveDirectory"]?.asString.flatMap { $0.isEmpty ? nil : URL(fileURLWithPath: $0) }
         var url: URL
         let folder: URL
@@ -237,7 +238,7 @@ struct RecipeAppExporter: RecipeExporting {
         } else {
             folder = plannedFolder ?? saver.outputFolderURL(title: capture.title, date: capture.date)
             let name = FilenamePattern.fileName(pattern, context: settings.patternContext(title: capture.title, date: capture.date))
-            url = RecipeFileTarget.file(forName: name, rawPatternIsAbsolute: rawPatternIsAbsolute, in: folder, fileExtension: format.fileExtension)
+            url = RecipeFileTarget.file(forName: name, rawPattern: rawPattern, in: folder, fileExtension: format.fileExtension)
         }
         // A file name whose values climb out of the folder (a page title with "../") isn't written (CWE-22); a pattern
         // that the recipe's author wrote as an absolute path goes where they put it (a value that only evaluates to "/…" doesn't).

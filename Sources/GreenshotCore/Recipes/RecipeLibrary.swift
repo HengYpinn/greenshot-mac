@@ -463,7 +463,8 @@ public final class RecipeLibrary {
     // MARK: Saving
 
     /// Saves from the recipe editor: the approval is renewed without asking unless `saveDecisionReasons` is not empty.
-    public func save(_ recipe: CaptureRecipe, to url: URL) async -> RecipeLoadResult {
+    /// `loadedSha256`: the SHA-256 of the bytes the editor loaded the recipe from (nil: not from a file the editor read).
+    public func save(_ recipe: CaptureRecipe, to url: URL, loadedSha256: String? = nil) async -> RecipeLoadResult {
         var result = RecipeLoadResult()
         let fileURL = URL(fileURLWithPath: RecipeTrustStore.standardized(url.path))
         let path = fileURL.path
@@ -474,7 +475,7 @@ public final class RecipeLibrary {
         let validation = RecipeValidator(contracts: contracts, gates: gates()).validate(recipe)
         var approval: RecipeApproval?
         if validation.isValid {
-            let edit = editApproval(recipe, path: path, validation: validation)
+            let edit = editApproval(recipe, path: path, validation: validation, loadedSha256: loadedSha256)
             var renewed = edit.approval
             if edit.decision.isNeeded {
                 log.info("The change of recipe '\(recipe.id)' needs the user's decision: \(edit.decision.reasons.joined(separator: " "))")
@@ -532,14 +533,14 @@ public final class RecipeLibrary {
         return result
     }
 
-    public func saveDecisionReasons(for recipe: CaptureRecipe, at url: URL?) -> [String] {
+    public func saveDecisionReasons(for recipe: CaptureRecipe, at url: URL?, loadedSha256: String? = nil) -> [String] {
         let validation = RecipeValidator(contracts: contracts, gates: gates()).validate(recipe)
         guard validation.isValid else { return [] }
         let path = url.map { RecipeTrustStore.standardized($0.path) }
-        return editApproval(recipe, path: path, validation: validation).decision.reasons
+        return editApproval(recipe, path: path, validation: validation, loadedSha256: loadedSha256).decision.reasons
     }
 
-    func editApproval(_ recipe: CaptureRecipe, path: String?, validation: RecipeValidationResult)
+    func editApproval(_ recipe: CaptureRecipe, path: String?, validation: RecipeValidationResult, loadedSha256: String? = nil)
         -> (approval: RecipeApproval, decision: RecipeEditDecision, approvedContent: String?) {
         let record = path.flatMap { trustStore.record(forFile: $0) }
         let previous = record?.approval(for: recipe.id)
@@ -556,7 +557,7 @@ public final class RecipeLibrary {
         // The approval is per kind of permission, but it belongs to the approved bytes: a file on disk that isn't those bytes
         // any more (changed behind Greenshot's back, then opened without approval) isn't a version the user approved, so
         // each command, upload target or folder that the approved version lacks needs a decision of its own.
-        if let record, let path, Self.fileDiffers(from: record, at: path) {
+        if let record, let path, Self.isNotApprovedBytes(record, at: path, loadedSha256: loadedSha256) {
             for change in RecipeGates.unapprovedChanges(of: recipe, comparedWith: approvedVersion, contracts: contracts, environment: gates())
             where !decision.reasons.contains(change) {
                 decision.reasons.append(change)
@@ -568,9 +569,12 @@ public final class RecipeLibrary {
     /// The bytes of a recipe file, read with the size and regular-file limits of every other recipe read; nil (logged) otherwise.
     public static func readRecipeFile(_ url: URL) -> Data? { RecipeFileReader.data(url) }
 
-    /// True when the file at `path` exists and isn't the bytes that `record` approved.
-    private static func fileDiffers(from record: RecipeTrustRecord, at path: String) -> Bool {
-        guard FileManager.default.fileExists(atPath: path) else { return false }
+    /// True when what the edit grew from isn't the bytes `record` approved. The editor says which bytes it loaded: the
+    /// file on disk at save time proves nothing (it can be put back after a change, or deleted). Without that, the file
+    /// on disk counts; a file that is gone while a record exists counts as changed.
+    private static func isNotApprovedBytes(_ record: RecipeTrustRecord, at path: String, loadedSha256: String?) -> Bool {
+        if let loadedSha256 { return !recipeEquals(loadedSha256, record.sha256) }
+        guard FileManager.default.fileExists(atPath: path) else { return true }
         guard let data = RecipeFileReader.data(URL(fileURLWithPath: path)) else { return true }
         return !recipeEquals(RecipeHash.sha256Hex(data), record.sha256)
     }
