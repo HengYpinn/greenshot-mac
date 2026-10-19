@@ -281,6 +281,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- Editor: the green window button goes full screen like in other Mac apps (⌥-click fills the screen); the editor still opens over another app's full screen Space.
 - Notes: a screenshot sent to Notes shows once; on macOS 26 and later it appeared twice.
 - Translations: texts no longer cut off in longer languages. The Settings window grows to show all ten tab names; the
   log viewer's buttons, the recipe manager's status badges and search field, the Export Capture tiles, the recipe

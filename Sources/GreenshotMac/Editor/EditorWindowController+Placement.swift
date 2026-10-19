@@ -99,9 +99,46 @@ extension EditorWindowController {
     /// `isZoomed` would call it zoomed, so every later editor would open zoomed. Moving or resizing a zoomed window
     /// un-zooms it.
     func rememberNormalFrame() {
-        guard let window, window.isVisible, !window.isMiniaturized, !isZoomAnimating else { return }
+        guard let window, window.isVisible, !window.isMiniaturized, !isZoomAnimating,
+              !window.styleMask.contains(.fullScreen) else { return }
         if wasZoomed, window.frame != zoomedFrame { wasZoomed = false }
         if !wasZoomed { normalFrame = window.frame }
+    }
+
+    /// The green button goes full screen, as in other Mac apps; ⌥-click fills the screen (zoom). The window opens over
+    /// another app's full screen Space (`.fullScreenAuxiliary`), which can't itself go full screen, so it becomes
+    /// full screen capable only for that and goes back when it leaves full screen.
+    func useZoomButtonForFullScreen() {
+        guard let button = window?.standardWindowButton(.zoomButton) else { return }
+        button.target = self
+        button.action = #selector(zoomButtonPressed(_:))
+    }
+
+    @objc func zoomButtonPressed(_ sender: Any?) {
+        guard let window else { return }
+        if NSEvent.modifierFlags.contains(.option), !window.styleMask.contains(.fullScreen) {
+            window.performZoom(sender)
+            return
+        }
+        if !window.styleMask.contains(.fullScreen) {
+            window.collectionBehavior = [.fullScreenPrimary]
+            // A full screen editor stays in its Space when another app is clicked.
+            window.hidesOnDeactivate = false
+        }
+        window.toggleFullScreen(sender)
+    }
+
+    @objc func windowDidExitFullScreen(_ notification: Notification) {
+        restoreSpaceBehaviour()
+    }
+
+    @objc func windowDidFailToEnterFullScreen(_ window: NSWindow) {
+        restoreSpaceBehaviour()
+    }
+
+    private func restoreSpaceBehaviour() {
+        window?.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
+        window?.hidesOnDeactivate = true
     }
 
     @objc func windowShouldZoom(_ window: NSWindow, toFrame newFrame: NSRect) -> Bool {

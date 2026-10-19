@@ -119,6 +119,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         window.minSize = NSSize(width: 640, height: 360)
         super.init(window: window)
         window.delegate = self
+        useZoomButtonForFullScreen()
         buildUI()
         wireCanvas()
         // The colours used last, as a palette in the colour panel the wells open (upstream's recent colours).
