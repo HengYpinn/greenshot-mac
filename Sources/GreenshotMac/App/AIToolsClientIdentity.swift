@@ -10,7 +10,7 @@ import Security
 
 /// Which AI tool is behind a greenshot-mcp connection (upstream `AiToolCaller.TryIdentify`): greenshot-mcp's process
 /// from the connection's audit token, the program that started it (`AIToolCaller`), and that program's signer. Cached per
-/// greenshot-mcp process: the walk and the signature check run once per session.
+/// greenshot-mcp process and its ancestors: the walk and the signature check run once per session.
 @MainActor
 final class AIToolsClientIdentity {
     private var clients: [String: AIToolClient] = [:]
@@ -22,7 +22,15 @@ final class AIToolsClientIdentity {
         guard context.source == .mcp, let peer = context.peer else { return .failure(AIToolError(AIToolAccess.unidentifiedMessage)) }
         let pid = Self.processID(of: peer)
         guard let server = table.process(pid) else { return .failure(AIToolError(AIToolAccess.unidentifiedMessage)) }
-        let key = "\(server.pid):\(server.startTime)"
+        // The ancestors the walk can reach are part of the key: one that exec'd another program after starting greenshot-mcp
+        // (exec swap) or went away must not keep the identity it had when it was identified (security review M1)
+        var key = Self.cacheKey(server)
+        var next = server
+        for _ in 0...AIToolCaller.maximumLauncherDepth {
+            guard next.parentPID > 1, let ancestor = table.process(next.parentPID) else { break }
+            key += "/" + Self.cacheKey(ancestor)
+            next = ancestor
+        }
         if let known = clients[key] { return .success(known) }
         let result = AIToolCaller.identify(serverPID: pid, table: table) { Self.runningSigner($0) }
         switch result {
@@ -33,6 +41,10 @@ final class AIToolsClientIdentity {
             log.warn("[SECURITY] greenshot-mcp (\(pid)): \(error.message)")
         }
         return result
+    }
+
+    nonisolated private static func cacheKey(_ process: AIToolProcess) -> String {
+        "\(process.pid):\(process.startTime):\(process.uniqueID ?? 0):\(process.idVersion ?? 0)"
     }
 
     /// The process id in the audit token (race-free), else the one of `LOCAL_PEERPID`.
