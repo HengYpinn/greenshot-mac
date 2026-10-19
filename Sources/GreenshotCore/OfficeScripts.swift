@@ -136,8 +136,8 @@ public enum OfficeScripts {
     /// tab-separated, in points; see `PowerPointSlide`.
     public static func powerPointSlide(presentationName: String?, layout: OfficeSettings.SlideLayout, title: String) -> AppleScriptCall {
     // Seen live with PowerPoint 16.x: it refuses `make new slide at end of slides of …` ("Can't make class slide"), so
-    // the slide is made at the end of the presentation itself (a picture, though, at the end of the slide's shapes);
-    // and its page setup has no slide height, so the size comes from the slide master.
+    // the slide is made at the end of the presentation itself; and its page setup has no slide height, so the size
+    // comes from the slide master.
         AppleScriptCall(source: """
         on run argv
             set presentationName to item 1 of argv
@@ -178,6 +178,8 @@ public enum OfficeScripts {
 
     /// Second step: the picture on the slide in `frame` (points, see `OfficeLayout.pictureFrame`), aspect ratio locked
     /// when asked (`PowerpointLockAspectRatio`), then the slide shown.
+    // Seen live with PowerPoint 16.x: `make new picture at end of shapes of <slide>` always fails with a parameter
+    // error; the picture is made at the end of the slide itself.
     public static func powerPointPicture(presentationName: String, slideIndex: Int, imagePath: String, frame: CGRect,
                                          lockAspectRatio: Bool) -> AppleScriptCall {
         let numbers = [frame.minX, frame.minY, frame.width, frame.height].map { String(Int($0.rounded())) }
@@ -194,7 +196,7 @@ public enum OfficeScripts {
             tell application id "com.microsoft.Powerpoint"
                 set targetPresentation to presentation presentationName
                 set theSlide to slide slideNumber of targetPresentation
-                set thePicture to make new picture at end of shapes of theSlide with properties {file name:pictureFile, left position:pictureLeft, top:pictureTop, width:pictureWidth, height:pictureHeight}
+                set thePicture to make new picture at end of theSlide with properties {file name:pictureFile, left position:pictureLeft, top:pictureTop, width:pictureWidth, height:pictureHeight}
                 set lock aspect ratio of thePicture to \(lockAspectRatio)
                 try
                     go to slide (view of document window 1) number slideNumber
