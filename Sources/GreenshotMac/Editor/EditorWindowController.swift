@@ -1015,6 +1015,10 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         alert.addButton(withTitle: String(localized: "Save"))
         alert.addButton(withTitle: String(localized: "Don't Save"))
         alert.addButton(withTitle: String(localized: "Cancel"))
+        // Quit and a new capture come from any Space (menu bar, Dock, hotkey) and the question blocks every Greenshot
+        // window, so it shows on whichever Space the user is on, also a full screen one (it stayed out of sight on the
+        // Space that was active when it opened).
+        alert.window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         return alert
     }
 
