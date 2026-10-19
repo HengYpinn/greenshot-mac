@@ -133,6 +133,12 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var toneMapHDRCaptures = true
     /// Milliseconds to wait before taking the picture, so menus and the hotkey's own effects are gone.
     public var captureDelayMilliseconds = 100
+    /// The bounds of the delay (the Settings stepper's). The preferences file isn't sealed, so a program of the user can
+    /// write any number there: a delay of minutes would keep the capture screen away until an attack's window opened.
+    public static let captureDelayRange = 0...10_000
+    public static func clampedCaptureDelay(_ milliseconds: Int) -> Int {
+        min(max(milliseconds, captureDelayRange.lowerBound), captureDelayRange.upperBound)
+    }
     public var playCameraSound = false
     /// The sound file played after a capture (upstream `NotificationSound`); empty plays the built-in camera sound.
     public var notificationSound = ""
@@ -362,7 +368,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         disableQuickSettings = value(.disableQuickSettings, d.disableQuickSettings)
         hideExpertSettings = value(.hideExpertSettings, d.hideExpertSettings)
         excludeDestinations = value(.excludeDestinations, d.excludeDestinations)
-        captureDelayMilliseconds = value(.captureDelayMilliseconds, d.captureDelayMilliseconds)
+        captureDelayMilliseconds = Self.clampedCaptureDelay(value(.captureDelayMilliseconds, d.captureDelayMilliseconds))
         playCameraSound = value(.playCameraSound, d.playCameraSound)
         notificationSound = value(.notificationSound, d.notificationSound)
         showNotifications = value(.showNotifications, d.showNotifications)

@@ -60,9 +60,27 @@ struct OverlayInputArmingTests {
         #expect(OverlayInputArming.startedByUser(triggerType: nil))
     }
 
-    @Test func aRequestExpires() {
-        #expect(OverlayInputArming.isRequestFresh(requestedAt: start, now: start.addingTimeInterval(2)))
-        #expect(!OverlayInputArming.isRequestFresh(requestedAt: start, now: start.addingTimeInterval(31)))
-        #expect(!OverlayInputArming.isRequestFresh(requestedAt: nil, now: start))
+    @Test func aMarkedFlowIsNeverTheUsers() {
+        // A built-in capture that automation started runs as a recipe with the menu's Manual trigger
+        #expect(OverlayInputArming.startedByUser(triggerType: "Manual"))
+        #expect(!OverlayInputArming.startedByUser(triggerType: "Manual", markedByAutomation: true))
+        #expect(!OverlayInputArming.startedByUser(triggerType: nil, markedByAutomation: true))
+        #expect(!OverlayInputArming.startedByUser(triggerType: "Hotkey", markedByAutomation: true))
+    }
+}
+
+@Suite("Capture delay bounds")
+struct CaptureDelayBoundsTests {
+    @Test func theDelayIsClamped() {
+        #expect(AppSettings.clampedCaptureDelay(35_000) == 10_000)
+        #expect(AppSettings.clampedCaptureDelay(-5) == 0)
+        #expect(AppSettings.clampedCaptureDelay(250) == 250)
+    }
+
+    @Test func aDelayInThePreferencesFileIsClampedWhenDecoded() throws {
+        let long = try JSONDecoder().decode(AppSettings.self, from: Data(#"{"captureDelayMilliseconds": 35000}"#.utf8))
+        #expect(long.captureDelayMilliseconds == 10_000)
+        let negative = try JSONDecoder().decode(AppSettings.self, from: Data(#"{"captureDelayMilliseconds": -1}"#.utf8))
+        #expect(negative.captureDelayMilliseconds == 0)
     }
 }

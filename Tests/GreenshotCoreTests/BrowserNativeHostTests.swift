@@ -117,7 +117,7 @@ struct BrowserNativeHostTests {
         let (input, output) = (pipes.input[0], pipes.output[1])
         async let exitCode = onOwnThread {
             BrowserNativeHost.run(origin: "chrome-extension://abcdef/", socketPath: socketPath, clientVersion: "1",
-                                  input: input, output: output)
+                                  input: input, output: output, isApp: { _ in true })
         }
 
         try write(#"{"source":"cli","command":"HANDSHAKE","extension_version":"1.0.0","browser":"chrome"}"#, to: pipes.input[1])
@@ -144,7 +144,7 @@ struct BrowserNativeHostTests {
         let (input, output) = (pipes.input[0], pipes.output[1])
         async let exitCode = onOwnThread {
             BrowserNativeHost.run(origin: "companion@greenshot-mac.github.io", socketPath: socketPath, clientVersion: "1",
-                                  input: input, output: output)
+                                  input: input, output: output, isApp: { _ in true })
         }
         try write(#"{"command":"HANDSHAKE"}"#, to: pipes.input[1])
         _ = await readFrame(pipes.output[0])
@@ -165,7 +165,7 @@ struct BrowserNativeHostTests {
         let (input, output) = (pipes.input[0], pipes.output[1])
         async let exitCode = onOwnThread {
             BrowserNativeHost.run(origin: "chrome-extension://abcdef/", socketPath: socketPath, clientVersion: "1",
-                                  input: input, output: output)
+                                  input: input, output: output, isApp: { _ in true })
         }
         // A frame of one byte: shorter than any JSON object
         try IPCFrameIO.writeFrame(pipes.input[1], Data("x".utf8))
@@ -202,7 +202,7 @@ struct BrowserNativeHostTests {
         let output = pipes.output[1]
         let code = await onOwnThread {
             BrowserNativeHost.run(origin: "chrome-extension://abcdef/", socketPath: missing, clientVersion: "1",
-                                  input: STDIN_FILENO, output: output)
+                                  input: STDIN_FILENO, output: output, isApp: { _ in true })
         }
         #expect(code == 0)
         let reply = try #require(await readFrame(pipes.output[0]))

@@ -137,15 +137,11 @@ enum AutomationCommands {
             // The capture screen of a capture that automation started takes input only after a click: the keys the user
             // types into another app at that moment must not finish it (`OverlayInputArming`).
             switch mode {
-            case .region, .text, .window: CaptureOverlayController.noteAutomationRequest()
-            case .fullScreen, .lastRegion: break
-            }
-            switch mode {
-            case .region: app.capture.captureRegion()
-            case .window: app.capture.captureWindowFromHotkey()
+            case .region: app.capture.captureRegion(byAutomation: true)
+            case .window: app.capture.captureWindowFromHotkey(byAutomation: true)
             case .fullScreen: app.capture.captureFullScreenFromHotkey()
             case .lastRegion: app.capture.captureLastRegion()
-            case .text: app.capture.captureText()
+            case .text: app.capture.captureText(byAutomation: true)
             }
         }
         return .ok("Capture started.")

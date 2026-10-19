@@ -198,7 +198,8 @@ final class VideoRecordingController {
         let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
         let frozen = try await ScreenCapturer.freeze(withPointer: true)
         guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
-                                                                    windows: windows, mode: mode, settings: settings),
+                                                                    windows: windows, mode: mode, settings: settings,
+                                                                    startedByUser: true),
               selection.barcodeAction == nil else { return nil }
         if selection.mode == .window, let window = selection.window {
             return Choice(target: .window(window.id), title: window.displayTitle, area: window.frame)
