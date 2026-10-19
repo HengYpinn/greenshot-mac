@@ -328,6 +328,50 @@ All notable changes to this project are documented here. The format follows
   point size, so Preview, other apps and the editor (File › Open, drag onto the app) show them at their real size,
   and annotations added after reopening have the right line thickness and font size.
 
+### Security
+
+From a security review of the whole app (October 2026). Most of these stop another program on your Mac from using
+Greenshot's screen recording permission behind your back.
+
+- AI tools: the allowed AI tools, the excluded apps and the capture notification are sealed with a key in your
+  Keychain. When another program edits them in the preferences, Greenshot resets them and asks again. After this
+  update, AI tools you allowed before are asked about once more.
+- AI tools: a runtime (Node.js, Bun, Deno, Python, Ruby, Perl, PHP) is allowed with every option before its script and
+  with the variables that load code (`NODE_OPTIONS`, `PYTHONPATH`, `RUBYOPT`, `PERL5OPT`, `PHPRC`, …), so a tool
+  started with options such as `node --no-warnings` is asked about once more. A shell between the AI tool and
+  greenshot-mcp is skipped only when it is a system shell that starts greenshot-mcp directly: a shell script an AI
+  tool runs no longer gets the AI tool's consent, and a tool started through Homebrew's bash or zsh or fish must start
+  greenshot-mcp itself. A program that starts greenshot-mcp and then turns itself into an allowed program is refused.
+- A capture screen that greenshot-cli, a link, AppleScript, Shortcuts or such a recipe opened waits for a click (a
+  second after it shows) before keys work, so what you type into another app can't finish the capture. Escape cancels
+  at once.
+- greenshot-cli and the browser extension's helper send nothing to a program listening on Greenshot's socket that
+  isn't Greenshot (greenshot-mcp already checked this); the extension then hears that the app is offline.
+- greenshot-cli shows control characters from a QR code, OCR or a window title as `\xNN` on a terminal, so a QR code
+  can't send escape sequences to it. Pipes, files and `--json` get the exact text.
+- Links can no longer give a recipe file or folder paths; the command line still can.
+- A web page can no longer end a Box sign-in or put its own text into the sign-in error.
+- A window or page title can no longer choose the folder a screenshot or recording is saved in: in a folder pattern a
+  title's "/", ".." and "~" are made harmless (`~/Shots/${title}` with the title "a/b" now makes one folder `a_b`), and
+  a recording folder stays inside its fixed start. File names are cleaned per Unicode character, so a combining or
+  invisible character can no longer hide a "/".
+- A recipe's file name that comes from a value (a QR code's text, a variable) stays in the output folder; only a
+  pattern that itself starts with "/" or "~" names another folder. A pattern that starts with a folder variable such
+  as `${MyPictures}` now stays in the output folder too (set the step's folder instead). A recipe's recording stays in
+  its output directory.
+- Links in an external command's output open only when they are http or https. Box and Dropbox links open only on
+  box.com and dropbox.com, and the update check opens only this project's GitHub releases page.
+- Recipes: saving in the editor after the file was changed outside Greenshot asks about every new command, upload
+  target or folder, not only new kinds of permission. The editor opens recipe files with the same 1 MB limit as
+  loading them. A recipe whose error handling leads back to itself is refused, and a run stops after 16 error
+  handlers or 8 forwards. The approval window says "When anything is copied to the clipboard" for a Clipboard trigger
+  that isn't limited to images.
+- Greenshot for Windows files (.greenshot, .gst) that reuse one element's data thousands of times can no longer use up
+  the memory. Pasted or copied HTML with a huge number of `<img` tags no longer freezes the app. Pictures that claim
+  more than 200 megapixels or 32767 pixels a side are refused before they are decoded (opened, pasted, dropped and
+  downloaded pictures and the pictures in elements).
+- The build's GitHub token can only read the repository.
+
 ## [0.1.0] - 2026-10-16
 
 ### Added
