@@ -281,6 +281,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- Notes: a screenshot sent to Notes shows once; on macOS 26 and later it appeared twice.
 - Translations: texts no longer cut off in longer languages. The Settings window grows to show all ten tab names; the
   log viewer's buttons, the recipe manager's status badges and search field, the Export Capture tiles, the recipe
   editor's toolbar (symbols only when the titles don't fit), pickers, prompt choices and arguments, the welcome window

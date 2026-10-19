@@ -76,6 +76,17 @@ struct OfficeScriptsTests {
         return calls
     }
 
+    /// Notes gets the picture as data in the body (a scripted attachment shows up twice on macOS 26 and later); the
+    /// title is HTML there, so it arrives escaped.
+    @Test func notesTitleIsEscapedHTMLAndThePictureIsData() {
+        let call = OfficeScripts.notesNewNote(imagePath: "/tmp/a b.png", title: "Q&A <Report> \"x\" 'y'")
+        #expect(call.arguments == ["/tmp/a b.png", "Q&amp;A &lt;Report&gt; &quot;x&quot; &#39;y&#39;", "image/png"])
+        #expect(!call.source.contains("make new attachment"))
+        #expect(call.source.contains("data:"))
+        let jpeg = OfficeScripts.notesNewNote(imagePath: "/tmp/a.JPG", title: "t")
+        #expect(jpeg.arguments.last == "image/jpeg")
+    }
+
     @Test func userTextOnlyGoesIntoTheArguments() {
         for call in Self.allCalls() {
             #expect(!call.source.contains("zqx"), "\(call.source)")

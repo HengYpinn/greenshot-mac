@@ -438,19 +438,41 @@ public enum OfficeScripts {
     /// A new note in the default folder named after the capture, with the picture (upstream OneNote: a new page in the
     /// default notebook), shown.
     public static func notesNewNote(imagePath: String, title: String) -> AppleScriptCall {
+        // The picture goes into the note's body as data, not with `make new attachment`: Notes on macOS 26 and later
+        // adds a scripted attachment twice (seen live: one call, two attachments, the picture shown twice). Notes turns
+        // the data image into one attachment. The title is HTML in the body, so it is escaped here.
         AppleScriptCall(source: """
         on run argv
             set imagePath to item 1 of argv
-            set noteTitle to item 2 of argv
+            set titleHTML to item 2 of argv
+            set imageType to item 3 of argv
+            set encoded to do shell script "/usr/bin/base64 -i " & quoted form of imagePath
             tell application id "com.apple.Notes"
-                set theNote to make new note at default folder of default account with properties {name:noteTitle}
-                make new attachment at end of attachments of theNote with data (POSIX file imagePath)
+                set theNote to make new note at default folder of default account with properties {body:"<div><h1>" & titleHTML & "</h1></div><div><img src=\\\"data:" & imageType & ";base64," & encoded & "\\\"></div>"}
                 show theNote
                 activate
             end tell
             return ""
         end run
-        """, arguments: [imagePath, title], bundleID: OfficeApplication.notes.bundleID)
+        """, arguments: [imagePath, htmlEscaped(title), imageType(of: imagePath)], bundleID: OfficeApplication.notes.bundleID)
+    }
+
+    /// Text for HTML: & < > " ' as entities.
+    static func htmlEscaped(_ text: String) -> String {
+        text.replacingOccurrences(of: "&", with: "&amp;").replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;").replacingOccurrences(of: "\"", with: "&quot;")
+            .replacingOccurrences(of: "'", with: "&#39;")
+    }
+
+    /// The MIME type of the picture file for a data URL (the destinations write PNG for Notes).
+    static func imageType(of path: String) -> String {
+        switch (path as NSString).pathExtension.lowercased() {
+        case "jpg", "jpeg": return "image/jpeg"
+        case "gif": return "image/gif"
+        case "tif", "tiff": return "image/tiff"
+        case "heic": return "image/heic"
+        default: return "image/png"
+        }
     }
 
     // MARK: Lists
