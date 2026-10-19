@@ -284,6 +284,7 @@ All notable changes to this project are documented here. The format follows
 - PowerPoint: sending a screenshot works with PowerPoint 16 (it refused the new slide and the picture as the scripts made them, and has no slide height in its page setup).
 - Office destinations: when macOS blocks Greenshot from Office's shared folder (macOS 15 and later), Greenshot says what to allow in Files & Folders and opens the setting, instead of "The screenshot could not be written".
 - Editor: the green window button goes full screen like in other Mac apps (⌥-click fills the screen); the editor still opens over another app's full screen Space.
+- Editor: a full screen editor stays full screen when an effect (Border, Drop Shadow, Torn Edge…), a crop or a resize changes the picture's size, instead of shrinking to a small window on a black screen; with "match size to capture" it fits the picture when it leaves full screen.
 - Notes: a screenshot sent to Notes shows once; on macOS 26 and later it appeared twice.
 - Translations: texts no longer cut off in longer languages. The Settings window grows to show all ten tab names; the
   log viewer's buttons, the recipe manager's status badges and search field, the Export Capture tiles, the recipe

@@ -72,20 +72,25 @@ extension EditorWindowController {
     }
 
     /// A reused editor got a new screenshot: with "match size to capture" it is sized to it, keeping its top left.
+    /// A full screen window keeps the screen and is sized when it leaves full screen.
     func refitWindowForNewImage() {
         guard let window else { return }
-        if settings.value.matchSizeToCapture, !wasZoomed {
-            fitWindowToImage(topLeft: NSPoint(x: window.frame.minX, y: window.frame.maxY), screen: window.screen?.visibleFrame)
+        if !window.styleMask.contains(.fullScreen) {
+            if settings.value.matchSizeToCapture, !wasZoomed {
+                fitWindowToImage(topLeft: NSPoint(x: window.frame.minX, y: window.frame.maxY), screen: window.screen?.visibleFrame)
+            }
+            fittedImageSize = editorDocument.imageSize
         }
         window.layoutIfNeeded()
         zoomToFitIfLarger()
-        fittedImageSize = editorDocument.imageSize
     }
 
     /// After crop, resize, rotate or a larger canvas: with "match size to capture" the window follows the image's size
-    /// (upstream `SurfaceSizeChanged`), unless it is zoomed (that would un-zoom it).
+    /// (upstream `SurfaceSizeChanged`), unless it is zoomed (that would un-zoom it). A full screen window keeps the
+    /// screen (a new frame would shrink it inside its black full screen Space) and follows when it leaves full screen.
     func refitWindowIfImageResized() {
-        guard let fitted = fittedImageSize, fitted != editorDocument.imageSize, let window else { return }
+        guard let fitted = fittedImageSize, fitted != editorDocument.imageSize, let window,
+              !window.styleMask.contains(.fullScreen) else { return }
         fittedImageSize = editorDocument.imageSize
         guard settings.value.matchSizeToCapture, window.isVisible, !wasZoomed, !window.inLiveResize else { return }
         fitWindowToImage(topLeft: NSPoint(x: window.frame.minX, y: window.frame.maxY), screen: window.screen?.visibleFrame)
@@ -130,6 +135,7 @@ extension EditorWindowController {
 
     @objc func windowDidExitFullScreen(_ notification: Notification) {
         restoreSpaceBehaviour()
+        refitWindowIfImageResized()
     }
 
     @objc func windowDidFailToEnterFullScreen(_ window: NSWindow) {
