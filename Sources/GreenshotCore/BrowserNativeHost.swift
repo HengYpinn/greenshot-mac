@@ -33,11 +33,22 @@ public enum BrowserNativeHost {
 
     /// Connects to the app at `socketPath`, sends HELLO and relays until the browser or the app closes its end. Returns
     /// the exit code (0 also when the app isn't running: the extension got the offline answer).
+    /// `isApp` checks the program on the other end of the socket (greenshot-native-host: the GreenshotMac of its own
+    /// bundle, `IPCAppLauncher.isAppPeer`). Another program of the user can listen on the app's socket while the app
+    /// isn't running; it must not get the tab pictures and addresses the extension sends, nor set the extension's
+    /// options with its HANDSHAKE answer, so a stranger gets nothing and the extension hears that the app is offline.
     public static func run(origin: String, socketPath: String, clientVersion: String,
-                           input: Int32 = STDIN_FILENO, output: Int32 = STDOUT_FILENO) -> Int32 {
+                           input: Int32 = STDIN_FILENO, output: Int32 = STDOUT_FILENO,
+                           isApp: (Int32) -> Bool = { _ in true }) -> Int32 {
         // A browser that went away must not kill the host with SIGPIPE
         _ = fcntl(output, F_SETNOSIGPIPE, 1)
         guard let socket = try? IPCSocket.connect(to: socketPath) else {
+            try? IPCFrameIO.writeFrame(output, offlineReply)
+            return IPCExitCode.ok
+        }
+        guard isApp(socket) else {
+            close(socket)
+            FileHandle.standardError.write(Data("The program listening on Greenshot for Mac's socket isn't Greenshot for Mac, so nothing was sent to it.\n".utf8))
             try? IPCFrameIO.writeFrame(output, offlineReply)
             return IPCExitCode.ok
         }

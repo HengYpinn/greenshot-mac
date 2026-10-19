@@ -29,4 +29,7 @@ guard let origin = BrowserNativeHost.extensionOrigin(arguments: CommandLine.argu
     FileHandle.standardError.write(Data(usage.utf8))
     exit(CommandLine.arguments.count > 1 ? IPCExitCode.usage : IPCExitCode.ok)
 }
-exit(BrowserNativeHost.run(origin: origin, socketPath: endpoint.socketPath, clientVersion: version))
+let executable = IPCEndpoint.currentExecutablePath
+exit(BrowserNativeHost.run(origin: origin, socketPath: endpoint.socketPath, clientVersion: version) { socket in
+    IPCAppLauncher.isAppPeer(socket: socket, endpoint: endpoint, executable: executable)
+})

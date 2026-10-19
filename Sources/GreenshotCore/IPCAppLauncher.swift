@@ -69,7 +69,12 @@ public enum IPCAppLauncher {
     /// Whether the program on the other end of `client` is the app (security review note): another program of the user
     /// listening on the app's socket while the app isn't running gets no requests from a helper and can't answer them.
     public static func isAppPeer(_ client: IPCClient, endpoint: IPCEndpoint, executable: String) -> Bool {
-        guard let peer = IPCSocket.peer(of: client.fd), peer.pid > 0 else { return false }
+        isAppPeer(socket: client.fd, endpoint: endpoint, executable: executable)
+    }
+
+    /// `isAppPeer` for a connected socket descriptor (greenshot-native-host relays a bare socket).
+    public static func isAppPeer(socket: Int32, endpoint: IPCEndpoint, executable: String) -> Bool {
+        guard let peer = IPCSocket.peer(of: socket), peer.pid > 0 else { return false }
         var buffer = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
         let length = proc_pidpath(peer.pid, &buffer, UInt32(buffer.count))
         let path = length > 0 ? String(cString: buffer) : nil

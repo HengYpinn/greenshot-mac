@@ -173,6 +173,28 @@ struct BrowserNativeHostTests {
         #expect(code == 0)
     }
 
+    @Test func aListenerThatIsNotTheAppGetsNothing() async throws {
+        // Another program of the user listening on the app's socket (security review C1): no HELLO, no relayed
+        // message reaches it, and the extension hears that the app is offline.
+        let recorder = Recorder()
+        let server = try makeServer(recorder)
+        defer { server.stop() }
+        let pipes = Pipes()
+        defer { pipes.closeAll() }
+        let socketPath = server.configuration.socketPath
+        let (input, output) = (pipes.input[0], pipes.output[1])
+        try write(#"{"command":"HANDSHAKE","extension_version":"1.0.0","browser":"chrome"}"#, to: pipes.input[1])
+        pipes.closeInputWriter()
+        let code = await onOwnThread {
+            BrowserNativeHost.run(origin: "chrome-extension://abcdef/", socketPath: socketPath, clientVersion: "1",
+                                  input: input, output: output, isApp: { _ in false })
+        }
+        #expect(code == 0)
+        let reply = try #require(await readFrame(pipes.output[0]))
+        #expect(reply["status"]?.stringValue == "unavailable")
+        #expect(recorder.all.isEmpty)
+    }
+
     @Test func offlineAnswerWhenTheAppIsNotRunning() async throws {
         let pipes = Pipes()
         defer { pipes.closeAll() }
