@@ -107,7 +107,7 @@ public struct RecipeExternalCommandPlan: Equatable, Sendable {
             let message = error.trimmingCharacters(in: .whitespacesAndNewlines)
             return .failed(message.isEmpty ? "Exit code \(exitCode)" : String(message.prefix(600)), target: name)
         }
-        let link = ExternalCommandLine.firstURL(in: output).flatMap(URL.init(string:))
+        let link = ExternalCommandLine.firstWebLink(in: output)
         return .succeeded(fileURL: file, link: link, target: name, clearsModified: false)
     }
 }

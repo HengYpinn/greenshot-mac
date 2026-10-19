@@ -121,4 +121,11 @@ public enum ExternalCommandLine {
         while let last = url.last, ".,;:!?)]}".contains(last) { url.removeLast() }
         return url
     }
+
+    /// The first URL in a command's output that may be opened: http or https only. The output is whatever the command
+    /// printed (it may relay a web page or a server's answer), so a `smb://` or `file:` link must never open on a click.
+    public static func firstWebLink(in output: String) -> URL? {
+        guard let text = firstURL(in: output), NotificationSummary.isWebLink(text) else { return nil }
+        return URL(string: text)
+    }
 }

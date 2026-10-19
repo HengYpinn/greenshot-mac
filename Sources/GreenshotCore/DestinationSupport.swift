@@ -73,8 +73,9 @@ public enum DestinationSupport {
     public static func outputFolder(_ folder: String, context: FilenamePattern.Context) -> URL {
         let trimmed = folder.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return context.homeDirectory.appendingPathComponent("Desktop", isDirectory: true) }
-        let filled = FilenamePattern.fill(trimmed, context: context, filenameSafe: false)
-        let path = filled.hasPrefix("~") ? context.homeDirectory.path + filled.dropFirst() : filled
+        // Captured values (a window title) are cleaned: one gives at most one folder level, never "..", "~" or "/".
+        let filled = FilenamePattern.fill(trimmed, context: context, filenameSafe: false, cleanCapturedValues: true)
+        let path = trimmed.hasPrefix("~") ? context.homeDirectory.path + filled.dropFirst() : filled
         return URL(fileURLWithPath: path, isDirectory: true)
     }
 

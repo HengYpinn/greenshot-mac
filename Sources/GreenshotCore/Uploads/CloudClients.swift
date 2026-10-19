@@ -69,12 +69,16 @@ public struct BoxClient: Sendable {
         return request
     }
 
-    public static func sharedLink(fromJSON data: Data) throws -> URL {
+    /// The link is opened and shown as the server's answer gives it, so it must be https on box.com: otherwise
+    /// `fallback` (the file in the Box web app) is used, or the answer is refused.
+    public static func sharedLink(fromJSON data: Data, fallback: URL? = nil) throws -> URL {
         let object = try HTTPSupport.json(data)
         guard let link = (object["shared_link"] as? [String: Any])?["url"] as? String, let url = URL(string: link) else {
             throw UploadError.unexpectedResponse("no shared link in Box's answer")
         }
-        return url
+        if CloudLinks.isHTTPS(url, onDomain: "box.com") { return url }
+        guard let fallback else { throw UploadError.unexpectedResponse("Box's shared link is not a box.com link") }
+        return fallback
     }
 
     /// The file in the Box web app.
@@ -88,8 +92,9 @@ public struct BoxClient: Sendable {
         var result = CloudUpload(fileID: id, path: file.name, link: Self.fileURL(id: id), isSharedLink: false)
         if sharedLink {
             let answer = try await HTTPSupport.send(Self.sharedLinkRequest(fileID: id, accessToken: accessToken), with: http)
-            result.link = try Self.sharedLink(fromJSON: answer)
-            result.isSharedLink = true
+            let link = try Self.sharedLink(fromJSON: answer, fallback: result.link)
+            result.isSharedLink = link != result.link
+            result.link = link
         }
         return result
     }
@@ -151,11 +156,14 @@ public struct DropboxClient: Sendable {
     }
 
     /// The `url` of a created link, or the first of a list of links.
-    public static func sharedLink(fromJSON data: Data) throws -> URL {
+    /// Like Box's: https on dropbox.com, else `fallback` (the file in Dropbox's web app) or the answer is refused.
+    public static func sharedLink(fromJSON data: Data, fallback: URL? = nil) throws -> URL {
         let object = try HTTPSupport.json(data)
         let text = object["url"] as? String ?? ((object["links"] as? [[String: Any]])?.first?["url"] as? String)
         guard let text, let url = URL(string: text) else { throw UploadError.unexpectedResponse("no shared link in Dropbox's answer") }
-        return url
+        if CloudLinks.isHTTPS(url, onDomain: "dropbox.com") { return url }
+        guard let fallback else { throw UploadError.unexpectedResponse("Dropbox's shared link is not a dropbox.com link") }
+        return fallback
     }
 
     /// Dropbox answers 409 `shared_link_already_exists` when the file has a link already.
@@ -179,13 +187,24 @@ public struct DropboxClient: Sendable {
         if sharedLink {
             do {
                 let answer = try await HTTPSupport.send(Self.createSharedLinkRequest(path: uploaded.path, accessToken: accessToken), with: http)
-                result.link = try Self.sharedLink(fromJSON: answer)
+                result.link = try Self.sharedLink(fromJSON: answer, fallback: result.link)
             } catch where Self.isLinkExistsError(error) {
                 let answer = try await HTTPSupport.send(Self.listSharedLinksRequest(path: uploaded.path, accessToken: accessToken), with: http)
-                result.link = try Self.sharedLink(fromJSON: answer)
+                result.link = try Self.sharedLink(fromJSON: answer, fallback: result.link)
             }
             result.isSharedLink = true
         }
         return result
+    }
+}
+
+/// Checks of the links a cloud service's answer carries: they are opened on a click and copied into recipes.
+enum CloudLinks {
+    /// True for an https URL without user info whose host is `domain` or a subdomain of it ("evilbox.com" and
+    /// "box.com.evil.example" are not).
+    static func isHTTPS(_ url: URL, onDomain domain: String) -> Bool {
+        guard let parts = URLComponents(url: url, resolvingAgainstBaseURL: false), parts.scheme?.lowercased() == "https",
+              parts.user == nil, parts.password == nil, let host = parts.host?.lowercased() else { return false }
+        return host == domain || host.hasSuffix("." + domain)
     }
 }
