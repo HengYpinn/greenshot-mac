@@ -27,19 +27,28 @@ final class SettingsStore: ObservableObject {
     /// The managed values: the app's user defaults (a profile forces them per bundle id, also with `--settings-dir`,
     /// like upstream reads greenshot-fixed.ini from the installation and never from `--ini-directory`).
     private let managed: ManagedValueSource
+    /// Seals the AI tools consent: a change made outside Greenshot is reset when the settings are loaded.
+    private let seal: AIToolsConsentSeal
     /// The user's own settings, the ones saved.
     private var stored: AppSettings
     private var observers: [(_ old: AppSettings, _ new: AppSettings) -> Void] = []
     private let log = Log("Managed")
 
+    /// `secrets` defaults to the Keychain for the app's own user defaults and to an in-memory store for any other suite
+    /// (the `--snapshot` renderer, tests), so those never create a Keychain item.
     /// `managed` defaults to `defaults` itself: the app's user defaults, or for the snapshots an empty suite.
-    init(defaults: UserDefaults = .standard, fileURL: URL? = nil, managed: ManagedValueSource? = nil) {
+    init(defaults: UserDefaults = .standard, fileURL: URL? = nil, managed: ManagedValueSource? = nil,
+         secrets: (any SecretStore)? = nil) {
         self.defaults = defaults
         self.fileURL = fileURL
         let source = managed ?? UserDefaultsManagedSource(defaults)
         self.managed = source
         let policy = ManagedPolicy(source: source)
-        let loaded = fileURL.map { url in
+        let sealSecrets: any SecretStore = secrets ?? (defaults === UserDefaults.standard ? KeychainSecretStore.shared : InMemorySecretStore())
+        let sealLocation: AIToolsConsentSeal.Location = fileURL.map { .file($0) } ?? .defaults(defaults)
+        let seal = AIToolsConsentSeal(secrets: sealSecrets, location: sealLocation)
+        self.seal = seal
+        var loaded = fileURL.map { url in
             SettingsStorage.load(fromFile: url) { aside in
                 DispatchQueue.main.async {
                     ErrorPresenter.show(message: String(localized: "The settings file could not be read"),
@@ -47,6 +56,11 @@ final class SettingsStore: ObservableObject {
                 }
             }
         } ?? SettingsStorage.load(from: defaults)
+        let sealed = seal.verifiedOrReset(loaded.aiTools)
+        if sealed.wasReset {
+            loaded.aiTools = sealed.settings
+            Self.write(loaded, defaults: defaults, fileURL: fileURL)
+        }
         let stored = policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL))
         self.policy = policy
         self.stored = stored
@@ -76,7 +90,13 @@ final class SettingsStore: ObservableObject {
             Log("Settings").error("The settings were not reloaded, the ones in use stay: \(error)")
             throw error
         }
-        commit(stored: policy.loaded(reloaded.settings, storedJSON: reloaded.json), save: false)
+        var settings = reloaded.settings
+        let sealed = seal.verifiedOrReset(settings.aiTools)
+        if sealed.wasReset {
+            settings.aiTools = sealed.settings
+            Self.write(settings, defaults: defaults, fileURL: fileURL)
+        }
+        commit(stored: policy.loaded(settings, storedJSON: reloaded.json), save: false)
     }
 
     /// Reads the managed values again (a profile installed or removed while the app runs): when Settings or the menu
@@ -134,6 +154,12 @@ final class SettingsStore: ObservableObject {
     }
 
     private func save(_ settings: AppSettings) {
+        Self.write(settings, defaults: defaults, fileURL: fileURL)
+        // Only Greenshot saving writes the seal, every time the sealed values change.
+        if settings.aiTools != stored.aiTools || !seal.isValid(settings.aiTools) { seal.save(settings.aiTools) }
+    }
+
+    private static func write(_ settings: AppSettings, defaults: UserDefaults, fileURL: URL?) {
         guard let fileURL else {
             SettingsStorage.save(settings, to: defaults)
             return

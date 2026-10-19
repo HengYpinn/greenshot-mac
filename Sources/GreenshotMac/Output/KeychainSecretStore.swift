@@ -82,4 +82,6 @@ enum SecretKey {
     static let boxClientSecret = "box.clientSecret"
     static let boxTokens = "box.oauth"
     static let dropboxTokens = "dropbox.oauth"
+    /// The key that seals the AI tools consent in the settings (`AIToolsConsentSeal`).
+    static let aiToolsConsentKey = AIToolsConsentSeal.keyName
 }
