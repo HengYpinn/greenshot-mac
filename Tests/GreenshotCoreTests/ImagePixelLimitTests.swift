@@ -83,3 +83,32 @@ final class HugeImageServer: URLProtocol {
 
     override func stopLoading() {}
 }
+
+/// An image element's bytes (from a .greenshot file or pasted elements) are checked the same way before the renderer
+/// decodes them.
+struct AnnotationPicturePixelLimitTests {
+    @Test func anElementPictureClaimingFortyThousandSquareIsNotDecoded() {
+        let data = BrowserImportDecoderTests.pngHeader(width: 40000, height: 40000)
+        let element = Annotation(kind: .image, start: .zero, end: CGPoint(x: 10, y: 10), imageData: data)
+        #expect(AnnotationRenderer.picture(of: element) == nil)
+    }
+
+    @Test func aRealPictureWiderThanTheSideLimitIsNotDecoded() {
+        // A complete PNG ImageIO would decode: one pixel wider than `ImageFileLoader.maxSide`, two rows high.
+        let data = BrowserImportDecoderTests.encoded("public.png", width: ImageFileLoader.maxSide + 1, height: 2)
+        let element = Annotation(kind: .image, start: .zero, end: CGPoint(x: 10, y: 10), imageData: data)
+        #expect(AnnotationRenderer.picture(of: element) == nil)
+    }
+
+    @Test func theLoadersRefuseARealPictureWiderThanTheSideLimit() {
+        let data = BrowserImportDecoderTests.encoded("public.png", width: ImageFileLoader.maxSide + 1, height: 2)
+        #expect(ImageFileLoader.load(data: data) == nil)
+        #expect(ElementPictures.content(of: data) == nil)
+    }
+
+    @Test func aSmallElementPictureIsStillDecoded() {
+        let data = BrowserImportDecoderTests.encoded("public.png")
+        let element = Annotation(kind: .image, start: .zero, end: CGPoint(x: 10, y: 10), imageData: data)
+        #expect(AnnotationRenderer.picture(of: element) != nil)
+    }
+}

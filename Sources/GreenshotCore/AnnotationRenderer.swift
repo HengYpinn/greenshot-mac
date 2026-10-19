@@ -340,7 +340,11 @@ public enum AnnotationRenderer {
         guard let data = a.imageData else { return nil }
         let key = a.id as NSUUID
         if let cached = pictures.object(forKey: key), cached.byteCount == data.count { return cached.image }
+        // The bytes come from files and the clipboard too (a .greenshot file, pasted elements): check the size the
+        // header claims before decoding, a small file can claim billions of pixels (`ImageFileLoader.isAcceptable`).
         guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let size = ImageFileLoader.pixelSize(of: source, at: 0),
+              ImageFileLoader.isAcceptable(width: size.width, height: size.height),
               let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
         pictures.setObject(DecodedPicture(byteCount: data.count, image: image), forKey: key)
         return image
