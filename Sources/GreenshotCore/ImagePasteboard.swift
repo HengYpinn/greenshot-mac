@@ -60,17 +60,10 @@ public enum ImagePasteboard {
     /// The image sources of `<img>` tags (upstream `GetHtmlImageUrls`): http, https and data URLs. A relative source is
     /// resolved against `base` only when that is a web page, so it can never become a file URL.
     public static func imageURLs(in html: String, base: URL? = nil) -> [URL] {
-        let pattern = #"<img\b[^>]*?\ssrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>"']+))"#
-        guard let expression = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else { return [] }
         let isWebPage = base?.scheme == "http" || base?.scheme == "https"
         var urls: [URL] = []
-        for match in expression.matches(in: html, range: NSRange(html.startIndex..., in: html)) {
-            let value = (1...3).lazy.compactMap { index -> String? in
-                let range = match.range(at: index)
-                guard range.location != NSNotFound, let swiftRange = Range(range, in: html) else { return nil }
-                return String(html[swiftRange])
-            }.first
-            let source = decodeEntities(value ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        for value in HTMLImageSources.sources(in: html, boundary: .whitespace) {
+            let source = decodeEntities(value).trimmingCharacters(in: .whitespacesAndNewlines)
             guard !source.isEmpty else { continue }
             if let url = URL(string: source), let scheme = url.scheme?.lowercased() {
                 if ["http", "https", "data"].contains(scheme) { urls.append(url) }
@@ -105,10 +98,15 @@ public enum ImagePasteboard {
         let best = image.representations
             .compactMap { $0 as? NSBitmapImageRep }
             .max { $0.pixelsWide < $1.pixelsWide }
+        // The size the representation reports comes before any decoding
+        if let best, !ImageFileLoader.isAcceptable(width: best.pixelsWide, height: best.pixelsHigh) { return nil }
         if let best, let cgImage = best.cgImage {
             let scale = best.size.width > 0 ? CGFloat(best.pixelsWide) / best.size.width : 1
             return (cgImage, max(scale.rounded(), 1))
         }
+        let width = Int(min(max(image.size.width.rounded(), 0), 1e9))
+        let height = Int(min(max(image.size.height.rounded(), 0), 1e9))
+        guard ImageFileLoader.isAcceptable(width: width, height: height) else { return nil }
         var rect = CGRect(origin: .zero, size: image.size)
         guard let cgImage = image.cgImage(forProposedRect: &rect, context: nil, hints: nil) else { return nil }
         return (cgImage, 1)

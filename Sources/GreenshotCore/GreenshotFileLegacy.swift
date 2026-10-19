@@ -132,15 +132,57 @@ enum GreenshotLegacyReader {
     /// At most this many elements are read.
     static let maxElements = 10_000
 
-    static func elements(fromPayload data: Data) throws -> [LegacyElement] {
-        let graph = try NRBFDecoder.decode(data)
-        guard let list = graph.instance(graph.root) else { throw NRBFError.notNRBF }
-        return listItems(list, in: graph).prefix(maxElements).compactMap { item in
-            graph.instance(item).map { element($0, in: graph) }
+    /// The most values (list items, points, field entries) one file may make the reader build, in all: the decoder's own
+    /// limit for a stream (a file that shares nothing makes about as many as the stream has).
+    static let maxItems = NRBFDecoder.maxValues
+    /// The bytes copied out of the stream (pictures, SVG) in all, besides the size of the payload itself: a picture is
+    /// stored once in a legitimate file, so these never come to more than the payload; a crafted file that points
+    /// many elements at one picture would copy it for each of them.
+    static let extraByteAllowance = 64 * 1024 * 1024
+
+    /// What the reader builds is counted here, not what the stream holds: NRBF member references (5 bytes each) let
+    /// 10,000 elements share one object with a million points or a 4 MiB picture, and each reference was read again.
+    final class Budget {
+        private(set) var items: Int
+        private(set) var bytes: Int
+        private(set) var exhausted = false
+
+        init(items: Int, bytes: Int) {
+            self.items = items
+            self.bytes = bytes
+        }
+
+        /// False (and the budget is spent for good) when `count` items or bytes are more than what is left.
+        @discardableResult
+        func spend(items count: Int = 0, bytes size: Int = 0) -> Bool {
+            if exhausted { return false }
+            if count > items || size > bytes {
+                exhausted = true
+                return false
+            }
+            items -= count
+            bytes -= size
+            return true
         }
     }
 
-    private static func element(_ record: NRBFInstance, in graph: NRBFGraph) -> LegacyElement {
+    static func elements(fromPayload data: Data) throws -> [LegacyElement] {
+        let graph = BudgetedGraph(graph: try NRBFDecoder.decode(data),
+                                  budget: Budget(items: maxItems, bytes: data.count + extraByteAllowance))
+        guard let list = graph.instance(graph.root) else { throw NRBFError.notNRBF }
+        var seen = Set<Int32>()
+        var elements: [LegacyElement] = []
+        for item in listItems(list, in: graph).prefix(maxElements) {
+            // One object can't be two elements; a second reference to it is skipped.
+            guard case .object(let id) = item, seen.insert(id).inserted, let record = graph.instance(item) else { continue }
+            elements.append(element(record, in: graph))
+            if graph.budget.exhausted { break }
+        }
+        if graph.budget.exhausted { throw NRBFError.tooManyRecords }
+        return elements
+    }
+
+    private static func element(_ record: NRBFInstance, in graph: BudgetedGraph) -> LegacyElement {
         var element = LegacyElement(typeName: record.simpleName, left: int(record, "left", graph), top: int(record, "top", graph),
                                     width: int(record, "width", graph), height: int(record, "height", graph))
         element.fields = fields(of: record, in: graph)
@@ -151,7 +193,7 @@ enum GreenshotLegacyReader {
         return element
     }
 
-    private static func content(of record: NRBFInstance, in graph: NRBFGraph) -> LegacyElement.Content {
+    private static func content(of record: NRBFInstance, in graph: BudgetedGraph) -> LegacyElement.Content {
         func text(_ name: String) -> String { graph.string(record.member(name)) ?? "" }
         func number(_ name: String, _ fallback: Int = 0) -> Int { int(record, name, graph, fallback) }
         switch record.simpleName {
@@ -197,13 +239,13 @@ enum GreenshotLegacyReader {
 
     /// The PNG of an image element (also the picture of a barcode): 1.2 named the field "image", 1.3 "_image"; a Bitmap
     /// keeps its PNG in "Data".
-    private static func picture(of record: NRBFInstance, _ graph: NRBFGraph) -> Data? {
+    private static func picture(of record: NRBFInstance, _ graph: BudgetedGraph) -> Data? {
         let bitmap = graph.instance(record.member("_image")) ?? graph.instance(record.member("image"))
         return bitmap.flatMap { graph.bytes($0.member("Data")) }
     }
 
     /// Upstream `ZxingModel`: auto properties, stored as their backing fields (`member` finds those by the name).
-    private static func barcodeModel(_ record: NRBFInstance, _ graph: NRBFGraph) -> LegacyElement.LegacyBarcodeModel {
+    private static func barcodeModel(_ record: NRBFInstance, _ graph: BudgetedGraph) -> LegacyElement.LegacyBarcodeModel {
         var model = LegacyElement.LegacyBarcodeModel()
         model.formatIndex = int(record, "FormatIndex", graph)
         model.qrCategoryIndex = int(record, "QrCategoryIndex", graph)
@@ -218,14 +260,14 @@ enum GreenshotLegacyReader {
         return model
     }
 
-    private static func shadow(_ record: NRBFInstance, _ graph: NRBFGraph) -> LegacyElement.LegacyShadow {
+    private static func shadow(_ record: NRBFInstance, _ graph: BudgetedGraph) -> LegacyElement.LegacyShadow {
         var darkness = 0.0
         if case .double(let value)? = record.member("_shadowDarkness") { darkness = value }
         return LegacyElement.LegacyShadow(darkness: darkness, size: int(record, "_shadowSize", graph),
                                           offsetX: int(record, "_shadowOffsetX", graph), offsetY: int(record, "_shadowOffsetY", graph))
     }
 
-    private static func fields(of holder: NRBFInstance, in graph: NRBFGraph) -> [LegacyField] {
+    private static func fields(of holder: NRBFInstance, in graph: BudgetedGraph) -> [LegacyField] {
         listItems(graph.instance(holder.member("fields")), in: graph).compactMap { item in
             guard let field = graph.instance(item),
                   let name = graph.instance(field.member("FieldType")).flatMap({ graph.string($0.member("Name")) }),
@@ -234,7 +276,7 @@ enum GreenshotLegacyReader {
         }
     }
 
-    private static func value(_ raw: NRBFValue?, _ graph: NRBFGraph) -> LegacyValue {
+    private static func value(_ raw: NRBFValue?, _ graph: BudgetedGraph) -> LegacyValue {
         switch raw {
         case nil, .null?: return .null
         case .bool(let flag)?: return .bool(flag)
@@ -259,25 +301,26 @@ enum GreenshotLegacyReader {
     }
 
     /// The items of a List<T> (or a class derived from it, like DrawableContainerList): the first `_size` of `_items`.
-    private static func listItems(_ list: NRBFInstance?, in graph: NRBFGraph) -> [NRBFValue] {
+    private static func listItems(_ list: NRBFInstance?, in graph: BudgetedGraph) -> [NRBFValue] {
         guard let list, let items = graph.array(list.member("_items")) else { return [] }
         let size = min(max(intValue(list.member("_size")) ?? items.count, 0), items.count)
         return items.prefix(size).filter { $0 != .null }
     }
 
     /// The bytes of a MemoryStream: `_buffer` from `_origin` to `_length`.
-    private static func memoryStream(_ stream: NRBFInstance?, _ graph: NRBFGraph) -> Data? {
+    private static func memoryStream(_ stream: NRBFInstance?, _ graph: BudgetedGraph) -> Data? {
         guard let stream, let buffer = graph.bytes(stream.member("_buffer")) else { return nil }
         let origin = min(max(intValue(stream.member("_origin")) ?? 0, 0), buffer.count)
         let length = min(max(intValue(stream.member("_length")) ?? buffer.count, origin), buffer.count)
+        guard graph.budget.spend(bytes: length - origin) else { return nil }
         return buffer.subdata(in: origin..<length)
     }
 
-    private static func point(_ record: NRBFInstance, _ graph: NRBFGraph) -> CGPoint {
+    private static func point(_ record: NRBFInstance, _ graph: BudgetedGraph) -> CGPoint {
         CGPoint(x: int(record, "x", graph), y: int(record, "y", graph))
     }
 
-    private static func int(_ record: NRBFInstance, _ name: String, _ graph: NRBFGraph, _ fallback: Int = 0) -> Int {
+    private static func int(_ record: NRBFInstance, _ name: String, _ graph: BudgetedGraph, _ fallback: Int = 0) -> Int {
         intValue(record.member(name)) ?? fallback
     }
 
@@ -297,5 +340,28 @@ enum GreenshotLegacyReader {
     private static func bool(_ value: NRBFValue?) -> Bool {
         if case .bool(let flag)? = value { return flag }
         return false
+    }
+}
+
+/// The graph of a stream with the budget of the reader: every list and byte array it hands out is paid for, each time
+/// it is asked for (the same object can be reached by many references).
+struct BudgetedGraph {
+    let graph: NRBFGraph
+    let budget: GreenshotLegacyReader.Budget
+
+    var root: NRBFValue { graph.root }
+
+    func instance(_ value: NRBFValue?) -> NRBFInstance? { graph.instance(value) }
+    func string(_ value: NRBFValue?) -> String? { graph.string(value) }
+
+    /// The items of an array; none when the budget has run out.
+    func array(_ value: NRBFValue?) -> [NRBFValue]? {
+        guard let items = graph.array(value) else { return nil }
+        return budget.spend(items: items.count) ? items : nil
+    }
+
+    func bytes(_ value: NRBFValue?) -> Data? {
+        guard let data = graph.bytes(value) else { return nil }
+        return budget.spend(bytes: data.count) ? data : nil
     }
 }

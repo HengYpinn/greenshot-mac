@@ -51,15 +51,15 @@ public enum ElementPictures {
     public static func largestImage(in source: CGImageSource) -> (image: CGImage, scale: CGFloat)? {
         let count = CGImageSourceGetCount(source)
         guard count > 0 else { return nil }
+        // Sizes come from the headers, before anything is decoded; a frame claiming too many pixels is not a candidate
         var best: (index: Int, pixels: Int)?
         for index in 0..<count {
-            guard let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any] else { continue }
-            let width = (properties[kCGImagePropertyPixelWidth] as? NSNumber)?.intValue ?? 0
-            let height = (properties[kCGImagePropertyPixelHeight] as? NSNumber)?.intValue ?? 0
-            if width * height > (best?.pixels ?? -1) { best = (index, width * height) }
+            guard let size = ImageFileLoader.pixelSize(of: source, at: index),
+                  ImageFileLoader.isAcceptable(width: size.width, height: size.height) else { continue }
+            let pixels = size.width * size.height
+            if pixels > (best?.pixels ?? -1) { best = (index, pixels) }
         }
-        let index = best?.index ?? 0
-        guard let image = CGImageSourceCreateImageAtIndex(source, index, nil) else { return nil }
+        guard let index = best?.index, let image = CGImageSourceCreateImageAtIndex(source, index, nil) else { return nil }
         let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any]
         let dpi = (properties?[kCGImagePropertyDPIWidth] as? NSNumber)?.doubleValue ?? 72
         return (image, CGFloat(min(max((dpi / 72).rounded(), 1), 4)))
