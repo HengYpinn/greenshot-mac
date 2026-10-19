@@ -60,6 +60,13 @@ if let client = try? IPCClient.connect(to: endpoint.socketPath) {
 } else {
     fail(json: json, code: IPCExitCode.unavailable, "Error: Greenshot for Mac is not running and could not be started.")
 }
+// Only to the app itself, like greenshot-mcp and greenshot-native-host: another program of the user listening on the
+// app's socket while the app isn't running gets neither the command nor the folder it was run in.
+guard IPCAppLauncher.isAppPeer(connection, endpoint: endpoint, executable: executable) else {
+    connection.close()
+    fail(json: json, code: IPCExitCode.unavailable,
+         "Error: the program listening on Greenshot for Mac's socket isn't Greenshot for Mac, so nothing was sent to it.")
+}
 
 do {
     try connection.send(.hello(source: .cli, replyFormat: .text, client: "greenshot-cli", clientVersion: version))
