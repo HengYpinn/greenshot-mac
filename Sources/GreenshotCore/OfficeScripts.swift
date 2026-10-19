@@ -135,6 +135,9 @@ public enum OfficeScripts {
     /// Answers "presentation name, slide index, slide width, slide height[, placeholder left, top, width, height]",
     /// tab-separated, in points; see `PowerPointSlide`.
     public static func powerPointSlide(presentationName: String?, layout: OfficeSettings.SlideLayout, title: String) -> AppleScriptCall {
+    // Seen live with PowerPoint 16.x: it refuses `make new slide at end of slides of …` ("Can't make class slide"), so
+    // the slide is made at the end of the presentation itself (a picture, though, at the end of the slide's shapes);
+    // and its page setup has no slide height, so the size comes from the slide master.
         AppleScriptCall(source: """
         on run argv
             set presentationName to item 1 of argv
@@ -146,13 +149,19 @@ public enum OfficeScripts {
                     set targetPresentation to presentation presentationName
                 end if
                 try
-                    set theSlide to make new slide at end of slides of targetPresentation with properties {layout:slide layout \(layout.appleScriptName)}
+                    set theSlide to make new slide at end of targetPresentation with properties {layout:slide layout \(layout.appleScriptName)}
                 on error
-                    set theSlide to make new slide at end of slides of targetPresentation with properties {layout:slide layout blank}
+                    set theSlide to make new slide at end of targetPresentation with properties {layout:slide layout blank}
+                end try
+                -- The slide size from the slide master: PowerPoint 16.x has no slide height in its page setup.
+                set slideWidth to 960
+                set slideHeight to 540
+                try
+                    set slideWidth to (width of slide master of targetPresentation) as integer
+                    set slideHeight to (height of slide master of targetPresentation) as integer
                 end try
                 set answer to (name of targetPresentation) & tab & ((slide index of theSlide) as integer)
-                set answer to answer & tab & ((slide width of page setup of targetPresentation) as integer)
-                set answer to answer & tab & ((slide height of page setup of targetPresentation) as integer)
+                set answer to answer & tab & slideWidth & tab & slideHeight
                 if (count of shapes of theSlide) >= 2 then
                     try
                         set content of text range of text frame of shape 1 of theSlide to slideTitle
