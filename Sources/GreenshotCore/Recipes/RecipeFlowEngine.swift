@@ -285,6 +285,17 @@ private final class FlowRun: @unchecked Sendable {
             emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
             return
         }
+        // A handler that fails again would route to a handler again: the cap ends the loop with an error.
+        guard context.errorHops.take() else {
+            context.fail("Node '\(node.id)' failed: \(message). Stopped after \(RecipeErrorHopCounter.maxHops) error handlers in one run (an error handler leads back to itself).", error: error)
+            emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
+            return
+        }
+        if targetRecipe != nil, context.forwardDepth >= RecipeErrorHopCounter.maxForwardDepth {
+            context.fail("Node '\(node.id)' failed: \(message). Stopped after forwarding through \(RecipeErrorHopCounter.maxForwardDepth) recipes (recipes forward their errors to each other).", error: error)
+            emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
+            return
+        }
         context[variable: "LastError"] = .string(message)
         context[variable: "LastErrorType"] = .string(errorType)
         context[variable: "FailedNodeId"] = .string(node.id)
@@ -305,9 +316,7 @@ private final class FlowRun: @unchecked Sendable {
             }
             // The same flow goes on in the other recipe: its execution id (the app keeps a flow's state under it and
             // finishes it once) and its trigger (an AI tool's run keeps its exclusions and redaction).
-            let forwarded = RecipeFlowContext(recipe: target, trigger: context.trigger, environment: context.environment,
-                                              optionValues: context.optionValues, output: context.output,
-                                              executionId: context.executionId)
+            let forwarded = RecipeFlowContext(forwardedFrom: context, recipe: target)
             forwarded.payload = context.payload
             for member in context.variables { forwarded[variable: member.key] = member.value }
             for (key, object) in context.objects { forwarded.setObject(object, forKey: key) }

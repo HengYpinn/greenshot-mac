@@ -119,7 +119,8 @@ struct RecipeAppExporter: RecipeExporting {
         case .destination(.editor):
             result = openInEditor(payload, step: step, context: context, runtime: runtime)
         case .destination(.file) where !RecipeFileExportOptions(step).isEmpty:
-            result = saveFile(capture, options: RecipeFileExportOptions(step), context: context, runtime: runtime)
+            result = saveFile(capture, options: RecipeFileExportOptions(step), rawPatternIsAbsolute: RecipeFileTarget.rawPatternIsAbsolute(step),
+                              context: context, runtime: runtime)
         case .destination(.printer), .printer:
             result = await printWithOptions(capture, to: destinationTarget, step: step, runtime: runtime)
         default:
@@ -208,7 +209,8 @@ struct RecipeAppExporter: RecipeExporting {
             let name = FilenamePattern.fileName(options.filenamePattern ?? s.filenamePattern,
                                                 context: settings.patternContext(title: payload.title, date: payload.captureDate))
             let format = options.format ?? s.outputFormat
-            let file = folder.appendingPathComponent(name).appendingPathExtension(format.fileExtension)
+            let file = RecipeFileTarget.file(forName: name, rawPatternIsAbsolute: RecipeFileTarget.rawPatternIsAbsolute(step), in: folder,
+                                             fileExtension: format.fileExtension)
             values["Destination.SaveDirectory"] = .string(folder.path)
             values["Destination.Filename"] = .string(file.path)
         }
@@ -217,13 +219,15 @@ struct RecipeAppExporter: RecipeExporting {
 
     /// "Save directly" with the step's options (upstream `FileDestination` with `FileDestinationOptions`).
     @MainActor
-    static func saveFile(_ capture: Capture, options: RecipeFileExportOptions, context: RecipeFlowContext,
-                         runtime: RecipeRuntime) -> ExportResult {
+    static func saveFile(_ capture: Capture, options: RecipeFileExportOptions, rawPatternIsAbsolute: Bool,
+                         context: RecipeFlowContext, runtime: RecipeRuntime) -> ExportResult {
         let settings = runtime.app.settings
         let saver = runtime.app.saver
         let s = settings.value
         let format = options.format ?? s.outputFormat
         let pattern = options.filenamePattern ?? s.filenamePattern
+        // The user's own setting may be absolute too; a recipe's pattern only by what its author wrote.
+        let rawPatternIsAbsolute = rawPatternIsAbsolute || (options.filenamePattern == nil && RecipeFileExportOptions.isAbsolutePattern(pattern))
         let plannedFolder = context[variable: "Destination.SaveDirectory"]?.asString.flatMap { $0.isEmpty ? nil : URL(fileURLWithPath: $0) }
         var url: URL
         let folder: URL
@@ -233,13 +237,11 @@ struct RecipeAppExporter: RecipeExporting {
         } else {
             folder = plannedFolder ?? saver.outputFolderURL(title: capture.title, date: capture.date)
             let name = FilenamePattern.fileName(pattern, context: settings.patternContext(title: capture.title, date: capture.date))
-            let absolute = name.hasPrefix("/") || name.hasPrefix("~")
-            let base = absolute ? URL(fileURLWithPath: (name as NSString).expandingTildeInPath) : folder.appendingPathComponent(name)
-            url = base.appendingPathExtension(format.fileExtension)
+            url = RecipeFileTarget.file(forName: name, rawPatternIsAbsolute: rawPatternIsAbsolute, in: folder, fileExtension: format.fileExtension)
         }
         // A file name whose values climb out of the folder (a page title with "../") isn't written (CWE-22); a pattern
-        // that is an absolute path goes where its author put it.
-        guard RecipeFileExportOptions.isAbsolutePattern(pattern) || RecipeFileExportOptions.isInside(url, folder: folder) else {
+        // that the recipe's author wrote as an absolute path goes where they put it (a value that only evaluates to "/…" doesn't).
+        guard rawPatternIsAbsolute || RecipeFileExportOptions.isInside(url, folder: folder) else {
             log.warn("A recipe's file name leaves its folder; nothing was saved.")
             return .failed("The file name leaves the folder \(folder.lastPathComponent); nothing was saved.", target: folder.lastPathComponent)
         }

@@ -83,7 +83,17 @@ public struct RecipeDescriber: Sendable {
         if trigger.isType(WellKnownTriggerType.editor) { return plain("Entry \"\(menuText)\" in the editor") }
         if trigger.isType(WellKnownTriggerType.manual) { return plain("Started from the recipe list") }
         if trigger.isType(WellKnownTriggerType.clipboard) {
-            return plain("When an image is copied to the clipboard", "Runs on its own every time you copy an image, without you starting it.")
+            // Without OnImageCopied the trigger fires on every clipboard change, also on text a web page copies.
+            if trigger.onImageCopied {
+                return plain("When an image is copied to the clipboard", "Runs on its own every time you copy an image, without you starting it.")
+            }
+            let formats = trigger.formatFilter?.trimmingCharacters(in: .whitespaces) ?? ""
+            if formats.isEmpty {
+                return plain("When anything is copied to the clipboard",
+                             "Runs on its own every time the clipboard changes, also for text or files that you or a web page copy, without you starting it.")
+            }
+            return plain("When something in the format \"\(formats)\" is copied to the clipboard",
+                         "Runs on its own every time something in this format is copied, also text that a web page copies, without you starting it.")
         }
         if trigger.isType(WellKnownTriggerType.schedule) {
             return plain("On a schedule", "Runs on its own at the scheduled times, also when you are not looking at the screen.")

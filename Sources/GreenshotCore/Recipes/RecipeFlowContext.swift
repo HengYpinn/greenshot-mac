@@ -110,6 +110,26 @@ final class RecipeExecutionLog: @unchecked Sendable {
     var all: [String] { lock.withLock { lines } }
 }
 
+/// Counts the error handlers of one flow run: a handler that fails again routes to a handler again, so without a cap an
+/// error edge that leads back (or two recipes that forward to each other) would recurse until the app died.
+final class RecipeErrorHopCounter: @unchecked Sendable {
+    /// The most error handlers one flow run may start.
+    static let maxHops = 16
+    /// The most recipes one flow may be forwarded through.
+    static let maxForwardDepth = 8
+
+    private let lock = NSLock()
+    private var hops = 0
+
+    /// Counts one more handler; false when the cap is reached.
+    func take() -> Bool {
+        lock.withLock {
+            hops += 1
+            return hops <= Self.maxHops
+        }
+    }
+}
+
 /// The state of one running flow (upstream `CaptureFlowContext`), handed to every step. Thread safe; a parallel branch
 /// works on its own copy (`makeBranch()`), which shares the export log and the output sink.
 public final class RecipeFlowContext: @unchecked Sendable {
@@ -123,10 +143,16 @@ public final class RecipeFlowContext: @unchecked Sendable {
     public let optionValues: RecipeOptionValues
     public let output: (any RecipeOutputSink)?
     public let exports: RecipeExportLog
+    /// How many error handlers ran in this flow run (parallel branches and forwarded recipes count together).
+    let errorHops: RecipeErrorHopCounter
+    /// How many recipes this flow was forwarded through (`onErrorRecipeId`).
+    let forwardDepth: Int
 
     public init(recipe: CaptureRecipe, trigger: RecipeTriggerInfo? = nil, environment: any RecipeEnvironment,
                 optionValues: RecipeOptionValues = RecipeOptionValues(), output: (any RecipeOutputSink)? = nil,
                 executionId: UUID = UUID()) {
+        self.errorHops = RecipeErrorHopCounter()
+        self.forwardDepth = 0
         self.executionId = executionId
         self.recipe = recipe
         self.trigger = trigger
@@ -138,8 +164,25 @@ public final class RecipeFlowContext: @unchecked Sendable {
         self.sharedLog = RecipeExecutionLog()
     }
 
+    /// The context of the same flow in another recipe, one forward deeper; it shares the error handler count.
+    init(forwardedFrom parent: RecipeFlowContext, recipe: CaptureRecipe) {
+        self.errorHops = parent.errorHops
+        self.forwardDepth = parent.forwardDepth + 1
+        self.executionId = parent.executionId
+        self.recipe = recipe
+        self.trigger = parent.trigger
+        self.environment = parent.environment
+        self.evaluator = ExpressionEvaluator(environment: parent.environment)
+        self.optionValues = parent.optionValues
+        self.output = parent.output
+        self.exports = RecipeExportLog()
+        self.sharedLog = RecipeExecutionLog()
+    }
+
     /// A branch: shares the id, the export log, the output and the execution log.
     private init(branchOf parent: RecipeFlowContext, state: State) {
+        self.errorHops = parent.errorHops
+        self.forwardDepth = parent.forwardDepth
         self.executionId = parent.executionId
         self.recipe = parent.recipe
         self.trigger = parent.trigger
