@@ -136,7 +136,11 @@ enum OfficeDestination {
                                                   in: isOffice ? TemporaryCaptureFile.officeRoot : nil)
         } catch {
             log.error("The screenshot could not be written for \(app.name)", error: error)
-            ErrorPresenter.show(error, title: String(localized: "The screenshot could not be written"))
+            if isOffice, OfficeDataAccess.isBlocked(error) {
+                OfficeDataAccess.explain(app: app)
+            } else {
+                ErrorPresenter.show(error, title: String(localized: "The screenshot could not be written"))
+            }
             completion(.failed(error.localizedDescription))
             return
         }
@@ -210,6 +214,35 @@ enum OfficeDestination {
             _ = try await AppleScriptRunner.run(OfficeScripts.notesNewNote(imagePath: path, title: title.isEmpty ? "Screenshot" : title))
             return nil
         }
+    }
+}
+
+/// Office for Mac is sandboxed and reads pictures only from its shared group container. macOS 15 and later protect
+/// other developers' app data: writing there needs Greenshot to be allowed "data from other apps" in Files & Folders.
+/// macOS doesn't ask; it blocks the write and posts a "Data Access Blocked" notice.
+@MainActor
+enum OfficeDataAccess {
+    static let settingsURL = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_FilesAndFolders")!
+
+    /// Whether `error` is macOS refusing the write (Cocoa "no permission", or EPERM / EACCES underneath).
+    static func isBlocked(_ error: Error) -> Bool {
+        let error = error as NSError
+        if error.domain == NSCocoaErrorDomain, error.code == NSFileWriteNoPermissionError { return true }
+        if let inner = error.userInfo[NSUnderlyingErrorKey] as? NSError, inner.domain == NSPOSIXErrorDomain,
+           inner.code == Int(EPERM) || inner.code == Int(EACCES) {
+            return true
+        }
+        return false
+    }
+
+    /// Says what to allow, with a button to the setting.
+    static func explain(app: OfficeApplication) {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "macOS blocked handing the screenshot to \(app.name)")
+        alert.informativeText = String(localized: "Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow \(AppInfo.name) data from other apps, then try again.")
+        alert.addButton(withTitle: String(localized: "Open Settings"))
+        alert.addButton(withTitle: String(localized: "OK"))
+        if alert.runModal() == .alertFirstButtonReturn { NSWorkspace.shared.open(settingsURL) }
     }
 }
 
