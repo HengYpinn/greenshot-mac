@@ -122,6 +122,12 @@ public struct ManagedPolicy: Equatable, Sendable {
         }
         // Plain keys that aren't forced win over the profile's defaults dictionary.
         for (path, value) in defaultsDictionaryLeaves + defaultLeaves {
+            // An unforced key sits in the app's own defaults domain, which any program of the user can write: it must
+            // never set a value the AI tools consent seal protects.
+            if Self.touchesSealedAIToolsValue(path) {
+                problems.append("defaults.\(path): not allowed, an unlocked value can't set the AI tools consent")
+                continue
+            }
             switch Self.check(path, value) {
             case .success(let json): defaults[path] = json
             case .failure(let problem): problems.append("defaults.\(path): \(problem.text)")
@@ -136,6 +142,16 @@ public struct ManagedPolicy: Equatable, Sendable {
         let unknown = effective(loaded(AppSettings(), storedJSON: nil)).unknownExcludedDestinationNames
         if !unknown.isEmpty {
             problems.append("excludeDestinations: unknown \(unknown.joined(separator: ", "))")
+        }
+    }
+
+    /// The settings `AIToolsConsentSeal` protects.
+    static let sealedAIToolsPaths = ["aiTools.allowedClients", "aiTools.excludedApplications", "aiTools.notifyOnCapture"]
+
+    /// Whether `path` is a sealed AI tools setting, a member of one, or a parent that includes one ("aiTools").
+    static func touchesSealedAIToolsValue(_ path: String) -> Bool {
+        sealedAIToolsPaths.contains { sealed in
+            path == sealed || sealed.hasPrefix(path + ".") || path.hasPrefix(sealed + ".")
         }
     }
 
