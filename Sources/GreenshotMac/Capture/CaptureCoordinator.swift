@@ -20,21 +20,23 @@ final class CaptureCoordinator {
     }
 
     /// The capture screen in region mode.
-    func captureRegion() {
-        if RecipeRuntime.shared?.interceptBuiltIn(.region) == true { return }
-        interactive(.region)
+    /// `byAutomation`: greenshot-cli, a link, AppleScript or Shortcuts started it (the capture screen waits for a click,
+    /// `OverlayInputArming`); passed along with the call, also into the recipe that replaces the built-in capture.
+    func captureRegion(byAutomation: Bool = false) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.region, byAutomation: byAutomation) == true { return }
+        interactive(.region, startedByUser: !byAutomation)
     }
 
     /// The window hotkey: the active window right away, or the capture screen in window mode when
     /// "interactive window capture" is on.
-    func captureWindowFromHotkey() {
-        settings.value.interactiveWindowCapture ? captureWindowInteractively() : captureActiveWindow()
+    func captureWindowFromHotkey(byAutomation: Bool = false) {
+        settings.value.interactiveWindowCapture ? captureWindowInteractively(byAutomation: byAutomation) : captureActiveWindow()
     }
 
     /// The menu's "Capture window" always opens the capture screen in window mode, like upstream.
-    func captureWindowInteractively() {
-        if RecipeRuntime.shared?.interceptBuiltIn(.window) == true { return }
-        interactive(.window)
+    func captureWindowInteractively(byAutomation: Bool = false) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.window, byAutomation: byAutomation) == true { return }
+        interactive(.window, startedByUser: !byAutomation)
     }
 
     /// Every display, or the one with `displayID` (the menu bar's items).
@@ -76,9 +78,9 @@ final class CaptureCoordinator {
 
     /// "Capture text", upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode, the text
     /// goes to the clipboard.
-    func captureText() {
-        if RecipeRuntime.shared?.interceptBuiltIn(.text) == true { return }
-        interactive(.text)
+    func captureText(byAutomation: Bool = false) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.text, byAutomation: byAutomation) == true { return }
+        interactive(.text, startedByUser: !byAutomation)
     }
 
     /// The same area as the last capture again, without the capture screen. Without a last area nothing is captured,
@@ -127,12 +129,13 @@ final class CaptureCoordinator {
 
     /// The capture screen. The displays are frozen with and without the mouse pointer, so M can switch;
     /// "Capture the mouse pointer" decides which one it starts with.
-    private func interactive(_ mode: CaptureOverlayController.Mode) {
+    private func interactive(_ mode: CaptureOverlayController.Mode, startedByUser: Bool) {
         run { [settings] in
             let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
             let frozen = try await ScreenCapturer.freeze(withPointer: true, toneMapHDR: settings.value.toneMapHDRCaptures)
             guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
-                                                                        windows: windows, mode: mode, settings: settings)
+                                                                        windows: windows, mode: mode, settings: settings,
+                                                                        startedByUser: startedByUser)
             else { return nil }
             if let action = selection.barcodeAction {
                 Self.perform(action)
@@ -192,7 +195,7 @@ final class CaptureCoordinator {
         busy = true
         let previousApp = NSWorkspace.shared.frontmostApplication
         Toast.dismiss()
-        let delay = max(settings.value.captureDelayMilliseconds, 0)
+        let delay = AppSettings.clampedCaptureDelay(settings.value.captureDelayMilliseconds)
         Task { @MainActor in
             defer { self.busy = false }
             do {

@@ -39,7 +39,7 @@ public enum BrowserNativeHost {
     /// options with its HANDSHAKE answer, so a stranger gets nothing and the extension hears that the app is offline.
     public static func run(origin: String, socketPath: String, clientVersion: String,
                            input: Int32 = STDIN_FILENO, output: Int32 = STDOUT_FILENO,
-                           isApp: (Int32) -> Bool = { _ in true }) -> Int32 {
+                           isApp: (Int32) -> Bool) -> Int32 {
         // A browser that went away must not kill the host with SIGPIPE
         _ = fcntl(output, F_SETNOSIGPIPE, 1)
         guard let socket = try? IPCSocket.connect(to: socketPath) else {

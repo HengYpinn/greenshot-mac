@@ -58,27 +58,14 @@ final class CaptureOverlayController {
         (underCursor ?? active.overlayWindows[0]).makeKeyAndOrderFront(nil)
     }
 
-    private static var automationRequestedAt: Date?
-
-    /// An automation (greenshot-cli, a link, AppleScript, Shortcuts) started a capture that may show the capture screen:
-    /// the next one to open takes input only after a click. Built-in captures can run as recipes, so the start itself
-    /// can't carry this along; a request that finds no screen within `OverlayInputArming.requestLifetime` lapses.
-    static func noteAutomationRequest() {
-        automationRequestedAt = Date()
-    }
-
-    private static func consumeAutomationRequest() -> Bool {
-        defer { automationRequestedAt = nil }
-        return OverlayInputArming.isRequestFresh(requestedAt: automationRequestedAt, now: Date())
-    }
-
     /// Shows the capture screen and returns the selection, or nil when it was cancelled.
     /// `screens` is the picture without the mouse pointer, `pointerScreens` the one with it (for M).
     /// `startedByUser` false: a command line, a link or a recipe of those started it, so it takes input only after a
-    /// click (`OverlayInputArming`). A start by automation noted with `noteAutomationRequest` counts the same way.
+    /// click (`OverlayInputArming`). The caller says it (no default: a caller that forgets must not open an overlay that
+    /// takes keys); it comes with the start itself, so no delay can separate the two.
     static func select(screens: [FrozenScreen], pointerScreens: [FrozenScreen]?, windows: [WindowInfo], mode: Mode,
-                       settings: SettingsStore, startedByUser: Bool = true) async -> OverlaySelection? {
-        let requiresArming = consumeAutomationRequest() || !startedByUser
+                       settings: SettingsStore, startedByUser: Bool) async -> OverlaySelection? {
+        let requiresArming = !startedByUser
         return await withCheckedContinuation { continuation in
             let controller = CaptureOverlayController(
                 screens: screens, windows: windows, mode: mode, zoomer: settings.value.zoomerEnabled, settings: settings,

@@ -282,8 +282,12 @@ final class RecipeRuntime {
 
     /// CaptureCoordinator / EditorManager / MenuBarActions hook: true when the recipe took the capture (started, or
     /// refused because the built-in is switched off); false: the caller captures as before.
-    func interceptBuiltIn(_ capture: BuiltInCapture) -> Bool {
-        intercept(BuiltInCaptureRequest(capture, settings: app.settings.value))
+    /// `byAutomation`: a command line, a link, AppleScript or Shortcuts started it; the recipe's capture screen then waits
+    /// for a click (`OverlayInputArming`). The mark travels in the run request, not in a global that a delay could outlast.
+    func interceptBuiltIn(_ capture: BuiltInCapture, byAutomation: Bool = false) -> Bool {
+        var request = BuiltInCaptureRequest(capture, settings: app.settings.value)
+        if byAutomation { request.objects[OverlayInputArming.automationMarkKey] = AutomationStartMark() }
+        return intercept(request)
     }
 
     /// `interceptBuiltIn` for an entry point that sends the capture somewhere of its own: the menu bar's "capture the

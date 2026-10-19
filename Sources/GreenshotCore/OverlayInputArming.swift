@@ -14,9 +14,6 @@ public struct OverlayInputArming: Sendable, Equatable {
     /// The same second as the consent questions' buttons (`ConsentArming.delay`).
     public static let delay: TimeInterval = 1
 
-    /// How long a start by automation waits for its overlay (the capture delay and the freeze of the screens come first).
-    public static let requestLifetime: TimeInterval = 30
-
     public let requiresArming: Bool
     public let shownAt: Date
     public private(set) var isArmed: Bool
@@ -46,17 +43,20 @@ public struct OverlayInputArming: Sendable, Equatable {
     /// Whether a flow started by this kind of trigger has the user at the capture screen. An allowlist: the hotkey, the
     /// menus, a start from the recipe list or the editor are the user's own; a command line, a link, an AI tool, a
     /// schedule, the browser extension or a file are not. No trigger (a test run) is the user's.
-    public static func startedByUser(triggerType: String?) -> Bool {
+    public static func startedByUser(triggerType: String?, markedByAutomation: Bool = false) -> Bool {
+        guard !markedByAutomation else { return false }
         guard let triggerType else { return true }
         let own = [WellKnownTriggerType.hotkey, WellKnownTriggerType.contextMenu, WellKnownTriggerType.systray,
                    WellKnownTriggerType.manual, WellKnownTriggerType.editor]
         return own.contains { $0.caseInsensitiveCompare(triggerType) == .orderedSame }
     }
 
-    /// Whether an automation request from `requestedAt` still waits for its overlay.
-    public static func isRequestFresh(requestedAt: Date?, now: Date) -> Bool {
-        guard let requestedAt else { return false }
-        let age = now.timeIntervalSince(requestedAt)
-        return age >= 0 && age <= requestLifetime
-    }
+    /// The mark a built-in capture that automation started carries into the recipe that replaced it (a run request's
+    /// objects, `RecipeFlowContext.object(forKey:)`): its trigger is the menu's Manual one, so the trigger can't say it.
+    public static let automationMarkKey = "StartedByAutomation"
+}
+
+/// The value under `OverlayInputArming.automationMarkKey`.
+public struct AutomationStartMark: Sendable {
+    public init() {}
 }

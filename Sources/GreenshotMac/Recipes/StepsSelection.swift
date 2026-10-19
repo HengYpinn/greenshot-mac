@@ -48,7 +48,8 @@ struct RecipeInteractiveSelectionExecutor: RecipeStepExecutor {
         }
         let snapping = step.bool("AllowWindowSnapping") ?? true
         // A flow that a command line, a link, an AI tool or a schedule started: the capture screen waits for a click first.
-        let startedByUser = OverlayInputArming.startedByUser(triggerType: context.trigger?.triggerType)
+        let marked = context.object(forKey: OverlayInputArming.automationMarkKey) is AutomationStartMark
+        let startedByUser = OverlayInputArming.startedByUser(triggerType: context.trigger?.triggerType, markedByAutomation: marked)
         let outcome = await Self.select(screens, mode: mode, snapping: snapping, startedByUser: startedByUser, runtime: runtime)
         // The capture screen is closed: another one may open (RecipeRuntime.launch).
         await MainActor.run { runtime.releaseSelection(of: context.executionId) }
