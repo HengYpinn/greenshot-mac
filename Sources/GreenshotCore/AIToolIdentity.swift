@@ -9,13 +9,15 @@ import Foundation
 /// What the user allows when they allow an AI tool (Mac addition to upstream's executable path, security review SM-H1):
 /// for a program its executable; for a runtime that runs any script it is given (node, bun, deno, python, ruby, perl, php,
 /// osascript, and an Electron app or bun binary switched into such a runtime with ELECTRON_RUN_AS_NODE / BUN_BE_BUN) the
-/// runtime *and its script*, plus NODE_OPTIONS when set. So allowing "node running Claude Code's cli.js" doesn't allow
-/// every other node script.
+/// runtime *and its script*, plus every option before the script and the environment variables that load code (NODE_OPTIONS,
+/// PYTHONPATH, …) when set. So allowing "node running Claude Code's cli.js" doesn't allow every other node script, nor
+/// the same script with a preloaded module. A shell that runs a script file (`sh ./configure`) is a runtime too.
 public struct AIToolIdentity: Equatable, Sendable {
     public var executable: String
     /// The script a runtime runs ("-m module" for python), resolved; nil for a program.
     public var script: String?
-    /// The options before the script that change what runs (preloaded modules, NODE_OPTIONS, runtime switch).
+    /// The options before the script and the code-loading environment variables (security review M2: all of them, not
+    /// a list of known ones, since every runtime has more ways to load code than a list can name).
     public var notes: [String]
 
     public init(executable: String, script: String? = nil, notes: [String] = []) {
@@ -84,6 +86,23 @@ extension AIToolCaller {
     enum Runtime: String {
         case node = "Node.js", bun = "Bun", deno = "Deno", python = "Python", ruby = "Ruby", perl = "Perl", php = "PHP"
         case osascript = "AppleScript (osascript)"
+        case shell = "Shell"
+    }
+
+    /// Environment variables that make a runtime load code or modules from somewhere else; their values are part of the
+    /// identity (NODE_OPTIONS as before).
+    static func codeLoadingVariables(of runtime: Runtime) -> [String] {
+        switch runtime {
+        case .node: return ["NODE_OPTIONS", "NODE_PATH"]
+        case .bun: return ["NODE_OPTIONS", "NODE_PATH", "BUN_OPTIONS"]
+        case .deno: return ["DENO_DIR"]
+        case .python: return ["PYTHONPATH", "PYTHONHOME", "PYTHONSTARTUP", "PYTHONUSERBASE", "PYTHONBREAKPOINT"]
+        case .ruby: return ["RUBYOPT", "RUBYLIB"]
+        case .perl: return ["PERL5OPT", "PERL5LIB", "PERLLIB"]
+        case .php: return ["PHPRC", "PHP_INI_SCAN_DIR"]
+        case .osascript: return []
+        case .shell: return ["BASH_ENV", "ENV", "ZDOTDIR", "SHELLOPTS", "BASHOPTS"]
+        }
     }
 
     static func runtime(ofExecutable path: String) -> Runtime? {
@@ -95,6 +114,7 @@ extension AIToolCaller {
         case "ruby": return .ruby
         case "php": return .php
         case "osascript": return .osascript
+        case "sh", "bash", "zsh", "dash", "ksh", "tcsh", "csh", "fish": return .shell
         default:
             if name == "python" || name.hasPrefix("python2") || name.hasPrefix("python3") { return .python }
             if name == "perl" || name.hasPrefix("perl5") { return .perl }
@@ -126,8 +146,10 @@ extension AIToolCaller {
         guard let arguments, !arguments.isEmpty else {
             return .failure(AIToolError("Greenshot for Mac could not read the arguments of \(name) (\(runtime.rawValue)), so it can't tell which script asks."))
         }
-        if runtime == .node || runtime == .bun, let options = environment["NODE_OPTIONS"]?.trimmingCharacters(in: .whitespaces), !options.isEmpty {
-            notes.append("NODE_OPTIONS: \(options)")
+        for variable in codeLoadingVariables(of: runtime) {
+            if let value = environment[variable]?.trimmingCharacters(in: .whitespaces), !value.isEmpty {
+                notes.append("\(variable): \(value)")
+            }
         }
         switch script(of: runtime, arguments: Array(arguments.dropFirst())) {
         case .failure(let error):
@@ -138,48 +160,44 @@ extension AIToolCaller {
         }
     }
 
-    /// The script and the options before it that change what runs (`--require x`).
+    /// The script and the options before it (`--require x`, `--env-file=f`, `-MEvil`, `--inspect`): all of them, because an
+    /// option nobody listed (a debugger port, a perl module, an env file that sets NODE_OPTIONS) runs the attacker's code
+    /// as the allowed script. Options after the script are the tool's own arguments and aren't part of the identity.
     static func script(of runtime: Runtime, arguments: [String]) -> Result<(script: String, options: [String]), AIToolError> {
         let inline: Set<String>
         let withValue: Set<String>
-        let codeLoading: Set<String>
         var subcommands: Set<String> = []
         switch runtime {
         case .node:
             inline = ["-e", "--eval", "-p", "--print", "-i", "--interactive", "-"]
             withValue = ["-r", "--require", "--import", "--loader", "--experimental-loader", "-C", "--conditions", "--env-file", "--input-type",
                          "--title", "--inspect-port", "--disable-warning"]
-            codeLoading = ["-r", "--require", "--import", "--loader", "--experimental-loader"]
         case .bun:
             inline = ["-e", "--eval", "-p", "--print", "-"]
             withValue = ["-r", "--preload", "--require", "--import", "--cwd", "--env-file", "--config", "-c"]
-            codeLoading = ["-r", "--preload", "--require", "--import"]
             subcommands = ["run"]
         case .deno:
             inline = ["eval", "repl", "-"]
             withValue = ["--config", "-c", "--import-map", "--location", "--env-file", "--cert"]
-            codeLoading = ["--import-map", "--preload"]
             subcommands = ["run", "serve"]
         case .python:
             inline = ["-c", "-"]
             withValue = ["-W", "-X", "-Q"]
-            codeLoading = []
         case .ruby:
             inline = ["-e", "-"]
             withValue = ["-r", "-I", "-C", "-E", "--encoding"]
-            codeLoading = ["-r"]
         case .perl:
             inline = ["-e", "-E", "-"]
             withValue = ["-I"]
-            codeLoading = []
         case .php:
             inline = ["-r", "-a", "-"]
             withValue = ["-c", "-d", "-z"]
-            codeLoading = ["-z"]
         case .osascript:
             inline = ["-e", "-"]
             withValue = ["-l", "-s"]
-            codeLoading = []
+        case .shell:
+            inline = ["-"]
+            withValue = ["-o", "+o", "-O", "+O", "--rcfile", "--init-file"]
         }
         var options: [String] = []
         var index = 0
@@ -187,6 +205,10 @@ extension AIToolCaller {
             let argument = arguments[index]
             let flag = argument.split(separator: "=", maxSplits: 1).first.map(String.init) ?? argument
             if inline.contains(argument) || inline.contains(flag) {
+                return .failure(AIToolError("runs code given on its command line or from standard input"))
+            }
+            // `sh -c "…"` (also `-lc`, `-ic`) and `sh -s` run code that isn't a file
+            if runtime == .shell, argument.hasPrefix("-"), !argument.hasPrefix("--"), argument.dropFirst().contains(where: { $0 == "c" || $0 == "s" }) {
                 return .failure(AIToolError("runs code given on its command line or from standard input"))
             }
             if runtime == .python, argument == "-m" {
@@ -203,9 +225,7 @@ extension AIToolCaller {
             }
             if argument.hasPrefix("-") {
                 let takesValue = withValue.contains(argument)
-                if codeLoading.contains(flag) {
-                    options.append(takesValue && index + 1 < arguments.count ? "\(argument) \(arguments[index + 1])" : argument)
-                }
+                options.append(takesValue && index + 1 < arguments.count ? "\(argument) \(arguments[index + 1])" : argument)
                 index += takesValue ? 2 : 1
                 continue
             }

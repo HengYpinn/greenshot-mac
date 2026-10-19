@@ -197,11 +197,13 @@ struct FakeProcessTable: AIToolProcessTable {
 
     @Test func skipsShellsAndPinsTheScript() throws {
         let node = AIToolProcess(pid: 200, parentPID: 1, startTime: 700, path: "/opt/homebrew/bin/node",
-                                 arguments: ["node", "--no-warnings", "/opt/homebrew/lib/node_modules/@google/gemini-cli/dist/index.js", "--debug"],
+                                 arguments: ["node", "/opt/homebrew/lib/node_modules/@google/gemini-cli/dist/index.js", "--debug"],
                                  environment: ["HOME": "/Users/me"], workingDirectory: "/Users/me")
         let table = FakeProcessTable([server,
-                                      AIToolProcess(pid: 400, parentPID: 300, startTime: 900, path: "/bin/zsh"),
-                                      AIToolProcess(pid: 300, parentPID: 200, startTime: 800, path: "/usr/bin/env"), node])
+                                      AIToolProcess(pid: 400, parentPID: 300, startTime: 900, path: "/bin/zsh",
+                                                    arguments: ["zsh", "-c", "exec /Applications/G.app/Contents/Helpers/greenshot-mcp"]),
+                                      AIToolProcess(pid: 300, parentPID: 200, startTime: 800, path: "/usr/bin/env",
+                                                    arguments: ["env", "FOO=1", "zsh", "-c", "x"]), node])
         let client = try AIToolCaller.identify(serverPID: 500, table: table, signer: { _ in ("Dev", "TEAM123456") }).get()
         #expect(client.path == "/opt/homebrew/bin/node")
         #expect(client.displayName == "node")
@@ -218,7 +220,8 @@ struct FakeProcessTable: AIToolProcessTable {
         #expect((try? AIToolCaller.identify(serverPID: 500, table: reused, signer: unsigned).get()) == nil)
         let orphan = FakeProcessTable([AIToolProcess(pid: 500, parentPID: 1, startTime: 1000, path: "/x/greenshot-mcp")])
         #expect((try? AIToolCaller.identify(serverPID: 500, table: orphan, signer: unsigned).get()) == nil)
-        let onlyShells = FakeProcessTable([server, AIToolProcess(pid: 400, parentPID: 1, startTime: 900, path: "/bin/sh")])
+        let onlyShells = FakeProcessTable([server, AIToolProcess(pid: 400, parentPID: 1, startTime: 900, path: "/bin/sh",
+                                                                    arguments: ["sh", "-c", "greenshot-mcp"])])
         #expect((try? AIToolCaller.identify(serverPID: 500, table: onlyShells, signer: unsigned).get()) == nil)
     }
 
@@ -226,7 +229,8 @@ struct FakeProcessTable: AIToolProcessTable {
         var list = [server]
         for index in 0..<7 {
             let pid = Int32(400 - index)
-            list.append(AIToolProcess(pid: pid, parentPID: pid - 1, startTime: UInt64(900 - index), path: "/bin/bash"))
+            list.append(AIToolProcess(pid: pid, parentPID: pid - 1, startTime: UInt64(900 - index), path: "/bin/bash",
+                                    arguments: ["bash", "-c", index == 0 ? "greenshot-mcp" : "bash -c x"]))
         }
         list.append(AIToolProcess(pid: 393, parentPID: 1, startTime: 10, path: "/Applications/Tool.app/Contents/MacOS/Tool"))
         #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable(list), signer: unsigned).get()) == nil)
@@ -361,5 +365,163 @@ struct FakeProcessTable: AIToolProcessTable {
         let beside = ConsentClickGuard.WindowAbove(ownerPID: 7, frame: CGRect(x: 600, y: 100, width: 50, height: 50), alpha: 1)
         #expect(!ConsentClickGuard.isCovered(question, by: [own, invisible, beside], ownPID: 42))
         #expect(ConsentClickGuard.isCovered(question, by: [other], ownPID: 42))
+    }
+}
+
+/// Security review M2: every option before the script, and every code-loading variable, is part of what the user allows.
+@Suite struct AIToolIdentityAllowlistTests {
+    private func key(_ executable: String, _ arguments: [String], _ environment: [String: String] = [:]) throws -> String {
+        try AIToolCaller.identity(executable: executable, arguments: arguments, environment: environment, workingDirectory: "/w").get().key
+    }
+
+    @Test func plainFormsKeepTheirKey() throws {
+        #expect(try key("/opt/homebrew/bin/node", ["node", "cli.js"]) == "/opt/homebrew/bin/node | script: /w/cli.js")
+        #expect(try key("/opt/homebrew/bin/node", ["node", "cli.js", "--inspect=0", "-r", "x"]) == "/opt/homebrew/bin/node | script: /w/cli.js")
+    }
+
+    @Test(arguments: [
+        ("/opt/homebrew/bin/node", ["node", "--env-file=/x", "cli.js"], "cli.js"),
+        ("/opt/homebrew/bin/node", ["node", "--inspect=0", "cli.js"], "cli.js"),
+        ("/opt/homebrew/bin/node", ["node", "--inspect-brk", "cli.js"], "cli.js"),
+        ("/usr/bin/perl", ["perl", "-MEvil", "a.pl"], "a.pl"),
+        ("/usr/bin/perl", ["perl", "-I/x", "a.pl"], "a.pl"),
+        ("/usr/bin/ruby", ["ruby", "-I/x", "a.rb"], "a.rb"),
+        ("/usr/bin/ruby", ["ruby", "-rEvil", "a.rb"], "a.rb"),
+        ("/usr/bin/python3", ["python3", "-u", "a.py"], "a.py"),
+    ])
+    func optionsBeforeTheScriptChangeTheKey(executable: String, arguments: [String], script: String) throws {
+        let plain = try key(executable, [arguments[0], script])
+        #expect(try key(executable, arguments) != plain)
+    }
+
+    @Test(arguments: [
+        ("/opt/homebrew/bin/node", ["node", "cli.js"], "NODE_PATH"),
+        ("/usr/bin/python3", ["python3", "a.py"], "PYTHONPATH"),
+        ("/usr/bin/python3", ["python3", "a.py"], "PYTHONHOME"),
+        ("/usr/bin/python3", ["python3", "a.py"], "PYTHONSTARTUP"),
+        ("/usr/bin/ruby", ["ruby", "a.rb"], "RUBYOPT"),
+        ("/usr/bin/ruby", ["ruby", "a.rb"], "RUBYLIB"),
+        ("/usr/bin/perl", ["perl", "a.pl"], "PERL5OPT"),
+        ("/usr/bin/perl", ["perl", "a.pl"], "PERL5LIB"),
+        ("/usr/bin/perl", ["perl", "a.pl"], "PERLLIB"),
+        ("/opt/homebrew/bin/php", ["php", "a.php"], "PHPRC"),
+        ("/opt/homebrew/bin/php", ["php", "a.php"], "PHP_INI_SCAN_DIR"),
+    ])
+    func codeLoadingVariablesChangeTheKey(executable: String, arguments: [String], variable: String) throws {
+        let plain = try key(executable, arguments)
+        let changed = try key(executable, arguments, [variable: "/tmp/evil"])
+        #expect(changed != plain)
+        #expect(changed.hasSuffix("\(variable): /tmp/evil"))
+        // Variables that don't load code stay out of the key
+        #expect(try key(executable, arguments, ["HOME": "/Users/me"]) == plain)
+    }
+}
+
+/// Security review M3 and M1: launchers are skipped only when they start greenshot-mcp directly; exec swaps are refused.
+@Suite struct AIToolLauncherTests {
+    private static let helper = "/Applications/X.app/Contents/Helpers/greenshot-mcp"
+    private let server = AIToolProcess(pid: 500, parentPID: 400, startTime: 1000, path: AIToolLauncherTests.helper,
+                                       uniqueID: 50, idVersion: 500)
+    private let claude = AIToolProcess(pid: 100, parentPID: 1, startTime: 100, path: "/Applications/Claude.app/Contents/MacOS/Claude",
+                                       arguments: ["Claude"], uniqueID: 10, idVersion: 100)
+    private func unsigned(_ process: AIToolProcess) -> (name: String?, teamID: String?) { (nil, nil) }
+
+    private func shell(_ pid: Int32, parent: Int32, version: Int32, path: String = "/bin/zsh", _ arguments: [String]) -> AIToolProcess {
+        AIToolProcess(pid: pid, parentPID: parent, startTime: UInt64(500 + pid), path: path, arguments: arguments,
+                      uniqueID: UInt64(pid), idVersion: version)
+    }
+
+    @Test func aScriptRunByAShellIsNotTheApprovedTool() throws {
+        // greenshot-mcp <- sh ./configure <- zsh -c ./configure <- Claude
+        let configure = shell(400, parent: 300, version: 400, path: "/bin/sh", ["/bin/sh", "configure"])
+        let bash = shell(300, parent: 100, version: 300, ["zsh", "-c", "./configure"])
+        var script = configure
+        script.workingDirectory = "/Users/me/repo"
+        let table = FakeProcessTable([server, script, bash, claude])
+        let client = try AIToolCaller.identify(serverPID: 500, table: table, signer: unsigned).get()
+        #expect(client.path == "/bin/sh")
+        #expect(client.identity.script == "/Users/me/repo/configure")
+        #expect(client.path != claude.path)
+    }
+
+    @Test(arguments: [
+        ["zsh", "-lc", "exec /Applications/X.app/Contents/Helpers/greenshot-mcp"],
+        ["zsh", "-c", "greenshot-mcp"],
+        ["zsh", "-l", "-c", "FOO=1 BAR='a b' exec \"/Applications/X.app/Contents/Helpers/greenshot-mcp\" --flag"],
+        ["zsh", "-ic", "greenshot-mcp"],
+        ["zsh", "--login", "-i", "-c", "greenshot-mcp"],
+    ])
+    func loginShellStartingGreenshotMCPIsSkipped(arguments: [String]) throws {
+        let table = FakeProcessTable([server, shell(400, parent: 100, version: 400, arguments), claude])
+        let client = try AIToolCaller.identify(serverPID: 500, table: table, signer: unsigned).get()
+        #expect(client.path == claude.path)
+    }
+
+    @Test func envAndNestedLaunchersAreSkipped() throws {
+        let env = shell(400, parent: 300, version: 400, path: "/usr/bin/env", ["env", "-i", "FOO=1", "greenshot-mcp"])
+        let outer = shell(300, parent: 100, version: 300, path: "/bin/sh", ["sh", "-c", "env -i FOO=1 greenshot-mcp"])
+        // The outer shell starts env, which started greenshot-mcp: its first word is the launcher below
+        var nested = outer
+        nested.arguments = ["sh", "-c", "env FOO=1 greenshot-mcp"]
+        let table = FakeProcessTable([server, env, nested, claude])
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: table, signer: unsigned).get())?.path == claude.path)
+    }
+
+    @Test func otherCommandsAndFilesNamedShAreNotSkipped() throws {
+        // Another command first
+        #expect(AIToolCaller.isLauncher(shell(400, parent: 100, version: 400, ["zsh", "-c", "./configure; greenshot-mcp"]), starting: server) == false)
+        // A script file, standard input, no arguments
+        #expect(AIToolCaller.isLauncher(shell(400, parent: 100, version: 400, ["zsh", "./run.sh"]), starting: server) == false)
+        #expect(AIToolCaller.isLauncher(shell(400, parent: 100, version: 400, ["zsh", "-s"]), starting: server) == false)
+        // Not in /bin or /usr/bin
+        let tmp = shell(400, parent: 100, version: 400, path: "/tmp/sh", ["sh", "-c", "greenshot-mcp"])
+        #expect(AIToolCaller.isLauncher(tmp, starting: server) == false)
+        let homebrew = shell(400, parent: 100, version: 400, path: "/opt/homebrew/bin/bash", ["bash", "-c", "greenshot-mcp"])
+        #expect(AIToolCaller.isLauncher(homebrew, starting: server) == false)
+        let table = FakeProcessTable([server, tmp, claude])
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: table, signer: unsigned).get()) == nil)
+        // A shell command line is no script
+        #expect(AIToolCaller.commandWord("exec 'a b/greenshot-mcp' x") == "a b/greenshot-mcp")
+    }
+
+    @Test func shellCommandLinesAndShellScriptsHaveOwnIdentities() throws {
+        let script = try AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "-e", "configure"], environment: [:], workingDirectory: "/w").get()
+        #expect(script.key == "/bin/sh | script: /w/configure | -e")
+        #expect((try? AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "-c", "evil"], environment: [:]).get()) == nil)
+        #expect((try? AIToolCaller.identity(executable: "/bin/zsh", arguments: ["zsh", "-lc", "evil"], environment: [:]).get()) == nil)
+        let withEnv = try AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "a"], environment: ["BASH_ENV": "/tmp/x"], workingDirectory: "/w").get()
+        #expect(withEnv.notes == ["BASH_ENV: /tmp/x"])
+    }
+
+    @Test func execSwapIsRefused() {
+        // The parent exec'd Claude after it started greenshot-mcp: its version is newer than the child's
+        var swapped = claude
+        swapped.idVersion = 900
+        var child = server
+        child.parentPID = 100
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([child, swapped]), signer: unsigned).get()) == nil)
+        // Also for an ancestor behind a launcher
+        let launcher = shell(400, parent: 100, version: 400, ["zsh", "-c", "greenshot-mcp"])
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, launcher, swapped]), signer: unsigned).get()) == nil)
+        // The normal chain
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, launcher, claude]), signer: unsigned).get()) != nil)
+    }
+
+    @Test func orphanedServerIsRefused() {
+        var orphan = server
+        orphan.parentPID = 1
+        let launchd = AIToolProcess(pid: 1, parentPID: 0, startTime: 1, path: "/sbin/launchd", uniqueID: 1, idVersion: 1)
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([orphan, launchd]), signer: unsigned).get()) == nil)
+    }
+
+    @Test func realTableReadsTheIDVersion() throws {
+        let me = try #require(SystemProcessTable().process(getpid()))
+        #expect(me.idVersion != nil)
+        #expect(me.uniqueID != nil)
+        let parent = try #require(SystemProcessTable().process(me.parentPID))
+        // Normal: a parent exec'd before it started its child
+        let parentVersion = try #require(parent.idVersion)
+        let myVersion = try #require(me.idVersion)
+        #expect(parentVersion < myVersion)
     }
 }
