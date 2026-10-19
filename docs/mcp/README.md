@@ -59,8 +59,10 @@ Review and Revoke.
   refuses every greenshot-mcp request without asking; only the version check answers, so the AI tool can tell you how to
   switch it on. "Let AI tools propose recipes" switches off proposals alone. An administrator can set or lock every
   switch and list with a configuration profile (`aiTools.enabled`, `aiTools.allowRecipeProposals`,
-  `aiTools.allowedClients`, `aiTools.excludedApplications`, `aiTools.notifyOnCapture`; see docs/admin). When the
-  administrator manages the allowed programs, nobody is asked: other programs are refused.
+  `aiTools.allowedClients`, `aiTools.excludedApplications`, `aiTools.notifyOnCapture`; see docs/admin). The last three
+  can only be locked, not given as unlocked defaults: an unlocked value can come from any program of the user, so
+  Greenshot ignores it and logs why. When the administrator manages the allowed programs, nobody is asked: other
+  programs are refused.
 * The app doesn't trust what a connection says about itself. For the source `mcp` the program on the other end of the
   socket must be the `greenshot-mcp` of the same app bundle (a development build: the one next to `GreenshotMac`). When
   the app is signed with a Team ID or a certificate of its own, greenshot-mcp's signature must be intact and by the same
