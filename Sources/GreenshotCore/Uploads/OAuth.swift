@@ -153,13 +153,25 @@ public enum OAuthFlow {
     public static func authorizationCode(fromCallback url: URL, expectedState: String) throws -> String {
         let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
         func value(_ name: String) -> String? { items.first { $0.name == name }?.value }
+        // The state first, also for an error answer (RFC 6749 4.1.2.1 returns it): any web page can send a request to the
+        // loopback port, and its `error_description` would otherwise end up in an alert of the app.
+        guard value("state") == expectedState else { throw UploadError.oauth(String(localized: "The sign-in answer did not match the request (state).")) }
         if let error = value("error") {
             if error == "access_denied" { throw UploadError.cancelled }
             throw UploadError.oauth(value("error_description") ?? error)
         }
-        guard value("state") == expectedState else { throw UploadError.oauth(String(localized: "The sign-in answer did not match the request (state).")) }
         guard let code = value("code"), !code.isEmpty else { throw UploadError.oauth(String(localized: "The sign-in answer had no code.")) }
         return code
+    }
+
+    /// The callback URL of a request to the loopback listener, or nil when the request is not the provider's redirect:
+    /// the target must be the redirect's path and carry the `state` of this sign-in. Any program or web page can send a
+    /// request to 127.0.0.1; one that doesn't know the state must not end the sign-in (it gets a 404, the listener waits on).
+    public static func loopbackCallback(requestTarget: String, port: UInt16, path: String, expectedState: String) -> URL? {
+        guard requestTarget.hasPrefix("/"), let url = URL(string: "http://127.0.0.1:\(port)" + requestTarget), url.path == path,
+              let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
+              items.first(where: { $0.name == "state" })?.value == expectedState else { return nil }
+        return url
     }
 
     public static func tokenRequest(provider: OAuthProvider, clientID: String, clientSecret: String?, code: String,

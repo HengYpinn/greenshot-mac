@@ -224,6 +224,27 @@ private func runEnvelope(_ argv: [String], cwd: String? = "/Users/me") throws ->
         #expect(missing.stderr == "Recipe 'nothing' not found or does not have an active CommandlineTrigger.")
     }
 
+    @Test func linksCannotChoosePaths() async throws {
+        let harness = RecipeCommandHarness()
+        defer { harness.cleanUp() }
+        let folder: [JSONValue] = [.object(["name": .string("Folder"), "variable": .string("Folder"), "type": .string("DirectoryPath")]),
+                                   .object(["name": .string("file"), "variable": .string("File"), "type": .string("FilePath")])]
+        try await harness.load(commandLineRecipe(command: "save", browser: true, arguments: folder))
+        for (name, value) in [("Folder", "~/Library/LaunchAgents"), ("file", "/etc/hosts")] {
+            var link = IPCEnvelope(command: IPCCommand.runRecipe)
+            link.recipe = "save"
+            link.setParameter(name, value)
+            for source in [IPCSource.urlScheme, .nativeMessaging] {
+                let (refused, _, _) = await harness.run(link, source: source, text: false)
+                #expect(refused.isError)
+                #expect(refused.stderr?.contains("not available from a browser") == true)
+            }
+        }
+        // The command line keeps its paths
+        let (accepted, _, _) = await harness.run(try runEnvelope(["-r", "save", "Folder=/tmp"]))
+        #expect(accepted.status == "ok")
+    }
+
     @Test func requiredArgumentMissing() async throws {
         let harness = RecipeCommandHarness()
         defer { harness.cleanUp() }

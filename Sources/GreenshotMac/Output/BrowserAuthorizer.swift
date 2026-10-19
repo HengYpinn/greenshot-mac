@@ -25,7 +25,9 @@ final class BrowserAuthorizer: NSObject, OAuthAuthorizer, ASWebAuthenticationPre
         case .customScheme(let callback):
             return try await start(url: url, callbackScheme: callback.scheme, listener: nil)
         case .loopback(let port, let path):
-            let listener = try await LoopbackListener.listen(preferredPort: port, path: path)
+            // Only the redirect that carries this sign-in's state ends it (`OAuthFlow.loopbackCallback`).
+            let state = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first { $0.name == "state" }?.value ?? ""
+            let listener = try await LoopbackListener.listen(preferredPort: port, path: path, state: state)
             var authURL = url
             if listener.port != port {
                 authURL = Self.replacingRedirect(in: url, with: OAuthRedirect.loopback(port: listener.port, path: path).url)
@@ -99,6 +101,7 @@ private final class ResumeOnce: @unchecked Sendable {
 final class LoopbackListener: @unchecked Sendable {
     private(set) var port: UInt16 = 0
     private let path: String
+    private let state: String
     private let listener: NWListener
     private let queue = DispatchQueue(label: "greenshot.oauth.loopback")
     private let lock = NSLock()
@@ -106,16 +109,17 @@ final class LoopbackListener: @unchecked Sendable {
     var onCallback: ((URL) -> Void)?
 
     /// Listens on the preferred port, or on any free one when it is taken.
-    static func listen(preferredPort: UInt16, path: String) async throws -> LoopbackListener {
+    static func listen(preferredPort: UInt16, path: String, state: String) async throws -> LoopbackListener {
         do {
-            return try await LoopbackListener(port: preferredPort, path: path)
+            return try await LoopbackListener(port: preferredPort, path: path, state: state)
         } catch {
-            return try await LoopbackListener(port: 0, path: path)
+            return try await LoopbackListener(port: 0, path: path, state: state)
         }
     }
 
-    private init(port requested: UInt16, path: String) async throws {
+    private init(port requested: UInt16, path: String, state: String) async throws {
         self.path = path
+        self.state = state
         let parameters = NWParameters.tcp
         parameters.allowLocalEndpointReuse = true
         parameters.requiredLocalEndpoint = NWEndpoint.hostPort(host: "127.0.0.1", port: NWEndpoint.Port(rawValue: requested)!)
@@ -168,8 +172,8 @@ final class LoopbackListener: @unchecked Sendable {
             guard let self else { return }
             let request = String(decoding: data ?? Data(), as: UTF8.self)
             let target = request.split(separator: "\r\n").first?.split(separator: " ").dropFirst().first.map(String.init) ?? ""
-            let url = URL(string: "http://127.0.0.1:\(self.port)" + target)
-            let matches = url?.path == self.path
+            let url = OAuthFlow.loopbackCallback(requestTarget: target, port: self.port, path: self.path, expectedState: self.state)
+            let matches = url != nil
             let body = matches ? Self.signedInPage : "Not found"
             let response = "HTTP/1.1 \(matches ? "200 OK" : "404 Not Found")\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: \(body.utf8.count)\r\nConnection: close\r\n\r\n" + body
             connection.send(content: Data(response.utf8), completion: .contentProcessed { _ in

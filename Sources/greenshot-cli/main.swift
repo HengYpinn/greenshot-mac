@@ -67,6 +67,12 @@ do {
 } catch {
     fail(json: json, code: IPCExitCode.failure, "Error: failed to send the command to Greenshot for Mac.")
 }
-let code = connection.receiveTextReply(stdout: { write($0, to: .standardOutput) }, stderr: { write($0, to: .standardError) })
+// On a terminal, escape sequences in what the app prints (a QR code's text, OCR, a window title) are made visible;
+// a pipe, a file and --json get the exact bytes.
+func output(_ data: Data, to handle: FileHandle, fd: Int32) {
+    write(isatty(fd) != 0 && !json ? TerminalSafeText.sanitize(data) : data, to: handle)
+}
+let code = connection.receiveTextReply(stdout: { output($0, to: .standardOutput, fd: STDOUT_FILENO) },
+                                       stderr: { output($0, to: .standardError, fd: STDERR_FILENO) })
 connection.close()
 exit(code)

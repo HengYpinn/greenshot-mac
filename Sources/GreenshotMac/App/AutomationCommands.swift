@@ -134,6 +134,12 @@ enum AutomationCommands {
             return .error("The screenshot wasn't taken: it wasn't allowed.")
         }
         DispatchQueue.main.async {
+            // The capture screen of a capture that automation started takes input only after a click: the keys the user
+            // types into another app at that moment must not finish it (`OverlayInputArming`).
+            switch mode {
+            case .region, .text, .window: CaptureOverlayController.noteAutomationRequest()
+            case .fullScreen, .lastRegion: break
+            }
             switch mode {
             case .region: app.capture.captureRegion()
             case .window: app.capture.captureWindowFromHotkey()
