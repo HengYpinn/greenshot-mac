@@ -186,9 +186,9 @@ enum ExternalCommandRunner {
         if command.copyURLFromOutput, let url = ExternalCommandLine.firstURL(in: output) {
             Clipboard.copy(text: url)
             saver.notify(String(localized: "\(command.name): copied the URL"), detail: url) {
-                if let link = URL(string: url) { NSWorkspace.shared.open(link) }
+                if let link = ExternalCommandLine.firstWebLink(in: url) { NSWorkspace.shared.open(link) }
             }
-            return .succeeded(fileURL: file, link: URL(string: url), target: command.name, clearsModified: false)
+            return .succeeded(fileURL: file, link: ExternalCommandLine.firstWebLink(in: url), target: command.name, clearsModified: false)
         }
         if let copied {
             saver.notify(String(localized: "\(command.name) finished"), detail: copied)

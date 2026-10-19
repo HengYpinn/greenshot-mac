@@ -77,15 +77,14 @@ struct BrowserPathSafetyTests {
         #expect(FilenamePattern.literalRoot(ofFolderPattern: "", home: home) == nil)
     }
 
-    @Test func aTitleThatLeavesTheFixedStartIsNoticed() {
-        // ${title} keeps "/" in the output folder pattern (upstream fills it without cleaning); ImageSaver refuses the
-        // result when it leaves the pattern's fixed start
+    @Test func aTitleCannotLeaveTheFixedStart() {
+        // The output folder fills ${title} cleaned (it used to keep "/" and ".."): one title is one folder level at most
         let pattern = "~/Shots/${title}"
         let filled = DestinationSupport.outputFolder(pattern, context: FilenamePattern.Context(captureTime: Date(), title: "../../Library",
                                                                                               homeDirectory: home))
         let root = FilenamePattern.literalRoot(ofFolderPattern: pattern, home: home)
         let fixed = URL(fileURLWithPath: "/Users/me/Shots")
         #expect(root?.standardizedFileURL.path == fixed.path)
-        #expect(!FilenamePattern.isInside(filled, folder: fixed))
+        #expect(FilenamePattern.isInside(filled, folder: fixed))
     }
 }

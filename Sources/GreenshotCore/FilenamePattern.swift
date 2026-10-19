@@ -22,15 +22,17 @@ public enum FilenamePattern {
     static let unsafeReplacement = "_"
     /// The characters .NET's `Path.GetInvalidFileNameChars()` returns on Windows. They are replaced on the Mac too,
     /// so file names stay valid when the screenshots are shared with Windows users.
-    static let invalidFilenameCharacters: Set<Character> = {
-        var set: Set<Character> = ["\"", "<", ">", "|", ":", "*", "?", "\\", "/"]
-        for code in 0..<32 { set.insert(Character(UnicodeScalar(UInt8(code)))) }
+    /// Scalars, not Characters: "/" followed by a combining mark (or after a prepend mark) is one Character, which a
+    /// Set<Character> lookup would not find.
+    static let invalidFilenameCharacters: Set<Unicode.Scalar> = {
+        var set: Set<Unicode.Scalar> = ["\"", "<", ">", "|", ":", "*", "?", "\\", "/"]
+        for code in 0..<32 { set.insert(Unicode.Scalar(UInt8(code))) }
         return set
     }()
     /// `Path.GetInvalidPathChars()` on .NET Framework.
-    static let invalidPathCharacters: Set<Character> = {
-        var set: Set<Character> = ["\"", "<", ">", "|"]
-        for code in 0..<32 { set.insert(Character(UnicodeScalar(UInt8(code)))) }
+    static let invalidPathCharacters: Set<Unicode.Scalar> = {
+        var set: Set<Unicode.Scalar> = ["\"", "<", ">", "|"]
+        for code in 0..<32 { set.insert(Unicode.Scalar(UInt8(code))) }
         return set
     }()
 
@@ -89,8 +91,11 @@ public enum FilenamePattern {
     private static let variableRegex = try! NSRegularExpression(pattern: #"\$\{([^:}]+):?([^}]*)\}"#)
 
     /// Fills `pattern`. With `filenameSafe` the values are cleaned of characters a file name can't contain,
-    /// the literal text of the pattern is kept (so `${YYYY}/${title}` makes a sub folder).
-    public static func fill(_ pattern: String, context: Context, filenameSafe: Bool = true) -> String {
+    /// the literal text of the pattern is kept (so `${YYYY}/${title}` makes a sub folder). With `cleanCapturedValues` the
+    /// values a capture brings along (a window or page title, a page's address) are cleaned even when `filenameSafe`
+    /// is off, for a folder: a title is chosen by any app, so it must give one folder level at most, never "..", "~" or "/".
+    public static func fill(_ pattern: String, context: Context, filenameSafe: Bool = true,
+                            cleanCapturedValues: Bool = false) -> String {
         let pattern = pattern.trimmingCharacters(in: .whitespaces).isEmpty ? fallbackPattern : pattern
         let ns = pattern as NSString
         var result = ""
@@ -99,7 +104,8 @@ public enum FilenamePattern {
             result += ns.substring(with: NSRange(location: last, length: match.range.location - last))
             let variable = ns.substring(with: match.range(at: 1))
             let parameters = match.range(at: 2).location == NSNotFound ? "" : ns.substring(with: match.range(at: 2))
-            result += evaluate(variable: variable, parameters: parameters, context: context, filenameSafe: filenameSafe)
+            result += evaluate(variable: variable, parameters: parameters, context: context, filenameSafe: filenameSafe,
+                               cleanCapturedValues: cleanCapturedValues)
             last = match.range.location + match.range.length
         }
         result += ns.substring(from: last)
@@ -147,18 +153,29 @@ public enum FilenamePattern {
     }
 
     public static func makeFilenameSafe(_ value: String) -> String {
-        let safe = String(value.map { invalidFilenameCharacters.contains($0) ? Character(unsafeReplacement) : $0 })
+        let safe = replacing(invalidFilenameCharacters, in: value)
         // "." and ".." would be the folder itself or its parent once a pattern puts a "/" after them.
-        return safe == "." || safe == ".." ? String(unsafeReplacement) : safe
+        let dotsOnly = !safe.unicodeScalars.isEmpty && safe.unicodeScalars.allSatisfy { $0 == "." }
+        return dotsOnly && safe.unicodeScalars.count <= 2 ? unsafeReplacement : safe
     }
 
     public static func makePathSafe(_ value: String) -> String {
-        String(value.map { invalidPathCharacters.contains($0) ? Character(unsafeReplacement) : $0 })
+        replacing(invalidPathCharacters, in: value)
+    }
+
+    private static func replacing(_ invalid: Set<Unicode.Scalar>, in value: String) -> String {
+        var scalars = String.UnicodeScalarView()
+        for scalar in value.unicodeScalars {
+            if invalid.contains(scalar) { scalars.append(contentsOf: unsafeReplacement.unicodeScalars) } else { scalars.append(scalar) }
+        }
+        return String(scalars)
     }
 
     // MARK: - Variables
 
-    private static func evaluate(variable: String, parameters: String, context: Context, filenameSafe: Bool) -> String {
+    private static func evaluate(variable: String, parameters: String, context: Context, filenameSafe: Bool,
+                                 cleanCapturedValues: Bool) -> String {
+        let cleanCaptured = filenameSafe || cleanCapturedValues
         var padWidth = 0
         var padChar: Character = " "
         var startIndex = 0
@@ -197,7 +214,7 @@ public enum FilenamePattern {
             // After the environment, like upstream `FilenameHelper.MatchVarEvaluatorInternal`. Cleaned like ${title}, not
             // only path-safe as upstream does: the values come from what was captured (a web page's address and title),
             // and a "/" or ".." in them must not choose the folder a file is written to.
-            value = filenameSafe ? makeFilenameSafe(meta) : meta
+            value = cleanCaptured ? makeFilenameSafe(meta) : meta
         } else if variable.allSatisfy({ $0 == "R" }) {
             let chars = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
             value = String((0..<variable.count).map { _ in chars[context.randomIndex(chars.count)] })
@@ -233,12 +250,12 @@ public enum FilenamePattern {
                 value = String(context.nextNumber())
                 if padWidth == 0 { padWidth = -6; padChar = "0" }
             case "title":
-                value = filenameSafe ? makeFilenameSafe(title) : title
+                value = cleanCaptured ? makeFilenameSafe(title) : title
             case "windowtitle":
                 // The window's own title (upstream sets it as metadata); cleaned like ${title}, so a '/' in it doesn't
                 // make sub folders.
                 let windowTitle = context.metadata["windowtitle"] ?? context.title ?? "Greenshot"
-                value = filenameSafe ? makeFilenameSafe(windowTitle) : windowTitle
+                value = cleanCaptured ? makeFilenameSafe(windowTitle) : windowTitle
             case "MyPictures": value = home.appendingPathComponent("Pictures").path
             case "MyMusic": value = home.appendingPathComponent("Music").path
             case "MyDocuments", "Personal": value = home.appendingPathComponent("Documents").path

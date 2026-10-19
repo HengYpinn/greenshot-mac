@@ -108,7 +108,8 @@ final class NotificationService {
     private static func open(_ url: URL) {
         if url.isFileURL {
             NSWorkspace.shared.activateFileViewerSelecting([url])
-        } else {
+        } else if NotificationSummary.isWebLink(url.absoluteString) {
+            // A link comes from a server or a command's output: only a web page opens, never smb: or an app's scheme.
             NSWorkspace.shared.open(url)
         }
     }

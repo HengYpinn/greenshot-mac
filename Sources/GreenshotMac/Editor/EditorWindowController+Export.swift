@@ -37,7 +37,7 @@ extension EditorWindowController {
                 lastSavedURL = file
                 menu = savedFileMenu()
             }
-            if let link = result.link {
+            if let link = result.link, NotificationSummary.isWebLink(link.absoluteString) {
                 uploadURL = link
                 menu = uploadMenu()
             }
@@ -105,7 +105,7 @@ extension EditorWindowController {
     }
 
     @objc func openUploadLink(_ sender: Any?) {
-        guard let url = uploadURL else { return }
+        guard let url = uploadURL, NotificationSummary.isWebLink(url.absoluteString) else { return }
         NSWorkspace.shared.open(url)
     }
 

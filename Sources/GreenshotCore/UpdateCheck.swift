@@ -73,10 +73,18 @@ public enum UpdateCheck {
     }
 
     private static func release(from object: [String: Any]) -> Release? {
-        guard let tag = object["tag_name"] as? String,
-              let page = (object["html_url"] as? String).flatMap(URL.init(string:)),
-              object["draft"] as? Bool != true else { return nil }
-        return Release(version: normalized(tag), pageURL: page, isPrerelease: object["prerelease"] as? Bool == true)
+        guard let tag = object["tag_name"] as? String, object["draft"] as? Bool != true else { return nil }
+        let page = (object["html_url"] as? String).flatMap(URL.init(string:)).flatMap { isReleasePage($0) ? $0 : nil }
+        return Release(version: normalized(tag), pageURL: page ?? releasesPageURL, isPrerelease: object["prerelease"] as? Bool == true)
+    }
+
+    /// The update page is opened on a click, so it must be this project's releases on github.com (https, no user info,
+    /// no other port); anything else in the server's answer is replaced by the releases page.
+    static func isReleasePage(_ url: URL) -> Bool {
+        guard let parts = URLComponents(url: url, resolvingAgainstBaseURL: false), parts.scheme?.lowercased() == "https",
+              parts.user == nil, parts.password == nil, parts.port == nil, parts.host?.lowercased() == "github.com" else { return false }
+        let base = "/HengYpinn/greenshot-mac/releases"
+        return parts.path == base || parts.path.hasPrefix(base + "/")
     }
 
     /// "v1.2.3" → "1.2.3".

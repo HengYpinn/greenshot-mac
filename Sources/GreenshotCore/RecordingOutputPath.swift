@@ -17,7 +17,14 @@ public enum RecordingOutputPath {
     public static func url(folder: String, pattern: String, context: FilenamePattern.Context,
                            exists: (URL) -> Bool = { FileManager.default.fileExists(atPath: $0.path) }) -> URL {
         let trimmed = folder.trimmingCharacters(in: .whitespaces)
-        let folderURL = DestinationSupport.outputFolder(trimmed.isEmpty ? defaultFolder : trimmed, context: previewing(context))
+        let folderPattern = trimmed.isEmpty ? defaultFolder : trimmed
+        var folderURL = DestinationSupport.outputFolder(folderPattern, context: previewing(context))
+        // A window title is chosen by any app: whatever the pattern's variables bring in must not move the folder out
+        // of the pattern's fixed start (e.g. `~/Movies/${title}`).
+        if let root = FilenamePattern.literalRoot(ofFolderPattern: folderPattern, home: context.homeDirectory),
+           !FilenamePattern.isInside(folderURL, folder: root) {
+            folderURL = root
+        }
         let name = FilenamePattern.fileName(pattern, context: context)
         let base = name.hasPrefix("/") ? URL(fileURLWithPath: name) : folderURL.appendingPathComponent(name)
         return reserved.reserve { taken in
@@ -73,16 +80,24 @@ public enum RecordingOutputPath {
         let defaultFolderURL = homeDirectory.appendingPathComponent("Movies/Greenshot", isDirectory: true)
         var path = outputFilePath?.trimmingCharacters(in: .whitespaces) ?? ""
         let directory = outputDirectory?.trimmingCharacters(in: .whitespaces) ?? ""
-        if path.isEmpty && !directory.isEmpty {
+        func expanded(_ text: String) -> String {
+            expandEnvironmentVariables(text, environment: environment).replacingOccurrences(of: "{yyyyMMdd_HHmmss}", with: stamp)
+        }
+        if path.isEmpty, !directory.isEmpty {
+            // The pattern comes from the recipe, the folder was approved: "../" or a "/" start in the pattern can't leave it.
+            var folder = expanded(directory)
+            if folder == "~" || folder.hasPrefix("~/") { folder = homeDirectory.path + folder.dropFirst() }
             let pattern = filenamePattern?.trimmingCharacters(in: .whitespaces) ?? ""
-            let name = pattern.isEmpty ? "Greenshot_{yyyyMMdd_HHmmss}.mp4" : pattern
-            path = (directory as NSString).appendingPathComponent(name)
+            var name = expanded(pattern.isEmpty ? "Greenshot_{yyyyMMdd_HHmmss}.mp4" : pattern)
+            while name.hasPrefix("/") { name.removeFirst() }
+            let folderURL = folder.hasPrefix("/") ? URL(fileURLWithPath: folder, isDirectory: true)
+                                                  : defaultFolderURL.appendingPathComponent(folder, isDirectory: true)
+            return FilenamePattern.file(named: name, in: folderURL)
         }
         guard !path.isEmpty else {
             return defaultFolderURL.appendingPathComponent("Greenshot_Recording_\(stamp).\(fileExtension)")
         }
-        path = expandEnvironmentVariables(path, environment: environment)
-        path = path.replacingOccurrences(of: "{yyyyMMdd_HHmmss}", with: stamp)
+        path = expanded(path)
         if path == "~" || path.hasPrefix("~/") { path = homeDirectory.path + path.dropFirst() }
         guard path.hasPrefix("/") else { return defaultFolderURL.appendingPathComponent(path) }
         return URL(fileURLWithPath: path)
