@@ -14,6 +14,13 @@ import UniformTypeIdentifiers
 /// with its pixels per point taken from its resolution (144 dpi screenshots are Retina, 2x). SVG files are drawn at
 /// 2 pixels per point (`ElementSvg`).
 public enum ImageFileLoader {
+    /// The largest width or height of a picture the editor holds: the browsers' canvas limit, as for the browser import.
+    public static let maxSide = BrowserImportDecoder.maxSide
+    /// The most pixels of a picture: 200 megapixels (800 MB decoded), more than the biggest cameras make (150 MP medium
+    /// format), so a photo opened on purpose is never refused, and far less than the 1.6 billion pixels that a PNG of
+    /// 1.5 MB can claim. The browser import has its own, lower limit for what pages send.
+    public static let maxPixels = 2 * BrowserImportDecoder.maxPixels
+
     public static func load(_ url: URL) -> (image: CGImage, scale: CGFloat)? {
         // ImageIO can't read SVG: macOS draws it (upstream `SvgFileFormatHandler`).
         if ElementSvg.isSVGFile(url) { return ElementSvg.rasterizedFile(url) }
@@ -28,12 +35,30 @@ public enum ImageFileLoader {
 
     static func load(_ source: CGImageSource) -> (image: CGImage, scale: CGFloat)? {
         let index = bestIndex(of: source)
-        guard let decoded = CGImageSourceCreateImageAtIndex(source, index, nil) else { return nil }
+        // The size comes from the header: a crafted file can claim billions of pixels with a few KB
+        guard let size = pixelSize(of: source, at: index), isAcceptable(width: size.width, height: size.height),
+              let decoded = CGImageSourceCreateImageAtIndex(source, index, nil) else { return nil }
         let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any]
         let dpi = (properties?[kCGImagePropertyDPIWidth] as? NSNumber)?.doubleValue ?? 72
         let orientation = (properties?[kCGImagePropertyOrientation] as? NSNumber)?.intValue ?? 1
         let image = oriented(decoded, orientation: orientation) ?? decoded
         return (image, CGFloat(min(max((dpi / 72).rounded(), 1), 4)))
+    }
+
+    /// The pixel size the header of frame `index` claims; nil when it has none. Nothing is decoded.
+    static func pixelSize(of source: CGImageSource, at index: Int) -> (width: Int, height: Int)? {
+        guard index >= 0, index < CGImageSourceGetCount(source),
+              let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any],
+              let width = (properties[kCGImagePropertyPixelWidth] as? NSNumber)?.intValue,
+              let height = (properties[kCGImagePropertyPixelHeight] as? NSNumber)?.intValue else { return nil }
+        return (width, height)
+    }
+
+    /// Whether a picture of this size may be decoded: within `maxSide` and `maxPixels` (the product can't overflow).
+    static func isAcceptable(width: Int, height: Int) -> Bool {
+        guard width > 0, height > 0, width <= maxSide, height <= maxSide else { return false }
+        let (pixels, overflow) = width.multipliedReportingOverflow(by: height)
+        return !overflow && pixels <= maxPixels
     }
 
     /// The frame to open: for icons (ICO, ICNS, CUR) the biggest one, like upstream's `IconFileFormatHandler`, which
@@ -45,12 +70,10 @@ public enum ImageFileLoader {
         var best = 0
         var bestPixels = 0
         for index in 0..<count {
-            let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [CFString: Any]
-            let width = (properties?[kCGImagePropertyPixelWidth] as? NSNumber)?.intValue ?? 0
-            let height = (properties?[kCGImagePropertyPixelHeight] as? NSNumber)?.intValue ?? 0
-            if width * height > bestPixels {
+            guard let size = pixelSize(of: source, at: index), isAcceptable(width: size.width, height: size.height) else { continue }
+            if size.width * size.height > bestPixels {
                 best = index
-                bestPixels = width * height
+                bestPixels = size.width * size.height
             }
         }
         return best

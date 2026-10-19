@@ -124,3 +124,49 @@ final class FakeWebServer: URLProtocol {
 
     override func stopLoading() {}
 }
+
+/// HTML from the clipboard comes from any web page: finding its images must take time in proportion to its size.
+struct HTMLImageSourcesTests {
+    @Test func twoMegabytesOfImgStartsAreQuick() {
+        let html = String(repeating: "<img ", count: 400_000)
+        let clock = ContinuousClock()
+        let start = clock.now
+        let pasteboardURLs = ImagePasteboard.imageURLs(in: html)
+        let elementURLs = ElementClipboard.htmlImageURLs(in: html)
+        let elapsed = clock.now - start
+        #expect(pasteboardURLs.isEmpty)
+        #expect(elementURLs.isEmpty)
+        #expect(elapsed < .seconds(2))
+    }
+
+    @Test func manyUnclosedQuotesAreQuick() {
+        let html = String(repeating: "<img src=\"", count: 200_000) + String(repeating: "<img src='", count: 100_000)
+        let clock = ContinuousClock()
+        let start = clock.now
+        #expect(ImagePasteboard.imageURLs(in: html).isEmpty)
+        #expect(clock.now - start < .seconds(2))
+    }
+
+    @Test func manyTagsWithoutSourcesAreQuick() {
+        let html = String(repeating: "<img alt=x>", count: 200_000) + "<img src=\"https://example.com/a.png\">"
+        let clock = ContinuousClock()
+        let start = clock.now
+        let urls = ImagePasteboard.imageURLs(in: html)
+        #expect(urls.map(\.absoluteString) == ["https://example.com/a.png"])
+        #expect(clock.now - start < .seconds(2))
+    }
+
+    @Test func sourcesInAllThreeQuotingStyles() {
+        let html = "<IMG class=a SRC=\"https://e.com/1.png\"><img\nsrc='https://e.com/2.png' alt=x><img src=https://e.com/3.png>"
+            + "<img srcset=\"x\"><img data-src=\"https://e.com/4.png\"><p src=\"https://e.com/no.png\">"
+        #expect(ImagePasteboard.imageURLs(in: html).map(\.absoluteString)
+            == ["https://e.com/1.png", "https://e.com/2.png", "https://e.com/3.png"])
+        #expect(ElementClipboard.htmlImageURLs(in: html).map(\.absoluteString)
+            == ["https://e.com/1.png", "https://e.com/2.png", "https://e.com/3.png", "https://e.com/4.png"])
+    }
+
+    @Test func aValueWithAGreaterThanSignIsKept() {
+        let html = "<img alt=x src=\"data:text/plain,a>b\">"
+        #expect(ImagePasteboard.imageURLs(in: html).count == 1)
+    }
+}

@@ -29,22 +29,12 @@ public enum ElementClipboard {
                           text: text, style: style)
     }
 
-    private static let imageSource = try? NSRegularExpression(
-        pattern: #"<img\b[^>]*?\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))"#, options: [.caseInsensitive])
-
     /// The images of pasted HTML, in their order (upstream `ClipboardHelper.GetHtmlImageUrls`): absolute http(s) and
     /// data URLs; a relative one only with a web page `baseURL` to resolve it against (never a file URL).
     public static func htmlImageURLs(in html: String, baseURL: URL? = nil) -> [URL] {
-        guard let imageSource else { return [] }
-        let range = NSRange(html.startIndex..., in: html)
         let webBase = baseURL.flatMap { ["http", "https"].contains($0.scheme?.lowercased() ?? "") ? $0 : nil }
         var urls: [URL] = []
-        for match in imageSource.matches(in: html, range: range) {
-            guard let raw = (1...3).lazy.compactMap({ index -> String? in
-                let group = match.range(at: index)
-                guard group.location != NSNotFound, let swiftRange = Range(group, in: html) else { return nil }
-                return String(html[swiftRange])
-            }).first else { continue }
+        for raw in HTMLImageSources.sources(in: html, boundary: .wordBoundary) {
             let source = decodeEntities(raw).trimmingCharacters(in: .whitespacesAndNewlines)
             guard !source.isEmpty else { continue }
             if let url = URL(string: source), let scheme = url.scheme?.lowercased() {
