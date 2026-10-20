@@ -282,6 +282,72 @@ enum RecipeEngineHarness {
         #expect(context.exitCode == 5)
     }
 
+    /// "a" fails and goes to its handler "h"; the join "j" below it (its other parent "b" is done) runs next to the handler
+    /// on a copy of the context. What happens there reaches the flow: its failure, its own variables, without undoing what
+    /// the handler set meanwhile.
+    func detachedJoinRecipe() -> CaptureRecipe {
+        var recipe = RecipeEngineHarness.recipe(["b", "a", "j", "h"], start: ["b", "a"], [("a", "j"), ("b", "j")])
+        recipe.nodes[1].onErrorNodeId = "h"
+        return recipe
+    }
+
+    @Test func failureOfTheJoinNextToAnErrorHandlerFailsTheFlow() async {
+        let recorder = RecipeRecorder()
+        let registry = RecipeEngineHarness.registry(recorder) { step, _ in
+            if step.node.id == "a" { throw RecipeStepError("Boom") }
+            if step.node.id == "j" { throw RecipeStepError("Join broke") }
+        }
+        let context = await RecipeEngineHarness.run(detachedJoinRecipe(), registry)
+        #expect(Set(recorder.all) == ["b", "a", "j", "h"])
+        #expect(context.state == .failed)
+        #expect(context.abortReason == "Node 'j' failed: Join broke")
+    }
+
+    @Test func variablesOfTheJoinNextToAnErrorHandlerReachTheFlow() async {
+        let joinStarted = RecipeGate()
+        let handlerDone = RecipeGate()
+        let registry = RecipeEngineHarness.registry(RecipeRecorder()) { step, context in
+            switch step.node.id {
+            case "b": context[variable: "Count"] = .number(1)
+            case "a": throw RecipeStepError("Boom")
+            case "h":
+                await joinStarted.wait()
+                context[variable: "Count"] = .number(2)
+                handlerDone.open()
+            case "j":
+                joinStarted.open()
+                await handlerDone.wait()
+                context[variable: "Joined"] = .bool(true)
+                context.exitCode = 3
+            default: break
+            }
+        }
+        let context = await RecipeEngineHarness.run(detachedJoinRecipe(), registry)
+        #expect(context.state != .failed)
+        #expect(context[variable: "Joined"] == .bool(true))
+        #expect(context[variable: "Count"] == .number(2))
+        #expect(context.exitCode == 3)
+    }
+
+    /// The recipe a failure is forwarded to is the same flow: its exports and variables are the flow's.
+    @Test func exportsAndVariablesOfTheForwardedRecipeReachTheFlow() async {
+        let registry = RecipeEngineHarness.registry(RecipeRecorder()) { step, context in
+            if step.node.id == "a" { context.exports.add(RecipeExportOutcome(designation: "Clipboard", succeeded: true)) }
+            if step.node.id == "b" { throw RecipeStepError("Boom") }
+            if step.node.id == "recover" {
+                context.exports.add(RecipeExportOutcome(designation: "FileNoDialog", succeeded: false, errorMessage: "Disk full"))
+                context[variable: "Recovered"] = .bool(true)
+            }
+        }
+        var recipe = failingRecipe()
+        recipe.nodes[1].onErrorRecipeId = "recovery"
+        let recovery = RecipeEngineHarness.recipe(["recover"], start: ["recover"], [])
+        let context = await RecipeEngineHarness.run(recipe, registry) { id in id == "recovery" ? recovery : nil }
+        #expect(context.exports.all.map(\.designation) == ["Clipboard", "FileNoDialog"])
+        #expect(context[variable: "Recovered"] == .bool(true))
+        #expect(context[variable: "FailedNodeId"] == .string("b"))
+    }
+
     @Test func missingErrorRecipeFails() async {
         var recipe = failingRecipe()
         recipe.nodes[1].onErrorRecipeId = "nowhere"

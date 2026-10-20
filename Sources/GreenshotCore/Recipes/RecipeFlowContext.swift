@@ -164,7 +164,8 @@ public final class RecipeFlowContext: @unchecked Sendable {
         self.sharedLog = RecipeExecutionLog()
     }
 
-    /// The context of the same flow in another recipe, one forward deeper; it shares the error handler count.
+    /// The context of the same flow in another recipe, one forward deeper; it shares the error handler count and the
+    /// export log (the forwarded recipe's exports are the flow's; upstream starts a new log).
     init(forwardedFrom parent: RecipeFlowContext, recipe: CaptureRecipe) {
         self.errorHops = parent.errorHops
         self.forwardDepth = parent.forwardDepth + 1
@@ -175,7 +176,7 @@ public final class RecipeFlowContext: @unchecked Sendable {
         self.evaluator = ExpressionEvaluator(environment: parent.environment)
         self.optionValues = parent.optionValues
         self.output = parent.output
-        self.exports = RecipeExportLog()
+        self.exports = parent.exports
         self.sharedLog = RecipeExecutionLog()
     }
 
@@ -315,6 +316,17 @@ public final class RecipeFlowContext: @unchecked Sendable {
                 state.abortReason = child.abortReason
             }
         }
+    }
+
+    /// After a run that went on next to this context on a copy of it (the join below a failed node, next to its error
+    /// handler; a forwarded recipe): the variables it changed since `start`, not the copies of this context's own (they
+    /// may have changed meanwhile), then its outcome. Upstream merges neither.
+    func merge(branch: RecipeFlowContext, variablesChangedSince start: RecipeVariables) {
+        let changed = branch.variables.filter { start[$0.key] != $0.value }
+        write { state in
+            for member in changed { state.variables[member.key] = member.value }
+        }
+        merge(branch: branch, variables: false)
     }
 
     /// The host objects as given (for a forwarded flow).
