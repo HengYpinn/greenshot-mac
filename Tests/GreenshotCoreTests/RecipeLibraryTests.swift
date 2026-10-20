@@ -159,6 +159,29 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         #expect(refused == nil)
     }
 
+    /// A recipe runs after its changed file was approved again, even when another recipe of the same file can't be
+    /// loaded (it doesn't validate, the user rejected it, a permission is missing).
+    @Test func changedFileRunsTheRecipeWhenAnotherOfTheFileFails() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let url = fixture.folder.appendingPathComponent("two.gsrecipe.json")
+        try Data(RecipeSerializer.encode([libraryRecipe(id: "one"), libraryRecipe(id: "two")]).utf8).write(to: url)
+        _ = await fixture.library.loadFile(url)
+        let loaded = try #require(fixture.library.recipe(id: "one"))
+        var changed = libraryRecipe(id: "one")
+        changed.nodes.append(RecipeNode(id: "print", stepType: "Printer"))
+        changed.flow.addTransition(from: "b", to: "print")
+        var broken = libraryRecipe(id: "two")
+        broken.version = "2.0"
+        try Data(RecipeSerializer.encode([changed, broken]).utf8).write(to: url)
+        let current = await fixture.library.ensureApprovedAndCurrent(loaded.recipe)
+        #expect(current == changed)
+        // The other recipe isn't approved: it stays refused.
+        let other = try #require(fixture.library.recipe(id: "two"))
+        let refused = await fixture.library.ensureApprovedAndCurrent(other.recipe)
+        #expect(refused == nil)
+    }
+
     /// The second recipe of a new file is asked as new, not as "changed outside Greenshot"; in a changed file each recipe
     /// is compared with what was approved before.
     @Test func eachRecipeOfAFileIsAskedInTheModeOfTheFile() async throws {

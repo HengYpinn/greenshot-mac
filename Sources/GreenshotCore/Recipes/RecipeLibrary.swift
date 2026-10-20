@@ -447,7 +447,9 @@ public final class RecipeLibrary {
         }
         log.info("Recipe file '\(url.path)' was changed or isn't approved; asking before it runs.")
         let result = await load(url, interactive: true, forcePrompt: false, skippingUnloaded: true)
-        guard result.isValid else { return nil }
+        // This recipe must be loaded again; an error of another recipe of the file doesn't stop it (upstream checks
+        // `IsValid`, which holds the errors of every recipe of the file).
+        guard result.loadedRecipeIds.contains(where: { recipeEquals($0, recipe.id) }) else { return nil }
         return fileRecipes[recipe.id.lowercased()]?.recipe
     }
 
