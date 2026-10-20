@@ -68,7 +68,7 @@ scripts/build-app.sh
 ```
 
 This builds `build/Greenshot for Mac (Community).app`. Drag it to your Applications folder and open it. It lives in the
-menu bar (camera icon); while an editor or Settings is open it also shows in the Dock and in ⌘Tab (Settings › General ›
+menu bar (the app icon's viewfinder in one colour); while an editor or Settings is open it also shows in the Dock and in ⌘Tab (Settings › General ›
 "Show in Dock while a window is open"). On a MacBook with a notch, macOS hides menu bar icons that don't fit; opening
 the app again from Spotlight brings up Settings, which has a Quit button.
 

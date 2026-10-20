@@ -252,6 +252,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- The menu bar icon is the app icon's viewfinder corners and selection in one colour instead of a camera, so it matches
+  the Dock icon.
 - The grayscale highlight now greys everything outside its area and keeps the area in colour, like Greenshot for
   Windows. Existing images with a grayscale highlight look different.
 - The clipboard hotkey is called "Open image from clipboard" everywhere. File names use Latin digits in every language

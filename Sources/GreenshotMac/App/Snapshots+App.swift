@@ -17,6 +17,9 @@ extension Snapshots {
                   to: folder.appendingPathComponent("app-settings-general-dark.png"))
         try write(fullForm(ExpertSettings(store: settings), height: 760), to: folder.appendingPathComponent("app-settings-expert-full.png"))
 
+        // The menu bar icon on a light and a dark menu bar, at four times its size.
+        try write(menuBarIcon(), to: folder.appendingPathComponent("menubar-icon.png"))
+
         // The window picture beside the window list.
         let size = MenuBarThumbnailLayout.size(for: CGSize(width: sample.width, height: sample.height))
         let thumbnail = MenuBarWindowThumbnail.contentView(image: NSImage(cgImage: sample, size: size))
@@ -215,6 +218,36 @@ extension Snapshots {
         2026-10-17 09:21:05,013 [main] INFO  - [Capture] Captured window "Quarterly report – Numbers" 1440x900
 
         """
+
+    /// The menu bar icon tinted as macOS shows it on a light (top) and a dark (bottom) menu bar, at four times its size.
+    private static func menuBarIcon() -> NSBitmapImageRep? {
+        let strip = NSSize(width: 32, height: 24), zoom: CGFloat = 4
+        guard let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(strip.width * zoom),
+                                         pixelsHigh: Int(strip.height * 2 * zoom), bitsPerSample: 8, samplesPerPixel: 4,
+                                         hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0,
+                                         bitsPerPixel: 0) else { return nil }
+        rep.size = NSSize(width: strip.width, height: strip.height * 2)
+        let icon = MenuBarIcon.make()
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+        let bars: [(y: CGFloat, background: NSColor, tint: NSColor)] = [
+            (strip.height, NSColor(white: 0.93, alpha: 1), .black), (0, NSColor(white: 0.17, alpha: 1), .white)
+        ]
+        for (y, background, tint) in bars {
+            background.setFill()
+            NSRect(x: 0, y: y, width: strip.width, height: strip.height).fill()
+            let tinted = NSImage(size: icon.size, flipped: false) { rect in
+                icon.draw(in: rect)
+                tint.setFill()
+                rect.fill(using: .sourceAtop)
+                return true
+            }
+            tinted.draw(in: NSRect(origin: NSPoint(x: (strip.width - icon.size.width) / 2, y: y + (strip.height - icon.size.height) / 2),
+                                   size: icon.size))
+        }
+        NSGraphicsContext.restoreGraphicsState()
+        return rep
+    }
 
     /// A settings form at full length, in the light or the given appearance.
     private static func fullForm(_ view: some View, height: CGFloat, appearance: NSAppearance? = NSAppearance(named: .aqua)) -> NSBitmapImageRep? {

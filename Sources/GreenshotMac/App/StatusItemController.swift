@@ -30,9 +30,7 @@ final class StatusItemController: NSObject, NSMenuDelegate {
         // macOS keeps the icon where the user ⌘-dragged it.
         statusItem.autosaveName = "GreenshotStatusItem"
         if let button = statusItem.button {
-            let image = NSImage(systemSymbolName: "camera.viewfinder", accessibilityDescription: AppInfo.name)
-            image?.isTemplate = true
-            button.image = image
+            button.image = MenuBarIcon.make()
             button.toolTip = AppInfo.name
             button.target = self
             button.action = #selector(iconClicked(_:))
