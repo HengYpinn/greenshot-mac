@@ -137,4 +137,19 @@ struct DiagnosticReportTests {
         #expect(!DiagnosticReport.isWord("/Users/alex"))
         #expect(!DiagnosticReport.isWord("1abc"))
     }
+
+    @Test(arguments: [
+        ("/Users/alex", "~"),
+        ("Could not open /Users/alex/Desktop/a.png (saved).", "Could not open ~/Desktop/a.png (saved)."),
+        ("file:///Users/alex/x and '/Users/alex'.", "file://~/x and '~'."),
+        ("Saved to /Users/alex.", "Saved to ~."),
+        // A folder whose name only starts like the home is someone else's; the home inside a longer path isn't it.
+        ("/Users/alexandra/x", "/Users/alexandra/x"),
+        ("/Users/alex-old/x /Users/alex_2 /Users/alex.bak/x", "/Users/alex-old/x /Users/alex_2 /Users/alex.bak/x"),
+        ("/Volumes/Backup/Users/alex/x", "/Volumes/Backup/Users/alex/x"),
+    ])
+    func homeIsAbbreviatedOnlyAsAWholePath(_ row: (String, String)) {
+        #expect(DiagnosticReport.abbreviatingHome(row.0, home: "/Users/alex") == row.1)
+        #expect(DiagnosticReport.abbreviatingHome(row.0, home: "/Users/alex/") == row.1)
+    }
 }

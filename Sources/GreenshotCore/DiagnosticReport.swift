@@ -235,10 +235,16 @@ public enum DiagnosticReport {
 
     // MARK: Formatting
 
-    /// The home folder written as "~", so reports don't carry the user's name.
+    /// The home folder written as "~", so reports don't carry the user's name. Only the whole path is replaced: with
+    /// home /Users/alex, "/Users/alexandra/x" and "/Volumes/Backup/Users/alex" stay as they are.
     public static func abbreviatingHome(_ text: String, home: String = NSHomeDirectory()) -> String {
+        var home = home
+        while home.count > 1, home.hasSuffix("/") { home.removeLast() }
         guard !home.isEmpty, home != "/" else { return text }
-        return text.replacingOccurrences(of: home, with: "~")
+        // Not inside a longer name before it; after it not a name going on ("alex-old", "alex.backup"), though a full
+        // stop that ends a sentence is no name.
+        let pattern = #"(?<![\w.-])"# + NSRegularExpression.escapedPattern(for: home) + #"(?![\w-]|\.[\w-])"#
+        return text.replacingOccurrences(of: pattern, with: "~", options: .regularExpression)
     }
 
     /// 1536 bytes as "1.5 KB", 3 GB as "3.0 GB" (upstream `FormatBytes`).
