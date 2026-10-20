@@ -223,6 +223,19 @@ final class RecipeTestClipboard: RecipeClipboardWriting, @unchecked Sendable {
         #expect(read.offset == CGVector(dx: 4, dy: 0))
     }
 
+    /// A recipe can give any padding (PaddingHorizontal 9e18): it is limited to `Annotation.maxCoordinate` on each side
+    /// instead of an `Int()` that traps.
+    @Test func textEffectLimitsAHugePadding() {
+        let huge = TextEffectExecutor.Padding(horizontalPercent: 9_000_000_000_000_000_000, verticalPercent: -9_000_000_000_000_000_000)
+        let padded = TextEffectExecutor.padded(CGRect(x: 0, y: 0, width: 1000, height: 10), huge)
+        #expect(padded.minX == -Annotation.maxCoordinate)
+        #expect(padded.width == 1000 + 2 * Annotation.maxCoordinate)
+        #expect(padded.height == 2 * Annotation.maxCoordinate - 10)
+        // Whole pixels toward zero, like upstream's `(int)`: 7.5 % of 10 on each side is 0.
+        let small = TextEffectExecutor.Padding(horizontalPercent: 15, verticalPercent: -15)
+        #expect(TextEffectExecutor.padded(CGRect(x: 0, y: 0, width: 10, height: 10), small) == CGRect(x: 0, y: 0, width: 10, height: 10))
+    }
+
     @Test func textEffectElements() {
         let box = CGRect(x: 10, y: 10, width: 50, height: 20)
         let node = RecipeNode(id: "text", stepType: "TextEffect", parameters: ["FillColor": .string("#00FF00"), "BlurRadius": .number(7)])
