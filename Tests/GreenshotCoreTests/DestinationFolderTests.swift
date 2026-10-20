@@ -78,7 +78,18 @@ struct DestinationFolderTests {
         #expect(DestinationSupport.usesQuality(.jpg) && !DestinationSupport.usesQuality(.png))
         #expect(DestinationSupport.reducesColors(.png) && DestinationSupport.reducesColors(.gif) && !DestinationSupport.reducesColors(.jpg))
         #expect(DestinationSupport.asksQuality(.jpg) && DestinationSupport.asksQuality(.png))
-        #expect(!DestinationSupport.asksQuality(.bmp) && !DestinationSupport.asksQuality(.tiff))
+        #expect(!DestinationSupport.asksQuality(.pdf) && !DestinationSupport.asksQuality(.greenshot))
+    }
+
+    /// The dialog asks for what the exporter uses: the quality for JPEG alone (WebP is written lossless), "Reduce
+    /// colours" for every format whose colours the exporter reduces (BMP, TIFF, WebP, … too).
+    @Test func qualityDialogFollowsTheExporter() {
+        for format in ImageFormat.allCases {
+            #expect(DestinationSupport.usesQuality(format) == format.usesQuality, "\(format)")
+            #expect(DestinationSupport.reducesColors(format) == format.reducesColors, "\(format)")
+        }
+        #expect(!DestinationSupport.usesQuality(.webp) && DestinationSupport.reducesColors(.webp))
+        #expect(DestinationSupport.asksQuality(.bmp) && DestinationSupport.asksQuality(.tiff))
     }
 
     @Test func dontAskAgainKeepsTheChoices() {

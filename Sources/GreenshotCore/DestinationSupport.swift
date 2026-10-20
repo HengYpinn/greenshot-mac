@@ -133,14 +133,16 @@ public enum DestinationSupport {
 
     // MARK: Quality dialog
 
-    /// Whether the quality slider of the quality dialog matters for `format` (upstream enables it for JPEG only).
+    /// Whether the quality slider of the quality dialog matters for `format` (upstream enables it for JPEG only; WebP is
+    /// written lossless here, so the quality doesn't change it).
     public static func usesQuality(_ format: ImageFormat) -> Bool {
-        format == .jpg || format.rawValue == "webp"
+        format.usesQuality
     }
 
-    /// Whether "Reduce colours" changes a file of `format` (`ImageExporter` reduces PNG and GIF images).
+    /// Whether "Reduce colours" changes a file of `format`: every format whose colours `ImageExporter` reduces, all but
+    /// JPEG, PDF and `.greenshot` (upstream enables the box for every format).
     public static func reducesColors(_ format: ImageFormat) -> Bool {
-        format == .png || format == .gif
+        format.reducesColors
     }
 
     /// Whether the quality dialog has anything to ask for `format`: the JPEG quality or the colour reduction.
