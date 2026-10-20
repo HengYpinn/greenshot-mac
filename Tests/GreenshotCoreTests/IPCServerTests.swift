@@ -362,13 +362,15 @@ struct IPCServerTests {
             $0.connectionEnded = { source, peer in ended.record(source, pid: peer.pid) }
         }
         defer { server.stop() }
+        // The hook runs before the connection is removed: once the count is back to 0, a report would be there
         let anonymous = try IPCClient.connect(to: server.configuration.socketPath)
         #expect(await waitUntil { server.connectionCount == 1 })
         anonymous.close()
         #expect(await waitUntil { server.connectionCount == 0 })
+        #expect(ended.values.isEmpty)
         let client = try connect(server, format: .json, source: .nativeMessaging)
         client.close()
-        #expect(await waitUntil { server.connectionCount == 0 })
+        #expect(await waitUntil { !ended.values.isEmpty })
         let recorded = ended.values
         #expect(recorded.map(\.source) == [.nativeMessaging])
         #expect(recorded.map(\.pid) == [getpid()])
