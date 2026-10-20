@@ -4,6 +4,9 @@
  * Based on Greenshot src/Greenshot.BrowserExtension/popup/popup.js,
  * Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
  * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * Mac change: when Greenshot refused the connection, the popup says why (e.g. the extension is switched off in
+ * Greenshot's settings) until it connects.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,17 +27,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3500);
   }
 
-  function updateStatus(isConnected, config) {
+  let reasonShown = false;
+
+  function updateStatus(isConnected, config, error) {
     if (isConnected) {
       statusIndicator.className = "status-indicator online";
       statusText.textContent = "Ready";
       btnCaptureVisible.disabled = false;
       btnCaptureVisible.title = "Capture visible page and send to Greenshot";
+      if (reasonShown) {
+        reasonShown = false;
+        feedbackMessage.classList.add("hidden");
+      }
     } else {
       statusIndicator.className = "status-indicator offline";
       statusText.textContent = "Offline";
       btnCaptureVisible.disabled = true;
-      btnCaptureVisible.title = "Greenshot is offline. Please start Greenshot to capture.";
+      btnCaptureVisible.title = error || "Greenshot is offline. Please start Greenshot to capture.";
+      if (error) {
+        // Greenshot's reason stays while the popup is open
+        reasonShown = true;
+        feedbackMessage.textContent = error;
+        feedbackMessage.className = "feedback-msg error";
+      }
     }
 
     if (config && config.track_tab_urls) {
@@ -49,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Request initial status from background worker
   chrome.runtime.sendMessage({ action: "GET_STATUS" }, (response) => {
     if (response) {
-      updateStatus(response.isConnected, response.config);
+      updateStatus(response.isConnected, response.config, response.error);
     }
   });
 
@@ -81,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.runtime.sendMessage({ action: "RECONNECT" }, () => {
       setTimeout(() => {
         chrome.runtime.sendMessage({ action: "GET_STATUS" }, (res) => {
-          if (res) updateStatus(res.isConnected, res.config);
+          if (res) updateStatus(res.isConnected, res.config, res.error);
         });
       }, 800);
     });

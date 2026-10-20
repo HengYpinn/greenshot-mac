@@ -8,7 +8,9 @@
  * Mac changes: the native host is io.github.greenshot_mac.host (greenshot-native-host in the app); IMPORT_CAPTURE and
  * TAB_CHANGED also send "browser" (upstream sends it only in HANDSHAKE), and IMPORT_CAPTURE the tab's width in CSS pixels
  * ("tab_width", so Greenshot knows the Retina scale). Turning the tab tracking off sends TAB_CHANGED with
- * "tracking": false, so Greenshot forgets the tab. manifest.json asks for no host permissions (upstream: <all_urls>):
+ * "tracking": false, so Greenshot forgets the tab. A HANDSHAKE that Greenshot refuses (the extension switched off in its
+ * settings) counts as offline, with Greenshot's reason, and is tried again later; the popup's status waits a moment for
+ * a handshake under way. manifest.json asks for no host permissions (upstream: <all_urls>):
  * "activeTab" lets captureVisibleTab take the tab the user clicked the button in (Firefox 126 and later), "tabs" gives
  * the tab's address and title for the tab tracking.
  */
@@ -22,11 +24,16 @@
 const NATIVE_HOST_NAME = "io.github.greenshot_mac.host";
 const RETRY_BASE_DELAY_MS = 5000;
 const RETRY_MAX_DELAY_MS = 60000;
+// Mac: how long the popup's status waits for a handshake under way
+const STATUS_WAIT_MS = 1500;
 
 let nativePort = null;
 let isConnected = false;
 let retryCount = 0;
 let retryTimerId = null;
+// Mac: the handshake under way ({ promise, settle }), and why Greenshot refused the last one
+let handshake = null;
+let lastError = "";
 
 let extensionConfig = {
   track_tab_urls: true,
@@ -60,6 +67,58 @@ function updateBadge() {
 }
 
 /**
+ * Mac: a handshake under way is settled by Greenshot's first answer or by its port closing. The popup's status waits for
+ * it: the service worker may just have woken and started it.
+ */
+function startHandshake() {
+  let settle;
+  const promise = new Promise((resolve) => {
+    settle = resolve;
+  });
+  handshake = { promise, settle };
+}
+
+function settleHandshake() {
+  if (handshake) {
+    const { settle } = handshake;
+    handshake = null;
+    settle();
+  }
+}
+
+function waitForHandshake(timeoutMs) {
+  if (!handshake) {
+    return Promise.resolve();
+  }
+  return Promise.race([handshake.promise, new Promise((resolve) => setTimeout(resolve, timeoutMs))]);
+}
+
+/**
+ * Mac: Greenshot's reason as the popup shows it, without the log's tag.
+ */
+function readableReason(text, fallback) {
+  const reason = typeof text === "string" ? text.replace(/^\[SECURITY\]\s*/, "").trim() : "";
+  return reason || fallback;
+}
+
+/**
+ * Drops the port (Mac: and with it the handshake under way).
+ */
+function closePort() {
+  const port = nativePort;
+  nativePort = null;
+  isConnected = false;
+  if (port) {
+    try {
+      port.disconnect();
+    } catch (e) {
+      // Ignore disconnect errors on old port
+    }
+  }
+  settleHandshake();
+}
+
+/**
  * Connects to the native messaging host (greenshot-native-host).
  */
 function connectNativeHost() {
@@ -68,22 +127,22 @@ function connectNativeHost() {
     retryTimerId = null;
   }
 
-  if (nativePort) {
-    try {
-      nativePort.disconnect();
-    } catch (e) {
-      // Ignore disconnect errors on old port
-    }
-    nativePort = null;
-  }
+  closePort();
 
   try {
-    nativePort = chrome.runtime.connectNative(NATIVE_HOST_NAME);
+    const port = chrome.runtime.connectNative(NATIVE_HOST_NAME);
+    nativePort = port;
 
-    nativePort.onMessage.addListener(onNativeMessage);
-    nativePort.onDisconnect.addListener(onNativeDisconnect);
+    // Mac: what a replaced port still says (or its end) is ignored
+    port.onMessage.addListener((msg) => {
+      if (port === nativePort) {
+        onNativeMessage(msg);
+      }
+    });
+    port.onDisconnect.addListener(() => onNativeDisconnect(port));
 
     // Send initial handshake request
+    startHandshake();
     sendNativeMessage({
       source: "native_messaging",
       command: "HANDSHAKE",
@@ -92,6 +151,7 @@ function connectNativeHost() {
     });
   } catch (err) {
     console.warn("Failed to connect to native messaging host:", err);
+    settleHandshake();
     scheduleReconnect();
   }
 }
@@ -110,6 +170,8 @@ function onNativeMessage(msg) {
   if (msg.status === "unavailable" || msg.greenshot_running === false) {
     // Greenshot is offline
     isConnected = false;
+    lastError = "";
+    settleHandshake();
     updateBadge();
     scheduleReconnect();
     return;
@@ -119,6 +181,8 @@ function onNativeMessage(msg) {
     // Successful handshake
     isConnected = true;
     retryCount = 0;
+    lastError = "";
+    settleHandshake();
     updateBadge();
 
     if (msg.config) {
@@ -131,15 +195,31 @@ function onNativeMessage(msg) {
 
     // Mac: Greenshot may have restarted and knows no tab; the same tab is reported again
     reportActiveTab();
+    return;
+  }
+
+  // Mac: any other answer to the handshake is a refusal (the extension is switched off in Greenshot's settings, or
+  // isn't allowed): offline with Greenshot's reason, and tried again later, as the setting may change
+  if (handshake) {
+    lastError = readableReason(msg.stderr, "Greenshot refused the connection.");
+    closePort();
+    updateBadge();
+    scheduleReconnect();
   }
 }
 
-function onNativeDisconnect() {
+function onNativeDisconnect(port) {
+  const lastErr = chrome.runtime.lastError;
+  if (port !== nativePort) {
+    // A port that was replaced (Mac: its end must not drop the new one)
+    return;
+  }
+
   isConnected = false;
   nativePort = null;
+  settleHandshake();
   updateBadge();
 
-  const lastErr = chrome.runtime.lastError;
   if (lastErr) {
     console.info("Native messaging port disconnected:", lastErr.message);
   }
@@ -336,9 +416,17 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
 // Handle messages from Popup or Options UI
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "GET_STATUS") {
-    sendResponse({
-      isConnected,
-      config: extensionConfig
+    // Mac: Greenshot may have started since the last try, or the worker just woke and is connecting: the answer waits
+    // a moment for the handshake, so the popup doesn't show Greenshot offline while it gets ready
+    if (!isConnected && !handshake) {
+      connectNativeHost();
+    }
+    Promise.all([configLoaded, waitForHandshake(STATUS_WAIT_MS)]).then(() => {
+      sendResponse({
+        isConnected,
+        config: extensionConfig,
+        error: isConnected ? "" : lastError
+      });
     });
     return true;
   }
