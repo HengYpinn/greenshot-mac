@@ -26,11 +26,11 @@ public enum RecipeExtensionNames {
         option.choices = [RecipeOptionChoice(value: applyToAll), RecipeOptionChoice(value: applyToOnly)]
         return option
     }()
-    /// The recipe ids for "Apply to: only these recipes", comma separated.
+    /// The recipe ids for "Apply to: only these recipes", a `storedList`.
     public static let onlyRecipesOption = RecipeOption(key: "onlyRecipes", type: .string, defaultValue: .string(""))
-    /// The recipe ids the extension doesn't change, comma separated.
+    /// The recipe ids the extension doesn't change, a `storedList`.
     public static let exceptRecipesOption = RecipeOption(key: "exceptRecipes", type: .string, defaultValue: .string(""))
-    /// BeforeDestination only: the destination designations it runs for, empty for all.
+    /// BeforeDestination only: the destination designations it runs for, empty for all; a `storedList`.
     public static let onlyDestinationsOption = RecipeOption(key: "onlyDestinations", type: .string, defaultValue: .string(""))
     /// The settings every extension has, stored like its options (they can't be declared as options).
     public static let scopeOptions = [applyToOption, onlyRecipesOption, exceptRecipesOption, onlyDestinationsOption]
@@ -49,6 +49,27 @@ public enum RecipeExtensionNames {
         (text ?? "").split(whereSeparator: { $0 == "," || $0 == ";" })
             .map { $0.trimmingCharacters(in: .whitespaces) }
             .filter { !$0.isEmpty }
+    }
+
+    /// A list of ids or designations as a scope option stores it: comma separated (upstream), or a JSON array of strings
+    /// when the separated form wouldn't read back the same (an external command's name with "," or ";", or with a blank
+    /// at the start or end).
+    public static func storedList(_ items: [String]) -> String {
+        let plain = items.joined(separator: ",")
+        guard splitList(plain) != items else { return plain }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.withoutEscapingSlashes]
+        guard let data = try? encoder.encode(items), let text = String(data: data, encoding: .utf8) else { return plain }
+        return text
+    }
+
+    /// Reads a `storedList`: a JSON array of strings, else a separated list (`splitList`; values stored before).
+    public static func items(ofStoredList text: String?) -> [String] {
+        let trimmed = (text ?? "").trimmingCharacters(in: .whitespaces)
+        if trimmed.hasPrefix("["), let items = try? JSONDecoder().decode([String].self, from: Data(trimmed.utf8)) {
+            return items.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        }
+        return splitList(text)
     }
 }
 
@@ -105,6 +126,6 @@ public struct RecipeExtensionSettings: Sendable, Equatable {
     }
 
     private static func list(_ option: RecipeOption, _ ext: CaptureRecipe, _ values: RecipeOptionValues) -> [String] {
-        RecipeExtensionNames.splitList(values.value(of: option, recipeId: ext.id).asString)
+        RecipeExtensionNames.items(ofStoredList: values.value(of: option, recipeId: ext.id).asString)
     }
 }

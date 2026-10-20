@@ -98,6 +98,23 @@ import Testing
         #expect(fixture.library.extensionScope(id: "nope", destinations: Self.destinations) == nil)
     }
 
+    /// An external command's name may hold "," or ";" or end in a blank: the destinations read back as they were checked.
+    @Test func destinationNamesWithSeparatorsReadBackTheSame() throws {
+        let fixture = fixture()
+        defer { fixture.cleanUp() }
+        let destinations: [(designation: String, name: String)] = [("External Optimize, PNG", "Optimize, PNG"), ("External a;b ", "a;b "),
+                                                                   ("FileNoDialog", "Save"), ("EMail", "Email")]
+        fixture.library.setExtensionScope(id: "ext_border", exceptRecipes: [],
+                                          onlyDestinations: ["External Optimize, PNG", "External a;b ", "FileNoDialog"])
+        let stored = fixture.library.extensionSettings(id: "ext_border").onlyDestinations
+        #expect(stored == ["External a;b ", "External Optimize, PNG", "FileNoDialog"])
+        let scope = try #require(fixture.library.extensionScope(id: "ext_border", destinations: destinations))
+        #expect(scope.destinations.map(\.isChecked) == [true, true, true, false])
+        // A list without such names is stored as before.
+        fixture.library.setExtensionScope(id: "ext_border", exceptRecipes: ["window"], onlyDestinations: ["FileNoDialog", "EMail"])
+        #expect(fixture.box.settings.optionValues["ext_border.onlyDestinations"] == "EMail,FileNoDialog")
+    }
+
     @Test func changedRecipesGroupByTheirAutomaticSteps() {
         let fixture = fixture()
         defer { fixture.cleanUp() }

@@ -274,6 +274,18 @@ enum ComposerFixture {
         // Without an `enabled` option it is always on.
         #expect(RecipeExtensionSettings.stored(for: F.ext("x"), in: RecipeOptionValues()).enabled)
     }
+
+    /// A list with a "," or ";" in an item is stored as a JSON array; anything else reads as a separated list.
+    @Test func extensionSettingsListsAsJSONArrays() {
+        let ext = F.ext("e")
+        let values = RecipeOptionValues(["e.onlyDestinations": #"["External Optimize, PNG", "External a;b "]"#, "e.exceptRecipes": "[a, b"])
+        let stored = RecipeExtensionSettings.stored(for: ext, in: values)
+        #expect(stored.onlyDestinations == ["External Optimize, PNG", "External a;b "])
+        #expect(stored.exceptRecipes == ["[a", "b"])
+        #expect(RecipeExtensionNames.storedList(["b", "a"]) == "b,a")
+        #expect(RecipeExtensionNames.storedList(["x, y", "z"]) == #"["x, y","z"]"#)
+        #expect(RecipeExtensionNames.storedList([]) == "")
+    }
 }
 
 /// A composed recipe through the engine with the core executors (proves the option resolution of `RecipeFlowContext`).

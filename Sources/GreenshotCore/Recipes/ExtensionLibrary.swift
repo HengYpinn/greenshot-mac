@@ -89,7 +89,7 @@ extension RecipeLibrary {
     /// empty for all (upstream `RecipeOptionGroupViewModel.Save`).
     public func setExtensionScope(id: String, exceptRecipes: [String], onlyDestinations: [String]) {
         guard loadedExtension(id: id) != nil else { return }
-        func joined(_ ids: [String]) -> String { ids.sorted { $0.lowercased() < $1.lowercased() }.joined(separator: ",") }
+        func joined(_ ids: [String]) -> String { RecipeExtensionNames.storedList(ids.sorted { $0.lowercased() < $1.lowercased() }) }
         var values = optionValues
         var changed = values.setValue(.string(RecipeExtensionNames.applyToAll), of: RecipeExtensionNames.applyToOption, recipeId: id)
         changed = values.setValue(.string(""), of: RecipeExtensionNames.onlyRecipesOption, recipeId: id) || changed
