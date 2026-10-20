@@ -188,6 +188,7 @@ function connectNativeHost() {
   } catch (err) {
     console.warn("Failed to connect to native messaging host:", err);
     settleHandshake();
+    updateBadge();
     scheduleReconnect();
   }
 }
