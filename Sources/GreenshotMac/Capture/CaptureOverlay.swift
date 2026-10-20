@@ -379,7 +379,8 @@ final class CaptureOverlayController {
                 pickFixedSize(index)
                 return
             }
-            letterKey(event.charactersIgnoringModifiers?.lowercased() ?? "")
+            letterKey(CaptureKeys.letter(typed: event.charactersIgnoringModifiers,
+                                         latin: { KeyboardLayoutNames.character(for: event.keyCode) }))
         }
     }
 
