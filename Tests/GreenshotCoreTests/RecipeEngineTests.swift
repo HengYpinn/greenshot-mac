@@ -238,9 +238,9 @@ enum RecipeEngineHarness {
             recipe.nodes[1].onErrorNodeId = "typo"
         }
         let context = RecipeEngineHarness.context(recipe)
-        let engine = RecipeFlowEngine(steps: failingRegistry(recorder)) { event in
+        let engine = RecipeFlowEngine(steps: failingRegistry(recorder), events: { event in
             if case .nodeFailed(_, let nodeId, _, let handledBy) = event { failures.add("\(nodeId) -> \(handledBy ?? "nil")") }
-        }
+        })
         await engine.execute(context)
         #expect(recorder.all == ["a", "b"])
         #expect(context.state == .failed)
