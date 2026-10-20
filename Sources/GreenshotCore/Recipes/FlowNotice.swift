@@ -42,7 +42,8 @@ public struct RecipeFlowNotice: Sendable, Equatable {
         guard let announced = result.variables[announcedExportsVariable]?.doubleValue else {
             return result.exports.filter { !$0.succeeded }
         }
-        let count = max(0, min(result.exports.count, Int(announced)))
+        // Any recipe can set the variable (SetVariable), to 1e30 or infinity: limited before it becomes an Int.
+        let count = announced.isNaN ? 0 : Int(min(max(announced, 0), Double(result.exports.count)))
         return Array(result.exports.dropFirst(count))
     }
 
