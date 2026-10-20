@@ -98,6 +98,29 @@ func recipeTemporaryFolder() -> URL {
         #expect(!reopened.wasTampered)
     }
 
+    /// The app's Keychain reports a locked or denied item as missing: the store counts as empty (default-deny), but the
+    /// first approval saved after the key is back keeps the approvals of the other files.
+    @Test func aKeyThatWasHiddenForAWhileDoesntLoseTheApprovals() throws {
+        let folder = recipeTemporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("trust.json")
+        let secrets = FlakySecretStore()
+        let first = "/tmp/recipes/first.gsrecipe.json"
+        let second = "/tmp/recipes/second.gsrecipe.json"
+        try RecipeTrustStore(fileURL: file, secrets: secrets)
+            .recordApproval(RecipeApproval(recipeId: "one"), forFile: first, sha256: "11", content: nil, origin: nil, recipeName: nil, recipeVersion: nil)
+
+        let store = RecipeTrustStore(fileURL: file, secrets: secrets)
+        secrets.hidesItems = true
+        #expect(store.record(forFile: first) == nil)
+        #expect(store.wasTampered)
+        secrets.hidesItems = false
+        try store.recordApproval(RecipeApproval(recipeId: "two"), forFile: second, sha256: "22", content: nil, origin: nil,
+                                 recipeName: nil, recipeVersion: nil)
+        let reopened = RecipeTrustStore(fileURL: file, secrets: secrets)
+        #expect(reopened.allRecords.map(\.filePath) == [first, second].map(RecipeTrustStore.standardized))
+    }
+
     @Test func revokes() throws {
         let folder = recipeTemporaryFolder()
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -135,21 +158,29 @@ extension InMemorySecretStore {
     }
 }
 
-/// A secret store whose reads throw while `failsReading` is set (an error of the Keychain, not a missing item).
+/// A secret store whose reads throw while `failsReading` is set (an error of the Keychain), or find nothing while
+/// `hidesItems` is set (the app's Keychain store reports a locked or denied item as missing).
 final class FlakySecretStore: SecretStore, @unchecked Sendable {
     struct ReadError: Error {}
 
     private let base = InMemorySecretStore()
     private let lock = NSLock()
     private var failing = false
+    private var hiding = false
 
     var failsReading: Bool {
         get { lock.withLock { failing } }
         set { lock.withLock { failing = newValue } }
     }
 
+    var hidesItems: Bool {
+        get { lock.withLock { hiding } }
+        set { lock.withLock { hiding = newValue } }
+    }
+
     func secret(for key: String) throws -> String? {
         if failsReading { throw ReadError() }
+        if hidesItems { return nil }
         return try base.secret(for: key)
     }
 
