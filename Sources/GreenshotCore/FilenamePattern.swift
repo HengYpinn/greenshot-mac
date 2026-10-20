@@ -19,6 +19,9 @@ public enum FilenamePattern {
     public static let fallbackPattern = "greenshot ${capturetime}"
 
     static let maxTitleLength = 80
+    /// The widest `p` padding: macOS's longest path (PATH_MAX), so no file name or text needs more. Upstream runs out of
+    /// memory for a huge width and gives an empty value; here the width is limited.
+    static let maxPadWidth = 1024
     static let unsafeReplacement = "_"
     /// The characters .NET's `Path.GetInvalidFileNameChars()` returns on Windows. They are replaced on the Mac too,
     /// so file names stay valid when the screenshots are shared with Windows users.
@@ -183,12 +186,15 @@ public enum FilenamePattern {
         var dateFormat = "yyyy-MM-dd HH-mm-ss"
         var replacements: [(String, String)] = []
 
+        // The numbers are 32 bit, like upstream's `int.Parse` (a bigger one is ignored), so `-padWidth` and
+        // `startIndex + endIndex` can't overflow; the pad width is limited too, a string of 2^31 characters takes gigabytes.
+        func number(_ text: String) -> Int? { Int32(text).map(Int.init) }
         for parameter in splitParameters(parameters) where !parameter.isEmpty {
             let body = String(parameter.dropFirst())
             switch parameter.first {
             case "p":
                 let parts = body.components(separatedBy: ",")
-                if let width = Int(parts[0]) { padWidth = width }
+                if let width = number(parts[0]) { padWidth = min(max(width, -maxPadWidth), maxPadWidth) }
                 if parts.count > 1, let char = parts[1].first { padChar = char }
             case "r":
                 let parts = body.components(separatedBy: ",")
@@ -200,8 +206,8 @@ public enum FilenamePattern {
                 dateFormat = format
             case "s":
                 let parts = body.components(separatedBy: ",")
-                if let start = Int(parts[0]) { startIndex = start }
-                if parts.count > 1, let end = Int(parts[1]) { endIndex = end }
+                if let start = number(parts[0]) { startIndex = start }
+                if parts.count > 1, let end = number(parts[1]) { endIndex = end }
             default:
                 break
             }

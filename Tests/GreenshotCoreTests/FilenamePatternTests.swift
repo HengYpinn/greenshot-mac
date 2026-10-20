@@ -61,6 +61,23 @@ struct FilenamePatternTests {
         #expect(fill("${title:s2,99}") == "Safari")
     }
 
+    /// Upstream reads the numbers with `int.Parse`: one beyond 32 bits is ignored. A width that fits is limited to
+    /// `maxPadWidth` here (upstream runs out of memory and gives an empty value). These stopped the app, or took
+    /// gigabytes, as soon as they were typed in Settings › Output.
+    @Test func extremePadAndSubstringNumbers() {
+        #expect(fill("${title:p-9223372036854775808}") == "Safari")
+        #expect(fill("${title:p99999999999}") == "Safari")
+        #expect(fill("${title:s5,9223372036854775807}") == "i")
+        #expect(fill("${title:s9223372036854775807,1}") == "S")
+        #expect(fill("${title:s-2147483648,2147483647}") == "Safari")
+        let right = fill("${title:p2147483647,*}")
+        #expect(right.count == FilenamePattern.maxPadWidth)
+        #expect(right.hasPrefix("Safari*"))
+        let left = fill("${title:p-2147483648,*}")
+        #expect(left.count == FilenamePattern.maxPadWidth)
+        #expect(left.hasSuffix("*Safari"))
+    }
+
     @Test func replace() {
         #expect(fill("${title:rSafari,Web}") == "Web")
     }
