@@ -145,8 +145,11 @@ public final class VideoFileWriter: @unchecked Sendable {
         }
         processor = VideoFrameProcessor(width: configuration.width, height: configuration.height,
                                         colorMode: configuration.colorMode, behavior: configuration.resizeBehavior)
-        // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one.
-        if configuration.replacesExistingFile, FileManager.default.fileExists(atPath: configuration.url.path) {
+        // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one. A folder
+        // of that name is never removed (the start fails as before).
+        var isFolder: ObjCBool = false
+        if configuration.replacesExistingFile,
+           FileManager.default.fileExists(atPath: configuration.url.path, isDirectory: &isFolder), !isFolder.boolValue {
             do {
                 try FileManager.default.removeItem(at: configuration.url)
             } catch {

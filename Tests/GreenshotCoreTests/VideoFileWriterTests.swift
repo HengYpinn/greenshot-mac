@@ -409,6 +409,20 @@ struct VideoFileWriterTests {
         #expect(info.codec == "avc1")
     }
 
+    /// A folder with the video's name is not removed: the recording can't start.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aFolderIsNeverReplaced() throws {
+        let url = temporaryFile("folder.mp4")
+        let inside = url.appendingPathComponent("keep.txt")
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        try Data("kept".utf8).write(to: inside)
+        #expect(throws: VideoWriterError.self) {
+            _ = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                          bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        }
+        #expect(FileManager.default.fileExists(atPath: inside.path))
+    }
+
     /// Without it (a menu recording, which picks a free name) an existing file is never touched.
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func anExistingFileIsKeptOtherwise() throws {
