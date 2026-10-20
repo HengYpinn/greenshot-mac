@@ -44,9 +44,8 @@ public enum AnnotationRenderer {
                                                canvas: canvas)
         let cutKinds = cutSource.filter { AnnotationKind.cutEdgeKinds.contains($0.kind) }
         var drawnGroups: [InvertedHighlightGroup] = []
-        var counter = counterStart - 1
+        let numbers = Annotation.counterNumbers(annotations, from: counterStart)
         for (index, annotation) in annotations.enumerated() {
-            if annotation.kind == .counter { counter += 1 }
             var shown = annotation
             if annotation.id == hiddenID {
                 guard annotation.kind.hasEditableText else { continue }
@@ -57,16 +56,18 @@ public enum AnnotationRenderer {
             // comes in the drawing order (`DrawingBounds.IntersectsWith(clipRectangle)`).
             if annotation.kind == .highlight, let group = inverted[mode], !drawnGroups.contains(where: { $0.mode == mode }),
                !annotation.bounds.integral.intersection(canvas).isEmpty {
-                let key = InvertedEffectKey(base: base, below: Array(annotations[..<index]), hiddenID: hiddenID,
-                                            counterStart: counterStart, cutElements: cutKinds, scale: scale, mode: mode,
-                                            style: group.style, earlierAreas: drawnGroups.map(\.areas))
+                let below = Array(annotations[..<index])
+                let key = InvertedEffectKey(base: base, below: below, hiddenID: hiddenID,
+                                            counterNumbers: below.compactMap { numbers[$0.id] }, cutElements: cutKinds,
+                                            scale: scale, mode: mode, style: group.style,
+                                            earlierAreas: drawnGroups.map(\.areas))
                 context.saveGState()
                 drawInvertedHighlight(group, in: context, scale: scale, key: key)
                 context.restoreGState()
                 drawnGroups.append(group)
             }
             context.saveGState()
-            draw(shown, number: counter, in: context, scale: scale, cuts: cuts)
+            draw(shown, number: numbers[annotation.id] ?? counterStart, in: context, scale: scale, cuts: cuts)
             context.restoreGState()
         }
         return context.makeImage()
@@ -781,14 +782,15 @@ public enum AnnotationRenderer {
     }
 
     /// Everything the canvas below an inverted highlight group depends on: the image (the same object; images never
-    /// change), the elements drawn before the group with the one being edited, how counters are numbered, the cut marks
-    /// and torn edges (their shadow is shared), the scale, the group's mode and style, and the areas of groups drawn
+    /// change), the elements drawn before the group with the one being edited, the numbers of the counters among them
+    /// (they count in the order counters were added, so a counter above the group changes them too), the cut marks and
+    /// torn edges (their shadow is shared), the scale, the group's mode and style, and the areas of groups drawn
     /// earlier.
     struct InvertedEffectKey: Equatable {
         let base: CGImage
         let below: [Annotation]
         let hiddenID: UUID?
-        let counterStart: Int
+        let counterNumbers: [Int]
         let cutElements: [Annotation]
         let scale: CGFloat
         let mode: HighlightMode
@@ -797,7 +799,7 @@ public enum AnnotationRenderer {
 
         static func == (lhs: InvertedEffectKey, rhs: InvertedEffectKey) -> Bool {
             guard lhs.base === rhs.base, lhs.mode == rhs.mode, lhs.scale == rhs.scale, lhs.hiddenID == rhs.hiddenID,
-                  lhs.counterStart == rhs.counterStart, lhs.style == rhs.style, lhs.earlierAreas == rhs.earlierAreas else {
+                  lhs.counterNumbers == rhs.counterNumbers, lhs.style == rhs.style, lhs.earlierAreas == rhs.earlierAreas else {
                 return false
             }
             return lhs.below == rhs.below && lhs.cutElements == rhs.cutElements

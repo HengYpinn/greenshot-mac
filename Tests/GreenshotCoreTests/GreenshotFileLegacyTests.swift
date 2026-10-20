@@ -354,10 +354,14 @@ struct GreenshotFileLegacyTests {
         }
         let rectangle = LegacyElement(typeName: "RectangleContainer", left: 0, top: 0, width: 5, height: 5)
         let result = GreenshotLegacyImport.convert([label(2, left: 200), rectangle, label(1, left: 100)], scale: 1)
+        // The drawing order of the file stays (upstream `AddElements`); the numbers order the counters.
         #expect(result.elements.map(\.kind) == [.counter, .rectangle, .counter])
-        #expect(result.elements.first?.start.x == 100)
-        #expect(result.elements.last?.start.x == 200)
+        #expect(result.elements.map(\.start.x) == [200, 0, 100])
         #expect(result.counterStart == 3)
+        let document = EditorDocument(image: TestImage.solid(width: 300, height: 50, .white), scale: 1, title: "legacy")
+        document.addOpened(result.elements)
+        document.counterStart = result.counterStart
+        #expect(result.elements.map { document.counterNumber(for: $0.id) } == [4, nil, 3])
     }
 
     @Test func knownColors() {

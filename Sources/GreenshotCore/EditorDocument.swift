@@ -186,8 +186,21 @@ public final class EditorDocument {
     public func addOpened(_ elements: [Annotation]) {
         guard depth == 0 else { return }
         let size = imageSize
-        annotations.append(contentsOf: elements.map { $0.spanning(size) })
+        annotations.append(contentsOf: arriving(elements).map { $0.spanning(size) })
         changeCount += 1
+    }
+
+    /// `elements` as they come onto the document: their counters get the places after the counters already here
+    /// (upstream `Surface.AddStepLabel`), in the order they count among themselves (`Annotation.counterNumbers`). So new,
+    /// pasted and duplicated counters count last, and those of a file, also of an earlier version without places, keep
+    /// the numbers they had.
+    private func arriving(_ elements: [Annotation]) -> [Annotation] {
+        let last = annotations.compactMap(\.counterOrder).max() ?? 0
+        var result = elements
+        for (place, index) in Annotation.counterSequence(elements).enumerated() {
+            result[index].counterOrder = last + 1 + place
+        }
+        return result
     }
 
     private var current: State { State(base: baseImage, annotations: annotations, counterStart: counterStart) }
@@ -207,23 +220,27 @@ public final class EditorDocument {
     }
 
     public func add(_ annotation: Annotation) {
-        annotations.append(annotation.spanning(imageSize))
+        add([annotation])
     }
 
-    /// Replaces the element with the same id. A cut mark stays across the whole image, it only moves across its cut.
+    /// Replaces the element with the same id. A cut mark stays across the whole image, it only moves across its cut. A
+    /// counter keeps its place in the order of the counters: the document gives it, not the caller (a new counter is
+    /// dragged with the copy made before it was added).
     public func update(_ annotation: Annotation) {
         guard let index = annotations.firstIndex(where: { $0.id == annotation.id }) else { return }
-        annotations[index] = annotation.spanning(imageSize)
+        var updated = annotation.spanning(imageSize)
+        updated.counterOrder = annotations[index].counterOrder
+        annotations[index] = updated
     }
 
     public func remove(_ id: UUID) {
         annotations.removeAll { $0.id == id }
     }
 
-    /// Adds elements on top of the others, in their order.
+    /// Adds elements on top of the others, in their order; counters among them count after those already here.
     public func add(_ elements: [Annotation]) {
         let size = imageSize
-        annotations.append(contentsOf: elements.map { $0.spanning(size) })
+        annotations.append(contentsOf: arriving(elements).map { $0.spanning(size) })
     }
 
     /// The elements with one of `ids`, in drawing order (back to front).
@@ -323,15 +340,11 @@ public final class EditorDocument {
         return annotations.filter { area.contains($0.coveredArea) }
     }
 
-    /// The number a counter shows: counters are numbered in the order they were added, from `counterStart`, and
-    /// renumber when one is removed (upstream `StepLabelContainer`, `Surface.CountStepLabels`).
+    /// The number a counter shows: counters are numbered in the order they were added (`Annotation.counterOrder`),
+    /// whatever their drawing order, from `counterStart`, and renumber when one is removed (upstream
+    /// `StepLabelContainer`, `Surface.CountStepLabels`).
     public func counterNumber(for id: UUID) -> Int? {
-        var number = counterStart - 1
-        for annotation in annotations where annotation.kind == .counter {
-            number += 1
-            if annotation.id == id { return number }
-        }
-        return nil
+        Annotation.counterNumbers(annotations, from: counterStart)[id]
     }
 
     /// Cuts the image to `rect` (image pixels) and moves the elements along; the elements completely outside it go
