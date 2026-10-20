@@ -204,17 +204,27 @@ enum JiraDestination {
         }
         Uploads.run(String(localized: "The upload to Jira failed"), progress: String(localized: "Transferring data to Jira, please wait…"),
                     completion: completion) {
+            let commentError: Error?
             do {
-                _ = try await client.attach(file, to: key)
+                commentError = try await client.attach(file, to: key, comment: comment).commentError
             } catch {
                 AtlassianSignIn.uploadFailed(error, .jira, site)
                 throw error
             }
-            if !comment.isEmpty { try await client.addComment(comment, to: key) }
             settings.update { $0.jira.remember(issueKey: key) }
             let url = client.browseURL(for: key)
-            saver.notify(String(localized: "Attached \(file.name) to \(key)"), detail: String(localized: "Click to open the issue")) {
-                NSWorkspace.shared.open(url)
+            let attached = String(localized: "Attached \(file.name) to \(key)")
+            if let commentError {
+                // The file is on the issue: the upload succeeded, with a warning that the comment is missing.
+                log.warn("The comment could not be added to \(key)", error: commentError)
+                saver.notify(attached, detail: String(localized: "The comment could not be added: \(commentError.localizedDescription)"),
+                             kind: .warning) {
+                    NSWorkspace.shared.open(url)
+                }
+            } else {
+                saver.notify(attached, detail: String(localized: "Click to open the issue")) {
+                    NSWorkspace.shared.open(url)
+                }
             }
             return .succeeded(link: url, target: key)
         }

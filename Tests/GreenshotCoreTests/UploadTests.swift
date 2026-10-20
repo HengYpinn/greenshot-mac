@@ -205,6 +205,34 @@ struct JiraClientTests {
         #expect(http.last.bodyText == #"{"body":{"content":[{"content":[{"text":"See the screenshot","type":"text"}],"type":"paragraph"}],"type":"doc","version":1}}"#)
     }
 
+    /// The file is on the issue when only the comment fails (no permission to comment): the comment's error comes
+    /// back instead of failing the upload, so trying again doesn't attach the file twice.
+    @Test func aFailedCommentKeepsTheAttachment() async throws {
+        let http = StubHTTPClient([.init(status: 200, body: #"[{"id": "10001", "filename": "shot.png"}]"#),
+                                   .init(status: 403, body: #"{"errorMessages":["No permission to comment."]}"#)])
+        let result = try await JiraClient(site: site, http: http).attach(png, to: "PROJ-7", comment: "See the screenshot")
+        #expect(result.attachments.map(\.id) == ["10001"])
+        let error = try #require(result.commentError as? UploadError)
+        #expect(error == .http(status: 403, message: "No permission to comment."))
+        #expect(http.requests.count == 2)
+    }
+
+    @Test func noCommentNoCommentRequest() async throws {
+        let http = StubHTTPClient(status: 200, body: #"[{"id": "10001", "filename": "shot.png"}]"#)
+        let result = try await JiraClient(site: site, http: http).attach(png, to: "PROJ-7", comment: "")
+        #expect(result.attachments.count == 1 && result.commentError == nil)
+        #expect(http.requests.count == 1)
+    }
+
+    /// A failed attachment fails the upload, and no comment is sent.
+    @Test func aFailedAttachmentSendsNoComment() async {
+        let http = StubHTTPClient([.init(status: 401, body: "{}"), .init(status: 201, body: "{}")])
+        await #expect(throws: UploadError.self) {
+            _ = try await JiraClient(site: site, http: http).attach(png, to: "PROJ-7", comment: "See the screenshot")
+        }
+        #expect(http.requests.count == 1)
+    }
+
     @Test func serverErrorsSurface() async {
         let http = StubHTTPClient(status: 401, body: #"{"errorMessages":[],"errors":{}}"#)
         await #expect(throws: UploadError.http(status: 401, message: HTTPURLResponse.localizedString(forStatusCode: 401))) {

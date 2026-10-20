@@ -384,6 +384,21 @@ public struct JiraClient: Sendable {
         try Self.attachments(fromJSON: try await HTTPSupport.send(attachRequest(issueKey: issueKey, file: file), with: http))
     }
 
+    /// Attaches the file, then adds the comment when there is one (upstream `JiraDestination`). A comment that fails
+    /// (no permission to comment, a rejected text, Cancel) doesn't fail the upload, the file is on the issue: its error
+    /// comes back instead, so trying again doesn't attach the file twice (upstream fails the whole upload).
+    public func attach(_ file: UploadFile, to issueKey: String, comment: String) async throws
+        -> (attachments: [JiraAttachment], commentError: Error?) {
+        let attachments = try await attach(file, to: issueKey)
+        guard !comment.isEmpty else { return (attachments, nil) }
+        do {
+            try await addComment(comment, to: issueKey)
+            return (attachments, nil)
+        } catch {
+            return (attachments, error)
+        }
+    }
+
     public func search(_ text: String, maxResults: Int = 20) async throws -> [JiraIssue] {
         try await search(jql: Self.jql(forSearch: text), maxResults: maxResults)
     }
