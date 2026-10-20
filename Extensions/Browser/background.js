@@ -33,11 +33,15 @@ let extensionConfig = {
   capture_format: "png"
 };
 
-// Initialize configuration from storage
-chrome.storage.local.get(["extensionConfig"], (res) => {
-  if (res.extensionConfig) {
-    extensionConfig = { ...extensionConfig, ...res.extensionConfig };
-  }
+// Initialize configuration from storage (Mac: a promise, so that nothing reports a tab before the user's choice to
+// turn tab tracking off is known)
+const configLoaded = new Promise((resolve) => {
+  chrome.storage.local.get(["extensionConfig"], (res) => {
+    if (res && res.extensionConfig) {
+      extensionConfig = { ...extensionConfig, ...res.extensionConfig };
+    }
+    resolve();
+  });
 });
 
 function getBrowserName() {
@@ -118,9 +122,15 @@ function onNativeMessage(msg) {
     updateBadge();
 
     if (msg.config) {
-      extensionConfig = { ...extensionConfig, ...msg.config };
-      chrome.storage.local.set({ extensionConfig });
+      // Mac: after the stored options were read, or saving would overwrite them with the defaults
+      configLoaded.then(() => {
+        extensionConfig = { ...extensionConfig, ...msg.config };
+        chrome.storage.local.set({ extensionConfig });
+      });
     }
+
+    // Mac: Greenshot may have restarted and knows no tab; the same tab is reported again
+    reportActiveTab();
   }
 }
 
@@ -247,6 +257,27 @@ function reportTabChange(url, title) {
 }
 
 /**
+ * Mac: reports the active tab also when it didn't change: after a (re)connect, Greenshot may have restarted and knows
+ * no tab, and after tab tracking was turned on.
+ */
+async function reportActiveTab() {
+  await configLoaded;
+  lastReportedUrl = "";
+  lastReportedTitle = "";
+  if (!isConnected || !extensionConfig.track_tab_urls) {
+    return;
+  }
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+    if (tab && tab.url) {
+      reportTabChange(tab.url, tab.title);
+    }
+  } catch (e) {
+    // No browser window
+  }
+}
+
+/**
  * Mac: tab tracking was turned off, so Greenshot forgets the tab this browser reported (it would keep naming captures
  * after a page the user no longer shares).
  */
@@ -266,10 +297,11 @@ function forgetTab() {
   });
 }
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (!tab.active) {
     return;
   }
+  await configLoaded;
 
   // 1. Navigation started: URL changed.
   // During initial navigation / loading, tab.title may still be the previous document's title.
@@ -291,6 +323,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   try {
+    await configLoaded;
     const tab = await chrome.tabs.get(activeInfo.tabId);
     if (tab && tab.url) {
       reportTabChange(tab.url, tab.title);
@@ -330,6 +363,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.local.set({ extensionConfig });
     if (wasTracking && !extensionConfig.track_tab_urls) {
       forgetTab();
+    } else if (!wasTracking && extensionConfig.track_tab_urls) {
+      reportActiveTab();
     }
     sendResponse({ success: true, config: extensionConfig });
     return true;
