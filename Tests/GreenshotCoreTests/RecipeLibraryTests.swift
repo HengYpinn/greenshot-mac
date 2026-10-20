@@ -159,6 +159,27 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         #expect(refused == nil)
     }
 
+    /// The second recipe of a new file is asked as new, not as "changed outside Greenshot"; in a changed file each recipe
+    /// is compared with what was approved before.
+    @Test func eachRecipeOfAFileIsAskedInTheModeOfTheFile() async throws {
+        let fixture = LibraryFixture()
+        defer { fixture.cleanUp() }
+        let url = fixture.folder.appendingPathComponent("two.gsrecipe.json")
+        try Data(RecipeSerializer.encode([libraryRecipe(id: "one"), libraryRecipe(id: "two")]).utf8).write(to: url)
+        _ = await fixture.library.loadFile(url)
+        #expect(fixture.approver.requests.map(\.mode) == [.newRecipe, .newRecipe])
+        #expect(fixture.approver.requests.allSatisfy { $0.previousRecord == nil })
+        var changedTwo = libraryRecipe(id: "two")
+        changedTwo.nodes.append(RecipeNode(id: "print", stepType: "Printer"))
+        changedTwo.flow.addTransition(from: "b", to: "print")
+        try Data(RecipeSerializer.encode([libraryRecipe(id: "one"), changedTwo]).utf8).write(to: url)
+        _ = await fixture.library.loadFile(url)
+        let asked = Array(fixture.approver.requests.dropFirst(2))
+        #expect(asked.map(\.mode) == [.modified, .modified])
+        let second = try #require(asked.last)
+        #expect(second.changes == ["Adds: Prints the result"])
+    }
+
     /// Security review: permissions are kept per kind (command, upload, files), but the approval is pinned to the file's
     /// SHA-256, so another command or upload target in the file asks again before the recipe runs.
     @Test func anotherTargetOfTheSameKindAsksAgain() async throws {

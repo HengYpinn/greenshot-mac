@@ -338,6 +338,9 @@ public final class RecipeLibrary {
         var anyChanged = false
         let validator = RecipeValidator(contracts: contracts, gates: gates())
         let unloaded = unloadedIds(inFile: path)
+        // The record before this load: approving the first recipe of a new file records it, which mustn't make the
+        // second one "changed outside Greenshot" (and a changed file's recipes are each compared with the old content).
+        let previousRecord = trustStore.record(forFile: path)
         for recipe in definitions {
             // W-M4: a recipe the user unloaded, reset or revoked stays out while the file is loaded for its others.
             if skippingUnloaded, unloaded.contains(recipe.id.lowercased()) {
@@ -354,7 +357,6 @@ public final class RecipeLibrary {
                 }
                 continue
             }
-            let previousRecord = trustStore.record(forFile: path)
             var approval = forcePrompt ? nil : trustStore.approval(forFile: path, sha256: hash, recipeId: recipe.id)
             if approval == nil {
                 guard interactive, let approver else {
@@ -362,7 +364,7 @@ public final class RecipeLibrary {
                     continue
                 }
                 let mode: RecipeApprovalMode = forcePrompt ? .reVerify : (previousRecord == nil ? .newRecipe : .modified)
-                let request = approvalRequest(recipe, fileURL, content, hash, validation, mode: mode)
+                let request = approvalRequest(recipe, fileURL, content, hash, validation, mode: mode, previousRecord: previousRecord)
                 let decision = await approver.requestApproval(request)
                 if var approved = decision?.approval {
                     approved.recipeId = recipe.id
@@ -936,10 +938,15 @@ public final class RecipeLibrary {
 
     func approvalRequest(_ recipe: CaptureRecipe, _ url: URL, _ content: String, _ hash: String, _ validation: RecipeValidationResult,
                          mode: RecipeApprovalMode) -> RecipeApprovalRequest {
+        approvalRequest(recipe, url, content, hash, validation, mode: mode, previousRecord: trustStore.record(forFile: url.path))
+    }
+
+    /// `previousRecord`: the file's record before the load that asks (`load` reads it once for all recipes of the file).
+    func approvalRequest(_ recipe: CaptureRecipe, _ url: URL, _ content: String, _ hash: String, _ validation: RecipeValidationResult,
+                         mode: RecipeApprovalMode, previousRecord record: RecipeTrustRecord?) -> RecipeApprovalRequest {
         let describer = RecipeDescriber(contracts: contracts, gates: gates())
         var request = RecipeApprovalRequest(mode: mode, recipe: recipe, fileURL: url, content: content, contentHash: hash)
         request.validation = validation
-        let record = trustStore.record(forFile: url.path)
         request.previousRecord = record
         request.steps = describer.describeSteps(recipe)
         request.triggers = describer.describeTriggers(recipe)
