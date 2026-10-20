@@ -204,7 +204,12 @@ enum JiraDestination {
         }
         Uploads.run(String(localized: "The upload to Jira failed"), progress: String(localized: "Transferring data to Jira, please wait…"),
                     completion: completion) {
-            _ = try await client.attach(file, to: key)
+            do {
+                _ = try await client.attach(file, to: key)
+            } catch {
+                AtlassianSignIn.uploadFailed(error, .jira, site)
+                throw error
+            }
             if !comment.isEmpty { try await client.addComment(comment, to: key) }
             settings.update { $0.jira.remember(issueKey: key) }
             let url = client.browseURL(for: key)
@@ -269,7 +274,13 @@ enum ConfluenceDestination {
         let openPage = givenPage == nil && !isOpenPage && s.confluence.openPageAfterUpload
         Uploads.run(String(localized: "The upload to Confluence failed"),
                     progress: String(localized: "Transferring data to Confluence, please wait…"), completion: completion) {
-            let attachments = try await client.attach(file, toPage: page.id, comment: comment)
+            let attachments: [ConfluenceAttachment]
+            do {
+                attachments = try await client.attach(file, toPage: page.id, comment: comment)
+            } catch {
+                AtlassianSignIn.uploadFailed(error, .confluence, site)
+                throw error
+            }
             // The links come from the server: only web pages on the site are opened (no file:// or another app's URL).
             let pageURL = site.isOnSite(page.url) ? page.url : nil
             let download = attachments.first?.downloadURL.flatMap { site.isOnSite($0) ? $0 : nil }

@@ -214,6 +214,34 @@ struct JiraClientTests {
     }
 }
 
+/// The password logins checked once per session.
+struct VerifiedLoginsTests {
+    let site = AtlassianSite(url: "https://jira.example.test", login: .serverPassword, user: "alex", secret: "old")!
+
+    /// A password changed in Settings is checked again before the next upload.
+    @Test func anotherPasswordIsCheckedAgain() {
+        var verified = VerifiedLogins()
+        verified.insert(site, service: "Jira")
+        #expect(verified.contains(site, service: "Jira"))
+        #expect(!verified.contains(site.with(user: "alex", secret: "new"), service: "Jira"))
+        #expect(!verified.contains(site.with(user: "sam", secret: "old"), service: "Jira"))
+        #expect(!verified.contains(site, service: "Confluence"))
+    }
+
+    /// An upload the server refuses (the password changed on the server) brings the login dialog back next time.
+    @Test func aRefusedUploadForgetsTheLogin() {
+        var verified = VerifiedLogins()
+        verified.insert(site, service: "Jira")
+        verified.uploadFailed(UploadError.http(status: 404, message: "No issue"), site: site, service: "Jira")
+        #expect(verified.contains(site, service: "Jira"))
+        verified.uploadFailed(UploadError.http(status: 401, message: ""), site: site, service: "Jira")
+        #expect(!verified.contains(site, service: "Jira"))
+        verified.insert(site, service: "Jira")
+        verified.uploadFailed(UploadError.http(status: 403, message: ""), site: site, service: "Jira")
+        #expect(!verified.contains(site, service: "Jira"))
+    }
+}
+
 struct ConfluenceClientTests {
     let site = AtlassianSite(url: "https://yourco.atlassian.net/wiki", email: "me@x.test", apiToken: "tok")!
 
