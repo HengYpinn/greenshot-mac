@@ -216,8 +216,12 @@ public enum ImageEffects {
         return mapUnpremultiplied(image) { table[Int($0)] }
     }
 
-    /// The 256 output values of `adjust` for the input values 0...255.
+    /// The 256 output values of `adjust` for the input values 0...255. A value that is not finite (a recipe's "nan" or
+    /// 1e999) counts as 1: NaN would go through the clamps and stop the app in `UInt8()`.
     static func adjustTable(brightness: Double, contrast: Double, gamma: Double) -> [UInt8] {
+        let brightness = brightness.isFinite ? brightness : 1
+        let contrast = contrast.isFinite ? contrast : 1
+        let gamma = gamma.isFinite ? gamma : 1
         let exponent: Double = 1 / max(gamma, 0.01)
         let offset: Double = brightness - 1
         return (0..<256).map { value in

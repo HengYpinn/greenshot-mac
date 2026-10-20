@@ -139,6 +139,15 @@ final class RecipeTestClipboard: RecipeClipboardWriting, @unchecked Sendable {
         #expect(payload.annotations.first?.start == CGPoint(x: 4, y: 4))
     }
 
+    /// "nan" is a Double for the recipe's parameters (`Double("nan")`); Adjust leaves the image as it is.
+    @Test func adjustWithNanLeavesTheImage() async throws {
+        let node = effect(["Effect": .string("Adjust"), "Brightness": .string("nan"), "Gamma": .string("NaN")])
+        let context = await RecipeStepHarness.run(node, image: TestImage.solid(width: 4, height: 4, .red))
+        #expect(context.logged("Applied effect 'Adjust'"))
+        let payload = try #require(context.payload)
+        #expect(TestImage.pixel(payload.image, 1, 1) == .red)
+    }
+
     @Test func colorEffects() async throws {
         let inverted = await RecipeStepHarness.run(effect(["Effect": .string("Invert")]), image: TestImage.solid(width: 4, height: 4, .white))
         let black = try #require(inverted.payload?.image)
