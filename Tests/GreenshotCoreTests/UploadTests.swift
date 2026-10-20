@@ -130,6 +130,26 @@ struct JiraClientTests {
         #expect(JiraClient.jql(forSearch: "project = X order by created") == "project = X order by created")
     }
 
+    /// Words that only start like JQL, or have "=" or "~" somewhere, are a text search; JQL is a field and an operator.
+    @Test func plainWordsAreATextSearch() {
+        func text(_ words: String) -> String { "text ~ \"\(words)\" ORDER BY updated DESC" }
+        #expect(JiraClient.jql(forSearch: "project kickoff") == text("project kickoff"))
+        #expect(JiraClient.jql(forSearch: "Project plan") == text("Project plan"))
+        #expect(JiraClient.jql(forSearch: "error: x=1 failed") == text("error: x=1 failed"))
+        #expect(JiraClient.jql(forSearch: "how to use ~ in a path") == text("how to use ~ in a path"))
+        #expect(JiraClient.jql(forSearch: "project in progress") == text("project in progress"))
+        #expect(JiraClient.jql(forSearch: "reports sorted order by date") == text("reports sorted order by date"))
+        // JQL stays JQL.
+        #expect(JiraClient.jql(forSearch: "project in (A, B)") == "project in (A, B)")
+        #expect(JiraClient.jql(forSearch: "summary ~ login") == "summary ~ login")
+        #expect(JiraClient.jql(forSearch: "status != Done") == "status != Done")
+        #expect(JiraClient.jql(forSearch: "assignee is EMPTY") == "assignee is EMPTY")
+        #expect(JiraClient.jql(forSearch: "\"Epic Link\" = PROJ-1") == "\"Epic Link\" = PROJ-1")
+        #expect(JiraClient.jql(forSearch: "cf[10010]=3") == "cf[10010]=3")
+        #expect(JiraClient.jql(forSearch: "(priority = High OR priority = Highest)") == "(priority = High OR priority = Highest)")
+        #expect(JiraClient.jql(forSearch: "order by created DESC") == "order by created DESC")
+    }
+
     @Test func attachesThroughTheRestAPI() async throws {
         let http = StubHTTPClient(status: 200, body: #"[{"id": 10001, "filename": "shot.png", "content": "https://yourco.atlassian.net/rest/api/3/attachment/content/10001"}]"#)
         let client = JiraClient(site: site, http: http)
@@ -186,6 +206,8 @@ struct ConfluenceClientTests {
     @Test func titleSearchCQL() {
         #expect(ConfluenceClient.cql(forTitleSearch: "Release \"notes\"") == "type = page AND title ~ \"Release \\\"notes\\\"\" ORDER BY lastmodified DESC")
         #expect(ConfluenceClient.cql(forTitleSearch: "space = DEV and type = page") == "space = DEV and type = page")
+        // "=" in a title doesn't make it CQL.
+        #expect(ConfluenceClient.cql(forTitleSearch: "Plan: cost = time") == "type = page AND title ~ \"Plan: cost = time\" ORDER BY lastmodified DESC")
     }
 
     @Test func findsPagesByTitle() async throws {
