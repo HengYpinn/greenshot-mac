@@ -68,7 +68,7 @@ public struct AtlassianSite: Equatable, Sendable {
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)!
         let base = components.path.hasSuffix("/") ? String(components.path.dropLast()) : components.path
         components.path = base + "/" + path
-        components.queryItems = query.isEmpty ? nil : query
+        components.setQueryItemsEncodingPlus(query.isEmpty ? nil : query)
         var request = URLRequest(url: components.url!, timeoutInterval: 60)
         request.httpMethod = method
         request.setValue(authorizationHeader, forHTTPHeaderField: "Authorization")
@@ -713,7 +713,7 @@ public enum ConfluencePageReference: Equatable, Hashable, Sendable {
 extension URL {
     func appending(queryItem name: String, value: String) -> URL {
         var components = URLComponents(url: self, resolvingAgainstBaseURL: false)!
-        components.queryItems = (components.queryItems ?? []) + [URLQueryItem(name: name, value: value)]
+        components.setQueryItemsEncodingPlus((components.queryItems ?? []) + [URLQueryItem(name: name, value: value)])
         return components.url ?? self
     }
 }

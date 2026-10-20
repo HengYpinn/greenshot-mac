@@ -150,6 +150,20 @@ struct JiraClientTests {
         #expect(JiraClient.jql(forSearch: "order by created DESC") == "order by created DESC")
     }
 
+    /// A "+" goes as "%2B": servers read a plain "+" in a query as a space, so "C++" would be searched as "C  ".
+    @Test func aPlusInTheSearchStaysAPlus() throws {
+        let request = JiraClient(site: site, http: StubHTTPClient([])).searchRequest(jql: JiraClient.jql(forSearch: "C++ a+b"))
+        let query = try #require(request.url?.query)
+        #expect(query.contains("C%2B%2B%20a%2Bb"))
+        #expect(!query.contains("+"))
+        #expect(request.query("jql") == "text ~ \"C++ a+b\" ORDER BY updated DESC")
+        let confluence = ConfluenceClient(site: site, http: StubHTTPClient([])).searchRequest(cql: "title ~ \"Q3+Q4\"")
+        let cql = try #require(confluence.url?.query)
+        #expect(cql.contains("Q3%2BQ4") && !cql.contains("+"))
+        let link = URL(string: "https://x.test/wiki/pages/viewpage.action")!.appending(queryItem: "title", value: "a+b c")
+        #expect(link.absoluteString == "https://x.test/wiki/pages/viewpage.action?title=a%2Bb%20c")
+    }
+
     @Test func attachesThroughTheRestAPI() async throws {
         let http = StubHTTPClient(status: 200, body: #"[{"id": 10001, "filename": "shot.png", "content": "https://yourco.atlassian.net/rest/api/3/attachment/content/10001"}]"#)
         let client = JiraClient(site: site, http: http)
@@ -387,6 +401,16 @@ struct CloudClientTests {
         #expect(result.link.absoluteString == "https://app.box.com/file/9" && !result.isSharedLink)
         #expect(http.last.bodyText.contains(#"{"name":"shot.png","parent":{"id":"0"}}"#))
         #expect(throws: UploadError.self) { try BoxClient.uploadedFileID(fromJSON: Data(#"{"entries":[]}"#.utf8)) }
+    }
+
+    /// The file name of the Dropbox web app's link keeps its "+" (servers read a plain "+" in a query as a space).
+    @Test func dropboxLinkKeepsAPlusInTheName() throws {
+        let url = DropboxClient.homeURL(path: "/Screenshots/Q3+Q4 plan.png")
+        #expect(url.absoluteString == "https://www.dropbox.com/home/Screenshots?preview=Q3%2BQ4%20plan.png")
+        let oauth = OAuthFlow.authorizationURL(provider: .dropbox, clientID: "a+b", redirect: OAuthProvider.dropbox.redirect,
+                                               state: "s1", codeChallenge: "c")
+        let query = try #require(oauth.query)
+        #expect(query.contains("client_id=a%2Bb"))
     }
 
     @Test func dropboxPathsAndUpload() async throws {

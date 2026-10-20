@@ -145,7 +145,7 @@ public enum OAuthFlow {
         for key in provider.extraAuthorizationParameters.keys.sorted() {
             items.append(URLQueryItem(name: key, value: provider.extraAuthorizationParameters[key]))
         }
-        components.queryItems = (components.queryItems ?? []) + items
+        components.setQueryItemsEncodingPlus((components.queryItems ?? []) + items)
         return components.url!
     }
 
