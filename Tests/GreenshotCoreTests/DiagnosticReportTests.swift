@@ -85,6 +85,30 @@ struct DiagnosticReportTests {
         #expect(!joined.contains("SHOT"))
     }
 
+    @Test func keysOfDictionarySettingsAreNumbered() {
+        // The keys are the user's data: the path of a recipe file, the id of a custom recipe.
+        var settings = AppSettings()
+        settings.recipes.unloadedRecipes = ["/Users/alex/Recipes/b.json": ["acme-upload"],
+                                            "/Users/alex/Recipes/a.json": ["x", "y"]]
+        settings.recipes.optionValues = ["acme-upload.server": "intranet", "acme-upload.apiToken": "s3cr3t"]
+        settings.editorStyles["arrow"] = AnnotationStyle(lineWidth: 5)
+        let dump = DiagnosticReport.settingsDump(settings)
+        #expect(dump.contains("recipes.unloadedRecipes.<key 1>[0] = <set>"))
+        #expect(dump.contains("recipes.unloadedRecipes.<key 1>[1] = <set>"))
+        #expect(dump.contains("recipes.unloadedRecipes.<key 2>[0] = <set>"))
+        // The key still hides a secret value; a dictionary key is never taken for the name of a setting.
+        #expect(dump.contains("recipes.optionValues.<key 1> = <set>"))
+        #expect(dump.contains("recipes.optionValues.<key 2> = <text, 8 characters>"))
+        #expect(dump.contains("editorStyles.<key 1>.lineWidth = 5"))
+        #expect(dump.contains("editorStyles.<key 1>.arrowHeads = \"end\""))
+        let joined = dump.joined(separator: "\n")
+        for word in ["alex", "Recipes/", "json", "acme", "server", "Token", "intranet", "arrow."] {
+            #expect(!joined.contains(word), "\(word)")
+        }
+        #expect(DiagnosticReport.dictionaryPaths(in: settings)
+            .isSuperset(of: ["editorStyles", "recipes.optionValues", "recipes.unloadedRecipes"]))
+    }
+
     @Test func freeTextOnlyShowsItsLength() {
         var settings = AppSettings()
         settings.filenamePattern = "${YYYY}-${title} by Alex"
