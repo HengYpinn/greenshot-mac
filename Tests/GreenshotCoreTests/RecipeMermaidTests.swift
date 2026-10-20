@@ -126,9 +126,13 @@ import Testing
         let aliasGraph = RecipeFlowGraph(alias)
         let first = try #require(aliasGraph.nodes.first { $0.nodeId == "my step" })
         let second = try #require(aliasGraph.nodes.first { $0.nodeId == "n0" })
-        #expect(aliasGraph.edges.contains { $0.from == first.id && $0.to == second.id })
-        #expect(RecipeFlowGraph(missing).nodes.contains { $0.role == .missing && $0.label == "n0 (missing)" })
-        #expect(RecipeFlowGraph(trigger).edges.contains { $0.style == .trigger && $0.from == "trigger_0" && $0.to != "trigger_0" })
+        let aliasEdge = aliasGraph.edges.contains { $0.from == first.id && $0.to == second.id }
+        #expect(aliasEdge)
+        let missingNode = RecipeFlowGraph(missing).nodes.first { $0.role == .missing }
+        #expect(missingNode?.label == "n0 (missing)")
+        let triggerEdge = RecipeFlowGraph(trigger).edges.first { $0.style == .trigger }
+        #expect(triggerEdge?.from == "trigger_0")
+        #expect(triggerEdge?.to != "trigger_0")
         #expect(RecipeFlowGraph(other).nodes.contains { $0.role == .recipe })
     }
 
@@ -138,7 +142,8 @@ import Testing
         single.triggers = [TriggerConfig(triggerType: "Hotkey")]
         let graph = RecipeFlowGraph(single)
         #expect(graph.nodes.first { $0.id == "a" }?.isStart == true)
-        #expect(graph.edges.contains { $0.style == .trigger && $0.to == "a" })
+        let triggerEdge = graph.edges.first { $0.style == .trigger }
+        #expect(triggerEdge?.to == "a")
         #expect(RecipeMermaid.text(of: single).contains("    class a startNode;"))
     }
 
