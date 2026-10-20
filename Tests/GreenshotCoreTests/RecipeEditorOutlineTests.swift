@@ -174,6 +174,18 @@ enum EditorFixtures {
                 == ["step a@0", "step b@0", "notReached@0", "step lost@1", "step lost2@1"])
     }
 
+    /// A recipe of one step needs no start steps (RecipeValidator): the step is where it starts, not "Not reached".
+    @Test func theOnlyStepIsTheStart() {
+        let single = EditorFixtures.recipe(["a:Source"], start: [])
+        #expect(RecipeValidator().validate(single).errors.isEmpty)
+        #expect(EditorFixtures.describe(RecipeOutline(single)) == ["step a@0"])
+        #expect(RecipeOutline.startSteps(of: single) == ["a"])
+        // With more steps the start steps must be named.
+        let two = EditorFixtures.recipe(["a:Source", "b"], ["a>b"], start: [])
+        #expect(RecipeOutline.startSteps(of: two).isEmpty)
+        #expect(EditorFixtures.describe(RecipeOutline(two)).first == "notReached@0")
+    }
+
     @Test func missingTargetContinues() {
         let recipe = EditorFixtures.recipe(["a:Source"], ["a>ghost"])
         #expect(EditorFixtures.describe(RecipeOutline(recipe)) == ["step a@0", "continues ghost@0"])

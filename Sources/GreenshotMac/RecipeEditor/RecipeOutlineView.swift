@@ -110,7 +110,9 @@ private struct RecipeStepRow: View {
     var body: some View {
         let node = model.recipe?.node(nodeId)
         let issues = model.diagnostics(for: .node(nodeId))
-        let isStart = model.recipe.map { RecipeFlowEditor.isStart(nodeId, in: $0) } ?? false
+        // The only step of a recipe without start steps is where it starts too.
+        let starts = model.recipe.map { RecipeOutline.startSteps(of: $0) } ?? []
+        let isStart = starts.contains { $0.caseInsensitiveCompare(nodeId) == .orderedSame }
         HStack(spacing: 6) {
             Image(systemName: RecipeEditorCatalog.symbol(for: node?.stepType ?? ""))
                 .frame(width: 18)

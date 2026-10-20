@@ -133,8 +133,8 @@ public struct RecipeFlowGraph: Sendable, Equatable {
 /// The recipe as a Mermaid flowchart (upstream RecipeEditorViewModel.cs:2110 `GenerateMermaidDsl`, docs/capture-recipes.md
 /// "Mermaid Workflow Diagram Export"; the docs' sample is simplified, the code's labels are "Name (StepType) [id]").
 /// Mac changes: ids Mermaid can't read (other characters than letters, digits and '_', or keywords like `end`) are
-/// written as `n<index>`, and error routes from `*` start at an "Any step" node (upstream writes `* -.`, which Mermaid
-/// rejects).
+/// written as `n<index>`, error routes from `*` start at an "Any step" node (upstream writes `* -.`, which Mermaid
+/// rejects), and the only step of a recipe without start steps is styled as its start (where the recipe starts).
 public enum RecipeMermaid {
     static let anyStepId = "any_step"
     static let keywords: Set<String> = ["end", "graph", "flowchart", "subgraph", "style", "class", "classdef", "click", "linkstyle",
@@ -212,8 +212,9 @@ public enum RecipeMermaid {
         }
     }
 
+    /// The start steps, the only step of a recipe without any too (`RecipeOutline.startSteps`).
     static func startNodes(_ recipe: CaptureRecipe) -> [String] {
-        recipe.flow.startNodes.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        RecipeOutline.startSteps(of: recipe)
     }
 
     static func nodeLabel(_ node: RecipeNode) -> String {

@@ -132,6 +132,16 @@ import Testing
         #expect(RecipeFlowGraph(other).nodes.contains { $0.role == .recipe })
     }
 
+    /// The only step of a recipe without start steps is drawn as its start, with the triggers leading to it.
+    @Test func theOnlyStepIsDrawnAsTheStart() {
+        var single = EditorFixtures.recipe(["a:Source"], start: [])
+        single.triggers = [TriggerConfig(triggerType: "Hotkey")]
+        let graph = RecipeFlowGraph(single)
+        #expect(graph.nodes.first { $0.id == "a" }?.isStart == true)
+        #expect(graph.edges.contains { $0.style == .trigger && $0.to == "a" })
+        #expect(RecipeMermaid.text(of: single).contains("    class a startNode;"))
+    }
+
     @Test func graphMarksStartsAndDecisions() {
         let graph = RecipeFlowGraph(EditorFixtures.conditional())
         #expect(graph.nodes.first { $0.id == "decide" }?.shape == .diamond)

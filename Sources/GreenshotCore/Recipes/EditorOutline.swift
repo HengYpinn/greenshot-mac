@@ -92,6 +92,14 @@ public struct RecipeOutline: Sendable {
         build()
     }
 
+    /// The start steps as written; a recipe of one step without any starts at it (RecipeValidator `validateFlow`, upstream
+    /// RecipeValidator.cs:834, and the engine's first node).
+    public static func startSteps(of recipe: CaptureRecipe) -> [String] {
+        let starts = recipe.flow.startNodes.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        if starts.isEmpty, recipe.nodes.count == 1 { return [recipe.nodes[0].id] }
+        return starts
+    }
+
     /// The row ids of the steps in the order they are shown.
     public var stepOrder: [String] { rows.compactMap(\.nodeId) }
 
@@ -224,7 +232,7 @@ public struct RecipeOutline: Sendable {
 
     private mutating func build() {
         if isExtension { add(.extensionIn, depth: 0) }
-        let starts = recipe.flow.startNodes.filter { node($0) != nil }.reduce(into: [String]()) { list, id in
+        let starts = RecipeOutline.startSteps(of: recipe).filter { node($0) != nil }.reduce(into: [String]()) { list, id in
             if !list.contains(where: { recipeEquals($0, id) }) { list.append(node(id)?.id ?? id) }
         }
         if starts.count == 1 {
