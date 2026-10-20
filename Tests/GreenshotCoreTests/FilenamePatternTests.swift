@@ -35,8 +35,13 @@ struct FilenamePatternTests {
         #expect(fill(FilenamePattern.defaultPattern, title: "Safari: Start/Page") == "2026-10-16 14_05_09-Safari_ Start_Page")
     }
 
+    /// Only a file name falls back to "greenshot ${capturetime}" (upstream `FilenameHelper.GetFilename`); `fill` keeps an
+    /// empty pattern empty like upstream's `FillPattern`, for the print footer, the mail subject and command arguments.
     @Test func emptyPatternFallsBackLikeUpstream() {
-        #expect(fill("  ") == "greenshot 2026-10-16 14-05-09")
+        #expect(FilenamePattern.fileName("", context: context()) == "greenshot 2026-10-16 14-05-09")
+        #expect(FilenamePattern.fileName("  ", context: context()) == "greenshot 2026-10-16 14-05-09")
+        #expect(fill("") == "")
+        #expect(fill("  ") == "  ")
     }
 
     @Test func dateParts() {

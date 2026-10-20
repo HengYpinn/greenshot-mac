@@ -223,7 +223,7 @@ struct VideoSettingsTab: View {
 
     private var example: String {
         let context = store.patternContext(title: "Safari", date: Date(), consumeNumber: false)
-        return FilenamePattern.fill(video.filenamePattern, context: context) + "." + RecordingOutputPath.fileExtension
+        return FilenamePattern.fileName(video.filenamePattern, context: context) + "." + RecordingOutputPath.fileExtension
     }
 
     private func destinationBinding(_ destination: VideoDestination) -> Binding<Bool> {

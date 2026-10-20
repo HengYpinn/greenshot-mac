@@ -15,7 +15,7 @@ import Foundation
 /// - `s<start>[,<length>]` takes a substring (negative numbers count from the end).
 public enum FilenamePattern {
     public static let defaultPattern = "${capturetime:d\"yyyy-MM-dd HH_mm_ss\"}-${title}"
-    /// Used when the configured pattern is empty, like upstream's `GetFilename`.
+    /// The name of a file whose pattern is empty, like upstream's `GetFilename` (see `fileName`).
     public static let fallbackPattern = "greenshot ${capturetime}"
 
     static let maxTitleLength = 80
@@ -97,9 +97,10 @@ public enum FilenamePattern {
     /// the literal text of the pattern is kept (so `${YYYY}/${title}` makes a sub folder). With `cleanCapturedValues` the
     /// values a capture brings along (a window or page title, a page's address) are cleaned even when `filenameSafe`
     /// is off, for a folder: a title is chosen by any app, so it must give one folder level at most, never "..", "~" or "/".
+    /// An empty pattern stays empty, like upstream's `FillPattern` (a print footer, a mail subject, a command argument);
+    /// only a file name falls back to `fallbackPattern` (`fileName`).
     public static func fill(_ pattern: String, context: Context, filenameSafe: Bool = true,
                             cleanCapturedValues: Bool = false) -> String {
-        let pattern = pattern.trimmingCharacters(in: .whitespaces).isEmpty ? fallbackPattern : pattern
         let ns = pattern as NSString
         var result = ""
         var last = 0
@@ -115,8 +116,9 @@ public enum FilenamePattern {
         return result
     }
 
-    /// Fills a pattern for a file name. A result without a name (empty, or ending in a folder like `${YYYY}/`)
-    /// gets the fallback pattern as its name, so the file never lands next to the output folder or is called ".png".
+    /// Fills a pattern for a file name. A result without a name (an empty pattern, an empty result, or one ending in a
+    /// folder like `${YYYY}/`) gets the fallback pattern as its name, so the file never lands next to the output folder
+    /// or is called ".png".
     public static func fileName(_ pattern: String, context: Context) -> String {
         let name = fill(pattern, context: context)
         let lastComponent = name.components(separatedBy: "/").last ?? ""

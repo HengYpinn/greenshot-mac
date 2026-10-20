@@ -89,8 +89,8 @@ struct OutputSettings: View {
     }
 
     private var example: String {
-        let name = FilenamePattern.fill(store.value.filenamePattern,
-                                        context: store.patternContext(title: "Safari", date: Date(), consumeNumber: false))
+        let name = FilenamePattern.fileName(store.value.filenamePattern,
+                                            context: store.patternContext(title: "Safari", date: Date(), consumeNumber: false))
         return "\(name).\(store.value.outputFormat.fileExtension)"
     }
 
