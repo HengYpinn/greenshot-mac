@@ -106,6 +106,32 @@ import Testing
         #expect(text.contains("    class n0 startNode;"))
     }
 
+    /// Every node of the graph has its own id: steps that share an id (exactly or in case only), or are named like
+    /// another step's Mermaid id, a trigger's, a missing step's or another recipe's (the Flow tab trapped on a repeated id).
+    @Test func clashingIdsStayApart() throws {
+        var trigger = EditorFixtures.recipe(["trigger_0:Source", "next"], ["trigger_0>next"])
+        trigger.triggers = [TriggerConfig(triggerType: "Hotkey")]
+        var other = EditorFixtures.recipe(["Recipe_other:Source"])
+        other.flow.errorTransitions = [ErrorTransition(from: "*", targetRecipeId: "other")]
+        let alias = EditorFixtures.recipe(["my step:Source", "n0", "next"], ["my step>n0", "n0>next"])
+        let missing = EditorFixtures.recipe(["my step:Source", "b"], ["my step>b", "b>n0"])
+        let recipes = [EditorFixtures.recipe(["save:Source", "save", "next"], ["save>next"]),
+                       EditorFixtures.recipe(["Save:Source", "save", "next"], ["Save>next"]), alias, missing, trigger, other]
+        for recipe in recipes {
+            let graph = RecipeFlowGraph(recipe)
+            let ids = graph.nodes.map(\.id)
+            #expect(Set(ids).count == ids.count, "\(ids)")
+            #expect(graph.nodes.filter { $0.role == .step }.count == recipe.nodes.count)
+        }
+        let aliasGraph = RecipeFlowGraph(alias)
+        let first = try #require(aliasGraph.nodes.first { $0.nodeId == "my step" })
+        let second = try #require(aliasGraph.nodes.first { $0.nodeId == "n0" })
+        #expect(aliasGraph.edges.contains { $0.from == first.id && $0.to == second.id })
+        #expect(RecipeFlowGraph(missing).nodes.contains { $0.role == .missing && $0.label == "n0 (missing)" })
+        #expect(RecipeFlowGraph(trigger).edges.contains { $0.style == .trigger && $0.from == "trigger_0" && $0.to != "trigger_0" })
+        #expect(RecipeFlowGraph(other).nodes.contains { $0.role == .recipe })
+    }
+
     @Test func graphMarksStartsAndDecisions() {
         let graph = RecipeFlowGraph(EditorFixtures.conditional())
         #expect(graph.nodes.first { $0.id == "decide" }?.shape == .diamond)

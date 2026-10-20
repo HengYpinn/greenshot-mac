@@ -25,7 +25,9 @@ public struct RecipeFlowLayout: Sendable {
     public private(set) var backEdges: [RecipeFlowGraph.Edge] = []
 
     public init(_ graph: RecipeFlowGraph, size: (RecipeFlowGraph.Node) -> CGSize) {
-        let ids = graph.nodes.map(\.id)
+        // Each id once: a repeated one would be placed twice and break the per-level positions.
+        var seen = Set<String>()
+        let ids = graph.nodes.map(\.id).filter { seen.insert($0).inserted }
         guard !ids.isEmpty else { return }
         var children: [String: [String]] = [:]
         var parents: [String: [String]] = [:]
@@ -78,7 +80,7 @@ public struct RecipeFlowLayout: Sendable {
         for _ in 0..<2 {
             for index in rows.indices.dropFirst() {
                 let above = rows[index - 1]
-                let position = Dictionary(uniqueKeysWithValues: above.enumerated().map { ($1, Double($0)) })
+                let position = Dictionary(above.enumerated().map { ($1, Double($0)) }, uniquingKeysWith: { first, _ in first })
                 let current = rows[index]
                 let keyed = current.enumerated().map { offset, id -> (id: String, key: Double, offset: Int) in
                     let positions = (parents[id] ?? []).compactMap { position[$0] }
