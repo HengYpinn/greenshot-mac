@@ -320,11 +320,7 @@ public final class EditorDocument {
     public func annotations(within rect: CGRect) -> [Annotation] {
         let area = rect.standardized
         guard !area.isEmpty else { return [] }
-        return annotations.filter { element in
-            let box = element.bounds
-            let covered = CGRect(x: box.minX, y: box.minY, width: max(box.width, 1), height: max(box.height, 1))
-            return area.contains(covered)
-        }
+        return annotations.filter { area.contains($0.coveredArea) }
     }
 
     /// The number a counter shows: counters are numbered in the order they were added, from `counterStart`, and
@@ -338,13 +334,16 @@ public final class EditorDocument {
         return nil
     }
 
-    /// Cuts the image to `rect` (image pixels) and moves the elements along. Returns false when nothing is left.
+    /// Cuts the image to `rect` (image pixels) and moves the elements along; the elements completely outside it go
+    /// (upstream `Surface.ApplyCrop`, `IsOutside`). Torn edges always cover the image, `cropKeepingEdges` changes them.
+    /// Returns false when nothing is left.
     @discardableResult
     public func crop(to rect: CGRect) -> Bool {
         let bounds = CGRect(origin: .zero, size: imageSize)
         let target = rect.standardized.integral.intersection(bounds)
         guard !target.isEmpty, target != bounds, let cropped = baseImage.cropping(to: target) else { return false }
         baseImage = cropped
+        annotations.removeAll { $0.kind != .tornEdge && !$0.coveredArea.intersects(target) }
         moveAnnotations(by: CGVector(dx: -target.minX, dy: -target.minY))
         return true
     }
@@ -386,6 +385,15 @@ public final class EditorDocument {
     /// The image with all elements drawn on it, the way it is saved.
     public func flattened() -> CGImage {
         AnnotationRenderer.flatten(base: baseImage, annotations: annotations, scale: scale, counterStart: counterStart) ?? baseImage
+    }
+}
+
+private extension Annotation {
+    /// The pixels the element covers: its box, at least one pixel wide and high, since lines have no width or height
+    /// (upstream `Surface.IsOutside`).
+    var coveredArea: CGRect {
+        let box = bounds
+        return CGRect(x: box.minX, y: box.minY, width: max(box.width, 1), height: max(box.height, 1))
     }
 }
 
