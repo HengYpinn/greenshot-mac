@@ -67,6 +67,37 @@ func recipeTemporaryFolder() -> URL {
         #expect(keyless.wasTampered)
     }
 
+    /// The Keychain fails to read the key for a while (not "no key"): nothing is approved meanwhile, nothing is saved over
+    /// the approvals, and once it reads again they are all back.
+    @Test func aKeyThatCantBeReadForAWhileDoesntLoseTheApprovals() throws {
+        let folder = recipeTemporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("trust.json")
+        let secrets = FlakySecretStore()
+        let first = "/tmp/recipes/first.gsrecipe.json"
+        let second = "/tmp/recipes/second.gsrecipe.json"
+        try RecipeTrustStore(fileURL: file, secrets: secrets)
+            .recordApproval(RecipeApproval(recipeId: "one"), forFile: first, sha256: "11", content: nil, origin: nil, recipeName: nil, recipeVersion: nil)
+
+        let store = RecipeTrustStore(fileURL: file, secrets: secrets)
+        secrets.failsReading = true
+        #expect(store.record(forFile: first) == nil)
+        #expect(throws: FlakySecretStore.ReadError.self) {
+            try store.recordApproval(RecipeApproval(recipeId: "two"), forFile: second, sha256: "22", content: nil, origin: nil,
+                                     recipeName: nil, recipeVersion: nil)
+        }
+        // A revocation isn't lost either: it says it failed.
+        #expect(throws: FlakySecretStore.ReadError.self) { try store.revokeApproval(recipeId: "one", forFile: first) }
+        #expect(throws: FlakySecretStore.ReadError.self) { try store.revokeAll(forFile: first) }
+        secrets.failsReading = false
+        #expect(store.approval(forFile: first, sha256: "11", recipeId: "one") != nil)
+        try store.recordApproval(RecipeApproval(recipeId: "two"), forFile: second, sha256: "22", content: nil, origin: nil,
+                                 recipeName: nil, recipeVersion: nil)
+        let reopened = RecipeTrustStore(fileURL: file, secrets: secrets)
+        #expect(reopened.allRecords.map(\.filePath) == [first, second].map(RecipeTrustStore.standardized))
+        #expect(!reopened.wasTampered)
+    }
+
     @Test func revokes() throws {
         let folder = recipeTemporaryFolder()
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -101,6 +132,29 @@ func recipeTemporaryFolder() -> URL {
 extension InMemorySecretStore {
     func secretValue(_ key: String) -> String? {
         (try? secret(for: key)) ?? nil
+    }
+}
+
+/// A secret store whose reads throw while `failsReading` is set (an error of the Keychain, not a missing item).
+final class FlakySecretStore: SecretStore, @unchecked Sendable {
+    struct ReadError: Error {}
+
+    private let base = InMemorySecretStore()
+    private let lock = NSLock()
+    private var failing = false
+
+    var failsReading: Bool {
+        get { lock.withLock { failing } }
+        set { lock.withLock { failing = newValue } }
+    }
+
+    func secret(for key: String) throws -> String? {
+        if failsReading { throw ReadError() }
+        return try base.secret(for: key)
+    }
+
+    func setSecret(_ value: String?, for key: String) throws {
+        try base.setSecret(value, for: key)
     }
 }
 
