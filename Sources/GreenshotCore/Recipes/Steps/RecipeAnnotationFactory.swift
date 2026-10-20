@@ -98,7 +98,20 @@ struct RecipeAnnotationFactory {
         if element.kind == .speechBubble {
             element.tail = tail(of: box, p)
         }
+        if element.kind == .line || element.kind == .arrow {
+            (element.start, element.end) = Self.ends(of: box, startCorner: p.text("StartCorner"))
+        }
         return .element(element)
+    }
+
+    /// A line's ends in its box: from `StartCorner` (TopLeft, TopRight, BottomLeft, BottomRight; a Mac addition, upstream
+    /// lines always go from the top left) to the opposite corner.
+    static func ends(of box: CGRect, startCorner: String?) -> (start: CGPoint, end: CGPoint) {
+        let corner = startCorner?.trimmingCharacters(in: .whitespaces).lowercased() ?? ""
+        let right = corner.hasSuffix("right")
+        let bottom = corner.hasPrefix("bottom")
+        return (CGPoint(x: right ? box.maxX : box.minX, y: bottom ? box.maxY : box.minY),
+                CGPoint(x: right ? box.minX : box.maxX, y: bottom ? box.minY : box.maxY))
     }
 
     private struct PictureError: LocalizedError {

@@ -140,6 +140,11 @@ public enum RecipeAnnotationExport {
         case .line, .arrow:
             p["Type"] = .string(annotation.kind == .line ? "Line" : "Arrow")
             placement()
+            // Upstream writes the box only (EditorAnnotationImporter makes negative sizes positive), so a line comes back
+            // from the top left to the bottom right; the corner it starts at keeps its direction (Mac `StartCorner`).
+            let vertical = annotation.start.y > annotation.end.y ? "Bottom" : "Top"
+            let horizontal = annotation.start.x > annotation.end.x ? "Right" : "Left"
+            if vertical + horizontal != "TopLeft" { p["StartCorner"] = .string(vertical + horizontal) }
             lineStyle()
             if annotation.kind == .arrow { p["ArrowHeads"] = .string(arrowHeads(style.arrowHeads)) }
         case .freehand:
