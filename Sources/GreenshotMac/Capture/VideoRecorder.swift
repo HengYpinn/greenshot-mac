@@ -94,7 +94,8 @@ final class VideoRecorder {
         writer = try VideoFileWriter(.init(url: options.outputURL, format: options.format, width: setup.width,
                                            height: setup.height, frameRate: options.frameRate, bitrate: bitrate,
                                            colorMode: options.colorMode, resizeBehavior: options.windowResizeBehavior,
-                                           hasAudio: options.audioSource != .none, realTime: true))
+                                           hasAudio: options.audioSource != .none, realTime: true,
+                                           replacesExistingFile: options.replacesExistingFile))
         output = VideoStreamOutput(writer: writer, usesContentRect: setup.windowID != nil,
                                    systemAudio: options.audioSource.includesSystemAudio,
                                    microphone: options.audioSource.includesMicrophone)

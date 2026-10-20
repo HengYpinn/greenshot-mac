@@ -57,10 +57,13 @@ public final class VideoFileWriter: @unchecked Sendable {
         /// Seconds between the parts written so far being made readable (movie fragments): after a crash, a force quit
         /// or a power loss the file plays up to the last part. `finish` still writes a normal MP4. 0: none.
         public var fragmentInterval: TimeInterval
+        /// A file at `url` is replaced (a recipe's fixed path); else the writer can't start.
+        public var replacesExistingFile: Bool
 
         public init(url: URL, format: VideoFormat, width: Int, height: Int, frameRate: Int, bitrate: Int,
                     colorMode: VideoColorMode = .fullColor, resizeBehavior: WindowResizeBehavior = .letterboxFixedCanvas,
-                    hasAudio: Bool = false, realTime: Bool = true, fragmentInterval: TimeInterval = 10) {
+                    hasAudio: Bool = false, realTime: Bool = true, fragmentInterval: TimeInterval = 10,
+                    replacesExistingFile: Bool = false) {
             self.url = url
             self.format = format
             self.width = width
@@ -72,6 +75,7 @@ public final class VideoFileWriter: @unchecked Sendable {
             self.hasAudio = hasAudio
             self.realTime = realTime
             self.fragmentInterval = fragmentInterval
+            self.replacesExistingFile = replacesExistingFile
         }
     }
 
@@ -141,6 +145,14 @@ public final class VideoFileWriter: @unchecked Sendable {
         }
         processor = VideoFrameProcessor(width: configuration.width, height: configuration.height,
                                         colorMode: configuration.colorMode, behavior: configuration.resizeBehavior)
+        // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one.
+        if configuration.replacesExistingFile, FileManager.default.fileExists(atPath: configuration.url.path) {
+            do {
+                try FileManager.default.removeItem(at: configuration.url)
+            } catch {
+                throw VideoWriterError.cannotStart(error.localizedDescription)
+            }
+        }
         guard writer.startWriting() else {
             throw VideoWriterError.cannotStart(writer.error?.localizedDescription ?? VideoWriterError.unknownReason)
         }

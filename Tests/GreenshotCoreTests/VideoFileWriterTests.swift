@@ -344,6 +344,32 @@ struct VideoFileWriterTests {
         #expect(!FileManager.default.fileExists(atPath: url.path))
     }
 
+    /// A recipe's fixed path records again over the last recording (upstream `FileMode.Create`).
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aRecipeRecordsOverItsLastFile() async throws {
+        let url = temporaryFile("again.mp4")
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data("the last recording".utf8).write(to: url)
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        appendSecond(video, start: 0)
+        _ = try await video.finish(at: seconds(1))
+        let info = try #require(try await track(url, .video))
+        #expect(info.codec == "avc1")
+    }
+
+    /// Without it (a menu recording, which picks a free name) an existing file is never touched.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func anExistingFileIsKeptOtherwise() throws {
+        let url = temporaryFile("taken.mp4")
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data("someone's file".utf8).write(to: url)
+        #expect(throws: VideoWriterError.self) {
+            _ = try writer(url)
+        }
+        #expect(try Data(contentsOf: url) == Data("someone's file".utf8))
+    }
+
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func cancelDeletesTheFile() throws {
         let url = temporaryFile("cancel.mp4")

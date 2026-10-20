@@ -49,6 +49,8 @@ import Testing
         #expect(options.maximumDuration == 0)
         #expect(!options.stopWhenWindowCloses)
         #expect(RecipeRecordVideoPlan.ending(of: options) == .whenStopped)
+        // A recipe's path is fixed: the next run records over the last file (upstream `FileMode.Create`).
+        #expect(options.replacesExistingFile)
     }
 
     @Test func presetThenSingleValues() {
