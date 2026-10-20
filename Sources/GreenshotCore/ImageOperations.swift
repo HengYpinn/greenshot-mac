@@ -10,10 +10,31 @@ import Foundation
 /// `RotateEffect`, `ResizeCanvasEffect` and `RemoveTransparencyEffect` (`Greenshot.Base/Effects/*.cs`) and
 /// `Surface.Clear` (`Greenshot.Editor/Drawing/Surface.cs`). Sizes are image pixels.
 public enum ImageOperations {
+    /// The longest side, pixels, of an image the operations and the effects make: TGA's limit, as for Expand capture
+    /// (`EditorDocument.maxPushOutSide`). A recipe can ask for any size; a bigger one fails like a canvas that can't be
+    /// drawn, where `Int()` of it would stop the app.
+    static let maxSide = 65535
+
+    /// Whether an image can have a side of `length` pixels: at least 1 and at most `maxSide` (NaN and infinity can't).
+    static func isDrawable(_ length: CGFloat) -> Bool {
+        (1...CGFloat(maxSide)).contains(length)
+    }
+
+    /// `points` times `scale` in whole pixels, limited to ±`maxSide`: a recipe can give any number of points, and
+    /// `Int()` of a product beyond Int's range would stop the app.
+    static func pixels(_ points: Int, scale: CGFloat) -> Int {
+        let limit = CGFloat(maxSide)
+        let value = (CGFloat(points) * scale).rounded()
+        return value.isNaN ? 0 : Int(min(max(value, -limit), limit))
+    }
+
     /// Upstream `ResizeEffect` / `ImageHelper.ResizeImage`: `image` scaled to `size` with high quality interpolation.
+    /// Less than a pixel is one; a size no image can have (NaN, infinite, beyond `maxSide`) gives nil.
     public static func resize(_ image: CGImage, to size: CGSize) -> CGImage? {
-        let width = max(Int(size.width.rounded()), 1)
-        let height = max(Int(size.height.rounded()), 1)
+        let target = CGSize(width: max(size.width.rounded(), 1), height: max(size.height.rounded(), 1))
+        guard isDrawable(target.width), isDrawable(target.height) else { return nil }
+        let width = Int(target.width)
+        let height = Int(target.height)
         guard let context = AnnotationRenderer.makeContext(width: width, height: height) else { return nil }
         context.interpolationQuality = .high
         context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
@@ -36,18 +57,26 @@ public enum ImageOperations {
     }
 
     /// Upstream `ResizeCanvasEffect` / `ImageHelper.ResizeCanvas`: the image on a canvas that is bigger by the given
-    /// pixels on each side, filled with `background` (transparent when nil). Negative values cut the side off.
+    /// pixels on each side, filled with `background` (transparent when nil). Negative values cut the side off. Nil when
+    /// nothing is left or a side would be longer than `maxSide` (margins from a recipe can be anything).
     public static func resizeCanvas(_ image: CGImage, left: Int, right: Int, top: Int, bottom: Int,
                                     background: CGColor? = nil) -> EffectResult? {
-        let width = image.width + left + right
-        let height = image.height + top + bottom
-        guard width > 0, height > 0, let context = AnnotationRenderer.makeContext(width: width, height: height) else { return nil }
+        guard let width = sum(image.width, left, right), let height = sum(image.height, top, bottom),
+              (1...maxSide).contains(width), (1...maxSide).contains(height),
+              let context = AnnotationRenderer.makeContext(width: width, height: height) else { return nil }
         if let background {
             context.setFillColor(background)
             context.fill(CGRect(x: 0, y: 0, width: width, height: height))
         }
         context.draw(image, in: CGRect(x: left, y: bottom, width: image.width, height: image.height))
         return context.makeImage().map { EffectResult(image: $0, offset: CGVector(dx: left, dy: top)) }
+    }
+
+    /// `side + before + after`, nil when it overflows Int.
+    private static func sum(_ side: Int, _ before: Int, _ after: Int) -> Int? {
+        let (partial, first) = side.addingReportingOverflow(before)
+        let (total, second) = partial.addingReportingOverflow(after)
+        return first || second ? nil : total
     }
 
     /// Upstream `Surface.Clear(Color.Transparent)`: a fully transparent image of the same size.

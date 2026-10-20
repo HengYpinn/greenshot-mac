@@ -148,6 +148,31 @@ final class RecipeTestClipboard: RecipeClipboardWriting, @unchecked Sendable {
         #expect(TestImage.pixel(payload.image, 1, 1) == .red)
     }
 
+    /// Sizes far beyond any image (a percentage of "inf" or 1e300, margins of 5e18, a border or shadow of 4.7e18 points on a
+    /// Retina capture) can't be applied: logged, and the flow goes on, instead of stopping the app.
+    @Test func effectsWithSizesBeyondAnyImage() async throws {
+        let huge = JSONValue.number(4.7e18)
+        let cases: [JSONObject] = [
+            ["Effect": .string("Resize"), "Percentage": .string("inf")],
+            ["Effect": .string("Resize"), "Percentage": .number(1e300)],
+            ["Effect": .string("ResizeCanvas"), "Left": .number(5e18), "Right": .number(5e18)],
+            ["Effect": .string("ResizeCanvas"), "Left": .number(-5e18)],
+            ["Effect": .string("Border"), "Width": huge],
+            ["Effect": .string("DropShadow"), "ShadowSize": huge],
+            ["Effect": .string("DropShadow"), "ShadowOffsetX": huge],
+            ["Effect": .string("TornEdge"), "ShadowSize": huge]
+        ]
+        for parameters in cases {
+            let context = await RecipeStepHarness.run(effect(parameters), image: TestImage.solid(width: 4, height: 4, .white), scale: 2)
+            #expect(context.logMentions("could not be applied"), "\(parameters)")
+            #expect(context.payload?.image.width == 4)
+        }
+        // Teeth bigger than the image tear it all off, but they are drawn.
+        let teeth: JSONObject = ["Effect": .string("TornEdge"), "ToothHeight": huge, "HorizontalToothRange": huge, "VerticalToothRange": huge]
+        let torn = await RecipeStepHarness.run(effect(teeth), image: TestImage.solid(width: 4, height: 4, .white), scale: 2)
+        #expect(torn.logged("Applied effect 'TornEdge'"))
+    }
+
     @Test func colorEffects() async throws {
         let inverted = await RecipeStepHarness.run(effect(["Effect": .string("Invert")]), image: TestImage.solid(width: 4, height: 4, .white))
         let black = try #require(inverted.payload?.image)

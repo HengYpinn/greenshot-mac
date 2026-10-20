@@ -31,7 +31,7 @@ struct EffectExecutor: RecipeStepExecutor {
     }
 
     static func apply(_ name: String, _ step: RecipeStepInvocation, _ document: EditorDocument, scale: CGFloat) -> Bool {
-        func pixels(_ points: Int) -> Int { Int((CGFloat(points) * scale).rounded()) }
+        func pixels(_ points: Int) -> Int { ImageOperations.pixels(points, scale: scale) }
         switch name.lowercased() {
         case "border":
             let width = max(1, step.int("Width") ?? 2)
