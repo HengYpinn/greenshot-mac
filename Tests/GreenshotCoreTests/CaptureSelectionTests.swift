@@ -25,6 +25,20 @@ struct CaptureSelectionTests {
         #expect(click.size == CGSize(width: 0.5, height: 0.5))
     }
 
+    @Test func aClickIsTooSmallToCaptureOnEveryDisplay() {
+        // Enter, Enter at one spot on a 1x display: one pixel, a whole point.
+        let click = CaptureSelection.rect(from: CGPoint(x: 100, y: 100), to: CGPoint(x: 100.4, y: 100.4), scale: 1)
+        #expect(click.size == CGSize(width: 1, height: 1))
+        #expect(!CaptureSelection.isCapturable(click))
+        let retinaClick = CaptureSelection.rect(from: CGPoint(x: 100, y: 100), to: CGPoint(x: 100.2, y: 100.2), scale: 2)
+        #expect(!CaptureSelection.isCapturable(retinaClick))
+        // 3 points in one direction are enough (a line of text), as long as the other is at least a point.
+        #expect(CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 3, height: 1)))
+        #expect(CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 1, height: 3)))
+        #expect(!CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 2, height: 2)))
+        #expect(!CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 40, height: 0.5)))
+    }
+
     @Test func aSecondDisplayKeepsItsGrid() {
         let rect = CaptureSelection.rect(from: CGPoint(x: 1440, y: 0), to: CGPoint(x: 1449.5, y: 9.5), scale: 2)
         #expect(rect == CGRect(x: 1440, y: 0, width: 10, height: 10))

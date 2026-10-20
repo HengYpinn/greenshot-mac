@@ -320,7 +320,7 @@ final class CaptureOverlayController {
         case .region:
             guard let start = anchor else { return }
             // A very small drag counts as a click and captures nothing, so the user can just try again.
-            if let rect = selection, rect.width >= 3 || rect.height >= 3, rect.width >= 1, rect.height >= 1 {
+            if let rect = selection, CaptureSelection.isCapturable(rect) {
                 finish(OverlaySelection(rect: rect, window: nil))
             } else {
                 anchor = nil
@@ -470,9 +470,12 @@ final class CaptureOverlayController {
         switch mode {
         case .region, .text:
             if let anchor {
+                // The second Enter is the mouse button going up (upstream `ToggleSelection`): a selection too small
+                // for a capture is a click, also on a display of one pixel per point.
                 let rect = dragRect(from: anchor, to: cursor)
-                guard rect.width >= 1, rect.height >= 1 else { return }
-                if mode == .region {
+                if !CaptureSelection.isCapturable(rect) {
+                    mode == .region ? cancelSelection() : finishText(clickedAt: cursor)
+                } else if mode == .region {
                     finish(OverlaySelection(rect: rect, window: nil))
                 } else {
                     finishText(in: rect)
