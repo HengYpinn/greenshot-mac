@@ -286,11 +286,12 @@ extension KeyCombo {
     }
 
     /// The key equivalent to show the shortcut in a menu, when the key can be shown there. A hotkey of several steps
-    /// has none: a menu can only show one.
+    /// has none: a menu can only show one. The key as the keyboard layout names it: a menu matches the character typed,
+    /// so on a German keyboard the hotkey on the key labelled Z shows and works as Z there.
     var menuKeyEquivalent: String? {
         // A menu can show neither several steps nor the side of a modifier.
         guard !isSequence, !usesSides else { return nil }
-        let name = KeyCombo.keyName(for: keyCode)
+        let name = KeyCombo.displayKeyName(for: keyCode)
         if name.count == 1, let char = name.lowercased().first, char.isLetter || char.isNumber || char.isPunctuation {
             return String(char)
         }
@@ -299,5 +300,53 @@ extension KeyCombo {
             return String(Character(scalar))
         }
         return nil
+    }
+}
+
+/// The names of the keys on the user's keyboard layout, for the names of hotkeys (`KeyCombo.layoutNames`) and the letter
+/// keys of the capture screen: what a key types on the current ASCII-capable layout, the user's German, French or Dvorak
+/// layout, or with a Russian or Greek one the Latin layout macOS also uses for shortcuts.
+@MainActor
+enum KeyboardLayoutNames {
+    private static var observer: NSObjectProtocol?
+
+    /// Names the keys of hotkeys by the current layout, and again whenever the user switches layouts.
+    static func follow() {
+        KeyCombo.layoutNames = characters(for: KeyCombo.layoutKeyCodes)
+        guard observer == nil else { return }
+        let name = Notification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String)
+        observer = DistributedNotificationCenter.default().addObserver(forName: name, object: nil, queue: .main) { _ in
+            MainActor.assumeIsolated { KeyCombo.layoutNames = characters(for: KeyCombo.layoutKeyCodes) }
+        }
+    }
+
+    /// What `keyCode` types without modifiers on the current ASCII-capable layout; nil when it types nothing.
+    static func character(for keyCode: UInt16) -> String? {
+        characters(for: [UInt32(keyCode)])[UInt32(keyCode)]
+    }
+
+    /// What each key types without modifiers on the current ASCII-capable layout (a dead key its accent); keys that type
+    /// nothing are left out. Text Input Sources are read on the main thread only.
+    static func characters(for keyCodes: [UInt32]) -> [UInt32: String] {
+        guard let source = TISCopyCurrentASCIICapableKeyboardLayoutInputSource()?.takeRetainedValue(),
+              let property = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)
+        else { return [:] }
+        let data = Unmanaged<CFData>.fromOpaque(property).takeUnretainedValue() as Data
+        let keyboardType = UInt32(LMGetKbdType())
+        return data.withUnsafeBytes { bytes -> [UInt32: String] in
+            guard let layout = bytes.baseAddress?.assumingMemoryBound(to: UCKeyboardLayout.self) else { return [:] }
+            var result: [UInt32: String] = [:]
+            for keyCode in keyCodes {
+                var deadKeyState: UInt32 = 0
+                var length = 0
+                var characters = [UniChar](repeating: 0, count: 4)
+                let status = UCKeyTranslate(layout, UInt16(keyCode), UInt16(kUCKeyActionDisplay), 0, keyboardType,
+                                            OptionBits(kUCKeyTranslateNoDeadKeysMask), &deadKeyState,
+                                            characters.count, &length, &characters)
+                guard status == noErr, length > 0 else { continue }
+                result[keyCode] = String(utf16CodeUnits: characters, count: length)
+            }
+            return result
+        }
     }
 }

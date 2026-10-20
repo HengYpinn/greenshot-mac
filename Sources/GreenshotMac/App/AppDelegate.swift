@@ -78,6 +78,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
             let settingsClosed = !(note.object is ShortcutRecorderButton)
             MainActor.assumeIsolated { self?.registerHotkeys(evenWhileRecording: settingsClosed) }
         }
+        // Hotkeys named by the keyboard layout; after the snapshots, which stay in US names.
+        KeyboardLayoutNames.follow()
         registerHotkeys()
         editors.restoreSavedEditors()
         switch previousRun {
