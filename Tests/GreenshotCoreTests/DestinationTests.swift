@@ -12,6 +12,18 @@ struct DestinationTests {
         #expect(!NotificationLevel.none.shows(.error))
     }
 
+    /// An Office destination is listed when its app is installed, or when it is chosen already: then it can be
+    /// turned off, also on a Mac without the app.
+    @Test func aChosenOfficeDestinationStaysListed() {
+        var settings = AppSettings()
+        settings.setDestination(.word, on: true)
+        let nothingInstalled: (OfficeApplication) -> Bool = { _ in false }
+        #expect(settings.offersDestination(.word, isInstalled: nothingInstalled))
+        #expect(!settings.offersDestination(.excel, isInstalled: nothingInstalled))
+        #expect(settings.offersDestination(.excel) { $0 == .excel })
+        #expect(settings.offersDestination(.clipboard, isInstalled: nothingInstalled))
+    }
+
     @Test func recipientsAndMailto() throws {
         #expect(DestinationSupport.recipients(" a@b.c, d@e.f;g@h.i ,") == ["a@b.c", "d@e.f", "g@h.i"])
         let url = try #require(DestinationSupport.mailtoURL(to: ["a@b.c"], cc: ["d@e.f"], bcc: [], subject: "Screenshot & more"))

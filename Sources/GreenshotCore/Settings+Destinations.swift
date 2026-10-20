@@ -168,3 +168,12 @@ public struct OfficeSettings: Codable, Equatable, Sendable {
         outlookAllowExportInMeetings = value(.outlookAllowExportInMeetings, d.outlookAllowExportInMeetings)
     }
 }
+
+extension AppSettings {
+    /// Whether Settings › Destinations lists `destination` under "After a capture": an Office one only when its app is
+    /// installed (`isInstalled`) or it is chosen already, so a destination whose app went away can still be turned off.
+    public func offersDestination(_ destination: CaptureDestination, isInstalled: (OfficeApplication) -> Bool) -> Bool {
+        guard let app = OfficeApplication(destination: destination) else { return true }
+        return destinations.contains(destination) || isInstalled(app)
+    }
+}

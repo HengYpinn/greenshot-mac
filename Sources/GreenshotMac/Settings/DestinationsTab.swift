@@ -38,7 +38,7 @@ struct DestinationsSettings: View {
             // Never disabled: with the menu on and nothing else chosen, there would be no way to switch. Only an
             // administrator locks them (upstream `FixedToEnabledConverter` on `OutputDestinations`), and the ones they
             // turned off aren't listed (`ExcludeDestinations`).
-            ForEach(Self.choices.filter(Self.isOffered).filter { !store.value.isDestinationExcluded($0) }, id: \.self) { candidate in
+            ForEach(offered, id: \.self) { candidate in
                 Toggle(candidate.displayName, isOn: destination(candidate))
                     .managed(\.destinations)
             }
@@ -50,11 +50,13 @@ struct DestinationsSettings: View {
         }
     }
 
-    /// The Office destinations only when their app is installed (or already chosen).
-    @MainActor
-    private static func isOffered(_ destination: CaptureDestination) -> Bool {
-        guard let app = OfficeApplication(destination: destination) else { return true }
-        return OfficeDestination.isInstalled(app)
+    /// The destinations to choose from: the Office ones only when their app is installed (or already chosen, so they
+    /// can be turned off), none an administrator turned off.
+    private var offered: [CaptureDestination] {
+        let settings = store.value
+        return Self.choices.filter { candidate in
+            settings.offersDestination(candidate) { OfficeDestination.isInstalled($0) } && !settings.isDestinationExcluded(candidate)
+        }
     }
 
     private var emailSection: some View {
