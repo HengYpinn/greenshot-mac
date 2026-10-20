@@ -276,7 +276,9 @@ final class StatusItemController: NSObject, NSMenuDelegate {
             menu.addItem(toggle(String(localized: "Play Camera Sound"), s.playCameraSound) { store.update { $0.playCameraSound.toggle() } })
         }
         if !store.isLocked(\.showNotifications) && !store.isLocked(\.notificationLevel) {
-            menu.addItem(toggle(String(localized: "Show Notifications"), s.showNotifications) { store.update { $0.showNotifications.toggle() } })
+            menu.addItem(toggle(String(localized: "Show Notifications"), s.notificationsShown) {
+                store.update { $0.setNotificationsShown(!$0.notificationsShown) }
+            })
         }
         // Upstream `AddRecipeQuickSettings`: the automatic steps' switches come last (RMANAGER).
         RecipeQuickSettingsMenu.append(to: menu, store: store)

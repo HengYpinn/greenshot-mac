@@ -67,6 +67,29 @@ struct NotificationSummaryTests {
         #expect(NotificationSummary.make(title: "x", exports: failure, settings: settings(level: .all, on: false)) == nil)
     }
 
+    /// Quick Settings › Show Notifications after Settings said None: on shows notifications again (All, the default).
+    @Test func turningNotificationsOnAfterNoneShowsThem() {
+        var values = AppSettings()
+        values.notificationLevel = .none
+        values.showNotifications = false
+        #expect(!values.notificationsShown)
+        values.setNotificationsShown(true)
+        #expect(values.notificationsShown)
+        #expect(values.notificationLevel == .all)
+        let success = [exported(.succeeded(), by: "Copy to clipboard")]
+        #expect(NotificationSummary.shownExports(success, settings: values) == success)
+    }
+
+    /// On keeps a level that shows something; off is the picker's None, which also silences warnings and errors.
+    @Test func turningNotificationsOffIsNone() {
+        var values = settings(level: .warnings, on: false)
+        values.setNotificationsShown(true)
+        #expect(values.notificationLevel == .warnings && values.showNotifications)
+        values.setNotificationsShown(false)
+        #expect(values.notificationLevel == .none && !values.showNotifications)
+        #expect(!values.notificationsShown)
+    }
+
     @Test func onlyARealSaveIsShownInFinder() {
         let file = URL(fileURLWithPath: "/tmp/shot.png")
         let temporary = URL(fileURLWithPath: "/tmp/mail/shot.png")
