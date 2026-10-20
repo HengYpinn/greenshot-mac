@@ -53,12 +53,13 @@ struct HotkeysSection: View {
         }
     }
 
-    /// The clash of a row's hotkey with the others.
+    /// The clash of a row's hotkey with the others. Without the permission for left and right keys a left-key and a
+    /// right-key hotkey on the same keys clash too (`HotkeyManager` registers both for either key).
     private func conflict(for title: String) -> String? {
         let hotkeys = store.value.hotkeys
         let all = Self.rows.compactMap { row in hotkeys[keyPath: row.keyPath].map { (name: row.title, combo: $0) } }
         guard let mine = all.first(where: { $0.name == title }) else { return nil }
-        return KeyCombo.conflict(of: mine.combo, with: all.filter { $0.name != title })
+        return KeyCombo.conflict(of: mine.combo, with: all.filter { $0.name != title }, tellsSides: access.canTellSides)
     }
 }
 

@@ -220,6 +220,27 @@ struct HotkeySidesTests {
         #expect(KeyCombo.conflict(of: right, with: [("Capture window", right)]) == "“Capture window” has the same hotkey.")
     }
 
+    @Test func leftAndRightClashWhenTheSidesCantBeToldApart() {
+        // Without Accessibility and Input Monitoring both go to Carbon with either key, and only the first one fires.
+        let right = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: rightCommand)
+        let left = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: ModifierSides(command: .left))
+        #expect(KeyCombo.conflict(of: right, with: [("Capture window", left)], tellsSides: true) == nil)
+        let clash = KeyCombo.conflict(of: right, with: [("Capture window", left)], tellsSides: false)
+        #expect(clash?.contains("only one of them fires") == true)
+        let withEither = KeyCombo.conflict(of: right, with: [("Capture region", .defaultRegion)], tellsSides: false)
+        #expect(withEither?.contains("only one of them fires") == true)
+        // Also as the beginning of a longer hotkey.
+        let sequence = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: rightCommand,
+                                followingChords: [chord(kVK_ANSI_C)])
+        #expect(KeyCombo.conflict(of: sequence, with: [("Capture region", left)], tellsSides: true) == nil)
+        let beginning = KeyCombo.conflict(of: sequence, with: [("Capture region", left)], tellsSides: false)
+        #expect(beginning?.contains("is the beginning of this hotkey") == true)
+        // Other keys still don't clash.
+        #expect(KeyCombo.conflict(of: right, with: [("Capture window", .defaultWindow)], tellsSides: false) == nil)
+        #expect(KeyCombo.conflict(of: .defaultRegion, with: [("Capture window", .defaultRegion)], tellsSides: false)
+                == "“Capture window” has the same hotkey.")
+    }
+
     @Test func theDeviceFlagsTellTheSides() {
         let chord = KeyChord(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: ModifierSides(control: .right, command: .left))
         let rightControlLeftCommand = DeviceModifierFlags.rightControl | DeviceModifierFlags.leftCommand

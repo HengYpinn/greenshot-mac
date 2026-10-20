@@ -338,25 +338,31 @@ public struct KeyCombo: Codable, Hashable, Sendable {
 
     /// The problem of `combo` (named `name`) with the other hotkeys: the same hotkey twice, or another hotkey that is the
     /// beginning of this one. Upstream checks the hotkeys of one step first and finishes a sequence as soon as one is
-    /// complete (`HotkeyManager.MatchHotkey`), so the longer hotkey would never fire. Nil when there is none.
-    public static func conflict(of combo: KeyCombo, with others: [(name: String, combo: KeyCombo)]) -> String? {
+    /// complete (`HotkeyManager.MatchHotkey`), so the longer hotkey would never fire. Without `tellsSides` (no permission
+    /// for the keyboard event tap) every hotkey works with either key of its modifiers, so a left and a right key clash
+    /// too: only the first of them fires. Nil when there is none.
+    public static func conflict(of combo: KeyCombo, with others: [(name: String, combo: KeyCombo)],
+                                tellsSides: Bool = true) -> String? {
         let steps = combo.chords
         for other in others {
             let otherSteps = other.combo.chords
             if otherSteps == steps { return String(localized: "“\(other.name)” has the same hotkey.") }
-            if otherSteps.count == steps.count, overlap(steps, otherSteps) {
+            if otherSteps.count == steps.count, overlap(steps, otherSteps, tellsSides: tellsSides) {
+                guard tellsSides else {
+                    return String(localized: "“\(other.name)” (\(other.combo.displayString)) has the same keys while left and right keys can't be told apart, so only one of them fires.")
+                }
                 return String(localized: "“\(other.name)” (\(other.combo.displayString)) has the same keys with either side, so both would fire.")
             }
-            if otherSteps.count < steps.count, overlap(Array(steps.prefix(otherSteps.count)), otherSteps) {
+            if otherSteps.count < steps.count, overlap(Array(steps.prefix(otherSteps.count)), otherSteps, tellsSides: tellsSides) {
                 return String(localized: "“\(other.name)” (\(other.combo.displayString)) is the beginning of this hotkey, so this one never fires.")
             }
         }
         return nil
     }
 
-    /// Each step of `a` can be the step of `b` (left/right sides taken into account).
-    private static func overlap(_ a: [KeyChord], _ b: [KeyChord]) -> Bool {
-        a.count == b.count && zip(a, b).allSatisfy { $0.overlaps($1) }
+    /// Each step of `a` can be the step of `b`: left/right sides taken into account when they can be told apart.
+    private static func overlap(_ a: [KeyChord], _ b: [KeyChord], tellsSides: Bool = true) -> Bool {
+        a.count == b.count && zip(a, b).allSatisfy { tellsSides ? $0.overlaps($1) : $0.ignoringSides == $1.ignoringSides }
     }
 
     // MARK: Key names
