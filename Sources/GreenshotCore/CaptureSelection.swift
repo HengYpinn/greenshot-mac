@@ -28,6 +28,14 @@ public enum CaptureSelection {
         (rect.width >= 3 || rect.height >= 3) && rect.width >= 1 && rect.height >= 1
     }
 
+    /// The pixels per point of the capture of `rect`, for its size labels: the largest of the displays it touches, as
+    /// `ScreenComposer.image` joins them, so a selection across a 1x and a 2x display shows the size of the picture on
+    /// both. Nil when it misses every display.
+    public static func captureScale(of rect: CGRect, on screens: [FrozenScreen]) -> CGFloat? {
+        let rect = rect.standardized
+        return screens.filter { $0.frame.intersects(rect) }.map(\.scale).max()
+    }
+
     /// The size of `rect` in whole pixels of a display with `scale` pixels per point.
     public static func pixelSize(of rect: CGRect, scale: CGFloat) -> (width: Int, height: Int) {
         (Int((rect.width * scale).rounded()), Int((rect.height * scale).rounded()))

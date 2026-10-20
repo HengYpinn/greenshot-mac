@@ -211,6 +211,12 @@ final class CaptureOverlayController {
         return screens[CaptureScreenChoice.screen(at: cursor, frames: screens.map(\.frame))]
     }
 
+    /// The pixels per point of the capture of `rect`, for its size labels: on every display the size the picture will
+    /// have, also for a selection across displays of different scales.
+    func captureScale(of rect: CGRect) -> CGFloat {
+        CaptureSelection.captureScale(of: rect, on: screens) ?? cursorScreen?.scale ?? 1
+    }
+
     /// The zoomer is for selecting pixels, not whole windows.
     var showsZoomer: Bool { zoomerVisible && mode != .window }
 

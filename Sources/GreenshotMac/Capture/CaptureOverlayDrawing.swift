@@ -52,8 +52,9 @@ extension OverlayMarksView {
             context.setLineWidth(1)
             context.stroke(shownSelection.insetBy(dx: 0.5, dy: 0.5))
         }
-        if let selection, selection.intersects(bounds), controller.mode != .text {
-            let pixels = CaptureSelection.pixelSize(of: selection, scale: frozen.scale)
+        if let selection, let global = controller.selection, selection.intersects(bounds), controller.mode != .text {
+            // The size of the picture, which a selection across displays has at the larger scale of them.
+            let pixels = CaptureSelection.pixelSize(of: global, scale: controller.captureScale(of: global))
             let alpha = controller.labelsOpacity(at: now)
             if alpha < 1 { controller.animator.requestFrame() }
             drawSelectionLabels(for: selection, width: pixels.width, height: pixels.height, alpha: alpha, in: context)
@@ -555,10 +556,8 @@ extension CaptureOverlayController {
         }
         let selectionName = String(localized: "Selection", comment: "Info panel of the capture screen: the selected area")
         if let rect = selection {
-            let scale = cursorScreen?.scale ?? 1
-            let width = Int((rect.width * scale).rounded())
-            let height = Int((rect.height * scale).rounded())
-            let size = BidiText.isolatedLTR("\(width) × \(height) px")
+            let pixels = CaptureSelection.pixelSize(of: rect, scale: captureScale(of: rect))
+            let size = BidiText.isolatedLTR("\(pixels.width) × \(pixels.height) px")
             let position = BidiText.isolatedLTR("\(Int(rect.minX.rounded())), \(Int(rect.minY.rounded()))")
             lines.append((selectionName, String(localized: "\(size) at \(position)",
                                                 comment: "Info panel of the capture screen: the selection's size at its position, e.g. 941 × 621 px at 120, 80")))
