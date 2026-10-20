@@ -36,6 +36,15 @@ public enum RecipeRecordVideoPlan {
         return CGRect(x: x, y: y, width: width, height: height)
     }
 
+    /// The display to record (Monitor) among `count` displays: `MonitorIndex` when it names one, else the primary
+    /// display at `primary` (upstream: `allMonitors[monitorIndex]`, else the one that `IsPrimary`); nil without displays.
+    public static func monitorIndex(_ step: RecipeStepInvocation, displays count: Int, primary: Int) -> Int? {
+        guard count > 0 else { return nil }
+        let index = step.int("MonitorIndex") ?? -1
+        if (0..<count).contains(index) { return index }
+        return (0..<count).contains(primary) ? primary : 0
+    }
+
     /// The window to look for (Window, ActiveWindow).
     public static func windowQuery(_ step: RecipeStepInvocation) -> WindowMatchQuery {
         func text(_ name: String) -> String? {

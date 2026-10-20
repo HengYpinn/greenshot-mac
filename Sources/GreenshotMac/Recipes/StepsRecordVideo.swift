@@ -91,10 +91,12 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
             target = .region(region)
             area = region
         case .monitor:
+            // The first screen is the primary one (with the menu bar), not `NSScreen.main` (the focused window's).
             let screens = NSScreen.screens
-            let index = step.int("MonitorIndex") ?? -1
-            let screen = screens.indices.contains(index) ? screens[index] : (NSScreen.main ?? screens.first)
-            guard let screen else { throw RecipeStepError("There is no display to record.", errorType: "InvalidOperationException") }
+            guard let index = RecipeRecordVideoPlan.monitorIndex(step, displays: screens.count, primary: 0) else {
+                throw RecipeStepError("There is no display to record.", errorType: "InvalidOperationException")
+            }
+            let screen = screens[index]
             target = .display(screen.displayID)
             area = CGDisplayBounds(screen.displayID)
             title = screen.localizedName
