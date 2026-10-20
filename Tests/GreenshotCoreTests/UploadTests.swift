@@ -25,11 +25,11 @@ final class StubHTTPClient: HTTPClient, @unchecked Sendable {
     }
 
     func data(for request: URLRequest) async throws -> (Data, URLResponse) {
-        lock.lock()
-        defer { lock.unlock() }
-        requests.append(request)
-        guard !queue.isEmpty else { throw UploadError.unexpectedResponse("no stubbed answer for \(request.url!)") }
-        let next = queue.removeFirst()
+        let next: Response = try lock.withLock {
+            requests.append(request)
+            guard !queue.isEmpty else { throw UploadError.unexpectedResponse("no stubbed answer for \(request.url!)") }
+            return queue.removeFirst()
+        }
         let response = HTTPURLResponse(url: request.url!, statusCode: next.status, httpVersion: nil, headerFields: nil)!
         return (Data(next.body.utf8), response)
     }
