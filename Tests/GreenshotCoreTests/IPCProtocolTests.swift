@@ -194,6 +194,17 @@ struct IPCEnvelopeTests {
         #expect(back == reply)
     }
 
+    /// A recipe value like `${x * 1}` with x = 1e999 is infinite; JSONSerialization would raise an Objective-C exception
+    /// that `try?` can't catch and the app would end. JSON has no such numbers: they are written as null, like the
+    /// recipe files and greenshot-mcp write them.
+    @Test func nonFiniteNumbersAreWrittenAsNull() {
+        #expect(IPCJSON.text(["x": .number(.infinity)]) == #"{"x":null}"#)
+        #expect(IPCJSON.text(["x": .number(-.infinity)]) == #"{"x":null}"#)
+        #expect(IPCJSON.text(["x": .number(.nan)]) == #"{"x":null}"#)
+        let nested: JSONObject = ["variables": .object(["a": .array([.number(1), .number(.nan)])])]
+        #expect(IPCJSON.text(nested) == #"{"variables":{"a":[1,null]}}"#)
+    }
+
     @Test func booleansStayBooleans() {
         let object = IPCJSON.parseObject(Data(#"{"a":true,"b":1}"#.utf8)) ?? [:]
         #expect(object["a"] == .bool(true))
