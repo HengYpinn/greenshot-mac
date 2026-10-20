@@ -69,6 +69,38 @@ struct BrowserContextTests {
         #expect(context.patternVariables.isEmpty)
     }
 
+    /// Mac: a stale page must not keep naming captures. The connection that ends forgets only the tab it reported
+    /// (another browser's stays); switching the extension off in Settings forgets any.
+    @Test func aConnectionForgetsOnlyItsOwnTab() {
+        let context = BrowserContext()
+        context.update(url: "https://jira.example.org/browse/QA-9", title: "Login", reporter: 101)
+        context.clear(reporter: 202)
+        #expect(context.currentURL == "https://jira.example.org/browse/QA-9")
+        context.clear(reporter: 101)
+        #expect(context.patternVariables.isEmpty)
+        #expect(context.safeSubfolder.isEmpty)
+
+        // The browser reporting last owns the tab
+        context.update(url: "https://a.example/", title: "A", reporter: 101)
+        context.update(url: "https://b.example/", title: "B", reporter: 202)
+        context.clear(reporter: 101)
+        #expect(context.currentDomain == "b.example")
+        context.clear()
+        #expect(context.currentURL.isEmpty)
+        #expect(context.currentTitle.isEmpty)
+    }
+
+    /// Mac: the extension sends `"tracking": false` when the user turns its tab tracking off.
+    @Test func turningTabTrackingOffForgetsTheTab() throws {
+        let context = BrowserContext()
+        let tab = try #require(IPCJSON.parseObject(Data(#"{"command":"TAB_CHANGED","url":"https://example.org/QA-1","title":"QA-1"}"#.utf8)))
+        context.apply(BrowserTabChange(envelope: IPCEnvelope(json: tab)), reporter: 101)
+        #expect(context.currentTicket == "QA-1")
+        let off = try #require(IPCJSON.parseObject(Data(#"{"command":"TAB_CHANGED","url":"","title":"","tracking":false}"#.utf8)))
+        context.apply(BrowserTabChange(envelope: IPCEnvelope(json: off)), reporter: 101)
+        #expect(context.patternVariables.isEmpty)
+    }
+
     @Test func browserVariablesFillAFileName() {
         let context = BrowserContext()
         context.update(url: "https://jira.example.org/browse/QA-9", title: "Login")

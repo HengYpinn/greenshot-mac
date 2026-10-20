@@ -60,6 +60,7 @@ final class AutomationCenter {
         // greenshot-cli, greenshot-mcp (AI tools) and the browser extension's native messaging host; the peer policy
         // decides which program may say which.
         configuration.acceptedSources = [.cli, .mcp, .nativeMessaging]
+        configuration.connectionEnded = { source, peer in BrowserExtensionCommands.connectionEnded(source, peer: peer) }
         let server = IPCServer(configuration: configuration, dispatcher: dispatcher)
         do {
             try server.start()

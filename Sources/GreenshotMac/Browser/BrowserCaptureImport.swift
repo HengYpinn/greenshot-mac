@@ -15,12 +15,13 @@ import GreenshotCore
 enum BrowserCaptureImport {
     private static let log = Log("Browser")
 
-    static func deliver(_ image: CGImage, request: BrowserImportRequest, app: AppDelegate) {
+    /// `reporter`: the program behind the extension's connection (the tab is forgotten when that connection ends).
+    static func deliver(_ image: CGImage, request: BrowserImportRequest, reporter: pid_t?, app: AppDelegate) {
         let date = Date()
         let scale = request.scale(pixelWidth: image.width)
         CaptureMetadataStore.shared.record(request.metadata, forCaptureAt: date)
         if !request.url.isEmpty {
-            BrowserContext.shared.update(url: request.url, title: request.title)
+            BrowserContext.shared.update(url: request.url, title: request.title, reporter: reporter)
         }
 
         var payload = RecipePayload(image: image, scale: scale, title: request.title, captureDate: date)

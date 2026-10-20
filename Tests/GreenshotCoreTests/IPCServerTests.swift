@@ -353,6 +353,27 @@ struct IPCServerTests {
         #expect(await waitUntil { server.connectionCount == 0 })
     }
 
+    /// The app forgets the browser extension's tab when its connection ends: the server says which identified
+    /// connection ended, and which program was behind it. A connection without HELLO isn't reported.
+    @Test func theEndOfAnIdentifiedConnectionIsReported() async throws {
+        let ended = EndRecorder()
+        let server = try makeServer {
+            $0.acceptedSources = [.cli, .nativeMessaging]
+            $0.connectionEnded = { source, peer in ended.record(source, pid: peer.pid) }
+        }
+        defer { server.stop() }
+        let anonymous = try IPCClient.connect(to: server.configuration.socketPath)
+        #expect(await waitUntil { server.connectionCount == 1 })
+        anonymous.close()
+        #expect(await waitUntil { server.connectionCount == 0 })
+        let client = try connect(server, format: .json, source: .nativeMessaging)
+        client.close()
+        #expect(await waitUntil { server.connectionCount == 0 })
+        let recorded = ended.values
+        #expect(recorded.map(\.source) == [.nativeMessaging])
+        #expect(recorded.map(\.pid) == [getpid()])
+    }
+
     @Test func connectionsAreLimited() async throws {
         let server = try makeServer { $0.maxConnections = 2 }
         defer { server.stop() }
@@ -423,6 +444,23 @@ private final class ThreadRecorder: @unchecked Sendable {
     func record(_ isMain: Bool) {
         lock.lock()
         recorded.append(isMain)
+        lock.unlock()
+    }
+}
+
+private final class EndRecorder: @unchecked Sendable {
+    private let lock = NSLock()
+    private var recorded: [(source: IPCSource, pid: pid_t)] = []
+
+    var values: [(source: IPCSource, pid: pid_t)] {
+        lock.lock()
+        defer { lock.unlock() }
+        return recorded
+    }
+
+    func record(_ source: IPCSource, pid: pid_t) {
+        lock.lock()
+        recorded.append((source, pid))
         lock.unlock()
     }
 }

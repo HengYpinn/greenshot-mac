@@ -38,11 +38,23 @@ enum BrowserExtensionCommands {
                 return nil
             }
             let change = BrowserTabChange(envelope: context.envelope)
-            // The address and title stay in memory and out of the log (they are the user's browsing)
-            BrowserContext.shared.update(url: change.url, title: change.title)
+            // The address and title stay in memory and out of the log (they are the user's browsing); with the
+            // extension's tab tracking turned off the tab is forgotten
+            BrowserContext.shared.apply(change, reporter: context.peer?.pid)
             return nil
         }
+        // Mac: a stale page must not keep naming captures (the Mac gives `${Browser.*}` to file names)
+        app.settings.onChange(of: \.browserExtensionEnabled) { enabled in
+            if !enabled { BrowserContext.shared.clear() }
+        }
         BrowserIntegration.refreshInstalledManifests()
+    }
+
+    /// `IPCServer.Configuration.connectionEnded`: the browser closed the extension's connection (quit, extension turned
+    /// off or reloaded), so the tab it reported is forgotten.
+    nonisolated static func connectionEnded(_ source: IPCSource, peer: IPCPeer) {
+        guard source == .nativeMessaging else { return }
+        BrowserContext.shared.clear(reporter: peer.pid)
     }
 
     /// Nil when the request may run, else why not.
@@ -71,7 +83,7 @@ enum BrowserExtensionCommands {
             let height = image.height
             let decoded = DecodedImage(image: image)
             await MainActor.run {
-                BrowserCaptureImport.deliver(decoded.image, request: request, app: app)
+                BrowserCaptureImport.deliver(decoded.image, request: request, reporter: context.peer?.pid, app: app)
             }
             log.debug("IMPORT_CAPTURE accepted (\(width)x\(height)).")
             return BrowserReplies.importAccepted(width: width, height: height)

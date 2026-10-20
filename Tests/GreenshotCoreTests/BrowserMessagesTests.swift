@@ -73,6 +73,9 @@ struct BrowserMessagesTests {
         let change = BrowserTabChange(envelope: try envelope(#"{"command":"TAB_CHANGED","url":"https://github.com/","title":"GitHub","browser":"chrome"}"#))
         #expect(change.url == "https://github.com/")
         #expect(change.title == "GitHub")
+        #expect(change.tracking)
+        let off = BrowserTabChange(envelope: try envelope(#"{"command":"TAB_CHANGED","url":"","title":"","tracking":false}"#))
+        #expect(!off.tracking)
     }
 
     @Test func handshakeSaysReadyWithTheVersionAndLeavesTheOptionsToTheExtension() throws {

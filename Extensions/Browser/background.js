@@ -7,7 +7,8 @@
  *
  * Mac changes: the native host is io.github.greenshot_mac.host (greenshot-native-host in the app); IMPORT_CAPTURE and
  * TAB_CHANGED also send "browser" (upstream sends it only in HANDSHAKE), and IMPORT_CAPTURE the tab's width in CSS pixels
- * ("tab_width", so Greenshot knows the Retina scale). manifest.json asks for no host permissions (upstream: <all_urls>):
+ * ("tab_width", so Greenshot knows the Retina scale). Turning the tab tracking off sends TAB_CHANGED with
+ * "tracking": false, so Greenshot forgets the tab. manifest.json asks for no host permissions (upstream: <all_urls>):
  * "activeTab" lets captureVisibleTab take the tab the user clicked the button in (Firefox 126 and later), "tabs" gives
  * the tab's address and title for the tab tracking.
  */
@@ -245,6 +246,26 @@ function reportTabChange(url, title) {
   });
 }
 
+/**
+ * Mac: tab tracking was turned off, so Greenshot forgets the tab this browser reported (it would keep naming captures
+ * after a page the user no longer shares).
+ */
+function forgetTab() {
+  lastReportedUrl = "";
+  lastReportedTitle = "";
+  if (!isConnected) {
+    return;
+  }
+  sendNativeMessage({
+    source: "native_messaging",
+    command: "TAB_CHANGED",
+    browser: getBrowserName(),
+    url: "",
+    title: "",
+    tracking: false
+  });
+}
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (!tab.active) {
     return;
@@ -304,8 +325,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.action === "UPDATE_CONFIG") {
+    const wasTracking = extensionConfig.track_tab_urls;
     extensionConfig = { ...extensionConfig, ...request.config };
     chrome.storage.local.set({ extensionConfig });
+    if (wasTracking && !extensionConfig.track_tab_urls) {
+      forgetTab();
+    }
     sendResponse({ success: true, config: extensionConfig });
     return true;
   }
