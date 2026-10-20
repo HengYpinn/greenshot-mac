@@ -155,6 +155,27 @@ import Testing
         #expect(!RecipeParameterForm.isExpression(.number(1)))
     }
 
+    /// A text `Patterns` is one regular expression to TextEffect, a text `ProcessorIds` is split at `,` and `;` by
+    /// Processors: the field shows each as its step reads it (it split both, and editing stored the pieces).
+    @Test func stringListsShowTextAsTheStepReadsIt() {
+        let pattern = JSONValue.string("\\d{1,3}\\.\\d{1,3}")
+        #expect(RecipeParameterForm.listLines(pattern, field: "Patterns") == ["\\d{1,3}\\.\\d{1,3}"])
+        #expect(RecipeParameterForm.listLines(pattern, field: "patterns") == TextEffectExecutor.patterns(pattern))
+        let ids = JSONValue.string("ocr; other")
+        #expect(RecipeParameterForm.listLines(ids, field: "ProcessorIds") == ["ocr", "other"])
+        #expect(RecipeParameterForm.listLines(.array([.string("a,b"), .string("c")]), field: "Patterns") == ["a,b", "c"])
+        #expect(RecipeParameterForm.listLines(nil, field: "Patterns").isEmpty)
+    }
+
+    /// One item per line, blank lines left out; an emptied list removes the parameter (it stored [""], so a missing
+    /// `Patterns` wasn't reported and the step found nothing).
+    @Test func stringListsStoreTheirLines() {
+        #expect(RecipeParameterForm.listValue("") == nil)
+        #expect(RecipeParameterForm.listValue("\n  \n") == nil)
+        #expect(RecipeParameterForm.listValue("a\n\n b\n") == .array([.string("a"), .string(" b")]))
+        #expect(RecipeParameterForm.listValue("a\r\nb") == .array([.string("a"), .string("b")]))
+    }
+
     @Test func undeclaredParametersAreKept() throws {
         let contract = try #require(StepContractCatalog.builtIn.contract(for: "Effect"))
         let node = RecipeNode(id: "e", stepType: "Effect", parameters: ["Effect": .string("Border"), "Sparkle": .bool(true)])

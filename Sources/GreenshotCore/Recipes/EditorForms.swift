@@ -276,6 +276,20 @@ public enum RecipeParameterForm {
         value?.stringValue?.contains("${") == true
     }
 
+    /// The lines a string-list field shows: an array's texts, or a text as its step reads it: TextEffect `Patterns` as
+    /// one regular expression (`TextEffectExecutor.patterns`), Processors `ProcessorIds` split at `,` and `;` (`asStrings`).
+    public static func listLines(_ value: JSONValue?, field name: String) -> [String] {
+        if case .string(let text) = value, recipeEquals(name, "Patterns") { return [text] }
+        return value?.asStrings ?? []
+    }
+
+    /// What a string-list field stores for its text: one item per line, blank lines left out (upstream
+    /// `TextEffectPatterns`); nil, the parameter removed, when none is left (upstream `CustomProcessorIdsText`).
+    public static func listValue(_ text: String) -> JSONValue? {
+        let items = text.components(separatedBy: .newlines).filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        return items.isEmpty ? nil : .array(items.map { .string($0) })
+    }
+
     /// The text a number field shows and the value it writes back: numbers stay numbers, an expression stays text.
     public static func numberValue(_ text: String, decimal: Bool) -> JSONValue? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
