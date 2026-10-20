@@ -86,6 +86,32 @@ struct LogFileTests {
         #expect(try read(url) == "earlier\nlater\n")
     }
 
+    @Test func startsANewFileWhenTheLogWasDeleted() throws {
+        // The user deleted Greenshot.log in the Finder to start afresh.
+        let folder = try temporaryFolder()
+        let url = folder.appendingPathComponent(LogFile.fileName)
+        let writer = LogFileWriter(url: url, checkInterval: 0)
+        writer.append("first\n")
+        try FileManager.default.removeItem(at: url)
+        writer.append("second\n")
+        writer.close()
+        #expect(try read(url) == "second\n")
+    }
+
+    @Test func writesToTheFileThatReplacedTheLog() throws {
+        let folder = try temporaryFolder()
+        let url = folder.appendingPathComponent(LogFile.fileName)
+        let writer = LogFileWriter(url: url, checkInterval: 0)
+        writer.append("first\n")
+        let moved = folder.appendingPathComponent("moved.log")
+        try FileManager.default.moveItem(at: url, to: moved)
+        try Data("other\n".utf8).write(to: url)
+        writer.append("second\n")
+        writer.close()
+        #expect(try read(moved) == "first\n")
+        #expect(try read(url) == "other\nsecond\n")
+    }
+
     @Test func liveTailCollectsOnlyWhileOpen() {
         let hub = LogHub(level: .debug, unifiedLog: false)
         hub.write(.info, category: "Test", message: "before", error: nil)

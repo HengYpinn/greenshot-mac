@@ -124,19 +124,29 @@ public enum LogFile {
 /// Appends entries to the log file and rolls it over (upstream log4net `RollingFileAppender`, `rollingStyle Size`):
 /// when the file reached `maxSize`, `name.3` is deleted, `name.2` becomes `.3`, `.1` becomes `.2`, the file becomes
 /// `.1`, and a new file starts. Writes go straight to the file (no buffer), so they are there when the app crashes.
+/// A file that was deleted, moved away or replaced while the app runs (on Windows the open log can't be deleted) is
+/// noticed, at most `checkInterval` late, and a new one started.
 /// Not thread-safe on its own: `LogHub` calls it under its lock.
 final class LogFileWriter {
     let url: URL
     let maxSize: Int
     let backups: Int
+    /// Seconds between two checks that `url` is still the open file (a `stat` of the path, not one for every entry).
+    let checkInterval: TimeInterval
     private var descriptor: Int32 = -1
     private var size = 0
     private var failed = false
+    /// The open file, and when it was last compared with the file at `url` (`systemUptime`).
+    private var device: dev_t = 0
+    private var inode: ino_t = 0
+    private var lastCheck: TimeInterval = 0
 
-    init(url: URL, maxSize: Int = LogFile.maxFileSize, backups: Int = LogFile.backups) {
+    init(url: URL, maxSize: Int = LogFile.maxFileSize, backups: Int = LogFile.backups,
+         checkInterval: TimeInterval = 1) {
         self.url = url
         self.maxSize = maxSize
         self.backups = backups
+        self.checkInterval = checkInterval
     }
 
     deinit {
@@ -145,6 +155,10 @@ final class LogFileWriter {
 
     func append(_ text: String) {
         guard !failed else { return }
+        if descriptor >= 0, isReplaced() {
+            // Deleted in the Finder to start afresh: the open descriptor would write where nobody reads.
+            close()
+        }
         if descriptor < 0 { open() }
         guard descriptor >= 0 else { return }
         if size >= maxSize {
@@ -177,6 +191,22 @@ final class LogFileWriter {
             return
         }
         size = Int(lseek(descriptor, 0, SEEK_END))
+        var status = stat()
+        if fstat(descriptor, &status) == 0 {
+            device = status.st_dev
+            inode = status.st_ino
+        }
+        lastCheck = ProcessInfo.processInfo.systemUptime
+    }
+
+    /// Whether the file at `url` is gone or another one than the open file; checked at most every `checkInterval`.
+    private func isReplaced() -> Bool {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard now - lastCheck >= checkInterval else { return false }
+        lastCheck = now
+        var status = stat()
+        if stat(url.path, &status) != 0 { return errno == ENOENT || errno == ENOTDIR }
+        return status.st_dev != device || status.st_ino != inode
     }
 
     private func roll() {
