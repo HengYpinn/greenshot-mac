@@ -54,8 +54,8 @@ struct ImagePasteboardTests {
         }
     }
 
-    @Test func webImagesOfCopiedHTML() throws {
-        try withPasteboard { pasteboard in
+    @Test func webImagesOfCopiedHTML() {
+        withPasteboard { pasteboard in
             pasteboard.setString("<img src='https://example.com/a.png'><IMG SRC=http://example.com/b.jpg>", forType: .html)
             #expect(ImagePasteboard.webImageURLs(on: pasteboard).map(\.absoluteString)
                 == ["https://example.com/a.png", "http://example.com/b.jpg"])
