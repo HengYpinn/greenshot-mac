@@ -16,11 +16,14 @@ final class RecordingCountdown {
     private var remaining = 0
     private var view: RecordingCountdownView?
     private var tick: ((Int) -> Void)?
+    /// Cancelled after it ran out, while the panel goes off the screen: the recording doesn't start after all.
+    private var cancelledAtTheEnd = false
 
     /// Counts `seconds` down over `area` (Quartz global points); `tick` gets the seconds left. True when it ran out,
     /// false when it was cancelled.
     func run(seconds: Int, over area: CGRect, tick: @escaping (Int) -> Void) async -> Bool {
         remaining = max(seconds, 1)
+        cancelledAtTheEnd = false
         self.tick = tick
         let view = RecordingCountdownView(frame: NSRect(x: 0, y: 0, width: 160, height: 160))
         view.seconds = remaining
@@ -68,11 +71,16 @@ final class RecordingCountdown {
         timer = nil
         panel?.orderOut(nil)
         panel = nil
-        guard let continuation else { return }
+        guard let continuation else {
+            // The countdown ran out a moment ago and the answer is still on its way: a cancel now still counts.
+            if !ranOut { cancelledAtTheEnd = true }
+            return
+        }
         self.continuation = nil
         // A moment for the window server to take the panel off the screen before the first frame.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            continuation.resume(returning: ranOut)
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: 150_000_000)
+            continuation.resume(returning: ranOut && !(self?.cancelledAtTheEnd ?? false))
         }
     }
 }
