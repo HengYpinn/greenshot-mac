@@ -225,6 +225,29 @@ enum RecipeEngineHarness {
         #expect(recorder.all == ["a", "b", "handler"])
     }
 
+    /// An error handler id that is no node (a recipe that skipped the validator, or a typo in an error transition): the
+    /// failure isn't handled, the flow fails instead of ending as a success.
+    @Test(arguments: [false, true])
+    func missingErrorHandlerNodeFailsTheFlow(viaTransition: Bool) async {
+        let recorder = RecipeRecorder()
+        let failures = RecipeRecorder()
+        var recipe = failingRecipe()
+        if viaTransition {
+            recipe.flow.errorTransitions = [ErrorTransition(from: "b", to: "typo")]
+        } else {
+            recipe.nodes[1].onErrorNodeId = "typo"
+        }
+        let context = RecipeEngineHarness.context(recipe)
+        let engine = RecipeFlowEngine(steps: failingRegistry(recorder)) { event in
+            if case .nodeFailed(_, let nodeId, _, let handledBy) = event { failures.add("\(nodeId) -> \(handledBy ?? "nil")") }
+        }
+        await engine.execute(context)
+        #expect(recorder.all == ["a", "b"])
+        #expect(context.state == .failed)
+        #expect(context.abortReason == "Node 'b' failed: Boom. Its error handler 'typo' is not a node of the recipe.")
+        #expect(failures.all == ["b -> nil"])
+    }
+
     @Test func innerErrorTypeAndWildcardSource() async {
         let recorder = RecipeRecorder()
         var recipe = failingRecipe()

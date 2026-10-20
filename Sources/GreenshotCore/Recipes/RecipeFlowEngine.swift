@@ -285,6 +285,12 @@ private final class FlowRun: @unchecked Sendable {
             emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
             return
         }
+        // A handler id that is no node handles nothing: the flow fails (upstream logs "not found" and ends as a success).
+        if targetRecipe == nil, let targetNode, nodes[targetNode.lowercased()] == nil {
+            context.fail("Node '\(node.id)' failed: \(message). Its error handler '\(targetNode)' is not a node of the recipe.", error: error)
+            emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
+            return
+        }
         // A handler that fails again would route to a handler again: the cap ends the loop with an error.
         guard context.errorHops.take() else {
             context.fail("Node '\(node.id)' failed: \(message). Stopped after \(RecipeErrorHopCounter.maxHops) error handlers in one run (an error handler leads back to itself).", error: error)
