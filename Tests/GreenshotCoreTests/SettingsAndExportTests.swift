@@ -38,6 +38,49 @@ struct SettingsTests {
         #expect(decoded.recentEmoji == "🙂")
     }
 
+    /// A group missing a key (written before an option was added) or with an unknown value (written by a newer
+    /// version) keeps its other values instead of going back to the defaults as a whole.
+    @Test func settingsGroupsKeepTheirValuesWhenAKeyIsMissingOrUnknown() throws {
+        let json = #"""
+        {"printing": {"footer": false},
+         "email": {"to": "a@b.test"},
+         "dropShadowSettings": {"darkness": 0.3},
+         "pdf": {"pageSize": "legal", "marginTop": 5},
+         "box": {"clientID": "box-id", "uploadFormat": "heic"},
+         "dropbox": {"appKey": "dropbox-key", "uploadFormat": "heic", "folder": "Shots"}}
+        """#
+        let decoded = try JSONDecoder().decode(AppSettings.self, from: Data(json.utf8))
+        #expect(!decoded.printing.footer)
+        #expect(decoded.printing.center && decoded.printing.promptOptions)
+        #expect(decoded.email.to == "a@b.test")
+        #expect(decoded.email.subjectPattern == "${title}")
+        #expect(decoded.dropShadowSettings.darkness == 0.3)
+        #expect(decoded.dropShadowSettings.size == 7)
+        #expect(decoded.pdf.pageSize == .image)
+        #expect(decoded.pdf.marginTop == 5)
+        #expect(decoded.box.clientID == "box-id")
+        #expect(decoded.box.uploadFormat == .png && decoded.box.folderID == "0")
+        #expect(decoded.dropbox.appKey == "dropbox-key")
+        #expect(decoded.dropbox.uploadFormat == .png && decoded.dropbox.folder == "Shots")
+    }
+
+    /// Each group still writes every value and reads it back.
+    @Test func settingsGroupsGoBackAndForth() throws {
+        var s = AppSettings()
+        s.printing.footer = false
+        s.printing.monochromeThreshold = 90
+        s.email.bcc = "c@d.test"
+        s.dropShadowSettings = DropShadowSettings(darkness: 0.2, size: 4, offsetX: 2, offsetY: 3)
+        s.pdf.pageSize = .a4
+        s.pdf.scaling = .fitToPage
+        s.box.uploadFormat = .jpg
+        s.box.useSharedLink = false
+        s.dropbox.copyLinkToClipboard = false
+        s.dropbox.jpegQuality = 55
+        let decoded = try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(s))
+        #expect(decoded == s)
+    }
+
     @Test func aClearedHotkeyStaysCleared() throws {
         var s = AppSettings()
         s.hotkeys.region = nil

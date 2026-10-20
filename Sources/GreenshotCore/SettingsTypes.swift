@@ -107,6 +107,21 @@ public struct DropShadowSettings: Codable, Equatable, Sendable {
         self.offsetX = offsetX
         self.offsetY = offsetY
     }
+
+    enum CodingKeys: String, CodingKey { case darkness, size, offsetX, offsetY }
+
+    /// Every value falls back to its default, so settings written before a new option still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = DropShadowSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        darkness = value(.darkness, d.darkness)
+        size = value(.size, d.size)
+        offsetX = value(.offsetX, d.offsetX)
+        offsetY = value(.offsetY, d.offsetY)
+    }
 }
 
 /// Upstream `TornEdgeEffect`: ToothHeight 12, tooth ranges 20, all edges, GenerateShadow true with the drop shadow's
@@ -270,6 +285,31 @@ public struct PrintSettings: Codable, Equatable, Sendable {
     public var center = true
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey {
+        case promptOptions, inverted, grayscale, monochrome, monochromeThreshold, footer, footerPattern, allowShrink
+        case allowEnlarge, allowRotate, center
+    }
+
+    /// Every value falls back to its default, so settings written before a new option still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = PrintSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        promptOptions = value(.promptOptions, d.promptOptions)
+        inverted = value(.inverted, d.inverted)
+        grayscale = value(.grayscale, d.grayscale)
+        monochrome = value(.monochrome, d.monochrome)
+        monochromeThreshold = value(.monochromeThreshold, d.monochromeThreshold)
+        footer = value(.footer, d.footer)
+        footerPattern = value(.footerPattern, d.footerPattern)
+        allowShrink = value(.allowShrink, d.allowShrink)
+        allowEnlarge = value(.allowEnlarge, d.allowEnlarge)
+        allowRotate = value(.allowRotate, d.allowRotate)
+        center = value(.center, d.center)
+    }
 }
 
 /// Upstream `MailApiTo/CC/BCC` and the Office plugin's `EmailSubjectPattern`.
@@ -280,6 +320,21 @@ public struct EmailSettings: Codable, Equatable, Sendable {
     public var subjectPattern = "${title}"
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey { case to, cc, bcc, subjectPattern }
+
+    /// Every value falls back to its default, so settings written before a new option still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = EmailSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        to = value(.to, d.to)
+        cc = value(.cc, d.cc)
+        bcc = value(.bcc, d.bcc)
+        subjectPattern = value(.subjectPattern, d.subjectPattern)
+    }
 }
 
 /// One command of upstream's External Command plugin: `{0}` in the arguments is the path of a temporary PNG.
@@ -397,6 +452,29 @@ public struct PDFSettings: Codable, Equatable, Sendable {
     public var scaling: Scaling = .shrinkToFit
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey {
+        case pageSize, unit, customWidth, customHeight, marginTop, marginLeft, marginRight, marginBottom, scaling
+    }
+
+    /// Every value falls back to its default, so settings written before a new option, or with a choice of a newer
+    /// version, still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = PDFSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        pageSize = value(.pageSize, d.pageSize)
+        unit = value(.unit, d.unit)
+        customWidth = value(.customWidth, d.customWidth)
+        customHeight = value(.customHeight, d.customHeight)
+        marginTop = value(.marginTop, d.marginTop)
+        marginLeft = value(.marginLeft, d.marginLeft)
+        marginRight = value(.marginRight, d.marginRight)
+        marginBottom = value(.marginBottom, d.marginBottom)
+        scaling = value(.scaling, d.scaling)
+    }
 }
 
 // MARK: Uploads
@@ -527,6 +605,24 @@ public struct BoxSettings: Codable, Equatable, Sendable {
     public var useSharedLink = true
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey { case clientID, uploadFormat, jpegQuality, folderID, copyLinkToClipboard, useSharedLink }
+
+    /// Every value falls back to its default, so settings written before a new option, or with a choice of a newer
+    /// version, still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = BoxSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        clientID = value(.clientID, d.clientID)
+        uploadFormat = value(.uploadFormat, d.uploadFormat)
+        jpegQuality = value(.jpegQuality, d.jpegQuality)
+        folderID = value(.folderID, d.folderID)
+        copyLinkToClipboard = value(.copyLinkToClipboard, d.copyLinkToClipboard)
+        useSharedLink = value(.useSharedLink, d.useSharedLink)
+    }
 }
 
 /// Upstream Dropbox plugin settings (`IDropboxConfiguration.cs`), plus the user's own app key. The tokens are in
@@ -540,4 +636,21 @@ public struct DropboxSettings: Codable, Equatable, Sendable {
     public var copyLinkToClipboard = true
 
     public init() {}
+
+    enum CodingKeys: String, CodingKey { case appKey, uploadFormat, jpegQuality, folder, copyLinkToClipboard }
+
+    /// Every value falls back to its default, so settings written before a new option, or with a choice of a newer
+    /// version, still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = DropboxSettings()
+        func value<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
+            (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
+        }
+        appKey = value(.appKey, d.appKey)
+        uploadFormat = value(.uploadFormat, d.uploadFormat)
+        jpegQuality = value(.jpegQuality, d.jpegQuality)
+        folder = value(.folder, d.folder)
+        copyLinkToClipboard = value(.copyLinkToClipboard, d.copyLinkToClipboard)
+    }
 }
