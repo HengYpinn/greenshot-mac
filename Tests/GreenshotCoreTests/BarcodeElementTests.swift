@@ -104,6 +104,7 @@ struct BarcodeElementTests {
     @Test func visionReadsFullASCII() async throws {
         let code39 = try await Self.decoded(Self.spec(.code39, "Hello, world!"), as: [.code39FullASCII])
         // Vision of macOS 15 turns a full ASCII Code 39 into other text (CI saw "H%,,/\\ 7/2,$…"); newer Vision reads it.
+        // So this is only a soft check; BarcodeLinearTests.code39FullASCIIByTheTable checks the bars themselves.
         withKnownIssue("Vision before macOS 26 misreads full ASCII Code 39", isIntermittent: true) {
             #expect(code39 == ["Hello, world!"])
         }
