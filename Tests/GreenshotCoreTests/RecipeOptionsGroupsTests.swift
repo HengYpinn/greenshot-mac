@@ -115,6 +115,20 @@ import Testing
         #expect(fixture.box.settings.optionValues["ext_border.onlyDestinations"] == "EMail,FileNoDialog")
     }
 
+    /// The scope dialog lists only the recipes the automatic step can change now: saving it keeps the exclusion of a
+    /// recipe that isn't listed (it lost its slot for a while, or its file isn't loaded).
+    @Test func savingTheScopeKeepsTheExclusionsOfRecipesItDoesntList() throws {
+        let fixture = fixture()
+        defer { fixture.cleanUp() }
+        fixture.library.setExtensionScope(id: "ext_border", exceptRecipes: ["window", "elsewhere"], onlyDestinations: [])
+        // "elsewhere" isn't a recipe the dialog lists; "window" is, and is checked again.
+        var scope = try #require(fixture.library.extensionScope(id: "ext_border", destinations: Self.destinations))
+        #expect(scope.captures.map(\.id) == ["region", "window"])
+        scope.captures = scope.captures.map { RecipeScopeItem(id: $0.id, name: $0.name, isChecked: $0.id != "region") }
+        fixture.library.setExtensionScope(id: "ext_border", exceptRecipes: scope.exceptRecipes, onlyDestinations: scope.onlyDestinations)
+        #expect(fixture.library.extensionSettings(id: "ext_border").exceptRecipes == ["elsewhere", "region"])
+    }
+
     @Test func changedRecipesGroupByTheirAutomaticSteps() {
         let fixture = fixture()
         defer { fixture.cleanUp() }
