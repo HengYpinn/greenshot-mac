@@ -69,6 +69,25 @@ import Testing
         #expect(!analysis.warnings.contains { $0.contains("never followed") })
     }
 
+    /// The only step of a recipe without start steps is its start; a step added to it writes that down, since two steps
+    /// need named start steps (the recipe became invalid and both steps "Not reached").
+    @Test func addingToTheOnlyStepKeepsItTheStart() {
+        var after = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), after: "a", in: &after)
+        #expect(after.flow.startNodes == ["a"])
+        #expect(RecipeValidator().validate(after).errors.isEmpty)
+        var appended = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.append(RecipeNode(id: "n", stepType: "Effect"), in: &appended)
+        #expect(appended.flow.startNodes == ["a"])
+        var parallel = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.addParallel(RecipeNode(id: "p", stepType: "Source"), from: nil, in: &parallel)
+        #expect(parallel.flow.startNodes == ["a", "p"])
+        var before = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.insert(RecipeNode(id: "s", stepType: "Source"), between: nil, and: "a", branch: nil, in: &before)
+        #expect(before.flow.startNodes == ["s"])
+        #expect(RecipeValidator().validate(before).errors.isEmpty)
+    }
+
     @Test func appendGoesAfterTheLastStepAndStartsAnEmptyRecipe() {
         var empty = CaptureRecipe(id: "e", name: "E")
         RecipeFlowEditor.append(RecipeNode(id: "first", stepType: "Source"), in: &empty)

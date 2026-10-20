@@ -50,6 +50,7 @@ public enum RecipeFlowEditor {
     /// decision it is the first step of its first branch: the engine leaves a decision only through its conditional
     /// transitions, a plain one to the new step would never be followed.
     public static func insert(_ node: RecipeNode, after previous: String?, in recipe: inout CaptureRecipe) {
+        writeImpliedStart(in: &recipe)
         guard let previous, let previousNode = recipe.node(previous) else {
             append(node, in: &recipe)
             return
@@ -68,6 +69,7 @@ public enum RecipeFlowEditor {
     /// Puts `node` on the transition `from` → `to` (upstream "Insert step here" on an arrow): `from` nil is a start
     /// step, `branch` a decision's branch.
     public static func insert(_ node: RecipeNode, between from: String?, and to: String, branch: String?, in recipe: inout CaptureRecipe) {
+        writeImpliedStart(in: &recipe)
         if let from {
             if let branch {
                 for index in recipe.flow.conditionalTransitions.indices
@@ -91,6 +93,7 @@ public enum RecipeFlowEditor {
 
     /// The first step of a decision's branch: what the branch led to follows the new step.
     public static func insert(_ node: RecipeNode, intoBranch branch: String, of decision: String, in recipe: inout CaptureRecipe) {
+        writeImpliedStart(in: &recipe)
         let targets = recipe.flow.conditionalTransitions
             .filter { recipeEquals($0.from, decision) && recipeEquals($0.branch, branch) && !$0.to.isEmpty }.map(\.to)
         recipe.flow.conditionalTransitions.removeAll { recipeEquals($0.from, decision) && recipeEquals($0.branch, branch) }
@@ -103,6 +106,7 @@ public enum RecipeFlowEditor {
     /// One more lane of `from`'s next steps (upstream "fork by multiple outputs"): `from` nil is another start step; of a
     /// decision, a lane of `branch` (its first branch when nil).
     public static func addParallel(_ node: RecipeNode, from: String?, branch: String? = nil, in recipe: inout CaptureRecipe) {
+        writeImpliedStart(in: &recipe)
         if let from, let fromNode = recipe.node(from) {
             let key = branch ?? firstBranch(of: fromNode.id, in: recipe)
             place(node, after: fromNode.id, in: &recipe)
@@ -119,6 +123,7 @@ public enum RecipeFlowEditor {
 
     /// Upstream `AddStep` without a selection; an empty recipe's first step is its start step (upstream `CreateStepNode`).
     public static func append(_ node: RecipeNode, in recipe: inout CaptureRecipe) {
+        writeImpliedStart(in: &recipe)
         let wasEmpty = recipe.nodes.isEmpty
         if !wasEmpty, let end = defaultAppendPoint(in: recipe) {
             insert(node, after: end, in: &recipe)
@@ -364,6 +369,15 @@ public enum RecipeFlowEditor {
     }
 
     // MARK: Helpers
+
+    /// A recipe of one step without start steps starts at it (`RecipeOutline.startSteps`); before a step is added that
+    /// start is written down, since a recipe of more steps needs named start steps (RecipeValidator).
+    private static func writeImpliedStart(in recipe: inout CaptureRecipe) {
+        let starts = RecipeOutline.startSteps(of: recipe)
+        if !starts.isEmpty, recipe.flow.startNodes.allSatisfy({ $0.trimmingCharacters(in: .whitespaces).isEmpty }) {
+            recipe.flow.startNodes = starts
+        }
+    }
 
     private static func removeTransitions(from id: String, in recipe: inout CaptureRecipe) {
         recipe.flow.transitions.removeAll { recipeEquals($0.from, id) }
