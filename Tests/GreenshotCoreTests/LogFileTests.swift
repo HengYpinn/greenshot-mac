@@ -126,6 +126,67 @@ struct LogFileTests {
         #expect(rest.text + earlier.text + tail.text == lines.joined(separator: "\n") + "\n")
     }
 
+    @Test func aChunkStartingAtALineKeepsThatLine() throws {
+        let folder = try temporaryFolder()
+        let url = folder.appendingPathComponent(LogFile.fileName)
+        // 100 lines of 9 bytes: the last 90 bytes are exactly the last 10 lines.
+        let lines = (1...100).map { String(format: "line %03d\n", $0) }
+        try Data(lines.joined().utf8).write(to: url)
+        let tail = try LogFile.readTail(url, bytes: 90)
+        #expect(tail.text == lines.suffix(10).joined())
+        #expect(tail.startOffset == 810)
+        let earlier = try LogFile.readEarlier(url, before: tail.startOffset, bytes: 90)
+        #expect(earlier.text == lines[80..<90].joined())
+    }
+
+    @Test func loadingEarlierGoesOnThroughALineLongerThanTheChunk() throws {
+        let folder = try temporaryFolder()
+        let url = folder.appendingPathComponent(LogFile.fileName)
+        let content = "first\n" + String(repeating: "x", count: 70_000) + "\nlast\n"
+        try Data(content.utf8).write(to: url)
+        var chunk = try LogFile.readTail(url, bytes: 20)
+        #expect(chunk.text == "last\n")
+        var text = chunk.text
+        var reads = 0
+        while chunk.hasEarlier, reads < 20 {
+            let earlier = try LogFile.readEarlier(url, before: chunk.startOffset, bytes: LogFile.chunkBytes)
+            #expect(earlier.startOffset < chunk.startOffset)
+            text = earlier.text + text
+            chunk = earlier
+            reads += 1
+        }
+        #expect(chunk.startOffset == 0)
+        #expect(text == content)
+        // The tail of a file that ends with a line longer than the chunk is a part of that line, not nothing.
+        let long = folder.appendingPathComponent("long.log")
+        try Data((String(repeating: "y", count: 70_000) + "\n").utf8).write(to: long)
+        let tail = try LogFile.readTail(long)
+        #expect(tail.text.count == LogFile.chunkBytes)
+        let rest = try LogFile.readEarlier(long, before: tail.startOffset)
+        let whole = rest.text + tail.text
+        #expect(rest.startOffset == 0)
+        #expect(whole.count == 70_001)
+    }
+
+    @Test func aChunkInsideALineStartsAtACharacter() throws {
+        let folder = try temporaryFolder()
+        let url = folder.appendingPathComponent(LogFile.fileName)
+        // 3 bytes a character: a chunk of 101 bytes starts inside one.
+        let content = String(repeating: "語", count: 100) + "\n"
+        try Data(content.utf8).write(to: url)
+        var chunk = try LogFile.readTail(url, bytes: 101)
+        var text = chunk.text
+        var reads = 0
+        while chunk.hasEarlier, reads < 10 {
+            #expect(!chunk.text.contains("\u{FFFD}"))
+            chunk = try LogFile.readEarlier(url, before: chunk.startOffset, bytes: 101)
+            text = chunk.text + text
+            reads += 1
+        }
+        #expect(!chunk.text.contains("\u{FFFD}"))
+        #expect(text == content)
+    }
+
     @Test func readsASmallFileWhole() throws {
         let folder = try temporaryFolder()
         let url = folder.appendingPathComponent(LogFile.fileName)

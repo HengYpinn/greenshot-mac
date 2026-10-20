@@ -55,7 +55,7 @@ public enum LogFile {
 
     // MARK: Reading, for the log viewer
 
-    /// A part of the log file: its text (starting at a line) and where it starts.
+    /// A part of the log file: its text (starting at a line, or inside a line longer than a chunk) and where it starts.
     public struct Chunk: Equatable, Sendable {
         public var text: String
         /// The byte offset of `text` in the file; 0 when the chunk reaches the start.
@@ -100,12 +100,21 @@ public enum LogFile {
 
     private static func read(_ handle: FileHandle, from start: Int, to end: Int, fileLength: Int) throws -> Chunk {
         guard end > start else { return Chunk(text: "", startOffset: start, fileLength: fileLength) }
-        try handle.seek(toOffset: UInt64(start))
-        let data = try handle.read(upToCount: end - start) ?? Data()
+        // One byte more in front: whether the chunk starts right after a line break.
+        let before = start > 0 ? 1 : 0
+        try handle.seek(toOffset: UInt64(start - before))
+        let read = try handle.read(upToCount: end - start + before) ?? Data()
+        let data = read.dropFirst(before)
         var skip = 0
-        if start > 0 {
-            // Discard the partial line before the first line break.
-            if let newline = data.firstIndex(of: 0x0A) { skip = newline - data.startIndex + 1 } else { skip = data.count }
+        if before == 1, read.first != 0x0A {
+            // Discard the partial line before the first line break (upstream). When that leaves nothing (no line break
+            // before the last byte: the chunk is inside a line longer than it), the chunk is kept from its first whole
+            // character on, so the chunk before it goes on from there; upstream shows nothing and reads it again.
+            if let newline = data.firstIndex(of: 0x0A), newline + 1 < data.endIndex {
+                skip = newline + 1 - data.startIndex
+            } else {
+                skip = data.prefix(3).prefix { $0 & 0xC0 == 0x80 }.count
+            }
         }
         let text = String(decoding: data.dropFirst(skip), as: UTF8.self)
         return Chunk(text: text, startOffset: start + skip, fileLength: fileLength)
