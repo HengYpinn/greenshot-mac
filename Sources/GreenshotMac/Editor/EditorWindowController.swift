@@ -661,8 +661,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         return faces
     }
 
-    /// Applies a property change to the selected element and remembers it for new elements of that kind.
-    func applyStyle(_ change: (inout AnnotationStyle) -> Void) {
+    /// Applies a property change to the selected element and remembers it for new elements of that kind. Changes with
+    /// the same `merging` name on the same elements one after the other are one undo step (see `change(merging:)`).
+    func applyStyle(merging name: String? = nil, _ change: (inout AnnotationStyle) -> Void) {
         guard let kind = activeKind else { return }
         var remembered = settings.value.style(for: kind)
         change(&remembered)
@@ -670,11 +671,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         // With several elements selected the change applies to all of them, as one undo step.
         let selected = canvas.selectedAnnotations
         if !selected.isEmpty {
-            editorDocument.change {
+            func applyToSelected() {
                 for var element in selected {
                     change(&element.style)
                     editorDocument.update(element)
                 }
+            }
+            if let name {
+                let ids = selected.map(\.id.uuidString).sorted().joined(separator: " ")
+                editorDocument.change(merging: name + " " + ids, applyToSelected)
+            } else {
+                editorDocument.change(applyToSelected)
             }
             canvas.documentChanged()
         }
@@ -696,15 +703,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
 
     // MARK: Property actions
 
+    /// The colour wells report every colour the mouse passes in the colour panel: one pick is one undo step, like
+    /// upstream's colour dialog, which changes the element once on OK.
     @objc private func lineColorChanged() {
         let color = RGBAColor(lineColorWell.color)
-        applyStyle { $0.lineColor = color }
+        applyStyle(merging: "line color") { $0.lineColor = color }
         EditorRecentColors.shared.picked(color, from: lineColorWell)
     }
 
     @objc private func fillColorChanged() {
         let color = RGBAColor(fillColorWell.color)
-        applyStyle { $0.fillColor = color }
+        applyStyle(merging: "fill color") { $0.fillColor = color }
         EditorRecentColors.shared.picked(color, from: fillColorWell)
     }
 
