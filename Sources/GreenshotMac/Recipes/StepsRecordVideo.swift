@@ -91,15 +91,16 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
             target = .region(region)
             area = region
         case .monitor:
-            // The first screen is the primary one (with the menu bar), not `NSScreen.main` (the focused window's).
-            let screens = NSScreen.screens
-            guard let index = RecipeRecordVideoPlan.monitorIndex(step, displays: screens.count, primary: 0) else {
+            // The primary display (with the menu bar), not `NSScreen.main` (the focused window's).
+            let displays = Self.displayIDs()
+            let primary = displays.firstIndex(of: CGMainDisplayID()) ?? 0
+            guard let index = RecipeRecordVideoPlan.monitorIndex(step, displays: displays.count, primary: primary) else {
                 throw RecipeStepError("There is no display to record.", errorType: "InvalidOperationException")
             }
-            let screen = screens[index]
-            target = .display(screen.displayID)
-            area = CGDisplayBounds(screen.displayID)
-            title = screen.localizedName
+            let id = displays[index]
+            target = .display(id)
+            area = CGDisplayBounds(id)
+            title = NSScreen.screens.first { $0.displayID == id }?.localizedName ?? title
         case .window, .activeWindow:
             let windows = ScreenCapturer.onScreenWindows().filter { $0.level == 0 }
             var window = windowID.flatMap { id in windows.first { $0.id == id } }
@@ -129,6 +130,22 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
         }
         log.info("Recipe '\(context.recipe.id)' records \(title)")
         return try await runtime.app.video.record(options, countdown: 0, area: area, deliver: false)
+    }
+
+    /// The displays in the order of `list_windows`' `index` (`AIToolsWindows.displays`), so that an AI tool's
+    /// `MonitorIndex` names the display it saw (upstream counts both in `DisplayInfo.AllDisplayInfos`): the active
+    /// ones, while they sleep the connected ones.
+    private static func displayIDs() -> [CGDirectDisplayID] {
+        typealias DisplayList = (UInt32, UnsafeMutablePointer<CGDirectDisplayID>?, UnsafeMutablePointer<UInt32>?) -> CGError
+        let lists: [DisplayList] = [CGGetActiveDisplayList, CGGetOnlineDisplayList]
+        for list in lists {
+            var count: UInt32 = 0
+            guard list(0, nil, &count) == .success, count > 0 else { continue }
+            var ids = [CGDirectDisplayID](repeating: 0, count: Int(count))
+            guard list(count, &ids, &count) == .success else { continue }
+            return Array(ids.prefix(Int(count)))
+        }
+        return []
     }
 
     /// The first frame of the video, for a flow that had no capture.
