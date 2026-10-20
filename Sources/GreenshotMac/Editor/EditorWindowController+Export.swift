@@ -26,8 +26,10 @@ extension EditorWindowController {
 
     /// Shows how an export of this editor's image ended (upstream `ExportResultHandler` + `SurfaceMessageReceived`),
     /// remembers its file or link and clears the unsaved-changes mark when the result says so. `destination` names the
-    /// destination, e.g. "Clipboard", "Upload to Box".
-    func showExportResult(_ result: ExportResult, destination: String) {
+    /// destination, e.g. "Clipboard", "Upload to Box". `exportedChange` is the document's `changeCount` when the export
+    /// took the image, for an export that ends later (an upload): changes made since stay unsaved. Nil: the image is the
+    /// current one.
+    func showExportResult(_ result: ExportResult, destination: String, exportedChange: Int? = nil) {
         guard result.status != .declined else { return }
         var menu: NSMenu?
         if result.isSucceeded {
@@ -42,7 +44,7 @@ extension EditorWindowController {
                 menu = uploadMenu()
             }
             if result.clearsModified {
-                editorDocument.markSaved()
+                editorDocument.markSaved(asOf: exportedChange ?? editorDocument.changeCount)
                 refreshDocumentState()
             }
         }

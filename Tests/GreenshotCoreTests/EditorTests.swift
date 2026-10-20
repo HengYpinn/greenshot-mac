@@ -126,6 +126,30 @@ struct EditorDocumentTests {
         doc.markSaved()
         #expect(!doc.isModified)
     }
+
+    /// An upload that took the image and ends after more changes must not count those changes as saved.
+    @Test func anExportOfAnEarlierStateLeavesLaterChangesUnsaved() {
+        let doc = document()
+        doc.change { doc.add(Annotation(kind: .line, start: .zero, end: CGPoint(x: 5, y: 5))) }
+        let exported = doc.changeCount
+        doc.change { doc.add(Annotation(kind: .arrow, start: .zero, end: CGPoint(x: 9, y: 9))) }
+        doc.markSaved(asOf: exported)
+        #expect(doc.isModified)
+        doc.markSaved(asOf: doc.changeCount)
+        #expect(!doc.isModified)
+        // An undo after the export is a change too.
+        let saved = doc.changeCount
+        doc.undo()
+        doc.markSaved(asOf: saved)
+        #expect(doc.isModified)
+        // So is a change still under way, e.g. text being typed when the upload ends.
+        let typing = doc.changeCount
+        doc.beginChange()
+        doc.add(Annotation(kind: .text, start: .zero, end: CGPoint(x: 20, y: 10), text: "a"))
+        doc.markSaved(asOf: typing)
+        #expect(doc.isModified)
+        doc.endChange()
+    }
 }
 
 struct RendererTests {

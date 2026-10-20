@@ -154,6 +154,14 @@ public final class EditorDocument {
         isModified = false
     }
 
+    /// Marks the document as saved by an export that took its image when `changeCount` was `count` and ended later
+    /// (an upload, a print): only when nothing changed since and no change is under way (text being typed), so changes
+    /// made during the export stay unsaved.
+    public func markSaved(asOf count: Int) {
+        guard depth == 0, count == changeCount else { return }
+        isModified = false
+    }
+
     /// Starts over with another screenshot: no elements, no undo, not saved anywhere (upstream replaces the surface
     /// of a reused editor).
     public func reset(image: CGImage, scale: CGFloat, title: String, captureDate: Date = Date()) {
