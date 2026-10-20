@@ -133,7 +133,8 @@ enum EditorFixtures {
         RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), between: "decide", and: "extra", branch: "A", in: &recipe)
         RecipeFlowEditor.addParallel(RecipeNode(id: "p", stepType: "Effect"), from: "decide", branch: "A", in: &recipe)
         #expect(recipe.flow.targets(from: "decide").isEmpty)
-        #expect(recipe.flow.conditionalTransitions.filter { $0.branch == "A" }.map(\.to) == ["large", "n", "p"])
+        let branchA: [String] = recipe.flow.conditionalTransitions.filter { $0.branch == "A" }.map(\.to)
+        #expect(branchA == ["large", "n", "p"])
         #expect(!EditorFixtures.describe(RecipeOutline(recipe)).contains("notReached@0"))
         // A lane that is where the others meet.
         let meeting = EditorFixtures.recipe(["decide:Conditional", "large:Editor", "notify:Notification"], ["large>notify"],
@@ -195,6 +196,23 @@ enum EditorFixtures {
         let second = RecipeOutline(recipe).rows
         #expect(first == second)
         #expect(Set(first.map(\.id)).count == first.count)
+    }
+
+    /// A row other than a step is named by what it shows, so a selection kept over an edit or an undo is the same
+    /// connection or none (a running number named it: after an undo it could be another connection, and Delete removed
+    /// that one).
+    @Test func rowIdsFollowWhatTheRowShows() throws {
+        let before = RecipeOutline(EditorFixtures.recipe(["a:Source"], ["a>g1,g2,g3"]))
+        let after = RecipeOutline(EditorFixtures.recipe(["a:Source"], ["a>g2,g3"]))
+        let selected = try #require(before.rows.first { $0.kind == .continues(from: "a", branch: nil, to: "g2") })
+        let kept = try #require(after.rows.first { $0.id == selected.id })
+        #expect(kept.kind == selected.kind)
+        let removed = try #require(before.rows.first { $0.kind == .continues(from: "a", branch: nil, to: "g1") })
+        #expect(!after.rows.contains { $0.id == removed.id })
+        for name in RecipeFixtures.exampleNames {
+            let rows = RecipeOutline(try RecipeFixtures.recipe(name)).rows
+            #expect(Set(rows.map(\.id)).count == rows.count, "\(name)")
+        }
     }
 
     @Test func everyExampleShowsEveryStepOnce() throws {

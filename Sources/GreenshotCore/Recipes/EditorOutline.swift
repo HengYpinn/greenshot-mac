@@ -29,7 +29,8 @@ public struct RecipeOutlineRow: Sendable, Equatable, Identifiable {
 
     public var kind: Kind
     public var depth: Int
-    /// Stable within one outline: "step:<id>" for steps, else the kind and position.
+    /// "step:<id>" for steps, else what the row shows (`contentId`), "#2", "#3"… on a repeat: the same row keeps its id
+    /// when the outline is made again after an edit or an undo, which keeps the selection on it.
     public var id: String
 
     public init(kind: Kind, depth: Int, id: String) {
@@ -45,6 +46,21 @@ public struct RecipeOutlineRow: Sendable, Equatable, Identifiable {
 
     /// The row id of a step.
     public static func stepId(_ nodeId: String) -> String { "step:\(nodeId.lowercased())" }
+
+    /// The id of a row by what it shows: its kind and the steps, branch and lane it is about (case-insensitive, like ids).
+    static func contentId(_ kind: Kind) -> String {
+        func text(_ value: String?) -> String { value.map { String(reflecting: $0.lowercased()) } ?? "-" }
+        switch kind {
+        case .step(let nodeId): return stepId(nodeId)
+        case .parallel(let from, let branch): return "parallel:\(text(from)):\(text(branch))"
+        case .lane(let from, let branch, let index, let target): return "lane:\(text(from)):\(text(branch)):\(index):\(text(target))"
+        case .branch(let from, let key, _, _): return "branch:\(text(from)):\(text(key))"
+        case .continues(let from, let branch, let to): return "continues:\(text(from)):\(text(branch)):\(text(to))"
+        case .notReached: return "notReached"
+        case .extensionIn: return "in"
+        case .extensionOut(let from, let branch): return "out:\(text(from)):\(text(branch))"
+        }
+    }
 }
 
 /// The recipe's DAG as a list (the recipe editor's left side; there is no upstream counterpart, upstream draws a node
@@ -61,7 +77,8 @@ public struct RecipeOutline: Sendable {
     private var rank: [String: Int] = [:]
     private var postDominators: [String: Set<String>] = [:]
     private var emitted = Set<String>()
-    private var counter = 0
+    /// How often each row id was used, for repeats.
+    private var used: [String: Int] = [:]
     private let isExtension: Bool
 
     public init(_ recipe: CaptureRecipe) {
@@ -199,14 +216,10 @@ public struct RecipeOutline: Sendable {
     // MARK: Rows
 
     private mutating func add(_ kind: RecipeOutlineRow.Kind, depth: Int) {
-        let id: String
-        if case .step(let nodeId) = kind {
-            id = RecipeOutlineRow.stepId(nodeId)
-        } else {
-            counter += 1
-            id = "row:\(counter)"
-        }
-        rows.append(RecipeOutlineRow(kind: kind, depth: depth, id: id))
+        let base = RecipeOutlineRow.contentId(kind)
+        let count = (used[base] ?? 0) + 1
+        used[base] = count
+        rows.append(RecipeOutlineRow(kind: kind, depth: depth, id: count == 1 ? base : "\(base)#\(count)"))
     }
 
     private mutating func build() {
