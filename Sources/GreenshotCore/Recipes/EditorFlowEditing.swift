@@ -38,11 +38,24 @@ public enum RecipeFlowEditor {
 
     // MARK: Inserting
 
+    /// The branch a step added after `id` goes into: the first one of a decision (upstream `AddStep` with a decision
+    /// selected), whose next steps follow its branches; nil for other steps.
+    public static func firstBranch(of id: String, in recipe: CaptureRecipe) -> String? {
+        guard let node = recipe.node(id), isDecision(node) else { return nil }
+        return RecipeOutline.branches(of: node, in: recipe.flow).first?.key
+    }
+
     /// Adds `node` to an empty flow as its start step, else after `previous` (upstream `InsertStepAfter`): the steps that
-    /// followed `previous` follow the new step; a new decision's branches all lead there until they are changed.
+    /// followed `previous` follow the new step; a new decision's branches all lead there until they are changed. After a
+    /// decision it is the first step of its first branch: the engine leaves a decision only through its conditional
+    /// transitions, a plain one to the new step would never be followed.
     public static func insert(_ node: RecipeNode, after previous: String?, in recipe: inout CaptureRecipe) {
         guard let previous, let previousNode = recipe.node(previous) else {
             append(node, in: &recipe)
+            return
+        }
+        if let key = firstBranch(of: previousNode.id, in: recipe) {
+            insert(node, intoBranch: key, of: previousNode.id, in: &recipe)
             return
         }
         let next = recipe.flow.targets(from: previousNode.id)
@@ -87,11 +100,17 @@ public enum RecipeFlowEditor {
         lead(node, to: targets, in: &recipe)
     }
 
-    /// One more lane of `from`'s next steps (upstream "fork by multiple outputs"): `from` nil is another start step.
-    public static func addParallel(_ node: RecipeNode, from: String?, in recipe: inout CaptureRecipe) {
+    /// One more lane of `from`'s next steps (upstream "fork by multiple outputs"): `from` nil is another start step; of a
+    /// decision, a lane of `branch` (its first branch when nil).
+    public static func addParallel(_ node: RecipeNode, from: String?, branch: String? = nil, in recipe: inout CaptureRecipe) {
         if let from, let fromNode = recipe.node(from) {
+            let key = branch ?? firstBranch(of: fromNode.id, in: recipe)
             place(node, after: fromNode.id, in: &recipe)
-            recipe.flow.addTransition(from: fromNode.id, to: node.id)
+            if let key {
+                recipe.flow.conditionalTransitions.append(ConditionalTransition(from: fromNode.id, branch: key, to: node.id))
+            } else {
+                recipe.flow.addTransition(from: fromNode.id, to: node.id)
+            }
         } else {
             recipe.nodes.append(node)
             recipe.flow.startNodes.append(node.id)

@@ -52,6 +52,23 @@ import Testing
         #expect(targets(recipe, "m").isEmpty)
     }
 
+    /// After a decision a step goes into its first branch, like Add Step: a decision with conditional transitions is
+    /// left only through them, so a plain transition to the new step was never followed.
+    @Test func insertAfterADecisionGoesIntoItsFirstBranch() {
+        var recipe = EditorFixtures.conditional()
+        RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), after: "decide", in: &recipe)
+        #expect(targets(recipe, "decide").isEmpty)
+        #expect(recipe.flow.conditionalTransitions.contains(ConditionalTransition(from: "decide", branch: "A", to: "n")))
+        #expect(targets(recipe, "n") == ["large"])
+        #expect(!recipe.flow.conditionalTransitions.contains(ConditionalTransition(from: "decide", branch: "A", to: "large")))
+        // Another lane from a decision is another step of its first branch.
+        RecipeFlowEditor.addParallel(RecipeNode(id: "p", stepType: "Effect"), from: "decide", in: &recipe)
+        #expect(targets(recipe, "decide").isEmpty)
+        #expect(recipe.flow.conditionalTransitions.contains(ConditionalTransition(from: "decide", branch: "A", to: "p")))
+        let analysis = RecipeContractAnalyzer.analyze(recipe)
+        #expect(!analysis.warnings.contains { $0.contains("never followed") })
+    }
+
     @Test func appendGoesAfterTheLastStepAndStartsAnEmptyRecipe() {
         var empty = CaptureRecipe(id: "e", name: "E")
         RecipeFlowEditor.append(RecipeNode(id: "first", stepType: "Source"), in: &empty)

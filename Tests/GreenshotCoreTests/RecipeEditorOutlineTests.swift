@@ -47,8 +47,8 @@ enum EditorFixtures {
         outline.rows.map { row in
             switch row.kind {
             case .step(let id): return "step \(id)@\(row.depth)"
-            case .parallel(let from): return "parallel \(from ?? "start")@\(row.depth)"
-            case .lane(_, let index, _): return "lane \(index)@\(row.depth)"
+            case .parallel(let from, let branch): return "parallel \(from ?? "start")\(branch.map { "/" + $0 } ?? "")@\(row.depth)"
+            case .lane(_, _, let index, _): return "lane \(index)@\(row.depth)"
             case .branch(_, let key, _, _): return "branch \(key)@\(row.depth)"
             case .continues(_, _, let to): return "continues \(to)@\(row.depth)"
             case .notReached: return "notReached@\(row.depth)"
@@ -116,6 +116,30 @@ enum EditorFixtures {
             return nil
         }
         #expect(labels == ["Yes, Proceed", "No"])
+    }
+
+    /// A parallel group inside a decision's branch knows the branch, so its Add Lane, Insert and Delete Connection act on
+    /// the branch's transitions (they wrote or removed plain transitions from the decision, which the engine never
+    /// follows, and an inserted step was not reached).
+    @Test func lanesOfABranchKnowTheirBranch() {
+        var recipe = EditorFixtures.recipe(["source:Source", "decide:Conditional", "large:Editor", "extra:Effect", "small:Clipboard",
+                                            "notify:Notification"], ["source>decide", "large>notify", "extra>notify", "small>notify"],
+                                           conditional: ["decide>A>large", "decide>A>extra", "decide>B>small"])
+        let outline = RecipeOutline(recipe)
+        #expect(EditorFixtures.describe(outline).contains("parallel decide/A@2"))
+        let lane = outline.rows.first { if case .lane(_, _, 1, _) = $0.kind { return true } else { return false } }
+        #expect(lane?.kind == .lane(from: "decide", branch: "A", index: 1, target: "extra"))
+        // The lane's Insert and the group's Add Lane.
+        RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), between: "decide", and: "extra", branch: "A", in: &recipe)
+        RecipeFlowEditor.addParallel(RecipeNode(id: "p", stepType: "Effect"), from: "decide", branch: "A", in: &recipe)
+        #expect(recipe.flow.targets(from: "decide").isEmpty)
+        #expect(recipe.flow.conditionalTransitions.filter { $0.branch == "A" }.map(\.to) == ["large", "n", "p"])
+        #expect(!EditorFixtures.describe(RecipeOutline(recipe)).contains("notReached@0"))
+        // A lane that is where the others meet.
+        let meeting = EditorFixtures.recipe(["decide:Conditional", "large:Editor", "notify:Notification"], ["large>notify"],
+                                            conditional: ["decide>A>large", "decide>A>notify"])
+        let continues = RecipeOutline(meeting).rows.first { if case .continues = $0.kind { return true } else { return false } }
+        #expect(continues?.kind == .continues(from: "decide", branch: "A", to: "notify"))
     }
 
     @Test func undeclaredBranchKeyIsShown() {
