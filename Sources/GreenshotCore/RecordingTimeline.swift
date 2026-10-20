@@ -54,6 +54,19 @@ public struct RecordingTimeline: Sendable {
         return CMTimeSubtract(CMTimeSubtract(time, start), paused)
     }
 
+    /// The first source time from `time` on that is in the video: `time` itself, else the first frame's when it is
+    /// earlier, or the end of the pause it falls in; nil before the first frame or in the running pause.
+    public func recordedTime(from time: CMTime) -> CMTime? {
+        guard let start, time.isNumeric else { return nil }
+        var recorded = CMTimeMaximum(time, start)
+        // The pauses are in order: the end of one may be the start of the next.
+        for pause in pauses where CMTimeCompare(recorded, pause.from) >= 0 && CMTimeCompare(recorded, pause.to) < 0 {
+            recorded = pause.to
+        }
+        if let since = pausedSince, CMTimeCompare(recorded, since) >= 0 { return nil }
+        return recorded
+    }
+
     /// The recorded time at `now`, without the pauses (upstream `Duration`); 0 before the first frame.
     public func duration(at now: CMTime) -> CMTime {
         guard let start, CMTimeCompare(now, start) > 0 else { return .zero }

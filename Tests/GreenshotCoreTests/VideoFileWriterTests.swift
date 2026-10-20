@@ -84,6 +84,24 @@ private func waitUntilReadable(_ url: URL) async throws {
     }
 }
 
+/// Interleaved stereo samples of a 440 Hz tone at 48 kHz.
+private func tone(seconds: Double) -> [Float] {
+    let frames = Int(seconds * 48_000)
+    var samples = [Float](repeating: 0, count: frames * 2)
+    for index in 0..<frames {
+        let phase = Float(index) * 2 * Float.pi * 440 / 48_000
+        samples[index * 2] = sin(phase) * 0.3
+        samples[index * 2 + 1] = samples[index * 2]
+    }
+    return samples
+}
+
+/// Where the sound track ends in the video (seconds), nil without one.
+private func audioEnd(_ url: URL) async throws -> Double? {
+    guard let track = try await AVURLAsset(url: url).loadTracks(withMediaType: .audio).first else { return nil }
+    return try await track.load(.timeRange).end.seconds
+}
+
 /// The errors `VideoFileWriter.onFailure` got.
 private final class Failures: @unchecked Sendable {
     private let lock = NSLock()
@@ -194,6 +212,39 @@ struct VideoFileWriterTests {
         #expect(result.hasAudio)
         let info = try #require(try await track(url, .audio))
         #expect(info.codec == "aac ")
+    }
+
+    /// Sound that starts a moment before the first frame: the part from the first frame on is in the video.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func soundFromJustBeforeTheStartIsTrimmed() async throws {
+        let url = temporaryFile("early-sound.mp4")
+        let video = try writer(url, audio: true)
+        appendSecond(video, start: 50)
+        // 0.5 s from 49.8: 0.3 s of it after the first frame.
+        #expect(video.appendAudio(samples: tone(seconds: 0.5), channels: 2, sampleRate: 48_000, at: seconds(49.8)))
+        let result = try await video.finish(at: seconds(51))
+        #expect(result.hasAudio)
+        let soundEnd = try #require(try await audioEnd(url))
+        #expect(abs(soundEnd - 0.3) < 0.05)
+    }
+
+    /// Sound that starts in a pause and goes on after it: the part after the resume is in the video.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func soundFromAPauseIsTrimmed() async throws {
+        let url = temporaryFile("pause-sound.mp4")
+        let video = try writer(url, audio: true)
+        appendSecond(video, start: 10)
+        video.pause(at: seconds(11))
+        video.resume(at: seconds(12))
+        // 0.5 s from 11.7: the part after the resume goes on from 1 s in the video.
+        #expect(video.appendAudio(samples: tone(seconds: 0.5), channels: 2, sampleRate: 48_000, at: seconds(11.7)))
+        for index in 0..<3 {
+            video.appendVideo(frame(width: 320, height: 240, red: 9, green: 9, blue: 9), at: seconds(12 + Double(index) / 30))
+        }
+        let result = try await video.finish(at: seconds(12.1))
+        #expect(result.hasAudio)
+        let soundEnd = try #require(try await audioEnd(url))
+        #expect(soundEnd > 1.05)
     }
 
     /// Sound was asked for but none came (nothing played): the video is still written, without sound.

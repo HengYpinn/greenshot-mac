@@ -199,7 +199,8 @@ public final class VideoFileWriter: @unchecked Sendable {
         return true
     }
 
-    /// Adds sound taken at its presentation time (the host clock); sound before the first frame is left out.
+    /// Adds sound taken at its presentation time (the host clock); sound before the first frame or in a pause is left
+    /// out, also the part of a chunk before the first frame or the resume.
     @discardableResult
     public func appendAudio(_ sampleBuffer: CMSampleBuffer) -> Bool {
         lockedNoticingFailure { lockedAppendAudio(sampleBuffer) }
@@ -208,9 +209,15 @@ public final class VideoFileWriter: @unchecked Sendable {
     private func lockedAppendAudio(_ sampleBuffer: CMSampleBuffer) -> Bool {
         guard !done, let audioInput, writer.status == .writing, timeline.start != nil else { return false }
         let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-        guard let output = timeline.outputTime(for: time) else { return false }
+        var sound = sampleBuffer
+        var output = timeline.outputTime(for: time)
+        if output == nil, let part = recordedPart(of: sampleBuffer, at: time) {
+            sound = part.buffer
+            output = part.output
+        }
+        guard let output else { return false }
         if let last = lastAudioTime, CMTimeCompare(output, last) <= 0 { return false }
-        guard let moved = Self.retimed(sampleBuffer, to: output), ready(audioInput) else { return false }
+        guard let moved = Self.retimed(sound, to: output), ready(audioInput) else { return false }
         guard audioInput.append(moved) else {
             log.warn("Sound could not be added to the video", error: writer.error)
             return false
@@ -352,6 +359,24 @@ public final class VideoFileWriter: @unchecked Sendable {
         lock.unlock()
         if let handler, let error { handler(error) }
         return result
+    }
+
+    /// The part of sound taken at `time` from the first frame or the end of a pause on (the chunk starts before it and
+    /// goes on after it), and its time in the video; nil when none of it is in the video.
+    private func recordedPart(of buffer: CMSampleBuffer, at time: CMTime) -> (buffer: CMSampleBuffer, output: CMTime)? {
+        guard let from = timeline.recordedTime(from: time),
+              let description = CMSampleBufferGetFormatDescription(buffer),
+              let sampleRate = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee.mSampleRate,
+              sampleRate > 0 else { return nil }
+        let count = CMSampleBufferGetNumSamples(buffer)
+        let skip = Int((CMTimeSubtract(from, time).seconds * sampleRate).rounded(.up))
+        guard skip > 0, skip < count else { return nil }
+        var part: CMSampleBuffer?
+        guard CMSampleBufferCopySampleBufferForRange(allocator: nil, sampleBuffer: buffer,
+                                                     sampleRange: CFRange(location: skip, length: count - skip),
+                                                     sampleBufferOut: &part) == noErr, let part,
+              let output = timeline.outputTime(for: CMSampleBufferGetPresentationTimeStamp(part)) else { return nil }
+        return (part, output)
     }
 
     /// Live: whether the input takes more now. Otherwise waits for it (at most 10 s).

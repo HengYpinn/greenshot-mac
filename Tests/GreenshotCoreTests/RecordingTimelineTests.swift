@@ -52,6 +52,35 @@ struct RecordingTimelineTests {
         #expect(!timeline.isPaused)
     }
 
+    /// Where sound that starts before the first frame or in a pause gets into the video.
+    @Test func recordedTimeSkipsWhatIsLeftOut() {
+        var timeline = RecordingTimeline()
+        #expect(timeline.recordedTime(from: at(99)) == nil)
+        timeline.begin(at: at(100))
+        #expect(seconds(timeline.recordedTime(from: at(99.5))) == 100)
+        #expect(seconds(timeline.recordedTime(from: at(101))) == 101)
+        timeline.pause(at: at(102))
+        timeline.resume(at: at(105))
+        #expect(seconds(timeline.recordedTime(from: at(103))) == 105)
+        #expect(seconds(timeline.recordedTime(from: at(106))) == 106)
+        timeline.pause(at: at(107))
+        #expect(timeline.recordedTime(from: at(108)) == nil)
+        #expect(seconds(timeline.recordedTime(from: at(106.5))) == 106.5)
+    }
+
+    /// A resume and a pause at the same time: the time after both.
+    @Test func recordedTimeAfterTwoPausesInARow() {
+        var timeline = RecordingTimeline()
+        timeline.begin(at: at(0))
+        timeline.pause(at: at(1))
+        timeline.resume(at: at(2))
+        timeline.pause(at: at(2))
+        timeline.resume(at: at(3))
+        #expect(seconds(timeline.recordedTime(from: at(1.5))) == 3)
+        let output = seconds(timeline.outputTime(for: at(3)))
+        #expect(output == 1)
+    }
+
     @Test func aPauseBeforeTheFirstFrameChangesNothing() {
         var timeline = RecordingTimeline()
         timeline.pause(at: at(1))
