@@ -46,6 +46,26 @@ public enum UpdateCheck {
         return .upToDate(latest: release?.version)
     }
 
+    /// What the app says after a check (upstream `UpdateService` speaks up for a newer version only; after Check Now
+    /// the user also hears that there is nothing newer, no release to compare with, or that the check failed).
+    public enum Notice: Equatable, Sendable {
+        case newer(Release)
+        case upToDate
+        /// GitHub has no release of the project (none published yet, or the repository moved): nothing to compare with.
+        case noRelease
+        case failed
+    }
+
+    /// The notice of a check's `outcome`: a newer version always, the rest only when the user asked (`userAsked`,
+    /// Settings › General › Check Now); nil says nothing. Without a release (GitHub answers 404) this isn't "up to date".
+    public static func notice(for outcome: Outcome, userAsked: Bool) -> Notice? {
+        switch outcome {
+        case .newer(let release): return .newer(release)
+        case .upToDate(let latest): return userAsked ? (latest == nil ? .noRelease : .upToDate) : nil
+        case .failed: return userAsked ? .failed : nil
+        }
+    }
+
     /// A check is due when the interval (days, 0 = never) has passed since the last one, or there was none.
     public static func isDue(lastCheck: Date?, intervalDays: Int, now: Date = Date()) -> Bool {
         guard intervalDays > 0 else { return false }

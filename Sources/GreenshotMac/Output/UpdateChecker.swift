@@ -67,7 +67,9 @@ enum UpdateChecker {
     }
 
     private static func finish(release: UpdateCheck.Release?, failed: Bool, current: String, saver: ImageSaver, userAsked: Bool) {
-        if let release, UpdateCheck.isNewer(release.version, than: current) {
+        let outcome = UpdateCheck.outcome(release: release, failed: failed, current: current)
+        switch UpdateCheck.notice(for: outcome, userAsked: userAsked) {
+        case .newer(let release):
             let page = release.pageURL
             // A warning, so "Show a message after saving or copying" doesn't hide it; the message level does
             // (after "Check Now" it counts as an error, shown at every level but None).
@@ -78,13 +80,15 @@ enum UpdateChecker {
                          kind: userAsked ? .error : .warning) {
                 NSWorkspace.shared.open(page)
             }
-            return
-        }
-        guard userAsked else { return }
-        if failed {
+        case .failed:
             saver.notify(String(localized: "Could not check for updates"), detail: String(localized: "GitHub could not be reached."), kind: .warning)
-        } else {
+        case .upToDate:
             Toast.show(String(localized: "\(AppInfo.name) is up to date"), detail: String(localized: "Version \(current).", comment: "The version of the app"))
+        case .noRelease:
+            Toast.show(String(localized: "No release has been published yet."),
+                       detail: String(localized: "Version \(current).", comment: "The version of the app"))
+        case nil:
+            break
         }
     }
 }
