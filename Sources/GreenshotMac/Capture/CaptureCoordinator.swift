@@ -110,7 +110,13 @@ final class CaptureCoordinator {
         let settings = self.settings.value
         run {
             guard let window = ScreenCapturer.frontWindow(in: ScreenCapturer.onScreenWindows()) else {
-                throw CaptureError.windowNotFound
+                // No window of the active app (upstream `ActiveWindowCaptureSource`): the whole screen, titled "Screen".
+                let showsCursor = settings.captureMousePointer
+                let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor, toneMapHDR: settings.toneMapHDRCaptures)
+                let all = ScreenComposer.union(of: frozen.screens(withPointer: showsCursor))
+                guard let capture = frozen.capture(of: all, withPointer: showsCursor, title: "Screen")
+                else { throw CaptureError.nothingToCapture }
+                return capture
             }
             return try await ScreenCapturer.capture(window: window, showsCursor: settings.captureMousePointer,
                                                     includeShadow: settings.includeWindowShadow,
