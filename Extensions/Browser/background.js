@@ -10,9 +10,10 @@
  * ("tab_width", so Greenshot knows the Retina scale). Turning the tab tracking off sends TAB_CHANGED with
  * "tracking": false, so Greenshot forgets the tab. A HANDSHAKE that Greenshot refuses (the extension switched off in its
  * settings) counts as offline, with Greenshot's reason, and is tried again later; the popup's status waits a moment for
- * a handshake under way. manifest.json asks for no host permissions (upstream: <all_urls>):
- * "activeTab" lets captureVisibleTab take the tab the user clicked the button in (Firefox 126 and later), "tabs" gives
- * the tab's address and title for the tab tracking.
+ * a handshake under way. "Sent to Greenshot!" only when Greenshot answers IMPORT_CAPTURE with "ok" (upstream shows it
+ * once the message is posted, also when Greenshot refused the capture).
+ * manifest.json asks for no host permissions (upstream: <all_urls>): "activeTab" lets captureVisibleTab take the tab the
+ * user clicked the button in (Firefox 126 and later), "tabs" gives the tab's address and title for the tab tracking.
  */
 
 /**
@@ -24,16 +25,19 @@
 const NATIVE_HOST_NAME = "io.github.greenshot_mac.host";
 const RETRY_BASE_DELAY_MS = 5000;
 const RETRY_MAX_DELAY_MS = 60000;
-// Mac: how long the popup's status waits for a handshake under way
+// Mac: how long the popup's status waits for a handshake under way, and a capture for Greenshot's answer
 const STATUS_WAIT_MS = 1500;
+const CAPTURE_ANSWER_TIMEOUT_MS = 15000;
 
 let nativePort = null;
 let isConnected = false;
 let retryCount = 0;
 let retryTimerId = null;
-// Mac: the handshake under way ({ promise, settle }), and why Greenshot refused the last one
+// Mac: the handshake under way ({ promise, settle }), why Greenshot refused the last one, and the captures waiting for
+// Greenshot's answer, oldest first (Greenshot answers a connection's requests in order)
 let handshake = null;
 let lastError = "";
+let pendingCaptures = [];
 
 let extensionConfig = {
   track_tab_urls: true,
@@ -102,7 +106,38 @@ function readableReason(text, fallback) {
 }
 
 /**
- * Drops the port (Mac: and with it the handshake under way).
+ * Mac: Greenshot's answer to the capture just sent ({ status, stderr }), or an error when none comes in time or the port
+ * closes. A capture that timed out keeps its place, so that its late answer isn't taken for the next capture's.
+ */
+function captureAnswer() {
+  const entry = { settled: false, resolve: null, timerId: null };
+  const promise = new Promise((resolve) => {
+    entry.resolve = resolve;
+  });
+  entry.timerId = setTimeout(() => {
+    finishCapture(entry, { status: "error", stderr: "Greenshot didn't answer." });
+  }, CAPTURE_ANSWER_TIMEOUT_MS);
+  pendingCaptures.push(entry);
+  return promise;
+}
+
+function finishCapture(entry, answer) {
+  if (entry.settled) {
+    return;
+  }
+  entry.settled = true;
+  clearTimeout(entry.timerId);
+  entry.resolve(answer);
+}
+
+function failPendingCaptures() {
+  const entries = pendingCaptures;
+  pendingCaptures = [];
+  entries.forEach((entry) => finishCapture(entry, { status: "error", stderr: "Greenshot closed the connection." }));
+}
+
+/**
+ * Drops the port (Mac: and with it the handshake under way and the captures waiting for an answer).
  */
 function closePort() {
   const port = nativePort;
@@ -116,6 +151,7 @@ function closePort() {
     }
   }
   settleHandshake();
+  failPendingCaptures();
 }
 
 /**
@@ -163,6 +199,10 @@ function onNativeMessage(msg) {
   if (msg.reply_to === "IMPORT_CAPTURE") {
     if (msg.status !== "ok") {
       console.warn("Greenshot rejected the capture:", msg.stderr);
+    }
+    const entry = pendingCaptures.shift();
+    if (entry) {
+      finishCapture(entry, msg);
     }
     return;
   }
@@ -218,6 +258,7 @@ function onNativeDisconnect(port) {
   isConnected = false;
   nativePort = null;
   settleHandshake();
+  failPendingCaptures();
   updateBadge();
 
   if (lastErr) {
@@ -242,18 +283,24 @@ function scheduleReconnect() {
   }, delay);
 }
 
+/**
+ * Sends a message to Greenshot; Mac: false when it couldn't be sent.
+ */
 function sendNativeMessage(payload) {
   if (!nativePort) {
     connectNativeHost();
-    return;
+    return false;
   }
 
   try {
     nativePort.postMessage(payload);
+    return true;
   } catch (err) {
     console.warn("Failed to send message over native port:", err);
-    isConnected = false;
+    closePort();
+    updateBadge();
     scheduleReconnect();
+    return false;
   }
 }
 
@@ -266,10 +313,13 @@ async function captureCurrentTab() {
     throw new Error("No active tab found.");
   }
 
+  // Mac: a handshake under way is waited for (the worker may just have woken)
+  await waitForHandshake(STATUS_WAIT_MS);
+
   // Ensure native messaging is connected
   if (!isConnected || !nativePort) {
     connectNativeHost();
-    throw new Error("Greenshot is offline. Please start Greenshot.");
+    throw new Error(lastError || "Greenshot is offline. Please start Greenshot.");
   }
 
   // Capture visible area
@@ -297,7 +347,15 @@ async function captureCurrentTab() {
     }
   };
 
-  sendNativeMessage(payload);
+  // Mac: sent only when Greenshot says it took it (it refuses it e.g. when the extension is switched off in its
+  // settings, or a picture it can't read)
+  if (!sendNativeMessage(payload)) {
+    throw new Error("Greenshot is offline. Please start Greenshot.");
+  }
+  const answer = await captureAnswer();
+  if (answer.status !== "ok") {
+    throw new Error(readableReason(answer.stderr, "Greenshot refused the capture."));
+  }
   return { success: true, title: activeTab.title };
 }
 
