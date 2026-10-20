@@ -73,8 +73,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         NotificationCenter.default.addObserver(forName: ShortcutRecorderButton.recordingDidBegin, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.hotkeys.unregisterAll() }
         }
-        NotificationCenter.default.addObserver(forName: ShortcutRecorderButton.recordingDidEnd, object: nil, queue: .main) { [weak self] _ in
-            MainActor.assumeIsolated { self?.registerHotkeys() }
+        NotificationCenter.default.addObserver(forName: ShortcutRecorderButton.recordingDidEnd, object: nil, queue: .main) { [weak self] note in
+            // Settings closing (not a recorder) turns them on whatever a recorder says.
+            let settingsClosed = !(note.object is ShortcutRecorderButton)
+            MainActor.assumeIsolated { self?.registerHotkeys(evenWhileRecording: settingsClosed) }
         }
         registerHotkeys()
         editors.restoreSavedEditors()
@@ -174,7 +176,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
     // MARK: Hotkeys
 
-    private func registerHotkeys() {
+    private func registerHotkeys(evenWhileRecording: Bool = false) {
+        // A shortcut recorder has them off; the end of the last one registers them (switching from one recorder to
+        // another begins the second before the first ends).
+        guard evenWhileRecording || !ShortcutRecorderButton.isAnyRecording else { return }
         hotkeys.registerAll(settings.value.hotkeys, capture: capture, editors: editors, video: video)
         guard let registration = HotkeyDiagnostics.lastRegistration else { return }
         let refused = registration.refused.filter(registration.combos.indices.contains)
