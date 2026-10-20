@@ -105,6 +105,14 @@ func testRecipe(_ nodes: [RecipeNode] = [RecipeNode(id: "a", stepType: "Source")
         #expect(result.errors.contains("Trigger at index 5 is missing required 'triggerType'."))
     }
 
+    /// A Border width of 2^63 in a file is checked without stopping the app (the file is validated before approval).
+    @Test func aHugeBorderWidthIsChecked() throws {
+        let width = try JSONValue.parse("9223372036854775807")
+        let border = RecipeNode(id: "b", stepType: "Effect", parameters: ["Effect": .string("Border"), "Width": width])
+        let result = validator.validate(testRecipe([RecipeNode(id: "a", stepType: "Source"), border]))
+        #expect(!result.errors.contains { $0.contains("'Width'") })
+    }
+
     @Test func nodeRules() {
         let nodes = [
             RecipeNode(id: "a", stepType: "Source", parameters: ["sourceType": .string("Teleport")]),

@@ -137,10 +137,12 @@ extension JSONValue {
         }
     }
 
+    /// Nil beyond Int's range. `Double(Int.max)` is 2^63, one more than Int.max, so the upper bound is strict: "9223372036854775807"
+    /// in a file reads as 2^63, and `Int()` of it would stop the app.
     public var asInt: Int? {
         guard let number = asDouble, number.isFinite else { return nil }
         let rounded = number.rounded(.toNearestOrEven)
-        guard rounded >= Double(Int.min), rounded <= Double(Int.max) else { return nil }
+        guard rounded >= Double(Int.min), rounded < 0x1p63 else { return nil }
         return Int(rounded)
     }
 

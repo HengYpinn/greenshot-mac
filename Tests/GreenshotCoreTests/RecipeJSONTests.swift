@@ -137,6 +137,15 @@ import Testing
         #expect(JSONValue.array([.string("a"), .number(1)]).asStrings == ["a", "1"])
     }
 
+    /// 2^63 and above are no Int: `Double(Int.max)` is 2^63 itself, and `Int()` of it stops the app.
+    @Test func numbersBeyondIntAreNoInt() throws {
+        #expect(try JSONValue.parse("9223372036854775807").asInt == nil)
+        #expect(JSONValue.number(0x1p63).asInt == nil)
+        #expect(JSONValue.string("9223372036854775808").asInt == nil)
+        #expect(JSONValue.number(-0x1p63).asInt == Int.min)
+        #expect(JSONValue.number(0x1p62).asInt == 1 << 62)
+    }
+
     @Test func interpolationText() {
         #expect(JSONValue.null.interpolationText == "")
         #expect(JSONValue.bool(false).interpolationText == "False")
