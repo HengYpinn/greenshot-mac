@@ -112,6 +112,9 @@ final class VideoRecorder {
             output.onStop = { [weak self] error in
                 Task { @MainActor in self?.streamStopped(error) }
             }
+            writer.onFailure = { [weak self] error in
+                Task { @MainActor in self?.writerFailed(error) }
+            }
             try await stream.startCapture()
         } catch {
             writer.cancel()
@@ -229,6 +232,14 @@ final class VideoRecorder {
         }
     }
 
+    /// The file can't be written any more (the disk is full, the volume went away): the recording stops at once, and
+    /// `finish` reports it once (`VideoWriterError.incomplete` names the file that keeps what was recorded until then).
+    private func writerFailed(_ error: Error) {
+        guard state.isActive else { return }
+        log.error("The video file can't be written any more: stopping the recording", error: error)
+        Task { try? await stop() }
+    }
+
     private func move(to next: RecordingState) {
         guard state != next, state.canMove(to: next) else { return }
         let old = state
@@ -310,6 +321,8 @@ final class VideoRecorder {
     }
 
     private func tick() {
+        // Also while the screen is still (no frames) or paused.
+        writer.checkForFailure()
         guard state == .recording else { return }
         let elapsed = duration
         onDuration?(elapsed)

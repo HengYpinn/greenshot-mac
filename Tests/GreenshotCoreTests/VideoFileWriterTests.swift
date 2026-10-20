@@ -68,6 +68,40 @@ private func writer(_ url: URL, format: VideoFormat = .mp4H264, colorMode: Video
                               colorMode: colorMode, hasAudio: audio, realTime: false))
 }
 
+/// An empty frame in `format`.
+private func blankFrame(width: Int, height: Int, format: OSType) -> CVPixelBuffer {
+    var buffer: CVPixelBuffer?
+    let attributes = [kCVPixelBufferIOSurfacePropertiesKey as String: [String: Any]()] as CFDictionary
+    CVPixelBufferCreate(nil, width, height, format, attributes, &buffer)
+    return buffer!
+}
+
+/// Waits until the file being written plays (its first movie fragment is on the disk), at most 5 s.
+private func waitUntilReadable(_ url: URL) async throws {
+    for _ in 0..<50 {
+        if let length = try? await duration(url), length > 0 { return }
+        try await Task.sleep(nanoseconds: 100_000_000)
+    }
+}
+
+/// The errors `VideoFileWriter.onFailure` got.
+private final class Failures: @unchecked Sendable {
+    private let lock = NSLock()
+    private var errors: [Error] = []
+
+    var count: Int {
+        lock.lock()
+        defer { lock.unlock() }
+        return errors.count
+    }
+
+    func add(_ error: Error) {
+        lock.lock()
+        errors.append(error)
+        lock.unlock()
+    }
+}
+
 /// A second of frames, starting at `start` (host clock seconds).
 private func appendSecond(_ writer: VideoFileWriter, start: Double, red: UInt8 = 200) {
     for index in 0..<30 {
@@ -253,6 +287,61 @@ struct VideoFileWriterTests {
         let length = try await duration(url)
         #expect(abs(length - 3) < 0.05)
         #expect(abs(result.duration - 3) < 0.05)
+    }
+
+    /// The disk fills up or the encoder fails while recording: the file keeps what was written until then.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aWriterThatFailsKeepsWhatItWrote() async throws {
+        let url = temporaryFile("failed.mp4")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, fragmentInterval: 0.5))
+        for second in 0..<3 { appendSecond(video, start: Double(second)) }
+        try await waitUntilReadable(url)
+        // The H.264 encoder can't take a depth map: the writer fails a few frames later.
+        video.appendVideo(blankFrame(width: 320, height: 240, format: kCVPixelFormatType_DepthFloat32), at: seconds(3))
+        var failedAt: Int?
+        for index in 1..<120 where failedAt == nil {
+            let buffer = frame(width: 320, height: 240, red: 10, green: 200, blue: 10)
+            if !video.appendVideo(buffer, at: seconds(3 + Double(index) / 30)) { failedAt = index }
+        }
+        #expect(failedAt != nil)
+        do {
+            _ = try await video.finish(at: seconds(8))
+            Issue.record("A failed writer finished")
+        } catch let error as VideoWriterError {
+            guard case .incomplete(_, let kept) = error else {
+                Issue.record("Not kept: \(error)")
+                return
+            }
+            #expect(kept == url)
+        }
+        #expect(FileManager.default.fileExists(atPath: url.path))
+        let length = try await duration(url)
+        #expect(length > 0.4)
+        let info = try #require(try await track(url, .video))
+        #expect(info.codec == "avc1")
+    }
+
+    /// The failure is told once, when a sample finds it; a file with nothing that plays yet is deleted.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aFailureIsToldOnce() async throws {
+        let url = temporaryFile("failed-early.mp4")
+        let video = try writer(url, audio: true)
+        let failures = Failures()
+        video.onFailure = { failures.add($0) }
+        appendSecond(video, start: 0)
+        #expect(failures.count == 0)
+        // The AAC encoder can't take sound at 1 Hz: the writer fails at once.
+        let sound = [Float](repeating: 0, count: 200)
+        #expect(!video.appendAudio(samples: sound, channels: 2, sampleRate: 1, at: seconds(0.5)))
+        #expect(failures.count == 1)
+        #expect(!video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(1.5)))
+        video.checkForFailure()
+        #expect(failures.count == 1)
+        await #expect(throws: VideoWriterError.self) {
+            _ = try await video.finish(at: seconds(2))
+        }
+        #expect(!FileManager.default.fileExists(atPath: url.path))
     }
 
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
