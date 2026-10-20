@@ -46,6 +46,8 @@ final class HotkeyManager {
     private var registeredNames: [String]?
     /// The tap macOS refused although the permission allowed it: not tried again until the permissions change.
     private var refusedTapMode: HotkeyEventTap.Mode?
+    /// The refused hotkeys are told once, not on each registration of the same ones.
+    private var refusalNotice = HotkeyRefusalNotice()
     private var permissionObservers: [(center: NotificationCenter, token: NSObjectProtocol)] = []
 
     init() {
@@ -168,7 +170,7 @@ final class HotkeyManager {
     }
 
     /// Registers the hotkeys from the settings, replacing the ones registered before, and tells the user about those
-    /// macOS refused (upstream `HotkeyHelper.RegisterHotkeys`).
+    /// macOS refused (upstream `HotkeyHelper.RegisterHotkeys`), unless the last registration refused the same ones.
     func registerAll(_ hotkeys: HotkeySettings, capture: CaptureCoordinator, editors: EditorManager,
                      video: VideoRecordingController) {
         var combos: [KeyCombo] = []
@@ -193,10 +195,15 @@ final class HotkeyManager {
         registeredNames = names
         HotkeyDiagnostics.recordRegistration(names: names, combos: combos, refused: refused)
         let failed = refused.map { "\(names[$0]): \(BidiText.isolatedLTR(combos[$0].displayString))" }
-        if !failed.isEmpty {
-            let advice = String(localized: "Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.")
-            ErrorPresenter.show(message: String(localized: "Some hotkeys could not be registered"),
-                                detail: failed.joined(separator: "\n") + "\n\n" + advice)
+        guard refusalNotice.shouldTell(failed) else { return }
+        let advice = String(localized: "Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.")
+        let detail = failed.joined(separator: "\n") + "\n\n" + advice
+        // After what runs now: at launch the alert waits until the app has started (editors restored, automation
+        // listening), instead of holding that up until someone clicks OK.
+        DispatchQueue.main.async {
+            MainActor.assumeIsolated {
+                ErrorPresenter.show(message: String(localized: "Some hotkeys could not be registered"), detail: detail)
+            }
         }
     }
 
