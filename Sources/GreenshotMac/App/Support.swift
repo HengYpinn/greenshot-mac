@@ -67,7 +67,8 @@ enum Permissions {
         URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture")!
 
     /// Screenshots can be taken: macOS's preflight says so, or ScreenCaptureKit worked in this run although the
-    /// preflight said no (`ensureScreenCapture`).
+    /// preflight said no (`ensureScreenCapture`). It never asks macOS nor tries a capture, so status texts and features
+    /// that must not prompt (window pictures in menus, the Jira title monitor) can read it.
     static var hasScreenCapture: Bool { CGPreflightScreenCaptureAccess() || worksDespitePreflight }
 
     private static let log = Log("Permissions")

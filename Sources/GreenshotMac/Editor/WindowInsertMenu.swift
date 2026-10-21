@@ -52,7 +52,7 @@ final class WindowInsertMenu: NSObject, NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         // The pictures need the screen recording permission, and pointing at a window must never ask for it.
         let wanted = (NSApp.delegate as? AppDelegate)?.settings.value.thumbnailPreview ?? false
-        pictures = wanted && CGPreflightScreenCaptureAccess() ? WindowPictureSource() : nil
+        pictures = wanted && Permissions.hasScreenCapture ? WindowPictureSource() : nil
     }
 
     func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {

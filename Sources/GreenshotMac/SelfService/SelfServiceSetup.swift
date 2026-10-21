@@ -49,7 +49,7 @@ final class SetupModel: ObservableObject {
         let settings = app.settings.value
         var facts = SetupFacts(appName: AppInfo.name, currentVersion: UpdateChecker.currentVersion)
         facts.version = self.facts.version
-        facts.canRecordScreen = CGPreflightScreenCaptureAccess()
+        facts.canRecordScreen = Permissions.hasScreenCapture
         facts.menuBarIconSwitchedOff = settings.hideMenuBarIcon
         facts.menuBarIconVisible = app.statusItemOnScreen
         let combos = HotkeyStatus.slots(settings.hotkeys).compactMap(\.combo)
