@@ -231,12 +231,14 @@ struct URLActionParserTests {
         #expect(command("greenshotmac://recipe%2Fx") == "RECIPE%2FX")
     }
 
-    /// A `#fragment` isn't part of the last query value (or of the path).
-    @Test func fragmentIsDropped() {
-        #expect(parameter("greenshotmac://settings?tab=editor#x", "tab") == "editor")
-        #expect(parameter("greenshotmac://recipe/ocr#top", "recipe") == "ocr")
+    /// A "#" is an ordinary character, as upstream reads links: a recipe's Color argument is written "#RRGGBB", and
+    /// a link written for Greenshot for Windows or by a page author doesn't encode it.
+    @Test func hashStaysInTheValue() {
+        #expect(parameter("greenshotmac://recipe/border?Color=#FF0000&Width=4", "Color") == "#FF0000")
+        #expect(parameter("greenshotmac://recipe/border?Color=#FF0000&Width=4", "Width") == "4")
+        #expect(parameter("greenshotmac://recipe/border?Width=4&Color=#FF0000", "Color") == "#FF0000")
         #expect(parameter("greenshotmac://log?search=a%23b", "search") == "a#b")
-        #expect(command("greenshotmac://about#x") == "ABOUT")
+        #expect(parameter("greenshotmac://recipe/Bug%20#1", "recipe") == "Bug #1")
     }
 
     @Test func commandsCarryingTheLinkLeadNowhere() {
