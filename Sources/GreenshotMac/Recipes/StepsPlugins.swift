@@ -105,7 +105,13 @@ struct RecipeJiraExecutor: RecipeStepExecutor {
         let client = JiraClient(site: site, http: Uploads.http)
         return await RecipeStepExports.run(String(localized: "The upload to Jira failed"),
                                            progress: String(localized: "Transferring data to Jira, please wait…")) {
-            _ = try await client.attach(file, to: normalized)
+            do {
+                _ = try await client.attach(file, to: normalized)
+            } catch {
+                // Like the Jira destination: a login the server refused (its password changed) is checked again next time.
+                AtlassianSignIn.uploadFailed(error, .jira, site)
+                throw error
+            }
             settings.update { $0.jira.remember(issueKey: normalized) }
             let url = client.browseURL(for: normalized)
             let name = file.name
@@ -169,8 +175,17 @@ struct RecipeConfluenceExecutor: RecipeStepExecutor {
         let client = ConfluenceClient(site: site, http: Uploads.http)
         return await RecipeStepExports.run(String(localized: "The upload to Confluence failed"),
                                            progress: String(localized: "Transferring data to Confluence, please wait…")) {
-            let page = try await client.page(id: pageId)
-            let attachments = try await client.attach(file, toPage: page.id)
+            let page: ConfluencePage
+            let attachments: [ConfluenceAttachment]
+            do {
+                page = try await client.page(id: pageId)
+                attachments = try await client.attach(file, toPage: page.id)
+            } catch {
+                // Like the Confluence destination: a login the server refused (its password changed) is checked again
+                // next time. The page is the first request here, so a changed password is refused there already.
+                AtlassianSignIn.uploadFailed(error, .confluence, site)
+                throw error
+            }
             settings.update { $0.confluence.remember(page: page) }
             let pageURL = site.isOnSite(page.url) ? page.url : nil
             let download = attachments.first?.downloadURL.flatMap { site.isOnSite($0) ? $0 : nil }
