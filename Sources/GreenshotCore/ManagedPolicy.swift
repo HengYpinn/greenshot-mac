@@ -245,7 +245,7 @@ public struct ManagedPolicy: Equatable, Sendable {
     static func check(_ path: String, _ value: Any) -> Result<String, Problem> {
         guard ManagedSettingKeys.contains(path) else { return .failure(Problem(text: "not a setting")) }
         guard let json = SettingsJSON.compatible(value) else {
-            return .failure(Problem(text: "a date or data can't be a setting"))
+            return .failure(Problem(text: "a date, data or a number that isn't finite can't be a setting"))
         }
         for candidate in candidates(json) {
             guard var object = SettingsJSON.defaultObject else { break }
@@ -273,7 +273,8 @@ public struct ManagedPolicy: Equatable, Sendable {
         default: break
         }
         if let number = Int(trimmed) { result.append(number) }
-        if let number = Double(trimmed) { result.append(number) }
+        // "nan" and "inf" read as Doubles too, and JSON has no such number (see `SettingsJSON.compatible`).
+        if let number = Double(trimmed), number.isFinite { result.append(number) }
         let items = trimmed.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
         if !trimmed.isEmpty { result.append(items) }
         return result
@@ -338,11 +339,13 @@ enum SettingsJSON {
         return array.first
     }
 
-    /// A property list value as JSON: texts, numbers, switches, lists and dictionaries; nil for dates and data.
+    /// A property list value as JSON: texts, numbers, switches, lists and dictionaries; nil for dates and data, and for
+    /// a number that isn't finite (a profile's `<real>nan</real>`): `JSONSerialization` raises an exception for it that
+    /// Swift can't catch.
     static func compatible(_ value: Any) -> Any? {
         switch value {
         case let text as String: return text
-        case let number as NSNumber: return number
+        case let number as NSNumber: return number.doubleValue.isFinite ? number : nil
         case let list as [Any]:
             var result: [Any] = []
             for item in list {
