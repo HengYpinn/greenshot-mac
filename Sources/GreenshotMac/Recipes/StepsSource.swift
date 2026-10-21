@@ -228,8 +228,6 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
             if let windowID {
                 throw RecipeStepError("The window to capture (\(windowID)) doesn't exist (anymore).", errorType: "InvalidOperationException")
             }
-            // An AI tool that asked for one window doesn't get every display instead.
-            if isAITool { throw CaptureError.windowNotFound }
             return try await activeAppWithoutWindow(context: context, settings: services.settings, captureMouse: captureMouse,
                                                     sourceType: interactive ? "Window" : "ActiveWindow")
         }
@@ -246,15 +244,25 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
     /// The active app has no window on the screen (the desktop clicked, an app with only a menu bar item): the whole
     /// screen, titled "Screen", like "Capture active window" in the menu (upstream `ActiveWindowCaptureSource` falls
-    /// back to `CaptureScreenAsync`). A run of greenshot-cli that allowed the active window is asked for the screen;
-    /// an AI tool's run never gets here (`windowSource`). Nil: not allowed.
+    /// back to `CaptureScreenAsync`), when the user started the capture (`ActiveWindowChoice.fallback`). A run of
+    /// greenshot-cli that allowed the active window is asked for the screen; an AI tool, a link or another program's
+    /// start fails. Nil: not allowed.
     private func activeAppWithoutWindow(context: RecipeFlowContext, settings: AppSettings, captureMouse: Bool,
                                         sourceType: String) async throws -> RecipePayload? {
-        let subject = "a screenshot of the whole screen"
-        if let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent,
-           !(await consent.allows(subject)) {
-            context.abort("The screenshot wasn't allowed (\(subject)).")
-            return nil
+        let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent
+        let marked = context.object(forKey: OverlayInputArming.automationMarkKey) is AutomationStartMark
+        switch ActiveWindowChoice.fallback(triggerType: context.trigger?.triggerType, markedByAutomation: marked,
+                                           hasConsent: consent != nil) {
+        case .none:
+            throw CaptureError.windowNotFound
+        case .askForScreen:
+            let subject = "a screenshot of the whole screen"
+            guard let consent, await consent.allows(subject) else {
+                context.abort("The screenshot wasn't allowed (\(subject)).")
+                return nil
+            }
+        case .screen:
+            break
         }
         context.log("The active app has no window on the screen: capturing the screen.")
         let screen = try await ScreenCapturer.captureScreen(showsCursor: captureMouse, toneMapHDR: settings.toneMapHDRCaptures)

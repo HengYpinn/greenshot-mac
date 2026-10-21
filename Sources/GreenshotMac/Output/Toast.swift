@@ -10,9 +10,12 @@ import GreenshotCore
 /// (`ToastPanel`). Callers filter by the message level first (`ImageSaver.notify`).
 @MainActor
 enum Toast {
+    /// `mustBeSeen`: shown in the in-app panel when macOS notifications are off or not asked for yet
+    /// (`NotificationService.message`).
     static func show(_ message: String, detail: String? = nil, kind: MessageKind = .info, action: (() -> Void)? = nil,
-                     onClosed: (() -> Void)? = nil) {
-        NotificationService.shared.message(message, detail: detail, kind: kind, action: action, onClosed: onClosed)
+                     onClosed: (() -> Void)? = nil, mustBeSeen: Bool = false) {
+        NotificationService.shared.message(message, detail: detail, kind: kind, action: action, onClosed: onClosed,
+                                           mustBeSeen: mustBeSeen)
     }
 
     /// Hides the in-app panel, e.g. before a capture (a macOS notification stays in Notification Center).

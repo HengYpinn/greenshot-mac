@@ -169,17 +169,40 @@ final class NativeNotifications {
             case .off:
                 onClosed?()
             case .allowed:
-                let content = UNMutableNotificationContent()
-                content.title = title
-                content.body = body ?? ""
-                content.categoryIdentifier = Self.messageCategory
-                if kind != .info, let icon = self.statusIconAttachment(kind) { content.attachments = [icon] }
-                let identifier = UUID().uuidString
-                self.pruneActions()
-                if action != nil || onClosed != nil { self.actions[identifier] = (action, onClosed, Date()) }
-                self.add(identifier, content)
+                self.addMessage(title: title, body: body, kind: kind, action: action, onClosed: onClosed)
             }
         }
+    }
+
+    /// A message the user must see: a notification when they are on, else `fallback` (the in-app panel), also when
+    /// they are turned off. It never makes macOS ask for the permission, whose question would come next to whatever
+    /// the message is about (e.g. macOS's Screen Recording prompt).
+    func postMessageWithoutAsking(title: String, body: String?, kind: MessageKind, action: (() -> Void)?,
+                                  onClosed: (() -> Void)?, fallback: @escaping () -> Void) {
+        guard !refused else {
+            fallback()
+            return
+        }
+        refreshStatus {
+            switch self.status {
+            case .authorized, .provisional, .ephemeral:
+                self.addMessage(title: title, body: body, kind: kind, action: action, onClosed: onClosed)
+            default:
+                fallback()
+            }
+        }
+    }
+
+    private func addMessage(title: String, body: String?, kind: MessageKind, action: (() -> Void)?, onClosed: (() -> Void)?) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body ?? ""
+        content.categoryIdentifier = Self.messageCategory
+        if kind != .info, let icon = statusIconAttachment(kind) { content.attachments = [icon] }
+        let identifier = UUID().uuidString
+        pruneActions()
+        if action != nil || onClosed != nil { actions[identifier] = (action, onClosed, Date()) }
+        add(identifier, content)
     }
 
     /// The notification after a capture: keeps the capture for a click (only while notifications are shown), with its

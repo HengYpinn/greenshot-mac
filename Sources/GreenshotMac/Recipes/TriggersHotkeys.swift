@@ -22,7 +22,8 @@ enum RecipeHotkeyBindings {
     private(set) static var clashes: [RecipeHotkeyClash] = []
 
     /// The recipe hotkeys to bind besides `taken` (the app's own, which win a clash); `name` reads "Recipe “Name”".
-    static func current(excluding taken: [KeyCombo]) -> [(combo: KeyCombo, name: String, action: () -> Void)] {
+    /// `tellsSides`: the keyboard event tap will run, so left and right keys are told apart (`HotkeyManager`).
+    static func current(excluding taken: [KeyCombo], tellsSides: Bool) -> [(combo: KeyCombo, name: String, action: () -> Void)] {
         guard let runtime = RecipeRuntime.shared, runtime.isEnabled else {
             update(clashes: [])
             return []
@@ -33,8 +34,8 @@ enum RecipeHotkeyBindings {
         let names = appHotkeyNames()
         let fallback = String(localized: "a Greenshot hotkey", comment: "Names a hotkey of the app in a message about a recipe hotkey that clashes with it")
         let takenNamed = taken.map { combo in NamedHotkey(name: names.first { $0.combo == combo }?.name ?? fallback, combo: combo) }
-        // Without the permission for left and right keys every hotkey is registered for either key (`HotkeyManager`).
-        let resolved = RecipeHotkeyClashes.resolve(candidates, taken: takenNamed, tellsSides: HotkeyEventTap.availableMode != nil)
+        // Without the event tap every hotkey is registered for either key (`HotkeyManager`).
+        let resolved = RecipeHotkeyClashes.resolve(candidates, taken: takenNamed, tellsSides: tellsSides)
         update(clashes: resolved.clashes)
         return resolved.kept.map { index in
             let trigger = triggers[index].trigger

@@ -71,7 +71,10 @@ final class NotificationService {
     /// A message (upstream `ShowInfoMessage` / `ShowWarningMessage` / `ShowErrorMessage`). The caller filtered by the
     /// level already. While the exports of a capture are collected, information about them waits for the one
     /// notification after the capture.
-    func message(_ text: String, detail: String?, kind: MessageKind, action: (() -> Void)?, onClosed: (() -> Void)?) {
+    /// `mustBeSeen`: a warning the user has to see (refused hotkeys, the Screen Recording permission): the in-app panel
+    /// when notifications are off or macOS hasn't asked yet, and macOS is never asked for them by it.
+    func message(_ text: String, detail: String?, kind: MessageKind, action: (() -> Void)?, onClosed: (() -> Void)?,
+                 mustBeSeen: Bool = false) {
         if kind == .info, NotificationExportLog.isCollecting {
             log.debug("Left to the notification after the capture: \(text)")
             onClosed?()
@@ -81,8 +84,14 @@ final class NotificationService {
             ToastPanel.show(title: text, lines: detail.map { [$0] } ?? [], kind: kind, action: action, onClosed: onClosed)
             return
         }
-        native.postMessage(title: text, body: detail, kind: kind, action: action, onClosed: onClosed) {
+        let panel = {
             ToastPanel.show(title: text, lines: detail.map { [$0] } ?? [], kind: kind, action: action, onClosed: onClosed)
+        }
+        if mustBeSeen {
+            native.postMessageWithoutAsking(title: text, body: detail, kind: kind, action: action, onClosed: onClosed,
+                                            fallback: panel)
+        } else {
+            native.postMessage(title: text, body: detail, kind: kind, action: action, onClosed: onClosed, fallback: panel)
         }
     }
 
