@@ -2956,6 +2956,9 @@
 "Microsoft Office and Notes" = "Microsoft Office 和备忘录";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office 只从其自身的共享文件夹读取图片，而 macOS 会保护该文件夹。请在“系统设置 › 隐私与安全性 › 文件和文件夹”中允许 %@ 访问其他 App 的数据，然后重试。";
+
+/* machine */
 "Middle" = "中间";
 
 /* machine */
@@ -3161,6 +3164,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "还没有配方。请导入配方文件，或在配方编辑器中创建一个。";
+
+/* machine */
+"No release has been published yet." = "尚未发布任何版本。";
 
 /* machine */
 "No spaces" = "无空间";
@@ -5119,6 +5125,9 @@
 "The color of the torn off parts; transparent by default" = "被撕掉部分的颜色；默认为透明";
 
 /* machine */
+"The comment could not be added: %@" = "无法添加注释：%@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "目标位置菜单中还会列出你组织的未结束会议；屏幕截图会附加到该会议。";
 
 /* machine */
@@ -5288,6 +5297,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "录制将在 %lld 秒后开始。点按以取消。";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "录制已停止，因为无法写入其文件：%@。此前录制的内容位于 %@。";
 
 /* machine */
 "The recording was already finished." = "录制已经结束。";
@@ -5624,6 +5636,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "请相信 Greenshot 在下方对配方的描述，而非这些文字。";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "请在“系统设置 › 隐私与安全性 › 屏幕与系统音频录制”中打开此权限。";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "请在“系统设置 › 通用 › 登录项与扩展”中打开 %@。";
@@ -6343,6 +6358,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS 会在首次使用时询问是否允许 %@ 使用麦克风。";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS 阻止了将屏幕截图交给 %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS 未允许此构建版本发送通知。使用稳定身份签名的构建版本通常可以（参见 README）。";
 
 /* machine */
@@ -6554,6 +6572,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "参数中的 {0} 是屏幕截图的文件；引号用于将词组合在一起。命令和参数可以使用文件名格式变量，例如 ${title}。";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@”（%@）在无法区分左右按键时按键相同，因此只有其中一个会触发。";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@”（%@）左右两侧的按键相同，因此两者都会触发。";

@@ -897,6 +897,7 @@ Message:	Pesan:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office dan Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office hanya membaca gambar dari folder bersamanya sendiri, dan macOS melindunginya. Di Pengaturan Sistem › Privasi & Keamanan › File & Folder, izinkan %@ mengakses data dari app lain, lalu coba lagi.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -964,6 +965,7 @@ No recipe open	Tidak ada resep terbuka	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Tidak ada resep dari berkas.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Tidak ada resep dimuat	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Belum ada resep. Impor berkas resep atau buat di editor resep.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Belum ada rilis yang diterbitkan.	claude-opus-5-5 2026-10-21
 No spaces	Tanpa space	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Tidak ada langkah awal yang mengarah ke sini: hubungkan langkah-langkah ini dengan "Lanjutkan Di"	claude-sonnet-5-5 2026-10-18
 No text found	Teks tidak ditemukan	claude-sonnet-5-5 2026-10-18
@@ -1547,6 +1549,7 @@ The clipboard was left as it was.	Papan klip dibiarkan seperti semula.	claude-so
 The code signature of the app, notarization and quarantine	Tanda tangan kode app, notarisasi, dan karantina	claude-sonnet-5-5 2026-10-18
 The color behind the image	Warna di belakang gambar	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Warna bagian yang disobek; transparan secara default	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Komentar tidak dapat ditambahkan: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Menu destinasi juga mencantumkan rapat terbuka yang Anda selenggarakan; tangkapan layar dilampirkan ke rapat.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Detail “%@” tidak tersedia: tidak dimuat lagi.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Layar tidak lagi terhubung.	claude-sonnet-5-5 2026-10-18
@@ -1604,6 +1607,7 @@ The recording is being saved.	Perekaman sedang disimpan.	claude-sonnet-5-5 2026-
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Perekaman dijeda. Klik untuk berhenti; klik dengan ⌃ untuk melanjutkan atau membuang.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Perekaman sedang dimulai. Klik untuk menghentikannya segera setelah berjalan.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Perekaman dimulai dalam %lld d. Klik untuk membatalkan.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Perekaman berhenti karena berkasnya tidak dapat ditulis: %@. Yang terekam sampai saat itu ada di %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Perekaman sudah selesai.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Perekaman dibuang	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Permintaan datang melalui greenshot-cli. Izinkan hanya jika Anda yang memulainya: hasil resep dikirim ke tujuan yang ditetapkan resep.	claude-sonnet-5-5 2026-10-18
@@ -1701,6 +1705,7 @@ Trust certificates with these fingerprints	Percayai sertifikat dengan sidik jari
 Trust these hosts despite certificate errors	Percayai host ini meskipun ada kesalahan sertifikat	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Percayai apa yang ditulis Greenshot di bawah tentang langkah otomatis, bukan kata-kata ini.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Percayai apa yang ditulis Greenshot di bawah tentang resep, bukan kata-kata ini.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Nyalakan izinnya di Pengaturan Sistem › Privasi & Keamanan › Perekaman Layar & Audio Sistem.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Nyalakan %@ di Pengaturan Sistem › Umum › Item Login & Ekstensi.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Nyalakan Izinkan Notifikasi untuk %@ di Pengaturan Sistem › Notifikasi untuk melihatnya lagi.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Menyalakan salah satu yang lain mematikan menu. Beberapa dapat menyala, mis. kopi dan simpan.	claude-sonnet-5-5 2026-10-18
@@ -1923,6 +1928,7 @@ left %@	kiri %@	claude-sonnet-5-5 2026-10-18
 level %@	level %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS meminta izin ini kepada setiap app yang mengambil tangkapan layar.\n\nBuka Pengaturan Sistem › Privasi & Keamanan › Perekaman Layar & Audio Sistem, nyalakan %@, lalu keluar dan buka lagi.\n\nTidak ada di daftar? Klik + di bawahnya dan tambahkan %@ dari Aplikasi.\n\nSudah menyala? Salinan yang dibangun ulang atau dipindahkan dianggap app baru: pilih, hapus dengan −, lalu buka %@ lagi dan izinkan kembali.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS bertanya pertama kali apakah %@ boleh menggunakan mikrofon.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS memblokir penyerahan tangkapan layar ke %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS tidak mengizinkan build ini mengirim notifikasi. Build yang ditandatangani dengan identitas stabil biasanya bisa (lihat README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS belum mengizinkan %@ merekam layar. Tangkapan layar memerlukan izin ini: nyalakan %@ di Privasi & Keamanan › Perekaman Layar & Audio Sistem.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS menangani tombol ini sebelum app mana pun. Jika salah satunya memiliki tombol hotkey, matikan di Keyboard › Pintasan Keyboard › Tangkapan Layar, atau pilih hotkey lain.	claude-sonnet-5-5 2026-10-18
@@ -1979,6 +1985,7 @@ zoomer on or off	kaca pembesar nyala atau mati	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} pada argumen adalah berkas tangkapan layar; tanda kutip mengelompokkan kata. Perintah dan argumen dapat menggunakan variabel pola nama berkas, mis. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	“%@” (%@) memiliki tombol yang sama selama tombol kiri dan kanan tidak dapat dibedakan, jadi hanya salah satunya yang aktif.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) memiliki tombol yang sama di kedua sisi, jadi keduanya akan aktif.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) adalah awal hotkey ini, jadi yang ini tidak pernah aktif.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@” sudah ada. Ganti?	claude-sonnet-5-5 2026-10-18

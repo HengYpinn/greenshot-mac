@@ -901,6 +901,7 @@ Message:	Bericht:	claude-sonnet-5-5 2026-10-18
 Microphone	Microfoon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office en Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office leest afbeeldingen alleen uit zijn eigen gedeelde map, en macOS beschermt die. Geef %@ in Systeeminstellingen › Privacy en beveiliging › Bestanden en mappen toegang tot gegevens van andere apps en probeer het dan opnieuw.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -969,6 +970,7 @@ No recipe open	Geen recept open	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Geen recepten uit bestanden.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Geen recepten geladen	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Nog geen recepten. Importeer een receptbestand of maak er een in de receptbewerker.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Er is nog geen release gepubliceerd.	claude-opus-5-5 2026-10-21
 No spaces	Geen spaces	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Geen beginstap leidt hiernaartoe: verbind deze stappen met "Doorgaan bij"	claude-sonnet-5-5 2026-10-18
 No text found	Geen tekst gevonden	claude-sonnet-5-5 2026-10-18
@@ -1554,6 +1556,7 @@ The clipboard was left as it was.	Het klembord is ongewijzigd gelaten.	claude-so
 The code signature of the app, notarization and quarantine	De codehandtekening van de app, notarisatie en quarantaine	claude-sonnet-5-5 2026-10-18
 The color behind the image	De kleur achter de afbeelding	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	De kleur van de afgescheurde delen; standaard transparant	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Het commentaar kon niet worden toegevoegd: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Het bestemmingsmenu toont ook de open vergaderingen die u organiseert; de schermafbeelding wordt aan de vergadering toegevoegd.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	De details van “%@” zijn niet beschikbaar: het is niet meer geladen.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Het beeldscherm is niet meer verbonden.	claude-sonnet-5-5 2026-10-18
@@ -1611,6 +1614,7 @@ The recording is being saved.	De opname wordt opgeslagen.	claude-sonnet-5-5 2026
 The recording is paused. Click to stop; ⌃-click to go on or discard.	De opname is gepauzeerd. Klik om te stoppen; ⌃-klik om door te gaan of te verwerpen.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	De opname start. Klik om te stoppen zodra ze loopt.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	De opname start over %lld s. Klik om te annuleren.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	De opname is gestopt omdat het bestand ervan niet kon worden geschreven: %@. Wat tot dan toe is opgenomen, staat in %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	De opname was al voltooid.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	De opname is verworpen	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Het verzoek kwam via greenshot-cli. Sta het alleen toe als u het zelf hebt gestart: het resultaat van het recept gaat waar het recept het naartoe stuurt.	claude-sonnet-5-5 2026-10-18
@@ -1710,6 +1714,7 @@ Trust certificates with these fingerprints	Certificaten met deze vingerafdrukken
 Trust these hosts despite certificate errors	Deze hosts vertrouwen ondanks certificaatfouten	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Vertrouw op wat Greenshot hieronder over de automatische stap schrijft, niet op deze woorden.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Vertrouw op wat Greenshot hieronder over het recept schrijft, niet op deze woorden.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Schakel de toestemming in via Systeeminstellingen › Privacy en beveiliging › Scherm- en systeemaudio-opname.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Schakel %@ in via Systeeminstellingen › Algemeen › Inlogonderdelen en extensies.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Schakel Sta meldingen toe voor %@ in via Systeeminstellingen › Meldingen om ze weer te zien.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Als u een van de andere inschakelt, gaat het menu uit. Er kunnen er meerdere aan staan, bijv. kopiëren en opslaan.	claude-sonnet-5-5 2026-10-18
@@ -1935,6 +1940,7 @@ left %@	links %@	claude-sonnet-5-5 2026-10-18
 level %@	niveau %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS vraagt elke app die schermafbeeldingen maakt om deze toestemming.\n\nOpen Systeeminstellingen › Privacy en beveiliging › Scherm- en systeemaudio-opname, schakel %@ in en sluit de app daarna af en open hem opnieuw.\n\nStaat hij niet in de lijst? Klik op + eronder en voeg %@ toe uit Programma's.\n\nStaat hij al aan? Een opnieuw gebouwd of verplaatst exemplaar telt als een nieuwe app: selecteer het, verwijder het met −, open %@ opnieuw en sta het opnieuw toe.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS vraagt de eerste keer of %@ de microfoon mag gebruiken.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS heeft het doorgeven van de schermafbeelding aan %@ geblokkeerd	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS liet deze build geen meldingen plaatsen. Een build die met een vaste identiteit is ondertekend, kan dat meestal wel (zie de README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS staat %@ nog niet toe het scherm op te nemen. Schermafbeeldingen hebben deze toestemming nodig: schakel %@ in onder Privacy en beveiliging › Scherm- en systeemaudio-opname.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS verwerkt deze toetsen vóór elke app. Als een ervan de toetsen van een sneltoets heeft, schakel die dan uit onder Toetsenbord › Toetsenbordsneltoetsen › Schermafbeeldingen, of kies een andere sneltoets.	claude-sonnet-5-5 2026-10-18
@@ -1992,6 +1998,7 @@ zoomer on or off	vergrootglas aan of uit	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} in de argumenten is het bestand van de schermafbeelding; aanhalingstekens groeperen woorden. De opdracht en de argumenten kunnen de variabelen van het bestandsnaampatroon gebruiken, bijv. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	“%@” (%@) heeft dezelfde toetsen zolang linker- en rechtertoetsen niet van elkaar te onderscheiden zijn, dus slechts één ervan activeert.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) heeft dezelfde toetsen voor beide kanten, dus beide zouden activeren.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) is het begin van deze sneltoets, dus deze activeert nooit.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@” bestaat al. Wilt u het vervangen?	claude-sonnet-5-5 2026-10-18

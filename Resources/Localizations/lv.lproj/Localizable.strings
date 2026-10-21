@@ -2928,6 +2928,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office un Notes";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office lasa attēlus tikai no savas koplietojamās mapes, un macOS to aizsargā. Sadaļā Sistēmas iestatījumi › Privātums un drošība › Faili un mapes atļauj %@ piekļūt citu lietotņu datiem un pēc tam mēģini vēlreiz.";
+
 /* core:Editor.align_middle */
 "Middle" = "Vidū";
 
@@ -3134,6 +3137,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Recepšu vēl nav. Importē receptes failu vai izveido recepti receptes redaktorā.";
+
+/* machine */
+"No release has been published yet." = "Vēl nav publicēta neviena izlaide.";
 
 /* machine */
 "No spaces" = "Nav telpu";
@@ -5083,6 +5089,9 @@
 "The color of the torn off parts; transparent by default" = "Noplēsto daļu krāsa; pēc noklusējuma caurspīdīga";
 
 /* machine */
+"The comment could not be added: %@" = "Piebildi nevarēja pievienot: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Mērķu izvēlnē tiek uzskaitītas arī atvērtās sapulces, ko tu organizē; ekrānattēls tiek pievienots sapulcei.";
 
 /* machine */
@@ -5252,6 +5261,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Ieraksts sāksies pēc %lld s. Noklikšķini, lai atceltu.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Ieraksts apstājās, jo tā failu nevarēja ierakstīt: %@. Līdz tam ierakstītais atrodas šeit: %@.";
 
 /* machine */
 "The recording was already finished." = "Ieraksts jau bija pabeigts.";
@@ -5585,6 +5597,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Uzticies tam, ko Greenshot tālāk raksta par recepti, nevis šiem vārdiem.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Ieslēdz atļauju sadaļā Sistēmas iestatījumi › Privātums un drošība › Ekrāna un sistēmas audio ierakstīšana.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Ieslēdz %@ sadaļā Sistēmas iestatījumi › Vispārīgi › Pieteikšanās vienumi un paplašinājumi.";
@@ -6298,6 +6313,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS pirmo reizi vaicā, vai %@ drīkst izmantot mikrofonu.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS bloķēja ekrānattēla nodošanu lietotnei %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS neļāva šai būvei publicēt paziņojumus. Būve, kas parakstīta ar stabilu identitāti, parasti var (skat. README).";
 
 /* machine */
@@ -6506,6 +6524,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} parametros ir ekrānattēla fails; pēdiņas grupē vārdus. Komanda un parametri var izmantot faila vārda parauga mainīgos, piemēram, ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@” (%@) ir tie paši taustiņi, kamēr kreiso un labo taustiņu nevar atšķirt, tāpēc iedarbojas tikai viens no tiem.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@” (%@) ir tie paši taustiņi abās pusēs, tāpēc iedarbotos abi.";

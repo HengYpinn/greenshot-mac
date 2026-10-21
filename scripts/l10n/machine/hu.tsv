@@ -939,6 +939,7 @@ Message:	Üzenet:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office és Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	A Microsoft Office csak a saját megosztott mappájából olvas be képeket, és a macOS védi ezt a mappát. A Rendszerbeállítások › Adatvédelem és biztonság › Fájlok és mappák alatt engedélyezze a(z) %@ számára más alkalmazások adatainak elérését, majd próbálja újra.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -1010,6 +1011,7 @@ No recipe open	Nincs megnyitott recept	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Nincsenek fájlból származó receptek.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Nincs betöltött recept	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Még nincsenek receptek. Importáljon egy receptfájlt, vagy hozzon létre egyet a receptszerkesztőben.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Még nem jelent meg egyetlen kiadás sem.	claude-opus-5-5 2026-10-21
 No spaces	Nincs tér	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Egyetlen kezdő lépés sem vezet ide: kapcsolja össze ezeket a lépéseket a „Folytatás itt” lépéssel	claude-sonnet-5-5 2026-10-18
 No text found	Nem található szöveg	claude-sonnet-5-5 2026-10-18
@@ -1615,6 +1617,7 @@ The clipboard was left as it was.	A vágólap változatlan maradt.	claude-sonnet
 The code signature of the app, notarization and quarantine	Az alkalmazás kódaláírása, notarizálása és karanténja	claude-sonnet-5-5 2026-10-18
 The color behind the image	A kép mögötti szín	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	A leszakított részek színe; alapértelmezés szerint átlátszó	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	A megjegyzést nem sikerült hozzáadni: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	A célmenü az Ön által szervezett nyitott megbeszéléseket is listázza; a képernyőkép a megbeszéléshez csatolódik.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	A(z) „%@” részletei nem érhetők el: már nincs betöltve.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	A kijelző már nincs csatlakoztatva.	claude-sonnet-5-5 2026-10-18
@@ -1672,6 +1675,7 @@ The recording is being saved.	A felvétel mentése folyamatban van.	claude-sonne
 The recording is paused. Click to stop; ⌃-click to go on or discard.	A felvétel szünetel. Kattintson a leállításhoz; ⌃-kattintással folytathatja vagy elvetheti.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	A felvétel indul. Kattintson a leállításhoz, amint fut.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	A felvétel %lld mp múlva indul. Kattintson a megszakításhoz.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	A felvétel leállt, mert a fájlja nem írható: %@. Az addig rögzített anyag itt található: %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	A felvétel már befejeződött.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	A felvétel el lett vetve	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	A kérés a greenshot-cli-n keresztül érkezett. Csak akkor engedélyezze, ha Ön indította: a recept eredménye oda kerül, ahová a recept küldi.	claude-sonnet-5-5 2026-10-18
@@ -1783,6 +1787,7 @@ Trust certificates with these fingerprints	Megbízás az ilyen ujjlenyomatú tan
 Trust these hosts despite certificate errors	Ezekben a gépekben való megbízás tanúsítványhibák ellenére is	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Ahhoz bízzon inkább, amit a Greenshot lent az automatikus lépésről ír, ne ezekhez a szavakhoz.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Ahhoz bízzon inkább, amit a Greenshot lent a receptről ír, ne ezekhez a szavakhoz.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Kapcsolja be az engedélyt itt: Rendszerbeállítások › Adatvédelem és biztonság › Képernyő- és rendszerhangfelvétel.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Kapcsolja be itt: Rendszerbeállítások › Általános › Bejelentkezési elemek és bővítmények (%@).	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Kapcsolja be az Értesítések engedélyezését itt: Rendszerbeállítások › Értesítések (%@), hogy újra lássa őket.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Ha bármelyik másikat bekapcsolja, a menü kikapcsol. Többet is bekapcsolhat, például a másolást és a mentést.	claude-sonnet-5-5 2026-10-18
@@ -2021,6 +2026,7 @@ left %@	bal: %@	claude-sonnet-5-5 2026-10-18
 level %@	szint: %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	A macOS minden képernyőképet készítő alkalmazástól kéri ezt az engedélyt.\n\nNyissa meg a Rendszerbeállítások › Adatvédelem és biztonság › Képernyő- és rendszerhangfelvétel részt, kapcsolja be ezt: %@, majd lépjen ki belőle, és nyissa meg újra.\n\nNincs a listában? Kattintson alatta a + gombra, és adja hozzá a(z) %@ alkalmazást az Alkalmazásokból.\n\nMár be van kapcsolva? Az újraépített vagy áthelyezett példány új alkalmazásnak számít: jelölje ki, távolítsa el a − gombbal, majd nyissa meg újra a(z) %@ alkalmazást, és engedélyezze újra.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	A macOS az első alkalommal megkérdezi, használhatja-e a(z) %@ a mikrofont.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	A macOS letiltotta a képernyőkép átadását ide: %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	A macOS nem engedte, hogy ez a build értesítéseket küldjön. A stabil identitással aláírt build általában képes rá (lásd a README-t).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	A macOS még nem engedi, hogy a(z) %@ rögzítse a képernyőt. A képernyőképekhez ez az engedély kell: kapcsolja be az Adatvédelem és biztonság › Képernyő- és rendszerhangfelvétel alatt (%@).	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	A macOS ezeket a billentyűket minden alkalmazás előtt kezeli. Ha valamelyiknek megvannak egy gyorsbillentyű billentyűi, kapcsolja ki a Billentyűzet › Billentyűparancsok › Képernyőképek alatt, vagy válasszon másik gyorsbillentyűt.	claude-sonnet-5-5 2026-10-18
@@ -2082,6 +2088,7 @@ zoomer on or off	nagyító be vagy ki	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	Az argumentumokban a {0} a képernyőkép fájlja; az idézőjelek szavakat csoportosítanak. A parancs és az argumentumok használhatják a fájlnévminta változóit, például ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	„%@” (%@) ugyanazokkal a billentyűkkel rendelkezik, amíg a bal és jobb oldali billentyűk nem különböztethetők meg, ezért csak az egyik lép működésbe.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	„%@” (%@) mindkét oldalon ugyanazokkal a billentyűkkel rendelkezik, így mindkettő működésbe lépne.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@” (%@) ennek a gyorsbillentyűnek a kezdete, ezért ez soha nem lép működésbe.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	„%@” már létezik. Lecseréli?	claude-sonnet-5-5 2026-10-18

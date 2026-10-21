@@ -887,6 +887,7 @@ Message:	İleti:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office ve Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office resimleri yalnızca kendi paylaşılan klasöründen okur ve macOS bu klasörü korur. Sistem Ayarları › Gizlilik ve Güvenlik › Dosyalar ve Klasörler bölümünde %@ uygulamasının diğer uygulamaların verilerine erişmesine izin verin, ardından yeniden deneyin.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -954,6 +955,7 @@ No recipe open	Açık tarif yok	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Dosyalardan tarif yok.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Yüklü tarif yok	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Henüz tarif yok. Bir tarif dosyası içe aktarın veya tarif düzenleyicide bir tane oluşturun.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Henüz yayımlanmış bir sürüm yok.	claude-opus-5-5 2026-10-21
 No spaces	Alan yok	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Hiçbir başlangıç adımı buraya çıkmıyor: bu adımları "Şuradan Devam Et" ile bağlayın	claude-sonnet-5-5 2026-10-18
 No text found	Metin bulunamadı	claude-sonnet-5-5 2026-10-18
@@ -1533,6 +1535,7 @@ The clipboard was left as it was.	Pano olduğu gibi bırakıldı.	claude-sonnet-
 The code signature of the app, notarization and quarantine	Uygulamanın kod imzası, notarizasyon ve karantina	claude-sonnet-5-5 2026-10-18
 The color behind the image	Görüntünün arkasındaki renk	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Yırtılan parçaların rengi; varsayılan olarak saydam	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Açıklama eklenemedi: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Hedef menüsü, düzenlediğiniz açık toplantıları da listeler; ekran görüntüsü toplantıya eklenir.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	“%@” ayrıntıları kullanılamıyor: artık yüklü değil.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Ekran artık bağlı değil.	claude-sonnet-5-5 2026-10-18
@@ -1590,6 +1593,7 @@ The recording is being saved.	Kayıt kaydediliyor.	claude-sonnet-5-5 2026-10-18
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Kayıt duraklatıldı. Durdurmak için tıklayın; devam etmek veya atmak için ⌃-tıklayın.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Kayıt başlıyor. Çalışır çalışmaz durdurmak için tıklayın.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Kayıt %lld sn içinde başlıyor. İptal etmek için tıklayın.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Kayıt, dosyası yazılamadığı için durdu: %@. O ana kadar kaydedilenler şurada: %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Kayıt zaten bitmişti.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Kayıt atıldı	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	İstek greenshot-cli üzerinden geldi. Yalnızca siz başlattıysanız izin verin: tarifin sonucu tarifin gönderdiği yere gider.	claude-sonnet-5-5 2026-10-18
@@ -1687,6 +1691,7 @@ Trust certificates with these fingerprints	Bu parmak izlerine sahip sertifikalar
 Trust these hosts despite certificate errors	Sertifika hatalarına rağmen bu ana makinelere güven	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Otomatik adım hakkında Greenshot'un aşağıda yazdıklarına güvenin, bu sözlere değil.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Tarif hakkında Greenshot'un aşağıda yazdıklarına güvenin, bu sözlere değil.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Sistem Ayarları › Gizlilik ve Güvenlik › Ekran ve Sistem Ses Kaydı bölümünden izni açın.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Sistem Ayarları › Genel › Giriş Öğeleri ve Uzantılar bölümünde %@ uygulamasını açın.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Bildirimleri yeniden görmek için Sistem Ayarları › Bildirimler bölümünde %@ için Bildirimlere İzin Ver'i açın.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Diğerlerinden herhangi birini açmak menüyü kapatır. Birden çoğu açık olabilir, ör. kopyala ve kaydet.	claude-sonnet-5-5 2026-10-18
@@ -1909,6 +1914,7 @@ left %@	sol %@	claude-sonnet-5-5 2026-10-18
 level %@	düzey %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS, ekran görüntüsü alan her uygulamadan bu izni ister.\n\nSistem Ayarları › Gizlilik ve Güvenlik › Ekran ve Sistem Ses Kaydı bölümünü açın, %@ için anahtarı açın, ardından çıkıp yeniden açın.\n\nListede yok mu? Altındaki + düğmesine tıklayıp %@ uygulamasını Uygulamalar'dan ekleyin.\n\nZaten açık mı? Yeniden derlenmiş veya taşınmış bir kopya yeni uygulama sayılır: onu seçin, − ile kaldırın, ardından %@ uygulamasını yeniden açıp tekrar izin verin.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS, %@ uygulamasının mikrofonu kullanıp kullanamayacağını ilk seferde sorar.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS, ekran görüntüsünün %@ uygulamasına aktarılmasını engelledi	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS bu yapının bildirim göndermesine izin vermedi. Kararlı bir kimlikle imzalanmış bir yapı genellikle gönderebilir (README'ye bakın).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS henüz %@ uygulamasının ekranı kaydetmesine izin vermiyor. Ekran görüntüleri bu izni gerektirir: Gizlilik ve Güvenlik › Ekran ve Sistem Ses Kaydı altında %@ için anahtarı açın.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS bu tuşları herhangi bir uygulamadan önce işler. Biri bir klavye kısayolunun tuşlarına sahipse, onu Klavye › Klavye Kestirmeleri › Ekran Resimleri altında kapatın veya başka bir klavye kısayolu seçin.	claude-sonnet-5-5 2026-10-18
@@ -1965,6 +1971,7 @@ zoomer on or off	büyüteci aç veya kapat	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	Parametrelerdeki {0} ekran görüntüsünün dosyasıdır; tırnak işaretleri kelimeleri gruplar. Komut ve parametreler dosya adı biçimi değişkenlerini kullanabilir, ör. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	“%@” (%@), sol ve sağ tuşlar ayırt edilemediği sürece aynı tuşlara sahip, bu yüzden yalnızca biri tetiklenir.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) her iki tarafta da aynı tuşlara sahip, bu yüzden ikisi de tetiklenirdi.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) bu klavye kısayolunun başlangıcıdır, bu yüzden bu kısayol hiç tetiklenmez.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@” zaten var. Değiştirmek istiyor musunuz?	claude-sonnet-5-5 2026-10-18

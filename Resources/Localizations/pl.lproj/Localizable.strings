@@ -2931,6 +2931,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office i Notatki";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office odczytuje obrazy tylko z własnego folderu współdzielonego, a macOS go chroni. W Ustawieniach systemowych › Prywatność i ochrona › Pliki i foldery zezwól aplikacji %@ na dostęp do danych innych aplikacji, a potem spróbuj ponownie.";
+
 /* core:Editor.align_middle */
 "Middle" = "Do środka";
 
@@ -3134,6 +3137,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Brak przepisów. Zaimportuj plik przepisu lub utwórz go w edytorze przepisów.";
+
+/* machine */
+"No release has been published yet." = "Nie opublikowano jeszcze żadnego wydania.";
 
 /* machine */
 "No spaces" = "Brak spacji";
@@ -5080,6 +5086,9 @@
 "The color of the torn off parts; transparent by default" = "Kolor oderwanych części; domyślnie przezroczysty";
 
 /* machine */
+"The comment could not be added: %@" = "Nie udało się dodać komentarza: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Menu miejsc docelowych zawiera też otwarte spotkania, które organizujesz; zrzut ekranu jest dołączany do spotkania.";
 
 /* machine */
@@ -5249,6 +5258,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Nagrywanie rozpocznie się za %lld s. Kliknij, aby anulować.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Nagrywanie zostało zatrzymane, ponieważ nie udało się zapisać jego pliku: %@. To, co nagrano do tego czasu, znajduje się w %@.";
 
 /* machine */
 "The recording was already finished." = "Nagrywanie było już zakończone.";
@@ -5585,6 +5597,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Ufaj temu, co Greenshot pisze poniżej o przepisie, a nie tym słowom.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Włącz uprawnienie w Ustawieniach systemowych › Prywatność i ochrona › Nagrywanie ekranu i dźwięku systemowego.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Włącz %@ w Ustawienia systemowe › Ogólne › Elementy logowania i rozszerzenia.";
@@ -6301,6 +6316,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS pyta za pierwszym razem, czy %@ może używać mikrofonu.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS zablokował przekazanie zrzutu ekranu do aplikacji %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS nie pozwolił tej kompilacji wysyłać powiadomień. Kompilacja podpisana stałą tożsamością zwykle może (zobacz README).";
 
 /* machine */
@@ -6512,6 +6530,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} w parametrach to plik zrzutu ekranu; cudzysłowy grupują słowa. Polecenie i parametry mogą używać zmiennych wzorca nazwy pliku, np. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@” (%@) ma te same klawisze, dopóki nie da się odróżnić lewego i prawego klawisza, więc zadziała tylko jeden z nich.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@” (%@) ma te same klawisze po obu stronach, więc oba by zadziałały.";

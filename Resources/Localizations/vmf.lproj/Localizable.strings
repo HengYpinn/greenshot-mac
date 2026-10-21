@@ -2922,6 +2922,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office und Noddizen";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office liesd Bilder nur aus seim eignen gmeinsamen Ordner, und macOS schüddsd den. Erlaub %@ in Systemeinstellungen › Datenschutz & Sicherheit › Dateien & Ordner den Zugriff auf Dadn vo andern Apps und brobiers dann nochamal.";
+
 /* core:Editor.align_middle */
 "Middle" = "Middich";
 
@@ -3122,6 +3125,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "No kaane Rezebde. Importier a Rezebd-Dadei oder leg im Rezebd-Edidor aans an.";
+
+/* machine */
+"No release has been published yet." = "Es gibd no ka Veröffendlichung.";
 
 /* machine */
 "No spaces" = "Kaane Spaces";
@@ -5059,6 +5065,9 @@
 "The color of the torn off parts; transparent by default" = "Die Farm vo den ausgrissenen Deilen; schdandardmäßich dransbarend";
 
 /* machine */
+"The comment could not be added: %@" = "Der Kommendar konnd ned hinzugfiichd wern: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Es Ziel-Menü lisded a die offnen Meedings auf, die du organisiersd; es Sgrienschod wird an es Meeding angehängd.";
 
 /* machine */
@@ -5228,6 +5237,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Die Aufnahme schdardd in %lld s. Klick zum Abbrechn.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Die Aufnahme hod aufghörd, weil ihr Dadei ned gschriem wern konnd: %@. Was bis dahin aufgnommen wurd, is in %@.";
 
 /* machine */
 "The recording was already finished." = "Die Aufnahme war scho fertich.";
@@ -5564,6 +5576,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Vertrau dem, was Greenshot undn über es Rezebd schreibd, ned diesen Worden.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Schald die Berechdigung in Systemeinstellungen › Datenschutz & Sicherheit › Bildschirm- & Systemaudioaufnahme ein.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Schald %@ in Systemeinstellungen › Allgemein › Anmeldeobjekte & Erweiterungen ein.";
@@ -6277,6 +6292,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS frächd beim ersdn Mol, ob %@ es Mikrofon nudzn darf.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS hod die Übergabe vom Sgrienschod an %@ blockierd";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS hod den Build ned Mitteilungen schiggn lassn. A Build mid ner schdabilen Signadur kann des meisdns (siehe README).";
 
 /* machine */
@@ -6479,6 +6497,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} in den Argumendn is die Dadei vom Sgrienschod; Anführungszeichn fassn Worde zamm. Der Befehl und die Argumende könna die Variabln vom Dadeinamen-Musder nudzn, z. B. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@“ (%@) hod die gleichn Dasdn, solang linke und rechde Dasdn ned unnerschiedn wern könna, deswegn löst nur aans vo beidn aus.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@“ (%@) hod mid beidn Seidn die gleichn Dasdn, deswegn däddn beide auslösn.";

@@ -938,6 +938,7 @@ Message:	Pranešimas:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofonas	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office ir Užrašai	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office skaito paveikslėlius tik iš savo bendrinamo aplanko, o macOS jį saugo. Skiltyje Sistemos nustatymai › Privatumas ir sauga › Failai ir aplankai leiskite %@ pasiekti kitų programų duomenis, tada bandykite dar kartą.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -1009,6 +1010,7 @@ No recipe open	Neatidarytas joks receptas	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Receptų iš failų nėra.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Receptai neįkelti	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Receptų dar nėra. Importuokite recepto failą arba sukurkite jį recepto redaktoriuje.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Dar nepaskelbtas nė vienas leidimas.	claude-opus-5-5 2026-10-21
 No spaces	Erdvių nėra	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Joks pradinis žingsnis čia nenuveda: sujunkite šiuos žingsnius naudodami „Tęsti ties“	claude-sonnet-5-5 2026-10-18
 No text found	Teksto nerasta	claude-sonnet-5-5 2026-10-18
@@ -1614,6 +1616,7 @@ The clipboard was left as it was.	Iškarpinė palikta tokia, kokia buvo.	claude-
 The code signature of the app, notarization and quarantine	Programos kodo parašas, notarizavimas ir karantinas	claude-sonnet-5-5 2026-10-18
 The color behind the image	Spalva už vaizdo	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Nuplėštų dalių spalva; pagal numatytuosius – permatoma	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Nepavyko pridėti komentaro: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Paskirties meniu taip pat rodomi jūsų organizuojami atidaryti susitikimai; ekrano nuotrauka prisegama prie susitikimo.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	„%@“ informacijos nėra: jis nebeįkeltas.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Ekranas nebeprijungtas.	claude-sonnet-5-5 2026-10-18
@@ -1671,6 +1674,7 @@ The recording is being saved.	Įrašas išsaugomas.	claude-sonnet-5-5 2026-10-18
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Įrašymas pristabdytas. Spustelėkite, kad sustabdytumėte; ⌃-spustelėkite, kad tęstumėte arba atmestumėte.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Įrašymas pradedamas. Spustelėkite, kad sustabdytumėte, kai tik jis pradės veikti.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Įrašymas prasidės po %lld s. Spustelėkite, kad atsisakytumėte.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Įrašymas sustojo, nes nepavyko įrašyti jo failo: %@. Tai, kas įrašyta iki tol, yra čia: %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Įrašymas jau buvo baigtas.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Įrašymas atmestas	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Užklausa atėjo per greenshot-cli. Leiskite ją tik jei patys ją paleidote: recepto rezultatas pateks ten, kur jį siunčia receptas.	claude-sonnet-5-5 2026-10-18
@@ -1782,6 +1786,7 @@ Trust certificates with these fingerprints	Pasitikėti sertifikatais su šiais a
 Trust these hosts despite certificate errors	Pasitikėti šiais serveriais nepaisant sertifikato klaidų	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Pasitikėkite tuo, ką Greenshot rašo žemiau apie automatinį žingsnį, o ne šiais žodžiais.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Pasitikėkite tuo, ką Greenshot rašo žemiau apie receptą, o ne šiais žodžiais.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Įjunkite leidimą skiltyje Sistemos nustatymai › Privatumas ir sauga › Ekrano ir sistemos garso įrašymas.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Įjunkite %@ skiltyje Sistemos nustatymai › Bendri › Prisijungimo elementai ir plėtiniai.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Įjunkite Leisti pranešimus programai %@ skiltyje Sistemos nustatymai › Pranešimai, kad vėl juos matytumėte.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Įjungus bet kurį kitą, meniu išjungiamas. Galima įjungti kelis, pvz., kopijavimą ir išsaugojimą.	claude-sonnet-5-5 2026-10-18
@@ -2020,6 +2025,7 @@ left %@	kairysis %@	claude-sonnet-5-5 2026-10-18
 level %@	lygis %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS paprašo šio leidimo kiekvienos programos, kuri daro ekrano nuotraukas.\n\nAtidarykite Sistemos nustatymai › Privatumas ir sauga › Ekrano ir sistemos garso įrašymas, įjunkite %@, tada išeikite ir paleiskite iš naujo.\n\nNėra sąraše? Spustelėkite + po juo ir pridėkite %@ iš aplanko Programos.\n\nJau įjungta? Perkurta ar perkelta kopija laikoma nauja programa: pasirinkite ją, pašalinkite su −, tada vėl atidarykite %@ ir leiskite iš naujo.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS pirmą kartą paklausia, ar %@ gali naudoti mikrofoną.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS užblokavo ekrano nuotraukos perdavimą programai %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS neleido šiam variantui rodyti pranešimų. Su stabilia tapatybe pasirašytas variantas paprastai gali (žr. README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS dar neleidžia %@ įrašyti ekrano. Ekrano nuotraukoms reikia šio leidimo: įjunkite %@ skiltyje Privatumas ir sauga › Ekrano ir sistemos garso įrašymas.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS šiuos klavišus apdoroja prieš bet kurią programą. Kai vienas turi spartaus klavišo klavišus, išjunkite jį skiltyje Klaviatūra › Klaviatūros spartieji klavišai › Ekrano nuotraukos arba pasirinkite kitą spartųjį klavišą.	claude-sonnet-5-5 2026-10-18
@@ -2081,6 +2087,7 @@ zoomer on or off	įjungti ar išjungti didintuvą	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} argumentuose yra ekrano nuotraukos failas; kabutės sugrupuoja žodžius. Komandoje ir argumentuose galima naudoti failo pavadinimo šablono kintamuosius, pvz., ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	„%@“ (%@) turi tuos pačius klavišus, kol neįmanoma atskirti kairiojo ir dešiniojo klavišų, todėl suveikia tik vienas iš jų.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	„%@“ (%@) turi tuos pačius klavišus abiem pusėms, todėl suveiktų abu.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@“ (%@) yra šio spartaus klavišo pradžia, todėl šis niekada nesuveikia.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	„%@“ jau yra. Ar norite jį pakeisti?	claude-sonnet-5-5 2026-10-18

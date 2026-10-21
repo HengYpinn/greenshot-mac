@@ -913,6 +913,7 @@ Message:	Správa:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofón	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office a Poznámky	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office číta obrázky len zo svojho vlastného zdieľaného priečinka a macOS ho chráni. V Nastavenia systému › Súkromie a zabezpečenie › Súbory a priečinky povoľte aplikácii %@ prístup k údajom iných aplikácií a skúste to znova.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -981,6 +982,7 @@ No recipe open	Nie je otvorený žiadny recept	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Žiadne recepty zo súborov.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Nie sú načítané žiadne recepty	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Zatiaľ žiadne recepty. Importujte súbor receptu alebo vytvorte recept v editore receptov.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Zatiaľ nebolo zverejnené žiadne vydanie.	claude-opus-5-5 2026-10-21
 No spaces	Žiadne priestory	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Žiadny počiatočný krok sem nevedie: spojte tieto kroky cez „Pokračovať na“	claude-sonnet-5-5 2026-10-18
 No text found	Nenašiel sa žiadny text	claude-sonnet-5-5 2026-10-18
@@ -1572,6 +1574,7 @@ The clipboard was left as it was.	Schránka zostala tak, ako bola.	claude-sonnet
 The code signature of the app, notarization and quarantine	Podpis kódu aplikácie, notarizácia a karanténa	claude-sonnet-5-5 2026-10-18
 The color behind the image	Farba za obrázkom	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Farba odtrhnutých častí; predvolene priehľadná	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Komentár sa nepodarilo pridať: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Ponuka cieľov uvádza aj otvorené schôdze, ktoré organizujete; snímka sa pripojí k schôdzi.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Podrobnosti „%@“ nie sú k dispozícii: už nie je načítaný.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Displej už nie je pripojený.	claude-sonnet-5-5 2026-10-18
@@ -1629,6 +1632,7 @@ The recording is being saved.	Nahrávka sa ukladá.	claude-sonnet-5-5 2026-10-18
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Nahrávanie je pozastavené. Kliknutím zastavíte; ⌃-kliknutím pokračujete alebo zahodíte.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Nahrávanie sa začína. Kliknutím ho zastavíte hneď, ako beží.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Nahrávanie sa začne o %lld s. Kliknutím zrušíte.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Nahrávanie sa zastavilo, pretože jeho súbor sa nepodarilo zapísať: %@. To, čo sa dovtedy nahralo, je v %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Nahrávanie už bolo ukončené.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Nahrávka bola zahodená	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Žiadosť prišla cez greenshot-cli. Povoľte ju, iba ak ste ju spustili vy: výsledok receptu ide tam, kam ho recept pošle.	claude-sonnet-5-5 2026-10-18
@@ -1737,6 +1741,7 @@ Trust certificates with these fingerprints	Dôverovať certifikátom s týmito o
 Trust these hosts despite certificate errors	Dôverovať týmto hostiteľom napriek chybám certifikátu	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Dôverujte tomu, čo Greenshot píše nižšie o automatickom kroku, nie týmto slovám.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Dôverujte tomu, čo Greenshot píše nižšie o recepte, nie týmto slovám.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Zapnite oprávnenie v Nastavenia systému › Súkromie a zabezpečenie › Nahrávanie obrazovky a systémového zvuku.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Zapnite %@ v Nastavenia systému › Všeobecné › Položky prihlásenia a rozšírenia.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Zapnite Povoliť upozornenia pre %@ v Nastavenia systému › Upozornenia, aby ste ich videli znova.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Zapnutie ktorejkoľvek z ostatných vypne ponuku. Môže byť zapnutých viac, napr. kopírovať a uložiť.	claude-sonnet-5-5 2026-10-18
@@ -1969,6 +1974,7 @@ left %@	ľavý %@	claude-sonnet-5-5 2026-10-18
 level %@	úroveň %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS žiada o toto oprávnenie každú aplikáciu, ktorá robí snímky obrazovky.\n\nOtvorte Nastavenia systému › Súkromie a zabezpečenie › Nahrávanie obrazovky a systémového zvuku, zapnite %@ a potom ju ukončite a znova otvorte.\n\nNie je v zozname? Kliknite pod ním na + a pridajte %@ z priečinka Aplikácie.\n\nUž zapnuté? Znova zostavená alebo presunutá kópia sa počíta ako nová aplikácia: vyberte ju, odstráňte pomocou − a potom %@ znova otvorte a povoľte.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS sa prvýkrát opýta, či smie %@ používať mikrofón.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS zablokoval odovzdanie snímky obrazovky aplikácii %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS tejto zostave nepovolil odosielať upozornenia. Zostava podpísaná stabilnou identitou to zvyčajne dokáže (pozri README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS ešte nedovoľuje %@ nahrávať obrazovku. Snímky obrazovky potrebujú toto oprávnenie: zapnite %@ v Súkromie a zabezpečení › Nahrávanie obrazovky a systémového zvuku.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS tieto klávesy spracúva pred každou aplikáciou. Ak niektorý má klávesy klávesovej skratky, vypnite ho v Klávesnica › Klávesové skratky › Snímky obrazovky alebo vyberte inú klávesovú skratku.	claude-sonnet-5-5 2026-10-18
@@ -2027,6 +2033,7 @@ zoomer on or off	lupa zapnúť alebo vypnúť	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} v parametroch je súbor snímky; úvodzovky zoskupujú slová. Príkaz a parametre môžu používať premenné šablóny názvu súboru, napr. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	„%@“ (%@) má rovnaké klávesy, kým sa nedá rozlíšiť ľavý a pravý kláves, takže sa spustí len jedna z nich.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	„%@“ (%@) má rovnaké klávesy na oboch stranách, takže by sa spustili obe.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@“ (%@) je začiatok tejto klávesovej skratky, takže táto sa nikdy nespustí.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	„%@“ už existuje. Chcete ho nahradiť?	claude-sonnet-5-5 2026-10-18

@@ -2913,6 +2913,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office και Σημειώσεις";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Το Microsoft Office διαβάζει εικόνες μόνο από τον δικό του κοινόχρηστο φάκελο, και το macOS τον προστατεύει. Στις Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια › Αρχεία και φάκελοι, επιτρέψτε στο %@ την πρόσβαση σε δεδομένα άλλων εφαρμογών και δοκιμάστε ξανά.";
+
 /* core:Editor.align_middle */
 "Middle" = "Στοίχιση στο μέσο";
 
@@ -3119,6 +3122,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Δεν υπάρχουν ακόμη συνταγές. Εισαγάγετε ένα αρχείο συνταγής ή δημιουργήστε μία στον επεξεργαστή συνταγών.";
+
+/* machine */
+"No release has been published yet." = "Δεν έχει δημοσιευτεί ακόμη καμία έκδοση.";
 
 /* machine */
 "No spaces" = "Κανένα Space";
@@ -5062,6 +5068,9 @@
 "The color of the torn off parts; transparent by default" = "Το χρώμα των μερών που σκίστηκαν· διαφανές από προεπιλογή";
 
 /* machine */
+"The comment could not be added: %@" = "Δεν ήταν δυνατή η προσθήκη του σχολίου: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Το μενού προορισμών παραθέτει επίσης τις ανοιχτές συσκέψεις που διοργανώνετε· το στιγμιότυπο επισυνάπτεται στη σύσκεψη.";
 
 /* machine */
@@ -5231,6 +5240,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Η εγγραφή ξεκινά σε %lld δ. Κάντε κλικ για ακύρωση.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Η εγγραφή σταμάτησε επειδή δεν ήταν δυνατή η εγγραφή του αρχείου της: %@. Ό,τι εγγράφηκε μέχρι τότε βρίσκεται στο %@.";
 
 /* machine */
 "The recording was already finished." = "Η εγγραφή είχε ήδη ολοκληρωθεί.";
@@ -5564,6 +5576,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Εμπιστευτείτε όσα γράφει παρακάτω το Greenshot για τη συνταγή, όχι αυτά τα λόγια.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Ενεργοποιήστε την άδεια στις Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια › Εγγραφή οθόνης και ήχου συστήματος.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Ενεργοποιήστε το %@ στις Ρυθμίσεις συστήματος › Γενικά › Στοιχεία σύνδεσης και επεκτάσεις.";
@@ -6274,6 +6289,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "Την πρώτη φορά το macOS ρωτά αν το %@ επιτρέπεται να χρησιμοποιεί το μικρόφωνο.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "Το macOS απέκλεισε την παράδοση του στιγμιότυπου στο %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "Το macOS δεν επέτρεψε σε αυτή την έκδοση να δημοσιεύει ειδοποιήσεις. Μια έκδοση υπογεγραμμένη με σταθερή ταυτότητα συνήθως μπορεί (δείτε το README).";
 
 /* machine */
@@ -6482,6 +6500,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "Το {0} στα ορίσματα είναι το αρχείο του στιγμιότυπου· τα εισαγωγικά ομαδοποιούν λέξεις. Η εντολή και τα ορίσματα μπορούν να χρησιμοποιούν τις μεταβλητές του προτύπου ονόματος αρχείου, π.χ. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "Το “%@” (%@) έχει τα ίδια πλήκτρα όσο δεν είναι δυνατή η διάκριση αριστερών και δεξιών πλήκτρων, οπότε ενεργοποιείται μόνο ένα από τα δύο.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "Το “%@” (%@) έχει τα ίδια πλήκτρα με οποιαδήποτε πλευρά, οπότε θα ενεργοποιούνταν και τα δύο.";

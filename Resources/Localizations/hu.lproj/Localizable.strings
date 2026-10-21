@@ -2929,6 +2929,9 @@
 "Microsoft Office and Notes" = "Microsoft Office és Notes";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "A Microsoft Office csak a saját megosztott mappájából olvas be képeket, és a macOS védi ezt a mappát. A Rendszerbeállítások › Adatvédelem és biztonság › Fájlok és mappák alatt engedélyezze a(z) %@ számára más alkalmazások adatainak elérését, majd próbálja újra.";
+
+/* machine */
 "Middle" = "Közép";
 
 /* machine */
@@ -3134,6 +3137,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Még nincsenek receptek. Importáljon egy receptfájlt, vagy hozzon létre egyet a receptszerkesztőben.";
+
+/* machine */
+"No release has been published yet." = "Még nem jelent meg egyetlen kiadás sem.";
 
 /* machine */
 "No spaces" = "Nincs tér";
@@ -5080,6 +5086,9 @@
 "The color of the torn off parts; transparent by default" = "A leszakított részek színe; alapértelmezés szerint átlátszó";
 
 /* machine */
+"The comment could not be added: %@" = "A megjegyzést nem sikerült hozzáadni: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "A célmenü az Ön által szervezett nyitott megbeszéléseket is listázza; a képernyőkép a megbeszéléshez csatolódik.";
 
 /* machine */
@@ -5249,6 +5258,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "A felvétel %lld mp múlva indul. Kattintson a megszakításhoz.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "A felvétel leállt, mert a fájlja nem írható: %@. Az addig rögzített anyag itt található: %@.";
 
 /* machine */
 "The recording was already finished." = "A felvétel már befejeződött.";
@@ -5585,6 +5597,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Ahhoz bízzon inkább, amit a Greenshot lent a receptről ír, ne ezekhez a szavakhoz.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Kapcsolja be az engedélyt itt: Rendszerbeállítások › Adatvédelem és biztonság › Képernyő- és rendszerhangfelvétel.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Kapcsolja be itt: Rendszerbeállítások › Általános › Bejelentkezési elemek és bővítmények (%@).";
@@ -6301,6 +6316,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "A macOS az első alkalommal megkérdezi, használhatja-e a(z) %@ a mikrofont.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "A macOS letiltotta a képernyőkép átadását ide: %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "A macOS nem engedte, hogy ez a build értesítéseket küldjön. A stabil identitással aláírt build általában képes rá (lásd a README-t).";
 
 /* machine */
@@ -6512,6 +6530,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "Az argumentumokban a {0} a képernyőkép fájlja; az idézőjelek szavakat csoportosítanak. A parancs és az argumentumok használhatják a fájlnévminta változóit, például ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@” (%@) ugyanazokkal a billentyűkkel rendelkezik, amíg a bal és jobb oldali billentyűk nem különböztethetők meg, ezért csak az egyik lép működésbe.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@” (%@) mindkét oldalon ugyanazokkal a billentyűkkel rendelkezik, így mindkettő működésbe lépne.";

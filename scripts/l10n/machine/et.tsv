@@ -912,6 +912,7 @@ Message:	Sõnum:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office ja Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office loeb pilte ainult oma jagatud kaustast ja macOS kaitseb seda. Lubage jaotises Süsteemiseaded › Privaatsus ja turve › Failid ja kaustad rakendusele %@ juurdepääs teiste rakenduste andmetele ja proovige siis uuesti.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -980,6 +981,7 @@ No recipe open	Retsepti pole avatud	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Failidest retsepte pole.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Retsepte pole laaditud	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Retsepte veel pole. Importige retseptifail või looge retsept retseptiredaktoris.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Ühtegi väljalaset pole veel avaldatud.	claude-opus-5-5 2026-10-21
 No spaces	Ruume pole	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Ükski algussamm ei vii siia: ühendage need sammud valikuga "Jätka kohas"	claude-sonnet-5-5 2026-10-18
 No text found	Teksti ei leitud	claude-sonnet-5-5 2026-10-18
@@ -1575,6 +1577,7 @@ The clipboard was left as it was.	Lõikelaud jäeti nii, nagu see oli.	claude-so
 The code signature of the app, notarization and quarantine	Rakenduse koodiallkiri, notariseerimine ja karantiin	claude-sonnet-5-5 2026-10-18
 The color behind the image	Pildi taga olev värv	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Ärarebitud osade värv; vaikimisi läbipaistev	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Kommentaari ei õnnestunud lisada: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Sihtkohamenüü loetleb ka teie korraldatud avatud koosolekud; kuvatõmmis lisatakse koosolekule.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	“%@” üksikasjad pole saadaval: see ei ole enam laaditud.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Ekraan ei ole enam ühendatud.	claude-sonnet-5-5 2026-10-18
@@ -1632,6 +1635,7 @@ The recording is being saved.	Salvestust salvestatakse.	claude-sonnet-5-5 2026-1
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Salvestus on peatatud. Klõpsake lõpetamiseks; ⌃-klõps jätkab või hülgab.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Salvestus algab. Klõpsake selle lõpetamiseks niipea, kui see töötab.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Salvestus algab %lld s pärast. Klõpsake tühistamiseks.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Salvestus peatus, sest selle faili ei õnnestunud kirjutada: %@. Seni salvestatu asub kohas %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Salvestus oli juba lõpetatud.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Salvestus hüljati	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Päring tuli greenshot-cli kaudu. Lubage see ainult siis, kui selle ise algatasite: retsepti tulemus läheb sinna, kuhu retsept selle saadab.	claude-sonnet-5-5 2026-10-18
@@ -1736,6 +1740,7 @@ Trust certificates with these fingerprints	Usalda nende sõrmejälgedega sertifi
 Trust these hosts despite certificate errors	Usalda neid hoste sertifikaadivigadest hoolimata	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Usaldage seda, mida Greenshot allpool automaatse sammu kohta kirjutab, mitte neid sõnu.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Usaldage seda, mida Greenshot allpool retsepti kohta kirjutab, mitte neid sõnu.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Lülitage luba sisse jaotises Süsteemiseaded › Privaatsus ja turve › Ekraani- ja süsteemiheli salvestamine.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Lülitage %@ sisse jaotises Süsteemiseaded › Põhiline › Sisselogimisüksused ja laiendid.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Lülitage jaotises Süsteemiseaded › Teavitused rakenduse %@ jaoks sisse Luba teavitused, et neid uuesti näha.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Mõne teise sisselülitamine lülitab menüü välja. Mitu saab olla sees, nt kopeeri ja salvesta.	claude-sonnet-5-5 2026-10-18
@@ -1970,6 +1975,7 @@ left %@	vasak %@	claude-sonnet-5-5 2026-10-18
 level %@	tase %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS küsib seda luba igalt rakenduselt, mis teeb kuvatõmmiseid.\n\nAvage Süsteemiseaded › Privaatsus ja turve › Ekraani- ja süsteemiheli salvestamine, lülitage sisse %@, seejärel sulgege ja avage see uuesti.\n\nPole loendis? Klõpsake selle all nuppu + ja lisage %@ kaustast Rakendused.\n\nJuba sees? Uuesti ehitatud või teisaldatud koopia loetakse uueks rakenduseks: valige see, eemaldage nupuga −, seejärel avage %@ uuesti ja lubage see uuesti.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS küsib esimesel korral, kas %@ tohib mikrofoni kasutada.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS blokeeris kuvatõmmise edastamise rakendusele %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS ei lubanud sellel versioonil teavitusi postitada. Stabiilse identiteediga allkirjastatud versioon tavaliselt saab (vt README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS ei luba rakendusel %@ veel ekraani salvestada. Kuvatõmmised vajavad seda luba: lülitage %@ sisse jaotises Privaatsus ja turve › Ekraani- ja süsteemiheli salvestamine.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS töötleb neid klahve enne mis tahes rakendust. Kui mõnel on kiirklahvi klahvid, lülitage see välja jaotises Klaviatuur › Klaviatuuri otseteed › Kuvatõmmised või valige mõni teine kiirklahv.	claude-sonnet-5-5 2026-10-18
@@ -2026,6 +2032,7 @@ zoomer on or off	suurendaja sisse või välja	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} argumentides on kuvatõmmise fail; jutumärgid rühmitavad sõnu. Käsk ja argumendid võivad kasutada failinime mustri muutujaid, nt ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	“%@” (%@) klahvid on samad seni, kuni vasakut ja paremat klahvi ei saa eristada, seega käivitub neist ainult üks.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) klahvid on mõlemal küljel samad, seega käivituksid mõlemad.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) on selle kiirklahvi algus, seega see ei käivitu kunagi.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@” on juba olemas. Kas soovite selle asendada?	claude-sonnet-5-5 2026-10-18

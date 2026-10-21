@@ -895,6 +895,7 @@ Message:	信息：	claude-sonnet-5-5 2026-10-18
 Microphone	麦克风	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office 和备忘录	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office 只从其自身的共享文件夹读取图片，而 macOS 会保护该文件夹。请在“系统设置 › 隐私与安全性 › 文件和文件夹”中允许 %@ 访问其他 App 的数据，然后重试。	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -963,6 +964,7 @@ No recipe open	没有打开的配方	claude-sonnet-5-5 2026-10-18
 No recipes from files.	没有来自文件的配方。	claude-sonnet-5-5 2026-10-18
 No recipes loaded	未载入任何配方	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	还没有配方。请导入配方文件，或在配方编辑器中创建一个。	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	尚未发布任何版本。	claude-opus-5-5 2026-10-21
 No spaces	无空间	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	没有起始步骤通向此处：请用“继续于”连接这些步骤	claude-sonnet-5-5 2026-10-18
 No text found	未找到文字	claude-sonnet-5-5 2026-10-18
@@ -1544,6 +1546,7 @@ The clipboard was left as it was.	剪贴板保持原样。	claude-sonnet-5-5 202
 The code signature of the app, notarization and quarantine	App 的代码签名、公证和隔离	claude-sonnet-5-5 2026-10-18
 The color behind the image	图像背后的颜色	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	被撕掉部分的颜色；默认为透明	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	无法添加注释：%@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	目标位置菜单中还会列出你组织的未结束会议；屏幕截图会附加到该会议。	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	“%@”的详细信息不可用：它已不再载入。	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	显示器已不再连接。	claude-sonnet-5-5 2026-10-18
@@ -1601,6 +1604,7 @@ The recording is being saved.	正在保存录制内容。	claude-sonnet-5-5 2026
 The recording is paused. Click to stop; ⌃-click to go on or discard.	录制已暂停。点按以停止；⌃ 点按可继续或放弃。	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	录制正在开始。点按可在其开始运行后立即停止。	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	录制将在 %lld 秒后开始。点按以取消。	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	录制已停止，因为无法写入其文件：%@。此前录制的内容位于 %@。	claude-opus-5-5 2026-10-21
 The recording was already finished.	录制已经结束。	claude-sonnet-5-5 2026-10-18
 The recording was discarded	录制内容已放弃	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	该请求通过 greenshot-cli 发来。仅当由你自己启动时才允许：配方的结果会发送到配方指定的位置。	claude-sonnet-5-5 2026-10-18
@@ -1698,6 +1702,7 @@ Trust certificates with these fingerprints	信任具有这些指纹的证书	cla
 Trust these hosts despite certificate errors	即使证书有误，也信任这些主机	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	请相信 Greenshot 在下方对自动步骤的描述，而非这些文字。	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	请相信 Greenshot 在下方对配方的描述，而非这些文字。	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	请在“系统设置 › 隐私与安全性 › 屏幕与系统音频录制”中打开此权限。	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	请在“系统设置 › 通用 › 登录项与扩展”中打开 %@。	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	请在“系统设置 › 通知”中为 %@ 打开“允许通知”，以便再次看到它们。	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	打开其他任何一项都会关闭菜单。可以同时打开多项，例如复制和保存。	claude-sonnet-5-5 2026-10-18
@@ -1919,6 +1924,7 @@ left %@	左 %@	claude-sonnet-5-5 2026-10-18
 level %@	级别 %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS 会向每个截取屏幕截图的 App 请求此权限。\n\n打开“系统设置 › 隐私与安全性 › 屏幕与系统音频录制”，打开 %@，然后退出并重新打开它。\n\n列表中没有？点按列表下方的 +，并从“应用程序”中添加 %@。\n\n已经打开？重新构建或移动过的副本会被视为新 App：选择它，用 − 移除，然后重新打开 %@ 并再次允许。	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS 会在首次使用时询问是否允许 %@ 使用麦克风。	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS 阻止了将屏幕截图交给 %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS 未允许此构建版本发送通知。使用稳定身份签名的构建版本通常可以（参见 README）。	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS 尚未允许 %@ 录制屏幕。截图需要此权限：请在“隐私与安全性 › 屏幕与系统音频录制”下打开 %@。	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS 会在任何 App 之前处理这些按键。当某个快捷键占用了热键的按键时，请在“键盘 › 键盘快捷键 › 截屏”下将其关闭，或选择其他热键。	claude-sonnet-5-5 2026-10-18
@@ -1975,6 +1981,7 @@ zoomer on or off	打开或关闭放大镜	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	参数中的 {0} 是屏幕截图的文件；引号用于将词组合在一起。命令和参数可以使用文件名格式变量，例如 ${title}。	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	“%@”（%@）在无法区分左右按键时按键相同，因此只有其中一个会触发。	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	“%@”（%@）左右两侧的按键相同，因此两者都会触发。	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@”（%@）是此热键的开头，因此此热键永远不会触发。	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@”已存在。要替换它吗？	claude-sonnet-5-5 2026-10-18

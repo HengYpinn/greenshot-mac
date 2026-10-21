@@ -2958,6 +2958,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office і Нотатки";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office читає зображення лише зі своєї спільної папки, а macOS її захищає. У Системні параметри › Приватність і безпека › Файли і папки дозвольте %@ доступ до даних інших програм, потім повторіть спробу.";
+
 /* core:Editor.align_middle */
 "Middle" = "По середині";
 
@@ -3164,6 +3167,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Рецептів поки немає. Імпортуйте файл рецепта або створіть його в редакторі рецептів.";
+
+/* machine */
+"No release has been published yet." = "Ще не опубліковано жодної версії.";
 
 /* machine */
 "No spaces" = "Немає просторів";
@@ -5116,6 +5122,9 @@
 "The color of the torn off parts; transparent by default" = "Колір відірваних частин; за промовчанням прозорий";
 
 /* machine */
+"The comment could not be added: %@" = "Не вдалося додати коментар: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Меню призначень також показує відкриті зустрічі, які ви організовуєте; знімок додається до зустрічі.";
 
 /* machine */
@@ -5285,6 +5294,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Запис почнеться за %lld с. Клацніть, щоб скасувати.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Запис зупинено, бо не вдалося записати його файл: %@. Записане до цього моменту міститься в %@.";
 
 /* machine */
 "The recording was already finished." = "Запис уже завершено.";
@@ -5621,6 +5633,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Довіряйте тому, що Greenshot пише нижче про рецепт, а не цим словам.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Увімкніть дозвіл у Системні параметри › Приватність і безпека › Запис екрана та системного звуку.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Увімкніть %@ у Системні параметри › Загальні › Елементи входу та розширення.";
@@ -6346,6 +6361,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS запитує під час першого разу, чи може %@ використовувати мікрофон.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS заблокувала передавання знімка до програми %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS не дозволила цій збірці надсилати сповіщення. Збірка, підписана стабільною ідентичністю, зазвичай може (див. README).";
 
 /* machine */
@@ -6557,6 +6575,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} в аргументах — файл знімка; лапки групують слова. У команді та аргументах можна використовувати змінні шаблону назви файла, напр. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "«%@» (%@) має ті самі клавіші, доки ліву й праву клавіші неможливо розрізнити, тому спрацює лише одна з них.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "«%@» (%@) має ті самі клавіші з будь-якого боку, тому спрацюють обидві.";

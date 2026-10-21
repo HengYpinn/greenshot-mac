@@ -2934,6 +2934,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office 및 메모";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office는 자체 공유 폴더에서만 사진을 읽으며, macOS가 이 폴더를 보호합니다. 시스템 설정 › 개인정보 보호 및 보안 › 파일 및 폴더에서 %@이(가) 다른 앱의 데이터에 접근하도록 허용한 다음 다시 시도하세요.";
+
 /* core:Editor.align_middle */
 "Middle" = "중앙";
 
@@ -3140,6 +3143,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "아직 레시피가 없습니다. 레시피 파일을 가져오거나 레시피 편집기에서 만드세요.";
+
+/* machine */
+"No release has been published yet." = "아직 게시된 릴리스가 없습니다.";
 
 /* machine */
 "No spaces" = "공간 없음";
@@ -5095,6 +5101,9 @@
 "The color of the torn off parts; transparent by default" = "찢어진 부분의 색상, 기본값은 투명";
 
 /* machine */
+"The comment could not be added: %@" = "주석을 추가할 수 없습니다: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "저장 방법 메뉴에는 사용자가 주최하는 열린 회의도 표시되며, 스크린샷이 회의에 첨부됩니다.";
 
 /* machine */
@@ -5264,6 +5273,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "녹화가 %lld초 후에 시작됩니다. 클릭하면 취소합니다.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "파일을 쓸 수 없어 녹화가 중지되었습니다: %@. 그때까지 녹화된 내용은 %@에 있습니다.";
 
 /* machine */
 "The recording was already finished." = "녹화가 이미 종료되었습니다.";
@@ -5600,6 +5612,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "레시피에 대해서는 이 설명이 아니라 아래에 Greenshot이 쓴 내용을 신뢰하세요.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "시스템 설정 › 개인정보 보호 및 보안 › 화면 및 시스템 오디오 녹음에서 권한을 켜세요.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "시스템 설정 › 일반 › 로그인 항목 및 확장 프로그램에서 %@을(를) 켜세요.";
@@ -6316,6 +6331,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS가 처음에 %@에서 마이크를 사용할 수 있는지 묻습니다.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS에서 스크린샷을 %@에 전달하지 못하도록 차단했습니다";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS에서 이 빌드의 알림 게시를 허용하지 않았습니다. 안정적인 ID로 서명된 빌드는 대개 가능합니다(README 참조).";
 
 /* machine */
@@ -6527,6 +6545,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "인수의 {0}은(는) 스크린샷의 파일이며, 따옴표는 단어를 묶습니다. 명령어와 인수에는 ${title} 같은 파일명 패턴 변수를 사용할 수 있습니다.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@”(%@)은(는) 왼쪽과 오른쪽 키를 구별할 수 없는 동안 키가 같으므로 하나만 실행됩니다.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@”(%@)은(는) 좌우 어느 쪽이든 키가 같으므로 둘 다 실행됩니다.";

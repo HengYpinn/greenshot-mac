@@ -6279,6 +6279,12 @@
    ]
   },
   {
+   "key": "Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.",
+   "files": [
+    "Sources/GreenshotMac/Output/DestinationOffice.swift"
+   ]
+  },
+  {
    "key": "Microsoft Outlook",
    "files": [
     "Sources/GreenshotCore/DestinationPresentation.swift",
@@ -6718,6 +6724,12 @@
    ]
   },
   {
+   "key": "No release has been published yet.",
+   "files": [
+    "Sources/GreenshotMac/Output/UpdateChecker.swift"
+   ]
+  },
+  {
    "key": "No spaces",
    "files": [
     "Sources/GreenshotMac/Output/UploadPickerBrowser.swift"
@@ -7025,6 +7037,7 @@
    "files": [
     "Sources/GreenshotMac/App/AutomationStartup.swift",
     "Sources/GreenshotMac/Editor/EffectSettingsWindow.swift",
+    "Sources/GreenshotMac/Output/DestinationOffice.swift",
     "Sources/GreenshotMac/Output/ExternalCommandEditor.swift",
     "Sources/GreenshotMac/RecipeEditor/RecipeEditorFiles.swift",
     "Sources/GreenshotMac/RecipeManager/RecipeExtensionScopeSheet.swift",
@@ -7302,6 +7315,7 @@
    "files": [
     "Sources/GreenshotCore/Settings+App.swift",
     "Sources/GreenshotMac/App/WelcomeWindow.swift",
+    "Sources/GreenshotMac/Output/DestinationOffice.swift",
     "Sources/GreenshotMac/Output/DestinationUploads.swift"
    ]
   },
@@ -10803,6 +10817,12 @@
    ]
   },
   {
+   "key": "The comment could not be added: %@",
+   "files": [
+    "Sources/GreenshotMac/Output/DestinationUploads.swift"
+   ]
+  },
+  {
    "key": "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.",
    "files": [
     "Sources/GreenshotMac/Settings/DestinationsTab.swift"
@@ -11146,6 +11166,12 @@
    "key": "The recording starts in %lld s. Click to cancel.",
    "files": [
     "Sources/GreenshotMac/Capture/RecordingStatusItem.swift"
+   ]
+  },
+  {
+   "key": "The recording stopped because its file could not be written: %@. What was recorded until then is in %@.",
+   "files": [
+    "Sources/GreenshotCore/VideoFileWriter.swift"
    ]
   },
   {
@@ -11834,6 +11860,12 @@
    "key": "Trust what Greenshot writes below about the recipe, not these words.",
    "files": [
     "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.",
+   "files": [
+    "Sources/GreenshotMac/App/Support.swift"
    ]
   },
   {
@@ -13356,6 +13388,12 @@
    ]
   },
   {
+   "key": "macOS blocked handing the screenshot to %@",
+   "files": [
+    "Sources/GreenshotMac/Output/DestinationOffice.swift"
+   ]
+  },
+  {
    "key": "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).",
    "files": [
     "Sources/GreenshotMac/Settings/NotificationsSection.swift"
@@ -13814,6 +13852,12 @@
    "files": [
     "Sources/GreenshotMac/Settings/DestinationsTab.swift",
     "Sources/GreenshotMac/Settings/EditorTab.swift"
+   ]
+  },
+  {
+   "key": "“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.",
+   "files": [
+    "Sources/GreenshotCore/KeyCombo.swift"
    ]
   },
   {

@@ -2890,6 +2890,9 @@
 "Microsoft Office and Notes" = "Microsoft Office și Notes";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office citește imagini doar din propriul dosar partajat, iar macOS îl protejează. În Setări de sistem › Confidențialitate și securitate › Fișiere și dosare, permiteți aplicației %@ accesul la datele altor aplicații, apoi încercați din nou.";
+
+/* machine */
 "Middle" = "Mijloc";
 
 /* machine */
@@ -3089,6 +3092,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Încă nicio rețetă. Importați un fișier de rețetă sau creați una în editorul de rețete.";
+
+/* machine */
+"No release has been published yet." = "Încă nu a fost publicată nicio versiune.";
 
 /* machine */
 "No spaces" = "Niciun spațiu";
@@ -5017,6 +5023,9 @@
 "The color of the torn off parts; transparent by default" = "Culoarea părților rupte; transparentă implicit";
 
 /* machine */
+"The comment could not be added: %@" = "Comentariul nu a putut fi adăugat: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Meniul de destinații listează și întâlnirile deschise pe care le organizați; captura de ecran este atașată întâlnirii.";
 
 /* machine */
@@ -5186,6 +5195,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Înregistrarea începe în %lld s. Faceți clic pentru a anula.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Înregistrarea s-a oprit deoarece fișierul ei nu a putut fi scris: %@. Ce s-a înregistrat până atunci se află în %@.";
 
 /* machine */
 "The recording was already finished." = "Înregistrarea era deja încheiată.";
@@ -5516,6 +5528,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Aveți încredere în ce scrie Greenshot mai jos despre rețetă, nu în aceste cuvinte.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Activați permisiunea în Setări de sistem › Confidențialitate și securitate › Înregistrare ecran și audio sistem.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Activați %@ în Setări de sistem › General › Elemente de autentificare și extensii.";
@@ -6220,6 +6235,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS întreabă prima dată dacă %@ poate folosi microfonul.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS a blocat transmiterea capturii de ecran către %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS nu a permis acestei versiuni să trimită notificări. O versiune semnată cu o identitate stabilă de obicei poate (consultați README).";
 
 /* machine */
@@ -6419,6 +6437,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} din argumente este fișierul capturii de ecran; ghilimelele grupează cuvintele. Comanda și argumentele pot folosi variabilele tiparului numelui de fișier, de ex. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@” (%@) are aceleași taste cât timp tastele stânga și dreapta nu pot fi deosebite, deci se declanșează doar una dintre ele.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@” (%@) are aceleași taste pe ambele părți, deci ambele s-ar declanșa.";

@@ -2944,6 +2944,9 @@
 "Microsoft Office and Notes" = "Microsoft Office ir Užrašai";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office skaito paveikslėlius tik iš savo bendrinamo aplanko, o macOS jį saugo. Skiltyje Sistemos nustatymai › Privatumas ir sauga › Failai ir aplankai leiskite %@ pasiekti kitų programų duomenis, tada bandykite dar kartą.";
+
+/* machine */
 "Middle" = "Vidurys";
 
 /* machine */
@@ -3149,6 +3152,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Receptų dar nėra. Importuokite recepto failą arba sukurkite jį recepto redaktoriuje.";
+
+/* machine */
+"No release has been published yet." = "Dar nepaskelbtas nė vienas leidimas.";
 
 /* machine */
 "No spaces" = "Erdvių nėra";
@@ -5104,6 +5110,9 @@
 "The color of the torn off parts; transparent by default" = "Nuplėštų dalių spalva; pagal numatytuosius – permatoma";
 
 /* machine */
+"The comment could not be added: %@" = "Nepavyko pridėti komentaro: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Paskirties meniu taip pat rodomi jūsų organizuojami atidaryti susitikimai; ekrano nuotrauka prisegama prie susitikimo.";
 
 /* machine */
@@ -5273,6 +5282,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Įrašymas prasidės po %lld s. Spustelėkite, kad atsisakytumėte.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Įrašymas sustojo, nes nepavyko įrašyti jo failo: %@. Tai, kas įrašyta iki tol, yra čia: %@.";
 
 /* machine */
 "The recording was already finished." = "Įrašymas jau buvo baigtas.";
@@ -5609,6 +5621,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Pasitikėkite tuo, ką Greenshot rašo žemiau apie receptą, o ne šiais žodžiais.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Įjunkite leidimą skiltyje Sistemos nustatymai › Privatumas ir sauga › Ekrano ir sistemos garso įrašymas.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Įjunkite %@ skiltyje Sistemos nustatymai › Bendri › Prisijungimo elementai ir plėtiniai.";
@@ -6325,6 +6340,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS pirmą kartą paklausia, ar %@ gali naudoti mikrofoną.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS užblokavo ekrano nuotraukos perdavimą programai %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS neleido šiam variantui rodyti pranešimų. Su stabilia tapatybe pasirašytas variantas paprastai gali (žr. README).";
 
 /* machine */
@@ -6536,6 +6554,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} argumentuose yra ekrano nuotraukos failas; kabutės sugrupuoja žodžius. Komandoje ir argumentuose galima naudoti failo pavadinimo šablono kintamuosius, pvz., ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@“ (%@) turi tuos pačius klavišus, kol neįmanoma atskirti kairiojo ir dešiniojo klavišų, todėl suveikia tik vienas iš jų.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@“ (%@) turi tuos pačius klavišus abiem pusėms, todėl suveiktų abu.";

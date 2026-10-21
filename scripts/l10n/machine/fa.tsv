@@ -936,6 +936,7 @@ Message:	پیام:	claude-sonnet-5-5 2026-10-18
 Microphone	میکروفون	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office و Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office تصاویر را فقط از پوشهٔ مشترک خودش می‌خواند و macOS از آن محافظت می‌کند. در تنظیمات سیستم › حریم خصوصی و امنیت › فایل‌ها و پوشه‌ها به %@ اجازهٔ دسترسی به داده‌های برنامه‌های دیگر را بدهید، سپس دوباره تلاش کنید.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -1007,6 +1008,7 @@ No recipe open	هیچ دستورالعملی باز نیست	claude-sonnet-5-5 2
 No recipes from files.	هیچ دستورالعملی از فایل‌ها نیست.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	هیچ دستورالعملی بارگذاری نشده است	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	هنوز دستورالعملی نیست. یک فایل دستورالعمل را درون‌ریزی کنید یا در ویرایشگر دستورالعمل یکی بسازید.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	هنوز هیچ نسخه‌ای منتشر نشده است.	claude-opus-5-5 2026-10-21
 No spaces	بدون Space	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	هیچ مرحلهٔ شروعی به اینجا نمی‌رسد: این مرحله‌ها را با «ادامه در» وصل کنید	claude-sonnet-5-5 2026-10-18
 No text found	متنی پیدا نشد	claude-sonnet-5-5 2026-10-18
@@ -1611,6 +1613,7 @@ The clipboard was left as it was.	حافظه موقت همان‌طور که ب�
 The code signature of the app, notarization and quarantine	امضای کد برنامه، notarization و قرنطینه	claude-sonnet-5-5 2026-10-18
 The color behind the image	رنگ پشت تصویر	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	رنگ بخش‌های پاره‌شده؛ به‌طور پیش‌فرض شفاف	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	نظر افزوده نشد: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	منوی مقصد جلسه‌های باز را هم که شما برگزار می‌کنید فهرست می‌کند؛ تصویر صفحه به جلسه پیوست می‌شود.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	جزئیات «%@» در دسترس نیست: دیگر بارگذاری نشده است.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	نمایشگر دیگر متصل نیست.	claude-sonnet-5-5 2026-10-18
@@ -1668,6 +1671,7 @@ The recording is being saved.	ضبط در حال ذخیره است.	claude-sonne
 The recording is paused. Click to stop; ⌃-click to go on or discard.	ضبط متوقف موقت است. برای توقف کلیک کنید؛ با ⌃-کلیک ادامه دهید یا دور بریزید.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	ضبط در حال شروع است. برای توقف به‌محض اجرا کلیک کنید.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	ضبط تا %lld ثانیه دیگر شروع می‌شود. برای لغو کلیک کنید.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	ضبط متوقف شد، چون فایل آن نوشته نشد: %@. آنچه تا آن زمان ضبط شده در %@ است.	claude-opus-5-5 2026-10-21
 The recording was already finished.	ضبط قبلاً پایان یافته بود.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	ضبط دور انداخته شد	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	درخواست از طریق greenshot-cli آمد. فقط اگر خودتان آن را شروع کرده‌اید اجازه دهید: نتیجهٔ دستورالعمل به جایی می‌رود که دستورالعمل می‌فرستد.	claude-sonnet-5-5 2026-10-18
@@ -1779,6 +1783,7 @@ Trust certificates with these fingerprints	اعتماد به گواهی‌های
 Trust these hosts despite certificate errors	اعتماد به این میزبان‌ها با وجود خطای گواهی	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	به آنچه Greenshot در زیر دربارهٔ مرحلهٔ خودکار می‌نویسد اعتماد کنید، نه این کلمات.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	به آنچه Greenshot در زیر دربارهٔ دستورالعمل می‌نویسد اعتماد کنید، نه این کلمات.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	این مجوز را در تنظیمات سیستم › حریم خصوصی و امنیت › ضبط صفحه و صدای سیستم روشن کنید.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	%@ را در تنظیمات سیستم › عمومی › موارد ورود و افزونه‌ها روشن کنید.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	برای دیدن دوبارهٔ اعلان‌ها، «اجازهٔ اعلان‌ها» را برای %@ در تنظیمات سیستم › اعلان‌ها روشن کنید.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	روشن کردن هر یک از موارد دیگر منو را خاموش می‌کند. چند مورد می‌توانند روشن باشند، مثلاً رونویس و ذخیره.	claude-sonnet-5-5 2026-10-18
@@ -2017,6 +2022,7 @@ left %@	چپ %@	claude-sonnet-5-5 2026-10-18
 level %@	سطح %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS این مجوز را از هر برنامه‌ای که تصویر صفحه می‌گیرد می‌پرسد.\n\nتنظیمات سیستم › حریم خصوصی و امنیت › ضبط صفحه و صدای سیستم را باز کنید، %@ را روشن کنید، سپس از آن خارج شوید و دوباره باز کنید.\n\nدر فهرست نیست؟ روی + زیر آن کلیک کنید و %@ را از Applications اضافه کنید.\n\nاز قبل روشن است؟ نسخهٔ دوباره‌ساخته‌شده یا جابه‌جاشده برنامهٔ جدید به حساب می‌آید: آن را انتخاب کنید، با − حذف کنید، سپس %@ را دوباره باز کنید و دوباره مجاز کنید.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS بار اول می‌پرسد که %@ می‌تواند از میکروفون استفاده کند یا نه.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS تحویل تصویر صفحه به %@ را مسدود کرد	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS به این ساخت اجازهٔ ارسال اعلان نداد. ساختی که با هویت پایدار امضا شده باشد معمولاً می‌تواند (README را ببینید).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS هنوز به %@ اجازهٔ ضبط صفحه نمی‌دهد. تصویر صفحه به این مجوز نیاز دارد: %@ را در حریم خصوصی و امنیت › ضبط صفحه و صدای سیستم روشن کنید.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS این کلیدها را پیش از هر برنامه‌ای مدیریت می‌کند. وقتی یکی کلیدهای یک کلید میانبر را دارد، آن را در صفحه‌کلید › میانبرهای صفحه‌کلید › تصویر صفحه خاموش کنید، یا کلید میانبر دیگری انتخاب کنید.	claude-sonnet-5-5 2026-10-18
@@ -2078,6 +2084,7 @@ zoomer on or off	روشن یا خاموش کردن ذره‌بین	claude-sonnet
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} در آرگومان‌ها فایل تصویر صفحه است؛ نقل‌قول‌ها کلمه‌ها را گروه می‌کنند. دستور و آرگومان‌ها می‌توانند از متغیرهای الگوی نام فایل استفاده کنند، مثلاً ${title}.	claude-sonnet-5-5 2026-10-18
 |	\\|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	«%@» (%@) تا وقتی کلیدهای چپ و راست از هم تشخیص داده نشوند همان کلیدها را دارد، پس فقط یکی از آن‌ها فعال می‌شود.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	«%@» (%@) با هر دو سمت همان کلیدها را دارد، پس هر دو فعال می‌شدند.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	«%@» (%@) ابتدای این کلید میانبر است، پس این یکی هرگز فعال نمی‌شود.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	«%@» از قبل وجود دارد. می‌خواهید جایگزین شود؟	claude-sonnet-5-5 2026-10-18

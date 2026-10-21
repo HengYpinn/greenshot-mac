@@ -889,6 +889,7 @@ Message:	メッセージ：	claude-sonnet-5-5 2026-10-18
 Microphone	マイク	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office とメモ	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office は自身の共有フォルダからしか画像を読み込まず、macOS はそのフォルダを保護しています。「システム設定」›「プライバシーとセキュリティ」›「ファイルとフォルダ」で %@ にほかの App のデータへのアクセスを許可してから、もう一度お試しください。	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -956,6 +957,7 @@ No recipe open	開いているレシピなし	claude-sonnet-5-5 2026-10-18
 No recipes from files.	ファイルからのレシピはありません。	claude-sonnet-5-5 2026-10-18
 No recipes loaded	読み込まれたレシピなし	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	レシピはまだありません。レシピファイルを読み込むか、レシピエディターで作成してください。	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	まだリリースが公開されていません。	claude-opus-5-5 2026-10-21
 No spaces	スペースなし	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	ここにつながる開始ステップがありません。「続行先」でこれらのステップを接続してください	claude-sonnet-5-5 2026-10-18
 No text found	テキストが見つかりません	claude-sonnet-5-5 2026-10-18
@@ -1538,6 +1540,7 @@ The clipboard was left as it was.	クリップボードはそのままにしま�
 The code signature of the app, notarization and quarantine	App のコード署名、公証、隔離	claude-sonnet-5-5 2026-10-18
 The color behind the image	画像の背後の色	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	引き裂かれた部分の色。デフォルトは透明	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	コメントを追加できませんでした：%@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	出力先メニューには、あなたが主催する開いている会議も表示されます。スクリーンショットは会議に添付されます。	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	「%@」の詳細は利用できません。読み込まれていません。	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	ディスプレイが接続されなくなりました。	claude-sonnet-5-5 2026-10-18
@@ -1595,6 +1598,7 @@ The recording is being saved.	収録を保存しています。	claude-sonnet-5-
 The recording is paused. Click to stop; ⌃-click to go on or discard.	収録は一時停止中です。クリックで停止、⌃クリックで再開または破棄。	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	収録を開始しています。実行されたらすぐに、クリックして停止できます。	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	%lld 秒後に収録を開始します。クリックでキャンセル。	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	ファイルを書き込めなかったため、収録が停止しました：%@。それまでに収録された内容は %@ にあります。	claude-opus-5-5 2026-10-21
 The recording was already finished.	収録はすでに終了していました。	claude-sonnet-5-5 2026-10-18
 The recording was discarded	収録は破棄されました	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	リクエストは greenshot-cli 経由で届きました。ご自身で開始した場合のみ許可してください。レシピの結果は、レシピが送信する先に送られます。	claude-sonnet-5-5 2026-10-18
@@ -1692,6 +1696,7 @@ Trust certificates with these fingerprints	これらのフィンガープリン�
 Trust these hosts despite certificate errors	証明書エラーがあってもこれらのホストを信頼	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	この言葉ではなく、Greenshot が以下に記す自動ステップの内容を信頼してください。	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	この言葉ではなく、Greenshot が以下に記すレシピの内容を信頼してください。	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	「システム設定」›「プライバシーとセキュリティ」›「画面収録とシステムオーディオ録音」でオンにしてください。	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	「システム設定」›「一般」›「ログイン項目と機能拡張」で %@ をオンにしてください。	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	再び通知を表示するには、「システム設定」›「通知」で %@ の「通知を許可」をオンにしてください。	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	ほかのいずれかをオンにすると、メニューはオフになります。コピーと保存など、複数をオンにできます。	claude-sonnet-5-5 2026-10-18
@@ -1914,6 +1919,7 @@ left %@	左 %@	claude-sonnet-5-5 2026-10-18
 level %@	レベル %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS は、スクリーンショットを撮影するすべての App にこの権限を求めます。\n\n「システム設定」›「プライバシーとセキュリティ」›「画面収録とシステムオーディオ録音」を開き、%@ をオンにしてから、終了して開き直してください。\n\nリストにない場合は、その下の + をクリックし、Applications から %@ を追加してください。\n\nすでにオンの場合は、再ビルドしたり移動したりしたコピーは新しい App として扱われます。それを選択して − で削除し、%@ を開き直して、もう一度許可してください。	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	%@ がマイクを使用してよいかどうかは、最初に macOS が確認します。	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS により、スクリーンショットを %@ に渡すことがブロックされました	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS は、このビルドに通知の送信を許可しませんでした。安定した ID で署名されたビルドでは、通常は許可されます（README を参照）。	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS は、まだ %@ に画面の収録を許可していません。スクリーンショットにはこの権限が必要です。「プライバシーとセキュリティ」›「画面収録とシステムオーディオ録音」で %@ をオンにしてください。	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS は、これらのキーをどの App よりも先に処理します。いずれかがホットキーと同じキーを使用している場合は、「キーボード」›「キーボードショートカット」›「スクリーンショット」でオフにするか、別のホットキーを選択してください。	claude-sonnet-5-5 2026-10-18
@@ -1970,6 +1976,7 @@ zoomer on or off	拡大鏡のオン／オフ	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	引数内の {0} はスクリーンショットのファイルです。引用符で語をグループ化します。コマンドと引数にはファイル名パターンの変数（例：${title}）を使用できます。	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	「%@」（%@）は、左右のキーを区別できない間は同じキーになるため、どちらか一方しか反応しません。	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	「%@」（%@）は左右どちらのキーでも同じキーになるため、両方が反応します。	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	「%@」（%@）はこのホットキーの先頭部分にあたるため、このホットキーは反応しません。	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	「%@」はすでに存在します。置き換えますか？	claude-sonnet-5-5 2026-10-18

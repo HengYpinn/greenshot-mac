@@ -2947,6 +2947,9 @@
 "Microsoft Office and Notes" = "Microsoft Office وNotes";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "لا يقرأ Microsoft Office الصور إلا من مجلده المشترك الخاص به، ويحمي macOS هذا المجلد. في إعدادات النظام › الخصوصية والأمان › الملفات والمجلدات، اسمح لـ %@ بالوصول إلى بيانات التطبيقات الأخرى، ثم حاول مرة أخرى.";
+
+/* machine */
 "Middle" = "الوسط";
 
 /* machine */
@@ -3152,6 +3155,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "لا توجد وصفات بعد. استورد ملف وصفة أو أنشئ واحدة في محرر الوصفات.";
+
+/* machine */
+"No release has been published yet." = "لم يُنشر أي إصدار بعد.";
 
 /* machine */
 "No spaces" = "لا توجد مساحات";
@@ -5104,6 +5110,9 @@
 "The color of the torn off parts; transparent by default" = "لون الأجزاء الممزقة؛ شفاف افتراضيًا";
 
 /* machine */
+"The comment could not be added: %@" = "تعذّرت إضافة التعليق: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "تسرد قائمة الوجهات أيضًا الاجتماعات المفتوحة التي تنظمها؛ وتُرفق اللقطة بالاجتماع.";
 
 /* machine */
@@ -5273,6 +5282,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "يبدأ التسجيل خلال %lld ث. انقر للإلغاء.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "توقف التسجيل لأنه تعذّرت كتابة ملفه: %@. ما سُجّل حتى ذلك الحين موجود في %@.";
 
 /* machine */
 "The recording was already finished." = "كان التسجيل قد انتهى بالفعل.";
@@ -5609,6 +5621,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "ثق بما يكتبه Greenshot أدناه عن الوصفة، وليس بهذه الكلمات.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "فعّل الإذن في إعدادات النظام › الخصوصية والأمان › تسجيل الشاشة وتسجيل الصوت من النظام.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "فعّل %@ في إعدادات النظام › عام › عناصر تسجيل الدخول والإضافات.";
@@ -6325,6 +6340,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "يسأل macOS في المرة الأولى عما إذا كان يمكن لـ %@ استخدام الميكروفون.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "منع macOS تسليم اللقطة إلى %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "لم يسمح macOS لهذا الإصدار بإرسال الإشعارات. يمكن عادةً لإصدار موقّع بهوية ثابتة ذلك (راجع README).";
 
 /* machine */
@@ -6536,6 +6554,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "يمثل {0} في الوسيطات ملف اللقطة؛ وتجمع علامات الاقتباس الكلمات. يمكن للأمر والوسيطات استخدام متغيّرات نمط اسم الملف، مثل ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@” (%@) له المفاتيح نفسها ما دام لا يمكن التمييز بين المفتاحين الأيسر والأيمن، لذا يعمل واحد منهما فقط.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@” (%@) له المفاتيح نفسها على أي من الجانبين، لذا سيعمل كلاهما.";

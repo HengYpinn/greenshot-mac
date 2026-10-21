@@ -2910,6 +2910,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office och Notes";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office läser bara bilder från sin egen delade mapp, och macOS skyddar den. Ge %@ åtkomst till data från andra appar i Systeminställningar › Integritet och säkerhet › Filer och mappar och försök sedan igen.";
+
 /* core:Editor.align_middle */
 "Middle" = "Mitten";
 
@@ -3116,6 +3119,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Inga recept än. Importera en receptfil eller skapa ett i receptredigeraren.";
+
+/* machine */
+"No release has been published yet." = "Ingen version har publicerats än.";
 
 /* machine */
 "No spaces" = "Inga spaces";
@@ -5038,6 +5044,9 @@
 "The color of the torn off parts; transparent by default" = "Färgen på de bortrivna delarna; genomskinlig som standard";
 
 /* machine */
+"The comment could not be added: %@" = "Kommentaren kunde inte läggas till: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Destinationsmenyn listar också de öppna möten du organiserar; skärmdumpen bifogas mötet.";
 
 /* machine */
@@ -5207,6 +5216,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Inspelningen startar om %lld s. Klicka för att avbryta.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Inspelningen stoppades eftersom dess fil inte kunde skrivas: %@. Det som spelades in fram till dess finns i %@.";
 
 /* machine */
 "The recording was already finished." = "Inspelningen var redan klar.";
@@ -5537,6 +5549,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Lita på det Greenshot skriver nedan om receptet, inte på de här orden.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Slå på behörigheten i Systeminställningar › Integritet och säkerhet › Skärm- och systemljudsinspelning.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Slå på %@ i Systeminställningar › Allmänt › Inloggningsobjekt och tillägg.";
@@ -6235,6 +6250,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS frågar första gången om %@ får använda mikrofonen.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS blockerade överlämningen av skärmdumpen till %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS lät inte det här bygget skicka aviseringar. Ett bygge signerat med en stabil identitet kan oftast det (se README).";
 
 /* machine */
@@ -6437,6 +6455,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} i argumenten är skärmdumpens fil; citattecken grupperar ord. Kommandot och argumenten kan använda variablerna i filnamnsmönstret, t.ex. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@” (%@) har samma tangenter så länge vänster och höger tangent inte kan skiljas åt, så bara ett av dem utlöses.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@” (%@) har samma tangenter med båda sidor, så båda skulle utlösas.";

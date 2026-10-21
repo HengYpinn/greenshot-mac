@@ -894,6 +894,7 @@ Message:	Сообщение:	claude-sonnet-5-5 2026-10-18
 Microphone	Микрофон	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office и Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office читает изображения только из своей общей папки, и macOS её защищает. В разделе «Системные настройки» › «Конфиденциальность и безопасность» › «Файлы и папки» разрешите %@ доступ к данным других приложений, затем повторите попытку.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -961,6 +962,7 @@ No recipe open	Нет открытого рецепта	claude-sonnet-5-5 2026-1
 No recipes from files.	Нет рецептов из файлов.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Рецепты не загружены	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Рецептов пока нет. Импортируйте файл рецепта или создайте его в редакторе рецептов.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Пока не опубликовано ни одного выпуска.	claude-opus-5-5 2026-10-21
 No spaces	Нет пространств	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Ни один начальный шаг сюда не ведёт: соедините эти шаги через «Продолжить с»	claude-sonnet-5-5 2026-10-18
 No text found	Текст не найден	claude-sonnet-5-5 2026-10-18
@@ -1543,6 +1545,7 @@ The clipboard was left as it was.	Буфер обмена оставлен бе�
 The code signature of the app, notarization and quarantine	Подпись кода приложения, нотаризация и карантин	claude-sonnet-5-5 2026-10-18
 The color behind the image	Цвет позади изображения	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Цвет оторванных частей; по умолчанию прозрачный	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Не удалось добавить комментарий: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	В меню мест назначения также перечислены открытые встречи, которые вы организуете; снимок экрана прикрепляется к встрече.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Сведения о «%@» недоступны: он больше не загружен.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Дисплей больше не подключён.	claude-sonnet-5-5 2026-10-18
@@ -1600,6 +1603,7 @@ The recording is being saved.	Запись сохраняется.	claude-sonnet
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Запись приостановлена. Нажмите, чтобы остановить; нажмите с ⌃, чтобы продолжить или отбросить.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Запись начинается. Нажмите, чтобы остановить её, как только она пойдёт.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Запись начнётся через %lld с. Нажмите, чтобы отменить.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Запись остановлена, так как не удалось записать её файл: %@. Записанное до этого момента находится в %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Запись уже завершена.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Запись отброшена	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Запрос пришёл через greenshot-cli. Разрешайте его, только если запустили его вы: результат рецепта отправляется туда, куда его направляет рецепт.	claude-sonnet-5-5 2026-10-18
@@ -1697,6 +1701,7 @@ Trust certificates with these fingerprints	Доверять сертификат
 Trust these hosts despite certificate errors	Доверять этим хостам несмотря на ошибки сертификата	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Доверяйте тому, что Greenshot пишет ниже об автоматическом шаге, а не этим словам.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Доверяйте тому, что Greenshot пишет ниже о рецепте, а не этим словам.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Включите разрешение в разделе «Системные настройки» › «Конфиденциальность и безопасность» › «Запись экрана и системного звука».	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Включите %@ в «Системные настройки» › «Основные» › «Объекты входа и расширения».	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Включите «Допуск уведомлений» для %@ в «Системные настройки» › «Уведомления», чтобы снова их видеть.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Включение любого из остальных выключает меню. Можно включить несколько, например копирование и сохранение.	claude-sonnet-5-5 2026-10-18
@@ -1920,6 +1925,7 @@ left %@	левая %@	claude-sonnet-5-5 2026-10-18
 level %@	уровень %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS запрашивает это разрешение у каждого приложения, делающего снимки экрана.\n\nОткройте «Системные настройки» › «Конфиденциальность и безопасность» › «Запись экрана и системного звука», включите %@, затем завершите его и откройте снова.\n\nНет в списке? Нажмите «+» под списком и добавьте %@ из папки «Программы».\n\nУже включено? Пересобранная или перемещённая копия считается новым приложением: выберите её, удалите кнопкой «−», затем снова откройте %@ и разрешите заново.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS при первом использовании спрашивает, может ли %@ использовать микрофон.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS заблокировала передачу снимка экрана в приложение %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS не позволила этой сборке отправлять уведомления. Сборка, подписанная постоянным удостоверением, обычно может (см. README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS пока не позволяет %@ записывать экран. Для снимков экрана нужно это разрешение: включите %@ в «Конфиденциальность и безопасность» › «Запись экрана и системного звука».	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS обрабатывает эти клавиши раньше любого приложения. Если одно из них использует клавиши вашей горячей клавиши, выключите его в «Клавиатура» › «Сочетания клавиш» › «Снимки экрана» или выберите другую горячую клавишу.	claude-sonnet-5-5 2026-10-18
@@ -1976,6 +1982,7 @@ zoomer on or off	лупа вкл. или выкл.	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} в аргументах — файл снимка экрана; кавычки группируют слова. Команда и аргументы могут использовать переменные шаблона имени файла, например ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	«%@» (%@) имеет те же клавиши, пока левые и правые клавиши нельзя различить, поэтому сработает только одна из них.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	«%@» (%@) имеет те же клавиши с обеих сторон, поэтому сработают оба.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	«%@» (%@) — начало этой горячей клавиши, поэтому эта никогда не сработает.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	«%@» уже существует. Заменить его?	claude-sonnet-5-5 2026-10-18

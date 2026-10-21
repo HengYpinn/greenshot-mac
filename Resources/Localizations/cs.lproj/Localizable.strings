@@ -2940,6 +2940,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office a Notes";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office čte obrázky jen ze své vlastní sdílené složky a macOS ji chrání. V Nastavení systému › Soukromí a zabezpečení › Soubory a složky povolte aplikaci %@ přístup k datům jiných aplikací a zkuste to znovu.";
+
 /* core:Editor.align_middle */
 "Middle" = "Doprostřed";
 
@@ -3143,6 +3146,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Zatím žádné recepty. Importujte soubor receptu nebo jeden vytvořte v editoru receptů.";
+
+/* machine */
+"No release has been published yet." = "Zatím nebylo zveřejněno žádné vydání.";
 
 /* machine */
 "No spaces" = "Žádné prostory";
@@ -5071,6 +5077,9 @@
 "The color of the torn off parts; transparent by default" = "Barva odtržených částí; ve výchozím nastavení průhledná";
 
 /* machine */
+"The comment could not be added: %@" = "Komentář se nepodařilo přidat: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Nabídka cílů také uvádí otevřené schůzky, které pořádáte; snímek obrazovky se připojí ke schůzce.";
 
 /* machine */
@@ -5240,6 +5249,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Nahrávání začne za %lld s. Kliknutím zrušíte.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Nahrávání se zastavilo, protože jeho soubor se nepodařilo zapsat: %@. To, co se do té doby nahrálo, je v %@.";
 
 /* machine */
 "The recording was already finished." = "Nahrávání už bylo dokončeno.";
@@ -5576,6 +5588,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Věřte tomu, co o receptu píše níže Greenshot, ne těmto slovům.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Zapněte oprávnění v Nastavení systému › Soukromí a zabezpečení › Nahrávání obrazovky a zvuku systému.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Zapněte %@ v Nastavení systému › Obecné › Položky přihlášení a rozšíření.";
@@ -6286,6 +6301,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS se poprvé zeptá, zda smí %@ používat mikrofon.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS zablokoval předání snímku obrazovky aplikaci %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS tomuto sestavení nedovolil zobrazovat upozornění. Sestavení podepsané stabilní identitou to obvykle může (viz README).";
 
 /* machine */
@@ -6491,6 +6509,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} v argumentech je soubor snímku obrazovky; uvozovky seskupují slova. Příkaz i argumenty mohou používat proměnné vzoru názvu souboru, např. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@“ (%@) má stejné klávesy, dokud nelze rozlišit levé a pravé klávesy, takže se spustí jen jedna z nich.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@“ (%@) má stejné klávesy na obou stranách, takže by se spustily obě.";

@@ -2928,6 +2928,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office d Notes";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office yeqqar tugniwin kan seg ukaram-is yettwabḍan, yerna macOS iḥerrez-it. Deg Iɣewwaṛen n unagraw › Taɣellist d tɣellist › Ifuyla d yikaramen, sireg %@ ad yekcem ɣer yisefka n yisnasen nniḍen, sakin ɛreḍ daɣen.";
+
 /* core:Editor.align_middle */
 "Middle" = "Di tlemmast";
 
@@ -3134,6 +3137,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Ulac iserwasen mazal. Kter afaylu n userwas neɣ rnu yiwen deg umaẓrag n iserwasen.";
+
+/* machine */
+"No release has been published yet." = "Ulac ula d yiwen n lqem i d-yeffɣen ar tura.";
 
 /* machine */
 "No spaces" = "Ulac Spaces";
@@ -5077,6 +5083,9 @@
 "The color of the torn off parts; transparent by default" = "Ini n yiḥricen yettwaɣzifen; afrawan s wudem amezwer";
 
 /* machine */
+"The comment could not be added: %@" = "Awennit ur yezmir ara ad yettwarnu: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Umuɣ n tiniɣriwin yesskan daɣen tameɣrin yeldin i tsebbaḍeḍ; tuṭṭfa n ugdil tettwaseddu ɣer tmeɣra.";
 
 /* machine */
@@ -5246,6 +5255,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Tavidyut tebda deg %lld s. Senned i usefsex.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Tavidyut teḥbes acku afaylu-ines ur yezmir ara ad yettwaru: %@. Ayen yettwaseklsen alamma d imir yella deg %@.";
 
 /* machine */
 "The recording was already finished." = "Tavidyut tekfa yakan.";
@@ -5582,6 +5594,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Wali d acu i yettaru Greenshot ddaw ɣef userwas, mačči awalen-agi.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Rmed turagt deg Iɣewwaṛen n unagraw › Taɣellist d tɣellist › Asekles n ugdil d yimesli n unagraw.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Rmed %@ deg Iɣewwaṛen n unagraw › Amatu › Iferdisen n unekcum d yimaẓrag.";
@@ -6301,6 +6316,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS isteqsi tikkelt tamezwarut ma yezmer %@ ad yesseqdec asawaḍ.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS yessewḥel tuzna n tuṭṭfa n ugdil ɣer %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS ur yeǧǧi ara tanɣalt-agi ad d-tessufeɣ alɣuyen. Tanɣalt yettwazmelen s tikti tɣellist tzemmer ad t-tgen (wali README).";
 
 /* machine */
@@ -6509,6 +6527,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} deg yiɣir d afaylu n tuṭṭfa n ugdil; tiɣmisin tebḍu awalen. Taladna d yiɣir zemren ad seqdcen timsal n taneɣruft n yisem n ufaylu, amedya ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@” (%@) yesɛa tisura kif-kif skud tisura azelmaḍ d tayeffust ur ttwaferqent ara, ihi yiwen kan ara iteddun.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@” (%@) yesɛa tisura kif-kif s yal tama, ihi sin ad teddun.";

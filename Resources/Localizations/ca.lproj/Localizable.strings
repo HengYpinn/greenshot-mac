@@ -2883,6 +2883,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office i Notes";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office només llegeix imatges de la seva pròpia carpeta compartida, i el macOS la protegeix. A Configuració del Sistema › Privadesa i seguretat › Fitxers i carpetes, permeteu que %@ accedeixi a les dades d'altres apps i torneu-ho a provar.";
+
 /* core:Editor.align_middle */
 "Middle" = "Mig";
 
@@ -3080,6 +3083,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Encara no hi ha receptes. Importeu un fitxer de recepta o creeu-ne una a l'editor de receptes.";
+
+/* machine */
+"No release has been published yet." = "Encara no s'ha publicat cap versió.";
 
 /* machine */
 "No spaces" = "Cap espai";
@@ -5020,6 +5026,9 @@
 "The color of the torn off parts; transparent by default" = "El color de les parts esquinçades; transparent per defecte";
 
 /* machine */
+"The comment could not be added: %@" = "No s'ha pogut afegir el comentari: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "El menú de destins també llista les reunions obertes que organitzeu; la captura s'adjunta a la reunió.";
 
 /* machine */
@@ -5189,6 +5198,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "La gravació comença d'aquí a %lld s. Feu clic per cancel·lar.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "La gravació s'ha aturat perquè no s'ha pogut escriure el seu fitxer: %@. El que s'ha gravat fins llavors és a %@.";
 
 /* machine */
 "The recording was already finished." = "La gravació ja havia acabat.";
@@ -5522,6 +5534,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Confieu en el que Greenshot escriu a sota sobre la recepta, no en aquestes paraules.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Activeu el permís a Configuració del Sistema › Privadesa i seguretat › Gravació de pantalla i àudio del sistema.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Activeu %@ a Configuració del Sistema › General › Elements d'inici de sessió i extensions.";
@@ -6232,6 +6247,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "El macOS pregunta la primera vegada si %@ pot utilitzar el micròfon.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "El macOS ha bloquejat el lliurament de la captura a %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "El macOS no ha permès que aquesta compilació publiqui notificacions. Una compilació signada amb una identitat estable normalment pot (vegeu el README).";
 
 /* machine */
@@ -6428,6 +6446,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} als arguments és el fitxer de la captura; les cometes agrupen paraules. L'ordre i els arguments poden utilitzar les variables del patró del nom de fitxer, p. ex. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@” (%@) té les mateixes tecles mentre no es puguin distingir les tecles esquerra i dreta, de manera que només se n'activa una.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@” (%@) té les mateixes tecles amb qualsevol dels dos costats, de manera que tots dos s'activarien.";

@@ -2943,6 +2943,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office とメモ";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office は自身の共有フォルダからしか画像を読み込まず、macOS はそのフォルダを保護しています。「システム設定」›「プライバシーとセキュリティ」›「ファイルとフォルダ」で %@ にほかの App のデータへのアクセスを許可してから、もう一度お試しください。";
+
 /* core:Editor.align_middle */
 "Middle" = "中央揃え";
 
@@ -3149,6 +3152,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "レシピはまだありません。レシピファイルを読み込むか、レシピエディターで作成してください。";
+
+/* machine */
+"No release has been published yet." = "まだリリースが公開されていません。";
 
 /* machine */
 "No spaces" = "スペースなし";
@@ -5107,6 +5113,9 @@
 "The color of the torn off parts; transparent by default" = "引き裂かれた部分の色。デフォルトは透明";
 
 /* machine */
+"The comment could not be added: %@" = "コメントを追加できませんでした：%@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "出力先メニューには、あなたが主催する開いている会議も表示されます。スクリーンショットは会議に添付されます。";
 
 /* machine */
@@ -5276,6 +5285,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "%lld 秒後に収録を開始します。クリックでキャンセル。";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "ファイルを書き込めなかったため、収録が停止しました：%@。それまでに収録された内容は %@ にあります。";
 
 /* machine */
 "The recording was already finished." = "収録はすでに終了していました。";
@@ -5612,6 +5624,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "この言葉ではなく、Greenshot が以下に記すレシピの内容を信頼してください。";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "「システム設定」›「プライバシーとセキュリティ」›「画面収録とシステムオーディオ録音」でオンにしてください。";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "「システム設定」›「一般」›「ログイン項目と機能拡張」で %@ をオンにしてください。";
@@ -6331,6 +6346,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "%@ がマイクを使用してよいかどうかは、最初に macOS が確認します。";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS により、スクリーンショットを %@ に渡すことがブロックされました";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS は、このビルドに通知の送信を許可しませんでした。安定した ID で署名されたビルドでは、通常は許可されます（README を参照）。";
 
 /* machine */
@@ -6542,6 +6560,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "引数内の {0} はスクリーンショットのファイルです。引用符で語をグループ化します。コマンドと引数にはファイル名パターンの変数（例：${title}）を使用できます。";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "「%@」（%@）は、左右のキーを区別できない間は同じキーになるため、どちらか一方しか反応しません。";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "「%@」（%@）は左右どちらのキーでも同じキーになるため、両方が反応します。";

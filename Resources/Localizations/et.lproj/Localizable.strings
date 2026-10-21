@@ -2925,6 +2925,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office ja Notes";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office loeb pilte ainult oma jagatud kaustast ja macOS kaitseb seda. Lubage jaotises Süsteemiseaded › Privaatsus ja turve › Failid ja kaustad rakendusele %@ juurdepääs teiste rakenduste andmetele ja proovige siis uuesti.";
+
 /* core:Editor.align_middle */
 "Middle" = "Keskel";
 
@@ -3131,6 +3134,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Retsepte veel pole. Importige retseptifail või looge retsept retseptiredaktoris.";
+
+/* machine */
+"No release has been published yet." = "Ühtegi väljalaset pole veel avaldatud.";
 
 /* machine */
 "No spaces" = "Ruume pole";
@@ -5077,6 +5083,9 @@
 "The color of the torn off parts; transparent by default" = "Ärarebitud osade värv; vaikimisi läbipaistev";
 
 /* machine */
+"The comment could not be added: %@" = "Kommentaari ei õnnestunud lisada: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Sihtkohamenüü loetleb ka teie korraldatud avatud koosolekud; kuvatõmmis lisatakse koosolekule.";
 
 /* machine */
@@ -5246,6 +5255,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Salvestus algab %lld s pärast. Klõpsake tühistamiseks.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Salvestus peatus, sest selle faili ei õnnestunud kirjutada: %@. Seni salvestatu asub kohas %@.";
 
 /* machine */
 "The recording was already finished." = "Salvestus oli juba lõpetatud.";
@@ -5582,6 +5594,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Usaldage seda, mida Greenshot allpool retsepti kohta kirjutab, mitte neid sõnu.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Lülitage luba sisse jaotises Süsteemiseaded › Privaatsus ja turve › Ekraani- ja süsteemiheli salvestamine.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Lülitage %@ sisse jaotises Süsteemiseaded › Põhiline › Sisselogimisüksused ja laiendid.";
@@ -6295,6 +6310,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS küsib esimesel korral, kas %@ tohib mikrofoni kasutada.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS blokeeris kuvatõmmise edastamise rakendusele %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS ei lubanud sellel versioonil teavitusi postitada. Stabiilse identiteediga allkirjastatud versioon tavaliselt saab (vt README).";
 
 /* machine */
@@ -6506,6 +6524,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} argumentides on kuvatõmmise fail; jutumärgid rühmitavad sõnu. Käsk ja argumendid võivad kasutada failinime mustri muutujaid, nt ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@” (%@) klahvid on samad seni, kuni vasakut ja paremat klahvi ei saa eristada, seega käivitub neist ainult üks.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@” (%@) klahvid on mõlemal küljel samad, seega käivituksid mõlemad.";

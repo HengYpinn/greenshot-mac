@@ -941,6 +941,7 @@ Message:	Mesaj:	claude-sonnet-5-5 2026-10-18
 Microphone	Microfon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office și Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office citește imagini doar din propriul dosar partajat, iar macOS îl protejează. În Setări de sistem › Confidențialitate și securitate › Fișiere și dosare, permiteți aplicației %@ accesul la datele altor aplicații, apoi încercați din nou.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -1012,6 +1013,7 @@ No recipe open	Nicio rețetă deschisă	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Nicio rețetă din fișiere.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Nicio rețetă încărcată	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Încă nicio rețetă. Importați un fișier de rețetă sau creați una în editorul de rețete.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Încă nu a fost publicată nicio versiune.	claude-opus-5-5 2026-10-21
 No spaces	Niciun spațiu	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Niciun pas de pornire nu duce aici: conectați acești pași cu „Continuă la”	claude-sonnet-5-5 2026-10-18
 No text found	Nu s-a găsit text	claude-sonnet-5-5 2026-10-18
@@ -1618,6 +1620,7 @@ The clipboard was left as it was.	Clipboardul a fost lăsat așa cum era.	claude
 The code signature of the app, notarization and quarantine	Semnătura codului aplicației, notarizarea și carantina	claude-sonnet-5-5 2026-10-18
 The color behind the image	Culoarea din spatele imaginii	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Culoarea părților rupte; transparentă implicit	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Comentariul nu a putut fi adăugat: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Meniul de destinații listează și întâlnirile deschise pe care le organizați; captura de ecran este atașată întâlnirii.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Detaliile pentru „%@” nu sunt disponibile: nu mai este încărcat.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Ecranul nu mai este conectat.	claude-sonnet-5-5 2026-10-18
@@ -1675,6 +1678,7 @@ The recording is being saved.	Înregistrarea este în curs de salvare.	claude-so
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Înregistrarea este în pauză. Clic pentru oprire; ⌃-clic pentru continuare sau renunțare.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Înregistrarea pornește. Faceți clic pentru a o opri imediat ce rulează.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Înregistrarea începe în %lld s. Faceți clic pentru a anula.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Înregistrarea s-a oprit deoarece fișierul ei nu a putut fi scris: %@. Ce s-a înregistrat până atunci se află în %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Înregistrarea era deja încheiată.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Înregistrarea a fost eliminată	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Cererea a venit prin greenshot-cli. Permiteți-o doar dacă ați pornit-o dumneavoastră: rezultatul rețetei ajunge unde îl trimite rețeta.	claude-sonnet-5-5 2026-10-18
@@ -1787,6 +1791,7 @@ Trust certificates with these fingerprints	Acordă încredere certificatelor cu 
 Trust these hosts despite certificate errors	Acordă încredere acestor gazde în ciuda erorilor de certificat	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Aveți încredere în ce scrie Greenshot mai jos despre pasul automat, nu în aceste cuvinte.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Aveți încredere în ce scrie Greenshot mai jos despre rețetă, nu în aceste cuvinte.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Activați permisiunea în Setări de sistem › Confidențialitate și securitate › Înregistrare ecran și audio sistem.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Activați %@ în Setări de sistem › General › Elemente de autentificare și extensii.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Activați Permite notificările pentru %@ în Setări de sistem › Notificări pentru a le vedea din nou.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Activarea oricăreia dintre celelalte dezactivează meniul. Mai multe pot fi active, de ex. copiere și salvare.	claude-sonnet-5-5 2026-10-18
@@ -2025,6 +2030,7 @@ left %@	%@ stânga	claude-sonnet-5-5 2026-10-18
 level %@	nivelul %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS cere această permisiune fiecărei aplicații care face capturi de ecran.\n\nDeschideți Setări de sistem › Confidențialitate și securitate › Înregistrare ecran și audio sistem, activați %@, apoi ieșiți și redeschideți-l.\n\nNu apare în listă? Faceți clic pe + sub ea și adăugați %@ din Aplicații.\n\nEste deja activat? O copie recompilată sau mutată contează ca aplicație nouă: selectați-o, eliminați-o cu −, apoi redeschideți %@ și permiteți-o din nou.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS întreabă prima dată dacă %@ poate folosi microfonul.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS a blocat transmiterea capturii de ecran către %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS nu a permis acestei versiuni să trimită notificări. O versiune semnată cu o identitate stabilă de obicei poate (consultați README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS nu permite încă ca %@ să înregistreze ecranul. Capturile de ecran necesită această permisiune: activați %@ în Confidențialitate și securitate › Înregistrare ecran și audio sistem.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS gestionează aceste taste înaintea oricărei aplicații. Când una are tastele unei scurtături, dezactivați-o în Tastatură › Scurtături de la tastatură › Capturi de ecran sau alegeți altă scurtătură.	claude-sonnet-5-5 2026-10-18
@@ -2086,6 +2092,7 @@ zoomer on or off	lupa activată sau dezactivată	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} din argumente este fișierul capturii de ecran; ghilimelele grupează cuvintele. Comanda și argumentele pot folosi variabilele tiparului numelui de fișier, de ex. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	„%@” (%@) are aceleași taste cât timp tastele stânga și dreapta nu pot fi deosebite, deci se declanșează doar una dintre ele.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	„%@” (%@) are aceleași taste pe ambele părți, deci ambele s-ar declanșa.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@” (%@) este începutul acestei scurtături, deci aceasta nu se declanșează niciodată.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	„%@” există deja. Doriți să îl înlocuiți?	claude-sonnet-5-5 2026-10-18

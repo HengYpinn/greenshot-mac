@@ -2941,6 +2941,9 @@
 "Microsoft Office and Notes" = "Microsoft Office и Notes";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office чита слике само из своје дељене фасцикле, а macOS је штити. У Системске поставке › Приватност и безбедност › Датотеке и фасцикле дозволите апликацији %@ приступ подацима других апликација, па покушајте поново.";
+
+/* machine */
 "Middle" = "Средина";
 
 /* machine */
@@ -3146,6 +3149,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Још нема рецепата. Увезите датотеку рецепта или направите један у уређивачу рецепата.";
+
+/* machine */
+"No release has been published yet." = "Још није објављено ниједно издање.";
 
 /* machine */
 "No spaces" = "Нема простора";
@@ -5098,6 +5104,9 @@
 "The color of the torn off parts; transparent by default" = "Боја одцепљених делова; подразумевано провидна";
 
 /* machine */
+"The comment could not be added: %@" = "Коментар није могао да се дода: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Мени одредишта такође наводи отворене састанке које организујете; снимак екрана се прилаже састанку.";
 
 /* machine */
@@ -5267,6 +5276,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Снимање почиње за %lld с. Кликните да откажете.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Снимање је заустављено јер његова датотека није могла да се упише: %@. Оно што је снимљено до тада налази се у %@.";
 
 /* machine */
 "The recording was already finished." = "Снимање је већ завршено.";
@@ -5603,6 +5615,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Верујте ономе што Greenshot испод пише о рецепту, а не овим речима.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Укључите дозволу у Системске поставке › Приватност и безбедност › Снимање екрана и системског звука.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Укључите %@ у Системске поставке › Опште › Ставке за пријављивање и проширења.";
@@ -6325,6 +6340,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS први пут пита сме ли %@ да користи микрофон.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS је блокирао предају снимка екрана апликацији %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS није дозволио овој верзији да шаље обавештења. Верзија потписана стабилним идентитетом обично може (погледајте README).";
 
 /* machine */
@@ -6539,6 +6557,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} у аргументима је датотека снимка екрана; наводници групишу речи. Наредба и аргументи могу да користе променљиве обрасца за називе датотека, нпр. ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "„%@“ (%@) има исте тастере док се леви и десни тастери не могу разликовати, па ради само једна од њих.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "„%@“ (%@) има исте тастере са обе стране, па би обе радиле.";

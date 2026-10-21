@@ -939,6 +939,7 @@ Message:	Tin nhắn:	claude-sonnet-5-5 2026-10-18
 Microphone	Micrô	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office và Ghi chú	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office chỉ đọc ảnh từ thư mục dùng chung của riêng nó, và macOS bảo vệ thư mục đó. Trong Cài đặt hệ thống › Quyền riêng tư và bảo mật › Tệp và thư mục, hãy cho phép %@ truy cập dữ liệu của ứng dụng khác, rồi thử lại.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -1010,6 +1011,7 @@ No recipe open	Không có công thức nào đang mở	claude-sonnet-5-5 2026-10
 No recipes from files.	Không có công thức từ tệp.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Chưa tải công thức nào	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Chưa có công thức. Hãy nhập một tệp công thức hoặc tạo một công thức trong trình soạn thảo công thức.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Chưa có bản phát hành nào được công bố.	claude-opus-5-5 2026-10-21
 No spaces	Không có không gian	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Không có bước bắt đầu nào dẫn đến đây: hãy nối các bước này bằng "Tiếp tục tại"	claude-sonnet-5-5 2026-10-18
 No text found	Không tìm thấy văn bản	claude-sonnet-5-5 2026-10-18
@@ -1614,6 +1616,7 @@ The clipboard was left as it was.	Clipboard được giữ nguyên.	claude-sonne
 The code signature of the app, notarization and quarantine	Chữ ký mã của ứng dụng, công chứng và cách ly	claude-sonnet-5-5 2026-10-18
 The color behind the image	Màu phía sau ảnh	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Màu của các phần bị xé; mặc định là trong suốt	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Không thể thêm bình luận: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Menu đích đến cũng liệt kê các cuộc họp đang mở mà bạn tổ chức; ảnh chụp màn hình được đính kèm vào cuộc họp.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Không có chi tiết của “%@”: nó không còn được tải.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Màn hình không còn được kết nối.	claude-sonnet-5-5 2026-10-18
@@ -1671,6 +1674,7 @@ The recording is being saved.	Bản quay đang được lưu.	claude-sonnet-5-5 
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Bản quay đang tạm dừng. Nhấp để dừng; nhấp giữ ⌃ để tiếp tục hoặc bỏ.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Bản quay đang bắt đầu. Nhấp để dừng ngay khi nó chạy.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Bản quay bắt đầu sau %lld giây. Nhấp để hủy.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Bản quay đã dừng vì không thể ghi tệp của nó: %@. Phần đã quay đến lúc đó nằm trong %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Bản quay đã kết thúc rồi.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Bản quay đã bị bỏ	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Yêu cầu đến từ greenshot-cli. Chỉ cho phép nếu bạn đã khởi động nó: kết quả của công thức đi đến nơi công thức gửi.	claude-sonnet-5-5 2026-10-18
@@ -1782,6 +1786,7 @@ Trust certificates with these fingerprints	Tin cậy các chứng chỉ có các
 Trust these hosts despite certificate errors	Tin cậy các máy chủ này bất chấp lỗi chứng chỉ	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Hãy tin những gì Greenshot viết bên dưới về bước tự động, không phải những lời này.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Hãy tin những gì Greenshot viết bên dưới về công thức, không phải những lời này.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Hãy bật quyền này trong Cài đặt hệ thống › Quyền riêng tư và bảo mật › Ghi màn hình và âm thanh hệ thống.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Bật %@ trong Cài đặt hệ thống › Thông thường › Mục đăng nhập và tiện ích mở rộng.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Bật Cho phép thông báo cho %@ trong Cài đặt hệ thống › Thông báo để thấy lại chúng.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Bật bất kỳ mục nào khác sẽ tắt menu. Có thể bật nhiều mục, ví dụ chép và lưu.	claude-sonnet-5-5 2026-10-18
@@ -2020,6 +2025,7 @@ left %@	trái %@	claude-sonnet-5-5 2026-10-18
 level %@	cấp %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS yêu cầu quyền này từ mọi ứng dụng chụp ảnh màn hình.\n\nMở Cài đặt hệ thống › Quyền riêng tư và bảo mật › Ghi màn hình và âm thanh hệ thống, bật %@, rồi thoát và mở lại.\n\nKhông có trong danh sách? Nhấp + bên dưới và thêm %@ từ Ứng dụng.\n\nĐã bật rồi? Bản sao được dựng lại hoặc di chuyển được tính là ứng dụng mới: chọn nó, xóa bằng −, rồi mở lại %@ và cho phép lại.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS sẽ hỏi lần đầu xem %@ có được dùng micrô không.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS đã chặn việc chuyển ảnh chụp màn hình sang %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS không cho bản dựng này đăng thông báo. Bản dựng ký bằng danh tính ổn định thường làm được (xem README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS chưa cho phép %@ ghi màn hình. Ảnh chụp màn hình cần quyền này: bật %@ trong Quyền riêng tư và bảo mật › Ghi màn hình và âm thanh hệ thống.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS xử lý các phím này trước mọi ứng dụng. Khi một mục có cùng phím với phím tắt, hãy tắt nó trong Bàn phím › Phím tắt bàn phím › Ảnh chụp màn hình, hoặc chọn phím tắt khác.	claude-sonnet-5-5 2026-10-18
@@ -2081,6 +2087,7 @@ zoomer on or off	bật hoặc tắt kính phóng	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} trong các đối số là tệp của ảnh chụp màn hình; dấu ngoặc kép gom các từ. Lệnh và các đối số có thể dùng các biến của dạng tên tệp, ví dụ ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	“%@” (%@) có cùng phím khi chưa thể phân biệt phím trái và phải, nên chỉ một trong hai kích hoạt.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) có cùng phím ở cả hai bên, nên cả hai sẽ kích hoạt.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) là phần đầu của phím tắt này, nên phím tắt này không bao giờ kích hoạt.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@” đã tồn tại. Bạn có muốn thay thế không?	claude-sonnet-5-5 2026-10-18

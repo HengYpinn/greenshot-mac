@@ -913,6 +913,7 @@ Message:	Μήνυμα:	claude-sonnet-5-5 2026-10-18
 Microphone	Μικρόφωνο	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office και Σημειώσεις	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Το Microsoft Office διαβάζει εικόνες μόνο από τον δικό του κοινόχρηστο φάκελο, και το macOS τον προστατεύει. Στις Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια › Αρχεία και φάκελοι, επιτρέψτε στο %@ την πρόσβαση σε δεδομένα άλλων εφαρμογών και δοκιμάστε ξανά.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -981,6 +982,7 @@ No recipe open	Καμία ανοιχτή συνταγή	claude-sonnet-5-5 2026-1
 No recipes from files.	Καμία συνταγή από αρχεία.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Δεν έχουν φορτωθεί συνταγές	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Δεν υπάρχουν ακόμη συνταγές. Εισαγάγετε ένα αρχείο συνταγής ή δημιουργήστε μία στον επεξεργαστή συνταγών.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Δεν έχει δημοσιευτεί ακόμη καμία έκδοση.	claude-opus-5-5 2026-10-21
 No spaces	Κανένα Space	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Κανένα βήμα εκκίνησης δεν οδηγεί εδώ: συνδέστε αυτά τα βήματα με το "Συνέχεια στο"	claude-sonnet-5-5 2026-10-18
 No text found	Δεν βρέθηκε κείμενο	claude-sonnet-5-5 2026-10-18
@@ -1574,6 +1576,7 @@ The clipboard was left as it was.	Το πρόχειρο παρέμεινε όπ�
 The code signature of the app, notarization and quarantine	Η υπογραφή κώδικα της εφαρμογής, η συμβολαιογραφική πιστοποίηση (notarization) και η καραντίνα	claude-sonnet-5-5 2026-10-18
 The color behind the image	Το χρώμα πίσω από την εικόνα	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Το χρώμα των μερών που σκίστηκαν· διαφανές από προεπιλογή	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Δεν ήταν δυνατή η προσθήκη του σχολίου: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Το μενού προορισμών παραθέτει επίσης τις ανοιχτές συσκέψεις που διοργανώνετε· το στιγμιότυπο επισυνάπτεται στη σύσκεψη.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Οι λεπτομέρειες του “%@” δεν είναι διαθέσιμες: δεν είναι πια φορτωμένο.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Η οθόνη δεν είναι πια συνδεδεμένη.	claude-sonnet-5-5 2026-10-18
@@ -1631,6 +1634,7 @@ The recording is being saved.	Η εγγραφή αποθηκεύεται.	claude
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Η εγγραφή βρίσκεται σε παύση. Κάντε κλικ για διακοπή· ⌃-κλικ για συνέχιση ή απόρριψη.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Η εγγραφή ξεκινά. Κάντε κλικ για να τη σταματήσετε μόλις εκτελεστεί.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Η εγγραφή ξεκινά σε %lld δ. Κάντε κλικ για ακύρωση.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Η εγγραφή σταμάτησε επειδή δεν ήταν δυνατή η εγγραφή του αρχείου της: %@. Ό,τι εγγράφηκε μέχρι τότε βρίσκεται στο %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Η εγγραφή είχε ήδη ολοκληρωθεί.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Η εγγραφή απορρίφθηκε	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Το αίτημα ήρθε μέσω του greenshot-cli. Επιτρέψτε το μόνο αν το ξεκινήσατε εσείς: το αποτέλεσμα της συνταγής πηγαίνει εκεί που το στέλνει η συνταγή.	claude-sonnet-5-5 2026-10-18
@@ -1735,6 +1739,7 @@ Trust certificates with these fingerprints	Εμπιστοσύνη σε πιστ�
 Trust these hosts despite certificate errors	Εμπιστοσύνη σε αυτούς τους κεντρικούς υπολογιστές παρά τα σφάλματα πιστοποιητικού	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Εμπιστευτείτε όσα γράφει παρακάτω το Greenshot για το αυτόματο βήμα, όχι αυτά τα λόγια.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Εμπιστευτείτε όσα γράφει παρακάτω το Greenshot για τη συνταγή, όχι αυτά τα λόγια.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Ενεργοποιήστε την άδεια στις Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια › Εγγραφή οθόνης και ήχου συστήματος.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Ενεργοποιήστε το %@ στις Ρυθμίσεις συστήματος › Γενικά › Στοιχεία σύνδεσης και επεκτάσεις.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Ενεργοποιήστε το «Να επιτρέπονται οι ειδοποιήσεις» για το %@ στις Ρυθμίσεις συστήματος › Ειδοποιήσεις για να τις βλέπετε ξανά.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Η ενεργοποίηση οποιασδήποτε από τις άλλες απενεργοποιεί το μενού. Μπορούν να είναι ενεργές αρκετές, π.χ. αντιγραφή και αποθήκευση.	claude-sonnet-5-5 2026-10-18
@@ -1969,6 +1974,7 @@ left %@	αριστερά %@	claude-sonnet-5-5 2026-10-18
 level %@	επίπεδο %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	Το macOS ζητά αυτή την άδεια από κάθε εφαρμογή που τραβά στιγμιότυπα.\n\nΑνοίξτε τις Ρυθμίσεις συστήματος › Απόρρητο και ασφάλεια › Εγγραφή οθόνης και ήχου συστήματος, ενεργοποιήστε το %@ και μετά κλείστε το και ανοίξτε το ξανά.\n\nΔεν είναι στη λίστα; Κάντε κλικ στο + από κάτω της και προσθέστε το %@ από τις Εφαρμογές.\n\nΕίναι ήδη ενεργό; Ένα αντίγραφο που έχει ξαναδημιουργηθεί ή μετακινηθεί μετράει ως νέα εφαρμογή: επιλέξτε το, αφαιρέστε το με −, μετά ανοίξτε ξανά το %@ και επιτρέψτε το ξανά.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	Την πρώτη φορά το macOS ρωτά αν το %@ επιτρέπεται να χρησιμοποιεί το μικρόφωνο.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	Το macOS απέκλεισε την παράδοση του στιγμιότυπου στο %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	Το macOS δεν επέτρεψε σε αυτή την έκδοση να δημοσιεύει ειδοποιήσεις. Μια έκδοση υπογεγραμμένη με σταθερή ταυτότητα συνήθως μπορεί (δείτε το README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	Το macOS δεν επιτρέπει ακόμη στο %@ να εγγράφει την οθόνη. Τα στιγμιότυπα χρειάζονται αυτή την άδεια: ενεργοποιήστε το %@ στις Απόρρητο και ασφάλεια › Εγγραφή οθόνης και ήχου συστήματος.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	Το macOS χειρίζεται αυτά τα πλήκτρα πριν από οποιαδήποτε εφαρμογή. Όταν μία έχει τα πλήκτρα ενός πλήκτρου ταχείας πρόσβασης, απενεργοποιήστε την στις Πληκτρολόγιο › Συντομεύσεις πληκτρολογίου › Στιγμιότυπα οθόνης ή επιλέξτε άλλο πλήκτρο ταχείας πρόσβασης.	claude-sonnet-5-5 2026-10-18
@@ -2025,6 +2031,7 @@ zoomer on or off	μεγεθυντικό εργαλείο: ναι ή όχι	claud
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	Το {0} στα ορίσματα είναι το αρχείο του στιγμιότυπου· τα εισαγωγικά ομαδοποιούν λέξεις. Η εντολή και τα ορίσματα μπορούν να χρησιμοποιούν τις μεταβλητές του προτύπου ονόματος αρχείου, π.χ. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	Το “%@” (%@) έχει τα ίδια πλήκτρα όσο δεν είναι δυνατή η διάκριση αριστερών και δεξιών πλήκτρων, οπότε ενεργοποιείται μόνο ένα από τα δύο.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	Το “%@” (%@) έχει τα ίδια πλήκτρα με οποιαδήποτε πλευρά, οπότε θα ενεργοποιούνταν και τα δύο.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	Το “%@” (%@) είναι η αρχή αυτού του πλήκτρου ταχείας πρόσβασης, οπότε αυτό δεν ενεργοποιείται ποτέ.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	Το “%@” υπάρχει ήδη. Θέλετε να το αντικαταστήσετε;	claude-sonnet-5-5 2026-10-18

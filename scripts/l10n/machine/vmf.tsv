@@ -918,6 +918,7 @@ Message:	Nachrichd:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office und Noddizen	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office liesd Bilder nur aus seim eignen gmeinsamen Ordner, und macOS schüddsd den. Erlaub %@ in Systemeinstellungen › Datenschutz & Sicherheit › Dateien & Ordner den Zugriff auf Dadn vo andern Apps und brobiers dann nochamal.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -988,6 +989,7 @@ No recipe open	Kaa Rezebd offn	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Kaane Rezebde aus Dadeien.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Kaane Rezebde gladn	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	No kaane Rezebde. Importier a Rezebd-Dadei oder leg im Rezebd-Edidor aans an.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Es gibd no ka Veröffendlichung.	claude-opus-5-5 2026-10-21
 No spaces	Kaane Spaces	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Kaa Startschridd fiehrd do hin: verbind die Schridde mid „Weidermachn bei“	claude-sonnet-5-5 2026-10-18
 No text found	Kaa Text gfunna	claude-sonnet-5-5 2026-10-18
@@ -1581,6 +1583,7 @@ The clipboard was left as it was.	Die Zwischnablach is so bliebn, wie sie war.	c
 The code signature of the app, notarization and quarantine	Die Code-Signadur vo der App, Notarisierung und Quarandäne	claude-sonnet-5-5 2026-10-18
 The color behind the image	Die Farm hinderm Bild	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Die Farm vo den ausgrissenen Deilen; schdandardmäßich dransbarend	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Der Kommendar konnd ned hinzugfiichd wern: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Es Ziel-Menü lisded a die offnen Meedings auf, die du organisiersd; es Sgrienschod wird an es Meeding angehängd.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Die Einzelheidn vo „%@“ sin ned verfüchbor: es is nimmer gladn.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Der Bildschirm is nimmer verbundn.	claude-sonnet-5-5 2026-10-18
@@ -1638,6 +1641,7 @@ The recording is being saved.	Die Aufnahme wird gschbeichert.	claude-sonnet-5-5 
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Die Aufnahme is bausierd. Klick zum Schdoppn; ⌃-Klick zum Weidermachn oder Wechschmeißn.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Die Aufnahme schdardd. Klick, um sie zu schdoppn, sobald sie läffd.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Die Aufnahme schdardd in %lld s. Klick zum Abbrechn.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Die Aufnahme hod aufghörd, weil ihr Dadei ned gschriem wern konnd: %@. Was bis dahin aufgnommen wurd, is in %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Die Aufnahme war scho fertich.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Die Aufnahme wurd wechgschmissn	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Die Anfrage kam über greenshot-cli. Erlaub's nur, wennsd es selber gschdardd hasd: es Ergebnis vom Rezebd geht dorthin, wo's Rezebd es hinschiggd.	claude-sonnet-5-5 2026-10-18
@@ -1746,6 +1750,7 @@ Trust certificates with these fingerprints	Zerdifikaden mid diesen Fingerabdrüg
 Trust these hosts despite certificate errors	Diesen Rechnern drotz Zerdifikadsfehlern vertraun	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Vertrau dem, was Greenshot undn über den audomadischn Schridd schreibd, ned diesen Worden.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Vertrau dem, was Greenshot undn über es Rezebd schreibd, ned diesen Worden.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Schald die Berechdigung in Systemeinstellungen › Datenschutz & Sicherheit › Bildschirm- & Systemaudioaufnahme ein.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Schald %@ in Systemeinstellungen › Allgemein › Anmeldeobjekte & Erweiterungen ein.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Schald in Systemeinstellungen › Mitteilungen „Mitteilungen erlauben“ für %@ ein, um sie wieder zu sehn.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Wennsd aans vo den andern einschaldsd, geht es Menü aus. Mehrere könna an sein, z. B. Kobiern und Schbeichern.	claude-sonnet-5-5 2026-10-18
@@ -1981,6 +1986,7 @@ left %@	lings %@	claude-sonnet-5-5 2026-10-18
 level %@	Schdufe %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS frächd jede App, die Sgrienschods machd, nach der Berechdigung.\n\nMach Systemeinstellungen › Datenschutz & Sicherheit › Bildschirm- & Systemaudioaufnahme auf, schald %@ ein, und beend es dann und mach es nochamal auf.\n\nNed in der Lisde? Klick undn auf + und füch %@ aus dem Ordner „Programme“ hinzu.\n\nSchon an? A neu gebauude oder verschobene Kobie zähld als neue App: wähl sie aus, endfern sie mid −, mach dann %@ nochamal auf und erlaub sie nochamal.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS frächd beim ersdn Mol, ob %@ es Mikrofon nudzn darf.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS hod die Übergabe vom Sgrienschod an %@ blockierd	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS hod den Build ned Mitteilungen schiggn lassn. A Build mid ner schdabilen Signadur kann des meisdns (siehe README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS lässd %@ den Bildschirm no ned aufnehma. Sgrienschods braugn die Berechdigung: schald %@ unner Datenschutz & Sicherheit › Bildschirm- & Systemaudioaufnahme ein.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS bearbeided die Dasdn vor jeder App. Wenns aans mid den Dasdn vo am Dasdnkürzl hod, schald's unner Tastatur › Tastaturkurzbefehle › Screenshots aus, oder nimm a anders Dasdnkürzl.	claude-sonnet-5-5 2026-10-18
@@ -2040,6 +2046,7 @@ zoomer on or off	Lubbe an oder aus	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} in den Argumendn is die Dadei vom Sgrienschod; Anführungszeichn fassn Worde zamm. Der Befehl und die Argumende könna die Variabln vom Dadeinamen-Musder nudzn, z. B. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	„%@“ (%@) hod die gleichn Dasdn, solang linke und rechde Dasdn ned unnerschiedn wern könna, deswegn löst nur aans vo beidn aus.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	„%@“ (%@) hod mid beidn Seidn die gleichn Dasdn, deswegn däddn beide auslösn.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@“ (%@) is der Anfang vo dem Dasdnkürzl, deswegn löst des do nie aus.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	„%@“ gibds scho. Willsd es ersedzn?	claude-sonnet-5-5 2026-10-18

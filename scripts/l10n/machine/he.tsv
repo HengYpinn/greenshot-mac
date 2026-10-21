@@ -939,6 +939,7 @@ Message:	הודעה:	claude-sonnet-5-5 2026-10-18
 Microphone	מיקרופון	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office ו-Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office קורא תמונות רק מהתיקייה המשותפת שלו, ו-macOS מגן עליה. בהגדרות המערכת › פרטיות ואבטחה › קבצים ותיקיות יש לאפשר ל-%@ גישה לנתונים של אפליקציות אחרות, ואז לנסות שוב.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -1010,6 +1011,7 @@ No recipe open	אין מתכון פתוח	claude-sonnet-5-5 2026-10-18
 No recipes from files.	אין מתכונים מקבצים.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	לא נטענו מתכונים	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	עדיין אין מתכונים. יש לייבא קובץ מתכון או ליצור אחד בעורך המתכונים.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	עדיין לא פורסמה אף גרסה.	claude-opus-5-5 2026-10-21
 No spaces	אין Spaces	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	אף שלב התחלה לא מוביל לכאן: יש לחבר את השלבים האלה באמצעות "המשך ב"	claude-sonnet-5-5 2026-10-18
 No text found	לא נמצא טקסט	claude-sonnet-5-5 2026-10-18
@@ -1614,6 +1616,7 @@ The clipboard was left as it was.	הלוח נשאר כפי שהיה.	claude-sonn
 The code signature of the app, notarization and quarantine	חתימת הקוד של האפליקציה, notarization והסגר	claude-sonnet-5-5 2026-10-18
 The color behind the image	הצבע מאחורי התמונה	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	הצבע של החלקים הקרועים; שקוף כברירת מחדל	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	לא ניתן היה להוסיף את ההערה: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	תפריט היעדים מציג גם את הפגישות הפתוחות שאתה מארגן; צילום המסך מצורף לפגישה.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	הפרטים של “%@” אינם זמינים: הוא אינו נטען עוד.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	התצוגה אינה מחוברת עוד.	claude-sonnet-5-5 2026-10-18
@@ -1671,6 +1674,7 @@ The recording is being saved.	ההקלטה נשמרת.	claude-sonnet-5-5 2026-10
 The recording is paused. Click to stop; ⌃-click to go on or discard.	ההקלטה מושהית. לחיצה לעצירה; ⌃-לחיצה להמשך או להשלכה.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	ההקלטה מתחילה. לחיצה עוצרת אותה ברגע שהיא פועלת.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	ההקלטה מתחילה בעוד %lld שנ'. לחיצה לביטול.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	ההקלטה נעצרה כי לא ניתן היה לכתוב את הקובץ שלה: %@. מה שהוקלט עד אז נמצא ב-%@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	ההקלטה כבר הסתיימה.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	ההקלטה הושלכה	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	הבקשה הגיעה דרך greenshot-cli. יש לאשר אותה רק אם אתה הפעלת אותה: התוצאה של המתכון נשלחת לאן שהמתכון שולח אותה.	claude-sonnet-5-5 2026-10-18
@@ -1782,6 +1786,7 @@ Trust certificates with these fingerprints	מתן אמון בתעודות עם �
 Trust these hosts despite certificate errors	מתן אמון במארחים האלה למרות שגיאות תעודה	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	יש לסמוך על מה ש-Greenshot כותב להלן על השלב האוטומטי, לא על המילים האלה.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	יש לסמוך על מה ש-Greenshot כותב להלן על המתכון, לא על המילים האלה.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	יש להפעיל את ההרשאה בהגדרות המערכת › פרטיות ואבטחה › הקלטת מסך והקלטת אודיו של המערכת.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	יש להפעיל את %@ בהגדרות המערכת › כללי › פריטי כניסה והרחבות.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	יש להפעיל "אפשר התראות" עבור %@ בהגדרות המערכת › התראות כדי לראות אותן שוב.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	הפעלת אחת מהאחרות מכבה את התפריט. אפשר להפעיל כמה, למשל העתקה ושמירה.	claude-sonnet-5-5 2026-10-18
@@ -2020,6 +2025,7 @@ left %@	שמאל %@	claude-sonnet-5-5 2026-10-18
 level %@	רמה %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS מבקש הרשאה זו מכל אפליקציה שמצלמת מסך.\n\nיש לפתוח את הגדרות המערכת › פרטיות ואבטחה › הקלטת מסך והקלטת אודיו של המערכת, להפעיל את %@, ואז לצאת ולפתוח אותו שוב.\n\nלא ברשימה? יש ללחוץ על + מתחתיה ולהוסיף את %@ מתיקיית היישומים.\n\nכבר מופעל? עותק שנבנה מחדש או הועבר נחשב לאפליקציה חדשה: יש לבחור בו, להסיר אותו באמצעות −, ואז לפתוח את %@ שוב ולאשר אותו מחדש.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS שואל בפעם הראשונה אם %@ רשאי להשתמש במיקרופון.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS חסם את העברת צילום המסך אל %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS לא אפשר לגרסה הזו להציג התראות. גרסה שנחתמה עם זהות יציבה בדרך כלל יכולה (ראה את ה-README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS עדיין לא מאפשר ל-%@ להקליט את המסך. צילומי מסך דורשים הרשאה זו: יש להפעיל את %@ תחת פרטיות ואבטחה › הקלטת מסך והקלטת אודיו של המערכת.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS מטפל במקשים האלה לפני כל אפליקציה. כשלאחד יש את המקשים של קיצור מקשים, יש לכבות אותו תחת מקלדת › קיצורי מקלדת › צילומי מסך, או לבחור קיצור אחר.	claude-sonnet-5-5 2026-10-18
@@ -2081,6 +2087,7 @@ zoomer on or off	זכוכית מגדלת פועלת או כבויה	claude-sonne
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} בארגומנטים הוא קובץ צילום המסך; מירכאות מקבצות מילים. בפקודה ובארגומנטים אפשר להשתמש במשתני תבנית שם הקובץ, למשל ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	ל-“%@” (%@) אותם מקשים כל עוד אי אפשר להבחין בין מקשי שמאל וימין, ולכן רק אחד מהם יופעל.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	ל-“%@” (%@) אותם מקשים בשני הצדדים, ולכן שניהם יופעלו.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) הוא תחילת קיצור המקשים הזה, ולכן קיצור זה לא יופעל לעולם.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@” כבר קיים. להחליף אותו?	claude-sonnet-5-5 2026-10-18

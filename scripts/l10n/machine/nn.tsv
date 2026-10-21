@@ -918,6 +918,7 @@ Message:	Melding:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office og Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office les berre bilete frå si eiga delte mappe, og macOS vernar ho. Gi %@ tilgang til data frå andre program i Systeminnstillingar › Personvern og sikkerheit › Filer og mapper, og prøv så på nytt.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -989,6 +990,7 @@ No recipe open	Inga oppskrift er open	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Ingen oppskrifter frå filer.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Ingen oppskrifter lasta inn	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Ingen oppskrifter enno. Importer ei oppskriftsfil eller lag ei i oppskriftsredigeraren.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Det er ikkje publisert nokon utgåve enno.	claude-opus-5-5 2026-10-21
 No spaces	Ingen rom	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Inga startsteg leier hit: kople desse stega med «Held fram ved»	claude-sonnet-5-5 2026-10-18
 No text found	Ingen tekst funnen	claude-sonnet-5-5 2026-10-18
@@ -1584,6 +1586,7 @@ The clipboard was left as it was.	Utklyppstavla blei ikkje endra.	claude-sonnet-
 The code signature of the app, notarization and quarantine	Kodesignaturen til programmet, notarisering og karantene	claude-sonnet-5-5 2026-10-18
 The color behind the image	Fargen bak bildet	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Fargen på dei revne delane; gjennomsiktig som standard	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Kommentaren kunne ikkje leggjast til: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Målmenyen viser òg dei opne møta du organiserer; skjermbiletet blir lagt ved møtet.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Detaljane for «%@» er ikkje tilgjengelege: han er ikkje lasta inn lenger.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Skjermen er ikkje kopla til lenger.	claude-sonnet-5-5 2026-10-18
@@ -1641,6 +1644,7 @@ The recording is being saved.	Opptaket blir lagra.	claude-sonnet-5-5 2026-10-18
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Opptaket er sett på pause. Klikk for å stoppe; ⌃-klikk for å halde fram eller forkaste.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Opptaket startar. Klikk for å stoppe det så snart det køyrer.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Opptaket startar om %lld s. Klikk for å avbryte.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Opptaket stoppa fordi fila til opptaket ikkje kunne skrivast: %@. Det som blei teke opp fram til då, ligg i %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Opptaket var alt ferdig.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Opptaket blei forkasta	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Førespurnaden kom gjennom greenshot-cli. Tillat han berre om du starta han: resultatet av oppskrifta går dit oppskrifta sender det.	claude-sonnet-5-5 2026-10-18
@@ -1749,6 +1753,7 @@ Trust certificates with these fingerprints	Stol på sertifikat med desse fingera
 Trust these hosts despite certificate errors	Stol på desse vertane trass i sertifikatfeil	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Stol på det Greenshot skriv nedanfor om det automatiske steget, ikkje desse orda.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Stol på det Greenshot skriv nedanfor om oppskrifta, ikkje desse orda.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Slå på løyvet i Systeminnstillingar › Personvern og sikkerheit › Skjerm- og systemlydopptak.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Slå på %@ i Systeminnstillingar › Generelt › Påloggingselement og utvidingar.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Slå på Tillat varsel for %@ i Systeminnstillingar › Varsel for å sjå dei igjen.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Å slå på nokon av dei andre slår av menyen. Fleire kan vere på, t.d. kopier og lagre.	claude-sonnet-5-5 2026-10-18
@@ -1985,6 +1990,7 @@ left %@	venstre %@	claude-sonnet-5-5 2026-10-18
 level %@	nivå %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS spør alle program som tek skjermbilete om dette løyvet.\n\nOpne Systeminnstillingar › Personvern og sikkerheit › Skjerm- og systemlydopptak, slå på %@, og avslutt og opne det på nytt.\n\nIkkje i lista? Klikk + under henne og legg til %@ frå Programmar.\n\nAlt på? Ein ombygd eller flytta kopi tel som eit nytt program: vel det, fjern det med −, opne så %@ på nytt og tillat det igjen.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS spør første gongen om %@ får bruke mikrofonen.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS blokkerte overleveringa av skjermbiletet til %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS lét ikkje dette bygget sende varsel. Eit bygg signert med ein stabil identitet kan som regel det (sjå README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS lèt ikkje %@ ta opp skjermen enno. Skjermbilete krev dette løyvet: slå på %@ under Personvern og sikkerheit › Skjerm- og systemlydopptak.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS handsamar desse tastane før alle program. Når eit av dei har tastane til ein snøggtast, slå det av under Tastatur › Tastatursnarvegar › Skjermbilete, eller vel ein annan snøggtast.	claude-sonnet-5-5 2026-10-18
@@ -2044,6 +2050,7 @@ zoomer on or off	forstørringsglas av eller på	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} i argumenta er fila til skjermbiletet; sitatteikn grupperer ord. Kommandoen og argumenta kan bruke variablane frå filnamnsregelen, t.d. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	«%@» (%@) har dei same tastane så lenge venstre og høgre taster ikkje kan skiljast frå kvarandre, så berre éin av dei utløyser.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	«%@» (%@) har dei same tastane med begge sider, så begge ville utløyse.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	«%@» (%@) er byrjinga på denne snøggtasten, så denne utløyser aldri.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	«%@» finst alt. Vil du erstatte han?	claude-sonnet-5-5 2026-10-18

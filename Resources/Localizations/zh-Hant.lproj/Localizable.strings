@@ -2940,6 +2940,9 @@
 /* machine */
 "Microsoft Office and Notes" = "Microsoft Office 和「備忘錄」";
 
+/* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office 只會從自己的共享資料夾讀取圖片，而 macOS 會保護該資料夾。請在「系統設定 › 隱私權與安全性 › 檔案和資料夾」中允許 %@ 取用其他 App 的資料，然後再試一次。";
+
 /* core:Editor.align_middle */
 "Middle" = "水平置中";
 
@@ -3146,6 +3149,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "尚無配方。請匯入配方檔案，或在配方編輯器中建立一個。";
+
+/* machine */
+"No release has been published yet." = "尚未發佈任何發行版。";
 
 /* machine */
 "No spaces" = "沒有空間";
@@ -5104,6 +5110,9 @@
 "The color of the torn off parts; transparent by default" = "撕掉部分的顏色；預設為透明";
 
 /* machine */
+"The comment could not be added: %@" = "無法加入註解：%@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "目的地選單也會列出您主辦的進行中會議；螢幕截圖會附加到該會議。";
 
 /* machine */
@@ -5273,6 +5282,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "錄影將在 %lld 秒後開始。按一下以取消。";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "錄影已停止，因為無法寫入其檔案：%@。在此之前錄製的內容位於 %@。";
 
 /* machine */
 "The recording was already finished." = "錄影已經完成。";
@@ -5609,6 +5621,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "請信任 Greenshot 在下方對配方的描述，而非這些文字。";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "請在「系統設定 › 隱私權與安全性 › 螢幕與系統音訊錄製」中開啟此權限。";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "請在「系統設定 › 一般 › 登入項目與延伸功能」中開啟 %@。";
@@ -6328,6 +6343,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS 會在第一次詢問是否允許 %@ 使用麥克風。";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS 已阻擋將螢幕截圖交給 %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS 未允許此版本發送通知。以穩定身分簽署的版本通常可以（請見 README）。";
 
 /* machine */
@@ -6539,6 +6557,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "引數中的 {0} 是螢幕截圖的檔案；引號可將單字組合在一起。命令和引數可使用檔案名稱樣式變數，例如 ${title}。";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "「%@」(%@) 在無法區分左右按鍵時使用相同的按鍵，因此只有其中一個會觸發。";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "「%@」(%@) 左右兩側使用相同的按鍵，因此兩者都會觸發。";

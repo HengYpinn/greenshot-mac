@@ -903,6 +903,7 @@ Message:	Порука:	claude-sonnet-5-5 2026-10-18
 Microphone	Микрофон	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office и Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office чита слике само из своје дељене фасцикле, а macOS је штити. У Системске поставке › Приватност и безбедност › Датотеке и фасцикле дозволите апликацији %@ приступ подацима других апликација, па покушајте поново.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -971,6 +972,7 @@ No recipe open	Ниједан рецепт није отворен	claude-sonnet
 No recipes from files.	Нема рецепата из датотека.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Ниједан рецепт није учитан	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Још нема рецепата. Увезите датотеку рецепта или направите један у уређивачу рецепата.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Још није објављено ниједно издање.	claude-opus-5-5 2026-10-21
 No spaces	Нема простора	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Ниједан почетни корак не води овде: повежите ове кораке помоћу „Настави у“	claude-sonnet-5-5 2026-10-18
 No text found	Текст није пронађен	claude-sonnet-5-5 2026-10-18
@@ -1552,6 +1554,7 @@ The clipboard was left as it was.	Остава је остала каква је
 The code signature of the app, notarization and quarantine	Потпис кода апликације, оверавање и карантин	claude-sonnet-5-5 2026-10-18
 The color behind the image	Боја иза слике	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Боја одцепљених делова; подразумевано провидна	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Коментар није могао да се дода: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Мени одредишта такође наводи отворене састанке које организујете; снимак екрана се прилаже састанку.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Детаљи за „%@“ нису доступни: више није учитано.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Екран више није повезан.	claude-sonnet-5-5 2026-10-18
@@ -1609,6 +1612,7 @@ The recording is being saved.	Снимање се чува.	claude-sonnet-5-5 20
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Снимање је паузирано. Кликните да зауставите; ⌃-клик да наставите или одбаците.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Снимање почиње. Кликните да га зауставите чим се покрене.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Снимање почиње за %lld с. Кликните да откажете.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Снимање је заустављено јер његова датотека није могла да се упише: %@. Оно што је снимљено до тада налази се у %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Снимање је већ завршено.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Снимање је одбачено	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Захтев је стигао преко greenshot-cli. Дозволите га само ако сте га ви покренули: резултат рецепта иде где га рецепт шаље.	claude-sonnet-5-5 2026-10-18
@@ -1710,6 +1714,7 @@ Trust certificates with these fingerprints	Веруј сертификатима
 Trust these hosts despite certificate errors	Веруј овим хостовима упркос грешкама сертификата	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Верујте ономе што Greenshot испод пише о аутоматском кораку, а не овим речима.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Верујте ономе што Greenshot испод пише о рецепту, а не овим речима.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Укључите дозволу у Системске поставке › Приватност и безбедност › Снимање екрана и системског звука.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Укључите %@ у Системске поставке › Опште › Ставке за пријављивање и проширења.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Укључите Дозволи обавештења за %@ у Системске поставке › Обавештења да их поново видите.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Укључивање било ког од осталих искључује мени. Може бити укључено више њих, нпр. умножавање и чување.	claude-sonnet-5-5 2026-10-18
@@ -1931,6 +1936,7 @@ left %@	лево %@	claude-sonnet-5-5 2026-10-18
 level %@	ниво %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS тражи ову дозволу од сваке апликације која прави снимке екрана.\n\nОтворите Системске поставке › Приватност и безбедност › Снимање екрана и системског звука, укључите %@, па изађите и поново отворите.\n\nНије на списку? Кликните + испод њега и додајте %@ из Апликација.\n\nВећ укључено? Поново изграђена или премештена копија се рачуна као нова апликација: изаберите је, уклоните са −, па поново отворите %@ и поново је дозволите.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS први пут пита сме ли %@ да користи микрофон.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS је блокирао предају снимка екрана апликацији %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS није дозволио овој верзији да шаље обавештења. Верзија потписана стабилним идентитетом обично може (погледајте README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS још не дозвољава да %@ снима екран. Снимци екрана захтевају ову дозволу: укључите %@ у Приватност и безбедност › Снимање екрана и системског звука.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS обрађује ове тастере пре било које апликације. Када један има тастере пречице, искључите га у Тастатура › Пречице на тастатури › Снимци екрана или изаберите другу пречицу.	claude-sonnet-5-5 2026-10-18
@@ -1989,6 +1995,7 @@ zoomer on or off	зумер укључен или искључен	claude-sonnet
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} у аргументима је датотека снимка екрана; наводници групишу речи. Наредба и аргументи могу да користе променљиве обрасца за називе датотека, нпр. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	„%@“ (%@) има исте тастере док се леви и десни тастери не могу разликовати, па ради само једна од њих.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	„%@“ (%@) има исте тастере са обе стране, па би обе радиле.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@“ (%@) је почетак ове пречице, па ова никада не ради.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	„%@“ већ постоји. Желите ли да га замените?	claude-sonnet-5-5 2026-10-18

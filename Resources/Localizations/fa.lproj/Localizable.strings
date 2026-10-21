@@ -2935,6 +2935,9 @@
 "Microsoft Office and Notes" = "Microsoft Office و Notes";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office تصاویر را فقط از پوشهٔ مشترک خودش می‌خواند و macOS از آن محافظت می‌کند. در تنظیمات سیستم › حریم خصوصی و امنیت › فایل‌ها و پوشه‌ها به %@ اجازهٔ دسترسی به داده‌های برنامه‌های دیگر را بدهید، سپس دوباره تلاش کنید.";
+
+/* machine */
 "Middle" = "وسط";
 
 /* machine */
@@ -3140,6 +3143,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "هنوز دستورالعملی نیست. یک فایل دستورالعمل را درون‌ریزی کنید یا در ویرایشگر دستورالعمل یکی بسازید.";
+
+/* machine */
+"No release has been published yet." = "هنوز هیچ نسخه‌ای منتشر نشده است.";
 
 /* machine */
 "No spaces" = "بدون Space";
@@ -5080,6 +5086,9 @@
 "The color of the torn off parts; transparent by default" = "رنگ بخش‌های پاره‌شده؛ به‌طور پیش‌فرض شفاف";
 
 /* machine */
+"The comment could not be added: %@" = "نظر افزوده نشد: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "منوی مقصد جلسه‌های باز را هم که شما برگزار می‌کنید فهرست می‌کند؛ تصویر صفحه به جلسه پیوست می‌شود.";
 
 /* machine */
@@ -5249,6 +5258,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "ضبط تا %lld ثانیه دیگر شروع می‌شود. برای لغو کلیک کنید.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "ضبط متوقف شد، چون فایل آن نوشته نشد: %@. آنچه تا آن زمان ضبط شده در %@ است.";
 
 /* machine */
 "The recording was already finished." = "ضبط قبلاً پایان یافته بود.";
@@ -5582,6 +5594,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "به آنچه Greenshot در زیر دربارهٔ دستورالعمل می‌نویسد اعتماد کنید، نه این کلمات.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "این مجوز را در تنظیمات سیستم › حریم خصوصی و امنیت › ضبط صفحه و صدای سیستم روشن کنید.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "%@ را در تنظیمات سیستم › عمومی › موارد ورود و افزونه‌ها روشن کنید.";
@@ -6298,6 +6313,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS بار اول می‌پرسد که %@ می‌تواند از میکروفون استفاده کند یا نه.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS تحویل تصویر صفحه به %@ را مسدود کرد";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS به این ساخت اجازهٔ ارسال اعلان نداد. ساختی که با هویت پایدار امضا شده باشد معمولاً می‌تواند (README را ببینید).";
 
 /* machine */
@@ -6509,6 +6527,9 @@
 
 /* machine */
 "|" = "\\|";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "«%@» (%@) تا وقتی کلیدهای چپ و راست از هم تشخیص داده نشوند همان کلیدها را دارد، پس فقط یکی از آن‌ها فعال می‌شود.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "«%@» (%@) با هر دو سمت همان کلیدها را دارد، پس هر دو فعال می‌شدند.";

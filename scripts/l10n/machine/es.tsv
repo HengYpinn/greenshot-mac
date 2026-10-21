@@ -925,6 +925,7 @@ Message:	Mensaje:	claude-sonnet-5-5 2026-10-18
 Microphone	Micrófono	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office y Notas	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office solo lee imágenes de su propia carpeta compartida, y macOS la protege. En Ajustes del Sistema › Privacidad y seguridad › Archivos y carpetas, permite que %@ acceda a los datos de otras apps y vuelve a intentarlo.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -994,6 +995,7 @@ No recipe open	Ninguna receta abierta	claude-sonnet-5-5 2026-10-18
 No recipes from files.	No hay recetas de archivos.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	No hay recetas cargadas	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Aún no hay recetas. Importa un archivo de receta o crea una en el editor de recetas.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Todavía no se ha publicado ninguna versión.	claude-opus-5-5 2026-10-21
 No spaces	Sin espacios	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Ningún paso inicial lleva aquí: conecta estos pasos con "Continúa en"	claude-sonnet-5-5 2026-10-18
 No text found	No se encontró texto	claude-sonnet-5-5 2026-10-18
@@ -1588,6 +1590,7 @@ The clipboard was left as it was.	El portapapeles se dejó como estaba.	claude-s
 The code signature of the app, notarization and quarantine	La firma del código de la app, la notarización y la cuarentena	claude-sonnet-5-5 2026-10-18
 The color behind the image	El color detrás de la imagen	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	El color de las partes rasgadas; transparente por defecto	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	No se pudo añadir el comentario: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	El menú de destinos también lista las reuniones abiertas que organizas; la captura de pantalla se adjunta a la reunión.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Los detalles de “%@” no están disponibles: ya no está cargada.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	La pantalla ya no está conectada.	claude-sonnet-5-5 2026-10-18
@@ -1645,6 +1648,7 @@ The recording is being saved.	Se está guardando la grabación.	claude-sonnet-5-
 The recording is paused. Click to stop; ⌃-click to go on or discard.	La grabación está en pausa. Haz clic para detener; ⌃-clic para continuar o descartar.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	La grabación está empezando. Haz clic para detenerla en cuanto se esté ejecutando.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	La grabación empieza en %lld s. Haz clic para cancelar.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	La grabación se detuvo porque no se pudo escribir su archivo: %@. Lo grabado hasta entonces está en %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	La grabación ya había terminado.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Se descartó la grabación	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	La solicitud llegó mediante greenshot-cli. Permítela solo si la iniciaste tú: el resultado de la receta va adonde la receta lo envía.	claude-sonnet-5-5 2026-10-18
@@ -1753,6 +1757,7 @@ Trust certificates with these fingerprints	Confiar en certificados con estas hue
 Trust these hosts despite certificate errors	Confiar en estos hosts a pesar de errores de certificado	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Confía en lo que Greenshot escribe abajo sobre el paso automático, no en estas palabras.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Confía en lo que Greenshot escribe abajo sobre la receta, no en estas palabras.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Activa el permiso en Ajustes del Sistema › Privacidad y seguridad › Grabación de pantalla y audio del sistema.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Activa %@ en Ajustes del Sistema › General › Ítems de inicio y extensiones.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Activa Permitir notificaciones para %@ en Ajustes del Sistema › Notificaciones para volver a verlas.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Activar cualquiera de las otras desactiva el menú. Pueden estar activadas varias, p. ej., copiar y guardar.	claude-sonnet-5-5 2026-10-18
@@ -1988,6 +1993,7 @@ left %@	izquierda %@	claude-sonnet-5-5 2026-10-18
 level %@	nivel %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS pide este permiso a toda app que hace capturas de pantalla.\n\nAbre Ajustes del Sistema › Privacidad y seguridad › Grabación de pantalla y audio del sistema, activa %@ y luego ciérrala y ábrela de nuevo.\n\n¿No está en la lista? Haz clic en + debajo de ella y añade %@ desde Aplicaciones.\n\n¿Ya está activada? Una copia recompilada o movida cuenta como una app nueva: selecciónala, quítala con −, luego abre %@ de nuevo y permítela otra vez.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS pregunta la primera vez si %@ puede usar el micrófono.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS bloqueó el envío de la captura de pantalla a %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS no dejó que esta compilación publicara notificaciones. Una compilación firmada con una identidad estable suele poder (consulta el README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS aún no deja que %@ grabe la pantalla. Las capturas de pantalla necesitan este permiso: activa %@ en Privacidad y seguridad › Grabación de pantalla y audio del sistema.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS gestiona estas teclas antes que cualquier app. Si una tiene las teclas de una tecla rápida, desactívala en Teclado › Atajos de teclado › Capturas de pantalla, o elige otra tecla rápida.	claude-sonnet-5-5 2026-10-18
@@ -2046,6 +2052,7 @@ zoomer on or off	lupa activada o desactivada	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} en los argumentos es el archivo de la captura de pantalla; las comillas agrupan palabras. El comando y los argumentos pueden usar las variables del formato del nombre de archivo, p. ej., ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	“%@” (%@) tiene las mismas teclas mientras no se puedan distinguir las teclas izquierda y derecha, así que solo se activa una de las dos.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	“%@” (%@) tiene las mismas teclas con cualquiera de los dos lados, así que se activarían ambas.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	“%@” (%@) es el comienzo de esta tecla rápida, así que esta nunca se activa.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	“%@” ya existe. ¿Quieres reemplazarlo?	claude-sonnet-5-5 2026-10-18

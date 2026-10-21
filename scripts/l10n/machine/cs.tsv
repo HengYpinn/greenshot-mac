@@ -892,6 +892,7 @@ Message:	Zpráva:	claude-sonnet-5-5 2026-10-18
 Microphone	Mikrofon	claude-sonnet-5-5 2026-10-18
 Microsoft Excel	Microsoft Excel	claude-sonnet-5-5 2026-10-18
 Microsoft Office and Notes	Microsoft Office a Notes	claude-sonnet-5-5 2026-10-18
+Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again.	Microsoft Office čte obrázky jen ze své vlastní sdílené složky a macOS ji chrání. V Nastavení systému › Soukromí a zabezpečení › Soubory a složky povolte aplikaci %@ přístup k datům jiných aplikací a zkuste to znovu.	claude-opus-5-5 2026-10-21
 Microsoft Outlook	Microsoft Outlook	claude-sonnet-5-5 2026-10-18
 Microsoft PowerPoint	Microsoft PowerPoint	claude-sonnet-5-5 2026-10-18
 Microsoft Word	Microsoft Word	claude-sonnet-5-5 2026-10-18
@@ -959,6 +960,7 @@ No recipe open	Není otevřen žádný recept	claude-sonnet-5-5 2026-10-18
 No recipes from files.	Žádné recepty ze souborů.	claude-sonnet-5-5 2026-10-18
 No recipes loaded	Nejsou načteny žádné recepty	claude-sonnet-5-5 2026-10-18
 No recipes yet. Import a recipe file or create one in the recipe editor.	Zatím žádné recepty. Importujte soubor receptu nebo jeden vytvořte v editoru receptů.	claude-sonnet-5-5 2026-10-18
+No release has been published yet.	Zatím nebylo zveřejněno žádné vydání.	claude-opus-5-5 2026-10-21
 No spaces	Žádné prostory	claude-sonnet-5-5 2026-10-18
 No start step leads here: connect these steps with "Continue At"	Žádný počáteční krok sem nevede: propojte tyto kroky pomocí „Pokračovat v“	claude-sonnet-5-5 2026-10-18
 No text found	Nenalezen žádný text	claude-sonnet-5-5 2026-10-18
@@ -1542,6 +1544,7 @@ The clipboard was left as it was.	Schránka zůstala beze změny.	claude-sonnet-
 The code signature of the app, notarization and quarantine	Podpis kódu aplikace, notarizace a karanténa	claude-sonnet-5-5 2026-10-18
 The color behind the image	Barva za obrázkem	claude-sonnet-5-5 2026-10-18
 The color of the torn off parts; transparent by default	Barva odtržených částí; ve výchozím nastavení průhledná	claude-sonnet-5-5 2026-10-18
+The comment could not be added: %@	Komentář se nepodařilo přidat: %@	claude-opus-5-5 2026-10-21
 The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting.	Nabídka cílů také uvádí otevřené schůzky, které pořádáte; snímek obrazovky se připojí ke schůzce.	claude-sonnet-5-5 2026-10-18
 The details of “%@” aren't available: it isn't loaded any more.	Podrobnosti „%@“ nejsou k dispozici: už není načteno.	claude-sonnet-5-5 2026-10-18
 The display is no longer connected.	Displej už není připojen.	claude-sonnet-5-5 2026-10-18
@@ -1599,6 +1602,7 @@ The recording is being saved.	Nahrávka se ukládá.	claude-sonnet-5-5 2026-10-1
 The recording is paused. Click to stop; ⌃-click to go on or discard.	Nahrávání je pozastaveno. Kliknutím zastavíte; ⌃-kliknutím budete pokračovat nebo nahrávku zahodíte.	claude-sonnet-5-5 2026-10-18
 The recording is starting. Click to stop it as soon as it runs.	Nahrávání se spouští. Kliknutím ho zastavíte, jakmile poběží.	claude-sonnet-5-5 2026-10-18
 The recording starts in %lld s. Click to cancel.	Nahrávání začne za %lld s. Kliknutím zrušíte.	claude-sonnet-5-5 2026-10-18
+The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Nahrávání se zastavilo, protože jeho soubor se nepodařilo zapsat: %@. To, co se do té doby nahrálo, je v %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Nahrávání už bylo dokončeno.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Nahrávka byla zahozena	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Požadavek přišel přes greenshot-cli. Povolte jej, jen pokud jste jej spustili vy: výsledek receptu jde tam, kam ho recept posílá.	claude-sonnet-5-5 2026-10-18
@@ -1697,6 +1701,7 @@ Trust certificates with these fingerprints	Důvěřovat certifikátům s těmito
 Trust these hosts despite certificate errors	Důvěřovat těmto hostitelům navzdory chybám certifikátu	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the automatic step, not these words.	Věřte tomu, co o automatickém kroku píše níže Greenshot, ne těmto slovům.	claude-sonnet-5-5 2026-10-18
 Trust what Greenshot writes below about the recipe, not these words.	Věřte tomu, co o receptu píše níže Greenshot, ne těmto slovům.	claude-sonnet-5-5 2026-10-18
+Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording.	Zapněte oprávnění v Nastavení systému › Soukromí a zabezpečení › Nahrávání obrazovky a zvuku systému.	claude-opus-5-5 2026-10-21
 Turn on %@ in System Settings › General › Login Items & Extensions.	Zapněte %@ v Nastavení systému › Obecné › Položky přihlášení a rozšíření.	claude-sonnet-5-5 2026-10-18
 Turn on Allow Notifications for %@ in System Settings › Notifications to see them again.	Zapněte Povolit upozornění pro %@ v Nastavení systému › Upozornění, aby se zobrazovala znovu.	claude-sonnet-5-5 2026-10-18
 Turning on any of the others turns off the menu. Several can be on, e.g. copy and save.	Zapnutí kterékoli z ostatních nabídku vypne. Může jich být zapnuto několik, např. kopírování a uložení.	claude-sonnet-5-5 2026-10-18
@@ -1919,6 +1924,7 @@ left %@	levá %@	claude-sonnet-5-5 2026-10-18
 level %@	úroveň %@	claude-sonnet-5-5 2026-10-18
 macOS asks every app that takes screenshots for this permission.\n\nOpen System Settings › Privacy & Security › Screen & System Audio Recording, turn on %@, then quit and reopen it.\n\nNot in the list? Click + below it and add %@ from Applications.\n\nAlready on? A rebuilt or moved copy counts as a new app: select it, remove it with −, then reopen %@ and allow it again.	macOS žádá o toto oprávnění každou aplikaci, která pořizuje snímky obrazovky.\n\nOtevřete Nastavení systému › Soukromí a zabezpečení › Nahrávání obrazovky a zvuku systému, zapněte %@ a poté aplikaci ukončete a znovu otevřete.\n\nNení v seznamu? Klikněte pod ním na + a přidejte %@ ze složky Aplikace.\n\nJiž zapnuto? Znovu sestavená nebo přesunutá kopie se počítá jako nová aplikace: vyberte ji, odeberte pomocí −, poté znovu otevřete %@ a povolte ji znovu.	claude-sonnet-5-5 2026-10-18
 macOS asks the first time whether %@ may use the microphone.	macOS se poprvé zeptá, zda smí %@ používat mikrofon.	claude-sonnet-5-5 2026-10-18
+macOS blocked handing the screenshot to %@	macOS zablokoval předání snímku obrazovky aplikaci %@	claude-opus-5-5 2026-10-21
 macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README).	macOS tomuto sestavení nedovolil zobrazovat upozornění. Sestavení podepsané stabilní identitou to obvykle může (viz README).	claude-sonnet-5-5 2026-10-18
 macOS doesn't let %@ record the screen yet. Screenshots need this permission: turn on %@ under Privacy & Security › Screen & System Audio Recording.	macOS zatím nedovoluje %@ nahrávat obrazovku. Snímky obrazovky toto oprávnění potřebují: zapněte %@ v Soukromí a zabezpečení › Nahrávání obrazovky a zvuku systému.	claude-sonnet-5-5 2026-10-18
 macOS handles these keys before any app. When one has the keys of a hotkey, turn it off under Keyboard › Keyboard Shortcuts › Screenshots, or choose another hotkey.	macOS zpracuje tyto klávesy před jakoukoli aplikací. Když některá má klávesy klávesové zkratky, vypněte ji v Klávesnice › Klávesové zkratky › Snímky obrazovky, nebo zvolte jinou klávesovou zkratku.	claude-sonnet-5-5 2026-10-18
@@ -1975,6 +1981,7 @@ zoomer on or off	lupa zap. nebo vyp.	claude-sonnet-5-5 2026-10-18
 {0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}.	{0} v argumentech je soubor snímku obrazovky; uvozovky seskupují slova. Příkaz i argumenty mohou používat proměnné vzoru názvu souboru, např. ${title}.	claude-sonnet-5-5 2026-10-18
 |	|	claude-sonnet-5-5 2026-10-18
 ×	×	claude-sonnet-5-5 2026-10-18
+“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires.	„%@“ (%@) má stejné klávesy, dokud nelze rozlišit levé a pravé klávesy, takže se spustí jen jedna z nich.	claude-opus-5-5 2026-10-21
 “%@” (%@) has the same keys with either side, so both would fire.	„%@“ (%@) má stejné klávesy na obou stranách, takže by se spustily obě.	claude-sonnet-5-5 2026-10-18
 “%@” (%@) is the beginning of this hotkey, so this one never fires.	„%@“ (%@) je začátek této klávesové zkratky, takže tato se nikdy nespustí.	claude-sonnet-5-5 2026-10-18
 “%@” already exists. Do you want to replace it?	„%@“ už existuje. Chcete jej nahradit?	claude-sonnet-5-5 2026-10-18

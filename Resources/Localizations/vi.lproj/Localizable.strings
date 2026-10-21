@@ -2908,6 +2908,9 @@
 "Microsoft Office and Notes" = "Microsoft Office và Ghi chú";
 
 /* machine */
+"Microsoft Office reads pictures only from its own shared folder, and macOS protects it. In System Settings › Privacy & Security › Files & Folders, allow %@ data from other apps, then try again." = "Microsoft Office chỉ đọc ảnh từ thư mục dùng chung của riêng nó, và macOS bảo vệ thư mục đó. Trong Cài đặt hệ thống › Quyền riêng tư và bảo mật › Tệp và thư mục, hãy cho phép %@ truy cập dữ liệu của ứng dụng khác, rồi thử lại.";
+
+/* machine */
 "Middle" = "Giữa";
 
 /* machine */
@@ -3113,6 +3116,9 @@
 
 /* machine */
 "No recipes yet. Import a recipe file or create one in the recipe editor." = "Chưa có công thức. Hãy nhập một tệp công thức hoặc tạo một công thức trong trình soạn thảo công thức.";
+
+/* machine */
+"No release has been published yet." = "Chưa có bản phát hành nào được công bố.";
 
 /* machine */
 "No spaces" = "Không có không gian";
@@ -5065,6 +5071,9 @@
 "The color of the torn off parts; transparent by default" = "Màu của các phần bị xé; mặc định là trong suốt";
 
 /* machine */
+"The comment could not be added: %@" = "Không thể thêm bình luận: %@";
+
+/* machine */
 "The destination menu also lists the open meetings you organise; the screenshot is attached to the meeting." = "Menu đích đến cũng liệt kê các cuộc họp đang mở mà bạn tổ chức; ảnh chụp màn hình được đính kèm vào cuộc họp.";
 
 /* machine */
@@ -5234,6 +5243,9 @@
 
 /* machine */
 "The recording starts in %lld s. Click to cancel." = "Bản quay bắt đầu sau %lld giây. Nhấp để hủy.";
+
+/* machine */
+"The recording stopped because its file could not be written: %@. What was recorded until then is in %@." = "Bản quay đã dừng vì không thể ghi tệp của nó: %@. Phần đã quay đến lúc đó nằm trong %@.";
 
 /* machine */
 "The recording was already finished." = "Bản quay đã kết thúc rồi.";
@@ -5570,6 +5582,9 @@
 
 /* machine */
 "Trust what Greenshot writes below about the recipe, not these words." = "Hãy tin những gì Greenshot viết bên dưới về công thức, không phải những lời này.";
+
+/* machine */
+"Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording." = "Hãy bật quyền này trong Cài đặt hệ thống › Quyền riêng tư và bảo mật › Ghi màn hình và âm thanh hệ thống.";
 
 /* machine */
 "Turn on %@ in System Settings › General › Login Items & Extensions." = "Bật %@ trong Cài đặt hệ thống › Thông thường › Mục đăng nhập và tiện ích mở rộng.";
@@ -6274,6 +6289,9 @@
 "macOS asks the first time whether %@ may use the microphone." = "macOS sẽ hỏi lần đầu xem %@ có được dùng micrô không.";
 
 /* machine */
+"macOS blocked handing the screenshot to %@" = "macOS đã chặn việc chuyển ảnh chụp màn hình sang %@";
+
+/* machine */
 "macOS didn't let this build post notifications. A build signed with a stable identity usually can (see the README)." = "macOS không cho bản dựng này đăng thông báo. Bản dựng ký bằng danh tính ổn định thường làm được (xem README).";
 
 /* machine */
@@ -6485,6 +6503,9 @@
 
 /* machine */
 "{0} in the arguments is the screenshot's file; quotes group words. The command and the arguments can use the file name pattern variables, e.g. ${title}." = "{0} trong các đối số là tệp của ảnh chụp màn hình; dấu ngoặc kép gom các từ. Lệnh và các đối số có thể dùng các biến của dạng tên tệp, ví dụ ${title}.";
+
+/* machine */
+"“%@” (%@) has the same keys while left and right keys can't be told apart, so only one of them fires." = "“%@” (%@) có cùng phím khi chưa thể phân biệt phím trái và phải, nên chỉ một trong hai kích hoạt.";
 
 /* machine */
 "“%@” (%@) has the same keys with either side, so both would fire." = "“%@” (%@) có cùng phím ở cả hai bên, nên cả hai sẽ kích hoạt.";
