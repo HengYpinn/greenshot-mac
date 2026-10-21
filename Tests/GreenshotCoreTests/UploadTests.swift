@@ -2,6 +2,7 @@
 
 import CryptoKit
 import Foundation
+import os
 import Testing
 @testable import GreenshotCore
 
@@ -41,6 +42,31 @@ private extension URLRequest {
     var bodyText: String { String(decoding: httpBody ?? Data(), as: UTF8.self) }
     func query(_ name: String) -> String? {
         URLComponents(url: url!, resolvingAgainstBaseURL: false)?.queryItems?.first { $0.name == name }?.value
+    }
+}
+
+/// A Jira or Confluence search that takes only the text (or title) search: any other query is "not JQL" (HTTP 400).
+struct TextOnlySearchServer: HTTPClient {
+    let answer: String
+    let isText: @Sendable (String) -> Bool
+    private let sent = OSAllocatedUnfairLock<[String]>(initialState: [])
+
+    init(answer: String, isText: @escaping @Sendable (String) -> Bool) {
+        self.answer = answer
+        self.isText = isText
+    }
+
+    /// The `jql` or `cql` of every request, in order.
+    var queries: [String] { sent.withLock { $0 } }
+
+    func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+        let items = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)?.queryItems ?? []
+        let query = items.first { $0.name == "jql" || $0.name == "cql" }?.value ?? ""
+        sent.withLock { $0.append(query) }
+        let accepted = isText(query)
+        let body = accepted ? answer : #"{"errorMessages":["Error in the JQL Query"]}"#
+        let response = HTTPURLResponse(url: request.url!, statusCode: accepted ? 200 : 400, httpVersion: nil, headerFields: nil)!
+        return (Data(body.utf8), response)
     }
 }
 
@@ -130,38 +156,93 @@ struct JiraClientTests {
         #expect(JiraClient.jql(forSearch: "project = X order by created") == "project = X order by created")
     }
 
-    /// Words that only start like JQL, or have "=" or "~" somewhere, are a text search; JQL is a field and an operator.
+    /// Words without an operator after the first word are a text search right away.
     @Test func plainWordsAreATextSearch() {
         func text(_ words: String) -> String { "text ~ \"\(words)\" ORDER BY updated DESC" }
-        #expect(JiraClient.jql(forSearch: "project kickoff") == text("project kickoff"))
-        #expect(JiraClient.jql(forSearch: "Project plan") == text("Project plan"))
-        #expect(JiraClient.jql(forSearch: "error: x=1 failed") == text("error: x=1 failed"))
-        #expect(JiraClient.jql(forSearch: "how to use ~ in a path") == text("how to use ~ in a path"))
-        #expect(JiraClient.jql(forSearch: "project in progress") == text("project in progress"))
-        #expect(JiraClient.jql(forSearch: "reports sorted order by date") == text("reports sorted order by date"))
-        // Brackets, "is", "in", "<" in plain words: no field and operator, or not a field Jira knows.
-        for words in ["login (beta)", "Berlin (office)", "Domain (DNS) setup", "plugin(v2)", "admin (panel) notes",
-                      "This is empty", "Thesis null", "a<b", "x > y", "Meeting in (Berlin)", "Tuesday was in (x)",
-                      "notin (a)", "C++ tips", "order by phone"] {
+        for words in ["project kickoff", "Project plan", "project in progress", "Status: in progress", "login (beta)",
+                      "Berlin (office)", "Domain (DNS) setup", "plugin(v2)", "admin (panel) notes", "Thesis null",
+                      "notin (a)", "C++ tips"] {
             #expect(JiraClient.jql(forSearch: words) == text(words), "\(words)")
         }
-        // JQL stays JQL.
-        #expect(JiraClient.jql(forSearch: "project in (A, B)") == "project in (A, B)")
-        #expect(JiraClient.jql(forSearch: "summary ~ login") == "summary ~ login")
-        #expect(JiraClient.jql(forSearch: "status != Done") == "status != Done")
-        #expect(JiraClient.jql(forSearch: "assignee is EMPTY") == "assignee is EMPTY")
-        #expect(JiraClient.jql(forSearch: "\"Epic Link\" = PROJ-1") == "\"Epic Link\" = PROJ-1")
-        #expect(JiraClient.jql(forSearch: "cf[10010]=3") == "cf[10010]=3")
-        #expect(JiraClient.jql(forSearch: "(priority = High OR priority = Highest)") == "(priority = High OR priority = Highest)")
-        #expect(JiraClient.jql(forSearch: "order by created DESC") == "order by created DESC")
-        #expect(JiraClient.jql(forSearch: "ORDER BY rank") == "ORDER BY rank")
-        #expect(JiraClient.jql(forSearch: "status not in (Done, Closed)") == "status not in (Done, Closed)")
-        #expect(JiraClient.jql(forSearch: "created > -1w") == "created > -1w")
-        #expect(JiraClient.jql(forSearch: "duedate<=now()") == "duedate<=now()")
-        #expect(JiraClient.jql(forSearch: "\"Story Points\" > 3") == "\"Story Points\" > 3")
-        #expect(JiraClient.jql(forSearch: "Team IS EMPTY") == "Team IS EMPTY")
-        #expect(JiraClient.jql(forSearch: "Team IN (Blue)") == "Team IN (Blue)")
-        #expect(JiraClient.jql(forSearch: "a=b") == "a=b")
+    }
+
+    /// JQL is used as it is: "=" or "~" anywhere, ORDER BY, or a field (any word, a quoted name, cf[123]) followed by
+    /// an operator, a list or a function, also of custom fields and with WAS and CHANGED.
+    @Test func jqlIsUsedAsItIs() {
+        let queries = [
+            "project in (A, B)", "summary ~ login", "status != Done", "assignee is EMPTY", "\"Epic Link\" = PROJ-1",
+            "cf[10010]=3", "cf[10010] > 3", "(priority = High OR priority = Highest)", "order by created DESC",
+            "ORDER BY rank", "Order By created DESC", "status not in (Done, Closed)", "created > -1w", "duedate<=now()",
+            "\"Story Points\" > 3", "Team IS EMPTY", "Team IN (Blue)", "a=b", "status IN (Done)", "NOT status in (Done)",
+            "not project = X", "NOT (project = X)",
+            // Functions, history and custom fields (the review's list).
+            "sprint in openSprints() AND assignee = currentUser()", "fixVersion in unreleasedVersions() and project = ABC",
+            "assignee in membersOf(\"jira-devs\") AND status = Open", "issue in watchedIssues() and resolution = Unresolved",
+            "status was Open and project = X", "status changed to Done after -1w and project = X",
+            "issueFunction in linkedIssuesOf(\"project = X\")", "votes > 5 AND project = X", "workratio > 100 and project = X",
+            "timespent > 4h AND assignee = bob", "originalEstimate > 2d and project = X",
+            "worklogDate >= startOfWeek() and worklogAuthor = bob", "team in (Blue) AND status = Done",
+            "statusCategoryChangedDate > -2d and project = X", "issueLinkType in (blocks) and project = X",
+            "sprint in openSprints()", "votes > 5", "team in (Blue)", "status was Open", "status changed",
+            "assignee was not in (bob, alex)", "order by updated",
+        ]
+        for jql in queries {
+            #expect(JiraClient.jql(forSearch: jql) == jql, "\(jql)")
+        }
+    }
+
+    /// Words that look like JQL are searched as words when Jira refuses the query (HTTP 400): one more request, never a
+    /// failed search.
+    @Test func wordsThatLookLikeJQLFallBackToATextSearch() async throws {
+        let words = [
+            "This is empty", "a<b", "x > y", "Meeting in (Berlin)", "Tuesday was in (x)", "order by phone",
+            "reports sorted order by date", "error: x=1 failed", "how to use ~ in a path", "Comment <br> tag",
+            "Description > 255 characters", "Summary <b> missing", "Parent > Child", "Sprint > 2 weeks", "Due < Friday",
+            "Level > 9000", "Issue <-> link", "Title in (draft)", "Space in (office)", "Status is empty", "Text in (quotes)",
+            "Type is null", "MEETING IN (BERLIN)", "THIS IS EMPTY", "ORDER BY PHONE", "Key = value pairs", "E=mc2", "x = y",
+            "a~b", "url=https://x", "Labels is empty", "Epic > story", "Login fails with status = 500", "status = 500 error",
+            "project kickoff", "login (beta)", "Thesis null",
+        ]
+        for text in words {
+            let server = TextOnlySearchServer(answer: #"{"issues":[{"key":"PROJ-7","fields":{"summary":"Found"}}]}"#) {
+                $0.hasPrefix("text ~ ")
+            }
+            let issues = try await JiraClient(site: site, http: server).search(text)
+            #expect(issues.map(\.key) == ["PROJ-7"], "\(text)")
+            let sent = server.queries
+            #expect(sent.last == "text ~ \"\(JiraClient.escaped(text))\" ORDER BY updated DESC", "\(text)")
+            #expect(sent.count <= 2, "\(text)")
+        }
+    }
+
+    /// Only a refused query (HTTP 400) is tried again as words: not a login problem, a server or network error, a query
+    /// that works, or a text search.
+    @Test func otherAnswersAreNotRetriedAsWords() async throws {
+        for status in [401, 403, 500, 503] {
+            let http = StubHTTPClient(status: status, body: "{}")
+            await #expect(throws: UploadError.self) { _ = try await JiraClient(site: site, http: http).search("votes > 5") }
+            #expect(http.requests.count == 1, "HTTP \(status)")
+        }
+        let offline = StubHTTPClient([])
+        await #expect(throws: UploadError.self) { _ = try await JiraClient(site: site, http: offline).search("votes > 5") }
+        #expect(offline.requests.count == 1)
+        let works = StubHTTPClient(status: 200, body: #"{"issues":[]}"#)
+        _ = try await JiraClient(site: site, http: works).search("votes > 5")
+        #expect(works.requests.count == 1)
+        #expect(works.last.query("jql") == "votes > 5")
+        let refusedText = StubHTTPClient([.init(status: 400, body: "{}"), .init(status: 200, body: #"{"issues":[]}"#)])
+        await #expect(throws: UploadError.self) { _ = try await JiraClient(site: site, http: refusedText).search("project kickoff") }
+        #expect(refusedText.requests.count == 1)
+    }
+
+    /// The check reads the text once: a long run of "not" (which took seconds with a pattern before) is instant.
+    @Test func longTextIsCheckedQuickly() {
+        let elapsed = ContinuousClock().measure {
+            #expect(!JiraClient.isQuery(String(repeating: "not   ", count: 16) + "!"))
+            #expect(!JiraClient.isQuery(String(repeating: "(", count: 10_000) + "x"))
+            #expect(!JiraClient.isQuery(String(repeating: "word ", count: 10_000)))
+        }
+        #expect(elapsed < .milliseconds(500))
     }
 
     /// A "+" goes as "%2B": servers read a plain "+" in a query as a space, so "C++" would be searched as "C  ".
@@ -290,10 +371,24 @@ struct ConfluenceClientTests {
     @Test func titleSearchCQL() {
         #expect(ConfluenceClient.cql(forTitleSearch: "Release \"notes\"") == "type = page AND title ~ \"Release \\\"notes\\\"\" ORDER BY lastmodified DESC")
         #expect(ConfluenceClient.cql(forTitleSearch: "space = DEV and type = page") == "space = DEV and type = page")
-        // "=" in a title doesn't make it CQL, nor do brackets.
-        #expect(ConfluenceClient.cql(forTitleSearch: "Plan: cost = time") == "type = page AND title ~ \"Plan: cost = time\" ORDER BY lastmodified DESC")
         #expect(ConfluenceClient.cql(forTitleSearch: "Berlin (office)") == "type = page AND title ~ \"Berlin (office)\" ORDER BY lastmodified DESC")
         #expect(ConfluenceClient.cql(forTitleSearch: "label in (howto, faq)") == "label in (howto, faq)")
+        #expect(ConfluenceClient.cql(forTitleSearch: "id in recentlyViewedContent(10) and type = page")
+                == "id in recentlyViewedContent(10) and type = page")
+    }
+
+    /// A title that looks like CQL is searched as a title when Confluence refuses the query (HTTP 400).
+    @Test func titlesThatLookLikeCQLFallBackToATitleSearch() async throws {
+        for title in ["Space > Page", "Content > Guidelines", "Plan: cost = time", "Title in (draft)", "Status is empty", "Berlin (office)"] {
+            let server = TextOnlySearchServer(answer: #"{"results":[{"content":{"id":"1","type":"page","title":"Found"}}]}"#) {
+                $0.hasPrefix("type = page AND ")
+            }
+            let pages = try await ConfluenceClient(site: site, http: server).searchPages(title: title, spaceKey: "ENG")
+            #expect(pages.map(\.title) == ["Found"], "\(title)")
+            let sent = server.queries
+            #expect(sent.last == "type = page AND space = \"ENG\" AND title ~ \"\(title)\" ORDER BY lastmodified DESC", "\(title)")
+            #expect(sent.count <= 2, "\(title)")
+        }
     }
 
     @Test func findsPagesByTitle() async throws {

@@ -5,6 +5,8 @@
 
 import Foundation
 
+private let log = Log("Uploads")
+
 // Jira and Confluence over their REST APIs, on Atlassian Cloud (email + API token) and on Server / Data Center
 // (personal access token, or user name + password): the logic of upstream `Greenshot.Plugin.Jira/Api/JiraConnector.cs`
 // and `Greenshot.Plugin.Confluence/Api/Confluence.cs` (which use the Dapplo clients and a login dialog). Requests and
@@ -195,66 +197,33 @@ public struct JiraClient: Sendable {
         text.trimmingCharacters(in: .whitespaces).uppercased()
     }
 
-    /// What to search for: an issue key finds that issue, text that is JQL (see `isQuery`) is used as it is,
-    /// anything else is a text search, newest first.
+    /// What to search for: an issue key finds that issue, text that may be JQL (see `isQuery`) is used as it is,
+    /// anything else is a text search, newest first. `search(_:)` falls back to the text search when the server
+    /// refuses the JQL.
     public static func jql(forSearch text: String) -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if isIssueKey(trimmed) { return "key = \(normalizedKey(trimmed))" }
         if isQuery(trimmed) { return trimmed }
-        return "text ~ \"\(escaped(trimmed))\" ORDER BY updated DESC"
+        return textJQL(trimmed)
     }
 
-    /// A JQL or CQL clause at the start: a field (a whole word, `cf[123]` or a quoted name), maybe after `(` or `NOT`,
-    /// then a symbol operator (group 2: `=`, `!=`, `~`, `!~`, `<`, `>`, `<=`, `>=`) or, after a space, a word operator
-    /// (group 3: `IN (`, `NOT IN (`, `WAS [NOT] IN (`, `IS [NOT] EMPTY|NULL`). Group 1 is the field.
-    private static let clauseRegex = try! NSRegularExpression(
-        pattern: #"^(?:[(\s]|not\s+)*("[^"]+"|cf\[\d+\]|[\p{L}_][\p{L}\p{N}_.]*+)"#
-            + #"(?:\s*(!=|!~|<=|>=|[=~<>])|\s+((?:was\s+)?(?:not\s+)?in\s*\(|is\s+(?:not\s+)?(?:empty|null)\b))"#,
-        options: [.caseInsensitive])
-
-    /// `ORDER BY` (group 1) and the field after it (group 2) at the start.
-    private static let orderByRegex = try! NSRegularExpression(
-        pattern: #"^\s*(order\s+by)\s+("[^"]+"|cf\[\d+\]|[\p{L}_][\p{L}\p{N}_.]*+)"#, options: [.caseInsensitive])
-
-    /// Fields of Jira (JQL) and Confluence (CQL) that a search names, in lower case.
-    private static let knownFields: Set<String> = [
-        "project", "status", "statuscategory", "assignee", "reporter", "creator", "priority", "resolution", "issuetype",
-        "type", "labels", "component", "fixversion", "affectedversion", "sprint", "parent", "key", "issuekey", "issue",
-        "epic", "watcher", "voter", "text", "summary", "description", "comment", "environment", "created",
-        "createddate", "updated", "updateddate", "resolved", "resolutiondate", "due", "duedate", "lastviewed", "filter",
-        "level", "category", "attachments", "rank",
-        "space", "title", "label", "ancestor", "contributor", "mention", "favourite", "favorite", "lastmodified", "id",
-        "content", "container", "macro",
-    ]
-
-    /// A field that is clearly one: a quoted name, `cf[123]`, or a field Jira or Confluence has (`space.type` counts
-    /// as `space`).
-    private static func isKnownField(_ field: String) -> Bool {
-        let name = field.lowercased()
-        if name.hasPrefix("\"") || name.hasPrefix("cf[") { return true }
-        return knownFields.contains(String(name.prefix { $0 != "." }))
+    /// The text search for words, newest first.
+    static func textJQL(_ words: String) -> String {
+        "text ~ \"\(escaped(words))\" ORDER BY updated DESC"
     }
 
-    /// Whether search text is a query (JQL, or CQL, which has the same clauses) rather than words: a field followed by
-    /// an operator. With `=` or `~` (`!=`, `<=`, …) any word counts as the field, as before. `<`, `>` and the word
-    /// operators (`in (`, `is empty`) also turn up in plain words ("Meeting in (Berlin)", "This is empty", "a<b"), so
-    /// they need a known field, or a word operator in capitals ("Team IS EMPTY"); likewise `ORDER BY`. When in doubt it
-    /// is words: a text search never fails, a query that isn't one does (HTTP 400).
+    /// Whether search text may be a query (JQL, or CQL, which has the same clauses) rather than words. Generous, since
+    /// the search falls back to words when the server refuses it: "=" or "~" anywhere, ORDER BY, or a clause at the
+    /// start (after `(` or `NOT`): a field (a word, a quoted name, `cf[123]`) and an operator: `<`, `>` (also `<=`,
+    /// `>=`), `IN (`, `NOT IN (`, `IN function(`, `IS [NOT] EMPTY|NULL`, `WAS`, `CHANGED`. Reads the text once, so any
+    /// text is checked in linear time.
     static func isQuery(_ text: String) -> Bool {
-        let range = NSRange(text.startIndex..., in: text)
-        func group(_ match: NSTextCheckingResult, _ index: Int) -> String? {
-            Range(match.range(at: index), in: text).map { String(text[$0]) }
-        }
-        if let match = orderByRegex.firstMatch(in: text, range: range), let keyword = group(match, 1),
-           let field = group(match, 2) {
-            return isKnownField(field) || keyword == keyword.uppercased()
-        }
-        guard let match = clauseRegex.firstMatch(in: text, range: range), let field = group(match, 1) else { return false }
-        if let symbol = group(match, 2) {
-            return symbol.contains("=") || symbol.contains("~") || isKnownField(field)
-        }
-        guard let word = group(match, 3) else { return false }
-        return isKnownField(field) || word == word.uppercased()
+        let lower = text.lowercased()
+        if lower.contains("=") || lower.contains("~") { return true }
+        let words = lower.split(whereSeparator: \.isWhitespace)
+        if zip(words, words.dropFirst()).contains(where: { $0 == "order" && $1 == "by" }) { return true }
+        var scanner = QueryScanner(lower)
+        return scanner.startsWithClause()
     }
 
     /// Quotes and backslashes inside a JQL/CQL string.
@@ -437,8 +406,17 @@ public struct JiraClient: Sendable {
         }
     }
 
+    /// The issues for search text (`jql(forSearch:)`). When the server refuses it as JQL (HTTP 400: it wasn't JQL after
+    /// all), the text is searched as words once more; other errors stay errors.
     public func search(_ text: String, maxResults: Int = 20) async throws -> [JiraIssue] {
-        try await search(jql: Self.jql(forSearch: text), maxResults: maxResults)
+        let jql = Self.jql(forSearch: text)
+        let words = Self.textJQL(text.trimmingCharacters(in: .whitespacesAndNewlines))
+        do {
+            return try await search(jql: jql, maxResults: maxResults)
+        } catch UploadError.http(let status, _) where status == 400 && jql != words {
+            log.warn("Jira refused the search as JQL (HTTP 400), searching the words instead")
+            return try await search(jql: words, maxResults: maxResults)
+        }
     }
 
     /// The issues of a JQL query as it is, e.g. a favourite filter's.
@@ -464,6 +442,89 @@ public struct JiraClient: Sendable {
 
     public func addComment(_ text: String, to issueKey: String) async throws {
         _ = try await HTTPSupport.send(commentRequest(issueKey: issueKey, text: text), with: http)
+    }
+}
+
+/// Reads the start of search text (lower case) for a JQL/CQL clause, one character after the other: no pattern that
+/// could try the same text many ways.
+private struct QueryScanner {
+    private let chars: [Character]
+    private var index = 0
+
+    init(_ lower: String) {
+        chars = Array(lower)
+    }
+
+    /// A field followed by an operator, after any `(` and `NOT`.
+    mutating func startsWithClause() -> Bool {
+        skipOpeningParenthesesAndNot()
+        guard readField() else { return false }
+        skipSpaces()
+        if let next = peek(), next == "<" || next == ">" { return true }
+        switch readWord() {
+        case "in": return isListOrFunction()
+        case "not": skipSpaces(); return readWord() == "in" && isListOrFunction()
+        case "is":
+            skipSpaces()
+            var word = readWord()
+            if word == "not" { skipSpaces(); word = readWord() }
+            return word == "empty" || word == "null"
+        case "was", "changed": return true
+        default: return false
+        }
+    }
+
+    private func peek() -> Character? { index < chars.count ? chars[index] : nil }
+
+    private static func isWordCharacter(_ c: Character) -> Bool { c.isLetter || c.isNumber || c == "_" || c == "." }
+
+    private mutating func skipSpaces() {
+        while let c = peek(), c.isWhitespace { index += 1 }
+    }
+
+    /// The word at the index (letters, digits, `_`, `.`), empty when there is none.
+    private mutating func readWord() -> String {
+        let start = index
+        while let c = peek(), Self.isWordCharacter(c) { index += 1 }
+        return String(chars[start..<index])
+    }
+
+    private mutating func skipOpeningParenthesesAndNot() {
+        while true {
+            skipSpaces()
+            if peek() == "(" { index += 1; continue }
+            let start = index
+            if readWord() == "not", let c = peek(), c.isWhitespace { continue }
+            index = start
+            return
+        }
+    }
+
+    /// A quoted name, `cf[123]` or a word that starts with a letter or `_`.
+    private mutating func readField() -> Bool {
+        guard let first = peek() else { return false }
+        if first == "\"" {
+            guard let close = chars[(index + 1)...].firstIndex(of: "\"") else { return false }
+            index = close + 1
+            return true
+        }
+        guard first.isLetter || first == "_" else { return false }
+        if readWord() == "cf", peek() == "[" {
+            index += 1
+            while let c = peek(), c.isNumber { index += 1 }
+            guard peek() == "]" else { return false }
+            index += 1
+        }
+        return true
+    }
+
+    /// `(` of a list, or a function's name and its `(` (`openSprints()`, `membersOf("x")`).
+    private mutating func isListOrFunction() -> Bool {
+        skipSpaces()
+        if peek() == "(" { return true }
+        guard !readWord().isEmpty else { return false }
+        skipSpaces()
+        return peek() == "("
     }
 }
 
@@ -525,10 +586,16 @@ public struct ConfluenceClient: Sendable {
 
     /// Pages whose title contains the words, last changed first, in one space when `spaceKey` isn't empty (upstream
     /// `SearchPagesAsync(query, space)`). Without `includePersonalSpaces` a search of all spaces leaves the personal
-    /// ones out (upstream `IncludePersonSpaces`). Text that already is CQL (a field and an operator) is used as it is.
+    /// ones out (upstream `IncludePersonSpaces`). Text that may be CQL (`JiraClient.isQuery`) is used as it is;
+    /// `searchPages` falls back to the title search when Confluence refuses it.
     public static func cql(forTitleSearch text: String, spaceKey: String = "", includePersonalSpaces: Bool = true) -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if JiraClient.isQuery(trimmed) { return trimmed }
+        return titleCQL(trimmed, spaceKey: spaceKey, includePersonalSpaces: includePersonalSpaces)
+    }
+
+    /// The title search for words (see `cql(forTitleSearch:spaceKey:includePersonalSpaces:)`).
+    static func titleCQL(_ trimmed: String, spaceKey: String, includePersonalSpaces: Bool) -> String {
         let space = spaceKey.trimmingCharacters(in: .whitespaces)
         var scope = ""
         if !space.isEmpty {
@@ -667,10 +734,19 @@ public struct ConfluenceClient: Sendable {
 
     // Calls
 
+    /// The pages for a title search (`cql(forTitleSearch:…)`). When Confluence refuses it as CQL (HTTP 400), the
+    /// title is searched once more; other errors stay errors.
     public func searchPages(title: String, spaceKey: String = "", includePersonalSpaces: Bool = true,
                             limit: Int = 20) async throws -> [ConfluencePage] {
         let cql = Self.cql(forTitleSearch: title, spaceKey: spaceKey, includePersonalSpaces: includePersonalSpaces)
-        return try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: cql, limit: limit), with: http))
+        let words = Self.titleCQL(title.trimmingCharacters(in: .whitespacesAndNewlines), spaceKey: spaceKey,
+                                  includePersonalSpaces: includePersonalSpaces)
+        do {
+            return try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: cql, limit: limit), with: http))
+        } catch UploadError.http(let status, _) where status == 400 && cql != words {
+            log.warn("Confluence refused the search as CQL (HTTP 400), searching the title instead")
+            return try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: words, limit: limit), with: http))
+        }
     }
 
     /// The spaces, from the v2 API on Cloud and from v1 on Server and Data Center or when v2 is missing (404).
