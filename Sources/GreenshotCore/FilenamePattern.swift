@@ -15,10 +15,13 @@ import Foundation
 /// - `s<start>[,<length>]` takes a substring (negative numbers count from the end).
 public enum FilenamePattern {
     public static let defaultPattern = "${capturetime:d\"yyyy-MM-dd HH_mm_ss\"}-${title}"
-    /// Used when the configured pattern is empty, like upstream's `GetFilename`.
+    /// The name of a file whose pattern is empty, like upstream's `GetFilename` (see `fileName`).
     public static let fallbackPattern = "greenshot ${capturetime}"
 
     static let maxTitleLength = 80
+    /// The widest `p` padding: macOS's longest path (PATH_MAX), so no file name or text needs more. Upstream runs out of
+    /// memory for a huge width and gives an empty value; here the width is limited.
+    static let maxPadWidth = 1024
     static let unsafeReplacement = "_"
     /// The characters .NET's `Path.GetInvalidFileNameChars()` returns on Windows. They are replaced on the Mac too,
     /// so file names stay valid when the screenshots are shared with Windows users.
@@ -94,9 +97,10 @@ public enum FilenamePattern {
     /// the literal text of the pattern is kept (so `${YYYY}/${title}` makes a sub folder). With `cleanCapturedValues` the
     /// values a capture brings along (a window or page title, a page's address) are cleaned even when `filenameSafe`
     /// is off, for a folder: a title is chosen by any app, so it must give one folder level at most, never "..", "~" or "/".
+    /// An empty pattern stays empty, like upstream's `FillPattern` (a print footer, a mail subject, a command argument);
+    /// only a file name falls back to `fallbackPattern` (`fileName`).
     public static func fill(_ pattern: String, context: Context, filenameSafe: Bool = true,
                             cleanCapturedValues: Bool = false) -> String {
-        let pattern = pattern.trimmingCharacters(in: .whitespaces).isEmpty ? fallbackPattern : pattern
         let ns = pattern as NSString
         var result = ""
         var last = 0
@@ -112,8 +116,9 @@ public enum FilenamePattern {
         return result
     }
 
-    /// Fills a pattern for a file name. A result without a name (empty, or ending in a folder like `${YYYY}/`)
-    /// gets the fallback pattern as its name, so the file never lands next to the output folder or is called ".png".
+    /// Fills a pattern for a file name. A result without a name (an empty pattern, an empty result, or one ending in a
+    /// folder like `${YYYY}/`) gets the fallback pattern as its name, so the file never lands next to the output folder
+    /// or is called ".png".
     public static func fileName(_ pattern: String, context: Context) -> String {
         let name = fill(pattern, context: context)
         let lastComponent = name.components(separatedBy: "/").last ?? ""
@@ -183,12 +188,15 @@ public enum FilenamePattern {
         var dateFormat = "yyyy-MM-dd HH-mm-ss"
         var replacements: [(String, String)] = []
 
+        // The numbers are 32 bit, like upstream's `int.Parse` (a bigger one is ignored), so `-padWidth` and
+        // `startIndex + endIndex` can't overflow; the pad width is limited too, a string of 2^31 characters takes gigabytes.
+        func number(_ text: String) -> Int? { Int32(text).map(Int.init) }
         for parameter in splitParameters(parameters) where !parameter.isEmpty {
             let body = String(parameter.dropFirst())
             switch parameter.first {
             case "p":
                 let parts = body.components(separatedBy: ",")
-                if let width = Int(parts[0]) { padWidth = width }
+                if let width = number(parts[0]) { padWidth = min(max(width, -maxPadWidth), maxPadWidth) }
                 if parts.count > 1, let char = parts[1].first { padChar = char }
             case "r":
                 let parts = body.components(separatedBy: ",")
@@ -200,8 +208,8 @@ public enum FilenamePattern {
                 dateFormat = format
             case "s":
                 let parts = body.components(separatedBy: ",")
-                if let start = Int(parts[0]) { startIndex = start }
-                if parts.count > 1, let end = Int(parts[1]) { endIndex = end }
+                if let start = number(parts[0]) { startIndex = start }
+                if parts.count > 1, let end = number(parts[1]) { endIndex = end }
             default:
                 break
             }

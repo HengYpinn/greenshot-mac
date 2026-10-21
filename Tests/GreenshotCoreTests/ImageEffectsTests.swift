@@ -226,6 +226,17 @@ extension ImageEffectsTests {
         #expect(TestImage.pixel(lighter, 1, 0).g > 100)
     }
 
+    /// A recipe can give "nan" or 1e999 (infinity), and an infinite contrast makes 0 × infinity: such a value changes
+    /// nothing, like 1, instead of a NaN that stops the app in `UInt8()`.
+    @Test func adjustTreatsValuesThatAreNoNumbersAsOne() {
+        let identity: [UInt8] = (0...255).map { UInt8($0) }
+        for bad in [Double.nan, .infinity, -.infinity] {
+            #expect(ImageEffects.adjustTable(brightness: bad, contrast: 1, gamma: 1) == identity)
+            #expect(ImageEffects.adjustTable(brightness: 1, contrast: bad, gamma: 1) == identity)
+            #expect(ImageEffects.adjustTable(brightness: 1, contrast: 1, gamma: bad) == identity)
+        }
+    }
+
     @Test func reduceColorsKeepsAtMostTheCount() throws {
         let gradient = TestImage.make(width: 64, height: 16) { x, y in RGBA(r: UInt8(x * 4), g: UInt8(y * 16), b: 128, a: 255) }
         #expect(ImageEffects.colorCount(gradient) == 1024)

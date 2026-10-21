@@ -58,7 +58,9 @@ enum Printing {
         var footer: String?
         if options.footer {
             let context = store.patternContext(title: title, date: date ?? Date(), consumeNumber: false)
-            footer = FilenamePattern.fill(options.footerPattern, context: context, filenameSafe: false)
+            let text = FilenamePattern.fill(options.footerPattern, context: context, filenameSafe: false)
+            // An empty footer takes no room, like upstream's `MeasureString("")` (an empty NSString still measures a line).
+            footer = text.isEmpty ? nil : text
         }
 
         let view = PrintPageView(image: PrintColors.apply(image, options: options), scale: scale, footer: footer, options: options)

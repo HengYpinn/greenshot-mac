@@ -98,7 +98,7 @@ struct ExpertSettings: View {
     /// The number the next ${NUM} gets. Upstream's field edits the stored last-used number
     /// (`OutputFileIncrementingNumber`, counted up before use); this one shows and edits the next.
     private var nextNumber: Binding<Int> {
-        Binding(get: { Int(clamping: store.value.incrementingNumber) + 1 },
+        Binding(get: { Int(clamping: store.value.incrementingNumber &+ 1) },
                 set: { next in store.update { $0.incrementingNumber = UInt(max(next, 1) - 1) } })
     }
 

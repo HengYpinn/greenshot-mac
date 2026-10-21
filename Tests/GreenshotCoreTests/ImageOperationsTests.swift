@@ -153,6 +153,28 @@ extension ImageOperationsTests {
         #expect(TestImage.pixel(result.image, 20, 10) == .white)
     }
 
+    /// A recipe can ask for any size: NaN, infinite and beyond `maxSide` fail instead of stopping the app in `Int()`;
+    /// less than a pixel is one, as before.
+    @Test func resizeToSizesNoImageCanHave() throws {
+        let image = TestImage.solid(width: 4, height: 4, .white)
+        for side in [CGFloat.nan, .infinity, 1e300, 65536] {
+            #expect(ImageOperations.resize(image, to: CGSize(width: side, height: 4)) == nil)
+            #expect(ImageOperations.resize(image, to: CGSize(width: 4, height: side)) == nil)
+        }
+        let thin = try #require(ImageOperations.resize(image, to: CGSize(width: -1e30, height: 4)))
+        #expect(thin.width == 1)
+    }
+
+    /// Margins whose sum overflows Int, or makes a side beyond `maxSide`, fail.
+    @Test func resizeCanvasBeyondAnyImage() throws {
+        let image = TestImage.solid(width: 4, height: 4, .white)
+        #expect(ImageOperations.resizeCanvas(image, left: .max / 2, right: .max / 2, top: 0, bottom: 0) == nil)
+        #expect(ImageOperations.resizeCanvas(image, left: 0, right: 0, top: .min, bottom: -1) == nil)
+        #expect(ImageOperations.resizeCanvas(image, left: 65532, right: 0, top: 0, bottom: 0) == nil)
+        let widest = try #require(ImageOperations.resizeCanvas(image, left: 65531, right: 0, top: 0, bottom: 0))
+        #expect(widest.image.width == 65535)
+    }
+
     @Test func clearBackgroundMakesThePixelsTransparent() {
         let doc = document()
         let box = Annotation(kind: .rectangle, start: CGPoint(x: 4, y: 3), end: CGPoint(x: 20, y: 15))

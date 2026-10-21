@@ -150,12 +150,15 @@ struct TextEffectExecutor: RecipeStepExecutor {
         return spans
     }
 
-    /// Upstream `ApplyPadding`: half the percentage on each side (whole pixels), then the offset.
+    /// Upstream `ApplyPadding`: half the percentage on each side (whole pixels toward zero, like its `(int)`), then the
+    /// offset. A recipe can give any percentage: each side is limited to `Annotation.maxCoordinate`, where `Int()` of a
+    /// product beyond Int's range would stop the app.
     static func padded(_ box: CGRect, _ padding: Padding) -> CGRect {
+        let limit = Double(Annotation.maxCoordinate)
         let horizontal: Double = Double(box.width) * Double(padding.horizontalPercent) / 100 / 2
         let vertical: Double = Double(box.height) * Double(padding.verticalPercent) / 100 / 2
-        let dx = CGFloat(Int(horizontal))
-        let dy = CGFloat(Int(vertical))
+        let dx = CGFloat(min(max(horizontal, -limit), limit).rounded(.towardZero))
+        let dy = CGFloat(min(max(vertical, -limit), limit).rounded(.towardZero))
         return CGRect(x: box.minX - dx + padding.offset.dx, y: box.minY - dy + padding.offset.dy,
                       width: box.width + dx * 2, height: box.height + dy * 2)
     }

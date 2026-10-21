@@ -144,10 +144,11 @@ public enum ImageEffects {
     static func tornEdgeImage(_ image: CGImage, scale: CGFloat, seed: UInt64, settings: TornEdgeSettings) -> CGImage? {
         let width = image.width
         let height = image.height
-        // The dialog allows 0; upstream's `Random.Next(1, n)` needs n >= 1 and the regions a range of at least 1.
-        let tooth = max(Int((CGFloat(settings.toothHeight) * scale).rounded()), 2)
-        let horizontalRange = max(Int((CGFloat(settings.horizontalToothRange) * scale).rounded()), 1)
-        let verticalRange = max(Int((CGFloat(settings.verticalToothRange) * scale).rounded()), 1)
+        // The dialog allows 0; upstream's `Random.Next(1, n)` needs n >= 1 and the regions a range of at least 1. A recipe
+        // can give any size: at most `ImageOperations.maxSide` pixels.
+        let tooth = max(ImageOperations.pixels(settings.toothHeight, scale: scale), 2)
+        let horizontalRange = max(ImageOperations.pixels(settings.horizontalToothRange, scale: scale), 1)
+        let verticalRange = max(ImageOperations.pixels(settings.verticalToothRange, scale: scale), 1)
         var random = SeededRandom(seed: seed)
         func depth() -> Int { Int.random(in: 1..<tooth, using: &random) }
         let horizontalRegions = Int((Double(width) / Double(horizontalRange)).rounded())
@@ -216,8 +217,12 @@ public enum ImageEffects {
         return mapUnpremultiplied(image) { table[Int($0)] }
     }
 
-    /// The 256 output values of `adjust` for the input values 0...255.
+    /// The 256 output values of `adjust` for the input values 0...255. A value that is not finite (a recipe's "nan" or
+    /// 1e999) counts as 1: NaN would go through the clamps and stop the app in `UInt8()`.
     static func adjustTable(brightness: Double, contrast: Double, gamma: Double) -> [UInt8] {
+        let brightness = brightness.isFinite ? brightness : 1
+        let contrast = contrast.isFinite ? contrast : 1
+        let gamma = gamma.isFinite ? gamma : 1
         let exponent: Double = 1 / max(gamma, 0.01)
         let offset: Double = brightness - 1
         return (0..<256).map { value in
@@ -332,8 +337,11 @@ public enum ImageEffects {
         return UInt8(scaled)
     }
 
+    /// A bitmap of `size`; nil for a size no image can have (a border or shadow of 1e18 points from a recipe), where
+    /// `Int()` of it would stop the app.
     static func makeContext(_ size: CGSize) -> CGContext? {
-        AnnotationRenderer.makeContext(width: Int(size.width), height: Int(size.height))
+        guard ImageOperations.isDrawable(size.width), ImageOperations.isDrawable(size.height) else { return nil }
+        return AnnotationRenderer.makeContext(width: Int(size.width), height: Int(size.height))
     }
 
     static func result(_ context: CGContext, offset: CGVector) -> EffectResult? {

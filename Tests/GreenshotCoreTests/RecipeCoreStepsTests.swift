@@ -139,6 +139,40 @@ final class RecipeTestClipboard: RecipeClipboardWriting, @unchecked Sendable {
         #expect(payload.annotations.first?.start == CGPoint(x: 4, y: 4))
     }
 
+    /// "nan" is a Double for the recipe's parameters (`Double("nan")`); Adjust leaves the image as it is.
+    @Test func adjustWithNanLeavesTheImage() async throws {
+        let node = effect(["Effect": .string("Adjust"), "Brightness": .string("nan"), "Gamma": .string("NaN")])
+        let context = await RecipeStepHarness.run(node, image: TestImage.solid(width: 4, height: 4, .red))
+        #expect(context.logged("Applied effect 'Adjust'"))
+        let payload = try #require(context.payload)
+        #expect(TestImage.pixel(payload.image, 1, 1) == .red)
+    }
+
+    /// Sizes far beyond any image (a percentage of "inf" or 1e300, margins of 5e18, a border or shadow of 4.7e18 points on a
+    /// Retina capture) can't be applied: logged, and the flow goes on, instead of stopping the app.
+    @Test func effectsWithSizesBeyondAnyImage() async throws {
+        let huge = JSONValue.number(4.7e18)
+        let cases: [JSONObject] = [
+            ["Effect": .string("Resize"), "Percentage": .string("inf")],
+            ["Effect": .string("Resize"), "Percentage": .number(1e300)],
+            ["Effect": .string("ResizeCanvas"), "Left": .number(5e18), "Right": .number(5e18)],
+            ["Effect": .string("ResizeCanvas"), "Left": .number(-5e18)],
+            ["Effect": .string("Border"), "Width": huge],
+            ["Effect": .string("DropShadow"), "ShadowSize": huge],
+            ["Effect": .string("DropShadow"), "ShadowOffsetX": huge],
+            ["Effect": .string("TornEdge"), "ShadowSize": huge]
+        ]
+        for parameters in cases {
+            let context = await RecipeStepHarness.run(effect(parameters), image: TestImage.solid(width: 4, height: 4, .white), scale: 2)
+            #expect(context.logMentions("could not be applied"), "\(parameters)")
+            #expect(context.payload?.image.width == 4)
+        }
+        // Teeth bigger than the image tear it all off, but they are drawn.
+        let teeth: JSONObject = ["Effect": .string("TornEdge"), "ToothHeight": huge, "HorizontalToothRange": huge, "VerticalToothRange": huge]
+        let torn = await RecipeStepHarness.run(effect(teeth), image: TestImage.solid(width: 4, height: 4, .white), scale: 2)
+        #expect(torn.logged("Applied effect 'TornEdge'"))
+    }
+
     @Test func colorEffects() async throws {
         let inverted = await RecipeStepHarness.run(effect(["Effect": .string("Invert")]), image: TestImage.solid(width: 4, height: 4, .white))
         let black = try #require(inverted.payload?.image)
@@ -221,6 +255,19 @@ final class RecipeTestClipboard: RecipeClipboardWriting, @unchecked Sendable {
         #expect(read.horizontalPercent == 30)
         #expect(read.verticalPercent == 30)
         #expect(read.offset == CGVector(dx: 4, dy: 0))
+    }
+
+    /// A recipe can give any padding (PaddingHorizontal 9e18): it is limited to `Annotation.maxCoordinate` on each side
+    /// instead of an `Int()` that traps.
+    @Test func textEffectLimitsAHugePadding() {
+        let huge = TextEffectExecutor.Padding(horizontalPercent: 9_000_000_000_000_000_000, verticalPercent: -9_000_000_000_000_000_000)
+        let padded = TextEffectExecutor.padded(CGRect(x: 0, y: 0, width: 1000, height: 10), huge)
+        #expect(padded.minX == -Annotation.maxCoordinate)
+        #expect(padded.width == 1000 + 2 * Annotation.maxCoordinate)
+        #expect(padded.height == 2 * Annotation.maxCoordinate - 10)
+        // Whole pixels toward zero, like upstream's `(int)`: 7.5 % of 10 on each side is 0.
+        let small = TextEffectExecutor.Padding(horizontalPercent: 15, verticalPercent: -15)
+        #expect(TextEffectExecutor.padded(CGRect(x: 0, y: 0, width: 10, height: 10), small) == CGRect(x: 0, y: 0, width: 10, height: 10))
     }
 
     @Test func textEffectElements() {

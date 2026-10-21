@@ -52,6 +52,15 @@ struct RecipeFlowNoticeTests {
         #expect(lines.last?.contains("~/Shots/a.png") == true)
     }
 
+    /// SetVariable can give the count any number (1e30, or 1e999, which a file reads as infinity): it is limited to the
+    /// exports there are before it becomes a whole number.
+    @Test(arguments: [1e30, .infinity, -.infinity, -5, .nan])
+    func anyAnnouncedCountIsLimited(announced: Double) {
+        let variables: [String: JSONValue] = [RecipeFlowNotice.announcedExportsVariable: .number(announced)]
+        let left = RecipeFlowNotice.unannouncedExports(of: Self.result(.failed, variables: variables, exports: [Self.failed, Self.saved]))
+        #expect(left.count == (announced > 0 ? 0 : 2))
+    }
+
     @Test func aDestinationThatShowedItsErrorIsEnough() {
         let variables: [String: JSONValue] = [RecipeFlowNotice.exportErrorsVariable: .string("Jira: unauthorized")]
         #expect(RecipeFlowNotice.failure(of: Self.result(.failed, reason: "Export failed", variables: variables)) == nil)

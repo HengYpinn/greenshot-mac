@@ -180,11 +180,12 @@ final class SettingsStore: ObservableObject {
                 set: { newValue in self.update { $0[keyPath: keyPath] = newValue } })
     }
 
-    /// Increments and returns the counter behind `${NUM}`.
+    /// Increments and returns the counter behind `${NUM}`. After UInt.max (only a hand-edited settings file holds it) it
+    /// wraps to 0, like upstream's `OutputFileIncrementingNumber++` in a release build, instead of stopping the app.
     func nextIncrementingNumber() -> UInt {
         var number: UInt = 0
         update {
-            $0.incrementingNumber += 1
+            $0.incrementingNumber &+= 1
             number = $0.incrementingNumber
         }
         return number
@@ -195,7 +196,7 @@ final class SettingsStore: ObservableObject {
         let current = value.incrementingNumber
         return FilenamePattern.Context(
             captureTime: date, title: title, environment: ProcessInfo.processInfo.environment,
-            nextNumber: consumeNumber ? { [weak self] in self?.nextIncrementingNumber() ?? current + 1 } : { current + 1 },
+            nextNumber: consumeNumber ? { [weak self] in self?.nextIncrementingNumber() ?? current &+ 1 } : { current &+ 1 },
             // `${url}`, `${browser}`, `${Browser.*}` of a capture from the browser extension (BROWSER).
             metadata: CaptureMetadataStore.shared.patternMetadata(forCaptureAt: date))
     }

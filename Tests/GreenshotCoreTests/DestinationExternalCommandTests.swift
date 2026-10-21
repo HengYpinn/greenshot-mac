@@ -45,6 +45,9 @@ struct DestinationExternalCommandTests {
         #expect(ExternalCommandLine.arguments("--title ${title} \"{0}\" ${YYYY}", file: "/tmp/a b.png", fill: fill)
                 == ["--title", "My Window", "/tmp/a b.png", "1970"])
         #expect(ExternalCommandLine.program("${HOME}/bin/up", fill: fill) == .executable("/Users/me/bin/up"))
+        // An empty argument stays empty (it was "greenshot <time>"), and an empty command is none.
+        #expect(ExternalCommandLine.arguments("a \"\" b", file: "/tmp/a.png", fill: fill) == ["a", "", "b"])
+        #expect(ExternalCommandLine.program(" ", fill: fill) == nil)
     }
 
     @Test func programKinds() {
