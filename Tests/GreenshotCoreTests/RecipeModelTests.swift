@@ -217,14 +217,33 @@ enum RecipeFixtures {
         #expect(flow.targets(from: "b") == xs)
     }
 
-    /// Targets are the same when `recipeEquals` says so, as before: "ß" and "SS" are one target, "ᾈ" and "ἀι" two.
-    @Test func targetsCompareLikeRecipeIds() {
+    /// Targets count as one when `recipeEquals` matches them: case, "ß" and "SS", canonically equivalent spellings (also
+    /// "ᾳ" with an accent written after it and "ᾴ"); "ᾈ" and "ἀι" are two.
+    @Test func targetsCountAsOneWhenRecipeEqualsMatchesThem() {
         var flow = RecipeFlow()
-        flow.transitions = [RecipeTransition(from: "a", to: ["ß", "SS", "ss", "ᾈ", "ἀι", "e\u{301}", "É"])]
-        #expect(flow.targets(from: "a") == ["ß", "ᾈ", "ἀι", "e\u{301}"])
-        #expect(flow.unifiedTransitions["a"] == ["ß", "ᾈ", "ἀι", "e\u{301}"])
+        flow.transitions = [RecipeTransition(from: "a", to: ["ß", "SS", "ss", "ᾈ", "ἀι", "e\u{301}", "É",
+                                                              "\u{1FB3}\u{301}", "\u{1FB4}", "\u{391}\u{345}\u{301}"])]
+        let once = ["ß", "ᾈ", "ἀι", "e\u{301}", "\u{1FB3}\u{301}"]
+        #expect(flow.targets(from: "a") == once)
+        #expect(flow.unifiedTransitions["a"] == once)
         flow.addTransitions(from: "a", to: ["SS", "x", "X"])
-        #expect(flow.targets(from: "a") == ["ß", "ᾈ", "ἀι", "e\u{301}", "x"])
+        #expect(flow.targets(from: "a") == once + ["x"])
+    }
+
+    /// `recipeEquals` (CFStringCompare) is neither symmetric nor transitive for a few Unicode quirks, so no lookup key can
+    /// follow it exactly. These ids count as two (documented behaviour; the engine, which compares lowercased text, sees two
+    /// steps too): matches in one direction only (CF's expansions), and a U+0345 written as its own mark before another.
+    @Test func recipeEqualsUnicodeQuirksCountAsTwo() {
+        #expect(recipeEquals("f\u{212A}", "\u{FB01}"))
+        #expect(!recipeEquals("\u{FB01}", "f\u{212A}"))
+        #expect(recipeEquals("\u{345}\u{301}", "\u{399}\u{301}"))
+        let quirks = ["f\u{212A}", "\u{FB01}", "S\u{212A}", "\u{DF}", "A\u{3A3}", "\u{C5}", "\u{345}\u{301}", "\u{399}\u{301}"]
+        var flow = RecipeFlow()
+        flow.transitions = [RecipeTransition(from: "a", to: quirks)]
+        #expect(flow.targets(from: "a") == quirks)
+        for index in stride(from: 0, to: quirks.count, by: 2) {
+            #expect(quirks[index].lowercased() != quirks[index + 1].lowercased())
+        }
     }
 
     /// Every property name of the schema's definitions is a member the model reads.

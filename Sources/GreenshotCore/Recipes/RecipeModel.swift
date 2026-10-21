@@ -525,10 +525,17 @@ func recipeEquals(_ lhs: String, _ rhs: String) -> Bool {
     lhs.caseInsensitiveCompare(rhs) == .orderedSame
 }
 
-/// Ids compared like `recipeEquals`, each looked up in constant time: kept in buckets by their case-folded text (equal
-/// ids always fold alike; a few unequal ones, like "ᾈ" and "ἀι", share a bucket) and compared exactly within a bucket.
-/// For lists a crafted file can make long, such as thousands of next steps of one step: comparing each with all the
-/// others took minutes.
+/// Ids compared with `recipeEquals`, each looked up in constant time: kept in buckets by their case-folded canonical
+/// decomposition and compared with `recipeEquals` within a bucket (a few unequal ids, like "ᾈ" and "ἀι", share one). For
+/// lists a crafted file can make long, such as thousands of next steps of one step: comparing each with all the others
+/// took minutes.
+///
+/// `recipeEquals` (CFStringCompare) is neither symmetric nor transitive for a few Unicode quirks, so no key follows it
+/// exactly. What holds: ids with the same lowercased text (one step to the engine) always share a bucket, and so do the
+/// other ids `recipeEquals` matches, with two exceptions that count as two here (and as two steps to the engine): a
+/// U+0345 COMBINING GREEK YPOGEGRAMMENI written as its own character next to other combining marks, and matches
+/// `recipeEquals` finds in one direction only ("f" + U+212A KELVIN SIGN against "ﬁ", "S" + U+212A against "ß",
+/// "A" + "Σ" against "Å").
 struct RecipeIdSet {
     private var ids = RecipeIdMap<Bool>()
 
@@ -549,8 +556,8 @@ struct RecipeIdSet {
     }
 }
 
-/// A dictionary keyed by ids compared like `recipeEquals`, in constant time per id (see `RecipeIdSet`); the first
-/// spelling of a key is kept.
+/// A dictionary keyed by ids compared with `recipeEquals`, in constant time per id (see `RecipeIdSet`, also for the
+/// Unicode quirks); the first spelling of a key is kept.
 struct RecipeIdMap<Value> {
     private var buckets: [String: [(id: String, value: Value)]] = [:]
 
@@ -568,5 +575,8 @@ struct RecipeIdMap<Value> {
         }
     }
 
-    private static func bucket(_ id: String) -> String { id.folding(options: .caseInsensitive, locale: nil) }
+    /// Decomposed first: case folding turns U+0345 into a letter, so it must come after the canonical reordering.
+    private static func bucket(_ id: String) -> String {
+        id.decomposedStringWithCanonicalMapping.folding(options: .caseInsensitive, locale: nil)
+    }
 }
