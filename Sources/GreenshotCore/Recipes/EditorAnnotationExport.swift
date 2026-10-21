@@ -37,9 +37,16 @@ public enum RecipeAssetStorage: Sendable, Equatable {
 /// None, `OffsetX`/`OffsetY`) in points, like upstream's.
 public enum RecipeAnnotationExport {
     /// The import items of a document's elements (image pixels, `scale` pixels per point), in order; elements a recipe
-    /// can't make (cut marks, torn edges) are left out.
+    /// can't make (cut marks, torn edges) are left out. A counter's `Number` is the number it shows counting from 1
+    /// (upstream writes `StepLabelContainer.Number`): counters count in the order they were added, not in drawing order,
+    /// and the step orders them by it.
     public static func items(of annotations: [Annotation], scale: CGFloat) -> [RecipeAnnotationImportItem] {
-        annotations.compactMap { item(of: $0, scale: scale) }
+        let numbers = Annotation.counterNumbers(annotations, from: 1)
+        return annotations.compactMap { annotation in
+            guard var item = item(of: annotation, scale: scale) else { return nil }
+            if let number = numbers[annotation.id] { item.parameters["Number"] = .number(Double(number)) }
+            return item
+        }
     }
 
     /// Sorted A–Z by type, then by description (upstream's "A-Z" toggle).

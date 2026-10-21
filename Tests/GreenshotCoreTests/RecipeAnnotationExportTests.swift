@@ -209,4 +209,26 @@ import Testing
         #expect(RecipeAnnotationExport.format(RGBAColor(red: 1, green: 0, blue: 0)) == "#FF0000")
         #expect(RecipeAnnotationExport.format(RGBAColor(red: 0, green: 0, blue: 0, alpha: 0.5)) == "#80000000")
     }
+
+    /// Counters count in the order they were added, not in drawing order: their `Number` takes that order into the
+    /// recipe, and the step numbers them the same (upstream `EditorAnnotationImporter` writes `StepLabelContainer.Number`).
+    @Test func countersKeepTheirNumbersInTheRecipe() async throws {
+        let document = EditorDocument(image: TestImage.solid(width: 400, height: 200, .white), scale: 1, title: "counters")
+        for x in [0, 100, 200] {
+            document.change { document.add(Annotation(kind: .counter, start: CGPoint(x: x, y: 0), end: CGPoint(x: x + 30, y: 30))) }
+        }
+        let first = try #require(document.annotations.first)
+        document.change { document.bringToFront(first.id) }
+        let items = RecipeAnnotationExport.items(of: document.annotations, scale: 1)
+        #expect(items.map { $0.parameters.int("Number") } == [2, 3, 1])
+
+        let annotations = RecipeAnnotationExport.annotations(of: items, storage: .embed) { _, _ in }
+        let node = RecipeNode(id: "counters", stepType: "Annotation", parameters: ["Annotations": .array(annotations)])
+        let context = await RecipeStepHarness.run(node, image: TestImage.solid(width: 400, height: 200, .white))
+        let made = try #require(context.payload?.annotations)
+        // The drawing order stays, the numbers are the editor's.
+        #expect(made.map(\.start.x) == [100, 200, 0])
+        let numbers = Annotation.counterNumbers(made, from: 1)
+        #expect(made.map { numbers[$0.id] } == [2, 3, 1])
+    }
 }

@@ -371,6 +371,19 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         return numbers
     }
 
+    /// `existing` with `elements` added on top, every counter with its place (1, 2, …) in the order counters count: those
+    /// of `elements` after those of `existing` (upstream `Surface.AddStepLabel` adds a label to the end of
+    /// `_stepLabels`), each in the order they count among themselves (`counterNumbers`). The counters of `existing` keep
+    /// their numbers, also those without a place (added by a recipe step, or of a file of an earlier version); new,
+    /// pasted and duplicated counters count last. Places from a file or a recipe's `Number` are only compared, never
+    /// counted on from.
+    public static func adding(_ elements: [Annotation], to existing: [Annotation]) -> [Annotation] {
+        var result = existing + elements
+        let sequence = counterSequence(existing) + counterSequence(elements).map { existing.count + $0 }
+        for (place, index) in sequence.enumerated() { result[index].counterOrder = place + 1 }
+        return result
+    }
+
     /// The indices of the counters among `annotations` in the order they count (see `counterNumbers`).
     static func counterSequence(_ annotations: [Annotation]) -> [Int] {
         annotations.indices.filter { annotations[$0].kind == .counter }.sorted { a, b in

@@ -247,4 +247,29 @@ struct RecipeTestCursors: RecipeCursorImageProviding {
         #expect(without.logged("Warning: pointer pictures are not available here."))
         #expect(!without.isAborted)
     }
+
+    /// A step's counters count after those already on the capture (upstream adds each label to the end of
+    /// `_stepLabels`); among themselves by `Number` (upstream's order on reload), then in the order of the list.
+    @Test func aStepsCountersCountAfterThoseAlreadyThereAndByTheirNumber() async throws {
+        func counter(_ x: CGFloat, order: Int?) -> Annotation {
+            var element = Annotation(kind: .counter, start: CGPoint(x: x, y: 0), end: CGPoint(x: x + 30, y: 30))
+            element.counterOrder = order
+            return element
+        }
+        // Two counters an earlier step's document placed, one an earlier Annotation step added.
+        let existing = [counter(0, order: 1), counter(40, order: 2), counter(80, order: nil)]
+        func label(_ x: Int, number: Int?) -> JSONValue {
+            var p: JSONObject = ["Type": .string("StepLabel"), "Left": .number(Double(x)), "Top": .number(0)]
+            if let number { p["Number"] = .number(Double(number)) }
+            return .object(p)
+        }
+        let node = RecipeNode(id: "labels", stepType: "Annotation", parameters: ["Annotations": .array([
+            label(120, number: 2), label(160, number: nil), label(200, number: 1)
+        ])])
+        let context = await RecipeStepHarness.run(node, image: TestImage.solid(width: 400, height: 100, .white), annotations: existing)
+        let made = try #require(context.payload?.annotations)
+        #expect(made.map(\.start.x) == [0, 40, 80, 120, 160, 200])
+        let numbers = Annotation.counterNumbers(made, from: 1)
+        #expect(made.map { numbers[$0.id] } == [1, 2, 3, 5, 6, 4])
+    }
 }
