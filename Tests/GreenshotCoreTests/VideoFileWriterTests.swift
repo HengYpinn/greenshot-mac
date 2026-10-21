@@ -137,6 +137,13 @@ private func hiddenFiles(next url: URL) throws -> [String] {
     try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path).filter { $0.hasPrefix(".") }
 }
 
+/// A folder standing in for the Trash, next to `folder`, so that tests never put anything into the user's Trash.
+private func testTrash(next folder: URL) throws -> (folder: URL, discard: @Sendable (URL) throws -> Void) {
+    let trash = folder.deletingLastPathComponent().appendingPathComponent(folder.lastPathComponent + "-trash")
+    try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+    return (trash, { try FileManager.default.moveItem(at: $0, to: trash.appendingPathComponent($0.lastPathComponent)) })
+}
+
 /// The errors `VideoFileWriter.onFailure` got.
 private final class Failures: @unchecked Sendable {
     private let lock = NSLock()
@@ -518,9 +525,11 @@ struct VideoFileWriterTests {
         #expect(info.codec == "avc1")
     }
 
-    /// What a crash before the first frame left behind is removed a day later; nothing else is.
-    @Test func leftOversOfACrashAreRemoved() throws {
+    /// What a crash before the first frame left behind goes to the Trash a day later (here a folder of the test's own);
+    /// nothing else is touched.
+    @Test func leftOversOfACrashGoToTheTrash() throws {
         let folder = temporaryFile("left-overs")
+        let trash = try testTrash(next: folder)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let now = Date()
         let old = VideoFileWriter.replacedFileName(at: now.addingTimeInterval(-2 * 24 * 60 * 60))
@@ -534,27 +543,64 @@ struct VideoFileWriterTests {
         let oldLink = VideoFileWriter.replacedFileName(at: now.addingTimeInterval(-4 * 24 * 60 * 60))
         try FileManager.default.createSymbolicLink(at: folder.appendingPathComponent(oldLink),
                                                    withDestinationURL: folder.appendingPathComponent("video.mp4"))
-        VideoFileWriter.removeLeftOverReplacedFiles(in: folder, now: now)
+        VideoFileWriter.discardLeftOverReplacedFiles(in: folder, now: now, discard: trash.discard)
         let left = try Set(FileManager.default.contentsOfDirectory(atPath: folder.path))
         #expect(left == [recent, lookAlike, "video.mp4", oldFolder, oldLink])
+        let trashed = try FileManager.default.contentsOfDirectory(atPath: trash.folder.path)
+        #expect(trashed == [old])
+    }
+
+    /// A left-over that can't go to the Trash stays where it is: it is never deleted.
+    @Test func aLeftOverThatCantBeTrashedStays() throws {
+        let folder = temporaryFile("left-over-stays")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let old = VideoFileWriter.replacedFileName(at: Date().addingTimeInterval(-2 * 24 * 60 * 60))
+        try Data("the only copy".utf8).write(to: folder.appendingPathComponent(old))
+        VideoFileWriter.discardLeftOverReplacedFiles(in: folder, discard: { _ in throw CocoaError(.featureUnsupported) })
+        #expect(try Data(contentsOf: folder.appendingPathComponent(old)) == Data("the only copy".utf8))
     }
 
     /// A writer starting in a folder sweeps it.
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
-    func aWriterRemovesLeftOversWhereItWrites() async throws {
+    func aWriterTrashesLeftOversWhereItWrites() async throws {
         let url = temporaryFile("sweep.mp4")
+        let trash = try testTrash(next: url.deletingLastPathComponent())
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        let old = url.deletingLastPathComponent()
-            .appendingPathComponent(VideoFileWriter.replacedFileName(at: Date().addingTimeInterval(-2 * 24 * 60 * 60)))
+        let name = VideoFileWriter.replacedFileName(at: Date().addingTimeInterval(-2 * 24 * 60 * 60))
+        let old = url.deletingLastPathComponent().appendingPathComponent(name)
         try Data("left over".utf8).write(to: old)
-        let video = try writer(url)
-        var gone = false
-        for _ in 0..<50 where !gone {
+        var configuration = VideoFileWriter.Configuration(url: url, format: .mp4H264, width: 320, height: 240,
+                                                          frameRate: 30, bitrate: 1_000_000, realTime: false)
+        configuration.discardLeftOver = trash.discard
+        let video = try VideoFileWriter(configuration)
+        var trashed = false
+        for _ in 0..<50 where !trashed {
             try await Task.sleep(nanoseconds: 50_000_000)
-            gone = !FileManager.default.fileExists(atPath: old.path)
+            trashed = FileManager.default.fileExists(atPath: trash.folder.appendingPathComponent(name).path)
         }
         video.cancel()
-        #expect(gone)
+        #expect(trashed)
+        #expect(!FileManager.default.fileExists(atPath: old.path))
+    }
+
+    /// The old file can't be put back (here the folder became read-only): the recorder is told, and the file waits
+    /// under its hidden name, not lost.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264) && getuid() != 0, "no H.264 encoder, or root"))
+    func aFailedPutBackIsTold() throws {
+        let url = try existingFile("stuck.mp4", holding: "the last recording")
+        let folder = url.deletingLastPathComponent()
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: folder.path)
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: folder.path) }
+        video.cancel()
+        #expect(video.takePutBackFailure() != nil)
+        #expect(video.takePutBackFailure() == nil)
+        let hidden = try hiddenFiles(next: url)
+        #expect(hidden.count == 1)
+        if let name = hidden.first {
+            #expect(try Data(contentsOf: folder.appendingPathComponent(name)) == Data("the last recording".utf8))
+        }
     }
 
     /// A writer let go without `cancel` or `finish` (no caller does): the old file is back.
