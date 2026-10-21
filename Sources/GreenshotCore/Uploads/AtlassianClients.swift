@@ -199,7 +199,7 @@ public struct JiraClient: Sendable {
 
     /// What to search for: an issue key finds that issue, text that may be JQL (see `isQuery`) is used as it is,
     /// anything else is a text search, newest first. `search(_:)` falls back to the text search when the server
-    /// refuses the JQL.
+    /// refuses the JQL (not for a key: Jira's answer that it doesn't exist is the useful one).
     public static func jql(forSearch text: String) -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if isIssueKey(trimmed) { return "key = \(normalizedKey(trimmed))" }
@@ -215,8 +215,8 @@ public struct JiraClient: Sendable {
     /// Whether search text may be a query (JQL, or CQL, which has the same clauses) rather than words. Generous, since
     /// the search falls back to words when the server refuses it: "=" or "~" anywhere, ORDER BY, or a clause at the
     /// start (after `(` or `NOT`): a field (a word, a quoted name, `cf[123]`) and an operator: `<`, `>` (also `<=`,
-    /// `>=`), `IN (`, `NOT IN (`, `IN function(`, `IS [NOT] EMPTY|NULL`, `WAS`, `CHANGED`. Reads the text once, so any
-    /// text is checked in linear time.
+    /// `>=`), `IN (`, `NOT IN (`, `IN function(`, `IS [NOT] EMPTY|NULL`, `WAS`, `CHANGED`. A fixed number of passes
+    /// over the text, each linear (no pattern that could try the same text many ways).
     static func isQuery(_ text: String) -> Bool {
         let lower = text.lowercased()
         if lower.contains("=") || lower.contains("~") { return true }
@@ -407,13 +407,14 @@ public struct JiraClient: Sendable {
     }
 
     /// The issues for search text (`jql(forSearch:)`). When the server refuses it as JQL (HTTP 400: it wasn't JQL after
-    /// all), the text is searched as words once more; other errors stay errors.
+    /// all), the text is searched as words once more; other errors stay errors, and so does a key that doesn't exist.
     public func search(_ text: String, maxResults: Int = 20) async throws -> [JiraIssue] {
-        let jql = Self.jql(forSearch: text)
-        let words = Self.textJQL(text.trimmingCharacters(in: .whitespacesAndNewlines))
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let jql = Self.jql(forSearch: trimmed)
+        let words = Self.textJQL(trimmed)
         do {
             return try await search(jql: jql, maxResults: maxResults)
-        } catch UploadError.http(let status, _) where status == 400 && jql != words {
+        } catch UploadError.http(let status, _) where status == 400 && jql != words && !Self.isIssueKey(trimmed) {
             log.warn("Jira refused the search as JQL (HTTP 400), searching the words instead")
             return try await search(jql: words, maxResults: maxResults)
         }

@@ -233,6 +233,11 @@ struct JiraClientTests {
         let refusedText = StubHTTPClient([.init(status: 400, body: "{}"), .init(status: 200, body: #"{"issues":[]}"#)])
         await #expect(throws: UploadError.self) { _ = try await JiraClient(site: site, http: refusedText).search("project kickoff") }
         #expect(refusedText.requests.count == 1)
+        // A key that doesn't exist: Jira's answer says so, a text search would hide it.
+        let missingKey = StubHTTPClient([.init(status: 400, body: #"{"errorMessages":["An issue with key 'PROJ-99' does not exist"]}"#),
+                                         .init(status: 200, body: #"{"issues":[]}"#)])
+        await #expect(throws: UploadError.self) { _ = try await JiraClient(site: site, http: missingKey).search("proj-99") }
+        #expect(missingKey.requests.count == 1)
     }
 
     /// The check reads the text once: a long run of "not" (which took seconds with a pattern before) is instant.
@@ -375,6 +380,18 @@ struct ConfluenceClientTests {
         #expect(ConfluenceClient.cql(forTitleSearch: "label in (howto, faq)") == "label in (howto, faq)")
         #expect(ConfluenceClient.cql(forTitleSearch: "id in recentlyViewedContent(10) and type = page")
                 == "id in recentlyViewedContent(10) and type = page")
+    }
+
+    /// Only a refused query (HTTP 400) is tried again as a title search.
+    @Test func otherAnswersAreNotRetriedAsATitleSearch() async {
+        for status in [401, 403, 500] {
+            let http = StubHTTPClient(status: status, body: "{}")
+            await #expect(throws: UploadError.self) { _ = try await ConfluenceClient(site: site, http: http).searchPages(title: "Space > Page") }
+            #expect(http.requests.count == 1, "HTTP \(status)")
+        }
+        let refusedTitle = StubHTTPClient([.init(status: 400, body: "{}"), .init(status: 200, body: #"{"results":[]}"#)])
+        await #expect(throws: UploadError.self) { _ = try await ConfluenceClient(site: site, http: refusedTitle).searchPages(title: "Berlin (office)") }
+        #expect(refusedTitle.requests.count == 1)
     }
 
     /// A title that looks like CQL is searched as a title when Confluence refuses the query (HTTP 400).
