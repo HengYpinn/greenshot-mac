@@ -121,3 +121,39 @@ public final class BrowserContext: @unchecked Sendable {
         return ""
     }
 }
+
+/// The browser extensions whose HANDSHAKE Greenshot accepted, while their connection lasts (Mac). Switching the
+/// extension off in Settings forgets the tab (`BrowserContext.clear`) while the browser stays connected, and the
+/// extension only reports a tab when it changes; switching it on asks each one for its active tab again, as a
+/// handshake does (`{"event": "report_tab"}`).
+public final class BrowserConnections: @unchecked Sendable {
+    public static let shared = BrowserConnections()
+
+    private let lock = NSLock()
+    private var connections: [pid_t: IPCReplyContext] = [:]
+
+    public init() {}
+
+    /// The HANDSHAKE on the connection of `context` was accepted.
+    public func accepted(_ context: IPCReplyContext) {
+        guard let peer = context.peer else { return }
+        lock.lock()
+        connections[peer.pid] = context
+        lock.unlock()
+    }
+
+    /// The connection of `peer` ended (`IPCServer.Configuration.connectionEnded`).
+    public func ended(_ peer: IPCPeer) {
+        lock.lock()
+        if connections[peer.pid]?.peer == peer { connections.removeValue(forKey: peer.pid) }
+        lock.unlock()
+    }
+
+    /// Asks every accepted extension to report its active tab.
+    public func askForActiveTab() {
+        lock.lock()
+        let contexts = Array(connections.values)
+        lock.unlock()
+        for context in contexts { context.send(BrowserReplies.reportTabEvent) }
+    }
+}

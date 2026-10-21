@@ -88,6 +88,10 @@ public enum BrowserReplies {
                          "config": .object(["full_page_delay_ms": .number(Double(fullPageDelayMilliseconds))])])
     }
 
+    /// Mac: Greenshot asks the extension for its active tab again (`BrowserConnections.askForActiveTab`); the extension
+    /// answers with TAB_CHANGED, also when the tab didn't change.
+    public static let reportTabEvent: JSONObject = ["event": .string("report_tab")]
+
     /// IMPORT_CAPTURE accepted: `{"status": "ok", "reply_to": "IMPORT_CAPTURE", "exit_code": 0, "width", "height"}`.
     public static func importAccepted(width: Int, height: Int) -> IPCReply {
         .ok(extra: ["reply_to": .string(BrowserCommand.importCapture), "width": .number(Double(width)),

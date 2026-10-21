@@ -117,6 +117,30 @@ struct BrowserContextTests {
         #expect(context.currentTicket == "QA-3")
     }
 
+    /// Mac: switching the extension off in Settings forgets the tab, and the browser stays connected. Switching it on
+    /// asks each extension Greenshot accepted for its active tab again, as a handshake does; an ended connection is
+    /// no longer asked.
+    @Test func acceptedExtensionsAreAskedForTheirTab() {
+        let connections = BrowserConnections()
+        let writer = CollectingWriter()
+        let peer = IPCPeer(uid: getuid(), pid: 4242, auditToken: nil)
+        let context = IPCReplyContext(envelope: IPCEnvelope(command: BrowserCommand.handshake), source: .nativeMessaging,
+                                      writer: writer, peer: peer)
+        context.reply(BrowserReplies.handshake(version: "1"))
+        connections.accepted(context)
+        connections.askForActiveTab()
+        #expect(writer.jsonObjects.count == 2)
+        #expect(writer.jsonObjects.last == BrowserReplies.reportTabEvent)
+        #expect(BrowserReplies.reportTabEvent["event"]?.stringValue == "report_tab")
+        // Another program with the same process id later doesn't end this one
+        connections.ended(IPCPeer(uid: getuid(), pid: 4242, auditToken: Data([1])))
+        connections.askForActiveTab()
+        #expect(writer.jsonObjects.count == 3)
+        connections.ended(peer)
+        connections.askForActiveTab()
+        #expect(writer.jsonObjects.count == 3)
+    }
+
     @Test func browserVariablesFillAFileName() {
         let context = BrowserContext()
         context.update(url: "https://jira.example.org/browse/QA-9", title: "Login")

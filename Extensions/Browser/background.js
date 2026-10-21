@@ -9,9 +9,10 @@
  * TAB_CHANGED also send "browser" (upstream sends it only in HANDSHAKE), and IMPORT_CAPTURE the tab's width in CSS pixels
  * ("tab_width", so Greenshot knows the Retina scale). Turning the tab tracking off sends TAB_CHANGED with
  * "tracking": false, so Greenshot forgets the tab, and IMPORT_CAPTURE says "tracking" too (with it off, the captured
- * page doesn't become Greenshot's tab). A HANDSHAKE that Greenshot refuses (the extension switched off in its
- * settings) counts as offline, with Greenshot's reason, and is tried again later; the popup's status waits a moment for
- * a handshake under way. "Sent to Greenshot!" only when Greenshot answers IMPORT_CAPTURE with "ok" (upstream shows it
+ * page doesn't become Greenshot's tab); Greenshot's event "report_tab" asks for the active tab again. A HANDSHAKE
+ * that Greenshot refuses (the extension switched off in its settings) counts as offline, with Greenshot's reason, and
+ * is tried again with the back-off; tab changes start no connection. The popup's status waits a moment for a
+ * handshake under way. "Sent to Greenshot!" only when Greenshot answers IMPORT_CAPTURE with "ok" (upstream shows it
  * once the message is posted, also when Greenshot refused the capture).
  * manifest.json asks for no host permissions (upstream: <all_urls>): "activeTab" lets captureVisibleTab take the tab the
  * user clicked the button in (Firefox 126 and later), "tabs" gives the tab's address and title for the tab tracking.
@@ -206,6 +207,13 @@ function onNativeMessage(msg) {
     if (entry) {
       finishCapture(entry, msg);
     }
+    return;
+  }
+
+  // Mac: Greenshot asks for the active tab again (the extension was switched back on in its settings, which forgot
+  // the tab while this browser stayed connected)
+  if (msg.event === "report_tab") {
+    reportActiveTab();
     return;
   }
 
