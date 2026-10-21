@@ -132,7 +132,7 @@ enum Permissions {
     private static func noteScreenCapture() {
         Toast.show(String(localized: "Allow \(AppInfo.name) to record your screen"),
                    detail: String(localized: "Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording."),
-                   kind: .warning, action: { NSWorkspace.shared.open(screenCaptureSettingsURL) })
+                   kind: .warning, action: { NSWorkspace.shared.open(screenCaptureSettingsURL) }, mustBeSeen: true)
     }
 
     static func explainScreenCapture() {

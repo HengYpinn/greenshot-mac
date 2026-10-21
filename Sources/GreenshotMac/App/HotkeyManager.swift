@@ -207,7 +207,8 @@ final class HotkeyManager {
         // A notification, not a dialog: it holds nothing up (at launch the startup command and links run at once) and
         // can't sit over the capture screen. A click opens Self-Service › Hotkeys: every hotkey's state, Register Again.
         Toast.show(String(localized: "Some hotkeys could not be registered"), detail: lines.joined(separator: "\n") + "\n\n" + advice,
-                   kind: .warning, action: { (NSApp.delegate as? AppDelegate)?.showSelfService(section: .hotkeys) })
+                   kind: .warning, action: { (NSApp.delegate as? AppDelegate)?.showSelfService(section: .hotkeys) },
+                   mustBeSeen: true)
     }
 
     // MARK: Keys
