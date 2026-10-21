@@ -38,8 +38,9 @@ struct ScreenCaptureAccessTests {
 
     @Test(.timeLimit(.minutes(1)))
     func aProbeThatHangsIsNotWaitedFor() async {
-        // The try can't answer before the test opens the gate (or the time limit cancels the test, which opens it and
-        // makes the try answer `.works`, so a probe that waits for its try fails here instead of hanging).
+        // The try can't answer before the test opens the gate. A probe that awaits its try in the caller's task fails
+        // at the time limit (its cancellation opens the gate, the try answers `.works`); a probe whose timer never fires
+        // would hang the run instead, because the try runs in a task of its own that the cancellation doesn't reach.
         let gate = Gate()
         let result = await ScreenCaptureAccess.probe(within: 0.05) {
             await gate.wait()
