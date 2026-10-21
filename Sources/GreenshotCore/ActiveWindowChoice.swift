@@ -16,4 +16,25 @@ public enum ActiveWindowChoice {
         if frontmost == own { return owners.isEmpty ? nil : 0 }
         return owners.firstIndex(of: frontmost)
     }
+
+    /// What "the active window" becomes when the active app has no window on the screen.
+    public enum Fallback: Equatable, Sendable {
+        /// The whole screen, like upstream (`ActiveWindowCaptureSource` falls back to `CaptureScreenAsync`).
+        case screen
+        /// The whole screen once the run's own question allows it (greenshot-cli's RUN_RECIPE, `RecipeCaptureConsent`).
+        case askForScreen
+        /// Nothing: "The window is no longer on the screen".
+        case none
+    }
+
+    /// The fallback for a capture or recording of the active window. Only a capture the user started at the computer
+    /// (`OverlayInputArming.startedByUser`: the hotkey, the menus, the editor) widens to the whole screen. A capture
+    /// another program started (a command line, a link, an AI tool, a schedule, the browser extension) was allowed one
+    /// window, and a program can arrange that the active app has none: it asks again when its run has a question of its
+    /// own (`hasConsent`), else it fails. An AI tool never gets the screen in place of a window.
+    public static func fallback(triggerType: String?, markedByAutomation: Bool, hasConsent: Bool) -> Fallback {
+        if let triggerType, recipeEquals(triggerType, WellKnownTriggerType.aiTool) { return .none }
+        if hasConsent { return .askForScreen }
+        return OverlayInputArming.startedByUser(triggerType: triggerType, markedByAutomation: markedByAutomation) ? .screen : .none
+    }
 }

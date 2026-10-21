@@ -110,7 +110,10 @@ final class CaptureCoordinator {
         let settings = self.settings.value
         run {
             guard let window = ScreenCapturer.frontWindow(in: ScreenCapturer.onScreenWindows()) else {
-                // No window of the active app (upstream `ActiveWindowCaptureSource`): the whole screen, titled "Screen".
+                // No window of the active app (upstream `ActiveWindowCaptureSource`): the whole screen, titled "Screen",
+                // for the user's own hotkey or menu; a capture automation started was allowed a window and stays one.
+                guard ActiveWindowChoice.fallback(triggerType: nil, markedByAutomation: byAutomation, hasConsent: false) == .screen
+                else { throw CaptureError.windowNotFound }
                 return try await ScreenCapturer.captureScreen(showsCursor: settings.captureMousePointer,
                                                               toneMapHDR: settings.toneMapHDRCaptures).capture
             }

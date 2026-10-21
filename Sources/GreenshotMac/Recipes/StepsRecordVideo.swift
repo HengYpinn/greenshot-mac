@@ -36,7 +36,13 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
         var windowID: CGWindowID?
         switch handle {
         case .id(let id): windowID = id
-        case .other(let reference): windowID = resolver?.windowID(for: reference)
+        case .other(let reference):
+            // Like the Source step: a window the flow named that is gone is an error, not the active window or the screen.
+            guard let id = resolver?.windowID(for: reference) else {
+                throw RecipeStepError("The window to record (\(reference.interpolationText)) doesn't exist (anymore).",
+                                      errorType: "InvalidOperationException")
+            }
+            windowID = id
         case .none: break
         }
         let recorder = try await Self.start(step, source: source, region: region, query: query, windowID: windowID, context: context,
@@ -117,9 +123,24 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
                 area = window.frame
                 title = window.displayTitle
             } else if windowID == nil {
-                // The active app has no window on the screen (the desktop clicked): the screen, like the Source step and
-                // "Capture active window" (upstream records the window in front, the desktop then); a video shows one
-                // display, the primary one, as MonitorIndex does by default.
+                // The active app has no window on the screen (the desktop clicked): the screen when the user started it,
+                // like the Source step and "Capture active window" (upstream records the window in front, the desktop
+                // then); a video shows one display, the primary one, as MonitorIndex does by default. An AI tool, a link
+                // or another program's start fails (`ActiveWindowChoice.fallback`); greenshot-cli's run was asked for
+                // "a screen recording", which this is.
+                let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent
+                let marked = context.object(forKey: OverlayInputArming.automationMarkKey) is AutomationStartMark
+                switch ActiveWindowChoice.fallback(triggerType: context.trigger?.triggerType, markedByAutomation: marked,
+                                                   hasConsent: consent != nil) {
+                case .none:
+                    throw CaptureError.windowNotFound
+                case .askForScreen:
+                    guard let consent, await consent.allows("a screen recording") else {
+                        throw RecipeStepError("The screen recording wasn't allowed.", errorType: "UnauthorizedAccessException")
+                    }
+                case .screen:
+                    break
+                }
                 let id = CGMainDisplayID()
                 target = .display(id)
                 area = CGDisplayBounds(id)
