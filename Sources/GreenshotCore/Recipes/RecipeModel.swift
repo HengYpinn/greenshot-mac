@@ -345,16 +345,14 @@ public struct RecipeFlow: Sendable, Equatable {
             ?? errorTransitions.first { isWildcardFrom($0) && isWildcardType($0) }
     }
 
+    /// Adds `to` to the first transition from `from` unless it leads there already (`RecipeIdSet`'s rule).
     public mutating func addTransition(from: String, to: String) {
-        guard !from.isEmpty, !to.isEmpty else { return }
-        if let index = transitions.firstIndex(where: { recipeEquals($0.from, from) }) {
-            if !transitions[index].to.contains(where: { recipeEquals($0, to) }) { transitions[index].to.append(to) }
-        } else {
-            transitions.append(RecipeTransition(from: from, to: [to]))
-        }
+        guard !to.isEmpty else { return }
+        addTransitions(from: from, to: [to])
     }
 
-    /// `addTransition` for each target in order, in linear time (thousands of next steps of one step).
+    /// Adds the targets in order to the first transition from `from` (a new one when there is none), each unless it leads
+    /// there already (`RecipeIdSet`'s rule); in linear time (thousands of next steps of one step).
     public mutating func addTransitions(from: String, to targets: [String]) {
         guard !from.isEmpty else { return }
         let added = targets.filter { !$0.isEmpty }
@@ -525,17 +523,15 @@ func recipeEquals(_ lhs: String, _ rhs: String) -> Bool {
     lhs.caseInsensitiveCompare(rhs) == .orderedSame
 }
 
-/// Ids compared with `recipeEquals`, each looked up in constant time: kept in buckets by their case-folded canonical
-/// decomposition and compared with `recipeEquals` within a bucket (a few unequal ids, like "ᾈ" and "ἀι", share one). For
-/// lists a crafted file can make long, such as thousands of next steps of one step: comparing each with all the others
-/// took minutes.
+/// Ids compared case-insensitively, each looked up in constant time, for lists a crafted file can make long (thousands of
+/// next steps of one step: comparing each with all the others took minutes). Two ids are one when they have the same
+/// lowercased text (one step to the engine), or when `recipeEquals` matches them both ways and they share a bucket.
+/// Buckets are keyed by the case-folded canonical decomposition of the lowercased text, so ids with the same lowercased
+/// text always share one (canonically equivalent text decomposes to the same characters).
 ///
-/// `recipeEquals` (CFStringCompare) is neither symmetric nor transitive for a few Unicode quirks, so no key follows it
-/// exactly. What holds: ids with the same lowercased text (one step to the engine) always share a bucket, and so do the
-/// other ids `recipeEquals` matches, with two exceptions that count as two here (and as two steps to the engine): a
-/// U+0345 COMBINING GREEK YPOGEGRAMMENI written as its own character next to other combining marks, and matches
-/// `recipeEquals` finds in one direction only ("f" + U+212A KELVIN SIGN against "ﬁ", "S" + U+212A against "ß",
-/// "A" + "Σ" against "Å").
+/// `recipeEquals` (CFStringCompare) matches a few Unicode pairs in one direction only or against canonical equivalence
+/// ("f" + U+212A KELVIN SIGN against "ﬁ"; U+0345 COMBINING GREEK YPOGEGRAMMENI before another mark), so the rule doesn't
+/// rely on it there: such ids count as two unless their lowercased text is the same, in whatever order they come.
 struct RecipeIdSet {
     private var ids = RecipeIdMap<Bool>()
 
@@ -556,27 +552,36 @@ struct RecipeIdSet {
     }
 }
 
-/// A dictionary keyed by ids compared with `recipeEquals`, in constant time per id (see `RecipeIdSet`, also for the
-/// Unicode quirks); the first spelling of a key is kept.
+/// A dictionary keyed by ids compared case-insensitively, in constant time per id (`RecipeIdSet` says when two ids are
+/// one); the first spelling of a key is kept.
 struct RecipeIdMap<Value> {
-    private var buckets: [String: [(id: String, value: Value)]] = [:]
+    private var buckets: [String: [(id: String, lowered: String, value: Value)]] = [:]
 
     subscript(id: String) -> Value? {
-        get { buckets[Self.bucket(id)]?.first { recipeEquals($0.id, id) }?.value }
+        get {
+            let lowered = id.lowercased()
+            return buckets[Self.bucket(lowered)]?.first { Self.same($0.id, $0.lowered, id, lowered) }?.value
+        }
         set {
-            let bucket = Self.bucket(id)
+            let lowered = id.lowercased()
+            let bucket = Self.bucket(lowered)
             var entries = buckets[bucket] ?? []
-            if let index = entries.firstIndex(where: { recipeEquals($0.id, id) }) {
+            if let index = entries.firstIndex(where: { Self.same($0.id, $0.lowered, id, lowered) }) {
                 if let newValue { entries[index].value = newValue } else { entries.remove(at: index) }
             } else if let newValue {
-                entries.append((id, newValue))
+                entries.append((id, lowered, newValue))
             }
             buckets[bucket] = entries.isEmpty ? nil : entries
         }
     }
 
-    /// Decomposed first: case folding turns U+0345 into a letter, so it must come after the canonical reordering.
-    private static func bucket(_ id: String) -> String {
-        id.decomposedStringWithCanonicalMapping.folding(options: .caseInsensitive, locale: nil)
+    /// The same lowercased text, or `recipeEquals` both ways (see `RecipeIdSet`).
+    private static func same(_ id: String, _ lowered: String, _ other: String, _ otherLowered: String) -> Bool {
+        lowered == otherLowered || (recipeEquals(id, other) && recipeEquals(other, id))
+    }
+
+    /// Decomposed before folding: case folding turns U+0345 into a letter, so it must come after the canonical reordering.
+    private static func bucket(_ lowered: String) -> String {
+        lowered.decomposedStringWithCanonicalMapping.folding(options: .caseInsensitive, locale: nil)
     }
 }

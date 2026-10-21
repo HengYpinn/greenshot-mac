@@ -26,6 +26,15 @@ enum RecipeFixtures {
     }
 }
 
+extension RecipeFlow {
+    /// How many targets one step with these targets has.
+    static func targetCount(_ targets: [String]) -> Int {
+        var flow = RecipeFlow()
+        flow.transitions = [RecipeTransition(from: "a", to: targets)]
+        return flow.targets(from: "a").count
+    }
+}
+
 @Suite struct RecipeModelTests {
     @Test func allElevenExamplesDecode() throws {
         #expect(RecipeFixtures.exampleNames.count == 11)
@@ -217,32 +226,39 @@ enum RecipeFixtures {
         #expect(flow.targets(from: "b") == xs)
     }
 
-    /// Targets count as one when `recipeEquals` matches them: case, "ß" and "SS", canonically equivalent spellings (also
-    /// "ᾳ" with an accent written after it and "ᾴ"); "ᾈ" and "ἀι" are two.
-    @Test func targetsCountAsOneWhenRecipeEqualsMatchesThem() {
+    /// Targets with the same lowercased text count as one, as the engine sees one step: case, canonically equivalent
+    /// spellings, "ᾳ" with an accent written after it against "ᾴ", a U+0345 written before or after an ogonek. Nothing
+    /// here depends on how CoreFoundation's `recipeEquals` answers.
+    @Test func targetsCountAsOneWhenTheirLowercasedTextIsEqual() {
+        let ids = ["x", "X", "e\u{301}", "É", "\u{1FB3}\u{301}", "\u{1FB4}", "\u{391}\u{345}\u{301}", "ß", "ẞ",
+                   "\u{345}\u{328}", "\u{328}\u{345}"]
+        let once = ["x", "e\u{301}", "\u{1FB3}\u{301}", "ß", "\u{345}\u{328}"]
         var flow = RecipeFlow()
-        flow.transitions = [RecipeTransition(from: "a", to: ["ß", "SS", "ss", "ᾈ", "ἀι", "e\u{301}", "É",
-                                                              "\u{1FB3}\u{301}", "\u{1FB4}", "\u{391}\u{345}\u{301}"])]
-        let once = ["ß", "ᾈ", "ἀι", "e\u{301}", "\u{1FB3}\u{301}"]
+        flow.transitions = [RecipeTransition(from: "a", to: ids)]
         #expect(flow.targets(from: "a") == once)
         #expect(flow.unifiedTransitions["a"] == once)
-        flow.addTransitions(from: "a", to: ["SS", "x", "X"])
-        #expect(flow.targets(from: "a") == once + ["x"])
+        flow.addTransitions(from: "a", to: ["É", "y", "Y"])
+        #expect(flow.targets(from: "a") == once + ["y"])
+        flow.addTransition(from: "a", to: "\u{328}\u{345}")
+        #expect(flow.targets(from: "a") == once + ["y"])
     }
 
-    /// `recipeEquals` (CFStringCompare) is neither symmetric nor transitive for a few Unicode quirks, so no lookup key can
-    /// follow it exactly. These ids count as two (documented behaviour; the engine, which compares lowercased text, sees two
-    /// steps too): matches in one direction only (CF's expansions), and a U+0345 written as its own mark before another.
-    @Test func recipeEqualsUnicodeQuirksCountAsTwo() {
-        #expect(recipeEquals("f\u{212A}", "\u{FB01}"))
-        #expect(!recipeEquals("\u{FB01}", "f\u{212A}"))
-        #expect(recipeEquals("\u{345}\u{301}", "\u{399}\u{301}"))
-        let quirks = ["f\u{212A}", "\u{FB01}", "S\u{212A}", "\u{DF}", "A\u{3A3}", "\u{C5}", "\u{345}\u{301}", "\u{399}\u{301}"]
-        var flow = RecipeFlow()
-        flow.transitions = [RecipeTransition(from: "a", to: quirks)]
-        #expect(flow.targets(from: "a") == quirks)
-        for index in stride(from: 0, to: quirks.count, by: 2) {
-            #expect(quirks[index].lowercased() != quirks[index + 1].lowercased())
+    /// `recipeEquals` (CFStringCompare) answers a few Unicode pairs in one direction only or against canonical
+    /// equivalence (on this Mac: "f" + U+212A KELVIN SIGN matches "ﬁ" but not the other way; U+0345 + ogonek doesn't match
+    /// ogonek + U+0345). Whatever it answers, our rule holds: the same lowercased text is one target; otherwise two
+    /// whenever `recipeEquals` fails either way; never dependent on the order the ids come in.
+    @Test func unicodeQuirksFollowOurRuleWhateverRecipeEqualsAnswers() {
+        let pairs = [("f\u{212A}", "\u{FB01}"), ("S\u{212A}", "\u{DF}"), ("A\u{3A3}", "\u{C5}"), ("\u{345}\u{301}", "\u{399}\u{301}"),
+                     ("\u{345}\u{328}", "\u{328}\u{345}"), ("\u{1FB3}\u{301}", "\u{1FB4}"), ("\u{1F88}", "\u{1F00}\u{3B9}"), ("ß", "SS")]
+        for (first, second) in pairs {
+            let forward = RecipeFlow.targetCount([first, second])
+            let backward = RecipeFlow.targetCount([second, first])
+            #expect(forward == backward, "\(first) / \(second)")
+            if first.lowercased() == second.lowercased() {
+                #expect(forward == 1, "\(first) / \(second)")
+            } else if !recipeEquals(first, second) || !recipeEquals(second, first) {
+                #expect(forward == 2, "\(first) / \(second)")
+            }
         }
     }
 
