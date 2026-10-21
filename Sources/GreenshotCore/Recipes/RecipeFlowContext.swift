@@ -66,11 +66,16 @@ public struct RecipeExportOutcome: Sendable, Equatable {
     }
 }
 
-/// The exports of one flow, shared by its branch contexts (upstream `ExportLog`). Thread safe.
+/// The exports of one flow, shared by its branch contexts and the recipes an error is forwarded to (upstream
+/// `ExportLog`). Thread safe.
 public final class RecipeExportLog: @unchecked Sendable {
+    /// The flow variable that shows `announcedCount` to the recipe and to the failure message (`RecipeFlowNotice`).
+    public static let announcedExportsVariable = "Notification.AnnouncedExports"
+
     private let lock = NSLock()
     private var outcomes: [RecipeExportOutcome] = []
     private var notified = 0
+    private var announced: Int?
 
     public init() {}
 
@@ -86,6 +91,20 @@ public final class RecipeExportLog: @unchecked Sendable {
             let unnotified = Array(outcomes[notified...])
             notified = outcomes.count
             return unnotified
+        }
+    }
+
+    /// How many exports the flow's Notification steps showed, in every branch and forwarded recipe together; nil until one
+    /// ran. Kept here and not only in the flow variable, whose copies in parallel branches would overwrite each other.
+    public var announcedCount: Int? { lock.withLock { announced } }
+
+    /// A Notification step showed `count` exports (0: it ran and showed none); the flow's new total.
+    @discardableResult
+    public func recordAnnounced(_ count: Int) -> Int {
+        lock.withLock {
+            let total = (announced ?? 0) + max(0, count)
+            announced = total
+            return total
         }
     }
 }
@@ -305,6 +324,8 @@ public final class RecipeFlowContext: @unchecked Sendable {
         write { state in
             if mergeVariables {
                 for member in child.variables { state.variables[member.key] = member.value }
+                syncAnnouncedExports(&state.variables,
+                                     mergedTheCount: child.variables[RecipeExportLog.announcedExportsVariable] != nil)
             }
             if child.exitCode != 0, state.exitCode == 0 { state.exitCode = child.exitCode }
             if child.state == .failed, state.state != .failed {
@@ -325,8 +346,18 @@ public final class RecipeFlowContext: @unchecked Sendable {
         let changed = branch.variables.filter { start[$0.key] != $0.value }
         write { state in
             for member in changed { state.variables[member.key] = member.value }
+            syncAnnouncedExports(&state.variables,
+                                 mergedTheCount: changed.contains { recipeEquals($0.key, RecipeExportLog.announcedExportsVariable) })
         }
         merge(branch: branch, variables: false)
+    }
+
+    /// A merged `Notification.AnnouncedExports` is the branch's copy, how far the count was when its Notification step
+    /// ran: the flow's count is the export log's (another branch may have shown exports later, or earlier and merged
+    /// after). Untouched while no Notification step ran (a recipe's own value stays).
+    private func syncAnnouncedExports(_ variables: inout RecipeVariables, mergedTheCount: Bool) {
+        guard mergedTheCount, let total = exports.announcedCount else { return }
+        variables[RecipeExportLog.announcedExportsVariable] = .number(Double(total))
     }
 
     /// The host objects as given (for a forwarded flow).

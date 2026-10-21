@@ -52,11 +52,11 @@ public enum RecipeExtensionNames {
     }
 
     /// A list of ids or designations as a scope option stores it: comma separated (upstream), or a JSON array of strings
-    /// when the separated form wouldn't read back the same (an external command's name with "," or ";", or with a blank
-    /// at the start or end).
+    /// when the separated form wouldn't read back the same (an external command's name with "," or ";", with a blank at
+    /// the start or end, or one that is itself a JSON array).
     public static func storedList(_ items: [String]) -> String {
         let plain = items.joined(separator: ",")
-        guard splitList(plain) != items else { return plain }
+        guard self.items(ofStoredList: plain) != items else { return plain }
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.withoutEscapingSlashes]
         guard let data = try? encoder.encode(items), let text = String(data: data, encoding: .utf8) else { return plain }

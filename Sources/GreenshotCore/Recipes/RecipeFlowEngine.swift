@@ -31,6 +31,19 @@ public struct RecipeFlowEngine: Sendable {
         let run = FlowRun(engine: self, context: context)
         await run.run()
     }
+
+    /// Where a failure of `node` goes when `transition` is the error transition found for it (upstream `ExecuteAsync`'s
+    /// catch): the transition's target, else the node's own; when there is a target recipe, the flow goes on there and
+    /// the target node isn't run. The validator checks the same targets (`RecipeValidator.errorHandlerTargets`).
+    static func errorTargets(of node: RecipeNode, transition: ErrorTransition?) -> (node: String?, recipe: String?) {
+        (node: nonEmpty(transition?.to) ?? nonEmpty(node.onErrorNodeId),
+         recipe: nonEmpty(transition?.targetRecipeId) ?? nonEmpty(node.onErrorRecipeId))
+    }
+
+    static func nonEmpty(_ text: String?) -> String? {
+        guard let text, !text.trimmingCharacters(in: .whitespaces).isEmpty else { return nil }
+        return text
+    }
 }
 
 /// One execution of a recipe's graph (the state of upstream `DagExecutionEngine.ExecuteAsync`). Node ids are compared
@@ -290,8 +303,7 @@ private final class FlowRun: @unchecked Sendable {
         let errorType = stepError?.errorType ?? String(describing: type(of: error))
         log.warn("Node '\(node.id)' of recipe '\(recipe.id)' failed: \(message)")
         let transition = recipe.flow.errorTransition(from: node.id, errorType: errorType, innerErrorType: stepError?.innerErrorType)
-        let targetNode = Self.nonEmpty(transition?.to) ?? Self.nonEmpty(node.onErrorNodeId)
-        let targetRecipe = Self.nonEmpty(transition?.targetRecipeId) ?? Self.nonEmpty(node.onErrorRecipeId)
+        let (targetNode, targetRecipe) = RecipeFlowEngine.errorTargets(of: node, transition: transition)
         guard targetNode != nil || targetRecipe != nil else {
             context.fail("Node '\(node.id)' failed: \(message)", error: error)
             emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
@@ -354,11 +366,6 @@ private final class FlowRun: @unchecked Sendable {
             }
             await runNode(targetNode.lowercased(), context)
         }
-    }
-
-    private static func nonEmpty(_ text: String?) -> String? {
-        guard let text, !text.trimmingCharacters(in: .whitespaces).isEmpty else { return nil }
-        return text
     }
 
     // MARK: Routing

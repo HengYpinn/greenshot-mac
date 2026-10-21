@@ -324,6 +324,20 @@ final class FakeExporter: RecipeExporting, @unchecked Sendable {
         #expect(context[variable: RecipeNotificationExecutor.announcedExportsVariable] == .number(0))
     }
 
+    /// The count is the flow's, kept in the shared export log: a branch's Notification step adds to it.
+    @Test func notificationCountsTheWholeFlow() async throws {
+        let executor = RecipeNotificationExecutor(presenter: Announcements())
+        let context = context()
+        let branch = context.makeBranch()
+        context.exports.add(RecipeExportOutcome(designation: "Clipboard", succeeded: true))
+        try await executor.execute(step("Notification"), in: branch)
+        context.exports.add(RecipeExportOutcome(designation: "Jira", succeeded: true))
+        try await executor.execute(step("Notification"), in: context)
+        #expect(branch[variable: RecipeNotificationExecutor.announcedExportsVariable] == .number(1))
+        #expect(context[variable: RecipeNotificationExecutor.announcedExportsVariable] == .number(2))
+        #expect(context.exports.announcedCount == 2)
+    }
+
     @Test func notificationContractDeclaresTheCount() {
         let contract = RecipeNotificationExecutor.contract
         #expect(contract.stepType == WellKnownStepType.notification)

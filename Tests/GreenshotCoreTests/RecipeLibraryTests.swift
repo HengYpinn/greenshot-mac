@@ -47,10 +47,10 @@ struct LibraryFixture {
     let store: RecipeTrustStore
     let library: RecipeLibrary
 
-    init(approver: StubApprover? = nil, builtIns: [CaptureRecipe] = []) {
+    init(approver: StubApprover? = nil, builtIns: [CaptureRecipe] = [], secrets: any SecretStore = InMemorySecretStore()) {
         let approver = approver ?? StubApprover()
         self.approver = approver
-        store = RecipeTrustStore(fileURL: folder.appendingPathComponent("trust.json"), secrets: InMemorySecretStore())
+        store = RecipeTrustStore(fileURL: folder.appendingPathComponent("trust.json"), secrets: secrets)
         let box = self.box
         library = RecipeLibrary(loadSettings: { box.settings }, saveSettings: { box.settings = $0 }, trustStore: store, approver: approver,
                                 builtInRecipes: builtIns, watchFiles: false)
@@ -257,6 +257,25 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         _ = await fixture.library.reviewApproval(recipeId: "lib_recipe")
         #expect(fixture.library.recipe(id: "lib_recipe") == nil)
         #expect(fixture.store.record(forFile: url.path) == nil)
+    }
+
+    /// "Revoke" in a review while the Keychain can't read the trust store's key isn't saved: it says so, and the recipe
+    /// stays as it was (like the manager's Revoke), instead of coming back at the next start after a "was revoked".
+    @Test func aRevokeThatCantBeSavedSaysSo() async throws {
+        let secrets = FlakySecretStore()
+        let fixture = LibraryFixture(secrets: secrets)
+        defer { fixture.cleanUp() }
+        let url = try fixture.write(libraryRecipe())
+        _ = await fixture.library.loadFile(url)
+        secrets.failsReading = true
+        fixture.approver.answer = { _ in .revoked }
+        let result = await fixture.library.reviewApproval(recipeId: "lib_recipe")
+        #expect(result.errors.count == 1)
+        #expect(result.errors.first?.hasPrefix("The approval of recipe 'Library Recipe' (lib_recipe) could not be revoked: ") == true)
+        #expect(fixture.library.recipe(id: "lib_recipe") != nil)
+        secrets.failsReading = false
+        let hash = RecipeHash.sha256Hex(try Data(contentsOf: url))
+        #expect(fixture.store.approval(forFile: url.path, sha256: hash, recipeId: "lib_recipe") != nil)
     }
 
     @Test func overrideAndResetBuiltIns() async throws {

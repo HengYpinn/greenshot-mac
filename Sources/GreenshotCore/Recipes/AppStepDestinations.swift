@@ -415,9 +415,9 @@ public protocol RecipeNotificationPresenting: Sendable {
 /// Upstream `NotificationStep`: `ShowNotification` variable, parameter, else the setting; the exports since the
 /// previous Notification step (of every destination step and branch) in one notification. Sets
 /// `EnableCompletionNotification` and `Notification.AnnouncedExports` (how many exports the flow's notifications showed,
-/// for RUI's failure message).
+/// for RUI's failure message; the count of the whole flow, kept in its export log).
 public struct RecipeNotificationExecutor: RecipeStepExecutor {
-    public static let announcedExportsVariable = "Notification.AnnouncedExports"
+    public static let announcedExportsVariable = RecipeExportLog.announcedExportsVariable
 
     let presenter: any RecipeNotificationPresenting
 
@@ -438,11 +438,13 @@ public struct RecipeNotificationExecutor: RecipeStepExecutor {
         let show = step.resolved("ShowNotification", overrideVariable: "ShowNotification", in: context)?.asBool ?? setting
         context[variable: "EnableCompletionNotification"] = .bool(show)
         let exports = context.exports.takeUnnotified()
-        var announced = context[variable: Self.announcedExportsVariable]?.asInt ?? 0
+        var shown = 0
         if show, !exports.isEmpty {
             await presenter.announce(exports, in: context)
-            announced += exports.count
+            shown = exports.count
         }
+        // Parallel branches and forwarded recipes add to one count (a copy of the variable would lose theirs).
+        let announced = context.exports.recordAnnounced(shown)
         context[variable: Self.announcedExportsVariable] = .number(Double(announced))
     }
 }
