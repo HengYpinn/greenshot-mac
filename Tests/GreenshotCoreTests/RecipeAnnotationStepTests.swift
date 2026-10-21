@@ -124,21 +124,45 @@ struct RecipeTestCursors: RecipeCursorImageProviding {
     }
 
     /// TailX and TailY that don't convert fall back to 20 points left of the box and 25 below it (upstream
-    /// `GetInt(p, "TailX", bLeft - 20)`), in whole points; a box beyond Int's range (Left and OffsetX of 9e18 each) gives
-    /// that fallback without the `Int()` that stopped the app.
+    /// `GetInt(p, "TailX", bLeft - 20)`), in whole points. A box beyond Int's range gets it without the `Int()` that
+    /// stopped the app (see elementsAFileWouldLeaveOutAreSkipped).
     @Test func theTailFallbackBesideAnyBox() throws {
         let centered: JSONObject = ["Type": .string("SpeechBubble"), "Text": .string("Hi"), "HorizontalAnchor": .string("Center"),
                                     "Width": .number(81), "Height": .number(40), "TailX": .null, "TailY": .string("below")]
         let near = try #require(element(centered))
         // The box starts at 159.5: whole points toward zero, like upstream's int bounds.
         #expect(near.tail == CGPoint(x: 139, y: 65))
-        let far: JSONObject = ["Type": .string("SpeechBubble"), "Text": .string("Hi"), "Left": .number(9e18), "OffsetX": .number(9e18),
-                               "Top": .number(-9e18), "OffsetY": .number(-9e18), "Width": .number(80), "Height": .number(40),
-                               "TailX": .null, "TailY": .null]
-        let bubble = try #require(element(far, scale: 2))
-        let tail = try #require(bubble.tail)
-        #expect(tail.x > 3.5e19)
-        #expect(tail.y < -3.5e19)
+    }
+
+    /// An element further away than a `.greenshot` file takes back (`Annotation.maxCoordinate`) was made, then left out
+    /// as "Damaged element" when the saved file was reopened: it is skipped with the reason instead. Making it doesn't
+    /// stop the app either (the speech bubble's tail fallback beside a box beyond Int's range).
+    @Test func elementsAFileWouldLeaveOutAreSkipped() throws {
+        let factory = RecipeAnnotationFactory(imageSize: CGSize(width: 800, height: 600), scale: 2)
+        let far: [JSONObject] = [
+            ["Type": .string("Rectangle"), "Left": .number(2_000_000), "Width": .number(10), "Height": .number(10)],
+            ["Type": .string("SpeechBubble"), "Text": .string("Hi"), "Left": .number(9e18), "OffsetX": .number(9e18),
+             "Top": .number(-9e18), "OffsetY": .number(-9e18), "Width": .number(80), "Height": .number(40),
+             "TailX": .null, "TailY": .null],
+            ["Type": .string("SpeechBubble"), "Text": .string("Hi"), "Width": .number(80), "Height": .number(40),
+             "TailOffsetX": .number(9e18)],
+            ["Type": .string("Freehand"), "Points": .string("0,0;5000000,5")]
+        ]
+        let image = TestImage.solid(width: 800, height: 600, .white)
+        var skipped = 0
+        for parameters in far {
+            switch factory.make(AnnotationParameters(parameters)) {
+            case .element(let element):
+                let read = try #require(GreenshotFile.read(try GreenshotFile.Contents(image: image, scale: 2, elements: [element]).encoded()))
+                #expect(read.elements.count == 1, "\(parameters)")
+            case .skipped(let reason):
+                #expect(reason.contains("too far"))
+                skipped += 1
+            case .crop:
+                Issue.record("A crop for \(parameters)")
+            }
+        }
+        #expect(skipped == far.count)
     }
 
     @Test func countersAndEmoji() throws {
