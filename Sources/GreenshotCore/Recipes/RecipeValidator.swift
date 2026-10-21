@@ -363,24 +363,113 @@ public struct RecipeValidator: Sendable {
             }
         }
         // An error handler that isn't a node would let the failed node end the flow as a success (a Mac addition: upstream
-        // checks error targets only in extensions). A target recipe wins at run time, so its node target isn't checked.
-        func isSet(_ text: String?) -> Bool { !(text ?? "").trimmingCharacters(in: .whitespaces).isEmpty }
-        for node in recipe.nodes where !isSet(node.onErrorRecipeId) {
-            if let target = node.onErrorNodeId, isSet(target), !exists(target) {
-                result.errors.append("Error handler node '\(target)' of node '\(node.id)' does not exist in 'nodes'.")
+        // checks error targets only in extensions). Only targets the engine would run as a node are checked.
+        var reported = Set<String>()
+        for handler in Self.errorHandlerTargets(recipe) where !exists(handler.target) {
+            let message: String
+            if let transition = handler.transition, RecipeFlowEngine.nonEmpty(transition.to) != nil {
+                // Extensions say it in their own words (`validateExtensionFlow`).
+                if allowOut { continue }
+                let from = transition.from.flatMap { $0.isEmpty ? nil : $0 } ?? "*"
+                message = "Error transition target node '\(handler.target)' (from '\(from)') does not exist in 'nodes'."
+            } else {
+                message = "Error handler node '\(handler.target)' of node '\(handler.node.id)' does not exist in 'nodes'."
             }
-        }
-        // Extensions say it in their own words (`validateExtensionFlow`).
-        if !allowOut {
-            for transition in flow.errorTransitions where !isSet(transition.targetRecipeId) {
-                if let target = transition.to, isSet(target), !exists(target) {
-                    result.errors.append("Error transition target node '\(target)' (from '\(transition.from ?? "*")') does not exist in 'nodes'.")
-                }
-            }
+            if reported.insert(message).inserted { result.errors.append(message) }
         }
         if let cycle = Self.findCycle(recipe, starts: starts, ids: ids) {
             result.errors.append("Cycle/loop detected in recipe flow: \(cycle.joined(separator: " -> ")). Loops are strictly disallowed in DAG flows.")
         }
+    }
+
+    /// The node targets failures can go to, as the engine picks them: for each node, the error transition each error type
+    /// finds (`RecipeFlow.errorTransition`: the node's own by type, its own for any type, a wildcard one by type, a
+    /// wildcard one for any type) or none, then `RecipeFlowEngine.errorTargets`, where a target recipe wins. An error with
+    /// an inner type finds one of the transitions of its two types, so one type at a time is enough. A wildcard
+    /// transition's own target is the same for every node and is listed once, with the first node that reaches it: the
+    /// work stays linear in the transitions (a file with thousands of them is validated before it is approved).
+    static func errorHandlerTargets(_ recipe: CaptureRecipe) -> [(node: RecipeNode, transition: ErrorTransition?, target: String)] {
+        func isWildcard(_ text: String?) -> Bool { (text ?? "").isEmpty || text == "*" }
+        /// The first transition of each error type, and the first for any type, in file order.
+        func firsts(_ list: [ErrorTransition]) -> (byType: [(type: String, transition: ErrorTransition)], any: ErrorTransition?) {
+            var seen = Set<String>()
+            var byType: [(type: String, transition: ErrorTransition)] = []
+            var any: ErrorTransition?
+            for transition in list {
+                if isWildcard(transition.errorType) {
+                    if any == nil { any = transition }
+                } else if seen.insert(transition.errorType.lowercased()).inserted {
+                    byType.append((transition.errorType.lowercased(), transition))
+                }
+            }
+            return (byType, any)
+        }
+        /// What a transition leads to by itself (a node without handlers of its own): nil, nil sends the error on to the
+        /// node's own handler.
+        func ownTargets(_ transition: ErrorTransition?) -> (node: String?, recipe: String?) {
+            RecipeFlowEngine.errorTargets(of: RecipeNode(id: "", stepType: ""), transition: transition)
+        }
+        var fromNode: [String: [ErrorTransition]] = [:]
+        var fromAny: [ErrorTransition] = []
+        for transition in recipe.flow.errorTransitions {
+            if isWildcard(transition.from) {
+                fromAny.append(transition)
+            } else if let from = transition.from {
+                fromNode[from.lowercased(), default: []].append(transition)
+            }
+        }
+        let wildcard = firsts(fromAny)
+        var wildcardIndex: [String: Int] = [:]
+        for (index, entry) in wildcard.byType.enumerated() { wildcardIndex[entry.type] = index }
+        // Wildcard transitions by type with a node target not listed yet; those which send the error on to the node's own
+        // handler; whether the one for any other type (or none) does.
+        var pending = Set(wildcard.byType.indices.filter {
+            let leads = ownTargets(wildcard.byType[$0].transition)
+            return leads.recipe == nil && leads.node != nil
+        })
+        let passing = Set(wildcard.byType.indices.filter {
+            let leads = ownTargets(wildcard.byType[$0].transition)
+            return leads.recipe == nil && leads.node == nil
+        })
+        let anyLeads = ownTargets(wildcard.any)
+        var anyListed = false
+        var targets: [(node: RecipeNode, transition: ErrorTransition?, target: String)] = []
+        // A node that forwards its errors to a recipe runs no handler node.
+        for node in recipe.nodes where !node.id.trimmingCharacters(in: .whitespaces).isEmpty
+            && RecipeFlowEngine.nonEmpty(node.onErrorRecipeId) == nil {
+            let own = firsts(fromNode[node.id.lowercased()] ?? [])
+            var found: [ErrorTransition?] = own.byType.map(\.transition)
+            if let any = own.any {
+                found.append(any)
+            } else {
+                // The wildcard transitions of the types the node has none of its own for, and the one for any other type.
+                let hidden = Set(own.byType.compactMap { wildcardIndex[$0.type] })
+                for index in pending.subtracting(hidden).sorted() {
+                    let transition = wildcard.byType[index].transition
+                    if let target = ownTargets(transition).node { targets.append((node, transition, target)) }
+                    pending.remove(index)
+                }
+                if !passing.subtracting(hidden).isEmpty { found.append(nil) }
+                if anyLeads.recipe == nil {
+                    if let target = anyLeads.node {
+                        if !anyListed { targets.append((node, wildcard.any, target)) }
+                        anyListed = true
+                    } else {
+                        found.append(nil)
+                    }
+                }
+            }
+            var ownHandlerListed = false
+            for transition in found {
+                let handler = RecipeFlowEngine.errorTargets(of: node, transition: transition)
+                guard handler.recipe == nil, let target = handler.node else { continue }
+                let isOwnHandler = RecipeFlowEngine.nonEmpty(transition?.to) == nil
+                if isOwnHandler, ownHandlerListed { continue }
+                ownHandlerListed = ownHandlerListed || isOwnHandler
+                targets.append((node, transition, target))
+            }
+        }
+        return targets
     }
 
     /// The normal transitions plus the error edges (a node's `onErrorNodeId` and the error transitions): a failing error

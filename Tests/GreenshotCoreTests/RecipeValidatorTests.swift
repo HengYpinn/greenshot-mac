@@ -147,8 +147,10 @@ func testRecipe(_ nodes: [RecipeNode] = [RecipeNode(id: "a", stepType: "Source")
         var recipe = testRecipe([RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "Clipboard"),
                                  RecipeNode(id: "handler", stepType: "Clipboard")])
         recipe.nodes[1].onErrorNodeId = "typo"
-        recipe.flow.errorTransitions = [ErrorTransition(from: "a", to: "ghost"), ErrorTransition(from: "*", to: "HANDLER"),
-                                        ErrorTransition(from: "b", to: "elsewhere", targetRecipeId: "recovery")]
+        // Errors of other types than these two reach "typo".
+        recipe.flow.errorTransitions = [ErrorTransition(from: "a", to: "ghost"),
+                                        ErrorTransition(from: "*", to: "HANDLER", errorType: "TimeoutException"),
+                                        ErrorTransition(from: "b", to: "elsewhere", targetRecipeId: "recovery", errorType: "IOException")]
         let result = validator.validate(recipe)
         #expect(result.errors.contains("Error handler node 'typo' of node 'b' does not exist in 'nodes'."))
         #expect(result.errors.contains("Error transition target node 'ghost' (from 'a') does not exist in 'nodes'."))
@@ -157,6 +159,36 @@ func testRecipe(_ nodes: [RecipeNode] = [RecipeNode(id: "a", stepType: "Source")
         recipe.nodes[1].onErrorNodeId = "Handler"
         recipe.flow.errorTransitions.removeFirst()
         #expect(validator.validate(recipe).errors.isEmpty)
+    }
+
+    /// Only a target the engine really runs as a node is checked: a target recipe wins over it (the transition's or the
+    /// node's own), a transition that matches every error hides the node's own target, a transition from no node is
+    /// never used; one that many nodes reach is reported once.
+    @Test func errorHandlerTargetsTheEngineNeverRunsAreFine() {
+        let nodes = [RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "Clipboard")]
+        var forwardedByTheNode = testRecipe(nodes)
+        forwardedByTheNode.nodes[1].onErrorRecipeId = "recovery"
+        forwardedByTheNode.flow.errorTransitions = [ErrorTransition(from: "b", to: "ghost")]
+        #expect(validator.validate(forwardedByTheNode).errors.isEmpty)
+
+        var forwardedByAWildcard = testRecipe(nodes)
+        forwardedByAWildcard.nodes[1].onErrorNodeId = "typo"
+        forwardedByAWildcard.flow.errorTransitions = [ErrorTransition(from: "*", targetRecipeId: "recovery")]
+        #expect(validator.validate(forwardedByAWildcard).errors.isEmpty)
+
+        var fromNoNode = testRecipe(nodes)
+        fromNoNode.flow.errorTransitions = [ErrorTransition(from: "nobody", to: "ghost")]
+        #expect(validator.validate(fromNoNode).errors.isEmpty)
+
+        var shadowed = testRecipe(nodes)
+        shadowed.flow.errorTransitions = [ErrorTransition(from: "a", to: "b", errorType: "IOException"),
+                                          ErrorTransition(from: "b", targetRecipeId: "recovery", errorType: "IOException"),
+                                          ErrorTransition(from: "*", to: "ghost", errorType: "IOException")]
+        #expect(validator.validate(shadowed).errors.isEmpty)
+
+        var reachedByBoth = testRecipe(nodes)
+        reachedByBoth.flow.errorTransitions = [ErrorTransition(from: "*", to: "ghost")]
+        #expect(validator.validate(reachedByBoth).errors == ["Error transition target node 'ghost' (from '*') does not exist in 'nodes'."])
     }
 
     @Test func gatedActions() {
