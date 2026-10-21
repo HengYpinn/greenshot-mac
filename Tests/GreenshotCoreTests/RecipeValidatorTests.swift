@@ -293,6 +293,11 @@ func testRecipe(_ nodes: [RecipeNode] = [RecipeNode(id: "a", stepType: "Source")
         #expect(refused.errors == ["The recipe has 20000 nodes; at most 200 are allowed."])
         let largest = await Task.detached { RecipeValidator().validate(Self.chain(200)) }.value
         #expect(largest.isValid)
+        // Thousands of wildcard error transitions (a 1 MB file holds about 25 000): each is looked at once, not per node.
+        var handlers = Self.chain(200)
+        handlers.flow.errorTransitions = (0..<25_000).map { ErrorTransition(from: "*", to: "n\($0 % 200)", errorType: "T\($0)") }
+        let targets = await Task.detached { RecipeValidator.errorHandlerTargets(handlers) }.value
+        #expect(targets.count == 25_000)
         var noisy = testRecipe()
         noisy.triggers = Array(repeating: TriggerConfig(triggerType: "Clipboard"), count: 51)
         #expect(validator.validate(noisy).errors == ["The recipe has 51 triggers; at most 50 are allowed."])
