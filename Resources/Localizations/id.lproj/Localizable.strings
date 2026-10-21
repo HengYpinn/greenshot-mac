@@ -4906,6 +4906,9 @@
 "The Keychain could not update the item: %@" = "Rantai Kunci tidak dapat memperbarui item: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Rantai Kunci terkunci, atau Greenshot tidak diizinkan menggunakannya (%@). Buka kuncinya, atau izinkan Greenshot saat macOS bertanya, lalu coba lagi.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Alat Samar di editor memikselkan atau mengaburkan bagian tangkapan layar yang tidak boleh dilihat orang lain.";
 
 /* machine */

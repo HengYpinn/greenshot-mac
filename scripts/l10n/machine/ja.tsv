@@ -1523,6 +1523,7 @@ The Keychain could not add the item: %@	キーチェーンに項目を追加で�
 The Keychain could not read the item: %@	キーチェーンから項目を読み取れませんでした：%@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	キーチェーンから項目を削除できませんでした：%@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	キーチェーンの項目を更新できませんでした：%@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	キーチェーンがロックされているか、Greenshot による使用が許可されませんでした（%@）。ロックを解除するか、macOS に尋ねられたら Greenshot を許可してから、もう一度お試しください。	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	エディターの「ぼかし」ツールは、他の人に見せたくないスクリーンショットの部分にモザイクまたはぼかしをかけます。	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF を保存できませんでした	claude-sonnet-5-5 2026-10-18
 The action failed.	アクションに失敗しました。	claude-sonnet-5-5 2026-10-18

@@ -5017,6 +5017,9 @@
 "The Keychain could not update the item: %@" = "Η Κλειδοθήκη δεν μπόρεσε να ενημερώσει το στοιχείο: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Η Κλειδοθήκη είναι κλειδωμένη ή δεν επιτράπηκε στο Greenshot να τη χρησιμοποιήσει (%@). Ξεκλειδώστε την ή επιτρέψτε το Greenshot όταν το ζητήσει το macOS και δοκιμάστε ξανά.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Το εργαλείο Απόκρυψη του επεξεργαστή δημιουργεί εικονοστοιχεία ή θολώνει τα μέρη ενός στιγμιότυπου που κανείς άλλος δεν πρέπει να δει.";
 
 /* machine */

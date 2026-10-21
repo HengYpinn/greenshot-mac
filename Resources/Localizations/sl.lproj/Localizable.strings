@@ -5035,6 +5035,9 @@
 "The Keychain could not update the item: %@" = "Veriga ključev ni mogla posodobiti elementa: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Veriga ključev je zaklenjena ali pa Greenshot nima dovoljenja za njeno uporabo (%@). Odklenite jo ali dovolite Greenshot, ko macOS vpraša, nato poskusite znova.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Orodje Razmaži v urejevalniku pikselira ali zamegli dele posnetka zaslona, ki jih nihče drug ne sme videti.";
 
 /* machine */

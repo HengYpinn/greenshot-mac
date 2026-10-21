@@ -4972,6 +4972,9 @@
 "The Keychain could not update the item: %@" = "Keychain nu a putut actualiza elementul: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Keychain este blocat sau Greenshot nu a avut permisiunea să-l folosească (%@). Deblocați-l sau permiteți Greenshot când macOS întreabă, apoi încercați din nou.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Instrumentul Obfuscare din editor pixelează sau estompează părțile unei capturi de ecran pe care nimeni altcineva nu trebuie să le vadă.";
 
 /* machine */

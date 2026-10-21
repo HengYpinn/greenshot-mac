@@ -5014,6 +5014,9 @@
 "The Keychain could not update the item: %@" = "O Porta-chaves não conseguiu atualizar o item: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "O Porta-chaves está bloqueado ou o Greenshot não teve permissão para o utilizar (%@). Desbloqueie-o ou permita o Greenshot quando o macOS perguntar e tente novamente.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "A ferramenta Ofuscar do editor pixeliza ou desfoca as partes de uma captura de ecrã que mais ninguém deve ver.";
 
 /* machine */

@@ -5014,6 +5014,9 @@
 "The Keychain could not update the item: %@" = "Der Schlüsselbund konnd den Eindrach ned aktualisiern: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Der Schlüsselbund is gsperrt, oder Greenshot hod ihn ned benutzn derfn (%@). Entsperr ihn oder erlaub Greenshot, wenn macOS frogt, und brobiers dann nochamal.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Es Zensiern-Werkzeuch vom Edidor verbixld oder verwischd die Deile vo am Sgrienschod, die sonsd kaaner sehn soll.";
 
 /* machine */

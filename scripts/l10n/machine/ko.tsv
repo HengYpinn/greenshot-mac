@@ -1525,6 +1525,7 @@ The Keychain could not add the item: %@	키체인에서 항목을 추가할 수 
 The Keychain could not read the item: %@	키체인에서 항목을 읽을 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	키체인에서 항목을 제거할 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	키체인에서 항목을 업데이트할 수 없습니다: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	키체인이 잠겨 있거나 Greenshot이 키체인을 사용하도록 허용되지 않았습니다(%@). 잠금을 해제하거나 macOS가 물을 때 Greenshot을 허용한 다음 다시 시도하세요.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	편집기의 모자이크 도구는 다른 사람에게 보이면 안 되는 스크린샷 부분을 픽셀화하거나 흐리게 처리합니다.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF를 저장할 수 없습니다	claude-sonnet-5-5 2026-10-18
 The action failed.	작업에 실패했습니다.	claude-sonnet-5-5 2026-10-18

@@ -1599,6 +1599,7 @@ The Keychain could not add the item: %@	Raktų pakabukui nepavyko pridėti eleme
 The Keychain could not read the item: %@	Raktų pakabukui nepavyko perskaityti elemento: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Raktų pakabukui nepavyko pašalinti elemento: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Raktų pakabukui nepavyko atnaujinti elemento: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Raktų pakabukas užrakintas arba Greenshot neleista juo naudotis (%@). Atrakinkite jį arba leiskite Greenshot, kai macOS paklaus, tada bandykite dar kartą.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Redaktoriaus įrankis Užtamsinimas paverčia kvadratėliais arba išlieja ekrano nuotraukos dalis, kurių niekas kitas neturėtų matyti.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Nepavyko išsaugoti PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	Veiksmas nepavyko.	claude-sonnet-5-5 2026-10-18

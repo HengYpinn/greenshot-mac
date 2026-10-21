@@ -5035,6 +5035,9 @@
 "The Keychain could not update the item: %@" = "Avainnippu ei voinut päivittää kohdetta: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Avainnippu on lukittu, tai Greenshot ei saanut lupaa käyttää sitä (%@). Avaa sen lukitus tai salli Greenshot, kun macOS kysyy, ja yritä sitten uudelleen.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Muokkaimen Häivytä-työkalu pikselöi tai sumentaa kuvakaappauksen osat, joita kenenkään muun ei pitäisi nähdä.";
 
 /* machine */

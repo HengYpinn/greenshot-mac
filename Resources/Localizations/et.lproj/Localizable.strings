@@ -5032,6 +5032,9 @@
 "The Keychain could not update the item: %@" = "Võtmehoidja ei saanud kirjet värskendada: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Võtmehoidja on lukus või Greenshotil ei lubatud seda kasutada (%@). Avage see või lubage Greenshot, kui macOS küsib, ja proovige siis uuesti.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Kohandaja tööriist Varjuta muudab kuvatõmmise osad, mida keegi teine ei tohiks näha, mosaiikseks või uduseks.";
 
 /* machine */

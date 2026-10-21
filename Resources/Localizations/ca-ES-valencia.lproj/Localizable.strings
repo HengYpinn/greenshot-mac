@@ -4990,6 +4990,9 @@
 "The Keychain could not update the item: %@" = "El Clauer no ha pogut actualisar l'element: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "El Clauer està bloquejat o no s'ha permés que Greenshot l'utilitze (%@). Desbloquege'l o permeta Greenshot quan macOS ho demane i torne-ho a provar.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "La ferramenta Enfosquir de l'editor pixela o difumina les parts d'una captura que ningú més hauria de veure.";
 
 /* machine */

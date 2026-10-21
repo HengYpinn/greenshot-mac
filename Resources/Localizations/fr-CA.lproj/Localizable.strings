@@ -4987,6 +4987,9 @@
 "The Keychain could not update the item: %@" = "Le trousseau n’a pas pu mettre à jour l’élément : %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Le trousseau est verrouillé, ou Greenshot n’a pas été autorisé à l’utiliser (%@). Déverrouillez-le ou autorisez Greenshot lorsque macOS le demande, puis réessayez.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "L’outil Brouiller de l’éditeur pixélise ou floute les parties d’une capture d’écran que personne d’autre ne doit voir.";
 
 /* machine */

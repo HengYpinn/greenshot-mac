@@ -1549,6 +1549,7 @@ The Keychain could not add the item: %@	El Clauer no ha pogut afegir l'element: 
 The Keychain could not read the item: %@	El Clauer no ha pogut llegir l'element: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	El Clauer no ha pogut llevar l'element: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	El Clauer no ha pogut actualisar l'element: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	El Clauer està bloquejat o no s'ha permés que Greenshot l'utilitze (%@). Desbloquege'l o permeta Greenshot quan macOS ho demane i torne-ho a provar.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	La ferramenta Enfosquir de l'editor pixela o difumina les parts d'una captura que ningú més hauria de veure.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	No s'ha pogut guardar el PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	L'acció ha fallat.	claude-sonnet-5-5 2026-10-18

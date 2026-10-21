@@ -1569,6 +1569,7 @@ The Keychain could not add the item: %@	Veriga ključev ni mogla dodati elementa
 The Keychain could not read the item: %@	Veriga ključev ni mogla prebrati elementa: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Veriga ključev ni mogla odstraniti elementa: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Veriga ključev ni mogla posodobiti elementa: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Veriga ključev je zaklenjena ali pa Greenshot nima dovoljenja za njeno uporabo (%@). Odklenite jo ali dovolite Greenshot, ko macOS vpraša, nato poskusite znova.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Orodje Razmaži v urejevalniku pikselira ali zamegli dele posnetka zaslona, ki jih nihče drug ne sme videti.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF-ja ni bilo mogoče shraniti	claude-sonnet-5-5 2026-10-18
 The action failed.	Dejanje ni uspelo.	claude-sonnet-5-5 2026-10-18

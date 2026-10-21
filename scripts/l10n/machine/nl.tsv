@@ -1539,6 +1539,7 @@ The Keychain could not add the item: %@	De Sleutelhanger kon het item niet toevo
 The Keychain could not read the item: %@	De Sleutelhanger kon het item niet lezen: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	De Sleutelhanger kon het item niet verwijderen: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	De Sleutelhanger kon het item niet bijwerken: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	De Sleutelhanger is vergrendeld of Greenshot mocht hem niet gebruiken (%@). Ontgrendel hem of sta Greenshot toe wanneer macOS erom vraagt en probeer het dan opnieuw.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Met de tool Maskeren van de beeldbewerker pixelt of vervaagt u de delen van een schermafbeelding die niemand anders mag zien.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	De PDF kon niet worden opgeslagen	claude-sonnet-5-5 2026-10-18
 The action failed.	De actie is mislukt.	claude-sonnet-5-5 2026-10-18

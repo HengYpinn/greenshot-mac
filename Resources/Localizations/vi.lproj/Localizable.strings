@@ -5020,6 +5020,9 @@
 "The Keychain could not update the item: %@" = "Chuỗi khóa không thể cập nhật mục: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Chuỗi khóa đang bị khóa hoặc Greenshot không được phép sử dụng (%@). Hãy mở khóa hoặc cho phép Greenshot khi macOS hỏi, rồi thử lại.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Công cụ Hiệu ứng blur của trình soạn thảo tạo mosaic hoặc làm nhòe những phần của ảnh chụp màn hình mà không ai khác nên thấy.";
 
 /* machine */

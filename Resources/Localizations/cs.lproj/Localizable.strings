@@ -5026,6 +5026,9 @@
 "The Keychain could not update the item: %@" = "Klíčenka nemohla položku aktualizovat: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Klíčenka je zamčená, nebo aplikace Greenshot nemá povolení ji použít (%@). Odemkněte ji, nebo aplikaci Greenshot povolte, až se macOS zeptá, a zkuste to znovu.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Nástroj Zamlžit v editoru pixelizuje nebo rozostří části snímku obrazovky, které nikdo jiný nemá vidět.";
 
 /* machine */

@@ -1601,6 +1601,7 @@ The Keychain could not add the item: %@	Nøgleringen kunne ikke tilføje emnet: 
 The Keychain could not read the item: %@	Nøgleringen kunne ikke læse emnet: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Nøgleringen kunne ikke fjerne emnet: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Nøgleringen kunne ikke opdatere emnet: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Nøgleringen er låst, eller Greenshot fik ikke lov til at bruge den (%@). Lås den op, eller tillad Greenshot, når macOS spørger, og prøv derefter igen.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Værktøjet Slør i editoren pixelerer eller slører de dele af et skærmklip, som ingen andre bør se.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF'en kunne ikke gemmes	claude-sonnet-5-5 2026-10-18
 The action failed.	Handlingen mislykkedes.	claude-sonnet-5-5 2026-10-18

@@ -1521,6 +1521,7 @@ The Keychain could not add the item: %@	Nyckelringen kunde inte lägga till obje
 The Keychain could not read the item: %@	Nyckelringen kunde inte läsa objektet: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Nyckelringen kunde inte ta bort objektet: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Nyckelringen kunde inte uppdatera objektet: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Nyckelringen är låst, eller så fick Greenshot inte använda den (%@). Lås upp den eller tillåt Greenshot när macOS frågar och försök sedan igen.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Verktyget Censurera i redigeraren pixelerar eller gör oskarpa de delar av en skärmdump som ingen annan ska se.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF-filen kunde inte sparas	claude-sonnet-5-5 2026-10-18
 The action failed.	Åtgärden misslyckades.	claude-sonnet-5-5 2026-10-18

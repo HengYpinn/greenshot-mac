@@ -5074,6 +5074,9 @@
 "The Keychain could not update the item: %@" = "钥匙串无法更新该项目：%@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "钥匙串已锁定，或 Greenshot 未获准使用它（%@）。请解锁钥匙串，或在 macOS 询问时允许 Greenshot，然后重试。";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "编辑器的“隐藏文本”工具可对屏幕截图中不该被他人看到的部分进行像素化或模糊处理。";
 
 /* machine */

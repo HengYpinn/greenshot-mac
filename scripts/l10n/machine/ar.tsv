@@ -1601,6 +1601,7 @@ The Keychain could not add the item: %@	تعذّرت إضافة العنصر إ�
 The Keychain could not read the item: %@	تعذّرت قراءة العنصر من سلسلة المفاتيح: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	تعذّرت إزالة العنصر من سلسلة المفاتيح: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	تعذّر تحديث العنصر في سلسلة المفاتيح: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	سلسلة المفاتيح مقفلة، أو لم يُسمح لـ Greenshot باستخدامها (%@). افتح قفلها أو اسمح لـ Greenshot عندما يسأل macOS، ثم حاول مرة أخرى.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	تعمل أداة التعتيم في المحرر على تشويش أجزاء اللقطة التي لا ينبغي أن يراها أحد أو تمويهها.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	تعذّر حفظ PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	فشل الإجراء.	claude-sonnet-5-5 2026-10-18

@@ -1566,6 +1566,7 @@ The Keychain could not add the item: %@	Der Schlüsselbund konnd den Eindrach ne
 The Keychain could not read the item: %@	Der Schlüsselbund konnd den Eindrach ned lesn: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Der Schlüsselbund konnd den Eindrach ned endfernen: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Der Schlüsselbund konnd den Eindrach ned aktualisiern: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Der Schlüsselbund is gsperrt, oder Greenshot hod ihn ned benutzn derfn (%@). Entsperr ihn oder erlaub Greenshot, wenn macOS frogt, und brobiers dann nochamal.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Es Zensiern-Werkzeuch vom Edidor verbixld oder verwischd die Deile vo am Sgrienschod, die sonsd kaaner sehn soll.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Es PDF konnd ned gschbeichert wern	claude-sonnet-5-5 2026-10-18
 The action failed.	Die Aggzion is fehlgschlong.	claude-sonnet-5-5 2026-10-18

@@ -5053,6 +5053,9 @@
 "The Keychain could not update the item: %@" = "Привезак кључева није могао да ажурира ставку: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Привезак кључева је закључан или Greenshot-у није дозвољено да га користи (%@). Откључајте га или дозволите Greenshot када macOS пита, па покушајте поново.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Алатка Замагљење у уређивачу пикселизује или замагљује делове снимка екрана које нико други не сме да види.";
 
 /* machine */

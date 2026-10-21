@@ -1531,6 +1531,7 @@ The Keychain could not add the item: %@	Pęk kluczy nie mógł dodać elementu: 
 The Keychain could not read the item: %@	Pęk kluczy nie mógł odczytać elementu: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Pęk kluczy nie mógł usunąć elementu: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Pęk kluczy nie mógł zaktualizować elementu: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Pęk kluczy jest zablokowany lub Greenshot nie otrzymał zgody na jego użycie (%@). Odblokuj go lub zezwól aplikacji Greenshot, gdy macOS zapyta, a potem spróbuj ponownie.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Narzędzie Zamglenie w edytorze pikseluje lub rozmywa części zrzutu ekranu, których nikt inny nie powinien widzieć.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Nie udało się zapisać PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	Działanie nie powiodło się.	claude-sonnet-5-5 2026-10-18

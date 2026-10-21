@@ -1537,6 +1537,7 @@ The Keychain could not add the item: %@	Привезак кључева није
 The Keychain could not read the item: %@	Привезак кључева није могао да прочита ставку: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Привезак кључева није могао да уклони ставку: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Привезак кључева није могао да ажурира ставку: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Привезак кључева је закључан или Greenshot-у није дозвољено да га користи (%@). Откључајте га или дозволите Greenshot када macOS пита, па покушајте поново.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Алатка Замагљење у уређивачу пикселизује или замагљује делове снимка екрана које нико други не сме да види.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF није могао да се сачува	claude-sonnet-5-5 2026-10-18
 The action failed.	Радња није успела.	claude-sonnet-5-5 2026-10-18

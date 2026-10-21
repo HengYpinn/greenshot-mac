@@ -8958,7 +8958,8 @@
   {
    "key": "Retry",
    "files": [
-    "Sources/GreenshotCore/Recipes/AppStepInteraction.swift"
+    "Sources/GreenshotCore/Recipes/AppStepInteraction.swift",
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
    ]
   },
   {
@@ -10715,6 +10716,12 @@
    ]
   },
   {
+   "key": "The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.",
+   "files": [
+    "Sources/GreenshotMac/Output/KeychainSecretStore.swift"
+   ]
+  },
+  {
    "key": "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.",
    "files": [
     "Sources/GreenshotCore/WelcomeContent.swift"
@@ -11401,6 +11408,7 @@
   {
    "key": "The upload to Confluence failed",
    "files": [
+    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift",
     "Sources/GreenshotMac/Output/DestinationUploads.swift",
     "Sources/GreenshotMac/Recipes/StepsPlugins.swift"
    ]
@@ -11414,6 +11422,7 @@
   {
    "key": "The upload to Jira failed",
    "files": [
+    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift",
     "Sources/GreenshotMac/Output/DestinationUploads.swift",
     "Sources/GreenshotMac/Recipes/StepsPlugins.swift"
    ]

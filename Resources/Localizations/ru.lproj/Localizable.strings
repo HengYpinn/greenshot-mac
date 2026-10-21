@@ -5065,6 +5065,9 @@
 "The Keychain could not update the item: %@" = "Связке ключей не удалось обновить объект: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Связка ключей заблокирована, или Greenshot не разрешено ее использовать (%@). Разблокируйте ее или разрешите Greenshot, когда macOS спросит, затем повторите попытку.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Инструмент «Затемнение» в редакторе пикселизирует или размывает части снимка экрана, которые никто не должен видеть.";
 
 /* machine */

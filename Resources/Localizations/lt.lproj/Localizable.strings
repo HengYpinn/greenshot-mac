@@ -5059,6 +5059,9 @@
 "The Keychain could not update the item: %@" = "Raktų pakabukui nepavyko atnaujinti elemento: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Raktų pakabukas užrakintas arba Greenshot neleista juo naudotis (%@). Atrakinkite jį arba leiskite Greenshot, kai macOS paklaus, tada bandykite dar kartą.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Redaktoriaus įrankis Užtamsinimas paverčia kvadratėliais arba išlieja ekrano nuotraukos dalis, kurių niekas kitas neturėtų matyti.";
 
 /* machine */

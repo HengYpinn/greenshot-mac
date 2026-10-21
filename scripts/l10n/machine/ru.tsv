@@ -1528,6 +1528,7 @@ The Keychain could not add the item: %@	Связке ключей не удал�
 The Keychain could not read the item: %@	Связке ключей не удалось прочитать объект: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Связке ключей не удалось удалить объект: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Связке ключей не удалось обновить объект: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Связка ключей заблокирована, или Greenshot не разрешено ее использовать (%@). Разблокируйте ее или разрешите Greenshot, когда macOS спросит, затем повторите попытку.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Инструмент «Затемнение» в редакторе пикселизирует или размывает части снимка экрана, которые никто не должен видеть.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Не удалось сохранить PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	Не удалось выполнить действие.	claude-sonnet-5-5 2026-10-18

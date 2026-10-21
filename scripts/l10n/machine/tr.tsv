@@ -1518,6 +1518,7 @@ The Keychain could not add the item: %@	Anahtar Zinciri öğeyi ekleyemedi: %@	c
 The Keychain could not read the item: %@	Anahtar Zinciri öğeyi okuyamadı: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Anahtar Zinciri öğeyi kaldıramadı: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Anahtar Zinciri öğeyi güncelleyemedi: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Anahtar Zinciri kilitli veya Greenshot'ın onu kullanmasına izin verilmedi (%@). Kilidini açın ya da macOS sorduğunda Greenshot'a izin verin, ardından yeniden deneyin.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Editörün Bulanıklaştır aracı, bir ekran görüntüsünün kimsenin görmemesi gereken bölümlerini pikselleştirir veya bulanıklaştırır.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF kaydedilemedi	claude-sonnet-5-5 2026-10-18
 The action failed.	İşlem başarısız oldu.	claude-sonnet-5-5 2026-10-18

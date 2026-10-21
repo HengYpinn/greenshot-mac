@@ -1477,6 +1477,7 @@ The Keychain could not add the item: %@	Der Schlüsselbund konnte das Objekt nic
 The Keychain could not read the item: %@	Der Schlüsselbund konnte das Objekt nicht lesen: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Der Schlüsselbund konnte das Objekt nicht entfernen: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Der Schlüsselbund konnte das Objekt nicht aktualisieren: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Der Schlüsselbund ist gesperrt, oder Greenshot durfte ihn nicht verwenden (%@). Entsperren Sie ihn oder erlauben Sie Greenshot den Zugriff, wenn macOS fragt, und versuchen Sie es dann erneut.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Das Werkzeug „Unkenntlich machen“ des Editors verpixelt oder verwischt die Teile eines Screenshots, die niemand sonst sehen soll.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Das PDF konnte nicht gespeichert werden	claude-sonnet-5-5 2026-10-18
 The action failed.	Die Aktion ist fehlgeschlagen.	claude-sonnet-5-5 2026-10-18

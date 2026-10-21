@@ -1525,6 +1525,7 @@ The Keychain could not add the item: %@	Le trousseau n'a pas pu ajouter l'élém
 The Keychain could not read the item: %@	Le trousseau n'a pas pu lire l'élément : %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Le trousseau n'a pas pu supprimer l'élément : %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Le trousseau n'a pas pu mettre à jour l'élément : %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Le trousseau est verrouillé, ou Greenshot n'a pas été autorisé à l'utiliser (%@). Déverrouillez-le ou autorisez Greenshot lorsque macOS le demande, puis réessayez.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	L'outil Brouiller de l'éditeur pixélise ou floute les parties d'une capture d'écran que personne d'autre ne doit voir.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Le PDF n'a pas pu être enregistré	claude-sonnet-5-5 2026-10-18
 The action failed.	L'action a échoué.	claude-sonnet-5-5 2026-10-18

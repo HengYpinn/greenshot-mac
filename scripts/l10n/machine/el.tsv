@@ -1559,6 +1559,7 @@ The Keychain could not add the item: %@	Η Κλειδοθήκη δεν μπόρ�
 The Keychain could not read the item: %@	Η Κλειδοθήκη δεν μπόρεσε να διαβάσει το στοιχείο: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Η Κλειδοθήκη δεν μπόρεσε να αφαιρέσει το στοιχείο: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Η Κλειδοθήκη δεν μπόρεσε να ενημερώσει το στοιχείο: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Η Κλειδοθήκη είναι κλειδωμένη ή δεν επιτράπηκε στο Greenshot να τη χρησιμοποιήσει (%@). Ξεκλειδώστε την ή επιτρέψτε το Greenshot όταν το ζητήσει το macOS και δοκιμάστε ξανά.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Το εργαλείο Απόκρυψη του επεξεργαστή δημιουργεί εικονοστοιχεία ή θολώνει τα μέρη ενός στιγμιότυπου που κανείς άλλος δεν πρέπει να δει.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Δεν ήταν δυνατή η αποθήκευση του PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	Η ενέργεια απέτυχε.	claude-sonnet-5-5 2026-10-18

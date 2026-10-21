@@ -5035,6 +5035,9 @@
 "The Keychain could not update the item: %@" = "Keychain نتوانست مورد را به‌روزرسانی کند: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Keychain قفل است یا به Greenshot اجازهٔ استفاده از آن داده نشد (%@). قفل آن را باز کنید یا وقتی macOS پرسید به Greenshot اجازه دهید، سپس دوباره تلاش کنید.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "ابزار مبهم ویرایشگر بخش‌هایی از تصویر صفحه را که نباید کسی ببیند، شطرنجی یا محو می‌کند.";
 
 /* machine */

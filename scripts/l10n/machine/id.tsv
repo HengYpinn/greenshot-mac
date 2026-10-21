@@ -1532,6 +1532,7 @@ The Keychain could not add the item: %@	Rantai Kunci tidak dapat menambahkan ite
 The Keychain could not read the item: %@	Rantai Kunci tidak dapat membaca item: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Rantai Kunci tidak dapat menghapus item: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Rantai Kunci tidak dapat memperbarui item: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Rantai Kunci terkunci, atau Greenshot tidak diizinkan menggunakannya (%@). Buka kuncinya, atau izinkan Greenshot saat macOS bertanya, lalu coba lagi.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Alat Samar di editor memikselkan atau mengaburkan bagian tangkapan layar yang tidak boleh dilihat orang lain.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF tidak dapat disimpan	claude-sonnet-5-5 2026-10-18
 The action failed.	Tindakan gagal.	claude-sonnet-5-5 2026-10-18

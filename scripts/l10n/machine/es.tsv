@@ -1573,6 +1573,7 @@ The Keychain could not add the item: %@	El llavero no pudo añadir el elemento: 
 The Keychain could not read the item: %@	El llavero no pudo leer el elemento: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	El llavero no pudo eliminar el elemento: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	El llavero no pudo actualizar el elemento: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	El llavero está bloqueado o no se ha permitido que Greenshot lo use (%@). Desbloquéalo o permite Greenshot cuando macOS lo pregunte y vuelve a intentarlo.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	La herramienta Ofuscar del editor pixeliza o desenfoca las partes de una captura de pantalla que nadie más debería ver.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	No se pudo guardar el PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	La acción falló.	claude-sonnet-5-5 2026-10-18

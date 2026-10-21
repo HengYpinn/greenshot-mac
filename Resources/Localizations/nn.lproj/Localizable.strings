@@ -5008,6 +5008,9 @@
 "The Keychain could not update the item: %@" = "Nøkkelringen kunne ikkje oppdatere oppføringa: %@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Nøkkelringen er låst, eller Greenshot fekk ikkje lov til å bruke han (%@). Lås han opp, eller tillat Greenshot når macOS spør, og prøv så på nytt.";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Sensurer-verktøyet i redigeraren pikselerer eller gjer uskarpe delane av eit skjermbilete som ingen andre skal sjå.";
 
 /* machine */

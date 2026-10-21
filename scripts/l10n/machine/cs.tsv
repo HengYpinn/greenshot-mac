@@ -1527,6 +1527,7 @@ The Keychain could not add the item: %@	Klíčenka nemohla položku přidat: %@	
 The Keychain could not read the item: %@	Klíčenka nemohla položku přečíst: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Klíčenka nemohla položku odebrat: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Klíčenka nemohla položku aktualizovat: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Klíčenka je zamčená, nebo aplikace Greenshot nemá povolení ji použít (%@). Odemkněte ji, nebo aplikaci Greenshot povolte, až se macOS zeptá, a zkuste to znovu.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Nástroj Zamlžit v editoru pixelizuje nebo rozostří části snímku obrazovky, které nikdo jiný nemá vidět.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF se nepodařilo uložit	claude-sonnet-5-5 2026-10-18
 The action failed.	Akce selhala.	claude-sonnet-5-5 2026-10-18

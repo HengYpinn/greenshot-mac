@@ -5059,6 +5059,9 @@
 "The Keychain could not update the item: %@" = "鑰匙圈無法更新項目：%@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "鑰匙圈已鎖定，或 Greenshot 未獲准使用它（%@）。請解鎖鑰匙圈，或在 macOS 詢問時允許 Greenshot，然後再試一次。";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "編輯器的「模糊」工具會將螢幕截圖中不想讓其他人看到的部分像素化或模糊處理。";
 
 /* machine */

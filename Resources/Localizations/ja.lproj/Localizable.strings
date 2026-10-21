@@ -5062,6 +5062,9 @@
 "The Keychain could not update the item: %@" = "キーチェーンの項目を更新できませんでした：%@";
 
 /* machine */
+"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "キーチェーンがロックされているか、Greenshot による使用が許可されませんでした（%@）。ロックを解除するか、macOS に尋ねられたら Greenshot を許可してから、もう一度お試しください。";
+
+/* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "エディターの「ぼかし」ツールは、他の人に見せたくないスクリーンショットの部分にモザイクまたはぼかしをかけます。";
 
 /* machine */

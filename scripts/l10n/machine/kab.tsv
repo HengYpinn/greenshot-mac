@@ -1525,6 +1525,7 @@ The Keychain could not add the item: %@	Taxzant n tsura ur tezmir ara ad ternu a
 The Keychain could not read the item: %@	Taxzant n tsura ur tezmir ara ad teɣer aferdis: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Taxzant n tsura ur tezmir ara ad tekkes aferdis: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Taxzant n tsura ur tezmir ara ad tleqqem aferdis: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Taxzant n tsura tettwasekker, neɣ Greenshot ur yettwasireg ara ad tt-yesseqdec (%@). Kkes-as asekker, neɣ sireg Greenshot mi ara d-yesteqsi macOS, sakin ɛreḍ daɣen.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Afecku Sdaɛmumec n umaẓrag isenfal ipiksilen neɣ isdeɛmumec iḥricen n tuṭṭfa n ugdil i ur ilaq ad ten-twali yiwen nniḍen.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Ur izmir ara ad yettwasekles PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	Tigawt ur teddi ara.	claude-sonnet-5-5 2026-10-18

@@ -1600,6 +1600,7 @@ The Keychain could not add the item: %@	A Kulcskarika nem tudta hozzáadni az el
 The Keychain could not read the item: %@	A Kulcskarika nem tudta beolvasni az elemet: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	A Kulcskarika nem tudta eltávolítani az elemet: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	A Kulcskarika nem tudta frissíteni az elemet: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	A Kulcskarika zárolva van, vagy a Greenshot nem kapott engedélyt a használatára (%@). Oldja fel, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez, majd próbálja újra.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	A szerkesztő Homályosítás eszköze pixelesíti vagy elmossa a képernyőkép azon részeit, amelyeket senki másnak nem szabad látnia.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	A PDF nem menthető	claude-sonnet-5-5 2026-10-18
 The action failed.	A művelet sikertelen volt.	claude-sonnet-5-5 2026-10-18

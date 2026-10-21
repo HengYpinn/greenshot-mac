@@ -1526,6 +1526,7 @@ The Keychain could not add the item: %@	Il Portachiavi non ha potuto aggiungere 
 The Keychain could not read the item: %@	Il Portachiavi non ha potuto leggere l'elemento: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Il Portachiavi non ha potuto rimuovere l'elemento: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Il Portachiavi non ha potuto aggiornare l'elemento: %@	claude-sonnet-5-5 2026-10-18
+The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Il Portachiavi è bloccato, oppure Greenshot non è stato autorizzato a usarlo (%@). Sbloccalo o consenti l'accesso a Greenshot quando macOS lo chiede, poi riprova.	claude-opus-5-5 2026-10-21
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Lo strumento Offusca dell'editor pixelizza o sfuma le parti di una schermata che nessun altro dovrebbe vedere.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	Impossibile salvare il PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	L'azione non è riuscita.	claude-sonnet-5-5 2026-10-18
