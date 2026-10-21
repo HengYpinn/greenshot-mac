@@ -80,14 +80,15 @@ struct NotificationSummaryTests {
         #expect(NotificationSummary.shownExports(success, settings: values) == success)
     }
 
-    /// On keeps a level that shows something; off is the picker's None, which also silences warnings and errors.
-    @Test func turningNotificationsOffIsNone() {
-        var values = settings(level: .warnings, on: false)
-        values.setNotificationsShown(true)
-        #expect(values.notificationLevel == .warnings && values.showNotifications)
+    /// Off and on again keeps the chosen level (upstream's tray switch changes only `ShowTrayNotification`).
+    @Test func turningNotificationsOffAndOnKeepsTheLevel() {
+        var values = settings(level: .errors)
         values.setNotificationsShown(false)
-        #expect(values.notificationLevel == .none && !values.showNotifications)
-        #expect(!values.notificationsShown)
+        #expect(values.notificationLevel == .errors)
+        #expect(!values.showNotifications && !values.notificationsShown)
+        values.setNotificationsShown(true)
+        #expect(values.notificationLevel == .errors)
+        #expect(values.showNotifications && values.notificationsShown)
     }
 
     @Test func onlyARealSaveIsShownInFinder() {

@@ -47,14 +47,13 @@ struct NotificationSettings: View {
         .onAppear { status.refresh() }
     }
 
-    /// Upstream `SelectedNotificationLevel`: None also turns off `showNotifications` (`setNotificationsShown`, like
-    /// Quick Settings › Show Notifications).
+    /// Upstream `SelectedNotificationLevel`: None also turns off `showNotifications`.
     private var level: Binding<NotificationLevel> {
-        Binding(get: { store.value.notificationsShown ? store.value.notificationLevel : .none },
+        Binding(get: { store.value.showNotifications ? store.value.notificationLevel : .none },
                 set: { newValue in
                     store.update { values in
-                        if newValue != .none { values.notificationLevel = newValue }
-                        values.setNotificationsShown(newValue != .none)
+                        values.notificationLevel = newValue
+                        values.showNotifications = newValue != .none
                     }
                 })
     }
