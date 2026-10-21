@@ -228,6 +228,8 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
             if let windowID {
                 throw RecipeStepError("The window to capture (\(windowID)) doesn't exist (anymore).", errorType: "InvalidOperationException")
             }
+            // An AI tool that asked for one window doesn't get every display instead.
+            if isAITool { throw CaptureError.windowNotFound }
             return try await activeAppWithoutWindow(context: context, settings: services.settings, captureMouse: captureMouse,
                                                     sourceType: interactive ? "Window" : "ActiveWindow")
         }
@@ -244,8 +246,8 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
     /// The active app has no window on the screen (the desktop clicked, an app with only a menu bar item): the whole
     /// screen, titled "Screen", like "Capture active window" in the menu (upstream `ActiveWindowCaptureSource` falls
-    /// back to `CaptureScreenAsync`). A run of greenshot-cli that allowed the active window is asked for the screen.
-    /// An AI tool's picture of the screen is redacted like any other (`source` "Screen"). Nil: not allowed.
+    /// back to `CaptureScreenAsync`). A run of greenshot-cli that allowed the active window is asked for the screen;
+    /// an AI tool's run never gets here (`windowSource`). Nil: not allowed.
     private func activeAppWithoutWindow(context: RecipeFlowContext, settings: AppSettings, captureMouse: Bool,
                                         sourceType: String) async throws -> RecipePayload? {
         let subject = "a screenshot of the whole screen"
