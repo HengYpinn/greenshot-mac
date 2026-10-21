@@ -160,6 +160,23 @@ import Testing
         #expect(recipe.flow.startNodes == ["b"])
     }
 
+    /// The only step of a recipe without start steps is its start wherever start steps are shown or offered, and it stays
+    /// the start: there is nothing to toggle (the list showed it as the start while its menu offered "Mark as Start Step").
+    @Test func theOnlyStepIsAStartThatStays() {
+        var single = EditorFixtures.recipe(["a:Source"], start: [])
+        #expect(RecipeFlowEditor.isStart("a", in: single))
+        #expect(!RecipeFlowEditor.canToggleStart("a", in: single))
+        RecipeFlowEditor.toggleStart("a", in: &single)
+        #expect(single.flow.startNodes.isEmpty)
+        // Marked: removing it leaves it the start all the same.
+        let marked = EditorFixtures.recipe(["a:Source"])
+        #expect(!RecipeFlowEditor.canToggleStart("a", in: marked))
+        let two = EditorFixtures.recipe(["a:Source", "b"], ["a>b"])
+        #expect(RecipeFlowEditor.canToggleStart("a", in: two))
+        #expect(RecipeFlowEditor.canToggleStart("b", in: two))
+        #expect(!RecipeFlowEditor.isStart("b", in: two))
+    }
+
     @Test func connectRefusesLoops() {
         var recipe = EditorFixtures.recipe(["a:Source", "b", "c"], ["a>b", "b>c"])
         #expect(!RecipeFlowEditor.canConnect(from: "c", to: "a", in: recipe))
