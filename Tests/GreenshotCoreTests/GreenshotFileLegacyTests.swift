@@ -65,7 +65,7 @@ struct GreenshotFileLegacyTests {
         }
         if let lt = parts.firstIndex(of: "lt"), let wh = parts.firstIndex(of: "wh"), wh == lt + 3, parts.count == wh + 3 {
             #expect(elements.count == 1)
-            let element = try? #require(elements.first)
+            let element = elements.first
             #expect(element?.left == Int(parts[lt + 1]))
             #expect(element?.top == Int(parts[lt + 2]))
             #expect(element?.width == Int(parts[wh + 1]))

@@ -91,6 +91,20 @@ struct BarcodeLinearTests {
         #expect(throws: (any Error).self) { try BarcodeGenerator.matrix(.code39, payload: String(repeating: "a", count: 41)) }
     }
 
+    @Test func code39FullASCIIByTheTable() throws {
+        // The Code 39 full ASCII table: a lower case letter is + and its capital, "," is /L, "!" is /A, ";" is %F, SOH
+        // is $A, space stays. Vision reads "Hello, world!" back only on newer macOS (BarcodeElementTests).
+        #expect(try LinearBarcode.code39FullASCII("Hello, world!") == Array("H+E+L+L+O/L +W+O+R+L+D/A"))
+        // Bars of the standard: a letter has the two wide bars of a digit (F those of 6, A of 1) and one wide space,
+        // the third for A to J; $ / + % have narrow bars and three wide spaces, the narrow one 4th, 3rd, 2nd, 1st.
+        let patterns: [Character: String] = [
+            "*": "100101101101", "A": "110101001011", "F": "101101100101",
+            "$": "100100100101", "/": "100100101001", "+": "100101001001", "%": "101001001001",
+        ]
+        let expected = "*+A/A%F$A*".map { patterns[$0] ?? "?" }.joined(separator: "0")
+        #expect(try row(.code39, "a!;\u{1}") == expected)
+    }
+
     @Test func code93CheckCharactersOfTheTextbookExample() throws {
         // TEST93 has the check characters + and 6.
         let indexes = try LinearBarcode.code93Indexes("TEST93")

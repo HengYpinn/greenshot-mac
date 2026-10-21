@@ -28,6 +28,15 @@ struct ImagePixelLimitTests {
         #expect(ElementPictures.content(of: data) == nil)
     }
 
+    /// The limits themselves, at their edges: ImageIO can't decode the header-only JPEGs above, so those tests would pass
+    /// without the check (a real picture of more than 200 megapixels is too big for a test).
+    @Test(arguments: [(32767, 1, true), (32768, 1, false), (1, 32768, false), (32767, 6103, true), (32767, 6104, false),
+                      (20000, 10000, true), (20001, 10000, false), (10000, 20001, false), (14142, 14142, true),
+                      (14143, 14143, false)])
+    func sizeLimits(_ row: (Int, Int, Bool)) {
+        #expect(ImageFileLoader.isAcceptable(width: row.0, height: row.1) == row.2)
+    }
+
     @Test func theLimitIsCheckedWithoutOverflow() {
         #expect(!ImageFileLoader.isAcceptable(width: Int.max, height: Int.max))
         #expect(!ImageFileLoader.isAcceptable(width: 0, height: 10))

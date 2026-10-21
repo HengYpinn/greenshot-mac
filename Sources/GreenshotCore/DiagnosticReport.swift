@@ -165,38 +165,88 @@ public enum DiagnosticReport {
 
     /// The settings that differ from the defaults, one `key.path = value` per line, sorted. Numbers and switches are
     /// shown; the words of `shownTextKeys` like "jpg" or "showMenu" too; any other text only as its length, and the
-    /// text of keys that can hold a name, an address, a path or a secret only as `<set>`. Keychain values are never in
-    /// the settings.
+    /// text of keys that can hold a name, an address, a path or a secret only as `<set>`. The keys of dictionaries (the
+    /// path of a recipe file, the id of a custom recipe) are the user's data too: numbered `<key 1>`, `<key 2>` ... in
+    /// their sorted order. Keychain values are never in the settings.
     public static func settingsDump(_ settings: AppSettings) -> [String] {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         guard let current = try? encoder.encode(settings), let defaults = try? encoder.encode(AppSettings()),
               let currentObject = try? JSONSerialization.jsonObject(with: current),
               let defaultObject = try? JSONSerialization.jsonObject(with: defaults) else { return [] }
-        var currentLeaves: [String: Any] = [:]
-        var defaultLeaves: [String: Any] = [:]
-        flatten(currentObject, path: "", into: &currentLeaves)
-        flatten(defaultObject, path: "", into: &defaultLeaves)
+        let dictionaries = dictionaryPaths(in: settings)
+        var currentLeaves: [String: Leaf] = [:]
+        var defaultLeaves: [String: Leaf] = [:]
+        flatten(currentObject, path: "", shownPath: "", dictionaries: dictionaries, into: &currentLeaves)
+        flatten(defaultObject, path: "", shownPath: "", dictionaries: dictionaries, into: &defaultLeaves)
         return currentLeaves.keys.sorted().compactMap { path in
-            guard let value = currentLeaves[path] else { return nil }
-            if let original = defaultLeaves[path], isEqual(value, original) { return nil }
-            return "\(path) = \(describe(value, path: path))"
+            guard let leaf = currentLeaves[path] else { return nil }
+            if let original = defaultLeaves[path], isEqual(leaf.value, original.value) { return nil }
+            return "\(leaf.shownPath) = \(describe(leaf.value, path: path, shownPath: leaf.shownPath))"
         }
     }
 
-    private static func flatten(_ object: Any, path: String, into leaves: inout [String: Any]) {
+    /// A value of the settings and its key path as the dump shows it, with the keys of dictionaries numbered.
+    private struct Leaf {
+        var value: Any
+        var shownPath: String
+    }
+
+    private static func flatten(_ object: Any, path: String, shownPath: String, dictionaries: Set<String>,
+                                into leaves: inout [String: Leaf]) {
+        func joined(_ base: String, _ key: String) -> String { base.isEmpty ? key : "\(base).\(key)" }
         if let dictionary = object as? [String: Any] {
-            if dictionary.isEmpty { leaves[path] = "{}" }
-            for (key, value) in dictionary {
-                flatten(value, path: path.isEmpty ? key : "\(path).\(key)", into: &leaves)
+            if dictionary.isEmpty { leaves[path] = Leaf(value: "{}", shownPath: shownPath) }
+            let numbered = dictionaries.contains(path)
+            for (number, entry) in dictionary.sorted(by: { $0.key < $1.key }).enumerated() {
+                flatten(entry.value, path: joined(path, entry.key),
+                        shownPath: joined(shownPath, numbered ? "<key \(number + 1)>" : entry.key),
+                        dictionaries: dictionaries, into: &leaves)
             }
         } else if let array = object as? [Any] {
-            if array.isEmpty { leaves[path] = "[]" }
+            if array.isEmpty { leaves[path] = Leaf(value: "[]", shownPath: shownPath) }
             for (index, value) in array.enumerated() {
-                flatten(value, path: "\(path)[\(index)]", into: &leaves)
+                flatten(value, path: "\(path)[\(index)]", shownPath: "\(shownPath)[\(index)]",
+                        dictionaries: dictionaries, into: &leaves)
             }
         } else {
-            leaves[path] = object
+            leaves[path] = Leaf(value: object, shownPath: shownPath)
+        }
+    }
+
+    /// The key paths of the dictionaries in `value` (`recipes.unloadedRecipes`, `editorStyles`), as the JSON of the
+    /// settings has them. Their keys are data, not names of settings; in JSON a dictionary looks like any other object,
+    /// so they are found by reflection, and a new dictionary setting is covered without a list to keep up to date.
+    static func dictionaryPaths(in value: Any, path: String = "") -> Set<String> {
+        let mirror = Mirror(reflecting: value)
+        func joined(_ key: String) -> String { path.isEmpty ? key : "\(path).\(key)" }
+        switch mirror.displayStyle {
+        case .dictionary:
+            var paths: Set<String> = [path]
+            for entry in mirror.children {
+                // An entry is a (key, value) pair.
+                let pair = Array(Mirror(reflecting: entry.value).children)
+                guard pair.count == 2 else { continue }
+                paths.formUnion(dictionaryPaths(in: pair[1].value, path: joined("\(pair[0].value)")))
+            }
+            return paths
+        case .optional:
+            return mirror.children.first.map { dictionaryPaths(in: $0.value, path: path) } ?? []
+        case .collection:
+            var paths: Set<String> = []
+            for (index, element) in mirror.children.enumerated() {
+                paths.formUnion(dictionaryPaths(in: element.value, path: "\(path)[\(index)]"))
+            }
+            return paths
+        case .struct:
+            var paths: Set<String> = []
+            for child in mirror.children {
+                guard let label = child.label else { continue }
+                paths.formUnion(dictionaryPaths(in: child.value, path: joined(label)))
+            }
+            return paths
+        default:
+            return []
         }
     }
 
@@ -205,9 +255,11 @@ public enum DiagnosticReport {
         return false
     }
 
-    private static func describe(_ value: Any, path: String) -> String {
+    /// `path` has the keys of dictionaries as they are, so a key like "upload.apiToken" still hides its value; the name
+    /// of the setting comes from `shownPath`, so a dictionary key is never taken for one of `shownTextKeys`.
+    private static func describe(_ value: Any, path: String, shownPath: String) -> String {
         let lowered = path.lowercased()
-        let key = path.split(separator: ".").last.map { String($0.split(separator: "[").first ?? "") } ?? path
+        let key = shownPath.split(separator: ".").last.map { String($0.split(separator: "[").first ?? "") } ?? shownPath
         let lastKey = key.lowercased()
         if let string = value as? String {
             if string == "{}" || string == "[]" { return string }
@@ -235,10 +287,16 @@ public enum DiagnosticReport {
 
     // MARK: Formatting
 
-    /// The home folder written as "~", so reports don't carry the user's name.
+    /// The home folder written as "~", so reports don't carry the user's name. Only the whole path is replaced: with
+    /// home /Users/alex, "/Users/alexandra/x" and "/Volumes/Backup/Users/alex" stay as they are.
     public static func abbreviatingHome(_ text: String, home: String = NSHomeDirectory()) -> String {
+        var home = home
+        while home.count > 1, home.hasSuffix("/") { home.removeLast() }
         guard !home.isEmpty, home != "/" else { return text }
-        return text.replacingOccurrences(of: home, with: "~")
+        // Not inside a longer name before it; after it not a name going on ("alex-old", "alex.backup"), though a full
+        // stop that ends a sentence is no name.
+        let pattern = #"(?<![\w.-])"# + NSRegularExpression.escapedPattern(for: home) + #"(?![\w-]|\.[\w-])"#
+        return text.replacingOccurrences(of: pattern, with: "~", options: .regularExpression)
     }
 
     /// 1536 bytes as "1.5 KB", 3 GB as "3.0 GB" (upstream `FormatBytes`).
