@@ -285,11 +285,13 @@ function scheduleReconnect() {
 }
 
 /**
- * Sends a message to Greenshot; Mac: false when it couldn't be sent.
+ * Sends a message to Greenshot; Mac: false when it couldn't be sent. Without a port the next try keeps to the back-off
+ * (upstream connects at once, so while Greenshot is offline or refuses the extension every tab change started a new
+ * native host).
  */
 function sendNativeMessage(payload) {
   if (!nativePort) {
-    connectNativeHost();
+    scheduleReconnect();
     return false;
   }
 
@@ -368,7 +370,8 @@ let lastReportedUrl = "";
 let lastReportedTitle = "";
 
 function reportTabChange(url, title) {
-  if (!extensionConfig.track_tab_urls || !url) {
+  // Mac: only to a Greenshot that accepted the extension; the handshake reports the active tab (reportActiveTab)
+  if (!extensionConfig.track_tab_urls || !url || !isConnected) {
     return;
   }
 
