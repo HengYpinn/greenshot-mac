@@ -20,31 +20,45 @@ final class SecretFieldModel: ObservableObject {
     }
 
     @Published var text: String {
-        didSet { if text != oldValue { save() } }
+        didSet { if text != oldValue, !reading { save() } }
     }
     @Published var error: String?
     /// The stored secret couldn't be read (the Keychain is locked, or its prompt was cancelled): the field is disabled,
-    /// so typing doesn't replace a secret nobody saw. Settings opened again reads it again.
+    /// so typing doesn't replace a secret nobody saw, until Retry (`reload`) reads it.
     @Published private(set) var unreadable = false
     private let key: String
     private let owner: Owner
+    /// Set while `reload` shows what was read: that isn't an edit to save.
+    private var reading = false
 
     init(key: String, owner: Owner = .app) {
         self.key = key
         self.owner = owner
-        var stored: String?
-        var problem: String?
+        let read = Self.read(key: key, owner: owner)
+        text = read.secret
+        error = read.problem
+        unreadable = read.problem != nil
+    }
+
+    /// Reads the secret again (Retry, after the Keychain was unlocked).
+    func reload() {
+        let read = Self.read(key: key, owner: owner)
+        reading = true
+        text = read.secret
+        reading = false
+        error = read.problem
+        unreadable = read.problem != nil
+    }
+
+    private static func read(key: String, owner: Owner) -> (secret: String, problem: String?) {
         do {
             switch owner {
-            case .app: stored = try Uploads.secrets.secret(for: key)
-            case .site(let host): stored = try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host)
+            case .app: return (try Uploads.secrets.secret(for: key) ?? "", nil)
+            case .site(let host): return (try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host) ?? "", nil)
             }
         } catch {
-            problem = error.localizedDescription
+            return ("", error.localizedDescription)
         }
-        text = stored ?? ""
-        error = problem
-        unreadable = problem != nil
     }
 
     private func save() {
@@ -73,7 +87,13 @@ struct SecretField: View {
         SecureField(title, text: $model.text)
             .disabled(model.unreadable)
         if let error = model.error {
-            Text(error).font(.caption).foregroundStyle(.red)
+            HStack {
+                Text(error).font(.caption).foregroundStyle(.red)
+                if model.unreadable {
+                    Spacer()
+                    Button("Retry") { model.reload() }
+                }
+            }
         }
     }
 }
