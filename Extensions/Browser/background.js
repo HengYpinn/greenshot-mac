@@ -8,9 +8,11 @@
  * Mac changes: the native host is io.github.greenshot_mac.host (greenshot-native-host in the app); IMPORT_CAPTURE and
  * TAB_CHANGED also send "browser" (upstream sends it only in HANDSHAKE), and IMPORT_CAPTURE the tab's width in CSS pixels
  * ("tab_width", so Greenshot knows the Retina scale). Turning the tab tracking off sends TAB_CHANGED with
- * "tracking": false, so Greenshot forgets the tab. A HANDSHAKE that Greenshot refuses (the extension switched off in its
- * settings) counts as offline, with Greenshot's reason, and is tried again later; the popup's status waits a moment for
- * a handshake under way. "Sent to Greenshot!" only when Greenshot answers IMPORT_CAPTURE with "ok" (upstream shows it
+ * "tracking": false, so Greenshot forgets the tab, and IMPORT_CAPTURE says "tracking" too (with it off, the captured
+ * page doesn't become Greenshot's tab); Greenshot's event "report_tab" asks for the active tab again. A HANDSHAKE
+ * that Greenshot refuses (the extension switched off in its settings) counts as offline, with Greenshot's reason, and
+ * is tried again with the back-off; tab changes start no connection. The popup's status waits a moment for a
+ * handshake under way. "Sent to Greenshot!" only when Greenshot answers IMPORT_CAPTURE with "ok" (upstream shows it
  * once the message is posted, also when Greenshot refused the capture).
  * manifest.json asks for no host permissions (upstream: <all_urls>): "activeTab" lets captureVisibleTab take the tab the
  * user clicked the button in (Firefox 126 and later), "tabs" gives the tab's address and title for the tab tracking.
@@ -208,6 +210,13 @@ function onNativeMessage(msg) {
     return;
   }
 
+  // Mac: Greenshot asks for the active tab again (the extension was switched back on in its settings, which forgot
+  // the tab while this browser stayed connected)
+  if (msg.event === "report_tab") {
+    reportActiveTab();
+    return;
+  }
+
   if (msg.status === "unavailable" || msg.greenshot_running === false) {
     // Greenshot is offline
     isConnected = false;
@@ -285,11 +294,13 @@ function scheduleReconnect() {
 }
 
 /**
- * Sends a message to Greenshot; Mac: false when it couldn't be sent.
+ * Sends a message to Greenshot; Mac: false when it couldn't be sent. Without a port the next try keeps to the back-off
+ * (upstream connects at once, so while Greenshot is offline or refuses the extension every tab change started a new
+ * native host).
  */
 function sendNativeMessage(payload) {
   if (!nativePort) {
-    connectNativeHost();
+    scheduleReconnect();
     return false;
   }
 
@@ -309,6 +320,7 @@ function sendNativeMessage(payload) {
  * Captures the current visible tab and imports it into Greenshot.
  */
 async function captureCurrentTab() {
+  await configLoaded;
   const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!activeTab || !activeTab.id) {
     throw new Error("No active tab found.");
@@ -335,6 +347,8 @@ async function captureCurrentTab() {
     source: "native_messaging",
     command: "IMPORT_CAPTURE",
     browser: getBrowserName(),
+    // Mac: with tab tracking off, Greenshot doesn't keep this page as the tab
+    tracking: extensionConfig.track_tab_urls !== false,
     metadata: {
       title: activeTab.title || "Untitled Tab",
       url: activeTab.url || "",
@@ -368,7 +382,8 @@ let lastReportedUrl = "";
 let lastReportedTitle = "";
 
 function reportTabChange(url, title) {
-  if (!extensionConfig.track_tab_urls || !url) {
+  // Mac: only to a Greenshot that accepted the extension; the handshake reports the active tab (reportActiveTab)
+  if (!extensionConfig.track_tab_urls || !url || !isConnected) {
     return;
   }
 

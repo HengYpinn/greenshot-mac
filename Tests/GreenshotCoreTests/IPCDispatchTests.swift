@@ -225,6 +225,34 @@ struct IPCDispatcherTests {
         #expect(writer.exitFrames == [.exit(0)])
     }
 
+    /// The browser extension matches Greenshot's answers to its captures by `reply_to`, as the browser commands write
+    /// it: the dispatcher's own refusals and failures name the command too (Mac), only for the extension's host.
+    @Test func refusalsToTheBrowserExtensionNameTheirCommand() async throws {
+        let dispatcher = IPCDispatcher()
+        dispatcher.table.register(BrowserCommand.importCapture, sources: [.nativeMessaging]) { _ in throw TestFailure() }
+        dispatcher.table.register(BrowserCommand.handshake, sources: [.nativeMessaging]) { _ in .ok() }
+        dispatcher.table.register(IPCCommand.version) { _ in throw TestFailure() }
+        dispatcher.accessCheck = { command, _ in command == BrowserCommand.handshake ? "Not now." : nil }
+        func reply(_ command: String, from source: IPCSource) async throws -> JSONObject {
+            let writer = CollectingWriter()
+            let context = IPCReplyContext(envelope: IPCEnvelope(command: command), source: source, writer: writer)
+            await dispatcher.dispatch(context)
+            return try #require(writer.jsonObjects.last)
+        }
+        let failed = try await reply("import_capture", from: .nativeMessaging)
+        #expect(failed["status"]?.stringValue == "error")
+        #expect(failed["reply_to"]?.stringValue == BrowserCommand.importCapture)
+        let vetoed = try await reply(BrowserCommand.handshake, from: .nativeMessaging)
+        #expect(vetoed["reply_to"]?.stringValue == BrowserCommand.handshake)
+        let refused = try await reply(IPCCommand.version, from: .nativeMessaging)
+        #expect(refused["stderr"]?.stringValue?.contains("whitelist") == true)
+        #expect(refused["reply_to"]?.stringValue == IPCCommand.version)
+        // Other clients' replies stay as they were
+        let cli = try await reply(IPCCommand.version, from: .cli)
+        #expect(cli["status"]?.stringValue == "error")
+        #expect(cli["reply_to"] == nil)
+    }
+
     @Test func unavailableCommandsSaySo() async {
         let dispatcher = IPCDispatcher()
         dispatcher.table.registerUnavailable([IPCCommand.runRecipe], message: IPCCommandLine.recipesUnavailable)

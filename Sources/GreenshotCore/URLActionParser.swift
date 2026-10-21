@@ -48,8 +48,7 @@ public enum URLActionParser {
         guard let scheme = schemes.first(where: { lowered.hasPrefix($0 + ":") }) else { return .invalid }
         text = String(text.dropFirst(scheme.count + 1))
         if text.hasPrefix("//") { text = String(text.dropFirst(2)) }
-        // Mac: a #fragment belongs to no value (upstream keeps it in the last one); a "#" in a value is written %23
-        if let hash = text.firstIndex(of: "#") { text = String(text[..<hash]) }
+        // A "#" is an ordinary character, as upstream reads links (a recipe's Color argument is "#RRGGBB")
 
         var path = text
         var parameters: [String: String] = [:]

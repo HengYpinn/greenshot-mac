@@ -20,6 +20,7 @@ enum BrowserExtensionCommands {
         let version = AutomationCommands.appVersion
         table.register(BrowserCommand.handshake, sources: [.nativeMessaging]) { [app] context in
             if let refusal = await refusal(of: context, app: app) { return .error(refusal) }
+            BrowserConnections.shared.accepted(context)
             log.info("Browser extension connected (\(BrowserText.browserName(context.envelope.extra["browser"]?.stringValue, origin: context.origin) ?? "unknown browser"), extension \(context.envelope.extra["extension_version"]?.stringValue ?? "?"))")
             return BrowserReplies.handshake(version: version)
         }
@@ -43,9 +44,14 @@ enum BrowserExtensionCommands {
             BrowserContext.shared.apply(change, reporter: context.peer?.pid)
             return nil
         }
-        // Mac: a stale page must not keep naming captures (the Mac gives `${Browser.*}` to file names)
+        // Mac: a stale page must not keep naming captures (the Mac gives `${Browser.*}` to file names); switched on
+        // again, the browsers still connected report their tab again
         app.settings.onChange(of: \.browserExtensionEnabled) { enabled in
-            if !enabled { BrowserContext.shared.clear() }
+            if enabled {
+                BrowserConnections.shared.askForActiveTab()
+            } else {
+                BrowserContext.shared.clear()
+            }
         }
         BrowserIntegration.refreshInstalledManifests()
     }
@@ -54,6 +60,7 @@ enum BrowserExtensionCommands {
     /// off or reloaded), so the tab it reported is forgotten.
     nonisolated static func connectionEnded(_ source: IPCSource, peer: IPCPeer) {
         guard source == .nativeMessaging else { return }
+        BrowserConnections.shared.ended(peer)
         BrowserContext.shared.clear(reporter: peer.pid)
     }
 
