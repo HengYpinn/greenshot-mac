@@ -62,6 +62,9 @@ final class VideoRecorder {
     private let writer: VideoFileWriter
     private let microphone: RecordingAudioProvider?
     private let windowID: CGWindowID?
+    /// An AI tool's display or region recording: the apps it shows (`ShownApplications`).
+    private var shown: ShownApplications?
+    private var refreshingShown = false
     private var timers: [Timer] = []
     private var activity: NSObjectProtocol?
     private var observers: [(center: NotificationCenter, token: NSObjectProtocol)] = []
@@ -89,6 +92,7 @@ final class VideoRecorder {
         width = setup.width
         height = setup.height
         windowID = setup.windowID
+        shown = setup.shown
         self.microphone = microphone
         let bitrate = VideoDimensions.bitrate(options, width: setup.width, height: setup.height)
         writer = try VideoFileWriter(.init(url: options.outputURL, format: options.format, width: setup.width,
@@ -336,6 +340,7 @@ final class VideoRecorder {
         // Also while the screen is still (no frames) or paused.
         writer.checkForFailure()
         guard state == .recording else { return }
+        refreshShownApplications()
         let elapsed = duration
         onDuration?(elapsed)
         if options.maximumDuration > 0, elapsed >= options.maximumDuration {
@@ -356,6 +361,26 @@ final class VideoRecorder {
         Task { try? await stop() }
     }
 
+    /// An AI tool's display or region recording: apps that started (or put up their first window) since the last look
+    /// are added to what it shows, never one excluded from AI tools. Until then they aren't in the video.
+    private func refreshShownApplications() {
+        guard let shown, !refreshingShown else { return }
+        refreshingShown = true
+        Task {
+            defer { refreshingShown = false }
+            guard let content = try? await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: false),
+                  let display = content.displays.first(where: { $0.displayID == shown.displayID }) else { return }
+            let made = shown.filter(content, display: display)
+            guard state.isActive, made.processes != self.shown?.processes else { return }
+            do {
+                try await stream.updateContentFilter(made.filter)
+                self.shown?.processes = made.processes
+            } catch {
+                log.warn("The apps an AI tool's recording shows could not be updated", error: error)
+            }
+        }
+    }
+
     private func tearDown() {
         timers.forEach { $0.invalidate() }
         timers = []
@@ -374,6 +399,7 @@ private struct StreamSetup {
     var width: Int
     var height: Int
     var windowID: CGWindowID?
+    var shown: ShownApplications?
 
     @MainActor
     static func make(for options: VideoCaptureOptions, excluding windowIDs: [CGWindowID]) async throws -> StreamSetup {
@@ -383,12 +409,23 @@ private struct StreamSetup {
         let filter: SCContentFilter
         let points: CGSize
         var windowID: CGWindowID?
+        var shown: ShownApplications?
+        /// A display without Greenshot's frame; for an AI tool, only the apps not excluded from AI tools.
+        func displayFilter(_ display: SCDisplay) -> SCContentFilter {
+            guard !options.excludedApplications.isEmpty else { return SCContentFilter(display: display, excludingWindows: excluded) }
+            var apps = ShownApplications(displayID: display.displayID, excluded: options.excludedApplications, frame: windowIDs)
+            let made = apps.filter(content, display: display)
+            apps.processes = made.processes
+            shown = apps
+            log.info("An AI tool's recording: \(content.applications.count - made.processes.count) app(s) left out")
+            return made.filter
+        }
         switch options.target {
         case .display(let id):
             guard let display = content.displays.first(where: { $0.displayID == id }) else {
                 throw VideoRecorderError.displayNotFound
             }
-            filter = SCContentFilter(display: display, excludingWindows: excluded)
+            filter = displayFilter(display)
             points = CGDisplayBounds(id).size
         case .region(let rect):
             let frames = content.displays.map { CGDisplayBounds($0.displayID) }
@@ -398,7 +435,7 @@ private struct StreamSetup {
             if part.globalRect.size != rect.standardized.integral.size {
                 log.info("The region is on several displays: recording the part on one of them")
             }
-            filter = SCContentFilter(display: content.displays[part.displayIndex], excludingWindows: excluded)
+            filter = displayFilter(content.displays[part.displayIndex])
             configuration.sourceRect = part.sourceRect
             points = part.sourceRect.size
         case .window(let id):
@@ -432,7 +469,7 @@ private struct StreamSetup {
             configuration.excludesCurrentProcessAudio = true
         }
         return StreamSetup(filter: filter, configuration: configuration, width: size.width, height: size.height,
-                           windowID: windowID)
+                           windowID: windowID, shown: shown)
     }
 
     /// The displays and windows to record. Windows to leave out that were just put on the screen may be missing from
@@ -450,6 +487,30 @@ private struct StreamSetup {
 
     private static func missing(_ windowIDs: [CGWindowID], in content: SCShareableContent) -> [CGWindowID] {
         windowIDs.filter { id in !content.windows.contains { $0.windowID == id } }
+    }
+}
+
+/// What an AI tool's display or region recording shows (`VideoCaptureOptions.excludedApplications`, security review
+/// SM-L1): only the apps not excluded from AI tools, by name like the Source step's picture, without Greenshot's frame.
+/// A filter by apps fails closed: an app that starts while it records isn't in the video until `VideoRecorder` adds it,
+/// and an excluded one never is. ScreenCaptureKit leaves the desktop picture and the Dock out of such a filter.
+struct ShownApplications {
+    let displayID: CGDirectDisplayID
+    let excluded: [String]
+    /// Greenshot's frame around the recording.
+    let frame: [CGWindowID]
+    var processes: Set<pid_t> = []
+
+    func filter(_ content: SCShareableContent, display: SCDisplay) -> (filter: SCContentFilter, processes: Set<pid_t>) {
+        let apps = AIToolExclusion.shown(content.applications, names: Self.names, excluded: excluded)
+        let frameWindows = content.windows.filter { frame.contains($0.windowID) }
+        return (SCContentFilter(display: display, including: apps, exceptingWindows: frameWindows), Set(apps.map(\.processID)))
+    }
+
+    /// The names an excluded application is matched by (`WindowInfo.applicationNames`).
+    private static func names(_ app: SCRunningApplication) -> [String?] {
+        let running = NSRunningApplication(processIdentifier: app.processID)
+        return [app.applicationName, app.bundleIdentifier, running?.localizedName, running?.executableURL?.lastPathComponent]
     }
 }
 

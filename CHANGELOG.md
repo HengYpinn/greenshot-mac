@@ -472,6 +472,10 @@ Greenshot's screen recording permission behind your back.
   more than 200 megapixels or 32767 pixels a side are refused before they are decoded (opened, pasted, dropped and
   downloaded pictures and the pictures in elements).
 - The build's GitHub token can only read the repository.
+- AI tools: a recipe's screen recording (RecordVideo) started by an AI tool now keeps out the apps excluded from AI
+  tools, as its screenshots already did. A window of such an app isn't recorded (the recipe fails), and a recording of
+  a display or region shows only the other apps, also when one of them starts during the recording (it shows up
+  within about a second; an excluded app never does). Such a recording leaves out the desktop picture and the Dock.
 
 ## [0.1.0] - 2026-10-16
 

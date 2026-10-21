@@ -87,6 +87,32 @@ public enum RecipeRecordVideoPlan {
         return options
     }
 
+    /// What an AI tool's recording may show (security review SM-L1, like the Source step's pictures).
+    public enum AIToolRule: Equatable, Sendable {
+        /// Not an AI tool's run, or no app is excluded: recorded as it is.
+        case unrestricted
+        /// The window belongs to an app excluded from AI tools: not recorded, and why.
+        case refused(String)
+        /// A display or a region: recorded without the windows of the apps on this list
+        /// (`VideoCaptureOptions.excludedApplications`).
+        case leavingOut([String])
+    }
+
+    /// The rule for a recording of `target` in a run started by `triggerType`; `window` is the app of a window target
+    /// (its name and its other names), `excluded` Settings › AI Tools' excluded apps. The Source step refuses an excluded
+    /// window and blacks the excluded windows out of a picture of the screen; a video leaves them out instead, also
+    /// those that show while it records (the AI tool gets the video's path, not only its first frame).
+    public static func aiToolRule(triggerType: String?, target: VideoCaptureTarget, window: (app: String, names: [String?])?,
+                                  excluded: [String]) -> AIToolRule {
+        guard let triggerType, recipeEquals(triggerType, WellKnownTriggerType.aiTool) else { return .unrestricted }
+        let list = excluded.filter { !AIToolExclusion.normalize($0).isEmpty }
+        guard !list.isEmpty else { return .unrestricted }
+        guard target.isWindow else { return .leavingOut(list) }
+        // Fail closed: a window that can't be named can't be checked
+        guard let window else { return .refused("The window to record could not be checked against the apps excluded from AI tools.") }
+        return AIToolExclusion.refusal(appName: window.app, names: window.names, excluded: list).map(AIToolRule.refused) ?? .unrestricted
+    }
+
     /// How the recording ends: after `DurationSeconds`, when the window closes, or (neither) when it is stopped from the
     /// menu bar. Upstream stops a recording without either at once; the Mac records until it is stopped.
     public enum Ending: Equatable, Sendable {

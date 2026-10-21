@@ -68,6 +68,18 @@ public enum AIToolExclusion {
         return false
     }
 
+    /// Why a window of `appName` (also known by `names`: bundle identifier, executable) may not be captured or recorded
+    /// for an AI tool; nil when it may (the Source step, RecordVideo).
+    public static func refusal(appName: String, names: [String?], excluded: [String]) -> String? {
+        guard isExcluded(names: [appName] + names, excluded: excluded) else { return nil }
+        return "Windows of '\(appName)' are excluded from AI tools (Settings › AI Tools)."
+    }
+
+    /// The apps an AI tool's recording of a display or region shows: those whose names aren't excluded, in their order.
+    public static func shown<App>(_ apps: [App], names: (App) -> [String?], excluded: [String]) -> [App] {
+        apps.filter { !isExcluded(names: names($0), excluded: excluded) }
+    }
+
     /// A black picture of this size: what an AI tool gets when the excluded windows can't be blacked out (fail closed).
     public static func blackImage(width: Int, height: Int) -> CGImage? {
         let space = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
