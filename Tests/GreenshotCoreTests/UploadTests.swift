@@ -130,6 +130,40 @@ struct JiraClientTests {
         #expect(JiraClient.jql(forSearch: "project = X order by created") == "project = X order by created")
     }
 
+    /// Words that only start like JQL, or have "=" or "~" somewhere, are a text search; JQL is a field and an operator.
+    @Test func plainWordsAreATextSearch() {
+        func text(_ words: String) -> String { "text ~ \"\(words)\" ORDER BY updated DESC" }
+        #expect(JiraClient.jql(forSearch: "project kickoff") == text("project kickoff"))
+        #expect(JiraClient.jql(forSearch: "Project plan") == text("Project plan"))
+        #expect(JiraClient.jql(forSearch: "error: x=1 failed") == text("error: x=1 failed"))
+        #expect(JiraClient.jql(forSearch: "how to use ~ in a path") == text("how to use ~ in a path"))
+        #expect(JiraClient.jql(forSearch: "project in progress") == text("project in progress"))
+        #expect(JiraClient.jql(forSearch: "reports sorted order by date") == text("reports sorted order by date"))
+        // JQL stays JQL.
+        #expect(JiraClient.jql(forSearch: "project in (A, B)") == "project in (A, B)")
+        #expect(JiraClient.jql(forSearch: "summary ~ login") == "summary ~ login")
+        #expect(JiraClient.jql(forSearch: "status != Done") == "status != Done")
+        #expect(JiraClient.jql(forSearch: "assignee is EMPTY") == "assignee is EMPTY")
+        #expect(JiraClient.jql(forSearch: "\"Epic Link\" = PROJ-1") == "\"Epic Link\" = PROJ-1")
+        #expect(JiraClient.jql(forSearch: "cf[10010]=3") == "cf[10010]=3")
+        #expect(JiraClient.jql(forSearch: "(priority = High OR priority = Highest)") == "(priority = High OR priority = Highest)")
+        #expect(JiraClient.jql(forSearch: "order by created DESC") == "order by created DESC")
+    }
+
+    /// A "+" goes as "%2B": servers read a plain "+" in a query as a space, so "C++" would be searched as "C  ".
+    @Test func aPlusInTheSearchStaysAPlus() throws {
+        let request = JiraClient(site: site, http: StubHTTPClient([])).searchRequest(jql: JiraClient.jql(forSearch: "C++ a+b"))
+        let query = try #require(request.url?.query)
+        #expect(query.contains("C%2B%2B%20a%2Bb"))
+        #expect(!query.contains("+"))
+        #expect(request.query("jql") == "text ~ \"C++ a+b\" ORDER BY updated DESC")
+        let confluence = ConfluenceClient(site: site, http: StubHTTPClient([])).searchRequest(cql: "title ~ \"Q3+Q4\"")
+        let cql = try #require(confluence.url?.query)
+        #expect(cql.contains("Q3%2BQ4") && !cql.contains("+"))
+        let link = URL(string: "https://x.test/wiki/pages/viewpage.action")!.appending(queryItem: "title", value: "a+b c")
+        #expect(link.absoluteString == "https://x.test/wiki/pages/viewpage.action?title=a%2Bb%20c")
+    }
+
     @Test func attachesThroughTheRestAPI() async throws {
         let http = StubHTTPClient(status: 200, body: #"[{"id": 10001, "filename": "shot.png", "content": "https://yourco.atlassian.net/rest/api/3/attachment/content/10001"}]"#)
         let client = JiraClient(site: site, http: http)
@@ -171,6 +205,34 @@ struct JiraClientTests {
         #expect(http.last.bodyText == #"{"body":{"content":[{"content":[{"text":"See the screenshot","type":"text"}],"type":"paragraph"}],"type":"doc","version":1}}"#)
     }
 
+    /// The file is on the issue when only the comment fails (no permission to comment): the comment's error comes
+    /// back instead of failing the upload, so trying again doesn't attach the file twice.
+    @Test func aFailedCommentKeepsTheAttachment() async throws {
+        let http = StubHTTPClient([.init(status: 200, body: #"[{"id": "10001", "filename": "shot.png"}]"#),
+                                   .init(status: 403, body: #"{"errorMessages":["No permission to comment."]}"#)])
+        let result = try await JiraClient(site: site, http: http).attach(png, to: "PROJ-7", comment: "See the screenshot")
+        #expect(result.attachments.map(\.id) == ["10001"])
+        let error = try #require(result.commentError as? UploadError)
+        #expect(error == .http(status: 403, message: "No permission to comment."))
+        #expect(http.requests.count == 2)
+    }
+
+    @Test func noCommentNoCommentRequest() async throws {
+        let http = StubHTTPClient(status: 200, body: #"[{"id": "10001", "filename": "shot.png"}]"#)
+        let result = try await JiraClient(site: site, http: http).attach(png, to: "PROJ-7", comment: "")
+        #expect(result.attachments.count == 1 && result.commentError == nil)
+        #expect(http.requests.count == 1)
+    }
+
+    /// A failed attachment fails the upload, and no comment is sent.
+    @Test func aFailedAttachmentSendsNoComment() async {
+        let http = StubHTTPClient([.init(status: 401, body: "{}"), .init(status: 201, body: "{}")])
+        await #expect(throws: UploadError.self) {
+            _ = try await JiraClient(site: site, http: http).attach(png, to: "PROJ-7", comment: "See the screenshot")
+        }
+        #expect(http.requests.count == 1)
+    }
+
     @Test func serverErrorsSurface() async {
         let http = StubHTTPClient(status: 401, body: #"{"errorMessages":[],"errors":{}}"#)
         await #expect(throws: UploadError.http(status: 401, message: HTTPURLResponse.localizedString(forStatusCode: 401))) {
@@ -180,12 +242,42 @@ struct JiraClientTests {
     }
 }
 
+/// The password logins checked once per session.
+struct VerifiedLoginsTests {
+    let site = AtlassianSite(url: "https://jira.example.test", login: .serverPassword, user: "alex", secret: "old")!
+
+    /// A password changed in Settings is checked again before the next upload.
+    @Test func anotherPasswordIsCheckedAgain() {
+        var verified = VerifiedLogins()
+        verified.insert(site, service: "Jira")
+        #expect(verified.contains(site, service: "Jira"))
+        #expect(!verified.contains(site.with(user: "alex", secret: "new"), service: "Jira"))
+        #expect(!verified.contains(site.with(user: "sam", secret: "old"), service: "Jira"))
+        #expect(!verified.contains(site, service: "Confluence"))
+    }
+
+    /// An upload the server refuses (the password changed on the server) brings the login dialog back next time.
+    @Test func aRefusedUploadForgetsTheLogin() {
+        var verified = VerifiedLogins()
+        verified.insert(site, service: "Jira")
+        verified.uploadFailed(UploadError.http(status: 404, message: "No issue"), site: site, service: "Jira")
+        #expect(verified.contains(site, service: "Jira"))
+        verified.uploadFailed(UploadError.http(status: 401, message: ""), site: site, service: "Jira")
+        #expect(!verified.contains(site, service: "Jira"))
+        verified.insert(site, service: "Jira")
+        verified.uploadFailed(UploadError.http(status: 403, message: ""), site: site, service: "Jira")
+        #expect(!verified.contains(site, service: "Jira"))
+    }
+}
+
 struct ConfluenceClientTests {
     let site = AtlassianSite(url: "https://yourco.atlassian.net/wiki", email: "me@x.test", apiToken: "tok")!
 
     @Test func titleSearchCQL() {
         #expect(ConfluenceClient.cql(forTitleSearch: "Release \"notes\"") == "type = page AND title ~ \"Release \\\"notes\\\"\" ORDER BY lastmodified DESC")
         #expect(ConfluenceClient.cql(forTitleSearch: "space = DEV and type = page") == "space = DEV and type = page")
+        // "=" in a title doesn't make it CQL.
+        #expect(ConfluenceClient.cql(forTitleSearch: "Plan: cost = time") == "type = page AND title ~ \"Plan: cost = time\" ORDER BY lastmodified DESC")
     }
 
     @Test func findsPagesByTitle() async throws {
@@ -365,6 +457,16 @@ struct CloudClientTests {
         #expect(result.link.absoluteString == "https://app.box.com/file/9" && !result.isSharedLink)
         #expect(http.last.bodyText.contains(#"{"name":"shot.png","parent":{"id":"0"}}"#))
         #expect(throws: UploadError.self) { try BoxClient.uploadedFileID(fromJSON: Data(#"{"entries":[]}"#.utf8)) }
+    }
+
+    /// The file name of the Dropbox web app's link keeps its "+" (servers read a plain "+" in a query as a space).
+    @Test func dropboxLinkKeepsAPlusInTheName() throws {
+        let url = DropboxClient.homeURL(path: "/Screenshots/Q3+Q4 plan.png")
+        #expect(url.absoluteString == "https://www.dropbox.com/home/Screenshots?preview=Q3%2BQ4%20plan.png")
+        let oauth = OAuthFlow.authorizationURL(provider: .dropbox, clientID: "a+b", redirect: OAuthProvider.dropbox.redirect,
+                                               state: "s1", codeChallenge: "c")
+        let query = try #require(oauth.query)
+        #expect(query.contains("client_id=a%2Bb"))
     }
 
     @Test func dropboxPathsAndUpload() async throws {

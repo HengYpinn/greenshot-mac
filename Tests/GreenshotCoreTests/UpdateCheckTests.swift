@@ -83,4 +83,22 @@ struct UpdateOutcomeTests {
     @Test func failureWithoutReleaseIsFailed() {
         #expect(UpdateCheck.outcome(release: nil, failed: true, current: "1.2") == .failed)
     }
+
+    /// Check Now hears what the check found; GitHub without a release (404, none published yet) is not "up to date".
+    @Test func checkNowSaysWhenThereIsNoRelease() {
+        let release = UpdateCheck.Release(version: "1.3", pageURL: page)
+        #expect(UpdateCheck.notice(for: .upToDate(latest: nil), userAsked: true) == .noRelease)
+        #expect(UpdateCheck.notice(for: .upToDate(latest: "1.2.0"), userAsked: true) == .upToDate)
+        #expect(UpdateCheck.notice(for: .failed, userAsked: true) == .failed)
+        #expect(UpdateCheck.notice(for: .newer(release), userAsked: true) == .newer(release))
+    }
+
+    /// The regular check in the background says something only about a newer version.
+    @Test func theBackgroundCheckStaysQuiet() {
+        let release = UpdateCheck.Release(version: "1.3", pageURL: page)
+        #expect(UpdateCheck.notice(for: .newer(release), userAsked: false) == .newer(release))
+        #expect(UpdateCheck.notice(for: .upToDate(latest: nil), userAsked: false) == nil)
+        #expect(UpdateCheck.notice(for: .upToDate(latest: "1.2.0"), userAsked: false) == nil)
+        #expect(UpdateCheck.notice(for: .failed, userAsked: false) == nil)
+    }
 }

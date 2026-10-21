@@ -161,6 +161,16 @@ public struct MultipartForm: Sendable {
     }
 }
 
+extension URLComponents {
+    /// Sets the query like `queryItems` does, with "+" encoded too ("%2B"): `URLComponents` leaves a "+" as it is, and
+    /// servers read it as a space (form encoding), so a search for "C++" would arrive as "C  ".
+    mutating func setQueryItemsEncodingPlus(_ items: [URLQueryItem]?) {
+        queryItems = items
+        // URLComponents writes a space as "%20", so every "+" left is one of the names or values.
+        percentEncodedQuery = percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
+    }
+}
+
 /// Helpers the clients share.
 public enum HTTPSupport {
     /// `user:password` as a Basic Authorization header value.

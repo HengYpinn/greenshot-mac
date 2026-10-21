@@ -36,8 +36,8 @@ enum AtlassianService {
 enum AtlassianSignIn {
     /// Passwords typed without "Remember in Keychain", by service, URL and user.
     private static var sessionPasswords: [String: String] = [:]
-    /// The sites whose login was checked in this session (upstream logs in once per session).
-    private static var verified: Set<String> = []
+    /// The sites whose login was checked in this session (upstream logs in once per session), with their password.
+    private static var verified = VerifiedLogins()
 
     private static func key(_ service: AtlassianService, _ site: AtlassianSite) -> String {
         "\(service.name)|\(site.baseURL.absoluteString)|\(site.user)"
@@ -78,7 +78,7 @@ enum AtlassianSignIn {
         }
         var problem: String?
         if site.hasCredentials {
-            if verified.contains(key(service, site)) { return site }
+            if verified.contains(site, service: service.name) { return site }
             switch await check(site, service: service) {
             case .success: return markVerified(site, service)
             case .failure(let error):
@@ -115,13 +115,18 @@ enum AtlassianSignIn {
 
     /// 401 and 403 are a wrong user name or password (or a CAPTCHA the server wants solved in the browser first).
     static func isLoginError(_ error: Error) -> Bool {
-        if case UploadError.http(let status, _) = error { return status == 401 || status == 403 }
-        return false
+        VerifiedLogins.isLoginError(error)
     }
 
     private static func markVerified(_ site: AtlassianSite, _ service: AtlassianService) -> AtlassianSite {
-        verified.insert(key(service, site))
+        verified.insert(site, service: service.name)
         return site
+    }
+
+    /// An upload the server refused with 401 or 403: the password may have changed on the server since it was checked,
+    /// so the next upload checks it again and brings up the login dialog when it is wrong.
+    static func uploadFailed(_ error: Error, _ service: AtlassianService, _ site: AtlassianSite) {
+        verified.uploadFailed(error, site: site, service: service.name)
     }
 
     private static func remember(_ site: AtlassianSite, service: AtlassianService, inKeychain: Bool, settings: SettingsStore) {

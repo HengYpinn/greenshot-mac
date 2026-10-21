@@ -176,7 +176,7 @@ public struct DropboxClient: Sendable {
     public static func homeURL(path: String) -> URL {
         let folder = (path as NSString).deletingLastPathComponent
         var components = URLComponents(string: "https://www.dropbox.com/home" + folder)!
-        components.queryItems = [URLQueryItem(name: "preview", value: (path as NSString).lastPathComponent)]
+        components.setQueryItemsEncodingPlus([URLQueryItem(name: "preview", value: (path as NSString).lastPathComponent)])
         return components.url!
     }
 

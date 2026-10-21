@@ -68,7 +68,7 @@ public struct AtlassianSite: Equatable, Sendable {
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)!
         let base = components.path.hasSuffix("/") ? String(components.path.dropLast()) : components.path
         components.path = base + "/" + path
-        components.queryItems = query.isEmpty ? nil : query
+        components.setQueryItemsEncodingPlus(query.isEmpty ? nil : query)
         var request = URLRequest(url: components.url!, timeoutInterval: 60)
         request.httpMethod = method
         request.setValue(authorizationHeader, forHTTPHeaderField: "Authorization")
@@ -195,16 +195,28 @@ public struct JiraClient: Sendable {
         text.trimmingCharacters(in: .whitespaces).uppercased()
     }
 
-    /// What to search for: an issue key finds that issue, text that looks like JQL (`=`, `~`, `ORDER BY`) is used
-    /// as it is, anything else is a text search, newest first.
+    /// What to search for: an issue key finds that issue, text that is JQL (see `isQuery`) is used as it is,
+    /// anything else is a text search, newest first.
     public static func jql(forSearch text: String) -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if isIssueKey(trimmed) { return "key = \(normalizedKey(trimmed))" }
-        let lower = trimmed.lowercased()
-        if trimmed.contains("=") || trimmed.contains("~") || lower.contains(" order by ") || lower.hasPrefix("project ") {
-            return trimmed
-        }
+        if isQuery(trimmed) { return trimmed }
         return "text ~ \"\(escaped(trimmed))\" ORDER BY updated DESC"
+    }
+
+    /// A JQL or CQL clause at the start: a field (a name, `cf[123]` or a quoted name), maybe after `(` or `NOT`, and
+    /// an operator (`=`, `!=`, `~`, `!~`, `<`, `>`, `<=`, `>=`, `IN (`, `NOT IN (`, `IS [NOT] EMPTY|NULL`,
+    /// `WAS [NOT] IN (`); or `ORDER BY` alone.
+    private static let queryRegex = try! NSRegularExpression(
+        pattern: #"^(?:[(\s]|not\s)*(?:"[^"]*"|cf\[\d+\]|[\p{L}_][\p{L}\p{N}_.]*)\s*"#
+            + #"(?:!=|!~|<=|>=|[=~<>]|(?:was\s+)?(?:not\s+)?in\s*\(|is\s+(?:not\s+)?(?:empty|null)\b)"#
+            + #"|^\s*order\s+by\s"#,
+        options: [.caseInsensitive])
+
+    /// Whether search text is a query (JQL, or CQL, which has the same clauses) rather than words: a field followed by
+    /// an operator. Words that only contain "=" or "~", or start like a field ("project kickoff"), are words.
+    static func isQuery(_ text: String) -> Bool {
+        queryRegex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil
     }
 
     /// Quotes and backslashes inside a JQL/CQL string.
@@ -372,6 +384,21 @@ public struct JiraClient: Sendable {
         try Self.attachments(fromJSON: try await HTTPSupport.send(attachRequest(issueKey: issueKey, file: file), with: http))
     }
 
+    /// Attaches the file, then adds the comment when there is one (upstream `JiraDestination`). A comment that fails
+    /// (no permission to comment, a rejected text, Cancel) doesn't fail the upload, the file is on the issue: its error
+    /// comes back instead, so trying again doesn't attach the file twice (upstream fails the whole upload).
+    public func attach(_ file: UploadFile, to issueKey: String, comment: String) async throws
+        -> (attachments: [JiraAttachment], commentError: Error?) {
+        let attachments = try await attach(file, to: issueKey)
+        guard !comment.isEmpty else { return (attachments, nil) }
+        do {
+            try await addComment(comment, to: issueKey)
+            return (attachments, nil)
+        } catch {
+            return (attachments, error)
+        }
+    }
+
     public func search(_ text: String, maxResults: Int = 20) async throws -> [JiraIssue] {
         try await search(jql: Self.jql(forSearch: text), maxResults: maxResults)
     }
@@ -460,10 +487,10 @@ public struct ConfluenceClient: Sendable {
 
     /// Pages whose title contains the words, last changed first, in one space when `spaceKey` isn't empty (upstream
     /// `SearchPagesAsync(query, space)`). Without `includePersonalSpaces` a search of all spaces leaves the personal
-    /// ones out (upstream `IncludePersonSpaces`). Text that already is CQL (`=`, `~`) is used as it is.
+    /// ones out (upstream `IncludePersonSpaces`). Text that already is CQL (a field and an operator) is used as it is.
     public static func cql(forTitleSearch text: String, spaceKey: String = "", includePersonalSpaces: Bool = true) -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed.contains("=") || trimmed.contains("~") { return trimmed }
+        if JiraClient.isQuery(trimmed) { return trimmed }
         let space = spaceKey.trimmingCharacters(in: .whitespaces)
         var scope = ""
         if !space.isEmpty {
@@ -701,7 +728,7 @@ public enum ConfluencePageReference: Equatable, Hashable, Sendable {
 extension URL {
     func appending(queryItem name: String, value: String) -> URL {
         var components = URLComponents(url: self, resolvingAgainstBaseURL: false)!
-        components.queryItems = (components.queryItems ?? []) + [URLQueryItem(name: name, value: value)]
+        components.setQueryItemsEncodingPlus((components.queryItems ?? []) + [URLQueryItem(name: name, value: value)])
         return components.url ?? self
     }
 }

@@ -60,14 +60,16 @@ enum QRCodeDestination {
         return menu
     }
 
-    /// The destination: a menu at the mouse with the actions, or a message without codes (upstream counts both as
-    /// done).
+    /// The destination: a menu at the mouse with the actions, or a message without codes. Without codes nothing was
+    /// done, so it fails like "Copy Text (OCR)" without text (upstream counts it as done, and the status bar said
+    /// "Exported to: QR Code").
     static func show(_ capture: Capture, saver: ImageSaver, popUp: @escaping (NSMenu) -> Void,
                      completion: @escaping ExportCompletion = { _ in }) {
         detect(in: capture.image) { codes in
             guard !codes.isEmpty else {
-                saver.notify(String(localized: "No QR code found"), detail: String(localized: "Nothing in the screenshot could be read as a QR code."), kind: .warning)
-                completion(.succeeded(clearsModified: false))
+                let none = String(localized: "No QR code found")
+                saver.notify(none, detail: String(localized: "Nothing in the screenshot could be read as a QR code."), kind: .warning)
+                completion(.failed(none))
                 return
             }
             let menu = NSMenu(title: String(localized: "QR Code"))
