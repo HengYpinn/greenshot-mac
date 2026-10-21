@@ -108,7 +108,9 @@ Review and Revoke.
   entry matches an application whose name starts with it ("1Password" matches "1Password 7"), and an entry with a dot
   matches bundle identifiers starting with it (`com.agilebits` matches all of 1Password's helpers). The windows are
   looked up when the run starts and again for the picture, and both are blacked out; when blacking out fails, the
-  picture is black altogether.
+  picture is black altogether. A recipe's recording (RecordVideo) started by an AI tool refuses such a window, and a
+  recording of a display or region shows only the other apps: an app that starts during the recording is added within
+  a second or so, an excluded one never, and the desktop picture and the Dock stay out of that video.
 * Every capture shows a notification (on by default).
 * Limits: a program running as you could still take screenshots without Greenshot if it has the screen recording
   permission itself, or control an allowed program. The checks keep web pages, extensions and other programs from using
@@ -231,6 +233,7 @@ Ask the AI tool in your own words, for example:
   tool call with the source `mcp`, the watch connection, the tool sync); the protocol engine and the tools are in Core
   (`MCPServer.swift`, `MCPTools.swift`). In the app, `AIToolsCenter` checks the opt-in and the consent, and handles
   LIST_WINDOWS, LIST_AI_TOOLS, RUN_AI_TOOL, RECIPE_CATALOG, VALIDATE_RECIPE and PROPOSE_RECIPE (Core `AIToolCatalog`,
-  `AIRecipeCatalog`, `AIRecipeProposals`); the recipes' Source step asks `AIToolsCaptureGuard` about excluded
-  applications. Tests: `MCPServerTests`, `MCPToolsTests`, `MCPConnectionTests`, `AIToolAccessTests`, `AIToolIdentityTests`,
-  `AIWindowRefsTests`, `AIToolCaptureTests`, `AIToolCatalogTests`, `AIRecipeProposalTests`.
+  `AIRecipeCatalog`, `AIRecipeProposals`); the recipes' Source and RecordVideo steps ask `AIToolsCaptureGuard` about
+  excluded applications (RecordVideo's rule: Core `RecipeRecordVideoPlan.aiToolRule`). Tests: `MCPServerTests`,
+  `MCPToolsTests`, `MCPConnectionTests`, `AIToolAccessTests`, `AIToolIdentityTests`, `AIWindowRefsTests`,
+  `AIToolCaptureTests`, `AIToolRecordingTests`, `AIToolCatalogTests`, `AIRecipeProposalTests`.
