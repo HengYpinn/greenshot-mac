@@ -33,7 +33,8 @@ enum RecipeHotkeyBindings {
         let names = appHotkeyNames()
         let fallback = String(localized: "a Greenshot hotkey", comment: "Names a hotkey of the app in a message about a recipe hotkey that clashes with it")
         let takenNamed = taken.map { combo in NamedHotkey(name: names.first { $0.combo == combo }?.name ?? fallback, combo: combo) }
-        let resolved = RecipeHotkeyClashes.resolve(candidates, taken: takenNamed)
+        // Without the permission for left and right keys every hotkey is registered for either key (`HotkeyManager`).
+        let resolved = RecipeHotkeyClashes.resolve(candidates, taken: takenNamed, tellsSides: HotkeyEventTap.availableMode != nil)
         update(clashes: resolved.clashes)
         return resolved.kept.map { index in
             let trigger = triggers[index].trigger
@@ -85,8 +86,16 @@ enum RecipeHotkeyBindings {
 final class RecipeHotkeyTriggerSource: RecipeTriggerSource {
     let triggerTypes: Set<String> = [WellKnownTriggerType.hotkey]
 
+    /// An active Hotkey trigger as registered: by its keys (key codes, modifiers, sides), not their names, which follow
+    /// the keyboard layout, so switching layouts registers nothing again.
+    private struct Registered: Equatable {
+        var recipeId: String
+        var key: String
+        var hotkey: KeyCombo?
+    }
+
     private let reregister: () -> Void
-    private var registered: [String] = []
+    private var registered: [Registered] = []
     private var recording = false
     private var observers: [NSObjectProtocol] = []
 
@@ -102,7 +111,7 @@ final class RecipeHotkeyTriggerSource: RecipeTriggerSource {
     }
 
     func sync(_ triggers: [ActiveRecipeTrigger]) {
-        let signature = triggers.map { "\($0.recipeId.lowercased())|\($0.key)|\($0.hotkey?.displayString ?? "")" }
+        let signature = triggers.map { Registered(recipeId: $0.recipeId.lowercased(), key: $0.key, hotkey: $0.hotkey) }
         guard signature != registered else { return }
         registered = signature
         guard !recording else { return }

@@ -106,6 +106,17 @@ enum ScreenCapturer {
         return index.map { windows[$0] }
     }
 
+    /// Every display in one picture, titled "Screen", and the area it shows: "Capture active window" when the active
+    /// app has no window on the screen (upstream `ActiveWindowCaptureSource` falls back to `CaptureScreenAsync`).
+    static func captureScreen(showsCursor: Bool, toneMapHDR: Bool) async throws -> (capture: Capture, area: CGRect) {
+        let frozen = try await freeze(withPointer: showsCursor, toneMapHDR: toneMapHDR)
+        let area = ScreenComposer.union(of: frozen.screens(withPointer: showsCursor))
+        guard let capture = frozen.capture(of: area, withPointer: showsCursor, title: "Screen") else {
+            throw CaptureError.nothingToCapture
+        }
+        return (capture, area)
+    }
+
     /// The title for a region: the normal window under its center, else the active app.
     static func title(for rect: CGRect, in windows: [WindowInfo]) -> String {
         let center = CGPoint(x: rect.midX, y: rect.midY)

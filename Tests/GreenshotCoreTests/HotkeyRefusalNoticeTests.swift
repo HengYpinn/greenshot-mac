@@ -6,11 +6,11 @@ import Testing
 @testable import GreenshotCore
 
 struct HotkeyRefusalNoticeTests {
-    private let region = "Capture region: ⌃⌥⌘4"
-    private let window = "Capture window: ⌃⌥⌘5"
+    private let region = (name: "Capture region", combo: KeyCombo.defaultRegion)
+    private let window = (name: "Capture window", combo: KeyCombo.defaultWindow)
 
     /// Whether each registration in turn, with these refused hotkeys, is told.
-    private func told(_ registrations: [[String]]) -> [Bool] {
+    private func told(_ registrations: [[(name: String, combo: KeyCombo)]]) -> [Bool] {
         var notice = HotkeyRefusalNotice()
         return registrations.map { notice.shouldTell($0) }
     }
@@ -24,6 +24,14 @@ struct HotkeyRefusalNoticeTests {
         #expect(told([[region], [region, window]]) == [true, true])
         // The order of the hotkeys doesn't matter.
         #expect(told([[region, window], [window, region]]) == [true, false])
+    }
+
+    @Test func otherKeysForTheSameHotkeyAreAnotherRefusal() {
+        // The user picked another taken combination, or the right ⌘ instead of either.
+        let rightCommand = KeyCombo(keyCode: KeyCombo.defaultRegion.keyCode, modifiers: KeyCombo.defaultRegion.modifiers,
+                                    sides: ModifierSides(command: .right))
+        #expect(told([[region], [(name: region.name, combo: .defaultFullScreen)]]) == [true, true])
+        #expect(told([[region], [(name: region.name, combo: rightCommand)]]) == [true, true])
     }
 
     @Test func aRefusalThatCameBackIsToldAgain() {

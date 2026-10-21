@@ -80,7 +80,7 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
     @MainActor
     private static func start(_ step: RecipeStepInvocation, source: RecipeRecordVideoPlan.Source, region: CGRect, query: WindowMatchQuery,
                               windowID: CGWindowID?, context: RecipeFlowContext, runtime: RecipeRuntime) async throws -> VideoRecorder {
-        guard Permissions.ensureScreenCapture() else {
+        guard await Permissions.ensureScreenCapture() else {
             throw RecipeStepError("Greenshot may not record the screen.", errorType: "UnauthorizedAccessException")
         }
         let target: VideoCaptureTarget
@@ -112,10 +112,22 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
             if window == nil {
                 window = windows.first { $0.pid == context.trigger?.frontmostProcessID } ?? ScreenCapturer.frontWindow(in: windows)
             }
-            guard let window else { throw CaptureError.windowNotFound }
-            target = .window(window.id)
-            area = window.frame
-            title = window.displayTitle
+            if let window {
+                target = .window(window.id)
+                area = window.frame
+                title = window.displayTitle
+            } else if windowID == nil {
+                // The active app has no window on the screen (the desktop clicked): the screen, like the Source step and
+                // "Capture active window" (upstream records the window in front, the desktop then); a video shows one
+                // display, the primary one, as MonitorIndex does by default.
+                let id = CGMainDisplayID()
+                target = .display(id)
+                area = CGDisplayBounds(id)
+                title = "Screen"
+                context.log("The active app has no window on the screen: recording the screen.")
+            } else {
+                throw CaptureError.windowNotFound
+            }
         }
         let url = RecordingOutputPath.recipeURL(outputFilePath: step.string("OutputFilePath"),
                                                 rawOutputFilePath: step.node.parameters.string("OutputFilePath"), outputDirectory: step.string("OutputDirectory"),

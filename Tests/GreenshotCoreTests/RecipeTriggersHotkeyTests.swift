@@ -65,6 +65,21 @@ struct RecipeTriggersHotkeyTests {
         #expect(resolved.kept == [0])
     }
 
+    @Test func oppositeSidesClashWhileTheSidesCantBeToldApart() throws {
+        // Without Accessibility and Input Monitoring every hotkey works with either key: only the first would fire.
+        let app = try Self.hotkey("Capture region", "Ctrl (L) + Shift + J")
+        let recipe = try Self.hotkey("Recipe A", "Ctrl (R) + Shift + J")
+        let resolved = RecipeHotkeyClashes.resolve([recipe], taken: [app], tellsSides: false)
+        #expect(resolved.kept.isEmpty)
+        let clash = try #require(resolved.clashes.first)
+        #expect(clash.problem.contains("Capture region"))
+        // A sided hotkey at the start of a longer one, the other way round.
+        let sequence = try Self.hotkey("Capture text", "Ctrl (L) + K, C")
+        let start = RecipeHotkeyClashes.resolve([try Self.hotkey("Recipe B", "Ctrl (R) + K")], taken: [sequence], tellsSides: false)
+        #expect(start.kept.isEmpty)
+        #expect(RecipeHotkeyClashes.resolve([try Self.hotkey("Recipe B", "Ctrl (R) + K")], taken: [sequence]).kept == [0])
+    }
+
     @Test func aKeptRecipeHotkeyBlocksLaterOnes() throws {
         let recipes = [try Self.hotkey("Recipe A", "Ctrl + K, C"), try Self.hotkey("Recipe B", "Ctrl + K")]
         let resolved = RecipeHotkeyClashes.resolve(recipes, taken: [])
