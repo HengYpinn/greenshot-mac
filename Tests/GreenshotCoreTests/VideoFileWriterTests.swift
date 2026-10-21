@@ -102,6 +102,19 @@ private func audioEnd(_ url: URL) async throws -> Double? {
     return try await track.load(.timeRange).end.seconds
 }
 
+/// A file holding `text` in a new temporary folder.
+private func existingFile(_ name: String, holding text: String) throws -> URL {
+    let url = temporaryFile(name)
+    try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+    try Data(text.utf8).write(to: url)
+    return url
+}
+
+/// The hidden files in the folder of `url` (where a replaced file waits).
+private func hiddenFiles(next url: URL) throws -> [String] {
+    try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path).filter { $0.hasPrefix(".") }
+}
+
 /// The errors `VideoFileWriter.onFailure` got.
 private final class Failures: @unchecked Sendable {
     private let lock = NSLock()
@@ -407,6 +420,65 @@ struct VideoFileWriterTests {
         _ = try await video.finish(at: seconds(1))
         let info = try #require(try await track(url, .video))
         #expect(info.codec == "avc1")
+        var left = try hiddenFiles(next: url)
+        for _ in 0..<50 where !left.isEmpty {
+            try await Task.sleep(nanoseconds: 50_000_000)
+            left = try hiddenFiles(next: url)
+        }
+        #expect(left.isEmpty)
+    }
+
+    /// The recording to replace a file doesn't start (the screen stream fails, `VideoRecorder.begin` cancels the
+    /// writer): the old file is back, nothing is left next to it.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aRecordingThatDoesNotStartPutsTheOldFileBack() throws {
+        let url = try existingFile("back.mp4", holding: "the last recording")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        video.cancel()
+        #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
+        #expect(try hiddenFiles(next: url).isEmpty)
+    }
+
+    /// A writer let go without `cancel` or `finish` (no caller does): the old file is back.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aWriterLetGoPutsTheOldFileBack() throws {
+        let url = try existingFile("let-go.mp4", holding: "the last recording")
+        _ = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                      bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
+        #expect(try hiddenFiles(next: url).isEmpty)
+    }
+
+    /// The recording ends before its first frame: the old file is back.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aRecordingWithoutFramesPutsTheOldFileBack() async throws {
+        let url = try existingFile("no-frames.mp4", holding: "the last recording")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        await #expect(throws: VideoWriterError.noFrames) {
+            _ = try await video.finish(at: seconds(1))
+        }
+        #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
+        #expect(try hiddenFiles(next: url).isEmpty)
+    }
+
+    /// With its first frame the recording has started: the old file is gone for good (upstream `FileMode.Create`), also
+    /// when the recording is then discarded.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func theOldFileGoesWithTheFirstFrame() async throws {
+        let url = try existingFile("started.mp4", holding: "the last recording")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(0))
+        var left = try hiddenFiles(next: url)
+        for _ in 0..<50 where !left.isEmpty {
+            try await Task.sleep(nanoseconds: 50_000_000)
+            left = try hiddenFiles(next: url)
+        }
+        #expect(left.isEmpty)
+        video.cancel()
+        #expect(!FileManager.default.fileExists(atPath: url.path))
     }
 
     /// A folder with the video's name is not removed: the recording can't start.
