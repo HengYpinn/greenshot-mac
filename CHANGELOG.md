@@ -283,6 +283,94 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- Crashes: Greenshot no longer quits on extreme values. A recipe file with a number like 9223372036854775807 stopped
+  it at load (and so at every launch); so did a recipe value that is infinite or not a number in a greenshot-cli, AI
+  tool or browser reply, a configuration profile value of nan or infinity, two recipe steps with the same id in the
+  recipe editor's Flow tab, huge or "nan" sizes in recipe effects (Resize, Resize canvas, Border, Drop shadow, Torn
+  edges, Adjust, Text effect padding; they now report that they could not be applied), a recipe speech bubble far
+  outside the capture, extreme pad or substring numbers in a file name pattern (`${title:p…}`, `${title:s…}`; padding
+  is limited to 1024 characters) and a `${NUM}` counter at its largest value (it starts again at 0).
+- Screen Recording: without the permission, the first capture shows a short message that opens the setting instead
+  of doing nothing; a permission turned on while Greenshot runs is used as soon as macOS allows captures, without the
+  "quit and reopen" message on every press, and Settings and Self-Service then say it is allowed.
+- Editor: changes made while an upload or print was still running are no longer marked as saved when it finishes, so
+  closing the window still asks and the autosave keeps them.
+- Editor: counters keep their numbers when elements are brought to the front or sent to the back. They are numbered
+  in the order they were added, as in Greenshot for Windows, also in saved .greenshot files and when they are
+  imported into a recipe's Annotation step.
+- Editor: Crop, Auto Crop and Shrink Canvas remove the elements that lie completely outside the new image, as in
+  Greenshot for Windows, so the remaining counters renumber and no hidden elements are saved or come back when the
+  canvas is enlarged. Undo brings them back.
+- Editor: consecutive colour changes to the selected elements in the Line or Fill colour well are one undo step, as
+  in Greenshot for Windows, however long the mouse moves in the colour panel.
+- Screen recording: a recording whose file can't be written any more (the disk is full, the drive was removed) stops
+  at once and keeps what was recorded until then; before, it went on and then deleted the whole file at Stop.
+- Screen recording: a recipe's Record Video step can record again to the same file name; the new recording replaces
+  the old file once it has its first frame, as in Greenshot for Windows (it failed with "Cannot Save"), and a
+  recording that doesn't start keeps the old file. A recipe that records a display without a monitor number records
+  the main display (the one with the menu bar); monitor numbers count displays in the same order as the AI tools'
+  window list.
+- Screen recording: a recording with sound no longer loses the first moment of sound or the sound just after a pause,
+  and cancelling the countdown just as it reaches zero no longer starts the recording.
+- Capture: "Capture active window" no longer captures another app's window when the active app has no window on the
+  screen (after a click on the desktop, or with an app that only has a menu bar item); like Greenshot for Windows it
+  captures the whole screen then, also in recipes (a recipe started by an AI tool stops with an error instead).
+- Capture screen: the letter keys (Z, M, F, T, H, I, P, D, C, [ and ]) also work with Russian, Greek, Hebrew or Arabic
+  keyboard layouts; Enter twice at the same spot no longer captures a single pixel on a non-Retina display; a
+  selection across a Retina and a non-Retina display shows the size the capture will have.
+- Hotkeys: shown with the keys of your keyboard layout in Settings, menus and messages (Z instead of Y on a German
+  keyboard, A instead of Q on a French one), right after a layout switch. When macOS refuses some hotkeys, a
+  notification that opens Self-Service › Hotkeys replaces the alert that held up the start of the app (and a capture
+  started at launch) and came back each time Settings closed. Clicking from one shortcut recorder straight to another
+  no longer turns the hotkeys back on while the new shortcut is typed. Without the Accessibility or Input Monitoring
+  permission, Settings warns when a hotkey or a recipe hotkey differs from another only by its left or right key,
+  because only one of them can work then.
+- Quick Settings › Show Notifications turns notifications back on after Settings was set to None, and its checkmark
+  shows whether notifications are on.
+- Settings › Destinations: a Microsoft Office destination whose app is no longer installed stays listed while it is
+  turned on, so it can be turned off.
+- Settings: a settings file with a missing or unknown print, email, drop shadow, PDF, Box or Dropbox option (for
+  example from a newer version) keeps the other options of that group instead of resetting all of them.
+- Quality dialog: no JPEG quality for WebP (it is saved lossless); "Reduce colours" is offered for every format it
+  changes.
+- An empty print footer, mail subject or external command argument stays empty instead of becoming "greenshot <date
+  time>"; only an empty file name pattern still falls back to that name.
+- Jira and Confluence: searching for words ("project kickoff", "login (beta)", "This is empty") or for text with "=" or
+  "+" ("C++", "Q3+Q4 plan") searches the text instead of failing with HTTP 400 or reading "+" as a space (also in a
+  Dropbox file name). A Jira upload whose comment could not be added counts as done and says the comment is missing,
+  so a retry doesn't attach the file twice. After a Server/Data Center password changes, the next upload (also from a
+  recipe) asks for it again instead of failing with HTTP 401 for the rest of the session.
+- The QR Code destination no longer reports "Exported to: QR Code" when the screenshot has no QR code.
+- Check Now says "No release has been published yet." when GitHub has no release, instead of "up to date".
+- Recipes: a recipe whose error handler names a step that doesn't exist is reported when it is loaded, and if such a
+  step fails the recipe fails instead of ending as a success. A step that fails next to an error handler, and the saves
+  and uploads of a recipe a failure is handed to, count in the recipe's result and failure message; parts of a recipe
+  that run side by side no longer list an export again that a notification already showed.
+- Recipes: a recipe runs after you approve its changed file again, even when another recipe in the same file can't be
+  loaded; the second and later recipes of a new file are no longer shown as "changed outside Greenshot".
+- Recipes: if the Keychain is locked or can't be read when Greenshot starts, approving a recipe no longer erases your
+  approvals of other recipe files, and Revoke says when it couldn't revoke an approval instead of seeming to work.
+- Recipes: "Reset to defaults" no longer also resets a recipe whose id starts with the same name, and drops a value
+  that was typed but not yet applied; an automatic step limited to some destinations also runs for an external
+  command with a comma or semicolon in its name; changing where an automatic step is used keeps the exclusion of a
+  recipe that wasn't listed at that moment. Recipe elements far outside the capture no longer vanish from a saved
+  .greenshot file: a Text effect element stays in range, an annotation that far away is skipped with a warning.
+- Recipe editor: lines and arrows imported from the image editor keep their direction (a new `StartCorner` annotation
+  setting); a TextEffect pattern written as text is shown as one pattern; clearing a list field removes it; Insert
+  Step After on a Conditional or user prompt puts the step into its first branch; Delete after Undo removes the
+  selected connection; a recipe with one step and no start step shows that step as its start everywhere.
+- Links and AI tools: `greenshotmac://recipe/…` with a recipe name that has spaces (`Save%20to%20Desktop`) runs that
+  recipe; AI tools can give a capture region with decimal numbers.
+- Browser extension: the popup says "Sent to Greenshot!" only when Greenshot took the screenshot, otherwise why not;
+  it connects again by itself after Greenshot refused it and shows Greenshot's reason instead of just "Offline", no
+  longer shows "Offline" right after Greenshot started, and no longer starts Greenshot's connection helper on every
+  tab change while Greenshot isn't running or refuses it. `${Browser.*}` in file names is filled again at once after
+  Greenshot restarts or the extension is switched back on, and is forgotten when the browser closes its connection,
+  the extension is switched off in Settings or tab tracking is turned off.
+- Logs and bug reports: deleting Greenshot.log while the app runs no longer loses the entries that follow; the log
+  viewer's "Load Earlier" no longer gets stuck on an entry longer than 64 KB or leaves out a line; bug reports no
+  longer contain the paths of your recipe files or the ids of your custom recipes, and only your own home folder is
+  shortened to "~".
 - PowerPoint: sending a screenshot works with PowerPoint 16 (it refused the new slide and the picture as the scripts made them, and has no slide height in its page setup).
 - Office destinations: when macOS blocks Greenshot from Office's shared folder (macOS 15 and later), Greenshot says what to allow in Files & Folders and opens the setting, instead of "The screenshot could not be written".
 - Editor: the green window button goes full screen like in other Mac apps (⌥-click fills the screen); the editor still opens over another app's full screen Space.

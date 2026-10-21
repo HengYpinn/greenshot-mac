@@ -235,7 +235,10 @@ replaces its built-in recipe or an automatic step applies to it.
   destinations they're for. Automatic step files (`.gsrecipe.json` with `"kind": "extension"`) are approved like recipe
   files before they're used.
 
-The file format is upstream's: see `Resources/recipe.schema.json` and upstream's recipe documentation.
+The file format is upstream's: see `Resources/recipe.schema.json` and upstream's recipe documentation. Recipe hotkey
+letters name US key positions on the Mac; Settings and the menus show the key of your keyboard layout. An Annotation
+step's Line and Arrow take a Mac-only `StartCorner` (`TopLeft`, `TopRight`, `BottomLeft`, `BottomRight`): the corner
+of the box where the line starts (Greenshot for Windows ignores it and starts at the top left).
 
 ## AI tools (MCP)
 

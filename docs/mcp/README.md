@@ -13,7 +13,7 @@ automation socket as `greenshot-cli`. It is the Mac version of upstream's `green
 |---|---|
 | `list_windows` | The windows on the screen, front to back (id, title, application, bundle id, bounds, active), and the displays with their bounds and scale |
 | `capture_window` | Screenshot of one window by its id from `list_windows`, with its exact contents (also when it is covered), without activating it |
-| `capture_region` | Screenshot of a part of the screen (`x,y,width,height` in screen coordinates) |
+| `capture_region` | Screenshot of a part of the screen (`x,y,width,height` in screen coordinates; decimals are accepted) |
 | `capture_screen` | Screenshot of all displays |
 | `get_recipe_schema` | The recipe JSON schema and example recipes (also the resource `greenshot-mcp://recipes/schema`) |
 | `get_recipe_catalog` | What recipes can use here: trigger types, step types with their parameters, destinations (uploads marked), processors, your recipes; with `recipe_id` the JSON of one recipe |

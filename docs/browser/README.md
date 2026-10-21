@@ -13,13 +13,17 @@ What it does:
   the address and title of the active tab. File names can then use `${Browser.Url}`, `${Browser.Domain}`,
   `${Browser.Title}` and `${Browser.Ticket}` (a key like `PROJ-1234` from the title or the address), e.g. an output
   folder pattern `${Browser.Ticket}` sorts screenshots by ticket. The app keeps only the last tab, in memory, and never
-  writes addresses or titles into its log.
+  writes addresses or titles into its log. It forgets the tab when the browser closes its connection, when the
+  extension is switched off in Settings › Expert or when tab tracking is turned off; with tracking off, a page sent
+  with Capture Visible Page names only that screenshot.
 - These values come from web pages, so in file names and folders they are cleaned like `${title}`: `/`, `:` and the
   other characters a file name can't have become `_` (`https://x.org/a` gives `https___x.org_a`). A page can't choose
   the folder a screenshot goes to: a file name that would leave the output folder is made one name inside it, and an
   output folder pattern like `~/Shots/${title}` that would end up outside `~/Shots` saves to `~/Shots`.
-- The toolbar button shows ON while the app is connected. When the app isn't running the extension tries again (after
-  5 s, then up to every minute); it never starts the app.
+- The toolbar button shows ON while the app is connected. When the app isn't running or refuses the extension (switched
+  off in Settings), the extension tries again after 5 s, then up to every minute, and at once when you open its popup;
+  it never starts the app. The popup shows the app's reason while it isn't connected, and says "Sent to Greenshot!"
+  only when the app took the screenshot (otherwise it says why not).
 
 ## Install
 
@@ -64,7 +68,8 @@ extension ──native messaging (stdin/stdout)──> greenshot-native-host ─
   request (an administrator can lock it: `browserExtensionEnabled`).
 - `IMPORT_CAPTURE` accepts only PNG and JPEG (checked by their first bytes), at most 32767 pixels per side and 100
   megapixels, read from the image's header before anything is decoded, and only a complete file. The extension gets
-  `{"status":"ok","reply_to":"IMPORT_CAPTURE","width":…,"height":…}` or `{"status":"error",…,"stderr":"Error: …"}`.
+  `{"status":"ok","reply_to":"IMPORT_CAPTURE","width":…,"height":…}` or `{"status":"error","reply_to":…,"stderr":"Error: …"}`
+  (the app's refusals to the extension name the command in `reply_to` too).
 
 Differences from upstream's extension (each marked in the source):
 - the host name `io.github.greenshot_mac.host`, the Firefox id `companion@greenshot-mac.github.io` and the Chromium
@@ -73,7 +78,10 @@ Differences from upstream's extension (each marked in the source):
 - `IMPORT_CAPTURE` and `TAB_CHANGED` also send `browser` (upstream sends it only with `HANDSHAKE`, so its `${browser}`
   stays empty), and `IMPORT_CAPTURE` the tab's width, so the app knows a Retina capture's scale;
 - the app's `HANDSHAKE` answer leaves out `capture_format` and `track_tab_urls`: upstream always answers PNG and
-  tracking on, which overwrote the choices on the extension's options page at every reconnect.
+  tracking on, which overwrote the choices on the extension's options page at every reconnect;
+- `TAB_CHANGED` and `IMPORT_CAPTURE` send `tracking` (`TAB_CHANGED` with `"tracking": false` and an empty address
+  when tracking is turned off), and the app sends `{"event":"report_tab"}` to ask for the active tab again when the
+  extension is switched back on in Settings; older apps and extensions ignore both.
 
 ## Trying it without a browser
 
