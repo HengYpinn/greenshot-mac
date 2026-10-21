@@ -66,17 +66,11 @@ extension AppSettings {
     /// `AreNotificationsShown`). Quick Settings › Show Notifications has its tick then.
     public var notificationsShown: Bool { showNotifications && notificationLevel != .none }
 
-    /// Turns notifications off or on, the same way from Quick Settings and from the Settings picker (upstream
-    /// `SelectedNotificationLevel` and the tray menu's `ShowTrayNotification` switch). Off is the picker's None:
-    /// `showNotifications` off and the level None, because warnings and errors follow the level alone. On keeps a level
-    /// that shows something and turns None into All, the default (upstream's switch keeps the level as it is, since its
-    /// picker never stores None).
+    /// Quick Settings › Show Notifications (upstream's tray menu switch `ShowTrayNotification`): off turns
+    /// `showNotifications` off and keeps the level, so on brings it back; on with the level None (Settings › Capture ›
+    /// Show notifications = None sets both) brings back All, the default, so the tick really shows notifications.
     public mutating func setNotificationsShown(_ on: Bool) {
         showNotifications = on
-        if !on {
-            notificationLevel = .none
-        } else if notificationLevel == .none {
-            notificationLevel = .all
-        }
+        if on && notificationLevel == .none { notificationLevel = .all }
     }
 }

@@ -149,6 +149,16 @@ public enum OAuthFlow {
         return components.url!
     }
 
+    /// The authorization URL with another `redirect_uri` (the loopback port it named was taken); the rest is encoded
+    /// like `authorizationURL`, "+" as "%2B".
+    public static func replacingRedirect(in url: URL, with redirect: URL) -> URL {
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return url }
+        components.setQueryItemsEncodingPlus(components.queryItems?.map { item in
+            item.name == "redirect_uri" ? URLQueryItem(name: item.name, value: redirect.absoluteString) : item
+        })
+        return components.url ?? url
+    }
+
     /// The code in the callback URL; the state has to be the one sent.
     public static func authorizationCode(fromCallback url: URL, expectedState: String) throws -> String {
         let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []

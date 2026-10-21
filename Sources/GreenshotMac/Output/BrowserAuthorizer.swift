@@ -30,19 +30,10 @@ final class BrowserAuthorizer: NSObject, OAuthAuthorizer, ASWebAuthenticationPre
             let listener = try await LoopbackListener.listen(preferredPort: port, path: path, state: state)
             var authURL = url
             if listener.port != port {
-                authURL = Self.replacingRedirect(in: url, with: OAuthRedirect.loopback(port: listener.port, path: path).url)
+                authURL = OAuthFlow.replacingRedirect(in: url, with: OAuthRedirect.loopback(port: listener.port, path: path).url)
             }
             return try await start(url: authURL, callbackScheme: nil, listener: listener)
         }
-    }
-
-    /// `redirect_uri` with another port (the preferred one was taken).
-    static func replacingRedirect(in url: URL, with redirect: URL) -> URL {
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = components.queryItems?.map { item in
-            item.name == "redirect_uri" ? URLQueryItem(name: item.name, value: redirect.absoluteString) : item
-        }
-        return components.url ?? url
     }
 
     @MainActor

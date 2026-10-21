@@ -204,19 +204,57 @@ public struct JiraClient: Sendable {
         return "text ~ \"\(escaped(trimmed))\" ORDER BY updated DESC"
     }
 
-    /// A JQL or CQL clause at the start: a field (a name, `cf[123]` or a quoted name), maybe after `(` or `NOT`, and
-    /// an operator (`=`, `!=`, `~`, `!~`, `<`, `>`, `<=`, `>=`, `IN (`, `NOT IN (`, `IS [NOT] EMPTY|NULL`,
-    /// `WAS [NOT] IN (`); or `ORDER BY` alone.
-    private static let queryRegex = try! NSRegularExpression(
-        pattern: #"^(?:[(\s]|not\s)*(?:"[^"]*"|cf\[\d+\]|[\p{L}_][\p{L}\p{N}_.]*)\s*"#
-            + #"(?:!=|!~|<=|>=|[=~<>]|(?:was\s+)?(?:not\s+)?in\s*\(|is\s+(?:not\s+)?(?:empty|null)\b)"#
-            + #"|^\s*order\s+by\s"#,
+    /// A JQL or CQL clause at the start: a field (a whole word, `cf[123]` or a quoted name), maybe after `(` or `NOT`,
+    /// then a symbol operator (group 2: `=`, `!=`, `~`, `!~`, `<`, `>`, `<=`, `>=`) or, after a space, a word operator
+    /// (group 3: `IN (`, `NOT IN (`, `WAS [NOT] IN (`, `IS [NOT] EMPTY|NULL`). Group 1 is the field.
+    private static let clauseRegex = try! NSRegularExpression(
+        pattern: #"^(?:[(\s]|not\s+)*("[^"]+"|cf\[\d+\]|[\p{L}_][\p{L}\p{N}_.]*+)"#
+            + #"(?:\s*(!=|!~|<=|>=|[=~<>])|\s+((?:was\s+)?(?:not\s+)?in\s*\(|is\s+(?:not\s+)?(?:empty|null)\b))"#,
         options: [.caseInsensitive])
 
+    /// `ORDER BY` (group 1) and the field after it (group 2) at the start.
+    private static let orderByRegex = try! NSRegularExpression(
+        pattern: #"^\s*(order\s+by)\s+("[^"]+"|cf\[\d+\]|[\p{L}_][\p{L}\p{N}_.]*+)"#, options: [.caseInsensitive])
+
+    /// Fields of Jira (JQL) and Confluence (CQL) that a search names, in lower case.
+    private static let knownFields: Set<String> = [
+        "project", "status", "statuscategory", "assignee", "reporter", "creator", "priority", "resolution", "issuetype",
+        "type", "labels", "component", "fixversion", "affectedversion", "sprint", "parent", "key", "issuekey", "issue",
+        "epic", "watcher", "voter", "text", "summary", "description", "comment", "environment", "created",
+        "createddate", "updated", "updateddate", "resolved", "resolutiondate", "due", "duedate", "lastviewed", "filter",
+        "level", "category", "attachments", "rank",
+        "space", "title", "label", "ancestor", "contributor", "mention", "favourite", "favorite", "lastmodified", "id",
+        "content", "container", "macro",
+    ]
+
+    /// A field that is clearly one: a quoted name, `cf[123]`, or a field Jira or Confluence has (`space.type` counts
+    /// as `space`).
+    private static func isKnownField(_ field: String) -> Bool {
+        let name = field.lowercased()
+        if name.hasPrefix("\"") || name.hasPrefix("cf[") { return true }
+        return knownFields.contains(String(name.prefix { $0 != "." }))
+    }
+
     /// Whether search text is a query (JQL, or CQL, which has the same clauses) rather than words: a field followed by
-    /// an operator. Words that only contain "=" or "~", or start like a field ("project kickoff"), are words.
+    /// an operator. With `=` or `~` (`!=`, `<=`, …) any word counts as the field, as before. `<`, `>` and the word
+    /// operators (`in (`, `is empty`) also turn up in plain words ("Meeting in (Berlin)", "This is empty", "a<b"), so
+    /// they need a known field, or a word operator in capitals ("Team IS EMPTY"); likewise `ORDER BY`. When in doubt it
+    /// is words: a text search never fails, a query that isn't one does (HTTP 400).
     static func isQuery(_ text: String) -> Bool {
-        queryRegex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil
+        let range = NSRange(text.startIndex..., in: text)
+        func group(_ match: NSTextCheckingResult, _ index: Int) -> String? {
+            Range(match.range(at: index), in: text).map { String(text[$0]) }
+        }
+        if let match = orderByRegex.firstMatch(in: text, range: range), let keyword = group(match, 1),
+           let field = group(match, 2) {
+            return isKnownField(field) || keyword == keyword.uppercased()
+        }
+        guard let match = clauseRegex.firstMatch(in: text, range: range), let field = group(match, 1) else { return false }
+        if let symbol = group(match, 2) {
+            return symbol.contains("=") || symbol.contains("~") || isKnownField(field)
+        }
+        guard let word = group(match, 3) else { return false }
+        return isKnownField(field) || word == word.uppercased()
     }
 
     /// Quotes and backslashes inside a JQL/CQL string.

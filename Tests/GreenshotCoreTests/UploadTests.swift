@@ -139,6 +139,12 @@ struct JiraClientTests {
         #expect(JiraClient.jql(forSearch: "how to use ~ in a path") == text("how to use ~ in a path"))
         #expect(JiraClient.jql(forSearch: "project in progress") == text("project in progress"))
         #expect(JiraClient.jql(forSearch: "reports sorted order by date") == text("reports sorted order by date"))
+        // Brackets, "is", "in", "<" in plain words: no field and operator, or not a field Jira knows.
+        for words in ["login (beta)", "Berlin (office)", "Domain (DNS) setup", "plugin(v2)", "admin (panel) notes",
+                      "This is empty", "Thesis null", "a<b", "x > y", "Meeting in (Berlin)", "Tuesday was in (x)",
+                      "notin (a)", "C++ tips", "order by phone"] {
+            #expect(JiraClient.jql(forSearch: words) == text(words), "\(words)")
+        }
         // JQL stays JQL.
         #expect(JiraClient.jql(forSearch: "project in (A, B)") == "project in (A, B)")
         #expect(JiraClient.jql(forSearch: "summary ~ login") == "summary ~ login")
@@ -148,6 +154,14 @@ struct JiraClientTests {
         #expect(JiraClient.jql(forSearch: "cf[10010]=3") == "cf[10010]=3")
         #expect(JiraClient.jql(forSearch: "(priority = High OR priority = Highest)") == "(priority = High OR priority = Highest)")
         #expect(JiraClient.jql(forSearch: "order by created DESC") == "order by created DESC")
+        #expect(JiraClient.jql(forSearch: "ORDER BY rank") == "ORDER BY rank")
+        #expect(JiraClient.jql(forSearch: "status not in (Done, Closed)") == "status not in (Done, Closed)")
+        #expect(JiraClient.jql(forSearch: "created > -1w") == "created > -1w")
+        #expect(JiraClient.jql(forSearch: "duedate<=now()") == "duedate<=now()")
+        #expect(JiraClient.jql(forSearch: "\"Story Points\" > 3") == "\"Story Points\" > 3")
+        #expect(JiraClient.jql(forSearch: "Team IS EMPTY") == "Team IS EMPTY")
+        #expect(JiraClient.jql(forSearch: "Team IN (Blue)") == "Team IN (Blue)")
+        #expect(JiraClient.jql(forSearch: "a=b") == "a=b")
     }
 
     /// A "+" goes as "%2B": servers read a plain "+" in a query as a space, so "C++" would be searched as "C  ".
@@ -276,8 +290,10 @@ struct ConfluenceClientTests {
     @Test func titleSearchCQL() {
         #expect(ConfluenceClient.cql(forTitleSearch: "Release \"notes\"") == "type = page AND title ~ \"Release \\\"notes\\\"\" ORDER BY lastmodified DESC")
         #expect(ConfluenceClient.cql(forTitleSearch: "space = DEV and type = page") == "space = DEV and type = page")
-        // "=" in a title doesn't make it CQL.
+        // "=" in a title doesn't make it CQL, nor do brackets.
         #expect(ConfluenceClient.cql(forTitleSearch: "Plan: cost = time") == "type = page AND title ~ \"Plan: cost = time\" ORDER BY lastmodified DESC")
+        #expect(ConfluenceClient.cql(forTitleSearch: "Berlin (office)") == "type = page AND title ~ \"Berlin (office)\" ORDER BY lastmodified DESC")
+        #expect(ConfluenceClient.cql(forTitleSearch: "label in (howto, faq)") == "label in (howto, faq)")
     }
 
     @Test func findsPagesByTitle() async throws {
@@ -362,6 +378,18 @@ struct OAuthTests {
         #expect(try OAuthFlow.authorizationCode(fromCallback: URL(string: "greenshotmac://oauth/dropbox?code=abc&state=s1")!, expectedState: "s1") == "abc")
         #expect(throws: UploadError.self) { try OAuthFlow.authorizationCode(fromCallback: URL(string: "greenshotmac://oauth/dropbox?code=abc&state=other")!, expectedState: "s1") }
         #expect(throws: UploadError.cancelled) { try OAuthFlow.authorizationCode(fromCallback: URL(string: "http://127.0.0.1:1/box?error=access_denied&state=s1")!, expectedState: "s1") }
+    }
+
+    /// Another loopback port changes only `redirect_uri`; a "+" elsewhere stays "%2B".
+    @Test func anotherLoopbackPortKeepsTheRest() throws {
+        let url = OAuthFlow.authorizationURL(provider: .box, clientID: "a+b", redirect: OAuthProvider.box.redirect,
+                                             state: "s1", codeChallenge: "c")
+        let moved = OAuthFlow.replacingRedirect(in: url, with: URL(string: "http://127.0.0.1:52400/box")!)
+        let query = try #require(moved.query)
+        #expect(query.contains("client_id=a%2Bb"))
+        let items = try #require(URLComponents(url: moved, resolvingAgainstBaseURL: false)?.queryItems)
+        #expect(items.first { $0.name == "redirect_uri" }?.value == "http://127.0.0.1:52400/box")
+        #expect(items.first { $0.name == "state" }?.value == "s1")
     }
 
     @Test func tokensParseWithExpiryAndKeepTheRefreshToken() throws {
