@@ -499,6 +499,64 @@ struct VideoFileWriterTests {
         #expect(try hiddenFiles(next: url).isEmpty)
     }
 
+    /// A file whose name is near the 255-byte limit can be replaced, and put back: the hidden name it waits under
+    /// doesn't grow with it.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aFileWithALongNameIsReplaced() async throws {
+        let name = String(repeating: "a", count: 246) + ".mp4"
+        #expect(name.utf8.count == 250)
+        let url = try existingFile(name, holding: "the last recording")
+        let first = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        first.cancel()
+        #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
+        let second = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                               bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        appendSecond(second, start: 0)
+        _ = try await second.finish(at: seconds(1))
+        let info = try #require(try await track(url, .video))
+        #expect(info.codec == "avc1")
+    }
+
+    /// What a crash before the first frame left behind is removed a day later; nothing else is.
+    @Test func leftOversOfACrashAreRemoved() throws {
+        let folder = temporaryFile("left-overs")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let now = Date()
+        let old = VideoFileWriter.replacedFileName(at: now.addingTimeInterval(-2 * 24 * 60 * 60))
+        let recent = VideoFileWriter.replacedFileName(at: now.addingTimeInterval(-60 * 60))
+        let lookAlike = ".greenshot-replaced-notes.previous"
+        let oldFolder = VideoFileWriter.replacedFileName(at: now.addingTimeInterval(-3 * 24 * 60 * 60))
+        for name in [old, recent, lookAlike, "video.mp4"] {
+            try Data("kept?".utf8).write(to: folder.appendingPathComponent(name))
+        }
+        try FileManager.default.createDirectory(at: folder.appendingPathComponent(oldFolder), withIntermediateDirectories: true)
+        let oldLink = VideoFileWriter.replacedFileName(at: now.addingTimeInterval(-4 * 24 * 60 * 60))
+        try FileManager.default.createSymbolicLink(at: folder.appendingPathComponent(oldLink),
+                                                   withDestinationURL: folder.appendingPathComponent("video.mp4"))
+        VideoFileWriter.removeLeftOverReplacedFiles(in: folder, now: now)
+        let left = try Set(FileManager.default.contentsOfDirectory(atPath: folder.path))
+        #expect(left == [recent, lookAlike, "video.mp4", oldFolder, oldLink])
+    }
+
+    /// A writer starting in a folder sweeps it.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aWriterRemovesLeftOversWhereItWrites() async throws {
+        let url = temporaryFile("sweep.mp4")
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let old = url.deletingLastPathComponent()
+            .appendingPathComponent(VideoFileWriter.replacedFileName(at: Date().addingTimeInterval(-2 * 24 * 60 * 60)))
+        try Data("left over".utf8).write(to: old)
+        let video = try writer(url)
+        var gone = false
+        for _ in 0..<50 where !gone {
+            try await Task.sleep(nanoseconds: 50_000_000)
+            gone = !FileManager.default.fileExists(atPath: old.path)
+        }
+        video.cancel()
+        #expect(gone)
+    }
+
     /// A writer let go without `cancel` or `finish` (no caller does): the old file is back.
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aWriterLetGoPutsTheOldFileBack() throws {
