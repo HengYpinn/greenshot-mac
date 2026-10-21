@@ -150,11 +150,11 @@ public final class IPCDispatcher: @unchecked Sendable {
         guard table.isAllowed(name, for: context.source) else {
             let message = "[SECURITY] IPC command rejected: '\(command)' is not in the allowed command whitelist for source '\(context.source.rawValue)'."
             log.warn(message)
-            context.reply(.error(message))
+            context.reply(Self.failure(message, command: name, source: context.source))
             return
         }
         if let accessCheck, let refusal = await accessCheck(name, context) {
-            context.reply(.error(refusal))
+            context.reply(Self.failure(refusal, command: name, source: context.source))
             return
         }
         log.info("Processing whitelisted IPC command: '\(name)' from source '\(context.source.rawValue)'")
@@ -164,7 +164,7 @@ public final class IPCDispatcher: @unchecked Sendable {
             return
         }
         guard let handler = table.handler(for: name) else {
-            context.reply(.error("Unhandled command '\(name)'."))
+            context.reply(Self.failure("Unhandled command '\(name)'.", command: name, source: context.source))
             return
         }
         do {
@@ -172,9 +172,19 @@ public final class IPCDispatcher: @unchecked Sendable {
         } catch {
             log.error("Error handling IPC command '\(name)'", error: error)
             if !context.isCompleted {
-                context.reply(.error("Error: Greenshot failed to handle the command: \(error.localizedDescription)"))
+                context.reply(Self.failure("Error: Greenshot failed to handle the command: \(error.localizedDescription)",
+                                           command: name, source: context.source))
             }
         }
+    }
+
+    /// The dispatcher's own refusal or failure of a command. Mac: to the browser extension it names the command in
+    /// `reply_to`, as the extension's commands answer (`BrowserReplies`): the extension matches the answers to its
+    /// captures by it, and an answer without it would be taken for no capture's.
+    static func failure(_ message: String, command: String, source: IPCSource) -> IPCReply {
+        var reply = IPCReply.error(message)
+        if source == .nativeMessaging { reply.extra["reply_to"] = .string(command) }
+        return reply
     }
 
     /// CLI: the raw command line of greenshot-cli or of a second start, parsed for the connection's source.
