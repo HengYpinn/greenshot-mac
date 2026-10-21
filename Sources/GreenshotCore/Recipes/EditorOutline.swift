@@ -114,18 +114,20 @@ public struct RecipeOutline: Sendable {
     /// then keys only the conditional transitions use.
     public static func branches(of node: RecipeNode, in flow: RecipeFlow) -> [(key: String, expression: String?, label: String?)] {
         var result: [(key: String, expression: String?, label: String?)] = []
+        var seen = RecipeIdSet()
         if recipeEquals(node.stepType, WellKnownStepType.conditional) {
-            for branch in ConditionalBranch.read(node) where !branch.key.isEmpty {
-                if !result.contains(where: { recipeEquals($0.key, branch.key) }) { result.append((branch.key, branch.expression, nil)) }
+            for branch in ConditionalBranch.read(node) where !branch.key.isEmpty && seen.insert(branch.key) {
+                result.append((branch.key, branch.expression, nil))
             }
         } else if recipeEquals(node.stepType, WellKnownStepType.userPrompt) {
             for item in node.parameters["Choices"]?.arrayValue ?? [] {
-                guard let object = item.objectValue, let key = object.string("Key"), !key.isEmpty else { continue }
-                if !result.contains(where: { recipeEquals($0.key, key) }) { result.append((key, nil, object.string("Label"))) }
+                guard let object = item.objectValue, let key = object.string("Key"), !key.isEmpty, seen.insert(key) else { continue }
+                result.append((key, nil, object.string("Label")))
             }
         }
-        for transition in flow.conditionalTransitions where recipeEquals(transition.from, node.id) && !transition.branch.isEmpty {
-            if !result.contains(where: { recipeEquals($0.key, transition.branch) }) { result.append((transition.branch, nil, nil)) }
+        for transition in flow.conditionalTransitions
+        where recipeEquals(transition.from, node.id) && !transition.branch.isEmpty && seen.insert(transition.branch) {
+            result.append((transition.branch, nil, nil))
         }
         return result
     }
@@ -134,13 +136,25 @@ public struct RecipeOutline: Sendable {
 
     private func unconditionalTargets(_ id: String) -> [String] { recipe.flow.targets(from: id) }
 
-    private func branchTargets(_ id: String, _ key: String) -> [String] {
-        var result: [String] = []
-        for transition in recipe.flow.conditionalTransitions
-        where recipeEquals(transition.from, id) && recipeEquals(transition.branch, key) && !transition.to.isEmpty {
-            if !result.contains(where: { recipeEquals($0, transition.to) }) { result.append(transition.to) }
+    /// The targets of each branch of a decision step, each once, in file order: one pass over the conditional transitions
+    /// for all branches (a crafted file can give a step thousands).
+    private func branchTargets(of id: String) -> (String) -> [String] {
+        var index = RecipeIdMap<Int>()
+        var lists: [[String]] = []
+        var seen: [RecipeIdSet] = []
+        for transition in recipe.flow.conditionalTransitions where recipeEquals(transition.from, id) && !transition.to.isEmpty {
+            let position: Int
+            if let known = index[transition.branch] {
+                position = known
+            } else {
+                position = lists.count
+                index[transition.branch] = position
+                lists.append([])
+                seen.append(RecipeIdSet())
+            }
+            if seen[position].insert(transition.to) { lists[position].append(transition.to) }
         }
-        return result
+        return { key in index[key].map { lists[$0] } ?? [] }
     }
 
     /// Every next step of a node (unconditional and conditional), for reachability.
@@ -152,6 +166,8 @@ public struct RecipeOutline: Sendable {
     static func topologicalRanks(_ recipe: CaptureRecipe) -> [String: Int] {
         let ids = recipe.nodes.map { $0.id.lowercased() }.filter { !$0.isEmpty }
         let known = Set(ids)
+        var fileOrder: [String: Int] = [:]
+        for (position, id) in ids.enumerated() where fileOrder[id] == nil { fileOrder[id] = position }
         let transitions = recipe.flow.unifiedTransitions
         var inDegree: [String: Int] = [:]
         for id in ids { inDegree[id] = 0 }
@@ -171,7 +187,7 @@ public struct RecipeOutline: Sendable {
                 inDegree[key, default: 0] -= 1
                 if inDegree[key] == 0 {
                     // Keep file order among the ready ones.
-                    let position = ready.firstIndex { (ids.firstIndex(of: $0) ?? 0) > (ids.firstIndex(of: key) ?? 0) } ?? ready.count
+                    let position = ready.firstIndex { (fileOrder[$0] ?? 0) > (fileOrder[key] ?? 0) } ?? ready.count
                     ready.insert(key, at: position)
                 }
             }
@@ -187,7 +203,10 @@ public struct RecipeOutline: Sendable {
     /// transitions, by iteration to a fixed point (loops of an invalid recipe converge too).
     static func postDominators(_ recipe: CaptureRecipe, ids: Set<String>) -> [String: Set<String>] {
         let transitions = recipe.flow.unifiedTransitions
-        func successors(_ id: String) -> [String] { (transitions[id] ?? []).map { $0.lowercased() }.filter { ids.contains($0) } }
+        // Worked out once: a step can have thousands of next steps that aren't steps.
+        var next: [String: [String]] = [:]
+        for id in ids { next[id] = (transitions[id] ?? []).map { $0.lowercased() }.filter { ids.contains($0) } }
+        func successors(_ id: String) -> [String] { next[id] ?? [] }
         var result: [String: Set<String>] = [:]
         for id in ids { result[id] = successors(id).isEmpty ? [id] : ids }
         var changed = true
@@ -232,9 +251,8 @@ public struct RecipeOutline: Sendable {
 
     private mutating func build() {
         if isExtension { add(.extensionIn, depth: 0) }
-        let starts = RecipeOutline.startSteps(of: recipe).filter { node($0) != nil }.reduce(into: [String]()) { list, id in
-            if !list.contains(where: { recipeEquals($0, id) }) { list.append(node(id)?.id ?? id) }
-        }
+        var seen = RecipeIdSet()
+        let starts = RecipeOutline.startSteps(of: recipe).filter { node($0) != nil && seen.insert($0) }.map { node($0)?.id ?? $0 }
         if starts.count == 1 {
             lane(starts[0], from: nil, branch: nil, depth: 0, join: nil, stop: [])
         } else if starts.count > 1 {
@@ -323,15 +341,16 @@ public struct RecipeOutline: Sendable {
     /// The branches of a decision step; returns the step where all branches meet (still to be shown), if any.
     private mutating func decision(_ item: RecipeNode, depth: Int, join outer: String?, stop: Set<String>) -> String? {
         let branches = RecipeOutline.branches(of: item, in: recipe.flow)
-        let all = branches.flatMap { branchTargets(item.id, $0.key) }
+        let branchTargets = branchTargets(of: item.id)
+        let all = branches.flatMap { branchTargets($0.key) }
         // A branch that leads nowhere ends the flow there: the branches don't all meet.
-        let everyBranchGoesOn = branches.allSatisfy { !branchTargets(item.id, $0.key).isEmpty }
+        let everyBranchGoesOn = branches.allSatisfy { !branchTargets($0.key).isEmpty }
         let met = branches.count > 1 && everyBranchGoesOn ? meetingPoint(of: all) : nil
         var inner = stop
         if let met { inner.insert(met.lowercased()) }
         for branch in branches {
             add(.branch(from: item.id, key: branch.key, expression: branch.expression, label: branch.label), depth: depth + 1)
-            let targets = branchTargets(item.id, branch.key)
+            let targets = branchTargets(branch.key)
             if targets.count > 1 {
                 let inside = fork(from: item.id, branch: branch.key, targets: targets, depth: depth + 2, join: met ?? outer, stop: inner)
                 if let inside, !recipeEquals(inside, met ?? "") {

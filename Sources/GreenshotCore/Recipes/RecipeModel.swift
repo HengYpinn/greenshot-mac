@@ -301,24 +301,26 @@ public struct RecipeFlow: Sendable, Equatable {
         self.startNodes = startNodes
     }
 
-    /// The `transitions` targets of a node (case-insensitive), without the conditional ones.
+    /// The `transitions` targets of a node (case-insensitive), without the conditional ones; each once, in file order.
     public func targets(from nodeId: String) -> [String] {
         var result: [String] = []
+        var seen = RecipeIdSet()
         for transition in transitions where recipeEquals(transition.from, nodeId) {
-            for target in transition.to where !target.trimmingCharacters(in: .whitespaces).isEmpty {
-                if !result.contains(where: { recipeEquals($0, target) }) { result.append(target) }
+            for target in transition.to where !target.trimmingCharacters(in: .whitespaces).isEmpty && seen.insert(target) {
+                result.append(target)
             }
         }
         return result
     }
-    /// Transitions and conditional transitions together, keyed by the lowercased node id (upstream `GetUnifiedTransitions`).
+    /// Transitions and conditional transitions together, keyed by the lowercased node id (upstream `GetUnifiedTransitions`);
+    /// each target once per key, in file order.
     public var unifiedTransitions: [String: [String]] {
         var map: [String: [String]] = [:]
+        var seen: [String: RecipeIdSet] = [:]
         func add(_ from: String, _ to: String) {
             guard !from.trimmingCharacters(in: .whitespaces).isEmpty, !to.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-            var list = map[from.lowercased()] ?? []
-            if !list.contains(where: { recipeEquals($0, to) }) { list.append(to) }
-            map[from.lowercased()] = list
+            let key = from.lowercased()
+            if seen[key, default: RecipeIdSet()].insert(to) { map[key, default: []].append(to) }
         }
         for transition in transitions {
             if map[transition.from.lowercased()] == nil, !transition.from.isEmpty { map[transition.from.lowercased()] = [] }
@@ -350,6 +352,22 @@ public struct RecipeFlow: Sendable, Equatable {
         } else {
             transitions.append(RecipeTransition(from: from, to: [to]))
         }
+    }
+
+    /// `addTransition` for each target in order, in linear time (thousands of next steps of one step).
+    public mutating func addTransitions(from: String, to targets: [String]) {
+        guard !from.isEmpty else { return }
+        let added = targets.filter { !$0.isEmpty }
+        guard let first = added.first else { return }
+        let index: Int
+        if let existing = transitions.firstIndex(where: { recipeEquals($0.from, from) }) {
+            index = existing
+        } else {
+            transitions.append(RecipeTransition(from: from, to: [first]))
+            index = transitions.count - 1
+        }
+        var seen = RecipeIdSet(transitions[index].to)
+        for target in added where seen.insert(target) { transitions[index].to.append(target) }
     }
 }
 
@@ -505,4 +523,50 @@ public struct CaptureRecipe: Sendable, Equatable {
 /// `StringComparison.OrdinalIgnoreCase`.
 func recipeEquals(_ lhs: String, _ rhs: String) -> Bool {
     lhs.caseInsensitiveCompare(rhs) == .orderedSame
+}
+
+/// Ids compared like `recipeEquals`, each looked up in constant time: kept in buckets by their case-folded text (equal
+/// ids always fold alike; a few unequal ones, like "ᾈ" and "ἀι", share a bucket) and compared exactly within a bucket.
+/// For lists a crafted file can make long, such as thousands of next steps of one step: comparing each with all the
+/// others took minutes.
+struct RecipeIdSet {
+    private var ids = RecipeIdMap<Bool>()
+
+    init() {}
+
+    init<S: Sequence>(_ ids: S) where S.Element == String {
+        for id in ids { insert(id) }
+    }
+
+    func contains(_ id: String) -> Bool { ids[id] != nil }
+
+    /// False when an equal id is in the set already.
+    @discardableResult
+    mutating func insert(_ id: String) -> Bool {
+        guard ids[id] == nil else { return false }
+        ids[id] = true
+        return true
+    }
+}
+
+/// A dictionary keyed by ids compared like `recipeEquals`, in constant time per id (see `RecipeIdSet`); the first
+/// spelling of a key is kept.
+struct RecipeIdMap<Value> {
+    private var buckets: [String: [(id: String, value: Value)]] = [:]
+
+    subscript(id: String) -> Value? {
+        get { buckets[Self.bucket(id)]?.first { recipeEquals($0.id, id) }?.value }
+        set {
+            let bucket = Self.bucket(id)
+            var entries = buckets[bucket] ?? []
+            if let index = entries.firstIndex(where: { recipeEquals($0.id, id) }) {
+                if let newValue { entries[index].value = newValue } else { entries.remove(at: index) }
+            } else if let newValue {
+                entries.append((id, newValue))
+            }
+            buckets[bucket] = entries.isEmpty ? nil : entries
+        }
+    }
+
+    private static func bucket(_ id: String) -> String { id.folding(options: .caseInsensitive, locale: nil) }
 }

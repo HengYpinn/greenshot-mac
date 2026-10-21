@@ -10,6 +10,29 @@ import Testing
 @Suite struct RecipeEditorFlowEditingTests {
     private func targets(_ recipe: CaptureRecipe, _ id: String) -> [String] { recipe.flow.targets(from: id) }
 
+    /// A crafted file with thousands of next steps of one step: deleting the step before them, inserting a step and
+    /// moving it keep every next step once.
+    @Test func editingAroundThousandsOfNextSteps() async {
+        let xs = (0..<20_000).map { "x\($0)" }
+        var recipe = EditorFixtures.recipe(["a:Source", "b", "c:Clipboard"], ["b>c"])
+        recipe.flow.transitions.insert(RecipeTransition(from: "a", to: ["b"] + xs), at: 0)
+        let crafted = recipe
+        let steps = await Task.detached { () -> (afterDelete: [String], afterInsert: Int, moved: Bool, edited: CaptureRecipe) in
+            var recipe = crafted
+            RecipeFlowEditor.delete("b", in: &recipe)
+            let afterDelete = recipe.flow.targets(from: "a")
+            RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), after: "a", in: &recipe)
+            let afterInsert = recipe.flow.targets(from: "n").count
+            let moved = RecipeFlowEditor.moveUp("n", in: &recipe)
+            return (afterDelete, afterInsert, moved, recipe)
+        }.value
+        #expect(steps.afterDelete == ["c"] + xs)
+        #expect(steps.afterInsert == 20_001)
+        #expect(steps.moved)
+        #expect(targets(steps.edited, "n") == ["a"])
+        #expect(targets(steps.edited, "a") == ["c"] + xs)
+    }
+
     @Test func insertAfterTakesOverTheNextSteps() {
         var recipe = EditorFixtures.recipe(["a:Source", "b:Clipboard"], ["a>b"])
         RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), after: "a", in: &recipe)

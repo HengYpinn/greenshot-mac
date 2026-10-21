@@ -156,9 +156,10 @@ public enum RecipeFlowEditor {
         let next = isDecision(removed) ? [] : recipe.flow.targets(from: removed.id)
         // Start steps
         var starts: [String] = []
+        var seenStarts = RecipeIdSet()
         for start in recipe.flow.startNodes {
             let replacement = recipeEquals(start, removed.id) ? next : [start]
-            for item in replacement where !starts.contains(where: { recipeEquals($0, item) }) { starts.append(item) }
+            for item in replacement where seenStarts.insert(item) { starts.append(item) }
         }
         recipe.flow.startNodes = starts
         removeTransitions(from: removed.id, in: &recipe)
@@ -166,9 +167,11 @@ public enum RecipeFlowEditor {
         // Transitions into it
         for t in recipe.flow.transitions.indices where recipe.flow.transitions[t].to.contains(where: { recipeEquals($0, removed.id) }) {
             var targets: [String] = []
+            var seen = RecipeIdSet()
+            let from = recipe.flow.transitions[t].from
             for target in recipe.flow.transitions[t].to {
                 let replacement = recipeEquals(target, removed.id) ? next : [target]
-                for item in replacement where !targets.contains(where: { recipeEquals($0, item) }) && !recipeEquals(item, recipe.flow.transitions[t].from) {
+                for item in replacement where !recipeEquals(item, from) && seen.insert(item) {
                     targets.append(item)
                 }
             }
@@ -360,7 +363,7 @@ public enum RecipeFlowEditor {
         removeTransitions(from: previous, in: &recipe)
         removeTransitions(from: node.id, in: &recipe)
         recipe.flow.addTransition(from: node.id, to: previous)
-        for target in after { recipe.flow.addTransition(from: previous, to: target) }
+        recipe.flow.addTransitions(from: previous, to: after)
         if let a = recipe.nodes.firstIndex(where: { recipeEquals($0.id, previous) }),
            let b = recipe.nodes.firstIndex(where: { recipeEquals($0.id, node.id) }), b > a {
             let moved = recipe.nodes.remove(at: b)
@@ -410,7 +413,7 @@ public enum RecipeFlowEditor {
                 return
             }
         }
-        for target in targets { recipe.flow.addTransition(from: node.id, to: target) }
+        recipe.flow.addTransitions(from: node.id, to: targets)
     }
 
     private static func place(_ node: RecipeNode, after id: String, in recipe: inout CaptureRecipe) {
