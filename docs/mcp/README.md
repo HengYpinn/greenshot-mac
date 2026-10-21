@@ -79,7 +79,9 @@ Review and Revoke.
   Allowed programs are stored in the settings and can be removed on the AI Tools tab. The allowed programs, the
   excluded applications and the capture notification are sealed with a key in your Keychain: when another program
   edits them in the preferences, Greenshot resets them (nobody allowed, the notification on, the default exclusions
-  back) and asks again. "Don't Allow" (or closing the
+  back) and asks again. While the Keychain is locked (or its password prompt was cancelled) the seal can't be checked:
+  Greenshot then acts as if they were reset but keeps them, and they count again once it can read the Keychain (the
+  next start, or when you allow a program and unlock the Keychain at its prompt). "Don't Allow" (or closing the
   question) is remembered until the app quits; the tab lists those programs with "Allow" and "Ask Again". The question
   stays on top but never takes the keyboard, has no default button, ignores Escape and Return, and its buttons react only
   after a second, so a keystroke meant for the AI tool can't answer it. It opens at a slightly different place each time

@@ -180,7 +180,8 @@ Code (copy or open what a code in the screenshot says), and the uploads: Jira, C
 ### Uploads
 
 Greenshot's upload plugins are built in, set up under Settings › Destinations. Secrets (API tokens, the Box client
-secret, the sign-ins) live in your Keychain, never in the settings.
+secret, the sign-ins) live in your Keychain, never in the settings. While the Keychain is locked (or its password
+prompt was cancelled) an upload says so instead of asking you to sign in again; unlock it and try again.
 
 - **Jira** and **Confluence** (Atlassian Cloud): the site URL (Confluence sites end in `/wiki`), your email and an
   [API token](https://id.atlassian.com/manage-profile/security/api-tokens). "Upload to Jira…" asks for the issue (a
@@ -222,7 +223,9 @@ replaces its built-in recipe or an automatic step applies to it.
 - **Your own recipes:** import a `.gsrecipe.json` file with Recipes › Import Recipe… or in Settings › Recipes.
   Greenshot shows in plain words what the file does and asks before using it, and again whenever the file changes;
   programs, uploads and file access each need their own switch. Settings › Recipes switches recipes off and lists your
-  recipes with their approvals.
+  recipes with their approvals. The approvals are signed with a key in your Keychain: while the Keychain is locked (or
+  its password prompt was cancelled) recipe files ask again and an approval can't be saved, but the earlier approvals
+  are kept and count again once the Keychain is unlocked.
 - **Recipe editor** (menu bar › Recipe Editor…): recipes are edited as a list of steps; branches and parallel lanes are
   indented. Each step's settings are a form made from its contract. The Flow tab draws the flow and copies it as Mermaid
   text. Saving renews the recipe's approval and asks only when a change adds a trigger that starts on its own, a new

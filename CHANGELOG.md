@@ -358,6 +358,10 @@ All notable changes to this project are documented here. The format follows
   loaded; the second and later recipes of a new file are no longer shown as "changed outside Greenshot".
 - Recipes: if the Keychain is locked or can't be read when Greenshot starts, approving a recipe no longer erases your
   approvals of other recipe files, and Revoke says when it couldn't revoke an approval instead of seeming to work.
+- A locked Keychain, or its password prompt cancelled or denied, no longer counts as missing secrets: recipe approvals
+  and the AI tools consent are kept (until it can be read, recipes ask again and AI tools are asked as if none were
+  allowed, without a password prompt for every recipe), and uploads and Settings › Destinations say to unlock it and
+  try again (Retry for Box and Dropbox) instead of asking you to sign in again or showing empty fields.
 - Recipes: "Reset to defaults" no longer also resets a recipe whose id starts with the same name, and drops a value
   that was typed but not yet applied; an automatic step limited to some destinations also runs for an external
   command with a comma or semicolon in its name; changing where an automatic step is used keeps the exclusion of a
