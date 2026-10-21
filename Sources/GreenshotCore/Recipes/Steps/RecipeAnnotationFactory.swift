@@ -235,7 +235,11 @@ struct RecipeAnnotationFactory {
         let points = CGRect(x: box.minX / scale, y: box.minY / scale, width: box.width / scale, height: box.height / scale)
         var tip: CGPoint
         if p.has("TailX") && p.has("TailY") {
-            tip = CGPoint(x: p.int("TailX", Int(points.minX) - 20), y: p.int("TailY", Int(points.maxY) + 25))
+            // A value that doesn't convert falls back to the box in whole points like upstream's int bounds, rounded
+            // without `Int()`: Left and OffsetX from the recipe can put the box beyond Int's range.
+            let x = p.value("TailX")?.asInt.map { CGFloat($0) } ?? points.minX.rounded(.towardZero) - 20
+            let y = p.value("TailY")?.asInt.map { CGFloat($0) } ?? points.maxY.rounded(.towardZero) + 25
+            tip = CGPoint(x: x, y: y)
         } else {
             switch p.text("TailDirection")?.lowercased() ?? "bottomleft" {
             case "bottomright": tip = CGPoint(x: points.maxX + 15, y: points.maxY + 25)

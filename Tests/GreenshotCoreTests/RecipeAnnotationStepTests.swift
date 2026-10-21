@@ -123,6 +123,24 @@ struct RecipeTestCursors: RecipeCursorImageProviding {
         #expect(element(fixed, scale: 2)?.tail == CGPoint(x: 20, y: 40))
     }
 
+    /// TailX and TailY that don't convert fall back to 20 points left of the box and 25 below it (upstream
+    /// `GetInt(p, "TailX", bLeft - 20)`), in whole points; a box beyond Int's range (Left and OffsetX of 9e18 each) gives
+    /// that fallback without the `Int()` that stopped the app.
+    @Test func theTailFallbackBesideAnyBox() throws {
+        let centered: JSONObject = ["Type": .string("SpeechBubble"), "Text": .string("Hi"), "HorizontalAnchor": .string("Center"),
+                                    "Width": .number(81), "Height": .number(40), "TailX": .null, "TailY": .string("below")]
+        let near = try #require(element(centered))
+        // The box starts at 159.5: whole points toward zero, like upstream's int bounds.
+        #expect(near.tail == CGPoint(x: 139, y: 65))
+        let far: JSONObject = ["Type": .string("SpeechBubble"), "Text": .string("Hi"), "Left": .number(9e18), "OffsetX": .number(9e18),
+                               "Top": .number(-9e18), "OffsetY": .number(-9e18), "Width": .number(80), "Height": .number(40),
+                               "TailX": .null, "TailY": .null]
+        let bubble = try #require(element(far, scale: 2))
+        let tail = try #require(bubble.tail)
+        #expect(tail.x > 3.5e19)
+        #expect(tail.y < -3.5e19)
+    }
+
     @Test func countersAndEmoji() throws {
         let counter = try #require(element(["Type": .string("StepLabel")]))
         #expect(counter.kind == .counter)
