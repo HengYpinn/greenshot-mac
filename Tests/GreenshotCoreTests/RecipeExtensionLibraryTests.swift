@@ -152,6 +152,21 @@ final class OpenedInEditor {
         #expect(fileExtensions(fixture.library).isEmpty)
     }
 
+    /// "Revoke" in a review while the trust store's key can't be read isn't saved: it says so, the step stays in use.
+    @Test func aRevokeThatCantBeSavedSaysSo() async throws {
+        let secrets = FlakySecretStore()
+        let fixture = LibraryFixture(secrets: secrets)
+        defer { fixture.cleanUp() }
+        let url = try fixture.write(fileExtension(), name: "ext.gsrecipe.json")
+        _ = await fixture.library.loadFile(url)
+        secrets.failsReading = true
+        fixture.approver.answer = { _ in .revoked }
+        let result = await fixture.library.reviewExtensionApproval(id: "lib_ext")
+        #expect(result.errors.count == 1)
+        #expect(result.errors.first?.hasPrefix("The approval of automatic step 'Ext lib_ext' (lib_ext) could not be revoked: ") == true)
+        #expect(fileExtensions(fixture.library).count == 1)
+    }
+
     @Test func anAIProposalStartsSwitchedOffAndOpensInTheEditor() async throws {
         let fixture = LibraryFixture(approver: StubApprover { request in
             RecipeApprovalDecision(approval: RecipeApproval(recipeId: request.recipe?.id ?? "", allowedGates: request.gates), openInEditor: true)

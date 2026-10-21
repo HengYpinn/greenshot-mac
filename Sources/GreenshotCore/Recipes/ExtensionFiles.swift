@@ -88,7 +88,14 @@ extension RecipeLibrary {
                 newlyApproved = previousRecord?.approval(for: ext.id) == nil
                 approval = approved
             } else if decision?.isRevoked == true {
-                try? trustStore.revokeApproval(recipeId: ext.id, forFile: path)
+                do {
+                    try trustStore.revokeApproval(recipeId: ext.id, forFile: path)
+                } catch {
+                    // Not revoked: said so, and nothing changes (see `load` of recipes).
+                    log.error("Could not revoke the approval of automatic step '\(ext.id)'.", error: error)
+                    result.errors.append("The approval of automatic step '\(ext.name)' (\(ext.id)) could not be revoked: \(error.localizedDescription)")
+                    return result
+                }
                 if removeFileExtension(ext.id) { notify() }
                 result.errors.append("The approval of automatic step '\(ext.name)' (\(ext.id)) was revoked.")
                 return result

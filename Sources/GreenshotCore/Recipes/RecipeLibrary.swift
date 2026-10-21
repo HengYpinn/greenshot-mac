@@ -379,7 +379,15 @@ public final class RecipeLibrary {
                     }
                     approval = approved
                 } else if decision?.isRevoked == true {
-                    try? trustStore.revokeApproval(recipeId: recipe.id, forFile: path)
+                    do {
+                        try trustStore.revokeApproval(recipeId: recipe.id, forFile: path)
+                    } catch {
+                        // Not revoked (the trust store's key can't be read): said so, and nothing changes, like the
+                        // manager's `revokeApproval`; the recipe would come back at the next start otherwise.
+                        log.error("Could not revoke the approval of '\(recipe.id)'.", error: error)
+                        result.errors.append("The approval of recipe '\(recipe.name)' (\(recipe.id)) could not be revoked: \(error.localizedDescription)")
+                        continue
+                    }
                     removeFileRecipe(recipe.id)
                     anyChanged = true
                     result.errors.append("The approval of recipe '\(recipe.name)' (\(recipe.id)) was revoked.")
