@@ -66,7 +66,9 @@ enum Permissions {
     static let screenCaptureSettingsURL =
         URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture")!
 
-    static var hasScreenCapture: Bool { CGPreflightScreenCaptureAccess() }
+    /// Screenshots can be taken: macOS's preflight says so, or ScreenCaptureKit worked in this run although the
+    /// preflight said no (`ensureScreenCapture`).
+    static var hasScreenCapture: Bool { CGPreflightScreenCaptureAccess() || worksDespitePreflight }
 
     private static let log = Log("Permissions")
     /// ScreenCaptureKit worked in this run although the preflight said no (the permission was turned on while the app
