@@ -369,6 +369,8 @@ struct IPCServerTests {
         #expect(await waitUntil { server.connectionCount == 0 })
         #expect(ended.values.isEmpty)
         let client = try connect(server, format: .json, source: .nativeMessaging)
+        // Accepted (and its program read) before it closes: a peer that is already gone has no process id
+        #expect(await waitUntil { server.connectionCount == 1 })
         client.close()
         #expect(await waitUntil { !ended.values.isEmpty })
         let recorded = ended.values
