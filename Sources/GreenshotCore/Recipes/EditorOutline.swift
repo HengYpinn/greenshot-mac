@@ -157,11 +157,6 @@ public struct RecipeOutline: Sendable {
         return { key in index[key].map { lists[$0] } ?? [] }
     }
 
-    /// Every next step of a node (unconditional and conditional), for reachability.
-    private func allTargets(_ id: String) -> [String] {
-        recipe.flow.unifiedTransitions[id.lowercased()] ?? []
-    }
-
     /// Kahn's order over all transitions, ties in file order; nodes on a cycle come last in file order.
     static func topologicalRanks(_ recipe: CaptureRecipe) -> [String: Int] {
         let ids = recipe.nodes.map { $0.id.lowercased() }.filter { !$0.isEmpty }
