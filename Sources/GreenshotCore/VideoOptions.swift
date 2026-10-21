@@ -112,6 +112,11 @@ public struct VideoCaptureOptions: Equatable, Sendable {
     public var stopWhenWindowCloses = true
     /// Seconds after which the recording ends by itself; 0 never (upstream `DurationSeconds`).
     public var maximumDuration: TimeInterval = 0
+    /// A display or region recording shows only the apps whose names aren't on this list (matched like Settings › AI
+    /// Tools' excluded apps, `AIToolExclusion.isExcluded`), so also no app that starts while it records: an AI tool's
+    /// recording (security review SM-L1). Empty: everything. A window recording doesn't use it (its window is checked
+    /// before, `RecipeRecordVideoPlan.aiToolRule`).
+    public var excludedApplications: [String] = []
 
     public init(target: VideoCaptureTarget, outputURL: URL) {
         self.target = target

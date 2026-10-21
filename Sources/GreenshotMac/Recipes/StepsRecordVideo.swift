@@ -15,7 +15,8 @@ private let log = Log("Recipes")
 /// from the step (`RecipeRecordVideoPlan`; `ShowCaptureBorder` frames what is recorded, `RecordingBorder`). It ends
 /// after `DurationSeconds`, when the window closes, or when it is stopped from the menu bar (upstream stops a recording
 /// without either right away). `VideoFilePath` and `VideoRecordingResult` go into the flow; the capture is the video's
-/// first frame when there was none.
+/// first frame when there was none. A run started by an AI tool doesn't record the apps excluded from AI tools
+/// (`RecipeRecordVideoPlan.aiToolRule`, `ShownApplications`).
 struct RecipeRecordVideoExecutor: RecipeStepExecutor {
     let runtime: RecipeRuntime
 
@@ -92,6 +93,7 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
         let target: VideoCaptureTarget
         let area: CGRect
         var title = "Recording"
+        var windowApp: (app: String, names: [String?])?
         switch source {
         case .region:
             target = .region(region)
@@ -122,6 +124,7 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
                 target = .window(window.id)
                 area = window.frame
                 title = window.displayTitle
+                windowApp = (window.appName, window.applicationNames)
             } else if windowID == nil {
                 // The active app has no window on the screen (the desktop clicked): the screen when the user started it,
                 // like the Source step and "Capture active window" (upstream records the window in front, the desktop
@@ -150,12 +153,23 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
                 throw CaptureError.windowNotFound
             }
         }
+        // An AI tool doesn't get the apps excluded from AI tools in a video either (SM-L1, like the Source step): their
+        // window isn't recorded, and a display or region shows every app but those.
+        let rule = RecipeRecordVideoPlan.aiToolRule(triggerType: context.trigger?.triggerType, target: target, window: windowApp,
+                                                    excluded: runtime.aiToolCaptureGuard?.excludedApplications ?? [])
+        if case .refused(let reason) = rule {
+            throw RecipeStepError(reason, errorType: "UnauthorizedAccessException")
+        }
         let url = RecordingOutputPath.recipeURL(outputFilePath: step.string("OutputFilePath"),
                                                 rawOutputFilePath: step.node.parameters.string("OutputFilePath"), outputDirectory: step.string("OutputDirectory"),
                                                 filenamePattern: step.string("FilenamePattern"), date: Date(),
                                                 environment: ProcessInfo.processInfo.environment,
                                                 homeDirectory: FileManager.default.homeDirectoryForCurrentUser)
         var options = RecipeRecordVideoPlan.options(step, target: target, outputURL: url)
+        if case .leavingOut(let excluded) = rule {
+            options.excludedApplications = excluded
+            context.log("The recording leaves out the apps excluded from AI tools.")
+        }
         if options.audioSource.includesMicrophone, !(await MicrophoneCapture.authorize()) {
             // A recipe doesn't ask: without the permission it records without the microphone.
             log.warn("Recording without the microphone: Greenshot may not use it.")

@@ -7,7 +7,8 @@ import AppKit
 import GreenshotCore
 
 /// The excluded applications in recipes started by an AI tool (upstream `AiToolCapture`, `AiToolAccess.IsProcessExcluded`):
-/// RSTEPS's Source step refuses their windows and blacks them out in pictures of the screen. Called on the step
+/// RSTEPS's Source step refuses their windows and blacks them out in pictures of the screen, the RecordVideo step refuses
+/// their windows and leaves them out of a display or region (`RecipeRecordVideoPlan.aiToolRule`). Called on the step
 /// executors' threads, so the list is a copy behind a lock, refreshed by `AIToolsCenter` when the settings change.
 final class AIToolsCaptureGuard: RecipeAIToolCaptureGuard, @unchecked Sendable {
     /// How long the frames noted when an AI tool's run started count for its pictures.
@@ -27,10 +28,7 @@ final class AIToolsCaptureGuard: RecipeAIToolCaptureGuard, @unchecked Sendable {
     }
 
     func refusal(for window: WindowInfo) -> String? {
-        let app = NSRunningApplication(processIdentifier: window.pid)
-        let names = [window.appName, app?.localizedName, app?.bundleIdentifier, app?.executableURL?.lastPathComponent]
-        guard AIToolExclusion.isExcluded(names: names, excluded: excludedApplications) else { return nil }
-        return "Windows of '\(window.appName)' are excluded from AI tools (Settings › AI Tools)."
+        AIToolExclusion.refusal(appName: window.appName, names: window.applicationNames, excluded: excludedApplications)
     }
 
     /// RUN_AI_TOOL, before the flow starts: the excluded windows now. A window that moves or closes while the picture is
@@ -67,4 +65,13 @@ final class AIToolsCaptureGuard: RecipeAIToolCaptureGuard, @unchecked Sendable {
     }
 
     private let log = Log("AITools")
+}
+
+extension WindowInfo {
+    /// The names an excluded application is matched by besides `appName`: the app's name, bundle identifier and
+    /// executable.
+    var applicationNames: [String?] {
+        let app = NSRunningApplication(processIdentifier: pid)
+        return [app?.localizedName, app?.bundleIdentifier, app?.executableURL?.lastPathComponent]
+    }
 }

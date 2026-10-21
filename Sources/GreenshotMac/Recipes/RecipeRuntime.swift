@@ -54,6 +54,8 @@ protocol RecipeWindowResolving: AnyObject, Sendable {
 /// MCP (AUT-083): the apps AI tools never see (upstream `AiToolCapture`, `AiToolAccess.IsProcessExcluded`). Called on the
 /// step executors' threads (black-filling a big picture doesn't belong on the main thread).
 protocol RecipeAIToolCaptureGuard: AnyObject, Sendable {
+    /// Settings › AI Tools' excluded applications (names, bundle identifier prefixes).
+    var excludedApplications: [String] { get }
     /// Why this window may not be captured for an AI tool; nil when it may.
     func refusal(for window: WindowInfo) -> String?
     /// The picture with the windows of excluded apps blacked out; `origin` is its top left in Quartz global points.
