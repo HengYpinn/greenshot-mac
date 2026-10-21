@@ -69,6 +69,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
         RecipeAutomaticSteps.install(on: recipes)
         statusItem = StatusItemController(app: self)
         settings.onHotkeysChange = { [weak self] in self?.registerHotkeys() }
+        hotkeys.onPermissionsChange = { [weak self] in self?.registerHotkeys() }
         settings.onDockChange = { [weak self] in self?.updateDockIcon() }
         NotificationCenter.default.addObserver(forName: ShortcutRecorderButton.recordingDidBegin, object: nil, queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.hotkeys.unregisterAll() }

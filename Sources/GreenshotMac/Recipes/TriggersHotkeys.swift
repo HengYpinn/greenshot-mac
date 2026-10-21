@@ -33,7 +33,8 @@ enum RecipeHotkeyBindings {
         let names = appHotkeyNames()
         let fallback = String(localized: "a Greenshot hotkey", comment: "Names a hotkey of the app in a message about a recipe hotkey that clashes with it")
         let takenNamed = taken.map { combo in NamedHotkey(name: names.first { $0.combo == combo }?.name ?? fallback, combo: combo) }
-        let resolved = RecipeHotkeyClashes.resolve(candidates, taken: takenNamed)
+        // Without the permission for left and right keys every hotkey is registered for either key (`HotkeyManager`).
+        let resolved = RecipeHotkeyClashes.resolve(candidates, taken: takenNamed, tellsSides: HotkeyEventTap.availableMode != nil)
         update(clashes: resolved.clashes)
         return resolved.kept.map { index in
             let trigger = triggers[index].trigger

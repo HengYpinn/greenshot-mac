@@ -49,6 +49,9 @@ final class HotkeyManager {
     /// The refused hotkeys are told once, not on each registration of the same ones.
     private var refusalNotice = HotkeyRefusalNotice()
     private var permissionObservers: [(center: NotificationCenter, token: NSObjectProtocol)] = []
+    /// Registers every hotkey again from the settings when the permission for left and right keys changed: which recipe
+    /// hotkeys clash depends on it (`RecipeHotkeyClashes`). Without it the same hotkeys are registered again.
+    var onPermissionsChange: (() -> Void)?
 
     init() {
         var spec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
@@ -160,8 +163,12 @@ final class HotkeyManager {
         guard let registered, registered.hotkeys.contains(where: \.usesSides), mode != tap?.mode,
               mode == nil || mode != refusedTapMode
         else { return }
-        let names = registeredNames
         log.info("The permission for left/right hotkeys changed: registering the hotkeys again")
+        if let onPermissionsChange {
+            onPermissionsChange()
+            return
+        }
+        let names = registeredNames
         let refused = register(registered.hotkeys, actions: registered.actions)
         if let names {
             registeredNames = names
