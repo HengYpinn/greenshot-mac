@@ -91,11 +91,13 @@ final class OutputManager {
     func perform(_ target: DestinationTarget, with capture: Capture, window: NSWindow? = nil,
                  completion: ExportCompletion? = nil) {
         let editor = window?.windowController as? EditorWindowController
+        // The editor's state the capture shows: an upload that ends after more changes doesn't count them as saved.
+        let exportedChange = editor?.editorDocument.changeCount
         let finish: ExportCompletion = { result in
             var result = result
             // The innermost destination names itself; the picker and menus pass its result on unchanged.
             if result.exportedBy == nil { result.exportedBy = target.displayName }
-            editor?.showExportResult(result, destination: target.displayName)
+            editor?.showExportResult(result, destination: target.displayName, exportedChange: exportedChange)
             completion?(result)
         }
         if let refusal = ManagedHooks.refusal(for: target, settings: settings.value) {

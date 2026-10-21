@@ -93,6 +93,36 @@ struct EditorDocumentTests {
         #expect(doc.annotations[0].start == CGPoint(x: 50, y: 50))
     }
 
+    /// Upstream `Surface.ApplyCrop` removes the elements completely outside the crop (`IsOutside`) in the same undo step,
+    /// so the counters left renumber.
+    @Test func cropRemovesTheElementsOutsideIt() {
+        let doc = document()
+        let left = (0..<2).map { Annotation(kind: .counter, start: CGPoint(x: $0 * 15, y: 0), end: CGPoint(x: $0 * 15 + 10, y: 10)) }
+        let right = Annotation(kind: .counter, start: CGPoint(x: 70, y: 0), end: CGPoint(x: 80, y: 10))
+        // Ends where the crop starts: outside.
+        let touching = Annotation(kind: .rectangle, start: CGPoint(x: 40, y: 20), end: CGPoint(x: 60, y: 30))
+        let across = Annotation(kind: .rectangle, start: CGPoint(x: 55, y: 40), end: CGPoint(x: 65, y: 50))
+        // A line has no height, it still covers a pixel inside.
+        let line = Annotation(kind: .line, start: CGPoint(x: 65, y: 60), end: CGPoint(x: 90, y: 60))
+        doc.change { (left + [right, touching, across, line]).forEach(doc.add) }
+        doc.change { #expect(doc.crop(to: CGRect(x: 60, y: 0, width: 40, height: 80))) }
+        #expect(doc.annotations.map(\.id) == [right.id, across.id, line.id])
+        #expect(doc.counterNumber(for: right.id) == 1)
+        doc.undo()
+        #expect(doc.annotations.count == 6)
+        #expect(doc.counterNumber(for: right.id) == 3)
+    }
+
+    /// Auto Crop and Shrink Canvas crop with `cropKeepingEdges`: the elements outside go there too.
+    @Test func cropKeepingEdgesRemovesTheElementsOutsideIt() {
+        let doc = document()
+        let outside = Annotation(kind: .ellipse, start: CGPoint(x: 5, y: 60), end: CGPoint(x: 15, y: 70))
+        let inside = Annotation(kind: .ellipse, start: CGPoint(x: 5, y: 5), end: CGPoint(x: 15, y: 15))
+        doc.change { doc.add([outside, inside]) }
+        doc.change { #expect(doc.cropKeepingEdges(to: CGRect(x: 0, y: 0, width: 100, height: 40))) }
+        #expect(doc.annotations.map(\.id) == [inside.id])
+    }
+
     @Test func croppingToTheWholeImageDoesNothing() {
         let doc = document()
         #expect(!doc.crop(to: CGRect(x: -5, y: -5, width: 200, height: 200)))
@@ -125,6 +155,30 @@ struct EditorDocumentTests {
         doc.change { doc.add(Annotation(kind: .line, start: .zero, end: CGPoint(x: 5, y: 5))) }
         doc.markSaved()
         #expect(!doc.isModified)
+    }
+
+    /// An upload that took the image and ends after more changes must not count those changes as saved.
+    @Test func anExportOfAnEarlierStateLeavesLaterChangesUnsaved() {
+        let doc = document()
+        doc.change { doc.add(Annotation(kind: .line, start: .zero, end: CGPoint(x: 5, y: 5))) }
+        let exported = doc.changeCount
+        doc.change { doc.add(Annotation(kind: .arrow, start: .zero, end: CGPoint(x: 9, y: 9))) }
+        doc.markSaved(asOf: exported)
+        #expect(doc.isModified)
+        doc.markSaved(asOf: doc.changeCount)
+        #expect(!doc.isModified)
+        // An undo after the export is a change too.
+        let saved = doc.changeCount
+        doc.undo()
+        doc.markSaved(asOf: saved)
+        #expect(doc.isModified)
+        // So is a change still under way, e.g. text being typed when the upload ends.
+        let typing = doc.changeCount
+        doc.beginChange()
+        doc.add(Annotation(kind: .text, start: .zero, end: CGPoint(x: 20, y: 10), text: "a"))
+        doc.markSaved(asOf: typing)
+        #expect(doc.isModified)
+        doc.endChange()
     }
 }
 

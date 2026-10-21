@@ -48,17 +48,17 @@ enum GreenshotLegacyImport {
         return Result(elements: numbered(elements, numbers), counterStart: max(counterStart ?? 1, 0), unreadable: unreadable)
     }
 
-    /// The counters in the places counters have, in the order of their numbers: this editor numbers them in drawing
-    /// order, upstream sorts them by number (`Surface.LoadElementsFromStream` sorts `_stepLabels`).
+    /// The counters with their places in the order of their numbers (`Annotation.counterOrder`; upstream
+    /// `Surface.LoadElementsFromStream` sorts `_stepLabels` by `StepLabelContainer.Number`). The elements keep the
+    /// drawing order of the file.
     private static func numbered(_ elements: [Annotation], _ numbers: [UUID: Int]) -> [Annotation] {
-        let slots = elements.indices.filter { elements[$0].kind == .counter }
-        let sorted = slots.map { elements[$0] }.enumerated().sorted { a, b in
-            let left = numbers[a.element.id] ?? 0
-            let right = numbers[b.element.id] ?? 0
-            return left == right ? a.offset < b.offset : left < right
+        let counters = elements.indices.filter { elements[$0].kind == .counter }.sorted { a, b in
+            let left = numbers[elements[a].id] ?? 0
+            let right = numbers[elements[b].id] ?? 0
+            return left == right ? a < b : left < right
         }
         var result = elements
-        for (slot, counter) in zip(slots, sorted) { result[slot] = counter.element }
+        for (place, index) in counters.enumerated() { result[index].counterOrder = place + 1 }
         return result
     }
 

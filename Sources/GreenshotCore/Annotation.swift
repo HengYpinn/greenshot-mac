@@ -277,6 +277,11 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     /// nil is 0). The image's Rotate turns it along (upstream `VectorGraphicsContainer.RotationAngle`,
     /// `ImageContainer.Transform`). `bounds` is the turned box; `contentBounds` the box the content is drawn into.
     public var rotation: Int?
+    /// A counter's place in the order the counters came onto its document (upstream `Surface._stepLabels`, saved as
+    /// `StepLabelContainer.Number`): counters are numbered in this order, not in drawing order (`counterNumbers`). The
+    /// document gives it (`EditorDocument.add`, `addOpened`). Nil for other kinds, for counters not on a document yet and
+    /// for those of files of earlier versions.
+    public var counterOrder: Int?
     public var style: AnnotationStyle
 
     public init(id: UUID = UUID(), kind: AnnotationKind, start: CGPoint, end: CGPoint, points: [CGPoint] = [],
@@ -331,7 +336,8 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
 
     /// Decodes like the synthesized decoding, except `rotation`: any number of degrees (also one with a fraction, as
     /// another program may write) becomes the nearest quarter turn, and a value that isn't a number is ignored, so the
-    /// element still loads instead of being left out as one of a newer version.
+    /// element still loads instead of being left out as one of a newer version. The same for `counterOrder`, which only
+    /// counters keep.
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id = try c.decode(UUID.self, forKey: .id)
@@ -348,7 +354,30 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
         barcode = try c.decodeIfPresent(BarcodeSpec.self, forKey: .barcode)
         let degrees = (try? c.decodeIfPresent(Double.self, forKey: .rotation)) ?? nil
         rotation = degrees.flatMap(Annotation.quarterTurn(degrees:))
+        let order = (try? c.decodeIfPresent(Int.self, forKey: .counterOrder)) ?? nil
+        counterOrder = kind == .counter ? order : nil
         style = try c.decode(AnnotationStyle.self, forKey: .style)
+    }
+
+    /// The numbers the counters among `annotations` (in drawing order) show, by id, from `start`: in the order they came
+    /// onto the document (`counterOrder`), whatever their drawing order (upstream `Surface.CountStepLabels`, "every
+    /// single StepLabelContainer shows the number of the order it was created"). Counters without an order come after
+    /// those with one, in drawing order: elements of a recipe are added on top of those already on a document.
+    public static func counterNumbers(_ annotations: [Annotation], from start: Int) -> [UUID: Int] {
+        var numbers: [UUID: Int] = [:]
+        for (place, index) in counterSequence(annotations).enumerated() {
+            numbers[annotations[index].id] = start + place
+        }
+        return numbers
+    }
+
+    /// The indices of the counters among `annotations` in the order they count (see `counterNumbers`).
+    static func counterSequence(_ annotations: [Annotation]) -> [Int] {
+        annotations.indices.filter { annotations[$0].kind == .counter }.sorted { a, b in
+            let left = annotations[a].counterOrder ?? .max
+            let right = annotations[b].counterOrder ?? .max
+            return left == right ? a < b : left < right
+        }
     }
 
     /// `degrees` (any number) to the nearest clockwise quarter turn, like `normalizedRotation`; nil for no turn or a
