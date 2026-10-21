@@ -60,6 +60,11 @@ public final class VideoFileWriter: @unchecked Sendable {
         /// A file at `url` is replaced (a recipe's path): moved aside when the writer starts, deleted with the first
         /// frame, put back when the recording ends before that. Else the writer can't start.
         public var replacesExistingFile: Bool
+        /// Where a replaced file that a crash left behind goes (`discardLeftOverReplacedFiles`): the Trash. Tests give
+        /// a folder of their own.
+        var discardLeftOver: @Sendable (URL) throws -> Void = {
+            try FileManager.default.trashItem(at: $0, resultingItemURL: nil)
+        }
 
         public init(url: URL, format: VideoFormat, width: Int, height: Int, frameRate: Int, bitrate: Int,
                     colorMode: VideoColorMode = .fullColor, resizeBehavior: WindowResizeBehavior = .letterboxFixedCanvas,
@@ -97,6 +102,8 @@ public final class VideoFileWriter: @unchecked Sendable {
     private var failureReported = false
     /// The file that was at `url` (`replacesExistingFile`), under a hidden name next to it until the first frame.
     private var replacedFile: URL?
+    /// Why that file could not be put back, until `takePutBackFailure`.
+    private var putBackFailure: Error?
     /// Frames the encoder had no room for.
     public private(set) var droppedFrames = 0
 
@@ -150,7 +157,8 @@ public final class VideoFileWriter: @unchecked Sendable {
                                         colorMode: configuration.colorMode, behavior: configuration.resizeBehavior)
         // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one.
         if configuration.replacesExistingFile { replacedFile = try Self.moveAside(configuration.url) }
-        DispatchQueue.global(qos: .utility).async { Self.removeLeftOverReplacedFiles(in: folder) }
+        let discard = configuration.discardLeftOver
+        DispatchQueue.global(qos: .utility).async { Self.discardLeftOverReplacedFiles(in: folder, discard: discard) }
         guard writer.startWriting() else {
             let reason = writer.error?.localizedDescription ?? VideoWriterError.unknownReason
             // Only what the writer may have made where the moved file was; a file or folder that was there stays.
@@ -382,7 +390,7 @@ public final class VideoFileWriter: @unchecked Sendable {
 
     /// The hidden name a replaced file waits under: `.greenshot-replaced-<seconds since 1970>-<UUID>.previous`, 76
     /// bytes whatever the video's name (a name near the 255-byte limit still has room), unique, and with the time it
-    /// was moved, so that one left by a crash can be told from any other file (`removeLeftOverReplacedFiles`).
+    /// was moved, so that one left behind can be told from any other file (`discardLeftOverReplacedFiles`).
     static func replacedFileName(at date: Date) -> String {
         "\(replacedPrefix)\(Int(date.timeIntervalSince1970))-\(UUID().uuidString)\(replacedSuffix)"
     }
@@ -396,17 +404,35 @@ public final class VideoFileWriter: @unchecked Sendable {
         return Date(timeIntervalSince1970: TimeInterval(seconds))
     }
 
-    /// Removes the files in `folder` that a recording moved aside more than a day ago and never put back or deleted
-    /// (the app crashed or was force quit before the first frame): only plain files with such a name, nothing else.
-    static func removeLeftOverReplacedFiles(in folder: URL, now: Date = Date()) {
+    /// Moves to the Trash (`discard`) the files in `folder` that a recording moved aside more than a day ago and that
+    /// were never put back or deleted: the app crashed or was force quit before the first frame, or putting one back
+    /// failed (then it is the only copy of that video). Only plain files with such a name; never deleted for good: one
+    /// that can't go to the Trash stays.
+    static func discardLeftOverReplacedFiles(in folder: URL, now: Date = Date(), discard: (URL) throws -> Void) {
         let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path)) ?? []
         for name in names {
             guard let moved = replacedFileDate(name), now.timeIntervalSince(moved) > 24 * 60 * 60 else { continue }
             let url = folder.appendingPathComponent(name)
             guard (try? url.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true else { continue }
-            log.info("Removing \(name), a video a recording was to replace before Greenshot quit unexpectedly")
-            try? FileManager.default.removeItem(at: url)
+            do {
+                try discard(url)
+                log.info("Moved \(name), a video a recording was to replace and didn't, to the Trash")
+            } catch {
+                log.warn("\(name), a video a recording was to replace and didn't, could not go to the Trash; it stays",
+                         error: error)
+            }
         }
+    }
+
+    /// Why the file this recording was to replace could not be put back when it ended before its first frame (`cancel`,
+    /// `finish`), once; nil when it was or there was none. The file then waits under its hidden name next to the video
+    /// (Finder doesn't show it) until a recording a day later moves it to the Trash.
+    public func takePutBackFailure() -> Error? {
+        lock.lock()
+        defer { lock.unlock() }
+        let failure = putBackFailure
+        putBackFailure = nil
+        return failure
     }
 
     /// The recording ended before its first frame (its own file is deleted): the file it was to replace goes back.
@@ -418,6 +444,7 @@ public final class VideoFileWriter: @unchecked Sendable {
         } catch {
             log.error("The file the recording was to replace could not be put back: it is \(aside.lastPathComponent) "
                       + "next to \(configuration.url.lastPathComponent)", error: error)
+            putBackFailure = error
         }
     }
 

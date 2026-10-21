@@ -175,6 +175,7 @@ final class VideoRecorder {
         tearDown()
         try? await stream.stopCapture()
         writer.cancel()
+        reportPutBackFailure()
         log.info("Recording cancelled")
         resolveWaiters(nil)
     }
@@ -205,6 +206,7 @@ final class VideoRecorder {
         } catch {
             log.error("The recording could not be finished", error: error)
             move(to: .failed)
+            reportPutBackFailure()
             onError?(error, true)
             resolveWaiters(nil)
             throw error
@@ -228,6 +230,7 @@ final class VideoRecorder {
             move(to: .failed)
             tearDown()
             writer.cancel()
+            reportPutBackFailure()
             onError?(error, true)
             resolveWaiters(nil)
         }
@@ -239,6 +242,14 @@ final class VideoRecorder {
         guard state.isActive else { return }
         log.error("The video file can't be written any more: stopping the recording", error: error)
         Task { try? await stop() }
+    }
+
+    /// A recipe recording ended before its first frame and the video it was to replace could not be put back
+    /// (`VideoFileWriter.takePutBackFailure`): told like any other problem while recording (the writer's log says
+    /// where the video waits). Not while starting: `onError` is connected only once the recording runs.
+    private func reportPutBackFailure() {
+        guard let failure = writer.takePutBackFailure() else { return }
+        onError?(failure, false)
     }
 
     private func move(to next: RecordingState) {
