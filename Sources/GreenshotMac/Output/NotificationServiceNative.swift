@@ -36,6 +36,8 @@ final class NativeNotifications {
     private let center: UNUserNotificationCenter
     private let delegate = NotificationCenterDelegate()
     private var status: UNAuthorizationStatus = .notDetermined
+    /// Banners or alerts appear on the screen: not the style None, not only in Notification Center.
+    private var alertsAppear = true
     /// `requestAuthorization` failed: macOS doesn't let this build notify (not a choice of the user).
     private var refused = false
     private var asking = false
@@ -101,8 +103,10 @@ final class NativeNotifications {
     func refreshStatus(then done: (() -> Void)? = nil) {
         center.getNotificationSettings { settings in
             let status = settings.authorizationStatus
+            let appear = settings.alertSetting == .enabled && settings.alertStyle != .none
             DispatchQueue.main.async {
                 MainActor.assumeIsolated {
+                    self.alertsAppear = appear
                     self.update(status)
                     done?()
                 }
@@ -184,10 +188,12 @@ final class NativeNotifications {
             return
         }
         refreshStatus {
-            switch self.status {
-            case .authorized, .provisional, .ephemeral:
+            // Only a notification that appears on the screen: provisional ones go quietly to Notification Center, and
+            // the style None or alerts switched off show nothing. A Focus can still hold one back; the app can't tell.
+            let appears = self.status == .authorized && self.alertsAppear
+            if appears {
                 self.addMessage(title: title, body: body, kind: kind, action: action, onClosed: onClosed)
-            default:
+            } else {
                 fallback()
             }
         }
