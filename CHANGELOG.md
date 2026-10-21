@@ -363,6 +363,8 @@ All notable changes to this project are documented here. The format follows
   setting); a TextEffect pattern written as text is shown as one pattern; clearing a list field removes it; Insert
   Step After on a Conditional or user prompt puts the step into its first branch; Delete after Undo removes the
   selected connection; a recipe with one step and no start step shows that step as its start everywhere.
+- Recipes: a recipe file that lists thousands of next steps for one step no longer makes Greenshot or the recipe
+  editor hang for minutes while it reads, shows or edits the file.
 - Links and AI tools: `greenshotmac://recipe/…` with a recipe name that has spaces (`Save%20to%20Desktop`) runs that
   recipe; AI tools can give a capture region with decimal numbers.
 - Browser extension: the popup says "Sent to Greenshot!" only when Greenshot took the screenshot, otherwise why not;
