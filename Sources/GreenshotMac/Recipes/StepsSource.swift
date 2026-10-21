@@ -71,12 +71,11 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
             switch type {
             case .region, .textOcr:
                 payload = try await freezeScreens(withPointer: captureMouse, settings: settings, hidden: hidden)
-            case .window:
-                payload = try await windowSource(step, context: context, services: services, captureMouse: captureMouse,
-                                                 interactive: true)
-            case .activeWindow:
-                payload = try await windowSource(step, context: context, services: services, captureMouse: captureMouse,
-                                                 interactive: false)
+            case .window, .activeWindow:
+                guard let captured = try await windowSource(step, context: context, services: services, captureMouse: captureMouse,
+                                                            interactive: type == .window)
+                else { return }
+                payload = captured
             case .fullScreen:
                 payload = try await fullScreen(step, context: context, withPointer: captureMouse, settings: settings, hidden: hidden)
             case .lastRegion:
@@ -183,10 +182,10 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
     /// Window and ActiveWindow (upstream `ActiveWindowCaptureSource` and the `WindowHandle` path): a given window
     /// (`WindowHandle`, `TargetWindow`), a matching one (`WindowTitle`, `WindowTitlePattern`, `ProcessName`), else the
-    /// window that was active when the flow was started. A Window source without any of these is the screen for the
-    /// selection.
+    /// window that was active when the flow was started, else (the active app has no window on the screen) the whole
+    /// screen. A Window source without any of these is the screen for the selection. Nil: the flow was stopped.
     private func windowSource(_ step: RecipeStepInvocation, context: RecipeFlowContext, services: RecipeSourceServices,
-                              captureMouse: Bool, interactive: Bool) async throws -> RecipePayload {
+                              captureMouse: Bool, interactive: Bool) async throws -> RecipePayload? {
         let handle = interactive ? RecipeSourceValues.windowReference(step.isSet("WindowHandle") ? step.parameters["WindowHandle"] : nil) : .none
         var windowID: CGWindowID?
         switch handle {
@@ -229,7 +228,8 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
             if let windowID {
                 throw RecipeStepError("The window to capture (\(windowID)) doesn't exist (anymore).", errorType: "InvalidOperationException")
             }
-            throw CaptureError.windowNotFound
+            return try await activeAppWithoutWindow(context: context, settings: services.settings, captureMouse: captureMouse,
+                                                    sourceType: interactive ? "Window" : "ActiveWindow")
         }
         if isAITool, let refusal = services.aiGuard?.refusal(for: window) {
             throw RecipeStepError(refusal, errorType: "UnauthorizedAccessException")
@@ -239,6 +239,26 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
         // Upstream `ActiveWindowCaptureSource` and AI tool captures: "Window" (the window's own content).
         payload.metadata["source"] = .string("Window")
         payload.metadata["ProcessName"] = .string(window.appName)
+        return payload
+    }
+
+    /// The active app has no window on the screen (the desktop clicked, an app with only a menu bar item): the whole
+    /// screen, titled "Screen", like "Capture active window" in the menu (upstream `ActiveWindowCaptureSource` falls
+    /// back to `CaptureScreenAsync`). A run of greenshot-cli that allowed the active window is asked for the screen.
+    /// An AI tool's picture of the screen is redacted like any other (`source` "Screen"). Nil: not allowed.
+    private func activeAppWithoutWindow(context: RecipeFlowContext, settings: AppSettings, captureMouse: Bool,
+                                        sourceType: String) async throws -> RecipePayload? {
+        let subject = "a screenshot of the whole screen"
+        if let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent,
+           !(await consent.allows(subject)) {
+            context.abort("The screenshot wasn't allowed (\(subject)).")
+            return nil
+        }
+        context.log("The active app has no window on the screen: capturing the screen.")
+        let screen = try await ScreenCapturer.captureScreen(showsCursor: captureMouse, toneMapHDR: settings.toneMapHDRCaptures)
+        var payload = RecipePayload(capture: screen.capture, sourceType: sourceType)
+        payload.metadata["source"] = .string("Screen")
+        payload.attachments[Self.originKey] = RecipeScreenOrigin(origin: screen.area.origin)
         return payload
     }
 
