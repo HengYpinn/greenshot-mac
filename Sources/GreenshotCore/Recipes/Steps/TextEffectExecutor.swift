@@ -153,14 +153,26 @@ struct TextEffectExecutor: RecipeStepExecutor {
     /// Upstream `ApplyPadding`: half the percentage on each side (whole pixels toward zero, like its `(int)`), then the
     /// offset. A recipe can give any percentage: each side is limited to `Annotation.maxCoordinate`, where `Int()` of a
     /// product beyond Int's range would stop the app.
+    ///
+    /// The corners are kept within ±`Annotation.maxCoordinate` too, the positions a `.greenshot` file takes back
+    /// (`Annotation.withinLimits`); further out, a saved file lost the element as "Damaged element" when it was reopened.
+    /// The effects only act on the capture, far inside the limits, so the element covers the same part of it. Unlike an
+    /// Annotation step's element, which is skipped, it is kept: leaving a match out would leave a redaction undone.
     static func padded(_ box: CGRect, _ padding: Padding) -> CGRect {
         let limit = Double(Annotation.maxCoordinate)
         let horizontal: Double = Double(box.width) * Double(padding.horizontalPercent) / 100 / 2
         let vertical: Double = Double(box.height) * Double(padding.verticalPercent) / 100 / 2
         let dx = CGFloat(min(max(horizontal, -limit), limit).rounded(.towardZero))
         let dy = CGFloat(min(max(vertical, -limit), limit).rounded(.towardZero))
-        return CGRect(x: box.minX - dx + padding.offset.dx, y: box.minY - dy + padding.offset.dy,
-                      width: box.width + dx * 2, height: box.height + dy * 2)
+        func limited(_ value: CGFloat) -> CGFloat { min(max(value, -Annotation.maxCoordinate), Annotation.maxCoordinate) }
+        let left: CGFloat = box.minX - dx + padding.offset.dx
+        let top: CGFloat = box.minY - dy + padding.offset.dy
+        let width: CGFloat = box.width + dx * 2
+        let height: CGFloat = box.height + dy * 2
+        // Each corner limited, so a negative padding beyond -100 % keeps its negative size as before.
+        let x = limited(left)
+        let y = limited(top)
+        return CGRect(x: x, y: y, width: limited(left + width) - x, height: limited(top + height) - y)
     }
 
     /// Upstream `CreateContainer`: the element of the effect over one box (image pixels).

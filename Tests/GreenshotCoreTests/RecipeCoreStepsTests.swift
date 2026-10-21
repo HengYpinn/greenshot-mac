@@ -263,11 +263,30 @@ final class RecipeTestClipboard: RecipeClipboardWriting, @unchecked Sendable {
         let huge = TextEffectExecutor.Padding(horizontalPercent: 9_000_000_000_000_000_000, verticalPercent: -9_000_000_000_000_000_000)
         let padded = TextEffectExecutor.padded(CGRect(x: 0, y: 0, width: 1000, height: 10), huge)
         #expect(padded.minX == -Annotation.maxCoordinate)
-        #expect(padded.width == 1000 + 2 * Annotation.maxCoordinate)
+        // The far corner stays within the limit too (see textEffectElementsSurviveASavedFile).
+        #expect(padded.width == 2 * Annotation.maxCoordinate)
         #expect(padded.height == 2 * Annotation.maxCoordinate - 10)
         // Whole pixels toward zero, like upstream's `(int)`: 7.5 % of 10 on each side is 0.
         let small = TextEffectExecutor.Padding(horizontalPercent: 15, verticalPercent: -15)
         #expect(TextEffectExecutor.padded(CGRect(x: 0, y: 0, width: 10, height: 10), small) == CGRect(x: 0, y: 0, width: 10, height: 10))
+    }
+
+    /// The element over a match stays within the positions a `.greenshot` file takes back (`Annotation.maxCoordinate`):
+    /// a huge padding or offset made one the reopened file left out as "Damaged element". It still covers the same part of
+    /// the capture.
+    @Test func textEffectElementsSurviveASavedFile() throws {
+        let node = RecipeNode(id: "text", stepType: "TextEffect", parameters: [:])
+        let step = RecipeStepInvocation(node: node, parameters: node.parameters, contract: nil)
+        let box = CGRect(x: 10, y: 5, width: 20, height: 10)
+        let paddings = [TextEffectExecutor.Padding(horizontalPercent: 9_000_000_000_000_000_000, verticalPercent: 20),
+                        TextEffectExecutor.Padding(offset: CGVector(dx: 9e18, dy: -9e18))]
+        let elements = paddings.map { TextEffectExecutor.annotation("Redact", box: TextEffectExecutor.padded(box, $0), step) }
+        let contents = GreenshotFile.Contents(image: TestImage.solid(width: 40, height: 30, .white), scale: 1, elements: elements)
+        let read = try #require(GreenshotFile.read(try contents.encoded()))
+        #expect(read.elements.count == 2)
+        #expect(read.unreadable.isEmpty)
+        #expect(elements[0].bounds.minX <= 0)
+        #expect(elements[0].bounds.maxX >= 40)
     }
 
     @Test func textEffectElements() {

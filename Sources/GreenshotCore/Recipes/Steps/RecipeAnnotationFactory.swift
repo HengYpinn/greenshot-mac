@@ -80,7 +80,7 @@ struct RecipeAnnotationFactory {
             return .crop(pixels(frame(Draft(element: Annotation(kind: .rectangle, start: .zero, end: .zero)), p)))
         }
         if recipeEquals(type, "Freehand") {
-            return .element(freehand(p))
+            return Self.kept(freehand(p))
         }
         if recipeEquals(type, "Cursor"), cursor == nil, p.text("ImageData") == nil, p.text("FilePath") == nil {
             return .skipped("the pointer picture '\(p.text("CursorName") ?? "Arrow")' is not available")
@@ -101,7 +101,14 @@ struct RecipeAnnotationFactory {
         if element.kind == .line || element.kind == .arrow {
             (element.start, element.end) = Self.ends(of: box, startCorner: p.text("StartCorner"))
         }
-        return .element(element)
+        return Self.kept(element)
+    }
+
+    /// The element, unless a `.greenshot` file wouldn't take it back (`Annotation.withinLimits`): a position further away
+    /// than `Annotation.maxCoordinate` is skipped with the reason, where the reopened file would lose it as "Damaged
+    /// element". Moving it in would change the shape of an ellipse, an arrow or a tail.
+    static func kept(_ element: Annotation) -> Made {
+        element.hasLimitedGeometry ? .element(element) : .skipped("its position is too far outside the capture")
     }
 
     /// A line's ends in its box: from `StartCorner` (TopLeft, TopRight, BottomLeft, BottomRight; a Mac addition, upstream
