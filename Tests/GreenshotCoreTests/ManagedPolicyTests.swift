@@ -115,6 +115,22 @@ struct ManagedPolicyTests {
         #expect(p.problems.isEmpty)
     }
 
+    /// A profile's `<real>nan</real>`, an infinite number, or a text "nan" or "inf" is no setting: ignored and reported,
+    /// where writing it as JSON raised an exception nothing catches.
+    @Test func numbersThatAreNotFiniteAreIgnoredAndReported() {
+        let numbers = policy(forced: ["Greenshot.zoomerOpacity": Double.nan, "Greenshot.jpegQuality": Double.infinity,
+                                      "Greenshot.excludeDestinations": [Double.nan]],
+                             unforced: ["Greenshot.printing": ["footer": true, "footerPattern": -Double.infinity]])
+        #expect(numbers.forced.isEmpty)
+        #expect(numbers.problems.count == 4)
+        #expect(numbers.problems.allSatisfy { $0.contains("finite") })
+        #expect(numbers.defaults == ["printing.footer": "[true]"])
+        let texts = policy(forced: ["Greenshot.zoomerOpacity": "nan", "Greenshot.jpegQuality": " -inf"])
+        #expect(texts.forced.isEmpty)
+        #expect(texts.problems.count == 2)
+        #expect(texts.effective(AppSettings()).zoomerOpacity == 1)
+    }
+
     @Test func unknownKeysAreReported() {
         let p = policy(forced: ["Greenshot.outputFormatt": "jpg", "Greenshot.printing.colour": true])
         #expect(p.forced.isEmpty)
