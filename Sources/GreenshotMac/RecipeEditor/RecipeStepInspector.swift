@@ -86,6 +86,7 @@ private struct RecipeNodeHeader: View {
     var body: some View {
         let node = model.recipe?.node(nodeId)
         let isStart = model.recipe.map { RecipeFlowEditor.isStart(nodeId, in: $0) } ?? false
+        let canToggleStart = model.recipe.map { RecipeFlowEditor.canToggleStart(nodeId, in: $0) } ?? false
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline) {
                 Image(systemName: RecipeEditorCatalog.symbol(for: node?.stepType ?? ""))
@@ -94,6 +95,7 @@ private struct RecipeNodeHeader: View {
                 Spacer()
                 Button(isStart ? "Remove Start Step" : "Mark as Start Step") { model.toggleStart(nodeId) }
                     .help(isStart ? "Remove this step from the start steps" : "Add this step as a parallel entry point")
+                    .disabled(!canToggleStart)
                 Button(role: .destructive) { model.deleteStep(nodeId) } label: { Label("Delete Step", systemImage: "trash") }
             }
             if let description = contract?.description, !description.isEmpty {

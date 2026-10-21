@@ -273,8 +273,9 @@ public enum RecipeFlowEditor {
     }
 
     /// Upstream `ToggleStartNode`: a start step stops being one, another step becomes one (several run in parallel).
+    /// Nothing changes where `canToggleStart` is false.
     public static func toggleStart(_ id: String, in recipe: inout CaptureRecipe) {
-        guard let node = recipe.node(id) else { return }
+        guard canToggleStart(id, in: recipe), let node = recipe.node(id) else { return }
         if recipe.flow.startNodes.contains(where: { recipeEquals($0, node.id) }) {
             recipe.flow.startNodes.removeAll { recipeEquals($0, node.id) }
         } else {
@@ -282,8 +283,16 @@ public enum RecipeFlowEditor {
         }
     }
 
+    /// Whether the recipe starts at the step: a start step, or the only step of a recipe without any
+    /// (`RecipeOutline.startSteps`), which the step list, its menu and the inspector all show as the start.
     public static func isStart(_ id: String, in recipe: CaptureRecipe) -> Bool {
-        recipe.flow.startNodes.contains { recipeEquals($0, id) }
+        RecipeOutline.startSteps(of: recipe).contains { recipeEquals($0, id) }
+    }
+
+    /// Whether Mark as / Remove Start Step changes where the recipe starts: the only step of a recipe stays its start
+    /// whether it is marked or not.
+    public static func canToggleStart(_ id: String, in recipe: CaptureRecipe) -> Bool {
+        recipe.node(id) != nil && !(recipe.nodes.count == 1 && isStart(id, in: recipe))
     }
 
     // MARK: Renaming and moving
