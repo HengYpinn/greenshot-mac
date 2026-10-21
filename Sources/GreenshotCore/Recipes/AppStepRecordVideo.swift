@@ -58,8 +58,9 @@ public enum RecipeRecordVideoPlan {
     /// The options: the preset first, then the single values over it (upstream's order).
     public static func options(_ step: RecipeStepInvocation, target: VideoCaptureTarget, outputURL: URL) -> VideoCaptureOptions {
         var options = VideoCaptureOptions(target: target, outputURL: outputURL)
-        // The step's path is fixed (OutputFilePath, or a pattern without a counter): like upstream's `FileMode.Create`
-        // (WindowsGraphicsCaptureVideoSession.InitializeTranscoderAsync) the next run records over the last file.
+        // The step names its file (OutputFilePath, OutputDirectory with FilenamePattern, a time stamp): like upstream's
+        // `FileMode.Create` (WindowsGraphicsCaptureVideoSession.InitializeTranscoderAsync) a recording replaces a video
+        // already there, once it has its first frame (`VideoFileWriter` puts the old one back when it gets none).
         options.replacesExistingFile = true
         if let name = step.string("Preset"), let preset = VideoEncodingPreset(upstreamName: name) { options.apply(preset) }
         if let name = step.string("Format"), let format = VideoFormat(upstreamName: name) { options.format = format }

@@ -57,7 +57,8 @@ public final class VideoFileWriter: @unchecked Sendable {
         /// Seconds between the parts written so far being made readable (movie fragments): after a crash, a force quit
         /// or a power loss the file plays up to the last part. `finish` still writes a normal MP4. 0: none.
         public var fragmentInterval: TimeInterval
-        /// A file at `url` is replaced (a recipe's fixed path); else the writer can't start.
+        /// A file at `url` is replaced (a recipe's path): moved aside when the writer starts, deleted with the first
+        /// frame, put back when the recording ends before that. Else the writer can't start.
         public var replacesExistingFile: Bool
 
         public init(url: URL, format: VideoFormat, width: Int, height: Int, frameRate: Int, bitrate: Int,
@@ -94,6 +95,8 @@ public final class VideoFileWriter: @unchecked Sendable {
     private var done = false
     private var failureHandler: (@Sendable (Error) -> Void)?
     private var failureReported = false
+    /// The file that was at `url` (`replacesExistingFile`), under a hidden name next to it until the first frame.
+    private var replacedFile: URL?
     /// Frames the encoder had no room for.
     public private(set) var droppedFrames = 0
 
@@ -145,20 +148,25 @@ public final class VideoFileWriter: @unchecked Sendable {
         }
         processor = VideoFrameProcessor(width: configuration.width, height: configuration.height,
                                         colorMode: configuration.colorMode, behavior: configuration.resizeBehavior)
-        // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one. A folder
-        // of that name is never removed (the start fails as before).
-        var isFolder: ObjCBool = false
-        if configuration.replacesExistingFile,
-           FileManager.default.fileExists(atPath: configuration.url.path, isDirectory: &isFolder), !isFolder.boolValue {
-            do {
-                try FileManager.default.removeItem(at: configuration.url)
-            } catch {
-                throw VideoWriterError.cannotStart(error.localizedDescription)
-            }
-        }
+        // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one.
+        if configuration.replacesExistingFile { replacedFile = try Self.moveAside(configuration.url) }
         guard writer.startWriting() else {
-            throw VideoWriterError.cannotStart(writer.error?.localizedDescription ?? VideoWriterError.unknownReason)
+            let reason = writer.error?.localizedDescription ?? VideoWriterError.unknownReason
+            // Only what the writer may have made where the moved file was; a file or folder that was there stays.
+            if replacedFile != nil {
+                try? FileManager.default.removeItem(at: configuration.url)
+                putBackReplacedFile()
+            }
+            throw VideoWriterError.cannotStart(reason)
         }
+    }
+
+    /// Never left without `cancel` or `finish` by the recorder; should it be, a file it was to replace goes back.
+    deinit {
+        guard replacedFile != nil else { return }
+        writer.cancelWriting()
+        try? FileManager.default.removeItem(at: configuration.url)
+        putBackReplacedFile()
     }
 
     /// A frame arrived (or the first one did).
@@ -197,6 +205,7 @@ public final class VideoFileWriter: @unchecked Sendable {
             log.warn("A frame could not be added to the video", error: writer.error)
             return false
         }
+        if lastVideoTime == nil { deleteReplacedFile() }
         lastVideoTime = output
         lastFrame = frame
         return true
@@ -307,6 +316,7 @@ public final class VideoFileWriter: @unchecked Sendable {
             if failed, lastVideoTime != nil, configuration.fragmentInterval > 0 { return .broken(reason) }
             writer.cancelWriting()
             try? FileManager.default.removeItem(at: configuration.url)
+            putBackReplacedFile()
             if failed { throw VideoWriterError.failed(reason) }
             throw VideoWriterError.noFrames
         }
@@ -336,7 +346,8 @@ public final class VideoFileWriter: @unchecked Sendable {
         return .incomplete(reason, url)
     }
 
-    /// Stops and deletes the file (upstream `CancelAsync`).
+    /// Stops and deletes the file (upstream `CancelAsync`); a file it was to replace goes back when no frame was
+    /// written yet (the recording didn't start).
     public func cancel() {
         lock.lock()
         defer { lock.unlock() }
@@ -344,6 +355,48 @@ public final class VideoFileWriter: @unchecked Sendable {
         done = true
         writer.cancelWriting()
         try? FileManager.default.removeItem(at: configuration.url)
+        putBackReplacedFile()
+    }
+
+    // MARK: The file a recording replaces
+
+    /// Moves the file at `url` (never a folder: the start then fails as before) to a hidden name next to it, so that a
+    /// recording that doesn't start can put it back; nil when there is none.
+    private static func moveAside(_ url: URL) throws -> URL? {
+        var isFolder: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: url.path, isDirectory: &isFolder), !isFolder.boolValue else {
+            return nil
+        }
+        let name = ".\(url.lastPathComponent).\(UUID().uuidString).previous"
+        let aside = url.deletingLastPathComponent().appendingPathComponent(name)
+        do {
+            try FileManager.default.moveItem(at: url, to: aside)
+        } catch {
+            throw VideoWriterError.cannotStart(error.localizedDescription)
+        }
+        return aside
+    }
+
+    /// The recording ended before its first frame (its own file is deleted): the file it was to replace goes back.
+    private func putBackReplacedFile() {
+        guard let aside = replacedFile else { return }
+        replacedFile = nil
+        do {
+            try FileManager.default.moveItem(at: aside, to: configuration.url)
+        } catch {
+            log.error("The file the recording was to replace could not be put back: it is \(aside.lastPathComponent) "
+                      + "next to \(configuration.url.lastPathComponent)", error: error)
+        }
+    }
+
+    /// The first frame is written: the recording replaces the file for good (upstream `FileMode.Create`). Deleted off
+    /// the screen's queue: a large file may take a moment.
+    private func deleteReplacedFile() {
+        guard let aside = replacedFile else { return }
+        replacedFile = nil
+        DispatchQueue.global(qos: .utility).async {
+            try? FileManager.default.removeItem(at: aside)
+        }
     }
 
     // MARK: Helpers

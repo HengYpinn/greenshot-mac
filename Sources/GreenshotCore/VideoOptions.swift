@@ -86,8 +86,9 @@ public struct VideoCaptureOptions: Equatable, Sendable {
     public var target: VideoCaptureTarget
     /// The MP4 file to write; an existing file is not overwritten (the recording fails) unless `replacesExistingFile`.
     public var outputURL: URL
-    /// An existing file at `outputURL` is replaced when the recording starts (a recipe's fixed path, upstream's
-    /// `FileMode.Create`); menu recordings get a free name instead (`RecordingOutputPath.url`).
+    /// An existing file at `outputURL` is replaced by the recording (a recipe's, upstream's `FileMode.Create`); it is put
+    /// back when the recording ends before its first frame. Menu recordings get a free name instead
+    /// (`RecordingOutputPath.url`).
     public var replacesExistingFile = false
     public var format: VideoFormat = .mp4H264
     /// Upstream `FrameRate`, 30. The display's refresh rate is the most a screen gives.

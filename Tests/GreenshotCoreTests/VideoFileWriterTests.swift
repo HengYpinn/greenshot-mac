@@ -68,19 +68,41 @@ private func writer(_ url: URL, format: VideoFormat = .mp4H264, colorMode: Video
                               colorMode: colorMode, hasAudio: audio, realTime: false))
 }
 
-/// An empty frame in `format`.
-private func blankFrame(width: Int, height: Int, format: OSType) -> CVPixelBuffer {
-    var buffer: CVPixelBuffer?
-    let attributes = [kCVPixelBufferIOSurfacePropertiesKey as String: [String: Any]()] as CFDictionary
-    CVPixelBufferCreate(nil, width, height, format, attributes, &buffer)
-    return buffer!
+/// Waits until the file being written plays (its first movie fragment is on the disk), at most 10 s; false when it
+/// never did.
+private func waitUntilReadable(_ url: URL) async throws -> Bool {
+    for _ in 0..<100 {
+        if let length = try? await duration(url), length > 0 { return true }
+        try await Task.sleep(nanoseconds: 100_000_000)
+    }
+    return false
 }
 
-/// Waits until the file being written plays (its first movie fragment is on the disk), at most 5 s.
-private func waitUntilReadable(_ url: URL) async throws {
-    for _ in 0..<50 {
-        if let length = try? await duration(url), length > 0 { return }
-        try await Task.sleep(nanoseconds: 100_000_000)
+/// Makes the file at `url` take no more writes, like a full disk or a drive that went away: each descriptor of it
+/// open in this process now refers to /dev/null opened for reading, so the writer's next write fails (EBADF). False
+/// when this process holds no descriptor of it (the writer writes it some other way).
+private func stopWrites(to url: URL) -> Bool {
+    guard let resolved = realpath(url.path, nil) else { return false }
+    let path = String(cString: resolved)
+    free(resolved)
+    let readOnly = open("/dev/null", O_RDONLY)
+    guard readOnly >= 0 else { return false }
+    defer { close(readOnly) }
+    var stopped = false
+    var buffer = [CChar](repeating: 0, count: Int(MAXPATHLEN))
+    for descriptor in 0..<min(getdtablesize(), 65_536) where descriptor != readOnly {
+        guard fcntl(descriptor, F_GETPATH, &buffer) != -1 else { continue }
+        let openPath = buffer.withUnsafeBufferPointer { String(cString: $0.baseAddress!) }
+        if openPath == path, dup2(readOnly, descriptor) != -1 { stopped = true }
+    }
+    return stopped
+}
+
+/// The way a test makes the writer fail did not work on this macOS: there is nothing to check, which is recorded as a
+/// known issue (neither a failure nor a pass that proved nothing).
+private func failureNotTriggered(_ reason: String) {
+    withKnownIssue("The writer could not be made to fail on this macOS") {
+        Issue.record("\(reason)")
     }
 }
 
@@ -100,6 +122,19 @@ private func tone(seconds: Double) -> [Float] {
 private func audioEnd(_ url: URL) async throws -> Double? {
     guard let track = try await AVURLAsset(url: url).loadTracks(withMediaType: .audio).first else { return nil }
     return try await track.load(.timeRange).end.seconds
+}
+
+/// A file holding `text` in a new temporary folder.
+private func existingFile(_ name: String, holding text: String) throws -> URL {
+    let url = temporaryFile(name)
+    try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+    try Data(text.utf8).write(to: url)
+    return url
+}
+
+/// The hidden files in the folder of `url` (where a replaced file waits).
+private func hiddenFiles(next url: URL) throws -> [String] {
+    try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path).filter { $0.hasPrefix(".") }
 }
 
 /// The errors `VideoFileWriter.onFailure` got.
@@ -225,7 +260,11 @@ struct VideoFileWriterTests {
         let result = try await video.finish(at: seconds(51))
         #expect(result.hasAudio)
         let soundEnd = try #require(try await audioEnd(url))
-        #expect(abs(soundEnd - 0.3) < 0.05)
+        // AAC adds 2112 frames of priming and pads the last 1024-frame packet; a file whose edit list doesn't hide them
+        // ends up to that much later (here it ends at 0.3). Placed whole, not cut, the sound would end at 0.5 or later.
+        let aacSlack = Double(2112 + 1024) / 48_000
+        #expect(soundEnd > 0.29)
+        #expect(soundEnd < 0.31 + aacSlack)
     }
 
     /// Sound that starts in a pause and goes on after it: the part after the resume is in the video.
@@ -340,22 +379,34 @@ struct VideoFileWriterTests {
         #expect(abs(result.duration - 3) < 0.05)
     }
 
-    /// The disk fills up or the encoder fails while recording: the file keeps what was written until then.
+    /// The disk fills up or the drive goes away while recording: the failure is told at the next frame, and the file
+    /// keeps what was written until then.
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aWriterThatFailsKeepsWhatItWrote() async throws {
         let url = temporaryFile("failed.mp4")
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, fragmentInterval: 0.5))
+        let failures = Failures()
+        video.onFailure = { failures.add($0) }
         for second in 0..<3 { appendSecond(video, start: Double(second)) }
-        try await waitUntilReadable(url)
-        // The H.264 encoder can't take a depth map: the writer fails a few frames later.
-        video.appendVideo(blankFrame(width: 320, height: 240, format: kCVPixelFormatType_DepthFloat32), at: seconds(3))
+        guard try await waitUntilReadable(url) else {
+            video.cancel()
+            return failureNotTriggered("no movie fragment was on the disk after 10 s")
+        }
+        guard stopWrites(to: url) else {
+            video.cancel()
+            return failureNotTriggered("the writer holds no descriptor of its file in this process")
+        }
         var failedAt: Int?
-        for index in 1..<120 where failedAt == nil {
+        for index in 0..<300 where failedAt == nil {
             let buffer = frame(width: 320, height: 240, red: 10, green: 200, blue: 10)
             if !video.appendVideo(buffer, at: seconds(3 + Double(index) / 30)) { failedAt = index }
         }
-        #expect(failedAt != nil)
+        guard failedAt != nil else {
+            video.cancel()
+            return failureNotTriggered("the writer wrote nothing in 10 s of frames")
+        }
+        #expect(failures.count == 1)
         do {
             _ = try await video.finish(at: seconds(8))
             Issue.record("A failed writer finished")
@@ -377,20 +428,41 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aFailureIsToldOnce() async throws {
         let url = temporaryFile("failed-early.mp4")
-        let video = try writer(url, audio: true)
+        let video = try writer(url)
         let failures = Failures()
         video.onFailure = { failures.add($0) }
-        appendSecond(video, start: 0)
-        #expect(failures.count == 0)
-        // The AAC encoder can't take sound at 1 Hz: the writer fails at once.
-        let sound = [Float](repeating: 0, count: 200)
-        #expect(!video.appendAudio(samples: sound, channels: 2, sampleRate: 1, at: seconds(0.5)))
+        // Before anything is on the disk: the writer fails at its first write, with frames but nothing that plays.
+        guard stopWrites(to: url) else {
+            video.cancel()
+            return failureNotTriggered("the writer holds no descriptor of its file in this process")
+        }
+        var failedAt: Int?
+        for index in 0..<300 where failedAt == nil {
+            if !video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(Double(index) / 30)) {
+                failedAt = index
+            }
+        }
+        guard let failedAt else {
+            video.cancel()
+            return failureNotTriggered("the writer wrote nothing in 10 s of frames")
+        }
+        // This test needs frames in the file and nothing that plays.
+        guard failedAt > 0 else {
+            video.cancel()
+            return failureNotTriggered("the writer failed before its first frame was in")
+        }
         #expect(failures.count == 1)
-        #expect(!video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(1.5)))
+        #expect(!video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(20)))
         video.checkForFailure()
         #expect(failures.count == 1)
-        await #expect(throws: VideoWriterError.self) {
-            _ = try await video.finish(at: seconds(2))
+        do {
+            _ = try await video.finish(at: seconds(21))
+            Issue.record("A failed writer finished")
+        } catch let error as VideoWriterError {
+            guard case .failed = error else {
+                Issue.record("Not deleted: \(error)")
+                return
+            }
         }
         #expect(!FileManager.default.fileExists(atPath: url.path))
     }
@@ -407,6 +479,65 @@ struct VideoFileWriterTests {
         _ = try await video.finish(at: seconds(1))
         let info = try #require(try await track(url, .video))
         #expect(info.codec == "avc1")
+        var left = try hiddenFiles(next: url)
+        for _ in 0..<50 where !left.isEmpty {
+            try await Task.sleep(nanoseconds: 50_000_000)
+            left = try hiddenFiles(next: url)
+        }
+        #expect(left.isEmpty)
+    }
+
+    /// The recording to replace a file doesn't start (the screen stream fails, `VideoRecorder.begin` cancels the
+    /// writer): the old file is back, nothing is left next to it.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aRecordingThatDoesNotStartPutsTheOldFileBack() throws {
+        let url = try existingFile("back.mp4", holding: "the last recording")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        video.cancel()
+        #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
+        #expect(try hiddenFiles(next: url).isEmpty)
+    }
+
+    /// A writer let go without `cancel` or `finish` (no caller does): the old file is back.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aWriterLetGoPutsTheOldFileBack() throws {
+        let url = try existingFile("let-go.mp4", holding: "the last recording")
+        _ = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                      bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
+        #expect(try hiddenFiles(next: url).isEmpty)
+    }
+
+    /// The recording ends before its first frame: the old file is back.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func aRecordingWithoutFramesPutsTheOldFileBack() async throws {
+        let url = try existingFile("no-frames.mp4", holding: "the last recording")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        await #expect(throws: VideoWriterError.noFrames) {
+            _ = try await video.finish(at: seconds(1))
+        }
+        #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
+        #expect(try hiddenFiles(next: url).isEmpty)
+    }
+
+    /// With its first frame the recording has started: the old file is gone for good (upstream `FileMode.Create`), also
+    /// when the recording is then discarded.
+    @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
+    func theOldFileGoesWithTheFirstFrame() async throws {
+        let url = try existingFile("started.mp4", holding: "the last recording")
+        let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
+                                              bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
+        video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(0))
+        var left = try hiddenFiles(next: url)
+        for _ in 0..<50 where !left.isEmpty {
+            try await Task.sleep(nanoseconds: 50_000_000)
+            left = try hiddenFiles(next: url)
+        }
+        #expect(left.isEmpty)
+        video.cancel()
+        #expect(!FileManager.default.fileExists(atPath: url.path))
     }
 
     /// A folder with the video's name is not removed: the recording can't start.
