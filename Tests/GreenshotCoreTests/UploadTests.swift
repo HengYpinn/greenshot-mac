@@ -380,6 +380,18 @@ struct OAuthTests {
         #expect(throws: UploadError.cancelled) { try OAuthFlow.authorizationCode(fromCallback: URL(string: "http://127.0.0.1:1/box?error=access_denied&state=s1")!, expectedState: "s1") }
     }
 
+    /// Another loopback port changes only `redirect_uri`; a "+" elsewhere stays "%2B".
+    @Test func anotherLoopbackPortKeepsTheRest() throws {
+        let url = OAuthFlow.authorizationURL(provider: .box, clientID: "a+b", redirect: OAuthProvider.box.redirect,
+                                             state: "s1", codeChallenge: "c")
+        let moved = OAuthFlow.replacingRedirect(in: url, with: URL(string: "http://127.0.0.1:52400/box")!)
+        let query = try #require(moved.query)
+        #expect(query.contains("client_id=a%2Bb"))
+        let items = try #require(URLComponents(url: moved, resolvingAgainstBaseURL: false)?.queryItems)
+        #expect(items.first { $0.name == "redirect_uri" }?.value == "http://127.0.0.1:52400/box")
+        #expect(items.first { $0.name == "state" }?.value == "s1")
+    }
+
     @Test func tokensParseWithExpiryAndKeepTheRefreshToken() throws {
         let first = try OAuthTokens.parse(json: Data(#"{"access_token":"a1","expires_in":14400,"refresh_token":"r1","token_type":"bearer"}"#.utf8), now: now)
         #expect(first == OAuthTokens(accessToken: "a1", refreshToken: "r1", expiresAt: now.addingTimeInterval(14400)))
