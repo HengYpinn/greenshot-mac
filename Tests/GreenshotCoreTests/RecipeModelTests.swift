@@ -198,6 +198,35 @@ enum RecipeFixtures {
         #expect(template.isTemplate)
     }
 
+    /// A crafted file with thousands of targets of one step (the recipe editor opens it before it is approved): each
+    /// target is added once, compared like `recipeEquals`, in file order.
+    @Test func thousandsOfTargetsOfOneStep() async {
+        let xs = (0..<20_000).map { "x\($0)" }
+        var flow = RecipeFlow(startNodes: ["a"])
+        flow.transitions = [RecipeTransition(from: "a", to: xs + ["X0", "x1", " "]), RecipeTransition(from: "A", to: ["y"])]
+        flow.conditionalTransitions = (0..<20_000).map { ConditionalTransition(from: "a", branch: "b\($0)", to: "z\($0 % 10_000)") }
+        let crafted = flow
+        let unified = await Task.detached { crafted.unifiedTransitions["a"] ?? [] }.value
+        #expect(unified.count == 30_001)
+        #expect(Array(unified.prefix(2)) == ["x0", "x1"])
+        #expect(unified[20_000] == "y")
+        #expect(unified.last == "z9999")
+        let plain = await Task.detached { crafted.targets(from: "A") }.value
+        #expect(plain.count == 20_001)
+        flow.addTransitions(from: "b", to: xs + xs.map { $0.uppercased() })
+        #expect(flow.targets(from: "b") == xs)
+    }
+
+    /// Targets are the same when `recipeEquals` says so, as before: "ß" and "SS" are one target, "ᾈ" and "ἀι" two.
+    @Test func targetsCompareLikeRecipeIds() {
+        var flow = RecipeFlow()
+        flow.transitions = [RecipeTransition(from: "a", to: ["ß", "SS", "ss", "ᾈ", "ἀι", "e\u{301}", "É"])]
+        #expect(flow.targets(from: "a") == ["ß", "ᾈ", "ἀι", "e\u{301}"])
+        #expect(flow.unifiedTransitions["a"] == ["ß", "ᾈ", "ἀι", "e\u{301}"])
+        flow.addTransitions(from: "a", to: ["SS", "x", "X"])
+        #expect(flow.targets(from: "a") == ["ß", "ᾈ", "ἀι", "e\u{301}", "x"])
+    }
+
     /// Every property name of the schema's definitions is a member the model reads.
     @Test func schemaCoverage() throws {
         let schema = try JSONValue.parse(RecipeFixtures.data("recipe.schema.json"))

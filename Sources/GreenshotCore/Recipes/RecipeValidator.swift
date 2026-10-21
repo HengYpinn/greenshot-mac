@@ -483,11 +483,11 @@ public struct RecipeValidator: Sendable {
                                             handlers: [(node: RecipeNode, transition: ErrorTransition?, target: String)]? = nil)
         -> [String: [String]] {
         var map: [String: [String]] = [:]
-        var added: [String: Set<String>] = [:]
+        var added: [String: RecipeIdSet] = [:]
         func add(_ from: String, _ to: String) {
             guard !to.trimmingCharacters(in: .whitespaces).isEmpty, !from.trimmingCharacters(in: .whitespaces).isEmpty else { return }
             let key = from.lowercased()
-            if added[key, default: []].insert(to.lowercased()).inserted { map[key, default: []].append(to) }
+            if added[key, default: RecipeIdSet()].insert(to) { map[key, default: []].append(to) }
         }
         for transition in recipe.flow.transitions {
             for target in transition.to { add(transition.from, target) }
