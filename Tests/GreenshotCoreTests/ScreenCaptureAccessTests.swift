@@ -36,14 +36,49 @@ struct ScreenCaptureAccessTests {
         #expect(await ScreenCaptureAccess.probe(within: 5) { .refused } == .refused)
     }
 
-    @Test func aSlowProbeIsNotWaitedFor() async {
-        let start = Date()
+    @Test(.timeLimit(.minutes(1)))
+    func aProbeThatHangsIsNotWaitedFor() async {
+        // The try can't answer before the test opens the gate (or the time limit cancels the test, which opens it and
+        // makes the try answer `.works`, so a probe that waits for its try fails here instead of hanging).
+        let gate = Gate()
         let result = await ScreenCaptureAccess.probe(within: 0.05) {
-            try? await Task.sleep(nanoseconds: 3_000_000_000)
+            await gate.wait()
             return .works
         }
-        let waited = Date().timeIntervalSince(start)
         #expect(result == .timedOut)
-        #expect(waited < 2)
+        gate.open()
+    }
+}
+
+/// Holds back an operation until `open`, or until its task is cancelled.
+private final class Gate: @unchecked Sendable {
+    private let lock = NSLock()
+    private var isOpen = false
+    private var waiting: CheckedContinuation<Void, Never>?
+
+    func wait() async {
+        await withTaskCancellationHandler {
+            await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                lock.lock()
+                if isOpen {
+                    lock.unlock()
+                    continuation.resume()
+                    return
+                }
+                waiting = continuation
+                lock.unlock()
+            }
+        } onCancel: {
+            open()
+        }
+    }
+
+    func open() {
+        lock.lock()
+        isOpen = true
+        let resumed = waiting
+        waiting = nil
+        lock.unlock()
+        resumed?.resume()
     }
 }
