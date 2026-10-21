@@ -83,7 +83,8 @@ public enum RecipeAnnotationSchema {
                 + [field("TailDirection", .choice(tailDirections), "Where the tail points"), field("TailOffsetX", .integer),
                    field("TailOffsetY", .integer)] + line + fill
         case "steplabel":
-            return placement + [field("Number", .integer, "Step number (the Mac numbers counters by their order)")]
+            return placement + [field("Number", .integer,
+                                      "Orders the step's counters, lowest first; those without it follow in list order")]
                 + [field("FillColor", .color), field("LineColor", .color), field("Shadow", .boolean)]
         case "image", "icon":
             return placement + [field("ImageData", .multilineText, "The picture, embedded as Base64", label: "Embedded picture"),

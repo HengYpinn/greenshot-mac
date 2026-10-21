@@ -40,7 +40,8 @@ struct AnnotationExecutor: RecipeStepExecutor {
             }
         }
         guard !elements.isEmpty || crop != nil else { return }
-        payload.annotations += elements
+        // The step's counters count after those already on the capture.
+        payload.annotations = Annotation.adding(elements, to: payload.annotations)
         if let crop {
             let document = EditorDocument(image: payload.image, scale: payload.scale, title: payload.title)
             document.addOpened(payload.annotations)

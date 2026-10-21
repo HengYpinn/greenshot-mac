@@ -264,15 +264,17 @@ struct RecipeAnnotationFactory {
         return CGPoint(x: tip.x * scale, y: tip.y * scale)
     }
 
-    /// Upstream `CreateStepLabel`: a counter (30 × 30 points, upstream `StepLabelContainer`). The Mac numbers counters
-    /// by their order, so `Number` isn't used.
+    /// Upstream `CreateStepLabel`: a counter (30 × 30 points, upstream `StepLabelContainer`). `Number` orders the
+    /// counters of the step (upstream `StepLabelContainer.Number`, by which `_stepLabels` is sorted on loading): the step
+    /// numbers them after those already on the capture, by `Number`, the ones without it after, in the order of the list.
     private func stepLabel(_ p: AnnotationParameters) -> Draft {
         var style = AnnotationStyle.defaults(for: .counter)
         style.fillColor = p.color("FillColor", .darkRed)
         style.lineColor = p.color("LineColor", .white)
         style.shadow = p.bool("Shadow", false)
-        return Draft(element: Annotation(kind: .counter, start: .zero, end: .zero, style: style), size: CGSize(width: 30, height: 30),
-                     rational: true)
+        var counter = Annotation(kind: .counter, start: .zero, end: .zero, style: style)
+        counter.counterOrder = p.value("Number")?.asInt
+        return Draft(element: counter, size: CGSize(width: 30, height: 30), rational: true)
     }
 
     /// Upstream `CreateImage` (`ImageData` base64, else `FilePath`) and `CreateIcon` (`FilePath`): an image element at

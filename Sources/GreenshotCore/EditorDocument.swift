@@ -182,25 +182,13 @@ public final class EditorDocument {
     }
 
     /// Adds elements that belong to the document as it was opened (the elements of a `.greenshot` file, a restored
-    /// editor, the captured mouse pointer): no undo step, and the document stays as modified as it was.
+    /// editor, the captured mouse pointer): no undo step, and the document stays as modified as it was. Their counters
+    /// keep the numbers they had (`Annotation.adding`).
     public func addOpened(_ elements: [Annotation]) {
         guard depth == 0 else { return }
         let size = imageSize
-        annotations.append(contentsOf: arriving(elements).map { $0.spanning(size) })
+        annotations = Annotation.adding(elements.map { $0.spanning(size) }, to: annotations)
         changeCount += 1
-    }
-
-    /// `elements` as they come onto the document: their counters get the places after the counters already here
-    /// (upstream `Surface.AddStepLabel`), in the order they count among themselves (`Annotation.counterNumbers`). So new,
-    /// pasted and duplicated counters count last, and those of a file, also of an earlier version without places, keep
-    /// the numbers they had.
-    private func arriving(_ elements: [Annotation]) -> [Annotation] {
-        let last = annotations.compactMap(\.counterOrder).max() ?? 0
-        var result = elements
-        for (place, index) in Annotation.counterSequence(elements).enumerated() {
-            result[index].counterOrder = last + 1 + place
-        }
-        return result
     }
 
     private var current: State { State(base: baseImage, annotations: annotations, counterStart: counterStart) }
@@ -237,10 +225,11 @@ public final class EditorDocument {
         annotations.removeAll { $0.id == id }
     }
 
-    /// Adds elements on top of the others, in their order; counters among them count after those already here.
+    /// Adds elements on top of the others, in their order; counters among them count after those already here
+    /// (`Annotation.adding`).
     public func add(_ elements: [Annotation]) {
         let size = imageSize
-        annotations.append(contentsOf: arriving(elements).map { $0.spanning(size) })
+        annotations = Annotation.adding(elements.map { $0.spanning(size) }, to: annotations)
     }
 
     /// The elements with one of `ids`, in drawing order (back to front).
