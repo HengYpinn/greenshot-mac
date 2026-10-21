@@ -291,7 +291,8 @@ All notable changes to this project are documented here. The format follows
   outside the capture, extreme pad or substring numbers in a file name pattern (`${title:p…}`, `${title:s…}`; padding
   is limited to 1024 characters) and a `${NUM}` counter at its largest value (it starts again at 0).
 - Screen Recording: without the permission, the first capture shows a short message that opens the setting instead
-  of doing nothing (in the app when Greenshot's notifications are off, without asking for them); a permission turned on while Greenshot runs is used as soon as macOS allows captures, without the
+  of doing nothing (in the app when Greenshot's notifications are off or set to the style None, without asking for
+  them); a permission turned on while Greenshot runs is used as soon as macOS allows captures, without the
   "quit and reopen" message on every press, and Settings and Self-Service then say it is allowed.
 - Editor: changes made while an upload or print was still running are no longer marked as saved when it finishes, so
   closing the window still asks and the autosave keeps them.
@@ -307,7 +308,8 @@ All notable changes to this project are documented here. The format follows
   at once and keeps what was recorded until then; before, it went on and then deleted the whole file at Stop.
 - Screen recording: a recipe's Record Video step can record again to the same file name; the new recording replaces
   the old file once it has its first frame, as in Greenshot for Windows (it failed with "Cannot Save"), and a
-  recording that doesn't start keeps the old file (also with a very long file name). A recipe that records a display without a monitor number records
+  recording that doesn't start keeps the old file (also with a very long file name); if it can't be put back you are
+  told, and the hidden copy goes to the Trash a day later. A recipe that records a display without a monitor number records
   the main display (the one with the menu bar); monitor numbers count displays in the same order as the AI tools'
   window list.
 - Screen recording: a recording with sound no longer loses the first moment of sound or the sound just after a pause,
@@ -321,7 +323,8 @@ All notable changes to this project are documented here. The format follows
   selection across a Retina and a non-Retina display shows the size the capture will have.
 - Hotkeys: shown with the keys of your keyboard layout in Settings, menus and messages (Z instead of Y on a German
   keyboard, A instead of Q on a French one), right after a layout switch. When macOS refuses some hotkeys, a
-  notification that opens Self-Service › Hotkeys (shown in the app when Greenshot's notifications are off) replaces
+  notification that opens Self-Service › Hotkeys (shown in the app when Greenshot's notifications are off or set to
+  the style None) replaces
   the alert that held up the start of the app (and a capture
   started at launch) and came back each time Settings closed. Clicking from one shortcut recorder straight to another
   no longer turns the hotkeys back on while the new shortcut is typed. Without the Accessibility or Input Monitoring
@@ -339,7 +342,8 @@ All notable changes to this project are documented here. The format follows
   time>"; only an empty file name pattern still falls back to that name.
 - Jira and Confluence: the search fields take JQL and CQL, including custom fields, functions such as openSprints(),
   and WAS or CHANGED; text that only looks like a query, or plain words ("project kickoff", "login (beta)"), is
-  searched as words instead of failing with "Error in the JQL Query", and a "+" ("C++", "Q3+Q4 plan") is no longer
+  searched as words instead of failing with "Error in the JQL Query" (a query with a mistake still shows the server's
+  message when the words find nothing), and a "+" ("C++", "Q3+Q4 plan") is no longer
   read as a space (also in a Dropbox file name). A Jira upload whose comment could not be added counts as done and says the comment is missing,
   so a retry doesn't attach the file twice. After a Server/Data Center password changes, the next upload (also from a
   recipe) asks for it again instead of failing with HTTP 401 for the rest of the session.
