@@ -46,19 +46,17 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
         let hidden: (@Sendable (WindowInfo) -> Bool)? = isAITool ? services.aiGuard.map { guardian in { guardian.refusal(for: $0) != nil } } : nil
         let fromScreen = region != nil || type.isScreen
         if fromScreen {
-            let allowed = await MainActor.run { () -> Bool in
-                guard Permissions.ensureScreenCapture() else { return false }
+            guard await Permissions.ensureScreenCapture() else {
+                context.abort("Greenshot may not record the screen.")
+                return
+            }
+            await MainActor.run {
                 Toast.dismiss()
                 if !isAITool {
                     let state = runtime.flowState(context.executionId)
                     state.capturedFromScreen = true
                     state.previousApp = context.trigger?.frontmostProcessID
                 }
-                return true
-            }
-            guard allowed else {
-                context.abort("Greenshot may not record the screen.")
-                return
             }
         }
         let delay = RecipeSourceValues.clampedDelay(RecipeSourceValues.int(step, "DelayMs", variable: "CaptureDelay", in: context,

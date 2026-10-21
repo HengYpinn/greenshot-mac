@@ -199,13 +199,14 @@ final class CaptureCoordinator {
             NSSound.beep()
             return
         }
-        guard Permissions.ensureScreenCapture() else { return }
         busy = true
         let previousApp = NSWorkspace.shared.frontmostApplication
         Toast.dismiss()
         let delay = AppSettings.clampedCaptureDelay(settings.value.captureDelayMilliseconds)
         Task { @MainActor in
             defer { self.busy = false }
+            // May try ScreenCaptureKit once (a few seconds at most) when macOS's preflight says no.
+            guard await Permissions.ensureScreenCapture() else { return }
             do {
                 if delay > 0 { try await Task.sleep(nanoseconds: UInt64(delay) * 1_000_000) }
                 guard let capture = try await body() else {

@@ -80,7 +80,7 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
     @MainActor
     private static func start(_ step: RecipeStepInvocation, source: RecipeRecordVideoPlan.Source, region: CGRect, query: WindowMatchQuery,
                               windowID: CGWindowID?, context: RecipeFlowContext, runtime: RecipeRuntime) async throws -> VideoRecorder {
-        guard Permissions.ensureScreenCapture() else {
+        guard await Permissions.ensureScreenCapture() else {
             throw RecipeStepError("Greenshot may not record the screen.", errorType: "UnauthorizedAccessException")
         }
         let target: VideoCaptureTarget

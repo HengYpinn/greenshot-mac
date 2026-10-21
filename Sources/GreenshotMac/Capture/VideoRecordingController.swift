@@ -167,8 +167,12 @@ final class VideoRecordingController {
             NSSound.beep()
             return
         }
-        guard Permissions.ensureScreenCapture(), slot.claim() else { return }
+        guard slot.claim() else { return }
         Task { @MainActor in
+            guard await Permissions.ensureScreenCapture() else {
+                slot.release()
+                return
+            }
             do {
                 guard let choice = try await choose() else {
                     slot.release()

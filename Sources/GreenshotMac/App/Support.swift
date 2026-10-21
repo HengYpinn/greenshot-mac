@@ -68,22 +68,68 @@ enum Permissions {
 
     static var hasScreenCapture: Bool { CGPreflightScreenCaptureAccess() }
 
-    /// True when screenshots can be taken. Otherwise the first time asks macOS for the permission (its own
-    /// prompt), and later times explain where to turn it on.
-    static func ensureScreenCapture() -> Bool {
-        if CGPreflightScreenCaptureAccess() { return true }
-        if CGRequestScreenCaptureAccess() { return true }
-        // Recent macOS versions add the app to the Screen Recording list only when it really tries to capture,
-        // so try once in the background (it fails without the permission); then the user just turns it on.
-        Task { _ = try? await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true) }
+    private static let log = Log("Permissions")
+    /// ScreenCaptureKit worked in this run although the preflight said no (the permission was turned on while the app
+    /// runs), so later captures don't try again. A capture refused for the permission forgets it (`ErrorPresenter`).
+    private static var worksDespitePreflight = false
+    /// The check running now: a second capture at the same time waits for it instead of asking again.
+    private static var pendingCheck: Task<Bool, Never>?
+
+    /// True when screenshots can be taken. When macOS's preflight says no, macOS is asked (its own prompt, the first
+    /// time), and one real try of ScreenCaptureKit, at most `ScreenCaptureAccess.probeTimeout` seconds, decides: it works
+    /// when the permission was turned on while the app runs, and on recent macOS versions it puts the app into the
+    /// Screen Recording list. Refused, the user is told (`ScreenCaptureAccess.decision`): a short note when macOS is
+    /// asked for the first time (its prompt may be showing), else the explanation where to turn the permission on.
+    static func ensureScreenCapture() async -> Bool {
+        if CGPreflightScreenCaptureAccess() || worksDespitePreflight { return true }
+        if let pendingCheck { return await pendingCheck.value }
+        let check = Task { await checkScreenCapture() }
+        pendingCheck = check
+        let allowed = await check.value
+        pendingCheck = nil
+        return allowed
+    }
+
+    private static func checkScreenCapture() async -> Bool {
         let askedKey = "didRequestScreenCapture"
-        if !UserDefaults.standard.bool(forKey: askedKey) {
-            // The first time macOS shows its own prompt; explaining on top of it would be one dialog too many.
-            UserDefaults.standard.set(true, forKey: askedKey)
+        let askedBefore = UserDefaults.standard.bool(forKey: askedKey)
+        if CGRequestScreenCaptureAccess() { return true }
+        UserDefaults.standard.set(true, forKey: askedKey)
+        let probe = await ScreenCaptureAccess.probe(within: ScreenCaptureAccess.probeTimeout) {
+            do {
+                _ = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+                return .works
+            } catch {
+                return isPermissionError(error) ? .refused : .failed
+            }
+        }
+        switch ScreenCaptureAccess.decision(probe: probe, askedBefore: askedBefore) {
+        case .granted:
+            log.info("Screen Recording: the preflight says no, but ScreenCaptureKit works")
+            worksDespitePreflight = true
+            return true
+        case .note:
+            log.info("Screen Recording not allowed (\(probe)); macOS may be asking the user")
+            noteScreenCapture()
+            return false
+        case .explain:
+            log.info("Screen Recording not allowed (\(probe))")
+            explainScreenCapture()
             return false
         }
-        explainScreenCapture()
-        return false
+    }
+
+    /// A capture failed because the permission is off (again): the next capture checks once more.
+    static func screenCaptureWasRefused() {
+        worksDespitePreflight = false
+    }
+
+    /// The first refusal: macOS may be showing its own prompt, so a short message instead of a second dialog. A click
+    /// opens the setting.
+    private static func noteScreenCapture() {
+        Toast.show(String(localized: "Allow \(AppInfo.name) to record your screen"),
+                   detail: String(localized: "Turn it on in System Settings › Privacy & Security › Screen & System Audio Recording."),
+                   kind: .warning, action: { NSWorkspace.shared.open(screenCaptureSettingsURL) })
     }
 
     static func explainScreenCapture() {
@@ -108,7 +154,7 @@ enum Permissions {
         }
     }
 
-    static func isPermissionError(_ error: Error) -> Bool {
+    nonisolated static func isPermissionError(_ error: Error) -> Bool {
         let nsError = error as NSError
         return nsError.domain == SCStreamErrorDomain && nsError.code == SCStreamError.userDeclined.rawValue
     }
@@ -122,6 +168,7 @@ enum ErrorPresenter {
     static func show(_ error: Error, title: String = String(localized: "The screenshot could not be taken")) {
         log.error(title, error: error)
         if Permissions.isPermissionError(error) {
+            Permissions.screenCaptureWasRefused()
             Permissions.explainScreenCapture()
             return
         }
