@@ -134,6 +134,13 @@ final class HotkeyManager {
         return Set(sided)
     }
 
+    /// Left and right keys can be told apart: the permissions allow the event tap and macOS didn't refuse it the last
+    /// time it was started; otherwise every hotkey with a side works with either key on Carbon.
+    private var tapExpected: Bool {
+        guard let mode = HotkeyEventTap.availableMode else { return false }
+        return mode != refusedTapMode
+    }
+
     /// The tap's hotkey with this index was typed.
     private func tappedHotkey(_ index: Int) {
         guard tapActions.indices.contains(index) else { return }
@@ -196,8 +203,17 @@ final class HotkeyManager {
         bind(hotkeys.recordVideo, String(localized: "Start or stop recording")) { [weak video] in video?.hotkeyPressed() }
         bind(hotkeys.clipboard, String(localized: "Open image from clipboard")) { [weak editors] in editors?.openClipboard() }
         // The Hotkey triggers of the recipes (RUI), after the app's own, which win a clash.
-        for recipe in RecipeHotkeyBindings.current(excluding: combos) { bind(recipe.combo, recipe.name, recipe.action) }
+        let sidesApart = tapExpected
+        for recipe in RecipeHotkeyBindings.current(excluding: combos, tellsSides: sidesApart) {
+            bind(recipe.combo, recipe.name, recipe.action)
+        }
         let refused = register(combos, actions: actions)
+        // macOS refused the tap the permissions allow: the hotkeys with a side went to Carbon for either key, so the
+        // recipe hotkeys' clashes are worked out again without sides (once: this time no tap is expected).
+        if sidesApart, !tapExpected {
+            registerAll(hotkeys, capture: capture, editors: editors, video: video)
+            return
+        }
         registeredNames = names
         HotkeyDiagnostics.recordRegistration(names: names, combos: combos, refused: refused)
         let failed = refused.map { (name: names[$0], combo: combos[$0]) }
