@@ -18,7 +18,8 @@ public enum BrowserCommand {
 }
 
 /// IMPORT_CAPTURE: `{"metadata": {"title", "url", "timestamp", "tab_width"}, "data": {"mime_type", "encoding",
-/// "payload"}, "browser"}`. `tab_width` (the tab's width in CSS pixels) and `browser` are the Mac extension's additions.
+/// "payload"}, "browser", "tracking"}`. `tab_width` (the tab's width in CSS pixels), `browser` and `tracking` (false
+/// when the extension's tab tracking is off) are the Mac extension's additions.
 public struct BrowserImportRequest: Equatable, Sendable {
     /// The tab's title; upstream's fallback "Browser Capture".
     public var title: String
@@ -27,6 +28,8 @@ public struct BrowserImportRequest: Equatable, Sendable {
     public var tabWidth: Double?
     /// The image, base64.
     public var payload: String?
+    /// False when the extension's tab tracking is off: the page doesn't become the tab (`BrowserContext.remember`).
+    public var tracking: Bool
 
     public init(envelope: IPCEnvelope, origin: String? = nil) {
         let metadata = envelope.extra["metadata"]?.objectValue
@@ -36,6 +39,7 @@ public struct BrowserImportRequest: Equatable, Sendable {
         browser = BrowserText.browserName(envelope.extra["browser"]?.stringValue, origin: origin)
         if let width = metadata?["tab_width"]?.doubleValue, width.isFinite, width > 0 { tabWidth = width }
         payload = envelope.extra["data"]?.objectValue?["payload"]?.stringValue
+        tracking = envelope.extra["tracking"]?.boolValue ?? true
     }
 
     /// Pixels per point of the capture: the image's width over the tab's CSS width (2 on a Retina display), whole,

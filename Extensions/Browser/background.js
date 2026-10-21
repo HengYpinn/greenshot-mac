@@ -8,7 +8,8 @@
  * Mac changes: the native host is io.github.greenshot_mac.host (greenshot-native-host in the app); IMPORT_CAPTURE and
  * TAB_CHANGED also send "browser" (upstream sends it only in HANDSHAKE), and IMPORT_CAPTURE the tab's width in CSS pixels
  * ("tab_width", so Greenshot knows the Retina scale). Turning the tab tracking off sends TAB_CHANGED with
- * "tracking": false, so Greenshot forgets the tab. A HANDSHAKE that Greenshot refuses (the extension switched off in its
+ * "tracking": false, so Greenshot forgets the tab, and IMPORT_CAPTURE says "tracking" too (with it off, the captured
+ * page doesn't become Greenshot's tab). A HANDSHAKE that Greenshot refuses (the extension switched off in its
  * settings) counts as offline, with Greenshot's reason, and is tried again later; the popup's status waits a moment for
  * a handshake under way. "Sent to Greenshot!" only when Greenshot answers IMPORT_CAPTURE with "ok" (upstream shows it
  * once the message is posted, also when Greenshot refused the capture).
@@ -311,6 +312,7 @@ function sendNativeMessage(payload) {
  * Captures the current visible tab and imports it into Greenshot.
  */
 async function captureCurrentTab() {
+  await configLoaded;
   const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!activeTab || !activeTab.id) {
     throw new Error("No active tab found.");
@@ -337,6 +339,8 @@ async function captureCurrentTab() {
     source: "native_messaging",
     command: "IMPORT_CAPTURE",
     browser: getBrowserName(),
+    // Mac: with tab tracking off, Greenshot doesn't keep this page as the tab
+    tracking: extensionConfig.track_tab_urls !== false,
     metadata: {
       title: activeTab.title || "Untitled Tab",
       url: activeTab.url || "",

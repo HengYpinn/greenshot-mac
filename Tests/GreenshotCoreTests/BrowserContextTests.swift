@@ -101,6 +101,22 @@ struct BrowserContextTests {
         #expect(context.patternVariables.isEmpty)
     }
 
+    /// Mac: a capture from the extension's button makes its page the tab (upstream), unless the extension's tab
+    /// tracking is off: then later captures must not be named after it. The capture keeps its own `${url}`.
+    @Test func anExtensionCaptureIsTheTabOnlyWithTrackingOn() throws {
+        let context = BrowserContext()
+        func request(_ json: String) throws -> BrowserImportRequest {
+            BrowserImportRequest(envelope: IPCEnvelope(json: try #require(IPCJSON.parseObject(Data(json.utf8)))))
+        }
+        let untracked = try request(#"{"command":"IMPORT_CAPTURE","tracking":false,"metadata":{"title":"QA-2","url":"https://example.org/QA-2"}}"#)
+        context.remember(untracked, reporter: 101)
+        #expect(context.patternVariables.isEmpty)
+        #expect(untracked.metadata["url"] == "https://example.org/QA-2")
+        let tracked = try request(#"{"command":"IMPORT_CAPTURE","metadata":{"title":"QA-3","url":"https://example.org/QA-3"}}"#)
+        context.remember(tracked, reporter: 101)
+        #expect(context.currentTicket == "QA-3")
+    }
+
     @Test func browserVariablesFillAFileName() {
         let context = BrowserContext()
         context.update(url: "https://jira.example.org/browse/QA-9", title: "Login")

@@ -20,9 +20,7 @@ enum BrowserCaptureImport {
         let date = Date()
         let scale = request.scale(pixelWidth: image.width)
         CaptureMetadataStore.shared.record(request.metadata, forCaptureAt: date)
-        if !request.url.isEmpty {
-            BrowserContext.shared.update(url: request.url, title: request.title, reporter: reporter)
-        }
+        BrowserContext.shared.remember(request, reporter: reporter)
 
         var payload = RecipePayload(image: image, scale: scale, title: request.title, captureDate: date)
         payload.sourceType = "Extension"

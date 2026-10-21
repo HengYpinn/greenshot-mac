@@ -51,6 +51,13 @@ public final class BrowserContext: @unchecked Sendable {
         ticket = Self.ticket(url: url, title: title)
     }
 
+    /// A capture from the extension's button: its page becomes the tab (upstream `HandleImportCaptureAsync`). Mac: not
+    /// with the extension's tab tracking off, or later captures would be named after a page the user doesn't share.
+    public func remember(_ request: BrowserImportRequest, reporter: pid_t? = nil) {
+        guard request.tracking, !request.url.isEmpty else { return }
+        update(url: request.url, title: request.title, reporter: reporter)
+    }
+
     /// A TAB_CHANGED message: the tab, or with the extension's tab tracking turned off, forgetting it (Mac).
     public func apply(_ change: BrowserTabChange, reporter: pid_t? = nil) {
         if change.tracking {
