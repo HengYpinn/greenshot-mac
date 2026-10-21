@@ -48,6 +48,8 @@ public enum URLActionParser {
         guard let scheme = schemes.first(where: { lowered.hasPrefix($0 + ":") }) else { return .invalid }
         text = String(text.dropFirst(scheme.count + 1))
         if text.hasPrefix("//") { text = String(text.dropFirst(2)) }
+        // Mac: a #fragment belongs to no value (upstream keeps it in the last one); a "#" in a value is written %23
+        if let hash = text.firstIndex(of: "#") { text = String(text[..<hash]) }
 
         var path = text
         var parameters: [String: String] = [:]
@@ -65,12 +67,14 @@ public enum URLActionParser {
         let lowerPath = path.lowercased()
 
         if lowerPath == "oauth" || lowerPath.hasPrefix("oauth/") { return .ignored }
+        // Mac: the recipe and the mode are decoded like the query's values (upstream takes them as written, so
+        // "recipe/Save%20to%20Desktop" finds no recipe); the command is chosen on the path as written
         if lowerPath.hasPrefix("recipe/") {
-            set(&parameters, "recipe", String(path.dropFirst("recipe/".count)))
+            set(&parameters, "recipe", decode(String(path.dropFirst("recipe/".count))))
             return .command(IPCCommand.runRecipe, parameters: parameters)
         }
         if lowerPath.hasPrefix("capture/") {
-            set(&parameters, "mode", String(path.dropFirst("capture/".count)))
+            set(&parameters, "mode", decode(String(path.dropFirst("capture/".count))))
             return .command(IPCCommand.capture, parameters: parameters)
         }
         switch lowerPath {

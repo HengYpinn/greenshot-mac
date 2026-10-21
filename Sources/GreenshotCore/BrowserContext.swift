@@ -20,6 +20,8 @@ public final class BrowserContext: @unchecked Sendable {
     private var title = ""
     private var domain = ""
     private var ticket = ""
+    /// Who reported the tab last: the process of the native messaging host behind that browser's connection.
+    private var reporter: pid_t?
 
     public init() {}
 
@@ -29,10 +31,12 @@ public final class BrowserContext: @unchecked Sendable {
     public var currentTicket: String { locked { ticket } }
 
     /// A tab change (upstream `UpdateContext`): a new URL without a title clears the old page's title (the extension
-    /// sends the URL first while the page loads), a title alone updates the title.
-    public func update(url newURL: String, title newTitle: String) {
+    /// sends the URL first while the page loads), a title alone updates the title. `reporter`: the connection's
+    /// program, so that its end forgets only the tab it reported.
+    public func update(url newURL: String, title newTitle: String, reporter newReporter: pid_t? = nil) {
         lock.lock()
         defer { lock.unlock() }
+        if !newURL.allSatisfy(\.isWhitespace) || !newTitle.allSatisfy(\.isWhitespace) { reporter = newReporter }
         if !newURL.allSatisfy(\.isWhitespace) {
             let cleaned = BrowserText.clean(newURL, limit: BrowserText.urlLimit)
             if url.caseInsensitiveCompare(cleaned) != .orderedSame {
@@ -47,14 +51,27 @@ public final class BrowserContext: @unchecked Sendable {
         ticket = Self.ticket(url: url, title: title)
     }
 
-    /// Forgets the tab.
-    public func clear() {
+    /// A TAB_CHANGED message: the tab, or with the extension's tab tracking turned off, forgetting it (Mac).
+    public func apply(_ change: BrowserTabChange, reporter: pid_t? = nil) {
+        if change.tracking {
+            update(url: change.url, title: change.title, reporter: reporter)
+        } else {
+            clear(reporter: reporter)
+        }
+    }
+
+    /// Forgets the tab (Mac: upstream keeps it until the app ends, but the Mac puts it into file names): when the
+    /// extension is switched off, or with `reporter` when that browser's connection ended or it stopped tracking, then
+    /// only if it reported the tab last (another browser's tab stays).
+    public func clear(reporter ending: pid_t? = nil) {
         lock.lock()
         defer { lock.unlock() }
+        if let ending, reporter != ending { return }
         url = ""
         title = ""
         domain = ""
         ticket = ""
+        reporter = nil
     }
 
     /// The ticket, else the domain, safe as a folder name (upstream `GetSafeDestinationSubfolder`).

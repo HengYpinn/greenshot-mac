@@ -217,6 +217,28 @@ struct URLActionParserTests {
         #expect(parameter("greenshotmac://settings?flag", "flag") == "")
     }
 
+    /// Recipes are found by name too, and names have spaces: a web page writes them percent-encoded in the path as in
+    /// the query. Only the part after `recipe/` or `capture/` is decoded; the command is chosen on the link as written.
+    @Test func pathValuesAreDecoded() {
+        #expect(parameter("greenshotmac://recipe/Save%20to%20Desktop", "recipe") == "Save to Desktop")
+        #expect(parameter("greenshotmac:recipe/Bug%20%231?x=1", "recipe") == "Bug #1")
+        #expect(parameter("greenshotmac://recipe/a+b", "recipe") == "a+b")
+        #expect(parameter("greenshotmac://recipe/50%", "recipe") == "50%")
+        #expect(parameter("greenshotmac://capture/full%20screen", "mode") == "full screen")
+        #expect(AutomationCaptureMode(name: parameter("greenshotmac://capture/full%20screen", "mode")) == .fullScreen)
+        // An encoded name doesn't choose another command
+        #expect(command("greenshotmac://%6Fauth/x") == "%6FAUTH/X")
+        #expect(command("greenshotmac://recipe%2Fx") == "RECIPE%2FX")
+    }
+
+    /// A `#fragment` isn't part of the last query value (or of the path).
+    @Test func fragmentIsDropped() {
+        #expect(parameter("greenshotmac://settings?tab=editor#x", "tab") == "editor")
+        #expect(parameter("greenshotmac://recipe/ocr#top", "recipe") == "ocr")
+        #expect(parameter("greenshotmac://log?search=a%23b", "search") == "a#b")
+        #expect(command("greenshotmac://about#x") == "ABOUT")
+    }
+
     @Test func commandsCarryingTheLinkLeadNowhere() {
         #expect(URLActionParser.parse("greenshotmac://cli") == .invalid)
         #expect(URLActionParser.parse("greenshotmac:url_scheme") == .invalid)

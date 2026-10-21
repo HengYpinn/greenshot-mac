@@ -95,6 +95,22 @@ import Testing
         #expect(AIToolRegion.text(of: [0, 10, 800, 600]) == "0,10,800,600")
     }
 
+    /// An AI tool that computes from Retina pixels sends half points (`[10.5, 20, 300, 200]`): the recipe takes them
+    /// (`RecipeSourceValues.region`), so the check before the run must too. Only finite numbers.
+    @Test @MainActor func regionsWithDecimals() throws {
+        let text = try #require(MCPTools.argumentValue(.array([.number(10.5), .number(20), .number(300.25), .number(200)])))
+        let region = try #require(AIToolRegion(text: text))
+        #expect(region.rect == CGRect(x: 10.5, y: 20, width: 300.25, height: 200))
+        #expect(RecipeSourceValues.region(.string(text)) == region.rect)
+        let declared = [CommandlineArgument(name: "area", type: .region)]
+        #expect(IPCRecipeCommands.argumentRefusal(declared: declared, supplied: ["area": text], aiTool: true) == nil)
+        #expect(IPCRecipeCommands.argumentRefusal(declared: declared, supplied: ["area": "1.5,2,3.5,4"], aiTool: false) == nil)
+        #expect(AIToolRegion(text: "inf,0,10,10") == nil)
+        #expect(AIToolRegion(text: "0,0,nan,10") == nil)
+        #expect(AIToolRegion(text: "0,0,10,0.4") != nil)
+        #expect(AIToolRegion(text: "0,0,10,-0.5") == nil)
+    }
+
     @Test func ocrLinesInPixels() {
         let lines = AIToolImage.ocrLines([RecognizedLine(text: "Hello", bounds: CGRect(x: 4, y: 8, width: 40, height: 12), words: [])])
         let first = lines.arrayValue?.first?.objectValue

@@ -31,6 +31,8 @@ public enum IPCJSON {
     }
 
     /// The value for `JSONSerialization`; whole numbers become integers, so an exit code is written as `2`, not `2.0`.
+    /// A number JSON can't hold (infinite or NaN, e.g. a recipe's `${x * 1}` with x = 1e999) becomes null, as the recipe
+    /// engine's `JSONTextWriter` writes it: `JSONSerialization` would raise an Objective-C exception that ends the app.
     public static func foundationValue(_ value: JSONValue) -> Any {
         switch value {
         case .null:
@@ -38,6 +40,7 @@ public enum IPCJSON {
         case .bool(let flag):
             return flag
         case .number(let number):
+            guard number.isFinite else { return NSNull() }
             if number.rounded() == number, abs(number) < 9.0e15 { return Int64(number) }
             return number
         case .string(let text):

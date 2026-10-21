@@ -14,11 +14,14 @@ import UniformTypeIdentifiers
 public struct AIToolRegion: Equatable, Sendable {
     public var rect: CGRect
 
+    /// Mac: the numbers may have decimals (upstream: whole numbers only), as the recipe's own region parser
+    /// (`RecipeSourceValues.region`) takes them; an AI tool computing from Retina pixels sends half points, also as an
+    /// array (`MCPTools.argumentValue`). Only finite numbers.
     public init?(text: String) {
         let parts = text.split(separator: ",", omittingEmptySubsequences: false)
             .map { $0.trimmingCharacters(in: .whitespaces) }
         guard parts.count == 4 else { return nil }
-        let numbers = parts.compactMap { Int($0) }
+        let numbers = parts.compactMap { Double($0) }.filter(\.isFinite)
         guard numbers.count == 4, numbers[2] > 0, numbers[3] > 0 else { return nil }
         let x = CGFloat(numbers[0])
         let y = CGFloat(numbers[1])

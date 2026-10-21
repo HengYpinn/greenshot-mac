@@ -55,14 +55,18 @@ public struct BrowserImportRequest: Equatable, Sendable {
     }
 }
 
-/// TAB_CHANGED: `{"url", "title", "browser"}`.
+/// TAB_CHANGED: `{"url", "title", "browser"}`. The Mac extension sends `"tracking": false` (with an empty url and title)
+/// when the user turns its tab tracking off, so the app forgets the tab instead of keeping the last one.
 public struct BrowserTabChange: Equatable, Sendable {
     public var url: String
     public var title: String
+    /// False when the extension stopped tracking tabs.
+    public var tracking: Bool
 
     public init(envelope: IPCEnvelope) {
         url = envelope.extra["url"]?.stringValue ?? ""
         title = envelope.extra["title"]?.stringValue ?? ""
+        tracking = envelope.extra["tracking"]?.boolValue ?? true
     }
 }
 

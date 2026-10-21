@@ -30,6 +30,9 @@ public final class IPCServer: @unchecked Sendable {
         public var verifier: (@Sendable (IPCPeer, IPCSource) -> String?)?
         /// Only processes of this user may connect.
         public var allowedUID: uid_t = geteuid()
+        /// Called on the connection's thread when a connection that was identified by its HELLO ends, with its source
+        /// and the program behind it (the browser extension's tab is forgotten when its connection ends).
+        public var connectionEnded: (@Sendable (IPCSource, IPCPeer) -> Void)?
 
         public init(socketPath: String) {
             self.socketPath = socketPath
@@ -311,7 +314,9 @@ private final class Connection: IPCFrameWriter, @unchecked Sendable {
     }
 
     func run() {
+        var source: IPCSource?
         defer {
+            if let source { server.configuration.connectionEnded?(source, peer) }
             server.remove(self)
             // Let queued frames go out (each write is bounded by SO_SNDTIMEO), then close; later writes see `closed`.
             writeQueue.sync {
@@ -321,7 +326,6 @@ private final class Connection: IPCFrameWriter, @unchecked Sendable {
                 lock.unlock()
             }
         }
-        var source: IPCSource?
         var origin: String?
         var textFrames = false
         let configuration = server.configuration
