@@ -48,7 +48,8 @@ struct RecipeFieldRow: View {
             case .filePath: RecipePathControl(value: $value, placeholder: placeholder, directory: false, sound: false)
             case .directoryPath: RecipePathControl(value: $value, placeholder: placeholder, directory: true, sound: false)
             case .soundFile: RecipePathControl(value: $value, placeholder: placeholder, directory: false, sound: true)
-            case .stringList: RecipeStringListControl(value: $value, regex: field.name.caseInsensitiveCompare("Patterns") == .orderedSame)
+            case .stringList:
+                RecipeStringListControl(value: $value, name: field.name, regex: field.name.caseInsensitiveCompare("Patterns") == .orderedSame)
             case .keyValueTable: RecipeKeyValueControl(value: $value)
             case .branchTable: RecipeBranchTableControl(value: $value)
             case .choiceTable: RecipeChoiceTableControl(value: $value)
@@ -259,16 +260,23 @@ private struct RecipeJSONValueControl: View {
 
 // MARK: Lists and tables
 
-/// One text per line (Patterns: each must be a regular expression).
+/// One text per line (Patterns: each must be a regular expression), a text value read as its step reads it
+/// (`RecipeParameterForm.listLines`). The value leaves blank lines out and is removed when none is left
+/// (`RecipeParameterForm.listValue`); the field keeps the text as typed, so a new line can be started.
 private struct RecipeStringListControl: View {
     @Binding var value: JSONValue?
+    var name: String
     var regex: Bool
+    @State private var draft: String?
 
     var body: some View {
-        let lines = Binding<String>(get: { (value?.asStrings ?? []).joined(separator: "\n") },
+        let shown = RecipeParameterForm.listLines(value, field: name).joined(separator: "\n")
+        let lines = Binding<String>(get: { draft ?? shown },
                                     set: { text in
-                                        let items = text.components(separatedBy: "\n")
-                                        value = .array(items.map { .string($0) })
+                                        guard text != (draft ?? shown) else { return }
+                                        draft = text
+                                        let stored = RecipeParameterForm.listValue(text)
+                                        if stored != value { value = stored }
                                     })
         VStack(alignment: .leading, spacing: 2) {
             TextField("one per line", text: lines, axis: .vertical)
@@ -279,10 +287,14 @@ private struct RecipeStringListControl: View {
                 Text(problem).font(.caption).foregroundStyle(.red)
             }
         }
+        // Undo, redo or another step: the typed text gives way to the new value.
+        .onChange(of: value) { _, new in
+            if let draft, RecipeParameterForm.listValue(draft) != new { self.draft = nil }
+        }
     }
 
     private var invalidPattern: String? {
-        for pattern in value?.asStrings ?? [] where !pattern.isEmpty && !pattern.contains("${") {
+        for pattern in RecipeParameterForm.listLines(value, field: name) where !pattern.isEmpty && !pattern.contains("${") {
             if (try? NSRegularExpression(pattern: pattern)) == nil { return String(localized: "Not a regular expression: \(pattern)") }
         }
         return nil

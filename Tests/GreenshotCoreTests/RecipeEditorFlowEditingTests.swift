@@ -52,6 +52,42 @@ import Testing
         #expect(targets(recipe, "m").isEmpty)
     }
 
+    /// After a decision a step goes into its first branch, like Add Step: a decision with conditional transitions is
+    /// left only through them, so a plain transition to the new step was never followed.
+    @Test func insertAfterADecisionGoesIntoItsFirstBranch() {
+        var recipe = EditorFixtures.conditional()
+        RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), after: "decide", in: &recipe)
+        #expect(targets(recipe, "decide").isEmpty)
+        #expect(recipe.flow.conditionalTransitions.contains(ConditionalTransition(from: "decide", branch: "A", to: "n")))
+        #expect(targets(recipe, "n") == ["large"])
+        #expect(!recipe.flow.conditionalTransitions.contains(ConditionalTransition(from: "decide", branch: "A", to: "large")))
+        // Another lane from a decision is another step of its first branch.
+        RecipeFlowEditor.addParallel(RecipeNode(id: "p", stepType: "Effect"), from: "decide", in: &recipe)
+        #expect(targets(recipe, "decide").isEmpty)
+        #expect(recipe.flow.conditionalTransitions.contains(ConditionalTransition(from: "decide", branch: "A", to: "p")))
+        let analysis = RecipeContractAnalyzer.analyze(recipe)
+        #expect(!analysis.warnings.contains { $0.contains("never followed") })
+    }
+
+    /// The only step of a recipe without start steps is its start; a step added to it writes that down, since two steps
+    /// need named start steps (the recipe became invalid and both steps "Not reached").
+    @Test func addingToTheOnlyStepKeepsItTheStart() {
+        var after = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), after: "a", in: &after)
+        #expect(after.flow.startNodes == ["a"])
+        #expect(RecipeValidator().validate(after).errors.isEmpty)
+        var appended = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.append(RecipeNode(id: "n", stepType: "Effect"), in: &appended)
+        #expect(appended.flow.startNodes == ["a"])
+        var parallel = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.addParallel(RecipeNode(id: "p", stepType: "Source"), from: nil, in: &parallel)
+        #expect(parallel.flow.startNodes == ["a", "p"])
+        var before = EditorFixtures.recipe(["a:Source"], start: [])
+        RecipeFlowEditor.insert(RecipeNode(id: "s", stepType: "Source"), between: nil, and: "a", branch: nil, in: &before)
+        #expect(before.flow.startNodes == ["s"])
+        #expect(RecipeValidator().validate(before).errors.isEmpty)
+    }
+
     @Test func appendGoesAfterTheLastStepAndStartsAnEmptyRecipe() {
         var empty = CaptureRecipe(id: "e", name: "E")
         RecipeFlowEditor.append(RecipeNode(id: "first", stepType: "Source"), in: &empty)

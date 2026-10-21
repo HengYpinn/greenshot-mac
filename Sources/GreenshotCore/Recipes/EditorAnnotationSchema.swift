@@ -15,6 +15,8 @@ public enum RecipeAnnotationSchema {
     public static let anchorsVertical = ["None", "Top", "Center", "Bottom"]
     /// Upstream `ArrowHeadCombination`.
     public static let arrowHeads = ["None", "StartPoint", "EndPoint", "Both"]
+    /// Where a line or an arrow starts in its box (Mac `StartCorner`); it ends at the opposite corner.
+    public static let startCorners = ["TopLeft", "TopRight", "BottomLeft", "BottomRight"]
     public static let tailDirections = ["BottomLeft", "BottomCenter", "BottomRight", "TopLeft", "TopCenter", "TopRight", "Left", "Right"]
     /// Upstream's cursor presets (docs "Standard Windows Cursor Presets").
     public static let cursorNames = ["Arrow", "AppStarting", "Cross", "Hand", "Help", "IBeam", "No", "SizeAll", "SizeNESW", "SizeNS",
@@ -47,6 +49,9 @@ public enum RecipeAnnotationSchema {
         field("Shadow", .boolean, "Draw a shadow")
     ]
 
+    static let startCorner = field("StartCorner", .choice(startCorners), "Where the line starts; it ends at the opposite corner",
+                                   default: .string("TopLeft"))
+
     static let fill = [field("FillColor", .color, "Fill color (rgba(r,g,b,a) works)")]
 
     static let font: [RecipeEditorField] = [
@@ -63,9 +68,10 @@ public enum RecipeAnnotationSchema {
         case "rectangle", "ellipse":
             return placement + line + fill
         case "line":
-            return placement + line
+            return placement + [startCorner] + line
         case "arrow":
-            return placement + line + [field("ArrowHeads", .choice(arrowHeads), "Arrow heads", default: .string("EndPoint"))]
+            return placement + [startCorner] + line
+                + [field("ArrowHeads", .choice(arrowHeads), "Arrow heads", default: .string("EndPoint"))]
         case "freehand":
             return line + [field("Points", .text, "The path: \"x,y;x,y;…\" in points")]
         case "text":

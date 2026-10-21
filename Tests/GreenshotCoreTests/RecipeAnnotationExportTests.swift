@@ -80,6 +80,35 @@ import Testing
         #expect(made3.points == path)
     }
 
+    /// A line or an arrow comes back the way it was drawn: imported ones all came back from the top left to the bottom
+    /// right (an arrow drawn up and to the right pointed down and to the left, one drawn right to left the other way).
+    @Test(arguments: [AnnotationKind.line, .arrow])
+    func linesKeepTheirDirection(kind: AnnotationKind) throws {
+        let ends = [(CGPoint(x: 100, y: 300), CGPoint(x: 400, y: 60)), (CGPoint(x: 400, y: 60), CGPoint(x: 100, y: 300)),
+                    (CGPoint(x: 400, y: 300), CGPoint(x: 100, y: 60)), (CGPoint(x: 400, y: 100), CGPoint(x: 100, y: 100)),
+                    (CGPoint(x: 100, y: 300), CGPoint(x: 100, y: 60)), (CGPoint(x: 100, y: 60), CGPoint(x: 400, y: 300))]
+        for (start, end) in ends {
+            var original = element(kind)
+            original.start = start
+            original.end = end
+            let made = try roundTrip(original)
+            #expect(close(made.start, start), "\(start) -> \(end): \(made.start)")
+            #expect(close(made.end, end), "\(start) -> \(end): \(made.end)")
+        }
+        // Drawn from the top left, nothing more is written; old recipes without `StartCorner` read the same.
+        let plain = try #require(RecipeAnnotationExport.parameters(of: element(kind), scale: scale))
+        #expect(plain["StartCorner"] == nil)
+        var parameters = plain
+        parameters["StartCorner"] = .string("BottomLeft")
+        guard case .element(let flipped) = factory.make(AnnotationParameters(parameters)) else {
+            Issue.record("No element")
+            return
+        }
+        #expect(close(flipped.start, CGPoint(x: 100, y: 160)))
+        #expect(close(flipped.end, CGPoint(x: 340, y: 60)))
+        #expect(RecipeAnnotationSchema.fields(forType: kind == .line ? "Line" : "Arrow").contains { $0.name == "StartCorner" })
+    }
+
     @Test func speechBubbleTail() throws {
         var bubble = element(.speechBubble, text: "Look")
         bubble.tail = CGPoint(x: 60, y: 260)

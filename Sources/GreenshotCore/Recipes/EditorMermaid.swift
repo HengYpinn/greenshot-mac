@@ -59,6 +59,12 @@ public struct RecipeFlowGraph: Sendable, Equatable {
     public private(set) var nodes: [Node] = []
     public private(set) var edges: [Edge] = []
 
+    /// A graph as it is given (for tests).
+    init(nodes: [Node], edges: [Edge]) {
+        self.nodes = nodes
+        self.edges = edges
+    }
+
     public init(_ recipe: CaptureRecipe) {
         let ids = RecipeMermaid.IdMap(recipe)
         let starts = RecipeMermaid.startNodes(recipe)
@@ -66,9 +72,9 @@ public struct RecipeFlowGraph: Sendable, Equatable {
             nodes.append(Node(id: "trigger_\(index)", label: RecipeMermaid.triggerLabel(trigger), shape: .stadium, role: .trigger,
                               nodeId: nil, isStart: false, isDisabled: !trigger.enabled))
         }
-        for node in recipe.nodes {
+        for (index, node) in recipe.nodes.enumerated() {
             let isConditional = recipeEquals(node.stepType, WellKnownStepType.conditional)
-            nodes.append(Node(id: ids.id(node.id), label: RecipeMermaid.nodeLabel(node), shape: isConditional ? .diamond : .box,
+            nodes.append(Node(id: ids.nodeIds[index], label: RecipeMermaid.nodeLabel(node), shape: isConditional ? .diamond : .box,
                               role: .step, nodeId: node.id, isStart: starts.contains { recipeEquals($0, node.id) },
                               isDisabled: node.enabled == .value(false)))
         }
@@ -113,7 +119,7 @@ public struct RecipeFlowGraph: Sendable, Equatable {
                 target = ensure(to)
             } else {
                 let recipeId = transition.targetRecipeId ?? ""
-                target = "Recipe_" + RecipeMermaid.IdMap.sanitized(recipeId)
+                target = ids.recipe(recipeId)
                 if !nodes.contains(where: { $0.id == target }) {
                     nodes.append(Node(id: target, label: "Recipe \(recipeId)", shape: .box, role: .recipe, nodeId: nil, isStart: false,
                                       isDisabled: false))
@@ -127,20 +133,57 @@ public struct RecipeFlowGraph: Sendable, Equatable {
 /// The recipe as a Mermaid flowchart (upstream RecipeEditorViewModel.cs:2110 `GenerateMermaidDsl`, docs/capture-recipes.md
 /// "Mermaid Workflow Diagram Export"; the docs' sample is simplified, the code's labels are "Name (StepType) [id]").
 /// Mac changes: ids Mermaid can't read (other characters than letters, digits and '_', or keywords like `end`) are
-/// written as `n<index>`, and error routes from `*` start at an "Any step" node (upstream writes `* -.`, which Mermaid
-/// rejects).
+/// written as `n<index>`, error routes from `*` start at an "Any step" node (upstream writes `* -.`, which Mermaid
+/// rejects), and the only step of a recipe without start steps is styled as its start (where the recipe starts).
 public enum RecipeMermaid {
     static let anyStepId = "any_step"
     static let keywords: Set<String> = ["end", "graph", "flowchart", "subgraph", "style", "class", "classdef", "click", "linkstyle",
                                         "direction", "default", "call", "href", "interpolate", "td", "tb", "bt", "rl", "lr"]
 
-    /// Mermaid ids for the recipe's node ids.
+    /// Mermaid ids for the recipe's node ids, each node's its own: a step keeps its id when Mermaid can read it and no
+    /// earlier step or trigger has it, else it is `n<index>`; a name that isn't a step (a missing target) is itself or
+    /// `x_<name>`, another recipe `Recipe_<id>`. An id that is taken gets `_2`, `_3`… (steps that share an id, or are
+    /// named `n0` or `trigger_0`, would be one node).
     struct IdMap {
+        /// By lowercased name: the first step with that id, or a name the flow uses that isn't a step.
         private var map: [String: String] = [:]
+        /// The id of each step, in order.
+        private(set) var nodeIds: [String] = []
+        /// By recipe id: the other recipes error routes forward to.
+        private var recipes: [String: String] = [:]
 
         init(_ recipe: CaptureRecipe) {
+            var used = Set(recipe.triggers.indices.map { "trigger_\($0)" } + [anyStepId])
+            func claim(_ candidate: String) -> String {
+                var id = candidate
+                var number = 2
+                while used.contains(id.lowercased()) {
+                    id = "\(candidate)_\(number)"
+                    number += 1
+                }
+                used.insert(id.lowercased())
+                return id
+            }
+            var own = [String?](repeating: nil, count: recipe.nodes.count)
+            for (index, node) in recipe.nodes.enumerated() where IdMap.isSafe(node.id) && !used.contains(node.id.lowercased()) {
+                used.insert(node.id.lowercased())
+                own[index] = node.id
+            }
+            nodeIds = recipe.nodes.indices.map { own[$0] ?? claim("n\($0)") }
             for (index, node) in recipe.nodes.enumerated() where map[node.id.lowercased()] == nil {
-                map[node.id.lowercased()] = IdMap.isSafe(node.id) ? node.id : "n\(index)"
+                map[node.id.lowercased()] = nodeIds[index]
+            }
+            let flow = recipe.flow
+            var names = flow.startNodes
+            for transition in flow.transitions { names += [transition.from] + transition.to }
+            for transition in flow.conditionalTransitions { names += [transition.from, transition.to] }
+            for transition in flow.errorTransitions {
+                names += [transition.from, transition.to].compactMap { $0 }.filter { $0 != "*" }
+                let recipeId = transition.targetRecipeId ?? ""
+                if transition.to?.isEmpty ?? true, recipes[recipeId] == nil { recipes[recipeId] = claim("Recipe_" + IdMap.sanitized(recipeId)) }
+            }
+            for name in names where map[name.lowercased()] == nil && !name.trimmingCharacters(in: .whitespaces).isEmpty {
+                map[name.lowercased()] = claim(IdMap.isSafe(name) ? name : "x_" + IdMap.sanitized(name))
             }
         }
 
@@ -162,10 +205,16 @@ public enum RecipeMermaid {
         func id(_ nodeId: String) -> String {
             map[nodeId.lowercased()] ?? (IdMap.isSafe(nodeId) ? nodeId : "x_" + IdMap.sanitized(nodeId))
         }
+
+        /// The id of another recipe an error route forwards to.
+        func recipe(_ recipeId: String) -> String {
+            recipes[recipeId] ?? "Recipe_" + IdMap.sanitized(recipeId)
+        }
     }
 
+    /// The start steps, the only step of a recipe without any too (`RecipeOutline.startSteps`).
     static func startNodes(_ recipe: CaptureRecipe) -> [String] {
-        recipe.flow.startNodes.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        RecipeOutline.startSteps(of: recipe)
     }
 
     static func nodeLabel(_ node: RecipeNode) -> String {

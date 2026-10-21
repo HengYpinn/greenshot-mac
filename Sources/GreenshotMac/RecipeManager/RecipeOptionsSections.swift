@@ -83,6 +83,8 @@ struct RecipeOptionGroupSection: View {
     let group: RecipeOptionGroup
     let library: RecipeLibrary
     let changeScope: (RecipeExtensionScope) -> Void
+    /// Counts "Reset to defaults", which drops half-typed values (also where the stored value doesn't change).
+    @State private var resets = 0
 
     var body: some View {
         Section {
@@ -99,7 +101,10 @@ struct RecipeOptionGroupSection: View {
                 }
                 Spacer()
                 if group.isOn {
-                    Button("Reset to defaults") { library.resetOptions(recipeId: group.id) }
+                    Button("Reset to defaults") {
+                        library.resetOptions(recipeId: group.id)
+                        resets += 1
+                    }
                         .controlSize(.small)
                         .managed(\.recipes.optionValues)
                 }
@@ -107,7 +112,9 @@ struct RecipeOptionGroupSection: View {
             if group.isOn {
                 let isBuiltIn = RecipeOptionTexts.isBuiltIn(group.id, in: library)
                 ForEach(group.items) { item in
-                    RecipeOptionRow(item: item, isBuiltIn: isBuiltIn) { library.setOption($0, key: item.option.key, ownerId: group.id) }
+                    RecipeOptionRow(item: item, isBuiltIn: isBuiltIn, resets: resets) {
+                        library.setOption($0, key: item.option.key, ownerId: group.id)
+                    }
                 }
                 if let scope = group.scope {
                     LabeledContent("Used for:") {
@@ -142,6 +149,8 @@ struct RecipeOptionRow: View {
     let item: RecipeOptionItem
     /// The option of a built-in automatic step or recipe: its texts are shown in the language of the app.
     var isBuiltIn = false
+    /// Changes on "Reset to defaults": the text fields drop what was typed and not applied yet.
+    var resets = 0
     let set: (JSONValue) -> Void
 
     var body: some View {
@@ -161,7 +170,7 @@ struct RecipeOptionRow: View {
                     if let range = item.rangeText {
                         Text(range).foregroundStyle(.secondary)
                     }
-                    RecipeDraftField(text: item.text, width: 64) { set(.string($0)) }
+                    RecipeDraftField(text: item.text, width: 64, resets: resets) { set(.string($0)) }
                 }
             } label: {
                 label
@@ -176,7 +185,7 @@ struct RecipeOptionRow: View {
         case .color:
             LabeledContent {
                 HStack(spacing: 8) {
-                    RecipeDraftField(text: item.text, width: 96) { set(.string($0)) }
+                    RecipeDraftField(text: item.text, width: 96, resets: resets) { set(.string($0)) }
                     ColorPicker("", selection: colorBinding, supportsOpacity: true)
                         .labelsHidden()
                 }
@@ -185,7 +194,7 @@ struct RecipeOptionRow: View {
             }
         default:
             LabeledContent {
-                RecipeDraftField(text: item.text, width: nil) { set(.string($0)) }
+                RecipeDraftField(text: item.text, width: nil, resets: resets) { set(.string($0)) }
             } label: {
                 label
             }
@@ -216,10 +225,12 @@ struct RecipeOptionRow: View {
 }
 
 /// A text field that hands its text over on Return or when it loses the focus (upstream `UpdateSourceTrigger=LostFocus`),
-/// so half-typed numbers and colours aren't clamped or refused while typing.
+/// so half-typed numbers and colours aren't clamped or refused while typing. A new value from elsewhere (Reset to
+/// defaults, the colour well, another window) or a reset drops the typed text, which would else be applied afterwards.
 struct RecipeDraftField: View {
     let text: String
     let width: CGFloat?
+    var resets = 0
     let commit: (String) -> Void
     @State private var draft: String?
     @FocusState private var focused: Bool
@@ -234,6 +245,8 @@ struct RecipeDraftField: View {
             .onChange(of: focused) { _, isFocused in
                 if !isFocused { apply() }
             }
+            .onChange(of: text) { _, _ in draft = nil }
+            .onChange(of: resets) { _, _ in draft = nil }
     }
 
     private func apply() {

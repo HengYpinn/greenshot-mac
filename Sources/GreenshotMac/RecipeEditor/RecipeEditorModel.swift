@@ -413,7 +413,7 @@ final class RecipeEditorModel: ObservableObject {
         case .continues(let from, _, let to)?:
             previous = from
             next = to
-        case .lane(let from, _, let target)?:
+        case .lane(let from, _, _, let target)?:
             previous = from
             next = target
         default:
@@ -424,22 +424,18 @@ final class RecipeEditorModel: ObservableObject {
         edit(String(localized: "Added step: \(added)")) { recipe in
             switch row?.kind {
             case .step(let id)?:
-                if let selected = recipe.node(id), RecipeOutline.isDecision(selected),
-                   let key = RecipeOutline.branches(of: selected, in: recipe.flow).first?.key {
-                    RecipeFlowEditor.insert(node, intoBranch: key, of: id, in: &recipe)
-                } else {
-                    RecipeFlowEditor.insert(node, after: id, in: &recipe)
-                }
+                // After a decision: into its first branch.
+                RecipeFlowEditor.insert(node, after: id, in: &recipe)
             case .branch(let from, let key, _, _)?:
                 RecipeFlowEditor.insert(node, intoBranch: key, of: from, in: &recipe)
-            case .lane(let from, _, let target)?:
-                RecipeFlowEditor.insert(node, between: from, and: target, branch: nil, in: &recipe)
+            case .lane(let from, let branch, _, let target)?:
+                RecipeFlowEditor.insert(node, between: from, and: target, branch: branch, in: &recipe)
             case .continues(let from?, let branch, let to)?:
                 RecipeFlowEditor.insert(node, between: from, and: to, branch: branch, in: &recipe)
-            case .parallel(let from)?:
-                RecipeFlowEditor.addParallel(node, from: from, in: &recipe)
-            case .extensionOut(let from, _)?:
-                RecipeFlowEditor.insert(node, after: from, in: &recipe)
+            case .parallel(let from, let branch)?:
+                RecipeFlowEditor.addParallel(node, from: from, branch: branch, in: &recipe)
+            case .extensionOut(let from, let branch)?:
+                RecipeFlowEditor.insert(node, between: from, and: "Out", branch: branch, in: &recipe)
             default:
                 RecipeFlowEditor.append(node, in: &recipe)
             }
@@ -456,7 +452,7 @@ final class RecipeEditorModel: ObservableObject {
         case .after(let id): previous = id; next = recipe.flow.targets(from: id).first
         case .between(let from, let to, _): previous = from; next = to
         case .branch(let decision, _): previous = decision
-        case .parallel(let from): previous = from
+        case .parallel(let from, _): previous = from
         }
         let node = RecipeEditorCatalog.newNode(stepType, in: recipe, previous: previous, next: next, contracts: contracts)
         let added = node.displayName
@@ -465,7 +461,7 @@ final class RecipeEditorModel: ObservableObject {
             case .after(let id): RecipeFlowEditor.insert(node, after: id, in: &recipe)
             case .between(let from, let to, let branch): RecipeFlowEditor.insert(node, between: from, and: to, branch: branch, in: &recipe)
             case .branch(let decision, let key): RecipeFlowEditor.insert(node, intoBranch: key, of: decision, in: &recipe)
-            case .parallel(let from): RecipeFlowEditor.addParallel(node, from: from, in: &recipe)
+            case .parallel(let from, let branch): RecipeFlowEditor.addParallel(node, from: from, branch: branch, in: &recipe)
             }
         }
         select(nodeId: node.id)
@@ -475,7 +471,7 @@ final class RecipeEditorModel: ObservableObject {
         case after(String)
         case between(from: String?, to: String, branch: String?)
         case branch(decision: String, key: String)
-        case parallel(from: String?)
+        case parallel(from: String?, branch: String?)
     }
 
     /// Upstream `DeleteSelected`: the selected step, or the selected "continues at" connection.

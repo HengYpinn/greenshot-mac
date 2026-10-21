@@ -47,8 +47,8 @@ enum EditorFixtures {
         outline.rows.map { row in
             switch row.kind {
             case .step(let id): return "step \(id)@\(row.depth)"
-            case .parallel(let from): return "parallel \(from ?? "start")@\(row.depth)"
-            case .lane(_, let index, _): return "lane \(index)@\(row.depth)"
+            case .parallel(let from, let branch): return "parallel \(from ?? "start")\(branch.map { "/" + $0 } ?? "")@\(row.depth)"
+            case .lane(_, _, let index, _): return "lane \(index)@\(row.depth)"
             case .branch(_, let key, _, _): return "branch \(key)@\(row.depth)"
             case .continues(_, _, let to): return "continues \(to)@\(row.depth)"
             case .notReached: return "notReached@\(row.depth)"
@@ -118,6 +118,31 @@ enum EditorFixtures {
         #expect(labels == ["Yes, Proceed", "No"])
     }
 
+    /// A parallel group inside a decision's branch knows the branch, so its Add Lane, Insert and Delete Connection act on
+    /// the branch's transitions (they wrote or removed plain transitions from the decision, which the engine never
+    /// follows, and an inserted step was not reached).
+    @Test func lanesOfABranchKnowTheirBranch() {
+        var recipe = EditorFixtures.recipe(["source:Source", "decide:Conditional", "large:Editor", "extra:Effect", "small:Clipboard",
+                                            "notify:Notification"], ["source>decide", "large>notify", "extra>notify", "small>notify"],
+                                           conditional: ["decide>A>large", "decide>A>extra", "decide>B>small"])
+        let outline = RecipeOutline(recipe)
+        #expect(EditorFixtures.describe(outline).contains("parallel decide/A@2"))
+        let lane = outline.rows.first { if case .lane(_, _, 1, _) = $0.kind { return true } else { return false } }
+        #expect(lane?.kind == .lane(from: "decide", branch: "A", index: 1, target: "extra"))
+        // The lane's Insert and the group's Add Lane.
+        RecipeFlowEditor.insert(RecipeNode(id: "n", stepType: "Effect"), between: "decide", and: "extra", branch: "A", in: &recipe)
+        RecipeFlowEditor.addParallel(RecipeNode(id: "p", stepType: "Effect"), from: "decide", branch: "A", in: &recipe)
+        #expect(recipe.flow.targets(from: "decide").isEmpty)
+        let branchA: [String] = recipe.flow.conditionalTransitions.filter { $0.branch == "A" }.map(\.to)
+        #expect(branchA == ["large", "n", "p"])
+        #expect(!EditorFixtures.describe(RecipeOutline(recipe)).contains("notReached@0"))
+        // A lane that is where the others meet.
+        let meeting = EditorFixtures.recipe(["decide:Conditional", "large:Editor", "notify:Notification"], ["large>notify"],
+                                            conditional: ["decide>A>large", "decide>A>notify"])
+        let continues = RecipeOutline(meeting).rows.first { if case .continues = $0.kind { return true } else { return false } }
+        #expect(continues?.kind == .continues(from: "decide", branch: "A", to: "notify"))
+    }
+
     @Test func undeclaredBranchKeyIsShown() {
         let recipe = EditorFixtures.recipe(["d:Conditional", "x:Editor"], conditional: ["d>Z>x"])
         #expect(EditorFixtures.describe(RecipeOutline(recipe)) == ["step d@0", "branch Z@1", "step x@2"])
@@ -149,6 +174,18 @@ enum EditorFixtures {
                 == ["step a@0", "step b@0", "notReached@0", "step lost@1", "step lost2@1"])
     }
 
+    /// A recipe of one step needs no start steps (RecipeValidator): the step is where it starts, not "Not reached".
+    @Test func theOnlyStepIsTheStart() {
+        let single = EditorFixtures.recipe(["a:Source"], start: [])
+        #expect(RecipeValidator().validate(single).errors.isEmpty)
+        #expect(EditorFixtures.describe(RecipeOutline(single)) == ["step a@0"])
+        #expect(RecipeOutline.startSteps(of: single) == ["a"])
+        // With more steps the start steps must be named.
+        let two = EditorFixtures.recipe(["a:Source", "b"], ["a>b"], start: [])
+        #expect(RecipeOutline.startSteps(of: two).isEmpty)
+        #expect(EditorFixtures.describe(RecipeOutline(two)).first == "notReached@0")
+    }
+
     @Test func missingTargetContinues() {
         let recipe = EditorFixtures.recipe(["a:Source"], ["a>ghost"])
         #expect(EditorFixtures.describe(RecipeOutline(recipe)) == ["step a@0", "continues ghost@0"])
@@ -171,6 +208,23 @@ enum EditorFixtures {
         let second = RecipeOutline(recipe).rows
         #expect(first == second)
         #expect(Set(first.map(\.id)).count == first.count)
+    }
+
+    /// A row other than a step is named by what it shows, so a selection kept over an edit or an undo is the same
+    /// connection or none (a running number named it: after an undo it could be another connection, and Delete removed
+    /// that one).
+    @Test func rowIdsFollowWhatTheRowShows() throws {
+        let before = RecipeOutline(EditorFixtures.recipe(["a:Source"], ["a>g1,g2,g3"]))
+        let after = RecipeOutline(EditorFixtures.recipe(["a:Source"], ["a>g2,g3"]))
+        let selected = try #require(before.rows.first { $0.kind == .continues(from: "a", branch: nil, to: "g2") })
+        let kept = try #require(after.rows.first { $0.id == selected.id })
+        #expect(kept.kind == selected.kind)
+        let removed = try #require(before.rows.first { $0.kind == .continues(from: "a", branch: nil, to: "g1") })
+        #expect(!after.rows.contains { $0.id == removed.id })
+        for name in RecipeFixtures.exampleNames {
+            let rows = RecipeOutline(try RecipeFixtures.recipe(name)).rows
+            #expect(Set(rows.map(\.id)).count == rows.count, "\(name)")
+        }
     }
 
     @Test func everyExampleShowsEveryStepOnce() throws {

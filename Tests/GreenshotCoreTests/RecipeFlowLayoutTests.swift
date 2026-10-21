@@ -59,6 +59,25 @@ import Testing
         #expect(path.count == 4)
     }
 
+    /// Steps that share an id are laid out (the layout trapped on a repeated graph id: "Duplicate values for key").
+    @Test func stepsSharingAnIdAreLaidOut() {
+        let recipe = EditorFixtures.recipe(["save:Source", "save", "next"], ["save>next"])
+        let graph = RecipeFlowGraph(recipe)
+        let layout = RecipeFlowLayout(graph) { _ in box }
+        #expect(layout.frames.count == graph.nodes.count)
+    }
+
+    /// A graph with a repeated id is laid out with that id once.
+    @Test func repeatedGraphIdsAreLaidOutOnce() {
+        func node(_ id: String) -> RecipeFlowGraph.Node {
+            RecipeFlowGraph.Node(id: id, label: id, shape: .box, role: .step, nodeId: id, isStart: false, isDisabled: false)
+        }
+        let graph = RecipeFlowGraph(nodes: [node("a"), node("a"), node("b")],
+                                    edges: [RecipeFlowGraph.Edge(from: "a", to: "b", label: nil, style: .normal)])
+        let layout = RecipeFlowLayout(graph) { _ in box }
+        #expect(layout.levels == [["a"], ["b"]])
+    }
+
     @Test func deterministicAndEmpty() throws {
         let recipe = try RecipeFixtures.recipe("dag_watermark_branching.gsrecipe.json")
         let first = RecipeFlowLayout(RecipeFlowGraph(recipe)) { _ in box }

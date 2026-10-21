@@ -106,6 +106,47 @@ import Testing
         #expect(text.contains("    class n0 startNode;"))
     }
 
+    /// Every node of the graph has its own id: steps that share an id (exactly or in case only), or are named like
+    /// another step's Mermaid id, a trigger's, a missing step's or another recipe's (the Flow tab trapped on a repeated id).
+    @Test func clashingIdsStayApart() throws {
+        var trigger = EditorFixtures.recipe(["trigger_0:Source", "next"], ["trigger_0>next"])
+        trigger.triggers = [TriggerConfig(triggerType: "Hotkey")]
+        var other = EditorFixtures.recipe(["Recipe_other:Source"])
+        other.flow.errorTransitions = [ErrorTransition(from: "*", targetRecipeId: "other")]
+        let alias = EditorFixtures.recipe(["my step:Source", "n0", "next"], ["my step>n0", "n0>next"])
+        let missing = EditorFixtures.recipe(["my step:Source", "b"], ["my step>b", "b>n0"])
+        let recipes = [EditorFixtures.recipe(["save:Source", "save", "next"], ["save>next"]),
+                       EditorFixtures.recipe(["Save:Source", "save", "next"], ["Save>next"]), alias, missing, trigger, other]
+        for recipe in recipes {
+            let graph = RecipeFlowGraph(recipe)
+            let ids = graph.nodes.map(\.id)
+            #expect(Set(ids).count == ids.count, "\(ids)")
+            #expect(graph.nodes.filter { $0.role == .step }.count == recipe.nodes.count)
+        }
+        let aliasGraph = RecipeFlowGraph(alias)
+        let first = try #require(aliasGraph.nodes.first { $0.nodeId == "my step" })
+        let second = try #require(aliasGraph.nodes.first { $0.nodeId == "n0" })
+        let aliasEdge = aliasGraph.edges.contains { $0.from == first.id && $0.to == second.id }
+        #expect(aliasEdge)
+        let missingNode = RecipeFlowGraph(missing).nodes.first { $0.role == .missing }
+        #expect(missingNode?.label == "n0 (missing)")
+        let triggerEdge = RecipeFlowGraph(trigger).edges.first { $0.style == .trigger }
+        #expect(triggerEdge?.from == "trigger_0")
+        #expect(triggerEdge?.to != "trigger_0")
+        #expect(RecipeFlowGraph(other).nodes.contains { $0.role == .recipe })
+    }
+
+    /// The only step of a recipe without start steps is drawn as its start, with the triggers leading to it.
+    @Test func theOnlyStepIsDrawnAsTheStart() {
+        var single = EditorFixtures.recipe(["a:Source"], start: [])
+        single.triggers = [TriggerConfig(triggerType: "Hotkey")]
+        let graph = RecipeFlowGraph(single)
+        #expect(graph.nodes.first { $0.id == "a" }?.isStart == true)
+        let triggerEdge = graph.edges.first { $0.style == .trigger }
+        #expect(triggerEdge?.to == "a")
+        #expect(RecipeMermaid.text(of: single).contains("    class a startNode;"))
+    }
+
     @Test func graphMarksStartsAndDecisions() {
         let graph = RecipeFlowGraph(EditorFixtures.conditional())
         #expect(graph.nodes.first { $0.id == "decide" }?.shape == .diamond)

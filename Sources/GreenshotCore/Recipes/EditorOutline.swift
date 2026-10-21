@@ -10,10 +10,11 @@ public struct RecipeOutlineRow: Sendable, Equatable, Identifiable {
     public enum Kind: Sendable, Equatable {
         /// A step.
         case step(nodeId: String)
-        /// Several steps that run at the same time: the next steps of `from` (nil: the start steps).
-        case parallel(from: String?)
+        /// Several steps that run at the same time: the next steps of `from` (nil: the start steps), of its branch
+        /// `branch` when `from` decides.
+        case parallel(from: String?, branch: String?)
         /// One of the lanes of a `parallel` group; `target` is its first step.
-        case lane(from: String?, index: Int, target: String)
+        case lane(from: String?, branch: String?, index: Int, target: String)
         /// A branch of a Conditional (`expression`) or a UserPrompt (`label`); its steps follow, one level deeper.
         case branch(from: String, key: String, expression: String?, label: String?)
         /// The flow goes on at a step shown elsewhere (or one that doesn't exist): the transition `from` → `to`, of the
@@ -28,7 +29,8 @@ public struct RecipeOutlineRow: Sendable, Equatable, Identifiable {
 
     public var kind: Kind
     public var depth: Int
-    /// Stable within one outline: "step:<id>" for steps, else the kind and position.
+    /// "step:<id>" for steps, else what the row shows (`contentId`), "#2", "#3"… on a repeat: the same row keeps its id
+    /// when the outline is made again after an edit or an undo, which keeps the selection on it.
     public var id: String
 
     public init(kind: Kind, depth: Int, id: String) {
@@ -44,6 +46,21 @@ public struct RecipeOutlineRow: Sendable, Equatable, Identifiable {
 
     /// The row id of a step.
     public static func stepId(_ nodeId: String) -> String { "step:\(nodeId.lowercased())" }
+
+    /// The id of a row by what it shows: its kind and the steps, branch and lane it is about (case-insensitive, like ids).
+    static func contentId(_ kind: Kind) -> String {
+        func text(_ value: String?) -> String { value.map { String(reflecting: $0.lowercased()) } ?? "-" }
+        switch kind {
+        case .step(let nodeId): return stepId(nodeId)
+        case .parallel(let from, let branch): return "parallel:\(text(from)):\(text(branch))"
+        case .lane(let from, let branch, let index, let target): return "lane:\(text(from)):\(text(branch)):\(index):\(text(target))"
+        case .branch(let from, let key, _, _): return "branch:\(text(from)):\(text(key))"
+        case .continues(let from, let branch, let to): return "continues:\(text(from)):\(text(branch)):\(text(to))"
+        case .notReached: return "notReached"
+        case .extensionIn: return "in"
+        case .extensionOut(let from, let branch): return "out:\(text(from)):\(text(branch))"
+        }
+    }
 }
 
 /// The recipe's DAG as a list (the recipe editor's left side; there is no upstream counterpart, upstream draws a node
@@ -60,7 +77,8 @@ public struct RecipeOutline: Sendable {
     private var rank: [String: Int] = [:]
     private var postDominators: [String: Set<String>] = [:]
     private var emitted = Set<String>()
-    private var counter = 0
+    /// How often each row id was used, for repeats.
+    private var used: [String: Int] = [:]
     private let isExtension: Bool
 
     public init(_ recipe: CaptureRecipe) {
@@ -72,6 +90,14 @@ public struct RecipeOutline: Sendable {
         rank = RecipeOutline.topologicalRanks(recipe)
         postDominators = RecipeOutline.postDominators(recipe, ids: Set(nodesById.keys))
         build()
+    }
+
+    /// The start steps as written; a recipe of one step without any starts at it (RecipeValidator `validateFlow`, upstream
+    /// RecipeValidator.cs:834, and the engine's first node).
+    public static func startSteps(of recipe: CaptureRecipe) -> [String] {
+        let starts = recipe.flow.startNodes.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        if starts.isEmpty, recipe.nodes.count == 1 { return [recipe.nodes[0].id] }
+        return starts
     }
 
     /// The row ids of the steps in the order they are shown.
@@ -198,25 +224,21 @@ public struct RecipeOutline: Sendable {
     // MARK: Rows
 
     private mutating func add(_ kind: RecipeOutlineRow.Kind, depth: Int) {
-        let id: String
-        if case .step(let nodeId) = kind {
-            id = RecipeOutlineRow.stepId(nodeId)
-        } else {
-            counter += 1
-            id = "row:\(counter)"
-        }
-        rows.append(RecipeOutlineRow(kind: kind, depth: depth, id: id))
+        let base = RecipeOutlineRow.contentId(kind)
+        let count = (used[base] ?? 0) + 1
+        used[base] = count
+        rows.append(RecipeOutlineRow(kind: kind, depth: depth, id: count == 1 ? base : "\(base)#\(count)"))
     }
 
     private mutating func build() {
         if isExtension { add(.extensionIn, depth: 0) }
-        let starts = recipe.flow.startNodes.filter { node($0) != nil }.reduce(into: [String]()) { list, id in
+        let starts = RecipeOutline.startSteps(of: recipe).filter { node($0) != nil }.reduce(into: [String]()) { list, id in
             if !list.contains(where: { recipeEquals($0, id) }) { list.append(node(id)?.id ?? id) }
         }
         if starts.count == 1 {
             lane(starts[0], from: nil, branch: nil, depth: 0, join: nil, stop: [])
         } else if starts.count > 1 {
-            if let met = fork(from: nil, targets: starts, depth: 0, join: nil, stop: []) {
+            if let met = fork(from: nil, branch: nil, targets: starts, depth: 0, join: nil, stop: []) {
                 lane(met, from: nil, branch: nil, depth: 0, join: nil, stop: [])
             }
         }
@@ -266,7 +288,7 @@ public struct RecipeOutline: Sendable {
                 previousBranch = nil
                 current = targets[0]
             default:
-                guard let met = fork(from: item.id, targets: targets, depth: depth, join: join, stop: stop) else { return }
+                guard let met = fork(from: item.id, branch: nil, targets: targets, depth: depth, join: join, stop: stop) else { return }
                 previous = nil
                 previousBranch = nil
                 current = met
@@ -274,21 +296,22 @@ public struct RecipeOutline: Sendable {
         }
     }
 
-    /// The parallel group of `targets`; returns the step where its lanes meet (still to be shown), nil when they don't.
-    /// `join`: where the enclosing lane ends (the caller shows it); lanes meeting there need no "continues at" row.
+    /// The parallel group of `targets` (of `from`'s branch `branch` when it decides); returns the step where its lanes
+    /// meet (still to be shown), nil when they don't. `join`: where the enclosing lane ends (the caller shows it); lanes
+    /// meeting there need no "continues at" row.
     @discardableResult
-    private mutating func fork(from: String?, targets: [String], depth: Int, join: String?, stop: Set<String>) -> String? {
+    private mutating func fork(from: String?, branch: String?, targets: [String], depth: Int, join: String?, stop: Set<String>) -> String? {
         let met = meetingPoint(of: targets)
-        add(.parallel(from: from), depth: depth)
+        add(.parallel(from: from, branch: branch), depth: depth)
         var inner = stop
         if let met { inner.insert(met.lowercased()) }
         for (index, target) in targets.enumerated() {
-            add(.lane(from: from, index: index, target: target), depth: depth + 1)
+            add(.lane(from: from, branch: branch, index: index, target: target), depth: depth + 1)
             if let met, recipeEquals(met, target) {
-                add(.continues(from: from, branch: nil, to: met), depth: depth + 2)
+                add(.continues(from: from, branch: branch, to: met), depth: depth + 2)
                 continue
             }
-            lane(target, from: from, branch: nil, depth: depth + 2, join: met, stop: inner)
+            lane(target, from: from, branch: branch, depth: depth + 2, join: met, stop: inner)
         }
         guard let met, !emitted.contains(met.lowercased()), !stop.contains(met.lowercased()) else {
             if let met, !recipeEquals(met, join ?? "") { add(.continues(from: nil, branch: nil, to: met), depth: depth) }
@@ -310,8 +333,8 @@ public struct RecipeOutline: Sendable {
             add(.branch(from: item.id, key: branch.key, expression: branch.expression, label: branch.label), depth: depth + 1)
             let targets = branchTargets(item.id, branch.key)
             if targets.count > 1 {
-                if let inside = fork(from: item.id, targets: targets, depth: depth + 2, join: met ?? outer, stop: inner),
-                   !recipeEquals(inside, met ?? "") {
+                let inside = fork(from: item.id, branch: branch.key, targets: targets, depth: depth + 2, join: met ?? outer, stop: inner)
+                if let inside, !recipeEquals(inside, met ?? "") {
                     lane(inside, from: nil, branch: nil, depth: depth + 2, join: met, stop: inner)
                 }
             } else if let target = targets.first {

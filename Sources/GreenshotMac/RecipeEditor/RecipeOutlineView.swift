@@ -38,16 +38,16 @@ private struct RecipeOutlineRowView: View {
         switch row.kind {
         case .step(let nodeId):
             RecipeStepRow(model: model, nodeId: nodeId)
-        case .parallel(let from):
+        case .parallel(let from, let branch):
             RecipeGroupRow(symbol: "arrow.triangle.branch",
                            title: from == nil ? String(localized: "Parallel start") : String(localized: "Parallel"),
                            detail: String(localized: "These lanes run at the same time")) {
-                RecipeAddStepMenu(model: model, title: "Add Lane") { model.insertStep($0, at: .parallel(from: from)) }
+                RecipeAddStepMenu(model: model, title: "Add Lane") { model.insertStep($0, at: .parallel(from: from, branch: branch)) }
             }
-        case .lane(let from, let index, let target):
+        case .lane(let from, let branch, let index, let target):
             let number = index + 1
             RecipeGroupRow(symbol: "arrow.down.right", title: String(localized: "Lane \(number)"), detail: nil) {
-                RecipeAddStepMenu(model: model, title: "Insert") { model.insertStep($0, at: .between(from: from, to: target, branch: nil)) }
+                RecipeAddStepMenu(model: model, title: "Insert") { model.insertStep($0, at: .between(from: from, to: target, branch: branch)) }
             }
         case .branch(let from, let key, let expression, let label):
             RecipeGroupRow(symbol: "arrow.turn.down.right", title: branchTitle(key: key, expression: expression, label: label),
@@ -110,7 +110,9 @@ private struct RecipeStepRow: View {
     var body: some View {
         let node = model.recipe?.node(nodeId)
         let issues = model.diagnostics(for: .node(nodeId))
-        let isStart = model.recipe.map { RecipeFlowEditor.isStart(nodeId, in: $0) } ?? false
+        // The only step of a recipe without start steps is where it starts too.
+        let starts = model.recipe.map { RecipeOutline.startSteps(of: $0) } ?? []
+        let isStart = starts.contains { $0.caseInsensitiveCompare(nodeId) == .orderedSame }
         HStack(spacing: 6) {
             Image(systemName: RecipeEditorCatalog.symbol(for: node?.stepType ?? ""))
                 .frame(width: 18)
@@ -158,10 +160,13 @@ private struct RecipeStepMenu: View {
     var body: some View {
         let isStart = model.recipe.map { RecipeFlowEditor.isStart(nodeId, in: $0) } ?? false
         let targets = model.recipe.map { RecipeFlowEditor.connectableTargets(from: nodeId, in: $0) } ?? []
+        // A decision goes on through its branches (their rows add lanes); Insert Step After starts its first branch.
+        let decides = model.recipe.flatMap { RecipeFlowEditor.firstBranch(of: nodeId, in: $0) } != nil
         Button(isStart ? "Remove Start Step" : "Mark as Start Step") { model.toggleStart(nodeId) }
         Divider()
         RecipeAddStepMenu(model: model, title: "Insert Step After") { model.insertStep($0, at: .after(nodeId)) }
-        RecipeAddStepMenu(model: model, title: "Add Parallel Branch") { model.insertStep($0, at: .parallel(from: nodeId)) }
+        RecipeAddStepMenu(model: model, title: "Add Parallel Branch") { model.insertStep($0, at: .parallel(from: nodeId, branch: nil)) }
+            .disabled(decides)
         Menu("Continue At") {
             ForEach(targets, id: \.self) { target in
                 Button(target) { model.connect(from: nodeId, to: target, branch: nil) }
