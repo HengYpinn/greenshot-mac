@@ -157,13 +157,16 @@ public struct KeyChord: Codable, Hashable, Sendable {
     }
 
     /// "⌃⌥⌘K", with sides "⌃⌥⌘K (right ⌘)".
-    public var displayString: String {
+    public var displayString: String { displayString(layoutNames: KeyCombo.layoutNames) }
+
+    /// `displayString` with the key named by `layoutNames` (`KeyCombo.displayKeyName(for:layoutNames:)`).
+    public func displayString(layoutNames: [UInt32: String]) -> String {
         var result = ""
         if modifiers & KeyCombo.control != 0 { result += "⌃" }
         if modifiers & KeyCombo.option != 0 { result += "⌥" }
         if modifiers & KeyCombo.shift != 0 { result += "⇧" }
         if modifiers & KeyCombo.command != 0 { result += "⌘" }
-        result += KeyCombo.displayKeyName(for: keyCode)
+        result += KeyCombo.displayKeyName(for: keyCode, layoutNames: layoutNames)
         return sides.isAny ? result : "\(result) (\(sides.displayString))"
     }
 
@@ -276,8 +279,11 @@ public struct KeyCombo: Codable, Hashable, Sendable {
     public static let defaultLastRegion = KeyCombo(keyCode: UInt32(kVK_ANSI_6), modifiers: control | option | command)
 
     /// "⌃⌥⌘4", or "⌃⌥⌘K, C" for a hotkey of two steps (upstream joins the chords with ", " too).
-    public var displayString: String {
-        chords.map(\.displayString).joined(separator: ", ")
+    public var displayString: String { displayString(layoutNames: Self.layoutNames) }
+
+    /// `displayString` with the keys named by `layoutNames` (`displayKeyName(for:layoutNames:)`).
+    public func displayString(layoutNames: [UInt32: String]) -> String {
+        chords.map { $0.displayString(layoutNames: layoutNames) }.joined(separator: ", ")
     }
 
     // MARK: Codable
@@ -338,25 +344,31 @@ public struct KeyCombo: Codable, Hashable, Sendable {
 
     /// The problem of `combo` (named `name`) with the other hotkeys: the same hotkey twice, or another hotkey that is the
     /// beginning of this one. Upstream checks the hotkeys of one step first and finishes a sequence as soon as one is
-    /// complete (`HotkeyManager.MatchHotkey`), so the longer hotkey would never fire. Nil when there is none.
-    public static func conflict(of combo: KeyCombo, with others: [(name: String, combo: KeyCombo)]) -> String? {
+    /// complete (`HotkeyManager.MatchHotkey`), so the longer hotkey would never fire. Without `tellsSides` (no permission
+    /// for the keyboard event tap) every hotkey works with either key of its modifiers, so a left and a right key clash
+    /// too: only the first of them fires. Nil when there is none.
+    public static func conflict(of combo: KeyCombo, with others: [(name: String, combo: KeyCombo)],
+                                tellsSides: Bool = true) -> String? {
         let steps = combo.chords
         for other in others {
             let otherSteps = other.combo.chords
             if otherSteps == steps { return String(localized: "“\(other.name)” has the same hotkey.") }
-            if otherSteps.count == steps.count, overlap(steps, otherSteps) {
+            if otherSteps.count == steps.count, overlap(steps, otherSteps, tellsSides: tellsSides) {
+                guard tellsSides else {
+                    return String(localized: "“\(other.name)” (\(other.combo.displayString)) has the same keys while left and right keys can't be told apart, so only one of them fires.")
+                }
                 return String(localized: "“\(other.name)” (\(other.combo.displayString)) has the same keys with either side, so both would fire.")
             }
-            if otherSteps.count < steps.count, overlap(Array(steps.prefix(otherSteps.count)), otherSteps) {
+            if otherSteps.count < steps.count, overlap(Array(steps.prefix(otherSteps.count)), otherSteps, tellsSides: tellsSides) {
                 return String(localized: "“\(other.name)” (\(other.combo.displayString)) is the beginning of this hotkey, so this one never fires.")
             }
         }
         return nil
     }
 
-    /// Each step of `a` can be the step of `b` (left/right sides taken into account).
-    private static func overlap(_ a: [KeyChord], _ b: [KeyChord]) -> Bool {
-        a.count == b.count && zip(a, b).allSatisfy { $0.overlaps($1) }
+    /// Each step of `a` can be the step of `b`: left/right sides taken into account when they can be told apart.
+    private static func overlap(_ a: [KeyChord], _ b: [KeyChord], tellsSides: Bool = true) -> Bool {
+        a.count == b.count && zip(a, b).allSatisfy { tellsSides ? $0.overlaps($1) : $0.ignoringSides == $1.ignoringSides }
     }
 
     // MARK: Key names
@@ -370,13 +382,60 @@ public struct KeyCombo: Codable, Hashable, Sendable {
     }
 
     /// The name of a key as the user sees it (hotkeys in Settings, menus and messages): `keyName(for:)` with its words
-    /// translated.
+    /// translated, a letter or punctuation key as the keyboard layout names it (`layoutNames`).
     public static func displayKeyName(for keyCode: UInt32) -> String {
+        displayKeyName(for: keyCode, layoutNames: layoutNames)
+    }
+
+    /// `displayKeyName(for:)` with the names of a given keyboard layout: what a letter or punctuation key types there,
+    /// a letter in upper case as on the keycap. The digits keep their names (a French keyboard types them with ⇧; the
+    /// key is still the 4, like upstream's virtual keys), and a key the layout gives nothing visible keeps the US name.
+    public static func displayKeyName(for keyCode: UInt32, layoutNames: [UInt32: String]) -> String {
+        if layoutKeyCodes.contains(keyCode), let typed = layoutNames[keyCode], let name = keycapName(typed) { return name }
         if Int(keyCode) == kVK_Space { return String(localized: "Space", comment: "The space bar, in a hotkey such as ⌃⌥Space") }
         guard let name = names[Int(keyCode)] else {
             return String(localized: "Key \(keyCode)", comment: "A key without a name in a hotkey, by its key code")
         }
         return name
+    }
+
+    // MARK: Keyboard layout
+
+    /// The keys a keyboard layout names: the letters and the punctuation keys, which other layouts move or label
+    /// differently (the key code of the US Y is the Z of a German keyboard, the US Q the A of a French one).
+    public static let layoutKeyCodes: [UInt32] = [
+        kVK_ANSI_A, kVK_ANSI_B, kVK_ANSI_C, kVK_ANSI_D, kVK_ANSI_E, kVK_ANSI_F, kVK_ANSI_G, kVK_ANSI_H, kVK_ANSI_I,
+        kVK_ANSI_J, kVK_ANSI_K, kVK_ANSI_L, kVK_ANSI_M, kVK_ANSI_N, kVK_ANSI_O, kVK_ANSI_P, kVK_ANSI_Q, kVK_ANSI_R,
+        kVK_ANSI_S, kVK_ANSI_T, kVK_ANSI_U, kVK_ANSI_V, kVK_ANSI_W, kVK_ANSI_X, kVK_ANSI_Y, kVK_ANSI_Z,
+        kVK_ANSI_Minus, kVK_ANSI_Equal, kVK_ANSI_LeftBracket, kVK_ANSI_RightBracket, kVK_ANSI_Semicolon, kVK_ANSI_Quote,
+        kVK_ANSI_Comma, kVK_ANSI_Period, kVK_ANSI_Slash, kVK_ANSI_Backslash, kVK_ANSI_Grave, kVK_ISO_Section,
+    ].map { UInt32($0) }
+
+    /// One visible character as on a keycap: a letter in upper case, unless that is two letters (ß); nil otherwise.
+    private static func keycapName(_ typed: String) -> String? {
+        guard typed.count == 1, let character = typed.first, !character.isWhitespace,
+              character.unicodeScalars.allSatisfy({ $0.properties.generalCategory != .control })
+        else { return nil }
+        let upper = typed.uppercased()
+        return upper.count == 1 ? upper : typed
+    }
+
+    private static let layoutLock = NSLock()
+    private static var currentLayoutNames: [UInt32: String] = [:]
+
+    /// What each key of `layoutKeyCodes` types on the user's keyboard layout, for the names of hotkeys. Set by the app
+    /// (`KeyboardLayoutNames`), from any thread readable; empty (the tests, the command line tools): the US names.
+    public static var layoutNames: [UInt32: String] {
+        get {
+            layoutLock.lock()
+            defer { layoutLock.unlock() }
+            return currentLayoutNames
+        }
+        set {
+            layoutLock.lock()
+            defer { layoutLock.unlock() }
+            currentLayoutNames = newValue
+        }
     }
 
     private static let names: [Int: String] = [

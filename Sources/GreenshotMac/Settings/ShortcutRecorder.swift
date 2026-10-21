@@ -101,6 +101,11 @@ final class ShortcutRecorderButton: NSButton {
     static let recordingDidBegin = Notification.Name("ShortcutRecordingDidBegin")
     static let recordingDidEnd = Notification.Name("ShortcutRecordingDidEnd")
 
+    /// The buttons recording now. A click from one recorder on another begins the second before the first ends, so
+    /// an end turns the hotkeys on again only when no button records any more (`isAnyRecording`).
+    private static let recordingButtons = NSHashTable<ShortcutRecorderButton>.weakObjects()
+    static var isAnyRecording: Bool { !recordingButtons.allObjects.isEmpty }
+
     var combo: KeyCombo? {
         didSet {
             updateTitle()
@@ -119,6 +124,7 @@ final class ShortcutRecorderButton: NSButton {
         didSet {
             guard oldValue != recording else { return }
             if !recording { appending = false }
+            if recording { Self.recordingButtons.add(self) } else { Self.recordingButtons.remove(self) }
             updateTitle()
             NotificationCenter.default.post(name: recording ? Self.recordingDidBegin : Self.recordingDidEnd, object: self)
         }

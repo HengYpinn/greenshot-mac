@@ -20,6 +20,22 @@ public enum CaptureSelection {
         return CGRect(x: left / scale, y: top / scale, width: (right - left) / scale, height: (bottom - top) / scale)
     }
 
+    /// Whether a selection is large enough to be captured, by the mouse or by Enter: at least 3 points in one direction
+    /// and a point in the other. A smaller one is a click, which captures nothing, so the user can just try again
+    /// (upstream `RegionCaptureTool.EndSelection` with its `MinimumSize` of 3 pixels in both directions; a line of
+    /// text one point high can be captured here). A click is one pixel, also on a display of one pixel per point.
+    public static func isCapturable(_ rect: CGRect) -> Bool {
+        (rect.width >= 3 || rect.height >= 3) && rect.width >= 1 && rect.height >= 1
+    }
+
+    /// The pixels per point of the capture of `rect`, for its size labels: the largest of the displays it touches, as
+    /// `ScreenComposer.image` joins them, so a selection across a 1x and a 2x display shows the size of the picture on
+    /// both. Nil when it misses every display.
+    public static func captureScale(of rect: CGRect, on screens: [FrozenScreen]) -> CGFloat? {
+        let rect = rect.standardized
+        return screens.filter { $0.frame.intersects(rect) }.map(\.scale).max()
+    }
+
     /// The size of `rect` in whole pixels of a display with `scale` pixels per point.
     public static func pixelSize(of rect: CGRect, scale: CGFloat) -> (width: Int, height: Int) {
         (Int((rect.width * scale).rounded()), Int((rect.height * scale).rounded()))

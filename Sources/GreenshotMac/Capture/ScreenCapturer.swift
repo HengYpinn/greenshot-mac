@@ -97,10 +97,13 @@ enum ScreenCapturer {
         return ids.prefix(Int(count)).map(CGDisplayBounds)
     }
 
-    /// The front window of the active app (or the front-most window when this app is active).
+    /// The front window of the active app (or the front-most window when this app is active); nil when the active app
+    /// has no window on the screen, e.g. after a click on the desktop (`ActiveWindowChoice`).
     static func frontWindow(in windows: [WindowInfo]) -> WindowInfo? {
-        let frontPID = NSWorkspace.shared.frontmostApplication?.processIdentifier
-        return windows.first { $0.pid == frontPID } ?? windows.first
+        let index = ActiveWindowChoice.index(owners: windows.map(\.pid),
+                                             frontmost: NSWorkspace.shared.frontmostApplication?.processIdentifier,
+                                             own: ProcessInfo.processInfo.processIdentifier)
+        return index.map { windows[$0] }
     }
 
     /// The title for a region: the normal window under its center, else the active app.

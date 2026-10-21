@@ -220,6 +220,27 @@ struct HotkeySidesTests {
         #expect(KeyCombo.conflict(of: right, with: [("Capture window", right)]) == "“Capture window” has the same hotkey.")
     }
 
+    @Test func leftAndRightClashWhenTheSidesCantBeToldApart() {
+        // Without Accessibility and Input Monitoring both go to Carbon with either key, and only the first one fires.
+        let right = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: rightCommand)
+        let left = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: ModifierSides(command: .left))
+        #expect(KeyCombo.conflict(of: right, with: [("Capture window", left)], tellsSides: true) == nil)
+        let clash = KeyCombo.conflict(of: right, with: [("Capture window", left)], tellsSides: false)
+        #expect(clash?.contains("only one of them fires") == true)
+        let withEither = KeyCombo.conflict(of: right, with: [("Capture region", .defaultRegion)], tellsSides: false)
+        #expect(withEither?.contains("only one of them fires") == true)
+        // Also as the beginning of a longer hotkey.
+        let sequence = KeyCombo(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: rightCommand,
+                                followingChords: [chord(kVK_ANSI_C)])
+        #expect(KeyCombo.conflict(of: sequence, with: [("Capture region", left)], tellsSides: true) == nil)
+        let beginning = KeyCombo.conflict(of: sequence, with: [("Capture region", left)], tellsSides: false)
+        #expect(beginning?.contains("is the beginning of this hotkey") == true)
+        // Other keys still don't clash.
+        #expect(KeyCombo.conflict(of: right, with: [("Capture window", .defaultWindow)], tellsSides: false) == nil)
+        #expect(KeyCombo.conflict(of: .defaultRegion, with: [("Capture window", .defaultRegion)], tellsSides: false)
+                == "“Capture window” has the same hotkey.")
+    }
+
     @Test func theDeviceFlagsTellTheSides() {
         let chord = KeyChord(keyCode: UInt32(kVK_ANSI_4), modifiers: ctrlOptCmd, sides: ModifierSides(control: .right, command: .left))
         let rightControlLeftCommand = DeviceModifierFlags.rightControl | DeviceModifierFlags.leftCommand
@@ -260,5 +281,48 @@ struct HotkeySidesTests {
         let now = Date()
         #expect(matcher.feed(ctrlOptCmdK, deviceFlags: DeviceModifierFlags.leftCommand, at: now) == .pending)
         #expect(matcher.feed(chord(kVK_ANSI_C, KeyCombo.shift), deviceFlags: DeviceModifierFlags.rightShift, at: now) == .completed(0))
+    }
+}
+
+/// Hotkeys are named by the keyboard layout: the key the user presses, not the US key at its place (SHL-3). The layout
+/// is given, never this Mac's.
+struct HotkeyKeyNameTests {
+    /// German: Y and Z swapped, ß and Ö where the US layout has - and ;.
+    private let german: [UInt32: String] = [UInt32(kVK_ANSI_Y): "z", UInt32(kVK_ANSI_Z): "y", UInt32(kVK_ANSI_Minus): "ß",
+                                            UInt32(kVK_ANSI_Semicolon): "ö", UInt32(kVK_ANSI_4): "4"]
+    /// French: A where the US layout has Q, an apostrophe on the digit row.
+    private let french: [UInt32: String] = [UInt32(kVK_ANSI_Q): "a", UInt32(kVK_ANSI_4): "'"]
+
+    @Test func lettersAndPunctuationAreNamedByTheLayout() {
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_Y), layoutNames: german) == "Z")
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_Z), layoutNames: german) == "Y")
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_Semicolon), layoutNames: german) == "Ö")
+        // An upper case of two letters keeps the key's own letter.
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_Minus), layoutNames: german) == "ß")
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_Q), layoutNames: french) == "A")
+        let combo = KeyCombo(keyCode: UInt32(kVK_ANSI_Y), modifiers: ctrlOptCmd, followingChords: [chord(kVK_ANSI_Q)])
+        #expect(combo.displayString(layoutNames: german) == "⌃⌥⌘Z, Q")
+        #expect(combo.displayString(layoutNames: french) == "⌃⌥⌘Y, A")
+    }
+
+    @Test func digitsAndOtherKeysKeepTheirNames() {
+        // The digit row of a French keyboard types ' without ⇧; the key is still the 4.
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_4), layoutNames: french) == "4")
+        #expect(KeyCombo.defaultRegion.displayString(layoutNames: french) == "⌃⌥⌘4")
+        let odd: [UInt32: String] = [UInt32(kVK_F5): "x", UInt32(kVK_ANSI_A): "", UInt32(kVK_ANSI_B): "\u{10}",
+                                     UInt32(kVK_ANSI_C): " ", UInt32(kVK_ANSI_D): "ab"]
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_F5), layoutNames: odd) == "F5")
+        // Nothing, a control character, a space or several characters: the US name.
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_A), layoutNames: odd) == "A")
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_B), layoutNames: odd) == "B")
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_C), layoutNames: odd) == "C")
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_D), layoutNames: odd) == "D")
+        // Without a layout, the US names.
+        #expect(KeyCombo.displayKeyName(for: UInt32(kVK_ANSI_Y), layoutNames: [:]) == "Y")
+    }
+
+    @Test func dataStaysEnglish() {
+        // Recipe hotkey texts are read back with these names.
+        #expect(KeyCombo.keyName(for: UInt32(kVK_ANSI_Y)) == "Y")
     }
 }

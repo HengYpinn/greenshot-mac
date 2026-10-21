@@ -25,6 +25,39 @@ struct CaptureSelectionTests {
         #expect(click.size == CGSize(width: 0.5, height: 0.5))
     }
 
+    @Test func aClickIsTooSmallToCaptureOnEveryDisplay() {
+        // Enter, Enter at one spot on a 1x display: one pixel, a whole point.
+        let click = CaptureSelection.rect(from: CGPoint(x: 100, y: 100), to: CGPoint(x: 100.4, y: 100.4), scale: 1)
+        #expect(click.size == CGSize(width: 1, height: 1))
+        #expect(!CaptureSelection.isCapturable(click))
+        let retinaClick = CaptureSelection.rect(from: CGPoint(x: 100, y: 100), to: CGPoint(x: 100.2, y: 100.2), scale: 2)
+        #expect(!CaptureSelection.isCapturable(retinaClick))
+        // 3 points in one direction are enough (a line of text), as long as the other is at least a point.
+        #expect(CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 3, height: 1)))
+        #expect(CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 1, height: 3)))
+        #expect(!CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 2, height: 2)))
+        #expect(!CaptureSelection.isCapturable(CGRect(x: 0, y: 0, width: 40, height: 0.5)))
+    }
+
+    @Test func theSizeAcrossDisplaysIsTheSizeOfTheCapture() throws {
+        // A 1x display next to a 2x one: a selection across both is captured at 2x, on either side.
+        let left = FrozenScreen(displayID: 1, frame: CGRect(x: 0, y: 0, width: 100, height: 100), scale: 1,
+                                image: TestImage.solid(width: 100, height: 100, .red))
+        let right = FrozenScreen(displayID: 2, frame: CGRect(x: 100, y: 0, width: 100, height: 100), scale: 2,
+                                 image: TestImage.solid(width: 200, height: 200, .blue))
+        let across = CGRect(x: 50, y: 0, width: 100, height: 50)
+        let composed = try #require(ScreenComposer.image(of: across, from: [left, right]))
+        let scale = try #require(CaptureSelection.captureScale(of: across, on: [left, right]))
+        #expect(scale == composed.scale)
+        let size = CaptureSelection.pixelSize(of: across, scale: scale)
+        #expect(size.width == composed.image.width)
+        #expect(size.height == composed.image.height)
+        // On one display its own scale; on none nothing.
+        #expect(CaptureSelection.captureScale(of: CGRect(x: 10, y: 10, width: 20, height: 20), on: [left, right]) == 1)
+        #expect(CaptureSelection.captureScale(of: CGRect(x: 110, y: 10, width: 20, height: 20), on: [left, right]) == 2)
+        #expect(CaptureSelection.captureScale(of: CGRect(x: 500, y: 500, width: 20, height: 20), on: [left, right]) == nil)
+    }
+
     @Test func aSecondDisplayKeepsItsGrid() {
         let rect = CaptureSelection.rect(from: CGPoint(x: 1440, y: 0), to: CGPoint(x: 1449.5, y: 9.5), scale: 2)
         #expect(rect == CGRect(x: 1440, y: 0, width: 10, height: 10))
