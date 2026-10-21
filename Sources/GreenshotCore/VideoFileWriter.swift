@@ -150,6 +150,7 @@ public final class VideoFileWriter: @unchecked Sendable {
                                         colorMode: configuration.colorMode, behavior: configuration.resizeBehavior)
         // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one.
         if configuration.replacesExistingFile { replacedFile = try Self.moveAside(configuration.url) }
+        DispatchQueue.global(qos: .utility).async { Self.removeLeftOverReplacedFiles(in: folder) }
         guard writer.startWriting() else {
             let reason = writer.error?.localizedDescription ?? VideoWriterError.unknownReason
             // Only what the writer may have made where the moved file was; a file or folder that was there stays.
@@ -367,14 +368,45 @@ public final class VideoFileWriter: @unchecked Sendable {
         guard FileManager.default.fileExists(atPath: url.path, isDirectory: &isFolder), !isFolder.boolValue else {
             return nil
         }
-        let name = ".\(url.lastPathComponent).\(UUID().uuidString).previous"
-        let aside = url.deletingLastPathComponent().appendingPathComponent(name)
+        let aside = url.deletingLastPathComponent().appendingPathComponent(replacedFileName(at: Date()))
         do {
             try FileManager.default.moveItem(at: url, to: aside)
         } catch {
             throw VideoWriterError.cannotStart(error.localizedDescription)
         }
         return aside
+    }
+
+    private static let replacedPrefix = ".greenshot-replaced-"
+    private static let replacedSuffix = ".previous"
+
+    /// The hidden name a replaced file waits under: `.greenshot-replaced-<seconds since 1970>-<UUID>.previous`, 76
+    /// bytes whatever the video's name (a name near the 255-byte limit still has room), unique, and with the time it
+    /// was moved, so that one left by a crash can be told from any other file (`removeLeftOverReplacedFiles`).
+    static func replacedFileName(at date: Date) -> String {
+        "\(replacedPrefix)\(Int(date.timeIntervalSince1970))-\(UUID().uuidString)\(replacedSuffix)"
+    }
+
+    /// The time in a name `replacedFileName` made; nil for any other name.
+    static func replacedFileDate(_ name: String) -> Date? {
+        guard name.hasPrefix(replacedPrefix), name.hasSuffix(replacedSuffix) else { return nil }
+        let middle = name.dropFirst(replacedPrefix.count).dropLast(replacedSuffix.count)
+        guard let dash = middle.firstIndex(of: "-"), let seconds = Int(middle[..<dash]),
+              UUID(uuidString: String(middle[middle.index(after: dash)...])) != nil else { return nil }
+        return Date(timeIntervalSince1970: TimeInterval(seconds))
+    }
+
+    /// Removes the files in `folder` that a recording moved aside more than a day ago and never put back or deleted
+    /// (the app crashed or was force quit before the first frame): only plain files with such a name, nothing else.
+    static func removeLeftOverReplacedFiles(in folder: URL, now: Date = Date()) {
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path)) ?? []
+        for name in names {
+            guard let moved = replacedFileDate(name), now.timeIntervalSince(moved) > 24 * 60 * 60 else { continue }
+            let url = folder.appendingPathComponent(name)
+            guard (try? url.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true else { continue }
+            log.info("Removing \(name), a video a recording was to replace before Greenshot quit unexpectedly")
+            try? FileManager.default.removeItem(at: url)
+        }
     }
 
     /// The recording ended before its first frame (its own file is deleted): the file it was to replace goes back.
