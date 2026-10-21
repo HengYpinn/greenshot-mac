@@ -60,6 +60,25 @@ enum EditorFixtures {
 }
 
 @Suite struct RecipeEditorOutlineTests {
+    /// A crafted file with thousands of next steps of one step and thousands of branches of a decision opens in the
+    /// editor: every branch and lane is a row.
+    @Test func thousandsOfNextStepsAndBranches() async {
+        var recipe = EditorFixtures.recipe(["a:Source", "decide:Conditional", "end:Clipboard"], ["a>decide"])
+        recipe.flow.transitions.append(RecipeTransition(from: "end", to: (0..<20_000).map { "x\($0)" }))
+        recipe.flow.conditionalTransitions = (0..<20_000).map { ConditionalTransition(from: "decide", branch: "b\($0)", to: "end") }
+        let crafted = recipe
+        let rows = await Task.detached { RecipeOutline(crafted).rows }.value
+        var branches = 0
+        var lanes = 0
+        for row in rows {
+            if case .branch = row.kind { branches += 1 }
+            if case .lane = row.kind { lanes += 1 }
+        }
+        #expect(branches == 20_000)
+        #expect(lanes == 20_000)
+        #expect(rows.compactMap(\.nodeId) == ["a", "decide", "end"])
+    }
+
     @Test func aChainIsAList() {
         let recipe = EditorFixtures.recipe(["a:Source", "b:Effect", "c:Clipboard"], ["a>b", "b>c"])
         #expect(EditorFixtures.describe(RecipeOutline(recipe)) == ["step a@0", "step b@0", "step c@0"])
