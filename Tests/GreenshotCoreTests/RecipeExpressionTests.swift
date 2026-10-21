@@ -270,6 +270,17 @@ struct FixedRecipeEnvironment: RecipeEnvironment {
         #expect(damaged.value(of: width, recipeId: "ext_border") == .number(2))
     }
 
+    /// "Reset to defaults" of recipe "capture" leaves the options of recipe "capture.annotate" alone (option keys have no
+    /// dot, so "capture.annotate.border" belongs to "capture.annotate").
+    @Test func resetKeepsTheOptionsOfARecipeWhoseIdStartsTheSame() {
+        var store = RecipeOptionValues(["capture.border": "1", "Capture.Width": "3", "capture.annotate.border": "2", "capturex.border": "4"])
+        let reset = store.reset(recipeId: "CAPTURE")
+        #expect(reset)
+        #expect(store.stored == ["capture.annotate.border": "2", "capturex.border": "4"])
+        let again = store.reset(recipeId: "capture")
+        #expect(!again)
+    }
+
     @Test func systemEnvironment() {
         var settings = AppSettings()
         settings.captureDelayMilliseconds = 250

@@ -86,14 +86,20 @@ extension RecipeLibrary {
     }
 
     /// "Where it is used" (the scope dialog): all recipes but `exceptRecipes`, recipes added later included; `onlyDestinations`
-    /// empty for all (upstream `RecipeOptionGroupViewModel.Save`).
+    /// empty for all (upstream `RecipeOptionGroupViewModel.Save`). `exceptRecipes` are the unchecked recipes the dialog
+    /// lists (`scopeRecipes`); the stored exclusions of recipes it doesn't list stay (upstream drops them, so a recipe that
+    /// lost its slot for a while got the automatic step back).
     public func setExtensionScope(id: String, exceptRecipes: [String], onlyDestinations: [String]) {
-        guard loadedExtension(id: id) != nil else { return }
-        func joined(_ ids: [String]) -> String { ids.sorted { $0.lowercased() < $1.lowercased() }.joined(separator: ",") }
+        guard let ext = loadedExtension(id: id)?.recipe else { return }
+        func joined(_ ids: [String]) -> String { RecipeExtensionNames.storedList(ids.sorted { $0.lowercased() < $1.lowercased() }) }
         var values = optionValues
+        let listed = scopeRecipes(of: ext)
+        let kept = RecipeExtensionSettings.stored(for: ext, in: values).exceptRecipes.filter { stored in
+            !listed.contains { recipeEquals($0.id, stored) } && !exceptRecipes.contains { recipeEquals($0, stored) }
+        }
         var changed = values.setValue(.string(RecipeExtensionNames.applyToAll), of: RecipeExtensionNames.applyToOption, recipeId: id)
         changed = values.setValue(.string(""), of: RecipeExtensionNames.onlyRecipesOption, recipeId: id) || changed
-        changed = values.setValue(.string(joined(exceptRecipes)), of: RecipeExtensionNames.exceptRecipesOption, recipeId: id) || changed
+        changed = values.setValue(.string(joined(kept + exceptRecipes)), of: RecipeExtensionNames.exceptRecipesOption, recipeId: id) || changed
         changed = values.setValue(.string(joined(onlyDestinations)), of: RecipeExtensionNames.onlyDestinationsOption, recipeId: id) || changed
         guard changed else { return }
         var settings = loadSettings()

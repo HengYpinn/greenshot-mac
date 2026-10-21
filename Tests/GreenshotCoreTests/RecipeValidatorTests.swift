@@ -142,6 +142,23 @@ func testRecipe(_ nodes: [RecipeNode] = [RecipeNode(id: "a", stepType: "Source")
         #expect(result.warnings.contains("Conditional transition source node 'a' has stepType 'Source' rather than 'Conditional'."))
     }
 
+    /// An error handler that isn't a node would let the failed node end the flow as a success.
+    @Test func errorHandlerReferences() {
+        var recipe = testRecipe([RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "Clipboard"),
+                                 RecipeNode(id: "handler", stepType: "Clipboard")])
+        recipe.nodes[1].onErrorNodeId = "typo"
+        recipe.flow.errorTransitions = [ErrorTransition(from: "a", to: "ghost"), ErrorTransition(from: "*", to: "HANDLER"),
+                                        ErrorTransition(from: "b", to: "elsewhere", targetRecipeId: "recovery")]
+        let result = validator.validate(recipe)
+        #expect(result.errors.contains("Error handler node 'typo' of node 'b' does not exist in 'nodes'."))
+        #expect(result.errors.contains("Error transition target node 'ghost' (from 'a') does not exist in 'nodes'."))
+        // Existing nodes (any case) and transitions to another recipe are fine.
+        #expect(result.errors.count == 2)
+        recipe.nodes[1].onErrorNodeId = "Handler"
+        recipe.flow.errorTransitions.removeFirst()
+        #expect(validator.validate(recipe).errors.isEmpty)
+    }
+
     @Test func gatedActions() {
         let nodes = [
             RecipeNode(id: "a", stepType: "Source", parameters: ["sourceType": .string("File"), "filename": .string("/tmp/x.png")]),

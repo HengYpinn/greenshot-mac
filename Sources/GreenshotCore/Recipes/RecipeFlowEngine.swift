@@ -48,7 +48,15 @@ private final class FlowRun: @unchecked Sendable {
     private var activated = Set<String>()
     private var launched = Set<String>()
     private var bypassed = Set<String>()
-    private var detached: [Task<Void, Never>] = []
+    private var detached: [DetachedRun] = []
+
+    /// A run that goes on next to an error handler (the join below the failed node) on a copy of the context.
+    private struct DetachedRun {
+        let task: Task<Void, Never>
+        let branch: RecipeFlowContext
+        /// The variables the copy started with.
+        let start: RecipeVariables
+    }
 
     init(engine: RecipeFlowEngine, context: RecipeFlowContext) {
         self.engine = engine
@@ -100,16 +108,20 @@ private final class FlowRun: @unchecked Sendable {
         root.log("DAG Execution started with \(startNodes.count) entry node(s)")
         let valid = startNodes.filter { nodes[$0] != nil }
         await launch(valid, on: root)
-        // Nothing may outlive the flow: wait for the detached runs (they can start more of them while we wait).
+        // Nothing may outlive the flow: wait for the detached runs (they can start more of them while we wait). What they
+        // did is the flow's: a failure, an exit code, the variables they set (upstream drops it, a failed join ends as a
+        // success).
         while true {
-            let pending: [Task<Void, Never>] = lock.withLock {
-                let tasks = detached
+            let pending: [DetachedRun] = lock.withLock {
+                let runs = detached
                 detached = []
-                return tasks
+                return runs
             }
             guard !pending.isEmpty else { break }
-            for task in pending {
+            for run in pending {
+                let task = run.task
                 await withTaskCancellationHandler { await task.value } onCancel: { task.cancel() }
+                root.merge(branch: run.branch, variablesChangedSince: run.start)
             }
         }
     }
@@ -285,6 +297,12 @@ private final class FlowRun: @unchecked Sendable {
             emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
             return
         }
+        // A handler id that is no node handles nothing: the flow fails (upstream logs "not found" and ends as a success).
+        if targetRecipe == nil, let targetNode, nodes[targetNode.lowercased()] == nil {
+            context.fail("Node '\(node.id)' failed: \(message). Its error handler '\(targetNode)' is not a node of the recipe.", error: error)
+            emit(.nodeFailed(flowId: context.executionId, nodeId: node.id, message: message, handledBy: nil))
+            return
+        }
         // A handler that fails again would route to a handler again: the cap ends the loop with an error.
         guard context.errorHops.take() else {
             context.fail("Node '\(node.id)' failed: \(message). Stopped after \(RecipeErrorHopCounter.maxHops) error handlers in one run (an error handler leads back to itself).", error: error)
@@ -306,8 +324,9 @@ private final class FlowRun: @unchecked Sendable {
         lock.withLock { bypass(node.id.lowercased(), &toLaunch) }
         for next in toLaunch {
             let branch = context.makeBranch()
+            let start = branch.variables
             let task = Task { await self.runNode(next, branch) }
-            lock.withLock { detached.append(task) }
+            lock.withLock { detached.append(DetachedRun(task: task, branch: branch, start: start)) }
         }
         if let targetRecipe {
             guard let target = await engine.recipeLookup(targetRecipe) else {
@@ -320,9 +339,12 @@ private final class FlowRun: @unchecked Sendable {
             forwarded.payload = context.payload
             for member in context.variables { forwarded[variable: member.key] = member.value }
             for (key, object) in context.objects { forwarded.setObject(object, forKey: key) }
+            let start = forwarded.variables
             context.log("Forwarding to recipe '\(target.id)'")
             await engine.execute(forwarded)
-            context.merge(branch: forwarded, variables: false)
+            // Its exports went to the shared log; what it set (a Notification's count, a destination's shown error, the
+            // values a CLI query reads) and its outcome come back.
+            context.merge(branch: forwarded, variablesChangedSince: start)
             return
         }
         if let targetNode {

@@ -362,6 +362,22 @@ public struct RecipeValidator: Sendable {
                 result.errors.append("Flow transition target node '\(target)' (from '\(transition.from)') does not exist in 'nodes'.")
             }
         }
+        // An error handler that isn't a node would let the failed node end the flow as a success (a Mac addition: upstream
+        // checks error targets only in extensions). A target recipe wins at run time, so its node target isn't checked.
+        func isSet(_ text: String?) -> Bool { !(text ?? "").trimmingCharacters(in: .whitespaces).isEmpty }
+        for node in recipe.nodes where !isSet(node.onErrorRecipeId) {
+            if let target = node.onErrorNodeId, isSet(target), !exists(target) {
+                result.errors.append("Error handler node '\(target)' of node '\(node.id)' does not exist in 'nodes'.")
+            }
+        }
+        // Extensions say it in their own words (`validateExtensionFlow`).
+        if !allowOut {
+            for transition in flow.errorTransitions where !isSet(transition.targetRecipeId) {
+                if let target = transition.to, isSet(target), !exists(target) {
+                    result.errors.append("Error transition target node '\(target)' (from '\(transition.from ?? "*")') does not exist in 'nodes'.")
+                }
+            }
+        }
         if let cycle = Self.findCycle(recipe, starts: starts, ids: ids) {
             result.errors.append("Cycle/loop detected in recipe flow: \(cycle.joined(separator: " -> ")). Loops are strictly disallowed in DAG flows.")
         }

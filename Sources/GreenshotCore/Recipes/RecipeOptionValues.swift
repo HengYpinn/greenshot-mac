@@ -52,11 +52,16 @@ public struct RecipeOptionValues: Sendable, Equatable {
         stored[key] = text
         return true
     }
-    /// Back to the defaults ("Reset to defaults").
+    /// Back to the defaults ("Reset to defaults"). Only this recipe's keys: an option key has no dot, so
+    /// "capture.annotate.border" belongs to recipe "capture.annotate", not to "capture" (upstream `Reset` removes every key
+    /// that starts with "<id>.").
     @discardableResult
     public mutating func reset(recipeId: String) -> Bool {
         let prefix = (recipeId + ".").lowercased()
-        let keys = stored.keys.filter { $0.lowercased().hasPrefix(prefix) }
+        let keys = stored.keys.filter { key in
+            let lowered = key.lowercased()
+            return lowered.hasPrefix(prefix) && !lowered.dropFirst(prefix.count).contains(".")
+        }
         for key in keys { stored[key] = nil }
         return !keys.isEmpty
     }

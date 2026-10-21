@@ -96,7 +96,7 @@ extension RecipeLibrary {
     public func extensionScope(id: String, destinations: [(designation: String, name: String)]) -> RecipeExtensionScope? {
         guard let ext = loadedExtension(id: id)?.recipe else { return nil }
         let stored = RecipeExtensionSettings.stored(for: ext, in: optionValues)
-        let captures = recipes.map(\.recipe).filter { RecipeComposer.canExtend(ext, $0) }
+        let captures = scopeRecipes(of: ext)
             .sorted { Self.displayName($0).localizedCaseInsensitiveCompare(Self.displayName($1)) == .orderedAscending }
             .map { recipe in
                 let picked = stored.applyToAll || stored.onlyRecipes.contains { recipeEquals($0, recipe.id) }
@@ -112,6 +112,11 @@ extension RecipeLibrary {
             }
         }
         return RecipeExtensionScope(captures: captures, destinations: destinationItems)
+    }
+
+    /// The recipes "Used for" lists: those the automatic step can change (upstream: the extensible recipes).
+    func scopeRecipes(of ext: CaptureRecipe) -> [CaptureRecipe] {
+        recipes.map(\.recipe).filter { RecipeComposer.canExtend(ext, $0) }
     }
 
     /// Settings › Recipes › "Changed recipes": one line per combination of automatic steps, with the recipes they change

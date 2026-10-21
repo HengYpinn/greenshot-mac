@@ -86,7 +86,8 @@ public protocol RecipeTrustStoring: Sendable {
 /// The trust store of the Mac (upstream: DPAPI-encrypted `recipe_trust.dat`): a JSON file (Application Support, RAPP
 /// picks the URL) signed with HMAC-SHA256. The key is 32 random bytes in the `SecretStore` (the Keychain in the app)
 /// under `keyName`, made on first use. A file whose signature doesn't match, or without a key, counts as empty
-/// (default-deny: every recipe asks again) and `wasTampered` says so.
+/// (default-deny: every recipe asks again) and `wasTampered` says so. A key the secret store fails to read (an error, not
+/// a missing key) counts as empty only while it fails: nothing is cached and nothing is saved meanwhile.
 public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
     public static let keyName = "recipes.trustStoreKey"
 
@@ -98,6 +99,14 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
     private let lock = NSLock()
     private var records: [String: RecipeTrustRecord]?
     private var tampered = false
+    /// Why the key couldn't be read the last time the records were read (nil: read, or missing). The records aren't cached
+    /// then, so the next access reads again, and changes are refused (`recordsToChange`): a save would write an empty store
+    /// plus the change and drop the approvals of every other file.
+    private var keyReadError: Error?
+    /// The records are empty because the store's key wasn't there (deleted, or a locked or denied Keychain item, which the
+    /// app's store reports as missing). A change reads the store once more first: when the key is back, the approvals of
+    /// the other files are kept; when it is still missing, the store starts anew as before.
+    private var keyWasMissing = false
 
     public init(fileURL: URL, secrets: any SecretStore) {
         self.fileURL = fileURL
@@ -124,7 +133,7 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
                                origin: String?, recipeName: String?, recipeVersion: String?) throws {
         guard !path.isEmpty, !sha256.isEmpty else { return }
         try lock.withLock {
-            var all = loadedRecords()
+            var all = try recordsToChange()
             let key = Self.key(path)
             var record = all[key]
             if record == nil || !recipeEquals(record!.sha256, sha256) {
@@ -149,7 +158,7 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
 
     public func revokeApproval(recipeId: String, forFile path: String) throws {
         try lock.withLock {
-            var all = loadedRecords()
+            var all = try recordsToChange()
             let key = Self.key(path)
             guard var record = all[key] else { return }
             record.recipes.removeAll { recipeEquals($0.recipeId, recipeId) }
@@ -161,7 +170,7 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
 
     public func revokeAll(forFile path: String) throws {
         try lock.withLock {
-            var all = loadedRecords()
+            var all = try recordsToChange()
             guard all.removeValue(forKey: Self.key(path)) != nil else { return }
             try save(all)
         }
@@ -199,7 +208,13 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
     private func loadedRecords() -> [String: RecipeTrustRecord] {
         if let records { return records }
         var loaded: [String: RecipeTrustRecord] = [:]
-        defer { records = loaded }
+        var cache = true
+        defer {
+            if cache {
+                records = loaded
+                keyReadError = nil
+            }
+        }
         guard let data = try? Data(contentsOf: fileURL) else { return loaded }
         guard let file = try? JSONDecoder().decode(StoreFile.self, from: data),
               let payload = Data(base64Encoded: file.records), let signature = Data(base64Encoded: file.signature) else {
@@ -211,10 +226,16 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
         do {
             key = try existingKey()
         } catch {
-            log.error("The key of the recipe trust store can't be read; every recipe file asks for approval again.", error: error)
-            key = nil
+            // Default-deny while it fails, but the store isn't given up: the next access reads again.
+            if keyReadError == nil {
+                log.error("The key of the recipe trust store can't be read; recipe files ask for approval until it can be read again.", error: error)
+            }
+            keyReadError = error
+            cache = false
+            return loaded
         }
         guard let key, HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: payload, using: key) else {
+            keyWasMissing = key == nil
             tampered = true
             log.warn("The recipe trust store was changed outside Greenshot or its key is gone; every recipe file asks for approval again.")
             return loaded
@@ -231,6 +252,18 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
         return loaded
     }
 
+    /// Locked. The records to change and save, read again when the key was missing (`keyWasMissing`); refused while the key
+    /// can't be read (`keyReadError`): they are empty then, not the store, and a revocation would be lost.
+    private func recordsToChange() throws -> [String: RecipeTrustRecord] {
+        if keyWasMissing {
+            keyWasMissing = false
+            records = nil
+        }
+        let all = loadedRecords()
+        if let keyReadError { throw keyReadError }
+        return all
+    }
+
     /// Locked.
     private func save(_ all: [String: RecipeTrustRecord]) throws {
         let list = all.values.sorted { $0.filePath < $1.filePath }
@@ -242,6 +275,7 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
         try Self.encoder().encode(file).write(to: fileURL, options: .atomic)
         records = all
         tampered = false
+        keyWasMissing = false
     }
 
     private func existingKey() throws -> SymmetricKey? {
