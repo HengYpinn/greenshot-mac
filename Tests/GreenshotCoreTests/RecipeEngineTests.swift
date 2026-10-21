@@ -329,6 +329,65 @@ enum RecipeEngineHarness {
         #expect(context.exitCode == 3)
     }
 
+    /// Counts the exports Notification steps showed.
+    final class ShownExports: RecipeNotificationPresenting, @unchecked Sendable {
+        private let lock = NSLock()
+        private var shown: [String] = []
+        var all: [String] { lock.withLock { shown } }
+
+        func announce(_ exports: [RecipeExportOutcome], in context: RecipeFlowContext) async {
+            lock.withLock { shown += exports.map(\.designation) }
+        }
+    }
+
+    /// The core executors plus Notification; the "Step" nodes in `exporting` export their id after `body`.
+    func notifyingRegistry(_ shown: ShownExports, exporting: Set<String>,
+                           body: @escaping @Sendable (RecipeStepInvocation, RecipeFlowContext) async throws -> Void) -> RecipeStepRegistry {
+        let registry = RecipeEngineHarness.registry(RecipeRecorder()) { step, context in
+            try await body(step, context)
+            if exporting.contains(step.node.id) { context.exports.add(RecipeExportOutcome(designation: step.node.id, succeeded: true)) }
+        }
+        registry.register(contract: RecipeNotificationExecutor.contract, executor: RecipeNotificationExecutor(presenter: shown))
+        return registry
+    }
+
+    /// The handler and the join next to it both notify, the join first: the flow's count is both, not the join's copy
+    /// (the failure message would list the handler's export again).
+    @Test func notificationsNextToAnErrorHandlerCountTogether() async {
+        let shown = ShownExports()
+        let joinNotified = RecipeGate()
+        let registry = notifyingRegistry(shown, exporting: ["j", "h"]) { step, _ in
+            if step.node.id == "a" { throw RecipeStepError("Boom") }
+            if step.node.id == "h" { await joinNotified.wait() }
+            if step.node.id == "jdone" { joinNotified.open() }
+        }
+        var recipe = RecipeEngineHarness.recipe(["b", "a", "j", "jn", "jdone", "h", "hn"], start: ["b", "a"],
+                                                [("a", "j"), ("b", "j"), ("j", "jn"), ("jn", "jdone"), ("h", "hn")])
+        recipe.nodes[3].stepType = WellKnownStepType.notification
+        recipe.nodes[6].stepType = WellKnownStepType.notification
+        recipe.nodes[1].onErrorNodeId = "h"
+        let context = await RecipeEngineHarness.run(recipe, registry)
+        #expect(shown.all == ["j", "h"])
+        #expect(context[variable: RecipeNotificationExecutor.announcedExportsVariable] == .number(2))
+    }
+
+    /// Two parallel branches both notify, the second one first: merged in branch order, the count is still both.
+    @Test func notificationsOfParallelBranchesCountTogether() async {
+        let shown = ShownExports()
+        let secondNotified = RecipeGate()
+        let registry = notifyingRegistry(shown, exporting: ["x", "y"]) { step, _ in
+            if step.node.id == "x" { await secondNotified.wait() }
+            if step.node.id == "ydone" { secondNotified.open() }
+        }
+        var recipe = RecipeEngineHarness.recipe(["x", "xn", "y", "yn", "ydone"], start: ["x", "y"],
+                                                [("x", "xn"), ("y", "yn"), ("yn", "ydone")])
+        recipe.nodes[1].stepType = WellKnownStepType.notification
+        recipe.nodes[3].stepType = WellKnownStepType.notification
+        let context = await RecipeEngineHarness.run(recipe, registry)
+        #expect(shown.all == ["y", "x"])
+        #expect(context[variable: RecipeNotificationExecutor.announcedExportsVariable] == .number(2))
+    }
+
     /// The recipe a failure is forwarded to is the same flow: its exports and variables are the flow's.
     @Test func exportsAndVariablesOfTheForwardedRecipeReachTheFlow() async {
         let registry = RecipeEngineHarness.registry(RecipeRecorder()) { step, context in

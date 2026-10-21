@@ -16,8 +16,9 @@ public struct RecipeFlowNotice: Sendable, Equatable {
         self.detail = detail
     }
 
-    /// The flow variable the Notification step keeps: how many exports it announced so far (RSTEPS).
-    public static let announcedExportsVariable = "Notification.AnnouncedExports"
+    /// The flow variable the Notification step keeps: how many exports the flow's notifications announced so far (RSTEPS;
+    /// the count is the export log's, `RecipeExportLog.announcedCount`).
+    public static let announcedExportsVariable = RecipeExportLog.announcedExportsVariable
     /// Set by the export steps when a destination failed; that destination showed its own error already (RSTEPS).
     public static let exportErrorsVariable = "DestinationExportErrors"
 
