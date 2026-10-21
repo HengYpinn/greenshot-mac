@@ -407,16 +407,20 @@ public struct JiraClient: Sendable {
     }
 
     /// The issues for search text (`jql(forSearch:)`). When the server refuses it as JQL (HTTP 400: it wasn't JQL after
-    /// all), the text is searched as words once more; other errors stay errors, and so does a key that doesn't exist.
+    /// all), the text is searched as words once more; when the words find nothing either, the query probably had a
+    /// mistake ("project = ABCD") and Jira's message about it is the error. Other errors stay errors, and so does a key
+    /// that doesn't exist.
     public func search(_ text: String, maxResults: Int = 20) async throws -> [JiraIssue] {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         let jql = Self.jql(forSearch: trimmed)
         let words = Self.textJQL(trimmed)
         do {
             return try await search(jql: jql, maxResults: maxResults)
-        } catch UploadError.http(let status, _) where status == 400 && jql != words && !Self.isIssueKey(trimmed) {
+        } catch UploadError.http(let status, let message) where status == 400 && jql != words && !Self.isIssueKey(trimmed) {
             log.warn("Jira refused the search as JQL (HTTP 400), searching the words instead")
-            return try await search(jql: words, maxResults: maxResults)
+            let found = try await search(jql: words, maxResults: maxResults)
+            if found.isEmpty { throw UploadError.http(status: status, message: message) }
+            return found
         }
     }
 
@@ -736,7 +740,8 @@ public struct ConfluenceClient: Sendable {
     // Calls
 
     /// The pages for a title search (`cql(forTitleSearch:…)`). When Confluence refuses it as CQL (HTTP 400), the
-    /// title is searched once more; other errors stay errors.
+    /// title is searched once more; when that finds nothing either, Confluence's message about the query is the error
+    /// (see `JiraClient.search(_:)`). Other errors stay errors.
     public func searchPages(title: String, spaceKey: String = "", includePersonalSpaces: Bool = true,
                             limit: Int = 20) async throws -> [ConfluencePage] {
         let cql = Self.cql(forTitleSearch: title, spaceKey: spaceKey, includePersonalSpaces: includePersonalSpaces)
@@ -744,9 +749,11 @@ public struct ConfluenceClient: Sendable {
                                   includePersonalSpaces: includePersonalSpaces)
         do {
             return try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: cql, limit: limit), with: http))
-        } catch UploadError.http(let status, _) where status == 400 && cql != words {
+        } catch UploadError.http(let status, let message) where status == 400 && cql != words {
             log.warn("Confluence refused the search as CQL (HTTP 400), searching the title instead")
-            return try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: words, limit: limit), with: http))
+            let found = try pages(fromJSON: try await HTTPSupport.send(searchRequest(cql: words, limit: limit), with: http))
+            if found.isEmpty { throw UploadError.http(status: status, message: message) }
+            return found
         }
     }
 

@@ -215,6 +215,21 @@ struct JiraClientTests {
         }
     }
 
+    /// A query with a mistake ("project = ABCD") whose words find nothing either keeps Jira's message, which says what
+    /// is wrong; words that find something give those issues.
+    @Test func aRefusedQueryWhoseWordsFindNothingKeepsJirasMessage() async throws {
+        let refused = #"{"errorMessages":["The value 'ABCD' does not exist for the field 'project'."]}"#
+        let nothing = StubHTTPClient([.init(status: 400, body: refused), .init(status: 200, body: #"{"issues":[]}"#)])
+        await #expect(throws: UploadError.http(status: 400, message: "The value 'ABCD' does not exist for the field 'project'.")) {
+            _ = try await JiraClient(site: site, http: nothing).search("project = ABCD")
+        }
+        #expect(nothing.requests.count == 2)
+        let found = StubHTTPClient([.init(status: 400, body: refused),
+                                    .init(status: 200, body: #"{"issues":[{"key":"PROJ-7","fields":{"summary":"Found"}}]}"#)])
+        let issues = try await JiraClient(site: site, http: found).search("project = ABCD")
+        #expect(issues.map(\.key) == ["PROJ-7"])
+    }
+
     /// Only a refused query (HTTP 400) is tried again as words: not a login problem, a server or network error, a query
     /// that works, or a text search.
     @Test func otherAnswersAreNotRetriedAsWords() async throws {
@@ -380,6 +395,21 @@ struct ConfluenceClientTests {
         #expect(ConfluenceClient.cql(forTitleSearch: "label in (howto, faq)") == "label in (howto, faq)")
         #expect(ConfluenceClient.cql(forTitleSearch: "id in recentlyViewedContent(10) and type = page")
                 == "id in recentlyViewedContent(10) and type = page")
+    }
+
+    /// A query with a mistake whose title search finds nothing either keeps Confluence's message; a title search that
+    /// finds pages gives those.
+    @Test func aRefusedQueryWhoseTitleFindsNothingKeepsConfluencesMessage() async throws {
+        let refused = #"{"message":"Could not parse cql"}"#
+        let nothing = StubHTTPClient([.init(status: 400, body: refused), .init(status: 200, body: #"{"results":[]}"#)])
+        await #expect(throws: UploadError.http(status: 400, message: "Could not parse cql")) {
+            _ = try await ConfluenceClient(site: site, http: nothing).searchPages(title: "space = NOPE")
+        }
+        #expect(nothing.requests.count == 2)
+        let found = StubHTTPClient([.init(status: 400, body: refused),
+                                    .init(status: 200, body: #"{"results":[{"content":{"id":"1","type":"page","title":"Found"}}]}"#)])
+        let pages = try await ConfluenceClient(site: site, http: found).searchPages(title: "space = NOPE")
+        #expect(pages.map(\.title) == ["Found"])
     }
 
     /// Only a refused query (HTTP 400) is tried again as a title search.
