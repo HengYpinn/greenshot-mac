@@ -86,8 +86,16 @@ enum RecipeHotkeyBindings {
 final class RecipeHotkeyTriggerSource: RecipeTriggerSource {
     let triggerTypes: Set<String> = [WellKnownTriggerType.hotkey]
 
+    /// An active Hotkey trigger as registered: by its keys (key codes, modifiers, sides), not their names, which follow
+    /// the keyboard layout, so switching layouts registers nothing again.
+    private struct Registered: Equatable {
+        var recipeId: String
+        var key: String
+        var hotkey: KeyCombo?
+    }
+
     private let reregister: () -> Void
-    private var registered: [String] = []
+    private var registered: [Registered] = []
     private var recording = false
     private var observers: [NSObjectProtocol] = []
 
@@ -103,7 +111,7 @@ final class RecipeHotkeyTriggerSource: RecipeTriggerSource {
     }
 
     func sync(_ triggers: [ActiveRecipeTrigger]) {
-        let signature = triggers.map { "\($0.recipeId.lowercased())|\($0.key)|\($0.hotkey?.displayString ?? "")" }
+        let signature = triggers.map { Registered(recipeId: $0.recipeId.lowercased(), key: $0.key, hotkey: $0.hotkey) }
         guard signature != registered else { return }
         registered = signature
         guard !recording else { return }

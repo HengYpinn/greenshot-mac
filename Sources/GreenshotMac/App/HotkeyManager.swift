@@ -49,6 +49,7 @@ final class HotkeyManager {
     /// The refused hotkeys are told once, not on each registration of the same ones.
     private var refusalNotice = HotkeyRefusalNotice()
     private var permissionObservers: [(center: NotificationCenter, token: NSObjectProtocol)] = []
+    private var accessibilityObserver: ImmediateDistributedObserver?
     /// Registers every hotkey again from the settings when the permission for left and right keys changed: which recipe
     /// hotkeys clash depends on it (`RecipeHotkeyClashes`). Without it the same hotkeys are registered again.
     var onPermissionsChange: (() -> Void)?
@@ -147,14 +148,12 @@ final class HotkeyManager {
                                                              queue: .main) { [weak self] _ in
             MainActor.assumeIsolated { self?.permissionsMayHaveChanged() }
         }))
-        let distributed = DistributedNotificationCenter.default()
-        permissionObservers.append((distributed, distributed.addObserver(forName: Notification.Name("com.apple.accessibility.api"),
-                                                                         object: nil, queue: .main) { [weak self] _ in
+        accessibilityObserver = ImmediateDistributedObserver(name: Notification.Name("com.apple.accessibility.api")) { [weak self] in
             // The new value takes a moment to arrive.
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 MainActor.assumeIsolated { self?.permissionsMayHaveChanged() }
             }
-        }))
+        }
     }
 
     /// Registers the hotkeys again when the tap the permissions allow is another one than the one running.
@@ -201,17 +200,14 @@ final class HotkeyManager {
         let refused = register(combos, actions: actions)
         registeredNames = names
         HotkeyDiagnostics.recordRegistration(names: names, combos: combos, refused: refused)
-        let failed = refused.map { "\(names[$0]): \(BidiText.isolatedLTR(combos[$0].displayString))" }
+        let failed = refused.map { (name: names[$0], combo: combos[$0]) }
         guard refusalNotice.shouldTell(failed) else { return }
+        let lines = failed.map { "\($0.name): \(BidiText.isolatedLTR($0.combo.displayString))" }
         let advice = String(localized: "Another app may use them. Choose others in Settings › General, or change the recipe's Hotkey trigger.")
-        let detail = failed.joined(separator: "\n") + "\n\n" + advice
-        // After what runs now: at launch the alert waits until the app has started (editors restored, automation
-        // listening), instead of holding that up until someone clicks OK.
-        DispatchQueue.main.async {
-            MainActor.assumeIsolated {
-                ErrorPresenter.show(message: String(localized: "Some hotkeys could not be registered"), detail: detail)
-            }
-        }
+        // A notification, not a dialog: it holds nothing up (at launch the startup command and links run at once) and
+        // can't sit over the capture screen. A click opens Self-Service › Hotkeys: every hotkey's state, Register Again.
+        Toast.show(String(localized: "Some hotkeys could not be registered"), detail: lines.joined(separator: "\n") + "\n\n" + advice,
+                   kind: .warning, action: { (NSApp.delegate as? AppDelegate)?.showSelfService(section: .hotkeys) })
     }
 
     // MARK: Keys
@@ -315,15 +311,15 @@ extension KeyCombo {
 /// layout, or with a Russian or Greek one the Latin layout macOS also uses for shortcuts.
 @MainActor
 enum KeyboardLayoutNames {
-    private static var observer: NSObjectProtocol?
+    private static var observer: ImmediateDistributedObserver?
 
-    /// Names the keys of hotkeys by the current layout, and again whenever the user switches layouts.
+    /// Names the keys of hotkeys by the current layout, and again whenever the user switches layouts, also while
+    /// another app is in front.
     static func follow() {
         KeyCombo.layoutNames = characters(for: KeyCombo.layoutKeyCodes)
         guard observer == nil else { return }
-        let name = Notification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String)
-        observer = DistributedNotificationCenter.default().addObserver(forName: name, object: nil, queue: .main) { _ in
-            MainActor.assumeIsolated { KeyCombo.layoutNames = characters(for: KeyCombo.layoutKeyCodes) }
+        observer = ImmediateDistributedObserver(name: Notification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String)) {
+            KeyCombo.layoutNames = characters(for: KeyCombo.layoutKeyCodes)
         }
     }
 
@@ -354,6 +350,29 @@ enum KeyboardLayoutNames {
                 result[keyCode] = String(utf16CodeUnits: characters, count: length)
             }
             return result
+        }
+    }
+}
+
+/// A distributed notification delivered at once, also while the app isn't active: the block observer of
+/// `DistributedNotificationCenter` holds them for an inactive app until it becomes active, and a menu bar app rarely is.
+final class ImmediateDistributedObserver: NSObject {
+    private let action: @MainActor () -> Void
+
+    init(name: Notification.Name, action: @escaping @MainActor () -> Void) {
+        self.action = action
+        super.init()
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(received(_:)), name: name, object: nil,
+                                                            suspensionBehavior: .deliverImmediately)
+    }
+
+    deinit {
+        DistributedNotificationCenter.default().removeObserver(self)
+    }
+
+    @objc private func received(_ notification: Notification) {
+        DispatchQueue.main.async { [action] in
+            MainActor.assumeIsolated { action() }
         }
     }
 }
