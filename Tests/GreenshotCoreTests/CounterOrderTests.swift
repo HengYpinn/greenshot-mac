@@ -69,6 +69,18 @@ struct CounterOrderTests {
         #expect(numbers(doc, c) == [1, 2, 3])
     }
 
+    /// Adding nothing (an empty elements file) changes nothing, also after a counter was removed.
+    @Test func addingNothingIsNoChange() {
+        let doc = document()
+        let c = counters(in: doc)
+        doc.change { doc.remove(c[1].id) }
+        let before = doc.annotations
+        let count = doc.changeCount
+        doc.change { doc.add([]) }
+        #expect(doc.annotations == before)
+        #expect(doc.changeCount == count)
+    }
+
     /// The canvas drags a new counter with the copy it made before adding it: that copy has no place in the order yet.
     @Test func updatingWithACopyKeepsThePlace() {
         let doc = document()

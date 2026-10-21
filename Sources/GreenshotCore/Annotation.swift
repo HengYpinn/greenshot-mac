@@ -378,6 +378,8 @@ public struct Annotation: Identifiable, Codable, Equatable, Sendable {
     /// pasted and duplicated counters count last. Places from a file or a recipe's `Number` are only compared, never
     /// counted on from.
     public static func adding(_ elements: [Annotation], to existing: [Annotation]) -> [Annotation] {
+        // Adding nothing changes nothing (no undo step for an empty elements file).
+        guard !elements.isEmpty else { return existing }
         var result = existing + elements
         let sequence = counterSequence(existing) + counterSequence(elements).map { existing.count + $0 }
         for (place, index) in sequence.enumerated() { result[index].counterOrder = place + 1 }
