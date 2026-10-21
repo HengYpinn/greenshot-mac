@@ -16,6 +16,9 @@ public enum VideoWriterError: LocalizedError, Equatable {
     /// The recording ended before the screen sent a picture.
     case noFrames
     case failed(String)
+    /// The file could not be written any more while recording (the disk is full, the volume went away); what was
+    /// written until then is kept in the file.
+    case incomplete(String, URL)
 
     /// The reason when macOS gives none.
     static var unknownReason: String { String(localized: "unknown", comment: "The reason of a video file error when macOS gives none") }
@@ -26,6 +29,9 @@ public enum VideoWriterError: LocalizedError, Equatable {
         case .cannotStart(let reason): return String(localized: "The video file could not be written: \(reason)")
         case .noFrames: return String(localized: "The recording ended before anything was recorded.")
         case .failed(let reason): return String(localized: "The video file could not be finished: \(reason)")
+        case .incomplete(let reason, let url):
+            let path = (url.path as NSString).abbreviatingWithTildeInPath
+            return String(localized: "The recording stopped because its file could not be written: \(reason). What was recorded until then is in \(path).")
         }
     }
 }
@@ -51,10 +57,13 @@ public final class VideoFileWriter: @unchecked Sendable {
         /// Seconds between the parts written so far being made readable (movie fragments): after a crash, a force quit
         /// or a power loss the file plays up to the last part. `finish` still writes a normal MP4. 0: none.
         public var fragmentInterval: TimeInterval
+        /// A file at `url` is replaced (a recipe's fixed path); else the writer can't start.
+        public var replacesExistingFile: Bool
 
         public init(url: URL, format: VideoFormat, width: Int, height: Int, frameRate: Int, bitrate: Int,
                     colorMode: VideoColorMode = .fullColor, resizeBehavior: WindowResizeBehavior = .letterboxFixedCanvas,
-                    hasAudio: Bool = false, realTime: Bool = true, fragmentInterval: TimeInterval = 10) {
+                    hasAudio: Bool = false, realTime: Bool = true, fragmentInterval: TimeInterval = 10,
+                    replacesExistingFile: Bool = false) {
             self.url = url
             self.format = format
             self.width = width
@@ -66,6 +75,7 @@ public final class VideoFileWriter: @unchecked Sendable {
             self.hasAudio = hasAudio
             self.realTime = realTime
             self.fragmentInterval = fragmentInterval
+            self.replacesExistingFile = replacesExistingFile
         }
     }
 
@@ -82,8 +92,26 @@ public final class VideoFileWriter: @unchecked Sendable {
     private var lastFrame: CVPixelBuffer?
     private var audioWritten = false
     private var done = false
+    private var failureHandler: (@Sendable (Error) -> Void)?
+    private var failureReported = false
     /// Frames the encoder had no room for.
     public private(set) var droppedFrames = 0
+
+    /// Called once when the file can't be written any more (the disk is full, the volume went away, the encoder
+    /// failed), on the queue of the sample or the `checkForFailure` that found it out. `finish` then keeps what was
+    /// written until then.
+    public var onFailure: (@Sendable (Error) -> Void)? {
+        get {
+            lock.lock()
+            defer { lock.unlock() }
+            return failureHandler
+        }
+        set {
+            lock.lock()
+            failureHandler = newValue
+            lock.unlock()
+        }
+    }
 
     public init(_ configuration: Configuration) throws {
         self.configuration = configuration
@@ -117,6 +145,17 @@ public final class VideoFileWriter: @unchecked Sendable {
         }
         processor = VideoFrameProcessor(width: configuration.width, height: configuration.height,
                                         colorMode: configuration.colorMode, behavior: configuration.resizeBehavior)
+        // Only now, when nothing else can stop the start: AVAssetWriter writes no file over an existing one. A folder
+        // of that name is never removed (the start fails as before).
+        var isFolder: ObjCBool = false
+        if configuration.replacesExistingFile,
+           FileManager.default.fileExists(atPath: configuration.url.path, isDirectory: &isFolder), !isFolder.boolValue {
+            do {
+                try FileManager.default.removeItem(at: configuration.url)
+            } catch {
+                throw VideoWriterError.cannotStart(error.localizedDescription)
+            }
+        }
         guard writer.startWriting() else {
             throw VideoWriterError.cannotStart(writer.error?.localizedDescription ?? VideoWriterError.unknownReason)
         }
@@ -135,8 +174,10 @@ public final class VideoFileWriter: @unchecked Sendable {
     /// False when it isn't in the video (before the start, paused, the encoder full).
     @discardableResult
     public func appendVideo(_ buffer: CVPixelBuffer, contentRect: CGRect? = nil, at time: CMTime) -> Bool {
-        lock.lock()
-        defer { lock.unlock() }
+        lockedNoticingFailure { lockedAppendVideo(buffer, contentRect: contentRect, at: time) }
+    }
+
+    private func lockedAppendVideo(_ buffer: CVPixelBuffer, contentRect: CGRect?, at time: CMTime) -> Bool {
         guard !done, writer.status == .writing else { return false }
         if timeline.start == nil {
             guard !timeline.isPaused else { return false }
@@ -161,16 +202,25 @@ public final class VideoFileWriter: @unchecked Sendable {
         return true
     }
 
-    /// Adds sound taken at its presentation time (the host clock); sound before the first frame is left out.
+    /// Adds sound taken at its presentation time (the host clock); sound before the first frame or in a pause is left
+    /// out, also the part of a chunk before the first frame or the resume.
     @discardableResult
     public func appendAudio(_ sampleBuffer: CMSampleBuffer) -> Bool {
-        lock.lock()
-        defer { lock.unlock() }
+        lockedNoticingFailure { lockedAppendAudio(sampleBuffer) }
+    }
+
+    private func lockedAppendAudio(_ sampleBuffer: CMSampleBuffer) -> Bool {
         guard !done, let audioInput, writer.status == .writing, timeline.start != nil else { return false }
         let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-        guard let output = timeline.outputTime(for: time) else { return false }
+        var sound = sampleBuffer
+        var output = timeline.outputTime(for: time)
+        if output == nil, let part = recordedPart(of: sampleBuffer, at: time) {
+            sound = part.buffer
+            output = part.output
+        }
+        guard let output else { return false }
         if let last = lastAudioTime, CMTimeCompare(output, last) <= 0 { return false }
-        guard let moved = Self.retimed(sampleBuffer, to: output), ready(audioInput) else { return false }
+        guard let moved = Self.retimed(sound, to: output), ready(audioInput) else { return false }
         guard audioInput.append(moved) else {
             log.warn("Sound could not be added to the video", error: writer.error)
             return false
@@ -211,10 +261,19 @@ public final class VideoFileWriter: @unchecked Sendable {
         return timeline.duration(at: now).seconds
     }
 
+    /// Tells `onFailure` when the file can't be written any more, also while no samples come (a still screen).
+    public func checkForFailure() {
+        lockedNoticingFailure {}
+    }
+
     /// Finishes the file with the recording ending at `end` (host clock). The last frame is shown until then: the screen
     /// sends frames only when something changes, and a still screen would otherwise end the video early.
     public func finish(at end: CMTime) async throws -> VideoRecordingResult {
-        let endTime = try endSession(at: end)
+        let endTime: CMTime
+        switch try endSession(at: end) {
+        case .finishing(let time): endTime = time
+        case .broken(let reason): throw await keepWhatWasWritten(reason)
+        }
         await writer.finishWriting()
         guard writer.status == .completed else {
             throw VideoWriterError.failed(writer.error?.localizedDescription ?? VideoWriterError.unknownReason)
@@ -227,8 +286,16 @@ public final class VideoFileWriter: @unchecked Sendable {
                                     hasAudio: audioWritten)
     }
 
-    /// Marks the inputs finished and ends the session; the time the video ends.
-    private func endSession(at end: CMTime) throws -> CMTime {
+    /// How `endSession` left the file.
+    private enum Ending {
+        /// The video ends at this time; the file is to be finished.
+        case finishing(CMTime)
+        /// The writer failed after frames were written: the movie fragments written until then may play.
+        case broken(String)
+    }
+
+    /// Marks the inputs finished and ends the session.
+    private func endSession(at end: CMTime) throws -> Ending {
         lock.lock()
         defer { lock.unlock() }
         guard !done else { throw VideoWriterError.failed(String(localized: "The recording was already finished.")) }
@@ -236,6 +303,8 @@ public final class VideoFileWriter: @unchecked Sendable {
         guard let lastVideoTime, writer.status == .writing else {
             let failed = writer.status == .failed
             let reason = writer.error?.localizedDescription ?? VideoWriterError.unknownReason
+            // Not deleted yet: `finish` keeps the file if what was written until the failure plays.
+            if failed, lastVideoTime != nil, configuration.fragmentInterval > 0 { return .broken(reason) }
             writer.cancelWriting()
             try? FileManager.default.removeItem(at: configuration.url)
             if failed { throw VideoWriterError.failed(reason) }
@@ -251,7 +320,20 @@ public final class VideoFileWriter: @unchecked Sendable {
         videoInput.markAsFinished()
         audioInput?.markAsFinished()
         writer.endSession(atSourceTime: finalTime)
-        return finalTime
+        return .finishing(finalTime)
+    }
+
+    /// The writer failed after frames: the file stays when the movie fragments written until then play (the error says
+    /// where it is). Else (no fragment on the disk yet) it is deleted, like a file without frames.
+    private func keepWhatWasWritten(_ reason: String) async -> VideoWriterError {
+        let url = configuration.url
+        let length = (try? await AVURLAsset(url: url).load(.duration).seconds) ?? 0
+        guard length > 0 else {
+            try? FileManager.default.removeItem(at: url)
+            return .failed(reason)
+        }
+        log.warn("The video file could not be written any more; kept what plays (\(Int(length)) s)")
+        return .incomplete(reason, url)
     }
 
     /// Stops and deletes the file (upstream `CancelAsync`).
@@ -265,6 +347,40 @@ public final class VideoFileWriter: @unchecked Sendable {
     }
 
     // MARK: Helpers
+
+    /// Runs `body` under the lock, then tells `onFailure` (outside the lock, once) when the writer has failed.
+    private func lockedNoticingFailure<T>(_ body: () -> T) -> T {
+        lock.lock()
+        let result = body()
+        var handler: (@Sendable (Error) -> Void)?
+        var error: Error?
+        if !done, !failureReported, writer.status == .failed {
+            failureReported = true
+            handler = failureHandler
+            error = writer.error ?? VideoWriterError.failed(VideoWriterError.unknownReason)
+        }
+        lock.unlock()
+        if let handler, let error { handler(error) }
+        return result
+    }
+
+    /// The part of sound taken at `time` from the first frame or the end of a pause on (the chunk starts before it and
+    /// goes on after it), and its time in the video; nil when none of it is in the video.
+    private func recordedPart(of buffer: CMSampleBuffer, at time: CMTime) -> (buffer: CMSampleBuffer, output: CMTime)? {
+        guard let from = timeline.recordedTime(from: time),
+              let description = CMSampleBufferGetFormatDescription(buffer),
+              let sampleRate = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee.mSampleRate,
+              sampleRate > 0 else { return nil }
+        let count = CMSampleBufferGetNumSamples(buffer)
+        let skip = Int((CMTimeSubtract(from, time).seconds * sampleRate).rounded(.up))
+        guard skip > 0, skip < count else { return nil }
+        var part: CMSampleBuffer?
+        guard CMSampleBufferCopySampleBufferForRange(allocator: nil, sampleBuffer: buffer,
+                                                     sampleRange: CFRange(location: skip, length: count - skip),
+                                                     sampleBufferOut: &part) == noErr, let part,
+              let output = timeline.outputTime(for: CMSampleBufferGetPresentationTimeStamp(part)) else { return nil }
+        return (part, output)
+    }
 
     /// Live: whether the input takes more now. Otherwise waits for it (at most 10 s).
     private func ready(_ input: AVAssetWriterInput) -> Bool {

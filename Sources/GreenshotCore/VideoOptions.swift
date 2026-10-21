@@ -84,8 +84,11 @@ public enum VideoBitrateText {
 /// Everything one recording needs: upstream `VideoCaptureOptions.cs`, with the values resolved.
 public struct VideoCaptureOptions: Equatable, Sendable {
     public var target: VideoCaptureTarget
-    /// The MP4 file to write; an existing file is not overwritten (the recording fails).
+    /// The MP4 file to write; an existing file is not overwritten (the recording fails) unless `replacesExistingFile`.
     public var outputURL: URL
+    /// An existing file at `outputURL` is replaced when the recording starts (a recipe's fixed path, upstream's
+    /// `FileMode.Create`); menu recordings get a free name instead (`RecordingOutputPath.url`).
+    public var replacesExistingFile = false
     public var format: VideoFormat = .mp4H264
     /// Upstream `FrameRate`, 30. The display's refresh rate is the most a screen gives.
     public var frameRate = 30

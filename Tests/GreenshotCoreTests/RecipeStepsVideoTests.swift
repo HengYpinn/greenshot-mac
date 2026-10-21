@@ -37,6 +37,15 @@ import Testing
         #expect(RecipeRecordVideoPlan.region(given, in: context(["CaptureRegion": .string("1,2,3,4")])) == CGRect(x: 1, y: 2, width: 3, height: 4))
     }
 
+    /// Upstream: `MonitorIndex` when it names a display, else the primary one (not the one with the focused window).
+    @Test func monitorIndexElseThePrimaryDisplay() {
+        #expect(RecipeRecordVideoPlan.monitorIndex(step(["MonitorIndex": .number(1)]), displays: 2, primary: 0) == 1)
+        #expect(RecipeRecordVideoPlan.monitorIndex(step(), displays: 2, primary: 1) == 1)
+        #expect(RecipeRecordVideoPlan.monitorIndex(step(["MonitorIndex": .number(5)]), displays: 2, primary: 0) == 0)
+        #expect(RecipeRecordVideoPlan.monitorIndex(step(["MonitorIndex": .number(-1)]), displays: 3, primary: 2) == 2)
+        #expect(RecipeRecordVideoPlan.monitorIndex(step(), displays: 0, primary: 0) == nil)
+    }
+
     @Test func defaultsAreTheRecordingsOwn() {
         let options = RecipeRecordVideoPlan.options(step(), target: .display(1), outputURL: url)
         #expect(options.frameRate == 30)
@@ -49,6 +58,8 @@ import Testing
         #expect(options.maximumDuration == 0)
         #expect(!options.stopWhenWindowCloses)
         #expect(RecipeRecordVideoPlan.ending(of: options) == .whenStopped)
+        // A recipe's path is fixed: the next run records over the last file (upstream `FileMode.Create`).
+        #expect(options.replacesExistingFile)
     }
 
     @Test func presetThenSingleValues() {

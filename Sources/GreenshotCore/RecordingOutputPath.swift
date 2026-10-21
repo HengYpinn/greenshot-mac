@@ -77,7 +77,8 @@ public enum RecordingOutputPath {
     /// evaluated, so a value from outside (a QR text, a page title) can bring in "/", "~" or "..". Only an absolute raw
     /// path goes where it says, and values stay inside its fixed start; else the file stays in the default folder.
     /// The file always ends in a video extension: a value can't make the recording overwrite a file of another kind
-    /// (a `.zshrc`, a LaunchAgent's `.plist`) inside the folder the path names.
+    /// (a `.zshrc`, a LaunchAgent's `.plist`) inside the folder the path names. A video already there is replaced when
+    /// the recording starts, like upstream's `FileMode.Create` (`VideoCaptureOptions.replacesExistingFile`).
     public static func recipeURL(outputFilePath: String?, rawOutputFilePath: String? = nil, outputDirectory: String?,
                                  filenamePattern: String?, date: Date,
                                  environment: [String: String], homeDirectory: URL,
