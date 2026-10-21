@@ -57,6 +57,30 @@ import Testing
         #expect(pairResult.errors.contains { $0.hasPrefix("Cycle/loop detected") })
     }
 
+    /// Only error edges the engine takes count: a target recipe wins over the node's own handler and over the transition's
+    /// `to`, and a transition for every error of a node hides its own handler.
+    @Test func anErrorEdgeTheEngineNeverTakesIsNotALoop() {
+        let nodes = [RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "Clipboard"),
+                     RecipeNode(id: "handler", stepType: "Clipboard")]
+        var forwarded = testRecipe(nodes)
+        forwarded.nodes[1].onErrorRecipeId = "recovery"
+        forwarded.nodes[1].onErrorNodeId = "a"
+        #expect(RecipeValidator().validate(forwarded).errors.isEmpty)
+
+        var forwardedByTheTransition = testRecipe(nodes)
+        forwardedByTheTransition.flow.errorTransitions = [ErrorTransition(from: "b", to: "a", targetRecipeId: "recovery")]
+        #expect(RecipeValidator().validate(forwardedByTheTransition).errors.isEmpty)
+
+        var hidden = testRecipe(nodes)
+        hidden.nodes[1].onErrorNodeId = "a"
+        hidden.flow.errorTransitions = [ErrorTransition(from: "b", to: "handler")]
+        #expect(RecipeValidator().validate(hidden).errors.isEmpty)
+
+        // The same handler without the transition does loop.
+        hidden.flow.errorTransitions = []
+        #expect(RecipeValidator().validate(hidden).errors.contains { $0.hasPrefix("Cycle/loop detected in recipe flow: a -> b -> a") })
+    }
+
     @Test func aWildcardErrorHandlerIsNotALoop() {
         var recipe = testRecipe([RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "Clipboard"),
                                  RecipeNode(id: "handler", stepType: "Clipboard")])

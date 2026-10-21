@@ -365,7 +365,8 @@ public struct RecipeValidator: Sendable {
         // An error handler that isn't a node would let the failed node end the flow as a success (a Mac addition: upstream
         // checks error targets only in extensions). Only targets the engine would run as a node are checked.
         var reported = Set<String>()
-        for handler in Self.errorHandlerTargets(recipe) where !exists(handler.target) {
+        let handlers = Self.errorHandlerTargets(recipe)
+        for handler in handlers where !exists(handler.target) {
             let message: String
             if let transition = handler.transition, RecipeFlowEngine.nonEmpty(transition.to) != nil {
                 // Extensions say it in their own words (`validateExtensionFlow`).
@@ -377,7 +378,7 @@ public struct RecipeValidator: Sendable {
             }
             if reported.insert(message).inserted { result.errors.append(message) }
         }
-        if let cycle = Self.findCycle(recipe, starts: starts, ids: ids) {
+        if let cycle = Self.findCycle(recipe, starts: starts, ids: ids, handlers: handlers) {
             result.errors.append("Cycle/loop detected in recipe flow: \(cycle.joined(separator: " -> ")). Loops are strictly disallowed in DAG flows.")
         }
     }
@@ -472,33 +473,41 @@ public struct RecipeValidator: Sendable {
         return targets
     }
 
-    /// The normal transitions plus the error edges (a node's `onErrorNodeId` and the error transitions): a failing error
-    /// handler routes to its own handler, so an error edge that leads back is a loop as much as a normal one. Wildcard
-    /// error transitions are left out (see below).
-    static func edgesIncludingErrorHandlers(_ recipe: CaptureRecipe) -> [String: [String]] {
-        var map = recipe.flow.unifiedTransitions
-        func add(_ from: String, _ to: String?) {
-            guard let to, !to.trimmingCharacters(in: .whitespaces).isEmpty,
-                  !from.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-            var list = map[from.lowercased()] ?? []
-            if !list.contains(where: { recipeEquals($0, to) }) { list.append(to) }
-            map[from.lowercased()] = list
+    /// The normal and conditional transitions plus the error edges the engine takes (`errorHandlerTargets`: a target
+    /// recipe wins, a transition for every error of a node hides its own handler): a failing error handler routes to its
+    /// own handler, so an error edge that leads back is a loop as much as a normal one. Edges to the target of a wildcard
+    /// error transition are left out: with the handler's own successors they would make a loop of every valid recipe; the
+    /// run-time cap on error handlers ends a loop through one. Each edge is added once, in linear time (thousands of
+    /// targets of one node are validated before approval).
+    static func edgesIncludingErrorHandlers(_ recipe: CaptureRecipe,
+                                            handlers: [(node: RecipeNode, transition: ErrorTransition?, target: String)]? = nil)
+        -> [String: [String]] {
+        var map: [String: [String]] = [:]
+        var added: [String: Set<String>] = [:]
+        func add(_ from: String, _ to: String) {
+            guard !to.trimmingCharacters(in: .whitespaces).isEmpty, !from.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+            let key = from.lowercased()
+            if added[key, default: []].insert(to.lowercased()).inserted { map[key, default: []].append(to) }
         }
-        for node in recipe.nodes { add(node.id, node.onErrorNodeId) }
-        for transition in recipe.flow.errorTransitions {
-            guard let to = transition.to else { continue }
-            let source = transition.from ?? ""
-            // A wildcard source isn't an edge of the flow: with the handler's own successors it would make a loop of every
-            // valid recipe. The run-time cap on error handlers ends a loop through a wildcard handler.
-            if source.isEmpty || source == "*" { continue }
-            add(source, to)
+        for transition in recipe.flow.transitions {
+            for target in transition.to { add(transition.from, target) }
+        }
+        for conditional in recipe.flow.conditionalTransitions { add(conditional.from, conditional.to) }
+        for handler in handlers ?? errorHandlerTargets(recipe) {
+            if let transition = handler.transition, RecipeFlowEngine.nonEmpty(transition.to) != nil,
+               (transition.from ?? "").isEmpty || transition.from == "*" {
+                continue
+            }
+            add(handler.node.id, handler.target)
         }
         return map
     }
 
     /// Depth-first search with three colours from the start nodes, then from the rest (upstream `DetectCycleDfs`).
-    static func findCycle(_ recipe: CaptureRecipe, starts: [String], ids: Set<String>) -> [String]? {
-        let transitions = Self.edgesIncludingErrorHandlers(recipe)
+    /// `handlers`: `errorHandlerTargets(recipe)` when the caller has them.
+    static func findCycle(_ recipe: CaptureRecipe, starts: [String], ids: Set<String>,
+                          handlers: [(node: RecipeNode, transition: ErrorTransition?, target: String)]? = nil) -> [String]? {
+        let transitions = Self.edgesIncludingErrorHandlers(recipe, handlers: handlers)
         var state: [String: Int] = [:]
         var names: [String: String] = [:]
         for node in recipe.nodes where ids.contains(node.id.lowercased()) {

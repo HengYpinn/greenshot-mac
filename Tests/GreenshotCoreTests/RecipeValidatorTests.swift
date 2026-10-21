@@ -298,6 +298,14 @@ func testRecipe(_ nodes: [RecipeNode] = [RecipeNode(id: "a", stepType: "Source")
         handlers.flow.errorTransitions = (0..<25_000).map { ErrorTransition(from: "*", to: "n\($0 % 200)", errorType: "T\($0)") }
         let targets = await Task.detached { RecipeValidator.errorHandlerTargets(handlers) }.value
         #expect(targets.count == 25_000)
+        // The cycle search over thousands of targets of one node, normal and error ones (each took 15 s in debug when
+        // every new edge was compared with the node's others).
+        var wide = Self.chain(2)
+        wide.flow.transitions.append(RecipeTransition(from: "n1", to: (0..<20_000).map { "x\($0)" }))
+        wide.flow.errorTransitions = (0..<20_000).map { ErrorTransition(from: "n0", to: "y\($0)", errorType: "T\($0)") }
+        let edges = await Task.detached { RecipeValidator.edgesIncludingErrorHandlers(wide) }.value
+        #expect(edges["n0"]?.count == 20_001)
+        #expect(edges["n1"]?.count == 20_000)
         var noisy = testRecipe()
         noisy.triggers = Array(repeating: TriggerConfig(triggerType: "Clipboard"), count: 51)
         #expect(validator.validate(noisy).errors == ["The recipe has 51 triggers; at most 50 are allowed."])
