@@ -143,7 +143,7 @@ struct JiraClientTests {
         for words in ["login (beta)", "Berlin (office)", "Domain (DNS) setup", "plugin(v2)", "admin (panel) notes",
                       "This is empty", "Thesis null", "a<b", "x > y", "Meeting in (Berlin)", "Tuesday was in (x)",
                       "notin (a)", "C++ tips", "order by phone"] {
-            #expect(JiraClient.jql(forSearch: words) == text(words))
+            #expect(JiraClient.jql(forSearch: words) == text(words), "\(words)")
         }
         // JQL stays JQL.
         #expect(JiraClient.jql(forSearch: "project in (A, B)") == "project in (A, B)")
