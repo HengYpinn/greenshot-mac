@@ -87,7 +87,9 @@ public protocol RecipeTrustStoring: Sendable {
 /// picks the URL) signed with HMAC-SHA256. The key is 32 random bytes in the `SecretStore` (the Keychain in the app)
 /// under `keyName`, made on first use. A file whose signature doesn't match, or without a key, counts as empty
 /// (default-deny: every recipe asks again) and `wasTampered` says so. A key the secret store fails to read (an error, not
-/// a missing key) counts as empty only while it fails: nothing is cached and nothing is saved meanwhile.
+/// a missing key) counts as empty only while it fails: nothing is saved meanwhile, and the key is never replaced. A
+/// locked Keychain (`SecretStoreUnavailableError`) is asked again only before a change, not at every look-up (each
+/// would show its password prompt); any other error at the next access.
 public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
     public static let keyName = "recipes.trustStoreKey"
 
@@ -99,14 +101,15 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
     private let lock = NSLock()
     private var records: [String: RecipeTrustRecord]?
     private var tampered = false
-    /// Why the key couldn't be read the last time the records were read (nil: read, or missing). The records aren't cached
-    /// then, so the next access reads again, and changes are refused (`recordsToChange`): a save would write an empty store
-    /// plus the change and drop the approvals of every other file.
+    /// Why the key couldn't be read the last time the records were read (nil: read, or missing). Changes are refused then
+    /// (`recordsToChange`): a save would write an empty store plus the change and drop the approvals of every other file.
+    /// The empty records are cached only for `SecretStoreUnavailableError`; after any other error the next access reads
+    /// again.
     private var keyReadError: Error?
-    /// The records are empty because the store's key wasn't there (deleted, or a locked or denied Keychain item, which the
-    /// app's store reports as missing). A change reads the store once more first: when the key is back, the approvals of
-    /// the other files are kept; when it is still missing, the store starts anew as before.
-    private var keyWasMissing = false
+    /// The records are empty because the store's key wasn't there (deleted) or couldn't be used (a locked Keychain). A
+    /// change reads the store once more first: when the key is back, the approvals of the other files are kept; when it
+    /// is still missing, the store starts anew as before; when it still can't be used, the change is refused.
+    private var readAgainBeforeChange = false
 
     public init(fileURL: URL, secrets: any SecretStore) {
         self.fileURL = fileURL
@@ -226,16 +229,22 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
         do {
             key = try existingKey()
         } catch {
-            // Default-deny while it fails, but the store isn't given up: the next access reads again.
+            // Default-deny while it fails, but the store isn't given up: it is read again later.
             if keyReadError == nil {
                 log.error("The key of the recipe trust store can't be read; recipe files ask for approval until it can be read again.", error: error)
             }
             keyReadError = error
             cache = false
+            if error is SecretStoreUnavailableError {
+                // A locked Keychain: reading at every look-up would show its password prompt again and again. The empty
+                // records stay until a change, when the user is there to unlock it.
+                records = loaded
+                readAgainBeforeChange = true
+            }
             return loaded
         }
         guard let key, HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: payload, using: key) else {
-            keyWasMissing = key == nil
+            readAgainBeforeChange = key == nil
             tampered = true
             log.warn("The recipe trust store was changed outside Greenshot or its key is gone; every recipe file asks for approval again.")
             return loaded
@@ -252,11 +261,12 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
         return loaded
     }
 
-    /// Locked. The records to change and save, read again when the key was missing (`keyWasMissing`); refused while the key
-    /// can't be read (`keyReadError`): they are empty then, not the store, and a revocation would be lost.
+    /// Locked. The records to change and save, read again when the key was missing or couldn't be used
+    /// (`readAgainBeforeChange`); refused while the key can't be read (`keyReadError`): they are empty then, not the
+    /// store, and a revocation would be lost.
     private func recordsToChange() throws -> [String: RecipeTrustRecord] {
-        if keyWasMissing {
-            keyWasMissing = false
+        if readAgainBeforeChange {
+            readAgainBeforeChange = false
             records = nil
         }
         let all = loadedRecords()
@@ -275,7 +285,7 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
         try Self.encoder().encode(file).write(to: fileURL, options: .atomic)
         records = all
         tampered = false
-        keyWasMissing = false
+        readAgainBeforeChange = false
     }
 
     private func existingKey() throws -> SymmetricKey? {

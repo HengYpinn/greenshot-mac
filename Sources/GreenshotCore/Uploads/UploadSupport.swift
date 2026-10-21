@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import Foundation
+import Security
 
 // What the upload destinations (Jira, Confluence, Box, Dropbox) share: the network and secret storage seams the
 // tests replace, the encoded file, multipart bodies and the errors.
@@ -17,10 +18,29 @@ extension URLSession: HTTPClient {}
 
 /// Where API tokens, client secrets and OAuth tokens live: the Keychain in the app, memory in the tests. Never
 /// the settings (UserDefaults).
+///
+/// nil is a secret that isn't there. A store that can't be used right now (the Keychain is locked, or its password
+/// prompt was cancelled or denied) throws `SecretStoreUnavailableError` instead: what is stored is still there, so a
+/// caller keeps it (no new key, no sign-in that would replace it), says so, and can try again later.
 public protocol SecretStore: Sendable {
     func secret(for key: String) throws -> String?
     /// nil removes the secret.
     func setSecret(_ value: String?, for key: String) throws
+}
+
+/// The secret store can't be used right now: the Keychain is locked, or its password prompt was cancelled or denied.
+/// Not the same as a missing secret (see `SecretStore`).
+public struct SecretStoreUnavailableError: LocalizedError {
+    /// The Keychain's statuses that mean this, not "not found": locked while it may not ask
+    /// (`errSecInteractionNotAllowed`), its password prompt cancelled (`errSecUserCanceled`), or a wrong password or
+    /// "Deny" when macOS asked whether this build of the app may use the item (`errSecAuthFailed`).
+    public static let keychainStatuses: Set<OSStatus> = [errSecInteractionNotAllowed, errSecUserCanceled, errSecAuthFailed]
+
+    public let errorDescription: String?
+
+    public init(_ description: String) {
+        errorDescription = description
+    }
 }
 
 /// The test double of the secret store, also usable as a cache.

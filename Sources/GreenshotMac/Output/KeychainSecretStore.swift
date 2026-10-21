@@ -8,6 +8,8 @@ import Security
 
 /// The secrets of the upload destinations (API tokens, a client secret, OAuth tokens) as generic passwords in the
 /// user's login keychain, one item per key. Upstream encrypts them into its ini file; the settings here never see them.
+/// A locked Keychain, or its prompt cancelled or denied, throws `SecretStoreUnavailableError` (never "not found"), so a
+/// caller keeps what is stored instead of making a new key or asking to sign in again.
 final class KeychainSecretStore: SecretStore {
     static let shared = KeychainSecretStore(service: "io.github.greenshot-mac")
 
@@ -39,6 +41,16 @@ final class KeychainSecretStore: SecretStore {
         [kSecClass: kSecClassGenericPassword, kSecAttrService: service, kSecAttrAccount: key]
     }
 
+    /// The error of a failed `operation`: `SecretStoreUnavailableError` when the Keychain is locked or its prompt was
+    /// cancelled or denied (try again later; what is stored is still there), else a `KeychainError`.
+    private static func error(_ status: OSStatus, _ operation: KeychainError.Operation) -> Error {
+        guard SecretStoreUnavailableError.keychainStatuses.contains(status) else {
+            return KeychainError(status: status, operation: operation)
+        }
+        let text = SecCopyErrorMessageString(status, nil) as String? ?? "error \(status)"
+        return SecretStoreUnavailableError(String(localized: "The Keychain is locked, or Greenshot was not allowed to use it (\(text)). Unlock it, or allow Greenshot when macOS asks, then try again."))
+    }
+
     func secret(for key: String) throws -> String? {
         var query = query(key)
         query[kSecReturnData] = true
@@ -49,29 +61,28 @@ final class KeychainSecretStore: SecretStore {
         case errSecSuccess:
             guard let data = item as? Data else { return nil }
             return String(data: data, encoding: .utf8)
-        case errSecItemNotFound, errSecUserCanceled, errSecAuthFailed, errSecInteractionNotAllowed:
-            // Not there, or not for this build of the app: the same as not set up.
+        case errSecItemNotFound:
             return nil
         default:
-            throw KeychainError(status: status, operation: .read)
+            throw Self.error(status, .read)
         }
     }
 
     func setSecret(_ value: String?, for key: String) throws {
         guard let value, !value.isEmpty else {
             let status = SecItemDelete(query(key) as CFDictionary)
-            guard status == errSecSuccess || status == errSecItemNotFound else { throw KeychainError(status: status, operation: .remove) }
+            guard status == errSecSuccess || status == errSecItemNotFound else { throw Self.error(status, .remove) }
             return
         }
         let data = Data(value.utf8)
         let update = SecItemUpdate(query(key) as CFDictionary, [kSecValueData: data] as CFDictionary)
         if update == errSecSuccess { return }
-        guard update == errSecItemNotFound else { throw KeychainError(status: update, operation: .update) }
+        guard update == errSecItemNotFound else { throw Self.error(update, .update) }
         var item = query(key)
         item[kSecValueData] = data
         item[kSecAttrLabel] = "Greenshot for Mac – \(key)"
         let add = SecItemAdd(item as CFDictionary, nil)
-        guard add == errSecSuccess else { throw KeychainError(status: add, operation: .add) }
+        guard add == errSecSuccess else { throw Self.error(add, .add) }
     }
 }
 

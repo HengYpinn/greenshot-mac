@@ -117,23 +117,25 @@ enum Uploads {
         }
     }
 
-    /// The Jira site of the settings with its token or password (see `AtlassianSignIn`).
-    static func jiraSite(_ settings: AppSettings) -> AtlassianSite? {
+    /// The Jira site of the settings with its token or password (see `AtlassianSignIn`); throws when the Keychain
+    /// can't be read.
+    static func jiraSite(_ settings: AppSettings) throws -> AtlassianSite? {
         applyCertificateExceptions(settings)
-        return AtlassianSignIn.site(.jira, settings: settings)
+        return try AtlassianSignIn.site(.jira, settings: settings)
     }
 
-    static func confluenceSite(_ settings: AppSettings) -> AtlassianSite? {
+    static func confluenceSite(_ settings: AppSettings) throws -> AtlassianSite? {
         applyCertificateExceptions(settings)
-        return AtlassianSignIn.site(.confluence, settings: settings)
+        return try AtlassianSignIn.site(.confluence, settings: settings)
     }
 
-    static func oauthClient(for destination: CaptureDestination, settings: AppSettings) -> OAuthClient {
+    /// Throws when the Box client secret can't be read (a locked Keychain): without it Box would refuse the sign-in.
+    static func oauthClient(for destination: CaptureDestination, settings: AppSettings) throws -> OAuthClient {
         applyCertificateExceptions(settings)
         switch destination {
         case .box:
             return OAuthClient(provider: .box, clientID: settings.box.clientID,
-                               clientSecret: try? secrets.secret(for: SecretKey.boxClientSecret),
+                               clientSecret: try secrets.secret(for: SecretKey.boxClientSecret),
                                store: secrets, storeKey: SecretKey.boxTokens, http: http)
         default:
             return OAuthClient(provider: .dropbox, clientID: settings.dropbox.appKey,
@@ -344,7 +346,6 @@ enum CloudDestination {
             completion(.failed(error.localizedDescription))
             return
         }
-        let oauth = Uploads.oauthClient(for: destination, settings: s)
         let copyLink = isBox ? s.box.copyLinkToClipboard : s.dropbox.copyLinkToClipboard
         let sharedLink = isBox ? s.box.useSharedLink && copyLink : copyLink
         // One text per service: upstream has them per plug-in (`communication_wait`).
@@ -352,6 +353,7 @@ enum CloudDestination {
         let progress = isBox ? String(localized: "Communicating with Box, please wait…")
             : String(localized: "Communicating with Dropbox, please wait…")
         Uploads.run(failure, progress: progress, completion: completion) {
+            let oauth = try Uploads.oauthClient(for: destination, settings: s)
             let result = try await send(file, isBox: isBox, settings: s, oauth: oauth, sharedLink: sharedLink)
             if copyLink { Clipboard.copy(text: result.link.absoluteString) }
             let detail = copyLink ? String(localized: "Link copied – click to open") : String(localized: "Click to open")

@@ -13,7 +13,8 @@ import SwiftUI
 /// values, so a locked value never overwrites them and they come back when the profile is removed.
 @MainActor
 final class SettingsStore: ObservableObject {
-    /// The settings in effect: the user's with the locked values.
+    /// The settings in effect: the user's with the locked values (and the AI tools consent reset while its seal can't
+    /// be checked, `unverifiedConsent`).
     @Published private(set) var value: AppSettings
     /// What the administrator locked or preset; Settings disables the locked controls (`.managed(\.keyPath)`).
     @Published private(set) var policy: ManagedPolicy
@@ -31,6 +32,11 @@ final class SettingsStore: ObservableObject {
     private let seal: AIToolsConsentSeal
     /// The user's own settings, the ones saved.
     private var stored: AppSettings
+    /// The AI tools consent in effect while the stored one can't be checked (its key can't be read: the Keychain is
+    /// locked, or its prompt was cancelled): the reset values (nobody allowed, the notification on). The stored values
+    /// and their seal stay as they are, so they count again once the key can be read: at the next start, a reload, or a
+    /// change of the consent (`update`).
+    private var unverifiedConsent: AIToolsSettings?
     private var observers: [(_ old: AppSettings, _ new: AppSettings) -> Void] = []
     private let log = Log("Managed")
 
@@ -56,23 +62,47 @@ final class SettingsStore: ObservableObject {
                 }
             }
         } ?? SettingsStorage.load(from: defaults)
-        let stored = Self.sealChecked(policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL)),
-                                      seal: seal, defaults: defaults, fileURL: fileURL)
+        let checked = Self.sealChecked(policy.loaded(loaded, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL)),
+                                       seal: seal, defaults: defaults, fileURL: fileURL)
         self.policy = policy
-        self.stored = stored
-        value = policy.effective(stored)
+        stored = checked.stored
+        unverifiedConsent = checked.unverifiedConsent
+        value = Self.inEffect(checked.stored, unverifiedConsent: checked.unverifiedConsent, policy: policy)
     }
 
     /// The settings that are about to be the user's, with the AI tools consent checked last: whatever filled values in
     /// (the stored ones, a managed default), the sealed ones must carry a valid seal or are reset, and the reset is saved.
+    /// A seal that can't be checked keeps the stored values and gives the reset ones to use meanwhile.
     private static func sealChecked(_ settings: AppSettings, seal: AIToolsConsentSeal, defaults: UserDefaults,
-                                    fileURL: URL?) -> AppSettings {
+                                    fileURL: URL?) -> (stored: AppSettings, unverifiedConsent: AIToolsSettings?) {
         let sealed = seal.verifiedOrReset(settings.aiTools)
-        guard sealed.wasReset else { return settings }
+        if sealed.isUnverifiable { return (settings, sealed.settings) }
+        guard sealed.wasReset else { return (settings, nil) }
         var result = settings
         result.aiTools = sealed.settings
         write(result, defaults: defaults, fileURL: fileURL)
-        return result
+        return (result, nil)
+    }
+
+    /// The settings in effect for `stored`: the consent that can't be checked replaced by the reset values, then the
+    /// managed values.
+    private static func inEffect(_ stored: AppSettings, unverifiedConsent: AIToolsSettings?, policy: ManagedPolicy) -> AppSettings {
+        guard let unverifiedConsent else { return policy.effective(stored) }
+        var replaced = stored
+        replaced.aiTools = AIToolsConsentSeal.withSealedValues(of: unverifiedConsent, in: stored.aiTools)
+        return policy.effective(replaced)
+    }
+
+    private func inEffect(_ stored: AppSettings) -> AppSettings {
+        Self.inEffect(stored, unverifiedConsent: unverifiedConsent, policy: policy)
+    }
+
+    /// Checks the AI tools consent that couldn't be checked once more (the Keychain may be unlocked now).
+    private func recheckConsent() {
+        guard unverifiedConsent != nil else { return }
+        let checked = Self.sealChecked(stored, seal: seal, defaults: defaults, fileURL: fileURL)
+        unverifiedConsent = checked.unverifiedConsent
+        commit(stored: checked.stored, save: false)
     }
 
     /// The saved settings as they are, to see which values they have (defaults fill in the others).
@@ -98,9 +128,10 @@ final class SettingsStore: ObservableObject {
             Log("Settings").error("The settings were not reloaded, the ones in use stay: \(error)")
             throw error
         }
-        let settings = Self.sealChecked(policy.loaded(reloaded.settings, storedJSON: reloaded.json),
-                                        seal: seal, defaults: defaults, fileURL: fileURL)
-        commit(stored: settings, save: false)
+        let checked = Self.sealChecked(policy.loaded(reloaded.settings, storedJSON: reloaded.json),
+                                       seal: seal, defaults: defaults, fileURL: fileURL)
+        unverifiedConsent = checked.unverifiedConsent
+        commit(stored: checked.stored, save: false)
     }
 
     /// Reads the managed values again (a profile installed or removed while the app runs): when Settings or the menu
@@ -132,6 +163,20 @@ final class SettingsStore: ObservableObject {
         var changed = value
         body(&changed)
         guard changed != value else { return }
+        if unverifiedConsent != nil, !AIToolsConsentSeal.sealedValuesEqual(changed.aiTools, value.aiTools) {
+            // A change of the AI tools consent while the stored one can't be checked (e.g. "Allow" in the question): check
+            // it once more, as the user is here to unlock the Keychain, and change what is in effect then.
+            recheckConsent()
+            if let unverifiedConsent {
+                // Still not: the consent in effect (the reset, which allows nobody) becomes the stored one and the change
+                // is made to it, so a program removed or an application excluded stays so after a restart.
+                stored.aiTools = AIToolsConsentSeal.withSealedValues(of: unverifiedConsent, in: stored.aiTools)
+                self.unverifiedConsent = nil
+            }
+            changed = value
+            body(&changed)
+            guard changed != value else { return }
+        }
         commit(stored: policy.stored(afterEditing: changed, effective: value, stored: stored), save: true)
     }
 
@@ -141,7 +186,7 @@ final class SettingsStore: ObservableObject {
         if shouldSave && newStored != stored { save(newStored) }
         stored = newStored
         let old = value
-        let new = policy.effective(newStored)
+        let new = inEffect(newStored)
         guard new != old else { return }
         value = new
         if new.hotkeys != old.hotkeys { onHotkeysChange?() }
@@ -159,8 +204,13 @@ final class SettingsStore: ObservableObject {
 
     private func save(_ settings: AppSettings) {
         Self.write(settings, defaults: defaults, fileURL: fileURL)
-        // Only Greenshot saving writes the seal, every time the sealed values change.
-        if settings.aiTools != stored.aiTools || !seal.isValid(settings.aiTools) { seal.save(settings.aiTools) }
+        // Only Greenshot saving writes the seal: when the sealed values change, or their seal is wrong. Not while it
+        // can't be checked (a locked Keychain): a new seal would fail and drop the one the stored values have.
+        guard unverifiedConsent == nil else { return }
+        if !AIToolsConsentSeal.sealedValuesEqual(settings.aiTools, stored.aiTools)
+            || seal.verification(of: settings.aiTools) == .invalid {
+            seal.save(settings.aiTools)
+        }
     }
 
     private static func write(_ settings: AppSettings, defaults: UserDefaults, fileURL: URL?) {

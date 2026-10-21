@@ -23,16 +23,28 @@ final class SecretFieldModel: ObservableObject {
         didSet { if text != oldValue { save() } }
     }
     @Published var error: String?
+    /// The stored secret couldn't be read (the Keychain is locked, or its prompt was cancelled): the field is disabled,
+    /// so typing doesn't replace a secret nobody saw. Settings opened again reads it again.
+    @Published private(set) var unreadable = false
     private let key: String
     private let owner: Owner
 
     init(key: String, owner: Owner = .app) {
         self.key = key
         self.owner = owner
-        switch owner {
-        case .app: text = (try? Uploads.secrets.secret(for: key)) ?? ""
-        case .site(let host): text = (try? AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host)) ?? ""
+        var stored: String?
+        var problem: String?
+        do {
+            switch owner {
+            case .app: stored = try Uploads.secrets.secret(for: key)
+            case .site(let host): stored = try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host)
+            }
+        } catch {
+            problem = error.localizedDescription
         }
+        text = stored ?? ""
+        error = problem
+        unreadable = problem != nil
     }
 
     private func save() {
@@ -59,6 +71,7 @@ struct SecretField: View {
 
     var body: some View {
         SecureField(title, text: $model.text)
+            .disabled(model.unreadable)
         if let error = model.error {
             Text(error).font(.caption).foregroundStyle(.red)
         }
@@ -72,7 +85,14 @@ final class ConnectionTest: ObservableObject {
     @Published var running = false
 
     func run(confluence: Bool, settings: AppSettings) {
-        guard let site = confluence ? Uploads.confluenceSite(settings) : Uploads.jiraSite(settings) else {
+        let configured: AtlassianSite?
+        do {
+            configured = try confluence ? Uploads.confluenceSite(settings) : Uploads.jiraSite(settings)
+        } catch {
+            result = error.localizedDescription
+            return
+        }
+        guard let site = configured else {
             result = String(localized: "Enter the URL first.")
             return
         }
@@ -95,10 +115,13 @@ final class ConnectionTest: ObservableObject {
     }
 }
 
-/// Signed in or not at Box and Dropbox, with Sign In and Sign Out.
+/// Signed in or not at Box and Dropbox, with Sign In and Sign Out; Retry while the Keychain can't be read.
 @MainActor
 final class CloudAccount: ObservableObject {
     @Published var signedIn = false
+    /// The Keychain couldn't be read (locked, or its prompt cancelled): whether there is an account is unknown, so
+    /// there is no Sign In that would replace it, only Retry.
+    @Published var unreadable = false
     @Published var busy = false
     @Published var message: String?
     let destination: CaptureDestination
@@ -108,11 +131,25 @@ final class CloudAccount: ObservableObject {
     }
 
     func refresh(settings: AppSettings) {
-        signedIn = Uploads.oauthClient(for: destination, settings: settings).isSignedIn
+        do {
+            signedIn = try Uploads.oauthClient(for: destination, settings: settings).storedTokens() != nil
+            if unreadable { message = nil }
+            unreadable = false
+        } catch {
+            signedIn = false
+            unreadable = true
+            message = error.localizedDescription
+        }
     }
 
     func signIn(settings: AppSettings) {
-        let client = Uploads.oauthClient(for: destination, settings: settings)
+        let client: OAuthClient
+        do {
+            client = try Uploads.oauthClient(for: destination, settings: settings)
+        } catch {
+            message = error.localizedDescription
+            return
+        }
         busy = true
         message = nil
         Task { @MainActor in
@@ -129,8 +166,12 @@ final class CloudAccount: ObservableObject {
     }
 
     func signOut(settings: AppSettings) {
-        try? Uploads.oauthClient(for: destination, settings: settings).signOut()
-        message = nil
+        do {
+            try Uploads.oauthClient(for: destination, settings: settings).signOut()
+            message = nil
+        } catch {
+            message = error.localizedDescription
+        }
         refresh(settings: settings)
     }
 }
@@ -408,7 +449,9 @@ private struct CloudAccountRow: View {
             Text(account.message ?? (account.signedIn ? String(localized: "Signed in.") : String(localized: "Not signed in; the first upload asks.")))
                 .font(.caption).foregroundStyle(.secondary).lineLimit(2)
             Spacer()
-            if account.signedIn {
+            if account.unreadable {
+                Button("Retry") { account.refresh(settings: store.value) }
+            } else if account.signedIn {
                 Button("Sign Out") { account.signOut(settings: store.value) }
             } else {
                 Button("Sign In…") { account.signIn(settings: store.value) }.disabled(account.busy)

@@ -184,7 +184,8 @@ extension OutputManager {
         let items = keys.map { key in item(JiraSummaries.known[key].map { title(key, $0) } ?? key, .jiraIssue(key), "checklist", nil) }
         // The user first: without it the Keychain isn't asked for the token (a personal access token needs none).
         let hasUser = s.jira.login == .serverToken || !s.jira.email.trimmingCharacters(in: .whitespaces).isEmpty
-        guard !items.isEmpty, hasUser, let site = Uploads.jiraSite(s), site.hasCredentials else { return items }
+        // A Keychain that can't be read (locked) only leaves out the summaries.
+        guard !items.isEmpty, hasUser, let site = try? Uploads.jiraSite(s), site.hasCredentials else { return items }
         let client = JiraClient(site: site, http: Uploads.http)
         func lookUp(_ key: String, _ entry: NSMenuItem) {
             Task { @MainActor [weak entry] in

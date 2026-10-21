@@ -98,8 +98,8 @@ func recipeTemporaryFolder() -> URL {
         #expect(!reopened.wasTampered)
     }
 
-    /// The app's Keychain reports a locked or denied item as missing: the store counts as empty (default-deny), but the
-    /// first approval saved after the key is back keeps the approvals of the other files.
+    /// The key is gone for a while (deleted, then put back): the store counts as empty (default-deny), but the first
+    /// approval saved after the key is back keeps the approvals of the other files.
     @Test func aKeyThatWasHiddenForAWhileDoesntLoseTheApprovals() throws {
         let folder = recipeTemporaryFolder()
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -159,7 +159,7 @@ extension InMemorySecretStore {
 }
 
 /// A secret store whose reads throw while `failsReading` is set (an error of the Keychain), or find nothing while
-/// `hidesItems` is set (the app's Keychain store reports a locked or denied item as missing).
+/// `hidesItems` is set (the key was deleted). A locked Keychain throws `SecretStoreUnavailableError`: `LockableSecretStore`.
 final class FlakySecretStore: SecretStore, @unchecked Sendable {
     struct ReadError: Error {}
 

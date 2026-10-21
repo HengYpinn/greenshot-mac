@@ -236,12 +236,12 @@ public struct OAuthClient: Sendable {
         self.now = now
     }
 
-    public var tokens: OAuthTokens? {
-        guard let text = try? store.secret(for: storeKey), let data = text.data(using: .utf8) else { return nil }
+    /// The stored tokens, nil when signed out. A store that can't be read (a locked Keychain) throws: that isn't a
+    /// signed-out account, and signing in again would replace the tokens that are there.
+    public func storedTokens() throws -> OAuthTokens? {
+        guard let text = try store.secret(for: storeKey), let data = text.data(using: .utf8) else { return nil }
         return try? JSONDecoder().decode(OAuthTokens.self, from: data)
     }
-
-    public var isSignedIn: Bool { tokens != nil }
 
     public func signOut() throws {
         try store.setSecret(nil, for: storeKey)
@@ -249,15 +249,16 @@ public struct OAuthClient: Sendable {
 
     /// Forgets the access token (after the server rejected it) but keeps the refresh token.
     public func invalidateAccessToken() throws {
-        guard var current = tokens else { return }
+        guard var current = try storedTokens() else { return }
         current.expiresAt = .distantPast
         try save(current)
     }
 
-    /// A usable access token: the stored one, a refreshed one, or (with an authorizer) a new sign-in.
+    /// A usable access token: the stored one, a refreshed one, or (with an authorizer) a new sign-in. Tokens that can't
+    /// be read (`SecretStoreUnavailableError`) throw before any sign-in.
     public func accessToken(authorizer: OAuthAuthorizer?) async throws -> String {
         guard !clientID.isEmpty else { throw UploadError.notConfigured(String(localized: "The \(provider.name) app key", comment: "%@ is a service: Box or Dropbox")) }
-        if let current = tokens {
+        if let current = try storedTokens() {
             if current.isUsable(at: now()) { return current.accessToken }
             if let refresh = current.refreshToken {
                 let request = OAuthFlow.refreshRequest(provider: provider, clientID: clientID, clientSecret: clientSecret, refreshToken: refresh)

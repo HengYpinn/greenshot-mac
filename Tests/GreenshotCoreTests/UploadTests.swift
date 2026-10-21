@@ -552,9 +552,11 @@ struct OAuthTests {
         let store = InMemorySecretStore()
         let authorizer = StubAuthorizer()
         let client = client(http, store: store)
-        #expect(!client.isSignedIn)
+        #expect(try client.storedTokens() == nil)
         let token = try await client.accessToken(authorizer: authorizer)
-        #expect(token == "a1" && client.isSignedIn && client.tokens?.refreshToken == "r1")
+        #expect(token == "a1")
+        let stored = try client.storedTokens()
+        #expect(stored?.refreshToken == "r1")
         let request = http.last
         #expect(request.url == OAuthProvider.dropbox.tokenURL && request.httpMethod == "POST")
         let fields = Dictionary(uniqueKeysWithValues: request.bodyText.split(separator: "&").map { pair -> (String, String) in
@@ -577,7 +579,7 @@ struct OAuthTests {
         let http = StubHTTPClient(status: 200, body: #"{"access_token":"a2","expires_in":3600,"refresh_token":"r2"}"#)
         let client = client(http, store: store, provider: .box, secret: "sec")
         #expect(try await client.accessToken(authorizer: nil) == "a2")
-        #expect(client.tokens == OAuthTokens(accessToken: "a2", refreshToken: "r2", expiresAt: now.addingTimeInterval(3600)))
+        #expect(try client.storedTokens() == OAuthTokens(accessToken: "a2", refreshToken: "r2", expiresAt: now.addingTimeInterval(3600)))
         #expect(http.last.url == OAuthProvider.box.tokenURL)
         #expect(http.last.bodyText == "grant_type=refresh_token&refresh_token=r1&client_id=key&client_secret=sec")
     }
@@ -587,7 +589,7 @@ struct OAuthTests {
         try store.setSecret(String(decoding: try JSONEncoder().encode(OAuthTokens(accessToken: "old", refreshToken: "r1", expiresAt: .distantPast)), as: UTF8.self), for: "tokens")
         let http = StubHTTPClient([.init(status: 400, body: #"{"error":"invalid_grant"}"#)])
         await #expect(throws: UploadError.notSignedIn("Dropbox")) { _ = try await client(http, store: store).accessToken(authorizer: nil) }
-        #expect(!client(http, store: store).isSignedIn)
+        #expect(try client(http, store: store).storedTokens() == nil)
         await #expect(throws: UploadError.cancelled) { _ = try await client(http, store: store).accessToken(authorizer: StubAuthorizer(deny: true)) }
         await #expect(throws: UploadError.notConfigured("The Dropbox app key")) {
             _ = try await OAuthClient(provider: .dropbox, clientID: " ", store: store, storeKey: "t", http: http).accessToken(authorizer: nil)

@@ -43,8 +43,9 @@ enum AtlassianSignIn {
         "\(service.name)|\(site.baseURL.absoluteString)|\(site.user)"
     }
 
-    /// The site of the settings with its secret: a password typed in this session, else the Keychain's.
-    static func site(_ service: AtlassianService, settings: AppSettings) -> AtlassianSite? {
+    /// The site of the settings with its secret: a password typed in this session, else the Keychain's. A Keychain that
+    /// can't be read (locked, or its prompt cancelled) throws: an empty secret would ask for the token or password again.
+    static func site(_ service: AtlassianService, settings: AppSettings) throws -> AtlassianSite? {
         let login = service.login(settings)
         guard let bare = AtlassianSite(url: service.url(settings), login: login, user: service.user(settings), secret: "") else {
             return nil
@@ -53,16 +54,25 @@ enum AtlassianSignIn {
             return bare.with(user: bare.user, secret: typed)
         }
         // Only the secret saved for this host: a changed URL doesn't get the token of the old one.
-        let stored = (try? AtlassianSecrets(store: Uploads.secrets).secret(for: service.secretKey, host: bare.baseURL.host,
-                                                                            claim: true)) ?? ""
+        let stored = try AtlassianSecrets(store: Uploads.secrets).secret(for: service.secretKey, host: bare.baseURL.host,
+                                                                          claim: true) ?? ""
         return bare.with(user: bare.user, secret: stored)
     }
 
-    /// The site ready for an upload, nil when the user cancelled the login or the setup is missing (explained then).
-    /// A password login is checked once per session; a missing or wrong password brings up the login dialog.
+    /// The site ready for an upload, nil when the user cancelled the login, the setup is missing or the Keychain can't be
+    /// read (explained then). A password login is checked once per session; a missing or wrong password brings up the
+    /// login dialog.
     static func ready(_ service: AtlassianService, settings: SettingsStore) async -> AtlassianSite? {
         Uploads.applyCertificateExceptions(settings.value)
-        guard var site = site(service, settings: settings.value) else {
+        let configured: AtlassianSite?
+        do {
+            configured = try site(service, settings: settings.value)
+        } catch {
+            ErrorPresenter.show(error, title: service == .jira ? String(localized: "The upload to Jira failed")
+                                    : String(localized: "The upload to Confluence failed"))
+            return nil
+        }
+        guard var site = configured else {
             Uploads.explainMissingSetup(service.name, detail: String(localized: "Enter the \(service.name) URL in Settings › Destinations."))
             return nil
         }
