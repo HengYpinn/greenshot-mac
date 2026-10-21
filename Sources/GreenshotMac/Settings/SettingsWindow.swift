@@ -148,7 +148,8 @@ final class SystemStatus: ObservableObject {
     @Published var launchAtLogin = LaunchAtLogin.state != .off
     @Published var loginNeedsApproval = LaunchAtLogin.state == .needsApproval
     @Published var loginError: String?
-    @Published var canRecordScreen = CGPreflightScreenCaptureAccess()
+    /// Captures work: macOS's preflight, or a capture that worked in this run although it said no.
+    @Published var canRecordScreen = Permissions.hasScreenCapture
 
     func setLaunchAtLogin(_ on: Bool) {
         let message = LaunchAtLogin.set(on)
@@ -158,7 +159,7 @@ final class SystemStatus: ObservableObject {
     }
 
     func refresh() {
-        canRecordScreen = CGPreflightScreenCaptureAccess()
+        canRecordScreen = Permissions.hasScreenCapture
         let state = LaunchAtLogin.state
         launchAtLogin = state != .off
         loginNeedsApproval = state == .needsApproval

@@ -280,6 +280,8 @@ final class VideoRecordingController {
             hideBorder()
             hideIndicator()
             RecordingOutputPath.release(options.outputURL)
+            // Also for a recipe's recording, whose error no alert shows: the next one checks the permission again.
+            if Permissions.isPermissionError(error) { Permissions.screenCaptureWasRefused() }
             throw error
         }
     }

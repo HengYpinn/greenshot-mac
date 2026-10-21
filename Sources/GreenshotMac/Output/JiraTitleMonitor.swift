@@ -174,7 +174,7 @@ final class JiraTitleMonitor {
 
     /// One reading of the titles of the normal windows on screen (not Greenshot's own).
     private func sample() {
-        guard CGPreflightScreenCaptureAccess() else { return }
+        guard Permissions.hasScreenCapture else { return }
         let windows = ScreenCapturer.onScreenWindows().map { (id: UInt32($0.id), title: $0.title) }
         recent.observe(windows, at: Date())
     }

@@ -131,7 +131,7 @@ enum ScreenCapturer {
     /// display that shows HDR content right now is also taken in HDR and tone mapped (`ScreenCapturer+HDR.swift`).
     static func freeze(withPointer: Bool, toneMapHDR: Bool = false) async throws -> FrozenDisplays {
         let cursor = withPointer ? PointerSnapshot.current() : nil
-        let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+        let content = try await shareableContent(excludingDesktopWindows: false)
         var plain: [FrozenScreen] = []
         var pointer: [FrozenScreen] = []
         for display in content.displays {
@@ -154,7 +154,7 @@ enum ScreenCapturer {
     /// without the pointer, so the pointer also comes on its own (`Capture.pointer`) when it is over the window.
     static func capture(window: WindowInfo, showsCursor: Bool, includeShadow: Bool, toneMapHDR: Bool = false) async throws -> Capture {
         let cursor = showsCursor ? PointerSnapshot.current() : nil
-        let content = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: true)
+        let content = try await shareableContent(excludingDesktopWindows: true)
         guard let scWindow = content.windows.first(where: { $0.windowID == window.id }) else { throw CaptureError.windowNotFound }
         let filter = SCContentFilter(desktopIndependentWindow: scWindow)
         let scale = CGFloat(filter.pointPixelScale)
@@ -173,6 +173,18 @@ enum ScreenCapturer {
             capture.imageWithoutPointer = plain
         }
         return capture
+    }
+
+    /// The displays and windows on the screen, as ScreenCaptureKit sees them; every capture asks for them first. A
+    /// refusal for the permission makes the next capture check the permission again (`Permissions.ensureScreenCapture`),
+    /// whoever shows the error: an alert, or a recipe flow.
+    private static func shareableContent(excludingDesktopWindows: Bool) async throws -> SCShareableContent {
+        do {
+            return try await SCShareableContent.excludingDesktopWindows(excludingDesktopWindows, onScreenWindowsOnly: true)
+        } catch {
+            if Permissions.isPermissionError(error) { Permissions.screenCaptureWasRefused() }
+            throw error
+        }
     }
 
     /// `filter` without and (`withPointer`) with the mouse pointer, at the same moment. With a `headroom` (the

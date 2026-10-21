@@ -58,7 +58,7 @@ final class MenuBarWindowList: NSObject, NSMenuDelegate {
 
     func menuWillOpen(_ menu: NSMenu) {
         // The pictures need the screen recording permission, and pointing at a window must never ask for it.
-        thumbnailsOn = app.settings.value.thumbnailPreview && CGPreflightScreenCaptureAccess()
+        thumbnailsOn = app.settings.value.thumbnailPreview && Permissions.hasScreenCapture
         guard thumbnailsOn else { return }
         content = Task { try? await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: true) }
     }
