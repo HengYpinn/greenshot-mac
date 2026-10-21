@@ -285,6 +285,9 @@ enum ComposerFixture {
         #expect(RecipeExtensionNames.storedList(["b", "a"]) == "b,a")
         #expect(RecipeExtensionNames.storedList(["x, y", "z"]) == #"["x, y","z"]"#)
         #expect(RecipeExtensionNames.storedList([]) == "")
+        // A name that is itself a JSON array would be read as one: it is stored as a JSON array too.
+        let jsonLooking = [#"["x"]"#]
+        #expect(RecipeExtensionNames.items(ofStoredList: RecipeExtensionNames.storedList(jsonLooking)) == jsonLooking)
     }
 }
 
