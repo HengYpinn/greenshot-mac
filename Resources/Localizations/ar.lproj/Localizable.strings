@@ -2362,16 +2362,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "لا يستطيع Greenshot التحقق من البرامج التي سمحت بها: لا يستطيع قراءة مفتاح ختمها من سلسلة المفاتيح. وحتى يتمكن من ذلك، يُطلب الإذن لكل أداة ذكاء اصطناعي كأنه لم يُسمح لأي برنامج.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "لا يستطيع Greenshot التحقق من موافقتك على أدوات الذكاء الاصطناعي: لا يستطيع قراءة مفتاح ختمها من سلسلة المفاتيح. وحتى يتمكن من ذلك، تُستبعد من جديد التطبيقات التي أزلتها من قائمة التطبيقات المستبعدة، ويكون الإشعار مُفعّلًا.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "لا يستطيع Greenshot التحقق من موافقتك على أدوات الذكاء الاصطناعي: لا يستطيع قراءة مفتاح ختمها من سلسلة المفاتيح. وحتى يتمكن من ذلك، تعود الاستبعادات الافتراضية، ويكون الإشعار مُفعّلًا.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "لا يستطيع Greenshot التحقق من موافقتك على أدوات الذكاء الاصطناعي: لا يستطيع قراءة مفتاح ختمها من سلسلة المفاتيح. وحتى يتمكن من ذلك، تعود الاستبعادات الافتراضية.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "لا يستطيع Greenshot التحقق من موافقتك على أدوات الذكاء الاصطناعي: لا يستطيع قراءة مفتاح ختمها من سلسلة المفاتيح. وحتى يتمكن من ذلك، يكون الإشعار مُفعّلًا.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "لا يمكن لـ Greenshot تضمين مفتاح تطبيق Box، لذا سجّل مفتاحك الخاص: في [Box Developer Console](https://app.box.com/developers/console) أنشئ Custom App مع User Authentication (OAuth 2.0)، واضبط redirect URI على `%@`، وامنحه نطاق Write all files، والصق معرّف العميل وسره هنا. يُحفظ السر وتسجيل الدخول في سلسلة المفاتيح؛ ومعرّف المجلد هو الرقم الموجود في عنوان URL للمجلد.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "لا يستطيع Greenshot استخدام سلسلة المفاتيح، لذا لا يمكن حفظ التغيير. افتح قفل سلسلة المفاتيح أو اسمح لـ Greenshot عندما يسأل macOS، ثم انقر على إعادة المحاولة في التفضيلات › أدوات الذكاء الاصطناعي للاحتفاظ به.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "لا يستطيع Greenshot استخدام سلسلة المفاتيح، لذا لا يمكن حفظ التغيير. للاحتفاظ به، انقر على إعادة المحاولة في التفضيلات › أدوات الذكاء الاصطناعي، وافتح قفل سلسلة المفاتيح أو اسمح لـ Greenshot عندما يسأل macOS.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "لا يستطيع Greenshot استخدام سلسلة المفاتيح، لذا حُفظت الموافقة على أدوات الذكاء الاصطناعي دون ختمها. افتح قفل سلسلة المفاتيح أو اسمح لـ Greenshot عندما يسأل macOS، ثم انقر على إعادة المحاولة في التفضيلات › أدوات الذكاء الاصطناعي للاحتفاظ بها.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "لا يستطيع Greenshot استخدام سلسلة المفاتيح، لذا حُفظت الموافقة على أدوات الذكاء الاصطناعي دون ختمها. للاحتفاظ بها، انقر على إعادة المحاولة في التفضيلات › أدوات الذكاء الاصطناعي، وافتح قفل سلسلة المفاتيح أو اسمح لـ Greenshot عندما يسأل macOS.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "تعذّر على Greenshot تحميل وصفة الالتقاط هذه أو تسجيلها لأنها تحتوي على أخطاء في الإعداد. راجع تفاصيل التشخيص أدناه:";
@@ -5056,10 +5062,16 @@
 "The %@ password could not be kept in the Keychain" = "تعذّر الاحتفاظ بكلمة سر %@ في سلسلة المفاتيح";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، تُستبعد من جديد التطبيقات التي أزلتها من قائمة التطبيقات المستبعدة، ويكون الإشعار مُفعّلًا.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، يُسأل عن كل برنامج مجددًا.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، يُسأل عن كل برنامج مجددًا.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، تعود الاستبعادات الافتراضية، ويكون الإشعار مُفعّلًا.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، تعود الاستبعادات الافتراضية.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، يكون الإشعار مُفعّلًا.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "سيُعاد تعيين الموافقة على أدوات الذكاء الاصطناعي عند التشغيل التالي";

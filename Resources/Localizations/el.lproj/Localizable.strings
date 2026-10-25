@@ -2326,16 +2326,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Το Greenshot δεν μπορεί να ελέγξει ποια προγράμματα επιτρέψατε: δεν μπορεί να διαβάσει το κλειδί της σφραγίδας τους από την Κλειδοθήκη. Μέχρι τότε, για κάθε εργαλείο AI ζητείται άδεια σαν να μην επιτρέπεται κανένα πρόγραμμα.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Το Greenshot δεν μπορεί να ελέγξει τη συγκατάθεσή σας για τα εργαλεία AI: δεν μπορεί να διαβάσει το κλειδί της σφραγίδας της από την Κλειδοθήκη. Μέχρι τότε, οι εφαρμογές που αφαιρέσατε από τη λίστα εξαιρούμενων εφαρμογών εξαιρούνται ξανά και η ειδοποίηση είναι ενεργή.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Το Greenshot δεν μπορεί να ελέγξει τη συγκατάθεσή σας για τα εργαλεία AI: δεν μπορεί να διαβάσει το κλειδί της σφραγίδας της από την Κλειδοθήκη. Μέχρι τότε, ισχύουν ξανά οι προεπιλεγμένες εξαιρέσεις και η ειδοποίηση είναι ενεργή.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Το Greenshot δεν μπορεί να ελέγξει τη συγκατάθεσή σας για τα εργαλεία AI: δεν μπορεί να διαβάσει το κλειδί της σφραγίδας της από την Κλειδοθήκη. Μέχρι τότε, ισχύουν ξανά οι προεπιλεγμένες εξαιρέσεις.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Το Greenshot δεν μπορεί να ελέγξει τη συγκατάθεσή σας για τα εργαλεία AI: δεν μπορεί να διαβάσει το κλειδί της σφραγίδας της από την Κλειδοθήκη. Μέχρι τότε, η ειδοποίηση είναι ενεργή.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Το Greenshot δεν μπορεί να περιλαμβάνει κλειδί εφαρμογής Box, οπότε καταχωρίστε το δικό σας: στο [Box Developer Console](https://app.box.com/developers/console) δημιουργήστε μια Custom App με User Authentication (OAuth 2.0), ορίστε το redirect URI της σε `%@`, δώστε της το πεδίο εφαρμογής Write all files και επικολλήστε εδώ το client ID και το secret της. Το secret και η σύνδεση φυλάσσονται στην Κλειδοθήκη σας· το αναγνωριστικό φακέλου είναι ο αριθμός στο URL του φακέλου.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Το Greenshot δεν μπορεί να χρησιμοποιήσει την Κλειδοθήκη, οπότε η αλλαγή δεν μπορεί να αποθηκευτεί. Ξεκλειδώστε την Κλειδοθήκη ή επιτρέψτε το Greenshot όταν το ζητήσει το macOS και, στη συνέχεια, κάντε κλικ στο Επανάληψη στις Προτιμήσεις › Εργαλεία AI για να τη διατηρήσετε.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Το Greenshot δεν μπορεί να χρησιμοποιήσει την Κλειδοθήκη, οπότε η αλλαγή δεν μπορεί να αποθηκευτεί. Για να τη διατηρήσετε, κάντε κλικ στο Επανάληψη στις Προτιμήσεις › Εργαλεία AI και ξεκλειδώστε την Κλειδοθήκη ή επιτρέψτε το Greenshot όταν το ζητήσει το macOS.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Το Greenshot δεν μπορεί να χρησιμοποιήσει την Κλειδοθήκη, οπότε η συγκατάθεση για τα εργαλεία AI αποθηκεύτηκε χωρίς τη σφραγίδα της. Ξεκλειδώστε την Κλειδοθήκη ή επιτρέψτε το Greenshot όταν το ζητήσει το macOS και, στη συνέχεια, κάντε κλικ στο Επανάληψη στις Προτιμήσεις › Εργαλεία AI για να τη διατηρήσετε.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Το Greenshot δεν μπορεί να χρησιμοποιήσει την Κλειδοθήκη, οπότε η συγκατάθεση για τα εργαλεία AI αποθηκεύτηκε χωρίς τη σφραγίδα της. Για να τη διατηρήσετε, κάντε κλικ στο Επανάληψη στις Προτιμήσεις › Εργαλεία AI και ξεκλειδώστε την Κλειδοθήκη ή επιτρέψτε το Greenshot όταν το ζητήσει το macOS.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Το Greenshot δεν μπόρεσε να φορτώσει ή να καταχωρίσει αυτή τη συνταγή καταγραφής επειδή περιέχει σφάλματα διαμόρφωσης. Δείτε τις διαγνωστικές λεπτομέρειες παρακάτω:";
@@ -5014,10 +5020,16 @@
 "The %@ password could not be kept in the Keychain" = "Ο κωδικός του %@ δεν μπόρεσε να διατηρηθεί στην Κλειδοθήκη";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, οι εφαρμογές που αφαιρέσατε από τη λίστα εξαιρούμενων εφαρμογών θα εξαιρούνται ξανά και η ειδοποίηση θα είναι ενεργή.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, κάθε πρόγραμμα θα ρωτηθεί ξανά.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, κάθε πρόγραμμα θα ρωτηθεί ξανά.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, θα ισχύουν ξανά οι προεπιλεγμένες εξαιρέσεις και η ειδοποίηση θα είναι ενεργή.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, θα ισχύουν ξανά οι προεπιλεγμένες εξαιρέσεις.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, η ειδοποίηση θα είναι ενεργή.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Η συγκατάθεση για τα εργαλεία AI θα επαναφερθεί στην επόμενη εκκίνηση";

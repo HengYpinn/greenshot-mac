@@ -2341,16 +2341,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot ei saa kontrollida, milliseid programme te lubasite: see ei saa lugeda võtmehoidjast nende pitseri võtit. Seni küsitakse iga AI-tööriista kohta luba nii, nagu poleks ükski programm lubatud.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot ei saa kontrollida teie AI-tööriistade nõusolekut: see ei saa lugeda võtmehoidjast selle pitseri võtit. Seni on rakendused, mille te välistatud rakenduste loendist eemaldasite, jälle välistatud ja teavitus on sees.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot ei saa kontrollida teie AI-tööriistade nõusolekut: see ei saa lugeda võtmehoidjast selle pitseri võtit. Seni kehtivad jälle vaikimisi välistused ja teavitus on sees.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot ei saa kontrollida teie AI-tööriistade nõusolekut: see ei saa lugeda võtmehoidjast selle pitseri võtit. Seni kehtivad jälle vaikimisi välistused.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot ei saa kontrollida teie AI-tööriistade nõusolekut: see ei saa lugeda võtmehoidjast selle pitseri võtit. Seni on teavitus sees.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot ei saa kaasa anda Boxi rakenduse võtit, seega registreerige oma: looge [Box Developer Console'is](https://app.box.com/developers/console) Custom App koos User Authentication (OAuth 2.0), määrake selle suunamis-URI väärtuseks `%@`, andke sellele õigus Write all files ning kleepige selle kliendi ID ja saladus siia. Saladus ja sisselogimine hoitakse teie võtmehoidjas; kausta ID on number kausta URL-is.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ei saa võtmehoidjat kasutada, seega ei saa muudatust salvestada. Avage võtmehoidja või lubage Greenshot, kui macOS küsib, ja klõpsake siis menüüs Eelistused › AI-tööriistad nuppu Proovi uuesti, et muudatus alles jääks.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot ei saa võtmehoidjat kasutada, seega ei saa muudatust salvestada. Et muudatus alles jääks, klõpsake menüüs Eelistused › AI-tööriistad nuppu Proovi uuesti ning avage võtmehoidja või lubage Greenshot, kui macOS küsib.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ei saa võtmehoidjat kasutada, seega salvestati AI-tööriistade nõusolek ilma pitserita. Avage võtmehoidja või lubage Greenshot, kui macOS küsib, ja klõpsake siis menüüs Eelistused › AI-tööriistad nuppu Proovi uuesti, et nõusolek alles jääks.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot ei saa võtmehoidjat kasutada, seega salvestati AI-tööriistade nõusolek ilma pitserita. Et nõusolek alles jääks, klõpsake menüüs Eelistused › AI-tööriistad nuppu Proovi uuesti ning avage võtmehoidja või lubage Greenshot, kui macOS küsib.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot ei saanud seda jäädvustusretsepti laadida ega registreerida, kuna see sisaldab seadistusvigu. Vaadake allolevaid diagnostikaandmeid:";
@@ -5029,10 +5035,16 @@
 "The %@ password could not be kept in the Keychain" = "Rakenduse %@ parooli ei õnnestunud võtmehoidjas hoida";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist on rakendused, mille te välistatud rakenduste loendist eemaldasite, jälle välistatud ja teavitus on sees.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist küsitakse iga programmi kohta uuesti luba.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist küsitakse iga programmi kohta uuesti luba.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist kehtivad jälle vaikimisi välistused ja teavitus on sees.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist kehtivad jälle vaikimisi välistused.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist on teavitus sees.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "AI-tööriistade nõusolek lähtestatakse järgmisel käivitamisel";

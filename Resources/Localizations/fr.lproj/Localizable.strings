@@ -2308,16 +2308,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot ne peut pas vérifier quels programmes vous avez autorisés : il ne peut pas lire la clé de leur sceau dans le trousseau. En attendant, l'autorisation est redemandée pour chaque outil IA comme si aucun programme n'était autorisé.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot ne peut pas vérifier votre consentement aux outils IA : il ne peut pas lire la clé de son sceau dans le trousseau. En attendant, les applications que vous avez retirées de la liste des applications exclues sont de nouveau exclues et la notification est activée.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot ne peut pas vérifier votre consentement aux outils IA : il ne peut pas lire la clé de son sceau dans le trousseau. En attendant, les exclusions par défaut sont rétablies et la notification est activée.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot ne peut pas vérifier votre consentement aux outils IA : il ne peut pas lire la clé de son sceau dans le trousseau. En attendant, les exclusions par défaut sont rétablies.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot ne peut pas vérifier votre consentement aux outils IA : il ne peut pas lire la clé de son sceau dans le trousseau. En attendant, la notification est activée.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot ne peut pas fournir de clé d'app Box ; enregistrez donc la vôtre : dans la [Box Developer Console](https://app.box.com/developers/console), créez une Custom App avec User Authentication (OAuth 2.0), définissez son URI de redirection sur `%@`, donnez-lui la portée Write all files, puis collez ici son ID client et son secret. Le secret et la connexion sont conservés dans votre trousseau ; l'ID du dossier est le nombre figurant dans l'URL du dossier.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ne peut pas utiliser le trousseau, la modification ne peut donc pas être enregistrée. Déverrouillez le trousseau ou autorisez Greenshot lorsque macOS le demande, puis cliquez sur Réessayer dans Réglages › Outils IA pour la conserver.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot ne peut pas utiliser le trousseau, la modification ne peut donc pas être enregistrée. Pour la conserver, cliquez sur Réessayer dans Réglages › Outils IA, puis déverrouillez le trousseau ou autorisez Greenshot lorsque macOS le demande.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ne peut pas utiliser le trousseau, le consentement aux outils IA a donc été enregistré sans son sceau. Déverrouillez le trousseau ou autorisez Greenshot lorsque macOS le demande, puis cliquez sur Réessayer dans Réglages › Outils IA pour le conserver.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot ne peut pas utiliser le trousseau, le consentement aux outils IA a donc été enregistré sans son sceau. Pour le conserver, cliquez sur Réessayer dans Réglages › Outils IA, puis déverrouillez le trousseau ou autorisez Greenshot lorsque macOS le demande.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot n'a pas pu charger ni enregistrer cette recette de capture car elle contient des erreurs de configuration. Consultez les détails du diagnostic ci-dessous :";
@@ -4972,10 +4978,16 @@
 "The %@ password could not be kept in the Keychain" = "Le mot de passe %@ n'a pas pu être conservé dans le trousseau";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, les applications que vous avez retirées de la liste des applications exclues sont de nouveau exclues et la notification est activée.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, l'autorisation est redemandée pour chaque programme.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, l'autorisation est redemandée pour chaque programme.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, les exclusions par défaut sont rétablies et la notification est activée.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, les exclusions par défaut sont rétablies.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, la notification est activée.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Le consentement aux outils IA sera réinitialisé au prochain démarrage";

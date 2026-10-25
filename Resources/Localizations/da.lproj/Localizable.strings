@@ -2317,16 +2317,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot kan ikke kontrollere, hvilke programmer du har tilladt: det kan ikke læse nøglen til deres segl fra nøgleringen. Indtil da spørges hvert AI-værktøj, som om intet program var tilladt.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot kan ikke kontrollere dit samtykke til AI-værktøjer: det kan ikke læse nøglen til dets segl fra nøgleringen. Indtil da er programmer, du har fjernet fra listen over udelukkede programmer, udelukket igen, og underretningen er slået til.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot kan ikke kontrollere dit samtykke til AI-værktøjer: det kan ikke læse nøglen til dets segl fra nøgleringen. Indtil da gælder standardudelukkelserne igen, og underretningen er slået til.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot kan ikke kontrollere dit samtykke til AI-værktøjer: det kan ikke læse nøglen til dets segl fra nøgleringen. Indtil da gælder standardudelukkelserne igen.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot kan ikke kontrollere dit samtykke til AI-værktøjer: det kan ikke læse nøglen til dets segl fra nøgleringen. Indtil da er underretningen slået til.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot kan ikke levere en Box-appnøgle, så registrer din egen: opret i [Box Developer Console](https://app.box.com/developers/console) en Custom App med User Authentication (OAuth 2.0), sæt dens redirect-URI til `%@`, giv den scope'et Write all files, og indsæt dens klient-id og hemmelighed her. Hemmeligheden og login gemmes i din nøglering; mappe-id'et er tallet i mappens URL.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan ikke bruge nøgleringen, så ændringen kan ikke gemmes. Lås nøgleringen op, eller tillad Greenshot, når macOS spørger, og klik derefter på Prøv igen i Præferencer › AI-værktøjer for at beholde den.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot kan ikke bruge nøgleringen, så ændringen kan ikke gemmes. Klik på Prøv igen i Præferencer › AI-værktøjer for at beholde den, og lås nøgleringen op, eller tillad Greenshot, når macOS spørger.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan ikke bruge nøgleringen, så samtykket til AI-værktøjer blev gemt uden sit segl. Lås nøgleringen op, eller tillad Greenshot, når macOS spørger, og klik derefter på Prøv igen i Præferencer › AI-værktøjer for at beholde det.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot kan ikke bruge nøgleringen, så samtykket til AI-værktøjer blev gemt uden sit segl. Klik på Prøv igen i Præferencer › AI-værktøjer for at beholde det, og lås nøgleringen op, eller tillad Greenshot, når macOS spørger.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot kunne ikke indlæse eller registrere denne optagelsesopskrift, fordi den indeholder konfigurationsfejl. Gennemgå diagnoseoplysningerne nedenfor:";
@@ -4969,10 +4975,16 @@
 "The %@ password could not be kept in the Keychain" = "Adgangskoden til %@ kunne ikke gemmes i nøgleringen";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start er programmer, du har fjernet fra listen over udelukkede programmer, udelukket igen, og underretningen er slået til.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start spørges hvert program igen.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start spørges hvert program igen.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start gælder standardudelukkelserne igen, og underretningen er slået til.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start gælder standardudelukkelserne igen.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start er underretningen slået til.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Samtykket til AI-værktøjer nulstilles ved næste start";

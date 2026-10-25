@@ -2299,16 +2299,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot no pot comprovar quins programes heu permès: no pot llegir la clau del seu segell al Clauer. Fins aleshores, es torna a demanar per cada eina d'IA com si no s'hagués permès cap programa.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot no pot comprovar el vostre consentiment per a les eines d'IA: no pot llegir la clau del seu segell al Clauer. Fins aleshores, les aplicacions que heu tret de la llista d'aplicacions excloses tornen a estar excloses i la notificació està activada.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot no pot comprovar el vostre consentiment per a les eines d'IA: no pot llegir la clau del seu segell al Clauer. Fins aleshores, tornen a aplicar-se les exclusions per defecte i la notificació està activada.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot no pot comprovar el vostre consentiment per a les eines d'IA: no pot llegir la clau del seu segell al Clauer. Fins aleshores, tornen a aplicar-se les exclusions per defecte.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot no pot comprovar el vostre consentiment per a les eines d'IA: no pot llegir la clau del seu segell al Clauer. Fins aleshores, la notificació està activada.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot no pot incloure una clau d'app de Box, de manera que registreu-ne una de pròpia: a la [Box Developer Console](https://app.box.com/developers/console) creeu una Custom App amb User Authentication (OAuth 2.0), definiu-ne l'URI de redirecció com a `%@`, doneu-li l'àmbit Write all files i enganxeu-hi aquí l'ID de client i el secret. El secret i l'inici de sessió es guarden al Clauer; l'ID de la carpeta és el número de l'URL de la carpeta.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot no pot utilitzar el Clauer, per tant el canvi no es pot desar. Desbloquegeu el Clauer o permeteu Greenshot quan macOS ho demani i, després, feu clic a Torna-ho a provar a Preferències › Eines d'IA per conservar-lo.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot no pot utilitzar el Clauer, per tant el canvi no es pot desar. Per conservar-lo, feu clic a Torna-ho a provar a Preferències › Eines d'IA i desbloquegeu el Clauer o permeteu Greenshot quan macOS ho demani.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot no pot utilitzar el Clauer, per tant el consentiment per a les eines d'IA s'ha desat sense el seu segell. Desbloquegeu el Clauer o permeteu Greenshot quan macOS ho demani i, després, feu clic a Torna-ho a provar a Preferències › Eines d'IA per conservar-lo.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot no pot utilitzar el Clauer, per tant el consentiment per a les eines d'IA s'ha desat sense el seu segell. Per conservar-lo, feu clic a Torna-ho a provar a Preferències › Eines d'IA i desbloquegeu el Clauer o permeteu Greenshot quan macOS ho demani.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot no ha pogut carregar ni registrar aquesta recepta de captura perquè conté errors de configuració. Reviseu els detalls del diagnòstic a continuació:";
@@ -4972,10 +4978,16 @@
 "The %@ password could not be kept in the Keychain" = "No s'ha pogut conservar la contrasenya de %@ al Clauer";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, les aplicacions que heu tret de la llista d'aplicacions excloses tornen a estar excloses i la notificació està activada.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, es torna a demanar per cada programa.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, es torna a demanar per cada programa.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, tornen a aplicar-se les exclusions per defecte i la notificació està activada.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, tornen a aplicar-se les exclusions per defecte.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, la notificació està activada.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "El consentiment per a les eines d'IA es restablirà al proper inici";

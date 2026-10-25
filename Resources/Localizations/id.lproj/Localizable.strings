@@ -2275,16 +2275,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot tidak dapat memeriksa program mana yang Anda izinkan: Greenshot tidak dapat membaca kunci segel program tersebut dari Rantai Kunci. Sampai saat itu, setiap alat AI ditanyakan seolah-olah tidak ada program yang diizinkan.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot tidak dapat memeriksa persetujuan alat AI Anda: Greenshot tidak dapat membaca kunci segelnya dari Rantai Kunci. Sampai saat itu, aplikasi yang Anda hapus dari daftar aplikasi yang dikecualikan kembali dikecualikan dan notifikasi aktif.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot tidak dapat memeriksa persetujuan alat AI Anda: Greenshot tidak dapat membaca kunci segelnya dari Rantai Kunci. Sampai saat itu, pengecualian default berlaku lagi dan notifikasi aktif.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot tidak dapat memeriksa persetujuan alat AI Anda: Greenshot tidak dapat membaca kunci segelnya dari Rantai Kunci. Sampai saat itu, pengecualian default berlaku lagi.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot tidak dapat memeriksa persetujuan alat AI Anda: Greenshot tidak dapat membaca kunci segelnya dari Rantai Kunci. Sampai saat itu, notifikasi aktif.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot tidak dapat menyertakan kunci app Box, jadi daftarkan milik Anda sendiri: di [Box Developer Console](https://app.box.com/developers/console) buat Custom App dengan User Authentication (OAuth 2.0), atur redirect URI-nya ke `%@`, beri cakupan Write all files, lalu tempel ID klien dan rahasianya di sini. Rahasia dan proses masuk disimpan di Rantai Kunci Anda; ID folder adalah angka di URL folder.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot tidak dapat menggunakan Rantai Kunci, jadi perubahan tidak dapat disimpan. Buka kunci Rantai Kunci atau izinkan Greenshot saat macOS bertanya, lalu klik Coba Lagi di Pengaturan › Alat AI untuk mempertahankannya.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot tidak dapat menggunakan Rantai Kunci, jadi perubahan tidak dapat disimpan. Untuk mempertahankannya, klik Coba Lagi di Pengaturan › Alat AI, lalu buka kunci Rantai Kunci atau izinkan Greenshot saat macOS bertanya.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot tidak dapat menggunakan Rantai Kunci, jadi persetujuan alat AI disimpan tanpa segelnya. Buka kunci Rantai Kunci atau izinkan Greenshot saat macOS bertanya, lalu klik Coba Lagi di Pengaturan › Alat AI untuk mempertahankannya.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot tidak dapat menggunakan Rantai Kunci, jadi persetujuan alat AI disimpan tanpa segelnya. Untuk mempertahankannya, klik Coba Lagi di Pengaturan › Alat AI, lalu buka kunci Rantai Kunci atau izinkan Greenshot saat macOS bertanya.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot tidak dapat memuat atau mendaftarkan resep penangkapan ini karena berisi kesalahan konfigurasi. Tinjau detail diagnostik di bawah:";
@@ -4903,10 +4909,16 @@
 "The %@ password could not be kept in the Keychain" = "Sandi %@ tidak dapat disimpan di Rantai Kunci";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, aplikasi yang Anda hapus dari daftar aplikasi yang dikecualikan kembali dikecualikan dan notifikasi aktif.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, setiap program ditanya lagi.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, setiap program ditanya lagi.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, pengecualian default berlaku lagi dan notifikasi aktif.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, pengecualian default berlaku lagi.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, notifikasi aktif.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Persetujuan alat AI akan disetel ulang saat mulai berikutnya";

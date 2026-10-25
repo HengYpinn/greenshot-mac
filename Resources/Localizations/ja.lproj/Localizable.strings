@@ -2347,16 +2347,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot は、許可したプログラムを確認できません。それらの封印の鍵をキーチェーンから読み取れないためです。読み取れるようになるまでは、どのプログラムも許可されていないものとして、AI ツールごとに確認します。";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot は AI ツールへの同意を確認できません。その封印の鍵をキーチェーンから読み取れないためです。読み取れるようになるまでは、除外リストから削除した App は再び除外され、通知はオンになります。";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot は AI ツールへの同意を確認できません。その封印の鍵をキーチェーンから読み取れないためです。読み取れるようになるまでは、デフォルトの除外設定が戻り、通知はオンになります。";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot は AI ツールへの同意を確認できません。その封印の鍵をキーチェーンから読み取れないためです。読み取れるようになるまでは、デフォルトの除外設定が戻ります。";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot は AI ツールへの同意を確認できません。その封印の鍵をキーチェーンから読み取れないためです。読み取れるようになるまでは、通知はオンになります。";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot には Box のアプリキーを同梱できないため、ご自身で登録してください。[Box Developer Console](https://app.box.com/developers/console) でユーザー認証（OAuth 2.0）のカスタムアプリを作成し、リダイレクト URI を `%@` に設定し、「すべてのファイルへの書き込み」スコープを付与して、クライアント ID とシークレットをここに貼り付けます。シークレットとサインインはキーチェーンに保存されます。フォルダー ID は、フォルダーの URL に含まれる数字です。";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot がキーチェーンを使用できないため、この変更を保存できません。キーチェーンのロックを解除するか、macOS に尋ねられたら Greenshot を許可してから、「設定」›「AI ツール」で「再試行」をクリックして変更を保持してください。";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot がキーチェーンを使用できないため、この変更を保存できません。変更を保持するには、「設定」›「AI ツール」で「再試行」をクリックし、macOS に尋ねられたらキーチェーンのロックを解除するか Greenshot を許可してください。";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot がキーチェーンを使用できないため、AI ツールへの同意は封印なしで保存されました。キーチェーンのロックを解除するか、macOS に尋ねられたら Greenshot を許可してから、「設定」›「AI ツール」で「再試行」をクリックして同意を保持してください。";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot がキーチェーンを使用できないため、AI ツールへの同意は封印なしで保存されました。同意を保持するには、「設定」›「AI ツール」で「再試行」をクリックし、macOS に尋ねられたらキーチェーンのロックを解除するか Greenshot を許可してください。";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "このキャプチャレシピには構成エラーが含まれているため、Greenshot は読み込みまたは登録できませんでした。以下の診断の詳細を確認してください：";
@@ -5059,10 +5065,16 @@
 "The %@ password could not be kept in the Keychain" = "%@ のパスワードをキーチェーンに保持できませんでした";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、除外リストから削除した App が再び除外され、通知がオンになります。";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、すべてのプログラムに再度確認します。";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、すべてのプログラムに再度確認します。";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、デフォルトの除外設定が戻り、通知がオンになります。";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、デフォルトの除外設定が戻ります。";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、通知がオンになります。";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "AI ツールへの同意は次回の起動時にリセットされます";

@@ -2341,16 +2341,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "A Greenshot nem tudja ellenőrizni, mely programokat engedélyezte: nem tudja kiolvasni a Kulcskarikából a pecsétjük kulcsát. Addig a Greenshot minden AI-eszköznél rákérdez, mintha egyetlen program sem lenne engedélyezve.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "A Greenshot nem tudja ellenőrizni az AI-eszközökhöz adott hozzájárulását: nem tudja kiolvasni a Kulcskarikából a pecsétje kulcsát. Addig a kizárt alkalmazások listájáról eltávolított alkalmazások ismét ki vannak zárva, és az értesítés be van kapcsolva.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "A Greenshot nem tudja ellenőrizni az AI-eszközökhöz adott hozzájárulását: nem tudja kiolvasni a Kulcskarikából a pecsétje kulcsát. Addig ismét az alapértelmezett kizárások érvényesek, és az értesítés be van kapcsolva.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "A Greenshot nem tudja ellenőrizni az AI-eszközökhöz adott hozzájárulását: nem tudja kiolvasni a Kulcskarikából a pecsétje kulcsát. Addig ismét az alapértelmezett kizárások érvényesek.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "A Greenshot nem tudja ellenőrizni az AI-eszközökhöz adott hozzájárulását: nem tudja kiolvasni a Kulcskarikából a pecsétje kulcsát. Addig az értesítés be van kapcsolva.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "A Greenshot nem szállíthat Box-alkalmazáskulcsot, ezért regisztrálja a sajátját: a [Box Developer Console](https://app.box.com/developers/console) oldalon hozzon létre egy Custom App alkalmazást User Authentication (OAuth 2.0) használatával, állítsa az átirányítási URI-ját erre: `%@`, adja meg neki a Write all files hatókört, és illessze be ide az ügyfélazonosítóját és titkos kulcsát. A titkos kulcs és a bejelentkezés a Kulcskarikán marad; a mappaazonosító a mappa URL-jében lévő szám.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "A Greenshot nem tudja használni a Kulcskarikát, ezért a módosítás nem menthető. Oldja fel a Kulcskarikát, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez, majd kattintson az Újra gombra itt: Beállítások › AI-eszközök, hogy a módosítás megmaradjon.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "A Greenshot nem tudja használni a Kulcskarikát, ezért a módosítás nem menthető. Hogy a módosítás megmaradjon, kattintson az Újra gombra itt: Beállítások › AI-eszközök, majd oldja fel a Kulcskarikát, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "A Greenshot nem tudja használni a Kulcskarikát, ezért az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül lett mentve. Oldja fel a Kulcskarikát, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez, majd kattintson az Újra gombra itt: Beállítások › AI-eszközök, hogy a hozzájárulás megmaradjon.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "A Greenshot nem tudja használni a Kulcskarikát, ezért az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül lett mentve. Hogy a hozzájárulás megmaradjon, kattintson az Újra gombra itt: Beállítások › AI-eszközök, majd oldja fel a Kulcskarikát, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "A Greenshot nem tudta betölteni vagy regisztrálni ezt a rögzítési receptet, mert konfigurációs hibákat tartalmaz. Nézze át az alábbi diagnosztikai részleteket:";
@@ -5032,10 +5038,16 @@
 "The %@ password could not be kept in the Keychain" = "A(z) %@ jelszavát nem sikerült megőrizni a Kulcskarikán";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a kizárt alkalmazások listájáról eltávolított alkalmazások ismét ki lesznek zárva, és az értesítés be lesz kapcsolva.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a Greenshot minden programnál újra rákérdez.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a Greenshot minden programnál újra rákérdez.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után ismét az alapértelmezett kizárások lesznek érvényesek, és az értesítés be lesz kapcsolva.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után ismét az alapértelmezett kizárások lesznek érvényesek.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után az értesítés be lesz kapcsolva.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Az AI-eszközökhöz adott hozzájárulás a következő indításkor alaphelyzetbe áll";

@@ -2332,16 +2332,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "O Greenshot não consegue verificar que programas permitiu: não consegue ler a chave do respetivo selo no Porta-chaves. Até lá, a permissão é pedida para cada ferramenta de IA como se nenhum programa estivesse permitido.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "O Greenshot não consegue verificar o seu consentimento para as ferramentas de IA: não consegue ler a chave do respetivo selo no Porta-chaves. Até lá, as aplicações que removeu da lista de aplicações excluídas voltam a estar excluídas e a notificação fica ativada.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "O Greenshot não consegue verificar o seu consentimento para as ferramentas de IA: não consegue ler a chave do respetivo selo no Porta-chaves. Até lá, as exclusões predefinidas voltam a aplicar-se e a notificação fica ativada.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "O Greenshot não consegue verificar o seu consentimento para as ferramentas de IA: não consegue ler a chave do respetivo selo no Porta-chaves. Até lá, as exclusões predefinidas voltam a aplicar-se.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "O Greenshot não consegue verificar o seu consentimento para as ferramentas de IA: não consegue ler a chave do respetivo selo no Porta-chaves. Até lá, a notificação fica ativada.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "O Greenshot não pode incluir uma chave de app do Box, por isso registe a sua: na [Box Developer Console](https://app.box.com/developers/console) crie uma Custom App com User Authentication (OAuth 2.0), defina o seu URI de redirecionamento como `%@`, atribua-lhe o âmbito Write all files e cole aqui o seu ID de cliente e o segredo. O segredo e o início de sessão são guardados no seu Porta-chaves; o ID da pasta é o número no URL da pasta.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "O Greenshot não consegue utilizar o Porta-chaves, por isso a alteração não pode ser guardada. Desbloqueie o Porta-chaves ou permita o Greenshot quando o macOS perguntar e, em seguida, clique em Repetir em Preferências › Ferramentas de IA para a manter.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "O Greenshot não consegue utilizar o Porta-chaves, por isso a alteração não pode ser guardada. Para a manter, clique em Repetir em Preferências › Ferramentas de IA e desbloqueie o Porta-chaves ou permita o Greenshot quando o macOS perguntar.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "O Greenshot não consegue utilizar o Porta-chaves, por isso o consentimento para as ferramentas de IA foi guardado sem o respetivo selo. Desbloqueie o Porta-chaves ou permita o Greenshot quando o macOS perguntar e, em seguida, clique em Repetir em Preferências › Ferramentas de IA para o manter.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "O Greenshot não consegue utilizar o Porta-chaves, por isso o consentimento para as ferramentas de IA foi guardado sem o respetivo selo. Para o manter, clique em Repetir em Preferências › Ferramentas de IA e desbloqueie o Porta-chaves ou permita o Greenshot quando o macOS perguntar.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "O Greenshot não conseguiu carregar nem registar esta receita de captura porque contém erros de configuração. Reveja os detalhes de diagnóstico abaixo:";
@@ -5011,10 +5017,16 @@
 "The %@ password could not be kept in the Keychain" = "Não foi possível guardar a palavra-passe de %@ no Porta-chaves";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "O consentimento para as ferramentas de IA está guardado sem o respetivo selo porque não foi possível utilizar o Porta-chaves: após o próximo arranque, as aplicações que removeu da lista de aplicações excluídas voltam a estar excluídas e a notificação fica ativada.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "O consentimento para as ferramentas de IA está guardado sem o respetivo selo porque não foi possível utilizar o Porta-chaves: após o próximo arranque, a permissão volta a ser pedida para cada programa.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "O consentimento para as ferramentas de IA está guardado sem o respetivo selo porque não foi possível utilizar o Porta-chaves: após o próximo arranque, a permissão volta a ser pedida para cada programa.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "O consentimento para as ferramentas de IA está guardado sem o respetivo selo porque não foi possível utilizar o Porta-chaves: após o próximo arranque, as exclusões predefinidas voltam a aplicar-se e a notificação fica ativada.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "O consentimento para as ferramentas de IA está guardado sem o respetivo selo porque não foi possível utilizar o Porta-chaves: após o próximo arranque, as exclusões predefinidas voltam a aplicar-se.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "O consentimento para as ferramentas de IA está guardado sem o respetivo selo porque não foi possível utilizar o Porta-chaves: após o próximo arranque, a notificação fica ativada.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "O consentimento para as ferramentas de IA será reposto no próximo arranque";

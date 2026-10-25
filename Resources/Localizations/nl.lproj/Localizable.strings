@@ -2296,16 +2296,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot kan niet controleren welke programma's u hebt toegestaan: het kan de sleutel van hun zegel niet uit de Sleutelhanger lezen. Tot die tijd wordt voor elke AI-tool om toestemming gevraagd alsof er geen programma is toegestaan.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot kan uw toestemming voor AI-tools niet controleren: het kan de sleutel van het zegel ervan niet uit de Sleutelhanger lezen. Tot die tijd zijn apps die u uit de lijst met uitgesloten apps hebt verwijderd weer uitgesloten en staat de melding aan.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot kan uw toestemming voor AI-tools niet controleren: het kan de sleutel van het zegel ervan niet uit de Sleutelhanger lezen. Tot die tijd gelden de standaarduitsluitingen weer en staat de melding aan.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot kan uw toestemming voor AI-tools niet controleren: het kan de sleutel van het zegel ervan niet uit de Sleutelhanger lezen. Tot die tijd gelden de standaarduitsluitingen weer.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot kan uw toestemming voor AI-tools niet controleren: het kan de sleutel van het zegel ervan niet uit de Sleutelhanger lezen. Tot die tijd staat de melding aan.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot kan geen Box-appsleutel meeleveren, dus registreer uw eigen: maak in de [Box Developer Console](https://app.box.com/developers/console) een Custom App met User Authentication (OAuth 2.0), stel de redirect-URI in op `%@`, geef de scope Write all files en plak de client-ID en het clientgeheim hier. Het geheim en de aanmelding worden bewaard in uw Sleutelhanger; de map-ID is het getal in de URL van de map.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan de Sleutelhanger niet gebruiken, dus de wijziging kan niet worden opgeslagen. Ontgrendel de Sleutelhanger of sta Greenshot toe wanneer macOS erom vraagt en klik dan op Opnieuw proberen in Instellingen › AI-tools om de wijziging te behouden.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot kan de Sleutelhanger niet gebruiken, dus de wijziging kan niet worden opgeslagen. Klik op Opnieuw proberen in Instellingen › AI-tools om de wijziging te behouden, en ontgrendel de Sleutelhanger of sta Greenshot toe wanneer macOS erom vraagt.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan de Sleutelhanger niet gebruiken, dus de toestemming voor AI-tools is zonder zegel opgeslagen. Ontgrendel de Sleutelhanger of sta Greenshot toe wanneer macOS erom vraagt en klik dan op Opnieuw proberen in Instellingen › AI-tools om de toestemming te behouden.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot kan de Sleutelhanger niet gebruiken, dus de toestemming voor AI-tools is zonder zegel opgeslagen. Klik op Opnieuw proberen in Instellingen › AI-tools om de toestemming te behouden, en ontgrendel de Sleutelhanger of sta Greenshot toe wanneer macOS erom vraagt.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot kon dit opnamerecept niet laden of registreren omdat het configuratiefouten bevat. Bekijk de diagnosedetails hieronder:";
@@ -4924,10 +4930,16 @@
 "The %@ password could not be kept in the Keychain" = "Het %@-wachtwoord kon niet in de Sleutelhanger worden bewaard";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start zijn apps die u uit de lijst met uitgesloten apps hebt verwijderd weer uitgesloten en staat de melding aan.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start wordt voor elk programma opnieuw om toestemming gevraagd.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start wordt voor elk programma opnieuw om toestemming gevraagd.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start gelden de standaarduitsluitingen weer en staat de melding aan.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start gelden de standaarduitsluitingen weer.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start staat de melding aan.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "De toestemming voor AI-tools wordt bij de volgende start opnieuw ingesteld";

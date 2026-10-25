@@ -2314,16 +2314,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot non può verificare quali programmi hai consentito: non riesce a leggere la chiave del loro sigillo dal Portachiavi. Fino ad allora, per ogni strumento AI viene chiesta l'autorizzazione come se nessun programma fosse consentito.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot non può verificare il tuo consenso agli strumenti AI: non riesce a leggere la chiave del suo sigillo dal Portachiavi. Fino ad allora, le applicazioni che hai rimosso dall'elenco delle applicazioni escluse sono di nuovo escluse e la notifica è attiva.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot non può verificare il tuo consenso agli strumenti AI: non riesce a leggere la chiave del suo sigillo dal Portachiavi. Fino ad allora, tornano le esclusioni predefinite e la notifica è attiva.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot non può verificare il tuo consenso agli strumenti AI: non riesce a leggere la chiave del suo sigillo dal Portachiavi. Fino ad allora, tornano le esclusioni predefinite.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot non può verificare il tuo consenso agli strumenti AI: non riesce a leggere la chiave del suo sigillo dal Portachiavi. Fino ad allora, la notifica è attiva.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot non può includere una chiave app Box, quindi registra la tua: nella [Box Developer Console](https://app.box.com/developers/console) crea una Custom App con User Authentication (OAuth 2.0), imposta il suo redirect URI su `%@`, assegnale lo scope Write all files e incolla qui il suo ID client e il segreto. Il segreto e l'accesso sono conservati nel tuo Portachiavi; l'ID cartella è il numero nell'URL della cartella.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot non può usare il Portachiavi, quindi la modifica non può essere salvata. Sblocca il Portachiavi o consenti l'accesso a Greenshot quando macOS lo chiede, poi clicca Riprova in Impostazioni › Strumenti AI per mantenerla.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot non può usare il Portachiavi, quindi la modifica non può essere salvata. Per mantenerla, clicca Riprova in Impostazioni › Strumenti AI e sblocca il Portachiavi o consenti l'accesso a Greenshot quando macOS lo chiede.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot non può usare il Portachiavi, quindi il consenso agli strumenti AI è stato salvato senza il suo sigillo. Sblocca il Portachiavi o consenti l'accesso a Greenshot quando macOS lo chiede, poi clicca Riprova in Impostazioni › Strumenti AI per mantenerlo.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot non può usare il Portachiavi, quindi il consenso agli strumenti AI è stato salvato senza il suo sigillo. Per mantenerlo, clicca Riprova in Impostazioni › Strumenti AI e sblocca il Portachiavi o consenti l'accesso a Greenshot quando macOS lo chiede.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot non ha potuto caricare o registrare questa ricetta di cattura perché contiene errori di configurazione. Controlla i dettagli diagnostici qui sotto:";
@@ -4972,10 +4978,16 @@
 "The %@ password could not be kept in the Keychain" = "Non è stato possibile conservare la password di %@ nel Portachiavi";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, le applicazioni che hai rimosso dall'elenco delle applicazioni escluse sono di nuovo escluse e la notifica è attiva.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, l'autorizzazione viene chiesta di nuovo per ogni programma.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, l'autorizzazione viene chiesta di nuovo per ogni programma.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, tornano le esclusioni predefinite e la notifica è attiva.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, tornano le esclusioni predefinite.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, la notifica è attiva.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Il consenso agli strumenti AI verrà reimpostato al prossimo avvio";

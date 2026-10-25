@@ -2323,16 +2323,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot không thể kiểm tra bạn đã cho phép những chương trình nào: Greenshot không đọc được khóa niêm phong của chúng từ Chuỗi khóa. Cho đến khi đọc được, mỗi công cụ AI sẽ được hỏi như thể chưa có chương trình nào được phép.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot không thể kiểm tra sự đồng ý của bạn cho công cụ AI: Greenshot không đọc được khóa niêm phong của nó từ Chuỗi khóa. Cho đến khi đọc được, các ứng dụng bạn đã xóa khỏi danh sách ứng dụng bị loại trừ sẽ lại bị loại trừ và thông báo được bật.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot không thể kiểm tra sự đồng ý của bạn cho công cụ AI: Greenshot không đọc được khóa niêm phong của nó từ Chuỗi khóa. Cho đến khi đọc được, các loại trừ mặc định được áp dụng lại và thông báo được bật.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot không thể kiểm tra sự đồng ý của bạn cho công cụ AI: Greenshot không đọc được khóa niêm phong của nó từ Chuỗi khóa. Cho đến khi đọc được, các loại trừ mặc định được áp dụng lại.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot không thể kiểm tra sự đồng ý của bạn cho công cụ AI: Greenshot không đọc được khóa niêm phong của nó từ Chuỗi khóa. Cho đến khi đọc được, thông báo được bật.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot không thể kèm sẵn khóa ứng dụng Box, nên hãy đăng ký của riêng bạn: trong [Box Developer Console](https://app.box.com/developers/console) tạo một Custom App với User Authentication (OAuth 2.0), đặt redirect URI của nó thành `%@`, cấp phạm vi Write all files, rồi dán ID khách hàng và bí mật của nó vào đây. Bí mật và phiên đăng nhập được lưu trong Chuỗi khóa của bạn; ID thư mục là số trong URL của thư mục.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot không thể dùng Chuỗi khóa nên không lưu được thay đổi. Hãy mở khóa Chuỗi khóa hoặc cho phép Greenshot khi macOS hỏi, rồi nhấp Thử lại trong Thiết lập › Công cụ AI để giữ thay đổi.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot không thể dùng Chuỗi khóa nên không lưu được thay đổi. Để giữ thay đổi, hãy nhấp Thử lại trong Thiết lập › Công cụ AI, rồi mở khóa Chuỗi khóa hoặc cho phép Greenshot khi macOS hỏi.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot không thể dùng Chuỗi khóa nên sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong. Hãy mở khóa Chuỗi khóa hoặc cho phép Greenshot khi macOS hỏi, rồi nhấp Thử lại trong Thiết lập › Công cụ AI để giữ sự đồng ý.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot không thể dùng Chuỗi khóa nên sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong. Để giữ sự đồng ý, hãy nhấp Thử lại trong Thiết lập › Công cụ AI, rồi mở khóa Chuỗi khóa hoặc cho phép Greenshot khi macOS hỏi.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot không thể tải hoặc đăng ký công thức chụp này vì nó chứa lỗi cấu hình. Hãy xem chi tiết chẩn đoán bên dưới:";
@@ -5017,10 +5023,16 @@
 "The %@ password could not be kept in the Keychain" = "Không thể giữ mật khẩu %@ trong Chuỗi khóa";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, các ứng dụng bạn đã xóa khỏi danh sách ứng dụng bị loại trừ sẽ lại bị loại trừ và thông báo được bật.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, mỗi chương trình sẽ được hỏi lại.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, mỗi chương trình sẽ được hỏi lại.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, các loại trừ mặc định được áp dụng lại và thông báo được bật.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, các loại trừ mặc định được áp dụng lại.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, thông báo được bật.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Sự đồng ý cho công cụ AI sẽ được đặt lại ở lần khởi động tiếp theo";

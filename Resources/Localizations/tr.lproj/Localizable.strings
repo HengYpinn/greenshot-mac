@@ -2353,16 +2353,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot hangi programlara izin verdiğinizi denetleyemiyor: mühürlerinin anahtarını Anahtar Zinciri'nden okuyamıyor. O zamana kadar her yapay zekâ aracı için, hiçbir programa izin verilmemiş gibi yeniden sorulur.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot yapay zekâ araçları onayınızı denetleyemiyor: mührünün anahtarını Anahtar Zinciri'nden okuyamıyor. O zamana kadar hariç tutulan uygulamalar listesinden çıkardığınız uygulamalar yeniden hariç tutulur ve bildirim açıktır.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot yapay zekâ araçları onayınızı denetleyemiyor: mührünün anahtarını Anahtar Zinciri'nden okuyamıyor. O zamana kadar varsayılan hariç tutmalar yeniden geçerlidir ve bildirim açıktır.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot yapay zekâ araçları onayınızı denetleyemiyor: mührünün anahtarını Anahtar Zinciri'nden okuyamıyor. O zamana kadar varsayılan hariç tutmalar yeniden geçerlidir.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot yapay zekâ araçları onayınızı denetleyemiyor: mührünün anahtarını Anahtar Zinciri'nden okuyamıyor. O zamana kadar bildirim açıktır.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot bir Box uygulama anahtarı dağıtamaz, bu yüzden kendinizinkini kaydedin: [Box Developer Console](https://app.box.com/developers/console) içinde Kullanıcı Kimlik Doğrulamalı (OAuth 2.0) bir Özel Uygulama oluşturun, yönlendirme URI'sini `%@` yapın, Write all files kapsamını verin ve istemci kimliğini ve sırrını buraya yapıştırın. Sır ve oturum açma Anahtar Zinciri'nizde saklanır; klasör kimliği, klasörün URL'sindeki sayıdır.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot Anahtar Zinciri'ni kullanamıyor, bu yüzden değişiklik kaydedilemiyor. Anahtar Zinciri'nin kilidini açın ya da macOS sorduğunda Greenshot'a izin verin, ardından değişikliği korumak için Ayarlar › Yapay Zekâ Araçları bölümünde Yeniden Dene'ye tıklayın.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot Anahtar Zinciri'ni kullanamıyor, bu yüzden değişiklik kaydedilemiyor. Değişikliği korumak için Ayarlar › Yapay Zekâ Araçları bölümünde Yeniden Dene'ye tıklayın ve macOS sorduğunda Anahtar Zinciri'nin kilidini açın ya da Greenshot'a izin verin.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot Anahtar Zinciri'ni kullanamıyor, bu yüzden yapay zekâ araçları onayı mühürsüz kaydedildi. Anahtar Zinciri'nin kilidini açın ya da macOS sorduğunda Greenshot'a izin verin, ardından onayı korumak için Ayarlar › Yapay Zekâ Araçları bölümünde Yeniden Dene'ye tıklayın.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot Anahtar Zinciri'ni kullanamıyor, bu yüzden yapay zekâ araçları onayı mühürsüz kaydedildi. Onayı korumak için Ayarlar › Yapay Zekâ Araçları bölümünde Yeniden Dene'ye tıklayın ve macOS sorduğunda Anahtar Zinciri'nin kilidini açın ya da Greenshot'a izin verin.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot bu yakalama tarifini yükleyemedi veya kaydedemedi çünkü yapılandırma hataları içeriyor. Aşağıdaki tanılama ayrıntılarını inceleyin:";
@@ -5047,10 +5053,16 @@
 "The %@ password could not be kept in the Keychain" = "%@ parolası Anahtar Zinciri'nde saklanamadı";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra hariç tutulan uygulamalar listesinden çıkardığınız uygulamalar yeniden hariç tutulur ve bildirim açık olur.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra her program yeniden sorulur.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra her program yeniden sorulur.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra varsayılan hariç tutmalar yeniden geçerli olur ve bildirim açık olur.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra varsayılan hariç tutmalar yeniden geçerli olur.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra bildirim açık olur.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Yapay zekâ araçları onayı bir sonraki başlatmada sıfırlanacak";

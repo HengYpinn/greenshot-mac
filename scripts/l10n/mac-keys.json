@@ -5028,7 +5028,19 @@
    ]
   },
   {
-   "key": "Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on.",
+   "key": "Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on.",
    "files": [
     "Sources/GreenshotMac/Settings/AIToolsTab.swift"
    ]
@@ -5040,13 +5052,13 @@
    ]
   },
   {
-   "key": "Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.",
+   "key": "Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks.",
    "files": [
     "Sources/GreenshotMac/App/AIToolsCenter.swift"
    ]
   },
   {
-   "key": "Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.",
+   "key": "Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks.",
    "files": [
     "Sources/GreenshotMac/App/AIToolsCenter.swift"
    ]
@@ -10712,13 +10724,25 @@
    ]
   },
   {
-   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on.",
+   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.",
    "files": [
     "Sources/GreenshotMac/Settings/AIToolsTab.swift"
    ]
   },
   {
-   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.",
+   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on.",
    "files": [
     "Sources/GreenshotMac/Settings/AIToolsTab.swift"
    ]

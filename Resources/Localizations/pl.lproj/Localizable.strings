@@ -2344,16 +2344,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot nie może sprawdzić, na które programy pozwolono: nie może odczytać z pęku kluczy klucza ich pieczęci. Do tego czasu przy każdym narzędziu AI pojawia się pytanie, jakby żaden program nie był dozwolony.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot nie może sprawdzić twojej zgody dla narzędzi AI: nie może odczytać z pęku kluczy klucza jej pieczęci. Do tego czasu aplikacje usunięte z listy wykluczonych aplikacji są znowu wykluczone, a powiadomienie jest włączone.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot nie może sprawdzić twojej zgody dla narzędzi AI: nie może odczytać z pęku kluczy klucza jej pieczęci. Do tego czasu znowu obowiązują domyślne wykluczenia, a powiadomienie jest włączone.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot nie może sprawdzić twojej zgody dla narzędzi AI: nie może odczytać z pęku kluczy klucza jej pieczęci. Do tego czasu znowu obowiązują domyślne wykluczenia.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot nie może sprawdzić twojej zgody dla narzędzi AI: nie może odczytać z pęku kluczy klucza jej pieczęci. Do tego czasu powiadomienie jest włączone.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot nie może dostarczać klucza aplikacji Box, więc zarejestruj własny: w [Box Developer Console](https://app.box.com/developers/console) utwórz Custom App z User Authentication (OAuth 2.0), ustaw jej redirect URI na `%@`, nadaj zakres Write all files i wklej tutaj jej identyfikator klienta i sekret. Sekret i logowanie są przechowywane w Twoim pęku kluczy; ID folderu to liczba w adresie URL folderu.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nie może użyć pęku kluczy, więc nie można zapisać zmiany. Odblokuj pęk kluczy lub zezwól aplikacji Greenshot, gdy macOS zapyta, a potem kliknij Ponów próbę w Ustawienia › Narzędzia AI, aby ją zachować.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nie może użyć pęku kluczy, więc nie można zapisać zmiany. Aby ją zachować, kliknij Ponów próbę w Ustawienia › Narzędzia AI i odblokuj pęk kluczy lub zezwól aplikacji Greenshot, gdy macOS zapyta.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nie może użyć pęku kluczy, więc zgoda dla narzędzi AI została zapisana bez pieczęci. Odblokuj pęk kluczy lub zezwól aplikacji Greenshot, gdy macOS zapyta, a potem kliknij Ponów próbę w Ustawienia › Narzędzia AI, aby ją zachować.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nie może użyć pęku kluczy, więc zgoda dla narzędzi AI została zapisana bez pieczęci. Aby ją zachować, kliknij Ponów próbę w Ustawienia › Narzędzia AI i odblokuj pęk kluczy lub zezwól aplikacji Greenshot, gdy macOS zapyta.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nie mógł wczytać ani zarejestrować tego przepisu przechwytywania, ponieważ zawiera błędy konfiguracji. Sprawdź szczegóły diagnostyczne poniżej:";
@@ -5032,10 +5038,16 @@
 "The %@ password could not be kept in the Keychain" = "Nie udało się zachować hasła do %@ w pęku kluczy";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu aplikacje usunięte z listy wykluczonych aplikacji będą znowu wykluczone, a powiadomienie będzie włączone.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu każdy program zostanie zapytany ponownie.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu każdy program zostanie zapytany ponownie.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu znowu będą obowiązywać domyślne wykluczenia, a powiadomienie będzie włączone.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu znowu będą obowiązywać domyślne wykluczenia.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu powiadomienie będzie włączone.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Zgoda dla narzędzi AI zostanie zresetowana przy następnym uruchomieniu";

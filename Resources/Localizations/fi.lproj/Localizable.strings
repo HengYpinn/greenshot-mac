@@ -2341,16 +2341,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot ei voi tarkistaa, mitkä ohjelmat olet sallinut: se ei voi lukea niiden sinetin avainta Avainnipusta. Siihen asti jokaiselta tekoälytyökalulta kysytään kuin mitään ohjelmaa ei olisi sallittu.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot ei voi tarkistaa tekoälytyökaluja koskevaa suostumustasi: se ei voi lukea sen sinetin avainta Avainnipusta. Siihen asti sovellukset, jotka poistit pois suljettujen sovellusten luettelosta, on taas suljettu pois, ja ilmoitus on päällä.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot ei voi tarkistaa tekoälytyökaluja koskevaa suostumustasi: se ei voi lukea sen sinetin avainta Avainnipusta. Siihen asti oletusarvoiset poissulkemiset ovat taas voimassa, ja ilmoitus on päällä.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot ei voi tarkistaa tekoälytyökaluja koskevaa suostumustasi: se ei voi lukea sen sinetin avainta Avainnipusta. Siihen asti oletusarvoiset poissulkemiset ovat taas voimassa.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot ei voi tarkistaa tekoälytyökaluja koskevaa suostumustasi: se ei voi lukea sen sinetin avainta Avainnipusta. Siihen asti ilmoitus on päällä.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot ei voi toimittaa Box-sovellusavainta, joten rekisteröi oma: luo [Box Developer Consolessa](https://app.box.com/developers/console) Custom App, jossa on User Authentication (OAuth 2.0), aseta sen uudelleenohjaus-URI:ksi `%@`, anna sille Write all files -laajuus ja liitä sen client ID ja secret tähän. Secret ja kirjautuminen säilytetään Avainnipussasi; kansion tunniste on kansion URL-osoitteen numero.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ei voi käyttää Avainnippua, joten muutosta ei voi tallentaa. Avaa Avainnipun lukitus tai salli Greenshot, kun macOS kysyy, ja napsauta sitten Yritä uudelleen kohdassa Asetukset › Tekoälytyökalut, jotta muutos säilyy.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot ei voi käyttää Avainnippua, joten muutosta ei voi tallentaa. Jotta muutos säilyy, napsauta Yritä uudelleen kohdassa Asetukset › Tekoälytyökalut ja avaa Avainnipun lukitus tai salli Greenshot, kun macOS kysyy.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ei voi käyttää Avainnippua, joten tekoälytyökaluja koskeva suostumus tallennettiin ilman sinettiään. Avaa Avainnipun lukitus tai salli Greenshot, kun macOS kysyy, ja napsauta sitten Yritä uudelleen kohdassa Asetukset › Tekoälytyökalut, jotta suostumus säilyy.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot ei voi käyttää Avainnippua, joten tekoälytyökaluja koskeva suostumus tallennettiin ilman sinettiään. Jotta suostumus säilyy, napsauta Yritä uudelleen kohdassa Asetukset › Tekoälytyökalut ja avaa Avainnipun lukitus tai salli Greenshot, kun macOS kysyy.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot ei voinut ladata tai rekisteröidä tätä kaappausreseptiä, koska se sisältää määritysvirheitä. Tarkista alla olevat diagnostiikkatiedot:";
@@ -5032,10 +5038,16 @@
 "The %@ password could not be kept in the Keychain" = "Kohteen %@ salasanaa ei voitu säilyttää Avainnipussa";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen sovellukset, jotka poistit pois suljettujen sovellusten luettelosta, on taas suljettu pois, ja ilmoitus on päällä.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen jokaiselta ohjelmalta kysytään uudelleen.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen jokaiselta ohjelmalta kysytään uudelleen.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen oletusarvoiset poissulkemiset ovat taas voimassa, ja ilmoitus on päällä.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen oletusarvoiset poissulkemiset ovat taas voimassa.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen ilmoitus on päällä.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Tekoälytyökaluja koskeva suostumus nollataan seuraavassa käynnistyksessä";

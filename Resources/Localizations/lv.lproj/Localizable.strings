@@ -2344,16 +2344,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot nevar pārbaudīt, kuras programmas tu atļāvi: tas nevar nolasīt to zīmoga atslēgu no atslēgu saišķa. Līdz tam katram MI rīkam atļauja tiek vaicāta tā, it kā neviena programma nebūtu atļauta.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot nevar pārbaudīt tavu piekrišanu MI rīkiem: tas nevar nolasīt tās zīmoga atslēgu no atslēgu saišķa. Līdz tam lietotnes, ko izņēmi no izslēgto lietotņu saraksta, atkal ir izslēgtas, un paziņojums ir ieslēgts.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot nevar pārbaudīt tavu piekrišanu MI rīkiem: tas nevar nolasīt tās zīmoga atslēgu no atslēgu saišķa. Līdz tam atkal ir spēkā noklusējuma izslēgumi, un paziņojums ir ieslēgts.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot nevar pārbaudīt tavu piekrišanu MI rīkiem: tas nevar nolasīt tās zīmoga atslēgu no atslēgu saišķa. Līdz tam atkal ir spēkā noklusējuma izslēgumi.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot nevar pārbaudīt tavu piekrišanu MI rīkiem: tas nevar nolasīt tās zīmoga atslēgu no atslēgu saišķa. Līdz tam paziņojums ir ieslēgts.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot nevar piegādāt Box lietotnes atslēgu, tāpēc reģistrē savu: [Box Developer Console](https://app.box.com/developers/console) izveido Custom App ar User Authentication (OAuth 2.0), iestati tās redirect URI uz `%@`, piešķir Write all files tvērumu un ielīmē šeit tās klienta ID un noslēpumu. Noslēpums un pieteikšanās tiek glabāti tavā atslēgu saišķī; mapes ID ir skaitlis mapes URL.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nevar izmantot atslēgu saišķi, tāpēc izmaiņas nevar saglabāt. Atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā, un pēc tam noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki, lai tās paturētu.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nevar izmantot atslēgu saišķi, tāpēc izmaiņas nevar saglabāt. Lai tās paturētu, noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki un atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nevar izmantot atslēgu saišķi, tāpēc piekrišana MI rīkiem tika saglabāta bez zīmoga. Atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā, un pēc tam noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki, lai to paturētu.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nevar izmantot atslēgu saišķi, tāpēc piekrišana MI rīkiem tika saglabāta bez zīmoga. Lai to paturētu, noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki un atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nevarēja ielādēt vai reģistrēt šo tveršanas recepti, jo tajā ir konfigurācijas kļūdas. Pārskati tālāk norādīto diagnostikas informāciju:";
@@ -5035,10 +5041,16 @@
 "The %@ password could not be kept in the Keychain" = "%@ paroli nevarēja saglabāt atslēgu saišķī";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas lietotnes, ko izņēmi no izslēgto lietotņu saraksta, atkal ir izslēgtas, un paziņojums ir ieslēgts.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas katrai programmai atļauja tiks vaicāta vēlreiz.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas katrai programmai atļauja tiks vaicāta vēlreiz.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas atkal ir spēkā noklusējuma izslēgumi, un paziņojums ir ieslēgts.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas atkal ir spēkā noklusējuma izslēgumi.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas paziņojums ir ieslēgts.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Piekrišana MI rīkiem tiks atiestatīta nākamajā palaišanā";

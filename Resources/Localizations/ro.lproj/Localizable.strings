@@ -2311,16 +2311,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot nu poate verifica ce programe ați permis: nu poate citi din Keychain cheia sigiliului lor. Până atunci, permisiunea este cerută pentru fiecare instrument AI ca și cum niciun program nu ar fi permis.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot nu poate verifica consimțământul dumneavoastră pentru instrumentele AI: nu poate citi din Keychain cheia sigiliului său. Până atunci, aplicațiile pe care le-ați eliminat din lista aplicațiilor excluse sunt din nou excluse, iar notificarea este activată.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot nu poate verifica consimțământul dumneavoastră pentru instrumentele AI: nu poate citi din Keychain cheia sigiliului său. Până atunci, excluderile implicite se aplică din nou, iar notificarea este activată.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot nu poate verifica consimțământul dumneavoastră pentru instrumentele AI: nu poate citi din Keychain cheia sigiliului său. Până atunci, excluderile implicite se aplică din nou.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot nu poate verifica consimțământul dumneavoastră pentru instrumentele AI: nu poate citi din Keychain cheia sigiliului său. Până atunci, notificarea este activată.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot nu poate include o cheie de aplicație Box, deci înregistrați-o pe a dumneavoastră: în [Box Developer Console](https://app.box.com/developers/console) creați o Custom App cu User Authentication (OAuth 2.0), setați URI-ul de redirecționare la `%@`, acordați-i scope-ul Write all files și lipiți aici ID-ul clientului și secretul. Secretul și autentificarea sunt păstrate în Keychain; ID-ul folderului este numărul din URL-ul folderului.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nu poate folosi Keychain, așa că modificarea nu poate fi salvată. Deblocați Keychain sau permiteți Greenshot când macOS întreabă, apoi faceți clic pe Reîncearcă în Setări › Instrumente AI pentru a o păstra.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nu poate folosi Keychain, așa că modificarea nu poate fi salvată. Pentru a o păstra, faceți clic pe Reîncearcă în Setări › Instrumente AI și deblocați Keychain sau permiteți Greenshot când macOS întreabă.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nu poate folosi Keychain, așa că consimțământul pentru instrumentele AI a fost salvat fără sigiliul său. Deblocați Keychain sau permiteți Greenshot când macOS întreabă, apoi faceți clic pe Reîncearcă în Setări › Instrumente AI pentru a-l păstra.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nu poate folosi Keychain, așa că consimțământul pentru instrumentele AI a fost salvat fără sigiliul său. Pentru a-l păstra, faceți clic pe Reîncearcă în Setări › Instrumente AI și deblocați Keychain sau permiteți Greenshot când macOS întreabă.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nu a putut încărca sau înregistra această rețetă de captură deoarece conține erori de configurare. Verificați detaliile de diagnosticare de mai jos:";
@@ -4969,10 +4975,16 @@
 "The %@ password could not be kept in the Keychain" = "Parola %@ nu a putut fi păstrată în Keychain";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, aplicațiile pe care le-ați eliminat din lista aplicațiilor excluse sunt din nou excluse, iar notificarea este activată.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, fiecare program este întrebat din nou.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, fiecare program este întrebat din nou.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, excluderile implicite se aplică din nou, iar notificarea este activată.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, excluderile implicite se aplică din nou.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, notificarea este activată.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Consimțământul pentru instrumentele AI va fi resetat la următoarea pornire";

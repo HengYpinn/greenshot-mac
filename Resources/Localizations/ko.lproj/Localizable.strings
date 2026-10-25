@@ -2344,16 +2344,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "사용자가 허용한 프로그램을 Greenshot이 확인할 수 없습니다: 키체인에서 해당 봉인의 키를 읽을 수 없습니다. 읽을 수 있을 때까지는 허용된 프로그램이 없는 것처럼 AI 도구마다 다시 묻습니다.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot이 AI 도구 동의를 확인할 수 없습니다: 키체인에서 해당 봉인의 키를 읽을 수 없습니다. 읽을 수 있을 때까지는 제외 목록에서 제거한 응용 프로그램이 다시 제외되고 알림이 켜집니다.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot이 AI 도구 동의를 확인할 수 없습니다: 키체인에서 해당 봉인의 키를 읽을 수 없습니다. 읽을 수 있을 때까지는 기본 제외 항목이 다시 적용되고 알림이 켜집니다.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot이 AI 도구 동의를 확인할 수 없습니다: 키체인에서 해당 봉인의 키를 읽을 수 없습니다. 읽을 수 있을 때까지는 기본 제외 항목이 다시 적용됩니다.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot이 AI 도구 동의를 확인할 수 없습니다: 키체인에서 해당 봉인의 키를 읽을 수 없습니다. 읽을 수 있을 때까지는 알림이 켜집니다.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot은 Box 앱 키를 제공할 수 없으므로 직접 등록해야 합니다. [Box Developer Console](https://app.box.com/developers/console)에서 사용자 인증(OAuth 2.0)이 있는 사용자 지정 앱을 만들고, 리디렉션 URI를 `%@`(으)로 설정하고, Write all files 범위를 부여한 다음 클라이언트 ID와 시크릿을 여기에 붙여넣으세요. 시크릿과 로그인은 키체인에 보관되며, 폴더 ID는 폴더 URL에 있는 숫자입니다.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot이 키체인을 사용할 수 없어 변경 사항을 저장할 수 없습니다. 키체인 잠금을 해제하거나 macOS가 물을 때 Greenshot을 허용한 다음, 설정 › AI 도구에서 다시 시도를 클릭하여 변경 사항을 유지하세요.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot이 키체인을 사용할 수 없어 변경 사항을 저장할 수 없습니다. 변경 사항을 유지하려면 설정 › AI 도구에서 다시 시도를 클릭하고, macOS가 물을 때 키체인 잠금을 해제하거나 Greenshot을 허용하세요.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot이 키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되었습니다. 키체인 잠금을 해제하거나 macOS가 물을 때 Greenshot을 허용한 다음, 설정 › AI 도구에서 다시 시도를 클릭하여 동의를 유지하세요.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot이 키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되었습니다. 동의를 유지하려면 설정 › AI 도구에서 다시 시도를 클릭하고, macOS가 물을 때 키체인 잠금을 해제하거나 Greenshot을 허용하세요.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "이 캡처 레시피에 구성 오류가 있어 Greenshot에서 로드하거나 등록할 수 없습니다. 아래 진단 세부 정보를 검토하세요:";
@@ -5047,10 +5053,16 @@
 "The %@ password could not be kept in the Keychain" = "%@ 암호를 키체인에 보관하지 못했습니다";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 제외 목록에서 제거한 응용 프로그램이 다시 제외되고 알림이 켜집니다.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 모든 프로그램에 다시 묻습니다.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 모든 프로그램에 다시 묻습니다.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 기본 제외 항목이 다시 적용되고 알림이 켜집니다.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 기본 제외 항목이 다시 적용됩니다.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 알림이 켜집니다.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "AI 도구 동의는 다음 시작 시 재설정됩니다";

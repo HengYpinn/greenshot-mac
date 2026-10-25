@@ -2341,16 +2341,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot kann ned brüfn, welche Brogramme du erlaubd hasd: Es kann den Schlüssl vo ihrm Siegl ned ausm Schlüsselbund lesn. Bis dahie wird bei jedm KI-Werkzeuch nochgfrachd, als wär ka Brogramm erlaubd.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot kann dei Einwilligung für KI-Werkzeuche ned brüfn: Es kann den Schlüssl vo ihrm Siegl ned ausm Schlüsselbund lesn. Bis dahie sin Anwendungen, die du aus der Lisdn vo de ausgeschlossenen Anwendungen rausgnumma hasd, widder ausgeschlossn, und die Mitteilung is eigschaldd.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot kann dei Einwilligung für KI-Werkzeuche ned brüfn: Es kann den Schlüssl vo ihrm Siegl ned ausm Schlüsselbund lesn. Bis dahie sin die standardmäßich ausgeschlossenen Anwendungen widder ausgeschlossn, und die Mitteilung is eigschaldd.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot kann dei Einwilligung für KI-Werkzeuche ned brüfn: Es kann den Schlüssl vo ihrm Siegl ned ausm Schlüsselbund lesn. Bis dahie sin die standardmäßich ausgeschlossenen Anwendungen widder ausgeschlossn.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot kann dei Einwilligung für KI-Werkzeuche ned brüfn: Es kann den Schlüssl vo ihrm Siegl ned ausm Schlüsselbund lesn. Bis dahie is die Mitteilung eigschaldd.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot kann kaan Box-App-Schlüssel mitliefern, also registrier dein eignen: Leg in der [Box Developer Console](https://app.box.com/developers/console) a Custom App mid User Authentication (OAuth 2.0) an, schdell ihre Weidaleidungs-URI auf `%@`, gib ihr den Bereich „Write all files“ und füch ihre Client-ID und es Geheimnis do ein. Es Geheimnis und die Anmeldung wern in deim Schlüsselbund gschbeichert; die Ordner-ID is die Zahl in der URL vom Ordner.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kann den Schlüsselbund ned benutzn, drum kann die Änderung ned gschbeicherd wern. Entsperr den Schlüsselbund oder erlaub Greenshot den Zugriff, wenn macOS frogt, und klick dann in Rumdogdern › KI-Werkzeuche auf Nochamal brobiern, damid's bleibd.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot kann den Schlüsselbund ned benutzn, drum kann die Änderung ned gschbeicherd wern. Damid's bleibd, klick in Rumdogdern › KI-Werkzeuche auf Nochamal brobiern, und entsperr den Schlüsselbund oder erlaub Greenshot den Zugriff, wenn macOS frogt.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kann den Schlüsselbund ned benutzn, drum is die Einwilligung für KI-Werkzeuche ohne ihr Siegl gschbeicherd worn. Entsperr den Schlüsselbund oder erlaub Greenshot den Zugriff, wenn macOS frogt, und klick dann in Rumdogdern › KI-Werkzeuche auf Nochamal brobiern, damid's bleibd.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot kann den Schlüsselbund ned benutzn, drum is die Einwilligung für KI-Werkzeuche ohne ihr Siegl gschbeicherd worn. Damid's bleibd, klick in Rumdogdern › KI-Werkzeuche auf Nochamal brobiern, und entsperr den Schlüsselbund oder erlaub Greenshot den Zugriff, wenn macOS frogt.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot konnd des Aufnahmrezebd ned laden oder anmeldn, weil es Konfiguraschdionsfehler enthälld. Schau dir die Diagnose-Einzelheidn undn an:";
@@ -5011,10 +5017,16 @@
 "The %@ password could not be kept in the Keychain" = "Des %@-Basswort hod ned im Schlüsselbund gschbeicherd wern könna";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start sin Anwendungen, die du aus der Lisdn vo de ausgeschlossenen Anwendungen rausgnumma hasd, widder ausgeschlossn, und die Mitteilung is eigschaldd.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start wird bei jedm Brogramm nochamal gfrachd.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start wird bei jedm Brogramm nochamal gfrachd.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start sin die standardmäßich ausgeschlossenen Anwendungen widder ausgeschlossn, und die Mitteilung is eigschaldd.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start sin die standardmäßich ausgeschlossenen Anwendungen widder ausgeschlossn.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start is die Mitteilung eigschaldd.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Die Einwilligung für KI-Werkzeuche wird beim nächsdn Start zrüggsetzd";

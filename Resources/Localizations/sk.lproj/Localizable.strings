@@ -2344,16 +2344,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot nemôže overiť, ktoré programy ste povolili: nemôže z Kľúčenky prečítať kľúč ich pečate. Dovtedy sa pri každom nástroji AI pýta, akoby nebol povolený žiadny program.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot nemôže overiť váš súhlas pre nástroje AI: nemôže z Kľúčenky prečítať kľúč jeho pečate. Dovtedy sú aplikácie, ktoré ste odstránili zo zoznamu vylúčených aplikácií, opäť vylúčené a upozornenie je zapnuté.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot nemôže overiť váš súhlas pre nástroje AI: nemôže z Kľúčenky prečítať kľúč jeho pečate. Dovtedy opäť platia predvolené vylúčenia a upozornenie je zapnuté.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot nemôže overiť váš súhlas pre nástroje AI: nemôže z Kľúčenky prečítať kľúč jeho pečate. Dovtedy opäť platia predvolené vylúčenia.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot nemôže overiť váš súhlas pre nástroje AI: nemôže z Kľúčenky prečítať kľúč jeho pečate. Dovtedy je upozornenie zapnuté.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot nemôže dodať kľúč aplikácie Box, preto si zaregistrujte vlastný: v [Box Developer Console](https://app.box.com/developers/console) vytvorte Custom App s User Authentication (OAuth 2.0), nastavte jej redirect URI na `%@`, dajte jej rozsah Write all files a sem vložte jej ID klienta a tajný kľúč. Tajný kľúč a prihlásenie sa uložia do vašej Kľúčenky; ID priečinka je číslo v adrese URL priečinka.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nemôže použiť Kľúčenku, takže zmenu nemožno uložiť. Odomknite Kľúčenku alebo povoľte aplikáciu Greenshot, keď sa macOS opýta, a potom v Nastavenia › Nástroje AI kliknite na Skúsiť znova, aby sa zmena zachovala.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nemôže použiť Kľúčenku, takže zmenu nemožno uložiť. Aby sa zmena zachovala, kliknite v Nastavenia › Nástroje AI na Skúsiť znova a odomknite Kľúčenku alebo povoľte aplikáciu Greenshot, keď sa macOS opýta.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nemôže použiť Kľúčenku, takže súhlas pre nástroje AI sa uložil bez svojej pečate. Odomknite Kľúčenku alebo povoľte aplikáciu Greenshot, keď sa macOS opýta, a potom v Nastavenia › Nástroje AI kliknite na Skúsiť znova, aby sa súhlas zachoval.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot nemôže použiť Kľúčenku, takže súhlas pre nástroje AI sa uložil bez svojej pečate. Aby sa súhlas zachoval, kliknite v Nastavenia › Nástroje AI na Skúsiť znova a odomknite Kľúčenku alebo povoľte aplikáciu Greenshot, keď sa macOS opýta.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nemohol načítať ani zaregistrovať tento recept na zachytávanie, pretože obsahuje chyby konfigurácie. Skontrolujte diagnostické podrobnosti nižšie:";
@@ -5020,10 +5026,16 @@
 "The %@ password could not be kept in the Keychain" = "Heslo pre %@ sa nepodarilo uchovať v Kľúčenke";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení budú aplikácie, ktoré ste odstránili zo zoznamu vylúčených aplikácií, opäť vylúčené a upozornenie bude zapnuté.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení sa Greenshot opýta znova pri každom programe.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení sa Greenshot opýta znova pri každom programe.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení budú opäť platiť predvolené vylúčenia a upozornenie bude zapnuté.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení budú opäť platiť predvolené vylúčenia.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení bude upozornenie zapnuté.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Súhlas pre nástroje AI sa pri ďalšom spustení resetuje";

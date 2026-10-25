@@ -2362,16 +2362,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot 无法检查你允许了哪些程序：它无法从钥匙串读取其封签的密钥。在能读取之前，会针对每个 AI 工具进行询问，如同未允许任何程序。";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot 无法检查你的 AI 工具授权：它无法从钥匙串读取其封签的密钥。在能读取之前，你从排除列表中移除的 App 会再次被排除，并且通知会开启。";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot 无法检查你的 AI 工具授权：它无法从钥匙串读取其封签的密钥。在能读取之前，默认排除项会恢复，并且通知会开启。";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot 无法检查你的 AI 工具授权：它无法从钥匙串读取其封签的密钥。在能读取之前，默认排除项会恢复。";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot 无法检查你的 AI 工具授权：它无法从钥匙串读取其封签的密钥。在能读取之前，通知会开启。";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot 无法附带 Box App 密钥，请注册你自己的：在 [Box 开发者控制台](https://app.box.com/developers/console)中创建带有用户身份验证（OAuth 2.0）的自定义 App，将其重定向 URI 设置为 `%@`，授予“写入所有文件”权限，并在此处粘贴其客户端 ID 和密钥。密钥和登录信息会保存在你的钥匙串中；文件夹 ID 是文件夹网址中的数字。";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot 无法使用钥匙串，因此无法保存此更改。请解锁钥匙串或在 macOS 询问时允许 Greenshot，然后在“设置 › AI 工具”中点按“重试”以保留此更改。";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot 无法使用钥匙串，因此无法保存此更改。要保留此更改，请在“设置 › AI 工具”中点按“重试”，并在 macOS 询问时解锁钥匙串或允许 Greenshot。";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot 无法使用钥匙串，因此 AI 工具授权已在没有封签的情况下保存。请解锁钥匙串或在 macOS 询问时允许 Greenshot，然后在“设置 › AI 工具”中点按“重试”以保留授权。";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot 无法使用钥匙串，因此 AI 工具授权已在没有封签的情况下保存。要保留授权，请在“设置 › AI 工具”中点按“重试”，并在 macOS 询问时解锁钥匙串或允许 Greenshot。";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot 无法载入或注册此抓图配方，因为它包含配置错误。请查看下方的诊断详细信息：";
@@ -5071,10 +5077,16 @@
 "The %@ password could not be kept in the Keychain" = "无法将 %@ 密码保存在钥匙串中";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，你从排除列表中移除的 App 会再次被排除，并且通知会开启。";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，会再次询问每个程序。";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，会再次询问每个程序。";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，默认排除项会恢复，并且通知会开启。";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，默认排除项会恢复。";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，通知会开启。";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "AI 工具授权将在下次启动时重置";

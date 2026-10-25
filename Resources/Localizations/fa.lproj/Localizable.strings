@@ -2347,16 +2347,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot نمی‌تواند بررسی کند که به کدام برنامه‌ها اجازه داده‌اید: نمی‌تواند کلید مهر آن‌ها را از Keychain بخواند. تا آن زمان، برای هر ابزار هوش مصنوعی طوری اجازه پرسیده می‌شود که گویی هیچ برنامه‌ای مجاز نیست.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot نمی‌تواند رضایت شما برای ابزارهای هوش مصنوعی را بررسی کند: نمی‌تواند کلید مهر آن را از Keychain بخواند. تا آن زمان، برنامه‌هایی که از فهرست برنامه‌های مستثنا حذف کرده‌اید دوباره مستثنا هستند و اعلان روشن است.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot نمی‌تواند رضایت شما برای ابزارهای هوش مصنوعی را بررسی کند: نمی‌تواند کلید مهر آن را از Keychain بخواند. تا آن زمان، برنامه‌های مستثنای پیش‌فرض دوباره مستثنا می‌شوند و اعلان روشن است.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot نمی‌تواند رضایت شما برای ابزارهای هوش مصنوعی را بررسی کند: نمی‌تواند کلید مهر آن را از Keychain بخواند. تا آن زمان، برنامه‌های مستثنای پیش‌فرض دوباره مستثنا می‌شوند.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot نمی‌تواند رضایت شما برای ابزارهای هوش مصنوعی را بررسی کند: نمی‌تواند کلید مهر آن را از Keychain بخواند. تا آن زمان، اعلان روشن است.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot نمی‌تواند کلید برنامهٔ Box را همراه خود بدهد، پس کلید خودتان را ثبت کنید: در [Box Developer Console](https://app.box.com/developers/console) یک Custom App با User Authentication (OAuth 2.0) بسازید، redirect URI آن را روی `%@` بگذارید، دامنهٔ Write all files را بدهید و شناسه و رمز مشتری آن را اینجا جایگذاری کنید. رمز و ورود در Keychain شما نگهداری می‌شوند؛ شناسهٔ پوشه عددی است که در URL پوشه آمده است.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot نمی‌تواند از Keychain استفاده کند، بنابراین این تغییر ذخیره نمی‌شود. قفل Keychain را باز کنید یا وقتی macOS پرسید به Greenshot اجازه دهید، سپس برای نگه داشتن تغییر، در تنظیمات › ابزارهای هوش مصنوعی روی «تلاش دوباره» کلیک کنید.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot نمی‌تواند از Keychain استفاده کند، بنابراین این تغییر ذخیره نمی‌شود. برای نگه داشتن تغییر، در تنظیمات › ابزارهای هوش مصنوعی روی «تلاش دوباره» کلیک کنید و وقتی macOS پرسید، قفل Keychain را باز کنید یا به Greenshot اجازه دهید.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot نمی‌تواند از Keychain استفاده کند، بنابراین رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شد. قفل Keychain را باز کنید یا وقتی macOS پرسید به Greenshot اجازه دهید، سپس برای نگه داشتن رضایت، در تنظیمات › ابزارهای هوش مصنوعی روی «تلاش دوباره» کلیک کنید.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot نمی‌تواند از Keychain استفاده کند، بنابراین رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شد. برای نگه داشتن رضایت، در تنظیمات › ابزارهای هوش مصنوعی روی «تلاش دوباره» کلیک کنید و وقتی macOS پرسید، قفل Keychain را باز کنید یا به Greenshot اجازه دهید.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot نتوانست این دستورالعمل نمونه‌برداری را بارگذاری یا ثبت کند، زیرا خطاهای پیکربندی دارد. جزئیات عیب‌یابی زیر را بررسی کنید:";
@@ -5032,10 +5038,16 @@
 "The %@ password could not be kept in the Keychain" = "گذرواژهٔ %@ در Keychain نگه داشته نشد";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برنامه‌هایی که از فهرست برنامه‌های مستثنا حذف کرده‌اید دوباره مستثنا می‌شوند و اعلان روشن خواهد بود.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برای هر برنامه دوباره پرسیده می‌شود.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برای هر برنامه دوباره پرسیده می‌شود.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برنامه‌های مستثنای پیش‌فرض دوباره مستثنا می‌شوند و اعلان روشن خواهد بود.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برنامه‌های مستثنای پیش‌فرض دوباره مستثنا می‌شوند.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، اعلان روشن خواهد بود.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "رضایت ابزارهای هوش مصنوعی در اجرای بعدی بازنشانی می‌شود";

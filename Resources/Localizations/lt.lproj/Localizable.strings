@@ -2356,16 +2356,22 @@
 "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot negali patikrinti, kurias programas leidote: jis negali nuskaityti jų antspaudo rakto iš raktų pakabuko. Iki tol apie kiekvieną DI įrankį klausiama taip, lyg nebūtų leista jokia programa.";
 
 /* machine */
-"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot negali patikrinti jūsų sutikimo dėl DI įrankių: jis negali nuskaityti jo antspaudo rakto iš raktų pakabuko. Iki tol programos, kurias pašalinote iš neįtrauktų programų sąrašo, vėl neįtraukiamos, o pranešimas įjungtas.";
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back and the notification is on." = "Greenshot negali patikrinti jūsų sutikimo dėl DI įrankių: jis negali nuskaityti jo antspaudo rakto iš raktų pakabuko. Iki tol vėl taikomos numatytosios išimtys, o pranešimas įjungtas.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the default exclusions come back." = "Greenshot negali patikrinti jūsų sutikimo dėl DI įrankių: jis negali nuskaityti jo antspaudo rakto iš raktų pakabuko. Iki tol vėl taikomos numatytosios išimtys.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, the notification is on." = "Greenshot negali patikrinti jūsų sutikimo dėl DI įrankių: jis negali nuskaityti jo antspaudo rakto iš raktų pakabuko. Iki tol pranešimas įjungtas.";
 
 /* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot negali pateikti Box programos rakto, todėl užregistruokite savo: [Box Developer Console](https://app.box.com/developers/console) sukurkite Custom App su User Authentication (OAuth 2.0), nustatykite jos nukreipimo URI į `%@`, suteikite Write all files sritį ir čia įklijuokite jos kliento ID bei paslaptį. Paslaptis ir prisijungimas saugomi jūsų raktų pakabuke; aplanko ID yra skaičius aplanko URL.";
 
 /* machine */
-"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot negali naudotis raktų pakabuku, todėl pakeitimo negalima išsaugoti. Atrakinkite raktų pakabuką arba leiskite Greenshot, kai macOS paklaus, tada skiltyje Nustatymai › DI įrankiai spustelėkite Bandyti dar kartą, kad pakeitimas išliktų.";
+"Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot negali naudotis raktų pakabuku, todėl pakeitimo negalima išsaugoti. Kad pakeitimas išliktų, skiltyje Nustatymai › DI įrankiai spustelėkite Bandyti dar kartą ir atrakinkite raktų pakabuką arba leiskite Greenshot, kai macOS paklaus.";
 
 /* machine */
-"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot negali naudotis raktų pakabuku, todėl sutikimas dėl DI įrankių išsaugotas be antspaudo. Atrakinkite raktų pakabuką arba leiskite Greenshot, kai macOS paklaus, tada skiltyje Nustatymai › DI įrankiai spustelėkite Bandyti dar kartą, kad sutikimas išliktų.";
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks." = "Greenshot negali naudotis raktų pakabuku, todėl sutikimas dėl DI įrankių išsaugotas be antspaudo. Kad sutikimas išliktų, skiltyje Nustatymai › DI įrankiai spustelėkite Bandyti dar kartą ir atrakinkite raktų pakabuką arba leiskite Greenshot, kai macOS paklaus.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nepavyko įkelti ar užregistruoti šio nuotraukos recepto, nes jame yra konfigūracijos klaidų. Peržiūrėkite diagnostikos informaciją žemiau:";
@@ -5056,10 +5062,16 @@
 "The %@ password could not be kept in the Keychain" = "%@ slaptažodžio nepavyko išsaugoti raktų pakabuke";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo programos, kurias pašalinote iš neįtrauktų programų sąrašo, vėl neįtraukiamos, o pranešimas įjungtas.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo apie kiekvieną programą bus vėl paklausta.";
 
 /* machine */
-"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo apie kiekvieną programą bus vėl paklausta.";
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo vėl taikomos numatytosios išimtys, o pranešimas įjungtas.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo vėl taikomos numatytosios išimtys.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the notification is on." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo pranešimas įjungtas.";
 
 /* machine */
 "The AI tools consent will be reset at the next start" = "Sutikimas dėl DI įrankių bus iš naujo nustatytas kitą kartą paleidus";
