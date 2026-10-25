@@ -191,7 +191,9 @@ doesn't ask, lock and unlock the login keychain in Keychain Access (find it with
   [API token](https://id.atlassian.com/manage-profile/security/api-tokens). "Upload to Jira…" asks for the issue (a
   key, one of the last ten, or a search by words or JQL), attaches the image and can add a comment; the message
   afterwards opens the issue. "Upload to Confluence…" asks for the page (the last ten, or a search by title or CQL),
-  attaches the image, copies the wiki markup `!name!` or the image's link to the clipboard and opens the page.
+  attaches the image, copies the wiki markup `!name!` or the image's link to the clipboard and opens the page. A token
+  or password goes only to the server it was saved for; one saved by an older version (or before the URL was entered)
+  is sent only after you allow it once for the server shown.
 - **Box** and **Dropbox**: Greenshot for Windows ships its own app keys, which this port can't reuse, so you register
   an app of your own once (the Settings footers say where and with which redirect URI: `http://127.0.0.1:52398/box`
   and `greenshotmac://oauth/dropbox`) and paste its client ID (Box: and secret) or app key. The first upload signs you
