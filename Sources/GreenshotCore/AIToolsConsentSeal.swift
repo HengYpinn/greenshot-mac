@@ -5,8 +5,6 @@
 import CryptoKit
 import Foundation
 
-private let log = Log("AITools")
-
 /// Seals the consent of the AI tools against edits made outside Greenshot.
 ///
 /// The allowed programs, the excluded applications and "notify on capture" decide who may take screenshots through
@@ -15,9 +13,9 @@ private let log = Log("AITools")
 /// values carry an HMAC-SHA256 (like the recipe approvals of `RecipeTrustStore`) under a 32-byte key in the
 /// `SecretStore` (the Keychain in the app) under `keyName`, made on the first save that needs it. Only Greenshot saving
 /// writes the seal. When the settings are loaded, values that differ from the defaults and have no valid seal (missing,
-/// wrong, or no key) are reset: nobody is allowed, the notification is on, the excluded list is the defaults plus what
-/// was stored (an edit can only have removed entries). A key that can't be read (a locked Keychain) resets them only in
-/// effect: the stored values and their seal are kept for when it can be read again (`Outcome.isUnverifiable`).
+/// wrong, or no key) are reset (`reset`): nobody is allowed, the notification is on, the excluded list is the defaults
+/// plus what was stored (an edit can only have removed entries). What is stored, in effect and sealed while the key
+/// can't be read or written (a locked Keychain) is `AIToolsConsentKeeper`'s.
 /// `enabled` and `allowRecipeProposals` stay unsealed: turning AI tools on still ends in a question per program.
 ///
 /// Limit: this stops a program that only edits the preferences. It can't stop one that deletes and replaces the
@@ -36,21 +34,11 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
         case file(URL)
     }
 
-    /// The result of `verifiedOrReset`.
-    public struct Outcome: Sendable {
-        public var settings: AIToolsSettings
-        /// True when the values were reset: the caller saves the settings so the file agrees with the new seal.
-        public var wasReset: Bool
-        /// True when the seal couldn't be checked (`Verification.unverifiable`): `settings` are the reset values to use
-        /// for now, and nothing was saved. The caller keeps the stored values (not these) so they count again once the
-        /// key can be read.
-        public var isUnverifiable = false
-    }
-
     /// What `verification(of:)` found.
     public enum Verification: Sendable, Equatable {
         case valid
-        /// No seal, a wrong one, or no key: the values were changed outside Greenshot, or the key was deleted.
+        /// No seal, a wrong one, or no key: the values were changed outside Greenshot, the key was deleted, or Greenshot
+        /// stored them without a seal (the Keychain was locked when they were saved).
         case invalid
         /// The key can't be read now (a locked Keychain, its prompt cancelled or denied, or another error of the store).
         case unverifiable
@@ -108,67 +96,54 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
         }
     }
 
-    /// Writes the seal for `settings` (Greenshot saving them). Every save makes a new random key first, so every earlier
-    /// seal stops verifying: putting back an old settings blob with its old seal (a client the user removed, the
-    /// notification off) is reset. A crash between the key and the seal leaves a seal that doesn't verify: the next load
-    /// resets (safe: AI tools are asked again). With the defaults the seal and key aren't needed and a
-    /// seal that is there goes. A key that can't be read or made is logged: the next load then resets the values.
-    public func save(_ settings: AIToolsSettings) {
+    /// Writes the seal for `settings` (Greenshot saving them), before the settings are saved. Every save makes a new
+    /// random key first, so every earlier seal stops verifying: putting back an old settings blob with its old seal (a
+    /// client the user removed, the notification off) is reset. A crash between the key and the seal leaves a seal that
+    /// doesn't verify: the next load resets (safe: AI tools are asked again). With the defaults the seal and key aren't
+    /// needed: the key is removed, then the seal. Throws the store's error when the key can't be written or removed (a
+    /// locked Keychain): then nothing changed, the stored seal and key still verify the values they were made for.
+    public func save(_ settings: AIToolsSettings) throws {
         guard !Self.isDefault(settings) else {
-            writeStoredSeal(nil)
             // The key goes too: it signed the last state that wasn't the defaults, and that state's old seal (a client
             // the user has just removed) must not verify again when it is put back.
-            do {
-                try secrets.setSecret(nil, for: Self.keyName)
-            } catch {
-                log.warn("The AI tools consent key could not be removed (\(error)).")
-            }
+            try removeKey()
+            writeStoredSeal(nil)
             return
         }
-        do {
-            let key = try newKey()
-            let mac = HMAC<SHA256>.authenticationCode(for: canonicalPayload(settings), using: key)
-            writeStoredSeal(Data(mac).base64EncodedString())
-        } catch {
-            writeStoredSeal(nil)
-            log.warn("The AI tools consent could not be sealed (\(error)); AI tools will be asked again.")
-        }
+        let key = try newKey()
+        let mac = HMAC<SHA256>.authenticationCode(for: canonicalPayload(settings), using: key)
+        writeStoredSeal(Data(mac).base64EncodedString())
     }
+
+    /// Removes the key, so no seal made with it verifies again; the stored seal stays (it then verifies nothing).
+    public func removeKey() throws {
+        try secrets.setSecret(nil, for: Self.keyName)
+    }
+
+    /// The stored seal as text (nil: none), read from the settings' place, not the Keychain.
+    public var storedSeal: String? { readStoredSeal() }
 
     /// Whether the stored seal is a valid HMAC of the sealed values of `settings`. Without a stored seal the key isn't
     /// read: invalid.
     public func verification(of settings: AIToolsSettings) -> Verification {
-        guard let text = readStoredSeal(), let signature = Data(base64Encoded: text) else { return .invalid }
-        let key: SymmetricKey?
         do {
-            key = try existingKey()
+            return try isSealed(settings) ? .valid : .invalid
         } catch {
             return .unverifiable
         }
-        guard let key else { return .invalid }
-        let valid = HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: canonicalPayload(settings), using: key)
-        return valid ? .valid : .invalid
     }
 
-    /// The settings as loaded, checked: values that differ from the defaults and have no valid seal are reset, a fresh
-    /// seal is written and a warning logged. A seal that can't be checked gives the reset values too, but saves nothing
-    /// (`Outcome.isUnverifiable`). Values from a configuration profile are applied after this by the caller.
-    public func verifiedOrReset(_ settings: AIToolsSettings) -> Outcome {
-        if Self.isDefault(settings) { return Outcome(settings: settings, wasReset: false) }
-        let found = verification(of: settings)
-        if found == .valid { return Outcome(settings: settings, wasReset: false) }
-        let reset = Self.reset(settings)
-        if found == .unverifiable {
-            log.warn("The AI tools consent can't be checked: its key can't be read from the Keychain (locked, or its prompt was cancelled). AI tools are asked as if none were allowed until it can be read; the stored consent is kept.")
-            return Outcome(settings: reset, wasReset: false, isUnverifiable: true)
-        }
-        save(reset)
-        log.warn("The AI tools settings were changed outside Greenshot and are not trusted. They were reset and AI tools will be asked again.")
-        return Outcome(settings: reset, wasReset: true)
+    /// `verification(of:)` that throws the store's error when the key can't be read (a locked Keychain, its prompt
+    /// cancelled or denied), so the caller can show why.
+    public func isSealed(_ settings: AIToolsSettings) throws -> Bool {
+        guard let text = readStoredSeal(), let signature = Data(base64Encoded: text) else { return false }
+        guard let key = try existingKey() else { return false }
+        return HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: canonicalPayload(settings), using: key)
     }
 
-    /// Nobody allowed, the notification on, the default exclusions plus the stored ones.
-    private static func reset(_ settings: AIToolsSettings) -> AIToolsSettings {
+    /// The values of `settings` that can't be trusted, reset: nobody allowed, the notification on, the default
+    /// exclusions plus the stored ones. Restricts only, so it never needs the stored values to be checked.
+    public static func reset(_ settings: AIToolsSettings) -> AIToolsSettings {
         var reset = settings
         reset.allowedClients = []
         reset.notifyOnCapture = true
