@@ -9,9 +9,9 @@ import SwiftUI
 
 // Settings › Destinations: the upload destinations (upstream's Jira, Confluence, Box and Dropbox plugin settings).
 
-/// A secret in the Keychain, edited like a setting.
+/// A secret in the Keychain, edited like a setting (see `EditableSecret`).
 @MainActor
-final class SecretFieldModel: ObservableObject, RetryableSecret {
+final class SecretFieldModel: ObservableObject {
     /// Whose secret it is: the app's, or that of the Jira or Confluence site on a host (nil while the URL has none),
     /// which is shown and kept for that host only (see `AtlassianSecrets`).
     enum Owner: Equatable {
@@ -19,68 +19,41 @@ final class SecretFieldModel: ObservableObject, RetryableSecret {
         case site(host: String?)
     }
 
-    @Published var text: String {
-        didSet { if text != oldValue, !reading { save() } }
-    }
-    /// What the last read or save gave, its error shown under the field. While the Keychain can't be used (locked, or its
-    /// prompt cancelled or denied) the field is disabled, so typing doesn't replace a secret nobody saw (nor ask at every
-    /// keystroke), until Retry reads it; another error leaves it editable, so a new secret replaces the item.
-    @Published private(set) var secretState: SecretState
-    private let key: String
-    private let owner: Owner
-    private let retryList: SecretRetryList
-    /// Set while `readAgain` shows what was read: that isn't an edit to save.
-    private var reading = false
+    /// Read when the field is shown, unless another secret of the tab can't be read; saved at every edit. While the
+    /// Keychain can't be used (locked, or its prompt cancelled or denied) the field is disabled, so typing doesn't
+    /// replace a secret nobody saw (nor ask at every keystroke), until Retry; an edit it refused stays and Retry saves
+    /// it. Another error leaves the field editable, so a new secret replaces the item.
+    let secret: EditableSecret
 
-    /// Reads the secret, unless another secret of the tab can't be read (`SecretRetryList.readUnlessUnavailable`).
     init(key: String, owner: Owner = .app) {
-        self.key = key
-        self.owner = owner
-        retryList = .destinations
-        var secret = ""
-        secretState = retryList.readUnlessUnavailable {
-            let read = Self.read(key: key, owner: owner)
-            secret = read.secret
-            return read.state
-        }
-        text = secret
-        retryList.add(self)
+        secret = EditableSecret(list: .destinations, read: { try Self.read(key: key, owner: owner) },
+                                write: { try Self.write($0, key: key, owner: owner) })
+        secret.willChange = { [weak self] in self?.objectWillChange.send() }
     }
+
+    var text: String {
+        get { secret.text }
+        set { secret.edit(newValue) }
+    }
+
+    var secretState: SecretState { secret.secretState }
 
     /// Retry: this secret and the others of the tab that couldn't be read.
     func retry() {
-        retryList.retry(from: self)
+        SecretRetryList.destinations.retry(from: secret)
     }
 
-    /// Reads the secret again (Retry, after the Keychain was unlocked).
-    func readAgain() {
-        let read = Self.read(key: key, owner: owner)
-        reading = true
-        text = read.secret
-        reading = false
-        secretState = read.state
-    }
-
-    private static func read(key: String, owner: Owner) -> (secret: String, state: SecretState) {
-        do {
-            switch owner {
-            case .app: return (try Uploads.secrets.secret(for: key) ?? "", .usable)
-            case .site(let host): return (try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host) ?? "", .usable)
-            }
-        } catch {
-            return ("", SecretState(error: error))
+    private static func read(key: String, owner: Owner) throws -> String? {
+        switch owner {
+        case .app: return try Uploads.secrets.secret(for: key)
+        case .site(let host): return try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host)
         }
     }
 
-    private func save() {
-        do {
-            switch owner {
-            case .app: try Uploads.secrets.setSecret(text, for: key)
-            case .site(let host): try AtlassianSecrets(store: Uploads.secrets).setSecret(text, for: key, host: host)
-            }
-            secretState = .usable
-        } catch {
-            secretState = SecretState(error: error)
+    private static func write(_ text: String, key: String, owner: Owner) throws {
+        switch owner {
+        case .app: try Uploads.secrets.setSecret(text, for: key)
+        case .site(let host): try AtlassianSecrets(store: Uploads.secrets).setSecret(text, for: key, host: host)
         }
     }
 }
@@ -163,6 +136,8 @@ final class CloudAccount: ObservableObject, RetryableSecret {
     private let retryList: SecretRetryList
     /// The settings of the last read, for a Retry pressed on another secret of the tab.
     private var settings: AppSettings?
+    /// The account was read (or adopted another secret's state) at least once.
+    private var wasRead = false
 
     init(destination: CaptureDestination) {
         self.destination = destination
@@ -172,11 +147,13 @@ final class CloudAccount: ObservableObject, RetryableSecret {
 
     var action: CloudAccountAction { CloudAccountAction(signedIn: signedIn, state: secretState) }
 
-    /// The row appeared: whether there is an account, unless a secret of the tab can't be read (then the Keychain is
-    /// most likely still locked, and showing the tab doesn't ask again).
+    /// The row appeared: whether there is an account, unless a secret of the tab can't be read. Then the Keychain is
+    /// most likely still locked, and showing the tab doesn't ask again: a row read before keeps what it shows (an item
+    /// denied on its own isn't this one), a row never read takes that secret's state.
     func appeared(settings: AppSettings) {
         self.settings = settings
-        show(retryList.readUnlessUnavailable { read(settings) })
+        show(retryList.readUnlessUnavailable(keeping: wasRead ? secretState : nil) { read(settings) })
+        wasRead = true
     }
 
     /// Whether there is an account (after a sign-in or sign-out).
@@ -191,7 +168,7 @@ final class CloudAccount: ObservableObject, RetryableSecret {
         retryList.retry(from: self)
     }
 
-    func readAgain() {
+    func tryAgain() {
         guard let settings else { return }
         refresh(settings: settings)
     }
@@ -253,7 +230,8 @@ final class CloudAccount: ObservableObject, RetryableSecret {
             message = nil
         } catch {
             let state = SecretState(error: error)
-            // Whether the tokens are still there is unknown: Retry, without a second prompt for the read below.
+            // Refused as unavailable (a removal normally needs no unlocked Keychain, so this is rare): whether the
+            // tokens are still there is unknown, so Retry, without asking again for the read below.
             if state.isUnavailable {
                 show(state)
                 return
