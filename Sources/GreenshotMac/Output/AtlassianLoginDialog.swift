@@ -149,7 +149,11 @@ enum AtlassianSignIn {
                 try AtlassianSecrets(store: Uploads.secrets).setSecret(site.secret, for: service.secretKey, host: site.baseURL.host)
                 return
             } catch {
+                // Said, not only logged: "Remember in Keychain" was on, and the next start would ask again.
                 log.error("The \(service.name) password could not be kept in the Keychain", error: error)
+                ErrorPresenter.show(message: String(localized: "The \(service.name) password could not be kept in the Keychain"),
+                                    detail: error.localizedDescription + "\n\n"
+                                        + String(localized: "Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations."))
             }
         }
         sessionPasswords[key(service, site)] = site.secret
