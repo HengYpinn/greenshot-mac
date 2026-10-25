@@ -145,6 +145,11 @@ public struct AIToolsConsentKeeper {
     private var changes: [Pending] = []
     /// The seal text verified or written in this run (nil: none), to notice a replaced seal without the key.
     private var knownSeal: String?
+    /// `base` was read from stored settings, not defaults given for settings that are missing or couldn't be read.
+    private var baseWasStored: Bool
+    /// The key of the old seal was removed (or that was tried) after a change that allows less couldn't be sealed:
+    /// once until a seal is written again.
+    private var oldKeyRemovalTried = false
     /// Why the Keychain couldn't be used the last time; nil once it could.
     private var problem: String?
     /// The key couldn't be read at the last check: logged once, not at every check while it stays so.
@@ -152,11 +157,20 @@ public struct AIToolsConsentKeeper {
     /// What the user was told since the last check that succeeded.
     private var told: Set<Notice> = []
 
-    /// The consent as loaded at the start, checked (`check`).
-    public init(seal: AIToolsConsentSeal, loaded settings: AIToolsSettings) {
+    /// The consent as loaded at the start, checked (`check`). `isStored`: the settings were read from what is stored
+    /// (`isStored(json:)`), not defaults for settings that are missing or couldn't be read (moved aside).
+    public init(seal: AIToolsConsentSeal, loaded settings: AIToolsSettings, isStored: Bool = true) {
         self.seal = seal
         base = settings
+        baseWasStored = isStored
         check()
+    }
+
+    /// Whether settings were read from what is stored: the JSON as read (nil: nothing stored, or the file was moved
+    /// aside because it couldn't be read) decodes.
+    public static func isStored(json: Data?) -> Bool {
+        guard let json else { return false }
+        return (try? JSONDecoder().decode(AppSettings.self, from: json)) != nil
     }
 
     // MARK: Values
@@ -219,11 +233,12 @@ public struct AIToolsConsentKeeper {
     /// the key can't be read, it stays unchecked.
     private mutating func verifyBase() -> Bool {
         if AIToolsConsentSeal.isDefault(base) {
-            // The defaults need no seal. One that is still stored (its key couldn't be removed when they were saved)
-            // goes at this check, so the earlier values it was made for can't be put back with it.
+            // The defaults need no seal. One that is still stored next to stored defaults (its key couldn't be removed
+            // when they were saved) goes at this check, so the earlier values it was made for can't be put back with
+            // it. Not next to defaults for settings that are missing or couldn't be read: put back, they count again.
             isChecked = true
             knownSeal = seal.storedSeal
-            isBaseSealed = knownSeal == nil
+            isBaseSealed = knownSeal == nil || !baseWasStored
             return true
         }
         let sealed: Bool
@@ -260,8 +275,10 @@ public struct AIToolsConsentKeeper {
             return false
         }
         base = sealing
+        baseWasStored = true
         changes = []
         isBaseSealed = true
+        oldKeyRemovalTried = false
         knownSeal = seal.storedSeal
         problem = nil
         told = []
@@ -295,7 +312,7 @@ public struct AIToolsConsentKeeper {
 
         // Stored without a seal; the defaults need none (they hold as they are, their old seal goes at the next check).
         let unsealed = !AIToolsConsentSeal.sealedValuesEqual(storedBefore, stored) && !AIToolsConsentSeal.isDefault(stored)
-        if unsealed && isChecked && isBaseSealed { removeKeyOfOldSeal() }
+        if unsealed && isChecked && !oldKeyRemovalTried { removeKeyOfOldSeal() }
         // Told and logged once until a check succeeds, not at every change
         var fresh: [Notice] = []
         if unsealed && told.insert(.storedUnsealed).inserted {
@@ -310,9 +327,11 @@ public struct AIToolsConsentKeeper {
     }
 
     /// The stored values allow less than the old seal says, and the values in memory don't need that seal any more:
-    /// without its key it can't verify the old values when someone puts them back with it. Tried once: `base` isn't
-    /// taken as sealed afterwards, whether it worked or not (the next seal makes a new key anyway).
+    /// without its key it can't verify the old values when someone puts them back with it (also when the stored seal
+    /// was removed or replaced meanwhile: a copy of it still verifies with that key). Tried once until the next seal
+    /// (`oldKeyRemovalTried`); `base` isn't taken as sealed afterwards, whether it worked or not.
     private mutating func removeKeyOfOldSeal() {
+        oldKeyRemovalTried = true
         isBaseSealed = false
         do {
             try seal.removeKey()
@@ -342,10 +361,12 @@ public struct AIToolsConsentKeeper {
     }
 
     /// The settings were read again (`greenshot-cli --reload`): the sealed values `stored` keep what is known about
-    /// them, others are checked like at the start. This run's changes stay and are made to them.
-    public mutating func reload(_ settings: AIToolsSettings) {
+    /// them, others are checked like at the start (`isStored` as at `init`). This run's changes stay and are made to
+    /// them.
+    public mutating func reload(_ settings: AIToolsSettings, isStored: Bool = true) {
         if !AIToolsConsentSeal.sealedValuesEqual(settings, stored) {
             base = settings
+            baseWasStored = isStored
             isChecked = false
             isBaseSealed = false
             knownSeal = nil

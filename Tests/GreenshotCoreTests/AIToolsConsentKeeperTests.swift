@@ -121,12 +121,14 @@ struct ConsentRun {
     /// What the user was told.
     var notices: [AIToolsConsentKeeper.Notice] = []
 
-    /// The start.
+    /// The start, as `SettingsStore` does it: a file that can't be read is moved aside and gives the defaults, which
+    /// don't count as stored.
     init(_ file: URL, _ secrets: SplitLockSecretStore) {
         self.file = file
         self.secrets = secrets
-        keeper = AIToolsConsentKeeper(seal: AIToolsConsentSeal(secrets: secrets, location: .file(file)),
-                                      loaded: Self.onDisk(file))
+        let loaded = Self.onDisk(file)
+        keeper = AIToolsConsentKeeper(seal: AIToolsConsentSeal(secrets: secrets, location: .file(file)), loaded: loaded,
+                                      isStored: AIToolsConsentKeeper.isStored(json: try? Data(contentsOf: file)))
         write()
     }
 
@@ -173,7 +175,7 @@ struct ConsentRun {
 
     /// `greenshot-cli --reload`.
     mutating func reload() {
-        keeper.reload(Self.onDisk(file))
+        keeper.reload(Self.onDisk(file), isStored: AIToolsConsentKeeper.isStored(json: try? Data(contentsOf: file)))
         write()
     }
 }
@@ -838,6 +840,63 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
         let calls = secrets.calls
         run.save()
         #expect(secrets.calls == calls)
+    }
+
+    // MARK: Third review
+
+    /// K1: the seal text removed outside Greenshot while the Keychain is locked (deletes work), then a program removed:
+    /// the key of the old seal still goes, so putting the old settings back with it doesn't bring the program back.
+    /// Also when a save noticed the removed seal first.
+    @Test func theOldKeyGoesAlsoWhenTheSealWasRemovedDuringTheLock() throws {
+        for saveFirst in [false, true] {
+            let file = consentSettingsFile()
+            defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+            let secrets = SplitLockSecretStore()
+            allowedBefore(file, secrets, "/A", "/B")
+            let oldBlob = try Data(contentsOf: file)
+            let oldSeal = try Data(contentsOf: sealFile(file))
+            var run = ConsentRun(file, secrets)
+            secrets.readsLocked = true
+            secrets.writesLocked = true
+            try FileManager.default.removeItem(at: sealFile(file))
+            if saveFirst { run.save() }
+            run.edit { $0.allowedClients.removeAll { $0 == "/A" } }
+            #expect(secrets.value(AIToolsConsentSeal.keyName) == nil, "save first: \(saveFirst)")
+
+            secrets.readsLocked = false
+            secrets.writesLocked = false
+            try oldBlob.write(to: file)
+            try oldSeal.write(to: sealFile(file))
+            let restarted = allowedAfterRestart(file, secrets)
+            #expect(restarted.isEmpty, "save first: \(saveFirst)")
+        }
+    }
+
+    /// m-a: a settings file that couldn't be read is moved aside and the start gets the defaults. Those weren't stored,
+    /// so the seal and key next to them stay: putting the fixed file back keeps the consent.
+    @Test func settingsThatCouldntBeReadKeepTheirSeal() throws {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/A")
+        let good = try Data(contentsOf: file)
+        try Data("not JSON {".utf8).write(to: file)
+        let broken = ConsentRun(file, secrets)
+        #expect(broken.inEffect.allowedClients.isEmpty)
+        #expect(FileManager.default.fileExists(atPath: file.appendingPathExtension("bad").path))
+        #expect(secrets.value(AIToolsConsentSeal.keyName) != nil)
+        #expect(storedSealText(file) != nil)
+
+        try good.write(to: file)
+        #expect(allowedAfterRestart(file, secrets) == ["/A"])
+    }
+
+    /// Settings count as stored only when what is stored decodes.
+    @Test func onlySettingsThatDecodeCountAsStored() {
+        #expect(!AIToolsConsentKeeper.isStored(json: nil))
+        #expect(!AIToolsConsentKeeper.isStored(json: Data("not JSON {".utf8)))
+        #expect(!AIToolsConsentKeeper.isStored(json: Data("[1, 2]".utf8)))
+        #expect(AIToolsConsentKeeper.isStored(json: Data("{}".utf8)))
     }
 
     // MARK: Reload and edits outside Greenshot

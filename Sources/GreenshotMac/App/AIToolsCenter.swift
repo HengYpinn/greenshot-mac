@@ -61,10 +61,10 @@ final class AIToolsCenter: ObservableObject {
         switch notice {
         case .untilQuit:
             title = String(localized: "This change to AI tools applies until Greenshot quits")
-            detail = String(localized: "Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.")
+            detail = String(localized: "Greenshot can't use the Keychain, so it can't be saved. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks.")
         case .storedUnsealed:
             title = String(localized: "The AI tools consent will be reset at the next start")
-            detail = String(localized: "Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.")
+            detail = String(localized: "Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. To keep it, click Retry in Settings › AI Tools, and unlock the Keychain or allow Greenshot when macOS asks.")
         }
         Toast.show(title, detail: detail, kind: .warning, action: { [app] in app.showSettings(pane: .aiTools) }, mustBeSeen: true)
     }
