@@ -268,8 +268,9 @@ public struct OAuthClient: Sendable {
                     try save(refreshed)
                     return refreshed.accessToken
                 } catch UploadError.http(let status, _) where status == 400 || status == 401 {
-                    // The refresh token is no longer good: sign in again below.
-                    try? signOut()
+                    // The refresh token is no longer good: sign in again below. Tokens that can't be removed (the
+                    // Keychain locked meanwhile) throw first: the new ones couldn't be kept either.
+                    try signOut()
                 }
             }
         }
