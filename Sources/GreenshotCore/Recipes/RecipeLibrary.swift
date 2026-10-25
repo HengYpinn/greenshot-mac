@@ -263,6 +263,10 @@ public final class RecipeLibrary {
         fileOrder = []
         forgetFileExtensions()
         if isFeatureEnabled {
+            // Reloads come from the user (Reload Recipes, switching recipes on) or the start: a trust store whose key the
+            // locked Keychain didn't give is read again (one password prompt, with the user there), so its approvals
+            // count again once the Keychain was unlocked. A store that was read isn't read again.
+            trustStore.readAgainIfUnavailable()
             loadingConfiguredFiles = true
             for path in loadSettings().files where !path.trimmingCharacters(in: .whitespaces).isEmpty {
                 let url = URL(fileURLWithPath: RecipeTrustStore.standardized(path))

@@ -53,19 +53,79 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
 }
 
 /// A locked Keychain, or its password prompt cancelled or denied, is not a missing secret: nothing that is stored is
-/// replaced, nobody is asked to sign in again, and the approvals and the AI tools consent come back once it can be read.
+/// replaced, nobody is asked to sign in again, and what is stored counts again once it is read again (the recipe
+/// approvals: at the next change, Reload Recipes or the next start, not at every look-up).
 @Suite struct SecretStoreUnavailableTests {
     private let now = Date(timeIntervalSince1970: 1_800_000_000)
 
     // MARK: The Keychain's statuses
 
+    /// What each status the login keychain can give means (Apple's Security sources): only "not found" is a missing
+    /// secret. A locked, cancelled, denied or unattended Keychain can't be used right now; any other error fails.
     @Test func aLockedCancelledOrDeniedKeychainItemIsUnavailableNotMissing() {
-        let unavailable = SecretStoreUnavailableError.keychainStatuses
-        #expect(unavailable.contains(errSecInteractionNotAllowed))
-        #expect(unavailable.contains(errSecUserCanceled))
-        #expect(unavailable.contains(errSecAuthFailed))
-        #expect(!unavailable.contains(errSecItemNotFound))
-        #expect(!unavailable.contains(errSecSuccess))
+        let table: [(status: OSStatus, means: KeychainStatus)] = [
+            (errSecSuccess, .success),
+            (errSecItemNotFound, .notFound),
+            // Its unlock prompt cancelled, or (most likely) "Deny" when macOS asked whether Greenshot may use the item.
+            (errSecUserCanceled, .unavailable),
+            // Too many wrong passwords, or refused without a prompt (another build's item, a stale login keychain).
+            (errSecAuthFailed, .unavailable),
+            // Locked while macOS can't ask: no window server (SSH), or Power Nap.
+            (errSecInteractionNotAllowed, .unavailable),
+            (errSecInDarkWake, .unavailable),
+            // No keychain service, no keychain that could hold it, a damaged keychain or item, a read-only keychain.
+            (errSecNotAvailable, .failed),
+            (errSecNoDefaultKeychain, .failed),
+            (errSecNoSuchKeychain, .failed),
+            (errSecInvalidKeychain, .failed),
+            (errSecReadOnly, .failed),
+            (errSecWrPerm, .failed),
+            (errSecDuplicateItem, .failed),
+            (errSecMissingEntitlement, .failed),
+            (errSecInvalidItemRef, .failed),
+            // The data protection keychain's and LocalAuthentication's (-25330 errSecAuthNeeded), the agent failing.
+            (errSecInteractionRequired, .failed),
+            (-25330, .failed),
+            (errAuthorizationInternal, .failed),
+        ]
+        for row in table {
+            let means = KeychainStatus(row.status)
+            #expect(means == row.means, "OSStatus \(row.status)")
+        }
+    }
+
+    /// A write updates the item, adds it when it isn't there, and updates it once more when another writer added it in
+    /// between (the add finds it there after all); any other status counts as it is.
+    @Test func aWriteUpdatesAddsAndUpdatesOnceMoreAfterARace() {
+        func write(_ updates: [OSStatus], _ adds: [OSStatus]) -> (calls: [String], call: KeychainStatus.WriteCall, status: OSStatus) {
+            var calls: [String] = []
+            var updates = updates
+            var adds = adds
+            let written = KeychainStatus.write(update: { calls.append("update"); return updates.removeFirst() },
+                                               add: { calls.append("add"); return adds.removeFirst() })
+            return (calls, written.call, written.status)
+        }
+        let updated = write([errSecSuccess], [])
+        #expect(updated.calls == ["update"])
+        #expect(updated.call == .update)
+        #expect(updated.status == errSecSuccess)
+        let added = write([errSecItemNotFound], [errSecSuccess])
+        #expect(added.calls == ["update", "add"])
+        #expect(added.status == errSecSuccess)
+        let raced = write([errSecItemNotFound, errSecSuccess], [errSecDuplicateItem])
+        #expect(raced.calls == ["update", "add", "update"])
+        #expect(raced.call == .update)
+        #expect(raced.status == errSecSuccess)
+        // Only once: a second miss counts (fails, nothing replaced).
+        let racedTwice = write([errSecItemNotFound, errSecItemNotFound], [errSecDuplicateItem])
+        #expect(racedTwice.calls == ["update", "add", "update"])
+        #expect(racedTwice.status == errSecItemNotFound)
+        let locked = write([errSecUserCanceled], [])
+        #expect(locked.calls == ["update"])
+        #expect(KeychainStatus(locked.status) == .unavailable)
+        let addLocked = write([errSecItemNotFound], [errSecInteractionNotAllowed])
+        #expect(addLocked.call == .add)
+        #expect(addLocked.status == errSecInteractionNotAllowed)
     }
 
     // MARK: Recipe approvals
@@ -95,7 +155,8 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         #expect(throws: SecretStoreUnavailableError.self) { try approve("two", second, "22", in: store) }
         #expect(throws: SecretStoreUnavailableError.self) { try store.revokeApproval(recipeId: "one", forFile: first) }
         #expect(secrets.value(RecipeTrustStore.keyName) == key)
-        #expect(try Data(contentsOf: file) == saved)
+        let after = try Data(contentsOf: file)
+        #expect(after == saved)
 
         // Unlocked (the user typed the password at the next prompt): the approval is saved next to the earlier one.
         secrets.isLocked = false
@@ -105,6 +166,37 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         #expect(reopened.allRecords.map(\.filePath) == [first, second].map(RecipeTrustStore.standardized))
         #expect(reopened.approval(forFile: first, sha256: "11", recipeId: "one") != nil)
         #expect(!reopened.wasTampered)
+    }
+
+    /// Greenshot started with the Keychain locked: unlocking it (in Keychain Access) and Reload Recipes bring the
+    /// approvals back without a restart. A reload reads the Keychain once then, and not at all once it was read.
+    @MainActor @Test func reloadRecipesReadsALockedKeychainAgain() async throws {
+        let secrets = LockableSecretStore()
+        let earlier = LibraryFixture(secrets: secrets)
+        defer { earlier.cleanUp() }
+        let url = try earlier.write(libraryRecipe())
+        _ = await earlier.library.importFile(url)
+        #expect(earlier.library.recipe(id: "lib_recipe") != nil)
+
+        // The next start, locked: the prompt cancelled, the approval question answered with "Don't run".
+        secrets.isLocked = true
+        let approver = StubApprover { _ in nil }
+        let box = earlier.box
+        let library = RecipeLibrary(loadSettings: { box.settings }, saveSettings: { box.settings = $0 },
+                                    trustStore: RecipeTrustStore(fileURL: earlier.folder.appendingPathComponent("trust.json"), secrets: secrets),
+                                    approver: approver, watchFiles: false)
+        _ = await library.reload()
+        #expect(approver.requests.count == 1)
+        #expect(library.recipe(id: "lib_recipe") == nil)
+
+        secrets.isLocked = false
+        let reads = secrets.reads
+        _ = await library.reload()
+        #expect(approver.requests.count == 1)
+        #expect(library.recipe(id: "lib_recipe") != nil)
+        #expect(secrets.reads == reads + 1)
+        _ = await library.reload()
+        #expect(secrets.reads == reads + 1)
     }
 
     /// Every look-up would show the Keychain's password prompt again: a locked Keychain is asked once, and again only
@@ -237,7 +329,8 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         #expect(secrets.writes == 0)
 
         secrets.isLocked = false
-        #expect(try await client.accessToken(authorizer: nil) == "a1")
+        let token = try await client.accessToken(authorizer: nil)
+        #expect(token == "a1")
     }
 
     // MARK: Jira and Confluence
@@ -251,7 +344,8 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         }
         #expect(secrets.writes == 0)
         secrets.isLocked = false
-        #expect(try atlassian.secret(for: "jira.apiToken", host: "jira.example.test", claim: true) == "tok")
+        let token = try atlassian.secret(for: "jira.apiToken", host: "jira.example.test", claim: true)
+        #expect(token == "tok")
         #expect(secrets.value("jira.apiToken.host") == "jira.example.test")
     }
 }

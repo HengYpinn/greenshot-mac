@@ -121,6 +121,68 @@ func recipeTemporaryFolder() -> URL {
         #expect(reopened.allRecords.map(\.filePath) == [first, second].map(RecipeTrustStore.standardized))
     }
 
+    /// The Keychain can unlock between the two reads of one change: the prompt of the read before the change cancelled,
+    /// the password typed at the prompt of the save's read. The change is still refused: it was made on records the
+    /// locked Keychain didn't give (empty), and saved it would be the only approval left.
+    @Test func aChangeIsRefusedWhenTheKeychainUnlocksOnlyAtTheSave() throws {
+        let folder = recipeTemporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("trust.json")
+        let secrets = FlakySecretStore()
+        let first = "/tmp/recipes/first.gsrecipe.json"
+        let second = "/tmp/recipes/second.gsrecipe.json"
+        try RecipeTrustStore(fileURL: file, secrets: secrets)
+            .recordApproval(RecipeApproval(recipeId: "one"), forFile: first, sha256: "11", content: nil, origin: nil, recipeName: nil, recipeVersion: nil)
+        let saved = try Data(contentsOf: file)
+
+        let store = RecipeTrustStore(fileURL: file, secrets: secrets)
+        secrets.unavailableReads = 1
+        #expect(store.allRecords.isEmpty)
+        secrets.unavailableReads = 1
+        #expect(throws: SecretStoreUnavailableError.self) {
+            try store.recordApproval(RecipeApproval(recipeId: "two"), forFile: second, sha256: "22", content: nil, origin: nil,
+                                     recipeName: nil, recipeVersion: nil)
+        }
+        let after = try Data(contentsOf: file)
+        #expect(after == saved)
+        let reopened = RecipeTrustStore(fileURL: file, secrets: secrets)
+        #expect(reopened.allRecords.map(\.filePath) == [RecipeTrustStore.standardized(first)])
+    }
+
+    /// After a locked Keychain the empty records stay (no password prompt per look-up) until a change, a new store (the
+    /// next start) or `readAgainIfUnavailable` (Reload Recipes) reads the key again; a store that was read isn't.
+    @Test func aLockedKeychainIsReadAgainWhenAskedTo() throws {
+        let folder = recipeTemporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("trust.json")
+        let secrets = LockableSecretStore()
+        let path = "/tmp/recipes/a.gsrecipe.json"
+        try RecipeTrustStore(fileURL: file, secrets: secrets)
+            .recordApproval(RecipeApproval(recipeId: "one"), forFile: path, sha256: "11", content: nil, origin: nil, recipeName: nil, recipeVersion: nil)
+
+        secrets.isLocked = true
+        let store = RecipeTrustStore(fileURL: file, secrets: secrets)
+        #expect(store.allRecords.isEmpty)
+        // Asked again while still locked: one read, still empty, still no change saved.
+        store.readAgainIfUnavailable()
+        let lockedReads = secrets.reads
+        #expect(store.allRecords.isEmpty)
+        #expect(store.allRecords.isEmpty)
+        #expect(secrets.reads == lockedReads + 1)
+        #expect(throws: SecretStoreUnavailableError.self) { try store.revokeAll(forFile: path) }
+
+        // Unlocked (in Keychain Access): a look-up alone doesn't read again, Reload Recipes does.
+        secrets.isLocked = false
+        #expect(store.approval(forFile: path, sha256: "11", recipeId: "one") == nil)
+        store.readAgainIfUnavailable()
+        #expect(store.approval(forFile: path, sha256: "11", recipeId: "one") != nil)
+        #expect(!store.wasTampered)
+        let reads = secrets.reads
+        store.readAgainIfUnavailable()
+        #expect(store.allRecords.count == 1)
+        #expect(secrets.reads == reads)
+    }
+
     @Test func revokes() throws {
         let folder = recipeTemporaryFolder()
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -159,7 +221,8 @@ extension InMemorySecretStore {
 }
 
 /// A secret store whose reads throw while `failsReading` is set (an error of the Keychain), or find nothing while
-/// `hidesItems` is set (the key was deleted). A locked Keychain throws `SecretStoreUnavailableError`: `LockableSecretStore`.
+/// `hidesItems` is set (the key was deleted). A locked Keychain throws `SecretStoreUnavailableError`: `LockableSecretStore`,
+/// or here `unavailableReads` for a Keychain that unlocks between two reads.
 final class FlakySecretStore: SecretStore, @unchecked Sendable {
     struct ReadError: Error {}
 
@@ -167,6 +230,7 @@ final class FlakySecretStore: SecretStore, @unchecked Sendable {
     private let lock = NSLock()
     private var failing = false
     private var hiding = false
+    private var unavailable = 0
 
     var failsReading: Bool {
         get { lock.withLock { failing } }
@@ -178,7 +242,20 @@ final class FlakySecretStore: SecretStore, @unchecked Sendable {
         set { lock.withLock { hiding = newValue } }
     }
 
+    /// The next reads that throw `SecretStoreUnavailableError`: the Keychain's password prompt cancelled that many
+    /// times, then answered with the password.
+    var unavailableReads: Int {
+        get { lock.withLock { unavailable } }
+        set { lock.withLock { unavailable = newValue } }
+    }
+
     func secret(for key: String) throws -> String? {
+        let isUnavailable: Bool = lock.withLock {
+            guard unavailable > 0 else { return false }
+            unavailable -= 1
+            return true
+        }
+        if isUnavailable { throw SecretStoreUnavailableError("The Keychain is locked.") }
         if failsReading { throw ReadError() }
         if hidesItems { return nil }
         return try base.secret(for: key)

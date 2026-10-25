@@ -31,15 +31,57 @@ public protocol SecretStore: Sendable {
 /// The secret store can't be used right now: the Keychain is locked, or its password prompt was cancelled or denied.
 /// Not the same as a missing secret (see `SecretStore`).
 public struct SecretStoreUnavailableError: LocalizedError {
-    /// The Keychain's statuses that mean this, not "not found": locked while it may not ask
-    /// (`errSecInteractionNotAllowed`), its password prompt cancelled (`errSecUserCanceled`), or a wrong password or
-    /// "Deny" when macOS asked whether this build of the app may use the item (`errSecAuthFailed`).
-    public static let keychainStatuses: Set<OSStatus> = [errSecInteractionNotAllowed, errSecUserCanceled, errSecAuthFailed]
+    /// The Keychain's statuses that mean this, not "not found" (Apple's Security sources: a locked or refused item
+    /// fails when its data is read, after the search found it):
+    /// - `errSecUserCanceled`: its unlock prompt cancelled, or (most likely) "Deny" when macOS asked whether this build
+    ///   of the app may use the item.
+    /// - `errSecAuthFailed`: too many wrong passwords, or refused without a prompt (another build's item where macOS
+    ///   can't ask, a build whose signature changed while it runs, a login keychain stuck until it is locked and
+    ///   unlocked again).
+    /// - `errSecInteractionNotAllowed`, `errSecInDarkWake`: locked while macOS can't ask (no window server, e.g. over
+    ///   SSH; Power Nap).
+    public static let keychainStatuses: Set<OSStatus> = [errSecUserCanceled, errSecAuthFailed, errSecInteractionNotAllowed,
+                                                          errSecInDarkWake]
 
     public let errorDescription: String?
 
     public init(_ description: String) {
         errorDescription = description
+    }
+}
+
+/// What a status of the Keychain's `SecItem` calls means to the secret store (`KeychainSecretStore` in the app), the
+/// same for a read, an update, an add and a delete.
+public enum KeychainStatus: Equatable, Sendable {
+    /// `errSecSuccess`.
+    case success
+    /// `errSecItemNotFound`: there is no such item. A read gives nil, a write adds it, a delete has nothing to do.
+    case notFound
+    /// One of `SecretStoreUnavailableError.keychainStatuses`: it can't be used right now, what is stored is still there.
+    case unavailable
+    /// Any other error (`KeychainError` in the app).
+    case failed
+
+    public init(_ status: OSStatus) {
+        switch status {
+        case errSecSuccess: self = .success
+        case errSecItemNotFound: self = .notFound
+        default: self = SecretStoreUnavailableError.keychainStatuses.contains(status) ? .unavailable : .failed
+        }
+    }
+
+    /// The call of a write whose status counts.
+    public enum WriteCall: Equatable, Sendable { case update, add }
+
+    /// A write of an item: `update` it, `add` it when it isn't there, and `update` it once more when `add` finds it
+    /// there after all (`errSecDuplicateItem`: another writer, a second Greenshot or another thread, added it in
+    /// between). The call whose status counts, and that status.
+    public static func write(update: () -> OSStatus, add: () -> OSStatus) -> (call: WriteCall, status: OSStatus) {
+        let updated = update()
+        guard updated == errSecItemNotFound else { return (.update, updated) }
+        let added = add()
+        guard added == errSecDuplicateItem else { return (.add, added) }
+        return (.update, update())
     }
 }
 
