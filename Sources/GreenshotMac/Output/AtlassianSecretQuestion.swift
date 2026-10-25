@@ -37,10 +37,11 @@ enum AtlassianSecretQuestion {
 
     /// `stored.site` (from `AtlassianSignIn.stored`) with the secret kept without a server, when the user allows it for
     /// the site's server; the site as it is when there is nothing to ask about; nil when the user didn't allow it, now or
-    /// earlier in this session (an upload says so with a message, which `settings` filters). Throws `NotAllowedYet` for
-    /// `.automation`, after the same message the first time for that server in this session. Throws when the Keychain
-    /// can't be read (before the question: nothing is asked then; after the answer: nothing is kept) or can't keep the
-    /// allowed secret for the server; the caller shows it.
+    /// earlier in this session, or when too many uploads already wait for the question (an upload says so with a
+    /// message, which `settings` filters). Throws `NotAllowedYet` for `.automation`, after the same message the first
+    /// time for that server in this session. Throws when the Keychain can't be read (before the question: nothing is
+    /// asked then; after the answer: nothing is kept) or can't keep the allowed secret for the server; the caller shows
+    /// it.
     static func confirmed(_ stored: AtlassianSecrets.SiteSecret, _ service: AtlassianService, request: AtlassianSecretRequest,
                           settings: AppSettings?) async throws -> AtlassianSite? {
         var stored = stored

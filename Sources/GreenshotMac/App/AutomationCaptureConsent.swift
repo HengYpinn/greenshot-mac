@@ -9,9 +9,9 @@ import GreenshotCore
 /// The question before a capture greenshot-cli asks for without the user on the capture screen (see
 /// `AutomationConsent`): "<program> asks Greenshot for Mac to take a screenshot of the whole screen." Don't Allow is the
 /// default (Return); Allow reacts only after a second, so a click or key meant for something else doesn't answer it;
-/// without an answer it counts as Don't Allow after a minute, once no other question is on top of it. Another program
-/// can't click it without the Accessibility permission. One question at a time: while one is open, other such requests
-/// are refused.
+/// without an answer it counts as Don't Allow after a minute, once no other modal window of the app is on top of it.
+/// Another program can't click it without the Accessibility permission. One question at a time: while one is open,
+/// other such requests are refused.
 @MainActor
 enum AutomationCaptureConsent {
     static let answerTimeout: TimeInterval = 60
@@ -63,7 +63,7 @@ enum AutomationCaptureConsent {
         let handler = AllowHandler(arming: arming)
         allow.target = handler
         allow.action = #selector(AllowHandler.allow(_:))
-        // Only this alert's own session ends: while another question opened on top of it is up, that one is the
+        // Only this alert's own session ends: while another modal window of the app is on top of it, that one is the
         // innermost modal session, which `abortModal` would end instead; this one ends once it is on top again.
         let deadline = Date().addingTimeInterval(answerTimeout)
         let own = ObjectIdentifier(alert.window)

@@ -13,8 +13,8 @@ public enum AtlassianSecretRequest: Equatable, Sendable {
     case upload
     /// A capture or recipe that another program or a trigger started (a command line, a link, AppleScript, Shortcuts,
     /// an AI tool, the clipboard, a file, the browser extension), for a destination the user didn't pick: it isn't
-    /// asked about, as nobody may be at the screen; the upload fails, and the recipe log (every time) and a message
-    /// (once per server, `showsNotAskedMessage`) say how to allow the secret.
+    /// asked about, as nobody may be at the screen; the upload fails, and its recipe log or export summary (every time)
+    /// and a message (once per server, `showsNotAskedMessage`) say how to allow the secret.
     case automation
 
     /// The request of a capture that didn't go through a recipe: `.automation` when automation started it.

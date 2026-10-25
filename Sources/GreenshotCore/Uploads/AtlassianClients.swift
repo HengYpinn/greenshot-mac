@@ -98,13 +98,18 @@ public struct AtlassianSite: Equatable, Sendable {
         return "\(scheme)://\(name):\(port)"
     }
 
-    /// Whether a token or password may go to `url`: http or https, a port from 1 to 65535 (or none), no user part
+    /// Whether a token or password may go to `url`: http or https, no port or one from 1 to 65535 (one too big to be
+    /// read as a number is refused, not taken for none), no user part
     /// (`https://company.atlassian.net@other.test` is other.test), and a plain host (`isPlainHost`) that wasn't written
     /// percent-encoded (`jira%2Eexample.com`, `10.0.0.5%3A8443`): the host it shows is the one it is.
     static func isUsable(_ url: URL) -> Bool {
         guard let scheme = url.scheme?.lowercased(), scheme == "https" || scheme == "http",
               url.user == nil, url.password == nil, let host = url.host, isPlainHost(host) else { return false }
         if let port = url.port, !(1...65_535).contains(port) { return false }
+        // `URL.port` is nil for a port too big for Int, and the origin would take the scheme's default while the
+        // connection goes to another port: a port that is written must be one `URL.port` reads (an empty one is none).
+        let written = CFURLGetByteRangeForComponent(url as CFURL, .port, nil)
+        if url.port == nil, written.location != kCFNotFound, written.length > 0 { return false }
         // An international name typed as such is percent-encoded here and punycode in `host`; ASCII written with % is
         // refused.
         if let encoded = url.host(percentEncoded: true), encoded.contains("%"),

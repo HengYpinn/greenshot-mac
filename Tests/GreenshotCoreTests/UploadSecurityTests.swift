@@ -330,16 +330,22 @@ struct UploadSecurityTests {
         }
     }
 
-    @Test func onlyHttpAndHttpsWithARealPortAndAHostAsItShows() {
-        // Other schemes; ports outside 1…65535 (a bigger one would wrap around to another port); a host written with
-        // percent signs; one slash after the scheme (the host would be "https").
+    @Test func onlyHttpAndHttpsWithAPortFrom1To65535AndAHostAsItShows() {
+        // Other schemes; ports outside 1…65535, also ones too big to be read as a number (`URL.port` is nil for them,
+        // and the connection goes to another port than the one compared); a host written with percent signs; one slash
+        // after the scheme (the host would be "https").
         for url in ["ftp://jira.example.test", "javascript://jira.example.test", "file://localhost/etc",
                     "https://jira.example.test:0", "https://jira.example.test:65536", "http://127.0.0.1:112547",
+                    "https://jira.example.test:9223372036854775808", "https://jira.example.test:99999999999999999999",
+                    "http://127.0.0.1:18446744073709598627", "https://[::1]:99999999999999999999",
                     "https://jira%2Eexample.test", "https://%6Aira.example.test", "https://10.0.0.5%3A8443",
                     "https://%3A%3A1", "https:/jira.example.test", "HTTP:/jira.example.test", "https:jira.example.test"] {
             let site = AtlassianSite(url: url, login: .cloudAPIToken, user: "a@example.test", secret: "")
             #expect(site == nil, "\(url)")
         }
+        // An empty port is none: the scheme's default, where the connection goes too.
+        let emptyPort = AtlassianServer(url: "https://jira.example.test:/jira")
+        #expect(emptyPort?.origin == "https://jira.example.test:443")
     }
 
     // MARK: The question before a token kept without its server goes there
