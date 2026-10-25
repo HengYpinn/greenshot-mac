@@ -62,8 +62,9 @@ final class SettingsStore: ObservableObject {
         } ?? SettingsStorage.load(from: defaults)
         // The AI tools consent is checked last: whatever filled values in (the stored ones, a managed default), the
         // sealed ones must carry a valid seal or are reset, and the reset is saved (sealed first).
-        let loaded = policy.loaded(read, storedJSON: Self.storedJSON(defaults: defaults, fileURL: fileURL))
-        let consent = AIToolsConsentKeeper(seal: seal, loaded: loaded.aiTools)
+        let json = Self.storedJSON(defaults: defaults, fileURL: fileURL)
+        let loaded = policy.loaded(read, storedJSON: json)
+        let consent = AIToolsConsentKeeper(seal: seal, loaded: loaded.aiTools, isStored: AIToolsConsentKeeper.isStored(json: json))
         let checked = Self.withStoredConsent(consent, in: loaded)
         if checked != loaded { Self.write(checked, defaults: defaults, fileURL: fileURL) }
         self.policy = policy
@@ -131,7 +132,7 @@ final class SettingsStore: ObservableObject {
             throw error
         }
         let loaded = policy.loaded(reloaded.settings, storedJSON: reloaded.json)
-        consent.reload(loaded.aiTools)
+        consent.reload(loaded.aiTools, isStored: AIToolsConsentKeeper.isStored(json: reloaded.json))
         takeStoredConsent(in: loaded)
     }
 
