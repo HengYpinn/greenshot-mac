@@ -86,8 +86,8 @@ Review and Revoke.
   While the Keychain can't be used, a program you allow (or an exclusion you remove, or the notification you
   switch off) applies until the app quits; a program you remove (or an application you exclude, or the
   notification you switch on) takes effect at once, and when that has to be saved without its seal, Greenshot says
-  so and the next start resets the values (every program is asked again). Unlock the Keychain (or allow Greenshot
-  when macOS asks) and click Retry on the AI Tools tab to keep these changes and the programs allowed before. A
+  so and the next start resets the values (every program is asked again). To keep these changes and the programs
+  allowed before, click Retry on the AI Tools tab and unlock the Keychain or allow Greenshot when macOS asks. A
   capture or another settings save doesn't read the key. "Don't Allow" (or closing the question) is remembered
   until the app quits; the tab lists those programs with "Allow" and "Ask Again". The question
   stays on top but never takes the keyboard, has no default button, ignores Escape and Return, and its buttons react only

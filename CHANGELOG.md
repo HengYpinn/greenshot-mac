@@ -374,9 +374,11 @@ All notable changes to this project are documented here. The format follows
   remove, or the notification you switch off) applies until Greenshot quits, and a program you remove (or an
   application you exclude, or the notification you switch on) takes effect at once and holds after a restart. When
   such a change has to be saved without its seal, Greenshot says so: the next start then resets the consent, and
-  every program is asked again. Unlock the Keychain (or allow Greenshot when macOS asks) and click Retry in
-  Settings › AI Tools to keep both and the programs allowed before. Captures and other settings saves no longer read
-  the Keychain, so a locked one no longer asks at every capture.
+  every program is asked again. To keep both and the programs allowed before, click Retry in Settings › AI Tools and
+  unlock the Keychain or allow Greenshot when macOS asks. If the settings file can't be read at the start (Greenshot
+  renames it to .bad), the consent's seal is kept: put the fixed file back before you change the AI tools consent or
+  start Greenshot again. Captures and other settings saves no longer read the Keychain, so a locked one no longer
+  asks at every capture.
 - Uploads: while the Keychain can't be used, Box, Dropbox, Jira and Confluence keep your sign-ins and tokens. An upload
   says so instead of asking you to sign in again or saying the token is missing, and a Jira or Confluence upload
   stopped this way counts as failed (also in recipes), like Box and Dropbox. Settings › Destinations no longer shows
