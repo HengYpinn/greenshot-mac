@@ -230,7 +230,8 @@ final class CloudAccount: ObservableObject, RetryableSecret {
             message = nil
         } catch {
             let state = SecretState(error: error)
-            // Whether the tokens are still there is unknown: Retry, without a second prompt for the read below.
+            // Refused as unavailable (a removal normally needs no unlocked Keychain, so this is rare): whether the
+            // tokens are still there is unknown, so Retry, without asking again for the read below.
             if state.isUnavailable {
                 show(state)
                 return

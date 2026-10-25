@@ -6,8 +6,8 @@ import Foundation
 import Testing
 @testable import GreenshotCore
 
-/// The Keychain locks while a refresh token is refused: the old tokens can't be removed, and a browser sign-in would
-/// only make tokens that can't be saved, so the failure comes first.
+/// A store that refuses to remove the tokens of a refused refresh (here: locked meanwhile; a real file keychain
+/// normally deletes without unlocking): the failure comes first, not a browser sign-in whose tokens it might not keep.
 @Suite struct OAuthLockedRefreshTests {
     private let now = Date(timeIntervalSince1970: 1_800_000_000)
 
