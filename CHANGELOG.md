@@ -358,10 +358,34 @@ All notable changes to this project are documented here. The format follows
   loaded; the second and later recipes of a new file are no longer shown as "changed outside Greenshot".
 - Recipes: if the Keychain is locked or can't be read when Greenshot starts, approving a recipe no longer erases your
   approvals of other recipe files, and Revoke says when it couldn't revoke an approval instead of seeming to work.
-- A locked Keychain, or its password prompt cancelled or denied, no longer counts as missing secrets: recipe approvals
-  and the AI tools consent are kept (until it can be read, recipes ask again and AI tools are asked as if none were
-  allowed, without a password prompt for every recipe), and uploads and Settings › Destinations say to unlock it and
-  try again (Retry for Box and Dropbox) instead of asking you to sign in again or showing empty fields.
+- A locked Keychain, or its password prompt cancelled or denied, no longer counts as a missing secret. Greenshot then
+  says that the Keychain is locked or Greenshot isn't allowed to use it: try again and unlock it or allow Greenshot
+  when macOS asks; if macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with
+  Spotlight), or restart Greenshot. It no longer shows macOS's own text for this, such as "The user name or passphrase
+  you entered is not correct."
+- Recipes: if the Keychain can't be used when Greenshot starts, your approvals are kept but don't count yet, so recipe
+  files ask again; an approval is saved if the Keychain can be used by then (unlock it or allow Greenshot when macOS
+  asks). The earlier approvals count again at the next Reload Recipes, approval or start that can read the Keychain,
+  not as soon as it is unlocked. Revoke and Permissions in Settings › Recipes say when an approval couldn't be revoked
+  or saved.
+- AI tools: if the Keychain can't be used when Greenshot checks the seal of the AI tools consent (at the start, for
+  example), the consent is kept, but none of the programs you allowed before counts until it can be checked;
+  Settings › AI Tools says so, with Retry. While the Keychain can't be used, a program you allow (or an exclusion you
+  remove, or the notification you switch off) applies until Greenshot quits, and a program you remove (or an
+  application you exclude, or the notification you switch on) takes effect at once and holds after a restart. When
+  such a change has to be saved without its seal, Greenshot says so: the next start then resets the consent, and
+  every program is asked again. Unlock the Keychain (or allow Greenshot when macOS asks) and click Retry in
+  Settings › AI Tools to keep both and the programs allowed before. Captures and other settings saves no longer read
+  the Keychain, so a locked one no longer asks at every capture.
+- Uploads: while the Keychain can't be used, Box, Dropbox, Jira and Confluence keep your sign-ins and tokens. An upload
+  says so instead of asking you to sign in again or saying the token is missing, and a Jira or Confluence upload
+  stopped this way counts as failed (also in recipes), like Box and Dropbox. Settings › Destinations no longer shows
+  them as not set: the token fields are disabled with the message and Retry, and Box and Dropbox show Retry instead of
+  Sign In; another Keychain error is shown, and you can still enter the secret or sign in again. Opening the tab while
+  the Keychain is locked asks at most once, not for every field; one Retry reads them all again once the Keychain can
+  be used, and a token typed while the Keychain locked is saved by Retry. Box: the signed-in check and Sign Out no
+  longer read the client secret. The Jira and Confluence login says when "Remember in Keychain" couldn't keep the
+  password (it is used until Greenshot quits).
 - Recipes: "Reset to defaults" no longer also resets a recipe whose id starts with the same name, and drops a value
   that was typed but not yet applied; an automatic step limited to some destinations also runs for an external
   command with a comma or semicolon in its name; changing where an automatic step is used keeps the exclusion of a

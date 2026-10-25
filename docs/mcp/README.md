@@ -79,10 +79,17 @@ Review and Revoke.
   Allowed programs are stored in the settings and can be removed on the AI Tools tab. The allowed programs, the
   excluded applications and the capture notification are sealed with a key in your Keychain: when another program
   edits them in the preferences, Greenshot resets them (nobody allowed, the notification on, the default exclusions
-  back) and asks again. While the Keychain is locked (or its password prompt was cancelled) the seal can't be checked:
-  Greenshot then acts as if they were reset but keeps them, and they count again once it can read the Keychain (the
-  next start, or when you allow a program and unlock the Keychain at its prompt). "Don't Allow" (or closing the
-  question) is remembered until the app quits; the tab lists those programs with "Allow" and "Ask Again". The question
+  back) and asks again. Greenshot checks the seal when it starts, at `greenshot-cli --reload`, at Retry on the AI
+  Tools tab and when you change these values. If it can't read the key then (the Keychain is locked, or its
+  password prompt was cancelled or denied), it keeps the stored values but acts as if they were reset, and the tab
+  says so; they count again at a later check that can read the key, unless they were changed outside Greenshot.
+  While the Keychain can't be used, a program you allow (or an exclusion you remove, or the notification you
+  switch off) applies until the app quits; a program you remove (or an application you exclude, or the
+  notification you switch on) takes effect at once, and when that has to be saved without its seal, Greenshot says
+  so and the next start resets the values (every program is asked again). Unlock the Keychain (or allow Greenshot
+  when macOS asks) and click Retry on the AI Tools tab to keep these changes and the programs allowed before. A
+  capture or another settings save doesn't read the key. "Don't Allow" (or closing the question) is remembered
+  until the app quits; the tab lists those programs with "Allow" and "Ask Again". The question
   stays on top but never takes the keyboard, has no default button, ignores Escape and Return, and its buttons react only
   after a second, so a keystroke meant for the AI tool can't answer it. It opens at a slightly different place each time
   and counts "Allow" only when it has been shown unchanged for that second and no other program's window lies over it:

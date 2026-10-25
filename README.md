@@ -90,7 +90,9 @@ every build, so you would have to allow screen recording again after each rebuil
 certificate once: in Keychain Access choose Keychain Access › Certificate Assistant › Create a Certificate…, name it
 `Greenshot Dev`, Identity Type "Self Signed Root", Certificate Type "Code Signing". `scripts/build-app.sh` uses it
 automatically (another one with `SIGN_IDENTITY="Name" scripts/build-app.sh`). If the permission switch is on but the app
-still asks, remove the app from the list with −, then reopen it and allow it again.
+still asks, remove the app from the list with −, then reopen it and allow it again. The Keychain doesn't go by the
+certificate: after each rebuild of a self-signed or ad hoc app, macOS asks once for each item Greenshot stored there;
+enter your login password and choose Always Allow (Allow alone asks again the next time).
 
 ## Using it
 
@@ -180,8 +182,10 @@ Code (copy or open what a code in the screenshot says), and the uploads: Jira, C
 ### Uploads
 
 Greenshot's upload plugins are built in, set up under Settings › Destinations. Secrets (API tokens, the Box client
-secret, the sign-ins) live in your Keychain, never in the settings. While the Keychain is locked (or its password
-prompt was cancelled) an upload says so instead of asking you to sign in again; unlock it and try again.
+secret, the sign-ins) live in your Keychain, never in the settings. While the Keychain is locked, or its password
+prompt was cancelled or denied, they are kept: an upload says so instead of asking you to sign in again, and
+Settings › Destinations shows Retry. Try again and unlock the Keychain or allow Greenshot when macOS asks; if macOS
+doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot.
 
 - **Jira** and **Confluence** (Atlassian Cloud): the site URL (Confluence sites end in `/wiki`), your email and an
   [API token](https://id.atlassian.com/manage-profile/security/api-tokens). "Upload to Jira…" asks for the issue (a
@@ -223,9 +227,11 @@ replaces its built-in recipe or an automatic step applies to it.
 - **Your own recipes:** import a `.gsrecipe.json` file with Recipes › Import Recipe… or in Settings › Recipes.
   Greenshot shows in plain words what the file does and asks before using it, and again whenever the file changes;
   programs, uploads and file access each need their own switch. Settings › Recipes switches recipes off and lists your
-  recipes with their approvals. The approvals are signed with a key in your Keychain: while the Keychain is locked (or
-  its password prompt was cancelled) recipe files ask again and an approval can't be saved, but the earlier approvals
-  are kept and count again once the Keychain is unlocked.
+  recipes with their approvals. The approvals are signed with a key in your Keychain. If the Keychain is locked when
+  Greenshot starts (or its password prompt was cancelled or denied), the approvals are kept but don't count yet:
+  recipe files ask again, and an approval is saved if the Keychain can be used by then (unlock it or allow Greenshot
+  when macOS asks). The earlier approvals count again at the next Reload Recipes, approval or start that can read the
+  Keychain; unlocking it alone doesn't bring them back.
 - **Recipe editor** (menu bar › Recipe Editor…): recipes are edited as a list of steps; branches and parallel lanes are
   indented. Each step's settings are a form made from its contract. The Flow tab draws the flow and copies it as Mermaid
   text. Saving renews the recipe's approval and asks only when a change adds a trigger that starts on its own, a new
