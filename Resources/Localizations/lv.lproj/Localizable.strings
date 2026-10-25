@@ -2641,7 +2641,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Tā tika pārdēvēta par %@, un Greenshot startēja ar noklusējuma iestatījumiem.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Tas tika saglabāts bez servera, kuram tas pieder, ar vecāku Greenshot versiju vai pirms URL ievadīšanas. Atļauj to tikai tad, ja šis ir tavs %@ serveris: turpmāk tas tiks sūtīts tikai uz šo serveri.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Tas tika saglabāts bez servera, kuram tas pieder, ar vecāku Greenshot versiju vai pirms URL ievadīšanas. Atļauj to tikai tad, ja šis ir tavs %@ serveris: turpmāk tas tiks sūtīts tikai uz šo serveri (adrese un ports).";
 
 /* machine */
 "It will be lost if you don't save it." = "Tas tiks zaudēts, ja nesaglabāsi.";
@@ -3263,6 +3263,12 @@
 
 /* machine */
 "Not saved yet" = "Vēl nav saglabāts";
+
+/* machine */
+"Not sent to %@" = "Nav nosūtīts uz %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Nav nosūtīts: šim serverim nav atļauts.";
 
 /* machine */
 "Not set" = "Nav iestatīts";
@@ -4609,6 +4615,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Atdali adreses ar komatiem. Tēmā var izmantot faila vārda parauga mainīgos, piemēram, ${title}. Outlook tos izmanto arī. Ar CC vai BCC un Mail kā pasta lietotni Mail uzraksta visu vēstuli (macOS vienreiz vaicā, vai Greenshot drīkst vadīt Mail); pretējā gadījumā macOS pasta pakalpojums aizpilda Kam un tēmu, bet CC un BCC tiek parādīti pievienošanai ar roku.";
 
 /* machine */
+"Server (address and port): %@" = "Serveris (adrese un ports): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server vai Data Center: personīgais piekļuves žetons";
 
 /* machine */
@@ -5047,6 +5056,9 @@
 "The %@ password could not be kept in the Keychain" = "%@ paroli nevarēja saglabāt atslēgu saišķī";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@ žetons vai parole atslēgu saišķī šim serverim vēl nav atļauts. Atļauj to ar Pārbaudīt savienojumu sadaļā Iestatījumi › Mērķi.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas katrai programmai atļauja tiks vaicāta vēlreiz.";
 
 /* machine */
@@ -5408,6 +5420,9 @@
 
 /* machine */
 "The text is too long for this code." = "Teksts ir pārāk garš šim kodam.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Žetons vai parole atslēgu saišķī šim serverim vēl nav atļauts. Atļauj to ar Pārbaudīt savienojumu sadaļā Iestatījumi › Mērķi.";
 
 /* machine */
 "The torn edges of this image." = "Šī attēla noplēstās malas.";

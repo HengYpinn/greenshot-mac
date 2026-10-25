@@ -2623,7 +2623,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Nó đã được đổi tên thành %@ và Greenshot khởi động với thiết lập mặc định.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Nó đã được lưu mà không có máy chủ mà nó thuộc về, bởi phiên bản Greenshot cũ hơn hoặc trước khi nhập URL. Chỉ cho phép nếu đây là máy chủ %@ của bạn: từ nay nó chỉ được gửi đến máy chủ này.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Nó đã được lưu mà không có máy chủ mà nó thuộc về, bởi phiên bản Greenshot cũ hơn hoặc trước khi nhập URL. Chỉ cho phép nếu đây là máy chủ %@ của bạn: từ nay nó chỉ được gửi đến máy chủ này (địa chỉ và cổng).";
 
 /* machine */
 "It will be lost if you don't save it." = "Nó sẽ bị mất nếu bạn không lưu.";
@@ -3242,6 +3242,12 @@
 
 /* machine */
 "Not saved yet" = "Chưa lưu";
+
+/* machine */
+"Not sent to %@" = "Chưa gửi đến %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Chưa gửi: không được phép cho máy chủ này.";
 
 /* machine */
 "Not set" = "Chưa đặt";
@@ -4585,6 +4591,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Phân tách các địa chỉ bằng dấu phẩy. Chủ đề có thể dùng các biến của dạng tên tệp, ví dụ ${title}. Outlook cũng dùng chúng. Với CC hoặc BCC và Mail là ứng dụng thư của bạn, Mail soạn toàn bộ thư (macOS hỏi một lần xem Greenshot có được điều khiển Mail không); nếu không, dịch vụ thư của macOS điền Đến và chủ đề, còn CC và BCC được hiển thị để bạn thêm thủ công.";
 
 /* machine */
+"Server (address and port): %@" = "Máy chủ (địa chỉ và cổng): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server hoặc Data Center: mã truy cập cá nhân";
 
 /* machine */
@@ -5029,6 +5038,9 @@
 "The %@ password could not be kept in the Keychain" = "Không thể giữ mật khẩu %@ trong Chuỗi khóa";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Mã hoặc mật khẩu %@ trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, mỗi chương trình sẽ được hỏi lại.";
 
 /* machine */
@@ -5390,6 +5402,9 @@
 
 /* machine */
 "The text is too long for this code." = "Văn bản quá dài so với mã này.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Mã hoặc mật khẩu trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến.";
 
 /* machine */
 "The torn edges of this image." = "Các cạnh rách của ảnh này.";

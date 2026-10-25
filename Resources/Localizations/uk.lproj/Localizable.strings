@@ -2674,7 +2674,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Його перейменовано на %@, а Greenshot запустився зі стандартними параметрами.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Його було збережено без сервера, до якого він належить, старішою версією Greenshot або до введення URL. Дозволяйте, лише якщо це ваш сервер %@: відтепер він надсилатиметься лише на цей сервер.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Його було збережено без сервера, до якого він належить, старішою версією Greenshot або до введення URL. Дозволяйте, лише якщо це ваш сервер %@: відтепер він надсилатиметься лише на цей сервер (адреса й порт).";
 
 /* machine */
 "It will be lost if you don't save it." = "Його буде втрачено, якщо не зберегти.";
@@ -3293,6 +3293,12 @@
 
 /* machine */
 "Not saved yet" = "Ще не збережено";
+
+/* machine */
+"Not sent to %@" = "Не надіслано до %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Не надіслано: не дозволено для цього сервера.";
 
 /* machine */
 "Not set" = "Не задано";
@@ -4639,6 +4645,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Розділяйте адреси комами. У темі можна використовувати змінні шаблону назви файла, напр. ${title}. Outlook теж їх використовує. Якщо задано копію чи приховану копію, а поштова програма — Mail, Mail записує весь лист (macOS один раз запитує, чи може Greenshot керувати Mail); інакше поштова служба macOS заповнює «Кому» й тему, а копію та приховану копію потрібно додати вручну.";
 
 /* machine */
+"Server (address and port): %@" = "Сервер (адреса й порт): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server або Data Center: персональний токен доступу";
 
 /* machine */
@@ -5080,6 +5089,9 @@
 "The %@ password could not be kept in the Keychain" = "Не вдалося зберегти пароль %@ у Зв’язці ключів";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен або пароль %@ зі Зв’язки ключів ще не дозволено для цього сервера. Дозвольте його за допомогою «Перевірити з’єднання» в Параметри › Призначення.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Згоду для інструментів ШІ збережено без печатки, бо Зв’язку ключів не можна було використовувати: після наступного запуску кожну програму запитають знову.";
 
 /* machine */
@@ -5441,6 +5453,9 @@
 
 /* machine */
 "The text is too long for this code." = "Текст задовгий для цього коду.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен або пароль зі Зв’язки ключів ще не дозволено для цього сервера. Дозвольте його за допомогою «Перевірити з’єднання» в Параметри › Призначення.";
 
 /* machine */
 "The torn edges of this image." = "Розірвані краї цього зображення.";

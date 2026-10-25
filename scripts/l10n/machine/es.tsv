@@ -831,7 +831,7 @@ It runs from %@.	Se ejecuta desde %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Deja de ejecutarse de inmediato y no se vuelve a cargar. Su archivo se queda donde está: impórtalo de nuevo para revisarlo y aprobarlo.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Deja de ejecutarse de inmediato y no se vuelve a cargar. Su archivo se queda donde está: ábrelo de nuevo para revisarlo y aprobarlo.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Se renombró a %@ y Greenshot se inició con los ajustes por defecto.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Se guardó sin el servidor al que pertenece, con una versión anterior de Greenshot o antes de introducir la URL. Permítelo solo si este es tu servidor de %@: a partir de ahora solo irá a este servidor.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Se guardó sin el servidor al que pertenece, con una versión anterior de Greenshot o antes de introducir la URL. Permítelo solo si este es tu servidor de %@: a partir de ahora solo irá a este servidor (dirección y puerto).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Se perderá si no lo guardas.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Está en la barra de menús.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Su explicación (palabras de la herramienta de IA, sin comprobar por Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1035,6 +1035,8 @@ Not registered yet	Aún sin registrar	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Sin registrar: otra app la tiene	claude-sonnet-5-5 2026-10-18
 Not running	No se está ejecutando	claude-sonnet-5-5 2026-10-18
 Not saved yet	Aún sin guardar	claude-sonnet-5-5 2026-10-18
+Not sent to %@	No se envió a %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	No enviado: no permitido para este servidor.	claude-opus-5-5 2026-10-26
 Not set	Sin definir	claude-sonnet-5-5 2026-10-18
 Not signed	Sin firmar	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	No has iniciado sesión en %@. Inicia sesión en Preferencias › Destinos.	claude-sonnet-5-5 2026-10-18
@@ -1436,6 +1438,7 @@ Send the %@ token or password in the Keychain to this server?	¿Enviar el token 
 Sending the screenshot to %@…	Enviando la captura de pantalla a %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Enviado a la impresora “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Separa las direcciones con comas. El asunto puede usar las variables del formato del nombre de archivo, p. ej., ${title}. Outlook también las usa. Con CC o CCO y Mail como tu app de correo, Mail escribe todo el correo (macOS pregunta una vez si Greenshot puede controlar Mail); en caso contrario, el servicio de correo de macOS rellena Para y el asunto, y CC y CCO se muestran para añadirlos a mano.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Servidor (dirección y puerto): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server o Data Center: token de acceso personal	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server o Data Center: nombre de usuario y contraseña	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Configurar comandos…	claude-sonnet-5-5 2026-10-18
@@ -1576,6 +1579,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	La clave de app de %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	El icono de %@ se muestra en la barra de menús.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	No se pudo conservar la contraseña de %@ en el llavero	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	El token o la contraseña de %@ del llavero aún no están permitidos para este servidor. Permítelo con Probar conexión en Preferencias › Destinos.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	El consentimiento para herramientas de IA está guardado sin su sello porque no se pudo usar el llavero: tras el próximo inicio, se vuelve a preguntar por cada programa.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	El consentimiento para herramientas de IA está guardado sin su sello porque no se pudo usar el llavero: tras el próximo inicio, vuelven a aplicarse las exclusiones predeterminadas y la notificación está activada.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	El consentimiento para herramientas de IA está guardado sin su sello porque no se pudo usar el llavero: tras el próximo inicio, vuelven a aplicarse las exclusiones predeterminadas.	claude-opus-5-5 2026-10-25
@@ -1697,6 +1701,7 @@ The size of File › New Image, a white image to draw on.	El tamaño de Archivo 
 The text could not be recognised	No se pudo reconocer el texto	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	No se pudo reconocer el texto: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	El texto es demasiado largo para este código.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	El token o la contraseña del llavero aún no están permitidos para este servidor. Permítelo con Probar conexión en Preferencias › Destinos.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Los bordes rasgados de esta imagen.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Las partes transparentes de la imagen toman este color.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Los disparadores empiezan desactivados. Activa cada uno que pueda iniciar esta receta: un disparador que dejes desactivado sigue desactivado (puedes activarlo después en Permisos). Sin disparador puedes seguir ejecutando la receta desde la lista de recetas.	claude-sonnet-5-5 2026-10-18

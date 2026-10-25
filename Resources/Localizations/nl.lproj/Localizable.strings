@@ -2587,7 +2587,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Het is hernoemd naar %@ en Greenshot is met de standaardinstellingen gestart.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Het is bewaard zonder de server waar het bij hoort, door een oudere versie van Greenshot of voordat de URL werd ingevoerd. Sta het alleen toe als dit uw %@-server is: vanaf nu gaat het alleen naar deze server.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Het is bewaard zonder de server waar het bij hoort, door een oudere versie van Greenshot of voordat de URL werd ingevoerd. Sta het alleen toe als dit uw %@-server is: vanaf nu gaat het alleen naar deze server (adres en poort).";
 
 /* machine */
 "It will be lost if you don't save it." = "Het gaat verloren als u het niet opslaat.";
@@ -3194,6 +3194,12 @@
 
 /* machine */
 "Not saved yet" = "Nog niet opgeslagen";
+
+/* machine */
+"Not sent to %@" = "Niet naar %@ verzonden";
+
+/* machine */
+"Not sent: not allowed for this server." = "Niet verzonden: niet toegestaan voor deze server.";
 
 /* machine */
 "Not set" = "Niet ingesteld";
@@ -4513,6 +4519,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Scheid adressen met komma's. Het onderwerp kan de variabelen van het bestandsnaampatroon gebruiken, bijv. ${title}. Outlook gebruikt ze ook. Met CC of BCC en Mail als uw mail-app schrijft Mail de hele e-mail (macOS vraagt eenmalig of Greenshot Mail mag bedienen); anders vult de macOS-mailservice Aan en het onderwerp in, en worden CC en BCC getoond om handmatig toe te voegen.";
 
 /* machine */
+"Server (address and port): %@" = "Server (adres en poort): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server of Data Center: persoonlijk toegangstoken";
 
 /* machine */
@@ -4936,6 +4945,9 @@
 "The %@ password could not be kept in the Keychain" = "Het %@-wachtwoord kon niet in de Sleutelhanger worden bewaard";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Het %@-token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Sta het toe met Verbinding testen in Instellingen › Bestemmingen.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start wordt voor elk programma opnieuw om toestemming gevraagd.";
 
 /* machine */
@@ -5297,6 +5309,9 @@
 
 /* machine */
 "The text is too long for this code." = "De tekst is te lang voor deze code.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Het token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Sta het toe met Verbinding testen in Instellingen › Bestemmingen.";
 
 /* machine */
 "The torn edges of this image." = "De rafelige randen van deze afbeelding.";

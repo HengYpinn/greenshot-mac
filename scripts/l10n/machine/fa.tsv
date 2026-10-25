@@ -841,7 +841,7 @@ It runs from %@.	از %@ اجرا می‌شود.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	بی‌درنگ از اجرا می‌ایستد و دوباره بارگذاری نمی‌شود. فایل آن سر جایش می‌ماند: برای بررسی و تأیید دوباره آن را درون‌ریزی کنید.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	بی‌درنگ از اجرا می‌ایستد و دوباره بارگذاری نمی‌شود. فایل آن سر جایش می‌ماند: برای بررسی و تأیید دوباره آن را باز کنید.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	نام آن به %@ تغییر کرد و Greenshot با تنظیمات پیش‌فرض شروع شد.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	بدون سروری که به آن تعلق دارد ذخیره شده است، با نسخهٔ قدیمی‌تر Greenshot یا پیش از وارد کردن URL. فقط اگر این سرور %@ شماست اجازه دهید: از این پس فقط به این سرور فرستاده می‌شود.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	بدون سروری که به آن تعلق دارد ذخیره شده است، با نسخهٔ قدیمی‌تر Greenshot یا پیش از وارد کردن URL. فقط اگر این سرور %@ شماست اجازه دهید: از این پس فقط به این سرور (نشانی و پورت) فرستاده می‌شود.	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	اگر ذخیره نکنید از بین می‌رود.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	در نوار منو است.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	توضیح آن (سخن ابزار هوش مصنوعی، بررسی‌نشده توسط Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1048,6 +1048,8 @@ Not registered yet	هنوز ثبت نشده	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	ثبت نشد: برنامهٔ دیگری آن را دارد	claude-sonnet-5-5 2026-10-18
 Not running	در حال اجرا نیست	claude-sonnet-5-5 2026-10-18
 Not saved yet	هنوز ذخیره نشده	claude-sonnet-5-5 2026-10-18
+Not sent to %@	به %@ فرستاده نشد	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	فرستاده نشد: برای این سرور مجاز نیست.	claude-opus-5-5 2026-10-26
 Not set	تنظیم نشده	claude-sonnet-5-5 2026-10-18
 Not signed	امضا نشده	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	وارد %@ نشده‌اید. در تنظیمات › مقصدها وارد شوید.	claude-sonnet-5-5 2026-10-18
@@ -1456,6 +1458,7 @@ Send the %@ token or password in the Keychain to this server?	توکن یا گذ
 Sending the screenshot to %@…	در حال ارسال تصویر صفحه به %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	به چاپگر «%@» فرستاده شد	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	نشانی‌ها را با ویرگول جدا کنید. موضوع می‌تواند از متغیرهای الگوی نام فایل استفاده کند، مثلاً ${title}. Outlook هم از آن‌ها استفاده می‌کند. با CC یا BCC و Mail به‌عنوان برنامهٔ ایمیل، Mail کل ایمیل را می‌نویسد (macOS یک بار می‌پرسد که Greenshot مجاز به کنترل Mail باشد یا نه)؛ در غیر این صورت سرویس ایمیل macOS گیرنده و موضوع را پر می‌کند و CC و BCC برای افزودن دستی نشان داده می‌شوند.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	سرور (نشانی و پورت): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server یا Data Center: توکن دسترسی شخصی	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server یا Data Center: نام کاربری و گذرواژه	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	راه‌اندازی دستورها…	claude-sonnet-5-5 2026-10-18
@@ -1599,6 +1602,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	کلید برنامهٔ %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	نماد %@ در نوار منو نشان داده می‌شود.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	گذرواژهٔ %@ در Keychain نگه داشته نشد	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	توکن یا گذرواژهٔ %@ در Keychain هنوز برای این سرور مجاز نیست. با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برای هر برنامه دوباره پرسیده می‌شود.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برنامه‌های مستثنای پیش‌فرض دوباره مستثنا می‌شوند و اعلان روشن خواهد بود.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برنامه‌های مستثنای پیش‌فرض دوباره مستثنا می‌شوند.	claude-opus-5-5 2026-10-25
@@ -1720,6 +1724,7 @@ The size of File › New Image, a white image to draw on.	اندازهٔ فای�
 The text could not be recognised	متن تشخیص داده نشد	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	متن تشخیص داده نشد: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	متن برای این کد خیلی بلند است.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	توکن یا گذرواژه در Keychain هنوز برای این سرور مجاز نیست. با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	لبه‌های پارهٔ این تصویر.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	بخش‌های شفاف تصویر این رنگ را می‌گیرند.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	راه‌اندازها خاموش شروع می‌شوند. هر راه‌اندازی را که ممکن است این دستورالعمل را شروع کند روشن کنید: راه‌اندازی که خاموش بگذارید خاموش می‌ماند (بعداً با «مجوزها» می‌توانید روشنش کنید). بدون راه‌انداز هم می‌توانید دستورالعمل را از فهرست دستورالعمل‌ها اجرا کنید.	claude-sonnet-5-5 2026-10-18

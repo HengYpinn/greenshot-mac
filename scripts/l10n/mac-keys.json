@@ -5666,7 +5666,7 @@
    ]
   },
   {
-   "key": "It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.",
+   "key": "It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.",
    "files": [
     "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
    ]
@@ -6983,6 +6983,18 @@
    "key": "Not saved yet",
    "files": [
     "Sources/GreenshotMac/RecipeEditor/RecipeEditorView.swift"
+   ]
+  },
+  {
+   "key": "Not sent to %@",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
+   ]
+  },
+  {
+   "key": "Not sent: not allowed for this server.",
+   "files": [
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
    ]
   },
   {
@@ -9811,6 +9823,12 @@
    ]
   },
   {
+   "key": "Server (address and port): %@",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
+   ]
+  },
+  {
    "key": "Server or Data Center: personal access token",
    "files": [
     "Sources/GreenshotCore/Settings+Destinations.swift"
@@ -10738,6 +10756,12 @@
    ]
   },
   {
+   "key": "The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
+   ]
+  },
+  {
    "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.",
    "files": [
     "Sources/GreenshotMac/Settings/AIToolsTab.swift"
@@ -11471,6 +11495,12 @@
    ]
   },
   {
+   "key": "The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
+   ]
+  },
+  {
    "key": "The torn edges of this image.",
    "files": [
     "Sources/GreenshotMac/Editor/EditorWindowController+Elements.swift"
@@ -11677,14 +11707,14 @@
   {
    "key": "This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.",
    "files": [
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift",
     "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
    ]
   },
   {
    "key": "This address starts with http://: the password travels unencrypted.",
    "files": [
-    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift",
-    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
+    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift"
    ]
   },
   {
@@ -14022,7 +14052,9 @@
   {
    "key": "“%@” is not a valid URL.",
    "files": [
-    "Sources/GreenshotCore/Uploads/UploadSupport.swift"
+    "Sources/GreenshotCore/Uploads/AtlassianSecrets.swift",
+    "Sources/GreenshotCore/Uploads/UploadSupport.swift",
+    "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
    ]
   },
   {

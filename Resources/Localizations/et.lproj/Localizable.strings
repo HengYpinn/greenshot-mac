@@ -2641,7 +2641,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "See nimetati ümber %@ ja Greenshot käivitus vaikeseadetega.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "See salvestati ilma serverita, kuhu see kuulub, Greenshoti vanema versiooniga või enne URL-i sisestamist. Lubage see ainult siis, kui see on teie %@ server: edaspidi läheb see ainult sellesse serverisse.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "See salvestati ilma serverita, kuhu see kuulub, Greenshoti vanema versiooniga või enne URL-i sisestamist. Lubage see ainult siis, kui see on teie %@ server: edaspidi läheb see ainult sellesse serverisse (aadress ja port).";
 
 /* machine */
 "It will be lost if you don't save it." = "See läheb kaotsi, kui te seda ei salvesta.";
@@ -3260,6 +3260,12 @@
 
 /* machine */
 "Not saved yet" = "Pole veel salvestatud";
+
+/* machine */
+"Not sent to %@" = "Ei saadetud rakendusse %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Ei saadetud: selle serveri jaoks pole lubatud.";
 
 /* machine */
 "Not set" = "Määramata";
@@ -4597,6 +4603,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Eraldage aadressid komadega. Teema võib kasutada failinime mustri muutujaid, nt ${title}. Outlook kasutab neid samuti. Kui on Cc või Bcc ja teie meilirakendus on Mail, kirjutab Mail kogu kirja (macOS küsib üks kord, kas Greenshot tohib Maili juhtida); muidu täidab macOS-i meiliteenus aadressi Kellele ja teema ning Cc ja Bcc kuvatakse käsitsi lisamiseks.";
 
 /* machine */
+"Server (address and port): %@" = "Server (aadress ja port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server või Data Center: isiklik juurdepääsuvõti";
 
 /* machine */
@@ -5041,6 +5050,9 @@
 "The %@ password could not be kept in the Keychain" = "Rakenduse %@ parooli ei õnnestunud võtmehoidjas hoida";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Võtmehoidjas olev %@ juurdepääsuvõti või parool pole selle serveri jaoks veel lubatud. Lubage see nupuga Testi ühendust menüüs Eelistused › Sihtkohad.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist küsitakse iga programmi kohta uuesti luba.";
 
 /* machine */
@@ -5402,6 +5414,9 @@
 
 /* machine */
 "The text is too long for this code." = "Tekst on selle koodi jaoks liiga pikk.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Võtmehoidjas olev juurdepääsuvõti või parool pole selle serveri jaoks veel lubatud. Lubage see nupuga Testi ühendust menüüs Eelistused › Sihtkohad.";
 
 /* machine */
 "The torn edges of this image." = "Selle pildi rebenenud servad.";

@@ -2644,7 +2644,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Se nimettiin uudelleen kohteeksi %@ ja Greenshot käynnistyi oletusasetuksilla.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Se tallennettiin ilman palvelinta, johon se kuuluu, Greenshotin vanhemmalla versiolla tai ennen URL-osoitteen syöttämistä. Salli se vain, jos tämä on %@-palvelimesi: tästä lähtien se lähetetään vain tälle palvelimelle.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Se tallennettiin ilman palvelinta, johon se kuuluu, Greenshotin vanhemmalla versiolla tai ennen URL-osoitteen syöttämistä. Salli se vain, jos tämä on %@-palvelimesi: tästä lähtien se lähetetään vain tälle palvelimelle (osoite ja portti).";
 
 /* machine */
 "It will be lost if you don't save it." = "Se menetetään, jos et tallenna sitä.";
@@ -3263,6 +3263,12 @@
 
 /* machine */
 "Not saved yet" = "Ei vielä tallennettu";
+
+/* machine */
+"Not sent to %@" = "Ei lähetetty kohteeseen %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Ei lähetetty: ei sallittu tälle palvelimelle.";
 
 /* machine */
 "Not set" = "Ei asetettu";
@@ -4597,6 +4603,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Erota osoitteet pilkuilla. Aiheessa voi käyttää tiedostonimimallin muuttujia, esim. ${title}. Outlook käyttää niitä myös. Kun käytössä on kopio tai piilokopio ja Mail on sähköpostiappisi, Mail kirjoittaa koko viestin (macOS kysyy kerran, saako Greenshot ohjata Mailia); muuten macOS:n sähköpostipalvelu täyttää vastaanottajan ja aiheen, ja kopio ja piilokopio näytetään lisättäviksi käsin.";
 
 /* machine */
+"Server (address and port): %@" = "Palvelin (osoite ja portti): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server tai Data Center: henkilökohtainen käyttötunnus";
 
 /* machine */
@@ -5044,6 +5053,9 @@
 "The %@ password could not be kept in the Keychain" = "Kohteen %@ salasanaa ei voitu säilyttää Avainnipussa";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@-tunnusta tai -salasanaa Avainnipussa ei ole vielä sallittu tälle palvelimelle. Salli se toiminnolla Testaa yhteys kohdassa Asetukset › Kohteet.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen jokaiselta ohjelmalta kysytään uudelleen.";
 
 /* machine */
@@ -5405,6 +5417,9 @@
 
 /* machine */
 "The text is too long for this code." = "Teksti on liian pitkä tälle koodille.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Avainnipussa olevaa tunnusta tai salasanaa ei ole vielä sallittu tälle palvelimelle. Salli se toiminnolla Testaa yhteys kohdassa Asetukset › Kohteet.";
 
 /* machine */
 "The torn edges of this image." = "Tämän kuvan revityt reunat.";

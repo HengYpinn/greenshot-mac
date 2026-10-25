@@ -2674,7 +2674,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Он был переименован в %@, а Greenshot запущен с настройками по умолчанию.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Он был сохранён без сервера, к которому относится, более старой версией Greenshot или до ввода URL. Разрешайте, только если это ваш сервер %@: с этого момента он будет отправляться только на этот сервер.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Он был сохранён без сервера, к которому относится, более старой версией Greenshot или до ввода URL. Разрешайте, только если это ваш сервер %@: с этого момента он будет отправляться только на этот сервер (адрес и порт).";
 
 /* machine */
 "It will be lost if you don't save it." = "Он будет потерян, если вы его не сохраните.";
@@ -3293,6 +3293,12 @@
 
 /* machine */
 "Not saved yet" = "Ещё не сохранено";
+
+/* machine */
+"Not sent to %@" = "Не отправлено в %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Не отправлено: не разрешено для этого сервера.";
 
 /* machine */
 "Not set" = "Не задано";
@@ -4633,6 +4639,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Разделяйте адреса запятыми. В теме можно использовать переменные шаблона имени файла, например ${title}. Outlook тоже их использует. Если указаны копия или скрытая копия, а почтовое приложение — Mail, Mail составляет письмо целиком (macOS один раз спрашивает, можно ли Greenshot управлять Mail); иначе почтовая служба macOS заполняет адресата и тему, а копию и скрытую копию нужно добавить вручную.";
 
 /* machine */
+"Server (address and port): %@" = "Сервер (адрес и порт): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server или Data Center: персональный токен доступа";
 
 /* machine */
@@ -5074,6 +5083,9 @@
 "The %@ password could not be kept in the Keychain" = "Не удалось сохранить пароль %@ в связке ключей";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен или пароль %@ из связки ключей ещё не разрешён для этого сервера. Разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения».";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Согласие для инструментов ИИ сохранено без печати, так как связку ключей нельзя было использовать: после следующего запуска разрешение будет снова запрошено для каждой программы.";
 
 /* machine */
@@ -5435,6 +5447,9 @@
 
 /* machine */
 "The text is too long for this code." = "Текст слишком длинный для этого кода.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен или пароль из связки ключей ещё не разрешён для этого сервера. Разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения».";
 
 /* machine */
 "The torn edges of this image." = "Рваные края этого изображения.";

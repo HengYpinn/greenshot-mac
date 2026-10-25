@@ -2641,7 +2641,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Yettwasenfel isem-is ɣer %@ u Greenshot yesker s yiɣewwaṛen imezwar.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Yettwasekles war aqeddac i as-yerzan, s lqem aqbur n Greenshot neɣ uqbel ad yettwasekcem URL. Sireg-it kan ma yella wagi d aqeddac-ik %@: seg tura ad yeddu kan ɣer uqeddac-a.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Yettwasekles war aqeddac i as-yerzan, s lqem aqbur n Greenshot neɣ uqbel ad yettwasekcem URL. Sireg-it kan ma yella wagi d aqeddac-ik %@: seg tura ad yeddu kan ɣer uqeddac-a (tansa d tanekra).";
 
 /* machine */
 "It will be lost if you don't save it." = "Ad iruḥ ma ur t-tsekleseḍ ara.";
@@ -3263,6 +3263,12 @@
 
 /* machine */
 "Not saved yet" = "Ur yettwasekles ara mazal";
+
+/* machine */
+"Not sent to %@" = "Ur yettwazen ara ɣer %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Ur yettwazen ara: ur yettusireg ara i uqeddac-a.";
 
 /* machine */
 "Not set" = "Ur yettwasbadu ara";
@@ -4603,6 +4609,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Bḍu tansiwin s tefrut. Azwel izmer ad seqdec imsal n taneɣruft n yisem n ufaylu, amedya ${title}. Outlook ittuseqdac-iten daɣen. S CC neɣ BCC u Mail d asnas n yimayl-ik, Mail yaru imayl meṛṛa (macOS isteqsi yiwet n tikelt ma yezmer Greenshot ad iṭṭef Mail); ma ulac, tanamit n yimayl n macOS tččar “Ɣer” d azwel, u CC d BCC ttbanen i wakken ad ten-trnuḍ s ufus.";
 
 /* machine */
+"Server (address and port): %@" = "Aqeddac (tansa d tanekra): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server neɣ Data Center: atukkin n unekcum udmawan";
 
 /* machine */
@@ -5041,6 +5050,9 @@
 "The %@ password could not be kept in the Keychain" = "Awal uffir n %@ ur yezmir ara ad yettwaḥrez deg Taxzant n tsura";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Atukkin neɣ awal uffir n %@ deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tasiregt n ifecka AI tettwasekles war taṭabeɛt-is acku Taxzant n tsura ur tezmir ara ad tettwaseqdec: seld asenker i d-iteddun, yal ahil ad yettwasteqsi daɣen.";
 
 /* machine */
@@ -5402,6 +5414,9 @@
 
 /* machine */
 "The text is too long for this code." = "Aḍris yeṭṭawel aṭas i tengalt-a.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Atukkin neɣ awal uffir deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin.";
 
 /* machine */
 "The torn edges of this image." = "Leryuf qqeṛsen n tugna-agi.";

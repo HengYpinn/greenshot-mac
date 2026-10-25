@@ -810,7 +810,7 @@ It runs from %@.	Het wordt uitgevoerd vanuit %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Het stopt direct met draaien en wordt niet meer geladen. Het bestand blijft waar het is: importeer het opnieuw om het te bekijken en goed te keuren.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Het stopt direct met draaien en wordt niet meer geladen. Het bestand blijft waar het is: open het opnieuw om het te bekijken en goed te keuren.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Het is hernoemd naar %@ en Greenshot is met de standaardinstellingen gestart.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Het is bewaard zonder de server waar het bij hoort, door een oudere versie van Greenshot of voordat de URL werd ingevoerd. Sta het alleen toe als dit uw %@-server is: vanaf nu gaat het alleen naar deze server.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Het is bewaard zonder de server waar het bij hoort, door een oudere versie van Greenshot of voordat de URL werd ingevoerd. Sta het alleen toe als dit uw %@-server is: vanaf nu gaat het alleen naar deze server (adres en poort).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Het gaat verloren als u het niet opslaat.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Het staat in de menubalk.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	De uitleg ervan (de woorden van de AI-tool, niet gecontroleerd door Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1010,6 +1010,8 @@ Not registered yet	Nog niet geregistreerd	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Niet geregistreerd: een andere app gebruikt het	claude-sonnet-5-5 2026-10-18
 Not running	Niet actief	claude-sonnet-5-5 2026-10-18
 Not saved yet	Nog niet opgeslagen	claude-sonnet-5-5 2026-10-18
+Not sent to %@	Niet naar %@ verzonden	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Niet verzonden: niet toegestaan voor deze server.	claude-opus-5-5 2026-10-26
 Not set	Niet ingesteld	claude-sonnet-5-5 2026-10-18
 Not signed	Niet ondertekend	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Niet aangemeld bij %@. Meld u aan via Instellingen › Bestemmingen.	claude-sonnet-5-5 2026-10-18
@@ -1403,6 +1405,7 @@ Send the %@ token or password in the Keychain to this server?	Het %@-token of wa
 Sending the screenshot to %@…	De schermafbeelding wordt naar %@ gestuurd…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Naar de printer “%@” gestuurd	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Scheid adressen met komma's. Het onderwerp kan de variabelen van het bestandsnaampatroon gebruiken, bijv. ${title}. Outlook gebruikt ze ook. Met CC of BCC en Mail als uw mail-app schrijft Mail de hele e-mail (macOS vraagt eenmalig of Greenshot Mail mag bedienen); anders vult de macOS-mailservice Aan en het onderwerp in, en worden CC en BCC getoond om handmatig toe te voegen.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Server (adres en poort): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server of Data Center: persoonlijk toegangstoken	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server of Data Center: gebruikersnaam en wachtwoord	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Opdrachten instellen…	claude-sonnet-5-5 2026-10-18
@@ -1542,6 +1545,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	De app-sleutel van %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	Het symbool van %@ wordt in de menubalk getoond.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	Het %@-wachtwoord kon niet in de Sleutelhanger worden bewaard	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Het %@-token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Sta het toe met Verbinding testen in Instellingen › Bestemmingen.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start wordt voor elk programma opnieuw om toestemming gevraagd.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start gelden de standaarduitsluitingen weer en staat de melding aan.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start gelden de standaarduitsluitingen weer.	claude-opus-5-5 2026-10-25
@@ -1663,6 +1667,7 @@ The size of File › New Image, a white image to draw on.	De grootte van Bestand
 The text could not be recognised	De tekst kon niet worden herkend	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	De tekst kon niet worden herkend: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	De tekst is te lang voor deze code.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Het token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Sta het toe met Verbinding testen in Instellingen › Bestemmingen.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	De rafelige randen van deze afbeelding.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	De transparante delen van de afbeelding krijgen deze kleur.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	De triggers starten uitgeschakeld. Schakel elke trigger in die dit recept mag starten: een trigger die u uit laat staan, blijft uit (u kunt hem later inschakelen met Rechten). Zonder trigger kunt u het recept nog steeds uitvoeren vanuit de receptenlijst.	claude-sonnet-5-5 2026-10-18

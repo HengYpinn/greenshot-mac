@@ -2566,7 +2566,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Diganti namanya menjadi %@ dan Greenshot dimulai dengan pengaturan default.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Ini disimpan tanpa server tempatnya berasal, oleh versi Greenshot yang lebih lama atau sebelum URL dimasukkan. Izinkan hanya jika ini adalah server %@ Anda: mulai sekarang ini hanya dikirim ke server ini.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Ini disimpan tanpa server tempatnya berasal, oleh versi Greenshot yang lebih lama atau sebelum URL dimasukkan. Izinkan hanya jika ini adalah server %@ Anda: mulai sekarang ini hanya dikirim ke server ini (alamat dan port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Akan hilang jika tidak disimpan.";
@@ -3164,6 +3164,12 @@
 
 /* machine */
 "Not saved yet" = "Belum disimpan";
+
+/* machine */
+"Not sent to %@" = "Tidak dikirim ke %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Tidak dikirim: tidak diizinkan untuk server ini.";
 
 /* machine */
 "Not set" = "Belum diatur";
@@ -4486,6 +4492,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Pisahkan alamat dengan koma. Subjek dapat menggunakan variabel pola nama berkas, mis. ${title}. Outlook juga menggunakannya. Dengan CC atau BCC dan Mail sebagai app email Anda, Mail menulis seluruh email (macOS bertanya sekali apakah Greenshot boleh mengontrol Mail); jika tidak, layanan email macOS mengisi Kepada dan subjek, dan CC dan BCC ditampilkan untuk ditambahkan secara manual.";
 
 /* machine */
+"Server (address and port): %@" = "Server (alamat dan port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server atau Data Center: token akses pribadi";
 
 /* machine */
@@ -4915,6 +4924,9 @@
 "The %@ password could not be kept in the Keychain" = "Sandi %@ tidak dapat disimpan di Rantai Kunci";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token atau kata sandi %@ di Rantai Kunci belum diizinkan untuk server ini. Izinkan dengan Uji Koneksi di Pengaturan › Destinasi.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, setiap program ditanya lagi.";
 
 /* machine */
@@ -5276,6 +5288,9 @@
 
 /* machine */
 "The text is too long for this code." = "Teks terlalu panjang untuk kode ini.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token atau kata sandi di Rantai Kunci belum diizinkan untuk server ini. Izinkan dengan Uji Koneksi di Pengaturan › Destinasi.";
 
 /* machine */
 "The torn edges of this image." = "Tepi sobek gambar ini.";

@@ -2626,7 +2626,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Μετονομάστηκε σε %@ και το Greenshot ξεκίνησε με τις προεπιλεγμένες ρυθμίσεις.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Αποθηκεύτηκε χωρίς τον διακομιστή στον οποίο ανήκει, από παλαιότερη έκδοση του Greenshot ή πριν εισαχθεί το URL. Επιτρέψτε το μόνο αν αυτός είναι ο διακομιστής %@ σας: από εδώ και πέρα θα πηγαίνει μόνο σε αυτόν τον διακομιστή.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Αποθηκεύτηκε χωρίς τον διακομιστή στον οποίο ανήκει, από παλαιότερη έκδοση του Greenshot ή πριν εισαχθεί το URL. Επιτρέψτε το μόνο αν αυτός είναι ο διακομιστής %@ σας: από εδώ και πέρα θα πηγαίνει μόνο σε αυτόν τον διακομιστή (διεύθυνση και θύρα).";
 
 /* machine */
 "It will be lost if you don't save it." = "Θα χαθεί αν δεν το αποθηκεύσετε.";
@@ -3248,6 +3248,12 @@
 
 /* machine */
 "Not saved yet" = "Δεν έχει αποθηκευτεί ακόμη";
+
+/* machine */
+"Not sent to %@" = "Δεν στάλθηκε στο %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Δεν στάλθηκε: δεν επιτρέπεται για αυτόν τον διακομιστή.";
 
 /* machine */
 "Not set" = "Δεν έχει οριστεί";
@@ -4591,6 +4597,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Χωρίστε τις διευθύνσεις με κόμματα. Το θέμα μπορεί να χρησιμοποιεί τις μεταβλητές του προτύπου ονόματος αρχείου, π.χ. ${title}. Το Outlook τις χρησιμοποιεί επίσης. Με CC ή BCC και το Mail ως εφαρμογή αλληλογραφίας, το Mail γράφει ολόκληρο το μήνυμα (το macOS ρωτά μία φορά αν το Greenshot επιτρέπεται να ελέγχει το Mail)· διαφορετικά η υπηρεσία αλληλογραφίας του macOS συμπληρώνει το Προς και το θέμα, και τα CC και BCC εμφανίζονται για χειροκίνητη προσθήκη.";
 
 /* machine */
+"Server (address and port): %@" = "Διακομιστής (διεύθυνση και θύρα): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server ή Data Center: προσωπικό διακριτικό πρόσβασης";
 
 /* machine */
@@ -5026,6 +5035,9 @@
 "The %@ password could not be kept in the Keychain" = "Ο κωδικός του %@ δεν μπόρεσε να διατηρηθεί στην Κλειδοθήκη";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Το διακριτικό ή ο κωδικός πρόσβασης %@ στην Κλειδοθήκη δεν επιτρέπεται ακόμη για αυτόν τον διακομιστή. Επιτρέψτε το με τη Δοκιμή σύνδεσης στις Προτιμήσεις › Προορισμοί.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, κάθε πρόγραμμα θα ρωτηθεί ξανά.";
 
 /* machine */
@@ -5387,6 +5399,9 @@
 
 /* machine */
 "The text is too long for this code." = "Το κείμενο είναι πολύ μεγάλο για αυτόν τον κωδικό.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Το διακριτικό ή ο κωδικός πρόσβασης στην Κλειδοθήκη δεν επιτρέπεται ακόμη για αυτόν τον διακομιστή. Επιτρέψτε το με τη Δοκιμή σύνδεσης στις Προτιμήσεις › Προορισμοί.";
 
 /* machine */
 "The torn edges of this image." = "Τα ακανόνιστα ξακρίσματα αυτής της εικόνας.";

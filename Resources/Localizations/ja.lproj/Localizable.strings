@@ -2653,7 +2653,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "名前が %@ に変更され、Greenshot はデフォルトの設定で起動しました。";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "所属するサーバの情報なしで保存されています（古いバージョンの Greenshot、または URL の入力前に保存されたもの）。これがご自身の %@ サーバである場合のみ許可してください。以後はこのサーバにのみ送信されます。";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "所属するサーバの情報なしで保存されています（古いバージョンの Greenshot、または URL の入力前に保存されたもの）。これがご自身の %@ サーバである場合のみ許可してください。以後はこのサーバ（アドレスとポート）にのみ送信されます。";
 
 /* machine */
 "It will be lost if you don't save it." = "保存しないと失われます。";
@@ -3278,6 +3278,12 @@
 
 /* machine */
 "Not saved yet" = "まだ保存されていません";
+
+/* machine */
+"Not sent to %@" = "%@ に送信されませんでした";
+
+/* machine */
+"Not sent: not allowed for this server." = "送信されませんでした：このサーバには許可されていません。";
 
 /* machine */
 "Not set" = "未設定";
@@ -4624,6 +4630,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "アドレスはカンマで区切ります。件名にはファイル名パターンの変数（例：${title}）を使用できます。Outlook でも使用されます。CC または BCC を指定し、メール App に「メール」を使用している場合は、「メール」がメール全体を作成します（macOS は、Greenshot が「メール」を制御してよいかを一度確認します）。それ以外の場合は、macOS のメールサービスが宛先と件名を入力し、CC と BCC は手動で追加できるように表示されます。";
 
 /* machine */
+"Server (address and port): %@" = "サーバ（アドレスとポート）：%@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server または Data Center：パーソナルアクセストークン";
 
 /* machine */
@@ -5071,6 +5080,9 @@
 "The %@ password could not be kept in the Keychain" = "%@ のパスワードをキーチェーンに保持できませんでした";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "キーチェーンにある %@ のトークンまたはパスワードは、このサーバではまだ許可されていません。「設定」›「出力先」の「接続をテスト」で許可してください。";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、すべてのプログラムに再度確認します。";
 
 /* machine */
@@ -5432,6 +5444,9 @@
 
 /* machine */
 "The text is too long for this code." = "このコードにはテキストが長すぎます。";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "キーチェーンにあるトークンまたはパスワードは、このサーバではまだ許可されていません。「設定」›「出力先」の「接続をテスト」で許可してください。";
 
 /* machine */
 "The torn edges of this image." = "この画像の引き裂き端。";

@@ -2641,7 +2641,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Át lett nevezve erre: %@, és a Greenshot az alapértelmezett beállításokkal indult.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "A hozzá tartozó szerver nélkül lett mentve, a Greenshot egy régebbi verziójával vagy az URL megadása előtt. Csak akkor engedélyezze, ha ez az Ön %@-szervere: ettől kezdve csak erre a szerverre kerül.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "A hozzá tartozó szerver nélkül lett mentve, a Greenshot egy régebbi verziójával vagy az URL megadása előtt. Csak akkor engedélyezze, ha ez az Ön %@-szervere: ettől kezdve csak erre a szerverre (cím és port) kerül.";
 
 /* machine */
 "It will be lost if you don't save it." = "Elvész, ha nem menti.";
@@ -3263,6 +3263,12 @@
 
 /* machine */
 "Not saved yet" = "Még nincs mentve";
+
+/* machine */
+"Not sent to %@" = "Nincs elküldve ide: %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Nincs elküldve: ennél a szervernél nincs engedélyezve.";
 
 /* machine */
 "Not set" = "Nincs beállítva";
@@ -4600,6 +4606,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "A címeket vesszővel válassza el. A tárgy használhatja a fájlnévminta változóit, például ${title}. Az Outlook is használja őket. Ha a Másolat vagy Titkos másolat meg van adva, és a Mail a levelezőalkalmazása, a Mail írja meg a teljes levelet (a macOS egyszer megkérdezi, vezérelheti-e a Greenshot a Mailt); egyébként a macOS levelezési szolgáltatása tölti ki a Címzettet és a tárgyat, a Másolat és Titkos másolat pedig kézi hozzáadásra jelenik meg.";
 
 /* machine */
+"Server (address and port): %@" = "Szerver (cím és port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server vagy Data Center: személyes hozzáférési token";
 
 /* machine */
@@ -5044,6 +5053,9 @@
 "The %@ password could not be kept in the Keychain" = "A(z) %@ jelszavát nem sikerült megőrizni a Kulcskarikán";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "A Kulcskarikában tárolt %@-token vagy -jelszó még nincs engedélyezve ehhez a szerverhez. Engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a Greenshot minden programnál újra rákérdez.";
 
 /* machine */
@@ -5405,6 +5417,9 @@
 
 /* machine */
 "The text is too long for this code." = "A szöveg túl hosszú ehhez a kódhoz.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "A Kulcskarikában tárolt token vagy jelszó még nincs engedélyezve ehhez a szerverhez. Engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok.";
 
 /* machine */
 "The torn edges of this image." = "A kép szakadt szélei.";

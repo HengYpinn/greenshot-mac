@@ -2644,7 +2644,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Bol premenovaný na %@ a Greenshot sa spustil s predvolenými nastaveniami.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Bolo uložené bez servera, ku ktorému patrí, staršou verziou Greenshotu alebo pred zadaním URL. Povoľte to, iba ak je toto váš server %@: odteraz pôjde iba na tento server.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Bolo uložené bez servera, ku ktorému patrí, staršou verziou Greenshotu alebo pred zadaním URL. Povoľte to, iba ak je toto váš server %@: odteraz pôjde iba na tento server (adresa a port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Ak ho neuložíte, stratí sa.";
@@ -3260,6 +3260,12 @@
 
 /* machine */
 "Not saved yet" = "Zatiaľ neuložené";
+
+/* machine */
+"Not sent to %@" = "Neodoslané do %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Neodoslané: pre tento server nepovolené.";
 
 /* machine */
 "Not set" = "Nenastavené";
@@ -4600,6 +4606,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Adresy oddeľte čiarkami. Predmet môže používať premenné šablóny názvu súboru, napr. ${title}; používa ich aj Outlook. Ak použijete Kópiu alebo Skrytú kópiu a ako aplikáciu pošty máte Mail, celý e-mail napíše Mail (macOS sa raz opýta, či smie Greenshot ovládať Mail); inak službu pošty macOS vyplní adresáta a predmet a Kópia a Skrytá kópia sa zobrazia na ručné doplnenie.";
 
 /* machine */
+"Server (address and port): %@" = "Server (adresa a port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server alebo Data Center: osobný prístupový token";
 
 /* machine */
@@ -5032,6 +5041,9 @@
 "The %@ password could not be kept in the Keychain" = "Heslo pre %@ sa nepodarilo uchovať v Kľúčenke";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token alebo heslo pre %@ v Kľúčenke zatiaľ nie je pre tento server povolené. Povoľte ho pomocou Vyskúšať pripojenie v Nastavenia › Ciele.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení sa Greenshot opýta znova pri každom programe.";
 
 /* machine */
@@ -5393,6 +5405,9 @@
 
 /* machine */
 "The text is too long for this code." = "Text je pre tento kód príliš dlhý.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token alebo heslo v Kľúčenke zatiaľ nie je pre tento server povolené. Povoľte ho pomocou Vyskúšať pripojenie v Nastavenia › Ciele.";
 
 /* machine */
 "The torn edges of this image." = "Potrhané okraje tohto obrázka.";

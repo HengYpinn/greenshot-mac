@@ -2635,7 +2635,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Es wurd in %@ umbenannd und Greenshot is mid den Schdandard-Einschdellunga gschdardd.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Er is ohne den Server gschbeichert worn, zu dem er ghörd, vo aner äldern Version vo Greenshot odder bevor die URL eigebn worn is. Erlaub's nur, wenn des dei %@-Server is: ab edz gehd er nur nu an den Server do.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Er is ohne den Server gschbeichert worn, zu dem er ghörd, vo aner äldern Version vo Greenshot odder bevor die URL eigebn worn is. Erlaub's nur, wenn des dei %@-Server is: ab edz gehd er nur nu an den Server do (Adress und Port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Es is wech, wennsd es ned schbeicherd.";
@@ -3251,6 +3251,12 @@
 
 /* machine */
 "Not saved yet" = "No ned gschbeichert";
+
+/* machine */
+"Not sent to %@" = "Ned an %@ gschiggd";
+
+/* machine */
+"Not sent: not allowed for this server." = "Ned gschiggd: für den Server do ned erlaubd.";
 
 /* machine */
 "Not set" = "Ned gsedzd";
@@ -4597,6 +4603,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Adressen mid Kommas dreend. Der Bedreff kann die Variabln vom Dadeinamen-Musder nudzn, z. B. ${title}. Outlook nudzd sie a. Mid CC oder BCC und Mail als Mail-App schreibd Mail die gans Mail (macOS frächd aamal, ob Greenshot Mail seuern darf); sonsd füllt der macOS-Mail-Dienschd An und Bedreff aus, und CC und BCC wern zum Von-Hand-Hinzufiing angezeichd.";
 
 /* machine */
+"Server (address and port): %@" = "Server (Adress und Port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server oder Data Center: persönlicher Zugriffs-Token";
 
 /* machine */
@@ -5023,6 +5032,9 @@
 "The %@ password could not be kept in the Keychain" = "Des %@-Basswort hod ned im Schlüsselbund gschbeicherd wern könna";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Der %@-Token odder es Passwort im Schlüsselbund is für den Server do nu ned erlaubd. Erlaub's mit Verbindung brüfn in Rumdogdern › Ziele.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start wird bei jedm Brogramm nochamal gfrachd.";
 
 /* machine */
@@ -5384,6 +5396,9 @@
 
 /* machine */
 "The text is too long for this code." = "Der Text is für den Code zu lang.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Der Token odder es Passwort im Schlüsselbund is für den Server do nu ned erlaubd. Erlaub's mit Verbindung brüfn in Rumdogdern › Ziele.";
 
 /* machine */
 "The torn edges of this image." = "Die ausgrissenen Kandn vo dem Bild.";

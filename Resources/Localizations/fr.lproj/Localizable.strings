@@ -2605,7 +2605,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Il a été renommé en %@ et Greenshot a démarré avec les réglages par défaut.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Il a été enregistré sans le serveur auquel il appartient, par une ancienne version de Greenshot ou avant la saisie de l'URL. N'autorisez que s'il s'agit de votre serveur %@ : il ira ensuite uniquement à ce serveur.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Il a été enregistré sans le serveur auquel il appartient, par une ancienne version de Greenshot ou avant la saisie de l'URL. N'autorisez que s'il s'agit de votre serveur %@ : il ira ensuite uniquement à ce serveur (adresse et port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Il sera perdu si vous ne l'enregistrez pas.";
@@ -3215,6 +3215,12 @@
 
 /* machine */
 "Not saved yet" = "Pas encore sauvegardé";
+
+/* machine */
+"Not sent to %@" = "Non envoyé à %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Non envoyé : non autorisé pour ce serveur.";
 
 /* machine */
 "Not set" = "Non défini";
@@ -4537,6 +4543,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Séparez les adresses par des virgules. L'objet peut utiliser les variables du modèle de nom de fichier, p. ex. ${title}. Outlook les utilise aussi. Avec Cc ou Cci et Mail comme app de messagerie, Mail rédige tout le courriel (macOS demande une seule fois si Greenshot peut contrôler Mail) ; sinon, le service de messagerie de macOS renseigne le destinataire et l'objet, et Cc et Cci sont affichés pour être ajoutés à la main.";
 
 /* machine */
+"Server (address and port): %@" = "Serveur (adresse et port) : %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server ou Data Center : jeton d'accès personnel";
 
 /* machine */
@@ -4984,6 +4993,9 @@
 "The %@ password could not be kept in the Keychain" = "Le mot de passe %@ n'a pas pu être conservé dans le trousseau";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Le jeton ou le mot de passe %@ du trousseau n'est pas encore autorisé pour ce serveur. Autorisez-le avec Tester la connexion dans Réglages › Destinations.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, l'autorisation est redemandée pour chaque programme.";
 
 /* machine */
@@ -5345,6 +5357,9 @@
 
 /* machine */
 "The text is too long for this code." = "Le texte est trop long pour ce code.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Le jeton ou le mot de passe du trousseau n'est pas encore autorisé pour ce serveur. Autorisez-le avec Tester la connexion dans Réglages › Destinations.";
 
 /* machine */
 "The torn edges of this image." = "Les bords déchirés de cette image.";

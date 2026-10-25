@@ -797,7 +797,7 @@ It runs from %@.	Şuradan çalışır: %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Hemen çalışmayı durdurur ve bir daha yüklenmez. Dosyası olduğu yerde kalır: incelemek ve onaylamak için yeniden içe aktarın.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Hemen çalışmayı durdurur ve bir daha yüklenmez. Dosyası olduğu yerde kalır: incelemek ve onaylamak için yeniden açın.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Yeniden adlandırıldı: %@. Greenshot varsayılan ayarlarla başladı.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Ait olduğu sunucu bilgisi olmadan, Greenshot'ın eski bir sürümüyle veya URL girilmeden önce kaydedildi. Yalnızca bu sizin %@ sunucunuzsa izin verin: bundan sonra yalnızca bu sunucuya gider.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Ait olduğu sunucu bilgisi olmadan, Greenshot'ın eski bir sürümüyle veya URL girilmeden önce kaydedildi. Yalnızca bu sizin %@ sunucunuzsa izin verin: bundan sonra yalnızca bu sunucuya (adres ve bağlantı noktası) gider.	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Kaydetmezseniz kaybolacak.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Menü çubuğunda.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Açıklaması (yapay zekâ aracının sözleri, Greenshot tarafından denetlenmedi):	claude-sonnet-5-5 2026-10-18
@@ -995,6 +995,8 @@ Not registered yet	Henüz kayıtlı değil	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Kayıtlı değil: başka bir uygulamada var	claude-sonnet-5-5 2026-10-18
 Not running	Çalışmıyor	claude-sonnet-5-5 2026-10-18
 Not saved yet	Henüz kaydedilmedi	claude-sonnet-5-5 2026-10-18
+Not sent to %@	%@ hedefine gönderilmedi	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Gönderilmedi: bu sunucu için izin verilmedi.	claude-opus-5-5 2026-10-26
 Not set	Ayarlanmadı	claude-sonnet-5-5 2026-10-18
 Not signed	İmzalı değil	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Oturum açılmadı: %@. Ayarlar › Hedefler bölümünden oturum açın.	claude-sonnet-5-5 2026-10-18
@@ -1383,6 +1385,7 @@ Send the %@ token or password in the Keychain to this server?	Anahtar Zinciri'nd
 Sending the screenshot to %@…	Ekran görüntüsü gönderiliyor: %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Yazıcıya gönderildi: “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Adresleri virgülle ayırın. Konu, dosya adı biçimi değişkenlerini kullanabilir, ör. ${title}. Outlook da bunları kullanır. Cc veya Bcc ile ve posta uygulamanız Mail ise, Mail tüm postayı yazar (macOS, Greenshot'un Mail'i denetleyip denetleyemeyeceğini bir kez sorar); aksi halde macOS posta servisi alıcıyı ve konuyu doldurur, Cc ve Bcc elle eklenmek üzere gösterilir.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Sunucu (adres ve bağlantı noktası): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server veya Data Center: kişisel erişim belirteci	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server veya Data Center: kullanıcı adı ve parola	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Komutları Ayarla…	claude-sonnet-5-5 2026-10-18
@@ -1521,6 +1524,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	%@ uygulama anahtarı	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	%@ simgesi menü çubuğunda gösteriliyor.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	%@ parolası Anahtar Zinciri'nde saklanamadı	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Anahtar Zinciri'ndeki %@ belirteci veya parolası bu sunucu için henüz izinli değil. Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra her program yeniden sorulur.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra varsayılan hariç tutmalar yeniden geçerli olur ve bildirim açık olur.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra varsayılan hariç tutmalar yeniden geçerli olur.	claude-opus-5-5 2026-10-25
@@ -1642,6 +1646,7 @@ The size of File › New Image, a white image to draw on.	Dosya › Yeni Görün
 The text could not be recognised	Metin tanınamadı	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Metin tanınamadı: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	Metin bu kod için çok uzun.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Anahtar Zinciri'ndeki belirteç veya parola bu sunucu için henüz izinli değil. Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Bu görüntünün yırtık kenarları.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Görüntünün saydam bölümleri bu rengi alır.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Tetikleyiciler kapalı başlar. Bu tarifi başlatabilecek her birini açın: kapalı bıraktığınız tetikleyici kapalı kalır (daha sonra İzinler ile açabilirsiniz). Tetikleyici olmadan da tarifi tarif listesinden çalıştırabilirsiniz.	claude-sonnet-5-5 2026-10-18

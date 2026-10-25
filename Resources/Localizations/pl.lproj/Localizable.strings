@@ -2647,7 +2647,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Zmieniono jego nazwę na %@, a Greenshot uruchomił się z ustawieniami domyślnymi.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Zostało zapisane bez serwera, do którego należy, przez starszą wersję Greenshot lub przed wprowadzeniem adresu URL. Zezwól tylko wtedy, gdy to Twój serwer %@: od teraz będzie wysyłane tylko na ten serwer.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Zostało zapisane bez serwera, do którego należy, przez starszą wersję Greenshot lub przed wprowadzeniem adresu URL. Zezwól tylko wtedy, gdy to Twój serwer %@: od teraz będzie wysyłane tylko na ten serwer (adres i port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Zostanie utracony, jeśli go nie zapiszesz.";
@@ -3263,6 +3263,12 @@
 
 /* machine */
 "Not saved yet" = "Jeszcze niezapisany";
+
+/* machine */
+"Not sent to %@" = "Nie wysłano do %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Nie wysłano: niedozwolone dla tego serwera.";
 
 /* machine */
 "Not set" = "Nie ustawiono";
@@ -4603,6 +4609,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Oddziel adresy przecinkami. Temat może używać zmiennych wzorca nazwy pliku, np. ${title}. Outlook też ich używa. Przy DW lub UDW i Mail jako aplikacji pocztowej Mail zapisuje całą wiadomość (macOS pyta raz, czy Greenshot może sterować Mail); w przeciwnym razie usługa poczty macOS wypełnia Do i temat, a DW i UDW są pokazane do ręcznego dodania.";
 
 /* machine */
+"Server (address and port): %@" = "Serwer (adres i port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server lub Data Center: osobisty token dostępu";
 
 /* machine */
@@ -5044,6 +5053,9 @@
 "The %@ password could not be kept in the Keychain" = "Nie udało się zachować hasła do %@ w pęku kluczy";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token lub hasło %@ z pęku kluczy nie jest jeszcze dozwolone dla tego serwera. Zezwól na nie za pomocą Testuj połączenie w Ustawienia › Miejsca docelowe.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu każdy program zostanie zapytany ponownie.";
 
 /* machine */
@@ -5405,6 +5417,9 @@
 
 /* machine */
 "The text is too long for this code." = "Tekst jest za długi dla tego kodu.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token lub hasło z pęku kluczy nie jest jeszcze dozwolone dla tego serwera. Zezwól na nie za pomocą Testuj połączenie w Ustawienia › Miejsca docelowe.";
 
 /* machine */
 "The torn edges of this image." = "Poszarpane krawędzie tego obrazu.";

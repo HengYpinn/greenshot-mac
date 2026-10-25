@@ -2644,7 +2644,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Preimenovana je bila v %@ in Greenshot se je zagnal s privzetimi nastavitvami.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Shranjeno je bilo brez strežnika, ki mu pripada, s starejšo različico Greenshota ali preden je bil vnesen URL. Dovolite to samo, če je to vaš strežnik %@: odslej bo šlo samo na ta strežnik.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Shranjeno je bilo brez strežnika, ki mu pripada, s starejšo različico Greenshota ali preden je bil vnesen URL. Dovolite to samo, če je to vaš strežnik %@: odslej bo šlo samo na ta strežnik (naslov in vrata).";
 
 /* machine */
 "It will be lost if you don't save it." = "Izgubljeno bo, če ne shranite.";
@@ -3260,6 +3260,12 @@
 
 /* machine */
 "Not saved yet" = "Še ni shranjeno";
+
+/* machine */
+"Not sent to %@" = "Ni poslano v %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Ni poslano: za ta strežnik ni dovoljeno.";
 
 /* machine */
 "Not set" = "Ni nastavljeno";
@@ -4600,6 +4606,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Naslove ločite z vejicami. Zadeva lahko uporablja spremenljivke vzorca imena datoteke, npr. ${title}. Uporablja jih tudi Outlook. Pri CC ali BCC in aplikaciji Mail kot e-poštni aplikaciji Mail napiše celotno sporočilo (macOS enkrat vpraša, ali sme Greenshot upravljati Mail); sicer e-poštna storitev macOS izpolni Za in zadevo, CC in BCC pa sta prikazana za ročno dodajanje.";
 
 /* machine */
+"Server (address and port): %@" = "Strežnik (naslov in vrata): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Strežnik ali Data Center: osebni dostopni žeton";
 
 /* machine */
@@ -5044,6 +5053,9 @@
 "The %@ password could not be kept in the Keychain" = "Gesla za %@ ni bilo mogoče shraniti v Verigo ključev";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Žeton ali geslo za %@ v Verigi ključev za ta strežnik še ni dovoljeno. Dovolite ga s Preizkusi povezavo v Nastavitve › Cilji.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Soglasje za orodja UI je shranjeno brez pečata, ker Verige ključev ni bilo mogoče uporabiti: po naslednjem zagonu bo vsak program znova vprašan.";
 
 /* machine */
@@ -5405,6 +5417,9 @@
 
 /* machine */
 "The text is too long for this code." = "Besedilo je za to kodo predolgo.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Žeton ali geslo v Verigi ključev za ta strežnik še ni dovoljeno. Dovolite ga s Preizkusi povezavo v Nastavitve › Cilji.";
 
 /* machine */
 "The torn edges of this image." = "Strgani robovi te slike.";

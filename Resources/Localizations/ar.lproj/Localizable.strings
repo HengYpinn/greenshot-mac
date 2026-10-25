@@ -2662,7 +2662,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "أُعيدت تسميته إلى %@ وبدأ Greenshot بالإعدادات الافتراضية.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "حُفظ دون الخادم الذي ينتمي إليه، بواسطة إصدار أقدم من Greenshot أو قبل إدخال عنوان URL. اسمح بذلك فقط إذا كان هذا خادم %@ الخاص بك: من الآن فصاعدًا سيذهب إلى هذا الخادم فقط.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "حُفظ دون الخادم الذي ينتمي إليه، بواسطة إصدار أقدم من Greenshot أو قبل إدخال عنوان URL. اسمح بذلك فقط إذا كان هذا خادم %@ الخاص بك: من الآن فصاعدًا سيذهب إلى هذا الخادم (العنوان والمنفذ) فقط.";
 
 /* machine */
 "It will be lost if you don't save it." = "ستفقده إذا لم تحفظه.";
@@ -3281,6 +3281,12 @@
 
 /* machine */
 "Not saved yet" = "لم يتم الحفظ بعد";
+
+/* machine */
+"Not sent to %@" = "لم يُرسل إلى %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "لم يُرسل: غير مسموح لهذا الخادم.";
 
 /* machine */
 "Not set" = "غير معيّن";
@@ -4624,6 +4630,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "افصل العناوين بفواصل. يمكن للموضوع استخدام متغيّرات نمط اسم الملف، مثل ${title}. ويستخدمها Outlook أيضًا. مع CC أو BCC وMail كتطبيق بريدك، يكتب Mail الرسالة كاملة (يسأل macOS مرة واحدة عما إذا كان يمكن لـ Greenshot التحكم في Mail)؛ وإلا فإن خدمة البريد في macOS تملأ المستلم والموضوع، ويُعرض CC وBCC لإضافتهما يدويًا.";
 
 /* machine */
+"Server (address and port): %@" = "الخادم (العنوان والمنفذ): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server أو Data Center: رمز وصول شخصي";
 
 /* machine */
@@ -5068,6 +5077,9 @@
 "The %@ password could not be kept in the Keychain" = "تعذّر الاحتفاظ بكلمة سر %@ في سلسلة المفاتيح";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "رمز %@ المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. اسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، يُسأل عن كل برنامج مجددًا.";
 
 /* machine */
@@ -5429,6 +5441,9 @@
 
 /* machine */
 "The text is too long for this code." = "النص أطول من أن يناسب هذا الرمز.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "الرمز المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. اسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات.";
 
 /* machine */
 "The torn edges of this image." = "الحواف الممزقة لهذه الصورة.";

@@ -2659,7 +2659,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Jis pervadintas į %@, o Greenshot paleista su numatytaisiais nustatymais.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Jis buvo įrašytas be serverio, kuriam priklauso, senesnės Greenshot versijos arba prieš įvedant URL. Leiskite tai tik jei tai jūsų %@ serveris: nuo šiol jis bus siunčiamas tik į šį serverį.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Jis buvo įrašytas be serverio, kuriam priklauso, senesnės Greenshot versijos arba prieš įvedant URL. Leiskite tai tik jei tai jūsų %@ serveris: nuo šiol jis bus siunčiamas tik į šį serverį (adresas ir prievadas).";
 
 /* machine */
 "It will be lost if you don't save it." = "Jei neišsaugosite, jis bus prarastas.";
@@ -3278,6 +3278,12 @@
 
 /* machine */
 "Not saved yet" = "Dar neišsaugota";
+
+/* machine */
+"Not sent to %@" = "Neišsiųsta į %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Neišsiųsta: šiam serveriui neleista.";
 
 /* machine */
 "Not set" = "Nenustatyta";
@@ -4624,6 +4630,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Adresus atskirkite kableliais. Temoje galima naudoti failo pavadinimo šablono kintamuosius, pvz., ${title}. Outlook juos taip pat naudoja. Su CC arba BCC ir Mail kaip pašto programa Mail parašo visą laišką (macOS vieną kartą klausia, ar Greenshot gali valdyti Mail); kitu atveju macOS pašto paslauga užpildo Kam ir temą, o CC ir BCC rodomi, kad pridėtumėte rankomis.";
 
 /* machine */
+"Server (address and port): %@" = "Serveris (adresas ir prievadas): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server arba Data Center: asmeninis prieigos raktas";
 
 /* machine */
@@ -5068,6 +5077,9 @@
 "The %@ password could not be kept in the Keychain" = "%@ slaptažodžio nepavyko išsaugoti raktų pakabuke";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@ prieigos raktas arba slaptažodis raktų pakabuke dar neleidžiamas šiam serveriui. Leiskite jį mygtuku Tikrinti ryšį skiltyje Nustatymai › Paskirtys.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo apie kiekvieną programą bus vėl paklausta.";
 
 /* machine */
@@ -5429,6 +5441,9 @@
 
 /* machine */
 "The text is too long for this code." = "Tekstas per ilgas šiam kodui.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Prieigos raktas arba slaptažodis raktų pakabuke dar neleidžiamas šiam serveriui. Leiskite jį mygtuku Tikrinti ryšį skiltyje Nustatymai › Paskirtys.";
 
 /* machine */
 "The torn edges of this image." = "Šio vaizdo nuplėšti kraštai.";

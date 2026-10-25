@@ -806,7 +806,7 @@ It runs from %@.	Berjalan dari %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Langsung berhenti berjalan dan tidak dimuat lagi. Berkasnya tetap di tempatnya: impor lagi untuk meninjau dan menyetujuinya.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Langsung berhenti berjalan dan tidak dimuat lagi. Berkasnya tetap di tempatnya: buka lagi untuk meninjau dan menyetujuinya.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Diganti namanya menjadi %@ dan Greenshot dimulai dengan pengaturan default.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Ini disimpan tanpa server tempatnya berasal, oleh versi Greenshot yang lebih lama atau sebelum URL dimasukkan. Izinkan hanya jika ini adalah server %@ Anda: mulai sekarang ini hanya dikirim ke server ini.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Ini disimpan tanpa server tempatnya berasal, oleh versi Greenshot yang lebih lama atau sebelum URL dimasukkan. Izinkan hanya jika ini adalah server %@ Anda: mulai sekarang ini hanya dikirim ke server ini (alamat dan port).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Akan hilang jika tidak disimpan.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Ada di bilah menu.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Penjelasannya (kata-kata alat AI, tidak diperiksa oleh Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1005,6 +1005,8 @@ Not registered yet	Belum didaftarkan	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Tidak didaftarkan: app lain memakainya	claude-sonnet-5-5 2026-10-18
 Not running	Tidak berjalan	claude-sonnet-5-5 2026-10-18
 Not saved yet	Belum disimpan	claude-sonnet-5-5 2026-10-18
+Not sent to %@	Tidak dikirim ke %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Tidak dikirim: tidak diizinkan untuk server ini.	claude-opus-5-5 2026-10-26
 Not set	Belum diatur	claude-sonnet-5-5 2026-10-18
 Not signed	Tidak ditandatangani	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Belum masuk ke %@. Masuk di Pengaturan › Destinasi.	claude-sonnet-5-5 2026-10-18
@@ -1396,6 +1398,7 @@ Send the %@ token or password in the Keychain to this server?	Kirim token atau k
 Sending the screenshot to %@…	Mengirim tangkapan layar ke %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Dikirim ke printer “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Pisahkan alamat dengan koma. Subjek dapat menggunakan variabel pola nama berkas, mis. ${title}. Outlook juga menggunakannya. Dengan CC atau BCC dan Mail sebagai app email Anda, Mail menulis seluruh email (macOS bertanya sekali apakah Greenshot boleh mengontrol Mail); jika tidak, layanan email macOS mengisi Kepada dan subjek, dan CC dan BCC ditampilkan untuk ditambahkan secara manual.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Server (alamat dan port): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server atau Data Center: token akses pribadi	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server atau Data Center: nama pengguna dan sandi	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Atur Perintah…	claude-sonnet-5-5 2026-10-18
@@ -1535,6 +1538,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	Kunci app %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	Ikon %@ ditampilkan di bilah menu.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	Sandi %@ tidak dapat disimpan di Rantai Kunci	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Token atau kata sandi %@ di Rantai Kunci belum diizinkan untuk server ini. Izinkan dengan Uji Koneksi di Pengaturan › Destinasi.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, setiap program ditanya lagi.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, pengecualian default berlaku lagi dan notifikasi aktif.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, pengecualian default berlaku lagi.	claude-opus-5-5 2026-10-25
@@ -1656,6 +1660,7 @@ The size of File › New Image, a white image to draw on.	Ukuran Berkas › Gamb
 The text could not be recognised	Teks tidak dapat dikenali	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Teks tidak dapat dikenali: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	Teks terlalu panjang untuk kode ini.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Token atau kata sandi di Rantai Kunci belum diizinkan untuk server ini. Izinkan dengan Uji Koneksi di Pengaturan › Destinasi.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Tepi sobek gambar ini.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Bagian transparan gambar mendapat warna ini.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Pemicu dimulai dalam keadaan mati. Nyalakan setiap pemicu yang boleh memulai resep ini: pemicu yang dibiarkan mati tetap mati (Anda dapat menyalakannya nanti dengan Izin). Tanpa pemicu, Anda tetap dapat menjalankan resep dari daftar resep.	claude-sonnet-5-5 2026-10-18

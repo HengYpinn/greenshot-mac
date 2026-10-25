@@ -2626,7 +2626,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Den döptes om till %@ och Greenshot startade med standardinställningarna.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Den sparades utan servern den hör till, av en äldre version av Greenshot eller innan URL:en angavs. Tillåt den bara om det här är din %@-server: från och med nu skickas den bara till den här servern.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Den sparades utan servern den hör till, av en äldre version av Greenshot eller innan URL:en angavs. Tillåt den bara om det här är din %@-server: från och med nu skickas den bara till den här servern (adress och port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Den går förlorad om du inte sparar den.";
@@ -3245,6 +3245,12 @@
 
 /* machine */
 "Not saved yet" = "Inte sparad än";
+
+/* machine */
+"Not sent to %@" = "Inte skickat till %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Inte skickat: inte tillåtet för den här servern.";
 
 /* machine */
 "Not set" = "Inte angiven";
@@ -4582,6 +4588,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Separera adresser med kommatecken. Ämnet kan använda variablerna i filnamnsmönstret, t.ex. ${title}. Outlook använder dem också. Med Kopia eller Dold kopia och Mail som e-postapp skriver Mail hela e-postmeddelandet (macOS frågar en gång om Greenshot får styra Mail); annars fyller macOS e-posttjänst i Till och ämnet, och Kopia och Dold kopia visas för att läggas till manuellt.";
 
 /* machine */
+"Server (address and port): %@" = "Server (adress och port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server eller Data Center: personlig åtkomsttoken";
 
 /* machine */
@@ -5002,6 +5011,9 @@
 "The %@ password could not be kept in the Keychain" = "Lösenordet för %@ kunde inte sparas i Nyckelringen";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@-token eller -lösenord i Nyckelringen är ännu inte tillåtet för den här servern. Tillåt det med Testa anslutning i Inställningar › Destinationer.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtycket för AI-verktyg är sparat utan sitt sigill eftersom Nyckelringen inte kunde användas: efter nästa start frågas varje program igen.";
 
 /* machine */
@@ -5363,6 +5375,9 @@
 
 /* machine */
 "The text is too long for this code." = "Texten är för lång för den här koden.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token eller lösenord i Nyckelringen är ännu inte tillåtet för den här servern. Tillåt det med Testa anslutning i Inställningar › Destinationer.";
 
 /* machine */
 "The torn edges of this image." = "Rivna kanter på den här bilden.";

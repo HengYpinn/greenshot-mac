@@ -2608,7 +2608,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "A fost redenumit în %@, iar Greenshot a pornit cu setările implicite.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "A fost salvat fără serverul căruia îi aparține, de o versiune mai veche de Greenshot sau înainte de introducerea URL-ului. Permiteți-l doar dacă acesta este serverul dumneavoastră %@: de acum înainte va merge doar către acest server.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "A fost salvat fără serverul căruia îi aparține, de o versiune mai veche de Greenshot sau înainte de introducerea URL-ului. Permiteți-l doar dacă acesta este serverul dumneavoastră %@: de acum înainte va merge doar către acest server (adresă și port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Se va pierde dacă nu îl salvați.";
@@ -3218,6 +3218,12 @@
 
 /* machine */
 "Not saved yet" = "Încă nesalvat";
+
+/* machine */
+"Not sent to %@" = "Netrimis către %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Netrimis: nu este permis pentru acest server.";
 
 /* machine */
 "Not set" = "Nesetat";
@@ -4552,6 +4558,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Separați adresele prin virgule. Subiectul poate folosi variabilele tiparului numelui de fișier, de ex. ${title}. Și Outlook le folosește. Cu CC sau BCC și Mail ca aplicație de e-mail, Mail scrie întregul mesaj (macOS întreabă o dată dacă Greenshot poate controla Mail); altfel serviciul de e-mail macOS completează destinatarul și subiectul, iar CC și BCC sunt afișate pentru a fi adăugate manual.";
 
 /* machine */
+"Server (address and port): %@" = "Server (adresă și port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server sau Data Center: token de acces personal";
 
 /* machine */
@@ -4981,6 +4990,9 @@
 "The %@ password could not be kept in the Keychain" = "Parola %@ nu a putut fi păstrată în Keychain";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Tokenul sau parola %@ din Keychain nu este încă permis pentru acest server. Permiteți-l cu Testează conexiunea în Setări › Destinații.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, fiecare program este întrebat din nou.";
 
 /* machine */
@@ -5342,6 +5354,9 @@
 
 /* machine */
 "The text is too long for this code." = "Textul este prea lung pentru acest cod.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Tokenul sau parola din Keychain nu este încă permis pentru acest server. Permiteți-l cu Testează conexiunea în Setări › Destinații.";
 
 /* machine */
 "The torn edges of this image." = "Marginile rupte ale acestei imagini.";

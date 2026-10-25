@@ -844,7 +844,7 @@ It runs from %@.	Innen fut: %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Azonnal leáll, és többé nem töltődik be. A fájlja a helyén marad: importálja újra az áttekintéshez és jóváhagyáshoz.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Azonnal leáll, és többé nem töltődik be. A fájlja a helyén marad: nyissa meg újra az áttekintéshez és jóváhagyáshoz.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Át lett nevezve erre: %@, és a Greenshot az alapértelmezett beállításokkal indult.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	A hozzá tartozó szerver nélkül lett mentve, a Greenshot egy régebbi verziójával vagy az URL megadása előtt. Csak akkor engedélyezze, ha ez az Ön %@-szervere: ettől kezdve csak erre a szerverre kerül.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	A hozzá tartozó szerver nélkül lett mentve, a Greenshot egy régebbi verziójával vagy az URL megadása előtt. Csak akkor engedélyezze, ha ez az Ön %@-szervere: ettől kezdve csak erre a szerverre (cím és port) kerül.	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Elvész, ha nem menti.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	A menüsorban található.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Magyarázata (az AI-eszköz szavai, a Greenshot nem ellenőrizte):	claude-sonnet-5-5 2026-10-18
@@ -1051,6 +1051,8 @@ Not registered yet	Még nincs regisztrálva	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Nincs regisztrálva: másik alkalmazás használja	claude-sonnet-5-5 2026-10-18
 Not running	Nem fut	claude-sonnet-5-5 2026-10-18
 Not saved yet	Még nincs mentve	claude-sonnet-5-5 2026-10-18
+Not sent to %@	Nincs elküldve ide: %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Nincs elküldve: ennél a szervernél nincs engedélyezve.	claude-opus-5-5 2026-10-26
 Not set	Nincs beállítva	claude-sonnet-5-5 2026-10-18
 Not signed	Nincs aláírva	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Nincs bejelentkezve (%@). Jelentkezzen be itt: Beállítások › Célok.	claude-sonnet-5-5 2026-10-18
@@ -1460,6 +1462,7 @@ Send to printer	Küldés nyomtatóra	claude-sonnet-5-5 2026-10-18
 Sending the screenshot to %@…	A képernyőkép küldése: %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Elküldve a nyomtatóra: „%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	A címeket vesszővel válassza el. A tárgy használhatja a fájlnévminta változóit, például ${title}. Az Outlook is használja őket. Ha a Másolat vagy Titkos másolat meg van adva, és a Mail a levelezőalkalmazása, a Mail írja meg a teljes levelet (a macOS egyszer megkérdezi, vezérelheti-e a Greenshot a Mailt); egyébként a macOS levelezési szolgáltatása tölti ki a Címzettet és a tárgyat, a Másolat és Titkos másolat pedig kézi hozzáadásra jelenik meg.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Szerver (cím és port): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server vagy Data Center: személyes hozzáférési token	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server vagy Data Center: felhasználónév és jelszó	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Parancsok beállítása…	claude-sonnet-5-5 2026-10-18
@@ -1603,6 +1606,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	%@ alkalmazáskulcsa	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	A(z) %@ ikon megjelenik a menüsorban.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	A(z) %@ jelszavát nem sikerült megőrizni a Kulcskarikán	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	A Kulcskarikában tárolt %@-token vagy -jelszó még nincs engedélyezve ehhez a szerverhez. Engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a Greenshot minden programnál újra rákérdez.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után ismét az alapértelmezett kizárások lesznek érvényesek, és az értesítés be lesz kapcsolva.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után ismét az alapértelmezett kizárások lesznek érvényesek.	claude-opus-5-5 2026-10-25
@@ -1724,6 +1728,7 @@ The size of File › New Image, a white image to draw on.	A Fájl › Új kép m
 The text could not be recognised	A szöveg nem ismerhető fel	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	A szöveg nem ismerhető fel: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	A szöveg túl hosszú ehhez a kódhoz.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	A Kulcskarikában tárolt token vagy jelszó még nincs engedélyezve ehhez a szerverhez. Engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	A kép szakadt szélei.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	A kép átlátszó részei ezt a színt kapják.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Az indítók kikapcsolva indulnak. Kapcsolja be azokat, amelyek indíthatják ezt a receptet: a kikapcsolva hagyott indító kikapcsolva marad (később bekapcsolhatja az Engedélyekkel). Indító nélkül is futtathatja a receptet a receptlistából.	claude-sonnet-5-5 2026-10-18

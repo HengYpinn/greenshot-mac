@@ -2629,7 +2629,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Han blei omdøypt til %@ og Greenshot starta med standardinnstillingane.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Det vart lagra utan tenaren det høyrer til, av ein eldre versjon av Greenshot eller før URL-en vart skriven inn. Tillat det berre om dette er %@-tenaren din: frå no av går det berre til denne tenaren.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Det vart lagra utan tenaren det høyrer til, av ein eldre versjon av Greenshot eller før URL-en vart skriven inn. Tillat det berre om dette er %@-tenaren din: frå no av går det berre til denne tenaren (adresse og port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Det går tapt viss du ikkje lagrar.";
@@ -3245,6 +3245,12 @@
 
 /* machine */
 "Not saved yet" = "Ikkje lagra enno";
+
+/* machine */
+"Not sent to %@" = "Ikkje sendt til %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Ikkje sendt: ikkje tillate for denne tenaren.";
 
 /* machine */
 "Not set" = "Ikkje sett";
@@ -4582,6 +4588,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Skil adresser med komma. Emnet kan bruke variablane frå filnamnsregelen, t.d. ${title}. Outlook brukar dei òg. Med CC eller BCC og Mail som e-postprogram skriv Mail heile e-posten (macOS spør éin gong om Greenshot får styre Mail); elles fyller e-posttenesta i macOS ut Til og emnet, og CC og BCC blir viste for å leggje til for hand.";
 
 /* machine */
+"Server (address and port): %@" = "Tenar (adresse og port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server eller Data Center: personleg tilgangstoken";
 
 /* machine */
@@ -5017,6 +5026,9 @@
 "The %@ password could not be kept in the Keychain" = "Passordet for %@ kunne ikkje lagrast i Nøkkelringen";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@-tokenet eller passordet i Nøkkelringen er enno ikkje tillate for denne tenaren. Tillat det med Test tilkopling i Innstillingar › Mål.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtykket for KI-verktøy er lagra utan seglet sitt fordi Nøkkelringen ikkje kunne brukast: etter neste start blir kvart program spurt på nytt.";
 
 /* machine */
@@ -5378,6 +5390,9 @@
 
 /* machine */
 "The text is too long for this code." = "Teksten er for lang for denne koden.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Tokenet eller passordet i Nøkkelringen er enno ikkje tillate for denne tenaren. Tillat det med Test tilkopling i Innstillingar › Mål.";
 
 /* machine */
 "The torn edges of this image." = "Rivekantane til dette bildet.";

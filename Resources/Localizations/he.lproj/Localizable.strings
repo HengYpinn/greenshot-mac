@@ -2641,7 +2641,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "שמו שונה ל-%@ ו-Greenshot הופעל עם הגדרות ברירת המחדל.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "הוא נשמר ללא השרת שאליו הוא שייך, על ידי גרסה ישנה יותר של Greenshot או לפני שהוזנה כתובת ה-URL. יש לאשר זאת רק אם זהו שרת ה-%@ שלך: מעכשיו הוא יישלח לשרת הזה בלבד.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "הוא נשמר ללא השרת שאליו הוא שייך, על ידי גרסה ישנה יותר של Greenshot או לפני שהוזנה כתובת ה-URL. יש לאשר זאת רק אם זהו שרת ה-%@ שלך: מעכשיו הוא יישלח לשרת הזה (כתובת ופורט) בלבד.";
 
 /* machine */
 "It will be lost if you don't save it." = "הוא יאבד אם לא תשמור אותו.";
@@ -3263,6 +3263,12 @@
 
 /* machine */
 "Not saved yet" = "עדיין לא נשמר";
+
+/* machine */
+"Not sent to %@" = "לא נשלח ל-%@";
+
+/* machine */
+"Not sent: not allowed for this server." = "לא נשלח: לא מותר לשרת הזה.";
 
 /* machine */
 "Not set" = "לא הוגדר";
@@ -4606,6 +4612,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "יש להפריד כתובות בפסיקים. בנושא אפשר להשתמש במשתני תבנית שם הקובץ, למשל ${title}. גם Outlook משתמש בהם. עם CC או BCC ו-Mail כאפליקציית הדואר שלך, Mail כותב את כל ההודעה (macOS שואל פעם אחת אם Greenshot רשאי לשלוט ב-Mail); אחרת שירות הדואר של macOS ממלא את הנמען והנושא, ו-CC ו-BCC מוצגים להוספה ידנית.";
 
 /* machine */
+"Server (address and port): %@" = "שרת (כתובת ופורט): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server או Data Center: אסימון גישה אישי";
 
 /* machine */
@@ -5044,6 +5053,9 @@
 "The %@ password could not be kept in the Keychain" = "לא ניתן היה לשמור את הסיסמה של %@ ב-Keychain";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "האסימון או הסיסמה של %@ ב-Keychain עדיין לא מותרים לשרת הזה. אפשר להתיר אותם עם \"בדיקת חיבור\" בהגדרות › יעדים.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "ההסכמה לכלי AI שמורה בלי החותם שלה כי לא ניתן היה להשתמש ב-Keychain: אחרי ההפעלה הבאה, כל תוכנית תישאל שוב.";
 
 /* machine */
@@ -5405,6 +5417,9 @@
 
 /* machine */
 "The text is too long for this code." = "הטקסט ארוך מדי עבור קוד זה.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "האסימון או הסיסמה ב-Keychain עדיין לא מותרים לשרת הזה. אפשר להתיר אותם עם \"בדיקת חיבור\" בהגדרות › יעדים.";
 
 /* machine */
 "The torn edges of this image." = "הקצוות הקרועים של התמונה הזו.";

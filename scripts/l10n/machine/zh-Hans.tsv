@@ -804,7 +804,7 @@ It runs from %@.	它从 %@ 运行。	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	它会立即停止运行，且不会再次载入。它的文件保留在原处：请再次导入以审核并批准它。	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	它会立即停止运行，且不会再次载入。它的文件保留在原处：请再次打开以审核并批准它。	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	它已被重命名为 %@，Greenshot 以默认设置启动。	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	它在保存时未记录所属的服务器（由旧版 Greenshot 保存，或在输入 URL 之前保存）。仅当这是你的 %@ 服务器时才允许：此后它只会发送到此服务器。	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	它在保存时未记录所属的服务器（由旧版 Greenshot 保存，或在输入 URL 之前保存）。仅当这是你的 %@ 服务器时才允许：此后它只会发送到此服务器（地址和端口）。	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	如果不保存，它将会丢失。	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	它在菜单栏中。	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	它的说明（AI 工具的原话，Greenshot 未检查）：	claude-sonnet-5-5 2026-10-18
@@ -1004,6 +1004,8 @@ Not registered yet	尚未注册	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	未注册：已被其他 App 占用	claude-sonnet-5-5 2026-10-18
 Not running	未运行	claude-sonnet-5-5 2026-10-18
 Not saved yet	尚未保存	claude-sonnet-5-5 2026-10-18
+Not sent to %@	未发送到 %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	未发送：未允许用于此服务器。	claude-opus-5-5 2026-10-26
 Not set	未设置	claude-sonnet-5-5 2026-10-18
 Not signed	未签名	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	尚未登录 %@。请在“设置 › 目标位置”下登录。	claude-sonnet-5-5 2026-10-18
@@ -1393,6 +1395,7 @@ Send the %@ token or password in the Keychain to this server?	要将钥匙串中
 Sending the screenshot to %@…	正在将屏幕截图发送到 %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	已发送到打印机“%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	多个地址请用逗号分隔。主题可使用文件名格式变量，例如 ${title}。Outlook 也会使用它们。如果设置了抄送或密送，并且邮件 App 为“邮件”，则“邮件”会写入整封邮件（macOS 会询问一次是否允许 Greenshot 控制“邮件”）；否则由 macOS 邮件服务填写收件人和主题，抄送和密送则会显示出来供你手动添加。	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	服务器（地址和端口）：%@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server 或 Data Center：个人访问令牌	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server 或 Data Center：用户名和密码	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	设置命令…	claude-sonnet-5-5 2026-10-18
@@ -1532,6 +1535,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	%@ App 密钥	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	%@ 图标显示在菜单栏中。	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	无法将 %@ 密码保存在钥匙串中	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	钥匙串中的 %@ 令牌或密码尚未获准用于此服务器。请在“设置 › 目标位置”中使用“测试连接”来允许。	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，会再次询问每个程序。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，默认排除项会恢复，并且通知会开启。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，默认排除项会恢复。	claude-opus-5-5 2026-10-25
@@ -1653,6 +1657,7 @@ The size of File › New Image, a white image to draw on.	“文件 › 新建�
 The text could not be recognised	无法识别文字	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	无法识别文字：%@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	文本对此码来说太长。	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	钥匙串中的令牌或密码尚未获准用于此服务器。请在“设置 › 目标位置”中使用“测试连接”来允许。	claude-opus-5-5 2026-10-26
 The torn edges of this image.	此图像的撕裂边缘。	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	图像的透明部分使用此颜色。	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	触发器初始为关闭状态。请打开每个可以启动此配方的触发器：保持关闭的触发器会一直关闭（之后可通过“权限”打开）。没有触发器时，你仍可从配方列表运行该配方。	claude-sonnet-5-5 2026-10-18

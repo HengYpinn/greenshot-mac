@@ -2647,7 +2647,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "نام آن به %@ تغییر کرد و Greenshot با تنظیمات پیش‌فرض شروع شد.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "بدون سروری که به آن تعلق دارد ذخیره شده است، با نسخهٔ قدیمی‌تر Greenshot یا پیش از وارد کردن URL. فقط اگر این سرور %@ شماست اجازه دهید: از این پس فقط به این سرور فرستاده می‌شود.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "بدون سروری که به آن تعلق دارد ذخیره شده است، با نسخهٔ قدیمی‌تر Greenshot یا پیش از وارد کردن URL. فقط اگر این سرور %@ شماست اجازه دهید: از این پس فقط به این سرور (نشانی و پورت) فرستاده می‌شود.";
 
 /* machine */
 "It will be lost if you don't save it." = "اگر ذخیره نکنید از بین می‌رود.";
@@ -3269,6 +3269,12 @@
 
 /* machine */
 "Not saved yet" = "هنوز ذخیره نشده";
+
+/* machine */
+"Not sent to %@" = "به %@ فرستاده نشد";
+
+/* machine */
+"Not sent: not allowed for this server." = "فرستاده نشد: برای این سرور مجاز نیست.";
 
 /* machine */
 "Not set" = "تنظیم نشده";
@@ -4609,6 +4615,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "نشانی‌ها را با ویرگول جدا کنید. موضوع می‌تواند از متغیرهای الگوی نام فایل استفاده کند، مثلاً ${title}. Outlook هم از آن‌ها استفاده می‌کند. با CC یا BCC و Mail به‌عنوان برنامهٔ ایمیل، Mail کل ایمیل را می‌نویسد (macOS یک بار می‌پرسد که Greenshot مجاز به کنترل Mail باشد یا نه)؛ در غیر این صورت سرویس ایمیل macOS گیرنده و موضوع را پر می‌کند و CC و BCC برای افزودن دستی نشان داده می‌شوند.";
 
 /* machine */
+"Server (address and port): %@" = "سرور (نشانی و پورت): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server یا Data Center: توکن دسترسی شخصی";
 
 /* machine */
@@ -5044,6 +5053,9 @@
 "The %@ password could not be kept in the Keychain" = "گذرواژهٔ %@ در Keychain نگه داشته نشد";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "توکن یا گذرواژهٔ %@ در Keychain هنوز برای این سرور مجاز نیست. با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برای هر برنامه دوباره پرسیده می‌شود.";
 
 /* machine */
@@ -5405,6 +5417,9 @@
 
 /* machine */
 "The text is too long for this code." = "متن برای این کد خیلی بلند است.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "توکن یا گذرواژه در Keychain هنوز برای این سرور مجاز نیست. با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید.";
 
 /* machine */
 "The torn edges of this image." = "لبه‌های پارهٔ این تصویر.";

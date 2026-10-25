@@ -2647,7 +2647,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "이름이 %@(으)로 변경되었고 Greenshot이 기본 설정으로 시작되었습니다.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "소속 서버 정보 없이 저장되었습니다(이전 버전의 Greenshot이 저장했거나 URL을 입력하기 전에 저장됨). 이 서버가 사용자의 %@ 서버인 경우에만 허용하세요. 이후로는 이 서버로만 전송됩니다.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "소속 서버 정보 없이 저장되었습니다(이전 버전의 Greenshot이 저장했거나 URL을 입력하기 전에 저장됨). 이 서버가 사용자의 %@ 서버인 경우에만 허용하세요. 이후로는 이 서버(주소 및 포트)로만 전송됩니다.";
 
 /* machine */
 "It will be lost if you don't save it." = "저장하지 않으면 사라집니다.";
@@ -3269,6 +3269,12 @@
 
 /* machine */
 "Not saved yet" = "아직 저장되지 않음";
+
+/* machine */
+"Not sent to %@" = "%@(으)로 전송되지 않음";
+
+/* machine */
+"Not sent: not allowed for this server." = "전송되지 않음: 이 서버에는 허용되지 않았습니다.";
 
 /* machine */
 "Not set" = "설정되지 않음";
@@ -4615,6 +4621,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "주소는 쉼표로 구분하세요. 제목에는 ${title} 같은 파일명 패턴 변수를 사용할 수 있으며 Outlook에서도 사용됩니다. CC 또는 BCC를 사용하고 메일 앱이 Mail이면 Mail에서 메일 전체를 작성합니다(macOS에서 Greenshot이 Mail을 제어할 수 있는지 한 번 묻습니다). 그렇지 않으면 macOS 메일 서비스가 받는 사람과 제목을 채우고, CC와 BCC는 직접 추가하도록 표시됩니다.";
 
 /* machine */
+"Server (address and port): %@" = "서버(주소 및 포트): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server 또는 Data Center: 개인 액세스 토큰";
 
 /* machine */
@@ -5059,6 +5068,9 @@
 "The %@ password could not be kept in the Keychain" = "%@ 암호를 키체인에 보관하지 못했습니다";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "키체인에 있는 %@ 토큰 또는 암호는 아직 이 서버에 허용되지 않았습니다. 설정 › 저장 방법에서 연결 테스트로 허용하세요.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 모든 프로그램에 다시 묻습니다.";
 
 /* machine */
@@ -5420,6 +5432,9 @@
 
 /* machine */
 "The text is too long for this code." = "이 코드에 넣기에는 텍스트가 너무 깁니다.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "키체인에 있는 토큰 또는 암호는 아직 이 서버에 허용되지 않았습니다. 설정 › 저장 방법에서 연결 테스트로 허용하세요.";
 
 /* machine */
 "The torn edges of this image." = "이 이미지의 찢어진 가장자리입니다.";

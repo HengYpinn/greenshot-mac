@@ -803,7 +803,7 @@ It runs from %@.	Запускается из %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Он сразу перестаёт работать и больше не загружается. Его файл остаётся на месте: импортируйте его снова, чтобы проверить и одобрить.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Он сразу перестаёт работать и больше не загружается. Его файл остаётся на месте: откройте его снова, чтобы проверить и одобрить.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Он был переименован в %@, а Greenshot запущен с настройками по умолчанию.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Он был сохранён без сервера, к которому относится, более старой версией Greenshot или до ввода URL. Разрешайте, только если это ваш сервер %@: с этого момента он будет отправляться только на этот сервер.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Он был сохранён без сервера, к которому относится, более старой версией Greenshot или до ввода URL. Разрешайте, только если это ваш сервер %@: с этого момента он будет отправляться только на этот сервер (адрес и порт).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Он будет потерян, если вы его не сохраните.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Он находится в строке меню.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Его пояснение (слова инструмента ИИ, Greenshot их не проверяет):	claude-sonnet-5-5 2026-10-18
@@ -1002,6 +1002,8 @@ Not registered yet	Ещё не зарегистрировано	claude-sonnet-5-
 Not registered: another app has it	Не зарегистрировано: занято другим приложением	claude-sonnet-5-5 2026-10-18
 Not running	Не запущено	claude-sonnet-5-5 2026-10-18
 Not saved yet	Ещё не сохранено	claude-sonnet-5-5 2026-10-18
+Not sent to %@	Не отправлено в %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Не отправлено: не разрешено для этого сервера.	claude-opus-5-5 2026-10-26
 Not set	Не задано	claude-sonnet-5-5 2026-10-18
 Not signed	Не подписано	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Вход в %@ не выполнен. Войдите в «Настройки» › «Места назначения».	claude-sonnet-5-5 2026-10-18
@@ -1392,6 +1394,7 @@ Send the %@ token or password in the Keychain to this server?	Отправить
 Sending the screenshot to %@…	Отправка снимка экрана в %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Отправлено на принтер «%@»	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Разделяйте адреса запятыми. В теме можно использовать переменные шаблона имени файла, например ${title}. Outlook тоже их использует. Если указаны копия или скрытая копия, а почтовое приложение — Mail, Mail составляет письмо целиком (macOS один раз спрашивает, можно ли Greenshot управлять Mail); иначе почтовая служба macOS заполняет адресата и тему, а копию и скрытую копию нужно добавить вручную.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Сервер (адрес и порт): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server или Data Center: персональный токен доступа	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server или Data Center: имя пользователя и пароль	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Настроить команды…	claude-sonnet-5-5 2026-10-18
@@ -1531,6 +1534,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	Ключ приложения %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	Значок %@ показан в строке меню.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	Не удалось сохранить пароль %@ в связке ключей	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Токен или пароль %@ из связки ключей ещё не разрешён для этого сервера. Разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения».	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Согласие для инструментов ИИ сохранено без печати, так как связку ключей нельзя было использовать: после следующего запуска разрешение будет снова запрошено для каждой программы.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	Согласие для инструментов ИИ сохранено без печати, так как связку ключей нельзя было использовать: после следующего запуска снова будут действовать исключения по умолчанию, а уведомление будет включено.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	Согласие для инструментов ИИ сохранено без печати, так как связку ключей нельзя было использовать: после следующего запуска снова будут действовать исключения по умолчанию.	claude-opus-5-5 2026-10-25
@@ -1652,6 +1656,7 @@ The size of File › New Image, a white image to draw on.	Размер для «
 The text could not be recognised	Не удалось распознать текст	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Не удалось распознать текст: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	Текст слишком длинный для этого кода.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Токен или пароль из связки ключей ещё не разрешён для этого сервера. Разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения».	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Рваные края этого изображения.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Прозрачные части изображения получат этот цвет.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Триггеры изначально выключены. Включите каждый, который может запускать этот рецепт: оставленный выключенным триггер остаётся выключенным (позже его можно включить в «Разрешения»). Без триггера рецепт всё равно можно запустить из списка рецептов.	claude-sonnet-5-5 2026-10-18

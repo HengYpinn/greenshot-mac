@@ -2608,7 +2608,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "È stato rinominato in %@ e Greenshot è stato avviato con le impostazioni predefinite.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "È stato salvato senza il server a cui appartiene, da una versione precedente di Greenshot o prima che venisse inserito l'URL. Consentilo solo se questo è il tuo server %@: da ora in poi andrà solo a questo server.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "È stato salvato senza il server a cui appartiene, da una versione precedente di Greenshot o prima che venisse inserito l'URL. Consentilo solo se questo è il tuo server %@: da ora in poi andrà solo a questo server (indirizzo e porta).";
 
 /* machine */
 "It will be lost if you don't save it." = "Andrà perso se non lo salvi.";
@@ -3221,6 +3221,12 @@
 
 /* machine */
 "Not saved yet" = "Non ancora salvato";
+
+/* machine */
+"Not sent to %@" = "Non inviato a %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Non inviato: non consentito per questo server.";
 
 /* machine */
 "Not set" = "Non impostato";
@@ -4549,6 +4555,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Separa gli indirizzi con virgole. L'oggetto può usare le variabili del modello del nome file, ad es. ${title}. Le usa anche Outlook. Con CC o CCN e Mail come app di posta, Mail scrive l'intera email (macOS chiede una volta se Greenshot può controllare Mail); altrimenti il servizio di posta di macOS compila A e l'oggetto, e CC e CCN vengono mostrati da aggiungere a mano.";
 
 /* machine */
+"Server (address and port): %@" = "Server (indirizzo e porta): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server o Data Center: token di accesso personale";
 
 /* machine */
@@ -4984,6 +4993,9 @@
 "The %@ password could not be kept in the Keychain" = "Non è stato possibile conservare la password di %@ nel Portachiavi";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Il token o la password di %@ del Portachiavi non è ancora consentito per questo server. Consentilo con Prova connessione in Impostazioni › Destinazioni.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, l'autorizzazione viene chiesta di nuovo per ogni programma.";
 
 /* machine */
@@ -5345,6 +5357,9 @@
 
 /* machine */
 "The text is too long for this code." = "Il testo è troppo lungo per questo codice.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Il token o la password del Portachiavi non è ancora consentito per questo server. Consentilo con Prova connessione in Impostazioni › Destinazioni.";
 
 /* machine */
 "The torn edges of this image." = "I bordi strappati di questa immagine.";

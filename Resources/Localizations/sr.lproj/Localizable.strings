@@ -2653,7 +2653,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Преименовано је у %@, а Greenshot је покренут са подразумеваним поставкама.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Сачувано је без сервера коме припада, старијом верзијом Greenshot-а или пре уноса URL-а. Дозволите то само ако је ово ваш %@ сервер: од сада ће ићи само на овај сервер.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Сачувано је без сервера коме припада, старијом верзијом Greenshot-а или пре уноса URL-а. Дозволите то само ако је ово ваш %@ сервер: од сада ће ићи само на овај сервер (адреса и порт).";
 
 /* machine */
 "It will be lost if you don't save it." = "Биће изгубљено ако га не сачувате.";
@@ -3275,6 +3275,12 @@
 
 /* machine */
 "Not saved yet" = "Још није сачувано";
+
+/* machine */
+"Not sent to %@" = "Није послато у %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Није послато: није дозвољено за овај сервер.";
 
 /* machine */
 "Not set" = "Није постављено";
@@ -4618,6 +4624,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Раздвојите адресе зарезима. Предмет може да користи променљиве обрасца за називе датотека, нпр. ${title}. Користи их и Outlook. Са CC или BCC и Mail као вашом апликацијом за пошту, Mail пише целу поруку (macOS једном пита сме ли Greenshot да контролише Mail); иначе macOS услуга за пошту попуњава Коме и предмет, а CC и BCC се приказују да их додате ручно.";
 
 /* machine */
+"Server (address and port): %@" = "Сервер (адреса и порт): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server или Data Center: лични токен за приступ";
 
 /* machine */
@@ -5062,6 +5071,9 @@
 "The %@ password could not be kept in the Keychain" = "Лозинка за %@ није могла да се сачува у Привеску кључева";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@ токен или лозинка из Привеска кључева још није дозвољен за овај сервер. Дозволите га помоћу Тестирај везу у Поставке › Одредишта.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Сагласност за AI алате је сачувана без печата јер Привезак кључева није могао да се користи: после следећег покретања сваки програм се поново пита.";
 
 /* machine */
@@ -5423,6 +5435,9 @@
 
 /* machine */
 "The text is too long for this code." = "Текст је предугачак за овај код.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен или лозинка из Привеска кључева још није дозвољен за овај сервер. Дозволите га помоћу Тестирај везу у Поставке › Одредишта.";
 
 /* machine */
 "The torn edges of this image." = "Расцепане ивице ове слике.";

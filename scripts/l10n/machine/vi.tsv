@@ -844,7 +844,7 @@ It runs from %@.	Chạy từ %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Nó ngừng chạy ngay và không được tải lại. Tệp của nó vẫn ở nguyên vị trí: hãy nhập lại để xem xét và phê duyệt.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Nó ngừng chạy ngay và không được tải lại. Tệp của nó vẫn ở nguyên vị trí: hãy mở lại để xem xét và phê duyệt.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Nó đã được đổi tên thành %@ và Greenshot khởi động với thiết lập mặc định.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Nó đã được lưu mà không có máy chủ mà nó thuộc về, bởi phiên bản Greenshot cũ hơn hoặc trước khi nhập URL. Chỉ cho phép nếu đây là máy chủ %@ của bạn: từ nay nó chỉ được gửi đến máy chủ này.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Nó đã được lưu mà không có máy chủ mà nó thuộc về, bởi phiên bản Greenshot cũ hơn hoặc trước khi nhập URL. Chỉ cho phép nếu đây là máy chủ %@ của bạn: từ nay nó chỉ được gửi đến máy chủ này (địa chỉ và cổng).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Nó sẽ bị mất nếu bạn không lưu.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Nó nằm trên thanh menu.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Lời giải thích của nó (lời của công cụ AI, Greenshot không kiểm tra):	claude-sonnet-5-5 2026-10-18
@@ -1051,6 +1051,8 @@ Not registered yet	Chưa đăng ký	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Chưa đăng ký: ứng dụng khác đang dùng	claude-sonnet-5-5 2026-10-18
 Not running	Không chạy	claude-sonnet-5-5 2026-10-18
 Not saved yet	Chưa lưu	claude-sonnet-5-5 2026-10-18
+Not sent to %@	Chưa gửi đến %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Chưa gửi: không được phép cho máy chủ này.	claude-opus-5-5 2026-10-26
 Not set	Chưa đặt	claude-sonnet-5-5 2026-10-18
 Not signed	Chưa ký	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Chưa đăng nhập vào %@. Hãy đăng nhập trong Thiết lập › Đích đến.	claude-sonnet-5-5 2026-10-18
@@ -1459,6 +1461,7 @@ Send the %@ token or password in the Keychain to this server?	Gửi mã hoặc m
 Sending the screenshot to %@…	Đang gửi ảnh chụp màn hình đến %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Đã gửi đến máy in “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Phân tách các địa chỉ bằng dấu phẩy. Chủ đề có thể dùng các biến của dạng tên tệp, ví dụ ${title}. Outlook cũng dùng chúng. Với CC hoặc BCC và Mail là ứng dụng thư của bạn, Mail soạn toàn bộ thư (macOS hỏi một lần xem Greenshot có được điều khiển Mail không); nếu không, dịch vụ thư của macOS điền Đến và chủ đề, còn CC và BCC được hiển thị để bạn thêm thủ công.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Máy chủ (địa chỉ và cổng): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server hoặc Data Center: mã truy cập cá nhân	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server hoặc Data Center: tên người dùng và mật khẩu	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Thiết lập lệnh…	claude-sonnet-5-5 2026-10-18
@@ -1602,6 +1605,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	Khóa ứng dụng %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	Biểu tượng %@ được hiển thị trên thanh menu.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	Không thể giữ mật khẩu %@ trong Chuỗi khóa	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Mã hoặc mật khẩu %@ trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, mỗi chương trình sẽ được hỏi lại.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, các loại trừ mặc định được áp dụng lại và thông báo được bật.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, các loại trừ mặc định được áp dụng lại.	claude-opus-5-5 2026-10-25
@@ -1723,6 +1727,7 @@ The size of File › New Image, a white image to draw on.	Kích thước của T
 The text could not be recognised	Không thể nhận dạng văn bản	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Không thể nhận dạng văn bản: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	Văn bản quá dài so với mã này.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Mã hoặc mật khẩu trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Các cạnh rách của ảnh này.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Các phần trong suốt của ảnh sẽ nhận màu này.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Các trình kích hoạt bắt đầu ở trạng thái tắt. Hãy bật từng trình được phép khởi động công thức này: trình nào để tắt vẫn tắt (bạn có thể bật sau trong Quyền). Không có trình kích hoạt, bạn vẫn có thể chạy công thức từ danh sách công thức.	claude-sonnet-5-5 2026-10-18

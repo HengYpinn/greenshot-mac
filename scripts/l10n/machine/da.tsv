@@ -844,7 +844,7 @@ It runs from %@.	Det kører fra %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Det holder straks op med at køre og indlæses ikke igen. Dets fil bliver, hvor den er: importér den igen for at gennemgå og godkende den.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Det holder straks op med at køre og indlæses ikke igen. Dets fil bliver, hvor den er: åbn den igen for at gennemgå og godkende den.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Den blev omdøbt til %@, og Greenshot startede med standardindstillingerne.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Det blev gemt uden den server, det hører til, af en ældre version af Greenshot eller før URL'en blev indtastet. Tillad det kun, hvis dette er din %@-server: fremover sendes det kun til denne server.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Det blev gemt uden den server, det hører til, af en ældre version af Greenshot eller før URL'en blev indtastet. Tillad det kun, hvis dette er din %@-server: fremover sendes det kun til denne server (adresse og port).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Det går tabt, hvis du ikke gemmer det.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Det er i menulinjen.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Dens forklaring (AI-værktøjets egne ord, ikke tjekket af Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1051,6 +1051,8 @@ Not registered yet	Endnu ikke registreret	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Ikke registreret: en anden app har den	claude-sonnet-5-5 2026-10-18
 Not running	Kører ikke	claude-sonnet-5-5 2026-10-18
 Not saved yet	Endnu ikke gemt	claude-sonnet-5-5 2026-10-18
+Not sent to %@	Ikke sendt til %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Ikke sendt: ikke tilladt for denne server.	claude-opus-5-5 2026-10-26
 Not set	Ikke angivet	claude-sonnet-5-5 2026-10-18
 Not signed	Ikke signeret	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Ikke logget ind på %@. Log ind under Præferencer › Destinationer.	claude-sonnet-5-5 2026-10-18
@@ -1461,6 +1463,7 @@ Send the %@ token or password in the Keychain to this server?	Send %@-tokenet el
 Sending the screenshot to %@…	Sender skærmklippet til %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Sendt til printeren “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Adskil adresser med kommaer. Emnet kan bruge variablerne fra mønsteret for filnavn, fx ${title}. Outlook bruger dem også. Med Cc eller Bcc og Mail som din mailapp skriver Mail hele mailen (macOS spørger én gang, om Greenshot må styre Mail); ellers udfylder macOS' mailtjeneste Til og emnet, og Cc og Bcc vises, så du kan tilføje dem manuelt.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Server (adresse og port): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server eller Data Center: personligt adgangstoken	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server eller Data Center: brugernavn og adgangskode	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Konfigurer kommandoer…	claude-sonnet-5-5 2026-10-18
@@ -1604,6 +1607,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	Appnøglen til %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	Symbolet for %@ vises i menulinjen.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	Adgangskoden til %@ kunne ikke gemmes i nøgleringen	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	%@-tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Tillad det med Test forbindelsen i Præferencer › Destinationer.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start spørges hvert program igen.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start gælder standardudelukkelserne igen, og underretningen er slået til.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start gælder standardudelukkelserne igen.	claude-opus-5-5 2026-10-25
@@ -1725,6 +1729,7 @@ The size of File › New Image, a white image to draw on.	Størrelsen på Fil �
 The text could not be recognised	Teksten kunne ikke genkendes	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Teksten kunne ikke genkendes: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	Teksten er for lang til denne kode.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Tillad det med Test forbindelsen i Præferencer › Destinationer.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Dette billedes afrevne kanter.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	De gennemsigtige dele af billedet får denne farve.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Udløserne starter slået fra. Slå hver udløser til, som må starte denne opskrift: en udløser, du lader være fra, forbliver fra (du kan slå den til senere under Rettigheder). Uden en udløser kan du stadig køre opskriften fra opskriftslisten.	claude-sonnet-5-5 2026-10-18

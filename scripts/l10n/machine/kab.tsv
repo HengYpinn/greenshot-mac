@@ -800,7 +800,7 @@ It runs from %@.	Iteddu seg %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Ad yeḥbes ad iteddu tura u ur yettwasali ara daɣen. Afaylu-ines yeqqim anda yella: kter-it daɣen i wakken ad t-twaliḍ u ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Ad yeḥbes ad iteddu tura u ur yettwasali ara daɣen. Afaylu-ines yeqqim anda yella: ldi-t daɣen i wakken ad t-twaliḍ u ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Yettwasenfel isem-is ɣer %@ u Greenshot yesker s yiɣewwaṛen imezwar.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Yettwasekles war aqeddac i as-yerzan, s lqem aqbur n Greenshot neɣ uqbel ad yettwasekcem URL. Sireg-it kan ma yella wagi d aqeddac-ik %@: seg tura ad yeddu kan ɣer uqeddac-a.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Yettwasekles war aqeddac i as-yerzan, s lqem aqbur n Greenshot neɣ uqbel ad yettwasekcem URL. Sireg-it kan ma yella wagi d aqeddac-ik %@: seg tura ad yeddu kan ɣer uqeddac-a (tansa d tanekra).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Ad iruḥ ma ur t-tsekleseḍ ara.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Yella deg ufeggag n wumuɣ.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Asegzi-ines (awalen n ufecku AI, ur ten-isenqed ara Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -998,6 +998,8 @@ Not registered yet	Ur yettwarsem ara mazal	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	Ur yettwarsem ara: asnas nniḍen yesɛa-t	claude-sonnet-5-5 2026-10-18
 Not running	Ur iteddu ara	claude-sonnet-5-5 2026-10-18
 Not saved yet	Ur yettwasekles ara mazal	claude-sonnet-5-5 2026-10-18
+Not sent to %@	Ur yettwazen ara ɣer %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	Ur yettwazen ara: ur yettusireg ara i uqeddac-a.	claude-opus-5-5 2026-10-26
 Not set	Ur yettwasbadu ara	claude-sonnet-5-5 2026-10-18
 Not signed	Ur yettwazmel ara	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	Ur teqqneḍ ara ɣer %@. Kcem deg Iɣewwaṛen › Tiniɣriwin.	claude-sonnet-5-5 2026-10-18
@@ -1388,6 +1390,7 @@ Send the %@ token or password in the Keychain to this server?	Ad tazneḍ atukki
 Sending the screenshot to %@…	Azen tuṭṭfa n ugdil ɣer %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Yettwazen ɣer tsaggazt “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Bḍu tansiwin s tefrut. Azwel izmer ad seqdec imsal n taneɣruft n yisem n ufaylu, amedya ${title}. Outlook ittuseqdac-iten daɣen. S CC neɣ BCC u Mail d asnas n yimayl-ik, Mail yaru imayl meṛṛa (macOS isteqsi yiwet n tikelt ma yezmer Greenshot ad iṭṭef Mail); ma ulac, tanamit n yimayl n macOS tččar “Ɣer” d azwel, u CC d BCC ttbanen i wakken ad ten-trnuḍ s ufus.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Aqeddac (tansa d tanekra): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server neɣ Data Center: atukkin n unekcum udmawan	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server neɣ Data Center: isem n useqdac d wawal uffir	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Swel tiladna…	claude-sonnet-5-5 2026-10-18
@@ -1528,6 +1531,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	Tasarut n usnas %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	Tignit n %@ tettwaskan deg ufeggag n wumuɣ.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	Awal uffir n %@ ur yezmir ara ad yettwaḥrez deg Taxzant n tsura	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Atukkin neɣ awal uffir n %@ deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Tasiregt n ifecka AI tettwasekles war taṭabeɛt-is acku Taxzant n tsura ur tezmir ara ad tettwaseqdec: seld asenker i d-iteddun, yal ahil ad yettwasteqsi daɣen.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	Tasiregt n ifecka AI tettwasekles war taṭabeɛt-is acku Taxzant n tsura ur tezmir ara ad tettwaseqdec: seld asenker i d-iteddun, isnasen yettwasebḍen s wudem amezwer ad ttwasebḍen tikkelt-nniḍen, yerna alɣu ad yermed.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	Tasiregt n ifecka AI tettwasekles war taṭabeɛt-is acku Taxzant n tsura ur tezmir ara ad tettwaseqdec: seld asenker i d-iteddun, isnasen yettwasebḍen s wudem amezwer ad ttwasebḍen tikkelt-nniḍen.	claude-opus-5-5 2026-10-25
@@ -1649,6 +1653,7 @@ The size of File › New Image, a white image to draw on.	Teɣzi n Afaylu › Tu
 The text could not be recognised	Aḍris ur yezmir ara ad yettwagen	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	Aḍris ur yezmir ara ad yettwagen: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	Aḍris yeṭṭawel aṭas i tengalt-a.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	Atukkin neɣ awal uffir deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Leryuf qqeṛsen n tugna-agi.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Iḥricen yeẓẓayen n tugna ad d-awin ini-agi.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Imsenkaren bdun yensan. Rmed yal yiwen izemren ad isenker aserwas: amsenker i teǧǧiḍ yensa ad yeqqim yensa (tzemreḍ ad t-termdeḍ ticki s Tisirag). War amsenker tzemreḍ ad tsekkreḍ aserwas seg tebdart n iserwasen.	claude-sonnet-5-5 2026-10-18

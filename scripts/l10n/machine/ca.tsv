@@ -818,7 +818,7 @@ It runs from %@.	S'executa des de %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Deixa d'executar-se de seguida i no es torna a carregar. El fitxer es queda on és: importeu-lo de nou per revisar-lo i aprovar-lo.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Deixa d'executar-se de seguida i no es torna a carregar. El fitxer es queda on és: obriu-lo de nou per revisar-lo i aprovar-lo.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	S'ha reanomenat a %@ i Greenshot s'ha iniciat amb els paràmetres per defecte.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Es va desar sense el servidor al qual pertany, per una versió anterior de Greenshot o abans d'introduir l'URL. Permeteu-ho només si aquest és el vostre servidor de %@: a partir d'ara només anirà a aquest servidor.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	Es va desar sense el servidor al qual pertany, per una versió anterior de Greenshot o abans d'introduir l'URL. Permeteu-ho només si aquest és el vostre servidor de %@: a partir d'ara només anirà a aquest servidor (adreça i port).	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	Es perdrà si no el deseu.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	És a la barra de menús.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	La seva explicació (les paraules de l'eina d'IA, no verificades per Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1019,6 +1019,8 @@ Not registered yet	Encara no registrat	claude-sonnet-5-5 2026-10-18
 Not registered: another app has it	No registrat: una altra app el té	claude-sonnet-5-5 2026-10-18
 Not running	No s'està executant	claude-sonnet-5-5 2026-10-18
 Not saved yet	Encara no desat	claude-sonnet-5-5 2026-10-18
+Not sent to %@	No s'ha enviat a %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	No enviat: no permès per a aquest servidor.	claude-opus-5-5 2026-10-26
 Not set	No definit	claude-sonnet-5-5 2026-10-18
 Not signed	Sense signar	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	No heu iniciat la sessió a %@. Inicieu la sessió a Preferències › Destins.	claude-sonnet-5-5 2026-10-18
@@ -1419,6 +1421,7 @@ Send the %@ token or password in the Keychain to this server?	Voleu enviar el te
 Sending the screenshot to %@…	S'està enviant la captura a %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Enviat a la impressora “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Separeu les adreces amb comes. L'assumpte pot utilitzar les variables del patró del nom de fitxer, p. ex. ${title}. Outlook també les utilitza. Amb CC o CCO i Mail com a app de correu, Mail escriu tot el correu (el macOS pregunta una vegada si Greenshot pot controlar Mail); si no, el servei de correu del macOS omple Per a i l'assumpte, i CC i CCO es mostren per afegir-los a mà.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	Servidor (adreça i port): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server o Data Center: testimoni d'accés personal	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server o Data Center: nom d'usuari i contrasenya	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	Configura les ordres…	claude-sonnet-5-5 2026-10-18
@@ -1559,6 +1562,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	La clau d'app de %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	La icona de %@ es mostra a la barra de menús.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	No s'ha pogut conservar la contrasenya de %@ al Clauer	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	El testimoni o la contrasenya de %@ del Clauer encara no estan permesos per a aquest servidor. Permeteu-ho amb Prova la connexió a Preferències › Destins.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, es torna a demanar per cada programa.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, tornen a aplicar-se les exclusions per defecte i la notificació està activada.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	El consentiment per a les eines d'IA està desat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del proper inici, tornen a aplicar-se les exclusions per defecte.	claude-opus-5-5 2026-10-25
@@ -1680,6 +1684,7 @@ The size of File › New Image, a white image to draw on.	La mida de Fitxer › 
 The text could not be recognised	No s'ha pogut reconèixer el text	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	No s'ha pogut reconèixer el text: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	El text és massa llarg per a aquest codi.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	El testimoni o la contrasenya del Clauer encara no estan permesos per a aquest servidor. Permeteu-ho amb Prova la connexió a Preferències › Destins.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	Les vores esquinçades d'aquesta imatge.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	Les parts transparents de la imatge adopten aquest color.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	Els activadors comencen desactivats. Activeu cadascun dels que puguin iniciar aquesta recepta: un activador que deixeu desactivat es queda desactivat (el podeu activar més tard amb Permisos). Sense activador, encara podeu executar la recepta des de la llista de receptes.	claude-sonnet-5-5 2026-10-18

@@ -2611,7 +2611,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Den blev omdøbt til %@, og Greenshot startede med standardindstillingerne.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Det blev gemt uden den server, det hører til, af en ældre version af Greenshot eller før URL'en blev indtastet. Tillad det kun, hvis dette er din %@-server: fremover sendes det kun til denne server.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Det blev gemt uden den server, det hører til, af en ældre version af Greenshot eller før URL'en blev indtastet. Tillad det kun, hvis dette er din %@-server: fremover sendes det kun til denne server (adresse og port).";
 
 /* machine */
 "It will be lost if you don't save it." = "Det går tabt, hvis du ikke gemmer det.";
@@ -3221,6 +3221,12 @@
 
 /* machine */
 "Not saved yet" = "Endnu ikke gemt";
+
+/* machine */
+"Not sent to %@" = "Ikke sendt til %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "Ikke sendt: ikke tilladt for denne server.";
 
 /* machine */
 "Not set" = "Ikke angivet";
@@ -4549,6 +4555,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Adskil adresser med kommaer. Emnet kan bruge variablerne fra mønsteret for filnavn, fx ${title}. Outlook bruger dem også. Med Cc eller Bcc og Mail som din mailapp skriver Mail hele mailen (macOS spørger én gang, om Greenshot må styre Mail); ellers udfylder macOS' mailtjeneste Til og emnet, og Cc og Bcc vises, så du kan tilføje dem manuelt.";
 
 /* machine */
+"Server (address and port): %@" = "Server (adresse og port): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server eller Data Center: personligt adgangstoken";
 
 /* machine */
@@ -4981,6 +4990,9 @@
 "The %@ password could not be kept in the Keychain" = "Adgangskoden til %@ kunne ikke gemmes i nøgleringen";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@-tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Tillad det med Test forbindelsen i Præferencer › Destinationer.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start spørges hvert program igen.";
 
 /* machine */
@@ -5342,6 +5354,9 @@
 
 /* machine */
 "The text is too long for this code." = "Teksten er for lang til denne kode.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Tillad det med Test forbindelsen i Præferencer › Destinationer.";
 
 /* machine */
 "The torn edges of this image." = "Dette billedes afrevne kanter.";

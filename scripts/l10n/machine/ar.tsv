@@ -846,7 +846,7 @@ It runs from %@.	يعمل من %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	يتوقف عن العمل فورًا ولا يُحمَّل مجددًا. يبقى ملفه في مكانه: استورده مجددًا لمراجعته والموافقة عليه.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	يتوقف عن العمل فورًا ولا يُحمَّل مجددًا. يبقى ملفه في مكانه: افتحه مجددًا لمراجعته والموافقة عليه.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	أُعيدت تسميته إلى %@ وبدأ Greenshot بالإعدادات الافتراضية.	claude-sonnet-5-5 2026-10-18
-It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	حُفظ دون الخادم الذي ينتمي إليه، بواسطة إصدار أقدم من Greenshot أو قبل إدخال عنوان URL. اسمح بذلك فقط إذا كان هذا خادم %@ الخاص بك: من الآن فصاعدًا سيذهب إلى هذا الخادم فقط.	claude-opus-5-5 2026-10-25
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only.	حُفظ دون الخادم الذي ينتمي إليه، بواسطة إصدار أقدم من Greenshot أو قبل إدخال عنوان URL. اسمح بذلك فقط إذا كان هذا خادم %@ الخاص بك: من الآن فصاعدًا سيذهب إلى هذا الخادم (العنوان والمنفذ) فقط.	claude-opus-5-5 2026-10-26
 It will be lost if you don't save it.	ستفقده إذا لم تحفظه.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	إنه في شريط القوائم.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	شرحه (كلمات أداة الذكاء الاصطناعي، ولا يتحقق منها Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1053,6 +1053,8 @@ Not registered yet	لم يتم التسجيل بعد	claude-sonnet-5-5 2026-10-1
 Not registered: another app has it	غير مسجّل: تطبيق آخر يستخدمه	claude-sonnet-5-5 2026-10-18
 Not running	غير قيد التشغيل	claude-sonnet-5-5 2026-10-18
 Not saved yet	لم يتم الحفظ بعد	claude-sonnet-5-5 2026-10-18
+Not sent to %@	لم يُرسل إلى %@	claude-opus-5-5 2026-10-26
+Not sent: not allowed for this server.	لم يُرسل: غير مسموح لهذا الخادم.	claude-opus-5-5 2026-10-26
 Not set	غير معيّن	claude-sonnet-5-5 2026-10-18
 Not signed	غير موقّع	claude-sonnet-5-5 2026-10-18
 Not signed in to %@. Sign in under Settings › Destinations.	لم يتم تسجيل الدخول إلى %@. سجّل الدخول في التفضيلات › الوجهات.	claude-sonnet-5-5 2026-10-18
@@ -1461,6 +1463,7 @@ Send the %@ token or password in the Keychain to this server?	هل تريد إر
 Sending the screenshot to %@…	جارٍ إرسال اللقطة إلى %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	تم الإرسال إلى الطابعة “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	افصل العناوين بفواصل. يمكن للموضوع استخدام متغيّرات نمط اسم الملف، مثل ${title}. ويستخدمها Outlook أيضًا. مع CC أو BCC وMail كتطبيق بريدك، يكتب Mail الرسالة كاملة (يسأل macOS مرة واحدة عما إذا كان يمكن لـ Greenshot التحكم في Mail)؛ وإلا فإن خدمة البريد في macOS تملأ المستلم والموضوع، ويُعرض CC وBCC لإضافتهما يدويًا.	claude-sonnet-5-5 2026-10-18
+Server (address and port): %@	الخادم (العنوان والمنفذ): %@	claude-opus-5-5 2026-10-26
 Server or Data Center: personal access token	Server أو Data Center: رمز وصول شخصي	claude-sonnet-5-5 2026-10-18
 Server or Data Center: user name and password	Server أو Data Center: اسم المستخدم وكلمة السر	claude-sonnet-5-5 2026-10-18
 Set Up Commands…	إعداد الأوامر…	claude-sonnet-5-5 2026-10-18
@@ -1604,6 +1607,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	مفتاح تطبيق %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	تظهر أيقونة %@ في شريط القوائم.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	تعذّر الاحتفاظ بكلمة سر %@ في سلسلة المفاتيح	claude-opus-5-5 2026-10-25
+The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	رمز %@ المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. اسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، يُسأل عن كل برنامج مجددًا.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، تعود الاستبعادات الافتراضية، ويكون الإشعار مُفعّلًا.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، تعود الاستبعادات الافتراضية.	claude-opus-5-5 2026-10-25
@@ -1725,6 +1729,7 @@ The size of File › New Image, a white image to draw on.	حجم ملف › صو
 The text could not be recognised	تعذّر التعرّف على النص	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	تعذّر التعرّف على النص: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	النص أطول من أن يناسب هذا الرمز.	claude-sonnet-5-5 2026-10-18
+The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	الرمز المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. اسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	الحواف الممزقة لهذه الصورة.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	تحصل الأجزاء الشفافة من الصورة على هذا اللون.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	تبدأ المشغّلات متوقفة. فعّل كل مشغّل يمكنه بدء هذه الوصفة: المشغّل الذي تتركه متوقفًا يبقى متوقفًا (يمكنك تفعيله لاحقًا من الأذونات). وبدون مشغّل يمكنك مع ذلك تشغيل الوصفة من قائمة الوصفات.	claude-sonnet-5-5 2026-10-18

@@ -2668,7 +2668,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "它已被重命名为 %@，Greenshot 以默认设置启动。";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "它在保存时未记录所属的服务器（由旧版 Greenshot 保存，或在输入 URL 之前保存）。仅当这是你的 %@ 服务器时才允许：此后它只会发送到此服务器。";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "它在保存时未记录所属的服务器（由旧版 Greenshot 保存，或在输入 URL 之前保存）。仅当这是你的 %@ 服务器时才允许：此后它只会发送到此服务器（地址和端口）。";
 
 /* machine */
 "It will be lost if you don't save it." = "如果不保存，它将会丢失。";
@@ -3290,6 +3290,12 @@
 
 /* machine */
 "Not saved yet" = "尚未保存";
+
+/* machine */
+"Not sent to %@" = "未发送到 %@";
+
+/* machine */
+"Not sent: not allowed for this server." = "未发送：未允许用于此服务器。";
 
 /* machine */
 "Not set" = "未设置";
@@ -4639,6 +4645,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "多个地址请用逗号分隔。主题可使用文件名格式变量，例如 ${title}。Outlook 也会使用它们。如果设置了抄送或密送，并且邮件 App 为“邮件”，则“邮件”会写入整封邮件（macOS 会询问一次是否允许 Greenshot 控制“邮件”）；否则由 macOS 邮件服务填写收件人和主题，抄送和密送则会显示出来供你手动添加。";
 
 /* machine */
+"Server (address and port): %@" = "服务器（地址和端口）：%@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server 或 Data Center：个人访问令牌";
 
 /* machine */
@@ -5083,6 +5092,9 @@
 "The %@ password could not be kept in the Keychain" = "无法将 %@ 密码保存在钥匙串中";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "钥匙串中的 %@ 令牌或密码尚未获准用于此服务器。请在“设置 › 目标位置”中使用“测试连接”来允许。";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，会再次询问每个程序。";
 
 /* machine */
@@ -5444,6 +5456,9 @@
 
 /* machine */
 "The text is too long for this code." = "文本对此码来说太长。";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "钥匙串中的令牌或密码尚未获准用于此服务器。请在“设置 › 目标位置”中使用“测试连接”来允许。";
 
 /* machine */
 "The torn edges of this image." = "此图像的撕裂边缘。";

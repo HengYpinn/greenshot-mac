@@ -2659,7 +2659,7 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Yeniden adlandırıldı: %@. Greenshot varsayılan ayarlarla başladı.";
 
 /* machine */
-"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Ait olduğu sunucu bilgisi olmadan, Greenshot'ın eski bir sürümüyle veya URL girilmeden önce kaydedildi. Yalnızca bu sizin %@ sunucunuzsa izin verin: bundan sonra yalnızca bu sunucuya gider.";
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server (address and port) only." = "Ait olduğu sunucu bilgisi olmadan, Greenshot'ın eski bir sürümüyle veya URL girilmeden önce kaydedildi. Yalnızca bu sizin %@ sunucunuzsa izin verin: bundan sonra yalnızca bu sunucuya (adres ve bağlantı noktası) gider.";
 
 /* machine */
 "It will be lost if you don't save it." = "Kaydetmezseniz kaybolacak.";
@@ -3275,6 +3275,12 @@
 
 /* machine */
 "Not saved yet" = "Henüz kaydedilmedi";
+
+/* machine */
+"Not sent to %@" = "%@ hedefine gönderilmedi";
+
+/* machine */
+"Not sent: not allowed for this server." = "Gönderilmedi: bu sunucu için izin verilmedi.";
 
 /* machine */
 "Not set" = "Ayarlanmadı";
@@ -4615,6 +4621,9 @@
 "Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand." = "Adresleri virgülle ayırın. Konu, dosya adı biçimi değişkenlerini kullanabilir, ör. ${title}. Outlook da bunları kullanır. Cc veya Bcc ile ve posta uygulamanız Mail ise, Mail tüm postayı yazar (macOS, Greenshot'un Mail'i denetleyip denetleyemeyeceğini bir kez sorar); aksi halde macOS posta servisi alıcıyı ve konuyu doldurur, Cc ve Bcc elle eklenmek üzere gösterilir.";
 
 /* machine */
+"Server (address and port): %@" = "Sunucu (adres ve bağlantı noktası): %@";
+
+/* machine */
 "Server or Data Center: personal access token" = "Server veya Data Center: kişisel erişim belirteci";
 
 /* machine */
@@ -5059,6 +5068,9 @@
 "The %@ password could not be kept in the Keychain" = "%@ parolası Anahtar Zinciri'nde saklanamadı";
 
 /* machine */
+"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Anahtar Zinciri'ndeki %@ belirteci veya parolası bu sunucu için henüz izinli değil. Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin.";
+
+/* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra her program yeniden sorulur.";
 
 /* machine */
@@ -5420,6 +5432,9 @@
 
 /* machine */
 "The text is too long for this code." = "Metin bu kod için çok uzun.";
+
+/* machine */
+"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Anahtar Zinciri'ndeki belirteç veya parola bu sunucu için henüz izinli değil. Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin.";
 
 /* machine */
 "The torn edges of this image." = "Bu görüntünün yırtık kenarları.";
