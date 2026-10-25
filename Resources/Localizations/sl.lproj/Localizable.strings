@@ -5053,7 +5053,7 @@
 "The %@ password could not be kept in the Keychain" = "Gesla za %@ ni bilo mogoče shraniti v Verigo ključev";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Žeton ali geslo za %@ v Verigi ključev za ta strežnik še ni dovoljeno. Dovolite ga s Preizkusi povezavo v Nastavitve › Cilji.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Žeton ali geslo za %@ v Verigi ključev za ta strežnik še ni dovoljeno. Če je to vaš strežnik, ga dovolite s Preizkusi povezavo v Nastavitve › Cilji; sicer tam preverite URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Soglasje za orodja UI je shranjeno brez pečata, ker Verige ključev ni bilo mogoče uporabiti: po naslednjem zagonu bo vsak program znova vprašan.";
@@ -5419,7 +5419,7 @@
 "The text is too long for this code." = "Besedilo je za to kodo predolgo.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Žeton ali geslo v Verigi ključev za ta strežnik še ni dovoljeno. Dovolite ga s Preizkusi povezavo v Nastavitve › Cilji.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Žeton ali geslo v Verigi ključev za ta strežnik še ni dovoljeno. Če je to vaš strežnik, ga dovolite s Preizkusi povezavo v Nastavitve › Cilji; sicer tam preverite URL.";
 
 /* machine */
 "The torn edges of this image." = "Strgani robovi te slike.";

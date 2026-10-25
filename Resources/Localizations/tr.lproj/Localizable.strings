@@ -5068,7 +5068,7 @@
 "The %@ password could not be kept in the Keychain" = "%@ parolası Anahtar Zinciri'nde saklanamadı";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Anahtar Zinciri'ndeki %@ belirteci veya parolası bu sunucu için henüz izinli değil. Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Anahtar Zinciri'ndeki %@ belirteci veya parolası bu sunucu için henüz izinli değil. Bu sizin sunucunuzsa Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin; değilse oradaki URL'yi denetleyin.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra her program yeniden sorulur.";
@@ -5434,7 +5434,7 @@
 "The text is too long for this code." = "Metin bu kod için çok uzun.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Anahtar Zinciri'ndeki belirteç veya parola bu sunucu için henüz izinli değil. Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Anahtar Zinciri'ndeki belirteç veya parola bu sunucu için henüz izinli değil. Bu sizin sunucunuzsa Ayarlar › Hedefler bölümünde Bağlantıyı Sına ile izin verin; değilse oradaki URL'yi denetleyin.";
 
 /* machine */
 "The torn edges of this image." = "Bu görüntünün yırtık kenarları.";

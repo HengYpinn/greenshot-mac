@@ -5035,7 +5035,7 @@
 "The %@ password could not be kept in the Keychain" = "Ο κωδικός του %@ δεν μπόρεσε να διατηρηθεί στην Κλειδοθήκη";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Το διακριτικό ή ο κωδικός πρόσβασης %@ στην Κλειδοθήκη δεν επιτρέπεται ακόμη για αυτόν τον διακομιστή. Επιτρέψτε το με τη Δοκιμή σύνδεσης στις Προτιμήσεις › Προορισμοί.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Το διακριτικό ή ο κωδικός πρόσβασης %@ στην Κλειδοθήκη δεν επιτρέπεται ακόμη για αυτόν τον διακομιστή. Αν αυτός είναι ο διακομιστής σας, επιτρέψτε το με τη Δοκιμή σύνδεσης στις Προτιμήσεις › Προορισμοί· διαφορετικά, ελέγξτε εκεί το URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Η συγκατάθεση για τα εργαλεία AI είναι αποθηκευμένη χωρίς τη σφραγίδα της, επειδή η Κλειδοθήκη δεν μπορούσε να χρησιμοποιηθεί: μετά την επόμενη εκκίνηση, κάθε πρόγραμμα θα ρωτηθεί ξανά.";
@@ -5401,7 +5401,7 @@
 "The text is too long for this code." = "Το κείμενο είναι πολύ μεγάλο για αυτόν τον κωδικό.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Το διακριτικό ή ο κωδικός πρόσβασης στην Κλειδοθήκη δεν επιτρέπεται ακόμη για αυτόν τον διακομιστή. Επιτρέψτε το με τη Δοκιμή σύνδεσης στις Προτιμήσεις › Προορισμοί.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Το διακριτικό ή ο κωδικός πρόσβασης στην Κλειδοθήκη δεν επιτρέπεται ακόμη για αυτόν τον διακομιστή. Αν αυτός είναι ο διακομιστής σας, επιτρέψτε το με τη Δοκιμή σύνδεσης στις Προτιμήσεις › Προορισμοί· διαφορετικά, ελέγξτε εκεί το URL.";
 
 /* machine */
 "The torn edges of this image." = "Τα ακανόνιστα ξακρίσματα αυτής της εικόνας.";

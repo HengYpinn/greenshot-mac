@@ -5011,7 +5011,7 @@
 "The %@ password could not be kept in the Keychain" = "Lösenordet för %@ kunde inte sparas i Nyckelringen";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@-token eller -lösenord i Nyckelringen är ännu inte tillåtet för den här servern. Tillåt det med Testa anslutning i Inställningar › Destinationer.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "%@-token eller -lösenord i Nyckelringen är ännu inte tillåtet för den här servern. Om det här är din server tillåter du det med Testa anslutning i Inställningar › Destinationer; annars kontrollerar du URL:en där.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtycket för AI-verktyg är sparat utan sitt sigill eftersom Nyckelringen inte kunde användas: efter nästa start frågas varje program igen.";
@@ -5377,7 +5377,7 @@
 "The text is too long for this code." = "Texten är för lång för den här koden.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token eller lösenord i Nyckelringen är ännu inte tillåtet för den här servern. Tillåt det med Testa anslutning i Inställningar › Destinationer.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Token eller lösenord i Nyckelringen är ännu inte tillåtet för den här servern. Om det här är din server tillåter du det med Testa anslutning i Inställningar › Destinationer; annars kontrollerar du URL:en där.";
 
 /* machine */
 "The torn edges of this image." = "Rivna kanter på den här bilden.";

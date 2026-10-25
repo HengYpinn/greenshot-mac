@@ -1605,7 +1605,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	מפתח האפליקציה של %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	סמל %@ מוצג בשורת התפריטים.	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	לא ניתן היה לשמור את הסיסמה של %@ ב-Keychain	claude-opus-5-5 2026-10-25
-The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	האסימון או הסיסמה של %@ ב-Keychain עדיין לא מותרים לשרת הזה. אפשר להתיר אותם עם "בדיקת חיבור" בהגדרות › יעדים.	claude-opus-5-5 2026-10-26
+The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	האסימון או הסיסמה של %@ ב-Keychain עדיין לא מותרים לשרת הזה. אם זה השרת שלך, אפשר להתיר אותם עם "בדיקת חיבור" בהגדרות › יעדים; אחרת יש לבדוק שם את כתובת ה-URL.	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	ההסכמה לכלי AI שמורה בלי החותם שלה כי לא ניתן היה להשתמש ב-Keychain: אחרי ההפעלה הבאה, כל תוכנית תישאל שוב.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	ההסכמה לכלי AI שמורה בלי החותם שלה כי לא ניתן היה להשתמש ב-Keychain: אחרי ההפעלה הבאה, החרגות ברירת המחדל יחזרו, וההתראה תופעל.	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	ההסכמה לכלי AI שמורה בלי החותם שלה כי לא ניתן היה להשתמש ב-Keychain: אחרי ההפעלה הבאה, החרגות ברירת המחדל יחזרו.	claude-opus-5-5 2026-10-25
@@ -1727,7 +1727,7 @@ The size of File › New Image, a white image to draw on.	הגודל של קוב
 The text could not be recognised	לא ניתן היה לזהות את הטקסט	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	לא ניתן היה לזהות את הטקסט: %@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	הטקסט ארוך מדי עבור קוד זה.	claude-sonnet-5-5 2026-10-18
-The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	האסימון או הסיסמה ב-Keychain עדיין לא מותרים לשרת הזה. אפשר להתיר אותם עם "בדיקת חיבור" בהגדרות › יעדים.	claude-opus-5-5 2026-10-26
+The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	האסימון או הסיסמה ב-Keychain עדיין לא מותרים לשרת הזה. אם זה השרת שלך, אפשר להתיר אותם עם "בדיקת חיבור" בהגדרות › יעדים; אחרת יש לבדוק שם את כתובת ה-URL.	claude-opus-5-5 2026-10-26
 The torn edges of this image.	הקצוות הקרועים של התמונה הזו.	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	החלקים השקופים של התמונה מקבלים את הצבע הזה.	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	הטריגרים מתחילים כבויים. יש להפעיל כל אחד שרשאי להפעיל את המתכון הזה: טריגר שנשאר כבוי נשאר כבוי (אפשר להפעיל אותו אחר כך דרך "הרשאות"). גם בלי טריגר אפשר להריץ את המתכון מרשימת המתכונים.	claude-sonnet-5-5 2026-10-18

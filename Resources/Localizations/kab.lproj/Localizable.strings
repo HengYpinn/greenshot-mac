@@ -5050,7 +5050,7 @@
 "The %@ password could not be kept in the Keychain" = "Awal uffir n %@ ur yezmir ara ad yettwaḥrez deg Taxzant n tsura";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Atukkin neɣ awal uffir n %@ deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Atukkin neɣ awal uffir n %@ deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Ma yella wagi d aqeddac-ik, sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin; ma ulac, senqed URL dinna.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tasiregt n ifecka AI tettwasekles war taṭabeɛt-is acku Taxzant n tsura ur tezmir ara ad tettwaseqdec: seld asenker i d-iteddun, yal ahil ad yettwasteqsi daɣen.";
@@ -5416,7 +5416,7 @@
 "The text is too long for this code." = "Aḍris yeṭṭawel aṭas i tengalt-a.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Atukkin neɣ awal uffir deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Atukkin neɣ awal uffir deg Taxzant n tsura mazal ur yettusireg ara i uqeddac-a. Ma yella wagi d aqeddac-ik, sireg-it s Senqed tuqqna deg Iɣewwaṛen › Tiniɣriwin; ma ulac, senqed URL dinna.";
 
 /* machine */
 "The torn edges of this image." = "Leryuf qqeṛsen n tugna-agi.";

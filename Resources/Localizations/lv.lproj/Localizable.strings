@@ -5056,7 +5056,7 @@
 "The %@ password could not be kept in the Keychain" = "%@ paroli nevarēja saglabāt atslēgu saišķī";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@ žetons vai parole atslēgu saišķī šim serverim vēl nav atļauts. Atļauj to ar Pārbaudīt savienojumu sadaļā Iestatījumi › Mērķi.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "%@ žetons vai parole atslēgu saišķī šim serverim vēl nav atļauts. Ja šis ir tavs serveris, atļauj to ar Pārbaudīt savienojumu sadaļā Iestatījumi › Mērķi; pretējā gadījumā pārbaudi tur URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas katrai programmai atļauja tiks vaicāta vēlreiz.";
@@ -5422,7 +5422,7 @@
 "The text is too long for this code." = "Teksts ir pārāk garš šim kodam.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Žetons vai parole atslēgu saišķī šim serverim vēl nav atļauts. Atļauj to ar Pārbaudīt savienojumu sadaļā Iestatījumi › Mērķi.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Žetons vai parole atslēgu saišķī šim serverim vēl nav atļauts. Ja šis ir tavs serveris, atļauj to ar Pārbaudīt savienojumu sadaļā Iestatījumi › Mērķi; pretējā gadījumā pārbaudi tur URL.";
 
 /* machine */
 "The torn edges of this image." = "Šī attēla noplēstās malas.";

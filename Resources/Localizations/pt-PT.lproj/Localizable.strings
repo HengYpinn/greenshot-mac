@@ -5032,7 +5032,7 @@
 "The %@ password could not be kept in the Keychain" = "Não foi possível guardar a palavra-passe de %@ no Porta-chaves";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "O token ou a palavra-passe do %@ guardados no Porta-chaves ainda não são permitidos para este servidor. Permita-os com Testar ligação em Preferências › Destinos.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "O token ou a palavra-passe do %@ guardados no Porta-chaves ainda não são permitidos para este servidor. Se este for o seu servidor, permita-os com Testar ligação em Preferências › Destinos; caso contrário, verifique aí o URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "O consentimento para as ferramentas de IA está guardado sem o respetivo selo porque não foi possível utilizar o Porta-chaves: após o próximo arranque, a permissão volta a ser pedida para cada programa.";
@@ -5398,7 +5398,7 @@
 "The text is too long for this code." = "O texto é demasiado longo para este código.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "O token ou a palavra-passe guardados no Porta-chaves ainda não são permitidos para este servidor. Permita-os com Testar ligação em Preferências › Destinos.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "O token ou a palavra-passe guardados no Porta-chaves ainda não são permitidos para este servidor. Se este for o seu servidor, permita-os com Testar ligação em Preferências › Destinos; caso contrário, verifique aí o URL.";
 
 /* machine */
 "The torn edges of this image." = "As bordas rasgadas desta imagem.";

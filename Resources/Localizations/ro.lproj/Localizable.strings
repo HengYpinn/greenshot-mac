@@ -4990,7 +4990,7 @@
 "The %@ password could not be kept in the Keychain" = "Parola %@ nu a putut fi păstrată în Keychain";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Tokenul sau parola %@ din Keychain nu este încă permis pentru acest server. Permiteți-l cu Testează conexiunea în Setări › Destinații.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Tokenul sau parola %@ din Keychain nu este încă permis pentru acest server. Dacă acesta este serverul dumneavoastră, permiteți-l cu Testează conexiunea în Setări › Destinații; altfel, verificați acolo URL-ul.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, fiecare program este întrebat din nou.";
@@ -5356,7 +5356,7 @@
 "The text is too long for this code." = "Textul este prea lung pentru acest cod.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Tokenul sau parola din Keychain nu este încă permis pentru acest server. Permiteți-l cu Testează conexiunea în Setări › Destinații.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Tokenul sau parola din Keychain nu este încă permis pentru acest server. Dacă acesta este serverul dumneavoastră, permiteți-l cu Testează conexiunea în Setări › Destinații; altfel, verificați acolo URL-ul.";
 
 /* machine */
 "The torn edges of this image." = "Marginile rupte ale acestei imagini.";

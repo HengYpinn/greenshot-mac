@@ -4945,7 +4945,7 @@
 "The %@ password could not be kept in the Keychain" = "Het %@-wachtwoord kon niet in de Sleutelhanger worden bewaard";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Het %@-token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Sta het toe met Verbinding testen in Instellingen › Bestemmingen.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Het %@-token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Als dit uw server is, sta het dan toe met Verbinding testen in Instellingen › Bestemmingen; controleer anders daar de URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start wordt voor elk programma opnieuw om toestemming gevraagd.";
@@ -5311,7 +5311,7 @@
 "The text is too long for this code." = "De tekst is te lang voor deze code.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Het token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Sta het toe met Verbinding testen in Instellingen › Bestemmingen.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Het token of wachtwoord in de Sleutelhanger is nog niet toegestaan voor deze server. Als dit uw server is, sta het dan toe met Verbinding testen in Instellingen › Bestemmingen; controleer anders daar de URL.";
 
 /* machine */
 "The torn edges of this image." = "De rafelige randen van deze afbeelding.";

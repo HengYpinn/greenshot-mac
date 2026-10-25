@@ -5053,7 +5053,7 @@
 "The %@ password could not be kept in the Keychain" = "گذرواژهٔ %@ در Keychain نگه داشته نشد";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "توکن یا گذرواژهٔ %@ در Keychain هنوز برای این سرور مجاز نیست. با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "توکن یا گذرواژهٔ %@ در Keychain هنوز برای این سرور مجاز نیست. اگر این سرور شماست، با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید؛ در غیر این صورت URL را همان‌جا بررسی کنید.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برای هر برنامه دوباره پرسیده می‌شود.";
@@ -5419,7 +5419,7 @@
 "The text is too long for this code." = "متن برای این کد خیلی بلند است.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "توکن یا گذرواژه در Keychain هنوز برای این سرور مجاز نیست. با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "توکن یا گذرواژه در Keychain هنوز برای این سرور مجاز نیست. اگر این سرور شماست، با «آزمایش اتصال» در تنظیمات › مقصدها به آن اجازه دهید؛ در غیر این صورت URL را همان‌جا بررسی کنید.";
 
 /* machine */
 "The torn edges of this image." = "لبه‌های پارهٔ این تصویر.";

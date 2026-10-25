@@ -5053,7 +5053,7 @@
 "The %@ password could not be kept in the Keychain" = "A(z) %@ jelszavát nem sikerült megőrizni a Kulcskarikán";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "A Kulcskarikában tárolt %@-token vagy -jelszó még nincs engedélyezve ehhez a szerverhez. Engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "A Kulcskarikában tárolt %@-token vagy -jelszó még nincs engedélyezve ehhez a szerverhez. Ha ez az Ön szervere, engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok; ellenkező esetben ellenőrizze ott az URL-t.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a Greenshot minden programnál újra rákérdez.";
@@ -5419,7 +5419,7 @@
 "The text is too long for this code." = "A szöveg túl hosszú ehhez a kódhoz.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "A Kulcskarikában tárolt token vagy jelszó még nincs engedélyezve ehhez a szerverhez. Engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "A Kulcskarikában tárolt token vagy jelszó még nincs engedélyezve ehhez a szerverhez. Ha ez az Ön szervere, engedélyezze a Kapcsolat tesztelése gombbal itt: Beállítások › Célok; ellenkező esetben ellenőrizze ott az URL-t.";
 
 /* machine */
 "The torn edges of this image." = "A kép szakadt szélei.";

@@ -5089,7 +5089,7 @@
 "The %@ password could not be kept in the Keychain" = "Не вдалося зберегти пароль %@ у Зв’язці ключів";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен або пароль %@ зі Зв’язки ключів ще не дозволено для цього сервера. Дозвольте його за допомогою «Перевірити з’єднання» в Параметри › Призначення.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Токен або пароль %@ зі Зв’язки ключів ще не дозволено для цього сервера. Якщо це ваш сервер, дозвольте його за допомогою «Перевірити з’єднання» в Параметри › Призначення; інакше перевірте там URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Згоду для інструментів ШІ збережено без печатки, бо Зв’язку ключів не можна було використовувати: після наступного запуску кожну програму запитають знову.";
@@ -5455,7 +5455,7 @@
 "The text is too long for this code." = "Текст задовгий для цього коду.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен або пароль зі Зв’язки ключів ще не дозволено для цього сервера. Дозвольте його за допомогою «Перевірити з’єднання» в Параметри › Призначення.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Токен або пароль зі Зв’язки ключів ще не дозволено для цього сервера. Якщо це ваш сервер, дозвольте його за допомогою «Перевірити з’єднання» в Параметри › Призначення; інакше перевірте там URL.";
 
 /* machine */
 "The torn edges of this image." = "Розірвані краї цього зображення.";

@@ -4981,7 +4981,7 @@
 "The %@ password could not be kept in the Keychain" = "Das %@-Passwort konnte nicht im Schlüsselbund aufbewahrt werden";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Das %@-Token oder Passwort im Schlüsselbund ist für diesen Server noch nicht erlaubt. Erlauben Sie es mit „Verbindung testen“ unter Einstellungen › Ziele.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Das %@-Token oder Passwort im Schlüsselbund ist für diesen Server noch nicht erlaubt. Wenn dies Ihr Server ist, erlauben Sie es mit „Verbindung testen“ unter Einstellungen › Ziele; prüfen Sie andernfalls dort die URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Die Einwilligung für KI-Tools ist ohne ihr Siegel gespeichert, weil der Schlüsselbund nicht verwendet werden konnte: Nach dem nächsten Start wird bei jedem Programm erneut nachgefragt.";
@@ -5347,7 +5347,7 @@
 "The text is too long for this code." = "Der Text ist für diesen Code zu lang.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Das Token oder Passwort im Schlüsselbund ist für diesen Server noch nicht erlaubt. Erlauben Sie es mit „Verbindung testen“ unter Einstellungen › Ziele.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Das Token oder Passwort im Schlüsselbund ist für diesen Server noch nicht erlaubt. Wenn dies Ihr Server ist, erlauben Sie es mit „Verbindung testen“ unter Einstellungen › Ziele; prüfen Sie andernfalls dort die URL.";
 
 /* machine */
 "The torn edges of this image." = "Die gerissenen Kanten dieses Bildes.";

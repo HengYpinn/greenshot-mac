@@ -5077,7 +5077,7 @@
 "The %@ password could not be kept in the Keychain" = "無法將 %@ 密碼保留在鑰匙圈中";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "鑰匙圈中的 %@ 權杖或密碼尚未獲准用於此伺服器。請在「設定 › 目的地」中使用「測試連線」來允許。";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "鑰匙圈中的 %@ 權杖或密碼尚未獲准用於此伺服器。如果這是您的伺服器，請在「設定 › 目的地」中使用「測試連線」來允許；否則請在該處檢查 URL。";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "由於無法使用鑰匙圈，AI 工具授權已在沒有封簽的情況下儲存：下次啟動後，會再次詢問每個程式。";
@@ -5443,7 +5443,7 @@
 "The text is too long for this code." = "文字對此碼而言太長。";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "鑰匙圈中的權杖或密碼尚未獲准用於此伺服器。請在「設定 › 目的地」中使用「測試連線」來允許。";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "鑰匙圈中的權杖或密碼尚未獲准用於此伺服器。如果這是您的伺服器，請在「設定 › 目的地」中使用「測試連線」來允許；否則請在該處檢查 URL。";
 
 /* machine */
 "The torn edges of this image." = "此圖片的撕裂邊緣。";

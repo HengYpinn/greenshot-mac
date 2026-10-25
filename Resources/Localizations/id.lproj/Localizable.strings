@@ -4924,7 +4924,7 @@
 "The %@ password could not be kept in the Keychain" = "Sandi %@ tidak dapat disimpan di Rantai Kunci";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token atau kata sandi %@ di Rantai Kunci belum diizinkan untuk server ini. Izinkan dengan Uji Koneksi di Pengaturan › Destinasi.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Token atau kata sandi %@ di Rantai Kunci belum diizinkan untuk server ini. Jika ini server Anda, izinkan dengan Uji Koneksi di Pengaturan › Destinasi; jika bukan, periksa URL di sana.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Persetujuan alat AI disimpan tanpa segelnya karena Rantai Kunci tidak dapat digunakan: setelah mulai berikutnya, setiap program ditanya lagi.";
@@ -5290,7 +5290,7 @@
 "The text is too long for this code." = "Teks terlalu panjang untuk kode ini.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token atau kata sandi di Rantai Kunci belum diizinkan untuk server ini. Izinkan dengan Uji Koneksi di Pengaturan › Destinasi.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Token atau kata sandi di Rantai Kunci belum diizinkan untuk server ini. Jika ini server Anda, izinkan dengan Uji Koneksi di Pengaturan › Destinasi; jika bukan, periksa URL di sana.";
 
 /* machine */
 "The torn edges of this image." = "Tepi sobek gambar ini.";

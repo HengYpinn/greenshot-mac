@@ -5083,7 +5083,7 @@
 "The %@ password could not be kept in the Keychain" = "Не удалось сохранить пароль %@ в связке ключей";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен или пароль %@ из связки ключей ещё не разрешён для этого сервера. Разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения».";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Токен или пароль %@ из связки ключей ещё не разрешён для этого сервера. Если это ваш сервер, разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения»; иначе проверьте там URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Согласие для инструментов ИИ сохранено без печати, так как связку ключей нельзя было использовать: после следующего запуска разрешение будет снова запрошено для каждой программы.";
@@ -5449,7 +5449,7 @@
 "The text is too long for this code." = "Текст слишком длинный для этого кода.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен или пароль из связки ключей ещё не разрешён для этого сервера. Разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения».";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Токен или пароль из связки ключей ещё не разрешён для этого сервера. Если это ваш сервер, разрешите его с помощью «Проверить подключение» в «Настройки» › «Места назначения»; иначе проверьте там URL.";
 
 /* machine */
 "The torn edges of this image." = "Рваные края этого изображения.";

@@ -5032,7 +5032,7 @@
 "The %@ password could not be kept in the Keychain" = "Des %@-Basswort hod ned im Schlüsselbund gschbeicherd wern könna";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Der %@-Token odder es Passwort im Schlüsselbund is für den Server do nu ned erlaubd. Erlaub's mit Verbindung brüfn in Rumdogdern › Ziele.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Der %@-Token odder es Passwort im Schlüsselbund is für den Server do nu ned erlaubd. Wenn des dei Server is, erlaub's mit Verbindung brüfn in Rumdogdern › Ziele; sonst brüf dord die URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Die Einwilligung für KI-Werkzeuche is ohne ihr Siegl gschbeicherd, weil der Schlüsselbund ned benutzd wern konnd: Nachm nächsdn Start wird bei jedm Brogramm nochamal gfrachd.";
@@ -5398,7 +5398,7 @@
 "The text is too long for this code." = "Der Text is für den Code zu lang.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Der Token odder es Passwort im Schlüsselbund is für den Server do nu ned erlaubd. Erlaub's mit Verbindung brüfn in Rumdogdern › Ziele.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Der Token odder es Passwort im Schlüsselbund is für den Server do nu ned erlaubd. Wenn des dei Server is, erlaub's mit Verbindung brüfn in Rumdogdern › Ziele; sonst brüf dord die URL.";
 
 /* machine */
 "The torn edges of this image." = "Die ausgrissenen Kandn vo dem Bild.";

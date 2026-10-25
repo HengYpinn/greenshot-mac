@@ -5038,7 +5038,7 @@
 "The %@ password could not be kept in the Keychain" = "Không thể giữ mật khẩu %@ trong Chuỗi khóa";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Mã hoặc mật khẩu %@ trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Mã hoặc mật khẩu %@ trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Nếu đây là máy chủ của bạn, hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến; nếu không, hãy kiểm tra URL ở đó.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sự đồng ý cho công cụ AI đã được lưu mà không có niêm phong vì không thể dùng Chuỗi khóa: sau lần khởi động tiếp theo, mỗi chương trình sẽ được hỏi lại.";
@@ -5404,7 +5404,7 @@
 "The text is too long for this code." = "Văn bản quá dài so với mã này.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Mã hoặc mật khẩu trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Mã hoặc mật khẩu trong Chuỗi khóa chưa được phép dùng cho máy chủ này. Nếu đây là máy chủ của bạn, hãy cho phép bằng Kiểm tra kết nối trong Thiết lập › Đích đến; nếu không, hãy kiểm tra URL ở đó.";
 
 /* machine */
 "The torn edges of this image." = "Các cạnh rách của ảnh này.";

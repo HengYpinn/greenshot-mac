@@ -5005,7 +5005,7 @@
 "The %@ password could not be kept in the Keychain" = "Le mot de passe %@ n’a pas pu être conservé dans le trousseau";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Le jeton ou le mot de passe %@ du trousseau n’est pas encore autorisé pour ce serveur. Autorisez-le avec Tester la connexion dans Préférences › Destinations.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Le jeton ou le mot de passe %@ du trousseau n’est pas encore autorisé pour ce serveur. S’il s’agit de votre serveur, autorisez-le avec Tester la connexion dans Préférences › Destinations; sinon, vérifiez-y l’URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Le consentement aux outils d’IA est enregistré sans son sceau, car le trousseau n’a pas pu être utilisé : après le prochain démarrage, chaque programme est interrogé à nouveau.";
@@ -5371,7 +5371,7 @@
 "The text is too long for this code." = "Le texte est trop long pour ce code.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Le jeton ou le mot de passe du trousseau n’est pas encore autorisé pour ce serveur. Autorisez-le avec Tester la connexion dans Préférences › Destinations.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Le jeton ou le mot de passe du trousseau n’est pas encore autorisé pour ce serveur. S’il s’agit de votre serveur, autorisez-le avec Tester la connexion dans Préférences › Destinations; sinon, vérifiez-y l’URL.";
 
 /* machine */
 "The torn edges of this image." = "Les bords déchirés de cette image.";

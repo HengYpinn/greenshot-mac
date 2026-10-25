@@ -5071,7 +5071,7 @@
 "The %@ password could not be kept in the Keychain" = "Лозинка за %@ није могла да се сачува у Привеску кључева";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@ токен или лозинка из Привеска кључева још није дозвољен за овај сервер. Дозволите га помоћу Тестирај везу у Поставке › Одредишта.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "%@ токен или лозинка из Привеска кључева још није дозвољен за овај сервер. Ако је ово ваш сервер, дозволите га помоћу Тестирај везу у Поставке › Одредишта; у супротном тамо проверите адресу.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Сагласност за AI алате је сачувана без печата јер Привезак кључева није могао да се користи: после следећег покретања сваки програм се поново пита.";
@@ -5437,7 +5437,7 @@
 "The text is too long for this code." = "Текст је предугачак за овај код.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Токен или лозинка из Привеска кључева још није дозвољен за овај сервер. Дозволите га помоћу Тестирај везу у Поставке › Одредишта.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Токен или лозинка из Привеска кључева још није дозвољен за овај сервер. Ако је ово ваш сервер, дозволите га помоћу Тестирај везу у Поставке › Одредишта; у супротном тамо проверите адресу.";
 
 /* machine */
 "The torn edges of this image." = "Расцепане ивице ове слике.";

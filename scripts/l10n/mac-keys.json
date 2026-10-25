@@ -10756,7 +10756,7 @@
    ]
   },
   {
-   "key": "The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.",
+   "key": "The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.",
    "files": [
     "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
    ]
@@ -11495,7 +11495,7 @@
    ]
   },
   {
-   "key": "The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.",
+   "key": "The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.",
    "files": [
     "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
    ]

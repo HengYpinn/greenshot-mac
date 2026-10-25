@@ -5041,7 +5041,7 @@
 "The %@ password could not be kept in the Keychain" = "Heslo pre %@ sa nepodarilo uchovať v Kľúčenke";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token alebo heslo pre %@ v Kľúčenke zatiaľ nie je pre tento server povolené. Povoľte ho pomocou Vyskúšať pripojenie v Nastavenia › Ciele.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Token alebo heslo pre %@ v Kľúčenke zatiaľ nie je pre tento server povolené. Ak je to váš server, povoľte ho pomocou Vyskúšať pripojenie v Nastavenia › Ciele; inak tam skontrolujte adresu URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení sa Greenshot opýta znova pri každom programe.";
@@ -5407,7 +5407,7 @@
 "The text is too long for this code." = "Text je pre tento kód príliš dlhý.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token alebo heslo v Kľúčenke zatiaľ nie je pre tento server povolené. Povoľte ho pomocou Vyskúšať pripojenie v Nastavenia › Ciele.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Token alebo heslo v Kľúčenke zatiaľ nie je pre tento server povolené. Ak je to váš server, povoľte ho pomocou Vyskúšať pripojenie v Nastavenia › Ciele; inak tam skontrolujte adresu URL.";
 
 /* machine */
 "The torn edges of this image." = "Potrhané okraje tohto obrázka.";

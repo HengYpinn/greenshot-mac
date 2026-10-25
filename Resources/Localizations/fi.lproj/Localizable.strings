@@ -5053,7 +5053,7 @@
 "The %@ password could not be kept in the Keychain" = "Kohteen %@ salasanaa ei voitu säilyttää Avainnipussa";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@-tunnusta tai -salasanaa Avainnipussa ei ole vielä sallittu tälle palvelimelle. Salli se toiminnolla Testaa yhteys kohdassa Asetukset › Kohteet.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "%@-tunnusta tai -salasanaa Avainnipussa ei ole vielä sallittu tälle palvelimelle. Jos tämä on palvelimesi, salli se toiminnolla Testaa yhteys kohdassa Asetukset › Kohteet; muussa tapauksessa tarkista URL-osoite siellä.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen jokaiselta ohjelmalta kysytään uudelleen.";
@@ -5419,7 +5419,7 @@
 "The text is too long for this code." = "Teksti on liian pitkä tälle koodille.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Avainnipussa olevaa tunnusta tai salasanaa ei ole vielä sallittu tälle palvelimelle. Salli se toiminnolla Testaa yhteys kohdassa Asetukset › Kohteet.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Avainnipussa olevaa tunnusta tai salasanaa ei ole vielä sallittu tälle palvelimelle. Jos tämä on palvelimesi, salli se toiminnolla Testaa yhteys kohdassa Asetukset › Kohteet; muussa tapauksessa tarkista URL-osoite siellä.";
 
 /* machine */
 "The torn edges of this image." = "Tämän kuvan revityt reunat.";

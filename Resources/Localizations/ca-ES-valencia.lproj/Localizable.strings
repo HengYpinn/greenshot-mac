@@ -5008,7 +5008,7 @@
 "The %@ password could not be kept in the Keychain" = "No s'ha pogut conservar la contrasenya de %@ en el Clauer";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "El testimoni o la contrasenya de %@ del Clauer encara no estan permesos per a este servidor. Permeta-ho amb Provar la connexió en Preferències › Destins.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "El testimoni o la contrasenya de %@ del Clauer encara no estan permesos per a este servidor. Si este és el seu servidor, permeta-ho amb Provar la connexió en Preferències › Destins; si no, comprove-hi l'URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "El consentiment per a les ferramentes d'IA està guardat sense el seu segell perquè no s'ha pogut utilitzar el Clauer: després del pròxim inici, es torna a preguntar per cada programa.";
@@ -5374,7 +5374,7 @@
 "The text is too long for this code." = "El text és massa llarg per a este codi.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "El testimoni o la contrasenya del Clauer encara no estan permesos per a este servidor. Permeta-ho amb Provar la connexió en Preferències › Destins.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "El testimoni o la contrasenya del Clauer encara no estan permesos per a este servidor. Si este és el seu servidor, permeta-ho amb Provar la connexió en Preferències › Destins; si no, comprove-hi l'URL.";
 
 /* machine */
 "The torn edges of this image." = "Les vores esgarrades d'esta image.";

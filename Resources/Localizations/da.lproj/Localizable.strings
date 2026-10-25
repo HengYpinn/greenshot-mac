@@ -4990,7 +4990,7 @@
 "The %@ password could not be kept in the Keychain" = "Adgangskoden til %@ kunne ikke gemmes i nøgleringen";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@-tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Tillad det med Test forbindelsen i Præferencer › Destinationer.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "%@-tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Hvis det er din server, så tillad det med Test forbindelsen i Præferencer › Destinationer; ellers skal du kontrollere URL'en der.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtykket til AI-værktøjer er gemt uden sit segl, fordi nøgleringen ikke kunne bruges: efter næste start spørges hvert program igen.";
@@ -5356,7 +5356,7 @@
 "The text is too long for this code." = "Teksten er for lang til denne kode.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Tillad det med Test forbindelsen i Præferencer › Destinationer.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Tokenet eller adgangskoden i nøgleringen er endnu ikke tilladt for denne server. Hvis det er din server, så tillad det med Test forbindelsen i Præferencer › Destinationer; ellers skal du kontrollere URL'en der.";
 
 /* machine */
 "The torn edges of this image." = "Dette billedes afrevne kanter.";

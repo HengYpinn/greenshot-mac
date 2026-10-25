@@ -1532,7 +1532,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	%@ App 金鑰	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	%@ 圖像顯示在選單列中。	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	無法將 %@ 密碼保留在鑰匙圈中	claude-opus-5-5 2026-10-25
-The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	鑰匙圈中的 %@ 權杖或密碼尚未獲准用於此伺服器。請在「設定 › 目的地」中使用「測試連線」來允許。	claude-opus-5-5 2026-10-26
+The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	鑰匙圈中的 %@ 權杖或密碼尚未獲准用於此伺服器。如果這是您的伺服器，請在「設定 › 目的地」中使用「測試連線」來允許；否則請在該處檢查 URL。	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	由於無法使用鑰匙圈，AI 工具授權已在沒有封簽的情況下儲存：下次啟動後，會再次詢問每個程式。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	由於無法使用鑰匙圈，AI 工具授權已在沒有封簽的情況下儲存：下次啟動後，預設排除項目會恢復，且通知會開啟。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	由於無法使用鑰匙圈，AI 工具授權已在沒有封簽的情況下儲存：下次啟動後，預設排除項目會恢復。	claude-opus-5-5 2026-10-25
@@ -1654,7 +1654,7 @@ The size of File › New Image, a white image to draw on.	「檔案 › 新增�
 The text could not be recognised	無法辨識文字	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	無法辨識文字：%@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	文字對此碼而言太長。	claude-sonnet-5-5 2026-10-18
-The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	鑰匙圈中的權杖或密碼尚未獲准用於此伺服器。請在「設定 › 目的地」中使用「測試連線」來允許。	claude-opus-5-5 2026-10-26
+The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	鑰匙圈中的權杖或密碼尚未獲准用於此伺服器。如果這是您的伺服器，請在「設定 › 目的地」中使用「測試連線」來允許；否則請在該處檢查 URL。	claude-opus-5-5 2026-10-26
 The torn edges of this image.	此圖片的撕裂邊緣。	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	圖片的透明部分會套用此顏色。	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	觸發條件一開始是關閉的。請開啟每個可以啟動此配方的觸發條件：您保持關閉的觸發條件會維持關閉（之後可用「權限」開啟）。沒有觸發條件時，您仍可從配方清單執行此配方。	claude-sonnet-5-5 2026-10-18

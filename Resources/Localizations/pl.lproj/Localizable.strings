@@ -5053,7 +5053,7 @@
 "The %@ password could not be kept in the Keychain" = "Nie udało się zachować hasła do %@ w pęku kluczy";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token lub hasło %@ z pęku kluczy nie jest jeszcze dozwolone dla tego serwera. Zezwól na nie za pomocą Testuj połączenie w Ustawienia › Miejsca docelowe.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Token lub hasło %@ z pęku kluczy nie jest jeszcze dozwolone dla tego serwera. Jeśli to twój serwer, zezwól na nie za pomocą Testuj połączenie w Ustawienia › Miejsca docelowe; w przeciwnym razie sprawdź tam adres URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu każdy program zostanie zapytany ponownie.";
@@ -5419,7 +5419,7 @@
 "The text is too long for this code." = "Tekst jest za długi dla tego kodu.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Token lub hasło z pęku kluczy nie jest jeszcze dozwolone dla tego serwera. Zezwól na nie za pomocą Testuj połączenie w Ustawienia › Miejsca docelowe.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Token lub hasło z pęku kluczy nie jest jeszcze dozwolone dla tego serwera. Jeśli to twój serwer, zezwól na nie za pomocą Testuj połączenie w Ustawienia › Miejsca docelowe; w przeciwnym razie sprawdź tam adres URL.";
 
 /* machine */
 "The torn edges of this image." = "Poszarpane krawędzie tego obrazu.";

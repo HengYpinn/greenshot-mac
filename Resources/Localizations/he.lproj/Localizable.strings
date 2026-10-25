@@ -5053,7 +5053,7 @@
 "The %@ password could not be kept in the Keychain" = "לא ניתן היה לשמור את הסיסמה של %@ ב-Keychain";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "האסימון או הסיסמה של %@ ב-Keychain עדיין לא מותרים לשרת הזה. אפשר להתיר אותם עם \"בדיקת חיבור\" בהגדרות › יעדים.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "האסימון או הסיסמה של %@ ב-Keychain עדיין לא מותרים לשרת הזה. אם זה השרת שלך, אפשר להתיר אותם עם \"בדיקת חיבור\" בהגדרות › יעדים; אחרת יש לבדוק שם את כתובת ה-URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "ההסכמה לכלי AI שמורה בלי החותם שלה כי לא ניתן היה להשתמש ב-Keychain: אחרי ההפעלה הבאה, כל תוכנית תישאל שוב.";
@@ -5419,7 +5419,7 @@
 "The text is too long for this code." = "הטקסט ארוך מדי עבור קוד זה.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "האסימון או הסיסמה ב-Keychain עדיין לא מותרים לשרת הזה. אפשר להתיר אותם עם \"בדיקת חיבור\" בהגדרות › יעדים.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "האסימון או הסיסמה ב-Keychain עדיין לא מותרים לשרת הזה. אם זה השרת שלך, אפשר להתיר אותם עם \"בדיקת חיבור\" בהגדרות › יעדים; אחרת יש לבדוק שם את כתובת ה-URL.";
 
 /* machine */
 "The torn edges of this image." = "הקצוות הקרועים של התמונה הזו.";

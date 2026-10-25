@@ -5077,7 +5077,7 @@
 "The %@ password could not be kept in the Keychain" = "%@ slaptažodžio nepavyko išsaugoti raktų pakabuke";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "%@ prieigos raktas arba slaptažodis raktų pakabuke dar neleidžiamas šiam serveriui. Leiskite jį mygtuku Tikrinti ryšį skiltyje Nustatymai › Paskirtys.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "%@ prieigos raktas arba slaptažodis raktų pakabuke dar neleidžiamas šiam serveriui. Jei tai jūsų serveris, leiskite jį mygtuku Tikrinti ryšį skiltyje Nustatymai › Paskirtys; kitu atveju ten patikrinkite URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Sutikimas dėl DI įrankių išsaugotas be antspaudo, nes raktų pakabuku nebuvo galima naudotis: po kito paleidimo apie kiekvieną programą bus vėl paklausta.";
@@ -5443,7 +5443,7 @@
 "The text is too long for this code." = "Tekstas per ilgas šiam kodui.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Prieigos raktas arba slaptažodis raktų pakabuke dar neleidžiamas šiam serveriui. Leiskite jį mygtuku Tikrinti ryšį skiltyje Nustatymai › Paskirtys.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Prieigos raktas arba slaptažodis raktų pakabuke dar neleidžiamas šiam serveriui. Jei tai jūsų serveris, leiskite jį mygtuku Tikrinti ryšį skiltyje Nustatymai › Paskirtys; kitu atveju ten patikrinkite URL.";
 
 /* machine */
 "The torn edges of this image." = "Šio vaizdo nuplėšti kraštai.";

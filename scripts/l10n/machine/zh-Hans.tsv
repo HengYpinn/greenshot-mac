@@ -1535,7 +1535,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	%@ App 密钥	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	%@ 图标显示在菜单栏中。	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	无法将 %@ 密码保存在钥匙串中	claude-opus-5-5 2026-10-25
-The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	钥匙串中的 %@ 令牌或密码尚未获准用于此服务器。请在“设置 › 目标位置”中使用“测试连接”来允许。	claude-opus-5-5 2026-10-26
+The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	钥匙串中的 %@ 令牌或密码尚未获准用于此服务器。如果这是你的服务器，请在“设置 › 目标位置”中使用“测试连接”来允许；否则请在那里检查网址。	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，会再次询问每个程序。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，默认排除项会恢复，并且通知会开启。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，默认排除项会恢复。	claude-opus-5-5 2026-10-25
@@ -1657,7 +1657,7 @@ The size of File › New Image, a white image to draw on.	“文件 › 新建�
 The text could not be recognised	无法识别文字	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	无法识别文字：%@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	文本对此码来说太长。	claude-sonnet-5-5 2026-10-18
-The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	钥匙串中的令牌或密码尚未获准用于此服务器。请在“设置 › 目标位置”中使用“测试连接”来允许。	claude-opus-5-5 2026-10-26
+The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	钥匙串中的令牌或密码尚未获准用于此服务器。如果这是你的服务器，请在“设置 › 目标位置”中使用“测试连接”来允许；否则请在那里检查网址。	claude-opus-5-5 2026-10-26
 The torn edges of this image.	此图像的撕裂边缘。	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	图像的透明部分使用此颜色。	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	触发器初始为关闭状态。请打开每个可以启动此配方的触发器：保持关闭的触发器会一直关闭（之后可通过“权限”打开）。没有触发器时，你仍可从配方列表运行该配方。	claude-sonnet-5-5 2026-10-18

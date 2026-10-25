@@ -5023,7 +5023,7 @@
 "The %@ password could not be kept in the Keychain" = "No se pudo conservar la contraseña de %@ en el llavero";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "El token o la contraseña de %@ del llavero aún no están permitidos para este servidor. Permítelo con Probar conexión en Preferencias › Destinos.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "El token o la contraseña de %@ del llavero aún no están permitidos para este servidor. Si es tu servidor, permítelo con Probar conexión en Preferencias › Destinos; si no, comprueba allí la URL.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "El consentimiento para herramientas de IA está guardado sin su sello porque no se pudo usar el llavero: tras el próximo inicio, se vuelve a preguntar por cada programa.";
@@ -5389,7 +5389,7 @@
 "The text is too long for this code." = "El texto es demasiado largo para este código.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "El token o la contraseña del llavero aún no están permitidos para este servidor. Permítelo con Probar conexión en Preferencias › Destinos.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "El token o la contraseña del llavero aún no están permitidos para este servidor. Si es tu servidor, permítelo con Probar conexión en Preferencias › Destinos; si no, comprueba allí la URL.";
 
 /* machine */
 "The torn edges of this image." = "Los bordes rasgados de esta imagen.";

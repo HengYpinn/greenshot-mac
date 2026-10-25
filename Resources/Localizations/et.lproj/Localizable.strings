@@ -5050,7 +5050,7 @@
 "The %@ password could not be kept in the Keychain" = "Rakenduse %@ parooli ei õnnestunud võtmehoidjas hoida";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Võtmehoidjas olev %@ juurdepääsuvõti või parool pole selle serveri jaoks veel lubatud. Lubage see nupuga Testi ühendust menüüs Eelistused › Sihtkohad.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Võtmehoidjas olev %@ juurdepääsuvõti või parool pole selle serveri jaoks veel lubatud. Kui see on teie server, lubage see nupuga Testi ühendust menüüs Eelistused › Sihtkohad; muul juhul kontrollige seal URL-i.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "AI-tööriistade nõusolek on salvestatud ilma pitserita, sest võtmehoidjat ei saanud kasutada: pärast järgmist käivitamist küsitakse iga programmi kohta uuesti luba.";
@@ -5416,7 +5416,7 @@
 "The text is too long for this code." = "Tekst on selle koodi jaoks liiga pikk.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "Võtmehoidjas olev juurdepääsuvõti või parool pole selle serveri jaoks veel lubatud. Lubage see nupuga Testi ühendust menüüs Eelistused › Sihtkohad.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "Võtmehoidjas olev juurdepääsuvõti või parool pole selle serveri jaoks veel lubatud. Kui see on teie server, lubage see nupuga Testi ühendust menüüs Eelistused › Sihtkohad; muul juhul kontrollige seal URL-i.";
 
 /* machine */
 "The torn edges of this image." = "Selle pildi rebenenud servad.";

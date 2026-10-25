@@ -1529,7 +1529,7 @@ That's all you need to start. %@ waits in the menu bar, and everything else can 
 The %@ app key	%@ のアプリキー	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	%@ アイコンがメニューバーに表示されています。	claude-sonnet-5-5 2026-10-18
 The %@ password could not be kept in the Keychain	%@ のパスワードをキーチェーンに保持できませんでした	claude-opus-5-5 2026-10-25
-The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	キーチェーンにある %@ のトークンまたはパスワードは、このサーバではまだ許可されていません。「設定」›「出力先」の「接続をテスト」で許可してください。	claude-opus-5-5 2026-10-26
+The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	キーチェーンにある %@ のトークンまたはパスワードは、このサーバではまだ許可されていません。ご自身のサーバである場合は、「設定」›「出力先」の「接続をテスト」で許可してください。そうでない場合は、そこで URL を確認してください。	claude-opus-5-5 2026-10-26
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、すべてのプログラムに再度確認します。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back and the notification is on.	キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、デフォルトの除外設定が戻り、通知がオンになります。	claude-opus-5-5 2026-10-25
 The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, the default exclusions come back.	キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、デフォルトの除外設定が戻ります。	claude-opus-5-5 2026-10-25
@@ -1651,7 +1651,7 @@ The size of File › New Image, a white image to draw on.	「ファイル」›�
 The text could not be recognised	テキストを認識できませんでした	claude-sonnet-5-5 2026-10-18
 The text could not be recognized: %@	テキストを認識できませんでした：%@	claude-sonnet-5-5 2026-10-18
 The text is too long for this code.	このコードにはテキストが長すぎます。	claude-sonnet-5-5 2026-10-18
-The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.	キーチェーンにあるトークンまたはパスワードは、このサーバではまだ許可されていません。「設定」›「出力先」の「接続をテスト」で許可してください。	claude-opus-5-5 2026-10-26
+The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there.	キーチェーンにあるトークンまたはパスワードは、このサーバではまだ許可されていません。ご自身のサーバである場合は、「設定」›「出力先」の「接続をテスト」で許可してください。そうでない場合は、そこで URL を確認してください。	claude-opus-5-5 2026-10-26
 The torn edges of this image.	この画像の引き裂き端。	claude-sonnet-5-5 2026-10-18
 The transparent parts of the image get this color.	画像の透明な部分に、この色が設定されます。	claude-sonnet-5-5 2026-10-18
 The triggers start switched off. Switch on each one that may start this recipe: a trigger you leave off stays off (you can switch it on later with Permissions). Without a trigger you can still run the recipe from the recipe list.	トリガーは最初はオフになっています。このレシピを開始してよいトリガーをそれぞれオンにしてください。オフのままにしたトリガーはオフのままです（あとで「権限」からオンにできます）。トリガーがなくても、レシピリストからレシピを実行できます。	claude-sonnet-5-5 2026-10-18

@@ -5077,7 +5077,7 @@
 "The %@ password could not be kept in the Keychain" = "تعذّر الاحتفاظ بكلمة سر %@ في سلسلة المفاتيح";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "رمز %@ المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. اسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "رمز %@ المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. إذا كان هذا هو خادمك، فاسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات؛ وإلا فتحقق من عنوان URL هناك.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، يُسأل عن كل برنامج مجددًا.";
@@ -5443,7 +5443,7 @@
 "The text is too long for this code." = "النص أطول من أن يناسب هذا الرمز.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "الرمز المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. اسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "الرمز المميز أو كلمة المرور في سلسلة المفاتيح غير مسموح بهما لهذا الخادم بعد. إذا كان هذا هو خادمك، فاسمح بذلك عبر اختبار الاتصال في التفضيلات › الوجهات؛ وإلا فتحقق من عنوان URL هناك.";
 
 /* machine */
 "The torn edges of this image." = "الحواف الممزقة لهذه الصورة.";

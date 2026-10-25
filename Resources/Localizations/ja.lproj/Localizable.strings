@@ -5080,7 +5080,7 @@
 "The %@ password could not be kept in the Keychain" = "%@ のパスワードをキーチェーンに保持できませんでした";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "キーチェーンにある %@ のトークンまたはパスワードは、このサーバではまだ許可されていません。「設定」›「出力先」の「接続をテスト」で許可してください。";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "キーチェーンにある %@ のトークンまたはパスワードは、このサーバではまだ許可されていません。ご自身のサーバである場合は、「設定」›「出力先」の「接続をテスト」で許可してください。そうでない場合は、そこで URL を確認してください。";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、すべてのプログラムに再度確認します。";
@@ -5446,7 +5446,7 @@
 "The text is too long for this code." = "このコードにはテキストが長すぎます。";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "キーチェーンにあるトークンまたはパスワードは、このサーバではまだ許可されていません。「設定」›「出力先」の「接続をテスト」で許可してください。";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "キーチェーンにあるトークンまたはパスワードは、このサーバではまだ許可されていません。ご自身のサーバである場合は、「設定」›「出力先」の「接続をテスト」で許可してください。そうでない場合は、そこで URL を確認してください。";
 
 /* machine */
 "The torn edges of this image." = "この画像の引き裂き端。";

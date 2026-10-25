@@ -5017,7 +5017,7 @@
 "The %@ password could not be kept in the Keychain" = "Não foi possível guardar a senha do %@ no Keychain";
 
 /* machine */
-"The %@ token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "O token ou a senha do %@ guardados no Keychain ainda não são permitidos para este servidor. Permita com Testar conexão em Preferências › Destinos.";
+"The %@ token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "O token ou a senha do %@ guardados no Keychain ainda não são permitidos para este servidor. Se este for o seu servidor, permita com Testar conexão em Preferências › Destinos; caso contrário, verifique o URL lá.";
 
 /* machine */
 "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "O consentimento para ferramentas de IA está salvo sem o selo porque o Keychain não pôde ser usado: após a próxima inicialização, a permissão é pedida de novo para cada programa.";
@@ -5383,7 +5383,7 @@
 "The text is too long for this code." = "O texto é longo demais para este código.";
 
 /* machine */
-"The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations." = "O token ou a senha guardados no Keychain ainda não são permitidos para este servidor. Permita com Testar conexão em Preferências › Destinos.";
+"The token or password in the Keychain isn't allowed for this server yet. If this is your server, allow it with Test Connection in Settings › Destinations; otherwise check the URL there." = "O token ou a senha guardados no Keychain ainda não são permitidos para este servidor. Se este for o seu servidor, permita com Testar conexão em Preferências › Destinos; caso contrário, verifique o URL lá.";
 
 /* machine */
 "The torn edges of this image." = "As bordas rasgadas desta imagem.";
