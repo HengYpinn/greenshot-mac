@@ -131,11 +131,21 @@ enum Uploads {
 
     /// Throws when the Box client secret can't be read (a locked Keychain): without it Box would refuse the sign-in.
     static func oauthClient(for destination: CaptureDestination, settings: AppSettings) throws -> OAuthClient {
+        let clientSecret: String? = try destination == .box ? secrets.secret(for: SecretKey.boxClientSecret) : nil
+        return client(for: destination, settings: settings, clientSecret: clientSecret)
+    }
+
+    /// The account without the Box client secret: enough for the stored tokens (signed in or not, Sign Out), so a client
+    /// secret that can't be read neither hides the sign-in nor keeps it.
+    static func accountClient(for destination: CaptureDestination, settings: AppSettings) -> OAuthClient {
+        client(for: destination, settings: settings, clientSecret: nil)
+    }
+
+    private static func client(for destination: CaptureDestination, settings: AppSettings, clientSecret: String?) -> OAuthClient {
         applyCertificateExceptions(settings)
         switch destination {
         case .box:
-            return OAuthClient(provider: .box, clientID: settings.box.clientID,
-                               clientSecret: try secrets.secret(for: SecretKey.boxClientSecret),
+            return OAuthClient(provider: .box, clientID: settings.box.clientID, clientSecret: clientSecret,
                                store: secrets, storeKey: SecretKey.boxTokens, http: http)
         default:
             return OAuthClient(provider: .dropbox, clientID: settings.dropbox.appKey,
@@ -163,7 +173,14 @@ enum JiraDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, issueKey: String? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
         Task { @MainActor in
-            guard let site = await AtlassianSignIn.ready(.jira, settings: settings) else {
+            let ready: AtlassianSite?
+            do {
+                ready = try await AtlassianSignIn.ready(.jira, settings: settings)
+            } catch {
+                completion(.failed(error.localizedDescription))
+                return
+            }
+            guard let site = ready else {
                 completion(.declined)
                 return
             }
@@ -241,7 +258,14 @@ enum ConfluenceDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, page givenPage: ConfluencePage? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
         Task { @MainActor in
-            guard let site = await AtlassianSignIn.ready(.confluence, settings: settings) else {
+            let ready: AtlassianSite?
+            do {
+                ready = try await AtlassianSignIn.ready(.confluence, settings: settings)
+            } catch {
+                completion(.failed(error.localizedDescription))
+                return
+            }
+            guard let site = ready else {
                 completion(.declined)
                 return
             }

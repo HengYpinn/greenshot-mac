@@ -59,10 +59,11 @@ enum AtlassianSignIn {
         return bare.with(user: bare.user, secret: stored)
     }
 
-    /// The site ready for an upload, nil when the user cancelled the login, the setup is missing or the Keychain can't be
-    /// read (explained then). A password login is checked once per session; a missing or wrong password brings up the
-    /// login dialog.
-    static func ready(_ service: AtlassianService, settings: SettingsStore) async -> AtlassianSite? {
+    /// The site ready for an upload, nil when the user cancelled the login or the setup is missing (explained then). A
+    /// password login is checked once per session; a missing or wrong password brings up the login dialog. Throws, after
+    /// showing it, when the Keychain can't be read: the upload failed (not declined, so a recipe flow records it), as
+    /// Box and Dropbox say then.
+    static func ready(_ service: AtlassianService, settings: SettingsStore) async throws -> AtlassianSite? {
         Uploads.applyCertificateExceptions(settings.value)
         let configured: AtlassianSite?
         do {
@@ -70,7 +71,7 @@ enum AtlassianSignIn {
         } catch {
             ErrorPresenter.show(error, title: service == .jira ? String(localized: "The upload to Jira failed")
                                     : String(localized: "The upload to Confluence failed"))
-            return nil
+            throw error
         }
         guard var site = configured else {
             Uploads.explainMissingSetup(service.name, detail: String(localized: "Enter the \(service.name) URL in Settings › Destinations."))
@@ -148,7 +149,11 @@ enum AtlassianSignIn {
                 try AtlassianSecrets(store: Uploads.secrets).setSecret(site.secret, for: service.secretKey, host: site.baseURL.host)
                 return
             } catch {
+                // Said, not only logged: "Remember in Keychain" was on, and the next start would ask again.
                 log.error("The \(service.name) password could not be kept in the Keychain", error: error)
+                ErrorPresenter.show(message: String(localized: "The \(service.name) password could not be kept in the Keychain"),
+                                    detail: error.localizedDescription + "\n\n"
+                                        + String(localized: "Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations."))
             }
         }
         sessionPasswords[key(service, site)] = site.secret
