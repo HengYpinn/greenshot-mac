@@ -25,6 +25,11 @@ private final class DenyingSecretStore: SecretStore, @unchecked Sendable {
 
     var reads: Int { lock.withLock { readCount } }
 
+    /// What is stored, without counting a read.
+    func value(_ key: String) -> String? {
+        lock.withLock { values[key] }
+    }
+
     func secret(for key: String) throws -> String? {
         try lock.withLock {
             readCount += 1
@@ -41,35 +46,10 @@ private final class DenyingSecretStore: SecretStore, @unchecked Sendable {
     }
 }
 
-/// A token field of Settings › Destinations as the app has it: reads its secret when it is shown, unless the list says
-/// the Keychain can't be read; Retry reads it again.
+/// A token field of Settings › Destinations: the secret of `key` in `store`.
 @MainActor
-private final class TokenField: RetryableSecret {
-    let key: String
-    let store: SecretStore
-    private(set) var text = ""
-    private(set) var secretState = SecretState.usable
-
-    init(_ key: String, store: SecretStore, list: SecretRetryList) {
-        self.key = key
-        self.store = store
-        secretState = list.readUnlessUnavailable { read() }
-        list.add(self)
-    }
-
-    func readAgain() {
-        secretState = read()
-    }
-
-    private func read() -> SecretState {
-        do {
-            text = try store.secret(for: key) ?? ""
-            return .usable
-        } catch {
-            text = ""
-            return SecretState(error: error)
-        }
-    }
+private func tokenField(_ key: String, store: SecretStore, list: SecretRetryList) -> EditableSecret {
+    EditableSecret(list: list, read: { try store.secret(for: key) }, write: { try store.setSecret($0, for: key) })
 }
 
 /// Any other error of the store, e.g. a damaged item.
@@ -108,10 +88,10 @@ private struct DamagedItemError: LocalizedError {
         let store = DenyingSecretStore(["a": "1", "b": "2", "c": "3"])
         store.denied = ["a", "b", "c"]
         let list = SecretRetryList()
-        let a = TokenField("a", store: store, list: list)
+        let a = tokenField("a", store: store, list: list)
         // Shown after the first couldn't be read: they don't ask again (one password prompt, not one per field).
-        let b = TokenField("b", store: store, list: list)
-        let c = TokenField("c", store: store, list: list)
+        let b = tokenField("b", store: store, list: list)
+        let c = tokenField("c", store: store, list: list)
         #expect(store.reads == 1)
         #expect(b.secretState == .unavailable("The Keychain is locked."))
         #expect(c.secretState.isUnavailable)
@@ -136,9 +116,9 @@ private struct DamagedItemError: LocalizedError {
         let store = DenyingSecretStore(["a": "1", "b": "2", "c": "3"])
         store.denied = ["a", "b", "c"]
         let list = SecretRetryList()
-        let a = TokenField("a", store: store, list: list)
-        let b = TokenField("b", store: store, list: list)
-        let c = TokenField("c", store: store, list: list)
+        let a = tokenField("a", store: store, list: list)
+        let b = tokenField("b", store: store, list: list)
+        let c = tokenField("c", store: store, list: list)
 
         store.denied = ["b"]
         list.retry(from: a)
@@ -159,17 +139,82 @@ private struct DamagedItemError: LocalizedError {
         let store = DenyingSecretStore(["a": "1", "b": "2"])
         let list = SecretRetryList()
         store.denied = ["a"]
-        withExtendedLifetime(TokenField("a", store: store, list: list)) { field in
+        withExtendedLifetime(tokenField("a", store: store, list: list)) { field in
             #expect(field.secretState.isUnavailable)
             #expect(list.unavailable != nil)
         }
         #expect(list.unavailable == nil)
-        let b = TokenField("b", store: store, list: list)
+        let b = tokenField("b", store: store, list: list)
         #expect(b.text == "2")
 
-        let damaged = TokenField("x", store: ThrowingSecretStore(), list: list)
+        let damaged = tokenField("x", store: ThrowingSecretStore(), list: list)
         #expect(damaged.secretState == .failed("The item is damaged."))
         #expect(list.unavailable == nil)
+    }
+
+    /// The Keychain locks while a token is typed (each keystroke is saved): what was typed stays in the field, and the
+    /// Retry after unlocking saves it, not the part saved before the lock.
+    @Test func aTokenTypedWhileTheKeychainLocksIsSavedByTheRetry() {
+        let store = DenyingSecretStore(["t": "old"])
+        let list = SecretRetryList()
+        let field = tokenField("t", store: store, list: list)
+        field.edit("n")
+        field.edit("ne")
+        #expect(store.value("t") == "ne")
+
+        store.denied = ["t", "u"]
+        field.edit("new")
+        #expect(field.secretState.isUnavailable)
+        #expect(field.text == "new")
+        #expect(store.value("t") == "ne")
+        // Retry while it is still locked: nothing changes, the typed text stays.
+        list.retry(from: field)
+        #expect(field.secretState.isUnavailable)
+        #expect(field.text == "new")
+
+        // Unlocked: a Retry pressed on another secret of the tab saves it too.
+        let other = tokenField("u", store: store, list: list)
+        store.denied = []
+        list.retry(from: other)
+        #expect(field.secretState == .usable)
+        #expect(field.text == "new")
+        #expect(store.value("t") == "new")
+    }
+
+    /// "Deny" is per item: a row shown again keeps what it read while another secret can't be read (it doesn't take
+    /// that secret's "locked", nor ask); a secret never read takes it.
+    @Test func aSecretShownAgainKeepsWhatItReadWhileAnotherCantBeRead() {
+        let store = DenyingSecretStore(["a": "1"])
+        store.denied = ["a"]
+        let list = SecretRetryList()
+        let denied = tokenField("a", store: store, list: list)
+        #expect(denied.secretState.isUnavailable)
+        var reads = 0
+        let kept = list.readUnlessUnavailable(keeping: .usable) {
+            reads += 1
+            return .usable
+        }
+        #expect(kept == .usable)
+        let damaged = list.readUnlessUnavailable(keeping: .failed("The item is damaged.")) {
+            reads += 1
+            return .usable
+        }
+        #expect(damaged == .failed("The item is damaged."))
+        let neverRead = list.readUnlessUnavailable {
+            reads += 1
+            return .usable
+        }
+        #expect(neverRead.isUnavailable)
+        #expect(reads == 0)
+
+        store.denied = []
+        list.retry(from: denied)
+        let again = list.readUnlessUnavailable(keeping: .usable) {
+            reads += 1
+            return .failed("The item is damaged.")
+        }
+        #expect(again == .failed("The item is damaged."))
+        #expect(reads == 1)
     }
 }
 

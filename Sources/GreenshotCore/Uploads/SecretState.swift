@@ -66,8 +66,8 @@ public enum CloudAccountAction: Equatable, Sendable {
 public protocol RetryableSecret: AnyObject {
     /// What the last read or save gave.
     var secretState: SecretState { get }
-    /// Reads the secret again and shows it (Retry).
-    func readAgain()
+    /// Retry: reads the secret again, or saves the edit the store refused, and shows the result.
+    func tryAgain()
 }
 
 /// The secrets one window shows. Each read of a locked Keychain shows its password prompt: while one of them can't be
@@ -96,21 +96,90 @@ public final class SecretRetryList {
     }
 
     /// A read the user didn't ask for (a field shown, a row appearing): `read`, unless a secret shown can't be read. The
-    /// Keychain is most likely still locked then, and asking again would only show the same prompt: that secret's
-    /// state instead, until Retry.
-    public func readUnlessUnavailable(_ read: () -> SecretState) -> SecretState {
-        unavailable ?? read()
+    /// Keychain is most likely still locked then, and asking again would only show the same prompt, so no read until
+    /// Retry: a secret read before keeps `current` (macOS denies items one by one: another item's "locked" isn't its
+    /// own), one never read (`current` nil) takes the unavailable secret's state.
+    public func readUnlessUnavailable(keeping current: SecretState? = nil, _ read: () -> SecretState) -> SecretState {
+        guard let unavailable else { return read() }
+        return current ?? unavailable
     }
 
     /// Retry on `pressed`: reads it again, then every other secret that couldn't be read, in the order they were added,
     /// and stops at the first that still can't. Once the Keychain is unlocked one press reads them all; while it is
     /// locked (or an item is denied) a press shows one prompt that the user refuses, not one per secret.
     public func retry(from pressed: any RetryableSecret) {
-        pressed.readAgain()
+        pressed.tryAgain()
         guard !pressed.secretState.isUnavailable else { return }
         for secret in secrets where secret !== pressed && secret.secretState.isUnavailable {
-            secret.readAgain()
+            secret.tryAgain()
             if secret.secretState.isUnavailable { return }
         }
+    }
+}
+
+/// A secret edited like a setting (a token field of Settings › Destinations): read when shown, saved at every edit.
+@MainActor
+public final class EditableSecret: RetryableSecret {
+    /// What the field shows: the stored secret, or what was typed.
+    public private(set) var text: String
+    public private(set) var secretState: SecretState
+    /// Called before `text` or `secretState` change, so the field shows them (also after a Retry pressed elsewhere).
+    public var willChange: (() -> Void)?
+    /// `text` is an edit the store refused because it couldn't be used (the Keychain locked while typing): Retry saves
+    /// it instead of reading what is stored, which may be only its first characters (every keystroke is saved).
+    private var editRefused = false
+    private let read: @MainActor () throws -> String?
+    private let write: @MainActor (String) throws -> Void
+
+    /// Reads the secret, unless a secret of `list` can't be read (`SecretRetryList.readUnlessUnavailable`), and adds it
+    /// to `list`.
+    public init(list: SecretRetryList, read: @escaping @MainActor () throws -> String?,
+                write: @escaping @MainActor (String) throws -> Void) {
+        self.read = read
+        self.write = write
+        var secret = ""
+        secretState = list.readUnlessUnavailable {
+            do {
+                secret = try read() ?? ""
+                return .usable
+            } catch {
+                return SecretState(error: error)
+            }
+        }
+        text = secret
+        list.add(self)
+    }
+
+    /// The user changed the text: saved at once.
+    public func edit(_ newText: String) {
+        guard newText != text else { return }
+        willChange?()
+        text = newText
+        save()
+    }
+
+    public func tryAgain() {
+        willChange?()
+        guard !editRefused else {
+            save()
+            return
+        }
+        do {
+            text = try read() ?? ""
+            secretState = .usable
+        } catch {
+            text = ""
+            secretState = SecretState(error: error)
+        }
+    }
+
+    private func save() {
+        do {
+            try write(text)
+            secretState = .usable
+        } catch {
+            secretState = SecretState(error: error)
+        }
+        editRefused = secretState.isUnavailable
     }
 }
