@@ -891,6 +891,57 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
         #expect(allowedAfterRestart(file, secrets) == ["/A"])
     }
 
+    /// n1 (fourth review): after a seal (Retry), the next lock removes the key of that new seal again, so the
+    /// settings and seal written at the Retry, put back, don't bring the removed program back.
+    @Test func theNextLockAfterASealRemovesTheNewKeyAgain() throws {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/A", "/B", "/C")
+        var run = ConsentRun(file, secrets)
+        secrets.readsLocked = true
+        secrets.writesLocked = true
+        run.edit { $0.allowedClients.removeAll { $0 == "/A" } }
+        secrets.readsLocked = false
+        secrets.writesLocked = false
+        run.retry()
+        #expect(!run.status.needsAttention)
+        let sealedBlob = try Data(contentsOf: file)
+        let sealedSeal = try Data(contentsOf: sealFile(file))
+
+        secrets.readsLocked = true
+        secrets.writesLocked = true
+        run.edit { $0.allowedClients.removeAll { $0 == "/B" } }
+        #expect(secrets.deletes == 2)
+        #expect(secrets.value(AIToolsConsentSeal.keyName) == nil)
+
+        secrets.readsLocked = false
+        secrets.writesLocked = false
+        try sealedBlob.write(to: file)
+        try sealedSeal.write(to: sealFile(file))
+        #expect(allowedAfterRestart(file, secrets).isEmpty)
+    }
+
+    /// n2: settings.json removed while Greenshot runs, then a reload: the defaults are in effect, but they weren't
+    /// stored, so the seal and key stay; the file put back and reloaded counts again.
+    @Test func aReloadOfMissingSettingsKeepsTheirSeal() throws {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/A")
+        let good = try Data(contentsOf: file)
+        var run = ConsentRun(file, secrets)
+        try FileManager.default.removeItem(at: file)
+        run.reload()
+        #expect(run.inEffect.allowedClients.isEmpty)
+        #expect(secrets.value(AIToolsConsentSeal.keyName) != nil)
+        #expect(storedSealText(file) != nil)
+
+        try good.write(to: file)
+        run.reload()
+        #expect(run.inEffect.allowedClients == ["/A"])
+    }
+
     /// Settings count as stored only when what is stored decodes.
     @Test func onlySettingsThatDecodeCountAsStored() {
         #expect(!AIToolsConsentKeeper.isStored(json: nil))
