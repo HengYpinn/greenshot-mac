@@ -130,17 +130,23 @@ struct AIToolsSettingsTab: View {
     }
 
     /// The consent couldn't be checked, or a change couldn't be sealed (a locked Keychain): what that means, why, and
-    /// Retry (`SettingsStore.retryConsent`).
+    /// Retry (`SettingsStore.retryConsent`). With the allowed programs locked by an administrator, those are allowed
+    /// whatever the seal says: then only the exclusions and the notification are concerned.
     private func consentNotice(_ status: AIToolsConsentKeeper.Status) -> some View {
+        let managedPrograms = store.isLocked(\AppSettings.aiTools.allowedClients)
         var lines: [String] = []
         if status.isUnverifiable {
-            lines.append(String(localized: "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed."))
+            lines.append(managedPrograms
+                ? String(localized: "Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on.")
+                : String(localized: "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed."))
             if !status.isStoredUnsealed {
-                lines.append(String(localized: "The programs you allowed are kept and count again once it can."))
+                lines.append(String(localized: "What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used."))
             }
         }
         if status.isStoredUnsealed {
-            lines.append(String(localized: "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again."))
+            lines.append(managedPrograms
+                ? String(localized: "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on.")
+                : String(localized: "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again."))
         }
         if status.hasChangesUntilQuit {
             lines.append(String(localized: "Changes made while the Keychain couldn't be used apply only until Greenshot quits."))
