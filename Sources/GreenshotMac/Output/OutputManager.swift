@@ -74,14 +74,16 @@ final class OutputManager {
         self.editors = editors
     }
 
-    func handle(_ capture: Capture) {
+    /// `request` says who started the capture, for a Jira or Confluence upload among the destinations (one that
+    /// automation started: `.automation`). The destination menu is the user's own pick, so it stays `.upload`.
+    func handle(_ capture: Capture, request: AtlassianSecretRequest = .upload) {
         // One notification for all exports of this capture (upstream Notification step, `ExportNotification`).
         let log = NotificationExportLog(capture: capture, settings: settings)
         let destinations = settings.value.destinations
         if destinations.isEmpty || destinations.contains(.picker) {
             showPicker(for: capture, completion: log.expect())
         } else {
-            destinations.forEach { perform(.destination($0), with: capture, completion: log.expect()) }
+            destinations.forEach { perform(.destination($0), with: capture, request: request, completion: log.expect()) }
         }
         log.close()
     }

@@ -244,10 +244,13 @@ public struct RecipeExportTarget: @unchecked Sendable {
     public var designation: String
     /// The app's own value for the target (its `DestinationTarget`); nil for a plain designation.
     public var detail: Any?
+    /// The user picked it (the destination menu, the flyout), whoever started the flow (`AtlassianSecretRequest`).
+    public var pickedByUser: Bool
 
-    public init(designation: String, detail: Any? = nil) {
+    public init(designation: String, detail: Any? = nil, pickedByUser: Bool = false) {
         self.designation = designation
         self.detail = detail
+        self.pickedByUser = pickedByUser
     }
 }
 

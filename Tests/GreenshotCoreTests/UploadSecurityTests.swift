@@ -77,7 +77,7 @@ struct UploadSecurityTests {
     @Test func aTokenIsOnlyForTheSchemeAndPortItWasSavedFor() throws {
         let secrets = AtlassianSecrets(store: RecordingSecretStore())
         try secrets.setSecret("tok", for: "jira.apiToken", server: try server("https://jira.example.test"))
-        // http:// would send it unencrypted, another port to another program on that computer.
+        // http:// and another port of the same host are other servers.
         for url in ["http://jira.example.test", "http://jira.example.test:31337/x", "https://jira.example.test:8443"] {
             let elsewhere = try secrets.lookup("jira.apiToken", server: try server(url))
             #expect(elsewhere == .nothing, "\(url)")
@@ -238,6 +238,17 @@ struct UploadSecurityTests {
         }
         #expect(answer == .declined)
         #expect(try store.secret(for: "jira.apiToken") == "newer")
+        // Another token saved for this server meanwhile (typed in Settings): it stays, and the old one isn't sent.
+        let legacy = RecordingSecretStore(["jira.apiToken": "old"])
+        let atlassian = AtlassianSecrets(store: legacy)
+        let jira = try server("https://jira.example.test")
+        let typed = try atlassian.confirmUnbound("jira.apiToken", server: jira) {
+            try atlassian.setSecret("newer", for: "jira.apiToken", server: jira)
+            return true
+        }
+        #expect(typed == .declined)
+        let kept = try atlassian.lookup("jira.apiToken", server: jira)
+        #expect(kept == .bound("newer"))
     }
 
     @Test func aQuestionAnsweredMeanwhileCountsForTheOtherOne() throws {
@@ -306,15 +317,29 @@ struct UploadSecurityTests {
         }
         // Names, international names (as punycode), IP addresses and ports.
         for url in ["https://jira.example.test", "jíra.example.test", "http://localhost:2990/jira", "https://192.168.1.10:8080",
-                    "https://[::1]:8443/jira", "https://jira_srv.corp.example", "https://jira%2Eexample.test"] {
+                    "https://[::1]:8443/jira", "https://jira_srv.corp.example", "HTTPS://jira.example.test:65535", "jira.example.test:8443/jira"] {
             let site = AtlassianSite(url: url, login: .cloudAPIToken, user: "a@example.test", secret: "")
             #expect(site != nil, "\(url)")
         }
-        let plain = try server("https://jira%2Eexample.test")
-        #expect(plain.origin == "https://jira.example.test:443")
+        let leadingZero = try server("https://jira.example.test:0443")
+        #expect(leadingZero.origin == "https://jira.example.test:443")
         // A URL that didn't come through the settings is checked the same way.
-        let raw = try #require(URL(string: "https://company.atlassian.net%0Aevil.test"))
-        #expect(AtlassianServer(raw) == nil)
+        for text in ["https://company.atlassian.net%0Aevil.test", "https://user@jira.example.test", "ftp://jira.example.test"] {
+            let raw = try #require(URL(string: text))
+            #expect(AtlassianServer(raw) == nil, "\(text)")
+        }
+    }
+
+    @Test func onlyHttpAndHttpsWithARealPortAndAHostAsItShows() {
+        // Other schemes; ports outside 1…65535 (a bigger one would wrap around to another port); a host written with
+        // percent signs; one slash after the scheme (the host would be "https").
+        for url in ["ftp://jira.example.test", "javascript://jira.example.test", "file://localhost/etc",
+                    "https://jira.example.test:0", "https://jira.example.test:65536", "http://127.0.0.1:112547",
+                    "https://jira%2Eexample.test", "https://%6Aira.example.test", "https://10.0.0.5%3A8443",
+                    "https://%3A%3A1", "https:/jira.example.test", "HTTP:/jira.example.test", "https:jira.example.test"] {
+            let site = AtlassianSite(url: url, login: .cloudAPIToken, user: "a@example.test", secret: "")
+            #expect(site == nil, "\(url)")
+        }
     }
 
     // MARK: The question before a token kept without its server goes there
@@ -326,7 +351,7 @@ struct UploadSecurityTests {
     }
 
     @Test func automationIsNeverAskedAndTestConnectionAlwaysIs() throws {
-        var answers = AtlassianSecretAnswers()
+        let answers = AtlassianSecretAnswers()
         let stored = try unboundSite("https://jira.example.test")
         let upload = answers.decide(stored, service: "Jira", request: .upload)
         #expect(upload == .ask("old"))
@@ -346,7 +371,7 @@ struct UploadSecurityTests {
         #expect(noneUpload == .proceed)
     }
 
-    @Test func dontAllowHoldsForUploadsUntilTheServerChanges() throws {
+    @Test func dontAllowHoldsForUploadsToThatServerThisSession() throws {
         var answers = AtlassianSecretAnswers()
         let jira = try unboundSite("https://jira.example.test")
         let server = try #require(jira.site.server)
@@ -358,22 +383,28 @@ struct UploadSecurityTests {
         #expect(test == .ask("old"))
         let confluence = answers.decide(jira, service: "Confluence", request: .upload)
         #expect(confluence == .ask("old"))
-        // Another server in the URL: asked again, and the old answer is gone.
+        // Another server in the URL is asked about; going back to the first one doesn't ask about it again.
         let otherPort = try unboundSite("https://jira.example.test:8443")
         let moved = answers.decide(otherPort, service: "Jira", request: .upload)
         #expect(moved == .ask("old"))
+        let otherServer = try #require(otherPort.site.server)
+        answers.answered(allowed: false, service: "Jira", server: otherServer)
         let back = answers.decide(jira, service: "Jira", request: .upload)
-        #expect(back == .ask("old"))
-        // Allow clears it (and `confirmUnbound` keeps the token for the server, so nothing is asked from then on).
-        answers.answered(allowed: false, service: "Jira", server: server)
+        #expect(back == .notAllowed)
+        let movedAgain = answers.decide(otherPort, service: "Jira", request: .upload)
+        #expect(movedAgain == .notAllowed)
+        // Allow (at Test Connection) clears it for that server only (and `confirmUnbound` keeps the token for it).
         answers.answered(allowed: true, service: "Jira", server: server)
         let allowed = answers.decide(jira, service: "Jira", request: .upload)
         #expect(allowed == .ask("old"))
+        let stillDeclined = answers.decide(otherPort, service: "Jira", request: .upload)
+        #expect(stillDeclined == .notAllowed)
     }
 
     @Test func aTokenThatCantBeUsedYetIsntAskedAbout() throws {
-        // A Cloud token without the email (or a password without the user name): the setup message comes instead.
-        var answers = AtlassianSecretAnswers()
+        // A Cloud token without the email, or a password without the user name: not asked about; the setup message or
+        // the login dialog asks for what is missing.
+        let answers = AtlassianSecretAnswers()
         let noEmail = try unboundSite("https://jira.example.test", user: "")
         let cloud = answers.decide(noEmail, service: "Jira", request: .upload)
         #expect(cloud == .proceed)
@@ -396,6 +427,17 @@ struct UploadSecurityTests {
         }
         // A built-in capture that automation started runs as a Manual recipe with the mark.
         #expect(AtlassianSecretRequest(recipeTrigger: WellKnownTriggerType.manual, markedByAutomation: true) == .automation)
+        // A destination the user picked (the destination menu, the flyout) is the user's, whoever started the recipe.
+        #expect(AtlassianSecretRequest(recipeTrigger: WellKnownTriggerType.extension, markedByAutomation: false,
+                                       pickedByUser: true) == .upload)
+        #expect(AtlassianSecretRequest(recipeTrigger: WellKnownTriggerType.manual, markedByAutomation: true,
+                                       pickedByUser: true) == .upload)
+    }
+
+    @Test func aCaptureThatAutomationStartedIsntAsked() {
+        // The direct route of a built-in capture (greenshot-cli, a link, AppleScript, Shortcuts) to the destinations.
+        #expect(AtlassianSecretRequest(capturedByAutomation: true) == .automation)
+        #expect(AtlassianSecretRequest(capturedByAutomation: false) == .upload)
     }
 
     @Test func theServerOfASettingsURL() throws {

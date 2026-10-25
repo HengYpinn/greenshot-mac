@@ -68,8 +68,8 @@ enum AtlassianSignIn {
     /// missing (explained then). A password login is checked once per session; a missing or wrong password brings up the
     /// login dialog. Throws, after showing it, when the Keychain can't be read or can't keep an allowed token for the
     /// server: the upload failed (not declined, so a recipe flow records it), as Box and Dropbox say then. Throws
-    /// `AtlassianSecretQuestion.NotAllowedYet` without showing it for `.automation` (nobody may be at the screen: the
-    /// recipe step records and logs it).
+    /// `AtlassianSecretQuestion.NotAllowedYet` for `.automation` without an alert (nobody may be at the screen): the
+    /// question showed its message, and a recipe step records and logs it.
     static func ready(_ service: AtlassianService, settings: SettingsStore,
                       request: AtlassianSecretRequest = .upload) async throws -> AtlassianSite? {
         Uploads.applyCertificateExceptions(settings.value)

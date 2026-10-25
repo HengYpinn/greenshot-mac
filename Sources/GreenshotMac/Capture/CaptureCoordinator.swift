@@ -43,7 +43,7 @@ final class CaptureCoordinator {
     /// Every display, or the one with `displayID` (the menu bar's items).
     func captureFullScreen(displayID: CGDirectDisplayID? = nil, byAutomation: Bool) {
         if RecipeRuntime.shared?.interceptBuiltIn(.fullScreen(display: displayID), byAutomation: byAutomation) == true { return }
-        captureFullScreen { screens in displayID.map { id in screens.filter { $0.displayID == id } } ?? screens }
+        captureFullScreen(byAutomation: byAutomation) { screens in displayID.map { id in screens.filter { $0.displayID == id } } ?? screens }
     }
 
     /// The full screen hotkey: the display with the mouse, every display, or display number `screenToCapture`,
@@ -55,7 +55,7 @@ final class CaptureCoordinator {
         let number = settings.value.screenToCapture
         // Numbered like the menu bar's list: in the order of NSScreen.screens, the main display first.
         let order = NSScreen.screens.map(\.displayID)
-        captureFullScreen { screens in
+        captureFullScreen(byAutomation: byAutomation) { screens in
             let ordered = screens.sorted { (order.firstIndex(of: $0.displayID) ?? Int.max) < (order.firstIndex(of: $1.displayID) ?? Int.max) }
             let chosen = CaptureScreenChoice.screens(for: mode, screenNumber: number, mouse: ScreenSpace.mouseLocation,
                                                      frames: ordered.map(\.frame))
@@ -63,10 +63,10 @@ final class CaptureCoordinator {
         }
     }
 
-    private func captureFullScreen(choosing choose: @escaping @MainActor ([FrozenScreen]) -> [FrozenScreen]) {
+    private func captureFullScreen(byAutomation: Bool, choosing choose: @escaping @MainActor ([FrozenScreen]) -> [FrozenScreen]) {
         let showsCursor = settings.value.captureMousePointer
         let toneMapHDR = settings.value.toneMapHDRCaptures
-        run {
+        run(byAutomation: byAutomation) {
             let windows = ScreenCapturer.onScreenWindows()
             let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor, toneMapHDR: toneMapHDR)
             let chosen = choose(frozen.screens(withPointer: showsCursor))
@@ -95,7 +95,7 @@ final class CaptureCoordinator {
         }
         let showsCursor = settings.value.captureMousePointer
         let toneMapHDR = settings.value.toneMapHDRCaptures
-        run {
+        run(byAutomation: byAutomation) {
             let windows = ScreenCapturer.onScreenWindows()
             let frozen = try await ScreenCapturer.freeze(withPointer: showsCursor, toneMapHDR: toneMapHDR)
             guard let capture = frozen.capture(of: region, withPointer: showsCursor,
@@ -108,7 +108,7 @@ final class CaptureCoordinator {
     func captureActiveWindow(byAutomation: Bool) {
         if RecipeRuntime.shared?.interceptBuiltIn(.activeWindow, byAutomation: byAutomation) == true { return }
         let settings = self.settings.value
-        run {
+        run(byAutomation: byAutomation) {
             guard let window = ScreenCapturer.frontWindow(in: ScreenCapturer.onScreenWindows()) else {
                 // No window of the active app (upstream `ActiveWindowCaptureSource`): the whole screen, titled "Screen",
                 // for the user's own hotkey or menu; a capture automation started was allowed a window and stays one.
@@ -127,7 +127,7 @@ final class CaptureCoordinator {
     func capture(window: WindowInfo, byAutomation: Bool) {
         if RecipeRuntime.shared?.interceptBuiltIn(.windowFromList(window), byAutomation: byAutomation) == true { return }
         let settings = self.settings.value
-        run {
+        run(byAutomation: byAutomation) {
             try await ScreenCapturer.capture(window: window, showsCursor: settings.captureMousePointer,
                                              includeShadow: settings.includeWindowShadow,
                                              toneMapHDR: settings.toneMapHDRCaptures)
@@ -137,7 +137,7 @@ final class CaptureCoordinator {
     /// The capture screen. The displays are frozen with and without the mouse pointer, so M can switch;
     /// "Capture the mouse pointer" decides which one it starts with.
     private func interactive(_ mode: CaptureOverlayController.Mode, startedByUser: Bool) {
-        run { [settings] in
+        run(byAutomation: !startedByUser) { [settings] in
             let windows = ScreenCapturer.onScreenWindows(includingPanels: true)
             let frozen = try await ScreenCapturer.freeze(withPointer: true, toneMapHDR: settings.value.toneMapHDRCaptures)
             guard let selection = await CaptureOverlayController.select(screens: frozen.plain, pointerScreens: frozen.pointer,
@@ -192,7 +192,9 @@ final class CaptureCoordinator {
     /// The direct path is running (delay, capture screen, start of the export): the recipe runner's flows check it.
     var isBusy: Bool { busy }
 
-    private func run(_ body: @escaping @MainActor () async throws -> Capture?) {
+    /// `byAutomation`: greenshot-cli, a link, AppleScript or Shortcuts started it, so a Jira or Confluence token kept
+    /// without its server isn't asked about for the destinations (`AtlassianSecretRequest`).
+    private func run(byAutomation: Bool, _ body: @escaping @MainActor () async throws -> Capture?) {
         // A recipe flow may have the capture screen open.
         guard !busy, !CaptureOverlayController.isShowing, !(RecipeRuntime.shared?.isSelectionReserved ?? false) else {
             NSSound.beep()
@@ -216,7 +218,7 @@ final class CaptureCoordinator {
                 if let text = capture.text {
                     self.deliverText(text)
                 } else {
-                    self.output.handle(capture)
+                    self.output.handle(capture, request: AtlassianSecretRequest(capturedByAutomation: byAutomation))
                 }
                 self.returnFocus(to: previousApp)
             } catch {

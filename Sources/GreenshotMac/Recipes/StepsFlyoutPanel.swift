@@ -76,10 +76,12 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
     func export(_ designation: String, step: RecipeStepInvocation, in context: RecipeFlowContext) async throws {
         guard let payload = context.payload else { return }
         let exporter = RecipeAppExporter(runtime: runtime)
-        guard let target = await exporter.target(for: designation, step: step, in: context) else {
+        guard var target = await exporter.target(for: designation, step: step, in: context) else {
             context.log("Warning: no destination '\(designation)' here.")
             return
         }
+        // The user clicked it: a Jira or Confluence token kept without its server is asked about, whoever started the flow.
+        target.pickedByUser = true
         let chains = await MainActor.run { runtime.destinationChains?(context.recipe) ?? [] }
         var copies = RecipeDestinationCopies(chains: chains, steps: steps)
         let copy = await copies.payload(for: designation, original: payload, in: context)

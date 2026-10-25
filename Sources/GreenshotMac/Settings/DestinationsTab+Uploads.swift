@@ -107,7 +107,8 @@ final class ConnectionTest: ObservableObject {
             return
         }
         guard let configured else {
-            result = String(localized: "Enter the URL first.")
+            let url = service.url(settings).trimmingCharacters(in: .whitespacesAndNewlines)
+            result = url.isEmpty ? String(localized: "Enter the URL first.") : String(localized: "“\(url)” is not a valid URL.")
             return
         }
         running = true
@@ -353,7 +354,9 @@ struct UnencryptedURLWarning: View {
 
     var body: some View {
         let trimmed = url.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !trimmed.isEmpty, AtlassianServer(url: trimmed) == nil {
+        // Not while only the scheme is typed ("https://").
+        let schemeOnly = ["http", "https"].contains(trimmed.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: ":/")))
+        if !trimmed.isEmpty, !schemeOnly, AtlassianServer(url: trimmed) == nil {
             Text(String(localized: "“\(trimmed)” is not a valid URL."))
                 .font(.caption).foregroundStyle(.orange)
         } else if AtlassianSite.isUnencrypted(url: url) {

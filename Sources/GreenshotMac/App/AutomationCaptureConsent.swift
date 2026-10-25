@@ -62,8 +62,15 @@ enum AutomationCaptureConsent {
         let handler = AllowHandler(arming: arming)
         allow.target = handler
         allow.action = #selector(AllowHandler.allow(_:))
-        let expire = Timer(timeInterval: answerTimeout, repeats: false) { _ in
-            MainActor.assumeIsolated { NSApp.abortModal() }
+        // Only this alert's own session ends: while another question opened on top of it is up, that one is the
+        // innermost modal session, which `abortModal` would end instead; this one ends once it is on top again.
+        let deadline = Date().addingTimeInterval(answerTimeout)
+        let own = ObjectIdentifier(alert.window)
+        let expire = Timer(timeInterval: 0.5, repeats: true) { _ in
+            MainActor.assumeIsolated {
+                guard Date() >= deadline, let modal = NSApp.modalWindow, ObjectIdentifier(modal) == own else { return }
+                NSApp.abortModal()
+            }
         }
         RunLoop.main.add(expire, forMode: .modalPanel)
         NSApp.activate()

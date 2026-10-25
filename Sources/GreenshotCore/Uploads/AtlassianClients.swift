@@ -22,16 +22,17 @@ public struct AtlassianSite: Equatable, Sendable {
     public var secret: String
 
     /// `url` is trimmed, gets `https://` when it has no scheme and loses a trailing slash. Nil when it is empty, not a
-    /// URL, or not one the token or password may go to: one with a control character, with a user part
-    /// (`https://company.atlassian.net@other.test` is other.test), or whose host is neither a plain name (`isPlainHost`)
-    /// nor an IP address.
+    /// URL, or not one the token or password may go to: one with a control character, a scheme with one slash
+    /// (`https:/jira.example.com` would be the host "https"), or one `isUsable` refuses.
     public init?(url: String, login: AtlassianLogin, user: String, secret: String) {
         var text = url.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty, !text.unicodeScalars.contains(where: CharacterSet.controlCharacters.contains) else { return nil }
-        if !text.contains("://") { text = "https://" + text }
+        if !text.contains("://") {
+            if let colon = text.firstIndex(of: ":"), ["http", "https"].contains(text[..<colon].lowercased()) { return nil }
+            text = "https://" + text
+        }
         while text.hasSuffix("/") { text.removeLast() }
-        guard let parsed = URL(string: text), let host = parsed.host, Self.isPlainHost(host),
-              parsed.user == nil, parsed.password == nil else { return nil }
+        guard let parsed = URL(string: text), Self.isUsable(parsed) else { return nil }
         baseURL = parsed
         self.login = login
         self.user = user.trimmingCharacters(in: .whitespaces)
@@ -95,6 +96,22 @@ public struct AtlassianSite: Equatable, Sendable {
         let port = url.port ?? (scheme == "https" ? 443 : scheme == "http" ? 80 : -1)
         let name = host.contains(":") ? "[\(host)]" : host
         return "\(scheme)://\(name):\(port)"
+    }
+
+    /// Whether a token or password may go to `url`: http or https, a port from 1 to 65535 (or none), no user part
+    /// (`https://company.atlassian.net@other.test` is other.test), and a plain host (`isPlainHost`) that wasn't written
+    /// percent-encoded (`jira%2Eexample.com`, `10.0.0.5%3A8443`): the host it shows is the one it is.
+    static func isUsable(_ url: URL) -> Bool {
+        guard let scheme = url.scheme?.lowercased(), scheme == "https" || scheme == "http",
+              url.user == nil, url.password == nil, let host = url.host, isPlainHost(host) else { return false }
+        if let port = url.port, !(1...65_535).contains(port) { return false }
+        // An international name typed as such is percent-encoded here and punycode in `host`; ASCII written with % is
+        // refused.
+        if let encoded = url.host(percentEncoded: true), encoded.contains("%"),
+           let decoded = encoded.removingPercentEncoding, decoded.unicodeScalars.allSatisfy(\.isASCII) {
+            return false
+        }
+        return true
     }
 
     /// Whether `host` (as `URL.host` gives it: percent-decoded, an international name in punycode) is a plain host name

@@ -35,10 +35,12 @@ enum RecipeStepExports {
     }
 
     /// Who started the flow, for a Jira or Confluence token or password kept without its server: asked about only when
-    /// the user started it (as the capture screen decides, `OverlayInputArming.startedByUser`), else the upload fails.
-    static func secretRequest(_ context: RecipeFlowContext) -> AtlassianSecretRequest {
+    /// the user started it (as the capture screen decides, `OverlayInputArming.startedByUser`) or picked the destination
+    /// (`pickedByUser`), else the upload fails.
+    static func secretRequest(_ context: RecipeFlowContext, pickedByUser: Bool = false) -> AtlassianSecretRequest {
         let marked = context.object(forKey: OverlayInputArming.automationMarkKey) is AutomationStartMark
-        return AtlassianSecretRequest(recipeTrigger: context.trigger?.triggerType, markedByAutomation: marked)
+        return AtlassianSecretRequest(recipeTrigger: context.trigger?.triggerType, markedByAutomation: marked,
+                                      pickedByUser: pickedByUser)
     }
 
     /// An upload's format and quality: the step's, else the destination's settings.

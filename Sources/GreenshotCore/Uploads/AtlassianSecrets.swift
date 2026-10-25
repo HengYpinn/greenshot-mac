@@ -16,9 +16,9 @@ public struct AtlassianServer: Hashable, Sendable {
     /// The host alone, lower case: for the host entry of older versions.
     let host: String
 
-    /// The server of a site's URL; nil without a scheme or a plain host (`AtlassianSite.isPlainHost`).
+    /// The server of a site's URL; nil for one a token may not go to (`AtlassianSite.isUsable`).
     public init?(_ url: URL) {
-        guard let host = url.host, AtlassianSite.isPlainHost(host), let origin = AtlassianSite.origin(of: url) else { return nil }
+        guard AtlassianSite.isUsable(url), let host = url.host, let origin = AtlassianSite.origin(of: url) else { return nil }
         self.origin = origin
         self.host = host.lowercased()
     }
@@ -40,8 +40,9 @@ extension AtlassianSite {
 /// (`entryMarker`, the server's origin, the secret): a token is only given to that server (address and port), so
 /// changing the URL in the settings (or someone else changing it) doesn't send it to another one. The server is read
 /// and written with the secret, never on its own. Older versions kept the host in a second entry, `<key>.host`: their
-/// token counts as saved without a server (`Lookup.unbound`: asked about at each use until the user allows it), and
-/// that entry can only refuse another host, never grant one. Upstream keeps the password in its ini file next to the URL.
+/// token counts as saved without a server (`Lookup.unbound`: asked about at each use until allowed; after Don't Allow,
+/// uploads to that server aren't asked again this session, `AtlassianSecretAnswers`), and that entry can only refuse
+/// another host, never grant one. Upstream keeps the password in its ini file next to the URL.
 public struct AtlassianSecrets: Sendable {
     public let store: SecretStore
 

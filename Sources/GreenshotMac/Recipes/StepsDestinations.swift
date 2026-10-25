@@ -100,7 +100,7 @@ struct RecipeAppExporter: RecipeExporting {
         menu.addItem(ClosureMenuItem(title: String(localized: "Discard")) {})
         output.popUp(menu)
         guard let picked else { return nil }
-        return RecipeExportTarget(designation: designation(of: picked), detail: picked)
+        return RecipeExportTarget(designation: designation(of: picked), detail: picked, pickedByUser: true)
     }
 
     // MARK: Exports
@@ -124,7 +124,8 @@ struct RecipeAppExporter: RecipeExporting {
         case .destination(.printer), .printer:
             result = await printWithOptions(capture, to: destinationTarget, step: step, runtime: runtime)
         default:
-            result = await perform(destinationTarget, capture: capture, output: app.output, request: RecipeStepExports.secretRequest(context))
+            result = await perform(destinationTarget, capture: capture, output: app.output,
+                                   request: RecipeStepExports.secretRequest(context, pickedByUser: target.pickedByUser))
         }
         if result.exportedBy == nil { result.exportedBy = destinationTarget.displayName }
         state.record(result)
