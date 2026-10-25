@@ -53,7 +53,8 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
 }
 
 /// A locked Keychain, or its password prompt cancelled or denied, is not a missing secret: nothing that is stored is
-/// replaced, nobody is asked to sign in again, and the approvals and the AI tools consent come back once it can be read.
+/// replaced, nobody is asked to sign in again, and what is stored counts again once it is read again (the recipe
+/// approvals: at the next change, Reload Recipes or the next start, not at every look-up).
 @Suite struct SecretStoreUnavailableTests {
     private let now = Date(timeIntervalSince1970: 1_800_000_000)
 
