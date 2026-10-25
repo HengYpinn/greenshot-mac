@@ -52,7 +52,7 @@ final class KeychainSecretStore: SecretStore {
         guard KeychainStatus(status) == .unavailable else { return KeychainError(status: status, operation: operation) }
         let text = SecCopyErrorMessageString(status, nil) as String? ?? "-"
         log.warn("The Keychain can't be used right now (\(operation) of '\(key)'): OSStatus \(status), \(text)")
-        return SecretStoreUnavailableError(String(localized: "The Keychain is locked, or Greenshot isn't allowed to use it. Unlock the login keychain (or lock and unlock it in Keychain Access), or restart Greenshot, then try again."))
+        return SecretStoreUnavailableError(String(localized: "The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot."))
     }
 
     func secret(for key: String) throws -> String? {
