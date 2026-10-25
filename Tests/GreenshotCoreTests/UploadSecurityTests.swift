@@ -398,10 +398,12 @@ struct UploadSecurityTests {
         #expect(AtlassianSecretRequest(recipeTrigger: WellKnownTriggerType.manual, markedByAutomation: true) == .automation)
     }
 
-    @Test func theHostOfASettingsURL() {
-        #expect(AtlassianSite.host(ofURL: "Jira.Example.test/") == "jira.example.test")
-        #expect(AtlassianSite.host(ofURL: "https://x.atlassian.net/wiki") == "x.atlassian.net")
-        #expect(AtlassianSite.host(ofURL: "  ") == nil)
+    @Test func theServerOfASettingsURL() throws {
+        let jira = try server("Jira.Example.test/")
+        #expect(jira.origin == "https://jira.example.test:443")
+        let wiki = try server("https://x.atlassian.net/wiki")
+        #expect(wiki.origin == "https://x.atlassian.net:443")
+        #expect(AtlassianServer(url: "  ") == nil)
     }
 
     // MARK: Links and URLs

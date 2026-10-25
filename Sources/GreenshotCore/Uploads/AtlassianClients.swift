@@ -121,12 +121,6 @@ public struct AtlassianSite: Equatable, Sendable {
     /// Whether the site is reached over `http://`: the token or password travels unencrypted.
     public var isUnencrypted: Bool { baseURL.scheme?.lowercased() == "http" }
 
-    /// The host (lower case) of a Jira or Confluence URL as the settings hold it (see `init(url:login:user:secret:)`),
-    /// nil when it isn't one.
-    public static func host(ofURL url: String) -> String? {
-        AtlassianSite(url: url, login: .serverToken, user: "", secret: "")?.baseURL.host?.lowercased()
-    }
-
     /// Whether a Jira or Confluence URL of the settings starts with `http://`.
     public static func isUnencrypted(url: String) -> Bool {
         AtlassianSite(url: url, login: .serverToken, user: "", secret: "")?.isUnencrypted ?? false

@@ -28,7 +28,7 @@ enum AtlassianSecretQuestion {
         let service: AtlassianService
 
         var errorDescription: String? {
-            String(localized: "The \(service.name) token or password in the Keychain isn't allowed for this server yet. Allow it at an upload you start, or with Test Connection in Settings › Destinations.")
+            String(localized: "The \(service.name) token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations.")
         }
     }
 
@@ -93,7 +93,7 @@ enum AtlassianSecretQuestion {
     private static func notSent(_ service: AtlassianService, request: AtlassianSecretRequest, settings: AppSettings?) {
         guard request == .upload, settings?.notificationLevel.shows(.warning) ?? true else { return }
         Toast.show(String(localized: "Not sent to \(service.name)"),
-                   detail: String(localized: "The token or password in the Keychain isn't allowed for this server (address and port). To allow it, click Test Connection in Settings › Destinations."),
+                   detail: String(localized: "The token or password in the Keychain isn't allowed for this server yet. Allow it with Test Connection in Settings › Destinations."),
                    kind: .warning, action: { (NSApp.delegate as? AppDelegate)?.showSettings(pane: .destinations) }, mustBeSeen: true)
     }
 
