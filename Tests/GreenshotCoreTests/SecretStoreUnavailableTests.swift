@@ -275,13 +275,65 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         let secrets = LockableSecretStore(["jira.apiToken": "tok"])
         secrets.isLocked = true
         let atlassian = AtlassianSecrets(store: secrets)
+        // A token of an older version: no question while it can't be read, and nothing is written.
+        var asked = 0
         #expect(throws: SecretStoreUnavailableError.self) {
-            _ = try atlassian.secret(for: "jira.apiToken", host: "jira.example.test", claim: true)
+            _ = try atlassian.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+                asked += 1
+                return true
+            }
         }
+        #expect(throws: SecretStoreUnavailableError.self) {
+            _ = try atlassian.secret(for: "jira.apiToken", host: "jira.example.test")
+        }
+        #expect(throws: SecretStoreUnavailableError.self) {
+            _ = try atlassian.boundSecret(for: "jira.apiToken", host: "jira.example.test")
+        }
+        #expect(asked == 0)
         #expect(secrets.writes == 0)
         secrets.isLocked = false
-        let token = try atlassian.secret(for: "jira.apiToken", host: "jira.example.test", claim: true)
-        #expect(token == "tok")
-        #expect(secrets.value("jira.apiToken.host") == "jira.example.test")
+        let answer = try atlassian.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+            asked += 1
+            return true
+        }
+        #expect(answer == .allowed("tok"))
+        #expect(asked == 1)
+        let bound = try atlassian.boundSecret(for: "jira.apiToken", host: "jira.example.test")
+        #expect(bound == "tok")
+    }
+
+    /// The token field of Settings › Destinations for a site (`SecretFieldModel` with the host of the URL): a token
+    /// typed while the Keychain was locked is saved by Retry, for that host, so the next upload doesn't ask about it.
+    @MainActor
+    @Test func retrySavesATokenTypedWhileLockedForTheHostOfTheURL() throws {
+        let secrets = LockableSecretStore(["jira.apiToken": "old", "jira.apiToken.host": "jira.example.test"])
+        let atlassian = AtlassianSecrets(store: secrets)
+        let list = SecretRetryList()
+        secrets.isLocked = true
+        let field = EditableSecret(list: list, read: { try atlassian.secret(for: "jira.apiToken", host: "jira.example.test") },
+                                   write: { try atlassian.setSecret($0, for: "jira.apiToken", host: "jira.example.test") })
+        #expect(field.secretState.isUnavailable)
+        #expect(field.text.isEmpty)
+
+        // Unlocked: Retry shows the older version's token without binding it.
+        secrets.isLocked = false
+        list.retry(from: field)
+        #expect(field.text == "old")
+        #expect(secrets.writes == 0)
+        let shown = try atlassian.lookup("jira.apiToken", host: "jira.example.test")
+        #expect(shown == .unbound("old"))
+
+        // Typed while locked again: refused, then saved by Retry for the host, in one entry.
+        secrets.isLocked = true
+        field.edit("new")
+        #expect(field.secretState.isUnavailable)
+        secrets.isLocked = false
+        list.retry(from: field)
+        #expect(field.secretState == .usable)
+        let saved = try atlassian.lookup("jira.apiToken", host: "jira.example.test")
+        #expect(saved == .bound("new"))
+        let elsewhere = try atlassian.lookup("jira.apiToken", host: "evil.example.test")
+        #expect(elsewhere == .nothing)
+        #expect(secrets.value("jira.apiToken.host") == nil)
     }
 }

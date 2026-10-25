@@ -105,6 +105,19 @@ final class ConnectionTest: ObservableObject {
             result = String(localized: "Enter the URL first.")
             return
         }
+        // A token or password kept without its server is tested with this one only when the user allows it.
+        do {
+            guard let confirmed = try AtlassianSecretQuestion.confirmed(site, confluence ? .confluence : .jira) else {
+                result = nil
+                return
+            }
+            test(confirmed, confluence: confluence)
+        } catch {
+            result = error.localizedDescription
+        }
+    }
+
+    private func test(_ site: AtlassianSite, confluence: Bool) {
         guard site.hasCredentials else {
             switch site.login {
             case .serverPassword: result = String(localized: "Enter the user name and password first (or test at the first upload).")

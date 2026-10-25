@@ -53,29 +53,36 @@ enum AtlassianSignIn {
         if login == .serverPassword, let typed = sessionPasswords[key(service, bare)] {
             return bare.with(user: bare.user, secret: typed)
         }
-        // Only the secret saved for this host: a changed URL doesn't get the token of the old one.
-        let stored = try AtlassianSecrets(store: Uploads.secrets).secret(for: service.secretKey, host: bare.baseURL.host,
-                                                                          claim: true) ?? ""
+        // Only the secret saved for this host: a changed URL doesn't get the token of the old one, and one saved without
+        // a host waits for the user's answer (`AtlassianSecretQuestion`).
+        let stored = try AtlassianSecrets(store: Uploads.secrets).boundSecret(for: service.secretKey,
+                                                                               host: bare.baseURL.host) ?? ""
         return bare.with(user: bare.user, secret: stored)
     }
 
-    /// The site ready for an upload, nil when the user cancelled the login or the setup is missing (explained then). A
-    /// password login is checked once per session; a missing or wrong password brings up the login dialog. Throws, after
-    /// showing it, when the Keychain can't be read: the upload failed (not declined, so a recipe flow records it), as
-    /// Box and Dropbox say then.
+    /// The site ready for an upload, nil when the user cancelled the login, didn't allow a token or password kept
+    /// without its server (`AtlassianSecretQuestion`), or the setup is missing (explained then). A password login is
+    /// checked once per session; a missing or wrong password brings up the login dialog. Throws, after showing it, when
+    /// the Keychain can't be read (or can't keep an allowed token for the server): the upload failed (not declined, so a
+    /// recipe flow records it), as Box and Dropbox say then.
     static func ready(_ service: AtlassianService, settings: SettingsStore) async throws -> AtlassianSite? {
         Uploads.applyCertificateExceptions(settings.value)
         let configured: AtlassianSite?
         do {
             configured = try site(service, settings: settings.value)
         } catch {
-            ErrorPresenter.show(error, title: service == .jira ? String(localized: "The upload to Jira failed")
-                                    : String(localized: "The upload to Confluence failed"))
-            throw error
+            throw failed(error, service)
         }
         guard var site = configured else {
             Uploads.explainMissingSetup(service.name, detail: String(localized: "Enter the \(service.name) URL in Settings › Destinations."))
             return nil
+        }
+        // A token or password kept without its server goes to this one only when the user allows it.
+        do {
+            guard let confirmed = try AtlassianSecretQuestion.confirmed(site, service) else { return nil }
+            site = confirmed
+        } catch {
+            throw failed(error, service)
         }
         guard site.login == .serverPassword else {
             guard site.hasCredentials else {
@@ -117,6 +124,13 @@ enum AtlassianSignIn {
                 problem = error.localizedDescription
             }
         }
+    }
+
+    /// Shows `error` (from the Keychain) as the failed upload; returned to be thrown.
+    private static func failed(_ error: Error, _ service: AtlassianService) -> Error {
+        ErrorPresenter.show(error, title: service == .jira ? String(localized: "The upload to Jira failed")
+                                : String(localized: "The upload to Confluence failed"))
+        return error
     }
 
     /// Who the credentials belong to (upstream checks the login with the current user).

@@ -31,6 +31,7 @@ extension Snapshots {
         try write(uploadPanel(confluence(open: true)), to: folder.appendingPathComponent("dialog-upload-confluence-open.png"))
         try write(uploadPanel(confluence(open: false)), to: folder.appendingPathComponent("dialog-upload-confluence-ask.png"))
         try write(uploadPanel(atlassianLogin()), to: folder.appendingPathComponent("dialog-atlassian-login.png"))
+        try write(uploadPanel(atlassianSecretQuestion()), to: folder.appendingPathComponent("dialog-atlassian-secret-question.png"))
         try write(serverSections(), to: folder.appendingPathComponent("settings-destinations-servers.png"))
         try write(officeSection(), to: folder.appendingPathComponent("settings-destinations-office.png"))
         try write(destinationSections(), to: folder.appendingPathComponent("settings-destinations-commands.png"))
@@ -121,6 +122,15 @@ extension Snapshots {
         dialog.alert.layout()
         keepAlive.append(dialog)
         return dialog.alert.window.contentView
+    }
+
+    /// The question before a token kept without its server goes to the server of the settings.
+    private static func atlassianSecretQuestion() -> NSView? {
+        let site = AtlassianSite(url: "https://jira.example.com", login: .cloudAPIToken, user: "alex@example.com", secret: "")!
+        let alert = AtlassianSecretQuestion.makeAlert(.jira, site: site)
+        alert.layout()
+        keepAlive.append(alert)
+        return alert.window.contentView
     }
 
     /// Jira on Data Center with a password, Confluence with a personal access token and personal spaces, and a host and a

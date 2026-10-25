@@ -49,32 +49,135 @@ struct UploadSecurityTests {
     // MARK: Secrets bound to their host
 
     @Test func aTokenIsOnlyForTheHostItWasSavedFor() throws {
-        let store = InMemorySecretStore()
+        let store = RecordingSecretStore()
         let secrets = AtlassianSecrets(store: store)
         try secrets.setSecret("tok", for: "jira.apiToken", host: "Jira.Example.TEST")
-        #expect(try secrets.secret(for: "jira.apiToken", host: "jira.example.test") == "tok")
+        let own = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        #expect(own == .bound("tok"))
         // The URL changed to another server: the token stays where it was and isn't given out.
-        #expect(try secrets.secret(for: "jira.apiToken", host: "evil.example.test", claim: true) == nil)
-        #expect(try secrets.secret(for: "jira.apiToken", host: nil) == nil)
-        #expect(try store.secret(for: "jira.apiToken") == "tok")
+        let other = try secrets.lookup("jira.apiToken", host: "evil.example.test")
+        #expect(other == .nothing)
+        let noURL = try secrets.lookup("jira.apiToken", host: nil)
+        #expect(noURL == .nothing)
+        #expect(try secrets.boundSecret(for: "jira.apiToken", host: "evil.example.test") == nil)
+        #expect(try secrets.secret(for: "jira.apiToken", host: "evil.example.test") == nil)
+        // The host is in the token's own entry, not in a second one.
+        #expect(store.keys == ["jira.apiToken"])
         // Removing it removes the host too.
         try secrets.setSecret("", for: "jira.apiToken", host: "jira.example.test")
         #expect(store.keys.isEmpty)
     }
 
-    @Test func aTokenOfAnOlderVersionIsBoundAtItsFirstUse() throws {
-        let store = InMemorySecretStore(["confluence.apiToken": "old"])
+    @Test func aSeparateHostEntryCantGrantAnotherHost() throws {
+        // The host comes from the token's own entry: a separate host entry (as older versions kept) for another host,
+        // with the URL changed to that host, doesn't give the token there.
+        let store = RecordingSecretStore()
         let secrets = AtlassianSecrets(store: store)
-        // The settings show it whatever the URL; only a use binds it.
-        #expect(try secrets.secret(for: "confluence.apiToken", host: "wiki.example.test") == "old")
+        try secrets.setSecret("tok", for: "jira.apiToken", host: "jira.example.test")
+        try store.setSecret("evil.example.test", for: "jira.apiToken.host")
+        let elsewhere = try secrets.lookup("jira.apiToken", host: "evil.example.test")
+        #expect(elsewhere == .nothing)
+        let own = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        #expect(own == .bound("tok"))
+    }
+
+    @Test func aTokenOfAnOlderVersionWaitsForTheUsersOK() throws {
+        // Saved without its host (older versions kept the host in a second entry): Settings show it, but it goes to
+        // no server until the user allows it there.
+        let store = RecordingSecretStore(["confluence.apiToken": "old"])
+        let secrets = AtlassianSecrets(store: store)
+        let wiki = try secrets.lookup("confluence.apiToken", host: "wiki.example.test")
+        #expect(wiki == .unbound("old"))
         #expect(try secrets.secret(for: "confluence.apiToken", host: "other.example.test") == "old")
-        #expect(try secrets.secret(for: "confluence.apiToken", host: "wiki.example.test", claim: true) == "old")
-        #expect(try secrets.secret(for: "confluence.apiToken", host: "other.example.test", claim: true) == nil)
-        // Saved before the URL was entered: no host yet, bound like an older one.
+        #expect(try secrets.boundSecret(for: "confluence.apiToken", host: "wiki.example.test") == nil)
+        // Reading binds nothing.
+        #expect(store.writes.isEmpty)
+    }
+
+    @Test func theHostEntryOfAnOlderVersionCanOnlyRefuse() throws {
+        // That entry doesn't say where the token belongs, so a matching one doesn't bind it; another host still
+        // refuses it, as before.
+        let store = RecordingSecretStore(["jira.apiToken": "old", "jira.apiToken.host": "jira.example.test"])
+        let secrets = AtlassianSecrets(store: store)
+        let matching = try secrets.lookup("jira.apiToken", host: "JIRA.example.test")
+        #expect(matching == .unbound("old"))
+        let other = try secrets.lookup("jira.apiToken", host: "evil.example.test")
+        #expect(other == .nothing)
+        #expect(try secrets.secret(for: "jira.apiToken", host: "evil.example.test") == nil)
+        #expect(store.writes.isEmpty)
+    }
+
+    @Test func theUsersOKBindsItToTheHost() throws {
+        let store = RecordingSecretStore(["jira.apiToken": "old", "jira.apiToken.host": "jira.example.test"])
+        let secrets = AtlassianSecrets(store: store)
+        var asked: [String] = []
+        let declined = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+            asked.append("no")
+            return false
+        }
+        #expect(declined == .declined)
+        #expect(store.writes.isEmpty)
+        let allowed = try secrets.confirmUnbound("jira.apiToken", host: "Jira.Example.TEST") {
+            asked.append("yes")
+            return true
+        }
+        #expect(allowed == .allowed("old"))
+        // Kept with its host in one entry; the older second entry is gone.
+        #expect(store.keys == ["jira.apiToken"])
+        let bound = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        #expect(bound == .bound("old"))
+        let other = try secrets.lookup("jira.apiToken", host: "evil.example.test")
+        #expect(other == .nothing)
+        // Bound now, or for another host: nothing to ask.
+        let again = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+            asked.append("again")
+            return true
+        }
+        #expect(again == .nothingToAsk)
+        let elsewhere = try secrets.confirmUnbound("jira.apiToken", host: "evil.example.test") {
+            asked.append("evil")
+            return true
+        }
+        #expect(elsewhere == .nothingToAsk)
+        #expect(asked == ["no", "yes"])
+    }
+
+    @Test func aTokenSavedBeforeTheURLWasEntered() throws {
+        let store = RecordingSecretStore()
+        let secrets = AtlassianSecrets(store: store)
         try secrets.setSecret("new", for: "jira.apiToken", host: nil)
-        #expect(try store.secret(for: "jira.apiToken.host") == nil)
-        #expect(try secrets.secret(for: "jira.apiToken", host: "jira.example.test", claim: true) == "new")
-        #expect(try store.secret(for: "jira.apiToken.host") == "jira.example.test")
+        let unbound = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        #expect(unbound == .unbound("new"))
+        let allowed = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") { true }
+        #expect(allowed == .allowed("new"))
+        let bound = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        #expect(bound == .bound("new"))
+    }
+
+    @Test func aTokenChangedWhileTheUserWasAskedIsLeftAlone() throws {
+        let store = RecordingSecretStore(["jira.apiToken": "old"])
+        let secrets = AtlassianSecrets(store: store)
+        let answer = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+            try store.setSecret("newer", for: "jira.apiToken")
+            return true
+        }
+        #expect(answer == .declined)
+        #expect(try store.secret(for: "jira.apiToken") == "newer")
+    }
+
+    @Test func anyTokenSurvivesTheEntry() throws {
+        let store = RecordingSecretStore()
+        let secrets = AtlassianSecrets(store: store)
+        let marker = AtlassianSecrets.entryMarker
+        for token in [marker, marker + "\nhost\nx", "two\nlines", "\r\n", "\nfirst", " spaced "] {
+            try secrets.setSecret(token, for: "jira.apiToken", host: "jira.example.test")
+            let read = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+            #expect(read == .bound(token))
+        }
+        // An older version's token that only starts like an entry is a token without a host.
+        let legacy = RecordingSecretStore(["jira.apiToken": marker + "\nevil.example.test"])
+        let looksLikeAnEntry = try AtlassianSecrets(store: legacy).lookup("jira.apiToken", host: "evil.example.test")
+        #expect(looksLikeAnEntry == .unbound(marker + "\nevil.example.test"))
     }
 
     @Test func theHostOfASettingsURL() {
@@ -106,4 +209,35 @@ struct UploadSecurityTests {
         #expect(!AtlassianSite.isUnencrypted(url: "https://jira.corp.internal"))
         #expect(!AtlassianSite.isUnencrypted(url: ""))
     }
+}
+
+/// A secret store that notes every write, so a test can tell that a read changed nothing.
+private final class RecordingSecretStore: SecretStore, @unchecked Sendable {
+    private let base: InMemorySecretStore
+    private let lock = NSLock()
+    private var written: [String] = []
+
+    init(_ values: [String: String] = [:]) {
+        base = InMemorySecretStore(values)
+    }
+
+    func secret(for key: String) throws -> String? {
+        try base.secret(for: key)
+    }
+
+    func setSecret(_ value: String?, for key: String) throws {
+        lock.lock()
+        written.append(key)
+        lock.unlock()
+        try base.setSecret(value, for: key)
+    }
+
+    /// The keys written, in order.
+    var writes: [String] {
+        lock.lock()
+        defer { lock.unlock() }
+        return written
+    }
+
+    var keys: [String] { base.keys }
 }

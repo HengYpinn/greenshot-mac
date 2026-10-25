@@ -53,8 +53,9 @@ enum AutomationCaptureConsent {
     }
 
     /// Runs the alert with the arming delay and the time limit; true for Allow. "Allow" reacts a second after the alert
-    /// was last shown unchanged and only when no other program's window lies over it (`ConsentArming`, SM-M2).
-    private static func run(_ alert: NSAlert) -> Bool {
+    /// was last shown unchanged and only when no other program's window lies over it (`ConsentArming`, SM-M2). Also for
+    /// the question before a Jira or Confluence token goes to a server (`AtlassianSecretQuestion`).
+    static func run(_ alert: NSAlert) -> Bool {
         alert.window.level = .floating
         let allow = alert.buttons[1]
         let arming = ConsentArming(window: alert.window, buttons: [allow])
