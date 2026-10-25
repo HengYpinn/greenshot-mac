@@ -59,13 +59,72 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
 
     // MARK: The Keychain's statuses
 
+    /// What each status the login keychain can give means (Apple's Security sources): only "not found" is a missing
+    /// secret. A locked, cancelled, denied or unattended Keychain can't be used right now; any other error fails.
     @Test func aLockedCancelledOrDeniedKeychainItemIsUnavailableNotMissing() {
-        let unavailable = SecretStoreUnavailableError.keychainStatuses
-        #expect(unavailable.contains(errSecInteractionNotAllowed))
-        #expect(unavailable.contains(errSecUserCanceled))
-        #expect(unavailable.contains(errSecAuthFailed))
-        #expect(!unavailable.contains(errSecItemNotFound))
-        #expect(!unavailable.contains(errSecSuccess))
+        let table: [(status: OSStatus, means: KeychainStatus)] = [
+            (errSecSuccess, .success),
+            (errSecItemNotFound, .notFound),
+            // Its unlock prompt cancelled, or (most likely) "Deny" when macOS asked whether Greenshot may use the item.
+            (errSecUserCanceled, .unavailable),
+            // Too many wrong passwords, or refused without a prompt (another build's item, a stale login keychain).
+            (errSecAuthFailed, .unavailable),
+            // Locked while macOS can't ask: no window server (SSH), or Power Nap.
+            (errSecInteractionNotAllowed, .unavailable),
+            (errSecInDarkWake, .unavailable),
+            // No keychain service, no keychain that could hold it, a damaged keychain or item, a read-only keychain.
+            (errSecNotAvailable, .failed),
+            (errSecNoDefaultKeychain, .failed),
+            (errSecNoSuchKeychain, .failed),
+            (errSecInvalidKeychain, .failed),
+            (errSecReadOnly, .failed),
+            (errSecWrPerm, .failed),
+            (errSecDuplicateItem, .failed),
+            (errSecMissingEntitlement, .failed),
+            (errSecInvalidItemRef, .failed),
+            // The data protection keychain's and LocalAuthentication's (-25330 errSecAuthNeeded), the agent failing.
+            (errSecInteractionRequired, .failed),
+            (-25330, .failed),
+            (errAuthorizationInternal, .failed),
+        ]
+        for row in table {
+            let means = KeychainStatus(row.status)
+            #expect(means == row.means, "OSStatus \(row.status)")
+        }
+    }
+
+    /// A write updates the item, adds it when it isn't there, and updates it once more when another writer added it in
+    /// between (the add finds it there after all); any other status counts as it is.
+    @Test func aWriteUpdatesAddsAndUpdatesOnceMoreAfterARace() {
+        func write(_ updates: [OSStatus], _ adds: [OSStatus]) -> (calls: [String], call: KeychainStatus.WriteCall, status: OSStatus) {
+            var calls: [String] = []
+            var updates = updates
+            var adds = adds
+            let written = KeychainStatus.write(update: { calls.append("update"); return updates.removeFirst() },
+                                               add: { calls.append("add"); return adds.removeFirst() })
+            return (calls, written.call, written.status)
+        }
+        let updated = write([errSecSuccess], [])
+        #expect(updated.calls == ["update"])
+        #expect(updated.call == .update)
+        #expect(updated.status == errSecSuccess)
+        let added = write([errSecItemNotFound], [errSecSuccess])
+        #expect(added.calls == ["update", "add"])
+        #expect(added.status == errSecSuccess)
+        let raced = write([errSecItemNotFound, errSecSuccess], [errSecDuplicateItem])
+        #expect(raced.calls == ["update", "add", "update"])
+        #expect(raced.call == .update)
+        #expect(raced.status == errSecSuccess)
+        // Only once: a second miss counts (fails, nothing replaced).
+        let racedTwice = write([errSecItemNotFound, errSecItemNotFound], [errSecDuplicateItem])
+        #expect(racedTwice.calls == ["update", "add", "update"])
+        #expect(racedTwice.status == errSecItemNotFound)
+        let locked = write([errSecUserCanceled], [])
+        #expect(locked.calls == ["update"])
+        #expect(KeychainStatus(locked.status) == .unavailable)
+        let addLocked = write([errSecItemNotFound], [errSecInteractionNotAllowed])
+        #expect(addLocked.call == .add)
+        #expect(addLocked.status == errSecInteractionNotAllowed)
     }
 
     // MARK: Recipe approvals
