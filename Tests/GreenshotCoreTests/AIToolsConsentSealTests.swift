@@ -6,15 +6,20 @@ import Foundation
 import Testing
 @testable import GreenshotCore
 
+/// A user defaults suite of its own and its name; the test removes it in a `defer` (`removePersistentDomain`).
+private func consentSuite() -> (UserDefaults, String) {
+    let name = "seal-test-\(UUID().uuidString)"
+    return (UserDefaults(suiteName: name)!, name)
+}
+
+/// Whether loading `settings` with `seal` resets them (their seal is missing or wrong), like the start does.
+func consentIsReset(_ settings: AIToolsSettings, seal: AIToolsConsentSeal) -> Bool {
+    let keeper = AIToolsConsentKeeper(seal: seal, loaded: settings)
+    return !AIToolsConsentSeal.sealedValuesEqual(keeper.stored, settings)
+}
+
 /// The AI tools consent is sealed: an edit of the settings outside Greenshot is reset at load.
 @Suite struct AIToolsConsentSealTests {
-    private func suite() -> UserDefaults {
-        let name = "seal-test-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: name)!
-        defaults.removePersistentDomain(forName: name)
-        return defaults
-    }
-
     private func attackerBlob(into defaults: UserDefaults) {
         let json = """
         {"aiTools":{"enabled":true,"allowedClients":["/tmp/x"],"notifyOnCapture":false,"excludedApplications":[]}}
@@ -22,14 +27,16 @@ import Testing
         defaults.set(Data(json.utf8), forKey: SettingsStorage.key)
     }
 
+    /// The consent as the start loads it: what is in effect, and whether it was reset.
     private func load(_ defaults: UserDefaults, _ secrets: InMemorySecretStore) -> (AIToolsSettings, Bool) {
-        let seal = AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults))
-        let outcome = seal.verifiedOrReset(SettingsStorage.load(from: defaults).aiTools)
-        return (outcome.settings, outcome.wasReset)
+        let loaded = SettingsStorage.load(from: defaults).aiTools
+        let keeper = AIToolsConsentKeeper(seal: AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults)), loaded: loaded)
+        return (keeper.inEffect, !AIToolsConsentSeal.sealedValuesEqual(keeper.stored, loaded))
     }
 
     @Test func unsealedEditIsReset() {
-        let defaults = suite()
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let secrets = InMemorySecretStore()
         attackerBlob(into: defaults)
         let (loaded, wasReset) = load(defaults, secrets)
@@ -43,7 +50,8 @@ import Testing
     }
 
     @Test func resetKeepsStoredExtraExclusions() {
-        let defaults = suite()
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         var settings = AppSettings()
         settings.aiTools.excludedApplications = ["1password", "MyVault"]
         SettingsStorage.save(settings, to: defaults)
@@ -53,28 +61,30 @@ import Testing
         #expect(loaded.excludedApplications.last == "MyVault")
     }
 
-    @Test func savedValuesSurviveLoad() {
-        let defaults = suite()
+    @Test func savedValuesSurviveLoad() throws {
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let secrets = InMemorySecretStore()
         var settings = AppSettings()
         settings.aiTools.allowedClients = ["/usr/local/bin/node"]
         settings.aiTools.notifyOnCapture = false
         settings.aiTools.excludedApplications.removeAll { $0 == "Passwords" }
         SettingsStorage.save(settings, to: defaults)
-        AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults)).save(settings.aiTools)
+        try AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults)).save(settings.aiTools)
         let (loaded, wasReset) = load(defaults, secrets)
         #expect(!wasReset)
         #expect(loaded == settings.aiTools)
         #expect(!loaded.excludedApplications.contains("Passwords"))
     }
 
-    @Test func editAfterSealingIsReset() {
-        let defaults = suite()
+    @Test func editAfterSealingIsReset() throws {
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let secrets = InMemorySecretStore()
         var settings = AppSettings()
         settings.aiTools.allowedClients = ["/usr/local/bin/node"]
         SettingsStorage.save(settings, to: defaults)
-        AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults)).save(settings.aiTools)
+        try AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults)).save(settings.aiTools)
         settings.aiTools.allowedClients.append("/tmp/x")
         SettingsStorage.save(settings, to: defaults)
         let (loaded, wasReset) = load(defaults, secrets)
@@ -82,19 +92,21 @@ import Testing
         #expect(loaded.allowedClients.isEmpty)
     }
 
-    @Test func sealFromAnotherKeyIsReset() {
-        let defaults = suite()
+    @Test func sealFromAnotherKeyIsReset() throws {
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         var settings = AppSettings()
         settings.aiTools.allowedClients = ["/usr/local/bin/node"]
         SettingsStorage.save(settings, to: defaults)
-        AIToolsConsentSeal(secrets: InMemorySecretStore(), location: .defaults(defaults)).save(settings.aiTools)
+        try AIToolsConsentSeal(secrets: InMemorySecretStore(), location: .defaults(defaults)).save(settings.aiTools)
         let (loaded, wasReset) = load(defaults, InMemorySecretStore())
         #expect(wasReset)
         #expect(loaded.allowedClients.isEmpty)
     }
 
     @Test func defaultsWithoutSealAreLeftAlone() {
-        let defaults = suite()
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let secrets = InMemorySecretStore()
         var settings = AppSettings()
         settings.aiTools.enabled = true
@@ -106,10 +118,12 @@ import Testing
     }
 
     @Test func resetWritesAFreshSealSoNextLoadIsQuiet() {
-        let defaults = suite()
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let secrets = InMemorySecretStore()
         var settings = AppSettings()
         settings.aiTools.allowedClients = ["/tmp/x"]
+        settings.aiTools.excludedApplications.append("MyVault")
         SettingsStorage.save(settings, to: defaults)
         let (first, firstReset) = load(defaults, secrets)
         #expect(firstReset)
@@ -129,48 +143,46 @@ import Testing
         var settings = AppSettings()
         settings.aiTools.allowedClients = ["/usr/local/bin/node"]
         try SettingsStorage.save(settings, toFile: file)
-        seal.save(settings.aiTools)
-        #expect(!seal.verifiedOrReset(settings.aiTools).wasReset)
+        try seal.save(settings.aiTools)
+        #expect(!consentIsReset(settings.aiTools, seal: seal))
         settings.aiTools.allowedClients = ["/tmp/x"]
-        #expect(seal.verifiedOrReset(settings.aiTools).wasReset)
+        #expect(consentIsReset(settings.aiTools, seal: seal))
     }
 }
 
 @Suite struct AIToolsConsentSealRollbackTests {
-    @Test func oldSettingsWithOldSealAreReset() {
-        let name = "seal-test-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: name)!
-        defer { defaults.removePersistentDomain(forName: name) }
+    @Test func oldSettingsWithOldSealAreReset() throws {
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let secrets = InMemorySecretStore()
         let seal = AIToolsConsentSeal(secrets: secrets, location: .defaults(defaults))
         var a = AIToolsSettings()
         a.allowedClients = ["/usr/local/bin/node", "/tmp/old"]
-        seal.save(a)
+        try seal.save(a)
         let sealA = defaults.string(forKey: AIToolsConsentSeal.defaultsKey)
         var b = a
         b.allowedClients = ["/usr/local/bin/node"]
-        seal.save(b)
-        #expect(!seal.verifiedOrReset(b).wasReset)
+        try seal.save(b)
+        #expect(!consentIsReset(b, seal: seal))
         defaults.set(sealA, forKey: AIToolsConsentSeal.defaultsKey)
-        #expect(seal.verifiedOrReset(a).wasReset)
+        #expect(consentIsReset(a, seal: seal))
     }
 
-    @Test func anOldSealDoesNotVerifyAfterTheDefaultsWereSaved() {
+    @Test func anOldSealDoesNotVerifyAfterTheDefaultsWereSaved() throws {
         // Allow X, then remove it (back to the defaults): putting X and its old seal back must reset (second review, 1).
-        let name = "seal-test-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: name)!
-        defer { defaults.removePersistentDomain(forName: name) }
+        let (defaults, suiteName) = consentSuite()
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let seal = AIToolsConsentSeal(secrets: InMemorySecretStore(), location: .defaults(defaults))
         var allowed = AIToolsSettings()
         allowed.allowedClients = ["/tmp/x"]
-        seal.save(allowed)
+        try seal.save(allowed)
         let oldSeal = defaults.string(forKey: AIToolsConsentSeal.defaultsKey)
         #expect(oldSeal != nil)
-        seal.save(AIToolsSettings())
+        try seal.save(AIToolsSettings())
         defaults.set(oldSeal, forKey: AIToolsConsentSeal.defaultsKey)
-        let outcome = seal.verifiedOrReset(allowed)
-        #expect(outcome.wasReset)
-        #expect(outcome.settings.allowedClients.isEmpty)
+        let keeper = AIToolsConsentKeeper(seal: seal, loaded: allowed)
+        #expect(keeper.inEffect.allowedClients.isEmpty)
+        #expect(keeper.stored.allowedClients.isEmpty)
     }
 
     @Test func sealOfAnotherLocationDoesNotVerify() throws {
@@ -181,9 +193,9 @@ import Testing
         let two = folder.appendingPathComponent("two.json")
         var a = AIToolsSettings()
         a.allowedClients = ["/usr/local/bin/node"]
-        AIToolsConsentSeal(secrets: secrets, location: .file(one)).save(a)
+        try AIToolsConsentSeal(secrets: secrets, location: .file(one)).save(a)
         try FileManager.default.copyItem(at: URL(fileURLWithPath: one.path + ".aitools-seal"), to: URL(fileURLWithPath: two.path + ".aitools-seal"))
-        #expect(AIToolsConsentSeal(secrets: secrets, location: .file(two)).verifiedOrReset(a).wasReset)
+        #expect(consentIsReset(a, seal: AIToolsConsentSeal(secrets: secrets, location: .file(two))))
     }
 
     @Test func unforcedDefaultsCannotSetSealedValues() {

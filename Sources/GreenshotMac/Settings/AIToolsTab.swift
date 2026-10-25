@@ -101,7 +101,8 @@ struct AIToolsSettingsTab: View {
 
     private var programsSection: some View {
         Section {
-            if store.value.aiTools.allowedClients.isEmpty {
+            if store.consentStatus.needsAttention { consentNotice(store.consentStatus) }
+            if store.value.aiTools.allowedClients.isEmpty && !store.consentStatus.isUnverifiable {
                 Text("No program is allowed yet.").foregroundStyle(.secondary)
             }
             ForEach(store.value.aiTools.allowedClients, id: \.self) { line in
@@ -125,6 +126,35 @@ struct AIToolsSettingsTab: View {
         } footer: {
             Text("These programs may use Greenshot. Remove one with ✕ to be asked again the next time it connects. For a runtime (node, python, …) only the script it runs is allowed, and a program signed by a developer only while it is still signed by the same one.")
                 .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    /// The consent couldn't be checked, or a change couldn't be sealed (a locked Keychain): what that means, why, and
+    /// Retry (`SettingsStore.retryConsent`).
+    private func consentNotice(_ status: AIToolsConsentKeeper.Status) -> some View {
+        var lines: [String] = []
+        if status.isUnverifiable {
+            lines.append(String(localized: "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed."))
+            if !status.isStoredUnsealed {
+                lines.append(String(localized: "The programs you allowed are kept and count again once it can."))
+            }
+        }
+        if status.isStoredUnsealed {
+            lines.append(String(localized: "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again."))
+        }
+        if status.hasChangesUntilQuit {
+            lines.append(String(localized: "Changes made while the Keychain couldn't be used apply only until Greenshot quits."))
+        }
+        return VStack(alignment: .leading, spacing: 4) {
+            Text("⚠ " + lines.joined(separator: " "))
+                .fixedSize(horizontal: false, vertical: true)
+            HStack(alignment: .top) {
+                if let problem = status.problem {
+                    Text(problem).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer()
+                Button("Retry") { store.retryConsent() }
+            }
         }
     }
 

@@ -49,6 +49,23 @@ final class AIToolsCenter: ObservableObject {
             if settings.enabled != lastSettings.enabled { toolsChanged() }
             lastSettings = settings
         }
+        app.settings.onConsentNotice = { [weak self] notice in self?.tell(notice) }
+    }
+
+    /// A change of the consent couldn't be sealed (the Keychain is locked): what that means and how to keep it, once
+    /// until it could be sealed again. Clicking it opens Settings › AI Tools, which has Retry.
+    private func tell(_ notice: AIToolsConsentKeeper.Notice) {
+        let title: String
+        let detail: String
+        switch notice {
+        case .untilQuit:
+            title = String(localized: "This change to AI tools applies until Greenshot quits")
+            detail = String(localized: "The Keychain is locked, so it can't be saved. Unlock the Keychain, then click Retry in Settings › AI Tools to keep it.")
+        case .storedUnsealed:
+            title = String(localized: "AI tools will be asked again after the next start")
+            detail = String(localized: "The Keychain is locked, so the AI tools consent was saved without its seal. Unlock the Keychain, then click Retry in Settings › AI Tools to keep the programs you allowed.")
+        }
+        Toast.show(title, detail: detail, kind: .warning, action: { [app] in app.showSettings(pane: .aiTools) }, mustBeSeen: true)
     }
 
     /// greenshot-mcp syncs its tools at once.
