@@ -155,7 +155,8 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         #expect(throws: SecretStoreUnavailableError.self) { try approve("two", second, "22", in: store) }
         #expect(throws: SecretStoreUnavailableError.self) { try store.revokeApproval(recipeId: "one", forFile: first) }
         #expect(secrets.value(RecipeTrustStore.keyName) == key)
-        #expect(try Data(contentsOf: file) == saved)
+        let after = try Data(contentsOf: file)
+        #expect(after == saved)
 
         // Unlocked (the user typed the password at the next prompt): the approval is saved next to the earlier one.
         secrets.isLocked = false
@@ -328,7 +329,8 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         #expect(secrets.writes == 0)
 
         secrets.isLocked = false
-        #expect(try await client.accessToken(authorizer: nil) == "a1")
+        let token = try await client.accessToken(authorizer: nil)
+        #expect(token == "a1")
     }
 
     // MARK: Jira and Confluence
@@ -342,7 +344,8 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         }
         #expect(secrets.writes == 0)
         secrets.isLocked = false
-        #expect(try atlassian.secret(for: "jira.apiToken", host: "jira.example.test", claim: true) == "tok")
+        let token = try atlassian.secret(for: "jira.apiToken", host: "jira.example.test", claim: true)
+        #expect(token == "tok")
         #expect(secrets.value("jira.apiToken.host") == "jira.example.test")
     }
 }

@@ -143,7 +143,8 @@ func recipeTemporaryFolder() -> URL {
             try store.recordApproval(RecipeApproval(recipeId: "two"), forFile: second, sha256: "22", content: nil, origin: nil,
                                      recipeName: nil, recipeVersion: nil)
         }
-        #expect(try Data(contentsOf: file) == saved)
+        let after = try Data(contentsOf: file)
+        #expect(after == saved)
         let reopened = RecipeTrustStore(fileURL: file, secrets: secrets)
         #expect(reopened.allRecords.map(\.filePath) == [RecipeTrustStore.standardized(first)])
     }
