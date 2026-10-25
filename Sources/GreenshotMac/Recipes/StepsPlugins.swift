@@ -20,7 +20,7 @@ enum RecipeStepExports {
         return capture
     }
 
-    /// Records the export (a declined one isn't).
+    /// Records the export (a declined one isn't), and logs a failed one like the destination step does.
     static func finish(_ result: ExportResult, designation: String, context: RecipeFlowContext, runtime: RecipeRuntime) {
         var result = result
         if result.exportedBy == nil { result.exportedBy = designation }
@@ -31,6 +31,14 @@ enum RecipeStepExports {
         context.exports.add(RecipeExportOutcome(designation: designation, succeeded: result.isSucceeded,
                                                 target: result.fileURL?.path ?? result.target, uri: result.link,
                                                 errorMessage: result.error))
+        if result.status == .failed { context.log("Export to \(designation) failed: \(result.error ?? "")") }
+    }
+
+    /// Who started the flow, for a Jira or Confluence token or password kept without its server: asked about only when
+    /// the user started it (as the capture screen decides, `OverlayInputArming.startedByUser`), else the upload fails.
+    static func secretRequest(_ context: RecipeFlowContext) -> AtlassianSecretRequest {
+        let marked = context.object(forKey: OverlayInputArming.automationMarkKey) is AutomationStartMark
+        return AtlassianSecretRequest(recipeTrigger: context.trigger?.triggerType, markedByAutomation: marked)
     }
 
     /// An upload's format and quality: the step's, else the destination's settings.
@@ -76,10 +84,12 @@ struct RecipeJiraExecutor: RecipeStepExecutor {
         if let key, !key.trimmingCharacters(in: .whitespaces).isEmpty {
             let filled = FilenamePattern.fill(key, context: app.settings.patternContext(title: capture.title, date: capture.date,
                                                                                        consumeNumber: false), filenameSafe: false)
-            result = await attach(capture, key: filled, step: step, settings: app.settings, saver: app.saver)
+            result = await attach(capture, key: filled, step: step, settings: app.settings, saver: app.saver,
+                                  request: RecipeStepExports.secretRequest(context))
         } else {
             context.log("JiraStep: No issue key specified; delegating to Jira destination.")
-            result = await RecipeAppExporter.perform(.destination(.jira), capture: capture, output: app.output)
+            result = await RecipeAppExporter.perform(.destination(.jira), capture: capture, output: app.output,
+                                                     request: RecipeStepExports.secretRequest(context))
         }
         RecipeStepExports.finish(result, designation: "Jira", context: context, runtime: runtime)
         return result
@@ -87,14 +97,15 @@ struct RecipeJiraExecutor: RecipeStepExecutor {
 
     @MainActor
     private static func attach(_ capture: Capture, key: String, step: RecipeStepInvocation, settings: SettingsStore,
-                               saver: ImageSaver) async -> ExportResult {
+                               saver: ImageSaver, request: AtlassianSecretRequest) async -> ExportResult {
         let normalized = JiraClient.normalizedKey(key)
         guard JiraClient.isIssueKey(normalized) else { return .failed(String(localized: "“\(key)” is no Jira issue key."), target: key) }
         let ready: AtlassianSite?
         do {
-            ready = try await AtlassianSignIn.ready(.jira, settings: settings)
+            ready = try await AtlassianSignIn.ready(.jira, settings: settings, request: request)
         } catch {
-            // The Keychain couldn't be read (shown already): a failed export, recorded in the flow.
+            // The Keychain couldn't be read (shown already), or a token kept without its server wasn't asked about
+            // (automation): a failed export, recorded and logged in the flow.
             return .failed(error.localizedDescription)
         }
         guard let site = ready else { return .declined }
@@ -155,10 +166,11 @@ struct RecipeConfluenceExecutor: RecipeStepExecutor {
         let app = runtime.app
         let capture = RecipeStepExports.begin(payload, context: context, runtime: runtime)
         let result: ExportResult
+        let request = RecipeStepExports.secretRequest(context)
         if pageId.isEmpty {
-            result = await RecipeAppExporter.perform(.destination(.confluence), capture: capture, output: app.output)
+            result = await RecipeAppExporter.perform(.destination(.confluence), capture: capture, output: app.output, request: request)
         } else {
-            result = await attach(capture, pageId: pageId, step: step, settings: app.settings, saver: app.saver)
+            result = await attach(capture, pageId: pageId, step: step, settings: app.settings, saver: app.saver, request: request)
         }
         RecipeStepExports.finish(result, designation: "Confluence", context: context, runtime: runtime)
         return result
@@ -166,12 +178,13 @@ struct RecipeConfluenceExecutor: RecipeStepExecutor {
 
     @MainActor
     private static func attach(_ capture: Capture, pageId: String, step: RecipeStepInvocation, settings: SettingsStore,
-                               saver: ImageSaver) async -> ExportResult {
+                               saver: ImageSaver, request: AtlassianSecretRequest) async -> ExportResult {
         let ready: AtlassianSite?
         do {
-            ready = try await AtlassianSignIn.ready(.confluence, settings: settings)
+            ready = try await AtlassianSignIn.ready(.confluence, settings: settings, request: request)
         } catch {
-            // The Keychain couldn't be read (shown already): a failed export, recorded in the flow.
+            // The Keychain couldn't be read (shown already), or a token kept without its server wasn't asked about
+            // (automation): a failed export, recorded and logged in the flow.
             return .failed(error.localizedDescription)
         }
         guard let site = ready else { return .declined }

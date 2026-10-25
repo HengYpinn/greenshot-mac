@@ -168,15 +168,15 @@ enum Uploads {
 
 /// "Upload to Jira": port of upstream `Greenshot.Plugin.Jira/Destinations/JiraDestination.cs`. Asks for the issue
 /// (a key, a recent issue or a search), attaches the image and adds the comment; with `issueKey` (a picker entry) it
-/// attaches right away.
+/// attaches right away. `request` says who started it (`AtlassianSignIn.ready`).
 @MainActor
 enum JiraDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, issueKey: String? = nil,
-                       completion: @escaping ExportCompletion = { _ in }) {
+                       request: AtlassianSecretRequest = .upload, completion: @escaping ExportCompletion = { _ in }) {
         Task { @MainActor in
             let ready: AtlassianSite?
             do {
-                ready = try await AtlassianSignIn.ready(.jira, settings: settings)
+                ready = try await AtlassianSignIn.ready(.jira, settings: settings, request: request)
             } catch {
                 completion(.failed(error.localizedDescription))
                 return
@@ -253,15 +253,16 @@ enum JiraDestination {
 
 /// "Upload to Confluence": port of upstream `Greenshot.Plugin.Confluence/Destinations/ConfluenceDestination.cs`.
 /// Finds the page by its title (in one space or all), attaches the image, copies the wiki markup or the image's
-/// link, opens the page. With `page` (a picker entry) it attaches right away and doesn't open the page.
+/// link, opens the page. With `page` (a picker entry) it attaches right away and doesn't open the page. `request` says
+/// who started it (`AtlassianSignIn.ready`).
 @MainActor
 enum ConfluenceDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, page givenPage: ConfluencePage? = nil,
-                       completion: @escaping ExportCompletion = { _ in }) {
+                       request: AtlassianSecretRequest = .upload, completion: @escaping ExportCompletion = { _ in }) {
         Task { @MainActor in
             let ready: AtlassianSite?
             do {
-                ready = try await AtlassianSignIn.ready(.confluence, settings: settings)
+                ready = try await AtlassianSignIn.ready(.confluence, settings: settings, request: request)
             } catch {
                 completion(.failed(error.localizedDescription))
                 return

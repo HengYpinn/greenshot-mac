@@ -21,14 +21,17 @@ public struct AtlassianSite: Equatable, Sendable {
     /// The API token, the personal access token or the password.
     public var secret: String
 
-    /// `url` is trimmed, gets `https://` when it has no scheme and loses a trailing slash. Nil when it is empty
-    /// or not a URL.
+    /// `url` is trimmed, gets `https://` when it has no scheme and loses a trailing slash. Nil when it is empty, not a
+    /// URL, or not one the token or password may go to: one with a control character, with a user part
+    /// (`https://company.atlassian.net@other.test` is other.test), or whose host is neither a plain name (`isPlainHost`)
+    /// nor an IP address.
     public init?(url: String, login: AtlassianLogin, user: String, secret: String) {
         var text = url.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !text.isEmpty else { return nil }
+        guard !text.isEmpty, !text.unicodeScalars.contains(where: CharacterSet.controlCharacters.contains) else { return nil }
         if !text.contains("://") { text = "https://" + text }
         while text.hasSuffix("/") { text.removeLast() }
-        guard let parsed = URL(string: text), parsed.host != nil else { return nil }
+        guard let parsed = URL(string: text), let host = parsed.host, Self.isPlainHost(host),
+              parsed.user == nil, parsed.password == nil else { return nil }
         baseURL = parsed
         self.login = login
         self.user = user.trimmingCharacters(in: .whitespaces)
@@ -85,12 +88,26 @@ public struct AtlassianSite: Equatable, Sendable {
         Self.origin(of: url).map { $0 == Self.origin(of: baseURL) } ?? false
     }
 
-    /// Scheme, host and port of `url`, lower case, with the default port of http and https; nil without a host.
+    /// Scheme, host and port of `url`, lower case, with the default port of http and https (an IPv6 address in
+    /// brackets); nil without a host.
     static func origin(of url: URL) -> String? {
         guard let scheme = url.scheme?.lowercased(), let host = url.host?.lowercased(), !host.isEmpty else { return nil }
         let port = url.port ?? (scheme == "https" ? 443 : scheme == "http" ? 80 : -1)
-        return "\(scheme)://\(host):\(port)"
+        let name = host.contains(":") ? "[\(host)]" : host
+        return "\(scheme)://\(name):\(port)"
     }
+
+    /// Whether `host` (as `URL.host` gives it: percent-decoded, an international name in punycode) is a plain host name
+    /// of ASCII letters, digits, `-`, `_` and dots, or an IP address. A line break or a letter outside ASCII would only
+    /// arrive percent-encoded, and the resolver might map it to another name than the one compared.
+    static func isPlainHost(_ host: String) -> Bool {
+        guard !host.isEmpty else { return false }
+        let allowed = host.contains(":") ? Self.ipv6Characters : Self.hostNameCharacters
+        return host.unicodeScalars.allSatisfy(allowed.contains)
+    }
+
+    private static let hostNameCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.")
+    private static let ipv6Characters = CharacterSet(charactersIn: "0123456789abcdefABCDEF:.")
 
     /// Whether `url` is a web page on the site's host (http or https, case doesn't matter), so it may be opened in
     /// the browser: the links of pages and attachments come from the server, and a `file://` link or another app's

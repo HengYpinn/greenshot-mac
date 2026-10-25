@@ -43,44 +43,54 @@ enum AtlassianSignIn {
         "\(service.name)|\(site.baseURL.absoluteString)|\(site.user)"
     }
 
-    /// The site of the settings with its secret: a password typed in this session, else the Keychain's. A Keychain that
-    /// can't be read (locked, or its prompt cancelled) throws: an empty secret would ask for the token or password again.
+    /// The site of the settings with its secret: a password typed in this session, else the one the Keychain keeps for
+    /// the site's server (address and port), none otherwise (`AtlassianSecrets.site(_:key:)`). A Keychain that can't be
+    /// read (locked, or its prompt cancelled) throws: an empty secret would ask for the token or password again.
     static func site(_ service: AtlassianService, settings: AppSettings) throws -> AtlassianSite? {
+        try stored(service, settings: settings)?.site
+    }
+
+    /// `site(_:settings:)` with the secret the Keychain keeps without a server, if any: it goes to the site only when the
+    /// user allows it (`AtlassianSecretQuestion`).
+    static func stored(_ service: AtlassianService, settings: AppSettings) throws -> AtlassianSecrets.SiteSecret? {
         let login = service.login(settings)
         guard let bare = AtlassianSite(url: service.url(settings), login: login, user: service.user(settings), secret: "") else {
             return nil
         }
         if login == .serverPassword, let typed = sessionPasswords[key(service, bare)] {
-            return bare.with(user: bare.user, secret: typed)
+            return AtlassianSecrets.SiteSecret(site: bare.with(user: bare.user, secret: typed))
         }
-        // Only the secret saved for this host: a changed URL doesn't get the token of the old one, and one saved without
-        // a host waits for the user's answer (`AtlassianSecretQuestion`).
-        let stored = try AtlassianSecrets(store: Uploads.secrets).boundSecret(for: service.secretKey,
-                                                                               host: bare.baseURL.host) ?? ""
-        return bare.with(user: bare.user, secret: stored)
+        return try AtlassianSecrets(store: Uploads.secrets).site(bare, key: service.secretKey)
     }
 
     /// The site ready for an upload, nil when the user cancelled the login, didn't allow a token or password kept
-    /// without its server (`AtlassianSecretQuestion`), or the setup is missing (explained then). A password login is
-    /// checked once per session; a missing or wrong password brings up the login dialog. Throws, after showing it, when
-    /// the Keychain can't be read (or can't keep an allowed token for the server): the upload failed (not declined, so a
-    /// recipe flow records it), as Box and Dropbox say then.
-    static func ready(_ service: AtlassianService, settings: SettingsStore) async throws -> AtlassianSite? {
+    /// without its server (`AtlassianSecretQuestion`, asked only for what the user started: `request`), or the setup is
+    /// missing (explained then). A password login is checked once per session; a missing or wrong password brings up the
+    /// login dialog. Throws, after showing it, when the Keychain can't be read or can't keep an allowed token for the
+    /// server: the upload failed (not declined, so a recipe flow records it), as Box and Dropbox say then. Throws
+    /// `AtlassianSecretQuestion.NotAllowedYet` without showing it for `.automation` (nobody may be at the screen: the
+    /// recipe step records and logs it).
+    static func ready(_ service: AtlassianService, settings: SettingsStore,
+                      request: AtlassianSecretRequest = .upload) async throws -> AtlassianSite? {
         Uploads.applyCertificateExceptions(settings.value)
-        let configured: AtlassianSite?
+        let configured: AtlassianSecrets.SiteSecret?
         do {
-            configured = try site(service, settings: settings.value)
+            configured = try stored(service, settings: settings.value)
         } catch {
             throw failed(error, service)
         }
-        guard var site = configured else {
+        guard let configured else {
             Uploads.explainMissingSetup(service.name, detail: String(localized: "Enter the \(service.name) URL in Settings › Destinations."))
             return nil
         }
         // A token or password kept without its server goes to this one only when the user allows it.
+        var site: AtlassianSite
         do {
-            guard let confirmed = try AtlassianSecretQuestion.confirmed(site, service) else { return nil }
+            guard let confirmed = try await AtlassianSecretQuestion.confirmed(configured, service, request: request,
+                                                                              settings: settings.value) else { return nil }
             site = confirmed
+        } catch let error as AtlassianSecretQuestion.NotAllowedYet {
+            throw error
         } catch {
             throw failed(error, service)
         }
@@ -160,7 +170,7 @@ enum AtlassianSignIn {
         }
         if inKeychain {
             do {
-                try AtlassianSecrets(store: Uploads.secrets).setSecret(site.secret, for: service.secretKey, host: site.baseURL.host)
+                try AtlassianSecrets(store: Uploads.secrets).setSecret(site.secret, for: service.secretKey, server: site.server)
                 return
             } catch {
                 // Said, not only logged: "Remember in Keychain" was on, and the next start would ask again.

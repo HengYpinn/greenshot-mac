@@ -46,50 +46,112 @@ struct UploadSecurityTests {
         #expect(!withPort.isSameOrigin(otherScheme))
     }
 
-    // MARK: Secrets bound to their host
+    // MARK: Secrets bound to their server
 
-    @Test func aTokenIsOnlyForTheHostItWasSavedFor() throws {
+    private func server(_ url: String) throws -> AtlassianServer {
+        try #require(AtlassianServer(url: url))
+    }
+
+    @Test func aTokenIsOnlyForTheServerItWasSavedFor() throws {
         let store = RecordingSecretStore()
         let secrets = AtlassianSecrets(store: store)
-        try secrets.setSecret("tok", for: "jira.apiToken", host: "Jira.Example.TEST")
-        let own = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        let jira = try server("https://Jira.Example.TEST")
+        try secrets.setSecret("tok", for: "jira.apiToken", server: jira)
+        let own = try secrets.lookup("jira.apiToken", server: try server("https://jira.example.test/jira"))
         #expect(own == .bound("tok"))
         // The URL changed to another server: the token stays where it was and isn't given out.
-        let other = try secrets.lookup("jira.apiToken", host: "evil.example.test")
+        let evil = try server("https://evil.example.test")
+        let other = try secrets.lookup("jira.apiToken", server: evil)
         #expect(other == .nothing)
-        let noURL = try secrets.lookup("jira.apiToken", host: nil)
+        let noURL = try secrets.lookup("jira.apiToken", server: nil)
         #expect(noURL == .nothing)
-        #expect(try secrets.boundSecret(for: "jira.apiToken", host: "evil.example.test") == nil)
-        #expect(try secrets.secret(for: "jira.apiToken", host: "evil.example.test") == nil)
-        // The host is in the token's own entry, not in a second one.
+        #expect(try secrets.boundSecret(for: "jira.apiToken", server: evil) == nil)
+        #expect(try secrets.secret(for: "jira.apiToken", server: evil) == nil)
+        // The server is in the token's own entry, not in a second one.
         #expect(store.keys == ["jira.apiToken"])
-        // Removing it removes the host too.
-        try secrets.setSecret("", for: "jira.apiToken", host: "jira.example.test")
+        // Removing it removes the server too.
+        try secrets.setSecret("", for: "jira.apiToken", server: jira)
         #expect(store.keys.isEmpty)
     }
 
-    @Test func aSeparateHostEntryCantGrantAnotherHost() throws {
-        // The host comes from the token's own entry: a separate host entry (as older versions kept) for another host,
-        // with the URL changed to that host, doesn't give the token there.
+    @Test func aTokenIsOnlyForTheSchemeAndPortItWasSavedFor() throws {
+        let secrets = AtlassianSecrets(store: RecordingSecretStore())
+        try secrets.setSecret("tok", for: "jira.apiToken", server: try server("https://jira.example.test"))
+        // http:// would send it unencrypted, another port to another program on that computer.
+        for url in ["http://jira.example.test", "http://jira.example.test:31337/x", "https://jira.example.test:8443"] {
+            let elsewhere = try secrets.lookup("jira.apiToken", server: try server(url))
+            #expect(elsewhere == .nothing, "\(url)")
+        }
+        // The scheme's default port, written or not, the case and another path are the same server.
+        for url in ["https://jira.example.test:443", "https://JIRA.example.test/other/path", "jira.example.test"] {
+            let same = try secrets.lookup("jira.apiToken", server: try server(url))
+            #expect(same == .bound("tok"), "\(url)")
+        }
+        // A server on this computer (the Atlassian SDK's port): another port is another server.
+        let local = AtlassianSecrets(store: RecordingSecretStore())
+        try local.setSecret("tok", for: "jira.apiToken", server: try server("http://localhost:2990/jira"))
+        let otherPort = try local.lookup("jira.apiToken", server: try server("http://localhost:4444"))
+        #expect(otherPort == .nothing)
+        let samePort = try local.lookup("jira.apiToken", server: try server("http://LOCALHOST:2990/jira/"))
+        #expect(samePort == .bound("tok"))
+    }
+
+    @Test func settingsAndUploadsFindTheSameServer() throws {
+        // Settings keep the token for the server of the URL field; an upload looks it up for its site.
+        for url in ["https://Jira.Example.TEST/", "jíra.example.test", "https://JIRA.example.test:8443/jira", "https://[::1]:8443/jira"] {
+            let secrets = AtlassianSecrets(store: RecordingSecretStore())
+            try secrets.setSecret("tok", for: "jira.apiToken", server: AtlassianServer(url: url))
+            let site = try #require(AtlassianSite(url: url, login: .cloudAPIToken, user: "a@example.test", secret: ""))
+            let found = try secrets.site(site, key: "jira.apiToken")
+            #expect(found.site.secret == "tok", "\(url)")
+        }
+        let ipv6 = try server("https://[::1]:8443/jira")
+        #expect(ipv6.origin == "https://[::1]:8443")
+        let idn = try server("jíra.example.test")
+        #expect(idn.origin == "https://xn--jra-rma.example.test:443")
+    }
+
+    @Test func anUploadGetsOnlyATokenSavedForItsServer() throws {
+        // The choice of every upload, recipe step, Test Connection and the destination menu (`AtlassianSignIn.site`).
+        let site = try #require(AtlassianSite(url: "https://jira.example.test", login: .cloudAPIToken, user: "a@example.test", secret: ""))
+        let legacy = AtlassianSecrets(store: RecordingSecretStore(["jira.apiToken": "old"]))
+        let unbound = try legacy.site(site, key: "jira.apiToken")
+        #expect(unbound.site.secret.isEmpty)
+        #expect(unbound.unbound == "old")
+        let bound = AtlassianSecrets(store: RecordingSecretStore())
+        try bound.setSecret("tok", for: "jira.apiToken", server: site.server)
+        let ready = try bound.site(site, key: "jira.apiToken")
+        #expect(ready == AtlassianSecrets.SiteSecret(site: site.with(user: site.user, secret: "tok")))
+        let otherPort = try #require(AtlassianSite(url: "https://jira.example.test:8443", login: .cloudAPIToken,
+                                                   user: "a@example.test", secret: ""))
+        let none = try bound.site(otherPort, key: "jira.apiToken")
+        #expect(none == AtlassianSecrets.SiteSecret(site: otherPort))
+    }
+
+    @Test func anOlderVersionsHostEntryDoesntOverrideTheEntry() throws {
+        // The server comes from the token's own entry; a host entry of an older version doesn't change it.
         let store = RecordingSecretStore()
         let secrets = AtlassianSecrets(store: store)
-        try secrets.setSecret("tok", for: "jira.apiToken", host: "jira.example.test")
-        try store.setSecret("evil.example.test", for: "jira.apiToken.host")
-        let elsewhere = try secrets.lookup("jira.apiToken", host: "evil.example.test")
-        #expect(elsewhere == .nothing)
-        let own = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        try secrets.setSecret("tok", for: "jira.apiToken", server: try server("https://jira.example.test"))
+        try store.setSecret("other.example.test", for: "jira.apiToken.host")
+        let other = try secrets.lookup("jira.apiToken", server: try server("https://other.example.test"))
+        #expect(other == .nothing)
+        let own = try secrets.lookup("jira.apiToken", server: try server("https://jira.example.test"))
         #expect(own == .bound("tok"))
     }
 
     @Test func aTokenOfAnOlderVersionWaitsForTheUsersOK() throws {
-        // Saved without its host (older versions kept the host in a second entry): Settings show it, but it goes to
+        // Saved without its server (older versions kept the host in a second entry): Settings show it, but it goes to
         // no server until the user allows it there.
         let store = RecordingSecretStore(["confluence.apiToken": "old"])
         let secrets = AtlassianSecrets(store: store)
-        let wiki = try secrets.lookup("confluence.apiToken", host: "wiki.example.test")
+        let wikiServer = try server("https://wiki.example.test")
+        let wiki = try secrets.lookup("confluence.apiToken", server: wikiServer)
         #expect(wiki == .unbound("old"))
-        #expect(try secrets.secret(for: "confluence.apiToken", host: "other.example.test") == "old")
-        #expect(try secrets.boundSecret(for: "confluence.apiToken", host: "wiki.example.test") == nil)
+        let shown = try secrets.secret(for: "confluence.apiToken", server: try server("https://other.example.test"))
+        #expect(shown == "old")
+        let sent = try secrets.boundSecret(for: "confluence.apiToken", server: wikiServer)
+        #expect(sent == nil)
         // Reading binds nothing.
         #expect(store.writes.isEmpty)
     }
@@ -99,42 +161,45 @@ struct UploadSecurityTests {
         // refuses it, as before.
         let store = RecordingSecretStore(["jira.apiToken": "old", "jira.apiToken.host": "jira.example.test"])
         let secrets = AtlassianSecrets(store: store)
-        let matching = try secrets.lookup("jira.apiToken", host: "JIRA.example.test")
+        let matching = try secrets.lookup("jira.apiToken", server: try server("https://JIRA.example.test"))
         #expect(matching == .unbound("old"))
-        let other = try secrets.lookup("jira.apiToken", host: "evil.example.test")
+        let evil = try server("https://evil.example.test")
+        let other = try secrets.lookup("jira.apiToken", server: evil)
         #expect(other == .nothing)
-        #expect(try secrets.secret(for: "jira.apiToken", host: "evil.example.test") == nil)
+        let shown = try secrets.secret(for: "jira.apiToken", server: evil)
+        #expect(shown == nil)
         #expect(store.writes.isEmpty)
     }
 
-    @Test func theUsersOKBindsItToTheHost() throws {
+    @Test func theUsersOKBindsItToTheServer() throws {
         let store = RecordingSecretStore(["jira.apiToken": "old", "jira.apiToken.host": "jira.example.test"])
         let secrets = AtlassianSecrets(store: store)
+        let jira = try server("https://Jira.Example.TEST")
         var asked: [String] = []
-        let declined = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+        let declined = try secrets.confirmUnbound("jira.apiToken", server: jira) {
             asked.append("no")
             return false
         }
         #expect(declined == .declined)
         #expect(store.writes.isEmpty)
-        let allowed = try secrets.confirmUnbound("jira.apiToken", host: "Jira.Example.TEST") {
+        let allowed = try secrets.confirmUnbound("jira.apiToken", server: jira) {
             asked.append("yes")
             return true
         }
         #expect(allowed == .allowed("old"))
-        // Kept with its host in one entry; the older second entry is gone.
+        // Kept with its server in one entry; the older second entry is gone.
         #expect(store.keys == ["jira.apiToken"])
-        let bound = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        let bound = try secrets.lookup("jira.apiToken", server: try server("https://jira.example.test"))
         #expect(bound == .bound("old"))
-        let other = try secrets.lookup("jira.apiToken", host: "evil.example.test")
-        #expect(other == .nothing)
-        // Bound now, or for another host: nothing to ask.
-        let again = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+        let otherPort = try secrets.lookup("jira.apiToken", server: try server("https://jira.example.test:8443"))
+        #expect(otherPort == .nothing)
+        // Bound now, or for another server: nothing to ask.
+        let again = try secrets.confirmUnbound("jira.apiToken", server: jira) {
             asked.append("again")
             return true
         }
         #expect(again == .nothingToAsk)
-        let elsewhere = try secrets.confirmUnbound("jira.apiToken", host: "evil.example.test") {
+        let elsewhere = try secrets.confirmUnbound("jira.apiToken", server: try server("https://evil.example.test")) {
             asked.append("evil")
             return true
         }
@@ -145,19 +210,29 @@ struct UploadSecurityTests {
     @Test func aTokenSavedBeforeTheURLWasEntered() throws {
         let store = RecordingSecretStore()
         let secrets = AtlassianSecrets(store: store)
-        try secrets.setSecret("new", for: "jira.apiToken", host: nil)
-        let unbound = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        let jira = try server("https://jira.example.test")
+        try secrets.setSecret("new", for: "jira.apiToken", server: nil)
+        let unbound = try secrets.lookup("jira.apiToken", server: jira)
         #expect(unbound == .unbound("new"))
-        let allowed = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") { true }
+        let allowed = try secrets.confirmUnbound("jira.apiToken", server: jira) { true }
         #expect(allowed == .allowed("new"))
-        let bound = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+        let bound = try secrets.lookup("jira.apiToken", server: jira)
         #expect(bound == .bound("new"))
+    }
+
+    @Test func aTokenWithoutAServerIsNeverGivenOut() throws {
+        let secrets = AtlassianSecrets(store: RecordingSecretStore())
+        try secrets.setSecret("tok", for: "jira.apiToken", server: nil)
+        for url in [nil, "https://jira.example.test"] as [String?] {
+            let bound = try secrets.boundSecret(for: "jira.apiToken", server: url.flatMap(AtlassianServer.init(url:)))
+            #expect(bound == nil)
+        }
     }
 
     @Test func aTokenChangedWhileTheUserWasAskedIsLeftAlone() throws {
         let store = RecordingSecretStore(["jira.apiToken": "old"])
         let secrets = AtlassianSecrets(store: store)
-        let answer = try secrets.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+        let answer = try secrets.confirmUnbound("jira.apiToken", server: try server("https://jira.example.test")) {
             try store.setSecret("newer", for: "jira.apiToken")
             return true
         }
@@ -165,19 +240,162 @@ struct UploadSecurityTests {
         #expect(try store.secret(for: "jira.apiToken") == "newer")
     }
 
+    @Test func aQuestionAnsweredMeanwhileCountsForTheOtherOne() throws {
+        // Two uploads at once: the first Allow keeps the token for the server, and the second Allow still sends it.
+        let store = RecordingSecretStore(["jira.apiToken": "old"])
+        let secrets = AtlassianSecrets(store: store)
+        let jira = try server("https://jira.example.test")
+        var inner: AtlassianSecrets.Confirmation?
+        let outer = try secrets.confirmUnbound("jira.apiToken", server: jira) {
+            inner = try secrets.confirmUnbound("jira.apiToken", server: jira) { true }
+            return true
+        }
+        #expect(inner == .allowed("old"))
+        #expect(outer == .allowed("old"))
+    }
+
+    @Test func anEntryWithoutASecretIsNothingToAskAbout() throws {
+        let entry = try #require(AtlassianSecrets.entry("", origin: nil))
+        let secrets = AtlassianSecrets(store: RecordingSecretStore(["jira.apiToken": entry]))
+        var asked = 0
+        let answer = try secrets.confirmUnbound("jira.apiToken", server: try server("https://jira.example.test")) {
+            asked += 1
+            return true
+        }
+        #expect(answer == .nothingToAsk)
+        #expect(asked == 0)
+    }
+
     @Test func anyTokenSurvivesTheEntry() throws {
         let store = RecordingSecretStore()
         let secrets = AtlassianSecrets(store: store)
+        let jira = try server("https://jira.example.test")
         let marker = AtlassianSecrets.entryMarker
         for token in [marker, marker + "\nhost\nx", "two\nlines", "\r\n", "\nfirst", " spaced "] {
-            try secrets.setSecret(token, for: "jira.apiToken", host: "jira.example.test")
-            let read = try secrets.lookup("jira.apiToken", host: "jira.example.test")
+            try secrets.setSecret(token, for: "jira.apiToken", server: jira)
+            let read = try secrets.lookup("jira.apiToken", server: jira)
             #expect(read == .bound(token))
         }
-        // An older version's token that only starts like an entry is a token without a host.
-        let legacy = RecordingSecretStore(["jira.apiToken": marker + "\nevil.example.test"])
-        let looksLikeAnEntry = try AtlassianSecrets(store: legacy).lookup("jira.apiToken", host: "evil.example.test")
-        #expect(looksLikeAnEntry == .unbound(marker + "\nevil.example.test"))
+        // An older version's token that only starts like an entry is a token without a server, and so is one with
+        // line breaks but without the marker.
+        let evil = try server("https://evil.example.test")
+        let legacy = RecordingSecretStore(["jira.apiToken": marker + "\n" + evil.origin])
+        let looksLikeAnEntry = try AtlassianSecrets(store: legacy).lookup("jira.apiToken", server: evil)
+        #expect(looksLikeAnEntry == .unbound(marker + "\n" + evil.origin))
+        let lines = "a\n" + evil.origin + "\nb"
+        let multiline = try AtlassianSecrets(store: RecordingSecretStore(["jira.apiToken": lines])).lookup("jira.apiToken", server: evil)
+        #expect(multiline == .unbound(lines))
+    }
+
+    @Test func anEntryRefusesAServerWithALineBreak() throws {
+        #expect(AtlassianSecrets.entry("tok", origin: "https://jira.example.test:443") != nil)
+        #expect(AtlassianSecrets.entry("tok", origin: "https://jira.example.test\nevil.test:443") == nil)
+        #expect(AtlassianSecrets.entry("tok", origin: "https://jira.example.test\r:443") == nil)
+    }
+
+    @Test func onlyAPlainServerGetsAToken() throws {
+        // A user part names another host than it seems to; a percent-encoded line break or non-ASCII letter isn't a
+        // plain host name.
+        for url in ["https://company.atlassian.net@evil.test", "https://company.atlassian.net%5C@evil.test",
+                    "https://company.atlassian.net%2F@evil.test", "https://:pw@jira.example.test", "https://user@jira.example.test",
+                    "https://company.atlassian.net%0Aevil.test", "https://company.atla%C3%9Fian.net", "https://[fe80::1%25en0]/",
+                    "https://jira.example.test/\u{7}", "https://jira.example.test\u{200E}"] {
+            let site = AtlassianSite(url: url, login: .cloudAPIToken, user: "a@example.test", secret: "")
+            #expect(site == nil, "\(url)")
+            #expect(AtlassianServer(url: url) == nil, "\(url)")
+        }
+        // Names, international names (as punycode), IP addresses and ports.
+        for url in ["https://jira.example.test", "jíra.example.test", "http://localhost:2990/jira", "https://192.168.1.10:8080",
+                    "https://[::1]:8443/jira", "https://jira_srv.corp.example", "https://jira%2Eexample.test"] {
+            let site = AtlassianSite(url: url, login: .cloudAPIToken, user: "a@example.test", secret: "")
+            #expect(site != nil, "\(url)")
+        }
+        let plain = try server("https://jira%2Eexample.test")
+        #expect(plain.origin == "https://jira.example.test:443")
+        // A URL that didn't come through the settings is checked the same way.
+        let raw = try #require(URL(string: "https://company.atlassian.net%0Aevil.test"))
+        #expect(AtlassianServer(raw) == nil)
+    }
+
+    // MARK: The question before a token kept without its server goes there
+
+    private func unboundSite(_ url: String, login: AtlassianLogin = .cloudAPIToken, user: String = "a@example.test") throws
+        -> AtlassianSecrets.SiteSecret {
+        let site = try #require(AtlassianSite(url: url, login: login, user: user, secret: ""))
+        return AtlassianSecrets.SiteSecret(site: site, unbound: "old")
+    }
+
+    @Test func automationIsNeverAskedAndTestConnectionAlwaysIs() throws {
+        var answers = AtlassianSecretAnswers()
+        let stored = try unboundSite("https://jira.example.test")
+        let upload = answers.decide(stored, service: "Jira", request: .upload)
+        #expect(upload == .ask("old"))
+        let test = answers.decide(stored, service: "Jira", request: .test)
+        #expect(test == .ask("old"))
+        let automation = answers.decide(stored, service: "Jira", request: .automation)
+        #expect(automation == .notAsked)
+        // A token saved for the server, a password typed in this session, or none: nothing to ask, whoever asks.
+        let bound = AtlassianSecrets.SiteSecret(site: stored.site.with(user: stored.site.user, secret: "tok"))
+        let boundByAutomation = answers.decide(bound, service: "Jira", request: .automation)
+        #expect(boundByAutomation == .proceed)
+        let typed = AtlassianSecrets.SiteSecret(site: stored.site.with(user: stored.site.user, secret: "pw"), unbound: "old")
+        let typedUpload = answers.decide(typed, service: "Jira", request: .upload)
+        #expect(typedUpload == .proceed)
+        let none = AtlassianSecrets.SiteSecret(site: stored.site)
+        let noneUpload = answers.decide(none, service: "Jira", request: .upload)
+        #expect(noneUpload == .proceed)
+    }
+
+    @Test func dontAllowHoldsForUploadsUntilTheServerChanges() throws {
+        var answers = AtlassianSecretAnswers()
+        let jira = try unboundSite("https://jira.example.test")
+        let server = try #require(jira.site.server)
+        answers.answered(allowed: false, service: "Jira", server: server)
+        let upload = answers.decide(jira, service: "Jira", request: .upload)
+        #expect(upload == .notAllowed)
+        // Test Connection asks again; Confluence and its own answer are apart.
+        let test = answers.decide(jira, service: "Jira", request: .test)
+        #expect(test == .ask("old"))
+        let confluence = answers.decide(jira, service: "Confluence", request: .upload)
+        #expect(confluence == .ask("old"))
+        // Another server in the URL: asked again, and the old answer is gone.
+        let otherPort = try unboundSite("https://jira.example.test:8443")
+        let moved = answers.decide(otherPort, service: "Jira", request: .upload)
+        #expect(moved == .ask("old"))
+        let back = answers.decide(jira, service: "Jira", request: .upload)
+        #expect(back == .ask("old"))
+        // Allow clears it (and `confirmUnbound` keeps the token for the server, so nothing is asked from then on).
+        answers.answered(allowed: false, service: "Jira", server: server)
+        answers.answered(allowed: true, service: "Jira", server: server)
+        let allowed = answers.decide(jira, service: "Jira", request: .upload)
+        #expect(allowed == .ask("old"))
+    }
+
+    @Test func aTokenThatCantBeUsedYetIsntAskedAbout() throws {
+        // A Cloud token without the email (or a password without the user name): the setup message comes instead.
+        var answers = AtlassianSecretAnswers()
+        let noEmail = try unboundSite("https://jira.example.test", user: "")
+        let cloud = answers.decide(noEmail, service: "Jira", request: .upload)
+        #expect(cloud == .proceed)
+        let noUser = try unboundSite("https://jira.example.test", login: .serverPassword, user: " ")
+        let password = answers.decide(noUser, service: "Jira", request: .test)
+        #expect(password == .proceed)
+        // A personal access token needs no user.
+        let pat = try unboundSite("https://jira.example.test", login: .serverToken, user: "")
+        let token = answers.decide(pat, service: "Jira", request: .upload)
+        #expect(token == .ask("old"))
+    }
+
+    @Test func aRecipeUploadIsTheUsersOnlyWhenTheUserStartedTheRecipe() {
+        for trigger in [WellKnownTriggerType.hotkey, WellKnownTriggerType.manual, WellKnownTriggerType.editor, nil] as [String?] {
+            #expect(AtlassianSecretRequest(recipeTrigger: trigger, markedByAutomation: false) == .upload)
+        }
+        for trigger in [WellKnownTriggerType.aiTool, WellKnownTriggerType.commandline, WellKnownTriggerType.clipboard,
+                        WellKnownTriggerType.openFile, WellKnownTriggerType.extension, WellKnownTriggerType.schedule] {
+            #expect(AtlassianSecretRequest(recipeTrigger: trigger, markedByAutomation: false) == .automation)
+        }
+        // A built-in capture that automation started runs as a Manual recipe with the mark.
+        #expect(AtlassianSecretRequest(recipeTrigger: WellKnownTriggerType.manual, markedByAutomation: true) == .automation)
     }
 
     @Test func theHostOfASettingsURL() {

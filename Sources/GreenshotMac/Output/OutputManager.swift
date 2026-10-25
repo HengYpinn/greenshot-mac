@@ -87,9 +87,10 @@ final class OutputManager {
     }
 
     /// `window` is the editor the capture comes from, if any: dialogs and the share menu attach to it, and it shows how
-    /// the export ended (upstream `ExportResultHandler`). `completion` gets the result once.
+    /// the export ended (upstream `ExportResultHandler`). `request` says who started a Jira or Confluence upload (a
+    /// recipe that automation started: `.automation`). `completion` gets the result once.
     func perform(_ target: DestinationTarget, with capture: Capture, window: NSWindow? = nil,
-                 completion: ExportCompletion? = nil) {
+                 request: AtlassianSecretRequest = .upload, completion: ExportCompletion? = nil) {
         let editor = window?.windowController as? EditorWindowController
         // The editor's state the capture shows: an upload that ends after more changes doesn't count them as saved.
         let exportedChange = editor?.editorDocument.changeCount
@@ -106,7 +107,7 @@ final class OutputManager {
         }
         switch target {
         case .destination(let destination):
-            perform(destination, with: capture, window: window, completion: finish)
+            perform(destination, with: capture, window: window, request: request, completion: finish)
         case .pdfAs:
             finish(PdfDestination.save(capture, settings: settings, saver: saver, ask: true))
         case .externalCommand(let command):
@@ -122,16 +123,16 @@ final class OutputManager {
             Printing.print(capture.image, scale: capture.scale, window: window, title: capture.title, date: capture.date,
                            printer: name, completion: finish)
         case .jiraIssue(let key):
-            JiraDestination.upload(capture, settings: settings, saver: saver, issueKey: key, completion: finish)
+            JiraDestination.upload(capture, settings: settings, saver: saver, issueKey: key, request: request, completion: finish)
         case .confluencePage(let page):
-            ConfluenceDestination.upload(capture, settings: settings, saver: saver, page: page, completion: finish)
+            ConfluenceDestination.upload(capture, settings: settings, saver: saver, page: page, request: request, completion: finish)
         case .office(let app, let item):
             OfficeDestination.export(app, item: item, capture: capture, settings: settings, saver: saver, completion: finish)
         }
     }
 
     private func perform(_ destination: CaptureDestination, with capture: Capture, window: NSWindow?,
-                         completion: @escaping ExportCompletion) {
+                         request: AtlassianSecretRequest = .upload, completion: @escaping ExportCompletion) {
         switch destination {
         case .picker:
             showPicker(for: capture, completion: completion)
@@ -175,9 +176,9 @@ final class OutputManager {
         case .qrCode:
             QRCodeDestination.show(capture, saver: saver, popUp: { [weak self] menu in self?.popUp(menu) }, completion: completion)
         case .jira:
-            JiraDestination.upload(capture, settings: settings, saver: saver, completion: completion)
+            JiraDestination.upload(capture, settings: settings, saver: saver, request: request, completion: completion)
         case .confluence:
-            ConfluenceDestination.upload(capture, settings: settings, saver: saver, completion: completion)
+            ConfluenceDestination.upload(capture, settings: settings, saver: saver, request: request, completion: completion)
         case .box, .dropbox:
             CloudDestination.upload(destination, capture, settings: settings, saver: saver, completion: completion)
         case .word, .excel, .powerpoint, .outlook, .notes:

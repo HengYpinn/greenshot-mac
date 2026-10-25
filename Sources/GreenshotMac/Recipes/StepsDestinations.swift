@@ -124,7 +124,7 @@ struct RecipeAppExporter: RecipeExporting {
         case .destination(.printer), .printer:
             result = await printWithOptions(capture, to: destinationTarget, step: step, runtime: runtime)
         default:
-            result = await perform(destinationTarget, capture: capture, output: app.output)
+            result = await perform(destinationTarget, capture: capture, output: app.output, request: RecipeStepExports.secretRequest(context))
         }
         if result.exportedBy == nil { result.exportedBy = destinationTarget.displayName }
         state.record(result)
@@ -140,12 +140,14 @@ struct RecipeAppExporter: RecipeExporting {
         }
     }
 
-    /// `OutputManager.perform` as an async call: its completion comes once.
+    /// `OutputManager.perform` as an async call: its completion comes once. `request` says who started the flow, for a
+    /// Jira or Confluence upload (`RecipeStepExports.secretRequest`).
     @MainActor
-    static func perform(_ target: DestinationTarget, capture: Capture, output: OutputManager) async -> ExportResult {
+    static func perform(_ target: DestinationTarget, capture: Capture, output: OutputManager,
+                        request: AtlassianSecretRequest = .upload) async -> ExportResult {
         await withCheckedContinuation { continuation in
             var resumed = false
-            output.perform(target, with: capture) { result in
+            output.perform(target, with: capture, request: request) { result in
                 guard !resumed else { return }
                 resumed = true
                 continuation.resume(returning: result)

@@ -275,43 +275,81 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         let secrets = LockableSecretStore(["jira.apiToken": "tok"])
         secrets.isLocked = true
         let atlassian = AtlassianSecrets(store: secrets)
+        let jira = try #require(AtlassianServer(url: "https://jira.example.test"))
         // A token of an older version: no question while it can't be read, and nothing is written.
         var asked = 0
-        #expect(throws: SecretStoreUnavailableError.self) {
-            _ = try atlassian.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+        do {
+            _ = try atlassian.confirmUnbound("jira.apiToken", server: jira) {
                 asked += 1
                 return true
             }
+            Issue.record("A locked Keychain must throw")
+        } catch {
+            #expect(error is SecretStoreUnavailableError)
         }
         #expect(throws: SecretStoreUnavailableError.self) {
-            _ = try atlassian.secret(for: "jira.apiToken", host: "jira.example.test")
+            _ = try atlassian.secret(for: "jira.apiToken", server: jira)
         }
         #expect(throws: SecretStoreUnavailableError.self) {
-            _ = try atlassian.boundSecret(for: "jira.apiToken", host: "jira.example.test")
+            _ = try atlassian.boundSecret(for: "jira.apiToken", server: jira)
         }
         #expect(asked == 0)
         #expect(secrets.writes == 0)
         secrets.isLocked = false
-        let answer = try atlassian.confirmUnbound("jira.apiToken", host: "jira.example.test") {
+        let answer = try atlassian.confirmUnbound("jira.apiToken", server: jira) {
             asked += 1
             return true
         }
         #expect(answer == .allowed("tok"))
         #expect(asked == 1)
-        let bound = try atlassian.boundSecret(for: "jira.apiToken", host: "jira.example.test")
+        let bound = try atlassian.boundSecret(for: "jira.apiToken", server: jira)
         #expect(bound == "tok")
     }
 
-    /// The token field of Settings › Destinations for a site (`SecretFieldModel` with the host of the URL): a token
-    /// typed while the Keychain was locked is saved by Retry, for that host, so the next upload doesn't ask about it.
+    @Test func aKeychainLockedDuringTheQuestionFailsTheUpload() throws {
+        // A failure (thrown, so the upload or the recipe step says it), not a Don't Allow, and nothing is written.
+        let secrets = LockableSecretStore(["jira.apiToken": "tok"])
+        let atlassian = AtlassianSecrets(store: secrets)
+        let jira = try #require(AtlassianServer(url: "https://jira.example.test"))
+        #expect(throws: SecretStoreUnavailableError.self) {
+            _ = try atlassian.confirmUnbound("jira.apiToken", server: jira) {
+                secrets.isLocked = true
+                return true
+            }
+        }
+        #expect(secrets.writes == 0)
+        secrets.isLocked = false
+        let still = try atlassian.lookup("jira.apiToken", server: jira)
+        #expect(still == .unbound("tok"))
+    }
+
+    @Test func anAllowedTokenTheKeychainCantKeepIsntSent() throws {
+        // Allowed, but it can't be kept for the server: thrown (the upload fails), and the token stays without one.
+        let secrets = WriteRefusingSecretStore(["jira.apiToken": "tok"])
+        let atlassian = AtlassianSecrets(store: secrets)
+        let jira = try #require(AtlassianServer(url: "https://jira.example.test"))
+        #expect(throws: SecretStoreUnavailableError.self) {
+            _ = try atlassian.confirmUnbound("jira.apiToken", server: jira) { true }
+        }
+        let still = try atlassian.lookup("jira.apiToken", server: jira)
+        #expect(still == .unbound("tok"))
+        let site = try #require(AtlassianSite(url: "https://jira.example.test", login: .serverToken, user: "", secret: ""))
+        let upload = try atlassian.site(site, key: "jira.apiToken")
+        #expect(upload.site.secret.isEmpty)
+    }
+
+    /// The token field of Settings › Destinations for a site (an `EditableSecret` with the read and write closures
+    /// `SecretFieldModel` uses for the server of the URL): a token typed while the Keychain was locked is saved by
+    /// Retry, for that server, so the next upload doesn't ask about it.
     @MainActor
-    @Test func retrySavesATokenTypedWhileLockedForTheHostOfTheURL() throws {
+    @Test func retrySavesATokenTypedWhileLockedForTheServerOfTheURL() throws {
         let secrets = LockableSecretStore(["jira.apiToken": "old", "jira.apiToken.host": "jira.example.test"])
         let atlassian = AtlassianSecrets(store: secrets)
         let list = SecretRetryList()
+        let jira = AtlassianServer(url: "https://jira.example.test")
         secrets.isLocked = true
-        let field = EditableSecret(list: list, read: { try atlassian.secret(for: "jira.apiToken", host: "jira.example.test") },
-                                   write: { try atlassian.setSecret($0, for: "jira.apiToken", host: "jira.example.test") })
+        let field = EditableSecret(list: list, read: { try atlassian.secret(for: "jira.apiToken", server: jira) },
+                                   write: { try atlassian.setSecret($0, for: "jira.apiToken", server: jira) })
         #expect(field.secretState.isUnavailable)
         #expect(field.text.isEmpty)
 
@@ -320,20 +358,37 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         list.retry(from: field)
         #expect(field.text == "old")
         #expect(secrets.writes == 0)
-        let shown = try atlassian.lookup("jira.apiToken", host: "jira.example.test")
+        let shown = try atlassian.lookup("jira.apiToken", server: jira)
         #expect(shown == .unbound("old"))
 
-        // Typed while locked again: refused, then saved by Retry for the host, in one entry.
+        // Typed while locked again: refused, then saved by Retry for the server, in one entry.
         secrets.isLocked = true
         field.edit("new")
         #expect(field.secretState.isUnavailable)
         secrets.isLocked = false
         list.retry(from: field)
         #expect(field.secretState == .usable)
-        let saved = try atlassian.lookup("jira.apiToken", host: "jira.example.test")
+        let saved = try atlassian.lookup("jira.apiToken", server: jira)
         #expect(saved == .bound("new"))
-        let elsewhere = try atlassian.lookup("jira.apiToken", host: "evil.example.test")
+        let elsewhere = try atlassian.lookup("jira.apiToken", server: AtlassianServer(url: "http://jira.example.test"))
         #expect(elsewhere == .nothing)
         #expect(secrets.value("jira.apiToken.host") == nil)
+    }
+}
+
+/// A secret store that reads but can't write, like a Keychain that refuses to change an item.
+private final class WriteRefusingSecretStore: SecretStore, @unchecked Sendable {
+    private let base: InMemorySecretStore
+
+    init(_ values: [String: String]) {
+        base = InMemorySecretStore(values)
+    }
+
+    func secret(for key: String) throws -> String? {
+        try base.secret(for: key)
+    }
+
+    func setSecret(_ value: String?, for key: String) throws {
+        throw SecretStoreUnavailableError("The Keychain is locked.")
     }
 }

@@ -12,11 +12,12 @@ import SwiftUI
 /// A secret in the Keychain, edited like a setting (see `EditableSecret`).
 @MainActor
 final class SecretFieldModel: ObservableObject {
-    /// Whose secret it is: the app's, or that of the Jira or Confluence site on a host (nil while the URL has none),
-    /// which is shown and kept for that host only (see `AtlassianSecrets`).
+    /// Whose secret it is: the app's, or that of the Jira or Confluence site on a server (nil while the URL has none).
+    /// A site's secret is kept for that server (address and port); the field shows it there, and also one kept without
+    /// a server, which goes to a server only when the user allows it at its use (see `AtlassianSecrets`).
     enum Owner: Equatable {
         case app
-        case site(host: String?)
+        case site(server: AtlassianServer?)
     }
 
     /// Read when the field is shown, unless another secret of the tab can't be read; saved at every edit. While the
@@ -46,14 +47,14 @@ final class SecretFieldModel: ObservableObject {
     private static func read(key: String, owner: Owner) throws -> String? {
         switch owner {
         case .app: return try Uploads.secrets.secret(for: key)
-        case .site(let host): return try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host)
+        case .site(let server): return try AtlassianSecrets(store: Uploads.secrets).secret(for: key, server: server)
         }
     }
 
     private static func write(_ text: String, key: String, owner: Owner) throws {
         switch owner {
         case .app: try Uploads.secrets.setSecret(text, for: key)
-        case .site(let host): try AtlassianSecrets(store: Uploads.secrets).setSecret(text, for: key, host: host)
+        case .site(let server): try AtlassianSecrets(store: Uploads.secrets).setSecret(text, for: key, server: server)
         }
     }
 }
@@ -87,37 +88,45 @@ struct SecretField: View {
     }
 }
 
-/// The "Test" button of an Atlassian site: tries the credentials and shows who they belong to.
+/// The "Test" button of an Atlassian site: tries the credentials and shows who they belong to. A token or password
+/// kept without its server is tested only when the user allows it for this one (`AtlassianSecretQuestion`, which always
+/// asks here, also after Don't Allow at an upload).
 @MainActor
 final class ConnectionTest: ObservableObject {
     @Published var result: String?
     @Published var running = false
 
     func run(confluence: Bool, settings: AppSettings) {
-        let configured: AtlassianSite?
+        let service: AtlassianService = confluence ? .confluence : .jira
+        Uploads.applyCertificateExceptions(settings)
+        let configured: AtlassianSecrets.SiteSecret?
         do {
-            configured = try confluence ? Uploads.confluenceSite(settings) : Uploads.jiraSite(settings)
+            configured = try AtlassianSignIn.stored(service, settings: settings)
         } catch {
             result = error.localizedDescription
             return
         }
-        guard let site = configured else {
+        guard let configured else {
             result = String(localized: "Enter the URL first.")
             return
         }
-        // A token or password kept without its server is tested with this one only when the user allows it.
-        do {
-            guard let confirmed = try AtlassianSecretQuestion.confirmed(site, confluence ? .confluence : .jira) else {
-                result = nil
-                return
+        running = true
+        Task { @MainActor in
+            defer { running = false }
+            do {
+                guard let site = try await AtlassianSecretQuestion.confirmed(configured, service, request: .test,
+                                                                             settings: settings) else {
+                    result = String(localized: "Not sent: not allowed for this server.")
+                    return
+                }
+                await test(site, confluence: confluence)
+            } catch {
+                result = error.localizedDescription
             }
-            test(confirmed, confluence: confluence)
-        } catch {
-            result = error.localizedDescription
         }
     }
 
-    private func test(_ site: AtlassianSite, confluence: Bool) {
+    private func test(_ site: AtlassianSite, confluence: Bool) async {
         guard site.hasCredentials else {
             switch site.login {
             case .serverPassword: result = String(localized: "Enter the user name and password first (or test at the first upload).")
@@ -126,13 +135,9 @@ final class ConnectionTest: ObservableObject {
             }
             return
         }
-        running = true
-        Task { @MainActor in
-            switch await Uploads.testAtlassian(site, confluence: confluence) {
-            case .success(let name): result = String(localized: "Connected as \(name).")
-            case .failure(let error): result = error.localizedDescription
-            }
-            running = false
+        switch await Uploads.testAtlassian(site, confluence: confluence) {
+        case .success(let name): result = String(localized: "Connected as \(name).")
+        case .failure(let error): result = error.localizedDescription
         }
     }
 }
@@ -274,9 +279,9 @@ struct JiraSettingsSection: View {
                 TextField(userLabel, text: store.binding(\.jira.email))
                     .managed(\.jira.email)
             }
-            let host = AtlassianSite.host(ofURL: store.value.jira.url)
-            SecretField(login.secretLabel, key: SecretKey.jiraToken, owner: .site(host: host))
-                .id(host ?? "")
+            let server = AtlassianServer(url: store.value.jira.url)
+            SecretField(login.secretLabel, key: SecretKey.jiraToken, owner: .site(server: server))
+                .id(server?.origin ?? "")
             UploadFormatRow(store: store, format: \.jira.uploadFormat, quality: \.jira.jpegQuality, reduceColors: \.jira.reduceColors)
             ConnectionTestRow(test: test) { test.run(confluence: false, settings: store.value) }
         } header: {
@@ -308,9 +313,9 @@ struct ConfluenceSettingsSection: View {
                 TextField(userLabel, text: store.binding(\.confluence.email))
                     .managed(\.confluence.email)
             }
-            let host = AtlassianSite.host(ofURL: store.value.confluence.url)
-            SecretField(login.secretLabel, key: SecretKey.confluenceToken, owner: .site(host: host))
-                .id(host ?? "")
+            let server = AtlassianServer(url: store.value.confluence.url)
+            SecretField(login.secretLabel, key: SecretKey.confluenceToken, owner: .site(server: server))
+                .id(server?.origin ?? "")
             UploadFormatRow(store: store, format: \.confluence.uploadFormat, quality: \.confluence.jpegQuality,
                             reduceColors: \.confluence.reduceColors)
             Toggle("Open the page after the upload", isOn: store.binding(\.confluence.openPageAfterUpload))
@@ -341,12 +346,17 @@ extension ConfluenceSettingsSection {
     }
 }
 
-/// Under a Jira or Confluence URL that starts with `http://`: the credentials would travel unencrypted.
+/// Under a Jira or Confluence URL that starts with `http://`: the credentials would travel unencrypted. Under one that
+/// isn't a URL a token may go to (`AtlassianSite.init(url:login:user:secret:)`, e.g. one with a user part): it isn't used.
 struct UnencryptedURLWarning: View {
     let url: String
 
     var body: some View {
-        if AtlassianSite.isUnencrypted(url: url) {
+        let trimmed = url.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmed.isEmpty, AtlassianServer(url: trimmed) == nil {
+            Text(String(localized: "“\(trimmed)” is not a valid URL."))
+                .font(.caption).foregroundStyle(.orange)
+        } else if AtlassianSite.isUnencrypted(url: url) {
             Text("This URL starts with http://: the token or password would travel unencrypted. Use https:// if the server offers it.")
                 .font(.caption).foregroundStyle(.orange)
         }
