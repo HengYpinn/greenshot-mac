@@ -506,14 +506,16 @@ Greenshot's screen recording permission behind your back.
   tools, as its screenshots already did. A window of such an app isn't recorded (the recipe fails), and a recording of
   a display or region shows only the other apps, also when one of them starts during the recording (it shows up
   within about a second; an excluded app never does). Such a recording leaves out the desktop picture and the Dock.
-- Jira and Confluence: a token or password now keeps the server it was saved for (address and port, https or http) in
+- Jira and Confluence: a token or password now keeps the server it was saved for (https or http, address and port) in
   the same Keychain item, and goes only to that server. One saved by an older version (or before the URL was entered)
-  is sent only after you allow it for the server shown: an upload or recipe you start asks (Don't Allow is the
-  default), at each use until you allow it; after Don't Allow, uploads to that server don't ask again until the URL
-  changes or Greenshot quits, and Test Connection in Settings › Destinations asks again. A recipe that another program
-  or a trigger started doesn't ask: its Jira or Confluence step fails and says how to allow it. Until then the
-  destination menu shows Jira issues without their summaries. A Jira or Confluence URL with a user name in it
-  (`name@`), or with a host that is neither a plain name nor an IP address, isn't used.
+  is sent only after you allow it for the server shown. An upload you start, or a destination you pick in the menu
+  or a recipe's list, asks (Don't Allow is the default); after Don't Allow, uploads to that server don't ask again
+  until Greenshot quits, and Test Connection in Settings › Destinations asks again. A capture or recipe started by a
+  link, greenshot-cli, AppleScript, Shortcuts, an AI tool or a trigger doesn't ask: the upload isn't sent, its result
+  or the recipe log says how to allow it, and a message says so once per server. Until then the destination menu
+  shows Jira issues without their summaries. A Jira or Confluence URL must start with https:// or http://; one with
+  a user name in it (`name@`), a port outside 1–65535 or a host that is neither a plain name nor an IP address isn't
+  used.
 
 ## [0.1.0] - 2026-10-16
 
