@@ -420,6 +420,7 @@ Changed Lines	שורות ששונו	claude-sonnet-5-5 2026-10-18
 Changed recipes	מתכונים ששונו	claude-sonnet-5-5 2026-10-18
 Changed your mind? Esc cancels a capture.	התחרטת? Esc מבטל לכידה.	claude-sonnet-5-5 2026-10-18
 Changes (− before, + after)	שינויים (− לפני, + אחרי)	claude-sonnet-5-5 2026-10-18
+Changes made while the Keychain couldn't be used apply only until Greenshot quits.	שינויים שבוצעו בזמן שלא ניתן היה להשתמש ב-Keychain חלים רק עד ש-Greenshot ייסגר.	claude-opus-5-5 2026-10-25
 Changes not applied yet	השינויים עדיין לא הוחלו	claude-sonnet-5-5 2026-10-18
 Changes other recipes	משנה מתכונים אחרים	claude-sonnet-5-5 2026-10-18
 Changes the automatic step “%@”	משנה את השלב האוטומטי “%@”	claude-sonnet-5-5 2026-10-18
@@ -748,13 +749,18 @@ Greenshot Recent	Greenshot אחרונים	claude-sonnet-5-5 2026-10-18
 Greenshot Website	אתר Greenshot	claude-sonnet-5-5 2026-10-18
 Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot מוסיף את השלבים האלה למתכונים אחרים: יש למקם אותם לפני Out ברשימת השלבים ולהפעיל את השלב האוטומטי בהגדרות › מתכונים.	claude-sonnet-5-5 2026-10-18
 Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot יכול לקרוא את הכתובות של הדפים הפתוחים ב-Safari וב-Chrome. macOS שואל פעם אחת לכל דפדפן אם לאפשר זאת.	claude-sonnet-5-5 2026-10-18
+Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed.	ל-Greenshot אין אפשרות לבדוק לאילו תוכניות ניתנה הרשאה: אין לו אפשרות לקרוא את מפתח החותם שלהן מה-Keychain. עד אז, תתבקש הרשאה לכל כלי AI כאילו אף תוכנית לא הותרה.	claude-opus-5-5 2026-10-25
+Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on.	ל-Greenshot אין אפשרות לבדוק את ההסכמה שלך לכלי AI: אין לו אפשרות לקרוא את מפתח החותם שלה מה-Keychain. עד אז, אפליקציות שהוסרו מרשימת האפליקציות שהוחרגו מוחרגות שוב, וההתראה מופעלת.	claude-opus-5-5 2026-10-25
 Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot אינו יכול לספק מפתח אפליקציה של Box, ולכן יש לרשום מפתח משלך: ב-[Box Developer Console](https://app.box.com/developers/console) יש ליצור Custom App עם User Authentication (OAuth 2.0), להגדיר את ה-redirect URI שלה ל-`%@`, לתת לה את ההיקף Write all files ולהדביק כאן את ה-client ID וה-secret שלה. הסוד וההתחברות נשמרים ב-Keychain שלך; מזהה התיקייה הוא המספר בכתובת ה-URL של התיקייה.	claude-sonnet-5-5 2026-10-18
+Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	ל-Greenshot אין אפשרות להשתמש ב-Keychain, ולכן לא ניתן לשמור את השינוי. יש לבטל את נעילת ה-Keychain או לאשר את Greenshot כש-macOS שואל, ואז ללחוץ על "ניסיון חוזר" בהגדרות › כלי AI כדי לשמור עליו.	claude-opus-5-5 2026-10-25
+Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	ל-Greenshot אין אפשרות להשתמש ב-Keychain, ולכן ההסכמה לכלי AI נשמרה בלי החותם שלה. יש לבטל את נעילת ה-Keychain או לאשר את Greenshot כש-macOS שואל, ואז ללחוץ על "ניסיון חוזר" בהגדרות › כלי AI כדי לשמור עליה.	claude-opus-5-5 2026-10-25
 Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot לא הצליח לטעון או לרשום את מתכון הלכידה הזה כי הוא מכיל שגיאות תצורה. יש לעיין בפרטי האבחון שלהלן:	claude-sonnet-5-5 2026-10-18
 Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot לא הצליח להשתמש בשלב האוטומטי הזה כי הוא מכיל שגיאות. יש לעיין בפרטים שלהלן:	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac has no step '%@': its parameters are kept as they are.	ל-Greenshot for Mac אין שלב '%@': הפרמטרים שלו נשמרים כפי שהם.	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac isn't ready.	Greenshot for Mac אינו מוכן.	claude-sonnet-5-5 2026-10-18
 Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	ל-Greenshot אין הרשאה לשלוט ב-%@. אפשר להתיר זאת בהגדרות המערכת › פרטיות ואבטחה › אוטומציה › Greenshot.	claude-sonnet-5-5 2026-10-18
 Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot שולח צילומי מסך לאפליקציות האלה באמצעות AppleScript; macOS שואל פעם אחת לכל אפליקציה.	claude-sonnet-5-5 2026-10-18
+Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations.	הסיסמה משמשת את Greenshot עד שהוא ייסגר. כדי לשמור אותה, יש להזין אותה בהגדרות › יעדים.	claude-opus-5-5 2026-10-25
 Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
 HDR, headroom %@ of %@	HDR, מרווח ראש %@ מתוך %@	claude-sonnet-5-5 2026-10-18
 HTML (image embedded)	HTML (תמונה מוטמעת)	claude-sonnet-5-5 2026-10-18
@@ -1591,6 +1597,10 @@ Thank you for installing %@! It's running now and waits for you in the menu bar,
 That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	זה כל מה שצריך כדי להתחיל. %@ ממתין בשורת התפריטים, ואת כל השאר אפשר לשנות בהגדרות מתי שתרצה.	claude-sonnet-5-5 2026-10-18
 The %@ app key	מפתח האפליקציה של %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	סמל %@ מוצג בשורת התפריטים.	claude-sonnet-5-5 2026-10-18
+The %@ password could not be kept in the Keychain	לא ניתן היה לשמור את הסיסמה של %@ ב-Keychain	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on.	ההסכמה לכלי AI שמורה בלי החותם שלה כי לא ניתן היה להשתמש ב-Keychain: אחרי ההפעלה הבאה, אפליקציות שהוסרו מרשימת האפליקציות שהוחרגו יוחרגו שוב, וההתראה תופעל.	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	ההסכמה לכלי AI שמורה בלי החותם שלה כי לא ניתן היה להשתמש ב-Keychain: אחרי ההפעלה הבאה, כל תוכנית תישאל שוב.	claude-opus-5-5 2026-10-25
+The AI tools consent will be reset at the next start	ההסכמה לכלי AI תאופס בהפעלה הבאה	claude-opus-5-5 2026-10-25
 The Greenshot file could not be opened	לא ניתן היה לפתוח את קובץ Greenshot	claude-sonnet-5-5 2026-10-18
 The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	התוסף Greenshot for Mac (Community) Companion ל-Chrome, Edge ו-Firefox שולח את הדף הגלוי ואת כתובת הדף.	claude-sonnet-5-5 2026-10-18
 The JSON must hold exactly one recipe (it holds %lld).	ה-JSON חייב להכיל מתכון אחד בדיוק (הוא מכיל %lld).	claude-sonnet-5-5 2026-10-18
@@ -1599,7 +1609,7 @@ The Keychain could not add the item: %@	ה-Keychain לא הצליח להוסיף
 The Keychain could not read the item: %@	ה-Keychain לא הצליח לקרוא את הפריט: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	ה-Keychain לא הצליח להסיר את הפריט: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	ה-Keychain לא הצליח לעדכן את הפריט: %@	claude-sonnet-5-5 2026-10-18
-The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	ה-Keychain נעול, או ש-Greenshot לא קיבל הרשאה להשתמש בו (%@). יש לבטל את נעילתו או לאשר את Greenshot כש-macOS שואל, ואז לנסות שוב.	claude-opus-5-5 2026-10-21
+The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot.	ה-Keychain נעול, או ש-Greenshot לא מורשה להשתמש בו. יש לנסות שוב, ולבטל את נעילתו או לאשר את Greenshot כש-macOS שואל. אם macOS לא שואל, יש לנעול ולבטל את הנעילה של ה-Keychain "התחברות" באפליקציה "צרור המפתחות" (אפשר למצוא אותה דרך Spotlight), או להפעיל מחדש את Greenshot.	claude-opus-5-5 2026-10-25
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	כלי ההסתרה של העורך מפקסל או מטשטש את החלקים בצילום מסך שאסור שאחרים יראו.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	לא ניתן היה לשמור את ה-PDF	claude-sonnet-5-5 2026-10-18
 The action failed.	הפעולה נכשלה.	claude-sonnet-5-5 2026-10-18
@@ -1745,6 +1755,7 @@ This address starts with http://: the password travels unencrypted.	הכתובת
 This app	האפליקציה הזו	claude-sonnet-5-5 2026-10-18
 This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	השלב האוטומטי הזה משנה את הלכידות של המתכונים המסומנים, עבור היעדים המסומנים. גם מתכונים חדשים מקבלים אותו.	claude-sonnet-5-5 2026-10-18
 This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	השלב האוטומטי הזה נכתב על ידי כלי AI. הוא משנה מתכונים אחרים, כולל המובנים: יש לבדוק להלן אילו ומה הוא מוסיף. הוא מתחיל כבוי, יש להפעיל אותו בהגדרות › מתכונים.	claude-sonnet-5-5 2026-10-18
+This change to AI tools applies until Greenshot quits	השינוי הזה בכלי AI חל עד ש-Greenshot ייסגר	claude-opus-5-5 2026-10-25
 This is a recipe; the editor has an automatic step open.	זה מתכון; בעורך פתוח שלב אוטומטי.	claude-sonnet-5-5 2026-10-18
 This is an automatic step; the editor has a recipe open.	זה שלב אוטומטי; בעורך פתוח מתכון.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	תוכנה זו מסופקת ללא כל אחריות. זוהי תוכנה חופשית, ומותר להפיץ אותה מחדש בתנאים מסוימים: ה-%@ או גרסה מאוחרת יותר.	claude-sonnet-5-5 2026-10-18
@@ -1892,6 +1903,7 @@ What this automatic step does, which recipes it changes and what you approved fo
 What this built-in recipe does and which triggers start it.	מה המתכון המובנה הזה עושה ואילו טריגרים מפעילים אותו.	claude-sonnet-5-5 2026-10-18
 What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	מה המתכון הזה עושה ומה אישרת עבורו. אי אפשר לשנות כאן דבר, לשם כך יש להשתמש ב"הרשאות" בהגדרות › מתכונים או במנהל המתכונים.	claude-sonnet-5-5 2026-10-18
 What to change: %@	מה לשנות: %@	claude-sonnet-5-5 2026-10-18
+What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used.	הבחירה שלך נשמרת ותחול שוב ברגע ש-Greenshot יוכל לבדוק אותה, אלא אם היא שונתה מחוץ ל-Greenshot או בזמן שלא ניתן היה להשתמש ב-Keychain.	claude-opus-5-5 2026-10-25
 What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	מה ש"העתק אל הלוח" מניח שם. אפליקציות לוקחות את הפורמט הראשון שהן מבינות; HTML מטמיע את התמונה כ-PNG לעורכי דואר ואינטרנט.	claude-opus-5-5 2026-10-18
 When	מתי	claude-sonnet-5-5 2026-10-18
 When it runs again	מתי הוא רץ שוב	claude-sonnet-5-5 2026-10-18

@@ -408,6 +408,7 @@ Changed Lines	Zmenené riadky	claude-sonnet-5-5 2026-10-18
 Changed recipes	Zmenené recepty	claude-sonnet-5-5 2026-10-18
 Changed your mind? Esc cancels a capture.	Rozmysleli ste si to? Esc zruší snímanie.	claude-sonnet-5-5 2026-10-18
 Changes (− before, + after)	Zmeny (− pred, + po)	claude-sonnet-5-5 2026-10-18
+Changes made while the Keychain couldn't be used apply only until Greenshot quits.	Zmeny urobené v čase, keď sa Kľúčenka nedala použiť, platia len dovtedy, kým sa Greenshot neukončí.	claude-opus-5-5 2026-10-25
 Changes not applied yet	Zmeny ešte neboli použité	claude-sonnet-5-5 2026-10-18
 Changes other recipes	Mení iné recepty	claude-sonnet-5-5 2026-10-18
 Changes the automatic step “%@”	Mení automatický krok „%@“	claude-sonnet-5-5 2026-10-18
@@ -732,13 +733,18 @@ Greenshot Recent	Naposledy použité v Greenshote	claude-sonnet-5-5 2026-10-18
 Greenshot Website	Web Greenshotu	claude-sonnet-5-5 2026-10-18
 Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot pridá tieto kroky do iných receptov: umiestnite ich pred Out v zozname krokov a automatický krok zapnite v Nastavenia › Recepty.	claude-sonnet-5-5 2026-10-18
 Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot dokáže čítať adresy stránok otvorených v Safari a Chrome. macOS sa raz pre každý prehliadač opýta, či to povoliť.	claude-sonnet-5-5 2026-10-18
+Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed.	Greenshot nemôže overiť, ktoré programy ste povolili: nemôže z Kľúčenky prečítať kľúč ich pečate. Dovtedy sa pri každom nástroji AI pýta, akoby nebol povolený žiadny program.	claude-opus-5-5 2026-10-25
+Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on.	Greenshot nemôže overiť váš súhlas pre nástroje AI: nemôže z Kľúčenky prečítať kľúč jeho pečate. Dovtedy sú aplikácie, ktoré ste odstránili zo zoznamu vylúčených aplikácií, opäť vylúčené a upozornenie je zapnuté.	claude-opus-5-5 2026-10-25
 Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot nemôže dodať kľúč aplikácie Box, preto si zaregistrujte vlastný: v [Box Developer Console](https://app.box.com/developers/console) vytvorte Custom App s User Authentication (OAuth 2.0), nastavte jej redirect URI na `%@`, dajte jej rozsah Write all files a sem vložte jej ID klienta a tajný kľúč. Tajný kľúč a prihlásenie sa uložia do vašej Kľúčenky; ID priečinka je číslo v adrese URL priečinka.	claude-sonnet-5-5 2026-10-18
+Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	Greenshot nemôže použiť Kľúčenku, takže zmenu nemožno uložiť. Odomknite Kľúčenku alebo povoľte aplikáciu Greenshot, keď sa macOS opýta, a potom v Nastavenia › Nástroje AI kliknite na Skúsiť znova, aby sa zmena zachovala.	claude-opus-5-5 2026-10-25
+Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	Greenshot nemôže použiť Kľúčenku, takže súhlas pre nástroje AI sa uložil bez svojej pečate. Odomknite Kľúčenku alebo povoľte aplikáciu Greenshot, keď sa macOS opýta, a potom v Nastavenia › Nástroje AI kliknite na Skúsiť znova, aby sa súhlas zachoval.	claude-opus-5-5 2026-10-25
 Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot nemohol načítať ani zaregistrovať tento recept na zachytávanie, pretože obsahuje chyby konfigurácie. Skontrolujte diagnostické podrobnosti nižšie:	claude-sonnet-5-5 2026-10-18
 Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot nemohol použiť tento automatický krok, pretože obsahuje chyby. Skontrolujte podrobnosti nižšie:	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot pre Mac nemá krok „%@“: jeho parametre zostávajú nezmenené.	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac isn't ready.	Greenshot pre Mac nie je pripravený.	claude-sonnet-5-5 2026-10-18
 Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot nemá povolenie ovládať %@. Povoľte to v Nastavenia systému › Súkromie a zabezpečenie › Automatizácia › Greenshot.	claude-sonnet-5-5 2026-10-18
 Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot posiela snímky do týchto aplikácií cez AppleScript; macOS sa raz pre každú aplikáciu opýta.	claude-sonnet-5-5 2026-10-18
+Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations.	Greenshot ho používa, kým sa neukončí. Ak ho chcete zachovať, zadajte ho v Nastavenia › Ciele.	claude-opus-5-5 2026-10-25
 Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
 HDR, headroom %@ of %@	HDR, rezerva %@ z %@	claude-sonnet-5-5 2026-10-18
 HTML (image embedded)	HTML (obrázok vložený)	claude-sonnet-5-5 2026-10-18
@@ -1549,6 +1555,10 @@ Thank you for installing %@! It's running now and waits for you in the menu bar,
 That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	To je všetko, čo na začiatok potrebujete. %@ čaká v lište ponúk a všetko ostatné môžete kedykoľvek zmeniť v Nastaveniach.	claude-sonnet-5-5 2026-10-18
 The %@ app key	Kľúč aplikácie %@	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	Ikona %@ sa zobrazuje v lište ponúk.	claude-sonnet-5-5 2026-10-18
+The %@ password could not be kept in the Keychain	Heslo pre %@ sa nepodarilo uchovať v Kľúčenke	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on.	Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení budú aplikácie, ktoré ste odstránili zo zoznamu vylúčených aplikácií, opäť vylúčené a upozornenie bude zapnuté.	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Súhlas pre nástroje AI je uložený bez svojej pečate, pretože Kľúčenka sa nedala použiť: po ďalšom spustení sa Greenshot opýta znova pri každom programe.	claude-opus-5-5 2026-10-25
+The AI tools consent will be reset at the next start	Súhlas pre nástroje AI sa pri ďalšom spustení resetuje	claude-opus-5-5 2026-10-25
 The Greenshot file could not be opened	Súbor Greenshot sa nepodarilo otvoriť	claude-sonnet-5-5 2026-10-18
 The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Rozšírenie Greenshot for Mac (Community) Companion pre Chrome, Edge a Firefox posiela viditeľnú stránku a adresu stránky.	claude-sonnet-5-5 2026-10-18
 The JSON must hold exactly one recipe (it holds %lld).	JSON musí obsahovať presne jeden recept (obsahuje ich %lld).	claude-sonnet-5-5 2026-10-18
@@ -1557,7 +1567,7 @@ The Keychain could not add the item: %@	Kľúčenka nemohla pridať položku: %@
 The Keychain could not read the item: %@	Kľúčenka nemohla prečítať položku: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Kľúčenka nemohla odstrániť položku: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Kľúčenka nemohla aktualizovať položku: %@	claude-sonnet-5-5 2026-10-18
-The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Kľúčenka je zamknutá alebo aplikácia Greenshot nemá povolenie ju použiť (%@). Odomknite ju alebo povoľte aplikáciu Greenshot, keď sa macOS opýta, a skúste to znova.	claude-opus-5-5 2026-10-21
+The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot.	Kľúčenka je zamknutá alebo ju Greenshot nesmie použiť. Skúste to znova a odomknite ju alebo povoľte aplikáciu Greenshot, keď sa macOS opýta. Ak sa macOS neopýta, zamknite a odomknite prihlasovaciu kľúčenku v aplikácii Kľúčenka (nájdete ju cez Spotlight) alebo reštartujte Greenshot.	claude-opus-5-5 2026-10-25
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Nástroj Rozostrenie v editore pixeluje alebo rozmazáva časti snímky, ktoré nikto iný nemá vidieť.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF sa nepodarilo uložiť	claude-sonnet-5-5 2026-10-18
 The action failed.	Akcia zlyhala.	claude-sonnet-5-5 2026-10-18
@@ -1703,6 +1713,7 @@ This address starts with http://: the password travels unencrypted.	Táto adresa
 This app	Táto aplikácia	claude-sonnet-5-5 2026-10-18
 This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Tento automatický krok mení snímky zaškrtnutých receptov pre zaškrtnuté ciele. Dostanú ho aj nové recepty.	claude-sonnet-5-5 2026-10-18
 This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Tento automatický krok napísal nástroj AI. Mení iné recepty, aj vstavané: nižšie skontrolujte, ktoré a čo pridáva. Začína vypnutý, zapnite ho v Nastavenia › Recepty.	claude-sonnet-5-5 2026-10-18
+This change to AI tools applies until Greenshot quits	Táto zmena nástrojov AI platí, kým sa Greenshot neukončí	claude-opus-5-5 2026-10-25
 This is a recipe; the editor has an automatic step open.	Toto je recept; editor má otvorený automatický krok.	claude-sonnet-5-5 2026-10-18
 This is an automatic step; the editor has a recipe open.	Toto je automatický krok; editor má otvorený recept.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Tento program je ÚPLNE BEZ ZÁRUKY. Je to slobodný softvér a môžete ho za určitých podmienok ďalej šíriť: %@ alebo novšia.	claude-sonnet-5-5 2026-10-18
@@ -1845,6 +1856,7 @@ What this automatic step does, which recipes it changes and what you approved fo
 What this built-in recipe does and which triggers start it.	Čo tento vstavaný recept robí a ktoré spúšťače ho spúšťajú.	claude-sonnet-5-5 2026-10-18
 What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	Čo tento recept robí a čo ste preň schválili. Nič sa tu nedá zmeniť, použite na to Oprávnenia v Nastavenia › Recepty alebo v správcovi receptov.	claude-sonnet-5-5 2026-10-18
 What to change: %@	Čo zmeniť: %@	claude-sonnet-5-5 2026-10-18
+What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used.	Vaša voľba zostane zachovaná a znova začne platiť, hneď ako ju Greenshot bude môcť overiť, pokiaľ nebola zmenená mimo Greenshotu alebo v čase, keď sa Kľúčenka nedala použiť.	claude-opus-5-5 2026-10-25
 What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	Čo „Kopírovať do schránky“ do nej vloží. Aplikácie vezmú prvý formát, ktorému rozumejú; HTML vloží obrázok ako PNG pre e-mailové a webové editory.	claude-sonnet-5-5 2026-10-18
 When	Keď	claude-sonnet-5-5 2026-10-18
 When it runs again	Keď sa spustí znova	claude-sonnet-5-5 2026-10-18

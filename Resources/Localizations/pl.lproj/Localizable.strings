@@ -1288,6 +1288,9 @@
 "Changes (− before, + after)" = "Zmiany (− przed, + po)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Zmiany wprowadzone, gdy nie można było użyć pęku kluczy, obowiązują tylko do zamknięcia Greenshota.";
+
+/* machine */
 "Changes not applied yet" = "Zmiany jeszcze nie zastosowane";
 
 /* machine */
@@ -2338,7 +2341,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot może odczytywać adresy stron otwartych w Safari i Chrome. macOS pyta raz dla każdej przeglądarki, czy na to zezwolić.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot nie może sprawdzić, na które programy pozwolono: nie może odczytać z pęku kluczy klucza ich pieczęci. Do tego czasu przy każdym narzędziu AI pojawia się pytanie, jakby żaden program nie był dozwolony.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot nie może sprawdzić twojej zgody dla narzędzi AI: nie może odczytać z pęku kluczy klucza jej pieczęci. Do tego czasu aplikacje usunięte z listy wykluczonych aplikacji są znowu wykluczone, a powiadomienie jest włączone.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot nie może dostarczać klucza aplikacji Box, więc zarejestruj własny: w [Box Developer Console](https://app.box.com/developers/console) utwórz Custom App z User Authentication (OAuth 2.0), ustaw jej redirect URI na `%@`, nadaj zakres Write all files i wklej tutaj jej identyfikator klienta i sekret. Sekret i logowanie są przechowywane w Twoim pęku kluczy; ID folderu to liczba w adresie URL folderu.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nie może użyć pęku kluczy, więc nie można zapisać zmiany. Odblokuj pęk kluczy lub zezwól aplikacji Greenshot, gdy macOS zapyta, a potem kliknij Ponów próbę w Ustawienia › Narzędzia AI, aby ją zachować.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nie może użyć pęku kluczy, więc zgoda dla narzędzi AI została zapisana bez pieczęci. Odblokuj pęk kluczy lub zezwól aplikacji Greenshot, gdy macOS zapyta, a potem kliknij Ponów próbę w Ustawienia › Narzędzia AI, aby ją zachować.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nie mógł wczytać ani zarejestrować tego przepisu przechwytywania, ponieważ zawiera błędy konfiguracji. Sprawdź szczegóły diagnostyczne poniżej:";
@@ -2357,6 +2372,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot wysyła zrzuty ekranu do tych aplikacji przez AppleScript; macOS pyta raz dla każdej aplikacji.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot używa go do momentu zamknięcia. Aby je zachować, wprowadź je w Ustawienia › Miejsca docelowe.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, zapas %@ z %@";
@@ -5011,6 +5029,18 @@
 "The %@ icon is shown in the menu bar." = "Ikona %@ jest widoczna na pasku menu.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Nie udało się zachować hasła do %@ w pęku kluczy";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu aplikacje usunięte z listy wykluczonych aplikacji będą znowu wykluczone, a powiadomienie będzie włączone.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Zgoda dla narzędzi AI jest zapisana bez pieczęci, bo nie można było użyć pęku kluczy: po następnym uruchomieniu każdy program zostanie zapytany ponownie.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Zgoda dla narzędzi AI zostanie zresetowana przy następnym uruchomieniu";
+
+/* machine */
 "The Greenshot file could not be opened" = "Nie można otworzyć pliku Greenshota";
 
 /* machine */
@@ -5035,7 +5065,7 @@
 "The Keychain could not update the item: %@" = "Pęk kluczy nie mógł zaktualizować elementu: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Pęk kluczy jest zablokowany lub Greenshot nie otrzymał zgody na jego użycie (%@). Odblokuj go lub zezwól aplikacji Greenshot, gdy macOS zapyta, a potem spróbuj ponownie.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Pęk kluczy jest zablokowany lub Greenshot nie ma zgody na jego użycie. Spróbuj ponownie i odblokuj go lub zezwól aplikacji Greenshot, gdy macOS zapyta. Jeśli macOS nie zapyta, zablokuj i odblokuj pęk kluczy logowania w aplikacji Dostęp do pęku kluczy (znajdziesz ją przez Spotlight) albo uruchom Greenshota ponownie.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Narzędzie Zamglenie w edytorze pikseluje lub rozmywa części zrzutu ekranu, których nikt inny nie powinien widzieć.";
@@ -5471,6 +5501,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Ten krok automatyczny napisało narzędzie AI. Zmienia inne przepisy, także wbudowane: sprawdź poniżej, które i co dodaje. Zaczyna jako wyłączony, włącz go w Ustawienia › Przepisy.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Ta zmiana narzędzi AI obowiązuje do zamknięcia Greenshota";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "To jest przepis; w edytorze otwarty jest krok automatyczny.";
@@ -5915,6 +5948,9 @@
 
 /* machine */
 "What to change: %@" = "Co zmienić: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Twój wybór zostaje zachowany i znowu zacznie obowiązywać, gdy tylko Greenshot będzie mógł go sprawdzić, chyba że zmieniono go poza Greenshotem lub wtedy, gdy nie można było użyć pęku kluczy.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Co wstawia tam „Kopiuj do schowka”. Aplikacje biorą pierwszy format, który rozumieją; HTML osadza obraz jako PNG dla poczty i edytorów internetowych.";

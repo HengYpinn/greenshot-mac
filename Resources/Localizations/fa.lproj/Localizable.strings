@@ -1276,6 +1276,9 @@
 "Changes (− before, + after)" = "تغییرات (− پیش از، + پس از)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "تغییراتی که در زمانی انجام شد که استفاده از Keychain ممکن نبود، فقط تا خروج Greenshot اعمال می‌شوند.";
+
+/* machine */
 "Changes not applied yet" = "تغییرات هنوز اعمال نشده‌اند";
 
 /* machine */
@@ -2341,7 +2344,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot می‌تواند نشانی صفحه‌های باز در Safari و Chrome را بخواند. macOS برای هر مرورگر یک بار می‌پرسد که اجازه بدهد یا نه.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot نمی‌تواند بررسی کند که به کدام برنامه‌ها اجازه داده‌اید: نمی‌تواند کلید مهر آن‌ها را از Keychain بخواند. تا آن زمان، برای هر ابزار هوش مصنوعی طوری اجازه پرسیده می‌شود که گویی هیچ برنامه‌ای مجاز نیست.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot نمی‌تواند رضایت شما برای ابزارهای هوش مصنوعی را بررسی کند: نمی‌تواند کلید مهر آن را از Keychain بخواند. تا آن زمان، برنامه‌هایی که از فهرست برنامه‌های مستثنا حذف کرده‌اید دوباره مستثنا هستند و اعلان روشن است.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot نمی‌تواند کلید برنامهٔ Box را همراه خود بدهد، پس کلید خودتان را ثبت کنید: در [Box Developer Console](https://app.box.com/developers/console) یک Custom App با User Authentication (OAuth 2.0) بسازید، redirect URI آن را روی `%@` بگذارید، دامنهٔ Write all files را بدهید و شناسه و رمز مشتری آن را اینجا جایگذاری کنید. رمز و ورود در Keychain شما نگهداری می‌شوند؛ شناسهٔ پوشه عددی است که در URL پوشه آمده است.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot نمی‌تواند از Keychain استفاده کند، بنابراین این تغییر ذخیره نمی‌شود. قفل Keychain را باز کنید یا وقتی macOS پرسید به Greenshot اجازه دهید، سپس برای نگه داشتن تغییر، در تنظیمات › ابزارهای هوش مصنوعی روی «تلاش دوباره» کلیک کنید.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot نمی‌تواند از Keychain استفاده کند، بنابراین رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شد. قفل Keychain را باز کنید یا وقتی macOS پرسید به Greenshot اجازه دهید، سپس برای نگه داشتن رضایت، در تنظیمات › ابزارهای هوش مصنوعی روی «تلاش دوباره» کلیک کنید.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot نتوانست این دستورالعمل نمونه‌برداری را بارگذاری یا ثبت کند، زیرا خطاهای پیکربندی دارد. جزئیات عیب‌یابی زیر را بررسی کنید:";
@@ -2360,6 +2375,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot تصویر صفحه را با AppleScript به این برنامه‌ها می‌فرستد؛ macOS برای هر برنامه یک بار می‌پرسد.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot تا زمان خروج از این گذرواژه استفاده می‌کند. برای نگه داشتن آن، آن را در تنظیمات › مقصدها وارد کنید.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR، فضای بالایی %@ از %@";
@@ -5011,6 +5029,18 @@
 "The %@ icon is shown in the menu bar." = "نماد %@ در نوار منو نشان داده می‌شود.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "گذرواژهٔ %@ در Keychain نگه داشته نشد";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برنامه‌هایی که از فهرست برنامه‌های مستثنا حذف کرده‌اید دوباره مستثنا می‌شوند و اعلان روشن خواهد بود.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "رضایت ابزارهای هوش مصنوعی بدون مهرش ذخیره شده است، چون استفاده از Keychain ممکن نبود: پس از اجرای بعدی، برای هر برنامه دوباره پرسیده می‌شود.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "رضایت ابزارهای هوش مصنوعی در اجرای بعدی بازنشانی می‌شود";
+
+/* machine */
 "The Greenshot file could not be opened" = "فایل Greenshot باز نشد";
 
 /* machine */
@@ -5035,7 +5065,7 @@
 "The Keychain could not update the item: %@" = "Keychain نتوانست مورد را به‌روزرسانی کند: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Keychain قفل است یا به Greenshot اجازهٔ استفاده از آن داده نشد (%@). قفل آن را باز کنید یا وقتی macOS پرسید به Greenshot اجازه دهید، سپس دوباره تلاش کنید.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Keychain قفل است یا Greenshot اجازهٔ استفاده از آن را ندارد. دوباره تلاش کنید و وقتی macOS پرسید، قفل آن را باز کنید یا به Greenshot اجازه دهید. اگر macOS نپرسید، keychain «login» را در Keychain Access (با Spotlight پیدایش کنید) قفل کنید و دوباره باز کنید، یا Greenshot را دوباره راه‌اندازی کنید.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "ابزار مبهم ویرایشگر بخش‌هایی از تصویر صفحه را که نباید کسی ببیند، شطرنجی یا محو می‌کند.";
@@ -5471,6 +5501,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "این مرحلهٔ خودکار را یک ابزار هوش مصنوعی نوشته است. دستورالعمل‌های دیگر، از جمله داخلی‌ها، را تغییر می‌دهد: در زیر ببینید کدام‌ها و چه چیزی اضافه می‌کند. خاموش شروع می‌شود، آن را در تنظیمات › دستورالعمل‌ها روشن کنید.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "این تغییر در ابزارهای هوش مصنوعی تا خروج Greenshot اعمال می‌شود";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "این یک دستورالعمل است؛ ویرایشگر یک مرحلهٔ خودکار را باز دارد.";
@@ -5912,6 +5945,9 @@
 
 /* machine */
 "What to change: %@" = "چه چیزی تغییر کند: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "آنچه انتخاب کرده‌اید حفظ می‌شود و به محض اینکه Greenshot بتواند آن را بررسی کند دوباره معتبر است، مگر اینکه بیرون از Greenshot یا در زمانی که استفاده از Keychain ممکن نبود تغییر کرده باشد.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "آنچه «رونویس در حافظه موقت» در آن می‌گذارد. برنامه‌ها اولین قالبی را که می‌فهمند برمی‌دارند؛ HTML تصویر را برای ایمیل و ویرایشگرهای وب به‌صورت PNG جاسازی می‌کند.";

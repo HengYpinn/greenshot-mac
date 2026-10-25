@@ -1252,6 +1252,9 @@
 "Changes (− before, + after)" = "Wijzigingen (− voor, + na)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Wijzigingen die zijn gemaakt terwijl de Sleutelhanger niet kon worden gebruikt, gelden alleen totdat Greenshot wordt afgesloten.";
+
+/* machine */
 "Changes not applied yet" = "Wijzigingen nog niet toegepast";
 
 /* machine */
@@ -2290,7 +2293,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot kan de adressen lezen van de pagina's die in Safari en Chrome openstaan. macOS vraagt per browser eenmalig of dit mag.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot kan niet controleren welke programma's u hebt toegestaan: het kan de sleutel van hun zegel niet uit de Sleutelhanger lezen. Tot die tijd wordt voor elke AI-tool om toestemming gevraagd alsof er geen programma is toegestaan.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot kan uw toestemming voor AI-tools niet controleren: het kan de sleutel van het zegel ervan niet uit de Sleutelhanger lezen. Tot die tijd zijn apps die u uit de lijst met uitgesloten apps hebt verwijderd weer uitgesloten en staat de melding aan.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot kan geen Box-appsleutel meeleveren, dus registreer uw eigen: maak in de [Box Developer Console](https://app.box.com/developers/console) een Custom App met User Authentication (OAuth 2.0), stel de redirect-URI in op `%@`, geef de scope Write all files en plak de client-ID en het clientgeheim hier. Het geheim en de aanmelding worden bewaard in uw Sleutelhanger; de map-ID is het getal in de URL van de map.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan de Sleutelhanger niet gebruiken, dus de wijziging kan niet worden opgeslagen. Ontgrendel de Sleutelhanger of sta Greenshot toe wanneer macOS erom vraagt en klik dan op Opnieuw proberen in Instellingen › AI-tools om de wijziging te behouden.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan de Sleutelhanger niet gebruiken, dus de toestemming voor AI-tools is zonder zegel opgeslagen. Ontgrendel de Sleutelhanger of sta Greenshot toe wanneer macOS erom vraagt en klik dan op Opnieuw proberen in Instellingen › AI-tools om de toestemming te behouden.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot kon dit opnamerecept niet laden of registreren omdat het configuratiefouten bevat. Bekijk de diagnosedetails hieronder:";
@@ -2309,6 +2324,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot stuurt schermafbeeldingen via AppleScript naar deze apps; macOS vraagt eenmalig per app.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot gebruikt het totdat Greenshot wordt afgesloten. Voer het in bij Instellingen › Bestemmingen om het te bewaren.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, headroom %@ van %@";
@@ -4903,6 +4921,18 @@
 "The %@ icon is shown in the menu bar." = "Het symbool van %@ wordt in de menubalk getoond.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Het %@-wachtwoord kon niet in de Sleutelhanger worden bewaard";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start zijn apps die u uit de lijst met uitgesloten apps hebt verwijderd weer uitgesloten en staat de melding aan.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "De toestemming voor AI-tools is zonder zegel opgeslagen omdat de Sleutelhanger niet kon worden gebruikt: na de volgende start wordt voor elk programma opnieuw om toestemming gevraagd.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "De toestemming voor AI-tools wordt bij de volgende start opnieuw ingesteld";
+
+/* machine */
 "The Greenshot file could not be opened" = "Het Greenshot-bestand kon niet worden geopend";
 
 /* machine */
@@ -4927,7 +4957,7 @@
 "The Keychain could not update the item: %@" = "De Sleutelhanger kon het item niet bijwerken: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "De Sleutelhanger is vergrendeld of Greenshot mocht hem niet gebruiken (%@). Ontgrendel hem of sta Greenshot toe wanneer macOS erom vraagt en probeer het dan opnieuw.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "De Sleutelhanger is vergrendeld of Greenshot mag hem niet gebruiken. Probeer het opnieuw en ontgrendel hem of sta Greenshot toe wanneer macOS erom vraagt. Vraagt macOS niets, vergrendel en ontgrendel dan de inlogsleutelhanger in Sleutelhangertoegang (te vinden met Spotlight) of start Greenshot opnieuw.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Met de tool Maskeren van de beeldbewerker pixelt of vervaagt u de delen van een schermafbeelding die niemand anders mag zien.";
@@ -5365,6 +5395,9 @@
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Deze automatische stap is geschreven door een AI-tool. Hij wijzigt andere recepten, ook de ingebouwde: controleer hieronder welke en wat hij toevoegt. Hij start uitgeschakeld, schakel hem in via Instellingen › Recepten.";
 
 /* machine */
+"This change to AI tools applies until Greenshot quits" = "Deze wijziging aan AI-tools geldt totdat Greenshot wordt afgesloten";
+
+/* machine */
 "This is a recipe; the editor has an automatic step open." = "Dit is een recept; de beeldbewerker heeft een automatische stap geopend.";
 
 /* machine */
@@ -5789,6 +5822,9 @@
 
 /* machine */
 "What to change: %@" = "Wat te wijzigen: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Wat u hebt gekozen blijft bewaard en telt weer mee zodra Greenshot het kan controleren, tenzij het buiten Greenshot is gewijzigd of terwijl de Sleutelhanger niet kon worden gebruikt.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Wat “Naar klembord” daar plaatst. Apps nemen het eerste formaat dat ze begrijpen; HTML sluit de afbeelding als PNG in voor mail- en webeditors.";

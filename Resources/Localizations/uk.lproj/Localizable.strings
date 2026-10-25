@@ -1297,6 +1297,9 @@
 "Changes (− before, + after)" = "Зміни (− до, + після)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Зміни, внесені, поки Зв’язку ключів не можна було використовувати, діють лише до завершення роботи Greenshot.";
+
+/* machine */
 "Changes not applied yet" = "Зміни ще не застосовано";
 
 /* machine */
@@ -2362,7 +2365,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot може читати адреси сторінок, відкритих у Safari і Chrome. macOS один раз запитує для кожного браузера, чи дозволити це.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot не може перевірити, яким програмам ви дозволили доступ: він не може прочитати ключ їхньої печатки зі Зв’язки ключів. Доти дозвіл для кожного інструмента ШІ запитуватиметься так, ніби жодну програму не дозволено.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot не може перевірити вашу згоду для інструментів ШІ: він не може прочитати ключ її печатки зі Зв’язки ключів. Доти програми, які ви вилучили зі списку виключених, знову виключені, а сповіщення ввімкнене.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot не може постачатися з ключем програми Box, тому зареєструйте власний: у [Box Developer Console](https://app.box.com/developers/console) створіть Custom App з User Authentication (OAuth 2.0), задайте його redirect URI як `%@`, надайте область Write all files і вставте сюди його client ID і secret. Секрет і вхід зберігаються у вашій Зв’язці ключів; ID теки — це число в URL теки.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot не може використовувати Зв’язку ключів, тому зміну не можна зберегти. Розблокуйте Зв’язку ключів або дозвольте Greenshot, коли macOS запитає, потім натисніть «Повторити спробу» в Параметри › Інструменти ШІ, щоб зберегти її.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot не може використовувати Зв’язку ключів, тому згоду для інструментів ШІ збережено без печатки. Розблокуйте Зв’язку ключів або дозвольте Greenshot, коли macOS запитає, потім натисніть «Повторити спробу» в Параметри › Інструменти ШІ, щоб зберегти її.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot не зміг завантажити або зареєструвати цей рецепт захоплення, бо він містить помилки конфігурації. Перегляньте діагностичні подробиці нижче:";
@@ -2381,6 +2396,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot надсилає знімки в ці програми через AppleScript; macOS один раз запитує для кожної програми.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot використовує його, доки не завершить роботу. Щоб зберегти його, введіть його в Параметри › Призначення.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, запас %@ з %@";
@@ -5047,6 +5065,18 @@
 "The %@ icon is shown in the menu bar." = "Піктограму %@ показано в рядку меню.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Не вдалося зберегти пароль %@ у Зв’язці ключів";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Згоду для інструментів ШІ збережено без печатки, бо Зв’язку ключів не можна було використовувати: після наступного запуску програми, які ви вилучили зі списку виключених, знову будуть виключені, а сповіщення буде ввімкнене.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Згоду для інструментів ШІ збережено без печатки, бо Зв’язку ключів не можна було використовувати: після наступного запуску кожну програму запитають знову.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Згоду для інструментів ШІ буде скинуто під час наступного запуску";
+
+/* machine */
 "The Greenshot file could not be opened" = "Не вдалося відкрити файл Greenshot";
 
 /* machine */
@@ -5071,7 +5101,7 @@
 "The Keychain could not update the item: %@" = "Зв’язка ключів не змогла оновити елемент: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Зв’язка ключів заблокована, або Greenshot не дозволено її використовувати (%@). Розблокуйте її або дозвольте Greenshot, коли macOS запитає, потім повторіть спробу.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Зв’язка ключів заблокована, або Greenshot не дозволено її використовувати. Повторіть спробу й розблокуйте її або дозвольте Greenshot, коли macOS запитає. Якщо macOS не запитує, заблокуйте й розблокуйте зв’язку ключів «login» у програмі «Ключар» (знайдіть її через Spotlight) або перезапустіть Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Інструмент «Затемнення» редактора пікселізує або розмиває частини знімка, які не повинен бачити ніхто інший.";
@@ -5507,6 +5537,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Цей автоматичний крок написав інструмент ШІ. Він змінює інші рецепти, зокрема вбудовані: перевірте нижче, які саме та що він додає. Він починає вимкненим, увімкніть його в Параметри › Рецепти.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Ця зміна інструментів ШІ діє до завершення роботи Greenshot";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Це рецепт; у редакторі відкрито автоматичний крок.";
@@ -5957,6 +5990,9 @@
 
 /* machine */
 "What to change: %@" = "Що змінити: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Ваш вибір зберігається й знову почне діяти, щойно Greenshot зможе його перевірити, якщо його не було змінено поза Greenshot або поки Зв’язку ключів не можна було використовувати.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Що «Копіювати у буфер обміну» туди поміщає. Програми беруть перший зрозумілий їм формат; HTML вбудовує зображення як PNG для поштових і вебредакторів.";

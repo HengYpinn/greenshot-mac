@@ -401,6 +401,7 @@ Changed Lines	Mainītās rindas	claude-sonnet-5-5 2026-10-18
 Changed recipes	Mainītās receptes	claude-sonnet-5-5 2026-10-18
 Changed your mind? Esc cancels a capture.	Pārdomāji? Esc atceļ tveršanu.	claude-sonnet-5-5 2026-10-18
 Changes (− before, + after)	Izmaiņas (− pirms, + pēc)	claude-sonnet-5-5 2026-10-18
+Changes made while the Keychain couldn't be used apply only until Greenshot quits.	Izmaiņas, kas veiktas laikā, kad atslēgu saišķi nevarēja izmantot, ir spēkā tikai līdz Greenshot aizvēršanai.	claude-opus-5-5 2026-10-25
 Changes not applied yet	Izmaiņas vēl nav pielietotas	claude-sonnet-5-5 2026-10-18
 Changes other recipes	Maina citas receptes	claude-sonnet-5-5 2026-10-18
 Changes the automatic step “%@”	Maina automātisko soli „%@”	claude-sonnet-5-5 2026-10-18
@@ -714,13 +715,18 @@ Greenshot Recent	Greenshot nesenās	claude-sonnet-5-5 2026-10-18
 Greenshot Website	Greenshot vietne	claude-sonnet-5-5 2026-10-18
 Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot pievieno šos soļus citām receptēm: ievieto tos soļu sarakstā pirms Out, ieslēdz automātisko soli sadaļā Iestatījumi › Receptes.	claude-sonnet-5-5 2026-10-18
 Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot var nolasīt Safari un Chrome atvērto lapu adreses. macOS vienreiz katrai pārlūkprogrammai vaicā, vai to atļaut.	claude-sonnet-5-5 2026-10-18
+Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed.	Greenshot nevar pārbaudīt, kuras programmas tu atļāvi: tas nevar nolasīt to zīmoga atslēgu no atslēgu saišķa. Līdz tam katram MI rīkam atļauja tiek vaicāta tā, it kā neviena programma nebūtu atļauta.	claude-opus-5-5 2026-10-25
+Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on.	Greenshot nevar pārbaudīt tavu piekrišanu MI rīkiem: tas nevar nolasīt tās zīmoga atslēgu no atslēgu saišķa. Līdz tam lietotnes, ko izņēmi no izslēgto lietotņu saraksta, atkal ir izslēgtas, un paziņojums ir ieslēgts.	claude-opus-5-5 2026-10-25
 Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot nevar piegādāt Box lietotnes atslēgu, tāpēc reģistrē savu: [Box Developer Console](https://app.box.com/developers/console) izveido Custom App ar User Authentication (OAuth 2.0), iestati tās redirect URI uz `%@`, piešķir Write all files tvērumu un ielīmē šeit tās klienta ID un noslēpumu. Noslēpums un pieteikšanās tiek glabāti tavā atslēgu saišķī; mapes ID ir skaitlis mapes URL.	claude-sonnet-5-5 2026-10-18
+Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	Greenshot nevar izmantot atslēgu saišķi, tāpēc izmaiņas nevar saglabāt. Atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā, un pēc tam noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki, lai tās paturētu.	claude-opus-5-5 2026-10-25
+Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	Greenshot nevar izmantot atslēgu saišķi, tāpēc piekrišana MI rīkiem tika saglabāta bez zīmoga. Atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā, un pēc tam noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki, lai to paturētu.	claude-opus-5-5 2026-10-25
 Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	Greenshot nevarēja ielādēt vai reģistrēt šo tveršanas recepti, jo tajā ir konfigurācijas kļūdas. Pārskati tālāk norādīto diagnostikas informāciju:	claude-sonnet-5-5 2026-10-18
 Greenshot could not use this automatic step because it contains errors. Review the details below:	Greenshot nevarēja izmantot šo automātisko soli, jo tajā ir kļūdas. Pārskati tālāk norādīto informāciju:	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac nav soļa „%@”: tā parametri tiek saglabāti nemainīti.	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac isn't ready.	Greenshot for Mac nav gatavs.	claude-sonnet-5-5 2026-10-18
 Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot nav atļauts vadīt %@. Atļauj to sadaļā Sistēmas iestatījumi › Privātums un drošība › Automatizācija › Greenshot.	claude-sonnet-5-5 2026-10-18
 Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot sūta ekrānattēlus šīm lietotnēm ar AppleScript; macOS vienreiz katrai lietotnei vaicā.	claude-sonnet-5-5 2026-10-18
+Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations.	Greenshot to izmanto, līdz tiek aizvērts. Lai to paturētu, ievadi to sadaļā Iestatījumi › Mērķi.	claude-opus-5-5 2026-10-25
 Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
 HDR, headroom %@ of %@	HDR, rezerve %@ no %@	claude-sonnet-5-5 2026-10-18
 HTML (image embedded)	HTML (attēls iegults)	claude-sonnet-5-5 2026-10-18
@@ -1517,6 +1523,10 @@ Thank you for installing %@! It's running now and waits for you in the menu bar,
 That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	Tas ir viss, kas nepieciešams, lai sāktu. %@ gaida izvēļņu joslā, un visu pārējo vari mainīt iestatījumos, kad vien vēlies.	claude-sonnet-5-5 2026-10-18
 The %@ app key	%@ lietotnes atslēga	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	%@ ikona tiek rādīta izvēļņu joslā.	claude-sonnet-5-5 2026-10-18
+The %@ password could not be kept in the Keychain	%@ paroli nevarēja saglabāt atslēgu saišķī	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on.	Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas lietotnes, ko izņēmi no izslēgto lietotņu saraksta, atkal ir izslēgtas, un paziņojums ir ieslēgts.	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas katrai programmai atļauja tiks vaicāta vēlreiz.	claude-opus-5-5 2026-10-25
+The AI tools consent will be reset at the next start	Piekrišana MI rīkiem tiks atiestatīta nākamajā palaišanā	claude-opus-5-5 2026-10-25
 The Greenshot file could not be opened	Greenshot failu nevarēja atvērt	claude-sonnet-5-5 2026-10-18
 The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Greenshot for Mac (Community) Companion paplašinājums Chrome, Edge un Firefox sūta redzamo lapu un lapas adresi.	claude-sonnet-5-5 2026-10-18
 The JSON must hold exactly one recipe (it holds %lld).	JSON jāsatur tieši viena recepte (tajā ir %lld).	claude-sonnet-5-5 2026-10-18
@@ -1525,7 +1535,7 @@ The Keychain could not add the item: %@	Atslēgu saišķis nevarēja pievienot v
 The Keychain could not read the item: %@	Atslēgu saišķis nevarēja nolasīt vienumu: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	Atslēgu saišķis nevarēja noņemt vienumu: %@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	Atslēgu saišķis nevarēja atjaunināt vienumu: %@	claude-sonnet-5-5 2026-10-18
-The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	Atslēgu saišķis ir bloķēts, vai Greenshot netika atļauts to izmantot (%@). Atbloķē to vai atļauj Greenshot, kad macOS jautā, un pēc tam mēģini vēlreiz.	claude-opus-5-5 2026-10-21
+The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot.	Atslēgu saišķis ir bloķēts, vai Greenshot nav atļauts to izmantot. Mēģini vēlreiz un atbloķē to vai atļauj Greenshot, kad macOS jautā. Ja macOS nejautā, bloķē un atbloķē „login” atslēgu saišķi lietotnē Keychain Access (atrodi to ar Spotlight) vai restartē Greenshot.	claude-opus-5-5 2026-10-25
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	Redaktora rīks Aizmiglošana sadrumstalo vai izpludina ekrānattēla daļas, ko nevajadzētu redzēt nevienam citam.	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF nevarēja saglabāt	claude-sonnet-5-5 2026-10-18
 The action failed.	Darbība neizdevās.	claude-sonnet-5-5 2026-10-18
@@ -1665,6 +1675,7 @@ This address starts with http://: the password travels unencrypted.	Šī adrese 
 This app	Šī lietotne	claude-sonnet-5-5 2026-10-18
 This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	Šis automātiskais solis maina atzīmēto recepšu tvērumus atzīmētajiem mērķiem. Jaunas receptes to saņem arī.	claude-sonnet-5-5 2026-10-18
 This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	Šo automātisko soli uzrakstīja MI rīks. Tas maina citas receptes, arī iebūvētās: tālāk pārbaudi, kuras un ko tas pievieno. Tas sākumā ir izslēgts, ieslēdz to sadaļā Iestatījumi › Receptes.	claude-sonnet-5-5 2026-10-18
+This change to AI tools applies until Greenshot quits	Šīs MI rīku izmaiņas ir spēkā, līdz Greenshot tiek aizvērts	claude-opus-5-5 2026-10-25
 This is a recipe; the editor has an automatic step open.	Šī ir recepte; redaktorā ir atvērts automātiskais solis.	claude-sonnet-5-5 2026-10-18
 This is an automatic step; the editor has a recipe open.	Šis ir automātiskais solis; redaktorā ir atvērta recepte.	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	Šai programmai NAV NEKĀDU GARANTIJU. Šī ir brīva programmatūra, un tu vari to izplatīt atkārtoti noteiktos apstākļos: %@ vai jaunāka.	claude-sonnet-5-5 2026-10-18
@@ -1793,6 +1804,7 @@ What this automatic step does, which recipes it changes and what you approved fo
 What this built-in recipe does and which triggers start it.	Ko šī iebūvētā recepte dara un kuri trigeri to palaiž.	claude-sonnet-5-5 2026-10-18
 What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	Ko šī recepte dara un ko tu tai apstiprināji. Šeit neko nevar mainīt; to dara ar Atļaujas sadaļā Iestatījumi › Receptes vai recepšu pārvaldniekā.	claude-sonnet-5-5 2026-10-18
 What to change: %@	Ko mainīt: %@	claude-sonnet-5-5 2026-10-18
+What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used.	Tava izvēle tiek saglabāta un atkal būs spēkā, tiklīdz Greenshot to varēs pārbaudīt, ja vien tā netika mainīta ārpus Greenshot vai laikā, kad atslēgu saišķi nevarēja izmantot.	claude-opus-5-5 2026-10-25
 What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	Ko tur ievieto „Ievietot atmiņā”. Lietotnes ņem pirmo formātu, ko tās saprot; HTML iegulst attēlu kā PNG e-pastam un tīmekļa redaktoriem.	claude-opus-5-5 2026-10-18
 When	Kad	claude-sonnet-5-5 2026-10-18
 When it runs again	Kad tā tiek palaista atkal	claude-sonnet-5-5 2026-10-18

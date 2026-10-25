@@ -1282,6 +1282,9 @@
 "Changes (− before, + after)" = "Muutokset (− ennen, + jälkeen)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Muutokset, jotka tehtiin, kun Avainnippua ei voitu käyttää, ovat voimassa vain siihen asti, kun Greenshot lopetetaan.";
+
+/* machine */
 "Changes not applied yet" = "Muutoksia ei ole vielä otettu käyttöön";
 
 /* machine */
@@ -2335,7 +2338,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot voi lukea Safarissa ja Chromessa avoimien sivujen osoitteet. macOS kysyy kerran selainta kohti, sallitaanko se.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot ei voi tarkistaa, mitkä ohjelmat olet sallinut: se ei voi lukea niiden sinetin avainta Avainnipusta. Siihen asti jokaiselta tekoälytyökalulta kysytään kuin mitään ohjelmaa ei olisi sallittu.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot ei voi tarkistaa tekoälytyökaluja koskevaa suostumustasi: se ei voi lukea sen sinetin avainta Avainnipusta. Siihen asti sovellukset, jotka poistit pois suljettujen sovellusten luettelosta, on taas suljettu pois, ja ilmoitus on päällä.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot ei voi toimittaa Box-sovellusavainta, joten rekisteröi oma: luo [Box Developer Consolessa](https://app.box.com/developers/console) Custom App, jossa on User Authentication (OAuth 2.0), aseta sen uudelleenohjaus-URI:ksi `%@`, anna sille Write all files -laajuus ja liitä sen client ID ja secret tähän. Secret ja kirjautuminen säilytetään Avainnipussasi; kansion tunniste on kansion URL-osoitteen numero.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ei voi käyttää Avainnippua, joten muutosta ei voi tallentaa. Avaa Avainnipun lukitus tai salli Greenshot, kun macOS kysyy, ja napsauta sitten Yritä uudelleen kohdassa Asetukset › Tekoälytyökalut, jotta muutos säilyy.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ei voi käyttää Avainnippua, joten tekoälytyökaluja koskeva suostumus tallennettiin ilman sinettiään. Avaa Avainnipun lukitus tai salli Greenshot, kun macOS kysyy, ja napsauta sitten Yritä uudelleen kohdassa Asetukset › Tekoälytyökalut, jotta suostumus säilyy.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot ei voinut ladata tai rekisteröidä tätä kaappausreseptiä, koska se sisältää määritysvirheitä. Tarkista alla olevat diagnostiikkatiedot:";
@@ -2354,6 +2369,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot lähettää kuvakaappaukset näihin appeihin AppleScriptillä; macOS kysyy kerran appia kohti.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot käyttää sitä, kunnes Greenshot lopetetaan. Jos haluat säilyttää sen, anna se kohdassa Asetukset › Kohteet.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, varaa %@ / %@";
@@ -5011,6 +5029,18 @@
 "The %@ icon is shown in the menu bar." = "Kuvake %@ näkyy valikkorivillä.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Kohteen %@ salasanaa ei voitu säilyttää Avainnipussa";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen sovellukset, jotka poistit pois suljettujen sovellusten luettelosta, on taas suljettu pois, ja ilmoitus on päällä.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tekoälytyökaluja koskeva suostumus on tallennettu ilman sinettiään, koska Avainnippua ei voitu käyttää: seuraavan käynnistyksen jälkeen jokaiselta ohjelmalta kysytään uudelleen.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Tekoälytyökaluja koskeva suostumus nollataan seuraavassa käynnistyksessä";
+
+/* machine */
 "The Greenshot file could not be opened" = "Greenshot-tiedostoa ei voitu avata";
 
 /* machine */
@@ -5035,7 +5065,7 @@
 "The Keychain could not update the item: %@" = "Avainnippu ei voinut päivittää kohdetta: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Avainnippu on lukittu, tai Greenshot ei saanut lupaa käyttää sitä (%@). Avaa sen lukitus tai salli Greenshot, kun macOS kysyy, ja yritä sitten uudelleen.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Avainnippu on lukittu, tai Greenshot ei saa käyttää sitä. Yritä uudelleen ja avaa sen lukitus tai salli Greenshot, kun macOS kysyy. Jos macOS ei kysy, lukitse sisäänkirjautumisavainnippu ja avaa sen lukitus Avainnippu-apissa (löydät sen Spotlightilla), tai käynnistä Greenshot uudelleen.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Muokkaimen Häivytä-työkalu pikselöi tai sumentaa kuvakaappauksen osat, joita kenenkään muun ei pitäisi nähdä.";
@@ -5471,6 +5501,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Tämän automaattisen vaiheen on kirjoittanut tekoälytyökalu. Se muuttaa muita reseptejä, myös sisäänrakennettuja: tarkista alta, mihin se vaikuttaa ja mitä se lisää. Se on aluksi pois päältä, kytke se päälle kohdassa Asetukset › Reseptit.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Tämä tekoälytyökalujen muutos on voimassa, kunnes Greenshot lopetetaan";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Tämä on resepti; muokkaimessa on auki automaattinen vaihe.";
@@ -5912,6 +5945,9 @@
 
 /* machine */
 "What to change: %@" = "Mitä muutetaan: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Valintasi säilyy ja on taas voimassa heti, kun Greenshot voi tarkistaa sen, ellei sitä muutettu Greenshotin ulkopuolella tai silloin, kun Avainnippua ei voitu käyttää.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Mitä ”Kopioi leikepöydälle” sinne laittaa. Apit ottavat ensimmäisen ymmärtämänsä muodon; HTML upottaa kuvan PNG:nä sähköposti- ja verkkomuokkaimia varten.";

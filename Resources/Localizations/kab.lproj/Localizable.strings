@@ -1270,6 +1270,9 @@
 "Changes (− before, + after)" = "Isnifal (− uqbel, + deffir)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Ibeddilen i yettwagen mi ur tezmir ara Taxzant n tsura ad tettwaseqdec, teddun kan almi yeffeɣ Greenshot.";
+
+/* machine */
 "Changes not applied yet" = "Isnifal ur ttwasnasen ara mazal";
 
 /* machine */
@@ -2329,7 +2332,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot yezmer ad iɣer tansiwin n yisebtar yeldin deg Safari d Chrome. macOS isteqsi yiwet n tikkelt i yal asiɣzef ma yella tettwasirgeḍ.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot ur yezmir ara ad isenqed ahilen i tsirgeḍ: ur yezmir ara ad iɣer tasarut n taṭabeɛt-nsen seg Taxzant n tsura. Alamma yezmer, ifecka AI ad ttwasteqsin am akken ulac ahil yettwasirgen.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot ur yezmir ara ad isenqed tasiregt-ik i ifecka AI: ur yezmir ara ad iɣer tasarut n taṭabeɛt-is seg Taxzant n tsura. Alamma yezmer, isnasen i tekkseḍ seg tebdart n yisnasen yettwasebḍen ad ttwasebḍen tikkelt-nniḍen, yerna alɣu ad yermed.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot ur yezmir ara ad yefk tasarut n usnas Box, ihi ḥrez-d tin-ik: deg [Box Developer Console](https://app.box.com/developers/console) rnu Custom App s User Authentication (OAuth 2.0), sbadu URI n uwennez ɣer `%@`, efk-as tazmert Write all files u sekcem dagi asulay n umsaɣ d uẓeṭṭa-ines. Aẓeṭṭa d usesteb ttwaḥerzen deg Taxzant n tsura; asulay n ukaram d uṭṭun deg URL n ukaram.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ur yezmir ara ad iseqdec Taxzant n tsura, ihi abeddel ur yezmir ara ad yettwasekles. Kkes asekker i Taxzant n tsura neɣ sireg Greenshot mi ara d-yesteqsi macOS, sakin senned Ɛreḍ daɣen deg Iɣewwaṛen › Ifecka AI akken ad t-teǧǧeḍ.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ur yezmir ara ad iseqdec Taxzant n tsura, ihi tasiregt n ifecka AI tettwasekles war taṭabeɛt-is. Kkes asekker i Taxzant n tsura neɣ sireg Greenshot mi ara d-yesteqsi macOS, sakin senned Ɛreḍ daɣen deg Iɣewwaṛen › Ifecka AI akken ad tt-teǧǧeḍ.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot ur izmir ara ad d-yessali neɣ ad yarsem aserwas n tuṭṭfa-agi acku yesɛa tuccḍiwin n uswel. Wali talqayt n usenqed ddaw:";
@@ -2348,6 +2363,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot yazen tuṭṭfiwin n ugdil ɣer yisnasen-agi s AppleScript; macOS isteqsi yiwet n tikkelt i yal asnas.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot yesseqdac awal uffir-agi almi yeffeɣ. Akken ad t-teǧǧeḍ, sekcem-it deg Iɣewwaṛen › Tiniɣriwin.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, tallunt %@ seg %@";
@@ -5008,6 +5026,18 @@
 "The %@ icon is shown in the menu bar." = "Tignit n %@ tettwaskan deg ufeggag n wumuɣ.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Awal uffir n %@ ur yezmir ara ad yettwaḥrez deg Taxzant n tsura";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Tasiregt n ifecka AI tettwasekles war taṭabeɛt-is acku Taxzant n tsura ur tezmir ara ad tettwaseqdec: seld asenker i d-iteddun, isnasen i tekkseḍ seg tebdart n yisnasen yettwasebḍen ad ttwasebḍen tikkelt-nniḍen, yerna alɣu ad yermed.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Tasiregt n ifecka AI tettwasekles war taṭabeɛt-is acku Taxzant n tsura ur tezmir ara ad tettwaseqdec: seld asenker i d-iteddun, yal ahil ad yettwasteqsi daɣen.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Tasiregt n ifecka AI ad tettwawennez deg usenker i d-iteddun";
+
+/* machine */
 "The Greenshot file could not be opened" = "Afaylu Greenshot ur yezmir ara ad yettwaldi";
 
 /* machine */
@@ -5032,7 +5062,7 @@
 "The Keychain could not update the item: %@" = "Taxzant n tsura ur tezmir ara ad tleqqem aferdis: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Taxzant n tsura tettwasekker, neɣ Greenshot ur yettwasireg ara ad tt-yesseqdec (%@). Kkes-as asekker, neɣ sireg Greenshot mi ara d-yesteqsi macOS, sakin ɛreḍ daɣen.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Taxzant n tsura tettwasekker, neɣ Greenshot ur yettusireg ara ad tt-yesseqdec. Ɛreḍ daɣen, sakin kkes-as asekker neɣ sireg Greenshot mi ara d-yesteqsi macOS. Ma yella macOS ur d-yesteqsa ara, sekker sakin kkes asekker i Taxzant n tsura “login” deg Keychain Access (af-it s Spotlight), neɣ ales asenker n Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Afecku Sdaɛmumec n umaẓrag isenfal ipiksilen neɣ isdeɛmumec iḥricen n tuṭṭfa n ugdil i ur ilaq ad ten-twali yiwen nniḍen.";
@@ -5468,6 +5498,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Asurif awurman-agi yettwaru sɣur afecku AI. Isnifel iserwasen nniḍen, ula d wid yettwarnan: wali anwa d acu yerna ddaw. Yebda yensa, rmed-it deg Iɣewwaṛen › Iserwasen.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Abeddel-agi n ifecka AI iteddu almi yeffeɣ Greenshot";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Wagi d aserwas; amaẓrag yesɛa asurif awurman yeldin.";
@@ -5918,6 +5951,9 @@
 
 /* machine */
 "What to change: %@" = "D acu ara yettusnifel: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Ayen i tferneḍ yettwaḥrez, ad yuɣal ad iteddu ticki yezmer Greenshot ad t-isenqed, ma yella ur yettwabeddel ara beṛṛa n Greenshot neɣ mi ur tezmir ara Taxzant n tsura ad tettwaseqdec.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "D acu i yesers “Ɣef afus” da. Isnasen ṭṭafen amasal amezwaru i fehmen; HTML yeseddu tugna d PNG i yimaylen d yimaẓrag web.";

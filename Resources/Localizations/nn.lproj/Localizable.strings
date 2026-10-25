@@ -1276,6 +1276,9 @@
 "Changes (− before, + after)" = "Endringar (− før, + etter)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Endringar som vart gjorde medan Nøkkelringen ikkje kunne brukast, gjeld berre til Greenshot blir avslutta.";
+
+/* machine */
 "Changes not applied yet" = "Endringane er ikkje brukte enno";
 
 /* machine */
@@ -2323,7 +2326,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot kan lese adressene til sidene som er opne i Safari og Chrome. macOS spør éin gong per nettlesar om det er tillate.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot kan ikkje kontrollere kva program du har tillate: det kan ikkje lese nøkkelen til seglet deira frå Nøkkelringen. Inntil vidare blir kvart KI-verktøy spurt som om ingen program var tillatne.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot kan ikkje kontrollere samtykket ditt for KI-verktøy: det kan ikkje lese nøkkelen til seglet frå Nøkkelringen. Inntil vidare er program du har fjerna frå lista over utelatne program, utelatne igjen, og varselet er slått på.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot kan ikkje levere ein Box-appnøkkel, så registrer ein eigen: opprett ein Custom App med User Authentication (OAuth 2.0) i [Box Developer Console](https://app.box.com/developers/console), set omdirigerings-URI-en til `%@`, gi han omfanget Write all files, og lim inn klient-ID-en og hemmelegheita her. Hemmelegheita og pålogginga blir lagra i Nøkkelringen din; mappe-ID-en er talet i nettadressa til mappa.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan ikkje bruke Nøkkelringen, så endringa kan ikkje lagrast. Lås opp Nøkkelringen eller tillat Greenshot når macOS spør, og klikk så Prøv igjen i Innstillingar › KI-verktøy for å halde på henne.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kan ikkje bruke Nøkkelringen, så samtykket for KI-verktøy vart lagra utan seglet sitt. Lås opp Nøkkelringen eller tillat Greenshot når macOS spør, og klikk så Prøv igjen i Innstillingar › KI-verktøy for å halde på det.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot kunne ikkje laste inn eller registrere denne opptaksoppskrifta fordi ho har konfigurasjonsfeil. Sjå gjennom diagnostikkdetaljane under:";
@@ -2342,6 +2357,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot sender skjermbilete til desse programma via AppleScript; macOS spør éin gong per program.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot brukar det til Greenshot blir avslutta. Skriv det inn i Innstillingar › Mål for å halde på det.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, headroom %@ av %@";
@@ -4984,6 +5002,18 @@
 "The %@ icon is shown in the menu bar." = "%@-ikonet blir vist i menylinja.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Passordet for %@ kunne ikkje lagrast i Nøkkelringen";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Samtykket for KI-verktøy er lagra utan seglet sitt fordi Nøkkelringen ikkje kunne brukast: etter neste start er program du har fjerna frå lista over utelatne program, utelatne igjen, og varselet er slått på.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Samtykket for KI-verktøy er lagra utan seglet sitt fordi Nøkkelringen ikkje kunne brukast: etter neste start blir kvart program spurt på nytt.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Samtykket for KI-verktøy blir tilbakestilt ved neste start";
+
+/* machine */
 "The Greenshot file could not be opened" = "Greenshot-fila kunne ikkje opnast";
 
 /* machine */
@@ -5008,7 +5038,7 @@
 "The Keychain could not update the item: %@" = "Nøkkelringen kunne ikkje oppdatere oppføringa: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Nøkkelringen er låst, eller Greenshot fekk ikkje lov til å bruke han (%@). Lås han opp, eller tillat Greenshot når macOS spør, og prøv så på nytt.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Nøkkelringen er låst, eller Greenshot har ikkje lov til å bruke han. Prøv igjen, og lås han opp eller tillat Greenshot når macOS spør. Viss macOS ikkje spør, lås påloggingsnøkkelringen og lås han opp igjen i Nøkkelringtilgang (finn programmet med Spotlight), eller start Greenshot på nytt.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Sensurer-verktøyet i redigeraren pikselerer eller gjer uskarpe delane av eit skjermbilete som ingen andre skal sjå.";
@@ -5444,6 +5474,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Dette automatiske steget er skrive av eit KI-verktøy. Det endrar andre oppskrifter, òg dei innebygde: sjekk kva for nokre og kva det legg til nedanfor. Det startar avslått, slå det på i Innstillingar › Oppskrifter.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Denne endringa av KI-verktøy gjeld til Greenshot blir avslutta";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Dette er ei oppskrift; redigeraren har eit automatisk steg open.";
@@ -5882,6 +5915,9 @@
 
 /* machine */
 "What to change: %@" = "Kva som skal endrast: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Det du valde, blir teke vare på og gjeld igjen så snart Greenshot kan kontrollere det, med mindre det vart endra utanfor Greenshot eller medan Nøkkelringen ikkje kunne brukast.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Kva «Kopier til utklyppstavla» legg der. Program tek det første formatet dei forstår; HTML bed inn bildet som PNG for e-post og nettredigerarar.";

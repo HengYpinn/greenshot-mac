@@ -1273,6 +1273,9 @@
 "Changes (− before, + after)" = "변경 사항(− 이전, + 이후)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "키체인을 사용할 수 없던 동안의 변경 사항은 Greenshot이 종료될 때까지만 적용됩니다.";
+
+/* machine */
 "Changes not applied yet" = "변경 사항이 아직 적용되지 않음";
 
 /* machine */
@@ -2338,7 +2341,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot은 Safari와 Chrome에서 열린 페이지의 주소를 읽을 수 있습니다. macOS에서 브라우저마다 한 번 허용 여부를 묻습니다.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "사용자가 허용한 프로그램을 Greenshot이 확인할 수 없습니다: 키체인에서 해당 봉인의 키를 읽을 수 없습니다. 읽을 수 있을 때까지는 허용된 프로그램이 없는 것처럼 AI 도구마다 다시 묻습니다.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot이 AI 도구 동의를 확인할 수 없습니다: 키체인에서 해당 봉인의 키를 읽을 수 없습니다. 읽을 수 있을 때까지는 제외 목록에서 제거한 응용 프로그램이 다시 제외되고 알림이 켜집니다.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot은 Box 앱 키를 제공할 수 없으므로 직접 등록해야 합니다. [Box Developer Console](https://app.box.com/developers/console)에서 사용자 인증(OAuth 2.0)이 있는 사용자 지정 앱을 만들고, 리디렉션 URI를 `%@`(으)로 설정하고, Write all files 범위를 부여한 다음 클라이언트 ID와 시크릿을 여기에 붙여넣으세요. 시크릿과 로그인은 키체인에 보관되며, 폴더 ID는 폴더 URL에 있는 숫자입니다.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot이 키체인을 사용할 수 없어 변경 사항을 저장할 수 없습니다. 키체인 잠금을 해제하거나 macOS가 물을 때 Greenshot을 허용한 다음, 설정 › AI 도구에서 다시 시도를 클릭하여 변경 사항을 유지하세요.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot이 키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되었습니다. 키체인 잠금을 해제하거나 macOS가 물을 때 Greenshot을 허용한 다음, 설정 › AI 도구에서 다시 시도를 클릭하여 동의를 유지하세요.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "이 캡처 레시피에 구성 오류가 있어 Greenshot에서 로드하거나 등록할 수 없습니다. 아래 진단 세부 정보를 검토하세요:";
@@ -2357,6 +2372,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot은 AppleScript로 이 앱들에 스크린샷을 보냅니다. macOS에서 앱마다 한 번 묻습니다.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot은 종료될 때까지 이 암호를 사용합니다. 유지하려면 설정 › 저장 방법에서 입력하세요.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, 헤드룸 %@/%@";
@@ -5026,6 +5044,18 @@
 "The %@ icon is shown in the menu bar." = "%@ 아이콘이 메뉴 막대에 표시됩니다.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "%@ 암호를 키체인에 보관하지 못했습니다";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 제외 목록에서 제거한 응용 프로그램이 다시 제외되고 알림이 켜집니다.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "키체인을 사용할 수 없어 AI 도구 동의가 봉인 없이 저장되어 있습니다: 다음 시작 후에는 모든 프로그램에 다시 묻습니다.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "AI 도구 동의는 다음 시작 시 재설정됩니다";
+
+/* machine */
 "The Greenshot file could not be opened" = "Greenshot 파일을 열 수 없습니다";
 
 /* machine */
@@ -5050,7 +5080,7 @@
 "The Keychain could not update the item: %@" = "키체인에서 항목을 업데이트할 수 없습니다: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "키체인이 잠겨 있거나 Greenshot이 키체인을 사용하도록 허용되지 않았습니다(%@). 잠금을 해제하거나 macOS가 물을 때 Greenshot을 허용한 다음 다시 시도하세요.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "키체인이 잠겨 있거나 Greenshot이 키체인을 사용하도록 허용되지 않았습니다. 다시 시도하고, macOS가 물을 때 잠금을 해제하거나 Greenshot을 허용하세요. macOS가 묻지 않으면 키체인 접근(Spotlight로 찾을 수 있음)에서 로그인 키체인을 잠갔다가 잠금 해제하거나 Greenshot을 다시 시작하세요.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "편집기의 모자이크 도구는 다른 사람에게 보이면 안 되는 스크린샷 부분을 픽셀화하거나 흐리게 처리합니다.";
@@ -5486,6 +5516,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "이 자동 단계는 AI 도구가 작성했습니다. 기본 제공 레시피를 포함한 다른 레시피를 변경합니다. 어떤 레시피가 변경되고 무엇이 추가되는지 아래에서 확인하세요. 꺼진 상태로 시작하며, 설정 › 레시피에서 켜세요.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "AI 도구에 대한 이 변경 사항은 Greenshot이 종료될 때까지 적용됩니다";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "이것은 레시피이며, 편집기에는 자동 단계가 열려 있습니다.";
@@ -5930,6 +5963,9 @@
 
 /* machine */
 "What to change: %@" = "변경할 내용: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "선택한 내용은 유지되며 Greenshot이 확인할 수 있게 되면 다시 적용됩니다. 단, Greenshot 외부에서 변경되었거나 키체인을 사용할 수 없던 동안 변경된 경우는 제외됩니다.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "“클립보드로 복사”가 클립보드에 넣는 내용입니다. 앱은 이해하는 첫 번째 형식을 사용하며, HTML은 메일 및 웹 편집기용으로 이미지를 PNG로 포함합니다.";

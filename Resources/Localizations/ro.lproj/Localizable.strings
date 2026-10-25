@@ -1270,6 +1270,9 @@
 "Changes (− before, + after)" = "Modificări (− înainte, + după)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Modificările făcute cât timp Keychain nu a putut fi folosit se aplică doar până la ieșirea din Greenshot.";
+
+/* machine */
 "Changes not applied yet" = "Modificări încă neaplicate";
 
 /* machine */
@@ -2305,7 +2308,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot poate citi adresele paginilor deschise în Safari și Chrome. macOS întreabă o dată pentru fiecare browser dacă permiteți.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot nu poate verifica ce programe ați permis: nu poate citi din Keychain cheia sigiliului lor. Până atunci, permisiunea este cerută pentru fiecare instrument AI ca și cum niciun program nu ar fi permis.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot nu poate verifica consimțământul dumneavoastră pentru instrumentele AI: nu poate citi din Keychain cheia sigiliului său. Până atunci, aplicațiile pe care le-ați eliminat din lista aplicațiilor excluse sunt din nou excluse, iar notificarea este activată.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot nu poate include o cheie de aplicație Box, deci înregistrați-o pe a dumneavoastră: în [Box Developer Console](https://app.box.com/developers/console) creați o Custom App cu User Authentication (OAuth 2.0), setați URI-ul de redirecționare la `%@`, acordați-i scope-ul Write all files și lipiți aici ID-ul clientului și secretul. Secretul și autentificarea sunt păstrate în Keychain; ID-ul folderului este numărul din URL-ul folderului.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nu poate folosi Keychain, așa că modificarea nu poate fi salvată. Deblocați Keychain sau permiteți Greenshot când macOS întreabă, apoi faceți clic pe Reîncearcă în Setări › Instrumente AI pentru a o păstra.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nu poate folosi Keychain, așa că consimțământul pentru instrumentele AI a fost salvat fără sigiliul său. Deblocați Keychain sau permiteți Greenshot când macOS întreabă, apoi faceți clic pe Reîncearcă în Setări › Instrumente AI pentru a-l păstra.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nu a putut încărca sau înregistra această rețetă de captură deoarece conține erori de configurare. Verificați detaliile de diagnosticare de mai jos:";
@@ -2324,6 +2339,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot trimite capturi de ecran către aceste aplicații prin AppleScript; macOS întreabă o dată pentru fiecare aplicație.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot o folosește până la ieșire. Pentru a o păstra, introduceți-o în Setări › Destinații.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, marjă %@ din %@";
@@ -4948,6 +4966,18 @@
 "The %@ icon is shown in the menu bar." = "Pictograma %@ este afișată în bara de meniu.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Parola %@ nu a putut fi păstrată în Keychain";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, aplicațiile pe care le-ați eliminat din lista aplicațiilor excluse sunt din nou excluse, iar notificarea este activată.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Consimțământul pentru instrumentele AI este salvat fără sigiliul său, deoarece Keychain nu a putut fi folosit: după următoarea pornire, fiecare program este întrebat din nou.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Consimțământul pentru instrumentele AI va fi resetat la următoarea pornire";
+
+/* machine */
 "The Greenshot file could not be opened" = "Fișierul Greenshot nu a putut fi deschis";
 
 /* machine */
@@ -4972,7 +5002,7 @@
 "The Keychain could not update the item: %@" = "Keychain nu a putut actualiza elementul: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Keychain este blocat sau Greenshot nu a avut permisiunea să-l folosească (%@). Deblocați-l sau permiteți Greenshot când macOS întreabă, apoi încercați din nou.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Keychain este blocat sau Greenshot nu are permisiunea să-l folosească. Încercați din nou și deblocați-l sau permiteți Greenshot când macOS întreabă. Dacă macOS nu întreabă, blocați și deblocați Keychain-ul de login în Acces portchei (îl găsiți cu Spotlight) sau reporniți Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Instrumentul Obfuscare din editor pixelează sau estompează părțile unei capturi de ecran pe care nimeni altcineva nu trebuie să le vadă.";
@@ -5410,6 +5440,9 @@
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Acest pas automat a fost scris de un instrument AI. Modifică alte rețete, inclusiv cele încorporate: verificați mai jos care și ce adaugă. Pornește dezactivat, activați-l în Setări › Rețete.";
 
 /* machine */
+"This change to AI tools applies until Greenshot quits" = "Această modificare a instrumentelor AI se aplică până la ieșirea din Greenshot";
+
+/* machine */
 "This is a recipe; the editor has an automatic step open." = "Aceasta este o rețetă; editorul are deschis un pas automat.";
 
 /* machine */
@@ -5843,6 +5876,9 @@
 
 /* machine */
 "What to change: %@" = "De schimbat: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Ce ați ales se păstrează și contează din nou imediat ce Greenshot îl poate verifica, cu excepția cazului în care a fost modificat în afara Greenshot sau cât timp Keychain nu a putut fi folosit.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Ce pune acolo „Copie în clipboard”. Aplicațiile iau primul format pe care îl înțeleg; HTML încorporează imaginea ca PNG pentru e-mail și editoare web.";

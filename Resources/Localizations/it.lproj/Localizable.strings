@@ -1264,6 +1264,9 @@
 "Changes (− before, + after)" = "Modifiche (− prima, + dopo)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Le modifiche fatte mentre non era possibile usare il Portachiavi valgono solo finché Greenshot non viene chiuso.";
+
+/* machine */
 "Changes not applied yet" = "Modifiche non ancora applicate";
 
 /* machine */
@@ -2308,7 +2311,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot può leggere gli indirizzi delle pagine aperte in Safari e Chrome. macOS chiede una volta per browser se consentirlo.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot non può verificare quali programmi hai consentito: non riesce a leggere la chiave del loro sigillo dal Portachiavi. Fino ad allora, per ogni strumento AI viene chiesta l'autorizzazione come se nessun programma fosse consentito.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot non può verificare il tuo consenso agli strumenti AI: non riesce a leggere la chiave del suo sigillo dal Portachiavi. Fino ad allora, le applicazioni che hai rimosso dall'elenco delle applicazioni escluse sono di nuovo escluse e la notifica è attiva.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot non può includere una chiave app Box, quindi registra la tua: nella [Box Developer Console](https://app.box.com/developers/console) crea una Custom App con User Authentication (OAuth 2.0), imposta il suo redirect URI su `%@`, assegnale lo scope Write all files e incolla qui il suo ID client e il segreto. Il segreto e l'accesso sono conservati nel tuo Portachiavi; l'ID cartella è il numero nell'URL della cartella.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot non può usare il Portachiavi, quindi la modifica non può essere salvata. Sblocca il Portachiavi o consenti l'accesso a Greenshot quando macOS lo chiede, poi clicca Riprova in Impostazioni › Strumenti AI per mantenerla.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot non può usare il Portachiavi, quindi il consenso agli strumenti AI è stato salvato senza il suo sigillo. Sblocca il Portachiavi o consenti l'accesso a Greenshot quando macOS lo chiede, poi clicca Riprova in Impostazioni › Strumenti AI per mantenerlo.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot non ha potuto caricare o registrare questa ricetta di cattura perché contiene errori di configurazione. Controlla i dettagli diagnostici qui sotto:";
@@ -2327,6 +2342,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot invia le schermate a queste app tramite AppleScript; macOS chiede una volta per app.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot la usa finché non viene chiuso. Per mantenerla, inseriscila in Impostazioni › Destinazioni.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, margine %@ di %@";
@@ -4951,6 +4969,18 @@
 "The %@ icon is shown in the menu bar." = "L'icona di %@ è mostrata nella barra dei menu.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Non è stato possibile conservare la password di %@ nel Portachiavi";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, le applicazioni che hai rimosso dall'elenco delle applicazioni escluse sono di nuovo escluse e la notifica è attiva.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Il consenso agli strumenti AI è salvato senza il suo sigillo perché non è stato possibile usare il Portachiavi: dopo il prossimo avvio, l'autorizzazione viene chiesta di nuovo per ogni programma.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Il consenso agli strumenti AI verrà reimpostato al prossimo avvio";
+
+/* machine */
 "The Greenshot file could not be opened" = "Il file Greenshot non ha potuto essere aperto";
 
 /* machine */
@@ -4975,7 +5005,7 @@
 "The Keychain could not update the item: %@" = "Il Portachiavi non ha potuto aggiornare l'elemento: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Il Portachiavi è bloccato, oppure Greenshot non è stato autorizzato a usarlo (%@). Sbloccalo o consenti l'accesso a Greenshot quando macOS lo chiede, poi riprova.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Il Portachiavi è bloccato, oppure Greenshot non è autorizzato a usarlo. Riprova e sbloccalo o consenti l'accesso a Greenshot quando macOS lo chiede. Se macOS non lo chiede, blocca e sblocca il portachiavi di login in Accesso Portachiavi (lo trovi con Spotlight), oppure riavvia Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Lo strumento Offusca dell'editor pixelizza o sfuma le parti di una schermata che nessun altro dovrebbe vedere.";
@@ -5411,6 +5441,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Questo passaggio automatico è stato scritto da uno strumento AI. Modifica altre ricette, comprese quelle integrate: controlla quali e cosa aggiunge qui sotto. Parte disattivato, attivalo in Impostazioni › Ricette.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Questa modifica agli strumenti AI vale finché Greenshot non viene chiuso";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Questa è una ricetta; l'editor ha aperto un passaggio automatico.";
@@ -5858,6 +5891,9 @@
 
 /* machine */
 "What to change: %@" = "Cosa cambiare: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Ciò che hai scelto viene mantenuto e torna a valere appena Greenshot può verificarlo, a meno che non sia stato modificato fuori da Greenshot o mentre non era possibile usare il Portachiavi.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Cosa mette lì “Copia negli Appunti”. Le app prendono il primo formato che capiscono; HTML incorpora l'immagine come PNG per email e editor web.";

@@ -1276,6 +1276,9 @@
 "Changes (− before, + after)" = "Измене (− пре, + после)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Промене направљене док Привезак кључева није могао да се користи важе само док се Greenshot не затвори.";
+
+/* machine */
 "Changes not applied yet" = "Измене још нису примењене";
 
 /* machine */
@@ -2341,7 +2344,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot може да чита адресе страница отворених у Safari-ју и Chrome-у. macOS једном по прегледачу пита да ли то дозвољавате.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot не може да провери које сте програме дозволили: не може да прочита кључ њиховог печата из Привеска кључева. Дотле се за сваки AI алат пита као да ниједан програм није дозвољен.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot не може да провери вашу сагласност за AI алате: не може да прочита кључ њеног печата из Привеска кључева. Дотле су апликације које сте уклонили са листе изузетих апликација поново изузете, а обавештење је укључено.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot не може да испоручи кључ апликације за Box, па региструјте свој: у [Box Developer Console](https://app.box.com/developers/console) направите Custom App са User Authentication (OAuth 2.0), поставите његов redirect URI на `%@`, дајте му опсег Write all files и налепите његов ИД клијента и тајну овде. Тајна и пријава се чувају у вашем Привеску кључева; ИД фасцикле је број у адреси фасцикле.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot не може да користи Привезак кључева, па промена не може да се сачува. Откључајте Привезак кључева или дозволите Greenshot када macOS пита, па кликните Покушај поново у Поставке › AI алати да бисте је задржали.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot не може да користи Привезак кључева, па је сагласност за AI алате сачувана без печата. Откључајте Привезак кључева или дозволите Greenshot када macOS пита, па кликните Покушај поново у Поставке › AI алати да бисте је задржали.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot није могао да учита или региструје овај рецепт за снимање јер садржи грешке у подешавању. Прегледајте дијагностичке детаље испод:";
@@ -2360,6 +2375,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot шаље снимке екрана овим апликацијама преко AppleScript-а; macOS једном по апликацији пита.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot је користи док се не затвори. Да бисте је задржали, унесите је у Поставке › Одредишта.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, резерва %@ од %@";
@@ -5029,6 +5047,18 @@
 "The %@ icon is shown in the menu bar." = "Икона %@ приказана је у траци менија.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Лозинка за %@ није могла да се сачува у Привеску кључева";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Сагласност за AI алате је сачувана без печата јер Привезак кључева није могао да се користи: после следећег покретања апликације које сте уклонили са листе изузетих апликација биће поново изузете, а обавештење ће бити укључено.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Сагласност за AI алате је сачувана без печата јер Привезак кључева није могао да се користи: после следећег покретања сваки програм се поново пита.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Сагласност за AI алате биће ресетована при следећем покретању";
+
+/* machine */
 "The Greenshot file could not be opened" = "Greenshot датотека није могла да се отвори";
 
 /* machine */
@@ -5053,7 +5083,7 @@
 "The Keychain could not update the item: %@" = "Привезак кључева није могао да ажурира ставку: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Привезак кључева је закључан или Greenshot-у није дозвољено да га користи (%@). Откључајте га или дозволите Greenshot када macOS пита, па покушајте поново.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Привезак кључева је закључан или Greenshot нема дозволу да га користи. Покушајте поново и откључајте га или дозволите Greenshot када macOS пита. Ако macOS не пита, закључајте и откључајте привезак „login“ у апликацији Keychain Access (пронађите је преко Spotlight-а) или поново покрените Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Алатка Замагљење у уређивачу пикселизује или замагљује делове снимка екрана које нико други не сме да види.";
@@ -5489,6 +5519,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Овај аутоматски корак је написао AI алат. Мења друге рецепте, укључујући уграђене: проверите које и шта додаје испод. Почиње искључен, укључите га у Поставке › Рецепти.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Ова промена AI алата важи док се Greenshot не затвори";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Ово је рецепт; уређивач има отворен аутоматски корак.";
@@ -5939,6 +5972,9 @@
 
 /* machine */
 "What to change: %@" = "Шта променити: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Ваш избор се чува и поново важи чим Greenshot буде могао да га провери, осим ако је промењен ван Greenshot-а или док Привезак кључева није могао да се користи.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Шта „Умножи у оставу“ ставља у њу. Апликације узимају први формат који разумеју; HTML уграђује слику као PNG за пошту и веб-уређиваче.";

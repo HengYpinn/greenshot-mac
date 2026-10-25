@@ -401,6 +401,7 @@ Changed Lines	変更された行	claude-sonnet-5-5 2026-10-18
 Changed recipes	変更されたレシピ	claude-sonnet-5-5 2026-10-18
 Changed your mind? Esc cancels a capture.	気が変わりましたか？Esc でキャプチャをキャンセルできます。	claude-sonnet-5-5 2026-10-18
 Changes (− before, + after)	変更内容（− 変更前、＋ 変更後）	claude-sonnet-5-5 2026-10-18
+Changes made while the Keychain couldn't be used apply only until Greenshot quits.	キーチェーンを使用できなかった間に行った変更は、Greenshot を終了するまでしか適用されません。	claude-opus-5-5 2026-10-25
 Changes not applied yet	変更はまだ適用されていません	claude-sonnet-5-5 2026-10-18
 Changes other recipes	ほかのレシピを変更します	claude-sonnet-5-5 2026-10-18
 Changes the automatic step “%@”	自動ステップ「%@」を変更します	claude-sonnet-5-5 2026-10-18
@@ -714,13 +715,18 @@ Greenshot Recent	Greenshot 最近使用	claude-sonnet-5-5 2026-10-18
 Greenshot Website	Greenshot の Web サイト	claude-sonnet-5-5 2026-10-18
 Greenshot adds these steps to other recipes: put them before Out in the step list, switch the automatic step on in Settings › Recipes.	Greenshot はこれらのステップをほかのレシピに追加します。ステップリストの Out の前に置き、「設定」›「レシピ」で自動ステップをオンにしてください。	claude-sonnet-5-5 2026-10-18
 Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it.	Greenshot は、Safari と Chrome で開いているページのアドレスを読み取れます。macOS は、ブラウザーごとに一度、許可するかどうかを尋ねます。	claude-sonnet-5-5 2026-10-18
+Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed.	Greenshot は、許可したプログラムを確認できません。それらの封印の鍵をキーチェーンから読み取れないためです。読み取れるようになるまでは、どのプログラムも許可されていないものとして、AI ツールごとに確認します。	claude-opus-5-5 2026-10-25
+Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on.	Greenshot は AI ツールへの同意を確認できません。その封印の鍵をキーチェーンから読み取れないためです。読み取れるようになるまでは、除外リストから削除した App は再び除外され、通知はオンになります。	claude-opus-5-5 2026-10-25
 Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.	Greenshot には Box のアプリキーを同梱できないため、ご自身で登録してください。[Box Developer Console](https://app.box.com/developers/console) でユーザー認証（OAuth 2.0）のカスタムアプリを作成し、リダイレクト URI を `%@` に設定し、「すべてのファイルへの書き込み」スコープを付与して、クライアント ID とシークレットをここに貼り付けます。シークレットとサインインはキーチェーンに保存されます。フォルダー ID は、フォルダーの URL に含まれる数字です。	claude-sonnet-5-5 2026-10-18
+Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	Greenshot がキーチェーンを使用できないため、この変更を保存できません。キーチェーンのロックを解除するか、macOS に尋ねられたら Greenshot を許可してから、「設定」›「AI ツール」で「再試行」をクリックして変更を保持してください。	claude-opus-5-5 2026-10-25
+Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.	Greenshot がキーチェーンを使用できないため、AI ツールへの同意は封印なしで保存されました。キーチェーンのロックを解除するか、macOS に尋ねられたら Greenshot を許可してから、「設定」›「AI ツール」で「再試行」をクリックして同意を保持してください。	claude-opus-5-5 2026-10-25
 Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:	このキャプチャレシピには構成エラーが含まれているため、Greenshot は読み込みまたは登録できませんでした。以下の診断の詳細を確認してください：	claude-sonnet-5-5 2026-10-18
 Greenshot could not use this automatic step because it contains errors. Review the details below:	この自動ステップにはエラーが含まれているため、Greenshot は使用できませんでした。以下の詳細を確認してください：	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac has no step '%@': its parameters are kept as they are.	Greenshot for Mac にステップ「%@」はありません。そのパラメータはそのまま保持されます。	claude-sonnet-5-5 2026-10-18
 Greenshot for Mac isn't ready.	Greenshot for Mac の準備ができていません。	claude-sonnet-5-5 2026-10-18
 Greenshot isn't allowed to control %@. Allow it in System Settings › Privacy & Security › Automation › Greenshot.	Greenshot は %@ を制御することを許可されていません。「システム設定」›「プライバシーとセキュリティ」›「オートメーション」›「Greenshot」で許可してください。	claude-sonnet-5-5 2026-10-18
 Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.	Greenshot は AppleScript でこれらの App にスクリーンショットを送信します。macOS は App ごとに一度確認します。	claude-sonnet-5-5 2026-10-18
+Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations.	Greenshot は終了するまでこのパスワードを使用します。保持するには、「設定」›「出力先」で入力してください。	claude-opus-5-5 2026-10-25
 Greenshot — %@	Greenshot — %@	claude-sonnet-5-5 2026-10-18
 HDR, headroom %@ of %@	HDR、ヘッドルーム %@／%@	claude-sonnet-5-5 2026-10-18
 HTML (image embedded)	HTML（画像を埋め込み）	claude-sonnet-5-5 2026-10-18
@@ -1515,6 +1521,10 @@ Thank you for installing %@! It's running now and waits for you in the menu bar,
 That's all you need to start. %@ waits in the menu bar, and everything else can be changed in Settings whenever you like.	始めるために必要なのはこれだけです。%@ はメニューバーで待機しており、ほかのすべては、いつでも「設定」で変更できます。	claude-sonnet-5-5 2026-10-18
 The %@ app key	%@ のアプリキー	claude-sonnet-5-5 2026-10-18
 The %@ icon is shown in the menu bar.	%@ アイコンがメニューバーに表示されています。	claude-sonnet-5-5 2026-10-18
+The %@ password could not be kept in the Keychain	%@ のパスワードをキーチェーンに保持できませんでした	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on.	キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、除外リストから削除した App が再び除外され、通知がオンになります。	claude-opus-5-5 2026-10-25
+The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.	キーチェーンを使用できなかったため、AI ツールへの同意は封印なしで保存されています。次回の起動後は、すべてのプログラムに再度確認します。	claude-opus-5-5 2026-10-25
+The AI tools consent will be reset at the next start	AI ツールへの同意は次回の起動時にリセットされます	claude-opus-5-5 2026-10-25
 The Greenshot file could not be opened	Greenshot ファイルを開けませんでした	claude-sonnet-5-5 2026-10-18
 The Greenshot for Mac (Community) Companion extension for Chrome, Edge and Firefox sends the visible page and the page's address.	Chrome、Edge、Firefox 用の Greenshot for Mac (Community) コンパニオン拡張機能は、表示中のページとそのアドレスを送信します。	claude-sonnet-5-5 2026-10-18
 The JSON must hold exactly one recipe (it holds %lld).	JSON にはレシピをちょうど1つ含める必要があります（現在は %lld 個）。	claude-sonnet-5-5 2026-10-18
@@ -1523,7 +1533,7 @@ The Keychain could not add the item: %@	キーチェーンに項目を追加で�
 The Keychain could not read the item: %@	キーチェーンから項目を読み取れませんでした：%@	claude-sonnet-5-5 2026-10-18
 The Keychain could not remove the item: %@	キーチェーンから項目を削除できませんでした：%@	claude-sonnet-5-5 2026-10-18
 The Keychain could not update the item: %@	キーチェーンの項目を更新できませんでした：%@	claude-sonnet-5-5 2026-10-18
-The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.	キーチェーンがロックされているか、Greenshot による使用が許可されませんでした（%@）。ロックを解除するか、macOS に尋ねられたら Greenshot を許可してから、もう一度お試しください。	claude-opus-5-5 2026-10-21
+The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot.	キーチェーンがロックされているか、Greenshot による使用が許可されていません。もう一度お試しのうえ、macOS に尋ねられたらロックを解除するか Greenshot を許可してください。macOS に尋ねられない場合は、キーチェーンアクセス（Spotlight で見つかります）でログインキーチェーンをロックしてからロック解除するか、Greenshot を再起動してください。	claude-opus-5-5 2026-10-25
 The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see.	エディターの「ぼかし」ツールは、他の人に見せたくないスクリーンショットの部分にモザイクまたはぼかしをかけます。	claude-sonnet-5-5 2026-10-18
 The PDF could not be saved	PDF を保存できませんでした	claude-sonnet-5-5 2026-10-18
 The action failed.	アクションに失敗しました。	claude-sonnet-5-5 2026-10-18
@@ -1663,6 +1673,7 @@ This address starts with http://: the password travels unencrypted.	このアド
 This app	この App	claude-sonnet-5-5 2026-10-18
 This automatic step changes the captures of the checked recipes, for the checked destinations. New recipes get it too.	この自動ステップは、チェックを付けたレシピのキャプチャを、チェックを付けた出力先に対して変更します。新しいレシピにも適用されます。	claude-sonnet-5-5 2026-10-18
 This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.	この自動ステップは AI ツールが作成しました。内蔵のものを含むほかのレシピを変更します。どのレシピか、何を追加するかを以下で確認してください。最初はオフになっているので、「設定」›「レシピ」でオンにしてください。	claude-sonnet-5-5 2026-10-18
+This change to AI tools applies until Greenshot quits	AI ツールへのこの変更は Greenshot を終了するまで適用されます	claude-opus-5-5 2026-10-25
 This is a recipe; the editor has an automatic step open.	これはレシピです。エディターでは自動ステップが開かれています。	claude-sonnet-5-5 2026-10-18
 This is an automatic step; the editor has a recipe open.	これは自動ステップです。エディターではレシピが開かれています。	claude-sonnet-5-5 2026-10-18
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions: the %@ or later.	このプログラムには一切の保証がありません。これはフリーソフトウェアであり、特定の条件下で再配布できます。条件：%@ 以降。	claude-sonnet-5-5 2026-10-18
@@ -1791,6 +1802,7 @@ What this automatic step does, which recipes it changes and what you approved fo
 What this built-in recipe does and which triggers start it.	この内蔵レシピの動作と、それを開始するトリガー。	claude-sonnet-5-5 2026-10-18
 What this recipe does and what you approved for it. Nothing can be changed here, use Permissions in Settings › Recipes or in the recipe manager for that.	このレシピの動作と、承認した内容。ここでは何も変更できません。変更するには、「設定」›「レシピ」またはレシピマネージャーの「権限」を使用してください。	claude-sonnet-5-5 2026-10-18
 What to change: %@	変更内容：%@	claude-sonnet-5-5 2026-10-18
+What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used.	選択した内容は保持され、Greenshot が確認できるようになると再び有効になります。ただし、Greenshot の外部で変更された場合や、キーチェーンを使用できなかった間に変更された場合は除きます。	claude-opus-5-5 2026-10-25
 What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors.	「クリップボードにコピー」がクリップボードに入れる形式です。App は、理解できる最初の形式を使用します。HTML は、メールや Web エディター向けに画像を PNG として埋め込みます。	claude-sonnet-5-5 2026-10-18
 When	条件	claude-sonnet-5-5 2026-10-18
 When it runs again	再び実行されるとき	claude-sonnet-5-5 2026-10-18

@@ -1285,6 +1285,9 @@
 "Changes (− before, + after)" = "Değişiklikler (− önce, + sonra)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Anahtar Zinciri kullanılamazken yapılan değişiklikler yalnızca Greenshot kapanana kadar geçerlidir.";
+
+/* machine */
 "Changes not applied yet" = "Değişiklikler henüz uygulanmadı";
 
 /* machine */
@@ -2347,7 +2350,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot, Safari ve Chrome'da açık sayfaların adreslerini okuyabilir. macOS, tarayıcı başına bir kez izin verip vermeyeceğinizi sorar.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot hangi programlara izin verdiğinizi denetleyemiyor: mühürlerinin anahtarını Anahtar Zinciri'nden okuyamıyor. O zamana kadar her yapay zekâ aracı için, hiçbir programa izin verilmemiş gibi yeniden sorulur.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot yapay zekâ araçları onayınızı denetleyemiyor: mührünün anahtarını Anahtar Zinciri'nden okuyamıyor. O zamana kadar hariç tutulan uygulamalar listesinden çıkardığınız uygulamalar yeniden hariç tutulur ve bildirim açıktır.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot bir Box uygulama anahtarı dağıtamaz, bu yüzden kendinizinkini kaydedin: [Box Developer Console](https://app.box.com/developers/console) içinde Kullanıcı Kimlik Doğrulamalı (OAuth 2.0) bir Özel Uygulama oluşturun, yönlendirme URI'sini `%@` yapın, Write all files kapsamını verin ve istemci kimliğini ve sırrını buraya yapıştırın. Sır ve oturum açma Anahtar Zinciri'nizde saklanır; klasör kimliği, klasörün URL'sindeki sayıdır.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot Anahtar Zinciri'ni kullanamıyor, bu yüzden değişiklik kaydedilemiyor. Anahtar Zinciri'nin kilidini açın ya da macOS sorduğunda Greenshot'a izin verin, ardından değişikliği korumak için Ayarlar › Yapay Zekâ Araçları bölümünde Yeniden Dene'ye tıklayın.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot Anahtar Zinciri'ni kullanamıyor, bu yüzden yapay zekâ araçları onayı mühürsüz kaydedildi. Anahtar Zinciri'nin kilidini açın ya da macOS sorduğunda Greenshot'a izin verin, ardından onayı korumak için Ayarlar › Yapay Zekâ Araçları bölümünde Yeniden Dene'ye tıklayın.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot bu yakalama tarifini yükleyemedi veya kaydedemedi çünkü yapılandırma hataları içeriyor. Aşağıdaki tanılama ayrıntılarını inceleyin:";
@@ -2366,6 +2381,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot ekran görüntülerini bu uygulamalara AppleScript ile gönderir; macOS her uygulama için bir kez sorar.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot parolayı kapanana kadar kullanır. Korumak için onu Ayarlar › Hedefler bölümünde girin.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, boşluk %@ / %@";
@@ -5026,6 +5044,18 @@
 "The %@ icon is shown in the menu bar." = "%@ simgesi menü çubuğunda gösteriliyor.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "%@ parolası Anahtar Zinciri'nde saklanamadı";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra hariç tutulan uygulamalar listesinden çıkardığınız uygulamalar yeniden hariç tutulur ve bildirim açık olur.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Yapay zekâ araçları onayı, Anahtar Zinciri kullanılamadığı için mühürsüz kaydedildi: bir sonraki başlatmadan sonra her program yeniden sorulur.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Yapay zekâ araçları onayı bir sonraki başlatmada sıfırlanacak";
+
+/* machine */
 "The Greenshot file could not be opened" = "Greenshot dosyası açılamadı";
 
 /* machine */
@@ -5050,7 +5080,7 @@
 "The Keychain could not update the item: %@" = "Anahtar Zinciri öğeyi güncelleyemedi: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Anahtar Zinciri kilitli veya Greenshot'ın onu kullanmasına izin verilmedi (%@). Kilidini açın ya da macOS sorduğunda Greenshot'a izin verin, ardından yeniden deneyin.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Anahtar Zinciri kilitli veya Greenshot'ın onu kullanmasına izin verilmiyor. Yeniden deneyin ve macOS sorduğunda kilidini açın ya da Greenshot'a izin verin. macOS sormazsa Anahtar Zinciri Erişimi'nde (Spotlight ile bulabilirsiniz) oturum açma anahtar zincirini kilitleyip kilidini açın veya Greenshot'ı yeniden başlatın.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Editörün Bulanıklaştır aracı, bir ekran görüntüsünün kimsenin görmemesi gereken bölümlerini pikselleştirir veya bulanıklaştırır.";
@@ -5486,6 +5516,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Bu otomatik adımı bir yapay zekâ aracı yazdı. Yerleşik olanlar dahil diğer tarifleri değiştirir: hangilerini ve neler eklediğini aşağıda inceleyin. Kapalı başlar, Ayarlar › Tarifler bölümünde açın.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Yapay zekâ araçlarındaki bu değişiklik Greenshot kapanana kadar geçerlidir";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Bu bir tarif; editörde bir otomatik adım açık.";
@@ -5924,6 +5957,9 @@
 
 /* machine */
 "What to change: %@" = "Neyi değiştirmeli: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Seçiminiz korunur ve Greenshot onu denetleyebildiği anda yeniden geçerli olur; ancak Greenshot dışında ya da Anahtar Zinciri kullanılamazken değiştirildiyse geçerli olmaz.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "“Panoya kopyala”nın oraya koyduğu. Uygulamalar anladıkları ilk biçimi alır; HTML, görüntüyü posta ve web editörleri için PNG olarak gömer.";

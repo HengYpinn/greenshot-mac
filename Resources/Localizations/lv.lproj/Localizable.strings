@@ -1276,6 +1276,9 @@
 "Changes (− before, + after)" = "Izmaiņas (− pirms, + pēc)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Izmaiņas, kas veiktas laikā, kad atslēgu saišķi nevarēja izmantot, ir spēkā tikai līdz Greenshot aizvēršanai.";
+
+/* machine */
 "Changes not applied yet" = "Izmaiņas vēl nav pielietotas";
 
 /* machine */
@@ -2338,7 +2341,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot var nolasīt Safari un Chrome atvērto lapu adreses. macOS vienreiz katrai pārlūkprogrammai vaicā, vai to atļaut.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot nevar pārbaudīt, kuras programmas tu atļāvi: tas nevar nolasīt to zīmoga atslēgu no atslēgu saišķa. Līdz tam katram MI rīkam atļauja tiek vaicāta tā, it kā neviena programma nebūtu atļauta.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot nevar pārbaudīt tavu piekrišanu MI rīkiem: tas nevar nolasīt tās zīmoga atslēgu no atslēgu saišķa. Līdz tam lietotnes, ko izņēmi no izslēgto lietotņu saraksta, atkal ir izslēgtas, un paziņojums ir ieslēgts.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot nevar piegādāt Box lietotnes atslēgu, tāpēc reģistrē savu: [Box Developer Console](https://app.box.com/developers/console) izveido Custom App ar User Authentication (OAuth 2.0), iestati tās redirect URI uz `%@`, piešķir Write all files tvērumu un ielīmē šeit tās klienta ID un noslēpumu. Noslēpums un pieteikšanās tiek glabāti tavā atslēgu saišķī; mapes ID ir skaitlis mapes URL.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nevar izmantot atslēgu saišķi, tāpēc izmaiņas nevar saglabāt. Atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā, un pēc tam noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki, lai tās paturētu.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot nevar izmantot atslēgu saišķi, tāpēc piekrišana MI rīkiem tika saglabāta bez zīmoga. Atbloķē atslēgu saišķi vai atļauj Greenshot, kad macOS jautā, un pēc tam noklikšķini uz Mēģināt vēlreiz sadaļā Iestatījumi › MI rīki, lai to paturētu.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot nevarēja ielādēt vai reģistrēt šo tveršanas recepti, jo tajā ir konfigurācijas kļūdas. Pārskati tālāk norādīto diagnostikas informāciju:";
@@ -2357,6 +2372,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot sūta ekrānattēlus šīm lietotnēm ar AppleScript; macOS vienreiz katrai lietotnei vaicā.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot to izmanto, līdz tiek aizvērts. Lai to paturētu, ievadi to sadaļā Iestatījumi › Mērķi.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, rezerve %@ no %@";
@@ -5014,6 +5032,18 @@
 "The %@ icon is shown in the menu bar." = "%@ ikona tiek rādīta izvēļņu joslā.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "%@ paroli nevarēja saglabāt atslēgu saišķī";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas lietotnes, ko izņēmi no izslēgto lietotņu saraksta, atkal ir izslēgtas, un paziņojums ir ieslēgts.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Piekrišana MI rīkiem ir saglabāta bez zīmoga, jo atslēgu saišķi nevarēja izmantot: pēc nākamās palaišanas katrai programmai atļauja tiks vaicāta vēlreiz.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Piekrišana MI rīkiem tiks atiestatīta nākamajā palaišanā";
+
+/* machine */
 "The Greenshot file could not be opened" = "Greenshot failu nevarēja atvērt";
 
 /* machine */
@@ -5038,7 +5068,7 @@
 "The Keychain could not update the item: %@" = "Atslēgu saišķis nevarēja atjaunināt vienumu: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Atslēgu saišķis ir bloķēts, vai Greenshot netika atļauts to izmantot (%@). Atbloķē to vai atļauj Greenshot, kad macOS jautā, un pēc tam mēģini vēlreiz.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Atslēgu saišķis ir bloķēts, vai Greenshot nav atļauts to izmantot. Mēģini vēlreiz un atbloķē to vai atļauj Greenshot, kad macOS jautā. Ja macOS nejautā, bloķē un atbloķē „login” atslēgu saišķi lietotnē Keychain Access (atrodi to ar Spotlight) vai restartē Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Redaktora rīks Aizmiglošana sadrumstalo vai izpludina ekrānattēla daļas, ko nevajadzētu redzēt nevienam citam.";
@@ -5474,6 +5504,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Šo automātisko soli uzrakstīja MI rīks. Tas maina citas receptes, arī iebūvētās: tālāk pārbaudi, kuras un ko tas pievieno. Tas sākumā ir izslēgts, ieslēdz to sadaļā Iestatījumi › Receptes.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Šīs MI rīku izmaiņas ir spēkā, līdz Greenshot tiek aizvērts";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Šī ir recepte; redaktorā ir atvērts automātiskais solis.";
@@ -5912,6 +5945,9 @@
 
 /* machine */
 "What to change: %@" = "Ko mainīt: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Tava izvēle tiek saglabāta un atkal būs spēkā, tiklīdz Greenshot to varēs pārbaudīt, ja vien tā netika mainīta ārpus Greenshot vai laikā, kad atslēgu saišķi nevarēja izmantot.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Ko tur ievieto „Ievietot atmiņā”. Lietotnes ņem pirmo formātu, ko tās saprot; HTML iegulst attēlu kā PNG e-pastam un tīmekļa redaktoriem.";

@@ -1279,6 +1279,9 @@
 "Changes (− before, + after)" = "Módosítások (− előtte, + utána)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Azok a módosítások, amelyek akkor történtek, amikor a Kulcskarika nem volt használható, csak a Greenshot kilépéséig érvényesek.";
+
+/* machine */
 "Changes not applied yet" = "A módosítások még nincsenek alkalmazva";
 
 /* machine */
@@ -2335,7 +2338,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "A Greenshot el tudja olvasni a Safariban és Chrome-ban megnyitott oldalak címét. A macOS böngészőnként egyszer kérdezi meg, engedélyezi-e.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "A Greenshot nem tudja ellenőrizni, mely programokat engedélyezte: nem tudja kiolvasni a Kulcskarikából a pecsétjük kulcsát. Addig a Greenshot minden AI-eszköznél rákérdez, mintha egyetlen program sem lenne engedélyezve.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "A Greenshot nem tudja ellenőrizni az AI-eszközökhöz adott hozzájárulását: nem tudja kiolvasni a Kulcskarikából a pecsétje kulcsát. Addig a kizárt alkalmazások listájáról eltávolított alkalmazások ismét ki vannak zárva, és az értesítés be van kapcsolva.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "A Greenshot nem szállíthat Box-alkalmazáskulcsot, ezért regisztrálja a sajátját: a [Box Developer Console](https://app.box.com/developers/console) oldalon hozzon létre egy Custom App alkalmazást User Authentication (OAuth 2.0) használatával, állítsa az átirányítási URI-ját erre: `%@`, adja meg neki a Write all files hatókört, és illessze be ide az ügyfélazonosítóját és titkos kulcsát. A titkos kulcs és a bejelentkezés a Kulcskarikán marad; a mappaazonosító a mappa URL-jében lévő szám.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "A Greenshot nem tudja használni a Kulcskarikát, ezért a módosítás nem menthető. Oldja fel a Kulcskarikát, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez, majd kattintson az Újra gombra itt: Beállítások › AI-eszközök, hogy a módosítás megmaradjon.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "A Greenshot nem tudja használni a Kulcskarikát, ezért az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül lett mentve. Oldja fel a Kulcskarikát, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez, majd kattintson az Újra gombra itt: Beállítások › AI-eszközök, hogy a hozzájárulás megmaradjon.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "A Greenshot nem tudta betölteni vagy regisztrálni ezt a rögzítési receptet, mert konfigurációs hibákat tartalmaz. Nézze át az alábbi diagnosztikai részleteket:";
@@ -2354,6 +2369,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "A Greenshot AppleScripttel küldi a képernyőképeket ezeknek az alkalmazásoknak; a macOS alkalmazásonként egyszer kérdez.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "A Greenshot a kilépéséig használja. Ha meg szeretné tartani, adja meg itt: Beállítások › Célok.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, tartalék: %@ / %@";
@@ -5011,6 +5029,18 @@
 "The %@ icon is shown in the menu bar." = "A(z) %@ ikon megjelenik a menüsorban.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "A(z) %@ jelszavát nem sikerült megőrizni a Kulcskarikán";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a kizárt alkalmazások listájáról eltávolított alkalmazások ismét ki lesznek zárva, és az értesítés be lesz kapcsolva.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Az AI-eszközökhöz adott hozzájárulás a pecsétje nélkül van mentve, mert a Kulcskarika nem volt használható: a következő indítás után a Greenshot minden programnál újra rákérdez.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Az AI-eszközökhöz adott hozzájárulás a következő indításkor alaphelyzetbe áll";
+
+/* machine */
 "The Greenshot file could not be opened" = "A Greenshot-fájl nem nyitható meg";
 
 /* machine */
@@ -5035,7 +5065,7 @@
 "The Keychain could not update the item: %@" = "A Kulcskarika nem tudta frissíteni az elemet: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "A Kulcskarika zárolva van, vagy a Greenshot nem kapott engedélyt a használatára (%@). Oldja fel, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez, majd próbálja újra.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "A Kulcskarika zárolva van, vagy a Greenshot nem használhatja. Próbálja újra, és oldja fel, vagy engedélyezze a Greenshotot, amikor a macOS rákérdez. Ha a macOS nem kérdez rá, zárolja, majd oldja fel a bejelentkezési kulcskarikát a Kulcskarika-elérés alkalmazásban (a Spotlighttal találja meg), vagy indítsa újra a Greenshotot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "A szerkesztő Homályosítás eszköze pixelesíti vagy elmossa a képernyőkép azon részeit, amelyeket senki másnak nem szabad látnia.";
@@ -5471,6 +5501,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Ezt az automatikus lépést egy AI-eszköz írta. Más recepteket módosít, a beépítetteket is: lent nézze meg, melyeket és mit ad hozzá. Kikapcsolva indul, kapcsolja be itt: Beállítások › Receptek.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "Az AI-eszközök ezen módosítása a Greenshot kilépéséig érvényes";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "Ez egy recept; a szerkesztőben automatikus lépés van megnyitva.";
@@ -5915,6 +5948,9 @@
 
 /* machine */
 "What to change: %@" = "Mit módosít: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "A választása megmarad, és újra érvényes lesz, amint a Greenshot ellenőrizni tudja, kivéve, ha a Greenshoton kívül vagy akkor módosították, amikor a Kulcskarika nem volt használható.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Mit tesz oda a „Másolás vágólapra”. Az alkalmazások az első általuk értett formátumot veszik; a HTML a képet PNG-ként ágyazza be a levelező- és webszerkesztőknek.";

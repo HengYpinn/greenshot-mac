@@ -1252,6 +1252,9 @@
 "Changes (− before, + after)" = "Modifications (− avant, + après)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Les modifications faites pendant que le trousseau ne pouvait pas être utilisé ne s'appliquent que jusqu'à la fermeture de Greenshot.";
+
+/* machine */
 "Changes not applied yet" = "Modifications pas encore appliquées";
 
 /* machine */
@@ -2302,7 +2305,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot peut lire les adresses des pages ouvertes dans Safari et Chrome. macOS demande une seule fois par navigateur si vous l'autorisez.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot ne peut pas vérifier quels programmes vous avez autorisés : il ne peut pas lire la clé de leur sceau dans le trousseau. En attendant, l'autorisation est redemandée pour chaque outil IA comme si aucun programme n'était autorisé.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot ne peut pas vérifier votre consentement aux outils IA : il ne peut pas lire la clé de son sceau dans le trousseau. En attendant, les applications que vous avez retirées de la liste des applications exclues sont de nouveau exclues et la notification est activée.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot ne peut pas fournir de clé d'app Box ; enregistrez donc la vôtre : dans la [Box Developer Console](https://app.box.com/developers/console), créez une Custom App avec User Authentication (OAuth 2.0), définissez son URI de redirection sur `%@`, donnez-lui la portée Write all files, puis collez ici son ID client et son secret. Le secret et la connexion sont conservés dans votre trousseau ; l'ID du dossier est le nombre figurant dans l'URL du dossier.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ne peut pas utiliser le trousseau, la modification ne peut donc pas être enregistrée. Déverrouillez le trousseau ou autorisez Greenshot lorsque macOS le demande, puis cliquez sur Réessayer dans Réglages › Outils IA pour la conserver.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot ne peut pas utiliser le trousseau, le consentement aux outils IA a donc été enregistré sans son sceau. Déverrouillez le trousseau ou autorisez Greenshot lorsque macOS le demande, puis cliquez sur Réessayer dans Réglages › Outils IA pour le conserver.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot n'a pas pu charger ni enregistrer cette recette de capture car elle contient des erreurs de configuration. Consultez les détails du diagnostic ci-dessous :";
@@ -2321,6 +2336,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot envoie des captures d'écran à ces apps via AppleScript ; macOS demande une seule fois par app.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot l'utilise jusqu'à sa fermeture. Pour le conserver, saisissez-le dans Réglages › Destinations.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, marge %@ sur %@";
@@ -4951,6 +4969,18 @@
 "The %@ icon is shown in the menu bar." = "L'icône %@ est affichée dans la barre des menus.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Le mot de passe %@ n'a pas pu être conservé dans le trousseau";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, les applications que vous avez retirées de la liste des applications exclues sont de nouveau exclues et la notification est activée.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Le consentement aux outils IA est enregistré sans son sceau, car le trousseau n'a pas pu être utilisé : après le prochain démarrage, l'autorisation est redemandée pour chaque programme.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Le consentement aux outils IA sera réinitialisé au prochain démarrage";
+
+/* machine */
 "The Greenshot file could not be opened" = "Le fichier Greenshot n'a pas pu être ouvert";
 
 /* machine */
@@ -4975,7 +5005,7 @@
 "The Keychain could not update the item: %@" = "Le trousseau n'a pas pu mettre à jour l'élément : %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Le trousseau est verrouillé, ou Greenshot n'a pas été autorisé à l'utiliser (%@). Déverrouillez-le ou autorisez Greenshot lorsque macOS le demande, puis réessayez.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Le trousseau est verrouillé, ou Greenshot n'est pas autorisé à l'utiliser. Réessayez, puis déverrouillez-le ou autorisez Greenshot lorsque macOS le demande. Si macOS ne demande rien, verrouillez puis déverrouillez le trousseau de session dans Trousseaux d'accès (trouvez-le avec Spotlight), ou redémarrez Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "L'outil Brouiller de l'éditeur pixélise ou floute les parties d'une capture d'écran que personne d'autre ne doit voir.";
@@ -5413,6 +5443,9 @@
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Cette étape automatique a été écrite par un outil IA. Elle modifie d'autres recettes, y compris les recettes intégrées : vérifiez lesquelles et ce qu'elle ajoute ci-dessous. Elle démarre désactivée, activez-la dans Réglages › Recettes.";
 
 /* machine */
+"This change to AI tools applies until Greenshot quits" = "Cette modification des outils IA s'applique jusqu'à la fermeture de Greenshot";
+
+/* machine */
 "This is a recipe; the editor has an automatic step open." = "Ceci est une recette ; l'éditeur a une étape automatique ouverte.";
 
 /* machine */
@@ -5837,6 +5870,9 @@
 
 /* machine */
 "What to change: %@" = "Quoi modifier : %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Vos choix sont conservés et comptent de nouveau dès que Greenshot peut les vérifier, sauf s'ils ont été modifiés en dehors de Greenshot ou pendant que le trousseau ne pouvait pas être utilisé.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Ce que « Vers le presse-papier » y place. Les apps prennent le premier format qu'elles comprennent ; HTML intègre l'image en PNG pour les courriels et les éditeurs web.";

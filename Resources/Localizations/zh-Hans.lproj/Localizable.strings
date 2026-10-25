@@ -1288,6 +1288,9 @@
 "Changes (− before, + after)" = "更改（− 之前，+ 之后）";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "在无法使用钥匙串期间所做的更改仅在 Greenshot 退出前有效。";
+
+/* machine */
 "Changes not applied yet" = "更改尚未应用";
 
 /* machine */
@@ -2356,7 +2359,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot 可以读取 Safari 和 Chrome 中打开的页面的地址。macOS 会针对每个浏览器询问一次是否允许。";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot 无法检查你允许了哪些程序：它无法从钥匙串读取其封签的密钥。在能读取之前，会针对每个 AI 工具进行询问，如同未允许任何程序。";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot 无法检查你的 AI 工具授权：它无法从钥匙串读取其封签的密钥。在能读取之前，你从排除列表中移除的 App 会再次被排除，并且通知会开启。";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot 无法附带 Box App 密钥，请注册你自己的：在 [Box 开发者控制台](https://app.box.com/developers/console)中创建带有用户身份验证（OAuth 2.0）的自定义 App，将其重定向 URI 设置为 `%@`，授予“写入所有文件”权限，并在此处粘贴其客户端 ID 和密钥。密钥和登录信息会保存在你的钥匙串中；文件夹 ID 是文件夹网址中的数字。";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot 无法使用钥匙串，因此无法保存此更改。请解锁钥匙串或在 macOS 询问时允许 Greenshot，然后在“设置 › AI 工具”中点按“重试”以保留此更改。";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot 无法使用钥匙串，因此 AI 工具授权已在没有封签的情况下保存。请解锁钥匙串或在 macOS 询问时允许 Greenshot，然后在“设置 › AI 工具”中点按“重试”以保留授权。";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot 无法载入或注册此抓图配方，因为它包含配置错误。请查看下方的诊断详细信息：";
@@ -2375,6 +2390,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot 通过 AppleScript 将屏幕截图发送到这些 App；macOS 会针对每个 App 询问一次。";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot 会使用此密码直到退出。要保留密码，请在“设置 › 目标位置”中输入。";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR，余量 %@/%@";
@@ -5050,6 +5068,18 @@
 "The %@ icon is shown in the menu bar." = "%@ 图标显示在菜单栏中。";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "无法将 %@ 密码保存在钥匙串中";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，你从排除列表中移除的 App 会再次被排除，并且通知会开启。";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "由于无法使用钥匙串，AI 工具授权已在没有封签的情况下保存：下次启动后，会再次询问每个程序。";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "AI 工具授权将在下次启动时重置";
+
+/* machine */
 "The Greenshot file could not be opened" = "无法打开该 Greenshot 文件";
 
 /* machine */
@@ -5074,7 +5104,7 @@
 "The Keychain could not update the item: %@" = "钥匙串无法更新该项目：%@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "钥匙串已锁定，或 Greenshot 未获准使用它（%@）。请解锁钥匙串，或在 macOS 询问时允许 Greenshot，然后重试。";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "钥匙串已锁定，或 Greenshot 未获准使用它。请重试，并在 macOS 询问时解锁钥匙串或允许 Greenshot。如果 macOS 没有询问，请在“钥匙串访问”（可通过“聚焦”找到）中锁定再解锁登录钥匙串，或重新启动 Greenshot。";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "编辑器的“隐藏文本”工具可对屏幕截图中不该被他人看到的部分进行像素化或模糊处理。";
@@ -5510,6 +5540,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "此自动步骤由 AI 工具编写。它会更改其他配方（包括内置配方）：请在下方查看具体更改哪些配方以及添加的内容。它初始为关闭状态，请在“设置 › 配方”中打开。";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "对 AI 工具的此更改在 Greenshot 退出前有效";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "这是一个配方；编辑器中打开的是自动步骤。";
@@ -5960,6 +5993,9 @@
 
 /* machine */
 "What to change: %@" = "要更改的内容：%@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "你的选择会被保留，并在 Greenshot 能够检查时再次生效，除非它是在 Greenshot 之外或在无法使用钥匙串期间被更改的。";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "“复制图片到剪贴板”放入剪贴板的内容。App 会采用它们能理解的第一种格式；HTML 会将图像作为 PNG 嵌入，供邮件和网页编辑器使用。";

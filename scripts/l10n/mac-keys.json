@@ -2778,6 +2778,12 @@
    ]
   },
   {
+   "key": "Changes made while the Keychain couldn't be used apply only until Greenshot quits.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
    "key": "Changes not applied yet",
    "files": [
     "Sources/GreenshotMac/RecipeEditor/RecipeEditorTabs.swift"
@@ -5016,9 +5022,33 @@
    ]
   },
   {
+   "key": "Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
    "key": "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL.",
    "files": [
     "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
+   ]
+  },
+  {
+   "key": "Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.",
+   "files": [
+    "Sources/GreenshotMac/App/AIToolsCenter.swift"
+   ]
+  },
+  {
+   "key": "Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it.",
+   "files": [
+    "Sources/GreenshotMac/App/AIToolsCenter.swift"
    ]
   },
   {
@@ -5055,6 +5085,12 @@
    "key": "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app.",
    "files": [
     "Sources/GreenshotMac/Settings/DestinationsTab.swift"
+   ]
+  },
+  {
+   "key": "Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations.",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift"
    ]
   },
   {
@@ -8289,7 +8325,8 @@
    "key": "Recipe Permissions",
    "files": [
     "Sources/GreenshotMac/RecipeEditor/RecipeEditorFiles.swift",
-    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift"
+    "Sources/GreenshotMac/RecipeManager/RecipeManagerWindow.swift",
+    "Sources/GreenshotMac/Recipes/RecipeSettingsModel.swift"
    ]
   },
   {
@@ -8959,6 +8996,7 @@
    "key": "Retry",
    "files": [
     "Sources/GreenshotCore/Recipes/AppStepInteraction.swift",
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift",
     "Sources/GreenshotMac/Settings/DestinationsTab+Uploads.swift"
    ]
   },
@@ -10668,6 +10706,30 @@
    ]
   },
   {
+   "key": "The %@ password could not be kept in the Keychain",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift"
+   ]
+  },
+  {
+   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
+   ]
+  },
+  {
+   "key": "The AI tools consent will be reset at the next start",
+   "files": [
+    "Sources/GreenshotMac/App/AIToolsCenter.swift"
+   ]
+  },
+  {
    "key": "The Greenshot file could not be opened",
    "files": [
     "Sources/GreenshotMac/Editor/EditorManager.swift"
@@ -10716,7 +10778,7 @@
    ]
   },
   {
-   "key": "The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again.",
+   "key": "The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot.",
    "files": [
     "Sources/GreenshotMac/Output/KeychainSecretStore.swift"
    ]
@@ -10748,6 +10810,7 @@
   {
    "key": "The approval of “%@” could not be revoked. It is unchanged; see the log for why.",
    "files": [
+    "Sources/GreenshotMac/Recipes/RecipeSettingsModel.swift",
     "Sources/GreenshotMac/Settings/AIToolsTab.swift"
    ]
   },
@@ -11601,6 +11664,12 @@
    "key": "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes.",
    "files": [
     "Sources/GreenshotCore/Recipes/ApprovalSheet.swift"
+   ]
+  },
+  {
+   "key": "This change to AI tools applies until Greenshot quits",
+   "files": [
+    "Sources/GreenshotMac/App/AIToolsCenter.swift"
    ]
   },
   {
@@ -12533,6 +12602,12 @@
    "key": "What to change: %@",
    "files": [
     "Sources/GreenshotMac/Recipes/ApprovalSheetView.swift"
+   ]
+  },
+  {
+   "key": "What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used.",
+   "files": [
+    "Sources/GreenshotMac/Settings/AIToolsTab.swift"
    ]
   },
   {

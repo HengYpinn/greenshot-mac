@@ -1291,6 +1291,9 @@
 "Changes (− before, + after)" = "التغييرات (− قبل، + بعد)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "التغييرات التي أُجريت بينما تعذّر استخدام سلسلة المفاتيح تسري فقط حتى يتم إنهاء Greenshot.";
+
+/* machine */
 "Changes not applied yet" = "لم يتم تطبيق التغييرات بعد";
 
 /* machine */
@@ -2356,7 +2359,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "يمكن لـ Greenshot قراءة عناوين الصفحات المفتوحة في Safari وChrome. يسأل macOS مرة واحدة لكل متصفح عما إذا كنت تسمح بذلك.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "لا يستطيع Greenshot التحقق من البرامج التي سمحت بها: لا يستطيع قراءة مفتاح ختمها من سلسلة المفاتيح. وحتى يتمكن من ذلك، يُطلب الإذن لكل أداة ذكاء اصطناعي كأنه لم يُسمح لأي برنامج.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "لا يستطيع Greenshot التحقق من موافقتك على أدوات الذكاء الاصطناعي: لا يستطيع قراءة مفتاح ختمها من سلسلة المفاتيح. وحتى يتمكن من ذلك، تُستبعد من جديد التطبيقات التي أزلتها من قائمة التطبيقات المستبعدة، ويكون الإشعار مُفعّلًا.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "لا يمكن لـ Greenshot تضمين مفتاح تطبيق Box، لذا سجّل مفتاحك الخاص: في [Box Developer Console](https://app.box.com/developers/console) أنشئ Custom App مع User Authentication (OAuth 2.0)، واضبط redirect URI على `%@`، وامنحه نطاق Write all files، والصق معرّف العميل وسره هنا. يُحفظ السر وتسجيل الدخول في سلسلة المفاتيح؛ ومعرّف المجلد هو الرقم الموجود في عنوان URL للمجلد.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "لا يستطيع Greenshot استخدام سلسلة المفاتيح، لذا لا يمكن حفظ التغيير. افتح قفل سلسلة المفاتيح أو اسمح لـ Greenshot عندما يسأل macOS، ثم انقر على إعادة المحاولة في التفضيلات › أدوات الذكاء الاصطناعي للاحتفاظ به.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "لا يستطيع Greenshot استخدام سلسلة المفاتيح، لذا حُفظت الموافقة على أدوات الذكاء الاصطناعي دون ختمها. افتح قفل سلسلة المفاتيح أو اسمح لـ Greenshot عندما يسأل macOS، ثم انقر على إعادة المحاولة في التفضيلات › أدوات الذكاء الاصطناعي للاحتفاظ بها.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "تعذّر على Greenshot تحميل وصفة الالتقاط هذه أو تسجيلها لأنها تحتوي على أخطاء في الإعداد. راجع تفاصيل التشخيص أدناه:";
@@ -2375,6 +2390,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "يرسل Greenshot اللقطات إلى هذه التطبيقات عبر AppleScript؛ ويسأل macOS مرة واحدة لكل تطبيق.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "يستخدمها Greenshot حتى يتم إنهاؤه. للاحتفاظ بها، أدخلها في التفضيلات › الوجهات.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR، المساحة الإضافية %@ من %@";
@@ -5035,6 +5053,18 @@
 "The %@ icon is shown in the menu bar." = "تظهر أيقونة %@ في شريط القوائم.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "تعذّر الاحتفاظ بكلمة سر %@ في سلسلة المفاتيح";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، تُستبعد من جديد التطبيقات التي أزلتها من قائمة التطبيقات المستبعدة، ويكون الإشعار مُفعّلًا.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "الموافقة على أدوات الذكاء الاصطناعي محفوظة دون ختمها لأنه تعذّر استخدام سلسلة المفاتيح: بعد التشغيل التالي، يُسأل عن كل برنامج مجددًا.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "سيُعاد تعيين الموافقة على أدوات الذكاء الاصطناعي عند التشغيل التالي";
+
+/* machine */
 "The Greenshot file could not be opened" = "تعذّر فتح ملف Greenshot";
 
 /* machine */
@@ -5059,7 +5089,7 @@
 "The Keychain could not update the item: %@" = "تعذّر تحديث العنصر في سلسلة المفاتيح: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "سلسلة المفاتيح مقفلة، أو لم يُسمح لـ Greenshot باستخدامها (%@). افتح قفلها أو اسمح لـ Greenshot عندما يسأل macOS، ثم حاول مرة أخرى.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "سلسلة المفاتيح مقفلة، أو لا يُسمح لـ Greenshot باستخدامها. حاول مرة أخرى، وافتح قفلها أو اسمح لـ Greenshot عندما يسأل macOS. إذا لم يسأل macOS، فاقفل سلسلة مفاتيح الدخول وافتح قفلها في تطبيق الوصول إلى سلسلة المفاتيح (ابحث عنه عبر Spotlight)، أو أعد تشغيل Greenshot.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "تعمل أداة التعتيم في المحرر على تشويش أجزاء اللقطة التي لا ينبغي أن يراها أحد أو تمويهها.";
@@ -5495,6 +5525,9 @@
 
 /* machine */
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "كُتبت هذه الخطوة التلقائية بواسطة أداة ذكاء اصطناعي. فهي تغيّر وصفات أخرى، ومنها المدمجة: تحقق من أيها وما تضيفه أدناه. تبدأ متوقفة، فعّلها في التفضيلات › الوصفات.";
+
+/* machine */
+"This change to AI tools applies until Greenshot quits" = "هذا التغيير على أدوات الذكاء الاصطناعي يسري حتى يتم إنهاء Greenshot";
 
 /* machine */
 "This is a recipe; the editor has an automatic step open." = "هذه وصفة؛ والمحرر يفتح خطوة تلقائية.";
@@ -5939,6 +5972,9 @@
 
 /* machine */
 "What to change: %@" = "ما يجب تغييره: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "يُحتفظ بما اخترته ويُعتد به من جديد حالما يتمكن Greenshot من التحقق منه، ما لم يكن قد تغيّر خارج Greenshot أو أثناء تعذّر استخدام سلسلة المفاتيح.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "ما يضعه \"انسخ للذاكرة\" هناك. تأخذ التطبيقات أول تنسيق تفهمه؛ ويضمّن HTML الصورة كـ PNG لبرامج البريد ومحررات الويب.";

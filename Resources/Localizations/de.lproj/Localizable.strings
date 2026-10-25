@@ -1270,6 +1270,9 @@
 "Changes (− before, + after)" = "Änderungen (− vorher, + nachher)";
 
 /* machine */
+"Changes made while the Keychain couldn't be used apply only until Greenshot quits." = "Änderungen, die vorgenommen wurden, während der Schlüsselbund nicht verwendet werden konnte, gelten nur, bis Greenshot beendet wird.";
+
+/* machine */
 "Changes not applied yet" = "Änderungen noch nicht angewendet";
 
 /* machine */
@@ -2305,7 +2308,19 @@
 "Greenshot can read the addresses of the pages open in Safari and Chrome. macOS asks once per browser whether to allow it." = "Greenshot kann die Adressen der in Safari und Chrome geöffneten Seiten lesen. macOS fragt einmal pro Browser, ob dies erlaubt werden soll.";
 
 /* machine */
+"Greenshot can't check which programs you allowed: it can't read the key of their seal from the Keychain. Until it can, AI tools are asked as if no program were allowed." = "Greenshot kann nicht prüfen, welche Programme Sie erlaubt haben: Es kann den Schlüssel ihres Siegels nicht aus dem Schlüsselbund lesen. Bis dahin wird bei jedem KI-Tool nachgefragt, als wäre kein Programm erlaubt.";
+
+/* machine */
+"Greenshot can't check your AI tools consent: it can't read the key of its seal from the Keychain. Until it can, applications you removed from the excluded list are excluded again and the notification is on." = "Greenshot kann Ihre Einwilligung für KI-Tools nicht prüfen: Es kann den Schlüssel ihres Siegels nicht aus dem Schlüsselbund lesen. Bis dahin sind Programme, die Sie aus der Liste der ausgeschlossenen Programme entfernt haben, wieder ausgeschlossen, und die Mitteilung ist eingeschaltet.";
+
+/* machine */
 "Greenshot can't ship a Box app key, so register your own: in the [Box Developer Console](https://app.box.com/developers/console) create a Custom App with User Authentication (OAuth 2.0), set its redirect URI to `%@`, give it the Write all files scope, and paste its client ID and secret here. The secret and the sign-in are kept in your Keychain; the folder ID is the number in the folder's URL." = "Greenshot kann keinen Box-App-Schlüssel mitliefern, registrieren Sie daher Ihren eigenen: Erstellen Sie in der [Box Developer Console](https://app.box.com/developers/console) eine Custom App mit User Authentication (OAuth 2.0), setzen Sie ihre Redirect-URI auf `%@`, geben Sie ihr den Scope „Write all files“ und fügen Sie Client-ID und Secret hier ein. Das Secret und die Anmeldung werden in Ihrem Schlüsselbund aufbewahrt; die Ordner-ID ist die Zahl in der URL des Ordners.";
+
+/* machine */
+"Greenshot can't use the Keychain, so it can't be saved. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kann den Schlüsselbund nicht verwenden, daher kann die Änderung nicht gespeichert werden. Entsperren Sie den Schlüsselbund oder erlauben Sie Greenshot den Zugriff, wenn macOS fragt, und klicken Sie dann unter Einstellungen › KI-Tools auf „Erneut versuchen“, um sie zu behalten.";
+
+/* machine */
+"Greenshot can't use the Keychain, so the AI tools consent was saved without its seal. Unlock the Keychain or allow Greenshot when macOS asks, then click Retry in Settings › AI Tools to keep it." = "Greenshot kann den Schlüsselbund nicht verwenden, daher wurde die Einwilligung für KI-Tools ohne ihr Siegel gespeichert. Entsperren Sie den Schlüsselbund oder erlauben Sie Greenshot den Zugriff, wenn macOS fragt, und klicken Sie dann unter Einstellungen › KI-Tools auf „Erneut versuchen“, um sie zu behalten.";
 
 /* machine */
 "Greenshot could not load or register this capture recipe because it contains configuration errors. Review the diagnostic details below:" = "Greenshot konnte dieses Aufnahmerezept nicht laden oder registrieren, da es Konfigurationsfehler enthält. Prüfen Sie die Diagnosedetails unten:";
@@ -2324,6 +2339,9 @@
 
 /* machine */
 "Greenshot sends screenshots to these apps by AppleScript; macOS asks once per app." = "Greenshot sendet Screenshots per AppleScript an diese Apps; macOS fragt einmal pro App.";
+
+/* machine */
+"Greenshot uses it until it quits. To keep it, enter it in Settings › Destinations." = "Greenshot verwendet das Passwort, bis Greenshot beendet wird. Um es zu behalten, geben Sie es unter Einstellungen › Ziele ein.";
 
 /* machine */
 "HDR, headroom %@ of %@" = "HDR, Headroom %@ von %@";
@@ -4939,6 +4957,18 @@
 "The %@ icon is shown in the menu bar." = "Das Symbol von %@ wird in der Menüleiste angezeigt.";
 
 /* machine */
+"The %@ password could not be kept in the Keychain" = "Das %@-Passwort konnte nicht im Schlüsselbund aufbewahrt werden";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, applications you removed from the excluded list are excluded again and the notification is on." = "Die Einwilligung für KI-Tools ist ohne ihr Siegel gespeichert, weil der Schlüsselbund nicht verwendet werden konnte: Nach dem nächsten Start sind Programme, die Sie aus der Liste der ausgeschlossenen Programme entfernt haben, wieder ausgeschlossen, und die Mitteilung ist eingeschaltet.";
+
+/* machine */
+"The AI tools consent is saved without its seal because the Keychain couldn't be used: after the next start, every program is asked again." = "Die Einwilligung für KI-Tools ist ohne ihr Siegel gespeichert, weil der Schlüsselbund nicht verwendet werden konnte: Nach dem nächsten Start wird bei jedem Programm erneut nachgefragt.";
+
+/* machine */
+"The AI tools consent will be reset at the next start" = "Die Einwilligung für KI-Tools wird beim nächsten Start zurückgesetzt";
+
+/* machine */
 "The Greenshot file could not be opened" = "Die Greenshot-Datei konnte nicht geöffnet werden";
 
 /* machine */
@@ -4963,7 +4993,7 @@
 "The Keychain could not update the item: %@" = "Der Schlüsselbund konnte das Objekt nicht aktualisieren: %@";
 
 /* machine */
-"The Keychain is locked, or Greenshot was not allowed to use it (%@). Unlock it, or allow Greenshot when macOS asks, then try again." = "Der Schlüsselbund ist gesperrt, oder Greenshot durfte ihn nicht verwenden (%@). Entsperren Sie ihn oder erlauben Sie Greenshot den Zugriff, wenn macOS fragt, und versuchen Sie es dann erneut.";
+"The Keychain is locked, or Greenshot isn't allowed to use it. Try again, and unlock it or allow Greenshot when macOS asks. If macOS doesn't ask, lock and unlock the login keychain in Keychain Access (find it with Spotlight), or restart Greenshot." = "Der Schlüsselbund ist gesperrt, oder Greenshot darf ihn nicht verwenden. Versuchen Sie es erneut, und entsperren Sie ihn oder erlauben Sie Greenshot den Zugriff, wenn macOS fragt. Fragt macOS nicht, sperren und entsperren Sie den Schlüsselbund „Anmeldung“ in der Schlüsselbundverwaltung (über Spotlight zu finden), oder starten Sie Greenshot neu.";
 
 /* machine */
 "The Obfuscate tool of the editor pixelates or blurs the parts of a screenshot nobody else should see." = "Das Werkzeug „Unkenntlich machen“ des Editors verpixelt oder verwischt die Teile eines Screenshots, die niemand sonst sehen soll.";
@@ -5401,6 +5431,9 @@
 "This automatic step was written by an AI tool. It changes other recipes, the built-in ones included: check which ones and what it adds below. It starts switched off, switch it on in Settings › Recipes." = "Dieser automatische Schritt wurde von einem KI-Tool geschrieben. Er ändert andere Rezepte, auch die integrierten: Prüfen Sie unten, welche und was er hinzufügt. Er startet ausgeschaltet, schalten Sie ihn unter Einstellungen › Rezepte ein.";
 
 /* machine */
+"This change to AI tools applies until Greenshot quits" = "Diese Änderung an den KI-Tools gilt, bis Greenshot beendet wird";
+
+/* machine */
 "This is a recipe; the editor has an automatic step open." = "Dies ist ein Rezept; im Editor ist ein automatischer Schritt geöffnet.";
 
 /* machine */
@@ -5822,6 +5855,9 @@
 
 /* machine */
 "What to change: %@" = "Was zu ändern ist: %@";
+
+/* machine */
+"What you chose is kept and counts again once it can, unless it was changed outside Greenshot or while the Keychain couldn't be used." = "Ihre Auswahl bleibt erhalten und gilt wieder, sobald Greenshot sie prüfen kann, außer sie wurde außerhalb von Greenshot geändert oder während der Schlüsselbund nicht verwendet werden konnte.";
 
 /* machine */
 "What “Copy to clipboard” puts there. Apps take the first format they understand; HTML embeds the image as PNG for mail and web editors." = "Was „In Zwischenablage kopieren“ dort ablegt. Apps nehmen das erste Format, das sie verstehen; HTML bettet das Bild als PNG für E-Mail- und Web-Editoren ein.";
