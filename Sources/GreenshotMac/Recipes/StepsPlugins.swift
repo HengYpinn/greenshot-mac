@@ -90,7 +90,14 @@ struct RecipeJiraExecutor: RecipeStepExecutor {
                                saver: ImageSaver) async -> ExportResult {
         let normalized = JiraClient.normalizedKey(key)
         guard JiraClient.isIssueKey(normalized) else { return .failed(String(localized: "“\(key)” is no Jira issue key."), target: key) }
-        guard let site = await AtlassianSignIn.ready(.jira, settings: settings) else { return .declined }
+        let ready: AtlassianSite?
+        do {
+            ready = try await AtlassianSignIn.ready(.jira, settings: settings)
+        } catch {
+            // The Keychain couldn't be read (shown already): a failed export, recorded in the flow.
+            return .failed(error.localizedDescription)
+        }
+        guard let site = ready else { return .declined }
         let s = settings.value
         let format = RecipeStepExports.uploadFormat(step, default: s.jira.uploadFormat)
         let quality = step.int("JpegQuality").map { min(max($0, 1), 100) } ?? s.jira.jpegQuality
@@ -160,7 +167,14 @@ struct RecipeConfluenceExecutor: RecipeStepExecutor {
     @MainActor
     private static func attach(_ capture: Capture, pageId: String, step: RecipeStepInvocation, settings: SettingsStore,
                                saver: ImageSaver) async -> ExportResult {
-        guard let site = await AtlassianSignIn.ready(.confluence, settings: settings) else { return .declined }
+        let ready: AtlassianSite?
+        do {
+            ready = try await AtlassianSignIn.ready(.confluence, settings: settings)
+        } catch {
+            // The Keychain couldn't be read (shown already): a failed export, recorded in the flow.
+            return .failed(error.localizedDescription)
+        }
+        guard let site = ready else { return .declined }
         let s = settings.value
         let format = RecipeStepExports.uploadFormat(step, default: s.confluence.uploadFormat)
         let quality = step.int("JpegQuality").map { min(max($0, 1), 100) } ?? s.confluence.jpegQuality

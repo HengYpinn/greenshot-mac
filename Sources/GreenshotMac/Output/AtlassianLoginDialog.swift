@@ -59,10 +59,11 @@ enum AtlassianSignIn {
         return bare.with(user: bare.user, secret: stored)
     }
 
-    /// The site ready for an upload, nil when the user cancelled the login, the setup is missing or the Keychain can't be
-    /// read (explained then). A password login is checked once per session; a missing or wrong password brings up the
-    /// login dialog.
-    static func ready(_ service: AtlassianService, settings: SettingsStore) async -> AtlassianSite? {
+    /// The site ready for an upload, nil when the user cancelled the login or the setup is missing (explained then). A
+    /// password login is checked once per session; a missing or wrong password brings up the login dialog. Throws, after
+    /// showing it, when the Keychain can't be read: the upload failed (not declined, so a recipe flow records it), as
+    /// Box and Dropbox say then.
+    static func ready(_ service: AtlassianService, settings: SettingsStore) async throws -> AtlassianSite? {
         Uploads.applyCertificateExceptions(settings.value)
         let configured: AtlassianSite?
         do {
@@ -70,7 +71,7 @@ enum AtlassianSignIn {
         } catch {
             ErrorPresenter.show(error, title: service == .jira ? String(localized: "The upload to Jira failed")
                                     : String(localized: "The upload to Confluence failed"))
-            return nil
+            throw error
         }
         guard var site = configured else {
             Uploads.explainMissingSetup(service.name, detail: String(localized: "Enter the \(service.name) URL in Settings › Destinations."))

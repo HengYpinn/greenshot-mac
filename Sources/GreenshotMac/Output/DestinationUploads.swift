@@ -163,7 +163,14 @@ enum JiraDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, issueKey: String? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
         Task { @MainActor in
-            guard let site = await AtlassianSignIn.ready(.jira, settings: settings) else {
+            let ready: AtlassianSite?
+            do {
+                ready = try await AtlassianSignIn.ready(.jira, settings: settings)
+            } catch {
+                completion(.failed(error.localizedDescription))
+                return
+            }
+            guard let site = ready else {
                 completion(.declined)
                 return
             }
@@ -241,7 +248,14 @@ enum ConfluenceDestination {
     static func upload(_ capture: Capture, settings: SettingsStore, saver: ImageSaver, page givenPage: ConfluencePage? = nil,
                        completion: @escaping ExportCompletion = { _ in }) {
         Task { @MainActor in
-            guard let site = await AtlassianSignIn.ready(.confluence, settings: settings) else {
+            let ready: AtlassianSite?
+            do {
+                ready = try await AtlassianSignIn.ready(.confluence, settings: settings)
+            } catch {
+                completion(.failed(error.localizedDescription))
+                return
+            }
+            guard let site = ready else {
                 completion(.declined)
                 return
             }
