@@ -801,6 +801,7 @@ It runs from %@.	Tā darbojas no %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Tā uzreiz pārstāj darboties un vairs netiek ielādēta. Tās fails paliek savā vietā: importē to vēlreiz, lai pārskatītu un apstiprinātu.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Tā uzreiz pārstāj darboties un vairs netiek ielādēta. Tās fails paliek savā vietā: atver to vēlreiz, lai pārskatītu un apstiprinātu.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Tā tika pārdēvēta par %@, un Greenshot startēja ar noklusējuma iestatījumiem.	claude-sonnet-5-5 2026-10-18
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Tas tika saglabāts bez servera, kuram tas pieder, ar vecāku Greenshot versiju vai pirms URL ievadīšanas. Atļauj to tikai tad, ja šis ir tavs %@ serveris: turpmāk tas tiks sūtīts tikai uz šo serveri.	claude-opus-5-5 2026-10-25
 It will be lost if you don't save it.	Tas tiks zaudēts, ja nesaglabāsi.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Tā ir izvēļņu joslā.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Tā paskaidrojums (MI rīka vārdi, Greenshot tos nepārbauda):	claude-sonnet-5-5 2026-10-18
@@ -1384,6 +1385,7 @@ Selection	Atlase	claude-sonnet-5-5 2026-10-18
 Self-Service	Pašapkalpošanās	claude-sonnet-5-5 2026-10-18
 Self-Service…	Pašapkalpošanās…	claude-sonnet-5-5 2026-10-18
 Send screenshot to	Sūtīt ekrānattēlu uz	claude-sonnet-5-5 2026-10-18
+Send the %@ token or password in the Keychain to this server?	Vai sūtīt %@ žetonu vai paroli no atslēgu saišķa uz šo serveri?	claude-opus-5-5 2026-10-25
 Sending the screenshot to %@…	Notiek ekrānattēla sūtīšana uz %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Nosūtīts uz printeri „%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Atdali adreses ar komatiem. Tēmā var izmantot faila vārda parauga mainīgos, piemēram, ${title}. Outlook tos izmanto arī. Ar CC vai BCC un Mail kā pasta lietotni Mail uzraksta visu vēstuli (macOS vienreiz vaicā, vai Greenshot drīkst vadīt Mail); pretējā gadījumā macOS pasta pakalpojums aizpilda Kam un tēmu, bet CC un BCC tiek parādīti pievienošanai ar roku.	claude-sonnet-5-5 2026-10-18

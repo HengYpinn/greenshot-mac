@@ -2566,6 +2566,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Diganti namanya menjadi %@ dan Greenshot dimulai dengan pengaturan default.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Ini disimpan tanpa server tempatnya berasal, oleh versi Greenshot yang lebih lama atau sebelum URL dimasukkan. Izinkan hanya jika ini adalah server %@ Anda: mulai sekarang ini hanya dikirim ke server ini.";
+
+/* machine */
 "It will be lost if you don't save it." = "Akan hilang jika tidak disimpan.";
 
 /* machine */
@@ -4463,6 +4466,9 @@
 
 /* machine */
 "Send screenshot to" = "Kirim tangkapan layar ke";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Kirim token atau kata sandi %@ di Rantai Kunci ke server ini?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Turun ke bawah";

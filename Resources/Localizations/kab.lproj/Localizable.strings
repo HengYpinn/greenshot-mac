@@ -2641,6 +2641,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Yettwasenfel isem-is ɣer %@ u Greenshot yesker s yiɣewwaṛen imezwar.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Yettwasekles war aqeddac i as-yerzan, s lqem aqbur n Greenshot neɣ uqbel ad yettwasekcem URL. Sireg-it kan ma yella wagi d aqeddac-ik %@: seg tura ad yeddu kan ɣer uqeddac-a.";
+
+/* machine */
 "It will be lost if you don't save it." = "Ad iruḥ ma ur t-tsekleseḍ ara.";
 
 /* machine */
@@ -4580,6 +4583,9 @@
 
 /* machine */
 "Send screenshot to" = "Azen tuṭṭfa n ugdil ɣer";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Ad tazneḍ atukkin neɣ awal uffir n %@ seg Txzant n tsura ɣer uqeddac-a?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Deg ugilal";

@@ -2629,6 +2629,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Han blei omdøypt til %@ og Greenshot starta med standardinnstillingane.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Det vart lagra utan tenaren det høyrer til, av ein eldre versjon av Greenshot eller før URL-en vart skriven inn. Tillat det berre om dette er %@-tenaren din: frå no av går det berre til denne tenaren.";
+
+/* machine */
 "It will be lost if you don't save it." = "Det går tapt viss du ikkje lagrar.";
 
 /* machine */
@@ -4559,6 +4562,9 @@
 
 /* machine */
 "Send screenshot to" = "Send skjermbilete til";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Senda %@-tokenet eller passordet i Nøkkelringen til denne tenaren?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Flytt nedst";

@@ -845,6 +845,7 @@ It runs from %@.	Se suoritetaan kohteesta %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Se lakkaa heti toimimasta eikä sitä ladata uudelleen. Sen tiedosto säilyy paikallaan: tuo se uudelleen tarkistaaksesi ja hyväksyäksesi sen.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Se lakkaa heti toimimasta eikä sitä ladata uudelleen. Sen tiedosto säilyy paikallaan: avaa se uudelleen tarkistaaksesi ja hyväksyäksesi sen.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Se nimettiin uudelleen kohteeksi %@ ja Greenshot käynnistyi oletusasetuksilla.	claude-sonnet-5-5 2026-10-18
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Se tallennettiin ilman palvelinta, johon se kuuluu, Greenshotin vanhemmalla versiolla tai ennen URL-osoitteen syöttämistä. Salli se vain, jos tämä on %@-palvelimesi: tästä lähtien se lähetetään vain tälle palvelimelle.	claude-opus-5-5 2026-10-25
 It will be lost if you don't save it.	Se menetetään, jos et tallenna sitä.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Se on valikkorivillä.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Sen selitys (tekoälytyökalun sanat, Greenshot ei ole tarkistanut):	claude-sonnet-5-5 2026-10-18
@@ -1458,6 +1459,7 @@ Selection	Valinta	claude-sonnet-5-5 2026-10-18
 Self-Service	Self-Service	claude-sonnet-5-5 2026-10-18
 Self-Service…	Self-Service…	claude-sonnet-5-5 2026-10-18
 Send screenshot to	Lähetä kuvakaappaus kohteeseen	claude-sonnet-5-5 2026-10-18
+Send the %@ token or password in the Keychain to this server?	Lähetetäänkö %@-tunnus tai -salasana Avainnipusta tälle palvelimelle?	claude-opus-5-5 2026-10-25
 Sending the screenshot to %@…	Lähetetään kuvakaappausta kohteeseen %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Lähetetty tulostimeen ”%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Erota osoitteet pilkuilla. Aiheessa voi käyttää tiedostonimimallin muuttujia, esim. ${title}. Outlook käyttää niitä myös. Kun käytössä on kopio tai piilokopio ja Mail on sähköpostiappisi, Mail kirjoittaa koko viestin (macOS kysyy kerran, saako Greenshot ohjata Mailia); muuten macOS:n sähköpostipalvelu täyttää vastaanottajan ja aiheen, ja kopio ja piilokopio näytetään lisättäviksi käsin.	claude-sonnet-5-5 2026-10-18

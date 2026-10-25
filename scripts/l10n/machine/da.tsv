@@ -844,6 +844,7 @@ It runs from %@.	Det kører fra %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Det holder straks op med at køre og indlæses ikke igen. Dets fil bliver, hvor den er: importér den igen for at gennemgå og godkende den.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Det holder straks op med at køre og indlæses ikke igen. Dets fil bliver, hvor den er: åbn den igen for at gennemgå og godkende den.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Den blev omdøbt til %@, og Greenshot startede med standardindstillingerne.	claude-sonnet-5-5 2026-10-18
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Det blev gemt uden den server, det hører til, af en ældre version af Greenshot eller før URL'en blev indtastet. Tillad det kun, hvis dette er din %@-server: fremover sendes det kun til denne server.	claude-opus-5-5 2026-10-25
 It will be lost if you don't save it.	Det går tabt, hvis du ikke gemmer det.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Det er i menulinjen.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Dens forklaring (AI-værktøjets egne ord, ikke tjekket af Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1456,6 +1457,7 @@ Selection	Markering	claude-sonnet-5-5 2026-10-18
 Self-Service	Selvbetjening	claude-sonnet-5-5 2026-10-18
 Self-Service…	Selvbetjening…	claude-sonnet-5-5 2026-10-18
 Send screenshot to	Send skærmklip til	claude-sonnet-5-5 2026-10-18
+Send the %@ token or password in the Keychain to this server?	Send %@-tokenet eller adgangskoden fra nøgleringen til denne server?	claude-opus-5-5 2026-10-25
 Sending the screenshot to %@…	Sender skærmklippet til %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Sendt til printeren “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Adskil adresser med kommaer. Emnet kan bruge variablerne fra mønsteret for filnavn, fx ${title}. Outlook bruger dem også. Med Cc eller Bcc og Mail som din mailapp skriver Mail hele mailen (macOS spørger én gang, om Greenshot må styre Mail); ellers udfylder macOS' mailtjeneste Til og emnet, og Cc og Bcc vises, så du kan tilføje dem manuelt.	claude-sonnet-5-5 2026-10-18

@@ -820,6 +820,7 @@ It runs from %@.	Εκτελείται από το %@.	claude-sonnet-5-5 2026-10-
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Σταματά να εκτελείται αμέσως και δεν φορτώνεται ξανά. Το αρχείο του παραμένει στη θέση του: εισαγάγετέ το ξανά για να το ελέγξετε και να το εγκρίνετε.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Σταματά να εκτελείται αμέσως και δεν φορτώνεται ξανά. Το αρχείο του παραμένει στη θέση του: ανοίξτε το ξανά για να το ελέγξετε και να το εγκρίνετε.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Μετονομάστηκε σε %@ και το Greenshot ξεκίνησε με τις προεπιλεγμένες ρυθμίσεις.	claude-sonnet-5-5 2026-10-18
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	Αποθηκεύτηκε χωρίς τον διακομιστή στον οποίο ανήκει, από παλαιότερη έκδοση του Greenshot ή πριν εισαχθεί το URL. Επιτρέψτε το μόνο αν αυτός είναι ο διακομιστής %@ σας: από εδώ και πέρα θα πηγαίνει μόνο σε αυτόν τον διακομιστή.	claude-opus-5-5 2026-10-25
 It will be lost if you don't save it.	Θα χαθεί αν δεν το αποθηκεύσετε.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	Βρίσκεται στη γραμμή μενού.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Η εξήγησή του (τα λόγια του εργαλείου AI, χωρίς έλεγχο από το Greenshot):	claude-sonnet-5-5 2026-10-18
@@ -1417,6 +1418,7 @@ Selection	Επιλογή	claude-sonnet-5-5 2026-10-18
 Self-Service	Αυτοεξυπηρέτηση	claude-sonnet-5-5 2026-10-18
 Self-Service…	Αυτοεξυπηρέτηση…	claude-sonnet-5-5 2026-10-18
 Send screenshot to	Αποστολή στιγμιότυπου σε	claude-sonnet-5-5 2026-10-18
+Send the %@ token or password in the Keychain to this server?	Αποστολή του διακριτικού ή του κωδικού πρόσβασης %@ από την Κλειδοθήκη σε αυτόν τον διακομιστή;	claude-opus-5-5 2026-10-25
 Sending the screenshot to %@…	Αποστολή του στιγμιότυπου στο %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Στάλθηκε στον εκτυπωτή “%@”	claude-sonnet-5-5 2026-10-18
 Separate addresses with commas. The subject can use the file name pattern variables, e.g. ${title}. Outlook uses them too. With CC or BCC and Mail as your mail app, Mail writes the whole mail (macOS asks once whether Greenshot may control Mail); otherwise the macOS mail service fills in To and the subject, and CC and BCC are shown to add by hand.	Χωρίστε τις διευθύνσεις με κόμματα. Το θέμα μπορεί να χρησιμοποιεί τις μεταβλητές του προτύπου ονόματος αρχείου, π.χ. ${title}. Το Outlook τις χρησιμοποιεί επίσης. Με CC ή BCC και το Mail ως εφαρμογή αλληλογραφίας, το Mail γράφει ολόκληρο το μήνυμα (το macOS ρωτά μία φορά αν το Greenshot επιτρέπεται να ελέγχει το Mail)· διαφορετικά η υπηρεσία αλληλογραφίας του macOS συμπληρώνει το Προς και το θέμα, και τα CC και BCC εμφανίζονται για χειροκίνητη προσθήκη.	claude-sonnet-5-5 2026-10-18

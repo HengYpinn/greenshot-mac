@@ -2647,6 +2647,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "نام آن به %@ تغییر کرد و Greenshot با تنظیمات پیش‌فرض شروع شد.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "بدون سروری که به آن تعلق دارد ذخیره شده است، با نسخهٔ قدیمی‌تر Greenshot یا پیش از وارد کردن URL. فقط اگر این سرور %@ شماست اجازه دهید: از این پس فقط به این سرور فرستاده می‌شود.";
+
+/* machine */
 "It will be lost if you don't save it." = "اگر ذخیره نکنید از بین می‌رود.";
 
 /* machine */
@@ -4586,6 +4589,9 @@
 
 /* machine */
 "Send screenshot to" = "ارسال تصویر صفحه به";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "توکن یا گذرواژهٔ %@ در Keychain به این سرور فرستاده شود؟";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "به پایین ترین سطح";

@@ -844,6 +844,7 @@ It runs from %@.	Innen fut: %@.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.	Azonnal leáll, és többé nem töltődik be. A fájlja a helyén marad: importálja újra az áttekintéshez és jóváhagyáshoz.	claude-sonnet-5-5 2026-10-18
 It stops running right away and isn't loaded again. Its file stays where it is: open it again to review and approve it.	Azonnal leáll, és többé nem töltődik be. A fájlja a helyén marad: nyissa meg újra az áttekintéshez és jóváhagyáshoz.	claude-sonnet-5-5 2026-10-18
 It was renamed to %@ and Greenshot started with the default settings.	Át lett nevezve erre: %@, és a Greenshot az alapértelmezett beállításokkal indult.	claude-sonnet-5-5 2026-10-18
+It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.	A hozzá tartozó szerver nélkül lett mentve, a Greenshot egy régebbi verziójával vagy az URL megadása előtt. Csak akkor engedélyezze, ha ez az Ön %@-szervere: ettől kezdve csak erre a szerverre kerül.	claude-opus-5-5 2026-10-25
 It will be lost if you don't save it.	Elvész, ha nem menti.	claude-sonnet-5-5 2026-10-18
 It's in the menu bar.	A menüsorban található.	claude-sonnet-5-5 2026-10-18
 Its explanation (the AI tool's words, not checked by Greenshot):	Magyarázata (az AI-eszköz szavai, a Greenshot nem ellenőrizte):	claude-sonnet-5-5 2026-10-18
@@ -1454,6 +1455,7 @@ Selection	Kijelölés	claude-sonnet-5-5 2026-10-18
 Self-Service	Önkiszolgáló	claude-sonnet-5-5 2026-10-18
 Self-Service…	Önkiszolgáló…	claude-sonnet-5-5 2026-10-18
 Send screenshot to	Képernyőkép küldése ide	claude-sonnet-5-5 2026-10-18
+Send the %@ token or password in the Keychain to this server?	Elküldi a Kulcskarikában tárolt %@-tokent vagy -jelszót erre a szerverre?	claude-opus-5-5 2026-10-25
 Send to printer	Küldés nyomtatóra	claude-sonnet-5-5 2026-10-18
 Sending the screenshot to %@…	A képernyőkép küldése: %@…	claude-sonnet-5-5 2026-10-18
 Sent to the printer “%@”	Elküldve a nyomtatóra: „%@”	claude-sonnet-5-5 2026-10-18

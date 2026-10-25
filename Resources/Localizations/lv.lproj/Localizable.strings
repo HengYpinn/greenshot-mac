@@ -2641,6 +2641,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Tā tika pārdēvēta par %@, un Greenshot startēja ar noklusējuma iestatījumiem.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Tas tika saglabāts bez servera, kuram tas pieder, ar vecāku Greenshot versiju vai pirms URL ievadīšanas. Atļauj to tikai tad, ja šis ir tavs %@ serveris: turpmāk tas tiks sūtīts tikai uz šo serveri.";
+
+/* machine */
 "It will be lost if you don't save it." = "Tas tiks zaudēts, ja nesaglabāsi.";
 
 /* machine */
@@ -4586,6 +4589,9 @@
 
 /* machine */
 "Send screenshot to" = "Sūtīt ekrānattēlu uz";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Vai sūtīt %@ žetonu vai paroli no atslēgu saišķa uz šo serveri?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Nolaist paša apakšā";

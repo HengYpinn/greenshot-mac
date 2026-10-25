@@ -2656,6 +2656,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "它已被重新命名為 %@，且 Greenshot 以預設設定啟動。";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "它在儲存時未記錄所屬的伺服器（由舊版 Greenshot 儲存，或在輸入 URL 之前儲存）。僅在這是您的 %@ 伺服器時才允許：此後它只會傳送到此伺服器。";
+
+/* machine */
 "It will be lost if you don't save it." = "如果不儲存，它將會遺失。";
 
 /* machine */
@@ -4601,6 +4604,9 @@
 
 /* machine */
 "Send screenshot to" = "將螢幕截圖傳送到";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "要將鑰匙圈中的 %@ 權杖或密碼傳送到此伺服器嗎？";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "移到最下層";

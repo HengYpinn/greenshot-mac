@@ -2659,6 +2659,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Jis pervadintas į %@, o Greenshot paleista su numatytaisiais nustatymais.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Jis buvo įrašytas be serverio, kuriam priklauso, senesnės Greenshot versijos arba prieš įvedant URL. Leiskite tai tik jei tai jūsų %@ serveris: nuo šiol jis bus siunčiamas tik į šį serverį.";
+
+/* machine */
 "It will be lost if you don't save it." = "Jei neišsaugosite, jis bus prarastas.";
 
 /* machine */
@@ -4601,6 +4604,9 @@
 
 /* machine */
 "Send screenshot to" = "Siųsti ekrano nuotrauką į";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Siųsti %@ prieigos raktą arba slaptažodį iš raktų pakabuko į šį serverį?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Atgal";

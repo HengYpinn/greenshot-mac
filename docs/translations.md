@@ -17,56 +17,56 @@ Greenshot for Mac (Community) reuses the translations of Greenshot for Windows: 
 
 ## Coverage
 
-2275 texts of the Mac are localizable; 425 of them have an upstream key (app name 10, exact 199, normalised 105, override 111); 21 rejected by overrides.tsv.
+2277 texts of the Mac are localizable; 425 of them have an upstream key (app name 10, exact 199, normalised 105, override 111); 21 rejected by overrides.tsv.
 
 | Language | Code | macOS | Upstream | Machine | Translated | Share |
 |---|---|---|---:|---:|---:|---:|
-| العربية | ar-SY | ar | 138 | 2080 | 2218 | 97 % |
-| Català | ca-CA | ca | 203 | 1982 | 2185 | 96 % |
-| Čeština | cs-CZ | cs | 249 | 1954 | 2203 | 97 % |
-| Dansk | da-DK | da | 137 | 2045 | 2182 | 96 % |
-| Deutsch | de-DE | de | 306 | 1871 | 2177 | 96 % |
-| Frängisch | de-x-franconia | vmf | 183 | 2019 | 2202 | 97 % |
-| Ελληνικά | el-GR | el | 198 | 2002 | 2200 | 97 % |
-| Español | es-ES | es | 177 | 2021 | 2198 | 97 % |
-| Eesti | et-EE | et | 197 | 2011 | 2208 | 97 % |
-| پارسی | fa-IR | fa | 143 | 2066 | 2209 | 97 % |
-| Suomi | fi-FI | fi | 135 | 2077 | 2212 | 97 % |
-| Français | fr-FR | fr | 249 | 1931 | 2180 | 96 % |
-| Français - Québec | fr-QC | fr-CA | 173 | 2013 | 2186 | 96 % |
-| Hebrew - עִבְרִית | he-IL | he | 140 | 2068 | 2208 | 97 % |
-| Magyar | hu-HU | hu | 139 | 2071 | 2210 | 97 % |
-| Bahasa Indonesia | id-ID | id | 245 | 1909 | 2154 | 95 % |
-| Italiano | it-IT | it | 253 | 1936 | 2189 | 96 % |
-| 日本語 | ja-JP | ja | 254 | 1966 | 2220 | 98 % |
-| Taqbaylit | kab-DZ | kab | 254 | 1955 | 2209 | 97 % |
-| 한국어 | ko-KR | ko | 252 | 1963 | 2215 | 97 % |
-| Lietuvių | lt-LT | lt | 140 | 2078 | 2218 | 97 % |
-| Latviski | lv-LV | lv | 252 | 1956 | 2208 | 97 % |
-| Nederlands | nl-NL | nl | 232 | 1932 | 2164 | 95 % |
-| Nynorsk | nn-NO | nn | 179 | 2019 | 2198 | 97 % |
-| Polski | pl-PL | pl | 244 | 1966 | 2210 | 97 % |
-| Português do Brasil | pt-BR | pt-BR | 234 | 1957 | 2191 | 96 % |
-| Português de Portugal | pt-PT | pt-PT | 253 | 1949 | 2202 | 97 % |
-| Română | ro-RO | ro | 135 | 2044 | 2179 | 96 % |
-| Pусский | ru-RU | ru | 248 | 1971 | 2219 | 98 % |
-| Slovenčina | sk-SK | sk | 197 | 2003 | 2200 | 97 % |
-| Slovenščina | sl-SI | sl | 181 | 2027 | 2208 | 97 % |
-| Српски | sr-RS | sr | 235 | 1984 | 2219 | 98 % |
-| Svenska | sv-SE | sv | 254 | 1935 | 2189 | 96 % |
-| Turkish | tr-TR | tr | 262 | 1950 | 2212 | 97 % |
-| Українська | uk-UA | uk | 257 | 1968 | 2225 | 98 % |
-| Valencià (RACV) | va-VA | ca-ES-valencia | 210 | 1977 | 2187 | 96 % |
-| Việt | vi-VN | vi | 140 | 2061 | 2201 | 97 % |
-| 简体中文 | zh-CN | zh-Hans | 249 | 1975 | 2224 | 98 % |
-| 正體中文 | zh-TW | zh-Hant | 252 | 1967 | 2219 | 98 % |
+| العربية | ar-SY | ar | 138 | 2082 | 2220 | 97 % |
+| Català | ca-CA | ca | 203 | 1984 | 2187 | 96 % |
+| Čeština | cs-CZ | cs | 249 | 1956 | 2205 | 97 % |
+| Dansk | da-DK | da | 137 | 2047 | 2184 | 96 % |
+| Deutsch | de-DE | de | 306 | 1873 | 2179 | 96 % |
+| Frängisch | de-x-franconia | vmf | 183 | 2021 | 2204 | 97 % |
+| Ελληνικά | el-GR | el | 198 | 2004 | 2202 | 97 % |
+| Español | es-ES | es | 177 | 2023 | 2200 | 97 % |
+| Eesti | et-EE | et | 197 | 2013 | 2210 | 97 % |
+| پارسی | fa-IR | fa | 143 | 2068 | 2211 | 97 % |
+| Suomi | fi-FI | fi | 135 | 2079 | 2214 | 97 % |
+| Français | fr-FR | fr | 249 | 1933 | 2182 | 96 % |
+| Français - Québec | fr-QC | fr-CA | 173 | 2015 | 2188 | 96 % |
+| Hebrew - עִבְרִית | he-IL | he | 140 | 2070 | 2210 | 97 % |
+| Magyar | hu-HU | hu | 139 | 2073 | 2212 | 97 % |
+| Bahasa Indonesia | id-ID | id | 245 | 1911 | 2156 | 95 % |
+| Italiano | it-IT | it | 253 | 1938 | 2191 | 96 % |
+| 日本語 | ja-JP | ja | 254 | 1968 | 2222 | 98 % |
+| Taqbaylit | kab-DZ | kab | 254 | 1957 | 2211 | 97 % |
+| 한국어 | ko-KR | ko | 252 | 1965 | 2217 | 97 % |
+| Lietuvių | lt-LT | lt | 140 | 2080 | 2220 | 97 % |
+| Latviski | lv-LV | lv | 252 | 1958 | 2210 | 97 % |
+| Nederlands | nl-NL | nl | 232 | 1934 | 2166 | 95 % |
+| Nynorsk | nn-NO | nn | 179 | 2021 | 2200 | 97 % |
+| Polski | pl-PL | pl | 244 | 1968 | 2212 | 97 % |
+| Português do Brasil | pt-BR | pt-BR | 234 | 1959 | 2193 | 96 % |
+| Português de Portugal | pt-PT | pt-PT | 253 | 1951 | 2204 | 97 % |
+| Română | ro-RO | ro | 135 | 2046 | 2181 | 96 % |
+| Pусский | ru-RU | ru | 248 | 1973 | 2221 | 98 % |
+| Slovenčina | sk-SK | sk | 197 | 2005 | 2202 | 97 % |
+| Slovenščina | sl-SI | sl | 181 | 2029 | 2210 | 97 % |
+| Српски | sr-RS | sr | 235 | 1986 | 2221 | 98 % |
+| Svenska | sv-SE | sv | 254 | 1937 | 2191 | 96 % |
+| Turkish | tr-TR | tr | 262 | 1952 | 2214 | 97 % |
+| Українська | uk-UA | uk | 257 | 1970 | 2227 | 98 % |
+| Valencià (RACV) | va-VA | ca-ES-valencia | 210 | 1979 | 2189 | 96 % |
+| Việt | vi-VN | vi | 140 | 2063 | 2203 | 97 % |
+| 简体中文 | zh-CN | zh-Hans | 249 | 1977 | 2226 | 98 % |
+| 正體中文 | zh-TW | zh-Hant | 252 | 1969 | 2221 | 98 % |
 
 Right to left: ar-SY, fa-IR, he-IL.
 Help pages (`Resources/Help`, from upstream): de-DE, en-US, es-ES, fr-FR, hu-HU, it-IT, ko-KR, nl-NL, nn-NO, pl-PL, pt-BR, pt-PT, ru-RU, sv-SE, tr-TR, va-VA, zh-CN.
 
 ## Machine translations
 
-77659 translations in 39 languages are machine translations (0 of them reviewed by a person): the Mac's texts that Greenshot's translators haven't translated, because the Mac wrote them or the language pack doesn't have them yet. An AI model made them; `l10n.py` checks their placeholders and Windows wording, nobody checked their language unless the row says reviewed. They are marked:
+77737 translations in 39 languages are machine translations (0 of them reviewed by a person): the Mac's texts that Greenshot's translators haven't translated, because the Mac wrote them or the language pack doesn't have them yet. An AI model made them; `l10n.py` checks their placeholders and Windows wording, nobody checked their language unless the row says reviewed. They are marked:
 
 - in `Localizable.strings` by `/* machine */` above the entry (`/* machine, reviewed */` once a person checked it), and in the Machine column of the table above;
 - in the app: About shows "Some texts in this language are machine translations." under the translators' credit (`L10nText.hasMachineTranslations`).
@@ -75,7 +75,7 @@ Correcting one: edit its row in `scripts/l10n/machine/<lproj>.tsv` (keep the Eng
 
 New texts in the code: `python3 -I scripts/l10n/l10n.py untranslated` lists the texts without a translation (`<lproj><TAB>English`); add their rows to the tables with the model or person as the source.
 
-Sources: claude-opus-5-5 2026-10-18 (141 rows), claude-opus-5-5 2026-10-21 (273 rows), claude-opus-5-5 2026-10-25 (663 rows), claude-sonnet-5-5 2026-10-18 (79090 rows). 2838 rows keep the English on purpose (names, formats, codes and symbols: the row's translation is the English), so no language reaches 100 %.
+Sources: claude-opus-5-5 2026-10-18 (141 rows), claude-opus-5-5 2026-10-21 (273 rows), claude-opus-5-5 2026-10-25 (741 rows), claude-sonnet-5-5 2026-10-18 (79090 rows). 2838 rows keep the English on purpose (names, formats, codes and symbols: the row's translation is the English), so no language reaches 100 %.
 
 ## Texts with several upstream keys
 

@@ -2659,6 +2659,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Yeniden adlandırıldı: %@. Greenshot varsayılan ayarlarla başladı.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Ait olduğu sunucu bilgisi olmadan, Greenshot'ın eski bir sürümüyle veya URL girilmeden önce kaydedildi. Yalnızca bu sizin %@ sunucunuzsa izin verin: bundan sonra yalnızca bu sunucuya gider.";
+
+/* machine */
 "It will be lost if you don't save it." = "Kaydetmezseniz kaybolacak.";
 
 /* machine */
@@ -4592,6 +4595,9 @@
 
 /* machine */
 "Send screenshot to" = "Ekran görüntüsünü şuraya gönder";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Anahtar Zinciri'ndeki %@ belirteci veya parolası bu sunucuya gönderilsin mi?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "En alta";

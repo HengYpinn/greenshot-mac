@@ -949,7 +949,7 @@
 "__about_translation__" = "简体中文翻译：uralhan，hookilah";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1975";
+"__machine_translations__" = "1977";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "全部";

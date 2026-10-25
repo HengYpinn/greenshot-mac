@@ -2608,6 +2608,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "A fost redenumit în %@, iar Greenshot a pornit cu setările implicite.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "A fost salvat fără serverul căruia îi aparține, de o versiune mai veche de Greenshot sau înainte de introducerea URL-ului. Permiteți-l doar dacă acesta este serverul dumneavoastră %@: de acum înainte va merge doar către acest server.";
+
+/* machine */
 "It will be lost if you don't save it." = "Se va pierde dacă nu îl salvați.";
 
 /* machine */
@@ -4529,6 +4532,9 @@
 
 /* machine */
 "Send screenshot to" = "Trimite captura de ecran la";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Trimiteți tokenul sau parola %@ din Keychain către acest server?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Pînă la capăt";

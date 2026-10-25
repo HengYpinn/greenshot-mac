@@ -1446,6 +1446,7 @@
    "files": [
     "Sources/GreenshotMac/App/AIToolsConsentPanel.swift",
     "Sources/GreenshotMac/App/AutomationCaptureConsent.swift",
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift",
     "Sources/GreenshotMac/Settings/AIToolsTab.swift"
    ]
   },
@@ -4064,7 +4065,8 @@
    "key": "Don't Allow",
    "files": [
     "Sources/GreenshotMac/App/AIToolsConsentPanel.swift",
-    "Sources/GreenshotMac/App/AutomationCaptureConsent.swift"
+    "Sources/GreenshotMac/App/AutomationCaptureConsent.swift",
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
    ]
   },
   {
@@ -5661,6 +5663,12 @@
    "key": "It was renamed to %@ and Greenshot started with the default settings.",
    "files": [
     "Sources/GreenshotMac/App/SettingsStore.swift"
+   ]
+  },
+  {
+   "key": "It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only.",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
    ]
   },
   {
@@ -9766,6 +9774,12 @@
    ]
   },
   {
+   "key": "Send the %@ token or password in the Keychain to this server?",
+   "files": [
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
+   ]
+  },
+  {
    "key": "Send to Back",
    "files": [
     "Sources/GreenshotMac/App/MainMenu+Edit.swift",
@@ -11669,7 +11683,8 @@
   {
    "key": "This address starts with http://: the password travels unencrypted.",
    "files": [
-    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift"
+    "Sources/GreenshotMac/Output/AtlassianLoginDialog.swift",
+    "Sources/GreenshotMac/Output/AtlassianSecretQuestion.swift"
    ]
   },
   {

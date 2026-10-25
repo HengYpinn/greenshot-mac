@@ -2641,6 +2641,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Át lett nevezve erre: %@, és a Greenshot az alapértelmezett beállításokkal indult.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "A hozzá tartozó szerver nélkül lett mentve, a Greenshot egy régebbi verziójával vagy az URL megadása előtt. Csak akkor engedélyezze, ha ez az Ön %@-szervere: ettől kezdve csak erre a szerverre kerül.";
+
+/* machine */
 "It will be lost if you don't save it." = "Elvész, ha nem menti.";
 
 /* machine */
@@ -4577,6 +4580,9 @@
 
 /* machine */
 "Send screenshot to" = "Képernyőkép küldése ide";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Elküldi a Kulcskarikában tárolt %@-tokent vagy -jelszót erre a szerverre?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Hátra küldés";

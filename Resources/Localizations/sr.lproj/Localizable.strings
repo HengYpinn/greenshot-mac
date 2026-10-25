@@ -2653,6 +2653,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Преименовано је у %@, а Greenshot је покренут са подразумеваним поставкама.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Сачувано је без сервера коме припада, старијом верзијом Greenshot-а или пре уноса URL-а. Дозволите то само ако је ово ваш %@ сервер: од сада ће ићи само на овај сервер.";
+
+/* machine */
 "It will be lost if you don't save it." = "Биће изгубљено ако га не сачувате.";
 
 /* machine */
@@ -4595,6 +4598,9 @@
 
 /* machine */
 "Send screenshot to" = "Пошаљи снимак екрана на";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Послати %@ токен или лозинку из привеска кључева на овај сервер?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Скроз надоле";

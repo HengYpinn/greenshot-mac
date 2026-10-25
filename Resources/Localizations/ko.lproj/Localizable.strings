@@ -2647,6 +2647,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "이름이 %@(으)로 변경되었고 Greenshot이 기본 설정으로 시작되었습니다.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "소속 서버 정보 없이 저장되었습니다(이전 버전의 Greenshot이 저장했거나 URL을 입력하기 전에 저장됨). 이 서버가 사용자의 %@ 서버인 경우에만 허용하세요. 이후로는 이 서버로만 전송됩니다.";
+
+/* machine */
 "It will be lost if you don't save it." = "저장하지 않으면 사라집니다.";
 
 /* machine */
@@ -4592,6 +4595,9 @@
 
 /* machine */
 "Send screenshot to" = "스크린샷 보내기";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "키체인에 있는 %@ 토큰 또는 암호를 이 서버로 보내시겠습니까?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "하단으로 이동";

@@ -2647,6 +2647,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Zmieniono jego nazwę na %@, a Greenshot uruchomił się z ustawieniami domyślnymi.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Zostało zapisane bez serwera, do którego należy, przez starszą wersję Greenshot lub przed wprowadzeniem adresu URL. Zezwól tylko wtedy, gdy to Twój serwer %@: od teraz będzie wysyłane tylko na ten serwer.";
+
+/* machine */
 "It will be lost if you don't save it." = "Zostanie utracony, jeśli go nie zapiszesz.";
 
 /* machine */
@@ -4580,6 +4583,9 @@
 
 /* machine */
 "Send screenshot to" = "Wyślij zrzut ekranu do";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Wysłać token lub hasło %@ z pęku kluczy na ten serwer?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Na sam dół";

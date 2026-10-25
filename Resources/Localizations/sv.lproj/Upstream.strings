@@ -988,7 +988,7 @@
 "__about_translation__" = "Svensk översättning av Torsten Augustsson";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1935";
+"__machine_translations__" = "1937";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "allt";

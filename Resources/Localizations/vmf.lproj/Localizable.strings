@@ -2635,6 +2635,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Es wurd in %@ umbenannd und Greenshot is mid den Schdandard-Einschdellunga gschdardd.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Er is ohne den Server gschbeichert worn, zu dem er ghörd, vo aner äldern Version vo Greenshot odder bevor die URL eigebn worn is. Erlaub's nur, wenn des dei %@-Server is: ab edz gehd er nur nu an den Server do.";
+
+/* machine */
 "It will be lost if you don't save it." = "Es is wech, wennsd es ned schbeicherd.";
 
 /* machine */
@@ -4574,6 +4577,9 @@
 
 /* machine */
 "Send screenshot to" = "Sgrienschod schiggn an";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Den %@-Token odder es Passwort aus'm Schlüsselbund an den Server do schiggn?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Ganz nach hindn";

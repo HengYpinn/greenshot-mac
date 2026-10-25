@@ -2587,6 +2587,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Het is hernoemd naar %@ en Greenshot is met de standaardinstellingen gestart.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Het is bewaard zonder de server waar het bij hoort, door een oudere versie van Greenshot of voordat de URL werd ingevoerd. Sta het alleen toe als dit uw %@-server is: vanaf nu gaat het alleen naar deze server.";
+
+/* machine */
 "It will be lost if you don't save it." = "Het gaat verloren als u het niet opslaat.";
 
 /* machine */
@@ -4490,6 +4493,9 @@
 
 /* machine */
 "Send screenshot to" = "Schermafbeelding versturen naar";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Het %@-token of wachtwoord uit de Sleutelhanger naar deze server sturen?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Helemaal naar beneden";

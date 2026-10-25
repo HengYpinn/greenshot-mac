@@ -2653,6 +2653,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "名前が %@ に変更され、Greenshot はデフォルトの設定で起動しました。";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "所属するサーバの情報なしで保存されています（古いバージョンの Greenshot、または URL の入力前に保存されたもの）。これがご自身の %@ サーバである場合のみ許可してください。以後はこのサーバにのみ送信されます。";
+
+/* machine */
 "It will be lost if you don't save it." = "保存しないと失われます。";
 
 /* machine */
@@ -4601,6 +4604,9 @@
 
 /* machine */
 "Send screenshot to" = "スクリーンショットの送信先";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "キーチェーンにある %@ のトークンまたはパスワードをこのサーバに送信しますか？";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "最背面へ移動";

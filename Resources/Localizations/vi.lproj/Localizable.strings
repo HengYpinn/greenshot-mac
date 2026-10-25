@@ -2623,6 +2623,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Nó đã được đổi tên thành %@ và Greenshot khởi động với thiết lập mặc định.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Nó đã được lưu mà không có máy chủ mà nó thuộc về, bởi phiên bản Greenshot cũ hơn hoặc trước khi nhập URL. Chỉ cho phép nếu đây là máy chủ %@ của bạn: từ nay nó chỉ được gửi đến máy chủ này.";
+
+/* machine */
 "It will be lost if you don't save it." = "Nó sẽ bị mất nếu bạn không lưu.";
 
 /* machine */
@@ -4562,6 +4565,9 @@
 
 /* machine */
 "Send screenshot to" = "Gửi ảnh chụp màn hình đến";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Gửi mã hoặc mật khẩu %@ trong Chuỗi khóa đến máy chủ này?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Mặt cuối cùng";

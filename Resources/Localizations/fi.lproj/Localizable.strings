@@ -2644,6 +2644,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Se nimettiin uudelleen kohteeksi %@ ja Greenshot käynnistyi oletusasetuksilla.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Se tallennettiin ilman palvelinta, johon se kuuluu, Greenshotin vanhemmalla versiolla tai ennen URL-osoitteen syöttämistä. Salli se vain, jos tämä on %@-palvelimesi: tästä lähtien se lähetetään vain tälle palvelimelle.";
+
+/* machine */
 "It will be lost if you don't save it." = "Se menetetään, jos et tallenna sitä.";
 
 /* machine */
@@ -4574,6 +4577,9 @@
 
 /* machine */
 "Send screenshot to" = "Lähetä kuvakaappaus kohteeseen";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Lähetetäänkö %@-tunnus tai -salasana Avainnipusta tälle palvelimelle?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Vie taakse";

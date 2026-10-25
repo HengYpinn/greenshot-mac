@@ -2662,6 +2662,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "أُعيدت تسميته إلى %@ وبدأ Greenshot بالإعدادات الافتراضية.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "حُفظ دون الخادم الذي ينتمي إليه، بواسطة إصدار أقدم من Greenshot أو قبل إدخال عنوان URL. اسمح بذلك فقط إذا كان هذا خادم %@ الخاص بك: من الآن فصاعدًا سيذهب إلى هذا الخادم فقط.";
+
+/* machine */
 "It will be lost if you don't save it." = "ستفقده إذا لم تحفظه.";
 
 /* machine */
@@ -4601,6 +4604,9 @@
 
 /* machine */
 "Send screenshot to" = "إرسال اللقطة إلى";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "هل تريد إرسال رمز %@ المميز أو كلمة المرور المحفوظة في سلسلة المفاتيح إلى هذا الخادم؟";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "إلى الأسفل";

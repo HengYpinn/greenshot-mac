@@ -2626,6 +2626,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Μετονομάστηκε σε %@ και το Greenshot ξεκίνησε με τις προεπιλεγμένες ρυθμίσεις.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Αποθηκεύτηκε χωρίς τον διακομιστή στον οποίο ανήκει, από παλαιότερη έκδοση του Greenshot ή πριν εισαχθεί το URL. Επιτρέψτε το μόνο αν αυτός είναι ο διακομιστής %@ σας: από εδώ και πέρα θα πηγαίνει μόνο σε αυτόν τον διακομιστή.";
+
+/* machine */
 "It will be lost if you don't save it." = "Θα χαθεί αν δεν το αποθηκεύσετε.";
 
 /* machine */
@@ -4568,6 +4571,9 @@
 
 /* machine */
 "Send screenshot to" = "Αποστολή στιγμιότυπου σε";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Αποστολή του διακριτικού ή του κωδικού πρόσβασης %@ από την Κλειδοθήκη σε αυτόν τον διακομιστή;";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Μεταφορά στο φόντο";

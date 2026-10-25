@@ -2644,6 +2644,9 @@
 "It was renamed to %@ and Greenshot started with the default settings." = "Preimenovana je bila v %@ in Greenshot se je zagnal s privzetimi nastavitvami.";
 
 /* machine */
+"It was saved without the server it belongs to, by an older version of Greenshot or before the URL was entered. Allow it only if this is your %@ server: from then on it goes to this server only." = "Shranjeno je bilo brez strežnika, ki mu pripada, s starejšo različico Greenshota ali preden je bil vnesen URL. Dovolite to samo, če je to vaš strežnik %@: odslej bo šlo samo na ta strežnik.";
+
+/* machine */
 "It will be lost if you don't save it." = "Izgubljeno bo, če ne shranite.";
 
 /* machine */
@@ -4577,6 +4580,9 @@
 
 /* machine */
 "Send screenshot to" = "Pošlji posnetek zaslona v";
+
+/* machine */
+"Send the %@ token or password in the Keychain to this server?" = "Ali želite poslati žeton ali geslo za %@ iz Verige ključev na ta strežnik?";
 
 /* core:Editor.downtobottom, override */
 "Send to Back" = "Do dna";
