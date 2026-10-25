@@ -199,6 +199,28 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         #expect(secrets.reads == reads + 1)
     }
 
+    /// Switching recipes off reloads too, but loads nothing: the empty records of the locked Keychain stay, so a later
+    /// look-up doesn't show its password prompt again.
+    @MainActor @Test func switchingRecipesOffDoesntReadALockedKeychainAgain() async throws {
+        let secrets = LockableSecretStore()
+        let earlier = LibraryFixture(secrets: secrets)
+        defer { earlier.cleanUp() }
+        let url = try earlier.write(libraryRecipe())
+        _ = await earlier.library.importFile(url)
+
+        secrets.isLocked = true
+        let box = earlier.box
+        let store = RecipeTrustStore(fileURL: earlier.folder.appendingPathComponent("trust.json"), secrets: secrets)
+        let library = RecipeLibrary(loadSettings: { box.settings }, saveSettings: { box.settings = $0 }, trustStore: store,
+                                    approver: StubApprover { _ in nil }, watchFiles: false)
+        _ = await library.reload()
+        let reads = secrets.reads
+        box.settings.enabled = false
+        _ = await library.reload()
+        #expect(store.allRecords.isEmpty)
+        #expect(secrets.reads == reads)
+    }
+
     /// Every look-up would show the Keychain's password prompt again: a locked Keychain is asked once, and again only
     /// when an approval is to be changed (the user is there then).
     @Test func aLockedKeychainIsAskedOnceNotAtEveryLookUp() throws {
