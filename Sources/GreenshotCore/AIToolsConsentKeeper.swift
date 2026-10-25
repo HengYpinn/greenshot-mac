@@ -280,15 +280,16 @@ public struct AIToolsConsentKeeper {
         if !grant.isEmpty { changes.append(Pending(change: grant, isStored: false)) }
         guard !check() else { return nil }
 
-        let restricted = !AIToolsConsentSeal.sealedValuesEqual(storedBefore, stored)
-        if restricted {
+        // Stored without a seal; the defaults need none (they hold as they are, only the old key waits for a check).
+        let unsealed = !AIToolsConsentSeal.sealedValuesEqual(storedBefore, stored) && !AIToolsConsentSeal.isDefault(stored)
+        if unsealed {
             log.warn("A change of the AI tools consent that allows less can't be sealed (\(problem ?? "")): it is stored without its seal, so the consent is reset at the next start unless it is sealed before.")
             if isChecked { removeKeyOfOldSeal() }
         }
         if !grant.isEmpty {
             log.warn("A change of the AI tools consent that allows more can't be sealed (\(problem ?? "")): it applies until Greenshot quits unless it is sealed before.")
         }
-        let notice: Notice? = restricted ? .storedUnsealed : grant.isEmpty ? nil : .untilQuit
+        let notice: Notice? = unsealed ? .storedUnsealed : grant.isEmpty ? nil : .untilQuit
         guard let notice, told.insert(notice).inserted else { return nil }
         return notice
     }

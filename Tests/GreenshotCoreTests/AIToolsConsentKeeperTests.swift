@@ -562,6 +562,27 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
         #expect(allowedAfterRestart(file, secrets) == ["/B"])
     }
 
+    /// The last program removed while the Keychain is locked: the defaults need no seal, so the removal holds without
+    /// one and nobody is told to click Retry; the key of the old seal goes at the next check.
+    @Test func removingTheLastProgramNeedsNoSeal() {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        var first = ConsentRun(file, secrets)
+        first.edit { $0.allowedClients = ["/A"] }
+        var run = ConsentRun(file, secrets)
+        secrets.isLocked = true
+        run.edit { $0.allowedClients.removeAll() }
+        #expect(run.notices.isEmpty)
+        #expect(!run.status.needsAttention)
+        #expect(AIToolsConsentSeal.isDefault(ConsentRun.onDisk(file)))
+
+        secrets.isLocked = false
+        #expect(allowedAfterRestart(file, secrets).isEmpty)
+        run.retry()
+        #expect(secrets.value(AIToolsConsentSeal.keyName) == nil)
+    }
+
     /// F5: a program removed while the Keychain is locked, then someone puts back the old settings with their old seal.
     /// The key of that seal was removed (Apple's sources: deleting needs no unlock), so the old values don't count.
     @Test func anOldSealCantBringBackARemovedProgram() throws {
