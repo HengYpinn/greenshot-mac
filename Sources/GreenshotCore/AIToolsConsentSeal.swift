@@ -72,8 +72,9 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
         return result
     }
 
-    /// The text that is signed: exactly the three sealed values, in a fixed order and encoding.
-    func canonicalPayload(_ settings: AIToolsSettings) -> Data {
+    /// The text that is signed: exactly the three sealed values and the place (`locationName`), in a fixed order and
+    /// encoding.
+    func canonicalPayload(_ settings: AIToolsSettings, at locationName: String) -> Data {
         struct Payload: Encodable {
             var location: String
             var allowedClients: [String]
@@ -88,12 +89,37 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
     }
 
     /// Where the seal is for: the settings file's path, or the user defaults. Part of the signed text, so a seal of
-    /// one place doesn't verify in another.
-    private var locationName: String {
+    /// one place doesn't verify in another. The path doesn't depend on whether the file exists yet (`stablePath`): the
+    /// seal is written before the settings, also the first time.
+    var locationName: String {
         switch location {
         case .defaults: return "defaults"
-        case .file(let url): return "file:" + url.standardizedFileURL.path
+        case .file(let url): return "file:" + Self.stablePath(url)
         }
+    }
+
+    /// The names a stored seal may be for: `locationName`, and the one seals were made for before it
+    /// (`standardizedFileURL`, after the file was written), so those still verify.
+    private var acceptedLocationNames: [String] {
+        guard case .file(let url) = location else { return [locationName] }
+        let earlier = "file:" + url.standardizedFileURL.path
+        return earlier == locationName ? [locationName] : [locationName, earlier]
+    }
+
+    /// `url`'s path without empty and `.` parts, `..` taken from the text, and without `/private` before `tmp`, `var`
+    /// and `etc` (macOS links those three there). Worked out from the text only: `standardizedFileURL` drops `/private`,
+    /// and follows a linked folder for `..`, only once the file exists.
+    static func stablePath(_ url: URL) -> String {
+        var parts: [Substring] = []
+        for part in url.path.split(separator: "/") {
+            switch part {
+            case ".": continue
+            case "..": if !parts.isEmpty { parts.removeLast() }
+            default: parts.append(part)
+            }
+        }
+        if parts.count > 1, parts[0] == "private", ["tmp", "var", "etc"].contains(parts[1]) { parts.removeFirst() }
+        return "/" + parts.joined(separator: "/")
     }
 
     /// Writes the seal for `settings` (Greenshot saving them), before the settings are saved. Every save makes a new
@@ -111,7 +137,7 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
             return
         }
         let key = try newKey()
-        let mac = HMAC<SHA256>.authenticationCode(for: canonicalPayload(settings), using: key)
+        let mac = HMAC<SHA256>.authenticationCode(for: canonicalPayload(settings, at: locationName), using: key)
         writeStoredSeal(Data(mac).base64EncodedString())
     }
 
@@ -138,7 +164,9 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
     public func isSealed(_ settings: AIToolsSettings) throws -> Bool {
         guard let text = readStoredSeal(), let signature = Data(base64Encoded: text) else { return false }
         guard let key = try existingKey() else { return false }
-        return HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: canonicalPayload(settings), using: key)
+        return acceptedLocationNames.contains { name in
+            HMAC<SHA256>.isValidAuthenticationCode(signature, authenticating: canonicalPayload(settings, at: name), using: key)
+        }
     }
 
     /// The values of `settings` that can't be trusted, reset: nobody allowed, the notification on, the default

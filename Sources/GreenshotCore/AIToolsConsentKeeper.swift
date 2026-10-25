@@ -56,6 +56,9 @@ public struct AIToolsConsentKeeper {
         var allowed: [String] = []
         /// Allowed-list lines removed.
         var disallowed: [String] = []
+        /// Allowed-list lines of programs that have no entry left: every entry of those programs goes (its stored line
+        /// may be another one, e.g. without the Team ID of the entry allowed again in this run).
+        var disallowedPrograms: [String] = []
         var excluded: [String] = []
         var unexcluded: [String] = []
         var notifyOnCapture: Bool?
@@ -65,6 +68,7 @@ public struct AIToolsConsentKeeper {
         init(from before: AIToolsSettings, to after: AIToolsSettings) {
             allowed = after.allowedClients.filter { !before.allowedClients.contains($0) }
             disallowed = before.allowedClients.filter { !after.allowedClients.contains($0) }
+            disallowedPrograms = disallowed.filter { line in !after.allowedClients.contains { Self.sameProgram($0, line) } }
             excluded = after.excludedApplications.filter { !before.excludedApplications.contains($0) }
             unexcluded = before.excludedApplications.filter { !after.excludedApplications.contains($0) }
             notifyOnCapture = after.notifyOnCapture == before.notifyOnCapture ? nil : after.notifyOnCapture
@@ -87,6 +91,7 @@ public struct AIToolsConsentKeeper {
         var restriction: Change {
             var part = Change()
             part.disallowed = disallowed.filter { !isReplaced($0) }
+            part.disallowedPrograms = disallowedPrograms
             part.excluded = excluded
             part.notifyOnCapture = notifyOnCapture == true ? true : nil
             return part
@@ -104,7 +109,9 @@ public struct AIToolsConsentKeeper {
         /// `settings` with this change made.
         func applied(to settings: AIToolsSettings) -> AIToolsSettings {
             var result = settings
-            result.allowedClients.removeAll { disallowed.contains($0) }
+            result.allowedClients.removeAll { entry in
+                disallowed.contains(entry) || disallowedPrograms.contains { Self.sameProgram($0, entry) }
+            }
             for line in allowed {
                 result.allowedClients.removeAll { Self.sameProgram($0, line) }
                 result.allowedClients.append(line)
@@ -197,20 +204,26 @@ public struct AIToolsConsentKeeper {
     @discardableResult
     public mutating func check() -> Bool {
         guard isChecked || verifyBase() else { return false }
-        if isBaseSealed && changes.isEmpty && seal.storedSeal == knownSeal {
+        let sealReplaced = seal.storedSeal != knownSeal
+        if isBaseSealed && changes.isEmpty && !sealReplaced {
             problem = nil
             return true
         }
-        return sealEverything()
+        if sealEverything() { return true }
+        // The stored seal isn't the one verified or written in this run, so it doesn't verify `base` any more
+        if sealReplaced { isBaseSealed = false }
+        return false
     }
 
     /// Checks `base` against the stored seal: valid, it counts; invalid, it is reset (restricts only, so it counts too);
     /// the key can't be read, it stays unchecked.
     private mutating func verifyBase() -> Bool {
         if AIToolsConsentSeal.isDefault(base) {
+            // The defaults need no seal. One that is still stored (its key couldn't be removed when they were saved)
+            // goes at this check, so the earlier values it was made for can't be put back with it.
             isChecked = true
-            isBaseSealed = true
             knownSeal = seal.storedSeal
+            isBaseSealed = knownSeal == nil
             return true
         }
         let sealed: Bool
@@ -280,26 +293,29 @@ public struct AIToolsConsentKeeper {
         if !grant.isEmpty { changes.append(Pending(change: grant, isStored: false)) }
         guard !check() else { return nil }
 
-        // Stored without a seal; the defaults need none (they hold as they are, only the old key waits for a check).
+        // Stored without a seal; the defaults need none (they hold as they are, their old seal goes at the next check).
         let unsealed = !AIToolsConsentSeal.sealedValuesEqual(storedBefore, stored) && !AIToolsConsentSeal.isDefault(stored)
-        if unsealed {
+        if unsealed && isChecked && isBaseSealed { removeKeyOfOldSeal() }
+        // Told and logged once until a check succeeds, not at every change
+        var fresh: [Notice] = []
+        if unsealed && told.insert(.storedUnsealed).inserted {
             log.warn("A change of the AI tools consent that allows less can't be sealed (\(problem ?? "")): it is stored without its seal, so the consent is reset at the next start unless it is sealed before.")
-            if isChecked { removeKeyOfOldSeal() }
+            fresh.append(.storedUnsealed)
         }
-        if !grant.isEmpty {
+        if !grant.isEmpty && told.insert(.untilQuit).inserted {
             log.warn("A change of the AI tools consent that allows more can't be sealed (\(problem ?? "")): it applies until Greenshot quits unless it is sealed before.")
+            fresh.append(.untilQuit)
         }
-        let notice: Notice? = unsealed ? .storedUnsealed : grant.isEmpty ? nil : .untilQuit
-        guard let notice, told.insert(notice).inserted else { return nil }
-        return notice
+        return fresh.first
     }
 
     /// The stored values allow less than the old seal says, and the values in memory don't need that seal any more:
-    /// without its key it can't verify the old values when someone puts them back with it.
+    /// without its key it can't verify the old values when someone puts them back with it. Tried once: `base` isn't
+    /// taken as sealed afterwards, whether it worked or not (the next seal makes a new key anyway).
     private mutating func removeKeyOfOldSeal() {
+        isBaseSealed = false
         do {
             try seal.removeKey()
-            isBaseSealed = false
         } catch {
             log.warn("The key of the AI tools consent could not be removed (\(error.localizedDescription)).")
         }

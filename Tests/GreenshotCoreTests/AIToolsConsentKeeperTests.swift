@@ -2,6 +2,7 @@
 // Copyright (C) 2026 Greenshot for Mac (Community) contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import CryptoKit
 import Foundation
 import Testing
 @testable import GreenshotCore
@@ -84,6 +85,12 @@ final class SplitLockSecretStore: SecretStore, @unchecked Sendable {
 func consentSettingsFile() -> URL {
     FileManager.default.temporaryDirectory.appendingPathComponent("consent-keeper-\(UUID().uuidString)", isDirectory: true)
         .appendingPathComponent("settings.json")
+}
+
+/// `url` spelled under /private (/private/var/folders/… for the temporary folder), the way `--settings-dir /private/…`
+/// names it: `standardizedFileURL` drops that prefix only once the file exists.
+func privateSpelling(of url: URL) -> URL {
+    url.path.hasPrefix("/private/") ? url : URL(fileURLWithPath: "/private" + url.path, isDirectory: true)
 }
 
 /// The seal stored next to `file`, read without the key.
@@ -211,6 +218,43 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
         try seal.save(AIToolsSettings())
         #expect(seal.storedSeal == nil)
         #expect(secrets.value(AIToolsConsentSeal.keyName) == nil)
+    }
+
+    /// M1: the place a seal is for no longer depends on the file system, and a seal made for the earlier spelling
+    /// (`standardizedFileURL`, which goes through a linked folder for `..`) still verifies.
+    @Test func aSealOfTheEarlierPlaceNameStillVerifies() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("consent-keeper-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let real = folder.appendingPathComponent("real/sub", isDirectory: true)
+        try FileManager.default.createDirectory(at: real, withIntermediateDirectories: true)
+        let link = folder.appendingPathComponent("link")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: real)
+        let file = URL(fileURLWithPath: link.path + "/../settings.json")
+        // The earlier code sealed after the settings were written: its name goes through the link then.
+        try Data("{}".utf8).write(to: file)
+        let secrets = InMemorySecretStore()
+        let seal = AIToolsConsentSeal(secrets: secrets, location: .file(file))
+        let earlierName = "file:" + file.standardizedFileURL.path
+        #expect(seal.locationName != earlierName)
+
+        let allowed = consentAllowing("/A")
+        let key = SymmetricKey(size: .bits256)
+        try secrets.setSecret(key.withUnsafeBytes { Data($0) }.base64EncodedString(), for: AIToolsConsentSeal.keyName)
+        let mac = HMAC<SHA256>.authenticationCode(for: seal.canonicalPayload(allowed, at: earlierName), using: key)
+        try Data(Data(mac).base64EncodedString().utf8).write(to: sealFile(file))
+        #expect(seal.verification(of: allowed) == .valid)
+        #expect(seal.verification(of: consentAllowing("/B")) == .invalid)
+    }
+
+    /// The place's name is worked out from the text: the same with and without /private, file there or not.
+    @Test func thePlaceNameDoesntDependOnTheFileSystem() {
+        let file = URL(fileURLWithPath: "/private/tmp/consent-keeper-absent-\(UUID().uuidString)/settings.json")
+        let withoutPrivate = String(file.path.dropFirst("/private".count))
+        #expect(AIToolsConsentSeal.stablePath(file) == withoutPrivate)
+        #expect(AIToolsConsentSeal.stablePath(URL(fileURLWithPath: "/private/var/x/./y/../settings.json")) == "/var/x/settings.json")
+        #expect(AIToolsConsentSeal.stablePath(URL(fileURLWithPath: "/private/other/settings.json")) == "/private/other/settings.json")
+        #expect(AIToolsConsentSeal.stablePath(URL(fileURLWithPath: "/Users/someone/settings.json")) == "/Users/someone/settings.json")
+        #expect(AIToolsConsentSeal.stablePath(URL(fileURLWithPath: "/tmp//x/settings.json")) == "/tmp/x/settings.json")
     }
 
     /// Without a stored seal there is nothing to check: invalid, whatever the Keychain says, and the key isn't read.
@@ -687,6 +731,113 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
         run.retry()
         #expect(!run.status.needsAttention)
         #expect(allowedAfterRestart(file, secrets) == ["/A"])
+    }
+
+    // MARK: Second review
+
+    /// M1: a settings folder spelled under /private that doesn't exist yet. The first consent change is sealed before
+    /// the settings file is written: the seal must still verify once the file exists.
+    @Test func aSettingsFolderUnderPrivateKeepsItsFirstSeal() {
+        let temporary = privateSpelling(of: FileManager.default.temporaryDirectory)
+        // The test needs the temporary folder to be reachable under /private (it is on macOS: /var links there)
+        #expect(FileManager.default.fileExists(atPath: temporary.path))
+        let folder = temporary.appendingPathComponent("consent-keeper-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("settings.json")
+        let secrets = SplitLockSecretStore()
+        var run = ConsentRun(file, secrets)
+        #expect(!FileManager.default.fileExists(atPath: file.path))
+        run.edit { $0.allowedClients = ["/A"] }
+        #expect(allowedAfterRestart(file, secrets) == ["/A"])
+    }
+
+    /// M2: the last program removed while the Keychain can't remove the key either; no Retry. The next start removes
+    /// the old key and seal, so putting the old settings back with their seal doesn't bring the program back.
+    @Test func theOldKeyOfARemovalToTheDefaultsGoesAtTheNextStart() throws {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        var first = ConsentRun(file, secrets)
+        first.edit { $0.allowedClients = ["/A"] }
+        let oldBlob = try Data(contentsOf: file)
+        let oldSeal = try Data(contentsOf: sealFile(file))
+        var run = ConsentRun(file, secrets)
+        secrets.isLocked = true
+        run.edit { $0.allowedClients.removeAll() }
+
+        secrets.isLocked = false
+        _ = ConsentRun(file, secrets)
+        #expect(secrets.value(AIToolsConsentSeal.keyName) == nil)
+        #expect(storedSealText(file) == nil)
+        try oldBlob.write(to: file)
+        try oldSeal.write(to: sealFile(file))
+        #expect(allowedAfterRestart(file, secrets).isEmpty)
+    }
+
+    /// m1: a program removed while the consent can't be checked stays removed after a restart, also when the entry
+    /// the user removed (allowed for this run, with a new Team ID) isn't the line that is stored for it.
+    @Test func aProgramRemovedWhileUncheckedStaysRemovedWhateverItsEntry() {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/X")
+        secrets.isLocked = true
+        var run = ConsentRun(file, secrets)
+        let client = AIToolClient(path: "/X", displayName: "X", teamID: "T2")
+        run.edit { $0.allowedClients = AIToolAccess.allowing(client, in: $0.allowedClients) }
+        let line = client.allowedEntry.line
+        run.edit { $0.allowedClients.removeAll { $0 == line } }
+        #expect(run.inEffect.allowedClients.isEmpty)
+        #expect(run.status.isStoredUnsealed)
+        #expect(ConsentRun.onDisk(file).allowedClients.isEmpty)
+
+        secrets.isLocked = false
+        let restarted = ConsentRun(file, secrets)
+        #expect(restarted.inEffect.allowedClients.isEmpty)
+        #expect(!AIToolAccess.isAllowed(client, settings: restarted.inEffect))
+    }
+
+    /// m2: while the Keychain is locked, the key of the old seal is removed once, not at every further restriction.
+    @Test func theOldKeyIsRemovedOncePerLock() {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/A", "/B", "/C")
+        var run = ConsentRun(file, secrets)
+        secrets.readsLocked = true
+        secrets.writesLocked = true
+        run.edit { $0.allowedClients.removeAll { $0 == "/A" } }
+        #expect(secrets.deletes == 1)
+        run.edit { $0.allowedClients.removeAll { $0 == "/B" } }
+        #expect(secrets.deletes == 1)
+
+        // The same when the delete is refused too.
+        let other = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: other.deletingLastPathComponent()) }
+        let refusing = SplitLockSecretStore()
+        allowedBefore(other, refusing, "/A", "/B", "/C")
+        var locked = ConsentRun(other, refusing)
+        refusing.isLocked = true
+        locked.edit { $0.allowedClients.removeAll { $0 == "/A" } }
+        locked.edit { $0.excludedApplications.append("Vault") }
+        #expect(refusing.deletes == 1)
+    }
+
+    /// m3: the seal removed outside Greenshot while the Keychain is locked, then a reload: the tab shows it at once,
+    /// and the next save doesn't try again.
+    @Test func aRemovedSealThatCantBeRewrittenShowsAtOnce() {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/A")
+        var run = ConsentRun(file, secrets)
+        try? FileManager.default.removeItem(at: sealFile(file))
+        secrets.isLocked = true
+        run.reload()
+        #expect(run.status.isStoredUnsealed)
+        let calls = secrets.calls
+        run.save()
+        #expect(secrets.calls == calls)
     }
 
     // MARK: Reload and edits outside Greenshot
