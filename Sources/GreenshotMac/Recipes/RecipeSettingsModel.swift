@@ -134,12 +134,16 @@ final class RecipeSettingsModel: ObservableObject {
         Task { @MainActor in _ = await RecipeApprovalPresenter.shared.requestApproval(request) }
     }
 
-    /// "Permissions": the approval window as a review (Save Changes, Keep as Is, Revoke Approval).
+    /// "Permissions": the approval window as a review (Save Changes, Keep as Is, Revoke Approval). What it did or
+    /// couldn't do (a revocation or a change the trust store refused, a permission the recipe needs taken away) is
+    /// shown, like the AI Tools tab and the recipe editor do.
     func review(_ row: RecipeSettingsRow) {
         guard let library = runtime?.library else { return }
         Task { @MainActor in
             let result = await library.reviewApproval(recipeId: row.id)
-            if !result.errors.isEmpty { log.info("Review of '\(row.id)': \(result.errors.joined(separator: " "))") }
+            guard !result.isValid else { return }
+            log.info("Review of '\(row.id)': \(result.errors.joined(separator: " "))")
+            Self.warn(String(localized: "Recipe Permissions"), detail: result.errors.joined(separator: "\n"))
         }
     }
 
@@ -151,8 +155,11 @@ final class RecipeSettingsModel: ObservableObject {
         alert.informativeText = String(localized: "It stops running right away and isn't loaded again. Its file stays where it is: import it again to review and approve it.")
         alert.addButton(withTitle: String(localized: "Keep"))
         alert.addButton(withTitle: String(localized: "Revoke")).hasDestructiveAction = true
-        guard alert.runModal() == .alertSecondButtonReturn else { return }
-        runtime?.library.revokeApproval(recipeId: row.id)
+        guard alert.runModal() == .alertSecondButtonReturn, let library = runtime?.library else { return }
+        // Refused (the trust store's key can't be read, e.g. the Keychain is locked): the recipe is still approved and
+        // keeps running, so say so.
+        guard !library.revokeApproval(recipeId: row.id) else { return }
+        Self.warn(String(localized: "The approval of “\(name)” could not be revoked. It is unchanged; see the log for why."))
     }
 
     /// "Reset Default": the built-in recipe instead of the file that replaces it.
@@ -165,6 +172,16 @@ final class RecipeSettingsModel: ObservableObject {
     func unload(_ row: RecipeSettingsRow) {
         guard Self.confirm(.unload(name: row.name, appName: AppInfo.name)) else { return }
         runtime?.library.unload(recipeId: row.id)
+    }
+
+    /// A warning with OK.
+    private static func warn(_ message: String, detail: String = "") {
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = message
+        alert.informativeText = detail
+        NSApp.activate()
+        alert.runModal()
     }
 
     /// Asks first, like the recipe manager (W-L4): the action button, then Cancel.
