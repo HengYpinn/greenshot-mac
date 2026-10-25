@@ -249,7 +249,8 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
     /// The place's name is worked out from the text: the same with and without /private, file there or not.
     @Test func thePlaceNameDoesntDependOnTheFileSystem() {
         let file = URL(fileURLWithPath: "/private/tmp/consent-keeper-absent-\(UUID().uuidString)/settings.json")
-        #expect(AIToolsConsentSeal.stablePath(file) == String(file.path.dropFirst("/private".count)))
+        let withoutPrivate = String(file.path.dropFirst("/private".count))
+        #expect(AIToolsConsentSeal.stablePath(file) == withoutPrivate)
         #expect(AIToolsConsentSeal.stablePath(URL(fileURLWithPath: "/private/var/x/./y/../settings.json")) == "/var/x/settings.json")
         #expect(AIToolsConsentSeal.stablePath(URL(fileURLWithPath: "/private/other/settings.json")) == "/private/other/settings.json")
         #expect(AIToolsConsentSeal.stablePath(URL(fileURLWithPath: "/Users/someone/settings.json")) == "/Users/someone/settings.json")
@@ -737,8 +738,10 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
     /// M1: a settings folder spelled under /private that doesn't exist yet. The first consent change is sealed before
     /// the settings file is written: the seal must still verify once the file exists.
     @Test func aSettingsFolderUnderPrivateKeepsItsFirstSeal() {
-        let folder = privateSpelling(of: FileManager.default.temporaryDirectory)
-            .appendingPathComponent("consent-keeper-\(UUID().uuidString)", isDirectory: true)
+        let temporary = privateSpelling(of: FileManager.default.temporaryDirectory)
+        // The test needs the temporary folder to be reachable under /private (it is on macOS: /var links there)
+        #expect(FileManager.default.fileExists(atPath: temporary.path))
+        let folder = temporary.appendingPathComponent("consent-keeper-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: folder) }
         let file = folder.appendingPathComponent("settings.json")
         let secrets = SplitLockSecretStore()
