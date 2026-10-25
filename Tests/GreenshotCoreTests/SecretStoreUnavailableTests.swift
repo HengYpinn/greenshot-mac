@@ -166,6 +166,37 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         #expect(!reopened.wasTampered)
     }
 
+    /// Greenshot started with the Keychain locked: unlocking it (in Keychain Access) and Reload Recipes bring the
+    /// approvals back without a restart. A reload reads the Keychain once then, and not at all once it was read.
+    @MainActor @Test func reloadRecipesReadsALockedKeychainAgain() async throws {
+        let secrets = LockableSecretStore()
+        let earlier = LibraryFixture(secrets: secrets)
+        defer { earlier.cleanUp() }
+        let url = try earlier.write(libraryRecipe())
+        _ = await earlier.library.importFile(url)
+        #expect(earlier.library.recipe(id: "lib_recipe") != nil)
+
+        // The next start, locked: the prompt cancelled, the approval question answered with "Don't run".
+        secrets.isLocked = true
+        let approver = StubApprover { _ in nil }
+        let box = earlier.box
+        let library = RecipeLibrary(loadSettings: { box.settings }, saveSettings: { box.settings = $0 },
+                                    trustStore: RecipeTrustStore(fileURL: earlier.folder.appendingPathComponent("trust.json"), secrets: secrets),
+                                    approver: approver, watchFiles: false)
+        _ = await library.reload()
+        #expect(approver.requests.count == 1)
+        #expect(library.recipe(id: "lib_recipe") == nil)
+
+        secrets.isLocked = false
+        let reads = secrets.reads
+        _ = await library.reload()
+        #expect(approver.requests.count == 1)
+        #expect(library.recipe(id: "lib_recipe") != nil)
+        #expect(secrets.reads == reads + 1)
+        _ = await library.reload()
+        #expect(secrets.reads == reads + 1)
+    }
+
     /// Every look-up would show the Keychain's password prompt again: a locked Keychain is asked once, and again only
     /// when an approval is to be changed (the user is there then).
     @Test func aLockedKeychainIsAskedOnceNotAtEveryLookUp() throws {
