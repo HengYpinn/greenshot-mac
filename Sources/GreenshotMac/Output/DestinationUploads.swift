@@ -131,11 +131,21 @@ enum Uploads {
 
     /// Throws when the Box client secret can't be read (a locked Keychain): without it Box would refuse the sign-in.
     static func oauthClient(for destination: CaptureDestination, settings: AppSettings) throws -> OAuthClient {
+        let clientSecret: String? = try destination == .box ? secrets.secret(for: SecretKey.boxClientSecret) : nil
+        return client(for: destination, settings: settings, clientSecret: clientSecret)
+    }
+
+    /// The account without the Box client secret: enough for the stored tokens (signed in or not, Sign Out), so a client
+    /// secret that can't be read neither hides the sign-in nor keeps it.
+    static func accountClient(for destination: CaptureDestination, settings: AppSettings) -> OAuthClient {
+        client(for: destination, settings: settings, clientSecret: nil)
+    }
+
+    private static func client(for destination: CaptureDestination, settings: AppSettings, clientSecret: String?) -> OAuthClient {
         applyCertificateExceptions(settings)
         switch destination {
         case .box:
-            return OAuthClient(provider: .box, clientID: settings.box.clientID,
-                               clientSecret: try secrets.secret(for: SecretKey.boxClientSecret),
+            return OAuthClient(provider: .box, clientID: settings.box.clientID, clientSecret: clientSecret,
                                store: secrets, storeKey: SecretKey.boxTokens, http: http)
         default:
             return OAuthClient(provider: .dropbox, clientID: settings.dropbox.appKey,

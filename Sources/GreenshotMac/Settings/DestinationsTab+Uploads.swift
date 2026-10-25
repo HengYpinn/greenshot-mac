@@ -11,7 +11,7 @@ import SwiftUI
 
 /// A secret in the Keychain, edited like a setting.
 @MainActor
-final class SecretFieldModel: ObservableObject {
+final class SecretFieldModel: ObservableObject, RetryableSecret {
     /// Whose secret it is: the app's, or that of the Jira or Confluence site on a host (nil while the URL has none),
     /// which is shown and kept for that host only (see `AtlassianSecrets`).
     enum Owner: Equatable {
@@ -22,42 +22,53 @@ final class SecretFieldModel: ObservableObject {
     @Published var text: String {
         didSet { if text != oldValue, !reading { save() } }
     }
-    @Published var error: String?
-    /// The stored secret couldn't be read (the Keychain is locked, or its prompt was cancelled): the field is disabled,
-    /// so typing doesn't replace a secret nobody saw, until Retry (`reload`) reads it.
-    @Published private(set) var unreadable = false
+    /// What the last read or save gave, its error shown under the field. While the Keychain can't be used (locked, or its
+    /// prompt cancelled or denied) the field is disabled, so typing doesn't replace a secret nobody saw (nor ask at every
+    /// keystroke), until Retry reads it; another error leaves it editable, so a new secret replaces the item.
+    @Published private(set) var secretState: SecretState
     private let key: String
     private let owner: Owner
-    /// Set while `reload` shows what was read: that isn't an edit to save.
+    private let retryList: SecretRetryList
+    /// Set while `readAgain` shows what was read: that isn't an edit to save.
     private var reading = false
 
+    /// Reads the secret, unless another secret of the tab can't be read (`SecretRetryList.readUnlessUnavailable`).
     init(key: String, owner: Owner = .app) {
         self.key = key
         self.owner = owner
-        let read = Self.read(key: key, owner: owner)
-        text = read.secret
-        error = read.problem
-        unreadable = read.problem != nil
+        retryList = .destinations
+        var secret = ""
+        secretState = retryList.readUnlessUnavailable {
+            let read = Self.read(key: key, owner: owner)
+            secret = read.secret
+            return read.state
+        }
+        text = secret
+        retryList.add(self)
+    }
+
+    /// Retry: this secret and the others of the tab that couldn't be read.
+    func retry() {
+        retryList.retry(from: self)
     }
 
     /// Reads the secret again (Retry, after the Keychain was unlocked).
-    func reload() {
+    func readAgain() {
         let read = Self.read(key: key, owner: owner)
         reading = true
         text = read.secret
         reading = false
-        error = read.problem
-        unreadable = read.problem != nil
+        secretState = read.state
     }
 
-    private static func read(key: String, owner: Owner) -> (secret: String, problem: String?) {
+    private static func read(key: String, owner: Owner) -> (secret: String, state: SecretState) {
         do {
             switch owner {
-            case .app: return (try Uploads.secrets.secret(for: key) ?? "", nil)
-            case .site(let host): return (try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host) ?? "", nil)
+            case .app: return (try Uploads.secrets.secret(for: key) ?? "", .usable)
+            case .site(let host): return (try AtlassianSecrets(store: Uploads.secrets).secret(for: key, host: host) ?? "", .usable)
             }
         } catch {
-            return ("", error.localizedDescription)
+            return ("", SecretState(error: error))
         }
     }
 
@@ -67,11 +78,16 @@ final class SecretFieldModel: ObservableObject {
             case .app: try Uploads.secrets.setSecret(text, for: key)
             case .site(let host): try AtlassianSecrets(store: Uploads.secrets).setSecret(text, for: key, host: host)
             }
-            error = nil
+            secretState = .usable
         } catch {
-            self.error = error.localizedDescription
+            secretState = SecretState(error: error)
         }
     }
+}
+
+extension SecretRetryList {
+    /// The secrets of Settings › Destinations: one Retry reads them all again.
+    static let destinations = SecretRetryList()
 }
 
 struct SecretField: View {
@@ -85,13 +101,13 @@ struct SecretField: View {
 
     var body: some View {
         SecureField(title, text: $model.text)
-            .disabled(model.unreadable)
-        if let error = model.error {
+            .disabled(model.secretState.isUnavailable)
+        if let error = model.secretState.message {
             HStack {
                 Text(error).font(.caption).foregroundStyle(.red)
-                if model.unreadable {
+                if model.secretState.isUnavailable {
                     Spacer()
-                    Button("Retry") { model.reload() }
+                    Button("Retry") { model.retry() }
                 }
             }
         }
@@ -137,41 +153,85 @@ final class ConnectionTest: ObservableObject {
 
 /// Signed in or not at Box and Dropbox, with Sign In and Sign Out; Retry while the Keychain can't be read.
 @MainActor
-final class CloudAccount: ObservableObject {
+final class CloudAccount: ObservableObject, RetryableSecret {
     @Published var signedIn = false
-    /// The Keychain couldn't be read (locked, or its prompt cancelled): whether there is an account is unknown, so
-    /// there is no Sign In that would replace it, only Retry.
-    @Published var unreadable = false
+    /// What reading the account (or, for a sign-in, the Box client secret) gave: see `CloudAccountAction`.
+    @Published private(set) var secretState = SecretState.usable
     @Published var busy = false
     @Published var message: String?
     let destination: CaptureDestination
+    private let retryList: SecretRetryList
+    /// The settings of the last read, for a Retry pressed on another secret of the tab.
+    private var settings: AppSettings?
 
     init(destination: CaptureDestination) {
         self.destination = destination
+        retryList = .destinations
+        retryList.add(self)
     }
 
+    var action: CloudAccountAction { CloudAccountAction(signedIn: signedIn, state: secretState) }
+
+    /// The row appeared: whether there is an account, unless a secret of the tab can't be read (then the Keychain is
+    /// most likely still locked, and showing the tab doesn't ask again).
+    func appeared(settings: AppSettings) {
+        self.settings = settings
+        show(retryList.readUnlessUnavailable { read(settings) })
+    }
+
+    /// Whether there is an account (after a sign-in or sign-out).
     func refresh(settings: AppSettings) {
+        self.settings = settings
+        show(read(settings))
+    }
+
+    /// Retry: this account and the other secrets of the tab that couldn't be read.
+    func retry(settings: AppSettings) {
+        self.settings = settings
+        retryList.retry(from: self)
+    }
+
+    func readAgain() {
+        guard let settings else { return }
+        refresh(settings: settings)
+    }
+
+    /// Only the stored tokens: the Box client secret isn't needed to know whether there is an account.
+    private func read(_ settings: AppSettings) -> SecretState {
         do {
-            signedIn = try Uploads.oauthClient(for: destination, settings: settings).storedTokens() != nil
-            if unreadable { message = nil }
-            unreadable = false
+            signedIn = try Uploads.accountClient(for: destination, settings: settings).storedTokens() != nil
+            return .usable
         } catch {
-            signedIn = false
-            unreadable = true
-            message = error.localizedDescription
+            return SecretState(error: error)
         }
     }
 
+    private func show(_ state: SecretState) {
+        if let problem = state.message {
+            signedIn = false
+            message = problem
+        } else if secretState != .usable {
+            // The error goes; a message like "Signed in." stays.
+            message = nil
+        }
+        secretState = state
+    }
+
     func signIn(settings: AppSettings) {
+        self.settings = settings
         let client: OAuthClient
         do {
             client = try Uploads.oauthClient(for: destination, settings: settings)
         } catch {
-            message = error.localizedDescription
+            // The Box client secret can't be read: while the Keychain can't be used, Retry instead of Sign In, so another
+            // click doesn't just ask again.
+            show(SecretState(error: error))
             return
         }
         busy = true
+        // The error of an earlier read goes with its message: the sign-in's result shows, and stays after the read below.
         message = nil
+        secretState = .usable
         Task { @MainActor in
             do {
                 try await client.signIn(with: BrowserAuthorizer.shared)
@@ -185,11 +245,19 @@ final class CloudAccount: ObservableObject {
         }
     }
 
+    /// Removes the stored tokens only, so it doesn't need the Box client secret.
     func signOut(settings: AppSettings) {
+        self.settings = settings
         do {
-            try Uploads.oauthClient(for: destination, settings: settings).signOut()
+            try Uploads.accountClient(for: destination, settings: settings).signOut()
             message = nil
         } catch {
+            let state = SecretState(error: error)
+            // Whether the tokens are still there is unknown: Retry, without a second prompt for the read below.
+            if state.isUnavailable {
+                show(state)
+                return
+            }
             message = error.localizedDescription
         }
         refresh(settings: settings)
@@ -453,7 +521,7 @@ private struct ConnectionTestRow: View {
 
     var body: some View {
         HStack {
-            Text(test.result ?? "").font(.caption).foregroundStyle(.secondary).lineLimit(2)
+            Text(test.result ?? "").font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             Spacer()
             Button("Test Connection", action: run).disabled(test.running)
         }
@@ -467,16 +535,17 @@ private struct CloudAccountRow: View {
     var body: some View {
         HStack {
             Text(account.message ?? (account.signedIn ? String(localized: "Signed in.") : String(localized: "Not signed in; the first upload asks.")))
-                .font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             Spacer()
-            if account.unreadable {
-                Button("Retry") { account.refresh(settings: store.value) }
-            } else if account.signedIn {
+            switch account.action {
+            case .retry:
+                Button("Retry") { account.retry(settings: store.value) }
+            case .signOut:
                 Button("Sign Out") { account.signOut(settings: store.value) }
-            } else {
+            case .signIn:
                 Button("Sign In…") { account.signIn(settings: store.value) }.disabled(account.busy)
             }
         }
-        .onAppear { account.refresh(settings: store.value) }
+        .onAppear { account.appeared(settings: store.value) }
     }
 }
