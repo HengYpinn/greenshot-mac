@@ -401,6 +401,21 @@ struct UploadSecurityTests {
         #expect(stillDeclined == .notAllowed)
     }
 
+    @Test func anUploadAutomationStartedSaysItOncePerServer() throws {
+        // A recipe that runs at every copy shows the message once per service and server in a session (its log and
+        // the export's outcome say it every time).
+        var answers = AtlassianSecretAnswers()
+        let jira = try #require(AtlassianServer(url: "https://jira.example.test"))
+        let first = answers.showsNotAskedMessage(service: "Jira", server: jira)
+        #expect(first)
+        let again = answers.showsNotAskedMessage(service: "Jira", server: jira)
+        #expect(!again)
+        let otherServer = answers.showsNotAskedMessage(service: "Jira", server: try #require(AtlassianServer(url: "https://jira.example.test:8443")))
+        #expect(otherServer)
+        let confluence = answers.showsNotAskedMessage(service: "Confluence", server: jira)
+        #expect(confluence)
+    }
+
     @Test func aTokenThatCantBeUsedYetIsntAskedAbout() throws {
         // A Cloud token without the email, or a password without the user name: not asked about; the setup message or
         // the login dialog asks for what is missing.

@@ -26,7 +26,7 @@ enum AtlassianSecretQuestion {
     private static let maxWaiting = 4
 
     /// A capture or recipe another program or a trigger started found a secret kept without its server: not asked,
-    /// the upload fails with this (and the message, `notSent`).
+    /// the upload fails with this (and, once per server in a session, the message: `notSent`).
     struct NotAllowedYet: LocalizedError {
         let service: AtlassianService
 
@@ -38,8 +38,9 @@ enum AtlassianSecretQuestion {
     /// `stored.site` (from `AtlassianSignIn.stored`) with the secret kept without a server, when the user allows it for
     /// the site's server; the site as it is when there is nothing to ask about; nil when the user didn't allow it, now or
     /// earlier in this session (an upload says so with a message, which `settings` filters). Throws `NotAllowedYet` for
-    /// `.automation`, after the same message. Throws when the Keychain can't be read (before the question: nothing is
-    /// asked then; after the answer: nothing is kept) or can't keep the allowed secret for the server; the caller shows it.
+    /// `.automation`, after the same message the first time for that server in this session. Throws when the Keychain
+    /// can't be read (before the question: nothing is asked then; after the answer: nothing is kept) or can't keep the
+    /// allowed secret for the server; the caller shows it.
     static func confirmed(_ stored: AtlassianSecrets.SiteSecret, _ service: AtlassianService, request: AtlassianSecretRequest,
                           settings: AppSettings?) async throws -> AtlassianSite? {
         var stored = stored
@@ -49,7 +50,9 @@ enum AtlassianSecretQuestion {
                 return stored.site
             case .notAsked:
                 log.info("The \(service.name) secret kept without a server wasn't sent: an automation started the upload")
-                notSent(service, request: request, settings: settings)
+                if let server = stored.site.server, answers.showsNotAskedMessage(service: service.name, server: server) {
+                    notSent(service, request: request, settings: settings)
+                }
                 throw NotAllowedYet(service: service)
             case .notAllowed:
                 notSent(service, request: request, settings: settings)
@@ -98,8 +101,9 @@ enum AtlassianSecretQuestion {
         }
     }
 
-    /// An upload not sent (Don't Allow, now or before; started by automation; too many waiting) says so and how to allow
-    /// it, also when automation started it: the message doesn't wait for an answer. Test Connection says it in its row.
+    /// An upload not sent (Don't Allow, now or before; started by automation, once per server; too many waiting) says so
+    /// and how to allow it, also when automation started it: the message doesn't wait for an answer. Test Connection
+    /// says it in its row.
     private static func notSent(_ service: AtlassianService, request: AtlassianSecretRequest, settings: AppSettings?) {
         guard request != .test, settings?.notificationLevel.shows(.warning) ?? true else { return }
         Toast.show(String(localized: "Not sent to \(service.name)"),

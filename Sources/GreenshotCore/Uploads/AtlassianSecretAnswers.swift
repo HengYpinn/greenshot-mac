@@ -13,8 +13,8 @@ public enum AtlassianSecretRequest: Equatable, Sendable {
     case upload
     /// A capture or recipe that another program or a trigger started (a command line, a link, AppleScript, Shortcuts,
     /// an AI tool, the clipboard, a file, the browser extension), for a destination the user didn't pick: it isn't
-    /// asked about, as nobody may be at the screen; the upload fails, and a message and the recipe log say how to allow
-    /// the secret.
+    /// asked about, as nobody may be at the screen; the upload fails, and the recipe log (every time) and a message
+    /// (once per server, `showsNotAskedMessage`) say how to allow the secret.
     case automation
 
     /// The request of a capture that didn't go through a recipe: `.automation` when automation started it.
@@ -49,6 +49,8 @@ public struct AtlassianSecretAnswers: Sendable {
 
     /// The servers (origins) the user didn't allow it for, by service.
     private var declined: [String: Set<String>] = [:]
+    /// The servers (origins) whose message an upload that automation started showed, by service.
+    private var toldAutomation: [String: Set<String>] = [:]
 
     public init() {}
 
@@ -61,6 +63,14 @@ public struct AtlassianSecretAnswers: Sendable {
         case .upload where declined[service, default: []].contains(server.origin): return .notAllowed
         case .upload, .test: return .ask(secret)
         }
+    }
+
+    /// Whether an upload that automation started and that wasn't asked about (`.notAsked`) shows the message: once per
+    /// service and server in a session, so a recipe that runs at every copy doesn't show it every time. Its recipe log,
+    /// the export's outcome and the reply of greenshot-cli or the AI tool say it each time; an upload the user started
+    /// after Don't Allow shows it each time.
+    public mutating func showsNotAskedMessage(service: String, server: AtlassianServer) -> Bool {
+        toldAutomation[service, default: []].insert(server.origin).inserted
     }
 
     /// The user's answer about `service`'s secret for `server`.
