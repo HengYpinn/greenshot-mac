@@ -130,9 +130,17 @@ enum AutomationCommands {
         } else {
             mode = .region
         }
-        if AutomationConsent.captureNeedsConfirmation(mode, source: context.source),
-           !AutomationCaptureConsent.ask(mode, source: context.source, peer: context.peer) {
-            return .error("The screenshot wasn't taken: it wasn't allowed.")
+        switch AutomationConsent.captureStart(mode, source: context.source, captureCanStart: app.capture.canStartCapture) {
+        case .now:
+            break
+        case .afterAsking:
+            guard AutomationCaptureConsent.ask(mode, source: context.source, peer: context.peer) else {
+                return .error("The screenshot wasn't taken: it wasn't allowed.")
+            }
+        case .refusedAsBusy:
+            Log("Automation").warn("A \(context.source == .urlScheme ? "link" : "command line") capture was refused: another capture runs")
+            NSSound.beep()
+            return .error("The screenshot wasn't taken: another capture is in progress.")
         }
         DispatchQueue.main.async {
             // The capture screen of a capture that automation started takes input only after a click: the keys the user

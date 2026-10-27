@@ -30,6 +30,23 @@ public enum AutomationConsent {
         }
     }
 
+    /// How a CAPTURE goes on (Mac only).
+    public enum CaptureStart: Equatable, Sendable {
+        /// No question: the capture starts (and beeps itself when it can't).
+        case now
+        /// The question first, then the capture.
+        case afterAsking
+        /// Refused before the question: a capture runs, a capture screen is open or a recipe holds the selection, so
+        /// the capture couldn't start after the answer, and the question would open under that capture screen.
+        case refusedAsBusy
+    }
+
+    /// `captureCanStart`: the app could start a capture now (`CaptureCoordinator.canStartCapture`).
+    public static func captureStart(_ mode: AutomationCaptureMode, source: IPCSource, captureCanStart: Bool) -> CaptureStart {
+        guard captureNeedsConfirmation(mode, source: source) else { return .now }
+        return captureCanStart ? .afterAsking : .refusedAsBusy
+    }
+
     /// RUN_RECIPE (Mac only): what a recipe started by greenshot-cli takes from the screen without the user on the
     /// capture screen, for the question ("a screenshot of the whole screen"); nil when it captures nothing, or only what
     /// the user selects. `recipe` is the recipe as it runs (`RecipeTriggerPreparer` added the trigger's Source);

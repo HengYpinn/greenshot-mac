@@ -40,6 +40,31 @@ struct AutomationConsentTests {
         }
     }
 
+    /// The question comes only when the capture can start after it: while a capture runs or a capture screen is open
+    /// the user would answer for nothing, under that screen.
+    @Test func aCaptureThatCantStartIsRefusedBeforeTheQuestion() {
+        for source in [IPCSource.cli, .urlScheme] {
+            for mode in [AutomationCaptureMode.fullScreen, .window, .lastRegion] {
+                let busy = AutomationConsent.captureStart(mode, source: source, captureCanStart: false)
+                #expect(busy == .refusedAsBusy)
+                let free = AutomationConsent.captureStart(mode, source: source, captureCanStart: true)
+                #expect(free == .afterAsking)
+            }
+        }
+    }
+
+    /// Without a question nothing changes: the capture itself beeps when it can't start.
+    @Test func capturesWithoutAQuestionStartAsBefore() {
+        for mode in [AutomationCaptureMode.region, .text] {
+            let link = AutomationConsent.captureStart(mode, source: .urlScheme, captureCanStart: false)
+            #expect(link == .now)
+        }
+        for source in [IPCSource.appleScript, .shortcuts] {
+            let busy = AutomationConsent.captureStart(.fullScreen, source: source, captureCanStart: false)
+            #expect(busy == .now)
+        }
+    }
+
     @Test func callerIsNamedByItsProcessAndApp() {
         #expect(AutomationConsent.callerName(processNames: ["zsh", "login"], appName: "Terminal") == "zsh in Terminal")
         #expect(AutomationConsent.callerName(processNames: ["Raycast"], appName: "Raycast") == "Raycast")

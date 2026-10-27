@@ -192,11 +192,16 @@ final class CaptureCoordinator {
     /// The direct path is running (delay, capture screen, start of the export): the recipe runner's flows check it.
     var isBusy: Bool { busy }
 
+    /// A capture can start now: none runs, no capture screen is open (a recipe flow may have one open) and no recipe
+    /// holds the selection. `run` beeps otherwise; greenshot-cli's and links' captures check it before their question.
+    var canStartCapture: Bool {
+        !busy && !CaptureOverlayController.isShowing && !(RecipeRuntime.shared?.isSelectionReserved ?? false)
+    }
+
     /// `byAutomation`: greenshot-cli, a link, AppleScript or Shortcuts started it, so a Jira or Confluence token kept
     /// without its server isn't asked about for the destinations (`AtlassianSecretRequest`).
     private func run(byAutomation: Bool, _ body: @escaping @MainActor () async throws -> Capture?) {
-        // A recipe flow may have the capture screen open.
-        guard !busy, !CaptureOverlayController.isShowing, !(RecipeRuntime.shared?.isSelectionReserved ?? false) else {
+        guard canStartCapture else {
             NSSound.beep()
             return
         }
