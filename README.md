@@ -322,8 +322,8 @@ Links (from a browser, Alfred, Raycast, `open`):
   program can open a link and change that setting, a link's screenshot of the full screen, a window or the last
   region asks you first, like greenshot-cli's: "A link asks Greenshot for Mac to take a screenshot of …" (Don't Allow
   is the default). Region and text links open the capture screen, which waits for a click; the clipboard link opens
-  the clipboard's picture in the editor. To take a full screen or window screenshot from Alfred, Raycast or a script
-  without the question each time, use the hotkeys, the AppleScript command (macOS asks once whether that app may
+  the clipboard's picture in the editor. For a full screen or window screenshot without the question each time, press
+  the hotkey, or let Alfred, Raycast or a script use the AppleScript command (macOS asks once whether that app may
   control Greenshot) or a Shortcuts action instead.
 
 AppleScript: `tell application "Greenshot for Mac (Community)" to capture full screen` (also capture region, window,
