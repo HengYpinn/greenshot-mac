@@ -65,6 +65,9 @@ enum AutomationCaptureConsent {
     /// the question before a Jira or Confluence token goes to a server (`AtlassianSecretQuestion`).
     static func run(_ alert: NSAlert) -> Bool {
         alert.window.level = .floating
+        // A link or greenshot-cli asks from whatever Space the user is on, also a full screen one, and the question
+        // blocks every Greenshot window: it shows on that Space instead of out of sight on another one.
+        alert.window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         let allow = alert.buttons[1]
         let arming = ConsentArming(window: alert.window, buttons: [allow])
         let handler = AllowHandler(arming: arming)
