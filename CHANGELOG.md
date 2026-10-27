@@ -516,6 +516,10 @@ Greenshot's screen recording permission behind your back.
   shows Jira issues without their summaries. A Jira or Confluence URL must start with https:// or http://; one with
   a user name in it (`name@`), a port outside 1–65535 or a host that is neither a plain name nor an IP address isn't
   used.
+- Links: a capture link's screenshot of the full screen, a window or the last region asks you first, like
+  greenshot-cli's (Don't Allow is the default), also when "Allow links to take screenshots" is on: that setting keeps
+  web pages from starting captures, but as a setting it can't stand for your consent. Region and text links still open
+  the capture screen, which waits for a click.
 
 ## [0.1.0] - 2026-10-16
 
