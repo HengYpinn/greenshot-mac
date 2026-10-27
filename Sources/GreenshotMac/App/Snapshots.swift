@@ -162,7 +162,7 @@ enum Snapshots {
             controller.mouseMoved(to: CGPoint(x: 990, y: 240))
             controller.openBarcodeMenu(for: code, at: CGPoint(x: 990, y: 240))
         case .region:
-            controller.mouseDown(at: CGPoint(x: 90, y: 160))
+            controller.mouseDown(at: CGPoint(x: 90, y: 160), clickCount: 1)
             controller.mouseDragged(to: CGPoint(x: 560, y: 470), shift: false)
         case .window:
             controller.switchMode(to: .window)

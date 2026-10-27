@@ -288,10 +288,11 @@ final class CaptureOverlayController {
         updateSelection()
     }
 
-    func mouseDown(at point: CGPoint) {
+    /// `clickCount`: the event's (the second press of a double click that armed the screen only arms too).
+    func mouseDown(at point: CGPoint, clickCount: Int) {
         cursor = point
         // A click in the first second, or before the screen is armed, selects nothing; the one after arms it.
-        guard arming.mouseDown(at: Date()) else { return }
+        guard arming.mouseDown(at: Date(), clickCount: clickCount) else { return }
         if barcodeMenu != nil {
             pickBarcodeMenuItem(at: point)
             return
@@ -767,7 +768,7 @@ final class OverlayMarksView: NSView {
         controller?.mouseMoved(to: global(event))
     }
 
-    override func mouseDown(with event: NSEvent) { controller?.mouseDown(at: global(event)) }
+    override func mouseDown(with event: NSEvent) { controller?.mouseDown(at: global(event), clickCount: event.clickCount) }
     override func mouseDragged(with event: NSEvent) {
         controller?.mouseDragged(to: global(event), shift: event.modifierFlags.contains(.shift))
     }

@@ -21,13 +21,13 @@ struct OverlayInputArmingTests {
     @Test func keysStayIgnoredAfterTheDelayWithoutAClick() {
         var arming = OverlayInputArming(requiresArming: true, shownAt: start)
         #expect(!arming.allowsKey(isEscape: false))
-        arming.mouseDown(at: start.addingTimeInterval(30))
+        arming.mouseDown(at: start.addingTimeInterval(30), clickCount: 1)
         #expect(arming.allowsKey(isEscape: false))
     }
 
     @Test func aMouseDownBeforeTheDelayDoesNotArm() {
         var arming = OverlayInputArming(requiresArming: true, shownAt: start)
-        let armed = arming.mouseDown(at: start.addingTimeInterval(0.5))
+        let armed = arming.mouseDown(at: start.addingTimeInterval(0.5), clickCount: 1)
         #expect(!armed)
         #expect(!arming.allowsKey(isEscape: false))
         #expect(!arming.allowsMouse)
@@ -35,7 +35,7 @@ struct OverlayInputArmingTests {
 
     @Test func aMouseDownAfterTheDelayArms() {
         var arming = OverlayInputArming(requiresArming: true, shownAt: start)
-        let armed = arming.mouseDown(at: start.addingTimeInterval(1.2))
+        let armed = arming.mouseDown(at: start.addingTimeInterval(1.2), clickCount: 1)
         #expect(armed)
         #expect(arming.allowsKey(isEscape: false))
         #expect(arming.allowsMouse)
@@ -45,17 +45,43 @@ struct OverlayInputArmingTests {
     /// with that click alone.
     @Test func thePressThatArmsIsMarked() {
         var arming = OverlayInputArming(requiresArming: true, shownAt: start)
-        arming.mouseDown(at: start.addingTimeInterval(0.5))
+        arming.mouseDown(at: start.addingTimeInterval(0.5), clickCount: 1)
         #expect(!arming.armedByLastMouseDown)
-        arming.mouseDown(at: start.addingTimeInterval(1.5))
+        arming.mouseDown(at: start.addingTimeInterval(1.5), clickCount: 1)
         #expect(arming.armedByLastMouseDown)
-        arming.mouseDown(at: start.addingTimeInterval(2))
+        arming.mouseDown(at: start.addingTimeInterval(2), clickCount: 1)
         #expect(!arming.armedByLastMouseDown)
+    }
+
+    /// The second (and third) press of a double click that started with the arming press is still that gesture: a
+    /// double click copies no line either.
+    @Test func aDoubleClickThatStartsWithTheArmingPressStillOnlyArms() {
+        var arming = OverlayInputArming(requiresArming: true, shownAt: start)
+        arming.mouseDown(at: start.addingTimeInterval(1.5), clickCount: 1)
+        arming.mouseDown(at: start.addingTimeInterval(1.7), clickCount: 2)
+        #expect(arming.armedByLastMouseDown)
+        arming.mouseDown(at: start.addingTimeInterval(1.9), clickCount: 3)
+        #expect(arming.armedByLastMouseDown)
+        // A new click after it counts
+        arming.mouseDown(at: start.addingTimeInterval(3), clickCount: 1)
+        #expect(!arming.armedByLastMouseDown)
+        // and so does a later double click
+        arming.mouseDown(at: start.addingTimeInterval(3.2), clickCount: 2)
+        #expect(!arming.armedByLastMouseDown)
+    }
+
+    /// A double click whose first press came too early: its second press arms, and only arms.
+    @Test func aDoubleClickWhoseSecondPressArmsOnlyArms() {
+        var arming = OverlayInputArming(requiresArming: true, shownAt: start)
+        arming.mouseDown(at: start.addingTimeInterval(0.9), clickCount: 1)
+        let armed = arming.mouseDown(at: start.addingTimeInterval(1.1), clickCount: 2)
+        #expect(armed)
+        #expect(arming.armedByLastMouseDown)
     }
 
     @Test func aScreenTheUserStartedHasNoArmingPress() {
         var arming = OverlayInputArming(requiresArming: false, shownAt: start)
-        arming.mouseDown(at: start.addingTimeInterval(1.5))
+        arming.mouseDown(at: start.addingTimeInterval(1.5), clickCount: 1)
         #expect(!arming.armedByLastMouseDown)
     }
 
@@ -63,7 +89,7 @@ struct OverlayInputArmingTests {
         var arming = OverlayInputArming(requiresArming: false, shownAt: start)
         #expect(arming.allowsKey(isEscape: false))
         #expect(arming.allowsMouse)
-        let counted = arming.mouseDown(at: start)
+        let counted = arming.mouseDown(at: start, clickCount: 1)
         #expect(counted)
     }
 
