@@ -85,40 +85,40 @@
 "%@ app under Rosetta" = "Εφαρμογή %@ υπό το Rosetta";
 
 /* machine */
-"%@ asks %@ to run the recipe “%@”, which takes %@." = "Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει %@.";
+"%@ asks %@ to run the recipe “%@”, which takes %@." = "%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει %@.";
 
 /* machine */
-"%@ asks %@ to run the recipe “%@”, which takes a screen recording." = "Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει εγγραφή οθόνης.";
+"%@ asks %@ to run the recipe “%@”, which takes a screen recording." = "%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει εγγραφή οθόνης.";
 
 /* machine */
-"%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region." = "Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο μιας περιοχής.";
+"%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region." = "%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο μιας περιοχής.";
 
 /* machine */
-"%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window." = "Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ενός παραθύρου.";
+"%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window." = "%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ενός παραθύρου.";
 
 /* machine */
-"%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window." = "Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο του ενεργού παραθύρου.";
+"%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window." = "%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο του ενεργού παραθύρου.";
 
 /* machine */
-"%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region." = "Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.";
+"%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region." = "%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.";
 
 /* machine */
-"%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen." = "Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ολόκληρης της οθόνης.";
+"%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen." = "%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ολόκληρης της οθόνης.";
 
 /* machine */
-"%@ asks %@ to take a screenshot of a region." = "Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο μιας περιοχής.";
+"%@ asks %@ to take a screenshot of a region." = "%@ ζητά από το %@ να τραβήξει στιγμιότυπο μιας περιοχής.";
 
 /* machine */
-"%@ asks %@ to take a screenshot of a window." = "Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο ενός παραθύρου.";
+"%@ asks %@ to take a screenshot of a window." = "%@ ζητά από το %@ να τραβήξει στιγμιότυπο ενός παραθύρου.";
 
 /* machine */
-"%@ asks %@ to take a screenshot of the last captured region." = "Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.";
+"%@ asks %@ to take a screenshot of the last captured region." = "%@ ζητά από το %@ να τραβήξει στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.";
 
 /* machine */
-"%@ asks %@ to take a screenshot of the text in a region." = "Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο του κειμένου σε μια περιοχή.";
+"%@ asks %@ to take a screenshot of the text in a region." = "%@ ζητά από το %@ να τραβήξει στιγμιότυπο του κειμένου σε μια περιοχή.";
 
 /* machine */
-"%@ asks %@ to take a screenshot of the whole screen." = "Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο ολόκληρης της οθόνης.";
+"%@ asks %@ to take a screenshot of the whole screen." = "%@ ζητά από το %@ να τραβήξει στιγμιότυπο ολόκληρης της οθόνης.";
 
 /* machine */
 "%@ at %@" = "%@ στις %@";

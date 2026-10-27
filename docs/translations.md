@@ -75,7 +75,7 @@ Correcting one: edit its row in `scripts/l10n/machine/<lproj>.tsv` (keep the Eng
 
 New texts in the code: `python3 -I scripts/l10n/l10n.py untranslated` lists the texts without a translation (`<lproj><TAB>English`); add their rows to the tables with the model or person as the source.
 
-Sources: claude-opus-5-5 2026-10-18 (141 rows), claude-opus-5-5 2026-10-21 (273 rows), claude-opus-5-5 2026-10-25 (702 rows), claude-opus-5-5 2026-10-26 (234 rows), claude-opus-5-5 2026-10-27 (117 rows), claude-sonnet-5-5 2026-10-18 (79051 rows). 2838 rows keep the English on purpose (names, formats, codes and symbols: the row's translation is the English), so no language reaches 100 %.
+Sources: claude-opus-5-5 2026-10-18 (141 rows), claude-opus-5-5 2026-10-21 (273 rows), claude-opus-5-5 2026-10-25 (702 rows), claude-opus-5-5 2026-10-26 (234 rows), claude-opus-5-5 2026-10-27 (129 rows), claude-sonnet-5-5 2026-10-18 (79039 rows). 2838 rows keep the English on purpose (names, formats, codes and symbols: the row's translation is the English), so no language reaches 100 %.
 
 ## Texts with several upstream keys
 

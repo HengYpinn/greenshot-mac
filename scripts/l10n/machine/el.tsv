@@ -39,18 +39,18 @@ ${payload.width > 800}	${payload.width > 800}	claude-sonnet-5-5 2026-10-18
 %@ and %lld more	%@ και άλλα %lld	claude-sonnet-5-5 2026-10-18
 %@ app	Εφαρμογή %@	claude-sonnet-5-5 2026-10-18
 %@ app under Rosetta	Εφαρμογή %@ υπό το Rosetta	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to run the recipe “%@”, which takes %@.	Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει %@.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to run the recipe “%@”, which takes a screen recording.	Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει εγγραφή οθόνης.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο μιας περιοχής.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ενός παραθύρου.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο του ενεργού παραθύρου.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	Το %@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ολόκληρης της οθόνης.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to take a screenshot of a region.	Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο μιας περιοχής.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to take a screenshot of a window.	Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο ενός παραθύρου.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to take a screenshot of the last captured region.	Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to take a screenshot of the text in a region.	Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο του κειμένου σε μια περιοχή.	claude-sonnet-5-5 2026-10-18
-%@ asks %@ to take a screenshot of the whole screen.	Το %@ ζητά από το %@ να τραβήξει στιγμιότυπο ολόκληρης της οθόνης.	claude-sonnet-5-5 2026-10-18
+%@ asks %@ to run the recipe “%@”, which takes %@.	%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει %@.	claude-opus-5-5 2026-10-27
+%@ asks %@ to run the recipe “%@”, which takes a screen recording.	%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία κάνει εγγραφή οθόνης.	claude-opus-5-5 2026-10-27
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a region.	%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο μιας περιοχής.	claude-opus-5-5 2026-10-27
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of a window.	%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ενός παραθύρου.	claude-opus-5-5 2026-10-27
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the active window.	%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο του ενεργού παραθύρου.	claude-opus-5-5 2026-10-27
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the last captured region.	%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.	claude-opus-5-5 2026-10-27
+%@ asks %@ to run the recipe “%@”, which takes a screenshot of the whole screen.	%@ ζητά από το %@ να εκτελέσει τη συνταγή “%@”, η οποία τραβά στιγμιότυπο ολόκληρης της οθόνης.	claude-opus-5-5 2026-10-27
+%@ asks %@ to take a screenshot of a region.	%@ ζητά από το %@ να τραβήξει στιγμιότυπο μιας περιοχής.	claude-opus-5-5 2026-10-27
+%@ asks %@ to take a screenshot of a window.	%@ ζητά από το %@ να τραβήξει στιγμιότυπο ενός παραθύρου.	claude-opus-5-5 2026-10-27
+%@ asks %@ to take a screenshot of the last captured region.	%@ ζητά από το %@ να τραβήξει στιγμιότυπο της τελευταίας περιοχής που καταγράφηκε.	claude-opus-5-5 2026-10-27
+%@ asks %@ to take a screenshot of the text in a region.	%@ ζητά από το %@ να τραβήξει στιγμιότυπο του κειμένου σε μια περιοχή.	claude-opus-5-5 2026-10-27
+%@ asks %@ to take a screenshot of the whole screen.	%@ ζητά από το %@ να τραβήξει στιγμιότυπο ολόκληρης της οθόνης.	claude-opus-5-5 2026-10-27
 %@ at %@	%@ στις %@	claude-sonnet-5-5 2026-10-18
 %@ can't do this: its version doesn't support it by AppleScript (%@).	Το %@ δεν μπορεί να το κάνει αυτό: η έκδοσή του δεν το υποστηρίζει μέσω AppleScript (%@).	claude-sonnet-5-5 2026-10-18
 %@ captured %@ with Greenshot.	Το %@ κατέγραψε %@ με το Greenshot.	claude-sonnet-5-5 2026-10-18
