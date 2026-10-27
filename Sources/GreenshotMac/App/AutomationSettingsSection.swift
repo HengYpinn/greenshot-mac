@@ -9,6 +9,8 @@ import SwiftUI
 
 /// Settings › Expert › Automation: whether links may take screenshots (Mac only; upstream lets a link start only the
 /// recipes that allow browser invocation) and where the command line tool is, with the command that puts it on the PATH.
+/// The switch keeps web pages from opening capture screens; a link's capture without the user still asks
+/// (`AutomationConsent`), as any program can turn the switch on in the preferences.
 struct AutomationSettingsSection: View {
     @ObservedObject var store: SettingsStore
     /// The tool's path; nil when it isn't next to the app (a bare `swift build`). Replaceable for the snapshots.
@@ -38,7 +40,7 @@ struct AutomationSettingsSection: View {
         } header: {
             Text("Automation")
         } footer: {
-            Text("Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.")
+            Text("Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }

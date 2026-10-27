@@ -210,6 +210,22 @@ struct IPCDispatcherTests {
         #expect(allowed.stdout == "CAPTURE region\n")
     }
 
+    /// The question before a capture depends on the source its handler sees: a link the system opens keeps
+    /// `url_scheme`, the same link given to greenshot-cli keeps `cli`. Both ask before a full screen capture.
+    @Test(arguments: [IPCSource.urlScheme, .cli])
+    func captureLinkReachesItsHandlerWithItsSource(source: IPCSource) async {
+        let dispatcher = IPCDispatcher()
+        dispatcher.table.register(IPCCommand.capture) { context in
+            let mode = AutomationCaptureMode(name: context.envelope.parameter("mode")) ?? .region
+            let asks = AutomationConsent.captureNeedsConfirmation(mode, source: context.source)
+            return .ok("\(context.source.rawValue) \(mode.rawValue) \(asks ? "asks" : "doesn't ask")")
+        }
+        let url = "greenshotmac://capture/fullscreen"
+        let envelope = source == .cli ? IPCEnvelope.commandLine([url], cwd: nil) : link(url)
+        let writer = await run(envelope, source: source, dispatcher: dispatcher)
+        #expect(writer.stdout == "\(source.rawValue) fullscreen asks\n")
+    }
+
     @Test func throwingHandlerStillEndsWithOneExitFrame() async {
         let dispatcher = IPCDispatcher()
         dispatcher.table.register(IPCCommand.version) { _ in throw TestFailure() }

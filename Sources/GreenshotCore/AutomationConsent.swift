@@ -11,16 +11,19 @@ import Foundation
 /// in the user's preferences would hand them over. A setting can't prevent that (the same program can change it), a
 /// question on the screen can: another program can only answer it with the Accessibility permission.
 ///
-/// - `cli` (greenshot-cli, a second start's command, the command the app was started with): a capture without the
-///   user on the capture screen (full screen, window, last region) asks every time. Region and text captures need the
-///   user to select the area anyway.
-/// - Links are gated by the capture-link setting (`IPCWhitelist.captureLinkCommands`); AppleScript and Shortcuts by
-///   macOS's own Automation and Shortcuts consent. The Services menu and Finder can't capture.
+/// - `cli` (greenshot-cli, a second start's command, the command the app was started with) and `urlScheme` (a link the
+///   system opened, from a web page, Alfred, Raycast or `open`): a capture without the user on the capture screen (full
+///   screen, window, last region) asks every time. Region and text captures need the user to select the area anyway.
+///   Links also need the capture-link setting (`IPCWhitelist.captureLinkCommands`), which keeps web pages from opening
+///   capture screens and questions; being a setting, it doesn't stand for the user's consent.
+/// - AppleScript and Shortcuts are gated by macOS's own Automation and Shortcuts consent. The Services menu and Finder
+///   can't capture.
 ///
-/// Wave 4: a recipe run from the command line or a link (RUN_RECIPE) that captures without the user must ask the same way.
+/// Wave 4: a recipe run from the command line (RUN_RECIPE) that captures without the user asks the same way; one a link
+/// runs needs its approved "AllowBrowserInvocation".
 public enum AutomationConsent {
     public static func captureNeedsConfirmation(_ mode: AutomationCaptureMode, source: IPCSource) -> Bool {
-        guard source == .cli else { return false }
+        guard source == .cli || source == .urlScheme else { return false }
         switch mode {
         case .fullScreen, .window, .lastRegion: return true
         case .region, .text: return false

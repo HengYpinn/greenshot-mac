@@ -12,15 +12,21 @@ extension Snapshots {
         // Settings › Expert › Automation, with a fixed tool path (a snapshot build has no bundle)
         let section = Form { AutomationSettingsSection(store: settings, toolPath: AutomationSettingsSection.snapshotToolPath) }
             .formStyle(.grouped)
-        let hosting = NSHostingView(rootView: section.frame(width: 620, height: 210))
-        hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 210)
+        let hosting = NSHostingView(rootView: section.frame(width: 620, height: 230))
+        hosting.frame = NSRect(x: 0, y: 0, width: 620, height: 230)
         try write(form(hosting), to: folder.appendingPathComponent("aut-settings-automation.png"))
 
-        // The question before a command line capture without the user
-        let consent = AutomationCaptureConsent.makeAlert(caller: "zsh in Terminal", mode: .fullScreen)
+        // The question before a command line or link capture without the user
+        let consent = AutomationCaptureConsent.makeAlert(caller: "zsh in Terminal", mode: .fullScreen, source: .cli)
         consent.layout()
         if let content = consent.window.contentView {
             try write(form(content), to: folder.appendingPathComponent("aut-capture-consent.png"))
+        }
+        let linkConsent = AutomationCaptureConsent.makeAlert(caller: AutomationCaptureConsent.linkCaller, mode: .fullScreen,
+                                                             source: .urlScheme)
+        linkConsent.layout()
+        if let content = linkConsent.window.contentView {
+            try write(form(content), to: folder.appendingPathComponent("aut-capture-consent-link.png"))
         }
 
         // The second start of a copy while another runs

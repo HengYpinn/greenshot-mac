@@ -6,7 +6,7 @@ import AppKit
 import Darwin
 import GreenshotCore
 
-/// The question before a capture greenshot-cli asks for without the user on the capture screen (see
+/// The question before a capture greenshot-cli or a link asks for without the user on the capture screen (see
 /// `AutomationConsent`): "<program> asks Greenshot for Mac to take a screenshot of the whole screen." Don't Allow is the
 /// default (Return); Allow reacts only after a second, so a click or key meant for something else doesn't answer it;
 /// without an answer it counts as Don't Allow after a minute, once no other modal window of the app is on top of it.
@@ -18,18 +18,25 @@ enum AutomationCaptureConsent {
     private static var asking = false
     private static let log = Log("Automation")
 
-    /// True when the user allowed the capture.
-    static func ask(_ mode: AutomationCaptureMode, peer: IPCPeer?) -> Bool {
+    /// True when the user allowed the capture. greenshot-cli's question names the program behind it; a link's says
+    /// "A link": the system doesn't say which program or page opened it.
+    static func ask(_ mode: AutomationCaptureMode, source: IPCSource, peer: IPCPeer?) -> Bool {
+        let request = source == .urlScheme ? "link" : "command line"
         guard !asking else {
-            log.warn("[SECURITY] A command line capture was refused: another one waits for an answer")
+            log.warn("[SECURITY] A \(request) capture was refused: another one waits for an answer")
             return false
         }
         asking = true
         defer { asking = false }
-        let caller = callerName(peer: peer)
-        let allowed = run(makeAlert(caller: caller, mode: mode))
-        log.info("A command line capture of \(AutomationConsent.subject(of: mode)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
+        let caller = source == .urlScheme ? linkCaller : callerName(peer: peer)
+        let allowed = run(makeAlert(caller: caller, mode: mode, source: source))
+        log.info("A \(request) capture of \(AutomationConsent.subject(of: mode)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
         return allowed
+    }
+
+    /// The program in a link's question.
+    static var linkCaller: String {
+        String(localized: "A link", comment: "Starts the sentence of a capture question when a greenshotmac:// link asks for the capture")
     }
 
     /// RUN_RECIPE from greenshot-cli: "<program> asks Greenshot for Mac to run the recipe '<name>', which takes
@@ -98,11 +105,13 @@ enum AutomationCaptureConsent {
     }
 
     /// The alert (also for the snapshots).
-    static func makeAlert(caller: String, mode: AutomationCaptureMode) -> NSAlert {
+    static func makeAlert(caller: String, mode: AutomationCaptureMode, source: IPCSource) -> NSAlert {
         let alert = NSAlert()
         alert.alertStyle = .warning
         alert.messageText = captureQuestion(caller: caller, mode: mode)
-        alert.informativeText = String(localized: "The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.")
+        alert.informativeText = source == .urlScheme
+            ? String(localized: "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.")
+            : String(localized: "The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.")
         alert.addButton(withTitle: String(localized: "Don't Allow"))
         alert.addButton(withTitle: String(localized: "Allow"))
         return alert

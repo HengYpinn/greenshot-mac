@@ -6,7 +6,7 @@ import Foundation
 import Testing
 @testable import GreenshotCore
 
-/// The question before command line captures without the user (confused deputy, CWE-441).
+/// The question before command line and link captures without the user (confused deputy, CWE-441).
 struct AutomationConsentTests {
     @Test func commandLineCapturesWithoutTheUserAsk() {
         #expect(AutomationConsent.captureNeedsConfirmation(.fullScreen, source: .cli))
@@ -19,8 +19,21 @@ struct AutomationConsentTests {
         #expect(!AutomationConsent.captureNeedsConfirmation(.text, source: .cli))
     }
 
+    /// Any program can open a link (`open greenshotmac://…`) and turn the capture-link setting on in the preferences,
+    /// so the setting alone can't stand for the user's consent.
+    @Test func linkCapturesWithoutTheUserAsk() {
+        #expect(AutomationConsent.captureNeedsConfirmation(.fullScreen, source: .urlScheme))
+        #expect(AutomationConsent.captureNeedsConfirmation(.window, source: .urlScheme))
+        #expect(AutomationConsent.captureNeedsConfirmation(.lastRegion, source: .urlScheme))
+    }
+
+    @Test func linkCapturesTheUserDrivesDontAsk() {
+        #expect(!AutomationConsent.captureNeedsConfirmation(.region, source: .urlScheme))
+        #expect(!AutomationConsent.captureNeedsConfirmation(.text, source: .urlScheme))
+    }
+
     @Test func otherSourcesHaveTheirOwnGate() {
-        for source in [IPCSource.urlScheme, .appleScript, .shortcuts, .services, .openWith] {
+        for source in [IPCSource.appleScript, .shortcuts, .services, .openWith] {
             for mode in AutomationCaptureMode.allCases {
                 #expect(!AutomationConsent.captureNeedsConfirmation(mode, source: source))
             }
