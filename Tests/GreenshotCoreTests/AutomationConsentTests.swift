@@ -65,6 +65,22 @@ struct AutomationConsentTests {
         }
     }
 
+    /// No key answers "Allow": a key event of the question's own window from just now pressed it.
+    @Test func aFreshKeyOfTheQuestionPressedAllow() {
+        #expect(ConsentClickGuard.pressedByKey(isKeyEvent: true, inQuestionWindow: true, age: 0.01))
+    }
+
+    /// An accessibility press (VoiceOver, Switch Control) sees whatever event came last, often the Tab of a moment ago:
+    /// that one, a key of another window or a click don't count as a key press.
+    @Test func anAccessibilityPressAfterAKeyIsNotAKeyPress() {
+        let stale = ConsentClickGuard.pressedByKey(isKeyEvent: true, inQuestionWindow: true, age: 2)
+        #expect(!stale)
+        let elsewhere = ConsentClickGuard.pressedByKey(isKeyEvent: true, inQuestionWindow: false, age: 0.01)
+        #expect(!elsewhere)
+        let click = ConsentClickGuard.pressedByKey(isKeyEvent: false, inQuestionWindow: true, age: 0.01)
+        #expect(!click)
+    }
+
     @Test func callerIsNamedByItsProcessAndApp() {
         #expect(AutomationConsent.callerName(processNames: ["zsh", "login"], appName: "Terminal") == "zsh in Terminal")
         #expect(AutomationConsent.callerName(processNames: ["Raycast"], appName: "Raycast") == "Raycast")

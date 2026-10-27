@@ -78,7 +78,7 @@ enum AutomationCaptureConsent {
         alert.layout()
         alert.window.initialFirstResponder = alert.buttons[0]
         let arming = ConsentArming(window: alert.window, buttons: [allow])
-        let handler = AllowHandler(arming: arming)
+        let handler = AllowHandler(arming: arming, window: alert.window)
         allow.target = handler
         allow.action = #selector(AllowHandler.allow(_:))
         // Only this alert's own session ends: while another modal window of the app is on top of it, that one is the
@@ -103,16 +103,22 @@ enum AutomationCaptureConsent {
     /// "Allow" of the alert: ends it only when the click counts.
     private final class AllowHandler: NSObject {
         let arming: ConsentArming
+        private weak var window: NSWindow?
 
-        init(arming: ConsentArming) {
+        init(arming: ConsentArming, window: NSWindow) {
             self.arming = arming
+            self.window = window
         }
 
         @objc func allow(_ sender: Any?) {
             MainActor.assumeIsolated {
-                // Should the focus reach Allow after all, a key still doesn't answer it
-                if let event = NSApp.currentEvent, event.type == .keyDown || event.type == .keyUp {
-                    Log("Automation").warn("[SECURITY] A key on Allow was ignored: only a click answers it.")
+                // Should the focus reach Allow after all, a key still doesn't answer it; an accessibility press after
+                // a key (the current event is still that key) does
+                if let event = NSApp.currentEvent,
+                   ConsentClickGuard.pressedByKey(isKeyEvent: event.type == .keyDown || event.type == .keyUp,
+                                                  inQuestionWindow: window != nil && event.window === window,
+                                                  age: ProcessInfo.processInfo.systemUptime - event.timestamp) {
+                    Log("Automation").warn("[SECURITY] A key on Allow was ignored: no key answers it.")
                     return
                 }
                 if arming.confirmAllow() { NSApp.stopModal(withCode: .alertSecondButtonReturn) }

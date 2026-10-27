@@ -118,6 +118,17 @@ public enum ConsentClickGuard {
         }
     }
 
+    /// How recent a key event must be to have pressed "Allow", in seconds.
+    public static let keyPressAge: TimeInterval = 0.3
+
+    /// Whether a key pressed "Allow" (the questions' Allow answers no key; it takes no keyboard focus, this is the
+    /// backstop): the app's current event is a key event of the question's own window from just now. The current event
+    /// stays the last one taken from the queue, so an accessibility press (VoiceOver, Switch Control) a moment after a
+    /// Tab still sees that Tab: stale or another window's, it doesn't count.
+    public static func pressedByKey(isKeyEvent: Bool, inQuestionWindow: Bool, age: TimeInterval) -> Bool {
+        isKeyEvent && inQuestionWindow && age < keyPressAge
+    }
+
     /// True when a visible window of another process overlaps `frame`. The app's own windows don't count.
     public static func isCovered(_ frame: CGRect, by windowsAbove: [WindowAbove], ownPID: Int32) -> Bool {
         windowsAbove.contains { window in
