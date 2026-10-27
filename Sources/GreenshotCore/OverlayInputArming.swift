@@ -11,7 +11,8 @@ import Foundation
 /// ignores a mouse button that is released, until a mouse-down happened on it a second after it appeared: only a
 /// deliberate click shows that the user is at the screen. That press shows only that (`armedByLastMouseDown`; the rest
 /// of a double click it starts counts for nothing): in the text mode its click alone copies no line, a drag that starts
-/// with it still selects words; a region needs a drag anyway. An overlay the user started (hotkey, menu) takes input at once.
+/// with it still selects words; a region needs a drag anyway. An overlay the user started (hotkey, menu) takes input at
+/// once.
 public struct OverlayInputArming: Sendable, Equatable {
     /// The same second as the consent questions' buttons (`ConsentArming.delay`).
     public static let delay: TimeInterval = 1

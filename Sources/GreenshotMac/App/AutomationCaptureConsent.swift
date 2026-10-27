@@ -63,9 +63,9 @@ enum AutomationCaptureConsent {
 
     /// Runs the alert with the arming delay and the time limit; true for Allow. "Allow" answers no key: it takes no
     /// keyboard focus, so with keyboard navigation on, Tab and Space (in text typed into another app a moment earlier)
-    /// can't press it; a click or an accessibility press (VoiceOver, Switch Control) does. It reacts a second after the alert was last shown unchanged and only when no other
-    /// program's window lies over it (`ConsentArming`, SM-M2). Also for the question before a Jira or Confluence token
-    /// goes to a server (`AtlassianSecretQuestion`).
+    /// can't press it; a click or an accessibility press (VoiceOver, Switch Control) does. It reacts a second after the
+    /// alert was last shown unchanged and only when no other program's window lies over it (`ConsentArming`, SM-M2).
+    /// Also for the question before a Jira or Confluence token goes to a server (`AtlassianSecretQuestion`).
     static func run(_ alert: NSAlert) -> Bool {
         alert.window.level = .floating
         // A link or greenshot-cli asks from whatever Space the user is on, also a full screen one, and the question
