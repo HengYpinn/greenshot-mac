@@ -288,7 +288,7 @@ final class CaptureOverlayController {
         updateSelection()
     }
 
-    /// `clickCount`: the event's (the second press of a double click that armed the screen only arms too).
+    /// `clickCount`: the event's (the second press of a double click that armed the screen counts for nothing).
     func mouseDown(at point: CGPoint, clickCount: Int) {
         cursor = point
         // A click in the first second, or before the screen is armed, selects nothing; the one after arms it.

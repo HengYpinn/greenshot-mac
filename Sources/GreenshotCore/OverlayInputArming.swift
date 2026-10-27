@@ -9,9 +9,9 @@ import Foundation
 /// keys of the sentence the user was typing ("see you tomorrow", Return) would pick a window (Space, Return) and send
 /// its picture to the destinations. So an overlay the user did not start themselves ignores every key but Escape, and
 /// ignores a mouse button that is released, until a mouse-down happened on it a second after it appeared: only a
-/// deliberate click shows that the user is at the screen. That press shows only that (`armedByLastMouseDown`, also for
-/// the rest of a double click it starts): in the text mode its click alone copies no line, a drag that starts with it
-/// still selects words; a region needs a drag anyway. An overlay the user started (hotkey, menu) takes input at once.
+/// deliberate click shows that the user is at the screen. That press shows only that (`armedByLastMouseDown`; the rest
+/// of a double click it starts counts for nothing): in the text mode its click alone copies no line, a drag that starts
+/// with it still selects words; a region needs a drag anyway. An overlay the user started (hotkey, menu) takes input at once.
 public struct OverlayInputArming: Sendable, Equatable {
     /// The same second as the consent questions' buttons (`ConsentArming.delay`).
     public static let delay: TimeInterval = 1
@@ -30,10 +30,10 @@ public struct OverlayInputArming: Sendable, Equatable {
 
     /// A mouse-down on the overlay: it arms the overlay when the delay has passed; true when it did, or the overlay was
     /// armed already (the click counts). `clickCount` is the event's: the further presses of a double or triple click
-    /// that started with the arming press belong to it and only arm too.
+    /// that started with the arming press belong to it and don't count (false; the overlay stays armed).
     @discardableResult
     public mutating func mouseDown(at now: Date, clickCount: Int) -> Bool {
-        if armedByLastMouseDown, clickCount > 1 { return isArmed }
+        if armedByLastMouseDown, clickCount > 1 { return false }
         armedByLastMouseDown = false
         if !isArmed, now.timeIntervalSince(shownAt) >= Self.delay {
             isArmed = true

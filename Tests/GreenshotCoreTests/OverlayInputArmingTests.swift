@@ -53,17 +53,21 @@ struct OverlayInputArmingTests {
         #expect(!arming.armedByLastMouseDown)
     }
 
-    /// The second (and third) press of a double click that started with the arming press is still that gesture: a
-    /// double click copies no line either.
+    /// The second (and third) press of a double click that started with the arming press is still that gesture and
+    /// counts for nothing: a double click copies no line and picks no QR code menu item either.
     @Test func aDoubleClickThatStartsWithTheArmingPressStillOnlyArms() {
         var arming = OverlayInputArming(requiresArming: true, shownAt: start)
         arming.mouseDown(at: start.addingTimeInterval(1.5), clickCount: 1)
-        arming.mouseDown(at: start.addingTimeInterval(1.7), clickCount: 2)
+        let second = arming.mouseDown(at: start.addingTimeInterval(1.7), clickCount: 2)
+        #expect(!second)
         #expect(arming.armedByLastMouseDown)
-        arming.mouseDown(at: start.addingTimeInterval(1.9), clickCount: 3)
+        let third = arming.mouseDown(at: start.addingTimeInterval(1.9), clickCount: 3)
+        #expect(!third)
         #expect(arming.armedByLastMouseDown)
+        #expect(arming.isArmed)
         // A new click after it counts
-        arming.mouseDown(at: start.addingTimeInterval(3), clickCount: 1)
+        let next = arming.mouseDown(at: start.addingTimeInterval(3), clickCount: 1)
+        #expect(next)
         #expect(!arming.armedByLastMouseDown)
         // and so does a later double click
         arming.mouseDown(at: start.addingTimeInterval(3.2), clickCount: 2)
