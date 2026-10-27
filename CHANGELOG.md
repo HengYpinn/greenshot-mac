@@ -522,6 +522,11 @@ Greenshot's screen recording permission behind your back.
   now asks you first, like greenshot-cli's (Don't Allow is the default). The setting keeps web pages from starting
   captures (off, a link is refused without a question), but as a setting it can't stand for your consent. Region and
   text links still open the capture screen, which waits for a click. The hotkey and the AppleScript command don't ask.
+  While another capture runs or a capture screen is open, a link or greenshot-cli capture is refused before the
+  question (it couldn't start after the answer).
+- In the questions before a capture greenshot-cli or a link asks for, a recipe greenshot-cli runs and a Jira or
+  Confluence token, no key answers Allow, also not Space with keyboard navigation on (the focus starts on Don't Allow,
+  and Tab skips Allow): click it, or use VoiceOver. Return still answers Don't Allow.
 
 ## [0.1.0] - 2026-10-16
 

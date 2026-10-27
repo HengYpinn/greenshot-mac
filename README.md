@@ -298,7 +298,9 @@ when it isn't running, and prints the reply:
 
 Any program on your Mac can run greenshot-cli, so a screenshot of the full screen, a window or the last region asks
 you first: "<program> asks Greenshot for Mac to take a screenshot of …" with Allow and Don't Allow (Don't Allow is
-the default; without an answer nothing is captured). Region and text captures don't ask, as you select the area; their
+the default; without an answer nothing is captured). No key answers Allow, also with keyboard navigation on: click it,
+or use VoiceOver; Return answers Don't Allow. While another capture runs or a capture screen is open, such a capture is
+refused without the question. Region and text captures don't ask, as you select the area; their
 capture screen waits for a click (a second after it shows) before keys work, so what you type into another app at
 that moment can't finish it; on the text capture screen that click copies nothing (click the line again, or drag).
 Escape cancels at once. greenshot-cli shows control characters in what it prints (a QR
