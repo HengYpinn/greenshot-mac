@@ -33,7 +33,7 @@ struct AutomationConsentTests {
     }
 
     @Test func otherSourcesHaveTheirOwnGate() {
-        for source in [IPCSource.appleScript, .shortcuts, .services, .openWith] {
+        for source in IPCSource.allCases where source != .cli && source != .urlScheme {
             for mode in AutomationCaptureMode.allCases {
                 #expect(!AutomationConsent.captureNeedsConfirmation(mode, source: source))
             }

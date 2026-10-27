@@ -320,12 +320,12 @@ Links (from a browser, Alfred, Raycast, `open`):
   `greenshotmac://recipe-editor` and `greenshotmac://recipe-manager` open those windows
 - `greenshotmac://capture/region|window|fullscreen|last|text` and `greenshotmac://clipboard`, only when
   "Allow links to take screenshots" is on in Settings › Expert › Automation (any web page can open a link). As any
-  program can open a link and change that setting, a link's screenshot of the full screen, a window or the last
-  region asks you first, like greenshot-cli's: "A link asks Greenshot for Mac to take a screenshot of …" (Don't Allow
-  is the default). Region and text links open the capture screen, which waits for a click; the clipboard link opens
-  the clipboard's picture in the editor. For a full screen or window screenshot without the question each time, press
-  the hotkey, or let Alfred, Raycast or a script use the AppleScript command (macOS asks once whether that app may
-  control Greenshot) or a Shortcuts action instead.
+  program can open a link and change that setting, a full screen, window or last region screenshot from a link asks
+  you first, like greenshot-cli's: "A link asks Greenshot for Mac to take a screenshot of …" (Don't Allow is the
+  default). Region and text links open the capture screen, which waits for a click; the clipboard link opens the
+  clipboard's picture in the editor. For a full screen, window or last region screenshot without the question each
+  time, press the hotkey, or let Alfred, Raycast or a script use the AppleScript command: macOS asks once whether that
+  app may control Greenshot; after that, anything running in that app can take screenshots without asking.
 
 AppleScript: `tell application "Greenshot for Mac (Community)" to capture full screen` (also capture region, window,
 last region, text; open clipboard; show settings pane "editor"; show about; reload settings).

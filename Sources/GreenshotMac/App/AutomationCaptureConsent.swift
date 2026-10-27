@@ -20,7 +20,7 @@ enum AutomationCaptureConsent {
     private static let log = Log("Automation")
 
     /// True when the user allowed the capture. greenshot-cli's question names the program behind it; a link's says
-    /// "A link": the system doesn't say which program or page opened it.
+    /// "A link": Greenshot doesn't know which program or page opened it.
     static func ask(_ mode: AutomationCaptureMode, source: IPCSource, peer: IPCPeer?) -> Bool {
         let request = source == .urlScheme ? "link" : "command line"
         guard !asking else {
