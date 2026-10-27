@@ -8,8 +8,9 @@ import GreenshotCore
 
 /// The question before a capture greenshot-cli or a link asks for without the user on the capture screen (see
 /// `AutomationConsent`): "<program> asks Greenshot for Mac to take a screenshot of the whole screen." Don't Allow is the
-/// default (Return); Allow reacts only after a second, so a click or key meant for something else doesn't answer it;
-/// without an answer it counts as Don't Allow after a minute, once no other modal window of the app is on top of it.
+/// default (Return); Allow takes no keyboard focus, so only a click answers Allow, and it reacts only after a second, so
+/// a click meant for something else doesn't answer it; without an answer it counts as Don't Allow after a minute, once
+/// no other modal window of the app is on top of it.
 /// Another program can't click it without the Accessibility permission. One question at a time: while one is open,
 /// other such requests are refused.
 @MainActor
@@ -60,15 +61,22 @@ enum AutomationCaptureConsent {
         return allowed
     }
 
-    /// Runs the alert with the arming delay and the time limit; true for Allow. "Allow" reacts a second after the alert
-    /// was last shown unchanged and only when no other program's window lies over it (`ConsentArming`, SM-M2). Also for
-    /// the question before a Jira or Confluence token goes to a server (`AtlassianSecretQuestion`).
+    /// Runs the alert with the arming delay and the time limit; true for Allow. "Allow" answers only a click: it takes
+    /// no keyboard focus, so with keyboard navigation on, Tab and Space (in text typed into another app a moment
+    /// earlier) can't press it. It reacts a second after the alert was last shown unchanged and only when no other
+    /// program's window lies over it (`ConsentArming`, SM-M2). Also for the question before a Jira or Confluence token
+    /// goes to a server (`AtlassianSecretQuestion`).
     static func run(_ alert: NSAlert) -> Bool {
         alert.window.level = .floating
         // A link or greenshot-cli asks from whatever Space the user is on, also a full screen one, and the question
         // blocks every Greenshot window: it shows on that Space instead of out of sight on another one.
         alert.window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         let allow = alert.buttons[1]
+        // Only a click answers Allow; Return stays Don't Allow's. NSAlert puts the keyboard focus on its second button
+        // (Space would press Allow), so the focus starts on Don't Allow, and Tab skips Allow.
+        allow.refusesFirstResponder = true
+        alert.layout()
+        alert.window.initialFirstResponder = alert.buttons[0]
         let arming = ConsentArming(window: alert.window, buttons: [allow])
         let handler = AllowHandler(arming: arming)
         allow.target = handler
@@ -102,6 +110,11 @@ enum AutomationCaptureConsent {
 
         @objc func allow(_ sender: Any?) {
             MainActor.assumeIsolated {
+                // Should the focus reach Allow after all, a key still doesn't answer it
+                if let event = NSApp.currentEvent, event.type == .keyDown || event.type == .keyUp {
+                    Log("Automation").warn("[SECURITY] A key on Allow was ignored: only a click answers it.")
+                    return
+                }
                 if arming.confirmAllow() { NSApp.stopModal(withCode: .alertSecondButtonReturn) }
             }
         }
