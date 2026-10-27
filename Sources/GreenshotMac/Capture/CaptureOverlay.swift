@@ -342,6 +342,8 @@ final class CaptureOverlayController {
             // select words): it shows that the user is at the screen, not which line to take.
             finishText(clickedAt: point, copiesLine: !arming.armedByLastMouseDown)
         case .window:
+            // Unlike the text mode, the arming click may pick the window: greenshot-cli's and links' window captures
+            // asked first
             acceptWindow()
         case .fixedSize:
             acceptFixedSize()

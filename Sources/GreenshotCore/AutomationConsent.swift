@@ -17,8 +17,8 @@ import Foundation
 ///   Links also need the capture-link setting (`IPCWhitelist.captureLinkCommands`), which keeps web pages from opening
 ///   capture screens and questions; being a setting, it doesn't stand for the user's consent.
 /// - AppleScript is gated by macOS's Automation consent, once per controlling app (after that, whatever runs in that app
-///   can capture). A Shortcuts action doesn't ask: macOS controls making a shortcut, not running a saved one. The
-///   Services menu and Finder can't capture.
+///   can capture). A Shortcuts action doesn't ask: a saved shortcut runs without a question. The Services menu and
+///   Finder can't capture.
 ///
 /// Wave 4: a recipe run from the command line (RUN_RECIPE) that captures without the user asks the same way; one a link
 /// runs needs its approved "AllowBrowserInvocation".

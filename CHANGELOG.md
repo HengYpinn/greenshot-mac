@@ -476,7 +476,8 @@ Greenshot's screen recording permission behind your back.
   greenshot-mcp itself. A program that starts greenshot-mcp and then turns itself into an allowed program is refused.
 - A capture screen that greenshot-cli, a link, AppleScript, Shortcuts or such a recipe opened waits for a click (a
   second after it shows) before keys work, so what you type into another app can't finish the capture. Escape cancels
-  at once. On the text capture screen that click copies nothing (click the line again, or drag over the words). The wait before a capture is at most 10 seconds, also when the preferences say more.
+  at once. On the text capture screen that click (also a double click) copies nothing: click the line again, or drag
+  over the words. The wait before a capture is at most 10 seconds, also when the preferences say more.
 - greenshot-cli and the browser extension's helper send nothing to a program listening on Greenshot's socket that
   isn't Greenshot (greenshot-mcp already checked this); the extension then hears that the app is offline.
 - greenshot-cli shows control characters from a QR code, OCR or a window title as `\xNN` on a terminal, so a QR code
