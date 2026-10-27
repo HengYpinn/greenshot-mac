@@ -300,7 +300,8 @@ Any program on your Mac can run greenshot-cli, so a screenshot of the full scree
 you first: "<program> asks Greenshot for Mac to take a screenshot of …" with Allow and Don't Allow (Don't Allow is
 the default; without an answer nothing is captured). Region and text captures don't ask, as you select the area; their
 capture screen waits for a click (a second after it shows) before keys work, so what you type into another app at
-that moment can't finish it. Escape cancels at once. greenshot-cli shows control characters in what it prints (a QR
+that moment can't finish it; on the text capture screen that click copies nothing (click the line again, or drag).
+Escape cancels at once. greenshot-cli shows control characters in what it prints (a QR
 code's text, OCR) as `\xNN` on a terminal.
 
 Exit codes: 0 success, 1 failure (also a screenshot you didn't allow), 2 invalid command line, 3 the app isn't

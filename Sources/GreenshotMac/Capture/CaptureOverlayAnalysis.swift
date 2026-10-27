@@ -132,12 +132,13 @@ extension CaptureOverlayController {
         }
     }
 
-    /// Mouse up in the text mode: a click captures the line under the mouse, a drag the words it touched.
-    func finishText(clickedAt point: CGPoint) {
+    /// Mouse up in the text mode: a click captures the line under the mouse (unless `copiesLine` is false: then it
+    /// selects nothing), a drag the words it touched.
+    func finishText(clickedAt point: CGPoint, copiesLine: Bool) {
         guard let start = anchor else { return }
         if let rect = selection, rect.width >= 3 || rect.height >= 3 {
             finishText(in: rect)
-        } else if let line = TextCaptureSelection.line(at: start, in: textLines ?? []) {
+        } else if copiesLine, let line = TextCaptureSelection.line(at: start, in: textLines ?? []) {
             finish(OverlaySelection(rect: line.bounds, window: nil, text: line.text, mode: .text))
         } else {
             cancelSelection()

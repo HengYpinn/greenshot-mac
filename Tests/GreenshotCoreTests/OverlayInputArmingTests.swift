@@ -41,6 +41,24 @@ struct OverlayInputArmingTests {
         #expect(arming.allowsMouse)
     }
 
+    /// The press that arms shows that the user is at the screen, not what to take: the text mode doesn't copy a line
+    /// with that click alone.
+    @Test func thePressThatArmsIsMarked() {
+        var arming = OverlayInputArming(requiresArming: true, shownAt: start)
+        arming.mouseDown(at: start.addingTimeInterval(0.5))
+        #expect(!arming.armedByLastMouseDown)
+        arming.mouseDown(at: start.addingTimeInterval(1.5))
+        #expect(arming.armedByLastMouseDown)
+        arming.mouseDown(at: start.addingTimeInterval(2))
+        #expect(!arming.armedByLastMouseDown)
+    }
+
+    @Test func aScreenTheUserStartedHasNoArmingPress() {
+        var arming = OverlayInputArming(requiresArming: false, shownAt: start)
+        arming.mouseDown(at: start.addingTimeInterval(1.5))
+        #expect(!arming.armedByLastMouseDown)
+    }
+
     @Test func startedByTheUserTakesInputAtOnce() {
         var arming = OverlayInputArming(requiresArming: false, shownAt: start)
         #expect(arming.allowsKey(isEscape: false))

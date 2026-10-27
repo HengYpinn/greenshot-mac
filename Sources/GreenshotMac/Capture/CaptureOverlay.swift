@@ -337,7 +337,9 @@ final class CaptureOverlayController {
                 updateSelection()
             }
         case .text:
-            finishText(clickedAt: point)
+            // The click that armed a capture screen automation opened copies no line (a drag that starts with it does
+            // select words): it shows that the user is at the screen, not which line to take.
+            finishText(clickedAt: point, copiesLine: !arming.armedByLastMouseDown)
         case .window:
             acceptWindow()
         case .fixedSize:
@@ -481,7 +483,7 @@ final class CaptureOverlayController {
                 // for a capture is a click, also on a display of one pixel per point.
                 let rect = dragRect(from: anchor, to: cursor)
                 if !CaptureSelection.isCapturable(rect) {
-                    mode == .region ? cancelSelection() : finishText(clickedAt: cursor)
+                    mode == .region ? cancelSelection() : finishText(clickedAt: cursor, copiesLine: true)
                 } else if mode == .region {
                     finish(OverlaySelection(rect: rect, window: nil))
                 } else {
