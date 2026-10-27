@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	UPC-E-kood algab numbrisüst
 A command with this name already exists. Please choose a different name.	Selle nimega käsk on juba olemas. Valige teine nimi.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windowsi fail: Salvestamisel küsitakse uut faili, seega see jääb nagu on.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Fail soovib lisada automaatse sammu teistele retseptidele, sealhulgas sisseehitatutele. Enne heakskiitmist vaadake üle, milliseid retsepte see muudab ja mida lisab.	claude-sonnet-5-5 2026-10-18
+A link	Link	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Link soovis teha kuvatõmmise	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Uus jäädvustusretsepti fail soovib end Greenshotis registreerida. Enne heakskiitmist vaadake üle selle üksikasjad, päästikud ja täitmissammud.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Uus jäädvustus asendab salvestamata muudatusteta kohandaja kuvatõmmise, selle asemel et avada uus aken.	claude-sonnet-5-5 2026-10-18
@@ -868,7 +869,7 @@ Line	Joon	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Joone paksus punktides (0: joont pole)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Link kopeeriti – klõpsake avamiseks	claude-sonnet-5-5 2026-10-18
 Link to the image	Link pildile	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Lingid nagu greenshotmac://settings?tab=editor avavad aknaid; iga veebileht saab linki avada, seega teevad lingid kuvatõmmiseid ainult siis, kui see on siin lubatud. greenshot-cli, AppleScript, Shortcuts ja Teenuste menüü saavad alati jäädvustada.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Lingid nagu greenshotmac://settings?tab=editor avavad aknaid; iga veebileht saab linki avada, seega teevad lingid kuvatõmmiseid ainult siis, kui see on siin lubatud. Link või greenshot-cli küsib teilt enne kogu ekraani, akna või viimase piirkonna kuvatõmmist. AppleScript ja Shortcuts saavad alati jäädvustada.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Laadi jäädvustusretsept rakendusse %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Laadi varasemad (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Laadi elemendid…	claude-sonnet-5-5 2026-10-18
@@ -1659,6 +1660,7 @@ The recording starts in %lld s. Click to cancel.	Salvestus algab %lld s pärast.
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Salvestus peatus, sest selle faili ei õnnestunud kirjutada: %@. Seni salvestatu asub kohas %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Salvestus oli juba lõpetatud.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Salvestus hüljati	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Päring tuli greenshotmac:// lingi kaudu, mida saab avada iga programm või veebileht. Lubage see ainult siis, kui avasite lingi ise: kuvatõmmis läheb teie sihtkohtadesse.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Päring tuli greenshot-cli kaudu. Lubage see ainult siis, kui selle ise algatasite: retsepti tulemus läheb sinna, kuhu retsept selle saadab.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Päring tuli greenshot-cli kaudu. Lubage see ainult siis, kui selle ise algatasite: kuvatõmmis läheb teie sihtkohtadesse.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Samad muutujad nagu failinime mustris, nt ${title} ja ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

@@ -974,6 +974,12 @@
    ]
   },
   {
+   "key": "A link",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationCaptureConsent.swift"
+   ]
+  },
+  {
    "key": "A link wanted to take a screenshot",
    "files": [
     "Sources/GreenshotMac/App/AutomationCenter.swift"
@@ -5999,7 +6005,7 @@
    ]
   },
   {
-   "key": "Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.",
+   "key": "Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.",
    "files": [
     "Sources/GreenshotMac/App/AutomationSettingsSection.swift"
    ]
@@ -11316,6 +11322,12 @@
    "key": "The recording was discarded",
    "files": [
     "Sources/GreenshotMac/Capture/VideoRecordingController.swift"
+   ]
+  },
+  {
+   "key": "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationCaptureConsent.swift"
    ]
   },
   {

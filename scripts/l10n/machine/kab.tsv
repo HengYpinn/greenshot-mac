@@ -164,6 +164,7 @@ A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu 
 A UPC-E code starts with its number system, 0 or 1.	Tangalt UPC-E ad tebdu s unagraw-is n yiṭṭunen, 0 neɣ 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Afaylu n Greenshot i Windows: Asekles yessuter afaylu amaynut, ihi wa ad yeqqim akken yella.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Afaylu yebɣa ad yerr asurif awurman i yiserwasen-nniḍen, ula d wid yettwarnan. Wali anwa iserwasen i isnifel d wayen ara yerr uqbel ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
+A link	Aseɣwen	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Aseɣwen yebɣa ad iṭṭef tuṭṭfa n ugdil	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Afaylu amaynut n userwas n tuṭṭfa yettwasuter ad yettwarsem deg Greenshot. Wali talqayt-is, imsenkaren d yisurifen n uselkem uqbel ad t-tsentmeḍ.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Tuṭṭfa tamaynut ad tbeddel tuṭṭfa n ugdil n umaẓrag ur nesɛi ara isnifal ur yettwaskelsen ara, deg wadda n usali n usfaylu nniḍen.	claude-sonnet-5-5 2026-10-18
@@ -848,7 +849,7 @@ Line	Izirig	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Tuzert n yizirig s tneqqiḍin (0: ulac izirig)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Aseɣwen yettwanɣel – senned i wakken ad teldiḍ	claude-sonnet-5-5 2026-10-18
 Link to the image	Aseɣwen ɣer tugna	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Iseɣwan am greenshotmac://settings?tab=editor ldin isfaylen; yal asebter web yezmer ad yeldi aseɣwen, ihi iseɣwan ṭṭfen tuṭṭfiwin n ugdil kan ma yettusirag da. greenshot-cli, AppleScript, Shortcuts d wumuɣ n Yibeddilen zemren ad ṭṭfen yal tikelt.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Iseɣwan am greenshotmac://settings?tab=editor ldin isfaylen; yal asebter web yezmer ad yeldi aseɣwen, ihi iseɣwan ṭṭfen tuṭṭfiwin n ugdil kan ma yettusirag da. Aseɣwen neɣ greenshot-cli ad k-isteqsi send tuṭṭfa n ugdil meṛṛa, n usfaylu neɣ n temnaḍt taneggarut. AppleScript d Shortcuts zemren ad ṭṭfen yal tikelt.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Sali aserwas n tuṭṭfa ɣer %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Sali uzwir (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Sali iferdisen…	claude-sonnet-5-5 2026-10-18
@@ -1624,6 +1625,7 @@ The recording starts in %lld s. Click to cancel.	Tavidyut tebda deg %lld s. Senn
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Tavidyut teḥbes acku afaylu-ines ur yezmir ara ad yettwaru: %@. Ayen yettwaseklsen alamma d imir yella deg %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Tavidyut tekfa yakan.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Tavidyut tettwasefsex	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Asuter yekka-d seg useɣwen greenshotmac://, i yezmer ad t-yeldi yal ahil neɣ asebter web. Sireg-it kan ma teldiḍ aseɣwen s timmad-ik: tuṭṭfa n ugdil teddu ɣer tiniɣriwin-ik.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Asuter yekka-d seg greenshot-cli. Sireg-it kan ma ibda-t s timmad-ik: agmuḍ n userwas iteddu anda yazen-it.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Asuter yekka-d seg greenshot-cli. Sireg-it kan ma ibda-t s timmad-ik: tuṭṭfa n ugdil teddu ɣer tiniɣriwin-ik.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Imsal i d-yemṣadan d taneɣruft n yisem n ufaylu, amedya ${title} d ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

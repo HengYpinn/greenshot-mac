@@ -445,6 +445,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Файл хочет добавить автоматический шаг в другие рецепты, включая встроенные. Перед одобрением проверьте, какие рецепты он изменяет и что добавляет.";
 
 /* machine */
+"A link" = "Ссылка";
+
+/* machine */
 "A link wanted to take a screenshot" = "Ссылка хотела сделать снимок экрана";
 
 /* machine */
@@ -2827,7 +2830,7 @@
 "Link to the image" = "Ссылка на изображение";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Ссылки вроде greenshotmac://settings?tab=editor открывают окна; любая веб-страница может открыть ссылку, поэтому ссылки делают снимки экрана, только если это разрешено здесь. greenshot-cli, AppleScript, «Команды» и меню «Службы» всегда могут выполнять захват.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Ссылки вроде greenshotmac://settings?tab=editor открывают окна; любая веб-страница может открыть ссылку, поэтому ссылки делают снимки экрана, только если это разрешено здесь. Перед снимком всего экрана, окна или последней области ссылка или greenshot-cli спрашивает вас. AppleScript и «Команды» всегда могут выполнять захват.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Загрузить рецепт захвата в %@";
@@ -5360,6 +5363,9 @@
 
 /* machine */
 "The recording was discarded" = "Запись отброшена";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Запрос пришёл через ссылку greenshotmac://, которую может открыть любая программа или веб-страница. Разрешайте его, только если ссылку открыли вы: снимок экрана отправляется в ваши места назначения.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Запрос пришёл через greenshot-cli. Разрешайте его, только если запустили его вы: результат рецепта отправляется туда, куда его направляет рецепт.";

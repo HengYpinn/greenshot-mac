@@ -433,6 +433,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Ένα αρχείο θέλει να προσθέσει αυτόματο βήμα σε άλλες συνταγές, μαζί με τις ενσωματωμένες. Ελέγξτε ποιες συνταγές αλλάζει και τι προσθέτει πριν το εγκρίνετε.";
 
 /* machine */
+"A link" = "Ένας σύνδεσμος";
+
+/* machine */
 "A link wanted to take a screenshot" = "Ένας σύνδεσμος ζήτησε να τραβήξει στιγμιότυπο";
 
 /* machine */
@@ -2782,7 +2785,7 @@
 "Link to the image" = "Σύνδεσμος προς την εικόνα";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Σύνδεσμοι όπως greenshotmac://settings?tab=editor ανοίγουν παράθυρα· οποιαδήποτε ιστοσελίδα μπορεί να ανοίξει σύνδεσμο, γι' αυτό οι σύνδεσμοι τραβούν στιγμιότυπα μόνο όταν επιτρέπεται εδώ. Τα greenshot-cli, AppleScript, Συντομεύσεις και το μενού Υπηρεσίες μπορούν πάντα να καταγράφουν.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Σύνδεσμοι όπως greenshotmac://settings?tab=editor ανοίγουν παράθυρα· οποιαδήποτε ιστοσελίδα μπορεί να ανοίξει σύνδεσμο, γι' αυτό οι σύνδεσμοι τραβούν στιγμιότυπα μόνο όταν επιτρέπεται εδώ. Ένας σύνδεσμος ή το greenshot-cli σάς ρωτά πριν από στιγμιότυπο ολόκληρης της οθόνης, ενός παραθύρου ή της τελευταίας περιοχής. Τα AppleScript και Συντομεύσεις μπορούν πάντα να καταγράφουν.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Φόρτωση συνταγής καταγραφής στο %@";
@@ -5312,6 +5315,9 @@
 
 /* machine */
 "The recording was discarded" = "Η εγγραφή απορρίφθηκε";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Το αίτημα ήρθε μέσω ενός συνδέσμου greenshotmac://, τον οποίο μπορεί να ανοίξει οποιοδήποτε πρόγραμμα ή ιστοσελίδα. Επιτρέψτε το μόνο αν ανοίξατε εσείς τον σύνδεσμο: το στιγμιότυπο πηγαίνει στους προορισμούς σας.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Το αίτημα ήρθε μέσω του greenshot-cli. Επιτρέψτε το μόνο αν το ξεκινήσατε εσείς: το αποτέλεσμα της συνταγής πηγαίνει εκεί που το στέλνει η συνταγή.";

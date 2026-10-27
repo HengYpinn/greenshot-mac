@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	Az UPC-E kód a számrendsze
 A command with this name already exists. Please choose a different name.	Ilyen nevű parancs már létezik. Válasszon másik nevet.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows-fájl: a Mentés új fájlt kér, így ez változatlan marad.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Egy fájl automatikus lépést szeretne hozzáadni más receptekhez, a beépítettekhez is. Jóváhagyás előtt nézze át, mely recepteket módosítja, és mit ad hozzá.	claude-sonnet-5-5 2026-10-18
+A link	Egy hivatkozás	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Egy hivatkozás képernyőképet szeretett volna készíteni	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Új rögzítési receptfájl kéri a regisztrálását a Greenshotban. Jóváhagyás előtt nézze át a részleteit, az indítóit és a végrehajtási lépéseit.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Új rögzítés lecseréli a mentetlen módosítások nélküli szerkesztő képernyőképét, ahelyett hogy újabb ablakot nyitna.	claude-sonnet-5-5 2026-10-18
@@ -895,7 +896,7 @@ Line	Vonal	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Vonalvastagság pontban (0: nincs vonal)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Hivatkozás másolva – kattintson a megnyitáshoz	claude-sonnet-5-5 2026-10-18
 Link to the image	Hivatkozás a képre	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	A greenshotmac://settings?tab=editor típusú hivatkozások ablakokat nyitnak meg; bármely weboldal megnyithat hivatkozást, ezért a hivatkozások csak itt engedélyezve készíthetnek képernyőképet. A greenshot-cli, az AppleScript, a Parancsok és a Szolgáltatások menü mindig rögzíthet.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	A greenshotmac://settings?tab=editor típusú hivatkozások ablakokat nyitnak meg; bármely weboldal megnyithat hivatkozást, ezért a hivatkozások csak itt engedélyezve készíthetnek képernyőképet. A teljes képernyőről, egy ablakról vagy az utolsó területről készülő képernyőkép előtt egy hivatkozás vagy a greenshot-cli megkérdezi Önt. Az AppleScript és a Parancsok mindig rögzíthet.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Rögzítési recept betöltése ide: %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Korábbi betöltése (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Elemek betöltése…	claude-sonnet-5-5 2026-10-18
@@ -1699,6 +1700,7 @@ The recording starts in %lld s. Click to cancel.	A felvétel %lld mp múlva indu
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	A felvétel leállt, mert a fájlja nem írható: %@. Az addig rögzített anyag itt található: %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	A felvétel már befejeződött.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	A felvétel el lett vetve	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	A kérés egy greenshotmac:// hivatkozáson keresztül érkezett, amelyet bármely program vagy weboldal megnyithat. Csak akkor engedélyezze, ha Ön nyitotta meg a hivatkozást: a képernyőkép a céljaiba kerül.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	A kérés a greenshot-cli-n keresztül érkezett. Csak akkor engedélyezze, ha Ön indította: a recept eredménye oda kerül, ahová a recept küldi.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	A kérés a greenshot-cli-n keresztül érkezett. Csak akkor engedélyezze, ha Ön indította: a képernyőkép a céljaiba kerül.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Ugyanazok a változók, mint a fájlnévmintában, például ${title} és ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

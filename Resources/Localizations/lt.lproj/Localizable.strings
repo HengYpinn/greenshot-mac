@@ -442,6 +442,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Failas nori pridėti automatinį žingsnį prie kitų receptų, įskaitant integruotus. Prieš patvirtindami peržiūrėkite, kuriuos receptus jis keičia ir ką prideda.";
 
 /* machine */
+"A link" = "Nuoroda";
+
+/* machine */
 "A link wanted to take a screenshot" = "Nuoroda norėjo padaryti ekrano nuotrauką";
 
 /* machine */
@@ -2812,7 +2815,7 @@
 "Link to the image" = "Nuoroda į vaizdą";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Tokios nuorodos kaip greenshotmac://settings?tab=editor atidaro langus; bet kuris tinklalapis gali atidaryti nuorodą, todėl nuorodos daro ekrano nuotraukas tik tada, kai čia leidžiama. greenshot-cli, AppleScript, Shortcuts ir Paslaugų meniu visada gali daryti nuotraukas.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Tokios nuorodos kaip greenshotmac://settings?tab=editor atidaro langus; bet kuris tinklalapis gali atidaryti nuorodą, todėl nuorodos daro ekrano nuotraukas tik tada, kai čia leidžiama. Prieš viso ekrano, lango ar paskutinės srities nuotrauką nuoroda arba greenshot-cli jūsų paklausia. AppleScript ir Shortcuts visada gali daryti nuotraukas.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Įkelti nuotraukos receptą į %@";
@@ -5354,6 +5357,9 @@
 
 /* machine */
 "The recording was discarded" = "Įrašymas atmestas";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Užklausa atėjo per greenshotmac:// nuorodą, kurią gali atidaryti bet kuri programa ar tinklalapis. Leiskite ją tik jei patys atidarėte nuorodą: ekrano nuotrauka pateks į jūsų paskirtis.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Užklausa atėjo per greenshot-cli. Leiskite ją tik jei patys ją paleidote: recepto rezultatas pateks ten, kur jį siunčia receptas.";

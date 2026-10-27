@@ -430,6 +430,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "קובץ רוצה להוסיף שלב אוטומטי למתכונים אחרים, כולל המובנים. יש לעיין באילו מתכונים הוא משנה ומה הוא מוסיף לפני האישור.";
 
 /* machine */
+"A link" = "קישור";
+
+/* machine */
 "A link wanted to take a screenshot" = "קישור ביקש לצלם מסך";
 
 /* machine */
@@ -2797,7 +2800,7 @@
 "Link to the image" = "קישור לתמונה";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "קישורים כמו greenshotmac://settings?tab=editor פותחים חלונות; כל דף אינטרנט יכול לפתוח קישור, ולכן קישורים מצלמים מסך רק אם הדבר מותר כאן. greenshot-cli, AppleScript, קיצורים (Shortcuts) ותפריט השירותים תמיד יכולים ללכוד.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "קישורים כמו greenshotmac://settings?tab=editor פותחים חלונות; כל דף אינטרנט יכול לפתוח קישור, ולכן קישורים מצלמים מסך רק אם הדבר מותר כאן. קישור או greenshot-cli שואלים אותך לפני צילום של המסך כולו, של חלון או של האזור האחרון. AppleScript וקיצורים (Shortcuts) תמיד יכולים ללכוד.";
 
 /* machine */
 "Load Capture Recipe into %@" = "טעינת מתכון לכידה אל %@";
@@ -5330,6 +5333,9 @@
 
 /* machine */
 "The recording was discarded" = "ההקלטה הושלכה";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "הבקשה הגיעה דרך קישור greenshotmac://, שכל תוכנית או דף אינטרנט יכולים לפתוח. יש לאשר אותה רק אם אתה פתחת את הקישור: צילום המסך נשלח ליעדים שלך.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "הבקשה הגיעה דרך greenshot-cli. יש לאשר אותה רק אם אתה הפעלת אותה: התוצאה של המתכון נשלחת לאן שהמתכון שולח אותה.";

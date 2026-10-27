@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	يبدأ رمز UPC-E بنظ
 A command with this name already exists. Please choose a different name.	يوجد أمر بهذا الاسم بالفعل. يُرجى اختيار اسم مختلف.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	ملف من Greenshot لنظام Windows: يطلب الحفظ ملفًا جديدًا، لذا يبقى هذا الملف كما هو.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	يريد ملف إضافة خطوة تلقائية إلى وصفات أخرى، بما فيها المدمجة. راجع الوصفات التي يغيّرها وما يضيفه قبل الموافقة.	claude-sonnet-5-5 2026-10-18
+A link	رابط	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	أراد رابط التقاط لقطة شاشة	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	يطلب ملف وصفة التقاط جديد تسجيله في Greenshot. راجع تفاصيله ومشغّلاته وخطوات تنفيذه قبل الموافقة.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	يستبدل الالتقاط الجديد لقطة المحرر الذي لا توجد فيه تغييرات غير محفوظة، بدل فتح نافذة أخرى.	claude-sonnet-5-5 2026-10-18
@@ -897,7 +898,7 @@ Line	خط	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	سماكة الخط بالنقاط (0: بلا خط)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	تم نسخ الرابط – انقر للفتح	claude-sonnet-5-5 2026-10-18
 Link to the image	رابط الصورة	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	تفتح روابط مثل greenshotmac://settings?tab=editor نوافذ؛ ويمكن لأي صفحة ويب فتح رابط، لذا لا تلتقط الروابط اللقطات إلا عند السماح بذلك هنا. يمكن لـ greenshot-cli وAppleScript والاختصارات وقائمة الخدمات الالتقاط دائمًا.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	تفتح روابط مثل greenshotmac://settings?tab=editor نوافذ؛ ويمكن لأي صفحة ويب فتح رابط، لذا لا تلتقط الروابط اللقطات إلا عند السماح بذلك هنا. يسألك الرابط أو greenshot-cli قبل التقاط لقطة للشاشة بالكامل أو لنافذة أو لآخر منطقة. يمكن لـ AppleScript والاختصارات الالتقاط دائمًا.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	تحميل وصفة التقاط في %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	تحميل الأقدم (+64 كيلوبايت)	claude-sonnet-5-5 2026-10-18
 Load Elements…	تحميل العناصر…	claude-sonnet-5-5 2026-10-18
@@ -1700,6 +1701,7 @@ The recording starts in %lld s. Click to cancel.	يبدأ التسجيل خلا�
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	توقف التسجيل لأنه تعذّرت كتابة ملفه: %@. ما سُجّل حتى ذلك الحين موجود في %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	كان التسجيل قد انتهى بالفعل.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	تم تجاهل التسجيل	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	جاء الطلب عبر رابط greenshotmac://، ويمكن لأي برنامج أو صفحة ويب فتحه. اسمح به فقط إذا كنت أنت من فتحه: تذهب اللقطة إلى وجهاتك.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	جاء الطلب عبر greenshot-cli. اسمح به فقط إذا كنت أنت من بدأه: تذهب نتيجة الوصفة إلى حيث ترسلها الوصفة.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	جاء الطلب عبر greenshot-cli. اسمح به فقط إذا كنت أنت من بدأه: تذهب اللقطة إلى وجهاتك.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	المتغيّرات نفسها كما في نمط اسم الملف، مثل ${title} و${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	Un cod UPC-E începe cu sist
 A command with this name already exists. Please choose a different name.	Există deja o comandă cu acest nume. Alegeți alt nume.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Un fișier Greenshot pentru Windows: „Salvează” cere un fișier nou, deci acesta rămâne neschimbat.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Un fișier vrea să adauge un pas automat la alte rețete, inclusiv la cele încorporate. Verificați ce rețete modifică și ce adaugă înainte de a aproba.	claude-sonnet-5-5 2026-10-18
+A link	Un link	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Un link a vrut să facă o captură de ecran	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Un nou fișier de rețetă de captură cere să fie înregistrat în Greenshot. Verificați detaliile, declanșatoarele și pașii de execuție înainte de a aproba.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	O captură nouă înlocuiește captura de ecran a unui editor fără modificări nesalvate, în loc să deschidă altă fereastră.	claude-sonnet-5-5 2026-10-18
@@ -897,7 +898,7 @@ Line	Linie	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Grosimea liniei în puncte (0: fără linie)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Link copiat – clic pentru a deschide	claude-sonnet-5-5 2026-10-18
 Link to the image	Link către imagine	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Linkurile precum greenshotmac://settings?tab=editor deschid ferestre; orice pagină web poate deschide un link, deci linkurile fac capturi de ecran doar dacă este permis aici. greenshot-cli, AppleScript, Shortcuts și meniul Servicii pot capta oricând.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Linkurile precum greenshotmac://settings?tab=editor deschid ferestre; orice pagină web poate deschide un link, deci linkurile fac capturi de ecran doar dacă este permis aici. Un link sau greenshot-cli vă întreabă înainte de o captură a întregului ecran, a unei ferestre sau a ultimei regiuni. AppleScript și Shortcuts pot capta oricând.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Încarcă rețeta de captură în %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Încarcă mai mult din trecut (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Încarcă elemente…	claude-sonnet-5-5 2026-10-18
@@ -1702,6 +1703,7 @@ The recording starts in %lld s. Click to cancel.	Înregistrarea începe în %lld
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Înregistrarea s-a oprit deoarece fișierul ei nu a putut fi scris: %@. Ce s-a înregistrat până atunci se află în %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Înregistrarea era deja încheiată.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Înregistrarea a fost eliminată	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Cererea a venit printr-un link greenshotmac://, pe care orice program sau pagină web îl poate deschide. Permiteți-o doar dacă ați deschis dumneavoastră linkul: captura de ecran ajunge la destinațiile dumneavoastră.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Cererea a venit prin greenshot-cli. Permiteți-o doar dacă ați pornit-o dumneavoastră: rezultatul rețetei ajunge unde îl trimite rețeta.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Cererea a venit prin greenshot-cli. Permiteți-o doar dacă ați pornit-o dumneavoastră: captura de ecran ajunge la destinațiile dumneavoastră.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Aceleași variabile ca tiparul numelui de fișier, de ex. ${title} și ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

@@ -164,6 +164,7 @@ A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu 
 A UPC-E code starts with its number system, 0 or 1.	UPC-E kods sākas ar savu numuru sistēmu, 0 vai 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows fails: saglabāšana prasa jaunu failu, tāpēc šis fails paliek nemainīts.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Fails vēlas pievienot automātisku soli citām receptēm, arī iebūvētajām. Pirms apstiprināšanas pārskati, kuras receptes tas maina un ko pievieno.	claude-sonnet-5-5 2026-10-18
+A link	Saite	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Saite vēlējās uzņemt ekrānattēlu	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Jauns tveršanas receptes fails pieprasa reģistrāciju Greenshot. Pirms apstiprināšanas pārskati tā informāciju, trigerus un izpildes soļus.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Jauns tvērums aizstāj tāda redaktora ekrānattēlu, kurā nav nesaglabātu izmaiņu, nevis atver citu logu.	claude-sonnet-5-5 2026-10-18
@@ -849,7 +850,7 @@ Line	Līnija	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Līnijas biezums punktos (0: bez līnijas)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Saite nokopēta – noklikšķini, lai atvērtu	claude-sonnet-5-5 2026-10-18
 Link to the image	Saite uz attēlu	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Saites, piemēram, greenshotmac://settings?tab=editor, atver logus; jebkura tīmekļa lapa var atvērt saiti, tāpēc saites uzņem ekrānattēlus tikai tad, ja tas šeit atļauts. greenshot-cli, AppleScript, Shortcuts un Pakalpojumu izvēlne vienmēr var tvert.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Saites, piemēram, greenshotmac://settings?tab=editor, atver logus; jebkura tīmekļa lapa var atvērt saiti, tāpēc saites uzņem ekrānattēlus tikai tad, ja tas šeit atļauts. Pirms visa ekrāna, loga vai pēdējā apgabala ekrānattēla saite vai greenshot-cli tev pajautā. AppleScript un Shortcuts vienmēr var tvert.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Ielādēt tveršanas recepti %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Ielādēt agrāko (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Ielādēt elementus…	claude-sonnet-5-5 2026-10-18
@@ -1624,6 +1625,7 @@ The recording starts in %lld s. Click to cancel.	Ieraksts sāksies pēc %lld s. 
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Ieraksts apstājās, jo tā failu nevarēja ierakstīt: %@. Līdz tam ierakstītais atrodas šeit: %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Ieraksts jau bija pabeigts.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Ieraksts tika atmests	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Pieprasījums nāca caur greenshotmac:// saiti, ko var atvērt jebkura programma vai tīmekļa lapa. Atļauj to tikai tad, ja pats atvēri saiti: ekrānattēls nonāk tavos mērķos.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Pieprasījums nāca caur greenshot-cli. Atļauj to tikai tad, ja pats to startēji: receptes rezultāts nonāk tur, kur recepte to sūta.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Pieprasījums nāca caur greenshot-cli. Atļauj to tikai tad, ja pats to startēji: ekrānattēls nonāk tavos mērķos.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Tie paši mainīgie kā faila vārda paraugā, piemēram, ${title} un ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

@@ -436,6 +436,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "有檔案想為其他配方（包含內建配方）加入自動步驟。核准前請檢視它會更改哪些配方以及加入什麼內容。";
 
 /* machine */
+"A link" = "連結";
+
+/* machine */
 "A link wanted to take a screenshot" = "有連結想要擷取螢幕截圖";
 
 /* machine */
@@ -2809,7 +2812,7 @@
 "Link to the image" = "圖片連結";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "像 greenshotmac://settings?tab=editor 這樣的連結可開啟視窗；任何網頁都能開啟連結，因此只有在此處允許時，連結才能擷取螢幕截圖。greenshot-cli、AppleScript、「捷徑」和「服務」選單則一律可以擷取。";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "像 greenshotmac://settings?tab=editor 這樣的連結可開啟視窗；任何網頁都能開啟連結，因此只有在此處允許時，連結才能擷取螢幕截圖。連結或 greenshot-cli 在擷取整個螢幕、視窗或上次區域之前會先詢問您。AppleScript 和「捷徑」則一律可以擷取。";
 
 /* machine */
 "Load Capture Recipe into %@" = "將擷取配方載入 %@";
@@ -5354,6 +5357,9 @@
 
 /* machine */
 "The recording was discarded" = "錄影已捨棄";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "此要求來自 greenshotmac:// 連結，任何程式或網頁都能開啟這種連結。僅在連結由您自己開啟時才允許：螢幕截圖會傳送到您的目的地。";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "此要求來自 greenshot-cli。僅在由您自己啟動時才允許：配方的結果會傳送到配方指定的位置。";

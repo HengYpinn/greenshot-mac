@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	Mã UPC-E bắt đầu bằn
 A command with this name already exists. Please choose a different name.	Đã có lệnh với tên này. Vui lòng chọn tên khác.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Một tệp của Greenshot for Windows: Lưu sẽ yêu cầu một tệp mới, nên tệp này được giữ nguyên.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Một tệp muốn thêm một bước tự động vào các công thức khác, kể cả công thức tích hợp sẵn. Hãy xem công thức nào bị thay đổi và nội dung được thêm trước khi phê duyệt.	claude-sonnet-5-5 2026-10-18
+A link	Một liên kết	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Một liên kết muốn chụp ảnh màn hình	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Một tệp công thức chụp mới đang yêu cầu được đăng ký vào Greenshot. Hãy xem chi tiết, trình kích hoạt và các bước thực thi trước khi phê duyệt.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Lần chụp mới sẽ thay ảnh chụp trong trình soạn thảo không có thay đổi chưa lưu, thay vì mở cửa sổ khác.	claude-sonnet-5-5 2026-10-18
@@ -895,7 +896,7 @@ Line	Đường thẳng	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Độ dày nét theo point (0: không có nét)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Đã chép liên kết – nhấp để mở	claude-sonnet-5-5 2026-10-18
 Link to the image	Liên kết đến ảnh	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Các liên kết như greenshotmac://settings?tab=editor mở cửa sổ; bất kỳ trang web nào cũng có thể mở liên kết, nên liên kết chỉ chụp ảnh màn hình khi được cho phép ở đây. greenshot-cli, AppleScript, Phím tắt và menu Dịch vụ luôn có thể chụp.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Các liên kết như greenshotmac://settings?tab=editor mở cửa sổ; bất kỳ trang web nào cũng có thể mở liên kết, nên liên kết chỉ chụp ảnh màn hình khi được cho phép ở đây. Một liên kết hoặc greenshot-cli sẽ hỏi bạn trước khi chụp toàn màn hình, một cửa sổ hoặc vùng cuối cùng. AppleScript và Phím tắt luôn có thể chụp.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Tải công thức chụp vào %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Tải thêm bản cũ (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Tải phần tử…	claude-sonnet-5-5 2026-10-18
@@ -1698,6 +1699,7 @@ The recording starts in %lld s. Click to cancel.	Bản quay bắt đầu sau %ll
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Bản quay đã dừng vì không thể ghi tệp của nó: %@. Phần đã quay đến lúc đó nằm trong %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Bản quay đã kết thúc rồi.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Bản quay đã bị bỏ	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Yêu cầu đến từ một liên kết greenshotmac://, mà bất kỳ chương trình hay trang web nào cũng có thể mở. Chỉ cho phép nếu chính bạn đã mở liên kết đó: ảnh chụp màn hình được chuyển đến các đích đến của bạn.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Yêu cầu đến từ greenshot-cli. Chỉ cho phép nếu bạn đã khởi động nó: kết quả của công thức đi đến nơi công thức gửi.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Yêu cầu đến từ greenshot-cli. Chỉ cho phép nếu bạn đã khởi động nó: ảnh chụp màn hình được chuyển đến các đích đến của bạn.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Các biến giống dạng tên tệp, ví dụ ${title} và ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

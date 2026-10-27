@@ -964,7 +964,7 @@
 "__about_translation__" = "Polskie tłumaczenie: Paweł Matyja, piotrex (https://github.com/piotrex)";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1973";
+"__machine_translations__" = "1975";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "całość";

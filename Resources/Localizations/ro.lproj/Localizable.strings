@@ -433,6 +433,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Un fișier vrea să adauge un pas automat la alte rețete, inclusiv la cele încorporate. Verificați ce rețete modifică și ce adaugă înainte de a aproba.";
 
 /* machine */
+"A link" = "Un link";
+
+/* machine */
 "A link wanted to take a screenshot" = "Un link a vrut să facă o captură de ecran";
 
 /* machine */
@@ -2761,7 +2764,7 @@
 "Link to the image" = "Link către imagine";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Linkurile precum greenshotmac://settings?tab=editor deschid ferestre; orice pagină web poate deschide un link, deci linkurile fac capturi de ecran doar dacă este permis aici. greenshot-cli, AppleScript, Shortcuts și meniul Servicii pot capta oricând.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Linkurile precum greenshotmac://settings?tab=editor deschid ferestre; orice pagină web poate deschide un link, deci linkurile fac capturi de ecran doar dacă este permis aici. Un link sau greenshot-cli vă întreabă înainte de o captură a întregului ecran, a unei ferestre sau a ultimei regiuni. AppleScript și Shortcuts pot capta oricând.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Încarcă rețeta de captură în %@";
@@ -5267,6 +5270,9 @@
 
 /* machine */
 "The recording was discarded" = "Înregistrarea a fost eliminată";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Cererea a venit printr-un link greenshotmac://, pe care orice program sau pagină web îl poate deschide. Permiteți-o doar dacă ați deschis dumneavoastră linkul: captura de ecran ajunge la destinațiile dumneavoastră.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Cererea a venit prin greenshot-cli. Permiteți-o doar dacă ați pornit-o dumneavoastră: rezultatul rețetei ajunge unde îl trimite rețeta.";

@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	UPC-E-koodi alkaa numerojär
 A command with this name already exists. Please choose a different name.	Tämän niminen komento on jo olemassa. Valitse toinen nimi.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windowsin tiedosto: Tallenna kysyy uutta tiedostoa, joten tämä pysyy ennallaan.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Tiedosto haluaa lisätä automaattisen vaiheen muihin reseptteihin, myös sisäänrakennettuihin. Tarkista, mitä reseptejä se muuttaa ja mitä se lisää, ennen kuin hyväksyt.	claude-sonnet-5-5 2026-10-18
+A link	Linkki	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Linkki halusi ottaa kuvakaappauksen	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Uusi kaappausreseptitiedosto pyytää rekisteröintiä Greenshotiin. Tarkista sen tiedot, liipaisimet ja suoritusvaiheet ennen kuin hyväksyt.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Uusi kaappaus korvaa sellaisen muokkaimen kuvakaappauksen, jossa ei ole tallentamattomia muutoksia, sen sijaan että avaisi toisen ikkunan.	claude-sonnet-5-5 2026-10-18
@@ -896,7 +897,7 @@ Line	Viiva	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Viivan paksuus pisteinä (0: ei viivaa)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Linkki kopioitu – avaa napsauttamalla	claude-sonnet-5-5 2026-10-18
 Link to the image	Linkki kuvaan	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Linkit, kuten greenshotmac://settings?tab=editor, avaavat ikkunoita; mikä tahansa verkkosivu voi avata linkin, joten linkit ottavat kuvakaappauksia vain, kun se sallitaan tässä. greenshot-cli, AppleScript, Oikotiet ja Palvelut-valikko voivat aina kaapata.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Linkit, kuten greenshotmac://settings?tab=editor, avaavat ikkunoita; mikä tahansa verkkosivu voi avata linkin, joten linkit ottavat kuvakaappauksia vain, kun se sallitaan tässä. Linkki tai greenshot-cli kysyy sinulta ennen kuvakaappausta koko näytöstä, ikkunasta tai viimeisestä alueesta. AppleScript ja Oikotiet voivat aina kaapata.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Lataa kaappausresepti kohteeseen %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Lataa aiempaa (+64 kt)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Lataa elementit…	claude-sonnet-5-5 2026-10-18
@@ -1703,6 +1704,7 @@ The recording starts in %lld s. Click to cancel.	Tallennus alkaa %lld s kuluttua
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Tallennus pysähtyi, koska sen tiedostoa ei voitu kirjoittaa: %@. Siihen asti tallennettu on kohteessa %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Tallennus oli jo päättynyt.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Tallenne hylättiin	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Pyyntö tuli greenshotmac://-linkin kautta, jonka mikä tahansa ohjelma tai verkkosivu voi avata. Salli se vain, jos avasit linkin itse: kuvakaappaus menee kohteisiisi.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Pyyntö tuli greenshot-clin kautta. Salli se vain, jos käynnistit sen: reseptin tulos menee sinne, minne resepti sen lähettää.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Pyyntö tuli greenshot-clin kautta. Salli se vain, jos käynnistit sen: kuvakaappaus menee kohteisiisi.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Samat muuttujat kuin tiedostonimimallissa, esim. ${title} ja ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

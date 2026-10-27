@@ -427,6 +427,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Un file vuole aggiungere un passaggio automatico ad altre ricette, comprese quelle integrate. Controlla quali ricette modifica e cosa aggiunge prima di approvare.";
 
 /* machine */
+"A link" = "Un link";
+
+/* machine */
 "A link wanted to take a screenshot" = "Un link ha voluto catturare una schermata";
 
 /* machine */
@@ -2764,7 +2767,7 @@
 "Link to the image" = "Link all'immagine";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "I link come greenshotmac://settings?tab=editor aprono finestre; qualsiasi pagina web può aprire un link, quindi i link catturano schermate solo se consentito qui. greenshot-cli, AppleScript, Comandi rapidi e il menu Servizi possono sempre catturare.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "I link come greenshotmac://settings?tab=editor aprono finestre; qualsiasi pagina web può aprire un link, quindi i link catturano schermate solo se consentito qui. Un link o greenshot-cli ti chiede conferma prima di una schermata dell'intero schermo, di una finestra o dell'ultima regione. AppleScript e Comandi rapidi possono sempre catturare.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Carica ricetta di cattura in %@";
@@ -5270,6 +5273,9 @@
 
 /* machine */
 "The recording was discarded" = "La registrazione è stata scartata";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "La richiesta è arrivata tramite un link greenshotmac://, che qualsiasi programma o pagina web può aprire. Consentila solo se hai aperto tu il link: la schermata va alle tue destinazioni.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "La richiesta è arrivata tramite greenshot-cli. Consentila solo se l'hai avviata tu: il risultato della ricetta va dove la ricetta lo invia.";

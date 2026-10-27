@@ -164,6 +164,7 @@ A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu 
 A UPC-E code starts with its number system, 0 or 1.	UPC-E kodu, sayı sistemiyle başlar: 0 veya 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows dosyası: Kaydet yeni bir dosya ister, bu yüzden bu dosya olduğu gibi kalır.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Bir dosya, yerleşik olanlar dahil diğer tariflere otomatik bir adım eklemek istiyor. Onaylamadan önce hangi tarifleri değiştirdiğini ve neler eklediğini inceleyin.	claude-sonnet-5-5 2026-10-18
+A link	Bir bağlantı	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Bir bağlantı ekran görüntüsü almak istedi	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Yeni bir yakalama tarifi dosyası Greenshot'a kaydedilmek istiyor. Onaylamadan önce ayrıntılarını, tetikleyicilerini ve yürütme adımlarını inceleyin.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Yeni bir yakalama, başka bir pencere açmak yerine kaydedilmemiş değişikliği olmayan bir editördeki ekran görüntüsünün yerini alır.	claude-sonnet-5-5 2026-10-18
@@ -845,7 +846,7 @@ Line	Çizgi	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Çizgi kalınlığı (punto; 0: çizgi yok)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Bağlantı kopyalandı – açmak için tıklayın	claude-sonnet-5-5 2026-10-18
 Link to the image	Görüntünün bağlantısı	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	greenshotmac://settings?tab=editor gibi bağlantılar pencereleri açar; her web sayfası bir bağlantı açabilir, bu yüzden bağlantılar yalnızca burada izin verildiğinde ekran görüntüsü alır. greenshot-cli, AppleScript, Shortcuts ve Servisler menüsü her zaman yakalama yapabilir.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	greenshotmac://settings?tab=editor gibi bağlantılar pencereleri açar; her web sayfası bir bağlantı açabilir, bu yüzden bağlantılar yalnızca burada izin verildiğinde ekran görüntüsü alır. Bir bağlantı veya greenshot-cli, tüm ekranın, bir pencerenin veya son bölgenin ekran görüntüsünden önce size sorar. AppleScript ve Shortcuts her zaman yakalama yapabilir.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Yakalama Tarifini Yükle: %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Öncekini Yükle (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Öğeleri Yükle…	claude-sonnet-5-5 2026-10-18
@@ -1617,6 +1618,7 @@ The recording starts in %lld s. Click to cancel.	Kayıt %lld sn içinde başlıy
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Kayıt, dosyası yazılamadığı için durdu: %@. O ana kadar kaydedilenler şurada: %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Kayıt zaten bitmişti.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Kayıt atıldı	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	İstek, herhangi bir programın veya web sayfasının açabileceği bir greenshotmac:// bağlantısı üzerinden geldi. Yalnızca bağlantıyı siz açtıysanız izin verin: ekran görüntüsü hedeflerinize gider.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	İstek greenshot-cli üzerinden geldi. Yalnızca siz başlattıysanız izin verin: tarifin sonucu tarifin gönderdiği yere gider.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	İstek greenshot-cli üzerinden geldi. Yalnızca siz başlattıysanız izin verin: ekran görüntüsü hedeflerinize gider.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Dosya adı biçimiyle aynı değişkenler, ör. ${title} ve ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

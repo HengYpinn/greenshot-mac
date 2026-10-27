@@ -436,6 +436,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Bir dosya, yerleşik olanlar dahil diğer tariflere otomatik bir adım eklemek istiyor. Onaylamadan önce hangi tarifleri değiştirdiğini ve neler eklediğini inceleyin.";
 
 /* machine */
+"A link" = "Bir bağlantı";
+
+/* machine */
 "A link wanted to take a screenshot" = "Bir bağlantı ekran görüntüsü almak istedi";
 
 /* machine */
@@ -2812,7 +2815,7 @@
 "Link to the image" = "Görüntünün bağlantısı";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "greenshotmac://settings?tab=editor gibi bağlantılar pencereleri açar; her web sayfası bir bağlantı açabilir, bu yüzden bağlantılar yalnızca burada izin verildiğinde ekran görüntüsü alır. greenshot-cli, AppleScript, Shortcuts ve Servisler menüsü her zaman yakalama yapabilir.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "greenshotmac://settings?tab=editor gibi bağlantılar pencereleri açar; her web sayfası bir bağlantı açabilir, bu yüzden bağlantılar yalnızca burada izin verildiğinde ekran görüntüsü alır. Bir bağlantı veya greenshot-cli, tüm ekranın, bir pencerenin veya son bölgenin ekran görüntüsünden önce size sorar. AppleScript ve Shortcuts her zaman yakalama yapabilir.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Yakalama Tarifini Yükle: %@";
@@ -5345,6 +5348,9 @@
 
 /* machine */
 "The recording was discarded" = "Kayıt atıldı";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "İstek, herhangi bir programın veya web sayfasının açabileceği bir greenshotmac:// bağlantısı üzerinden geldi. Yalnızca bağlantıyı siz açtıysanız izin verin: ekran görüntüsü hedeflerinize gider.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "İstek greenshot-cli üzerinden geldi. Yalnızca siz başlattıysanız izin verin: tarifin sonucu tarifin gönderdiği yere gider.";

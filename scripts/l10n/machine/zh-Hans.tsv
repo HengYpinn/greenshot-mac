@@ -164,6 +164,7 @@ A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu 
 A UPC-E code starts with its number system, 0 or 1.	UPC-E 码以其编号系统 0 或 1 开头。	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows 的文件：“保存”会要求选择新文件，因此此文件保持不变。	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	某个文件想要向其他配方（包括内置配方）添加自动步骤。批准前，请查看它会更改哪些配方以及添加的内容。	claude-sonnet-5-5 2026-10-18
+A link	某个链接	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	某个链接想要截取屏幕截图	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	有新的抓图配方文件请求注册到 Greenshot。批准前，请查看其详细信息、触发器和执行步骤。	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	新的抓取会替换没有未保存更改的编辑器中的屏幕截图，而不是打开另一个窗口。	claude-sonnet-5-5 2026-10-18
@@ -853,7 +854,7 @@ Line	直线	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	线条粗细（点）（0：无线条）	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	链接已复制 – 点按以打开	claude-sonnet-5-5 2026-10-18
 Link to the image	图像链接	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	类似 greenshotmac://settings?tab=editor 的链接可以打开窗口；任何网页都能打开链接，因此只有在此处允许时，链接才能截取屏幕截图。greenshot-cli、AppleScript、快捷指令和“服务”菜单始终可以抓取。	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	类似 greenshotmac://settings?tab=editor 的链接可以打开窗口；任何网页都能打开链接，因此只有在此处允许时，链接才能截取屏幕截图。链接或 greenshot-cli 在截取整个屏幕、某个窗口或上次区域之前会先询问你。AppleScript 和快捷指令始终可以抓取。	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	将抓图配方载入 %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	载入更早内容（+64 KB）	claude-sonnet-5-5 2026-10-18
 Load Elements…	载入元素…	claude-sonnet-5-5 2026-10-18
@@ -1628,6 +1629,7 @@ The recording starts in %lld s. Click to cancel.	录制将在 %lld 秒后开始�
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	录制已停止，因为无法写入其文件：%@。此前录制的内容位于 %@。	claude-opus-5-5 2026-10-21
 The recording was already finished.	录制已经结束。	claude-sonnet-5-5 2026-10-18
 The recording was discarded	录制内容已放弃	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	该请求通过 greenshotmac:// 链接发来，任何程序或网页都能打开这种链接。仅当链接由你自己打开时才允许：屏幕截图会发送到你的目标位置。	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	该请求通过 greenshot-cli 发来。仅当由你自己启动时才允许：配方的结果会发送到配方指定的位置。	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	该请求通过 greenshot-cli 发来。仅当由你自己启动时才允许：屏幕截图会发送到你的目标位置。	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	与文件名格式相同的变量，例如 ${title} 和 ${capturetime:d"D"}。	claude-sonnet-5-5 2026-10-18

@@ -433,6 +433,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Un archiu vol afegir un pas automàtic a atres receptes, incloses les integrades. Revise quines receptes canvia i què afig abans d'aprovar-ho.";
 
 /* machine */
+"A link" = "Un enllaç";
+
+/* machine */
 "A link wanted to take a screenshot" = "Un enllaç volia fer una captura";
 
 /* machine */
@@ -2770,7 +2773,7 @@
 "Link to the image" = "Enllaç a la image";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Els enllaços com greenshotmac://settings?tab=editor obrin finestres; qualsevol pàgina web pot obrir un enllaç, per això els enllaços només fan captures si ho permet ací. greenshot-cli, AppleScript, Dreceres i el menú Serveis sempre poden capturar.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Els enllaços com greenshotmac://settings?tab=editor obrin finestres; qualsevol pàgina web pot obrir un enllaç, per això els enllaços només fan captures si ho permet ací. Un enllaç o greenshot-cli li pregunta abans d'una captura de tota la pantalla, d'una finestra o de l'última regió. AppleScript i Dreceres sempre poden capturar.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Carregar la recepta de captura en %@";
@@ -5285,6 +5288,9 @@
 
 /* machine */
 "The recording was discarded" = "La gravació s'ha descartat";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "La sol·licitud ha vingut per un enllaç greenshotmac://, que qualsevol programa o pàgina web pot obrir. Permeta-la només si l'ha obert vosté: la captura va als seus destins.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "La sol·licitud ha vingut per greenshot-cli. Permeta-la només si l'ha iniciada vosté: el resultat de la recepta va allí on l'envia la recepta.";

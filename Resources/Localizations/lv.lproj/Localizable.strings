@@ -433,6 +433,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Fails vēlas pievienot automātisku soli citām receptēm, arī iebūvētajām. Pirms apstiprināšanas pārskati, kuras receptes tas maina un ko pievieno.";
 
 /* machine */
+"A link" = "Saite";
+
+/* machine */
 "A link wanted to take a screenshot" = "Saite vēlējās uzņemt ekrānattēlu";
 
 /* machine */
@@ -2797,7 +2800,7 @@
 "Link to the image" = "Saite uz attēlu";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Saites, piemēram, greenshotmac://settings?tab=editor, atver logus; jebkura tīmekļa lapa var atvērt saiti, tāpēc saites uzņem ekrānattēlus tikai tad, ja tas šeit atļauts. greenshot-cli, AppleScript, Shortcuts un Pakalpojumu izvēlne vienmēr var tvert.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Saites, piemēram, greenshotmac://settings?tab=editor, atver logus; jebkura tīmekļa lapa var atvērt saiti, tāpēc saites uzņem ekrānattēlus tikai tad, ja tas šeit atļauts. Pirms visa ekrāna, loga vai pēdējā apgabala ekrānattēla saite vai greenshot-cli tev pajautā. AppleScript un Shortcuts vienmēr var tvert.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Ielādēt tveršanas recepti %@";
@@ -5333,6 +5336,9 @@
 
 /* machine */
 "The recording was discarded" = "Ieraksts tika atmests";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Pieprasījums nāca caur greenshotmac:// saiti, ko var atvērt jebkura programma vai tīmekļa lapa. Atļauj to tikai tad, ja pats atvēri saiti: ekrānattēls nonāk tavos mērķos.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Pieprasījums nāca caur greenshot-cli. Atļauj to tikai tad, ja pats to startēji: receptes rezultāts nonāk tur, kur recepte to sūta.";

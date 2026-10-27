@@ -164,6 +164,7 @@ A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu 
 A UPC-E code starts with its number system, 0 or 1.	UPC-E コードは、番号体系の 0 または 1 で始まります。	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows のファイル：「保存」では新しいファイルを指定するため、このファイルは変更されません。	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	ファイルが、内蔵のものを含む他のレシピに自動ステップを追加しようとしています。承認する前に、どのレシピが変更され、何が追加されるかを確認してください。	claude-sonnet-5-5 2026-10-18
+A link	リンク	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	リンクがスクリーンショットを撮影しようとしました	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	新しいキャプチャレシピファイルが Greenshot への登録を求めています。承認する前に、詳細、トリガ、実行ステップを確認してください。	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	新しいキャプチャは、別のウィンドウを開く代わりに、未保存の変更がないエディターのスクリーンショットを置き換えます。	claude-sonnet-5-5 2026-10-18
@@ -847,7 +848,7 @@ Line	直線	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	線の太さ（ポイント）（0：線なし）	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	リンクをコピーしました – クリックして開く	claude-sonnet-5-5 2026-10-18
 Link to the image	画像へのリンク	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	greenshotmac://settings?tab=editor のようなリンクでウィンドウを開けます。どの Web ページもリンクを開けるため、スクリーンショットの撮影は、ここで許可した場合にのみ行われます。greenshot-cli、AppleScript、ショートカット、サービスメニューからは常にキャプチャできます。	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	greenshotmac://settings?tab=editor のようなリンクでウィンドウを開けます。どの Web ページもリンクを開けるため、スクリーンショットの撮影は、ここで許可した場合にのみ行われます。リンクや greenshot-cli が画面全体、ウィンドウ、最後の範囲のスクリーンショットを撮る前には確認が表示されます。AppleScript とショートカットからは常にキャプチャできます。	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	キャプチャレシピを %@ に読み込む	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	以前の分を読み込む（＋64 KB）	claude-sonnet-5-5 2026-10-18
 Load Elements…	要素を読み込む…	claude-sonnet-5-5 2026-10-18
@@ -1622,6 +1623,7 @@ The recording starts in %lld s. Click to cancel.	%lld 秒後に収録を開始�
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	ファイルを書き込めなかったため、収録が停止しました：%@。それまでに収録された内容は %@ にあります。	claude-opus-5-5 2026-10-21
 The recording was already finished.	収録はすでに終了していました。	claude-sonnet-5-5 2026-10-18
 The recording was discarded	収録は破棄されました	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	リクエストは greenshotmac:// リンク経由で届きました。このリンクはどのプログラムや Web ページからも開けます。ご自身でリンクを開いた場合のみ許可してください。スクリーンショットは設定した出力先に送られます。	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	リクエストは greenshot-cli 経由で届きました。ご自身で開始した場合のみ許可してください。レシピの結果は、レシピが送信する先に送られます。	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	リクエストは greenshot-cli 経由で届きました。ご自身で開始した場合のみ許可してください。スクリーンショットは設定した出力先に送られます。	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	ファイル名パターンと同じ変数（例：${title}、${capturetime:d"D"}）。	claude-sonnet-5-5 2026-10-18

@@ -430,6 +430,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Tiedosto haluaa lisätä automaattisen vaiheen muihin reseptteihin, myös sisäänrakennettuihin. Tarkista, mitä reseptejä se muuttaa ja mitä se lisää, ennen kuin hyväksyt.";
 
 /* machine */
+"A link" = "Linkki";
+
+/* machine */
 "A link wanted to take a screenshot" = "Linkki halusi ottaa kuvakaappauksen";
 
 /* machine */
@@ -2797,7 +2800,7 @@
 "Link to the image" = "Linkki kuvaan";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Linkit, kuten greenshotmac://settings?tab=editor, avaavat ikkunoita; mikä tahansa verkkosivu voi avata linkin, joten linkit ottavat kuvakaappauksia vain, kun se sallitaan tässä. greenshot-cli, AppleScript, Oikotiet ja Palvelut-valikko voivat aina kaapata.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Linkit, kuten greenshotmac://settings?tab=editor, avaavat ikkunoita; mikä tahansa verkkosivu voi avata linkin, joten linkit ottavat kuvakaappauksia vain, kun se sallitaan tässä. Linkki tai greenshot-cli kysyy sinulta ennen kuvakaappausta koko näytöstä, ikkunasta tai viimeisestä alueesta. AppleScript ja Oikotiet voivat aina kaapata.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Lataa kaappausresepti kohteeseen %@";
@@ -5330,6 +5333,9 @@
 
 /* machine */
 "The recording was discarded" = "Tallenne hylättiin";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Pyyntö tuli greenshotmac://-linkin kautta, jonka mikä tahansa ohjelma tai verkkosivu voi avata. Salli se vain, jos avasit linkin itse: kuvakaappaus menee kohteisiisi.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Pyyntö tuli greenshot-clin kautta. Salli se vain, jos käynnistit sen: reseptin tulos menee sinne, minne resepti sen lähettää.";

@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	A UPC-E-Code fängd mid seim
 A command with this name already exists. Please choose a different name.	A Befehl mid dem Namen gibds scho. Nimm bidde an andern Namen.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	A Dadei vo Greenshot für Windows: Schbeichern frächd nach ner neuen Dadei, die do bleibd, wie sie is.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	A Dadei will andern Rezebdn an audomadischn Schridd hinzufiing, a den eingebauddn. Schau dir vorm Freigebn genau an, wellche Rezebde sie ändern daad und was sie hinzufiichd.	claude-sonnet-5-5 2026-10-18
+A link	A Link	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	A Link hod a Sgrienschod machn wolln	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	A neue Aufnahmrezebd-Dadei will bei Greenshot angmelded wern. Schau dir die Einzelheidn, Auslöser und Ausfiehrungsschridde an, bevorsd sie freigibsd.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	A neue Aufnahme ersedzd des Sgrienschod vo am Edidor ohne ungschbeicherde Ändarunga, schdadd a weidres Fensder aufzumachn.	claude-sonnet-5-5 2026-10-18
@@ -874,7 +875,7 @@ Line	Schdrich	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Linienschdärge in Bunkd (0: kaa Linie)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Link kobierd – klick zum Aufmachn	claude-sonnet-5-5 2026-10-18
 Link to the image	Link zum Bild	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Links wie greenshotmac://settings?tab=editor machn Fensder auf; jede Webseide kann an Link aufmachn, deswegn machn Links nur Sgrienschods, wenns do erlaubd is. greenshot-cli, AppleScript, Kurzbefehle und es Servicemenü könna immer abmoln.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Links wie greenshotmac://settings?tab=editor machn Fensder auf; jede Webseide kann an Link aufmachn, deswegn machn Links nur Sgrienschods, wenns do erlaubd is. A Link oder greenshot-cli fragd di vor am Sgrienschod vom ganzn Bildschirm, von am Fensder oder vom ledzdn Bereich. AppleScript und Kurzbefehle könna immer abmoln.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Aufnahmrezebd in %@ lada	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Früheres laden (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Elemende lada…	claude-sonnet-5-5 2026-10-18
@@ -1665,6 +1666,7 @@ The recording starts in %lld s. Click to cancel.	Die Aufnahme schdardd in %lld s
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Die Aufnahme hod aufghörd, weil ihr Dadei ned gschriem wern konnd: %@. Was bis dahin aufgnommen wurd, is in %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Die Aufnahme war scho fertich.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Die Aufnahme wurd wechgschmissn	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Die Anfrage kam über an greenshotmac://-Link, den jeds Brogramm und jede Webseide aufmachn kann. Erlaub's nur, wennsd den Link selber aufgmachd hasd: es Sgrienschod geht an deine Ziele.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Die Anfrage kam über greenshot-cli. Erlaub's nur, wennsd es selber gschdardd hasd: es Ergebnis vom Rezebd geht dorthin, wo's Rezebd es hinschiggd.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Die Anfrage kam über greenshot-cli. Erlaub's nur, wennsd es selber gschdardd hasd: es Sgrienschod geht an deine Ziele.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Die gleichn Variabln wie es Dadeinamen-Musder, z. B. ${title} und ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

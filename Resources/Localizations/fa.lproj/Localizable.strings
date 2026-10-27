@@ -436,6 +436,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "یک فایل می‌خواهد به دستورالعمل‌های دیگر، از جمله دستورالعمل‌های داخلی، یک مرحلهٔ خودکار اضافه کند. پیش از تأیید بررسی کنید کدام دستورالعمل‌ها را تغییر می‌دهد و چه چیزی اضافه می‌کند.";
 
 /* machine */
+"A link" = "یک پیوند";
+
+/* machine */
 "A link wanted to take a screenshot" = "یک پیوند می‌خواست تصویر صفحه بگیرد";
 
 /* machine */
@@ -2803,7 +2806,7 @@
 "Link to the image" = "پیوند به تصویر";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "پیوندهایی مانند greenshotmac://settings?tab=editor پنجره‌ها را باز می‌کنند؛ هر صفحهٔ وب می‌تواند پیوندی را باز کند، بنابراین پیوندها فقط وقتی اینجا اجازه داده شود تصویر صفحه می‌گیرند. greenshot-cli، AppleScript، Shortcuts و منوی Services همیشه می‌توانند نمونه‌برداری کنند.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "پیوندهایی مانند greenshotmac://settings?tab=editor پنجره‌ها را باز می‌کنند؛ هر صفحهٔ وب می‌تواند پیوندی را باز کند، بنابراین پیوندها فقط وقتی اینجا اجازه داده شود تصویر صفحه می‌گیرند. یک پیوند یا greenshot-cli پیش از گرفتن تصویر از تمام صفحه، یک پنجره یا آخرین ناحیه از شما می‌پرسد. AppleScript و Shortcuts همیشه می‌توانند نمونه‌برداری کنند.";
 
 /* machine */
 "Load Capture Recipe into %@" = "بارگذاری دستورالعمل نمونه‌برداری در %@";
@@ -5330,6 +5333,9 @@
 
 /* machine */
 "The recording was discarded" = "ضبط دور انداخته شد";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "درخواست از طریق یک پیوند greenshotmac:// آمد که هر برنامه یا صفحهٔ وبی می‌تواند آن را باز کند. فقط اگر خودتان پیوند را باز کرده‌اید اجازه دهید: تصویر صفحه به مقصدهای شما می‌رود.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "درخواست از طریق greenshot-cli آمد. فقط اگر خودتان آن را شروع کرده‌اید اجازه دهید: نتیجهٔ دستورالعمل به جایی می‌رود که دستورالعمل می‌فرستد.";

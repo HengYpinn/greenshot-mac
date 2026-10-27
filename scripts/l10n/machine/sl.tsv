@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	Koda UPC-E se začne s štev
 A command with this name already exists. Please choose a different name.	Ukaz s tem imenom že obstaja. Izberite drugo ime.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Datoteka programa Greenshot za Windows: Shrani vpraša za novo datoteko, zato ta ostane nespremenjena.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Datoteka želi dodati samodejni korak drugim receptom, vključno z vgrajenimi. Pred odobritvijo preglejte, katere recepte spreminja in kaj dodaja.	claude-sonnet-5-5 2026-10-18
+A link	Povezava	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Povezava je želela posneti posnetek zaslona	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Nova datoteka recepta zajema zahteva registracijo v Greenshotu. Pred odobritvijo preglejte njene podrobnosti, sprožilce in korake izvajanja.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Nov zajem nadomesti posnetek v urejevalniku brez neshranjenih sprememb, namesto da bi odprl novo okno.	claude-sonnet-5-5 2026-10-18
@@ -877,7 +878,7 @@ Line	Črta	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Debelina črte v točkah (0: brez črte)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Povezava kopirana – kliknite za odpiranje	claude-sonnet-5-5 2026-10-18
 Link to the image	Povezava do slike	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Povezave, kot je greenshotmac://settings?tab=editor, odpirajo okna; povezavo lahko odpre katera koli spletna stran, zato povezave ustvarjajo posnetke zaslona samo, če je to tukaj dovoljeno. greenshot-cli, AppleScript, Bližnjice in meni Storitve lahko vedno zajemajo.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Povezave, kot je greenshotmac://settings?tab=editor, odpirajo okna; povezavo lahko odpre katera koli spletna stran, zato povezave ustvarjajo posnetke zaslona samo, če je to tukaj dovoljeno. Povezava ali greenshot-cli vas vpraša pred posnetkom celotnega zaslona, okna ali zadnjega območja. AppleScript in Bližnjice lahko vedno zajemajo.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Naloži recept zajema v %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Naloži prejšnje (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Naloži elemente …	claude-sonnet-5-5 2026-10-18
@@ -1668,6 +1669,7 @@ The recording starts in %lld s. Click to cancel.	Snemanje se začne čez %lld s.
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Snemanje se je ustavilo, ker njegove datoteke ni bilo mogoče zapisati: %@. Kar je bilo posneto do tedaj, je v %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Snemanje je bilo že končano.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Snemanje je bilo zavrženo	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Zahteva je prišla prek povezave greenshotmac://, ki jo lahko odpre kateri koli program ali spletna stran. Dovolite jo samo, če ste povezavo odprli vi: posnetek zaslona gre v vaše cilje.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Zahteva je prišla prek greenshot-cli. Dovolite jo samo, če ste jo sprožili vi: rezultat recepta gre tja, kamor ga recept pošlje.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Zahteva je prišla prek greenshot-cli. Dovolite jo samo, če ste jo sprožili vi: posnetek zaslona gre v vaše cilje.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Iste spremenljivke kot vzorec imena datoteke, npr. ${title} in ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

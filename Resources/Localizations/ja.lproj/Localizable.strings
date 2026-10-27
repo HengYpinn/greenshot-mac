@@ -436,6 +436,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "ファイルが、内蔵のものを含む他のレシピに自動ステップを追加しようとしています。承認する前に、どのレシピが変更され、何が追加されるかを確認してください。";
 
 /* machine */
+"A link" = "リンク";
+
+/* machine */
 "A link wanted to take a screenshot" = "リンクがスクリーンショットを撮影しようとしました";
 
 /* machine */
@@ -2812,7 +2815,7 @@
 "Link to the image" = "画像へのリンク";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "greenshotmac://settings?tab=editor のようなリンクでウィンドウを開けます。どの Web ページもリンクを開けるため、スクリーンショットの撮影は、ここで許可した場合にのみ行われます。greenshot-cli、AppleScript、ショートカット、サービスメニューからは常にキャプチャできます。";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "greenshotmac://settings?tab=editor のようなリンクでウィンドウを開けます。どの Web ページもリンクを開けるため、スクリーンショットの撮影は、ここで許可した場合にのみ行われます。リンクや greenshot-cli が画面全体、ウィンドウ、最後の範囲のスクリーンショットを撮る前には確認が表示されます。AppleScript とショートカットからは常にキャプチャできます。";
 
 /* machine */
 "Load Capture Recipe into %@" = "キャプチャレシピを %@ に読み込む";
@@ -5357,6 +5360,9 @@
 
 /* machine */
 "The recording was discarded" = "収録は破棄されました";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "リクエストは greenshotmac:// リンク経由で届きました。このリンクはどのプログラムや Web ページからも開けます。ご自身でリンクを開いた場合のみ許可してください。スクリーンショットは設定した出力先に送られます。";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "リクエストは greenshot-cli 経由で届きました。ご自身で開始した場合のみ許可してください。レシピの結果は、レシピが送信する先に送られます。";

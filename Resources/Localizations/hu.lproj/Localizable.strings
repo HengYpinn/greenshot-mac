@@ -433,6 +433,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Egy fájl automatikus lépést szeretne hozzáadni más receptekhez, a beépítettekhez is. Jóváhagyás előtt nézze át, mely recepteket módosítja, és mit ad hozzá.";
 
 /* machine */
+"A link" = "Egy hivatkozás";
+
+/* machine */
 "A link wanted to take a screenshot" = "Egy hivatkozás képernyőképet szeretett volna készíteni";
 
 /* machine */
@@ -2797,7 +2800,7 @@
 "Link to the image" = "Hivatkozás a képre";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "A greenshotmac://settings?tab=editor típusú hivatkozások ablakokat nyitnak meg; bármely weboldal megnyithat hivatkozást, ezért a hivatkozások csak itt engedélyezve készíthetnek képernyőképet. A greenshot-cli, az AppleScript, a Parancsok és a Szolgáltatások menü mindig rögzíthet.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "A greenshotmac://settings?tab=editor típusú hivatkozások ablakokat nyitnak meg; bármely weboldal megnyithat hivatkozást, ezért a hivatkozások csak itt engedélyezve készíthetnek képernyőképet. A teljes képernyőről, egy ablakról vagy az utolsó területről készülő képernyőkép előtt egy hivatkozás vagy a greenshot-cli megkérdezi Önt. Az AppleScript és a Parancsok mindig rögzíthet.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Rögzítési recept betöltése ide: %@";
@@ -5330,6 +5333,9 @@
 
 /* machine */
 "The recording was discarded" = "A felvétel el lett vetve";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "A kérés egy greenshotmac:// hivatkozáson keresztül érkezett, amelyet bármely program vagy weboldal megnyithat. Csak akkor engedélyezze, ha Ön nyitotta meg a hivatkozást: a képernyőkép a céljaiba kerül.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "A kérés a greenshot-cli-n keresztül érkezett. Csak akkor engedélyezze, ha Ön indította: a recept eredménye oda kerül, ahová a recept küldi.";

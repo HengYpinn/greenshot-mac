@@ -433,6 +433,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Datoteka želi dodati samodejni korak drugim receptom, vključno z vgrajenimi. Pred odobritvijo preglejte, katere recepte spreminja in kaj dodaja.";
 
 /* machine */
+"A link" = "Povezava";
+
+/* machine */
 "A link wanted to take a screenshot" = "Povezava je želela posneti posnetek zaslona";
 
 /* machine */
@@ -2797,7 +2800,7 @@
 "Link to the image" = "Povezava do slike";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Povezave, kot je greenshotmac://settings?tab=editor, odpirajo okna; povezavo lahko odpre katera koli spletna stran, zato povezave ustvarjajo posnetke zaslona samo, če je to tukaj dovoljeno. greenshot-cli, AppleScript, Bližnjice in meni Storitve lahko vedno zajemajo.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Povezave, kot je greenshotmac://settings?tab=editor, odpirajo okna; povezavo lahko odpre katera koli spletna stran, zato povezave ustvarjajo posnetke zaslona samo, če je to tukaj dovoljeno. Povezava ali greenshot-cli vas vpraša pred posnetkom celotnega zaslona, okna ali zadnjega območja. AppleScript in Bližnjice lahko vedno zajemajo.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Naloži recept zajema v %@";
@@ -5330,6 +5333,9 @@
 
 /* machine */
 "The recording was discarded" = "Snemanje je bilo zavrženo";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Zahteva je prišla prek povezave greenshotmac://, ki jo lahko odpre kateri koli program ali spletna stran. Dovolite jo samo, če ste povezavo odprli vi: posnetek zaslona gre v vaše cilje.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Zahteva je prišla prek greenshot-cli. Dovolite jo samo, če ste jo sprožili vi: rezultat recepta gre tja, kamor ga recept pošlje.";

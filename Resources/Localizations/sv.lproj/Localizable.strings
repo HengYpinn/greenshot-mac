@@ -436,6 +436,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "En fil vill lägga till ett automatiskt steg i andra recept, även de inbyggda. Granska vilka recept den ändrar och vad den lägger till innan du godkänner.";
 
 /* machine */
+"A link" = "En länk";
+
+/* machine */
 "A link wanted to take a screenshot" = "En länk ville ta en skärmdump";
 
 /* machine */
@@ -2779,7 +2782,7 @@
 "Link to the image" = "Länk till bilden";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Länkar som greenshotmac://settings?tab=editor öppnar fönster; vilken webbsida som helst kan öppna en länk, så länkar tar skärmdumpar bara när det tillåts här. greenshot-cli, AppleScript, Genvägar och Tjänster-menyn kan alltid ta skärmdumpar.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Länkar som greenshotmac://settings?tab=editor öppnar fönster; vilken webbsida som helst kan öppna en länk, så länkar tar skärmdumpar bara när det tillåts här. En länk eller greenshot-cli frågar dig före en skärmdump av hela skärmen, ett fönster eller det senaste området. AppleScript och Genvägar kan alltid ta skärmdumpar.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Läs in receptet i %@";
@@ -5288,6 +5291,9 @@
 
 /* machine */
 "The recording was discarded" = "Inspelningen kasserades";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Begäran kom via en greenshotmac://-länk, som vilket program eller vilken webbsida som helst kan öppna. Tillåt den bara om du själv öppnade länken: skärmdumpen går till dina destinationer.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Begäran kom via greenshot-cli. Tillåt den bara om du startade den: receptets resultat går dit receptet skickar det.";

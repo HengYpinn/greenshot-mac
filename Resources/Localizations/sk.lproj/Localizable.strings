@@ -439,6 +439,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Súbor chce pridať automatický krok do ďalších receptov vrátane vstavaných. Pred schválením skontrolujte, ktoré recepty mení a čo pridáva.";
 
 /* machine */
+"A link" = "Odkaz";
+
+/* machine */
 "A link wanted to take a screenshot" = "Odkaz chcel urobiť snímku obrazovky";
 
 /* machine */
@@ -2797,7 +2800,7 @@
 "Link to the image" = "Odkaz na obrázok";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Odkazy ako greenshotmac://settings?tab=editor otvárajú okná; odkaz môže otvoriť ktorákoľvek webová stránka, preto odkazy robia snímky obrazovky, len ak je to tu povolené. greenshot-cli, AppleScript, Skratky a ponuka Služby môžu snímať vždy.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Odkazy ako greenshotmac://settings?tab=editor otvárajú okná; odkaz môže otvoriť ktorákoľvek webová stránka, preto odkazy robia snímky obrazovky, len ak je to tu povolené. Odkaz alebo greenshot-cli sa vás opýta pred snímkou celej obrazovky, okna alebo poslednej oblasti. AppleScript a Skratky môžu snímať vždy.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Načítať recept na zachytávanie do %@";
@@ -5318,6 +5321,9 @@
 
 /* machine */
 "The recording was discarded" = "Nahrávka bola zahodená";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Žiadosť prišla cez odkaz greenshotmac://, ktorý môže otvoriť ktorýkoľvek program alebo webová stránka. Povoľte ju, iba ak ste odkaz otvorili vy: snímka ide do vašich cieľov.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Žiadosť prišla cez greenshot-cli. Povoľte ju, iba ak ste ju spustili vy: výsledok receptu ide tam, kam ho recept pošle.";

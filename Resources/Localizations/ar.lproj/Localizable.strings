@@ -445,6 +445,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "يريد ملف إضافة خطوة تلقائية إلى وصفات أخرى، بما فيها المدمجة. راجع الوصفات التي يغيّرها وما يضيفه قبل الموافقة.";
 
 /* machine */
+"A link" = "رابط";
+
+/* machine */
 "A link wanted to take a screenshot" = "أراد رابط التقاط لقطة شاشة";
 
 /* machine */
@@ -2815,7 +2818,7 @@
 "Link to the image" = "رابط الصورة";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "تفتح روابط مثل greenshotmac://settings?tab=editor نوافذ؛ ويمكن لأي صفحة ويب فتح رابط، لذا لا تلتقط الروابط اللقطات إلا عند السماح بذلك هنا. يمكن لـ greenshot-cli وAppleScript والاختصارات وقائمة الخدمات الالتقاط دائمًا.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "تفتح روابط مثل greenshotmac://settings?tab=editor نوافذ؛ ويمكن لأي صفحة ويب فتح رابط، لذا لا تلتقط الروابط اللقطات إلا عند السماح بذلك هنا. يسألك الرابط أو greenshot-cli قبل التقاط لقطة للشاشة بالكامل أو لنافذة أو لآخر منطقة. يمكن لـ AppleScript والاختصارات الالتقاط دائمًا.";
 
 /* machine */
 "Load Capture Recipe into %@" = "تحميل وصفة التقاط في %@";
@@ -5354,6 +5357,9 @@
 
 /* machine */
 "The recording was discarded" = "تم تجاهل التسجيل";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "جاء الطلب عبر رابط greenshotmac://، ويمكن لأي برنامج أو صفحة ويب فتحه. اسمح به فقط إذا كنت أنت من فتحه: تذهب اللقطة إلى وجهاتك.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "جاء الطلب عبر greenshot-cli. اسمح به فقط إذا كنت أنت من بدأه: تذهب نتيجة الوصفة إلى حيث ترسلها الوصفة.";

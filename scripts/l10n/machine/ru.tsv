@@ -164,6 +164,7 @@ A Dock icon and a place in ⌘Tab while an editor or Settings is open; the menu 
 A UPC-E code starts with its number system, 0 or 1.	Код UPC-E начинается с системы нумерации: 0 или 1.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Файл Greenshot для Windows: «Сохранить» запросит новый файл, поэтому этот останется без изменений.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Файл хочет добавить автоматический шаг в другие рецепты, включая встроенные. Перед одобрением проверьте, какие рецепты он изменяет и что добавляет.	claude-sonnet-5-5 2026-10-18
+A link	Ссылка	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Ссылка хотела сделать снимок экрана	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Новый файл рецепта захвата запрашивает регистрацию в Greenshot. Перед одобрением проверьте его сведения, триггеры и шаги выполнения.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Новый захват заменяет снимок в редакторе без несохранённых изменений, а не открывает ещё одно окно.	claude-sonnet-5-5 2026-10-18
@@ -852,7 +853,7 @@ Line	Линия	claude-opus-5-5 2026-10-18
 Line thickness in points (0: no line)	Толщина линии в пунктах (0: без линии)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Ссылка скопирована – нажмите, чтобы открыть	claude-sonnet-5-5 2026-10-18
 Link to the image	Ссылка на изображение	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Ссылки вроде greenshotmac://settings?tab=editor открывают окна; любая веб-страница может открыть ссылку, поэтому ссылки делают снимки экрана, только если это разрешено здесь. greenshot-cli, AppleScript, «Команды» и меню «Службы» всегда могут выполнять захват.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Ссылки вроде greenshotmac://settings?tab=editor открывают окна; любая веб-страница может открыть ссылку, поэтому ссылки делают снимки экрана, только если это разрешено здесь. Перед снимком всего экрана, окна или последней области ссылка или greenshot-cli спрашивает вас. AppleScript и «Команды» всегда могут выполнять захват.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Загрузить рецепт захвата в %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Загрузить ранее (+64 КБ)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Загрузить элементы…	claude-sonnet-5-5 2026-10-18
@@ -1627,6 +1628,7 @@ The recording starts in %lld s. Click to cancel.	Запись начнётся �
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Запись остановлена, так как не удалось записать её файл: %@. Записанное до этого момента находится в %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Запись уже завершена.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Запись отброшена	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Запрос пришёл через ссылку greenshotmac://, которую может открыть любая программа или веб-страница. Разрешайте его, только если ссылку открыли вы: снимок экрана отправляется в ваши места назначения.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Запрос пришёл через greenshot-cli. Разрешайте его, только если запустили его вы: результат рецепта отправляется туда, куда его направляет рецепт.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Запрос пришёл через greenshot-cli. Разрешайте его, только если запустили его вы: снимок экрана отправляется в ваши места назначения.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Те же переменные, что и в шаблоне имени файла, например ${title} и ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18

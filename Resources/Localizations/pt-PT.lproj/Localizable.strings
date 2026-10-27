@@ -433,6 +433,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Um ficheiro quer adicionar um passo automático a outras receitas, incluindo as integradas. Reveja quais as receitas que altera e o que acrescenta antes de aprovar.";
 
 /* machine */
+"A link" = "Uma ligação";
+
+/* machine */
 "A link wanted to take a screenshot" = "Uma ligação quis fazer uma captura de ecrã";
 
 /* machine */
@@ -2782,7 +2785,7 @@
 "Link to the image" = "Ligação para a imagem";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Ligações como greenshotmac://settings?tab=editor abrem janelas; qualquer página web pode abrir uma ligação, pelo que as ligações só fazem capturas de ecrã quando aqui permitido. O greenshot-cli, o AppleScript, os Atalhos e o menu Serviços podem sempre capturar.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Ligações como greenshotmac://settings?tab=editor abrem janelas; qualquer página web pode abrir uma ligação, pelo que as ligações só fazem capturas de ecrã quando aqui permitido. Uma ligação ou o greenshot-cli pergunta-lhe antes de uma captura de ecrã de todo o ecrã, de uma janela ou da última região. O AppleScript e os Atalhos podem sempre capturar.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Carregar receita de captura no %@";
@@ -5309,6 +5312,9 @@
 
 /* machine */
 "The recording was discarded" = "A gravação foi descartada";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "O pedido chegou através de uma ligação greenshotmac://, que qualquer programa ou página web pode abrir. Permita-o só se foi você a abrir a ligação: a captura de ecrã vai para os seus destinos.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "O pedido chegou através do greenshot-cli. Permita-o só se o iniciou você: o resultado da receita vai para onde a receita o envia.";

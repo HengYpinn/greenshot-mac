@@ -430,6 +430,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Afaylu yebɣa ad yerr asurif awurman i yiserwasen-nniḍen, ula d wid yettwarnan. Wali anwa iserwasen i isnifel d wayen ara yerr uqbel ad t-tsentmeḍ.";
 
 /* machine */
+"A link" = "Aseɣwen";
+
+/* machine */
 "A link wanted to take a screenshot" = "Aseɣwen yebɣa ad iṭṭef tuṭṭfa n ugdil";
 
 /* machine */
@@ -2797,7 +2800,7 @@
 "Link to the image" = "Aseɣwen ɣer tugna";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Iseɣwan am greenshotmac://settings?tab=editor ldin isfaylen; yal asebter web yezmer ad yeldi aseɣwen, ihi iseɣwan ṭṭfen tuṭṭfiwin n ugdil kan ma yettusirag da. greenshot-cli, AppleScript, Shortcuts d wumuɣ n Yibeddilen zemren ad ṭṭfen yal tikelt.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Iseɣwan am greenshotmac://settings?tab=editor ldin isfaylen; yal asebter web yezmer ad yeldi aseɣwen, ihi iseɣwan ṭṭfen tuṭṭfiwin n ugdil kan ma yettusirag da. Aseɣwen neɣ greenshot-cli ad k-isteqsi send tuṭṭfa n ugdil meṛṛa, n usfaylu neɣ n temnaḍt taneggarut. AppleScript d Shortcuts zemren ad ṭṭfen yal tikelt.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Sali aserwas n tuṭṭfa ɣer %@";
@@ -5327,6 +5330,9 @@
 
 /* machine */
 "The recording was discarded" = "Tavidyut tettwasefsex";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Asuter yekka-d seg useɣwen greenshotmac://, i yezmer ad t-yeldi yal ahil neɣ asebter web. Sireg-it kan ma teldiḍ aseɣwen s timmad-ik: tuṭṭfa n ugdil teddu ɣer tiniɣriwin-ik.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Asuter yekka-d seg greenshot-cli. Sireg-it kan ma ibda-t s timmad-ik: agmuḍ n userwas iteddu anda yazen-it.";

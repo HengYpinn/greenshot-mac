@@ -805,7 +805,7 @@
 "__about_translation__" = "Traducció a la llengua valenciana (RACV) per Daniel Seguí";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1984";
+"__machine_translations__" = "1986";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "tot";

@@ -430,6 +430,9 @@
 "A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving." = "Sebuah berkas ingin menambahkan langkah otomatis ke resep lain, termasuk resep bawaan. Tinjau resep mana yang diubah dan apa yang ditambahkan sebelum menyetujui.";
 
 /* machine */
+"A link" = "Sebuah tautan";
+
+/* machine */
 "A link wanted to take a screenshot" = "Sebuah tautan ingin mengambil tangkapan layar";
 
 /* machine */
@@ -2716,7 +2719,7 @@
 "Link to the image" = "Tautan ke gambar";
 
 /* machine */
-"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture." = "Tautan seperti greenshotmac://settings?tab=editor membuka jendela; halaman web mana pun dapat membuka tautan, jadi tautan hanya mengambil tangkapan layar bila diizinkan di sini. greenshot-cli, AppleScript, Pintasan, dan menu Layanan selalu dapat menangkap.";
+"Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture." = "Tautan seperti greenshotmac://settings?tab=editor membuka jendela; halaman web mana pun dapat membuka tautan, jadi tautan hanya mengambil tangkapan layar bila diizinkan di sini. Tautan atau greenshot-cli bertanya kepada Anda sebelum mengambil tangkapan layar seluruh layar, sebuah jendela, atau wilayah terakhir. AppleScript dan Pintasan selalu dapat menangkap.";
 
 /* machine */
 "Load Capture Recipe into %@" = "Muat Resep Penangkapan ke %@";
@@ -5201,6 +5204,9 @@
 
 /* machine */
 "The recording was discarded" = "Perekaman dibuang";
+
+/* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Permintaan datang melalui tautan greenshotmac://, yang dapat dibuka oleh program atau halaman web mana pun. Izinkan hanya jika Anda sendiri yang membuka tautan itu: tangkapan layar dikirim ke destinasi Anda.";
 
 /* machine */
 "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it." = "Permintaan datang melalui greenshot-cli. Izinkan hanya jika Anda yang memulainya: hasil resep dikirim ke tujuan yang ditetapkan resep.";

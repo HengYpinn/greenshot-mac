@@ -165,6 +165,7 @@ A UPC-E code starts with its number system, 0 or 1.	UPC-E kodas prasideda numeri
 A command with this name already exists. Please choose a different name.	Komanda tokiu pavadinimu jau yra. Pasirinkite kitą pavadinimą.	claude-sonnet-5-5 2026-10-18
 A file of Greenshot for Windows: Save asks for a new file, so this one stays as it is.	Greenshot for Windows failas: Išsaugoti paprašo naujo failo, todėl šis lieka nepakeistas.	claude-sonnet-5-5 2026-10-18
 A file wants to add an automatic step to other recipes, the built-in ones included. Review which recipes it changes and what it adds before approving.	Failas nori pridėti automatinį žingsnį prie kitų receptų, įskaitant integruotus. Prieš patvirtindami peržiūrėkite, kuriuos receptus jis keičia ir ką prideda.	claude-sonnet-5-5 2026-10-18
+A link	Nuoroda	claude-opus-5-5 2026-10-27
 A link wanted to take a screenshot	Nuoroda norėjo padaryti ekrano nuotrauką	claude-sonnet-5-5 2026-10-18
 A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving.	Naujas nuotraukos recepto failas prašo užregistruoti jį Greenshot. Prieš patvirtindami peržiūrėkite jo informaciją, paleidiklius ir vykdymo žingsnius.	claude-sonnet-5-5 2026-10-18
 A new capture replaces the screenshot of an editor that has no unsaved changes, instead of opening another window.	Nauja nuotrauka pakeičia redaktoriaus, neturinčio neišsaugotų pakeitimų, ekrano nuotrauką, užuot atidariusi kitą langą.	claude-sonnet-5-5 2026-10-18
@@ -894,7 +895,7 @@ Line	Linija	claude-sonnet-5-5 2026-10-18
 Line thickness in points (0: no line)	Linijos storis taškais (0: be linijos)	claude-sonnet-5-5 2026-10-18
 Link copied – click to open	Nuoroda nukopijuota – spustelėkite, kad atidarytumėte	claude-sonnet-5-5 2026-10-18
 Link to the image	Nuoroda į vaizdą	claude-sonnet-5-5 2026-10-18
-Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. greenshot-cli, AppleScript, Shortcuts and the Services menu can always capture.	Tokios nuorodos kaip greenshotmac://settings?tab=editor atidaro langus; bet kuris tinklalapis gali atidaryti nuorodą, todėl nuorodos daro ekrano nuotraukas tik tada, kai čia leidžiama. greenshot-cli, AppleScript, Shortcuts ir Paslaugų meniu visada gali daryti nuotraukas.	claude-sonnet-5-5 2026-10-18
+Links like greenshotmac://settings?tab=editor open windows; any web page can open a link, so links take screenshots only when allowed here. A link or greenshot-cli asks you before a screenshot of the whole screen, a window or the last region. AppleScript and Shortcuts can always capture.	Tokios nuorodos kaip greenshotmac://settings?tab=editor atidaro langus; bet kuris tinklalapis gali atidaryti nuorodą, todėl nuorodos daro ekrano nuotraukas tik tada, kai čia leidžiama. Prieš viso ekrano, lango ar paskutinės srities nuotrauką nuoroda arba greenshot-cli jūsų paklausia. AppleScript ir Shortcuts visada gali daryti nuotraukas.	claude-opus-5-5 2026-10-27
 Load Capture Recipe into %@	Įkelti nuotraukos receptą į %@	claude-sonnet-5-5 2026-10-18
 Load Earlier (+64 KB)	Įkelti ankstesnius (+64 KB)	claude-sonnet-5-5 2026-10-18
 Load Elements…	Įkelti elementus…	claude-sonnet-5-5 2026-10-18
@@ -1698,6 +1699,7 @@ The recording starts in %lld s. Click to cancel.	Įrašymas prasidės po %lld s.
 The recording stopped because its file could not be written: %@. What was recorded until then is in %@.	Įrašymas sustojo, nes nepavyko įrašyti jo failo: %@. Tai, kas įrašyta iki tol, yra čia: %@.	claude-opus-5-5 2026-10-21
 The recording was already finished.	Įrašymas jau buvo baigtas.	claude-sonnet-5-5 2026-10-18
 The recording was discarded	Įrašymas atmestas	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.	Užklausa atėjo per greenshotmac:// nuorodą, kurią gali atidaryti bet kuri programa ar tinklalapis. Leiskite ją tik jei patys atidarėte nuorodą: ekrano nuotrauka pateks į jūsų paskirtis.	claude-opus-5-5 2026-10-27
 The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.	Užklausa atėjo per greenshot-cli. Leiskite ją tik jei patys ją paleidote: recepto rezultatas pateks ten, kur jį siunčia receptas.	claude-sonnet-5-5 2026-10-18
 The request came through greenshot-cli. Allow it only if you started it: the screenshot goes to your destinations.	Užklausa atėjo per greenshot-cli. Leiskite ją tik jei patys ją paleidote: ekrano nuotrauka pateks į jūsų paskirtis.	claude-sonnet-5-5 2026-10-18
 The same variables as the file name pattern, e.g. ${title} and ${capturetime:d"D"}.	Tie patys kintamieji kaip failo pavadinimo šablone, pvz., ${title} ir ${capturetime:d"D"}.	claude-sonnet-5-5 2026-10-18
