@@ -130,6 +130,11 @@ enum AutomationCommands {
         } else {
             mode = .region
         }
+        func refusedAsBusy() -> IPCReply {
+            Log("Automation").warn("A \(context.source == .urlScheme ? "link" : "command line") capture was refused: another capture runs")
+            NSSound.beep()
+            return .error("The screenshot wasn't taken: another capture is in progress.")
+        }
         switch AutomationConsent.captureStart(mode, source: context.source, captureCanStart: app.capture.canStartCapture) {
         case .now:
             break
@@ -137,10 +142,10 @@ enum AutomationCommands {
             guard AutomationCaptureConsent.ask(mode, source: context.source, peer: context.peer) else {
                 return .error("The screenshot wasn't taken: it wasn't allowed.")
             }
+            // A hotkey's or a recipe's capture may have started while the question was open
+            guard app.capture.canStartCapture else { return refusedAsBusy() }
         case .refusedAsBusy:
-            Log("Automation").warn("A \(context.source == .urlScheme ? "link" : "command line") capture was refused: another capture runs")
-            NSSound.beep()
-            return .error("The screenshot wasn't taken: another capture is in progress.")
+            return refusedAsBusy()
         }
         DispatchQueue.main.async {
             // The capture screen of a capture that automation started takes input only after a click: the keys the user
