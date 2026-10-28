@@ -176,7 +176,8 @@ struct RecipeExternalCommandExecutor: RecipeStepExecutor {
     }
 }
 
-/// A program run off the cooperative pool (its pipes are read and it is waited for on a global queue); cancelling the
+/// A program run off the cooperative pool (its pipes are read and it is waited for on a global queue), as its own
+/// program for macOS privacy permissions (`DisclaimedProcess`, like the external command destination); cancelling the
 /// task ends it.
 enum RecipeProcess {
     struct Outcome: Sendable {
@@ -187,7 +188,7 @@ enum RecipeProcess {
 
     private final class Running: @unchecked Sendable {
         let lock = NSLock()
-        var process: Process?
+        var process: DisclaimedProcess?
         var cancelled = false
     }
 
@@ -196,7 +197,7 @@ enum RecipeProcess {
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Outcome, Error>) in
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let process = Process()
+                    let process = DisclaimedProcess()
                     process.executableURL = executable
                     process.arguments = arguments
                     if let directory { process.currentDirectoryURL = directory }
@@ -204,7 +205,6 @@ enum RecipeProcess {
                     let errors = Pipe()
                     process.standardOutput = output
                     process.standardError = errors
-                    process.standardInput = FileHandle.nullDevice
                     let cancelled: Bool = running.lock.withLock {
                         running.process = process
                         return running.cancelled
@@ -240,7 +240,7 @@ enum RecipeProcess {
                 }
             }
         } onCancel: {
-            let process: Process? = running.lock.withLock {
+            let process: DisclaimedProcess? = running.lock.withLock {
                 running.cancelled = true
                 return running.process
             }
