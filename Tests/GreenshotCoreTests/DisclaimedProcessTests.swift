@@ -169,6 +169,28 @@ struct DisclaimedProcessTests {
         #expect(gone)
     }
 
+    @Test func twoWaitersBothSeeTheExitCode() async throws {
+        let process = DisclaimedProcess()
+        process.executableURL = URL(fileURLWithPath: "/bin/sh")
+        process.arguments = ["-c", "sleep 0.5; exit 7"]
+        try process.run()
+        defer { process.terminate() }
+        // Both wait before the program ends; the one that doesn't collect it must not overwrite its exit code.
+        let seen = try await offPool { () -> [Int32] in
+            let lock = NSLock()
+            var statuses: [Int32] = []
+            DispatchQueue.concurrentPerform(iterations: 2) { _ in
+                process.waitUntilExit()
+                let status = process.terminationStatus
+                lock.withLock { statuses.append(status) }
+            }
+            return statuses
+        }
+        #expect(seen == [7, 7])
+        #expect(process.terminationStatus == 7)
+        #expect(!process.isRunning)
+    }
+
     @Test func anEndedProgramIsNotRunningAndTerminateDoesNothing() async throws {
         let process = DisclaimedProcess()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/true")

@@ -116,7 +116,8 @@ public final class DisclaimedProcess: @unchecked Sendable {
         try Self.check(result)
     }
 
-    /// Waits for the program to end (at once when it never started).
+    /// Waits for the program to end (at once when it never started). Several threads may wait; each returns once the
+    /// exit code is known.
     public func waitUntilExit() {
         guard let pid = lock.withLock({ state == .running ? pid : nil }) else { return }
         // Waits without collecting the program first: until it is collected its process ID can't be reused, so
@@ -124,8 +125,14 @@ public final class DisclaimedProcess: @unchecked Sendable {
         var info = siginfo_t()
         while waitid(P_PID, id_t(pid), &info, WEXITED | WNOWAIT) == -1 && errno == EINTR {}
         lock.withLock {
+            // Another waiter may have collected it already; only the one that does records the exit code.
+            guard state == .running else { return }
             var raw: Int32 = 0
-            while waitpid(pid, &raw, 0) == -1 && errno == EINTR {}
+            var collected: pid_t
+            repeat {
+                collected = waitpid(pid, &raw, 0)
+            } while collected == -1 && errno == EINTR
+            guard collected == pid else { return }
             // <sys/wait.h>'s WIFEXITED, WEXITSTATUS and WTERMSIG, which Swift doesn't import.
             let signal = raw & 0x7f
             status = signal == 0 ? (raw >> 8) & 0xff : signal
