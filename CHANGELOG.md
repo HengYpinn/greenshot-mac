@@ -528,6 +528,10 @@ Greenshot's screen recording permission behind your back.
 - In the questions before a capture greenshot-cli or a link asks for, a recipe greenshot-cli runs and a Jira or
   Confluence token, no key answers Allow, also not Space with keyboard navigation on (the focus starts on Don't Allow,
   and Tab skips Allow): click it, or use VoiceOver. Return still answers Don't Allow.
+- A recipe of yours that replaces a built-in capture asks too when greenshot-cli or a link started that capture:
+  before it takes something you don't select that the capture's own question didn't name (a region or text capture
+  that takes the whole screen, a window capture that records the screen), it asks "<program> asks … to run the recipe
+  '<name>', which takes …", like a recipe greenshot-cli runs.
 
 ## [0.1.0] - 2026-10-16
 
