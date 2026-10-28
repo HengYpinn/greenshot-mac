@@ -26,13 +26,18 @@ public enum DisclaimedProcessError: LocalizedError, Equatable {
 ///
 /// Otherwise it starts the way `Process` did: a process group of its own, every signal at its default and none blocked,
 /// only its standard input (empty), output and errors open, the app's environment, and the app's folder unless
-/// `currentDirectoryURL` is set. The same names as `Process`; one thread waits (`waitUntilExit`), `isRunning` and
-/// `terminate` work from any thread.
+/// `currentDirectoryURL` is set. The same names as `Process`; `waitUntilExit`, `isRunning` and `terminate` work from any
+/// thread.
+///
+/// Unlike `Process`, nothing collects the ended program by itself: a caller whose `run()` succeeded must call
+/// `waitUntilExit`, also for a program it doesn't wait for (on a background queue), or the program stays a zombie
+/// process until Greenshot quits.
 public final class DisclaimedProcess: @unchecked Sendable {
     public var executableURL: URL?
     public var arguments: [String] = []
     public var currentDirectoryURL: URL?
-    /// Nil: to /dev/null. The write end is closed here once the program has started, so the reader sees its end.
+    /// Nil: to /dev/null. `run()` closes the write end once it has tried to start the program, so the reader sees the
+    /// end of the output; when it throws before that (no program, no folder, refused), the write end stays open.
     public var standardOutput: Pipe?
     public var standardError: Pipe?
 
