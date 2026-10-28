@@ -286,9 +286,17 @@ final class RecipeRuntime {
     /// refused because the built-in is switched off); false: the caller captures as before.
     /// `byAutomation`: a command line, a link, AppleScript or Shortcuts started it; the recipe's capture screen then waits
     /// for a click (`OverlayInputArming`). The mark travels in the run request, not in a global that a delay could outlast.
-    func interceptBuiltIn(_ capture: BuiltInCapture, byAutomation: Bool) -> Bool {
+    /// `consent`: greenshot-cli or a link started it; the recipe asks, named, before it takes what the capture's own
+    /// question didn't allow (`RecipeCaptureConsent`, as RUN_RECIPE does).
+    func interceptBuiltIn(_ capture: BuiltInCapture, byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) -> Bool {
         var request = BuiltInCaptureRequest(capture, settings: app.settings.value)
         if byAutomation { request.objects[OverlayInputArming.automationMarkKey] = AutomationStartMark() }
+        if let consent {
+            let name = library.recipe(id: request.recipeId)?.recipe.name ?? request.recipeId
+            request.objects[RecipeCaptureConsent.objectKey] = RecipeCaptureConsent(granted: consent.granted) { subject in
+                await consent.confirm(name, subject)
+            }
+        }
         return intercept(request)
     }
 
@@ -415,6 +423,14 @@ final class RecipeRuntime {
 /// The runtime for the runner's closures, which are made before the runtime exists.
 final class RecipeRuntimeBox: @unchecked Sendable {
     @MainActor weak var runtime: RecipeRuntime?
+}
+
+/// What a built-in capture greenshot-cli or a link started hands to the recipe that replaces it: what the capture's own
+/// question allowed (`AutomationConsent.replacedCaptureGrant`) and how to ask for the rest ("<program> asks … to run the
+/// recipe '<name>', which takes <subject>").
+struct ReplacedCaptureConsent: Sendable {
+    let granted: [String]
+    let confirm: IPCRecipeCommands.ConfirmCapture
 }
 
 /// A built-in capture as a recipe start: the recipe and what the caller hands over (upstream `CaptureHelper`).

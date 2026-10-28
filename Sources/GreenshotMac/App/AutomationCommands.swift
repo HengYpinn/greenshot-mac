@@ -147,15 +147,24 @@ enum AutomationCommands {
         case .refusedAsBusy:
             return refusedAsBusy()
         }
+        // A recipe that replaces the capture asks, named, before it takes more than the question above allowed (or, for
+        // region and text, anything without the user's selection), like RUN_RECIPE
+        let source = context.source
+        let peer = context.peer
+        let consent = AutomationConsent.replacedCaptureGrant(mode, source: source).map { granted in
+            ReplacedCaptureConsent(granted: granted) { recipe, subject in
+                AutomationCaptureConsent.ask(recipe: recipe, subject: subject, source: source, peer: peer)
+            }
+        }
         DispatchQueue.main.async {
             // The capture screen of a capture that automation started takes input only after a click: the keys the user
             // types into another app at that moment must not finish it (`OverlayInputArming`).
             switch mode {
-            case .region: app.capture.captureRegion(byAutomation: true)
-            case .window: app.capture.captureWindowFromHotkey(byAutomation: true)
-            case .fullScreen: app.capture.captureFullScreenFromHotkey(byAutomation: true)
-            case .lastRegion: app.capture.captureLastRegion(byAutomation: true)
-            case .text: app.capture.captureText(byAutomation: true)
+            case .region: app.capture.captureRegion(byAutomation: true, consent: consent)
+            case .window: app.capture.captureWindowFromHotkey(byAutomation: true, consent: consent)
+            case .fullScreen: app.capture.captureFullScreenFromHotkey(byAutomation: true, consent: consent)
+            case .lastRegion: app.capture.captureLastRegion(byAutomation: true, consent: consent)
+            case .text: app.capture.captureText(byAutomation: true, consent: consent)
             }
         }
         return .ok("Capture started.")

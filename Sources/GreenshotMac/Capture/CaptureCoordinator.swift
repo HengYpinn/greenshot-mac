@@ -22,21 +22,23 @@ final class CaptureCoordinator {
     /// The capture screen in region mode.
     /// `byAutomation`: greenshot-cli, a link, AppleScript or Shortcuts started it (the capture screen waits for a click,
     /// `OverlayInputArming`); passed along with the call, also into the recipe that replaces the built-in capture.
-    func captureRegion(byAutomation: Bool) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.region, byAutomation: byAutomation) == true { return }
+    /// `consent`: greenshot-cli or a link started it; only a recipe that replaces the capture uses it (it asks before it
+    /// takes more than the capture's question allowed). The same for the other captures automation starts.
+    func captureRegion(byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.region, byAutomation: byAutomation, consent: consent) == true { return }
         interactive(.region, startedByUser: !byAutomation)
     }
 
     /// The window hotkey: the active window right away, or the capture screen in window mode when
     /// "interactive window capture" is on.
-    func captureWindowFromHotkey(byAutomation: Bool) {
-        settings.value.interactiveWindowCapture ? captureWindowInteractively(byAutomation: byAutomation)
-            : captureActiveWindow(byAutomation: byAutomation)
+    func captureWindowFromHotkey(byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) {
+        settings.value.interactiveWindowCapture ? captureWindowInteractively(byAutomation: byAutomation, consent: consent)
+            : captureActiveWindow(byAutomation: byAutomation, consent: consent)
     }
 
     /// The menu's "Capture window" always opens the capture screen in window mode, like upstream.
-    func captureWindowInteractively(byAutomation: Bool) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.window, byAutomation: byAutomation) == true { return }
+    func captureWindowInteractively(byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.window, byAutomation: byAutomation, consent: consent) == true { return }
         interactive(.window, startedByUser: !byAutomation)
     }
 
@@ -49,8 +51,10 @@ final class CaptureCoordinator {
     /// The full screen hotkey: the display with the mouse, every display, or display number `screenToCapture`,
     /// as "Capture full screen" is set (upstream `ScreenCaptureMode`).
     /// `byAutomation`: a recipe that replaces this capture may show the capture screen (`captureRegion`).
-    func captureFullScreenFromHotkey(byAutomation: Bool) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.fullScreenFromHotkey, byAutomation: byAutomation) == true { return }
+    func captureFullScreenFromHotkey(byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.fullScreenFromHotkey, byAutomation: byAutomation, consent: consent) == true {
+            return
+        }
         let mode = settings.value.screenCaptureMode
         let number = settings.value.screenToCapture
         // Numbered like the menu bar's list: in the order of NSScreen.screens, the main display first.
@@ -80,15 +84,15 @@ final class CaptureCoordinator {
 
     /// "Capture text", upstream's built-in recipe "OCR text to clipboard": the capture screen in text mode, the text
     /// goes to the clipboard.
-    func captureText(byAutomation: Bool) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.text, byAutomation: byAutomation) == true { return }
+    func captureText(byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.text, byAutomation: byAutomation, consent: consent) == true { return }
         interactive(.text, startedByUser: !byAutomation)
     }
 
     /// The same area as the last capture again, without the capture screen. Without a last area nothing is captured,
     /// like upstream (`LastRegionCaptureSource.cs` aborts); the Mac beeps.
-    func captureLastRegion(byAutomation: Bool) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.lastRegion, byAutomation: byAutomation) == true { return }
+    func captureLastRegion(byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.lastRegion, byAutomation: byAutomation, consent: consent) == true { return }
         guard let region = settings.value.lastCapturedRegion, !region.isEmpty else {
             NSSound.beep()
             return
@@ -105,8 +109,8 @@ final class CaptureCoordinator {
         }
     }
 
-    func captureActiveWindow(byAutomation: Bool) {
-        if RecipeRuntime.shared?.interceptBuiltIn(.activeWindow, byAutomation: byAutomation) == true { return }
+    func captureActiveWindow(byAutomation: Bool, consent: ReplacedCaptureConsent? = nil) {
+        if RecipeRuntime.shared?.interceptBuiltIn(.activeWindow, byAutomation: byAutomation, consent: consent) == true { return }
         let settings = self.settings.value
         run(byAutomation: byAutomation) {
             guard let window = ScreenCapturer.frontWindow(in: ScreenCapturer.onScreenWindows()) else {

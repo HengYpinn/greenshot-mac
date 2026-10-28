@@ -48,6 +48,22 @@ public enum AutomationConsent {
         return captureCanStart ? .afterAsking : .refusedAsBusy
     }
 
+    /// CAPTURE (Mac only) when a recipe replaces the built-in capture: what that recipe may take without asking again,
+    /// in the Source step's words (`RecipeSourceValues.unattendedSubject`). greenshot-cli and links put a
+    /// `RecipeCaptureConsent` with these into the recipe's run, so it asks like RUN_RECIPE before it takes anything
+    /// else without the user: the capture's own question allowed the whole screen, a window or the last region, not
+    /// what the recipe does instead. Nil for the other sources: no question object, as for their built-in captures.
+    public static func replacedCaptureGrant(_ mode: AutomationCaptureMode, source: IPCSource) -> [String]? {
+        guard source == .cli || source == .urlScheme else { return nil }
+        guard captureNeedsConfirmation(mode, source: source) else { return [] }
+        switch mode {
+        case .fullScreen: return ["a screenshot of the whole screen"]
+        case .window: return ["a screenshot of the active window", "a screenshot of a window"]
+        case .lastRegion: return ["a screenshot of the last captured region"]
+        case .region, .text: return []
+        }
+    }
+
     /// RUN_RECIPE (Mac only): what a recipe started by greenshot-cli takes from the screen without the user on the
     /// capture screen, for the question ("a screenshot of the whole screen"); nil when it captures nothing, or only what
     /// the user selects. `recipe` is the recipe as it runs (`RecipeTriggerPreparer` added the trigger's Source);

@@ -28,6 +28,15 @@ extension Snapshots {
         if let content = linkConsent.window.contentView {
             try write(form(content), to: folder.appendingPathComponent("aut-capture-consent-link.png"))
         }
+        // The recipe that replaces a built-in capture a link started, when it takes more than the link's question named
+        let recipeConsent = AutomationCaptureConsent.makeRecipeAlert(caller: AutomationCaptureConsent.linkCaller,
+                                                                     recipe: "Region and upload",
+                                                                     subject: "a screenshot of the whole screen",
+                                                                     source: .urlScheme)
+        recipeConsent.layout()
+        if let content = recipeConsent.window.contentView {
+            try write(form(content), to: folder.appendingPathComponent("aut-capture-consent-link-recipe.png"))
+        }
 
         // The second start of a copy while another runs
         let alert = AutomationStartup.alreadyRunningAlert(path: "/Applications/Greenshot for Mac (Community).app/Contents/MacOS/GreenshotMac")

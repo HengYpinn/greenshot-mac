@@ -46,7 +46,8 @@ enum AutomationRecipes {
         let recipes = await loadedRecipes(app)
         return await IPCRecipeCommands.runRecipe(context, library: recipes.library, start: { recipes.start($0) },
                                                  confirmCapture: { name, subject in
-                                                     AutomationCaptureConsent.ask(recipe: name, subject: subject, peer: context.peer)
+                                                     AutomationCaptureConsent.ask(recipe: name, subject: subject, source: context.source,
+                                                                                  peer: context.peer)
                                                  })
     }
 }

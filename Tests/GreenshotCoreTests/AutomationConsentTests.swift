@@ -65,6 +65,56 @@ struct AutomationConsentTests {
         }
     }
 
+    /// What a Source step of a recipe asks for (`RecipeCaptureConsent`) when nobody selects on the capture screen.
+    private func unattended(_ type: RecipeSourceValues.SourceType, named: Bool = false) -> String? {
+        RecipeSourceValues.unattendedSubject(type, region: false, named: named, selectionFollows: false)
+    }
+
+    /// A recipe that replaces a built-in capture which greenshot-cli or a link started asks, like RUN_RECIPE, before it
+    /// takes what the capture's own question didn't allow; the subjects are the Source step's own words.
+    @Test func aReplacedCaptureOfTheCommandLineOrALinkGetsAQuestion() throws {
+        let wholeScreen = try #require(unattended(.fullScreen))
+        let activeWindow = try #require(unattended(.activeWindow))
+        let namedWindow = try #require(unattended(.window, named: true))
+        let lastRegion = try #require(unattended(.lastRegion))
+        for source in [IPCSource.cli, .urlScheme] {
+            let fullScreenGrant = try #require(AutomationConsent.replacedCaptureGrant(.fullScreen, source: source))
+            #expect(fullScreenGrant == [wholeScreen])
+            let windowGrant = try #require(AutomationConsent.replacedCaptureGrant(.window, source: source))
+            #expect(Set(windowGrant) == [activeWindow, namedWindow])
+            let lastRegionGrant = try #require(AutomationConsent.replacedCaptureGrant(.lastRegion, source: source))
+            #expect(lastRegionGrant == [lastRegion])
+        }
+    }
+
+    /// Region and text captures had no question, so their replacement asks for everything it takes without a selection;
+    /// a window or the last region doesn't stand for the whole screen (a Region, Window or TextOcr Source without a
+    /// selection takes it), and nothing stands for a recording.
+    @Test func aReplacedCaptureIsAllowedOnlyWhatItsQuestionNamed() throws {
+        for source in [IPCSource.cli, .urlScheme] {
+            #expect(AutomationConsent.replacedCaptureGrant(.region, source: source) == [])
+            #expect(AutomationConsent.replacedCaptureGrant(.text, source: source) == [])
+            let wholeScreen = try #require(unattended(.region))
+            for mode in [AutomationCaptureMode.window, .lastRegion] {
+                let granted = try #require(AutomationConsent.replacedCaptureGrant(mode, source: source))
+                #expect(!granted.contains(wholeScreen))
+            }
+            for mode in AutomationCaptureMode.allCases {
+                let granted = AutomationConsent.replacedCaptureGrant(mode, source: source) ?? []
+                #expect(!granted.contains("a screen recording"))
+            }
+        }
+    }
+
+    /// AppleScript and Shortcuts have macOS's gate; their replaced captures run as before, without a question object.
+    @Test func otherSourcesGiveTheReplacedCaptureNoQuestion() {
+        for source in IPCSource.allCases where source != .cli && source != .urlScheme {
+            for mode in AutomationCaptureMode.allCases {
+                #expect(AutomationConsent.replacedCaptureGrant(mode, source: source) == nil)
+            }
+        }
+    }
+
     /// No key answers "Allow": a key event of the question's own window from just now pressed it.
     @Test func aFreshKeyOfTheQuestionPressedAllow() {
         #expect(ConsentClickGuard.pressedByKey(isKeyEvent: true, inQuestionWindow: true, age: 0.01))

@@ -40,25 +40,34 @@ enum AutomationCaptureConsent {
         String(localized: "A link", comment: "Starts the sentence of a capture question when a greenshotmac:// link asks for the capture")
     }
 
-    /// RUN_RECIPE from greenshot-cli: "<program> asks Greenshot for Mac to run the recipe '<name>', which takes
-    /// <subject>." The same rules as for CAPTURE.
-    static func ask(recipe: String, subject: String, peer: IPCPeer?) -> Bool {
+    /// RUN_RECIPE from greenshot-cli, or the recipe that replaces a built-in capture greenshot-cli or a link started
+    /// (`AutomationConsent.replacedCaptureGrant`): "<program> asks Greenshot for Mac to run the recipe '<name>', which
+    /// takes <subject>." The same rules as for CAPTURE.
+    static func ask(recipe: String, subject: String, source: IPCSource, peer: IPCPeer?) -> Bool {
+        let request = source == .urlScheme ? "link" : "command line"
         guard !asking else {
-            log.warn("[SECURITY] A command line recipe was refused: another question waits for an answer")
+            log.warn("[SECURITY] A \(request) recipe was refused: another question waits for an answer")
             return false
         }
         asking = true
         defer { asking = false }
-        let caller = callerName(peer: peer)
+        let caller = source == .urlScheme ? linkCaller : callerName(peer: peer)
+        let allowed = run(makeRecipeAlert(caller: caller, recipe: recipe, subject: subject, source: source))
+        log.info("The \(request) recipe '\(recipe)' (\(subject)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
+        return allowed
+    }
+
+    /// The recipe's alert (also for the snapshots).
+    static func makeRecipeAlert(caller: String, recipe: String, subject: String, source: IPCSource) -> NSAlert {
         let alert = NSAlert()
         alert.alertStyle = .warning
         alert.messageText = recipeQuestion(caller: caller, recipe: recipe, subject: subject)
-        alert.informativeText = String(localized: "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.")
+        alert.informativeText = source == .urlScheme
+            ? String(localized: "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.")
+            : String(localized: "The request came through greenshot-cli. Allow it only if you started it: the recipe's result goes where the recipe sends it.")
         alert.addButton(withTitle: String(localized: "Don't Allow"))
         alert.addButton(withTitle: String(localized: "Allow"))
-        let allowed = run(alert)
-        log.info("The command line recipe '\(recipe)' (\(subject)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
-        return allowed
+        return alert
     }
 
     /// Runs the alert with the arming delay and the time limit; true for Allow. "Allow" answers no key: it takes no
