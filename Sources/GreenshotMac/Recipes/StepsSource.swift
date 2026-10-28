@@ -244,9 +244,9 @@ struct RecipeSourceExecutor: RecipeStepExecutor {
 
     /// The active app has no window on the screen (the desktop clicked, an app with only a menu bar item): the whole
     /// screen, titled "Screen", like "Capture active window" in the menu (upstream `ActiveWindowCaptureSource` falls
-    /// back to `CaptureScreenAsync`), when the user started the capture (`ActiveWindowChoice.fallback`). A run of
-    /// greenshot-cli that allowed the active window is asked for the screen; an AI tool, a link or another program's
-    /// start fails. Nil: not allowed.
+    /// back to `CaptureScreenAsync`), when the user started the capture (`ActiveWindowChoice.fallback`). A run with a
+    /// question (greenshot-cli's RUN_RECIPE, a recipe replacing a capture greenshot-cli or a link started) that allowed
+    /// the active window is asked for the screen; an AI tool's or another program's start fails. Nil: not allowed.
     private func activeAppWithoutWindow(context: RecipeFlowContext, settings: AppSettings, captureMouse: Bool,
                                         sourceType: String) async throws -> RecipePayload? {
         let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent

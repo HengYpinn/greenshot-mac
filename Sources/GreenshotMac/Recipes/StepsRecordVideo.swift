@@ -128,9 +128,10 @@ struct RecipeRecordVideoExecutor: RecipeStepExecutor {
             } else if windowID == nil {
                 // The active app has no window on the screen (the desktop clicked): the screen when the user started it,
                 // like the Source step and "Capture active window" (upstream records the window in front, the desktop
-                // then); a video shows one display, the primary one, as MonitorIndex does by default. An AI tool, a link
-                // or another program's start fails (`ActiveWindowChoice.fallback`); greenshot-cli's run was asked for
-                // "a screen recording", which this is.
+                // then); a video shows one display, the primary one, as MonitorIndex does by default. An AI tool's or
+                // another program's start fails (`ActiveWindowChoice.fallback`); a run with a question (greenshot-cli's
+                // RUN_RECIPE, a recipe replacing a capture greenshot-cli or a link started) was asked for "a screen
+                // recording", which this is.
                 let consent = context.object(forKey: RecipeCaptureConsent.objectKey) as? RecipeCaptureConsent
                 let marked = context.object(forKey: OverlayInputArming.automationMarkKey) is AutomationStartMark
                 switch ActiveWindowChoice.fallback(triggerType: context.trigger?.triggerType, markedByAutomation: marked,
