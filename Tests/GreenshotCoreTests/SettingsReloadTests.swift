@@ -62,9 +62,12 @@ struct SettingsReloadTests {
     }
 
     @Test func userDefaultsThatCantBeDecodedAreAnError() throws {
-        let name = "greenshot-tests-reload-\(UUID().uuidString)"
-        let defaults = try #require(UserDefaults(suiteName: name))
-        defer { defaults.removePersistentDomain(forName: name) }
+        let suite = temporarySuite()
+        defer {
+            suite.defaults.removePersistentDomain(forName: suite.name)
+            try? FileManager.default.removeItem(at: suite.folder)
+        }
+        let defaults = suite.defaults
         let none = try SettingsStorage.reload(from: defaults)
         #expect(none.settings == AppSettings())
         defaults.set(Data("not json".utf8), forKey: SettingsStorage.key)

@@ -8,9 +8,9 @@ import Testing
 
 /// A user defaults suite of its own whose name is a path in a new temporary folder, so its file is kept there and not
 /// in ~/Library/Preferences (where `removePersistentDomain` can leave it): the test removes the domain and the folder in
-/// a `defer`.
-private func temporarySuite() -> (defaults: UserDefaults, name: String, folder: URL) {
-    let folder = FileManager.default.temporaryDirectory.appendingPathComponent("seal-test-\(UUID().uuidString)", isDirectory: true)
+/// a `defer`. For every test that checks the user defaults themselves.
+func temporarySuite() -> (defaults: UserDefaults, name: String, folder: URL) {
+    let folder = FileManager.default.temporaryDirectory.appendingPathComponent("defaults-test-\(UUID().uuidString)", isDirectory: true)
     try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
     let name = folder.appendingPathComponent("settings").path
     return (UserDefaults(suiteName: name)!, name, folder)

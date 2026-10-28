@@ -89,8 +89,13 @@ struct SettingsTests {
         #expect(decoded.hotkeys.window == .defaultWindow)
     }
 
-    @Test func storedInUserDefaults() throws {
-        let defaults = try #require(UserDefaults(suiteName: "greenshot-mac-tests-\(UUID().uuidString)"))
+    @Test func storedInUserDefaults() {
+        let suite = temporarySuite()
+        defer {
+            suite.defaults.removePersistentDomain(forName: suite.name)
+            try? FileManager.default.removeItem(at: suite.folder)
+        }
+        let defaults = suite.defaults
         var s = AppSettings()
         s.outputFolder = "~/Pictures/Screenshots"
         SettingsStorage.save(s, to: defaults)

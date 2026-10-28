@@ -187,10 +187,13 @@ struct ManagedPolicyTests {
         #expect(loaded.welcomeShown)
     }
 
-    @Test func plainKeysThatAreNotForcedAreDefaults() throws {
-        let name = "greenshot-tests-managed-\(UUID().uuidString)"
-        let defaults = try #require(UserDefaults(suiteName: name))
-        defer { defaults.removePersistentDomain(forName: name) }
+    @Test func plainKeysThatAreNotForcedAreDefaults() {
+        let suite = temporarySuite()
+        defer {
+            suite.defaults.removePersistentDomain(forName: suite.name)
+            try? FileManager.default.removeItem(at: suite.folder)
+        }
+        let defaults = suite.defaults
         defaults.set("jpg", forKey: "Greenshot.outputFormat")
         defaults.set(["footer": false], forKey: "Greenshot.printing")
         let p = ManagedPolicy(source: UserDefaultsManagedSource(defaults))
