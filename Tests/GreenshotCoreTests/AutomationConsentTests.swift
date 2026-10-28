@@ -106,6 +106,29 @@ struct AutomationConsentTests {
         }
     }
 
+    /// The grant as the run's `RecipeCaptureConsent`: what the capture's question named passes without asking again,
+    /// anything else (here a recording) asks.
+    @Test func theGrantPassesWhatTheQuestionNamedAndAsksForTheRest() async throws {
+        let granted = try #require(AutomationConsent.replacedCaptureGrant(.fullScreen, source: .urlScheme))
+        let wholeScreen = try #require(unattended(.fullScreen))
+        let asked = AskedSubjects()
+        let consent = RecipeCaptureConsent(granted: granted) { subject in
+            await asked.add(subject)
+            return false
+        }
+        let screenAllowed = await consent.allows(wholeScreen)
+        #expect(screenAllowed)
+        let recordingAllowed = await consent.allows("a screen recording")
+        #expect(!recordingAllowed)
+        let subjects = await asked.subjects
+        #expect(subjects == ["a screen recording"])
+    }
+
+    private actor AskedSubjects {
+        var subjects: [String] = []
+        func add(_ subject: String) { subjects.append(subject) }
+    }
+
     /// AppleScript and Shortcuts have macOS's gate; their replaced captures run as before, without a question object.
     @Test func otherSourcesGiveTheReplacedCaptureNoQuestion() {
         for source in IPCSource.allCases where source != .cli && source != .urlScheme {
