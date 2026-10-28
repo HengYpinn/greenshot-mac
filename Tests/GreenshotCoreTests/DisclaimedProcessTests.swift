@@ -71,6 +71,7 @@ struct DisclaimedProcessTests {
         #expect(pid > 0)
         #expect(responsible == pid)
         #expect(responsible != ours)
+        #expect(process.terminationStatus == SIGTERM)
     }
 
     @Test func aProgramFoundInThePathAnswersForItsOwnPermissionsToo() async throws {
@@ -154,8 +155,8 @@ struct DisclaimedProcessTests {
         #expect(process.isRunning)
         process.terminate()
         try await offPool { process.waitUntilExit() }
+        // No terminationStatus check: bash often ends normally once its job has ended, also under Process.
         #expect(!process.isRunning)
-        #expect(process.terminationStatus == SIGTERM)
         // The started sleep is in the program's process group; it is gone (or a zombie) shortly after.
         var gone = false
         for _ in 0..<40 where !gone {
