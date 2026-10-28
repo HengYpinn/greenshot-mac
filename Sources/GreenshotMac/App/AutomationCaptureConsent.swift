@@ -29,10 +29,16 @@ enum AutomationCaptureConsent {
         }
         asking = true
         defer { asking = false }
-        let caller = source == .urlScheme ? linkCaller : callerName(peer: peer)
+        let caller = Self.caller(source: source, peer: peer)
         let allowed = run(makeAlert(caller: caller, mode: mode, source: source))
         log.info("A \(request) capture of \(AutomationConsent.subject(of: mode)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
         return allowed
+    }
+
+    /// Who asks: "A link" for a link, else the program behind the request (`callerName(peer:)`). Found when the request
+    /// comes in: a recipe asks when its step runs, and greenshot-cli may have exited by then (its processes are gone).
+    static func caller(source: IPCSource, peer: IPCPeer?) -> String {
+        source == .urlScheme ? linkCaller : callerName(peer: peer)
     }
 
     /// The program in a link's question.
@@ -42,8 +48,8 @@ enum AutomationCaptureConsent {
 
     /// RUN_RECIPE from greenshot-cli, or the recipe that replaces a built-in capture greenshot-cli or a link started
     /// (`AutomationConsent.replacedCaptureGrant`): "<program> asks Greenshot for Mac to run the recipe '<name>', which
-    /// takes <subject>." The same rules as for CAPTURE.
-    static func ask(recipe: String, subject: String, source: IPCSource, peer: IPCPeer?) -> Bool {
+    /// takes <subject>." The same rules as for CAPTURE. `caller`: `caller(source:peer:)`, found when the request came in.
+    static func ask(recipe: String, subject: String, source: IPCSource, caller: String) -> Bool {
         let request = source == .urlScheme ? "link" : "command line"
         guard !asking else {
             log.warn("[SECURITY] A \(request) recipe was refused: another question waits for an answer")
@@ -51,7 +57,6 @@ enum AutomationCaptureConsent {
         }
         asking = true
         defer { asking = false }
-        let caller = source == .urlScheme ? linkCaller : callerName(peer: peer)
         let allowed = run(makeRecipeAlert(caller: caller, recipe: recipe, subject: subject, source: source))
         log.info("The \(request) recipe '\(recipe)' (\(subject)) by \(caller) was \(allowed ? "allowed" : "not allowed")")
         return allowed

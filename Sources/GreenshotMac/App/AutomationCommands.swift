@@ -150,10 +150,11 @@ enum AutomationCommands {
         // A recipe that replaces the capture asks, named, before it takes more than the question above allowed (or, for
         // region and text, anything without the user's selection), like RUN_RECIPE
         let source = context.source
-        let peer = context.peer
         let consent = AutomationConsent.replacedCaptureGrant(mode, source: source).map { granted in
-            ReplacedCaptureConsent(granted: granted) { recipe, subject in
-                AutomationCaptureConsent.ask(recipe: recipe, subject: subject, source: source, peer: peer)
+            // Named now: greenshot-cli exits once the reply below went out, before the recipe asks
+            let caller = AutomationCaptureConsent.caller(source: source, peer: context.peer)
+            return ReplacedCaptureConsent(granted: granted) { recipe, subject in
+                AutomationCaptureConsent.ask(recipe: recipe, subject: subject, source: source, caller: caller)
             }
         }
         DispatchQueue.main.async {

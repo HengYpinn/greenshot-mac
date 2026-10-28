@@ -44,10 +44,12 @@ enum AutomationRecipes {
     /// RUN_RECIPE: a recipe of the command line that captures without the user asks first, like CAPTURE.
     private static func runRecipe(_ app: AppDelegate, _ context: IPCReplyContext) async -> IPCReply {
         let recipes = await loadedRecipes(app)
+        // Named now: with --async greenshot-cli exits before the recipe's step asks
+        let caller = AutomationCaptureConsent.caller(source: context.source, peer: context.peer)
         return await IPCRecipeCommands.runRecipe(context, library: recipes.library, start: { recipes.start($0) },
                                                  confirmCapture: { name, subject in
                                                      AutomationCaptureConsent.ask(recipe: name, subject: subject, source: context.source,
-                                                                                  peer: context.peer)
+                                                                                  caller: caller)
                                                  })
     }
 }
