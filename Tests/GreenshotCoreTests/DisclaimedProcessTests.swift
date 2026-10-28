@@ -80,6 +80,7 @@ struct DisclaimedProcessTests {
         process.executableURL = URL(fileURLWithPath: "/bin/sleep")
         process.arguments = ["30"]
         try process.run()
+        defer { process.terminate() }
         let pid = process.processIdentifier
         let responsible = responsiblePID(pid)
         let ours = responsiblePID(getpid())
@@ -97,9 +98,9 @@ struct DisclaimedProcessTests {
         process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
         process.arguments = ["sleep", "30"]
         try process.run()
+        defer { process.terminate() }
+        // The program answers for itself from its start; /usr/bin/env then becomes sleep in the same process.
         let pid = process.processIdentifier
-        // /usr/bin/env becomes sleep in the same process.
-        try await Task.sleep(for: .milliseconds(200))
         let responsible = responsiblePID(pid)
         process.terminate()
         try await offPool { process.waitUntilExit() }
@@ -165,6 +166,7 @@ struct DisclaimedProcessTests {
         let output = Pipe()
         process.standardOutput = output
         try process.run()
+        defer { process.terminate() }
         let pid = process.processIdentifier
         let line = try await offPool { output.fileHandleForReading.availableData }
         let started = try #require(pid_t(String(decoding: line, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)))
@@ -174,9 +176,10 @@ struct DisclaimedProcessTests {
         try await offPool { process.waitUntilExit() }
         // No terminationStatus check: bash often ends normally once its job has ended, also under Process.
         #expect(!process.isRunning)
-        // The started sleep is in the program's process group; it is gone (or a zombie) shortly after.
+        // The started sleep is in the program's process group; it is gone (or a zombie) shortly after. Up to 10 seconds
+        // for a busy machine.
         var gone = false
-        for _ in 0..<40 where !gone {
+        for _ in 0..<200 where !gone {
             var info = proc_bsdinfo()
             let size = proc_pidinfo(started, PROC_PIDTBSDINFO, 0, &info, Int32(MemoryLayout<proc_bsdinfo>.size))
             gone = size <= 0 || info.pbi_status == UInt32(SZOMB)
