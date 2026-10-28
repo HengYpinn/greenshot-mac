@@ -179,6 +179,10 @@ Destinations: any program gets the screenshot as `{0}`, and a URL from its outpu
 Code (copy or open what a code in the screenshot says), and the uploads: Jira, Confluence, Box and Dropbox. Settings
 › Destinations chooses which of them run without asking.
 
+An external command, also one a recipe runs, is a program of its own for macOS privacy permissions: it doesn't share
+Greenshot's Screen Recording, Accessibility or access to your Desktop, Documents and Downloads folders. When it needs
+one of them, macOS asks for that program (or refuses), for example to read a screenshot saved on the Desktop.
+
 ### Uploads
 
 Greenshot's upload plugins are built in, set up under Settings › Destinations. Secrets (API tokens, the Box client

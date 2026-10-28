@@ -532,6 +532,9 @@ Greenshot's screen recording permission behind your back.
   before it takes something you don't select that the capture's own question didn't name (a region or text capture
   that takes the whole screen, a window capture that records the screen), it asks "<program> asks … to run the recipe
   '<name>', which takes …", like a recipe greenshot-cli runs.
+- An external command, and a recipe's ExternalCommand step, runs as a program of its own for macOS privacy
+  permissions: it no longer shares Greenshot's Screen Recording, Accessibility or folder access, so macOS asks for its
+  own (or refuses) when it needs one, for example to read a screenshot saved on the Desktop.
 
 ## [0.1.0] - 2026-10-16
 
