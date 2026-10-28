@@ -5590,6 +5590,9 @@
 "This trigger stays off, so it won't start the recipe:" = "이 트리거는 꺼진 상태로 유지되므로 레시피를 시작하지 않습니다:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "이 버전의 macOS에서는 프로그램을 자체 개인정보 보호 권한으로 실행할 수 없으므로 Greenshot이 실행하지 않습니다.";
+
+/* machine */
 "Threads" = "스레드";
 
 /* machine */

@@ -5548,6 +5548,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Denne utløysaren held seg av, så han startar ikkje oppskrifta:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Denne versjonen av macOS kan ikkje køyre programmet med eigne personvernløyve, så Greenshot køyrer det ikkje.";
+
+/* machine */
 "Threads" = "Trådar";
 
 /* machine */

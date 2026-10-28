@@ -2096,3 +2096,4 @@ zoomer on or off	Lubbe an oder aus	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Die Anfrage kam über an greenshotmac://-Link, den jeds Brogramm und jede Webseide aufmachn kann. Erlaub's nur, wennsd den Link selber aufgmachd hasd: es Ergebnis vom Rezebd geht dorthin, wo's Rezebd es hinschiggd.	claude-opus-5-5 2026-10-28
+This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	Die Version vo macOS ko des Brogramm ned mit seine eigna Datenschutzrechd laufn lassn, drum lässd's Greenshot ned laufn.	claude-opus-5-5 2026-10-28

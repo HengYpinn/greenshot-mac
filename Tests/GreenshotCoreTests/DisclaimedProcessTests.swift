@@ -57,6 +57,23 @@ struct DisclaimedProcessTests {
         #expect(Self.responsiblePID != nil)
     }
 
+    @Test func withoutTheAttributeNothingStartsAndTheErrorSaysWhy() {
+        let expected = "This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it."
+        let missing = DisclaimedProcess(setDisclaim: nil)
+        missing.executableURL = URL(fileURLWithPath: "/usr/bin/true")
+        let refusal = #expect(throws: DisclaimedProcessError.self) { try missing.run() }
+        #expect(refusal == .cannotDisclaim)
+        #expect((refusal as Error?)?.localizedDescription == expected)
+        #expect(!missing.isRunning)
+        #expect(missing.processIdentifier == 0)
+        // The attribute there but refused.
+        let failing = DisclaimedProcess(setDisclaim: { _, _ in EINVAL })
+        failing.executableURL = URL(fileURLWithPath: "/usr/bin/true")
+        let failure = #expect(throws: DisclaimedProcessError.self) { try failing.run() }
+        #expect(failure == .cannotDisclaim)
+        #expect(failing.processIdentifier == 0)
+    }
+
     @Test func theProgramAnswersForItsOwnPermissions() async throws {
         let responsiblePID = try #require(Self.responsiblePID)
         let process = DisclaimedProcess()

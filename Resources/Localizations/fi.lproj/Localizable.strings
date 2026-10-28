@@ -5575,6 +5575,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Tämä liipaisin pysyy pois päältä, joten se ei käynnistä reseptiä:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Tämä macOS-versio ei voi suorittaa ohjelmaa sen omilla tietosuojaoikeuksilla, joten Greenshot ei suorita sitä.";
+
+/* machine */
 "Threads" = "Säikeet";
 
 /* machine */

@@ -5512,6 +5512,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Acest declanșator rămâne dezactivat, deci nu va porni rețeta:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Această versiune de macOS nu poate rula programul cu propriile permisiuni de confidențialitate, așa că Greenshot nu îl rulează.";
+
+/* machine */
 "Threads" = "Fire de execuție";
 
 /* machine */

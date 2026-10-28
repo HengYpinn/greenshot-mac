@@ -2026,3 +2026,4 @@ zoomer on or off	zoom på eller av	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Begäran kom via en greenshotmac://-länk, som vilket program eller vilken webbsida som helst kan öppna. Tillåt den bara om du själv öppnade länken: receptets resultat går dit receptet skickar det.	claude-opus-5-5 2026-10-28
+This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	Den här versionen av macOS kan inte köra programmet med dess egna integritetsbehörigheter, så Greenshot kör det inte.	claude-opus-5-5 2026-10-28

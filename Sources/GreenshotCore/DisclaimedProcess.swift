@@ -6,6 +6,18 @@
 import Darwin
 import Foundation
 
+private let log = Log("ExternalCommand")
+
+/// Why `DisclaimedProcess` doesn't start a program.
+public enum DisclaimedProcessError: LocalizedError, Equatable {
+    /// This macOS can't start it as a program of its own; started anyway it would get Greenshot's permissions.
+    case cannotDisclaim
+
+    public var errorDescription: String? {
+        String(localized: "This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.")
+    }
+}
+
 /// A program Greenshot runs for the user (an external command, a recipe's ExternalCommand step) as its own program for
 /// macOS privacy permissions: macOS asks about the program's own Screen Recording, Accessibility, files and so on, not
 /// Greenshot's. A child started by `Foundation.Process` would share Greenshot's; this one is started with `posix_spawn`
@@ -33,18 +45,27 @@ public final class DisclaimedProcess: @unchecked Sendable {
     private var state = State.notStarted
     private var status: Int32 = 0
 
-    public init() {}
-
-    private typealias SetDisclaim = @convention(c) (UnsafeMutablePointer<posix_spawnattr_t?>, Int32) -> Int32
+    typealias SetDisclaim = @convention(c) (UnsafeMutablePointer<posix_spawnattr_t?>, Int32) -> Int32
 
     /// libquarantine's `responsibility_spawnattrs_setdisclaim` (macOS 10.14 and later, not in the SDK's headers), looked
     /// up rather than linked so a macOS without it still starts the app.
-    private static let setDisclaim: SetDisclaim? = dlsym(dlopen(nil, RTLD_NOW), "responsibility_spawnattrs_setdisclaim")
+    private static let systemSetDisclaim: SetDisclaim? = dlsym(dlopen(nil, RTLD_NOW), "responsibility_spawnattrs_setdisclaim")
         .map { unsafeBitCast($0, to: SetDisclaim.self) }
 
     /// Whether this macOS can start a program as its own for privacy permissions. Without it, `run` refuses to start
-    /// one: it would get Greenshot's permissions.
-    public static var canDisclaim: Bool { setDisclaim != nil }
+    /// one (`DisclaimedProcessError.cannotDisclaim`): it would get Greenshot's permissions.
+    public static var canDisclaim: Bool { systemSetDisclaim != nil }
+
+    private let setDisclaim: SetDisclaim?
+
+    public convenience init() {
+        self.init(setDisclaim: Self.systemSetDisclaim)
+    }
+
+    /// `setDisclaim` stands in for the system's (tests: nil is a macOS without it).
+    init(setDisclaim: SetDisclaim?) {
+        self.setDisclaim = setDisclaim
+    }
 
     public var processIdentifier: pid_t { lock.withLock { pid } }
 
@@ -66,7 +87,7 @@ public final class DisclaimedProcess: @unchecked Sendable {
         if let folder = currentDirectoryURL?.path, !FileManager.default.fileExists(atPath: folder, isDirectory: &isFolder) || !isFolder.boolValue {
             throw CocoaError(.fileNoSuchFile, userInfo: [NSFilePathErrorKey: folder])
         }
-        guard let setDisclaim = Self.setDisclaim else { throw POSIXError(.ENOTSUP) }
+        guard let setDisclaim else { throw refused(path) }
 
         var attributes: posix_spawnattr_t?
         try Self.check(posix_spawnattr_init(&attributes))
@@ -80,7 +101,7 @@ public final class DisclaimedProcess: @unchecked Sendable {
         var noSignal = sigset_t()
         sigemptyset(&noSignal)
         try Self.check(posix_spawnattr_setsigmask(&attributes, &noSignal))
-        try Self.check(setDisclaim(&attributes, 1))
+        guard setDisclaim(&attributes, 1) == 0 else { throw refused(path) }
 
         var actions: posix_spawn_file_actions_t?
         try Self.check(posix_spawn_file_actions_init(&actions))
@@ -155,6 +176,11 @@ public final class DisclaimedProcess: @unchecked Sendable {
         var info = siginfo_t()
         guard waitid(P_PID, id_t(pid), &info, WEXITED | WNOHANG | WNOWAIT) == 0 else { return errno == ECHILD }
         return info.si_pid == pid
+    }
+
+    private func refused(_ path: String) -> DisclaimedProcessError {
+        log.warn("[SECURITY] \((path as NSString).lastPathComponent) not started: this macOS can't start it as a program of its own for privacy permissions.")
+        return .cannotDisclaim
     }
 
     private static func check(_ result: Int32) throws {

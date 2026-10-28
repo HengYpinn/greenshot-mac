@@ -5590,6 +5590,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Bu tetikleyici kapalı kalır, bu yüzden tarifi başlatmaz:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "macOS'in bu sürümü programı kendi gizlilik izinleriyle çalıştıramaz, bu yüzden Greenshot onu çalıştırmaz.";
+
+/* machine */
 "Threads" = "İş parçacıkları";
 
 /* machine */

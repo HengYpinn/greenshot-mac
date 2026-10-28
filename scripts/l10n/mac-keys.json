@@ -11814,6 +11814,12 @@
    ]
   },
   {
+   "key": "This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.",
+   "files": [
+    "Sources/GreenshotCore/DisclaimedProcess.swift"
+   ]
+  },
+  {
    "key": "Threads",
    "files": [
     "Sources/GreenshotMac/SelfService/SelfServiceSystem.swift"

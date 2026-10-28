@@ -5563,6 +5563,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Tento spúšťač zostane vypnutý, takže recept nespustí:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Táto verzia macOS nedokáže spustiť program s jeho vlastnými povoleniami súkromia, preto ho Greenshot nespustí.";
+
+/* machine */
 "Threads" = "Vlákna";
 
 /* machine */

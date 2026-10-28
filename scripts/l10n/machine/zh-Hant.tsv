@@ -2028,3 +2028,4 @@ zoomer on or off	開啟或關閉放大鏡	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	此要求來自 greenshotmac:// 連結，任何程式或網頁都能開啟這種連結。僅在連結由您自己開啟時才允許：配方的結果會傳送到配方指定的位置。	claude-opus-5-5 2026-10-28
+This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	此版本的 macOS 無法以程式本身的隱私權限執行該程式，因此 Greenshot 不會執行它。	claude-opus-5-5 2026-10-28

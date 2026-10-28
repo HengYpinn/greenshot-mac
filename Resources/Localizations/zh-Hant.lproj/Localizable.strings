@@ -5599,6 +5599,9 @@
 "This trigger stays off, so it won't start the recipe:" = "此觸發條件維持關閉，因此不會啟動此配方：";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "此版本的 macOS 無法以程式本身的隱私權限執行該程式，因此 Greenshot 不會執行它。";
+
+/* machine */
 "Threads" = "執行緒";
 
 /* machine */

@@ -2028,3 +2028,4 @@ zoomer on or off	확대경 켜기/끄기	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	요청이 greenshotmac:// 링크를 통해 들어왔습니다. 이 링크는 어떤 프로그램이나 웹 페이지에서도 열 수 있습니다. 직접 링크를 연 경우에만 허용하세요. 레시피 결과는 레시피가 보내는 곳으로 전달됩니다.	claude-opus-5-5 2026-10-28
+This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	이 버전의 macOS에서는 프로그램을 자체 개인정보 보호 권한으로 실행할 수 없으므로 Greenshot이 실행하지 않습니다.	claude-opus-5-5 2026-10-28

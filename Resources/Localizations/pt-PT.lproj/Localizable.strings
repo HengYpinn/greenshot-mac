@@ -5554,6 +5554,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Este acionador permanece desligado, pelo que não iniciará a receita:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Esta versão do macOS não consegue executar o programa com as suas próprias permissões de privacidade, por isso o Greenshot não o executa.";
+
+/* machine */
 "Tip: move the app to your Applications folder first, so it keeps opening at login." = "Sugestão: mova primeiro a app para a pasta Aplicações, para que continue a abrir no início de sessão.";
 
 /* machine */

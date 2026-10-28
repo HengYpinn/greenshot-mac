@@ -5515,6 +5515,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Questo attivatore resta disattivato, quindi non avvierà la ricetta:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Questa versione di macOS non può eseguire il programma con i suoi permessi di privacy, quindi Greenshot non lo esegue.";
+
+/* machine */
 "Threads" = "Thread";
 
 /* machine */

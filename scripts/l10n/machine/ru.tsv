@@ -2032,3 +2032,4 @@ zoomer on or off	лупа вкл. или выкл.	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Запрос пришёл через ссылку greenshotmac://, которую может открыть любая программа или веб-страница. Разрешайте его, только если ссылку открыли вы: результат рецепта отправляется туда, куда его направляет рецепт.	claude-opus-5-5 2026-10-28
+This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	Эта версия macOS не может запустить программу с её собственными разрешениями конфиденциальности, поэтому Greenshot её не запускает.	claude-opus-5-5 2026-10-28

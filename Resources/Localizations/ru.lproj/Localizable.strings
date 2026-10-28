@@ -5605,6 +5605,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Этот триггер остаётся выключенным и не будет запускать рецепт:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Эта версия macOS не может запустить программу с её собственными разрешениями конфиденциальности, поэтому Greenshot её не запускает.";
+
+/* machine */
 "Threads" = "Потоки";
 
 /* machine */

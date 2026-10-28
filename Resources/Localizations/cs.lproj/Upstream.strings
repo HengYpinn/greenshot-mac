@@ -982,7 +982,7 @@
 "__about_translation__" = "Překlad: Zdeněk Chalupský <chalzd@gmail.com>. Korektura: Petr Toman a Svatopluk Vít";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1964";
+"__machine_translations__" = "1965";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "Vše";

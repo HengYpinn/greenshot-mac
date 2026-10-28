@@ -2048,3 +2048,4 @@ zoomer on or off	vergrootglas aan of uit	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Het verzoek kwam via een greenshotmac://-link, die elk programma of elke webpagina kan openen. Sta het alleen toe als u de link zelf hebt geopend: het resultaat van het recept gaat waar het recept het naartoe stuurt.	claude-opus-5-5 2026-10-28
+This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	Deze versie van macOS kan het programma niet met zijn eigen privacytoestemmingen uitvoeren, dus Greenshot voert het niet uit.	claude-opus-5-5 2026-10-28

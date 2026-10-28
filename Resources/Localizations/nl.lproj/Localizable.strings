@@ -5467,6 +5467,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Deze trigger blijft uit, dus hij start het recept niet:";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Deze versie van macOS kan het programma niet met zijn eigen privacytoestemmingen uitvoeren, dus Greenshot voert het niet uit.";
+
+/* machine */
 "Tip: move the app to your Applications folder first, so it keeps opening at login." = "Tip: verplaats de app eerst naar uw map Programma's, zodat hij blijft openen bij het inloggen.";
 
 /* machine */

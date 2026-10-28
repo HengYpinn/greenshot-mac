@@ -2134,3 +2134,4 @@ zoomer on or off	روشن یا خاموش کردن ذره‌بین	claude-sonnet
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	درخواست از طریق یک پیوند greenshotmac:// آمد که هر برنامه یا صفحهٔ وبی می‌تواند آن را باز کند. فقط اگر خودتان پیوند را باز کرده‌اید اجازه دهید: نتیجهٔ دستورالعمل به جایی می‌رود که دستورالعمل می‌فرستد.	claude-opus-5-5 2026-10-28
+This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	این نسخه از macOS نمی‌تواند برنامه را با مجوزهای حریم خصوصی خودش اجرا کند، بنابراین Greenshot آن را اجرا نمی‌کند.	claude-opus-5-5 2026-10-28

@@ -5515,6 +5515,9 @@
 "This trigger stays off, so it won't start the recipe:" = "Ce déclencheur reste désactivé et ne démarrera donc pas la recette :";
 
 /* machine */
+"This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it." = "Cette version de macOS ne peut pas exécuter le programme avec ses propres autorisations de confidentialité, donc Greenshot ne l'exécute pas.";
+
+/* machine */
 "Tip: move the app to your Applications folder first, so it keeps opening at login." = "Astuce : déplacez d'abord l'app dans votre dossier Applications, pour qu'elle continue de s'ouvrir à la connexion.";
 
 /* machine */
