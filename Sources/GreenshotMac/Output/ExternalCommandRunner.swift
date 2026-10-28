@@ -10,7 +10,8 @@ private let log = Log("ExternalCommand")
 
 /// Runs a configured external command with the screenshot as a file: port of upstream
 /// `Greenshot.Plugin.ExternalCommand/Destinations/ExternalCommandDestination.cs`. The command runs off the main
-/// thread; its output can put a URL (e.g. from an upload script) or all of it on the clipboard.
+/// thread, as its own program for macOS privacy permissions (`DisclaimedProcess`); its output can put a URL (e.g. from
+/// an upload script) or all of it on the clipboard.
 @MainActor
 enum ExternalCommandRunner {
     /// Exit status of `/usr/bin/env` when the command isn't found.
@@ -41,14 +42,13 @@ enum ExternalCommandRunner {
             completion(.failed(String(localized: "The program was not found."), target: command.name))
             return
         }
-        let process = Process()
+        let process = DisclaimedProcess()
         process.executableURL = executable
         process.arguments = arguments
         let output = Pipe()
         let errors = Pipe()
         process.standardOutput = output
         process.standardError = errors
-        process.standardInput = FileHandle.nullDevice
         do {
             try process.run()
         } catch {
