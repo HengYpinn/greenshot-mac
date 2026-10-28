@@ -13,10 +13,11 @@ struct GreenshotFileLegacyTests {
 
     static func files(_ folder: String, _ fileExtension: String) -> [String] {
         let root = fixtures.appendingPathComponent(folder)
-        let enumerator = FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil)
-        let urls = (enumerator?.allObjects as? [URL]) ?? []
-        return urls.filter { $0.pathExtension == fileExtension }
-            .map { String($0.path.dropFirst(fixtures.path.count + 1)) }
+        // Paths relative to `root`: the enumerator's full paths can be spelled under /private when `fixtures` isn't
+        // (a build in /tmp), so cutting off `fixtures.path` would cut the wrong number of characters
+        let paths = (FileManager.default.enumerator(atPath: root.path)?.allObjects as? [String]) ?? []
+        return paths.filter { ($0 as NSString).pathExtension == fileExtension }
+            .map { folder + "/" + $0 }
             .sorted()
     }
 
