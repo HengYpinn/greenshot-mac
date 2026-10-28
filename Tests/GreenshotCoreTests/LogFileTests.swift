@@ -34,6 +34,7 @@ struct LogFileTests {
 
     @Test func errorLinesAreIndentedInTheFile() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let hub = LogHub(level: .debug, unifiedLog: false)
         hub.startFile(at: folder.appendingPathComponent(LogFile.fileName))
         hub.write(.warn, category: "Upload", message: "Upload failed", error: URLError(.timedOut))
@@ -46,6 +47,7 @@ struct LogFileTests {
 
     @Test func levelGateAndLevelChangeIsLogged() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         let hub = LogHub(level: .info, unifiedLog: false)
         hub.startFile(at: url)
@@ -62,6 +64,7 @@ struct LogFileTests {
 
     @Test func rollsOverAndKeepsThreeOlderFiles() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         let writer = LogFileWriter(url: url, maxSize: 100, backups: 3)
         for number in 1...6 {
@@ -78,6 +81,7 @@ struct LogFileTests {
 
     @Test func appendsToAnExistingFile() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         try Data("earlier\n".utf8).write(to: url)
         let writer = LogFileWriter(url: url)
@@ -89,6 +93,7 @@ struct LogFileTests {
     @Test func startsANewFileWhenTheLogWasDeleted() throws {
         // The user deleted Greenshot.log in the Finder to start afresh.
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         let writer = LogFileWriter(url: url, checkInterval: 0)
         writer.append("first\n")
@@ -100,6 +105,7 @@ struct LogFileTests {
 
     @Test func writesToTheFileThatReplacedTheLog() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         let writer = LogFileWriter(url: url, checkInterval: 0)
         writer.append("first\n")
@@ -129,6 +135,7 @@ struct LogFileTests {
 
     @Test func readsTheTailFromAWholeLine() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         let lines = (1...100).map { String(format: "line %03d", $0) }
         try Data((lines.joined(separator: "\n") + "\n").utf8).write(to: url)
@@ -154,6 +161,7 @@ struct LogFileTests {
 
     @Test func aChunkStartingAtALineKeepsThatLine() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         // 100 lines of 9 bytes: the last 90 bytes are exactly the last 10 lines.
         let lines = (1...100).map { String(format: "line %03d\n", $0) }
@@ -167,6 +175,7 @@ struct LogFileTests {
 
     @Test func loadingEarlierGoesOnThroughALineLongerThanTheChunk() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         let content = "first\n" + String(repeating: "x", count: 70_000) + "\nlast\n"
         try Data(content.utf8).write(to: url)
@@ -196,6 +205,7 @@ struct LogFileTests {
 
     @Test func aChunkInsideALineStartsAtACharacter() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         // 3 bytes a character: a chunk of 101 bytes starts inside one.
         let content = String(repeating: "語", count: 100) + "\n"
@@ -215,6 +225,7 @@ struct LogFileTests {
 
     @Test func readsASmallFileWhole() throws {
         let folder = try temporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
         let url = folder.appendingPathComponent(LogFile.fileName)
         try Data("only line\n".utf8).write(to: url)
         let tail = try LogFile.readTail(url)

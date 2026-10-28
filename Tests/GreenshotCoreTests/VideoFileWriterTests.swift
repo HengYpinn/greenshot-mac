@@ -47,6 +47,13 @@ private func temporaryFile(_ name: String) -> URL {
     return folder.appendingPathComponent(name)
 }
 
+/// Removes the folder of a `temporaryFile` and the `testTrash` next to it; a test calls it in a `defer`.
+private func removeTemporaryFolder(of url: URL) {
+    let folder = url.deletingLastPathComponent()
+    try? FileManager.default.removeItem(at: folder)
+    try? FileManager.default.removeItem(at: trashFolder(next: folder))
+}
+
 /// The track of `type` and its codec as four letters.
 private func track(_ url: URL, _ type: AVMediaType) async throws -> (codec: String, size: CGSize)? {
     let asset = AVURLAsset(url: url)
@@ -137,9 +144,13 @@ private func hiddenFiles(next url: URL) throws -> [String] {
     try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path).filter { $0.hasPrefix(".") }
 }
 
+private func trashFolder(next folder: URL) -> URL {
+    folder.deletingLastPathComponent().appendingPathComponent(folder.lastPathComponent + "-trash")
+}
+
 /// A folder standing in for the Trash, next to `folder`, so that tests never put anything into the user's Trash.
 private func testTrash(next folder: URL) throws -> (folder: URL, discard: @Sendable (URL) throws -> Void) {
-    let trash = folder.deletingLastPathComponent().appendingPathComponent(folder.lastPathComponent + "-trash")
+    let trash = trashFolder(next: folder)
     try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
     return (trash, { try FileManager.default.moveItem(at: $0, to: trash.appendingPathComponent($0.lastPathComponent)) })
 }
@@ -211,6 +222,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func h264File() async throws {
         let url = temporaryFile("h264.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url)
         appendSecond(video, start: 100)
         let result = try await video.finish(at: seconds(101))
@@ -229,6 +241,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4HEVC), "no HEVC encoder"))
     func hevcFile() async throws {
         let url = temporaryFile("hevc.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url, format: .mp4HEVC)
         appendSecond(video, start: 0)
         _ = try await video.finish(at: seconds(1))
@@ -239,6 +252,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func soundTrack() async throws {
         let url = temporaryFile("sound.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url, audio: true)
         appendSecond(video, start: 50)
         for chunk in 0..<10 {
@@ -260,6 +274,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func soundFromJustBeforeTheStartIsTrimmed() async throws {
         let url = temporaryFile("early-sound.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url, audio: true)
         appendSecond(video, start: 50)
         // 0.5 s from 49.8: 0.3 s of it after the first frame.
@@ -278,6 +293,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func soundFromAPauseIsTrimmed() async throws {
         let url = temporaryFile("pause-sound.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url, audio: true)
         appendSecond(video, start: 10)
         video.pause(at: seconds(11))
@@ -297,6 +313,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func silenceStillGivesAVideo() async throws {
         let url = temporaryFile("silent.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url, audio: true)
         appendSecond(video, start: 5)
         let result = try await video.finish(at: seconds(6))
@@ -307,6 +324,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func pausesAreCutOut() async throws {
         let url = temporaryFile("pause.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url)
         appendSecond(video, start: 10)
         video.pause(at: seconds(11))
@@ -323,6 +341,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aStillScreenLastsUntilTheStop() async throws {
         let url = temporaryFile("still.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url)
         video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(20))
         let result = try await video.finish(at: seconds(22))
@@ -334,6 +353,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func grayscaleFile() async throws {
         let url = temporaryFile("gray.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url, colorMode: .grayscale)
         appendSecond(video, start: 0)
         _ = try await video.finish(at: seconds(1))
@@ -355,6 +375,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func anAbandonedFileStaysReadable() async throws {
         let url = temporaryFile("crash.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, fragmentInterval: 0.5))
         for second in 0..<3 { appendSecond(video, start: Double(second)) }
@@ -377,6 +398,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aFragmentedFileFinishesNormally() async throws {
         let url = temporaryFile("fragments.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, fragmentInterval: 0.5))
         for second in 0..<3 { appendSecond(video, start: Double(second)) }
@@ -391,6 +413,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aWriterThatFailsKeepsWhatItWrote() async throws {
         let url = temporaryFile("failed.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, fragmentInterval: 0.5))
         let failures = Failures()
@@ -435,6 +458,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aFailureIsToldOnce() async throws {
         let url = temporaryFile("failed-early.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url)
         let failures = Failures()
         video.onFailure = { failures.add($0) }
@@ -478,6 +502,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aRecipeRecordsOverItsLastFile() async throws {
         let url = temporaryFile("again.mp4")
+        defer { removeTemporaryFolder(of: url) }
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try Data("the last recording".utf8).write(to: url)
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
@@ -499,6 +524,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aRecordingThatDoesNotStartPutsTheOldFileBack() throws {
         let url = try existingFile("back.mp4", holding: "the last recording")
+        defer { removeTemporaryFolder(of: url) }
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
         video.cancel()
@@ -513,6 +539,7 @@ struct VideoFileWriterTests {
         let name = String(repeating: "a", count: 246) + ".mp4"
         #expect(name.utf8.count == 250)
         let url = try existingFile(name, holding: "the last recording")
+        defer { removeTemporaryFolder(of: url) }
         let first = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
         first.cancel()
@@ -529,6 +556,7 @@ struct VideoFileWriterTests {
     /// nothing else is touched.
     @Test func leftOversOfACrashGoToTheTrash() throws {
         let folder = temporaryFile("left-overs")
+        defer { removeTemporaryFolder(of: folder) }
         let trash = try testTrash(next: folder)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let now = Date()
@@ -553,6 +581,7 @@ struct VideoFileWriterTests {
     /// A left-over that can't go to the Trash stays where it is: it is never deleted.
     @Test func aLeftOverThatCantBeTrashedStays() throws {
         let folder = temporaryFile("left-over-stays")
+        defer { removeTemporaryFolder(of: folder) }
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let old = VideoFileWriter.replacedFileName(at: Date().addingTimeInterval(-2 * 24 * 60 * 60))
         try Data("the only copy".utf8).write(to: folder.appendingPathComponent(old))
@@ -564,6 +593,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aWriterTrashesLeftOversWhereItWrites() async throws {
         let url = temporaryFile("sweep.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let trash = try testTrash(next: url.deletingLastPathComponent())
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         let name = VideoFileWriter.replacedFileName(at: Date().addingTimeInterval(-2 * 24 * 60 * 60))
@@ -588,6 +618,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264) && getuid() != 0, "no H.264 encoder, or root"))
     func aFailedPutBackIsTold() throws {
         let url = try existingFile("stuck.mp4", holding: "the last recording")
+        defer { removeTemporaryFolder(of: url) }
         let folder = url.deletingLastPathComponent()
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
@@ -607,6 +638,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aWriterLetGoPutsTheOldFileBack() throws {
         let url = try existingFile("let-go.mp4", holding: "the last recording")
+        defer { removeTemporaryFolder(of: url) }
         _ = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                       bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
         #expect(try Data(contentsOf: url) == Data("the last recording".utf8))
@@ -617,6 +649,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aRecordingWithoutFramesPutsTheOldFileBack() async throws {
         let url = try existingFile("no-frames.mp4", holding: "the last recording")
+        defer { removeTemporaryFolder(of: url) }
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
         await #expect(throws: VideoWriterError.noFrames) {
@@ -631,6 +664,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func theOldFileGoesWithTheFirstFrame() async throws {
         let url = try existingFile("started.mp4", holding: "the last recording")
+        defer { removeTemporaryFolder(of: url) }
         let video = try VideoFileWriter(.init(url: url, format: .mp4H264, width: 320, height: 240, frameRate: 30,
                                               bitrate: 1_000_000, realTime: false, replacesExistingFile: true))
         video.appendVideo(frame(width: 320, height: 240, red: 1, green: 2, blue: 3), at: seconds(0))
@@ -648,6 +682,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func aFolderIsNeverReplaced() throws {
         let url = temporaryFile("folder.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let inside = url.appendingPathComponent("keep.txt")
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         try Data("kept".utf8).write(to: inside)
@@ -662,6 +697,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func anExistingFileIsKeptOtherwise() throws {
         let url = temporaryFile("taken.mp4")
+        defer { removeTemporaryFolder(of: url) }
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try Data("someone's file".utf8).write(to: url)
         #expect(throws: VideoWriterError.self) {
@@ -673,6 +709,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func cancelDeletesTheFile() throws {
         let url = temporaryFile("cancel.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url)
         appendSecond(video, start: 0)
         video.cancel()
@@ -682,6 +719,7 @@ struct VideoFileWriterTests {
     @Test(.enabled(if: VideoEncoderSettings.canEncode(.mp4H264), "no H.264 encoder"))
     func noFramesNoFile() async throws {
         let url = temporaryFile("empty.mp4")
+        defer { removeTemporaryFolder(of: url) }
         let video = try writer(url)
         await #expect(throws: VideoWriterError.noFrames) {
             _ = try await video.finish(at: seconds(1))
