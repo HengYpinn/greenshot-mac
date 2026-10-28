@@ -11325,6 +11325,12 @@
    ]
   },
   {
+   "key": "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.",
+   "files": [
+    "Sources/GreenshotMac/App/AutomationCaptureConsent.swift"
+   ]
+  },
+  {
    "key": "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations.",
    "files": [
     "Sources/GreenshotMac/App/AutomationCaptureConsent.swift"

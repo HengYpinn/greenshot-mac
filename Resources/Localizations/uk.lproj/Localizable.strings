@@ -5371,6 +5371,9 @@
 "The recording was discarded" = "Запис відкинуто";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Запит надійшов через посилання greenshotmac://, яке може відкрити будь-яка програма чи вебсторінка. Дозволяйте лише якщо посилання відкрили ви: результат рецепта потрапить туди, куди його надсилає рецепт.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Запит надійшов через посилання greenshotmac://, яке може відкрити будь-яка програма чи вебсторінка. Дозволяйте лише якщо посилання відкрили ви: знімок потрапить у ваші призначення.";
 
 /* machine */

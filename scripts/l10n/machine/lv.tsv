@@ -2027,3 +2027,4 @@ zoomer on or off	palielinātājs ieslēgts vai izslēgts	claude-sonnet-5-5 2026-
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Pieprasījums nāca caur greenshotmac:// saiti, ko var atvērt jebkura programma vai tīmekļa lapa. Atļauj to tikai tad, ja pats atvēri saiti: receptes rezultāts nonāk tur, kur recepte to sūta.	claude-opus-5-5 2026-10-28

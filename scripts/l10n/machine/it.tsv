@@ -2026,3 +2026,4 @@ zoomer on or off	ingranditore attivato o disattivato	claude-sonnet-5-5 2026-10-1
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	La richiesta è arrivata tramite un link greenshotmac://, che qualsiasi programma o pagina web può aprire. Consentila solo se hai aperto tu il link: il risultato della ricetta va dove la ricetta lo invia.	claude-opus-5-5 2026-10-28

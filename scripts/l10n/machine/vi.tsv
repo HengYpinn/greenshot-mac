@@ -2136,3 +2136,4 @@ zoomer on or off	bật hoặc tắt kính phóng	claude-sonnet-5-5 2026-10-18
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Yêu cầu đến từ một liên kết greenshotmac://, mà bất kỳ chương trình hay trang web nào cũng có thể mở. Chỉ cho phép nếu chính bạn đã mở liên kết đó: kết quả của công thức đi đến nơi công thức gửi.	claude-opus-5-5 2026-10-28

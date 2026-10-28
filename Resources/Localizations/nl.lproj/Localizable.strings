@@ -5227,6 +5227,9 @@
 "The recording was discarded" = "De opname is verworpen";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Het verzoek kwam via een greenshotmac://-link, die elk programma of elke webpagina kan openen. Sta het alleen toe als u de link zelf hebt geopend: het resultaat van het recept gaat waar het recept het naartoe stuurt.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Het verzoek kwam via een greenshotmac://-link, die elk programma of elke webpagina kan openen. Sta het alleen toe als u de link zelf hebt geopend: de schermafbeelding gaat naar uw bestemmingen.";
 
 /* machine */

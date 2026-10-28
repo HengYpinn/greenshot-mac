@@ -5359,6 +5359,9 @@
 "The recording was discarded" = "錄影已捨棄";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "此要求來自 greenshotmac:// 連結，任何程式或網頁都能開啟這種連結。僅在連結由您自己開啟時才允許：配方的結果會傳送到配方指定的位置。";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "此要求來自 greenshotmac:// 連結，任何程式或網頁都能開啟這種連結。僅在連結由您自己開啟時才允許：螢幕截圖會傳送到您的目的地。";
 
 /* machine */

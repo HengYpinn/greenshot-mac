@@ -5335,6 +5335,9 @@
 "The recording was discarded" = "A felvétel el lett vetve";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "A kérés egy greenshotmac:// hivatkozáson keresztül érkezett, amelyet bármely program vagy weboldal megnyithat. Csak akkor engedélyezze, ha Ön nyitotta meg a hivatkozást: a recept eredménye oda kerül, ahová a recept küldi.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "A kérés egy greenshotmac:// hivatkozáson keresztül érkezett, amelyet bármely program vagy weboldal megnyithat. Csak akkor engedélyezze, ha Ön nyitotta meg a hivatkozást: a képernyőkép a céljaiba kerül.";
 
 /* machine */

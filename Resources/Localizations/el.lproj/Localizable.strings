@@ -5317,6 +5317,9 @@
 "The recording was discarded" = "Η εγγραφή απορρίφθηκε";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Το αίτημα ήρθε μέσω ενός συνδέσμου greenshotmac://, τον οποίο μπορεί να ανοίξει οποιοδήποτε πρόγραμμα ή ιστοσελίδα. Επιτρέψτε το μόνο αν ανοίξατε εσείς τον σύνδεσμο: το αποτέλεσμα της συνταγής πηγαίνει εκεί που το στέλνει η συνταγή.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Το αίτημα ήρθε μέσω ενός συνδέσμου greenshotmac://, τον οποίο μπορεί να ανοίξει οποιοδήποτε πρόγραμμα ή ιστοσελίδα. Επιτρέψτε το μόνο αν ανοίξατε εσείς τον σύνδεσμο: το στιγμιότυπο πηγαίνει στους προορισμούς σας.";
 
 /* machine */

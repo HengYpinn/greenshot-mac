@@ -2137,3 +2137,4 @@ zoomer on or off	nagyító be vagy ki	claude-sonnet-5-5 2026-10-18
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	A kérés egy greenshotmac:// hivatkozáson keresztül érkezett, amelyet bármely program vagy weboldal megnyithat. Csak akkor engedélyezze, ha Ön nyitotta meg a hivatkozást: a recept eredménye oda kerül, ahová a recept küldi.	claude-opus-5-5 2026-10-28

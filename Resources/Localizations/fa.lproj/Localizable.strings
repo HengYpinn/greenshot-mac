@@ -5335,6 +5335,9 @@
 "The recording was discarded" = "ضبط دور انداخته شد";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "درخواست از طریق یک پیوند greenshotmac:// آمد که هر برنامه یا صفحهٔ وبی می‌تواند آن را باز کند. فقط اگر خودتان پیوند را باز کرده‌اید اجازه دهید: نتیجهٔ دستورالعمل به جایی می‌رود که دستورالعمل می‌فرستد.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "درخواست از طریق یک پیوند greenshotmac:// آمد که هر برنامه یا صفحهٔ وبی می‌تواند آن را باز کند. فقط اگر خودتان پیوند را باز کرده‌اید اجازه دهید: تصویر صفحه به مقصدهای شما می‌رود.";
 
 /* machine */

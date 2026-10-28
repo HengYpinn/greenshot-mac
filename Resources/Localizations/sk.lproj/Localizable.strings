@@ -5323,6 +5323,9 @@
 "The recording was discarded" = "Nahrávka bola zahodená";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Žiadosť prišla cez odkaz greenshotmac://, ktorý môže otvoriť ktorýkoľvek program alebo webová stránka. Povoľte ju, iba ak ste odkaz otvorili vy: výsledok receptu ide tam, kam ho recept pošle.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Žiadosť prišla cez odkaz greenshotmac://, ktorý môže otvoriť ktorýkoľvek program alebo webová stránka. Povoľte ju, iba ak ste odkaz otvorili vy: snímka ide do vašich cieľov.";
 
 /* machine */

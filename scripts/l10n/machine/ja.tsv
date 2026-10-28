@@ -2025,3 +2025,4 @@ zoomer on or off	拡大鏡のオン／オフ	claude-sonnet-5-5 2026-10-18
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	リクエストは greenshotmac:// リンク経由で届きました。このリンクはどのプログラムや Web ページからも開けます。ご自身でリンクを開いた場合のみ許可してください。レシピの結果は、レシピが送信する先に送られます。	claude-opus-5-5 2026-10-28

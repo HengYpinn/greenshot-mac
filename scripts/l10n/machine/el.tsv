@@ -2080,3 +2080,4 @@ zoomer on or off	μεγεθυντικό εργαλείο: ναι ή όχι	claud
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Το αίτημα ήρθε μέσω ενός συνδέσμου greenshotmac://, τον οποίο μπορεί να ανοίξει οποιοδήποτε πρόγραμμα ή ιστοσελίδα. Επιτρέψτε το μόνο αν ανοίξατε εσείς τον σύνδεσμο: το αποτέλεσμα της συνταγής πηγαίνει εκεί που το στέλνει η συνταγή.	claude-opus-5-5 2026-10-28

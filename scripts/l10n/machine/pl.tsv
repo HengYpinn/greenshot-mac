@@ -2035,3 +2035,4 @@ zoomer on or off	lupa wł. lub wył.	claude-sonnet-5-5 2026-10-18
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Żądanie przyszło przez link greenshotmac://, który może otworzyć dowolny program lub strona internetowa. Zezwól tylko, jeśli link został otwarty z Twojej inicjatywy: wynik przepisu trafia tam, gdzie przepis go wysyła.	claude-opus-5-5 2026-10-28

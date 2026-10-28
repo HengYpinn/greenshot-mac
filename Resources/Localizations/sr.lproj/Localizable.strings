@@ -5353,6 +5353,9 @@
 "The recording was discarded" = "Снимање је одбачено";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Захтев је стигао преко везе greenshotmac://, коју може да отвори било који програм или веб-страница. Дозволите га само ако сте ви отворили везу: резултат рецепта иде где га рецепт шаље.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Захтев је стигао преко везе greenshotmac://, коју може да отвори било који програм или веб-страница. Дозволите га само ако сте ви отворили везу: снимак екрана иде у ваша одредишта.";
 
 /* machine */

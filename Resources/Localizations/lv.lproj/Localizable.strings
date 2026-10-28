@@ -5338,6 +5338,9 @@
 "The recording was discarded" = "Ieraksts tika atmests";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Pieprasījums nāca caur greenshotmac:// saiti, ko var atvērt jebkura programma vai tīmekļa lapa. Atļauj to tikai tad, ja pats atvēri saiti: receptes rezultāts nonāk tur, kur recepte to sūta.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Pieprasījums nāca caur greenshotmac:// saiti, ko var atvērt jebkura programma vai tīmekļa lapa. Atļauj to tikai tad, ja pats atvēri saiti: ekrānattēls nonāk tavos mērķos.";
 
 /* machine */

@@ -2138,3 +2138,4 @@ zoomer on or off	تشغيل المكبّر أو إيقافه	claude-sonnet-5-5 2
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	جاء الطلب عبر رابط greenshotmac://، ويمكن لأي برنامج أو صفحة ويب فتحه. اسمح به فقط إذا كنت أنت من فتحه: تذهب نتيجة الوصفة إلى حيث ترسلها الوصفة.	claude-opus-5-5 2026-10-28

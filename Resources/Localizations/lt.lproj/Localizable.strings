@@ -5359,6 +5359,9 @@
 "The recording was discarded" = "Įrašymas atmestas";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Užklausa atėjo per greenshotmac:// nuorodą, kurią gali atidaryti bet kuri programa ar tinklalapis. Leiskite ją tik jei patys atidarėte nuorodą: recepto rezultatas pateks ten, kur jį siunčia receptas.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Užklausa atėjo per greenshotmac:// nuorodą, kurią gali atidaryti bet kuri programa ar tinklalapis. Leiskite ją tik jei patys atidarėte nuorodą: ekrano nuotrauka pateks į jūsų paskirtis.";
 
 /* machine */

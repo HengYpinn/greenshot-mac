@@ -5272,6 +5272,9 @@
 "The recording was discarded" = "Înregistrarea a fost eliminată";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Cererea a venit printr-un link greenshotmac://, pe care orice program sau pagină web îl poate deschide. Permiteți-o doar dacă ați deschis dumneavoastră linkul: rezultatul rețetei ajunge unde îl trimite rețeta.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Cererea a venit printr-un link greenshotmac://, pe care orice program sau pagină web îl poate deschide. Permiteți-o doar dacă ați deschis dumneavoastră linkul: captura de ecran ajunge la destinațiile dumneavoastră.";
 
 /* machine */

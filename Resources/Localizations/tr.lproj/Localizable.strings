@@ -5350,6 +5350,9 @@
 "The recording was discarded" = "Kayıt atıldı";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "İstek, herhangi bir programın veya web sayfasının açabileceği bir greenshotmac:// bağlantısı üzerinden geldi. Yalnızca bağlantıyı siz açtıysanız izin verin: tarifin sonucu tarifin gönderdiği yere gider.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "İstek, herhangi bir programın veya web sayfasının açabileceği bir greenshotmac:// bağlantısı üzerinden geldi. Yalnızca bağlantıyı siz açtıysanız izin verin: ekran görüntüsü hedeflerinize gider.";
 
 /* machine */

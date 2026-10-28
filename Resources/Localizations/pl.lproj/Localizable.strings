@@ -5335,6 +5335,9 @@
 "The recording was discarded" = "Nagranie zostało odrzucone";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Żądanie przyszło przez link greenshotmac://, który może otworzyć dowolny program lub strona internetowa. Zezwól tylko, jeśli link został otwarty z Twojej inicjatywy: wynik przepisu trafia tam, gdzie przepis go wysyła.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Żądanie przyszło przez link greenshotmac://, który może otworzyć dowolny program lub strona internetowa. Zezwól tylko, jeśli link został otwarty z Twojej inicjatywy: zrzut ekranu trafia do Twoich miejsc docelowych.";
 
 /* machine */

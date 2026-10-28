@@ -1666,7 +1666,7 @@
 "Zig-zag" = "Zickzack";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "1880";
+"__machine_translations__" = "1881";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "alle";

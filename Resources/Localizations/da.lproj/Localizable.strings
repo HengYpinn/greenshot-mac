@@ -5272,6 +5272,9 @@
 "The recording was discarded" = "Optagelsen blev kasseret";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Anmodningen kom via et greenshotmac://-link, som ethvert program eller enhver webside kan åbne. Tillad den kun, hvis du selv åbnede linket: opskriftens resultat går dertil, hvor opskriften sender det.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Anmodningen kom via et greenshotmac://-link, som ethvert program eller enhver webside kan åbne. Tillad den kun, hvis du selv åbnede linket: skærmklippet sendes til dine destinationer.";
 
 /* machine */

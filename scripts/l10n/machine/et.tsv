@@ -2081,3 +2081,4 @@ zoomer on or off	suurendaja sisse või välja	claude-sonnet-5-5 2026-10-18
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	Päring tuli greenshotmac:// lingi kaudu, mida saab avada iga programm või veebileht. Lubage see ainult siis, kui avasite lingi ise: retsepti tulemus läheb sinna, kuhu retsept selle saadab.	claude-opus-5-5 2026-10-28

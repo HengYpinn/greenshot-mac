@@ -2048,3 +2048,4 @@ zoomer on or off	zoom ligado ou desligado	claude-sonnet-5-5 2026-10-18
 ⚠	⚠	claude-sonnet-5-5 2026-10-18
 ✔	✔	claude-sonnet-5-5 2026-10-18
 ✘	✘	claude-sonnet-5-5 2026-10-18
+The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	O pedido veio por um link greenshotmac://, que qualquer programa ou página web pode abrir. Permita somente se foi você quem abriu o link: o resultado da receita vai para onde a receita o envia.	claude-opus-5-5 2026-10-28

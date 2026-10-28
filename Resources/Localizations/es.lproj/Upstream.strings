@@ -643,7 +643,7 @@
 "Words" = "Palabras";
 
 /* machine translations in Localizable.strings */
-"__machine_translations__" = "2030";
+"__machine_translations__" = "2031";
 
 /* core:Core.contextmenu_capturefullscreen_all */
 "all" = "todo";

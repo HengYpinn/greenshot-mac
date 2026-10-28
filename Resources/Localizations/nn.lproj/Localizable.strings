@@ -5308,6 +5308,9 @@
 "The recording was discarded" = "Opptaket blei forkasta";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Førespurnaden kom gjennom ei greenshotmac://-lenkje, som kva program eller nettside som helst kan opne. Tillat han berre om du opna lenkja sjølv: resultatet av oppskrifta går dit oppskrifta sender det.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Førespurnaden kom gjennom ei greenshotmac://-lenkje, som kva program eller nettside som helst kan opne. Tillat han berre om du opna lenkja sjølv: skjermbiletet går til måla dine.";
 
 /* machine */

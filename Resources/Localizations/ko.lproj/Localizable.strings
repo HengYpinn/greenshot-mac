@@ -5350,6 +5350,9 @@
 "The recording was discarded" = "녹화가 폐기되었습니다";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "요청이 greenshotmac:// 링크를 통해 들어왔습니다. 이 링크는 어떤 프로그램이나 웹 페이지에서도 열 수 있습니다. 직접 링크를 연 경우에만 허용하세요. 레시피 결과는 레시피가 보내는 곳으로 전달됩니다.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "요청이 greenshotmac:// 링크를 통해 들어왔습니다. 이 링크는 어떤 프로그램이나 웹 페이지에서도 열 수 있습니다. 직접 링크를 연 경우에만 허용하세요. 스크린샷은 저장 방법으로 전달됩니다.";
 
 /* machine */

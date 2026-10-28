@@ -5335,6 +5335,9 @@
 "The recording was discarded" = "Tallenne hylättiin";
 
 /* machine */
+"The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it." = "Pyyntö tuli greenshotmac://-linkin kautta, jonka mikä tahansa ohjelma tai verkkosivu voi avata. Salli se vain, jos avasit linkin itse: reseptin tulos menee sinne, minne resepti sen lähettää.";
+
+/* machine */
 "The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the screenshot goes to your destinations." = "Pyyntö tuli greenshotmac://-linkin kautta, jonka mikä tahansa ohjelma tai verkkosivu voi avata. Salli se vain, jos avasit linkin itse: kuvakaappaus menee kohteisiisi.";
 
 /* machine */
