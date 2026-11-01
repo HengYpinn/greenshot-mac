@@ -108,6 +108,29 @@ import Testing
         #expect(RecipeValidator().validate(plain).gateTypes == [.externalCommand, .networkAccess])
     }
 
+    /// RECIPES-1: an absolute `FilenamePattern` of the recipe's author writes (and with the default setting replaces) files
+    /// outside the output folder, so it needs file system access and the step line says where.
+    @Test func anAbsoluteFilenamePatternNeedsFileAccess() {
+        let save = node("SaveFile", ["FilenamePattern": .string("~/Pictures/x"), "AllowOverwrite": .bool(true)])
+        let expected = RecipeGatedAction(.fileSystemAccess, target: "Writes files to ~/Pictures/x and may replace existing files there")
+        #expect(gates(save) == [expected])
+        let recipe = testRecipe([RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "SaveFile", parameters: save.parameters)])
+        let validation = RecipeValidator().validate(recipe)
+        #expect(validation.gateTypes == [.fileSystemAccess])
+        let lines = details(recipe)
+        #expect(lines.contains("Saves the result to ~/Pictures/x"))
+        #expect(lines.contains("Writes files to ~/Pictures/x and may replace existing files there"))
+        // The same parameters on a Destinations step, and a pattern without a fixed start.
+        let listed = gates(node("Destinations", ["DestinationDesignations": .array([.string("FileNoDialog")]),
+                                                 "FilenamePattern": .string("/${Name}"), "AllowOverwrite": .bool(false)]))
+        #expect(listed == [RecipeGatedAction(.fileSystemAccess, target: "Writes files to a place decided when the recipe runs (/${Name})")])
+        // A relative pattern stays in the output folder, whatever its values are: no permission, as before.
+        #expect(gates(node("SaveFile", ["FilenamePattern": .string("${title}"), "AllowOverwrite": .bool(true)])).isEmpty)
+        #expect(details(testRecipe([RecipeNode(id: "a", stepType: "Source"),
+                                    RecipeNode(id: "b", stepType: "SaveFile", parameters: ["FilenamePattern": .string("${title}")])]))
+            .contains("Saves the result to the output folder from the settings"))
+    }
+
     @Test func theLibraryAsksForTheseActions() async throws {
         let fixture = LibraryFixture(approver: StubApprover { request in
             RecipeApprovalDecision(approval: RecipeApproval(recipeId: "x", approvedTriggers: request.triggers.map(\.key)))

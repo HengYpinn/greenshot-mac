@@ -204,6 +204,7 @@ public struct RecipeDescriber: Sendable {
         if isType(WellKnownStepType.printer) { return "Prints the result" }
         if isType(WellKnownStepType.email) { return "Creates an email with the result" }
         if isType(WellKnownStepType.saveFile) {
+            if let place = BuiltInStepContracts.absoluteFilePlace(node) { return "Saves the result to \(place)" }
             switch RecipeGateValue(node, "SaveDirectory") {
             case .unset: return "Saves the result to the output folder from the settings"
             case .literal(let directory): return "Saves the result to \(directory)"

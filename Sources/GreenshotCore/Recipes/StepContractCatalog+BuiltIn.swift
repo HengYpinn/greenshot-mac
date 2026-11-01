@@ -250,6 +250,13 @@ enum BuiltInStepContracts {
         case .runTime(let text):
             actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes files to a folder decided when the recipe runs (\(text))"))
         }
+        if let place = absoluteFilePlace(node) {
+            // The File destination replaces a file of the same name unless AllowOverwrite is false (unset: the
+            // setting, which replaces by default; `${...}`: decided when the recipe runs).
+            let replaces = node.parameters["AllowOverwrite"]?.asBool != false
+            actions.append(RecipeGatedAction(.fileSystemAccess,
+                                             target: "Writes files to \(place)" + (replaces ? " and may replace existing files there" : "")))
+        }
         for designation in designations(of: node, environment) where !designation.trimmingCharacters(in: .whitespaces).isEmpty {
             // A destination decided when the recipe runs may be any: assume a command and an upload.
             if RecipeGateValue.isRunTime(designation) {
@@ -259,6 +266,18 @@ enum BuiltInStepContracts {
             }
         }
         return actions
+    }
+
+    /// Where an absolute `FilenamePattern` of the recipe's author writes (RecipeFileTarget: it goes where the author put
+    /// it, not into the output folder): the pattern, or "a place decided when the recipe runs" when it has `${...}`. Nil
+    /// for a pattern that stays in the folder.
+    static func absoluteFilePlace(_ node: RecipeNode) -> String? {
+        switch RecipeGateValue(node, "FilenamePattern") {
+        case .literal(let pattern) where RecipeFileExportOptions.isAbsolutePattern(pattern): return pattern
+        case .runTime(let pattern) where RecipeFileExportOptions.isAbsolutePattern(pattern):
+            return "a place decided when the recipe runs (\(pattern))"
+        default: return nil
+        }
     }
 
     static let destinations = StepContract(
