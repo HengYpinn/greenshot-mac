@@ -16,6 +16,30 @@ public protocol HTTPClient: Sendable {
 
 extension URLSession: HTTPClient {}
 
+/// The network of the uploads: `URLSession` reading at most `maxBytes` of an answer, counted while it arrives.
+/// `URLSession.data(for:)` keeps whatever a server sends, and the request timeout only counts the pauses between parts.
+public struct LimitedHTTPClient: HTTPClient {
+    public let session: URLSession
+    public let maxBytes: Int
+
+    public init(session: URLSession, maxBytes: Int = HTTPSupport.maxResponseBytes) {
+        self.session = session
+        self.maxBytes = maxBytes
+    }
+
+    public func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+        let (bytes, response) = try await session.bytes(for: request)
+        if response.expectedContentLength > Int64(maxBytes) { throw HTTPSupport.tooLarge(maxBytes) }
+        var data = Data()
+        if response.expectedContentLength > 0 { data.reserveCapacity(Int(response.expectedContentLength)) }
+        for try await byte in bytes {
+            data.append(byte)
+            if data.count > maxBytes { throw HTTPSupport.tooLarge(maxBytes) }
+        }
+        return (data, response)
+    }
+}
+
 /// Where API tokens, client secrets and OAuth tokens live: the Keychain in the app, memory in the tests. Never
 /// the settings (UserDefaults).
 ///
@@ -240,15 +264,27 @@ public enum HTTPSupport {
         "Basic " + Data("\(user):\(password)".utf8).base64EncodedString()
     }
 
+    /// The most bytes of an answer: 10 MB, far more than any the clients ask for (a Jira search of 50 issues with five
+    /// fields, 250 Confluence spaces with their home pages, a Box or Dropbox file's details, an OAuth token: kilobytes
+    /// to about a megabyte).
+    public static let maxResponseBytes = 10 * 1024 * 1024
+
     /// Sends the request and returns the body of a 2xx answer; anything else is an `UploadError.http` with the
-    /// server's message.
-    public static func send(_ request: URLRequest, with http: HTTPClient) async throws -> Data {
+    /// server's message. An answer over `maxBytes` is an `UploadError.unexpectedResponse` (`LimitedHTTPClient` stops
+    /// reading it there).
+    public static func send(_ request: URLRequest, with http: HTTPClient, maxBytes: Int = maxResponseBytes) async throws -> Data {
         let (data, response) = try await http.data(for: request)
+        if data.count > maxBytes { throw tooLarge(maxBytes) }
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
         guard (200..<300).contains(status) else {
             throw UploadError.http(status: status, message: errorMessage(in: data, status: status))
         }
         return data
+    }
+
+    static func tooLarge(_ maxBytes: Int) -> UploadError {
+        let limit = maxBytes >= 1024 * 1024 ? "\(maxBytes / (1024 * 1024)) MB" : "\(maxBytes) bytes"
+        return .unexpectedResponse("the answer is larger than \(limit)")
     }
 
     /// The readable part of an error answer: Jira's `errorMessages`/`errors`, Confluence's `message`, Box's

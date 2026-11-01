@@ -14,7 +14,9 @@ enum Uploads {
     /// The certificate exceptions of Settings › Destinations › Your own servers (upstream `NetworkHelper`), which the
     /// policy applies to the Jira and Confluence servers only: Box, Dropbox and the rest get the system's check alone.
     static let trust = TLSExceptionSessionDelegate()
-    static let http: HTTPClient = URLSession(configuration: .default, delegate: trust, delegateQueue: nil)
+    /// Answers are read up to `HTTPSupport.maxResponseBytes`.
+    static let http: HTTPClient = LimitedHTTPClient(session: URLSession(configuration: .default, delegate: trust,
+                                                                        delegateQueue: nil))
     static let secrets: SecretStore = KeychainSecretStore.shared
 
     /// Takes the certificate exceptions of the settings for the next requests.

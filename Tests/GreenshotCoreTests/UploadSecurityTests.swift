@@ -24,16 +24,70 @@ struct UploadSecurityTests {
         #expect(defaultPort == site.authorizationHeader)
     }
 
-    @Test func iconsAnywhereElseDoNot() async throws {
-        // An http:// icon on the same host would carry the password unencrypted.
-        let unencrypted = try await authorization(fetching: "http://jira.example.test/images/icons/bug.png")
-        #expect(unencrypted == nil)
-        let otherPort = try await authorization(fetching: "https://jira.example.test:8443/images/icons/bug.png")
-        #expect(otherPort == nil)
-        let otherHost = try await authorization(fetching: "https://avatars.example.test/bug.png")
-        #expect(otherHost == nil)
-        let lookalike = try await authorization(fetching: "https://jira.example.test.evil.test/bug.png")
-        #expect(lookalike == nil)
+    /// The server names the icon's URL: one anywhere else (another server, a program on this Mac) isn't fetched at all.
+    @Test func iconsAnywhereElseAreNotFetched() async throws {
+        let links = [
+            // An http:// icon on the same host would carry the password unencrypted.
+            "http://jira.example.test/images/icons/bug.png",
+            "https://jira.example.test:8443/images/icons/bug.png",
+            "https://avatars.example.test/bug.png",
+            "https://jira.example.test.evil.test/bug.png",
+            "http://127.0.0.1:8080/admin",
+        ]
+        for link in links {
+            let http = StubHTTPClient(body: "PNG")
+            let client = JiraClient(site: site, http: http)
+            let url = try #require(URL(string: link))
+            await #expect(throws: UploadError.self) { _ = try await client.imageData(at: url) }
+            #expect(http.requests.isEmpty, "\(link)")
+        }
+    }
+
+    // MARK: How much of an answer is read
+
+    @Test func anAnswerOverTheLimitIsRefused() async throws {
+        let request = URLRequest(url: try #require(URL(string: "https://jira.example.test/rest/api/2/myself")))
+        let big = StubHTTPClient(body: String(repeating: " ", count: HTTPSupport.maxResponseBytes + 1))
+        await #expect(throws: UploadError.self) { _ = try await HTTPSupport.send(request, with: big) }
+        let small = StubHTTPClient(body: "{}")
+        let data = try await HTTPSupport.send(request, with: small)
+        #expect(data.count == 2)
+    }
+
+    @Test func anIconOverItsLimitIsRefused() async throws {
+        let big = StubHTTPClient(body: String(repeating: " ", count: JiraClient.maxIconBytes + 1))
+        let url = try #require(URL(string: "https://jira.example.test/images/icons/bug.png"))
+        await #expect(throws: UploadError.self) { _ = try await JiraClient(site: site, http: big).imageData(at: url) }
+    }
+
+    /// The network of the uploads counts the answer while it arrives, with or without a Content-Length.
+    @Test func theSessionStopsReadingAtTheLimit() async throws {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [EndlessServer.self]
+        let client = LimitedHTTPClient(session: URLSession(configuration: configuration), maxBytes: 1000)
+        let declared = URLRequest(url: try #require(URL(string: "https://example.com/declared")))
+        await #expect(throws: UploadError.self) { _ = try await client.data(for: declared) }
+        let undeclared = URLRequest(url: try #require(URL(string: "https://example.com/undeclared")))
+        await #expect(throws: UploadError.self) { _ = try await client.data(for: undeclared) }
+        let small = URLRequest(url: try #require(URL(string: "https://example.com/small")))
+        let (data, _) = try await client.data(for: small)
+        #expect(data.count == 10)
+    }
+
+    /// The pixel size is read from the header before anything is decoded: a small file can claim billions of pixels.
+    @Test func anIconClaimingAHugeSizeIsNotDecoded() {
+        #expect(JiraClient.iconImage(BrowserImportDecoderTests.pngHeader(width: 30000, height: 30000)) == nil)
+        let wide = BrowserImportDecoderTests.encoded("public.png", width: JiraClient.maxIconSide + 1, height: 1)
+        #expect(JiraClient.iconImage(wide) == nil)
+        let icon = JiraClient.iconImage(BrowserImportDecoderTests.encoded("public.png", width: 16, height: 16))
+        #expect(icon?.width == 16)
+        #expect(JiraClient.iconImage(Data("not an image".utf8)) == nil)
+    }
+
+    @Test func anSVGIconIsDrawnAtTheIconSize() {
+        let svg = #"<svg xmlns="http://www.w3.org/2000/svg" width="100000" height="100000"><rect width="10" height="10"/></svg>"#
+        let icon = JiraClient.iconImage(Data(svg.utf8))
+        #expect(icon?.width == 32)
     }
 
     @Test func aSiteWithAPortMatchesOnlyThatPort() throws {

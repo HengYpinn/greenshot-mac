@@ -66,9 +66,8 @@ enum JiraPicker {
             return try await client.search(jql: filter.jql).map(row)
         }
         configuration.loadIcon = { url in
-            guard let data = try? await client.imageData(at: url), let image = NSImage(data: data) else { return nil }
-            image.size = NSSize(width: 16, height: 16)
-            return image
+            guard let data = try? await client.imageData(at: url), let icon = JiraClient.iconImage(data) else { return nil }
+            return NSImage(cgImage: icon, size: NSSize(width: 16, height: 16))
         }
         return configuration
     }

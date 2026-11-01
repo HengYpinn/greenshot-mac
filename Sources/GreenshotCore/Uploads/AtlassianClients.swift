@@ -3,7 +3,9 @@
 // Based on Greenshot, Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import CoreGraphics
 import Foundation
+import ImageIO
 
 private let log = Log("Uploads")
 
@@ -467,11 +469,28 @@ public struct JiraClient: Sendable {
         try Self.filters(fromJSON: try await HTTPSupport.send(favouriteFiltersRequest(), with: http))
     }
 
-    /// An image of the site with the credentials (issue type icons need them); an image anywhere else without them.
+    /// The most bytes of an issue type icon (they are a few KB).
+    public static let maxIconBytes = 1024 * 1024
+    /// The widest or highest issue type icon that is decoded (Jira's are 16 to 48 pixels).
+    public static let maxIconSide = 1024
+
+    /// An image of the site with the credentials (issue type icons need them), at most `maxIconBytes`. The server
+    /// names the URL: an image anywhere else (another server, a program on this Mac) isn't fetched.
     public func imageData(at url: URL) async throws -> Data {
+        guard site.isSameOrigin(url) else { throw UploadError.unexpectedResponse("the icon is not on the site") }
         var request = URLRequest(url: url, timeoutInterval: 30)
-        if site.isSameOrigin(url) { request.setValue(site.authorizationHeader, forHTTPHeaderField: "Authorization") }
-        return try await HTTPSupport.send(request, with: http)
+        request.setValue(site.authorizationHeader, forHTTPHeaderField: "Authorization")
+        return try await HTTPSupport.send(request, with: http, maxBytes: Self.maxIconBytes)
+    }
+
+    /// The picture of an issue type icon's data: an SVG drawn into `svgPixels`, else the first image when its header
+    /// says at most `maxIconSide` pixels a side (read before decoding: a small file can claim billions of pixels).
+    public static func iconImage(_ data: Data, svgPixels: CGSize = CGSize(width: 32, height: 32)) -> CGImage? {
+        if ElementSvg.isSVG(data) { return ElementSvg.render(data, pixelSize: svgPixels) }
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let size = ImageFileLoader.pixelSize(of: source, at: 0),
+              (1...maxIconSide).contains(size.width), (1...maxIconSide).contains(size.height) else { return nil }
+        return CGImageSourceCreateImageAtIndex(source, 0, nil)
     }
 
     public func issue(_ key: String) async throws -> JiraIssue {
