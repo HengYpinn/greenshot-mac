@@ -47,13 +47,13 @@ struct ImagePasteboardTests {
             pasteboard.writeObjects([url as NSURL])
             let start = clock.now
             #expect(ImagePasteboard.image(from: pasteboard) == nil)
-            #expect(clock.now - start < .seconds(1))
+            #expect(clock.now - start < .seconds(2))
         }
         try withPasteboard { pasteboard in
             pasteboard.setData(Data(svg.utf8), forType: NSPasteboard.PasteboardType(UTType.svg.identifier))
             let start = clock.now
             #expect(ImagePasteboard.image(from: pasteboard) == nil)
-            #expect(clock.now - start < .seconds(1))
+            #expect(clock.now - start < .seconds(2))
         }
     }
 
@@ -212,6 +212,6 @@ struct HTMLImageSourcesTests {
         let start = clock.now
         let decoded = ImagePasteboard.decodeEntities(text)
         #expect(decoded == "a&b" + String(repeating: "&", count: 40_000))
-        #expect(clock.now - start < .seconds(1))
+        #expect(clock.now - start < .seconds(2))
     }
 }

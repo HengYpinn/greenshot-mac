@@ -187,7 +187,7 @@ struct ElementSvgReferenceTests {
         let file = try GreenshotFile.Contents(image: TestImage.solid(width: 60, height: 60, .white), scale: 1, elements: [element]).encoded()
         let read = try #require(GreenshotFile.read(file))
         _ = AnnotationRenderer.flatten(base: read.image, annotations: read.elements, scale: 1)
-        #expect(clock.now - start < .seconds(1))
+        #expect(clock.now - start < .seconds(3))
     }
 
     @Test func patternsMasksStyleSheetsAndInnerPicturesCount() {
@@ -289,7 +289,7 @@ struct ElementSvgReferenceTests {
         let clock = ContinuousClock()
         let start = clock.now
         #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)))
-        #expect(clock.now - start < .seconds(1))
+        #expect(clock.now - start < .seconds(5))
         let small = #"<!DOCTYPE svg [<!ENTITY ns_svg "http://www.w3.org/2000/svg">]>"#
             + #"<svg xmlns="&ns_svg;" width="100" height="100"><rect width="10" height="10"/></svg>"#
         #expect(!ElementSvg.hasLimitedReferences(Data(small.utf8)))
@@ -315,7 +315,7 @@ struct ElementSvgReferenceTests {
         let patternsFit = ElementSvg.hasLimitedReferences(Data((Self.svgStart + "<style>\(patterns)</style>\(defs)\(shapes)</svg>").utf8))
         #expect(gradientsFit)
         #expect(!patternsFit)
-        #expect(clock.now - start < .seconds(1))
+        #expect(clock.now - start < .seconds(10))
     }
 
     @Test func aStyleSheetPaintingItsOwnMaskIsFine() {

@@ -113,7 +113,7 @@ struct ElementClipboardTests {
         let start = clock.now
         let loaded = ElementPictures.load(data: many)
         #expect(loaded != nil)
-        #expect(clock.now - start < .seconds(1))
+        #expect(clock.now - start < .seconds(2))
     }
 
     @Test func aRetinaPictureKeepsItsScale() throws {

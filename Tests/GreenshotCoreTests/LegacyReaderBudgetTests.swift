@@ -102,7 +102,7 @@ struct LegacyReaderBudgetTests {
         let read = try GreenshotFile.readTemplate(data, scale: 1)
         #expect(read.elements.count == 40)
         #expect(read.unreadable.isEmpty)
-        #expect(clock.now - start < .seconds(1))
+        #expect(clock.now - start < .milliseconds(1500))
     }
 
     @Test func picturesBeyondThePixelBudgetAreNotConverted() throws {

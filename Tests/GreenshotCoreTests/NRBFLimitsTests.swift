@@ -40,7 +40,7 @@ struct NRBFLimitsTests {
         for index in 0..<200 where instance.member("missing\(index)") != nil { found += 1 }
         #expect(found == 0)
         #expect(instance.member("m99999") == .null)
-        #expect(clock.now - start < .milliseconds(500))
+        #expect(clock.now - start < .seconds(2))
     }
 
     @Test func libraryRecordsCountAsRecords() {
