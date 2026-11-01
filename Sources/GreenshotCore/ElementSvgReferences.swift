@@ -3,6 +3,7 @@
 // Based on Greenshot, Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import CryptoKit
 import Foundation
 
 /// What the references of an SVG add to drawing it, counted before macOS draws it. `<use>` draws the element it
@@ -17,10 +18,45 @@ extension ElementSvg {
     static let maxNestedPictures = 4
 
     /// Whether the references of `data` add at most `maxReferencedElements` elements and don't go round in a circle.
-    /// False also when it isn't well-formed XML, which macOS doesn't draw either.
+    /// False also when it isn't well-formed XML, which macOS doesn't draw either, when it declares entities, and when
+    /// it was refused before (`refuse(_:)`).
     static func hasLimitedReferences(_ data: Data) -> Bool {
-        guard case .counted(let written, let drawn) = SvgReferenceCount.count(data, depth: 0) else { return false }
-        return drawn - written <= maxReferencedElements
+        drawnElements(data) != nil
+    }
+
+    /// The elements `data` draws with its references followed; nil when it is refused (see `hasLimitedReferences`).
+    static func drawnElements(_ data: Data) -> Int? {
+        let key = verdictKey(data)
+        if let known = verdicts.object(forKey: key) { return known.intValue >= 0 ? known.intValue : nil }
+        var drawn: Int?
+        if case .counted(let written, let total) = SvgReferenceCount.count(data, depth: 0, known: SvgReferenceCount.Known()),
+           total - written <= maxReferencedElements {
+            drawn = total
+        }
+        verdicts.setObject(NSNumber(value: drawn ?? -1), forKey: key)
+        return drawn
+    }
+
+    /// Refuses `data` from now on (an SVG that took too long to draw).
+    static func refuse(_ data: Data) {
+        verdicts.setObject(NSNumber(value: -1), forKey: verdictKey(data))
+    }
+
+    /// Whether `data` was counted or refused before and passed; nil when it wasn't.
+    static func knownVerdict(_ data: Data) -> Bool? {
+        verdicts.object(forKey: verdictKey(data)).map { $0.intValue >= 0 }
+    }
+
+    /// The count of each SVG, -1 for one refused, by the SHA-256 of its bytes: an element's SVG is looked at when it is
+    /// read, laid out and drawn.
+    private static let verdicts: NSCache<NSData, NSNumber> = {
+        let cache = NSCache<NSData, NSNumber>()
+        cache.countLimit = 512
+        return cache
+    }()
+
+    private static func verdictKey(_ data: Data) -> NSData {
+        Data(SHA256.hash(data: data)) as NSData
     }
 }
 
@@ -48,6 +84,14 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     private var elements: [Element] = []
     private var open: [Int] = []
     private var styleSheet = ""
+    /// The document declares an entity: refused.
+    private var hasEntities = false
+
+    /// The counts of the inner pictures of one SVG by their bytes, so a picture that is there many times is counted
+    /// once.
+    final class Known {
+        var counts: [Data: Count] = [:]
+    }
 
     enum Count {
         /// The elements the document has, and those drawn with its references.
@@ -58,23 +102,31 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         case refused
     }
 
-    static func count(_ data: Data, depth: Int) -> Count {
+    static func count(_ data: Data, depth: Int, known: Known) -> Count {
         let counter = SvgReferenceCount()
         let parser = XMLParser(data: data)
         parser.shouldResolveExternalEntities = false
         parser.externalEntityResolvingPolicy = .never
         parser.delegate = counter
-        guard parser.parse(), !counter.elements.isEmpty else { return .notXML }
+        let parsed = parser.parse()
+        guard !counter.hasEntities else { return .refused }
+        guard parsed, !counter.elements.isEmpty else { return .notXML }
         // An SVG picture deeper than `maxNestedPictures` is refused, and nothing in it is looked at.
         guard depth <= ElementSvg.maxNestedPictures else { return .refused }
+        var nested = 0
         for index in counter.elements.indices {
             // Whatever type a picture's URL says, macOS draws it as SVG when it is one: each one that is XML counts.
             for picture in counter.elements[index].pictures {
-                switch count(picture, depth: depth + 1) {
+                let inner = known.counts[picture] ?? count(picture, depth: depth + 1, known: known)
+                known.counts[picture] = inner
+                switch inner {
                 case .notXML:
                     continue
                 case .counted(_, let drawn):
                     counter.elements[index].nested += drawn
+                    nested += drawn
+                    // Each one draws all of its elements more: past the limit already, the rest needn't be counted.
+                    guard nested <= ElementSvg.maxReferencedElements else { return .refused }
                 case .refused:
                     return .refused
                 }
@@ -115,6 +167,18 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         elements.append(element)
         if let parent = open.last { elements[parent].children.append(index) }
         open.append(index)
+    }
+
+    /// Entities make the parser repeat text (an entity of an inner picture in thousands of attributes made counting
+    /// take seconds); drawing programs don't write them.
+    func parser(_ parser: XMLParser, foundInternalEntityDeclarationWithName name: String, value: String?) {
+        hasEntities = true
+        parser.abortParsing()
+    }
+
+    func parser(_ parser: XMLParser, foundExternalEntityDeclarationWithName name: String, publicID: String?, systemID: String?) {
+        hasEntities = true
+        parser.abortParsing()
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName: String?) {

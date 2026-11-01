@@ -252,6 +252,28 @@ struct ElementSvgReferenceTests {
         #expect(ElementSvg.hasLimitedReferences(Data(picture.utf8)))
     }
 
+    @Test func entitiesAreRefused() {
+        // An entity of 3.8 KB in 100,000 attributes made the count itself take seconds; drawing programs don't
+        // write entities.
+        let entity = String(repeating: "x", count: 3800)
+        let svg = "<?xml version=\"1.0\"?><!DOCTYPE svg [<!ENTITY b \"\(entity)\">]>" + Self.svgStart
+            + String(repeating: "<g class=\"&b;\"/>", count: 100_000) + "</svg>"
+        let clock = ContinuousClock()
+        let start = clock.now
+        #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)))
+        #expect(clock.now - start < .seconds(1))
+        let small = #"<!DOCTYPE svg [<!ENTITY ns_svg "http://www.w3.org/2000/svg">]>"#
+            + #"<svg xmlns="&ns_svg;" width="100" height="100"><rect width="10" height="10"/></svg>"#
+        #expect(!ElementSvg.hasLimitedReferences(Data(small.utf8)))
+    }
+
+    @Test func theVerdictIsKept() {
+        let svg = Data(Self.useChain(3).utf8)
+        #expect(ElementSvg.knownVerdict(svg) == nil)
+        #expect(ElementSvg.drawnElements(svg) != nil)
+        #expect(ElementSvg.knownVerdict(svg) == true)
+    }
+
     @Test func bigStyleSheetsAreCountedQuickly() {
         // A rule for each of 5,000 classes, 20,000 shapes: looking for the shapes of each rule in turn took minutes.
         let shapes = (0..<20_000).map { "<rect class=\"c\($0 % 5000)\" width=\"1\" height=\"1\"/>" }.joined()
@@ -302,11 +324,9 @@ struct ElementSvgReferenceTests {
             + #"<pattern id="p" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2"/></pattern>"#
             + String(repeating: #"<rect class="st0" width="1" height="1"/>"#, count: 3000)
             + String(repeating: #"<rect class="st1" width="1" height="1"/>"#, count: 3000) + "</svg>"
-        let entities = #"<!DOCTYPE svg [<!ENTITY ns_svg "http://www.w3.org/2000/svg">]>"#
-            + #"<svg xmlns="&ns_svg;" width="100" height="100"><rect width="10" height="10"/></svg>"#
         let doctype = #"<?xml version="1.0"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">"#
             + #"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="10" height="10"/></svg>"#
-        for svg in [sheet, styled, Self.useChain(4), entities, doctype] {
+        for svg in [sheet, styled, Self.useChain(4), doctype] {
             #expect(ElementSvg.size(of: Data(svg.utf8)) == CGSize(width: 100, height: 100))
         }
     }
