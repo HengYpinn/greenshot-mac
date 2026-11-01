@@ -540,22 +540,29 @@ From a second security review (November 2026):
 
 - AI tools: a program run by a script runtime (node, Python, Bun, Deno, a shell, …) is recognised only when it runs
   its script by its full path, as a `#!` script or an installed command does; one started as `node cli.js`,
-  `python -m tool`, `bun run name` or `sh ./script` is refused. A program with a "|" in its path, script, options or variables
-  can't use AI tools. Excluded applications that an edit outside Greenshot removed are excluded again when a reload
-  resets the AI tools settings.
+  `python -m tool`, `bun run name` or `sh ./script` is refused. The script is identified by its path as written,
+  without following symbolic links, and a path with ".." is refused, so a tool started through a link is asked about
+  once more. A program with a "|" in its path, script, options or variables can't use AI tools. Excluded applications
+  that an edit outside Greenshot removed are excluded again when a reload resets the AI tools settings.
+- AI tools: an allowed program is bound to its developer's signature again (the check of the running program had
+  stopped reading signatures, so every program counted as unsigned): a signed AI tool you allowed before is asked
+  about once more, and the question shows who signed it. A program is named after its app only when the app's
+  signature covers that name; otherwise its file name is shown.
 - The AI tool question, the AI capture notice and the questions before a greenshot-cli or link capture or recipe show
   the asking program's name without control or direction characters, shortened, and marked "(unsigned)" when no
   developer signed it.
 - A click on Allow in a question counts only when no other program's window was over the question when the mouse
   button went down and when it came up.
 - A region from an AI tool, a recipe or Capture Last Region that reaches past the displays it touches is cut to them,
-  and one far outside them is refused, instead of stopping Greenshot.
+  and one far outside them is refused, instead of stopping Greenshot. A fixed-size capture larger than the displays is
+  cut to them too.
 - Recipes ask for more of what they do: saving to an absolute file name pattern asks for file system access and names
   the place; a recipe without a destination step that can choose its destinations when it runs asks for the program
   and upload permissions; an annotation that reads a picture file asks for file system access (such a step can't use a
   text option: put the picture in a step of its own), and recording the microphone asks. The approval of an external
   command shows the step's own arguments and working folder, and a step's line shows every parameter that decides a
-  permission. Recipes whose approval now covers more are asked about once more.
+  permission. A recipe or automatic step you approved before that now needs a new permission is shown again for
+  review, and isn't used until you allow it.
 - Recipes: error forwarding no longer passes the destination choice or saved file names between the two recipes. A
   step's expressions stop at 1 MB of text. Approvals are signed with a new key at every change, so an older copy of
   the approvals file no longer counts.
