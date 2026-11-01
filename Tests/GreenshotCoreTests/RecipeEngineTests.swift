@@ -307,6 +307,28 @@ enum RecipeEngineHarness {
         #expect(seen.all == ["no override", "no file", "yes"])
     }
 
+    /// RECIPES-2: what the other recipe sets for its own destinations and files doesn't come back into this flow either;
+    /// its other variables do.
+    @Test func errorForwardingDoesntBringTheDestinationVariablesBack() async {
+        let recorder = RecipeRecorder()
+        let registry = RecipeEngineHarness.registry(recorder) { step, context in
+            if step.node.id == "b" { throw RecipeStepError("Boom") }
+            if step.node.id == "recover" {
+                context[variable: "OverrideDestinations"] = .array([.string("Dropbox")])
+                context[variable: "Destination.Filename"] = .string("/tmp/shot.png")
+                context[variable: "Recovered"] = .string("yes")
+            }
+        }
+        var recipe = failingRecipe()
+        recipe.nodes[1].onErrorRecipeId = "recovery"
+        let recovery = RecipeEngineHarness.recipe(["recover"], start: ["recover"], [])
+        let context = await RecipeEngineHarness.run(recipe, registry) { id in id == "recovery" ? recovery : nil }
+        #expect(recorder.all == ["a", "b", "recover"])
+        #expect(context[variable: "OverrideDestinations"] == nil)
+        #expect(context[variable: "Destination.Filename"] == nil)
+        #expect(context[variable: "Recovered"] == .string("yes"))
+    }
+
     /// "a" fails and goes to its handler "h"; the join "j" below it (its other parent "b" is done) runs next to the handler
     /// on a copy of the context. What happens there reaches the flow: its failure, its own variables, without undoing what
     /// the handler set meanwhile.
