@@ -35,6 +35,15 @@ struct NRBFInstance {
     var typeName: String
     var memberNames: [String]
     var values: [NRBFValue]
+    /// Where the members are by name; the instances of a class share the one of its layout.
+    var memberIndex: NRBFMemberIndex
+
+    init(typeName: String, memberNames: [String], values: [NRBFValue], memberIndex: NRBFMemberIndex? = nil) {
+        self.typeName = typeName
+        self.memberNames = memberNames
+        self.values = values
+        self.memberIndex = memberIndex ?? NRBFMemberIndex(memberNames)
+    }
 
     /// The type name without namespace and generic arguments: "RectangleContainer", "FilterContainer+PreparedFilter".
     var simpleName: String {
@@ -46,12 +55,50 @@ struct NRBFInstance {
     /// lookup of upstream's BinaryFormatter-free reader, which covers the renames between Greenshot 1.2 and 1.4).
     func member(_ name: String) -> NRBFValue? {
         let backingField = "<\(name)>k__BackingField"
+        if !name.contains("+") {
+            return memberIndex.index(of: name, backingField: backingField).map { values[$0] }
+        }
+        // A name with a "+" (the reader asks for none) is looked for member by member.
         var candidate: Int?
         for (index, member) in memberNames.enumerated() {
             if member == name || member == backingField { return values[index] }
             if candidate == nil, member.hasSuffix("+" + name) || member.hasSuffix("+" + backingField) { candidate = index }
         }
         return candidate.map { values[$0] }
+    }
+}
+
+/// The members of a class by name, for `NRBFInstance.member(_:)`: looked up in one step, not by going over every member
+/// (a crafted class can have a million). Built once per class layout.
+final class NRBFMemberIndex: Sendable {
+    /// The first member of each name.
+    private let exact: [String: Int]
+    /// The first member of each base class field: "Class+name" (and "A+B+name") under "name".
+    private let ofBaseClass: [String: Int]
+
+    init(_ names: [String]) {
+        var exact: [String: Int] = [:]
+        var ofBaseClass: [String: Int] = [:]
+        for (index, name) in names.enumerated() {
+            if exact[name] == nil { exact[name] = index }
+            if let plus = name.lastIndex(of: "+") {
+                let field = String(name[name.index(after: plus)...])
+                if ofBaseClass[field] == nil { ofBaseClass[field] = index }
+            }
+        }
+        self.exact = exact
+        self.ofBaseClass = ofBaseClass
+    }
+
+    /// The member `name` or `backingField` (neither has a "+"), else a base class's field of one of the names.
+    func index(of name: String, backingField: String) -> Int? {
+        func first(_ table: [String: Int]) -> Int? {
+            switch (table[name], table[backingField]) {
+            case let (a?, b?): return min(a, b)
+            case let (a, b): return a ?? b
+            }
+        }
+        return first(exact) ?? first(ofBaseClass)
     }
 }
 
@@ -132,6 +179,7 @@ struct NRBFDecoder {
         var memberNames: [String]
         /// Nil for the record types without member types: every value is then a record.
         var memberTypes: [MemberType]?
+        var memberIndex: NRBFMemberIndex
     }
 
     private enum MemberType {
@@ -262,7 +310,7 @@ struct NRBFDecoder {
             types = try binaryTypes.map { try memberType($0) }
         }
         if library { _ = try int32() }
-        let layout = ClassLayout(name: name, memberNames: names, memberTypes: types)
+        let layout = ClassLayout(name: name, memberNames: names, memberTypes: types, memberIndex: NRBFMemberIndex(names))
         layouts[id] = layout
         return (id, layout)
     }
@@ -299,7 +347,8 @@ struct NRBFDecoder {
                 values.append(try recordValue())
             }
         }
-        objects[id] = .instance(NRBFInstance(typeName: layout.name, memberNames: layout.memberNames, values: values))
+        objects[id] = .instance(NRBFInstance(typeName: layout.name, memberNames: layout.memberNames, values: values,
+                                             memberIndex: layout.memberIndex))
         return .object(id)
     }
 
