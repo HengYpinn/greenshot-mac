@@ -51,14 +51,26 @@ enum RecipeGates {
     /// Inputs that choose where the result goes.
     static let destinationInputs = ["OverrideDestinations"]
 
-    /// The variables the recipe can set, lower case; "*" when a step sets a variable whose name is decided when the
-    /// recipe runs.
+    /// The variables the recipe can set, lower case and trimmed like the steps trim a name they are given (a superset of
+    /// their characters, so a name counts at least as often as it can be set); "*" when a step sets a variable whose name
+    /// is decided when the recipe runs: a `${...}` name, or `{ParameterKeys:X}` whose `X` is no literal object (a `${...}`
+    /// that gives one).
     static func variablesSet(by recipe: CaptureRecipe, contracts: StepContractCatalog) -> Set<String> {
-        var names = Set(RecipeContractAnalyzer.triggerInputs(of: recipe).inputs.map { $0.name.lowercased() })
+        func normalized(_ name: String) -> String {
+            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            return RecipeGateValue.isRunTime(trimmed) ? "*" : trimmed.lowercased()
+        }
+        var names = Set(RecipeContractAnalyzer.triggerInputs(of: recipe).inputs.map { normalized($0.name) })
+        let keysPrefix = "{ParameterKeys:"
         for node in recipe.nodes {
             for output in contracts.contract(for: node.stepType)?.outputVariables ?? [] {
+                if output.name.hasPrefix(keysPrefix), output.name.hasSuffix("}"),
+                   let value = node.parameters[String(output.name.dropFirst(keysPrefix.count).dropLast())], !value.isNull,
+                   value.objectValue == nil {
+                    names.insert("*")
+                }
                 for name in output.resolveNames(for: node) {
-                    names.insert(RecipeGateValue.isRunTime(name) ? "*" : name.lowercased())
+                    names.insert(normalized(name))
                 }
             }
         }
