@@ -85,10 +85,10 @@ public enum AIToolAccess {
     }
 
     /// Upstream `IsAllowed`: the program is in the allowed list (`AIToolAllowedEntry.matches`: its identity, any case, and
-    /// the Team ID when the entry has one).
-    public static func isAllowed(_ client: AIToolClient, settings: AIToolsSettings) -> Bool {
+    /// its Team ID; `managed`: an administrator's list).
+    public static func isAllowed(_ client: AIToolClient, settings: AIToolsSettings, managed: Bool = false) -> Bool {
         guard !client.path.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
-        return settings.allowedClients.contains { AIToolAllowedEntry(parsing: $0).matches(client) }
+        return settings.allowedClients.contains { AIToolAllowedEntry(parsing: $0).matches(client, managed: managed) }
     }
 
     /// The allowed list with `client` in it: an entry for the same identity (another Team ID, a plain path) is replaced.
@@ -147,7 +147,7 @@ public final class AIToolConsent {
     public func ensureAllowed(_ client: AIToolClient?, settings: @MainActor () -> AIToolsSettings, managed: Bool, prompt: Prompt,
                               allow: @MainActor (AIToolClient) -> Void) async -> String? {
         guard let client, !client.path.isEmpty else { return AIToolAccess.unidentifiedMessage }
-        if AIToolAccess.isAllowed(client, settings: settings()) { return nil }
+        if AIToolAccess.isAllowed(client, settings: settings(), managed: managed) { return nil }
         if managed { return AIToolAccess.managedMessage }
         await acquire()
         defer { release() }

@@ -216,10 +216,10 @@ enum AutomationCaptureConsent {
                                             processSigned: nearest.map(isSigned) ?? false, appSigned: appPID.map(isSigned) ?? false)
     }
 
-    /// The running program of `pid` is signed by a developer or Apple and intact (`AIToolsClientIdentity.runningSigner`).
+    /// The running program of `pid` is signed by a developer or Apple and intact (`AIToolSignature.running`).
     private static func isSigned(_ pid: pid_t) -> Bool {
         guard let path = executablePath(of: pid) else { return false }
-        return AIToolsClientIdentity.runningSigner(AIToolProcess(pid: pid, parentPID: 0, startTime: 0, path: path)).name != nil
+        return AIToolSignature.running(AIToolProcess(pid: pid, parentPID: 0, startTime: 0, path: path)).signer != nil
     }
 
     /// The process id in the audit token (race-free), else the one of `LOCAL_PEERPID`.

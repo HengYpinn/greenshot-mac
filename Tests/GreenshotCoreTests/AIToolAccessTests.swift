@@ -193,7 +193,7 @@ struct FakeProcessTable: AIToolProcessTable {
 /// Upstream AiToolCaller: the program that started greenshot-mcp, shells skipped; the Mac's identity of runtimes (SM-H1).
 @Suite struct AIToolCallerTests {
     private let server = AIToolProcess(pid: 500, parentPID: 400, startTime: 1000, path: "/Applications/G.app/Contents/Helpers/greenshot-mcp")
-    private func unsigned(_ process: AIToolProcess) -> (name: String?, teamID: String?) { (nil, nil) }
+    private func unsigned(_ process: AIToolProcess) -> AIToolSignature { .unsigned }
 
     @Test func skipsShellsAndPinsTheScript() throws {
         let node = AIToolProcess(pid: 200, parentPID: 1, startTime: 700, path: "/opt/homebrew/bin/node",
@@ -204,7 +204,7 @@ struct FakeProcessTable: AIToolProcessTable {
                                                     arguments: ["zsh", "-c", "exec /Applications/G.app/Contents/Helpers/greenshot-mcp"]),
                                       AIToolProcess(pid: 300, parentPID: 200, startTime: 800, path: "/usr/bin/env",
                                                     arguments: ["env", "FOO=1", "zsh", "-c", "x"]), node])
-        let client = try AIToolCaller.identify(serverPID: 500, table: table, signer: { _ in ("Dev", "TEAM123456") }).get()
+        let client = try AIToolCaller.identify(serverPID: 500, table: table, signer: { _ in AIToolSignature(signer: "Dev", teamID: "TEAM123456") }).get()
         #expect(client.path == "/opt/homebrew/bin/node")
         #expect(client.displayName == "node")
         #expect(client.signer == "Dev")
@@ -237,10 +237,11 @@ struct FakeProcessTable: AIToolProcessTable {
     }
 
     @Test func names() {
+        // Without a signature that vouches for the app (`anAppsNameNeedsItsSignature`), the file name
         #expect(AIToolCaller.displayName(forExecutable: "/Applications/Claude.app/Contents/MacOS/Claude") == "Claude")
-        #expect(AIToolCaller.displayName(forExecutable: "/Applications/Claude.app/Contents/Helpers/disclaimer") == "Claude (disclaimer)")
+        #expect(AIToolCaller.displayName(forExecutable: "/Applications/Claude.app/Contents/Helpers/disclaimer") == "disclaimer")
         #expect(AIToolCaller.displayName(forExecutable: "/Applications/Cursor.app/Contents/Frameworks/Cursor Helper.app/Contents/MacOS/Cursor Helper")
-                == "Cursor (Cursor Helper)")
+                == "Cursor Helper")
         #expect(AIToolCaller.displayName(forExecutable: "/Users/me/.local/share/claude/versions/2.1.0") == "claude (2.1.0)")
         #expect(AIToolCaller.displayName(forExecutable: "/usr/local/bin/codex") == "codex")
         // SM-L4: no line breaks or direction overrides from a file name
@@ -347,17 +348,39 @@ struct FakeProcessTable: AIToolProcessTable {
         #expect(allowed.key == "/a/node | script: /s/c.js")
     }
 
+    /// Second security review R2-3: the script is the path in the arguments as written, not where a symbolic link
+    /// points when the program asks (the file can be replaced by a link after the runtime loaded it).
+    @Test func theScriptIsThePathAsWritten() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ai-script-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder.appendingPathComponent("b"), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: folder.appendingPathComponent("a"), withIntermediateDirectories: true)
+        let real = folder.appendingPathComponent("b/real.js").path
+        let link = folder.appendingPathComponent("a/link.js").path
+        try Data("1".utf8).write(to: URL(fileURLWithPath: real))
+        try FileManager.default.createSymbolicLink(atPath: link, withDestinationPath: real)
+        let linked = try AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", link], environment: [:]).get()
+        let direct = try AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", real], environment: [:]).get()
+        #expect(linked.script == link)
+        #expect(linked.key != direct.key)
+        // Only spelling is tidied; ".." would need the file system (a linked folder), so it is refused
+        let tidied = try AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", "/x//y/./cli.js"], environment: [:]).get()
+        #expect(tidied.script == "/x/y/cli.js")
+        let parent = AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", "/x/y/../cli.js"], environment: [:])
+        #expect((try? parent.get()) == nil)
+    }
+
     @Test func theWorkingDirectoryIsNotPartOfTheIdentity() throws {
         let server = AIToolProcess(pid: 500, parentPID: 200, startTime: 1000, path: "/Applications/G.app/Contents/Helpers/greenshot-mcp")
         var node = AIToolProcess(pid: 200, parentPID: 1, startTime: 700, path: "/usr/local/bin/node",
                                  arguments: ["node", "/opt/tool/cli.js"], environment: [:], workingDirectory: "/x")
-        let here = try AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in (nil, nil) }).get()
+        let here = try AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in .unsigned }).get()
         node.workingDirectory = "/y"
-        let there = try AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in (nil, nil) }).get()
+        let there = try AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in .unsigned }).get()
         #expect(here.key == there.key)
         #expect(here.identity.script == "/opt/tool/cli.js")
         node.arguments = ["node", "cli.js"]
-        #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in (nil, nil) }).get()) == nil)
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in .unsigned }).get()) == nil)
     }
 
     @Test func runtimeSwitchesAndInjectionsChangeTheIdentity() throws {
@@ -483,7 +506,7 @@ struct FakeProcessTable: AIToolProcessTable {
                                        uniqueID: 50, idVersion: 500)
     private let claude = AIToolProcess(pid: 100, parentPID: 1, startTime: 100, path: "/Applications/Claude.app/Contents/MacOS/Claude",
                                        arguments: ["Claude"], uniqueID: 10, idVersion: 100)
-    private func unsigned(_ process: AIToolProcess) -> (name: String?, teamID: String?) { (nil, nil) }
+    private func unsigned(_ process: AIToolProcess) -> AIToolSignature { .unsigned }
 
     private func shell(_ pid: Int32, parent: Int32, version: Int32, path: String = "/bin/zsh", _ arguments: [String]) -> AIToolProcess {
         AIToolProcess(pid: pid, parentPID: parent, startTime: UInt64(500 + pid), path: path, arguments: arguments,
@@ -580,5 +603,104 @@ struct FakeProcessTable: AIToolProcessTable {
         let parentVersion = try #require(parent.idVersion)
         let myVersion = try #require(me.idVersion)
         #expect(parentVersion < myVersion)
+    }
+}
+
+/// Second security review R2-2: the signature is read from real running programs, not injected.
+@Suite struct AIToolSignatureTests {
+    /// Runs `path` (sleeping) until `body` returns.
+    private func whileRunning<T>(_ path: String, _ body: (AIToolProcess) throws -> T) throws -> T {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: path)
+        process.arguments = ["30"]
+        try process.run()
+        defer {
+            process.terminate()
+            process.waitUntilExit()
+        }
+        let running = try #require(SystemProcessTable().process(process.processIdentifier))
+        return try body(running)
+    }
+
+    @Test func applesProgramsAreSigned() throws {
+        let signature = try whileRunning("/bin/sleep") { AIToolSignature.running($0) }
+        #expect(signature.signer != nil)
+        #expect(signature.teamID == nil)
+    }
+
+    @Test func adHocSignedProgramsAreNot() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ai-signature-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let copy = folder.appendingPathComponent("sleep").path
+        try FileManager.default.copyItem(atPath: "/bin/sleep", toPath: copy)
+        let codesign = Process()
+        codesign.executableURL = URL(fileURLWithPath: "/usr/bin/codesign")
+        codesign.arguments = ["--force", "--sign", "-", copy]
+        try codesign.run()
+        codesign.waitUntilExit()
+        try #require(codesign.terminationStatus == 0)
+        let signature = try whileRunning(copy) { AIToolSignature.running($0) }
+        #expect(signature == .unsigned)
+    }
+
+    /// The process id of a program that isn't the one the walk found (another path) gives no signature.
+    @Test func anotherProgramsPathGivesNone() throws {
+        let signature = try whileRunning("/bin/sleep") { process in
+            var other = process
+            other.path = "/bin/ls"
+            return AIToolSignature.running(other)
+        }
+        #expect(signature == .unsigned)
+    }
+
+    /// Second review R2-4: an app's name is shown only when its signature covers the Info.plist it comes from; a signed
+    /// program copied into a made-up "Claude.app" is named by its file.
+    @Test func anAppsNameNeedsItsSignature() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ai-name-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let app = folder.appendingPathComponent("Claude.app")
+        try FileManager.default.createDirectory(at: app.appendingPathComponent("Contents/MacOS"), withIntermediateDirectories: true)
+        let plist: [String: Any] = ["CFBundleDisplayName": "Claude", "CFBundleIdentifier": "com.example.tool", "CFBundleExecutable": "tool"]
+        try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+            .write(to: app.appendingPathComponent("Contents/Info.plist"))
+        let executable = app.appendingPathComponent("Contents/MacOS/tool").path
+        #expect(AIToolCaller.displayName(forExecutable: executable) == "tool")
+        let appPath = IPCEndpoint.realPath(app.path)
+        let vouched = AIToolSignature(signer: "Dev", teamID: "TEAM123456", appPath: appPath, appIdentifier: "com.example.tool")
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: vouched) == "Claude")
+        #expect(AIToolCaller.displayName(forExecutable: app.appendingPathComponent("Contents/Helpers/helper").path, signature: vouched)
+                == "Claude (helper)")
+        // Signed, but not as this app: another identifier, another app, or no app at all (a program copied into it)
+        var other = vouched
+        other.appIdentifier = "com.example.other"
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: other) == "tool")
+        other = vouched
+        other.appPath = "/Applications/Claude.app"
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: other) == "tool")
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: AIToolSignature(signer: "Dev", teamID: "TEAM123456")) == "tool")
+    }
+
+    @Test func aProgramOutsideAnAppVouchesForNoApp() throws {
+        let signature = try whileRunning("/bin/sleep") { AIToolSignature.running($0) }
+        #expect(signature.appPath == nil)
+        #expect(AIToolSignature.outermostApp("/A/Claude.app/Contents/Frameworks/H.app/Contents/MacOS/H") == "/A/Claude.app")
+        #expect(AIToolSignature.outermostApp("/usr/bin/x") == nil)
+    }
+
+    /// An entry saved without a Team ID (before signatures were read) doesn't allow a program signed by a developer:
+    /// it is asked once more, and its entry then has the Team ID. A program without one still matches.
+    @Test func entriesWithoutATeamDontAllowASignedProgram() {
+        let path = "/Applications/Claude.app/Contents/MacOS/Claude"
+        let signed = AIToolClient(path: path, displayName: "Claude", signer: "Developer ID Application: X", teamID: "Q6L2SF6YDW")
+        let unsigned = AIToolClient(path: path, displayName: "Claude")
+        var settings = AIToolsSettings()
+        settings.allowedClients = [path]
+        #expect(!AIToolAccess.isAllowed(signed, settings: settings))
+        #expect(AIToolAccess.isAllowed(unsigned, settings: settings))
+        // An administrator's plain path allows the program whoever signed it
+        #expect(AIToolAccess.isAllowed(signed, settings: settings, managed: true))
+        settings.allowedClients = AIToolAccess.allowing(signed, in: settings.allowedClients)
+        #expect(AIToolAccess.isAllowed(signed, settings: settings))
     }
 }
