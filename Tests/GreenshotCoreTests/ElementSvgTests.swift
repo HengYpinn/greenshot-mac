@@ -147,3 +147,91 @@ struct ElementSvgTests {
         }
     }
 }
+
+/// SVGs whose references would make macOS draw far more than the file holds: refused before it draws them.
+@Suite(.enabled(if: ElementSvg.isSupported))
+struct ElementSvgReferenceTests {
+    static let svgStart = #"<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100">"#
+
+    /// `levels` groups, each drawing the one before it ten times with `<use>`: 10^levels rectangles from a few hundred
+    /// bytes per level.
+    static func useChain(_ levels: Int, link: String = "href") -> String {
+        var defs = #"<rect id="r0" width="10" height="10"/>"#
+        for level in 1...levels {
+            defs += "<g id=\"r\(level)\">" + String(repeating: "<use \(link)=\"#r\(level - 1)\"/>", count: 10) + "</g>"
+        }
+        return Self.svgStart + "<defs>\(defs)</defs><use \(link)=\"#r\(levels)\"/></svg>"
+    }
+
+    /// `levels` patterns (or masks), each with ten rectangles painted with the one before it by `paint`.
+    static func paintChain(_ levels: Int, element: String = "pattern", style: String = "", paint: (Int) -> String) -> String {
+        let open = element == "pattern" ? #" width="10" height="10" patternUnits="userSpaceOnUse""# : ""
+        var defs = "<\(element) id=\"p0\"\(open)><rect width=\"1\" height=\"1\" fill=\"white\"/></\(element)>"
+        for level in 1...levels {
+            defs += "<\(element) id=\"p\(level)\"\(open)>"
+                + (0..<10).map { "<rect x=\"\($0)\" width=\"1\" height=\"10\" \(paint(level))/>" }.joined()
+                + "</\(element)>"
+        }
+        let use = element == "pattern" ? "fill=\"url(#p\(levels))\"" : "mask=\"url(#p\(levels))\""
+        return Self.svgStart + "<style>\(style)</style><defs>\(defs)</defs><rect width=\"100\" height=\"100\" \(use)/></svg>"
+    }
+
+    @Test func anSvgThatDrawsItsPartsAMillionTimesIsRefused() throws {
+        // 1.3 KB: drawing it took seconds, and an element showing it was drawn again at every change.
+        let bomb = Data(Self.useChain(6).utf8)
+        let clock = ContinuousClock()
+        let start = clock.now
+        #expect(ElementSvg.size(of: bomb) == nil)
+        #expect(ElementPictures.content(of: bomb) == nil)
+        let element = Annotation(kind: .svg, start: .zero, end: CGPoint(x: 50, y: 50), imageData: bomb)
+        let file = try GreenshotFile.Contents(image: TestImage.solid(width: 60, height: 60, .white), scale: 1, elements: [element]).encoded()
+        let read = try #require(GreenshotFile.read(file))
+        _ = AnnotationRenderer.flatten(base: read.image, annotations: read.elements, scale: 1)
+        #expect(clock.now - start < .seconds(1))
+    }
+
+    @Test func patternsMasksStyleSheetsAndInnerPicturesCount() {
+        let attribute = Self.paintChain(5) { "fill=\"url(#p\($0 - 1))\"" }
+        let styleAttribute = Self.paintChain(5) { "style=\"fill: url('#p\($0 - 1)')\"" }
+        let styleSheet = Self.paintChain(5, style: (1...5).map { ".c\($0) { fill: url(#p\($0 - 1)) }" }.joined()) { "class=\"c\($0)\"" }
+        let masks = Self.paintChain(5, element: "mask") { "fill=\"white\" mask=\"url(#p\($0 - 1))\"" }
+        let symbols = Self.useChain(5, link: "xlink:href")
+        // An SVG picture inside the SVG, drawn ten times.
+        let inner = Data(Self.useChain(4).utf8).base64EncodedString()
+        let picture = Self.svgStart + "<defs><image id=\"i\" width=\"10\" height=\"10\" href=\"data:image/svg+xml;base64,\(inner)\"/></defs>"
+            + String(repeating: "<use href=\"#i\"/>", count: 10) + "</svg>"
+        let bombs = ["attribute": attribute, "style attribute": styleAttribute, "style sheet": styleSheet, "masks": masks,
+                     "symbols": symbols, "inner picture": picture]
+        for (name, svg) in bombs {
+            #expect(ElementSvg.size(of: Data(svg.utf8)) == nil, "\(name)")
+        }
+    }
+
+    @Test func referencesInACircleAreRefused() {
+        // Two groups drawing each other made macOS crash.
+        let pair = Self.svgStart + ##"<g id="a"><rect width="1" height="1"/><use href="#b"/></g><g id="b"><use href="#a"/></g></svg>"##
+        #expect(ElementSvg.size(of: Data(pair.utf8)) == nil)
+        let pattern = Self.svgStart + #"<pattern id="p" width="10" height="10"><rect width="5" height="5" fill="url(#p)"/></pattern>"#
+            + #"<rect width="100" height="100" fill="url(#p)"/></svg>"#
+        #expect(ElementSvg.size(of: Data(pattern.utf8)) == nil)
+    }
+
+    @Test func ordinaryReferencesStayFine() throws {
+        // An icon sheet drawing a symbol 300 times, 10,000 rectangles from four levels of `<use>`.
+        let symbol = #"<symbol id="s"><path d="M0 0h1v1z"/><path d="M1 1h1v1z"/><circle r="1"/></symbol>"#
+        let sheet = Self.svgStart + "<defs>\(symbol)</defs>" + String(repeating: ##"<use xlink:href="#s"/>"##, count: 300) + "</svg>"
+        // A drawing exported with a style sheet: 3,000 shapes filled with a gradient and a pattern of their class.
+        let styled = Self.svgStart + "<style>.st0{fill:url(#g)} .st1{fill:url(#p)}</style>"
+            + #"<linearGradient id="g"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="blue"/></linearGradient>"#
+            + #"<pattern id="p" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2"/></pattern>"#
+            + String(repeating: #"<rect class="st0" width="1" height="1"/>"#, count: 3000)
+            + String(repeating: #"<rect class="st1" width="1" height="1"/>"#, count: 3000) + "</svg>"
+        let entities = #"<!DOCTYPE svg [<!ENTITY ns_svg "http://www.w3.org/2000/svg">]>"#
+            + #"<svg xmlns="&ns_svg;" width="100" height="100"><rect width="10" height="10"/></svg>"#
+        let doctype = #"<?xml version="1.0"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">"#
+            + #"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="10" height="10"/></svg>"#
+        for svg in [sheet, styled, Self.useChain(4), entities, doctype] {
+            #expect(ElementSvg.size(of: Data(svg.utf8)) == CGSize(width: 100, height: 100))
+        }
+    }
+}

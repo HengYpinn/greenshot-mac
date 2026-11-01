@@ -56,10 +56,15 @@ public enum ElementSvg {
         return data
     }
 
-    /// The SVG as an image that draws itself at any size; nil when it isn't SVG, this Mac can't draw SVG, or it has
-    /// no size.
+    /// The SVG as an image that draws itself at any size; nil when it isn't SVG, this Mac can't draw SVG, it has no
+    /// size, or its references would make it far more than it is (`hasLimitedReferences`).
     static func image(_ data: Data) -> NSImage? {
-        guard isSupported, isSVG(data), let image = NSImage(data: data) else { return nil }
+        guard isSupported, isSVG(data) else { return nil }
+        guard hasLimitedReferences(data) else {
+            log.info("An SVG whose references draw too much or draw themselves is not drawn")
+            return nil
+        }
+        guard let image = NSImage(data: data) else { return nil }
         let size = image.size
         guard size.width.isFinite, size.height.isFinite, size.width > 0, size.height > 0 else { return nil }
         return image
