@@ -168,5 +168,26 @@ struct HTMLImageSourcesTests {
     @Test func aValueWithAGreaterThanSignIsKept() {
         let html = "<img alt=x src=\"data:text/plain,a>b\">"
         #expect(ImagePasteboard.imageURLs(in: html).count == 1)
+        let quotedBefore = "<img alt=\"a > b\" src=\"https://e.com/1.png\">"
+        #expect(ImagePasteboard.imageURLs(in: quotedBefore).map(\.absoluteString) == ["https://e.com/1.png"])
+    }
+
+    @Test func aLongDataURLIsFound() {
+        // A copied picture of a few KB: the length of the `src` value is not part of the limit of a tag.
+        let html = "<html><img src=\"data:image/png;base64," + String(repeating: "A", count: 20_000) + "\"></html>"
+        #expect(ImagePasteboard.imageURLs(in: html).count == 1)
+        #expect(ElementClipboard.htmlImageURLs(in: html).count == 1)
+        // The rest of the tag still is.
+        let junk = "<img " + String(repeating: "x ", count: 3000) + "src=\"https://e.com/1.png\">"
+        #expect(ImagePasteboard.imageURLs(in: junk).isEmpty)
+    }
+
+    @Test func manyAmpersandsAreQuick() {
+        let text = "a&amp;b" + String(repeating: "&", count: 40_000)
+        let clock = ContinuousClock()
+        let start = clock.now
+        let decoded = ImagePasteboard.decodeEntities(text)
+        #expect(decoded == "a&b" + String(repeating: "&", count: 40_000))
+        #expect(clock.now - start < .seconds(1))
     }
 }
