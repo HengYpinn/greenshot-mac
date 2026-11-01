@@ -182,6 +182,19 @@ import Testing
         #expect(lines.contains("Records the microphone"))
     }
 
+    /// RECIPES-6: the step's own arguments replace those of a configured command, and the working folder is the step's:
+    /// both are part of what the approval shows.
+    @Test func literalArgumentsAndTheWorkingFolderAreShown() {
+        let configured = GateEnvironment(commandLine: { $0 == "Optimize" ? "/usr/local/bin/pngquant" : nil })
+        let own = gates(node("ExternalCommand", ["Command": .string("Optimize"), "Arguments": .string("--force --output /tmp/x {0}"),
+                                                 "WorkingDirectory": .string("/tmp")]), configured)
+        let target = "Optimize (/usr/local/bin/pngquant) with the arguments --force --output /tmp/x {0}, in the folder /tmp"
+        #expect(own == [RecipeGatedAction(.externalCommand, target: target)])
+        #expect(RecipeDescriber().describe(own[0]) == "Runs the program " + target)
+        let folder = gates(node("ExternalCommand", ["CommandLine": .string("/bin/echo"), "WorkingDirectory": .string("${Dir}")]))
+        #expect(folder.first?.target == "/bin/echo, in a folder decided when the recipe runs (${Dir})")
+    }
+
     @Test func theLibraryAsksForTheseActions() async throws {
         let fixture = LibraryFixture(approver: StubApprover { request in
             RecipeApprovalDecision(approval: RecipeApproval(recipeId: "x", approvedTriggers: request.triggers.map(\.key)))

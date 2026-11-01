@@ -581,8 +581,8 @@ enum BuiltInStepContracts {
         gates: { node, environment in [RecipeGatedAction(.externalCommand, target: externalCommandTarget(node, environment))] })
 
     /// The command of an ExternalCommand node: the executable, or the configured command's name and its command line;
-    /// "a command given when the recipe runs" when the one that decides contains `${...}`, and the arguments when they
-    /// do.
+    /// "a command given when the recipe runs" when the one that decides contains `${...}`; then the step's own arguments
+    /// (they replace a configured command's) and working folder, as written or as decided when the recipe runs.
     static func externalCommandTarget(_ node: RecipeNode, _ environment: GateEnvironment) -> String {
         var target: String
         switch (RecipeGateValue(node, "CommandLine"), RecipeGateValue(node, "Command")) {
@@ -598,8 +598,15 @@ enum BuiltInStepContracts {
         case (.unset, .unset):
             target = ""
         }
-        if case .runTime(let arguments) = RecipeGateValue(node, "Arguments") {
-            target += " with arguments given when the recipe runs (\(arguments))"
+        switch RecipeGateValue(node, "Arguments") {
+        case .unset: break
+        case .literal(let arguments): target += " with the arguments \(arguments)"
+        case .runTime(let arguments): target += " with arguments given when the recipe runs (\(arguments))"
+        }
+        switch RecipeGateValue(node, "WorkingDirectory") {
+        case .unset: break
+        case .literal(let folder): target += ", in the folder \(folder)"
+        case .runTime(let folder): target += ", in a folder decided when the recipe runs (\(folder))"
         }
         return target
     }
