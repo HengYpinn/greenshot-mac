@@ -57,7 +57,33 @@ public enum IPCJSON {
     /// Compact UTF-8 JSON of the object, keys sorted (stable output for tests and logs).
     public static func data(_ object: JSONObject) -> Data {
         let options: JSONSerialization.WritingOptions = [.sortedKeys, .withoutEscapingSlashes, .fragmentsAllowed]
-        return (try? JSONSerialization.data(withJSONObject: foundationValue(.object(object)), options: options)) ?? Data("{}".utf8)
+        let data = (try? JSONSerialization.data(withJSONObject: foundationValue(.object(object)), options: options)) ?? Data("{}".utf8)
+        return escapingControls(data)
+    }
+
+    /// DEL and the C1 controls (U+0080 to U+009F) written as `\u007f`, `\u009d`: `JSONSerialization` escapes only the
+    /// C0 controls, and greenshot-cli --json prints the reply on the terminal as it is, where U+009B (CSI) or U+009D
+    /// (OSC) may act like ESC [ and ESC ]. In JSON they can only stand inside a string, where the escape is the same
+    /// character. In UTF-8 the C1 controls are the byte 0xC2 (never a continuation byte) followed by 0x80 to 0x9F.
+    static func escapingControls(_ data: Data) -> Data {
+        guard data.contains(where: { $0 == 0x7F || $0 == 0xC2 }) else { return data }
+        let bytes = [UInt8](data)
+        var result = Data(capacity: bytes.count + 32)
+        var index = 0
+        while index < bytes.count {
+            let byte = bytes[index]
+            if byte == 0x7F {
+                result.append(contentsOf: Array("\\u007f".utf8))
+                index += 1
+            } else if byte == 0xC2, index + 1 < bytes.count, (0x80...0x9F).contains(bytes[index + 1]) {
+                result.append(contentsOf: Array(String(format: "\\u%04x", bytes[index + 1]).utf8))
+                index += 2
+            } else {
+                result.append(byte)
+                index += 1
+            }
+        }
+        return result
     }
 
     public static func text(_ object: JSONObject) -> String {

@@ -75,7 +75,7 @@ do {
     fail(json: json, code: IPCExitCode.failure, "Error: failed to send the command to Greenshot for Mac.")
 }
 // On a terminal, escape sequences in what the app prints (a QR code's text, OCR, a window title) are made visible;
-// a pipe, a file and --json get the exact bytes.
+// a pipe, a file and --json get the exact bytes (the app writes the JSON with its control characters escaped).
 func output(_ data: Data, to handle: FileHandle, fd: Int32) {
     write(isatty(fd) != 0 && !json ? TerminalSafeText.sanitize(data) : data, to: handle)
 }

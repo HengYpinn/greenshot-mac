@@ -205,6 +205,20 @@ struct IPCEnvelopeTests {
         #expect(IPCJSON.text(nested) == #"{"variables":{"a":[1,null]}}"#)
     }
 
+    /// greenshot-cli --json prints the reply on the terminal as it is. Text from the screen (a QR code, OCR) can hold
+    /// DEL and C1 controls (U+009B is CSI, U+009D is OSC on some terminals): they are written as \u escapes, so no
+    /// control reaches the terminal, and the value read back is the same.
+    @Test func controlCharactersInStringsAreEscaped() {
+        let value = "a\u{9D}52;c;eA==\u{9C}b\u{9B}2J\u{7F}\u{1B}c \u{FC}\u{65E5}"
+        let text = IPCJSON.text(["t": .string(value)])
+        #expect(text.contains("\\u009d"))
+        #expect(text.contains("\\u007f"))
+        let raw = text.unicodeScalars.filter { $0.value < 0x20 || $0.value == 0x7F || (0x80...0x9F).contains($0.value) }
+        #expect(raw.isEmpty)
+        let back = IPCJSON.parseObject(IPCJSON.data(["t": .string(value)]))
+        #expect(back?["t"] == .string(value))
+    }
+
     @Test func booleansStayBooleans() {
         let object = IPCJSON.parseObject(Data(#"{"a":true,"b":1}"#.utf8)) ?? [:]
         #expect(object["a"] == .bool(true))
