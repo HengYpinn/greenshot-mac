@@ -84,6 +84,8 @@ public struct ExpressionScope: Sendable {
     public var executionId: String
     public var state: String
     public var abortReason: String?
+    /// The text its expressions may still build (`ExpressionTextBudget`), shared by the copies of this scope: one step's.
+    let textBudget = ExpressionTextBudget()
 
     public init(variables: RecipeVariables = RecipeVariables(), payload: PayloadMetrics? = nil,
                 option: @escaping @Sendable (String) -> (value: JSONValue, isTemplate: Bool)? = { _ in nil },
@@ -101,13 +103,45 @@ public struct ExpressionScope: Sendable {
     }
 }
 
+/// What the expressions of one scope (the runner makes one per step) may build together by interpolation and `+`:
+/// `limit` UTF-8 bytes. Each `${a}` of a value is a token of its own, so the parser's 16 KB per expression doesn't bound
+/// the text a value makes (`${a}${a}...` doubles a variable per step). Beyond the limit the expression is null (logged),
+/// like a syntax error, and so is every later one of the step. Upstream has no limit.
+final class ExpressionTextBudget: @unchecked Sendable {
+    static let limit = 1024 * 1024
+
+    private let lock = NSLock()
+    private var remaining = limit
+    private var exceeded = false
+
+    /// The bytes that may still be built.
+    var available: Int { lock.withLock { remaining } }
+
+    /// A `take` failed: the expressions of the scope are null from then on.
+    var isExceeded: Bool { lock.withLock { exceeded } }
+
+    /// Takes `count` bytes; false (and the budget exceeded) when there aren't as many.
+    func take(_ count: Int) -> Bool {
+        lock.withLock {
+            guard count <= remaining else {
+                remaining = 0
+                exceeded = true
+                return false
+            }
+            remaining -= count
+            return true
+        }
+    }
+}
+
 /// `${...}` in recipe values (upstream `ExpressionEvaluator`), same semantics: a value that is one `${...}` gives the typed
 /// result, text around or several `${...}` interpolate into a string. Inside: `now:<.NET format>`, `utcnow:<format>`,
 /// ternary `a ? b : c`, `||`, `&&`, `== != < <= > >=` (numbers with an epsilon, else case-insensitive text), `+ -`
 /// (`+` joins when a side is text), `* / %` (by zero: 0), parentheses, literals ('text', "text", numbers, true, false,
 /// null), scopes `user.` `machine.` `config.` `option.` `context.` `payload.`, bare `now`/`utcnow`, and bare names of
 /// flow variables (`${Barcode.Text}`). Unknown names are null, syntax errors give null (logged): a recipe never fails
-/// on an expression. No functions and no `??`: upstream has none, and recipes must stay portable.
+/// on an expression. Text beyond the step's `ExpressionTextBudget` is null (logged) too. No functions and no `??`:
+/// upstream has none, and recipes must stay portable.
 public struct ExpressionEvaluator: Sendable {
     private let environment: any RecipeEnvironment
 
@@ -125,12 +159,21 @@ public struct ExpressionEvaluator: Sendable {
             let inner = String(trimmed.dropFirst(2).dropLast()).trimmingCharacters(in: .whitespacesAndNewlines)
             return evaluateExpression(inner, in: scope)
         }
-        return .string(Self.replaceTokens(in: text) { evaluateExpression($0, in: scope).interpolationText })
+        guard let text = Self.replaceTokens(in: text, budget: scope.textBudget, { evaluateExpression($0, in: scope).interpolationText }) else {
+            log.warn("A recipe value was not filled in: its text would be longer than \(ExpressionTextBudget.limit / 1024) KB.")
+            return .null
+        }
+        return .string(text)
     }
-    /// The inside of `${...}` (upstream `EvaluateExpression`).
+    /// The inside of `${...}` (upstream `EvaluateExpression`); null once the scope's text budget is exceeded.
     public func evaluateExpression(_ expression: String, in scope: ExpressionScope) -> JSONValue {
+        let result = evaluateWithinBudget(expression, in: scope)
+        return scope.textBudget.isExceeded ? .null : result
+    }
+
+    private func evaluateWithinBudget(_ expression: String, in scope: ExpressionScope) -> JSONValue {
         let trimmed = expression.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return .null }
+        guard !trimmed.isEmpty, !scope.textBudget.isExceeded else { return .null }
         if trimmed.lowercased().hasPrefix("now:") {
             return .string(formatDate(format: String(trimmed.dropFirst(4)), utc: false))
         }
@@ -235,9 +278,11 @@ public struct ExpressionEvaluator: Sendable {
         }
     }
 
-    /// Every `${...}` of the text replaced by `transform` of its inside.
-    static func replaceTokens(in text: String, _ transform: (String) -> String) -> String {
+    /// Every `${...}` of the text replaced by `transform` of its inside; nil when the result is more than `budget` has
+    /// left (the text is never built beyond it).
+    static func replaceTokens(in text: String, budget: ExpressionTextBudget, _ transform: (String) -> String) -> String? {
         let range = NSRange(text.startIndex..., in: text)
+        let limit = budget.available
         var result = ""
         var last = text.startIndex
         for match in tokenPattern.matches(in: text, range: range) {
@@ -245,9 +290,13 @@ public struct ExpressionEvaluator: Sendable {
             result += text[last..<whole.lowerBound]
             result += transform(String(text[inner]).trimmingCharacters(in: .whitespacesAndNewlines))
             last = whole.upperBound
+            guard result.utf8.count <= limit else {
+                _ = budget.take(limit + 1)
+                return nil
+            }
         }
         result += text[last...]
-        return result
+        return budget.take(result.utf8.count) ? result : nil
     }
 
     // MARK: - Evaluation
@@ -265,6 +314,12 @@ public struct ExpressionEvaluator: Sendable {
         case .binary(let symbol, let leftNode, let rightNode):
             let left = value(of: leftNode, in: scope)
             let right = value(of: rightNode, in: scope)
+            // Text joined by `+` counts against the step's text budget, like interpolation.
+            if symbol == "+", left.stringValue != nil || right.stringValue != nil,
+               !scope.textBudget.take(left.interpolationText.utf8.count + right.interpolationText.utf8.count) {
+                log.warn("An expression of a recipe is null: its text would be longer than \(ExpressionTextBudget.limit / 1024) KB.")
+                return .null
+            }
             return Self.apply(symbol, left, right)
         }
     }
@@ -369,7 +424,7 @@ public struct ExpressionEvaluator: Sendable {
         // Options before the flow variables: a value for one run (trigger, command line) can't replace them.
         if lower.hasPrefix("option.") {
             guard let option = scope.option(String(trimmed.dropFirst(7))) else { return .null }
-            if option.isTemplate, case .string(let template) = option.value { return .string(evaluateTemplate(template, in: scope)) }
+            if option.isTemplate, case .string(let template) = option.value { return evaluateTemplate(template, in: scope).map(JSONValue.string) ?? .null }
             return option.value
         }
         if lower.hasPrefix("context.") { return contextValue(String(trimmed.dropFirst(8)), in: scope) }
@@ -380,11 +435,12 @@ public struct ExpressionEvaluator: Sendable {
     }
 
     /// A template option's value with its `${...}` evaluated; options can't be used in it (no template expands another).
-    private func evaluateTemplate(_ template: String, in scope: ExpressionScope) -> String {
+    /// Nil beyond the step's text budget.
+    private func evaluateTemplate(_ template: String, in scope: ExpressionScope) -> String? {
         guard template.contains("${") else { return template }
         var inner = scope
         inner.option = { _ in nil }
-        return Self.replaceTokens(in: template) { expression in
+        return Self.replaceTokens(in: template, budget: scope.textBudget) { expression in
             expression.lowercased().contains("option.") ? "" : evaluateExpression(expression, in: inner).interpolationText
         }
     }

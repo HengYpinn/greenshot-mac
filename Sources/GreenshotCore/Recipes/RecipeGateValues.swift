@@ -80,6 +80,22 @@ enum RecipeGates {
         return actions
     }
 
+    /// The gated actions of the recipe that belong to no node of it. A recipe without a destination step gets one before
+    /// it runs (`RecipeTriggerPreparer.ensureDestination`), which reads `OverrideDestinations` like any destination step:
+    /// when the recipe can set that variable, it needs what a destination step would. Counted for every recipe without
+    /// a destination step, also those the preparer leaves alone (a RecordVideo, an AI tool's), so the gates don't
+    /// depend on which trigger starts it.
+    static func recipeActions(of recipe: CaptureRecipe, recipeSets variables: Set<String>) -> [RecipeGatedAction] {
+        guard !recipe.hasDestinationStep else { return [] }
+        var actions: [RecipeGatedAction] = []
+        for input in destinationInputs where variables.contains(input.lowercased()) || variables.contains("*") {
+            for action in anyDestination("the variable \(input)") where !actions.contains(action) {
+                actions.append(action)
+            }
+        }
+        return actions
+    }
+
     /// A destination decided when the recipe runs could be any of them: an external command or an upload.
     static func anyDestination(_ text: String) -> [RecipeGatedAction] {
         [RecipeGatedAction(.externalCommand, target: "a command chosen when the recipe runs (\(text))"),

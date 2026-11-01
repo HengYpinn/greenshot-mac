@@ -88,7 +88,10 @@ public protocol RecipeTrustStoring: Sendable {
 
 /// The trust store of the Mac (upstream: DPAPI-encrypted `recipe_trust.dat`): a JSON file (Application Support, RAPP
 /// picks the URL) signed with HMAC-SHA256. The key is 32 random bytes in the `SecretStore` (the Keychain in the app)
-/// under `keyName`, made on first use. A file whose signature doesn't match, or without a key, counts as empty
+/// under `keyName`, a new one at every save (like `AIToolsConsentSeal`), so a copy of the file from before a change
+/// (an approval revoked since) doesn't verify when it is put back. The key is written before the file: a save that
+/// fails in between leaves a file that doesn't verify (every recipe asks again), and a key that can't be written
+/// changes nothing. A file whose signature doesn't match, or without a key, counts as empty
 /// (default-deny: every recipe asks again) and `wasTampered` says so. A key the secret store fails to read (an error, not
 /// a missing key) counts as empty until the key is read again: nothing is saved meanwhile, and the key is never
 /// replaced. After most errors that is the next access. A locked Keychain (`SecretStoreUnavailableError`) isn't asked at
@@ -292,7 +295,10 @@ public final class RecipeTrustStore: RecipeTrustStoring, @unchecked Sendable {
     private func save(_ all: [String: RecipeTrustRecord]) throws {
         let list = all.values.sorted { $0.filePath < $1.filePath }
         let payload = try Self.encoder().encode(list)
-        let key = try existingKey() ?? newKey()
+        // The current key is read first, as before rotating: while it can't be read (the records may be a cached copy)
+        // the change is refused and the key isn't replaced.
+        _ = try existingKey()
+        let key = try newKey()
         let signature = Data(HMAC<SHA256>.authenticationCode(for: payload, using: key))
         let file = StoreFile(records: payload.base64EncodedString(), signature: signature.base64EncodedString())
         try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)

@@ -40,6 +40,14 @@ public struct RecipeFlowEngine: Sendable {
          recipe: nonEmpty(transition?.targetRecipeId) ?? nonEmpty(node.onErrorRecipeId))
     }
 
+    /// A variable that isn't handed to another recipe the capture goes on in (an error forward here, the Dynamic
+    /// Destination step's forward in the app), nor taken back from an error forward: where a flow sends its capture
+    /// (`OverrideDestinations`; each recipe was approved for its own destinations) and the files it saved
+    /// (`Destination.*`, R-F8).
+    public static func staysInItsRecipe(_ name: String) -> Bool {
+        RecipeGates.destinationInputs.contains { recipeEquals($0, name) } || name.lowercased().hasPrefix("destination.")
+    }
+
     static func nonEmpty(_ text: String?) -> String? {
         guard let text, !text.trimmingCharacters(in: .whitespaces).isEmpty else { return nil }
         return text
@@ -349,14 +357,16 @@ private final class FlowRun: @unchecked Sendable {
             // finishes it once) and its trigger (an AI tool's run keeps its exclusions and redaction).
             let forwarded = RecipeFlowContext(forwardedFrom: context, recipe: target)
             forwarded.payload = context.payload
-            for member in context.variables { forwarded[variable: member.key] = member.value }
+            for member in context.variables where !RecipeFlowEngine.staysInItsRecipe(member.key) {
+                forwarded[variable: member.key] = member.value
+            }
             for (key, object) in context.objects { forwarded.setObject(object, forKey: key) }
             let start = forwarded.variables
             context.log("Forwarding to recipe '\(target.id)'")
             await engine.execute(forwarded)
             // Its exports went to the shared log; what it set (a Notification's count, a destination's shown error, the
-            // values a CLI query reads) and its outcome come back.
-            context.merge(branch: forwarded, variablesChangedSince: start)
+            // values a CLI query reads) and its outcome come back, but not its destinations and files (`staysInItsRecipe`).
+            context.merge(branch: forwarded, variablesChangedSince: start, excluding: RecipeFlowEngine.staysInItsRecipe)
             return
         }
         if let targetNode {

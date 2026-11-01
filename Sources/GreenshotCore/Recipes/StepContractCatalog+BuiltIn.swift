@@ -250,6 +250,13 @@ enum BuiltInStepContracts {
         case .runTime(let text):
             actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes files to a folder decided when the recipe runs (\(text))"))
         }
+        if let place = absoluteFilePlace(node) {
+            // The File destination replaces a file of the same name unless AllowOverwrite is false (unset: the
+            // setting, which replaces by default; `${...}`: decided when the recipe runs).
+            let replaces = node.parameters["AllowOverwrite"]?.asBool != false
+            actions.append(RecipeGatedAction(.fileSystemAccess,
+                                             target: "Writes files to \(place)" + (replaces ? " and may replace existing files there" : "")))
+        }
         for designation in designations(of: node, environment) where !designation.trimmingCharacters(in: .whitespaces).isEmpty {
             // A destination decided when the recipe runs may be any: assume a command and an upload.
             if RecipeGateValue.isRunTime(designation) {
@@ -259,6 +266,18 @@ enum BuiltInStepContracts {
             }
         }
         return actions
+    }
+
+    /// Where an absolute `FilenamePattern` of the recipe's author writes (RecipeFileTarget: it goes where the author put
+    /// it, not into the output folder): the pattern, or "a place decided when the recipe runs" when it has `${...}`. Nil
+    /// for a pattern that stays in the folder.
+    static func absoluteFilePlace(_ node: RecipeNode) -> String? {
+        switch RecipeGateValue(node, "FilenamePattern") {
+        case .literal(let pattern) where RecipeFileExportOptions.isAbsolutePattern(pattern): return pattern
+        case .runTime(let pattern) where RecipeFileExportOptions.isAbsolutePattern(pattern):
+            return "a place decided when the recipe runs (\(pattern))"
+        default: return nil
+        }
     }
 
     static let destinations = StepContract(
@@ -382,7 +401,24 @@ enum BuiltInStepContracts {
             parameter("Type", default: .string("Rectangle"), "Type of the annotation (Text, Rectangle, Arrow, Icon, Blur, SpeechBubble, ...)")
         ],
         payload: PayloadContract(rawCapture: .required, surface: .required, visualMutation: .addsAnnotations),
-        acceptsUndeclaredParameters: true, evaluatesOwnParameters: true)
+        acceptsUndeclaredParameters: true, evaluatesOwnParameters: true, gates: { node, _ in annotationGates(node) })
+
+    /// The picture files the annotations read (`FilePath` of an Image, Icon, Cursor or Svg annotation, on the node or an
+    /// entry of `Annotations`), like the Source step's file. Any annotation with a `FilePath` counts: its type may be
+    /// decided when the recipe runs.
+    static func annotationGates(_ node: RecipeNode) -> [RecipeGatedAction] {
+        var actions: [RecipeGatedAction] = []
+        for entry in AnnotationExecutor.configurations(node.parameters) {
+            let action: RecipeGatedAction
+            switch RecipeGateValue(entry["FilePath"]) {
+            case .unset: continue
+            case .literal(let path): action = RecipeGatedAction(.fileSystemAccess, target: "Reads the image file \(path)")
+            case .runTime(let text): action = RecipeGatedAction(.fileSystemAccess, target: "Reads an image file named when the recipe runs (\(text))")
+            }
+            if !actions.contains(action) { actions.append(action) }
+        }
+        return actions
+    }
 
     static let setVariable = StepContract(
         stepType: WellKnownStepType.setVariable, displayName: "Set Variable",
@@ -455,14 +491,24 @@ enum BuiltInStepContracts {
             output("VideoRecordingResult", .object, "Details of the recording")
         ],
         gates: { node, _ in
+            var actions: [RecipeGatedAction] = []
             var target = RecipeGateValue(node, "OutputFilePath")
             if target == .unset { target = RecipeGateValue(node, "OutputDirectory") }
             switch target {
-            case .unset: return []
-            case .literal(let path): return [RecipeGatedAction(.fileSystemAccess, target: "Writes the video to \(path)")]
+            case .unset: break
+            case .literal(let path): actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes the video to \(path)"))
             case .runTime(let text):
-                return [RecipeGatedAction(.fileSystemAccess, target: "Writes the video to a place decided when the recipe runs (\(text))")]
+                actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes the video to a place decided when the recipe runs (\(text))"))
             }
+            // The microphone: Greenshot's permission for it, which the user gave for their own videos.
+            switch RecipeGateValue(node, "AudioSource") {
+            case .literal(let name) where AudioCaptureSource(upstreamName: name)?.includesMicrophone == true:
+                actions.append(RecipeGatedAction(.custom, target: "Records the microphone"))
+            case .runTime(let text):
+                actions.append(RecipeGatedAction(.custom, target: "May record the microphone (the audio source is decided when the recipe runs (\(text)))"))
+            default: break
+            }
+            return actions
         })
 
     static let stdout = StepContract(
@@ -535,8 +581,8 @@ enum BuiltInStepContracts {
         gates: { node, environment in [RecipeGatedAction(.externalCommand, target: externalCommandTarget(node, environment))] })
 
     /// The command of an ExternalCommand node: the executable, or the configured command's name and its command line;
-    /// "a command given when the recipe runs" when the one that decides contains `${...}`, and the arguments when they
-    /// do.
+    /// "a command given when the recipe runs" when the one that decides contains `${...}`; then the step's own arguments
+    /// (they replace a configured command's) and working folder, as written or as decided when the recipe runs.
     static func externalCommandTarget(_ node: RecipeNode, _ environment: GateEnvironment) -> String {
         var target: String
         switch (RecipeGateValue(node, "CommandLine"), RecipeGateValue(node, "Command")) {
@@ -552,8 +598,15 @@ enum BuiltInStepContracts {
         case (.unset, .unset):
             target = ""
         }
-        if case .runTime(let arguments) = RecipeGateValue(node, "Arguments") {
-            target += " with arguments given when the recipe runs (\(arguments))"
+        switch RecipeGateValue(node, "Arguments") {
+        case .unset: break
+        case .literal(let arguments): target += " with the arguments \(arguments)"
+        case .runTime(let arguments): target += " with arguments given when the recipe runs (\(arguments))"
+        }
+        switch RecipeGateValue(node, "WorkingDirectory") {
+        case .unset: break
+        case .literal(let folder): target += ", in the folder \(folder)"
+        case .runTime(let folder): target += ", in a folder decided when the recipe runs (\(folder))"
         }
         return target
     }

@@ -341,9 +341,10 @@ public final class RecipeFlowContext: @unchecked Sendable {
 
     /// After a run that went on next to this context on a copy of it (the join below a failed node, next to its error
     /// handler; a forwarded recipe): the variables it changed since `start`, not the copies of this context's own (they
-    /// may have changed meanwhile), then its outcome. Upstream merges neither.
-    func merge(branch: RecipeFlowContext, variablesChangedSince start: RecipeVariables) {
-        let changed = branch.variables.filter { start[$0.key] != $0.value }
+    /// may have changed meanwhile), then its outcome; a variable `excluding` names isn't merged. Upstream merges neither.
+    func merge(branch: RecipeFlowContext, variablesChangedSince start: RecipeVariables,
+               excluding: (String) -> Bool = { _ in false }) {
+        let changed = branch.variables.filter { start[$0.key] != $0.value && !excluding($0.key) }
         write { state in
             for member in changed { state.variables[member.key] = member.value }
             syncAnnouncedExports(&state.variables,

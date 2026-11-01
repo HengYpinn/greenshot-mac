@@ -15,9 +15,21 @@ public enum ImageOperations {
     /// drawn, where `Int()` of it would stop the app.
     static let maxSide = 65535
 
+    /// The most pixels in all of an image the operations and the effects make: the decoder's limit
+    /// (`ImageFileLoader.maxPixels`). Sides within `maxSide` still allow 65535 x 65535 pixels, 17 GB of RGBA.
+    static let maxPixels = ImageFileLoader.maxPixels
+
     /// Whether an image can have a side of `length` pixels: at least 1 and at most `maxSide` (NaN and infinity can't).
     static func isDrawable(_ length: CGFloat) -> Bool {
         (1...CGFloat(maxSide)).contains(length)
+    }
+
+    /// Whether an image of `width` x `height` pixels can be made: each side `isDrawable`, at most `maxPixels` in all
+    /// (the product can't overflow).
+    static func isDrawable(width: CGFloat, height: CGFloat) -> Bool {
+        guard isDrawable(width), isDrawable(height) else { return false }
+        let (pixels, overflow) = Int(width).multipliedReportingOverflow(by: Int(height))
+        return !overflow && pixels <= maxPixels
     }
 
     /// `points` times `scale` in whole pixels, limited to ±`maxSide`: a recipe can give any number of points, and
@@ -29,10 +41,10 @@ public enum ImageOperations {
     }
 
     /// Upstream `ResizeEffect` / `ImageHelper.ResizeImage`: `image` scaled to `size` with high quality interpolation.
-    /// Less than a pixel is one; a size no image can have (NaN, infinite, beyond `maxSide`) gives nil.
+    /// Less than a pixel is one; a size no image can have (NaN, infinite, beyond `maxSide` or `maxPixels`) gives nil.
     public static func resize(_ image: CGImage, to size: CGSize) -> CGImage? {
         let target = CGSize(width: max(size.width.rounded(), 1), height: max(size.height.rounded(), 1))
-        guard isDrawable(target.width), isDrawable(target.height) else { return nil }
+        guard isDrawable(width: target.width, height: target.height) else { return nil }
         let width = Int(target.width)
         let height = Int(target.height)
         guard let context = AnnotationRenderer.makeContext(width: width, height: height) else { return nil }
@@ -58,11 +70,12 @@ public enum ImageOperations {
 
     /// Upstream `ResizeCanvasEffect` / `ImageHelper.ResizeCanvas`: the image on a canvas that is bigger by the given
     /// pixels on each side, filled with `background` (transparent when nil). Negative values cut the side off. Nil when
-    /// nothing is left or a side would be longer than `maxSide` (margins from a recipe can be anything).
+    /// nothing is left, a side would be longer than `maxSide` or the canvas bigger than `maxPixels` (margins from a
+    /// recipe can be anything).
     public static func resizeCanvas(_ image: CGImage, left: Int, right: Int, top: Int, bottom: Int,
                                     background: CGColor? = nil) -> EffectResult? {
         guard let width = sum(image.width, left, right), let height = sum(image.height, top, bottom),
-              (1...maxSide).contains(width), (1...maxSide).contains(height),
+              isDrawable(width: CGFloat(width), height: CGFloat(height)),
               let context = AnnotationRenderer.makeContext(width: width, height: height) else { return nil }
         if let background {
             context.setFillColor(background)

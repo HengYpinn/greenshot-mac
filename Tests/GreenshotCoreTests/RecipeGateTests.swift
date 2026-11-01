@@ -108,6 +108,93 @@ import Testing
         #expect(RecipeValidator().validate(plain).gateTypes == [.externalCommand, .networkAccess])
     }
 
+    /// RECIPES-1: an absolute `FilenamePattern` of the recipe's author writes (and with the default setting replaces) files
+    /// outside the output folder, so it needs file system access and the step line says where.
+    @Test func anAbsoluteFilenamePatternNeedsFileAccess() {
+        let save = node("SaveFile", ["FilenamePattern": .string("~/Pictures/x"), "AllowOverwrite": .bool(true)])
+        let expected = RecipeGatedAction(.fileSystemAccess, target: "Writes files to ~/Pictures/x and may replace existing files there")
+        #expect(gates(save) == [expected])
+        let recipe = testRecipe([RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "SaveFile", parameters: save.parameters)])
+        let validation = RecipeValidator().validate(recipe)
+        #expect(validation.gateTypes == [.fileSystemAccess])
+        let lines = details(recipe)
+        #expect(lines.contains("Saves the result to ~/Pictures/x"))
+        #expect(lines.contains("Writes files to ~/Pictures/x and may replace existing files there"))
+        // The same parameters on a Destinations step, and a pattern without a fixed start.
+        let listed = gates(node("Destinations", ["DestinationDesignations": .array([.string("FileNoDialog")]),
+                                                 "FilenamePattern": .string("/${Name}"), "AllowOverwrite": .bool(false)]))
+        #expect(listed == [RecipeGatedAction(.fileSystemAccess, target: "Writes files to a place decided when the recipe runs (/${Name})")])
+        // A relative pattern stays in the output folder, whatever its values are: no permission, as before.
+        #expect(gates(node("SaveFile", ["FilenamePattern": .string("${title}"), "AllowOverwrite": .bool(true)])).isEmpty)
+        #expect(details(testRecipe([RecipeNode(id: "a", stepType: "Source"),
+                                    RecipeNode(id: "b", stepType: "SaveFile", parameters: ["FilenamePattern": .string("${title}")])]))
+            .contains("Saves the result to the output folder from the settings"))
+    }
+
+    /// RECIPES-2: a recipe without a destination step gets one when it runs (`RecipeTriggerPreparer`), which reads
+    /// `OverrideDestinations`: a recipe that can set it needs the permissions of any destination, like a destination step.
+    @Test func overrideDestinationsWithoutADestinationStep() {
+        let set = node("SetVariable", ["Variable": .string("OverrideDestinations"), "Value": .array([.string("Dropbox")])])
+        let recipe = testRecipe([RecipeNode(id: "a", stepType: "Source"), set], transitions: [("a", ["n"])])
+        let validation = RecipeValidator().validate(recipe)
+        #expect(validation.gateTypes == [.externalCommand, .networkAccess])
+        let lines = details(recipe)
+        #expect(lines.contains("Runs a command chosen when the recipe runs (the variable OverrideDestinations)"))
+        #expect(lines.contains("Uploads to a destination chosen when the recipe runs (the variable OverrideDestinations)"))
+        let actions = RecipeGates.actions(of: recipe, contracts: .builtIn, environment: .empty)
+        #expect(Set(actions) == Set(validation.gatedActions))
+        // A copy that adds the variable to a recipe approved without it doesn't run under that approval.
+        let approved = testRecipe([RecipeNode(id: "a", stepType: "Source")], transitions: [])
+        let changes = RecipeGates.unapprovedChanges(of: recipe, comparedWith: approved, contracts: .builtIn, environment: .empty)
+        #expect(changes.count == 2)
+        // A trigger argument that sets it counts too; a recipe that can't set it stays without permissions.
+        var fromArgument = testRecipe([RecipeNode(id: "a", stepType: "Source")], transitions: [])
+        #expect(RecipeValidator().validate(fromArgument).gateTypes.isEmpty)
+        fromArgument.triggers = [TriggerConfig(triggerType: "Commandline", parameters: [
+            "Command": .string("send"),
+            "Arguments": .array([.object(["name": .string("to"), "variable": .string("OverrideDestinations")])])
+        ])]
+        #expect(RecipeValidator().validate(fromArgument).gateTypes == [.externalCommand, .networkAccess])
+    }
+
+    /// RECIPES-5: an annotation's picture file is read like the Source step's file; the microphone is asked for; and the
+    /// step line shows the parameters that decide a permission, also after four others.
+    @Test func annotationFilesAndTheMicrophoneNeedPermissions() {
+        let picture = node("Annotation", ["Type": .string("Image"), "FilePath": .string("/x.png")])
+        #expect(gates(picture) == [RecipeGatedAction(.fileSystemAccess, target: "Reads the image file /x.png")])
+        let listed = node("Annotation", ["Annotations": .array([.object(["Type": .string("Text"), "Text": .string("Hi")]),
+                                                                .object(["Type": .string("Icon"), "FilePath": .string("${Path}")])])])
+        #expect(gates(listed) == [RecipeGatedAction(.fileSystemAccess, target: "Reads an image file named when the recipe runs (${Path})")])
+        #expect(gates(node("Annotation", ["Type": .string("Text"), "Text": .string("Hi")])).isEmpty)
+
+        let microphone = RecipeGatedAction(.custom, target: "Records the microphone")
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("Microphone")])) == [microphone])
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("systemAudioAndMicrophone")])) == [microphone])
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("${Audio}")]))
+            == [RecipeGatedAction(.custom, target: "May record the microphone (the audio source is decided when the recipe runs (${Audio}))")])
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("SystemAudio")])).isEmpty)
+        #expect(gates(node("RecordVideo", [:])).isEmpty)
+
+        let video = node("RecordVideo", ["FrameRate": .number(30), "Bitrate": .number(2_000_000), "Format": .string("mp4"),
+                                         "Preset": .string("Balanced"), "ColorMode": .string("Grayscale"), "AudioSource": .string("Microphone")])
+        let lines = details(testRecipe([RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "RecordVideo", parameters: video.parameters)]))
+        #expect(lines.contains { $0.hasPrefix("Record Video (") && $0.contains("AudioSource: Microphone") })
+        #expect(lines.contains("Records the microphone"))
+    }
+
+    /// RECIPES-6: the step's own arguments replace those of a configured command, and the working folder is the step's:
+    /// both are part of what the approval shows.
+    @Test func literalArgumentsAndTheWorkingFolderAreShown() {
+        let configured = GateEnvironment(commandLine: { $0 == "Optimize" ? "/usr/local/bin/pngquant" : nil })
+        let own = gates(node("ExternalCommand", ["Command": .string("Optimize"), "Arguments": .string("--force --output /tmp/x {0}"),
+                                                 "WorkingDirectory": .string("/tmp")]), configured)
+        let target = "Optimize (/usr/local/bin/pngquant) with the arguments --force --output /tmp/x {0}, in the folder /tmp"
+        #expect(own == [RecipeGatedAction(.externalCommand, target: target)])
+        #expect(RecipeDescriber().describe(own[0]) == "Runs the program " + target)
+        let folder = gates(node("ExternalCommand", ["CommandLine": .string("/bin/echo"), "WorkingDirectory": .string("${Dir}")]))
+        #expect(folder.first?.target == "/bin/echo, in a folder decided when the recipe runs (${Dir})")
+    }
+
     @Test func theLibraryAsksForTheseActions() async throws {
         let fixture = LibraryFixture(approver: StubApprover { request in
             RecipeApprovalDecision(approval: RecipeApproval(recipeId: "x", approvedTriggers: request.triggers.map(\.key)))
