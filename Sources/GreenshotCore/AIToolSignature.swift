@@ -16,13 +16,21 @@ public struct AIToolSignature: Equatable, Sendable {
     /// app's name is its developer's (second review R2-4). Nil otherwise.
     public var appPath: String?
     public var appIdentifier: String?
+    /// The names in the Info.plist that app's signature covers (`appInfoKeys`), as the signature has it: the file isn't
+    /// read again, so it can't have changed since (third review R3-1).
+    public var appInfo: [String: String]?
 
-    public init(signer: String? = nil, teamID: String? = nil, appPath: String? = nil, appIdentifier: String? = nil) {
+    public init(signer: String? = nil, teamID: String? = nil, appPath: String? = nil, appIdentifier: String? = nil,
+                appInfo: [String: String]? = nil) {
         self.signer = signer
         self.teamID = teamID
         self.appPath = appPath
         self.appIdentifier = appIdentifier
+        self.appInfo = appInfo
     }
+
+    /// The Info.plist keys kept in `appInfo`.
+    static let appInfoKeys = ["CFBundleDisplayName", "CFBundleName", "CFBundleIdentifier", "CFBundleExecutable"]
 
     /// No signature that counts.
     public static let unsigned = AIToolSignature()
@@ -56,9 +64,10 @@ public struct AIToolSignature: Equatable, Sendable {
         var signature = AIToolSignature(signer: summary.flatMap { $0.isEmpty ? nil : $0 } ?? team, teamID: team)
         if let app = outermostApp(processPath) {
             let appInfo = app == codePath ? info : sameTeamSigningInformation(of: app, team: team)
-            if let appInfo, appInfo[kSecCodeInfoPList as String] != nil {
+            if let appInfo, let plist = appInfo[kSecCodeInfoPList as String] as? [String: Any] {
                 signature.appPath = app
                 signature.appIdentifier = appInfo[kSecCodeInfoIdentifier as String] as? String
+                signature.appInfo = plist.filter { appInfoKeys.contains($0.key) }.compactMapValues { $0 as? String }
             }
         }
         return signature
