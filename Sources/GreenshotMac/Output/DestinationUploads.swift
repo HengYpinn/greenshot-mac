@@ -321,7 +321,8 @@ enum ConfluenceDestination {
                 AtlassianSignIn.uploadFailed(error, .confluence, site)
                 throw error
             }
-            // The links come from the server: only web pages on the site are opened (no file:// or another app's URL).
+            // The links come from the server: only web pages on the site are opened or copied (no file:// or another
+            // app's URL).
             let pageURL = site.isOnSite(page.url) ? page.url : nil
             let download = attachments.first?.downloadURL.flatMap { site.isOnSite($0) ? $0 : nil }
             settings.update { $0.confluence.remember(page: page) }
@@ -332,7 +333,7 @@ enum ConfluenceDestination {
                 Clipboard.copy(text: ConfluenceClient.wikiMarkup(for: file.name))
                 detail = String(localized: "Wiki markup copied – click to open the page")
             case .imageLink:
-                if let link = attachments.first?.downloadURL {
+                if let link = download {
                     Clipboard.copy(text: link.absoluteString)
                     detail = String(localized: "Image link copied – click to open the page")
                 }
