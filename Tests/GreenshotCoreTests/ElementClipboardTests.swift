@@ -71,6 +71,51 @@ struct ElementClipboardTests {
         #expect(picture.image.width == 64 && picture.scale == 1)
     }
 
+    /// A little-endian TIFF of `sizes.count` uncompressed 8-bit gray pages (126 bytes each but the pixels), the
+    /// pages chained one after the other.
+    static func tiff(pageSizes sizes: [Int]) -> Data {
+        func le16(_ value: Int) -> [UInt8] { [UInt8(value & 0xFF), UInt8(value >> 8 & 0xFF)] }
+        func le32(_ value: Int) -> [UInt8] { le16(value & 0xFFFF) + le16(value >> 16) }
+        var data: [UInt8] = [0x49, 0x49, 42, 0] + le32(8)
+        for (index, side) in sizes.enumerated() {
+            let ifdOffset = data.count
+            let ifdLength = 2 + 9 * 12 + 4
+            let pixels = side * side
+            let next = index + 1 < sizes.count ? ifdOffset + ifdLength + pixels : 0
+            // Width, height, 8 bits, no compression, black is zero, the strip, 1 sample, rows per strip, strip bytes.
+            let entries: [(tag: Int, type: Int, value: Int)] = [(256, 4, side), (257, 4, side), (258, 3, 8), (259, 3, 1), (262, 3, 1),
+                                                                (273, 4, ifdOffset + ifdLength), (277, 3, 1), (278, 4, side),
+                                                                (279, 4, pixels)]
+            data += le16(entries.count)
+            for entry in entries {
+                data += le16(entry.tag) + le16(entry.type) + le32(1)
+                data += entry.type == 3 ? le16(entry.value) + [0, 0] : le32(entry.value)
+            }
+            data += le32(next)
+            data += [UInt8](repeating: 0x7F, count: pixels)
+        }
+        return Data(data)
+    }
+
+    @Test func theLargestPageOfATiffIsUsed() throws {
+        let picture = try #require(ElementPictures.load(data: Self.tiff(pageSizes: [1, 3, 2])))
+        #expect(picture.image.width == 3)
+    }
+
+    @Test func onlyTheFirstFramesAreCompared() throws {
+        // ImageIO walks the chain of a TIFF's pages again for the size of each one: comparing every page of a file
+        // with thousands took minutes. A bigger page after the first `maxComparedFrames` is not looked at.
+        let sizes = Array(repeating: 1, count: ImageFileLoader.maxComparedFrames) + [2]
+        let picture = try #require(ElementPictures.load(data: Self.tiff(pageSizes: sizes)))
+        #expect(picture.image.width == 1)
+        let many = Self.tiff(pageSizes: Array(repeating: 1, count: 4000))
+        let clock = ContinuousClock()
+        let start = clock.now
+        let loaded = ElementPictures.load(data: many)
+        #expect(loaded != nil)
+        #expect(clock.now - start < .seconds(1))
+    }
+
     @Test func aRetinaPictureKeepsItsScale() throws {
         let data = try ImageExporter.data(for: TestImage.solid(width: 8, height: 8, .red), format: .png, scale: 2)
         let picture = try #require(ElementPictures.load(data: data))

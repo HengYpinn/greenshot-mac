@@ -119,7 +119,8 @@ public enum ImagePasteboard {
         var rest = Substring(text)
         while let amp = rest.firstIndex(of: "&") {
             result += rest[..<amp]
-            guard let semicolon = rest[amp...].firstIndex(of: ";"), rest.distance(from: amp, to: semicolon) <= 10 else {
+            // Only the next ten characters: looking further for every `&` made thousands of them take seconds.
+            guard let semicolon = rest[amp...].prefix(11).firstIndex(of: ";") else {
                 result += "&"
                 rest = rest[rest.index(after: amp)...]
                 continue

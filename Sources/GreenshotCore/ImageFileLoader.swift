@@ -20,6 +20,9 @@ public enum ImageFileLoader {
     /// format), so a photo opened on purpose is never refused, and far less than the 1.6 billion pixels that a PNG of
     /// 1.5 MB can claim. The browser import has its own, lower limit for what pages send.
     public static let maxPixels = 2 * BrowserImportDecoder.maxPixels
+    /// The most frames whose sizes are compared to find the biggest (the sizes of an icon, the pages of a TIFF): an
+    /// icon has a dozen, and ImageIO walks a TIFF's chain of pages again for the size of each one.
+    static let maxComparedFrames = 64
 
     public static func load(_ url: URL) -> (image: CGImage, scale: CGFloat)? {
         // ImageIO can't read SVG: macOS draws it (upstream `SvgFileFormatHandler`).
@@ -65,11 +68,10 @@ public enum ImageFileLoader {
     /// takes the 256 px "Vista" entry or else the biggest; for everything else the first (GIF frame, TIFF page).
     static func bestIndex(of source: CGImageSource) -> Int {
         let count = CGImageSourceGetCount(source)
-        guard count > 1, let type = CGImageSourceGetType(source).flatMap({ UTType($0 as String) }),
-              type.conforms(to: .ico) || type.conforms(to: .icns) || type.identifier == "com.microsoft.cur" else { return 0 }
+        guard count > 1, let type = type(of: source), isIcon(type) else { return 0 }
         var best = 0
         var bestPixels = 0
-        for index in 0..<count {
+        for index in 0..<min(count, maxComparedFrames) {
             guard let size = pixelSize(of: source, at: index), isAcceptable(width: size.width, height: size.height) else { continue }
             if size.width * size.height > bestPixels {
                 best = index
@@ -77,6 +79,16 @@ public enum ImageFileLoader {
             }
         }
         return best
+    }
+
+    /// The type of the data a source reads.
+    static func type(of source: CGImageSource) -> UTType? {
+        CGImageSourceGetType(source).flatMap { UTType($0 as String) }
+    }
+
+    /// Whether `type` is an icon (ICO, ICNS, CUR), whose frames are one picture at several sizes.
+    static func isIcon(_ type: UTType) -> Bool {
+        type.conforms(to: .ico) || type.conforms(to: .icns) || type.identifier == "com.microsoft.cur"
     }
 
     /// `image` turned and mirrored so that it shows the way its EXIF `orientation` (1...8, `CGImagePropertyOrientation`)

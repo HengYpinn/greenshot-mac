@@ -42,8 +42,8 @@ final class EditorManager {
     }
 
     /// Opens the unsaved editors kept when the app last quit for a logout, restart or shut down, or ended without
-    /// quitting (upstream `RestartManagerHelper.RestoreState` with `--restore`). They are still unsaved, and Save goes to
-    /// the file they showed.
+    /// quitting (upstream `RestartManagerHelper.RestoreState` with `--restore`). They are still unsaved, and Save makes a
+    /// new file (`EditorDocument(restoring:)`).
     func restoreSavedEditors() {
         let crashed = (NSApp.delegate as? AppDelegate)?.previousRunEndedAbnormally ?? false
         let files = sessions.keptFiles()
@@ -51,7 +51,7 @@ final class EditorManager {
         log.info("Restoring \(files.count) unsaved editors (the last run ended abnormally: \(crashed))")
         for file in files {
             guard let kept = sessions.claim(file), let session = kept.contents.session else { continue }
-            let document = EditorDocument(restoring: kept.contents) { FileManager.default.fileExists(atPath: $0.path) }
+            let document = EditorDocument(restoring: kept.contents)
             let controller = open(document)
             sessions.adopt(kept, for: document)
             let message: String

@@ -6,6 +6,7 @@
 import CoreGraphics
 import Foundation
 import ImageIO
+import UniformTypeIdentifiers
 
 /// What a dropped or pasted file or download becomes: an image element's picture, or an SVG element's SVG.
 public enum ElementPicture {
@@ -47,13 +48,15 @@ public enum ElementPictures {
 
     /// The largest image of a source with several (the sizes of an .ico or .icns icon, the pages of a TIFF), with its
     /// pixels per point from its resolution (144 dpi is 2×). Upstream `IconContainer` shows the icon at its own size;
-    /// the largest one looks best when it is made smaller.
+    /// the largest one looks best when it is made smaller. Of other files (the frames of a GIF) the first image.
     public static func largestImage(in source: CGImageSource) -> (image: CGImage, scale: CGFloat)? {
         let count = CGImageSourceGetCount(source)
         guard count > 0 else { return nil }
+        let type = ImageFileLoader.type(of: source)
+        let hasSizes = type.map { ImageFileLoader.isIcon($0) || $0.conforms(to: .tiff) } ?? false
         // Sizes come from the headers, before anything is decoded; a frame claiming too many pixels is not a candidate
         var best: (index: Int, pixels: Int)?
-        for index in 0..<count {
+        for index in 0..<(hasSizes ? min(count, ImageFileLoader.maxComparedFrames) : 1) {
             guard let size = ImageFileLoader.pixelSize(of: source, at: index),
                   ImageFileLoader.isAcceptable(width: size.width, height: size.height) else { continue }
             let pixels = size.width * size.height

@@ -34,8 +34,9 @@ enum GreenshotLegacyImport {
         var unreadable: [String] = []
         var numbers: [UUID: Int] = [:]
         var counterStart: Int?
+        let pictures = Pictures()
         for element in legacy {
-            guard let annotation = annotation(element, scale: max(scale, 1)) else {
+            guard let annotation = annotation(element, scale: max(scale, 1), pictures: pictures) else {
                 unreadable.append(displayName(of: element))
                 continue
             }
@@ -62,8 +63,8 @@ enum GreenshotLegacyImport {
         return result
     }
 
-    /// The element as this editor has it; nil when it can't be shown here.
-    static func annotation(_ element: LegacyElement, scale: CGFloat) -> Annotation? {
+    /// The element as this editor has it; nil when it can't be shown here. `pictures` are those of the whole file.
+    static func annotation(_ element: LegacyElement, scale: CGFloat, pictures: Pictures = Pictures()) -> Annotation? {
         guard let kind = kind(of: element) else { return nil }
         let start = CGPoint(x: element.left, y: element.top)
         let end = CGPoint(x: element.left + element.width, y: element.top + element.height)
@@ -85,14 +86,14 @@ enum GreenshotLegacyImport {
             annotation.start = first
             annotation.end = last
         case .picture(let data, let rotation):
-            guard let png = pngData(data) else { return nil }
+            guard let png = pictures.png(of: data) else { return nil }
             annotation.imageData = png
             annotation.rotation = turn(rotation)
         case .barcode(let data, let model, let margin):
             if let model {
                 annotation.barcode = barcodeSpec(model, margin: margin)
             } else {
-                guard let png = pngData(data) else { return nil }
+                guard let png = pictures.png(of: data) else { return nil }
                 annotation.imageData = png
             }
         case .svg(let data, let rotation):
@@ -104,7 +105,7 @@ enum GreenshotLegacyImport {
             annotation.text = emoji
             annotation.rotation = turn(rotation)
         case .cursor(let data):
-            guard let png = pngData(data) else { return nil }
+            guard let png = pictures.png(of: data) else { return nil }
             annotation.imageData = png
         case .cutMark(let horizontal, let seed, let shadow):
             annotation.verticalCut = !horizontal
@@ -303,6 +304,26 @@ enum GreenshotLegacyImport {
         let darkness = shadow.darkness.isFinite ? min(max(shadow.darkness, 0), 1) : 0.6
         return CutEdgeLayout(shadowDarkness: darkness, shadowSize: min(max(shadow.size, 1), 20),
                              shadowOffsetX: min(max(shadow.offsetX, -20), 20), shadowOffsetY: min(max(shadow.offsetY, -20), 20))
+    }
+
+    /// The pictures of a file's elements as PNG (`pngData`): each one is converted once, however many elements show it
+    /// (elements can share one picture object), and pictures past `Annotation.maxPicturePixels` in all, which
+    /// `Annotation.withinLimits` leaves out afterwards anyway, are not converted: one of 200 megapixels takes seconds.
+    final class Pictures {
+        private var pixelsLeft = Annotation.maxPicturePixels
+        private var converted: [Data: Data?] = [:]
+
+        /// The picture as PNG; nil when it can't be read or the pixels of the file's pictures are used up.
+        func png(of data: Data?) -> Data? {
+            guard let data, !data.isEmpty else { return nil }
+            let pixels = Annotation.picturePixels(of: data)
+            guard pixels <= pixelsLeft else { return nil }
+            pixelsLeft -= pixels
+            if let known = converted[data] { return known }
+            let png = pngData(data)
+            converted[data] = png
+            return png
+        }
     }
 
     /// The picture as PNG: PNG stays, other formats this Mac reads (the ICO of an icon element) are converted, the

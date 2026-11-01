@@ -7,7 +7,7 @@ import Foundation
 
 /// The `src` values of the `<img>` tags of HTML, in one pass over the bytes. HTML on the clipboard comes from any web
 /// page; a regex that looks for the end of every `<img` again made a page of "<img " repeated take minutes (and the
-/// clipboard trigger reads it on the main thread), so this scanner never looks at a byte twice.
+/// clipboard trigger reads it on the main thread), so this scanner goes over each tag once, from its `<img` to its `>`.
 enum HTMLImageSources {
     /// What may come right before `src` in a tag.
     enum Boundary {
@@ -28,72 +28,70 @@ enum HTMLImageSources {
         let count = bytes.count
         var results: [String] = []
         var position = 0
-        // The next ">" (and quote) at or after the position asked for: searched once, then kept; they only move forward.
-        var tagEnd = -1
-        var noMoreDouble = false
-        var noMoreSingle = false
 
         func index(of byte: UInt8, from start: Int) -> Int? {
             guard start < count else { return nil }
             return bytes[start...].firstIndex(of: byte)
         }
 
-        while position + 4 < count {
+        /// The value of the attribute whose `=` is at `equals` and where the tag goes on after it; nil when its quote
+        /// is never closed (the rest of the HTML is in it).
+        func value(after equals: Int) -> (range: Range<Int>, next: Int)? {
+            var at = equals + 1
+            while at < count, isSpace(bytes[at]) { at += 1 }
+            guard at < count else { return (at..<at, at) }
+            let quote = bytes[at]
+            if quote == 0x22 || quote == 0x27 {
+                guard let end = index(of: quote, from: at + 1) else { return nil }
+                return (at + 1..<end, end + 1)
+            }
+            var end = at
+            while end < count, !isSpace(bytes[end]), bytes[end] != 0x3E, bytes[end] != 0x22, bytes[end] != 0x27 { end += 1 }
+            return (at..<end, end)
+        }
+
+        /// Whether `src` followed by `=` starts at `at`; the place of the `=`.
+        func sourceName(at: Int) -> Int? {
+            guard at + 3 < count, lowercased(bytes[at]) == 0x73, lowercased(bytes[at + 1]) == 0x72,
+                  lowercased(bytes[at + 2]) == 0x63 else { return nil }
+            switch boundary {
+            case .whitespace: guard isSpace(bytes[at - 1]) else { return nil }
+            case .wordBoundary: guard !isWord(bytes[at - 1]) else { return nil }
+            }
+            var equals = at + 3
+            while equals < count, isSpace(bytes[equals]) { equals += 1 }
+            return equals < count && bytes[equals] == 0x3D ? equals : nil
+        }
+
+        scan: while position + 4 < count {
             guard let lt = index(of: 0x3C, from: position) else { break }
             position = lt + 1
             guard lt + 4 < count, lowercased(bytes[lt + 1]) == 0x69, lowercased(bytes[lt + 2]) == 0x6D,
                   lowercased(bytes[lt + 3]) == 0x67, isSpace(bytes[lt + 4]) || bytes[lt + 4] == 0x2F else { continue }
-            if tagEnd < lt {
-                guard let found = index(of: 0x3E, from: lt) else { break }
-                tagEnd = found
-            }
-            if tagEnd - lt > maxTagBytes {
-                position = tagEnd + 1
-                continue
-            }
-            // The first `src=` inside the tag.
-            var cursor = lt + 4
-            while cursor + 3 < tagEnd {
-                defer { cursor += 1 }
-                guard lowercased(bytes[cursor]) == 0x73, lowercased(bytes[cursor + 1]) == 0x72, lowercased(bytes[cursor + 2]) == 0x63
-                else { continue }
-                let before = bytes[cursor - 1]
-                switch boundary {
-                case .whitespace: guard isSpace(before) else { continue }
-                case .wordBoundary: guard !isWord(before) else { continue }
-                }
-                var at = cursor + 3
-                while at < count, isSpace(bytes[at]) { at += 1 }
-                guard at < count, bytes[at] == 0x3D else { continue }
-                at += 1
-                while at < count, isSpace(bytes[at]) { at += 1 }
-                guard at < count else { break }
-                let quote = bytes[at]
-                var valueEnd: Int?
-                var valueStart = at
-                if quote == 0x22 || quote == 0x27 {
-                    valueStart = at + 1
-                    if quote == 0x22, !noMoreDouble {
-                        valueEnd = index(of: quote, from: valueStart)
-                        noMoreDouble = valueEnd == nil
-                    } else if quote == 0x27, !noMoreSingle {
-                        valueEnd = index(of: quote, from: valueStart)
-                        noMoreSingle = valueEnd == nil
-                    }
-                    guard let end = valueEnd else { continue }
-                    results.append(String(decoding: bytes[valueStart..<end], as: UTF8.self))
-                    position = end + 1
+            // Once over the tag to its `>`, which may also be inside a quoted value: the first `src` value is kept,
+            // the values of the other attributes are stepped over.
+            var source: Range<Int>?
+            var at = lt + 4
+            while at < count, bytes[at] != 0x3E {
+                let equals: Int
+                let isSource: Bool
+                if bytes[at] == 0x3D {
+                    (equals, isSource) = (at, false)
+                } else if source == nil, let found = sourceName(at: at) {
+                    (equals, isSource) = (found, true)
                 } else {
-                    var end = at
-                    while end < count, !isSpace(bytes[end]), bytes[end] != 0x3E, bytes[end] != 0x22, bytes[end] != 0x27 { end += 1 }
-                    guard end > at else { continue }
-                    results.append(String(decoding: bytes[at..<end], as: UTF8.self))
-                    position = end
+                    at += 1
+                    continue
                 }
-                tagEnd = -1
-                break
+                guard let value = value(after: equals) else { break scan }
+                if isSource, !value.range.isEmpty { source = value.range }
+                at = value.next
             }
-            if tagEnd >= 0 { position = tagEnd + 1 }
+            guard at < count else { break }
+            position = at + 1
+            if let source, at - lt - source.count <= maxTagBytes {
+                results.append(String(decoding: bytes[source], as: UTF8.self))
+            }
         }
         return results
     }

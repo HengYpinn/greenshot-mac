@@ -34,15 +34,14 @@ extension EditorDocument {
         savesToNewFile = contents.savesToNewFile
     }
 
-    /// A kept editor opened again at the next start: still unsaved, saved to the file it showed (when that is still
-    /// there, `fileExists`) and as careful with it as before.
-    public convenience init(restoring contents: GreenshotFile.Contents, fileExists: (URL) -> Bool) {
-        let original = contents.session?.originalFile.map { URL(fileURLWithPath: $0) }
+    /// A kept editor opened again at the next start: still unsaved, and without a file, so Save makes a new one. The
+    /// kept files are in a folder any program of the user can write to: the file one names (`Session.originalFile`) is
+    /// not taken as the editor's, so a planted one can't make Save write over a file of the user's.
+    public convenience init(restoring contents: GreenshotFile.Contents) {
         self.init(image: contents.image, scale: contents.scale, title: contents.title ?? "Screenshot",
-                  captureDate: contents.captureDate ?? Date(), fileURL: original.flatMap { fileExists($0) ? $0 : nil })
+                  captureDate: contents.captureDate ?? Date())
         addOpened(contents.elements)
         counterStart = contents.counterStart
-        savesToNewFile = contents.session?.savesToNewFile ?? false
     }
 }
 

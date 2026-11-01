@@ -17,6 +17,32 @@ struct NRBFLimitsTests {
         #expect(graph.objects.isEmpty)
     }
 
+    @Test func membersAreFoundByNameBackingFieldOrBaseClass() {
+        let names = ["Base+a", "a", "<b>k__BackingField", "Other+<c>k__BackingField", "Base+c", "A+B+d", "e+"]
+        let instance = NRBFInstance(typeName: "T", memberNames: names, values: names.indices.map { .int(Int64($0)) })
+        // An exact name (or backing field) comes before a base class's field of that name; else the first base class's.
+        #expect(instance.member("a") == .int(1))
+        #expect(instance.member("b") == .int(2))
+        #expect(instance.member("c") == .int(3))
+        #expect(instance.member("d") == .int(5))
+        #expect(instance.member("B+d") == .int(5))
+        #expect(instance.member("") == .int(6))
+        #expect(instance.member("x") == nil)
+    }
+
+    @Test func lookingUpMembersOfAHugeClassStaysFast() {
+        // A class with 100,000 members (a crafted file can have a million): each lookup went over all of them.
+        let names = (0..<100_000).map { "Base+m\($0)" }
+        let instance = NRBFInstance(typeName: "T", memberNames: names, values: Array(repeating: .null, count: names.count))
+        let clock = ContinuousClock()
+        let start = clock.now
+        var found = 0
+        for index in 0..<200 where instance.member("missing\(index)") != nil { found += 1 }
+        #expect(found == 0)
+        #expect(instance.member("m99999") == .null)
+        #expect(clock.now - start < .milliseconds(500))
+    }
+
     @Test func libraryRecordsCountAsRecords() {
         var payload = NRBFTestStream.header()
         let library: [UInt8] = [12] + NRBFTestStream.int32(2) + [0]
