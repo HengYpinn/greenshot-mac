@@ -76,6 +76,25 @@ struct ElementLimitsTests {
         #expect(pasted.elements.count == count + 1)
     }
 
+    @Test func svgElementsBeyondTheirBudgetAreLeftOut() throws {
+        // Each SVG draws 11,112 elements (four levels of ten `<use>`), within the limit of one SVG; a document of
+        // a thousand of them took seconds to draw.
+        guard ElementSvg.isSupported else { return }
+        var defs = #"<rect id="r0" width="10" height="10"/>"#
+        for level in 1...4 {
+            defs += "<g id=\"r\(level)\">" + String(repeating: "<use href=\"#r\(level - 1)\"/>", count: 10) + "</g>"
+        }
+        let svg = Data((#"<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><defs>"# + defs + "</defs><use href=\"#r4\"/></svg>").utf8)
+        let drawn = try #require(ElementSvg.drawnElements(svg))
+        let fitting = Annotation.maxSvgElements / drawn
+        let element = Annotation(kind: .svg, start: .zero, end: CGPoint(x: 10, y: 10), imageData: svg)
+        let elements = Array(repeating: element, count: fitting + 3)
+        let data = try GreenshotFile.Contents(image: TestImage.solid(width: 8, height: 8, .blue), scale: 1, elements: elements).encoded()
+        let read = try #require(GreenshotFile.read(data))
+        #expect(read.elements.count == fitting)
+        #expect(read.unreadable == Array(repeating: Annotation.outOfLimitsName, count: 3))
+    }
+
     @Test func aTinyScaleCannotMakePastedElementsHuge() throws {
         // At 1e-300 pixels per point, pasting into a 2× image multiplied the positions by 2e300.
         let json = String(decoding: try ElementTransfer(elements: [Self.rectangle], scale: 1).encoded(), as: UTF8.self)

@@ -24,6 +24,9 @@ extension Annotation {
     /// by the size it is drawn at): two of the biggest pictures a file may hold, or twenty full-screen captures of a 6K
     /// display. Each picture is decoded when it is drawn: this keeps the time and memory that takes within bounds.
     public static let maxPicturePixels = 2 * ImageFileLoader.maxPixels
+    /// The most elements the SVG elements of a document may draw in all, each SVG with its references followed
+    /// (`ElementSvg.drawnElements`): ten SVGs at the limit of one.
+    public static let maxSvgElements = 10 * ElementSvg.maxReferencedElements
 
     /// What the editor calls an element left out by the limits (see `GreenshotFile.unreadableMessage`).
     public static var outOfLimitsName: String { String(localized: "Damaged element") }
@@ -58,8 +61,15 @@ extension Annotation {
         }
     }
 
-    /// `elements` without those whose geometry is out of the limits, those after the first `maxElements` and the
-    /// pictures that would pass `maxPicturePixels`, and `unreadable` with an `outOfLimitsName` for each one left out.
+    /// The elements the element's SVG draws (see `maxSvgElements`); 0 for other kinds and an SVG that is refused.
+    var svgElements: Int {
+        guard kind == .svg, let imageData else { return 0 }
+        return ElementSvg.drawnElements(imageData) ?? 0
+    }
+
+    /// `elements` without those whose geometry is out of the limits, those after the first `maxElements`, the
+    /// pictures that would pass `maxPicturePixels` and the SVGs that would pass `maxSvgElements`, and `unreadable`
+    /// with an `outOfLimitsName` for each one left out.
     public static func withinLimits(_ elements: [Annotation], unreadable: [String] = [])
         -> (elements: [Annotation], unreadable: [String]) {
         let limited = elements.filter(\.hasLimitedGeometry)
@@ -68,14 +78,17 @@ extension Annotation {
         }
         var kept: [Annotation] = []
         var pixelsLeft = maxPicturePixels
+        var svgElementsLeft = maxSvgElements
         for element in limited where kept.count < maxElements {
             let pixels = element.picturePixels
-            guard pixels <= pixelsLeft else { continue }
+            let svgElements = element.svgElements
+            guard pixels <= pixelsLeft, svgElements <= svgElementsLeft else { continue }
             pixelsLeft -= pixels
+            svgElementsLeft -= svgElements
             kept.append(element)
         }
         if kept.count < limited.count {
-            log.warn("\(limited.count - kept.count) element(s) past the limits of elements or picture pixels were left out")
+            log.warn("\(limited.count - kept.count) element(s) past the limits of elements, picture pixels or SVG elements were left out")
         }
         let dropped = elements.count - kept.count
         guard dropped > 0 else { return (kept, unreadable) }

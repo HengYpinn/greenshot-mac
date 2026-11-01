@@ -142,8 +142,13 @@ public enum ElementSvg {
         }
     }
 
-    /// The SVG of each element, read once; an element's SVG never changes.
-    private static let decoded = NSCache<NSUUID, Decoded>()
+    /// The SVG of each element, read once; an element's SVG never changes. Each one costs the elements it draws: a read
+    /// SVG keeps all of them in memory.
+    private static let decoded: NSCache<NSUUID, Decoded> = {
+        let cache = NSCache<NSUUID, Decoded>()
+        cache.totalCostLimit = Annotation.maxSvgElements
+        return cache
+    }()
     /// The SVG of each element drawn at the sizes it was last shown, so redrawing the canvas doesn't draw it again. A
     /// resize draws it at every step, so only the newest few sizes are kept.
     private static let drawn: NSCache<NSString, Drawn> = {
@@ -166,7 +171,7 @@ public enum ElementSvg {
         let id = a.id as NSUUID
         var svg = decoded.object(forKey: id).flatMap { $0.byteCount == data.count ? $0.image : nil }
         if svg == nil, let image = image(data) {
-            decoded.setObject(Decoded(byteCount: data.count, image: image), forKey: id)
+            decoded.setObject(Decoded(byteCount: data.count, image: image), forKey: id, cost: drawnElements(data) ?? 0)
             svg = image
         }
         guard let picture = render(svg, pixelSize: CGSize(width: width, height: height)) else { return nil }
