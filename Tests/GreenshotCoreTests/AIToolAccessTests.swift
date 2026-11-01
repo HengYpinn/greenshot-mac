@@ -237,10 +237,11 @@ struct FakeProcessTable: AIToolProcessTable {
     }
 
     @Test func names() {
+        // Without a signature that vouches for the app (`anAppsNameNeedsItsSignature`), the file name
         #expect(AIToolCaller.displayName(forExecutable: "/Applications/Claude.app/Contents/MacOS/Claude") == "Claude")
-        #expect(AIToolCaller.displayName(forExecutable: "/Applications/Claude.app/Contents/Helpers/disclaimer") == "Claude (disclaimer)")
+        #expect(AIToolCaller.displayName(forExecutable: "/Applications/Claude.app/Contents/Helpers/disclaimer") == "disclaimer")
         #expect(AIToolCaller.displayName(forExecutable: "/Applications/Cursor.app/Contents/Frameworks/Cursor Helper.app/Contents/MacOS/Cursor Helper")
-                == "Cursor (Cursor Helper)")
+                == "Cursor Helper")
         #expect(AIToolCaller.displayName(forExecutable: "/Users/me/.local/share/claude/versions/2.1.0") == "claude (2.1.0)")
         #expect(AIToolCaller.displayName(forExecutable: "/usr/local/bin/codex") == "codex")
         // SM-L4: no line breaks or direction overrides from a file name
@@ -651,6 +652,40 @@ struct FakeProcessTable: AIToolProcessTable {
             return AIToolSignature.running(other)
         }
         #expect(signature == .unsigned)
+    }
+
+    /// Second review R2-4: an app's name is shown only when its signature covers the Info.plist it comes from; a signed
+    /// program copied into a made-up "Claude.app" is named by its file.
+    @Test func anAppsNameNeedsItsSignature() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ai-name-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let app = folder.appendingPathComponent("Claude.app")
+        try FileManager.default.createDirectory(at: app.appendingPathComponent("Contents/MacOS"), withIntermediateDirectories: true)
+        let plist: [String: Any] = ["CFBundleDisplayName": "Claude", "CFBundleIdentifier": "com.example.tool", "CFBundleExecutable": "tool"]
+        try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+            .write(to: app.appendingPathComponent("Contents/Info.plist"))
+        let executable = app.appendingPathComponent("Contents/MacOS/tool").path
+        #expect(AIToolCaller.displayName(forExecutable: executable) == "tool")
+        let appPath = IPCEndpoint.realPath(app.path)
+        let vouched = AIToolSignature(signer: "Dev", teamID: "TEAM123456", appPath: appPath, appIdentifier: "com.example.tool")
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: vouched) == "Claude")
+        #expect(AIToolCaller.displayName(forExecutable: app.appendingPathComponent("Contents/Helpers/helper").path, signature: vouched)
+                == "Claude (helper)")
+        // Signed, but not as this app: another identifier, another app, or no app at all (a program copied into it)
+        var other = vouched
+        other.appIdentifier = "com.example.other"
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: other) == "tool")
+        other = vouched
+        other.appPath = "/Applications/Claude.app"
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: other) == "tool")
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: AIToolSignature(signer: "Dev", teamID: "TEAM123456")) == "tool")
+    }
+
+    @Test func aProgramOutsideAnAppVouchesForNoApp() throws {
+        let signature = try whileRunning("/bin/sleep") { AIToolSignature.running($0) }
+        #expect(signature.appPath == nil)
+        #expect(AIToolSignature.outermostApp("/A/Claude.app/Contents/Frameworks/H.app/Contents/MacOS/H") == "/A/Claude.app")
+        #expect(AIToolSignature.outermostApp("/usr/bin/x") == nil)
     }
 
     /// An entry saved without a Team ID (before signatures were read) doesn't allow a program signed by a developer:

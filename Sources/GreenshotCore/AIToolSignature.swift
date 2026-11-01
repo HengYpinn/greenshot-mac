@@ -11,10 +11,17 @@ import Security
 public struct AIToolSignature: Equatable, Sendable {
     public var signer: String?
     public var teamID: String?
+    /// The app the program belongs to (its outermost `.app`, real path) and that app's signature identifier, when the
+    /// app's own signature covers its Info.plist and is the program's or one of the same team (a helper): then the
+    /// app's name is its developer's (second review R2-4). Nil otherwise.
+    public var appPath: String?
+    public var appIdentifier: String?
 
-    public init(signer: String? = nil, teamID: String? = nil) {
+    public init(signer: String? = nil, teamID: String? = nil, appPath: String? = nil, appIdentifier: String? = nil) {
         self.signer = signer
         self.teamID = teamID
+        self.appPath = appPath
+        self.appIdentifier = appIdentifier
     }
 
     /// No signature that counts.
@@ -46,6 +53,34 @@ public struct AIToolSignature: Equatable, Sendable {
               let certificates = info[kSecCodeInfoCertificates as String] as? [SecCertificate], let leaf = certificates.first else { return .unsigned }
         let team = info[kSecCodeInfoTeamIdentifier as String] as? String
         let summary = SecCertificateCopySubjectSummary(leaf) as String?
-        return AIToolSignature(signer: summary.flatMap { $0.isEmpty ? nil : $0 } ?? team, teamID: team)
+        var signature = AIToolSignature(signer: summary.flatMap { $0.isEmpty ? nil : $0 } ?? team, teamID: team)
+        if let app = outermostApp(processPath) {
+            let appInfo = app == codePath ? info : sameTeamSigningInformation(of: app, team: team)
+            if let appInfo, appInfo[kSecCodeInfoPList as String] != nil {
+                signature.appPath = app
+                signature.appIdentifier = appInfo[kSecCodeInfoIdentifier as String] as? String
+            }
+        }
+        return signature
+    }
+
+    /// The outermost `.app` folder in `path`.
+    static func outermostApp(_ path: String) -> String? {
+        let components = (path as NSString).pathComponents
+        guard let index = components.firstIndex(where: { $0.lowercased().hasSuffix(".app") }) else { return nil }
+        return NSString.path(withComponents: Array(components[...index]))
+    }
+
+    /// The signing information of the app at `path` when its file is intact apart from its resources and a developer's
+    /// team (`team`, not nil) signed it.
+    private static func sameTeamSigningInformation(of path: String, team: String?) -> [String: Any]? {
+        guard let team else { return nil }
+        var code: SecStaticCode?
+        guard SecStaticCodeCreateWithPath(URL(fileURLWithPath: path) as CFURL, [], &code) == errSecSuccess, let code,
+              SecStaticCodeCheckValidity(code, SecCSFlags(rawValue: kSecCSDoNotValidateResources), nil) == errSecSuccess else { return nil }
+        var information: CFDictionary?
+        guard SecCodeCopySigningInformation(code, SecCSFlags(rawValue: kSecCSSigningInformation), &information) == errSecSuccess,
+              let info = information as? [String: Any], info[kSecCodeInfoTeamIdentifier as String] as? String == team else { return nil }
+        return info
     }
 }

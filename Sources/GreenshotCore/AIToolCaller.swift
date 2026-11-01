@@ -106,7 +106,7 @@ public enum AIToolCaller {
         case .failure(let error): return .failure(error)
         }
         let signature = signer(process)
-        let client = AIToolClient(path: path, displayName: displayName(forExecutable: path), signer: signature.signer,
+        let client = AIToolClient(path: path, displayName: displayName(forExecutable: path, signature: signature), signer: signature.signer,
                                   teamID: signature.teamID, identity: identity, serverProcessID: server.pid, serverStartTime: server.startTime)
         return .success(client)
     }
@@ -269,14 +269,15 @@ public enum AIToolCaller {
         return words
     }
 
-    /// The name to show: the app the executable belongs to (its outermost `.app`), "App (helper)" when it is a helper
-    /// of the app rather than its main program (upstream names Antigravity's language_server "Antigravity
+    /// The name to show: the app the executable belongs to (its outermost `.app`) when `signature` vouches for that app's
+    /// Info.plist (`AIToolSignature.appPath`, second review R2-4: else anybody's Info.plist could name it), "App (helper)"
+    /// when it is a helper of the app rather than its main program (upstream names Antigravity's language_server "Antigravity
     /// (language_server)"), else the file name.
-    public static func displayName(forExecutable path: String) -> String {
-        AIToolText.displayed(rawDisplayName(forExecutable: path), limit: 80)
+    public static func displayName(forExecutable path: String, signature: AIToolSignature = .unsigned) -> String {
+        AIToolText.displayed(rawDisplayName(forExecutable: path, signature: signature), limit: 80)
     }
 
-    static func rawDisplayName(forExecutable path: String) -> String {
+    static func rawDisplayName(forExecutable path: String, signature: AIToolSignature) -> String {
         let file = (path as NSString).lastPathComponent
         let components = (path as NSString).pathComponents
         guard let appIndex = components.firstIndex(where: { $0.lowercased().hasSuffix(".app") }) else {
@@ -291,6 +292,8 @@ public enum AIToolCaller {
         let appPath = NSString.path(withComponents: Array(components[...appIndex]))
         let folderName = (components[appIndex] as NSString).deletingPathExtension
         let info = Bundle(path: appPath)?.infoDictionary
+        guard let signedApp = signature.appPath, signedApp == IPCEndpoint.realPath(appPath),
+              let identifier = signature.appIdentifier, identifier == info?["CFBundleIdentifier"] as? String else { return file }
         let name = (info?["CFBundleDisplayName"] as? String) ?? (info?["CFBundleName"] as? String) ?? folderName
         let mainExecutable = info?["CFBundleExecutable"] as? String ?? folderName
         let isMain = file == mainExecutable && components.count == appIndex + 4 && components[appIndex + 2] == "MacOS"
