@@ -226,6 +226,34 @@ struct ElementSvgReferenceTests {
         }
     }
 
+    /// `useChain(6)` with a small rectangle after each group whose id `decoy` spells like the group's.
+    static func decoyChain(heavy: (Int) -> String = { "r\($0)" }, decoy: (Int) -> String) -> String {
+        var defs = "<rect id=\"\(heavy(0))\" width=\"10\" height=\"10\"/>"
+        for level in 1...6 {
+            defs += "<g id=\"\(heavy(level))\">" + String(repeating: "<use href=\"#\(heavy(level - 1))\"/>", count: 10) + "</g>"
+                + "<rect \(decoy(level)) width=\"1\" height=\"1\"/>"
+        }
+        return #"<svg xmlns="http://www.w3.org/2000/svg" xmlns:foo="urn:x" width="100" height="100">"#
+            + "<defs>\(defs)</defs><use href=\"#\(heavy(6))\"/></svg>"
+    }
+
+    @Test func idsThatOnlyLookAlikeCountAsTheBiggest() {
+        // A small element whose id is spelled almost like a big one's: which of the two macOS takes is counted as the
+        // bigger one.
+        let bombs = ["spaces": Self.decoyChain { "id=\" r\($0) \"" }, "new line": Self.decoyChain { "id=\"r\($0)&#10;\"" },
+                     "ID": Self.decoyChain { "ID=\"r\($0)\"" }, "xml:id": Self.decoyChain { "xml:id=\"r\($0)\"" },
+                     "foo:id": Self.decoyChain { "foo:id=\"r\($0)\"" },
+                     "#": Self.decoyChain(heavy: { "a#r\($0)" }) { "id=\"r\($0)\"" }]
+        for (name, svg) in bombs {
+            #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)), "\(name)")
+        }
+        // One id for many elements, used: refused rather than looking at each of them for every use.
+        let shared = Self.svgStart + String(repeating: #"<rect id="x" width="1" height="1"/>"#, count: 20) + ##"<use href="#x"/></svg>"##
+        #expect(!ElementSvg.hasLimitedReferences(Data(shared.utf8)))
+        let few = Self.svgStart + String(repeating: #"<rect id="x" width="1" height="1"/>"#, count: 3) + ##"<use href="#x"/></svg>"##
+        #expect(ElementSvg.hasLimitedReferences(Data(few.utf8)))
+    }
+
     @Test func innerPicturesCountWhateverTypeTheySay() throws {
         // macOS looks at what an inner picture holds, not at the type its URL says.
         let inner = Self.useChain(4)
@@ -341,7 +369,7 @@ struct ElementSvgDeadlineTests {
 
     @Test func anSvgThatTakesTooLongToDrawShowsNothing() async throws {
         // A deadline of its own: the shared one would keep other tests' SVGs from drawing while this one goes on.
-        let deadline = SvgDeadline(timeout: 0.3)
+        let deadline = SvgDeadline(timeout: 0.3, budget: 60)
         let clock = ContinuousClock()
         var start = clock.now
         let picture = ElementSvg.render(Self.slow, pixelSize: CGSize(width: 4096, height: 4096), deadline: deadline)
@@ -362,5 +390,71 @@ struct ElementSvgDeadlineTests {
         // Then they draw again; the slow one stays refused.
         #expect(ElementSvg.render(ElementSvgTests.svg, pixelSize: CGSize(width: 40, height: 20), deadline: deadline) != nil)
         #expect(ElementSvg.render(Self.slow, pixelSize: CGSize(width: 10, height: 10), deadline: deadline) == nil)
+    }
+}
+
+/// The time all SVGs get together, on a clock of the test's own.
+struct ElementSvgBudgetTests {
+    final class Clock: @unchecked Sendable {
+        private let lock = NSLock()
+        private var seconds: TimeInterval = 1000
+
+        var now: TimeInterval { lock.withLock { seconds } }
+
+        func advance(_ by: TimeInterval) {
+            lock.withLock { seconds += by }
+        }
+    }
+
+    @Test func allSvgsShareTheirTime() {
+        // Every call within its own 2.5 seconds, but a document of hundreds of them took minutes.
+        let clock = Clock()
+        let deadline = SvgDeadline(timeout: 2.5, budget: 2.5, window: 10, now: { clock.now })
+        for _ in 0..<3 {
+            guard case .done = deadline.run({ clock.advance(1) }) else {
+                Issue.record("work within the budget should run")
+                return
+            }
+        }
+        var ran = false
+        guard case .outOfTime = deadline.run({ ran = true }) else {
+            Issue.record("work past the budget should not run")
+            return
+        }
+        #expect(!ran)
+        // Once the window has passed, the time is there again.
+        clock.advance(10)
+        guard case .done = deadline.run({ ran = true }) else {
+            Issue.record("work after the window should run")
+            return
+        }
+        #expect(ran)
+    }
+
+    @Test(.enabled(if: ElementSvg.isSupported))
+    func anSvgOutOfTimeIsNotRefused() {
+        let clock = Clock()
+        let deadline = SvgDeadline(timeout: 2.5, budget: 2.5, window: 10, now: { clock.now })
+        _ = deadline.run { clock.advance(3) }
+        let svg = Data(#"<svg xmlns="http://www.w3.org/2000/svg" width="30" height="10"><rect width="5" height="5"/></svg>"#.utf8)
+        #expect(ElementSvg.render(svg, pixelSize: CGSize(width: 30, height: 10), deadline: deadline) == nil)
+        #expect(ElementSvg.knownVerdict(svg) != false)
+        clock.advance(10)
+        #expect(ElementSvg.render(svg, pixelSize: CGSize(width: 30, height: 10), deadline: deadline) != nil)
+    }
+
+    @Test func waitingOnlyForWhatIsLeftDoesNotCountAsTooLong() async throws {
+        // 0.3 seconds left of the budget, work of 0.5 seconds: out of time, not too slow.
+        let deadline = SvgDeadline(timeout: 2, budget: 0.3, window: 10)
+        guard case .outOfTime = deadline.run({ Thread.sleep(forTimeInterval: 0.5) }) else {
+            Issue.record("work past what is left of the budget is out of time")
+            return
+        }
+        let clock = ContinuousClock()
+        let start = clock.now
+        while deadline.isOverdue, clock.now - start < .seconds(5) {
+            try await Task.sleep(for: .milliseconds(20))
+        }
+        #expect(!deadline.isOverdue)
     }
 }
