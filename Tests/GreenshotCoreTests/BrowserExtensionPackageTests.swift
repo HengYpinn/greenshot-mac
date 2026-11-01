@@ -48,6 +48,19 @@ struct BrowserExtensionPackageTests {
         }
     }
 
+    /// The extension takes from the handshake answer's config only the options it checks, which are the ones the app
+    /// sends; the tab tracking is only the options page's.
+    @Test func theHandshakeConfigIsCheckedKeyByKey() throws {
+        let script = try text("background.js")
+        #expect(!script.contains("...msg.config"))
+        #expect(script.contains("const config = handshakeConfig(msg.config);"))
+        let config = try #require(BrowserReplies.handshake(version: "1").jsonObject["config"]?.objectValue)
+        for member in config {
+            #expect(script.contains("  \(member.key): (value) =>"), "\(member.key) isn't taken from the handshake")
+        }
+        #expect(!script.contains("  track_tab_urls: (value) =>"))
+    }
+
     @Test func everyReferencedFileExists() throws {
         let manifest = try manifest()
         var files: [String] = []
