@@ -82,6 +82,40 @@ struct LegacyReaderBudgetTests {
         #expect(clock.now - start < .seconds(15))
     }
 
+    /// Object 5: a Bitmap whose `Data` (array 6) is `picture`; the image elements of `containers` all show it.
+    private static func pictureTail(elements: Int, picture: Data) -> [UInt8] {
+        var tail = containers("ImageContainer", member: "_image", count: elements)
+        tail.append(contentsOf: NRBFTestStream.bytes([5], i32(5), NRBFTestStream.string("System.Drawing.Bitmap"), i32(1),
+                                                     NRBFTestStream.string("Data"), [2], i32(2)))
+        tail.append(contentsOf: [9] + i32(6))
+        tail.append(contentsOf: NRBFTestStream.bytes([15], i32(6), i32(Int32(picture.count)), [2]))
+        tail.append(contentsOf: picture)
+        return tail
+    }
+
+    @Test func aPictureSharedByManyElementsIsConvertedOnce() throws {
+        // A TIFF of 9 megapixels takes a while to convert to PNG; a file can point every element at one picture.
+        let tiff = TestImage.hugeTIFF(side: 3000)
+        let data = Self.payload(count: 40, reference: { Int32($0 == 0 ? 4 : 1000 + $0) }, tail: Self.pictureTail(elements: 40, picture: tiff))
+        let clock = ContinuousClock()
+        let start = clock.now
+        let read = try GreenshotFile.readTemplate(data, scale: 1)
+        #expect(read.elements.count == 40)
+        #expect(read.unreadable.isEmpty)
+        #expect(clock.now - start < .seconds(1))
+    }
+
+    @Test func picturesBeyondThePixelBudgetAreNotConverted() throws {
+        // 24 KB, 200 megapixels: converting it took seconds, for each element.
+        let tiff = TestImage.hugeTIFF(side: 14142)
+        let count = Annotation.maxPicturePixels / (14142 * 14142)
+        let data = Self.payload(count: count + 2, reference: { Int32($0 == 0 ? 4 : 1000 + $0) },
+                                tail: Self.pictureTail(elements: count + 2, picture: tiff))
+        let read = try GreenshotFile.readTemplate(data, scale: 1)
+        #expect(read.elements.count == count)
+        #expect(read.unreadable == ["picture", "picture"])
+    }
+
     @Test func aFewElementsSharingAPictureAreStillRead() throws {
         let data = Self.payload(count: 3, reference: { Int32($0 == 0 ? 4 : 1000 + $0) }, tail: Self.svgTail(elements: 3, size: 1000))
         let elements = try GreenshotLegacyReader.elements(fromPayload: data)
