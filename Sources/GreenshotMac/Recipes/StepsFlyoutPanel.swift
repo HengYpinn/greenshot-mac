@@ -104,7 +104,7 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
         var variables: [String: JSONValue] = [:]
         // Not where this flow sends or saved its capture: `OverrideDestinations` (the other recipe was approved for its
         // own destinations) and `Destination.*` (this flow's files, R-F8).
-        for member in context.variables where !Self.staysHere(member.key) { variables[member.key] = member.value }
+        for member in context.variables where !RecipeFlowEngine.staysInItsRecipe(member.key) { variables[member.key] = member.value }
         let handed = variables
         let handle = await MainActor.run {
             runtime.start(recipeId: recipeId, triggerType: WellKnownTriggerType.manual, variables: handed, payload: payload)
@@ -115,12 +115,6 @@ struct RecipeFlyoutPresenter: RecipeFlyoutPresenting {
         }
         let result = await handle.result
         context.log("DynamicDestination: the recipe '\(recipeId)' ended: \(result.state.rawValue)")
-    }
-}
-
-extension RecipeFlyoutPresenter {
-    static func staysHere(_ name: String) -> Bool {
-        recipeEquals(name, "OverrideDestinations") || name.lowercased().hasPrefix("destination.")
     }
 }
 

@@ -137,6 +137,16 @@ public struct RecipeDescriber: Sendable {
                 lines.append(RecipeDescriptionLine(describe(action), risk: action.gateType, isDetail: true))
             }
         }
+        // The destination step added when it runs (`RecipeGates.recipeActions`).
+        let recipeActions = RecipeGates.recipeActions(of: recipe, recipeSets: recipeVariables)
+        if let first = recipeActions.first {
+            let names = RecipeGates.destinationInputs.joined(separator: ", ")
+            lines.append(RecipeDescriptionLine("Sends the result to destinations chosen when the recipe runs (the variable \(names))",
+                                               risk: first.gateType))
+            for action in recipeActions {
+                lines.append(RecipeDescriptionLine(describe(action), risk: action.gateType, isDetail: true))
+            }
+        }
         return lines
     }
 

@@ -131,6 +131,32 @@ import Testing
             .contains("Saves the result to the output folder from the settings"))
     }
 
+    /// RECIPES-2: a recipe without a destination step gets one when it runs (`RecipeTriggerPreparer`), which reads
+    /// `OverrideDestinations`: a recipe that can set it needs the permissions of any destination, like a destination step.
+    @Test func overrideDestinationsWithoutADestinationStep() {
+        let set = node("SetVariable", ["Variable": .string("OverrideDestinations"), "Value": .array([.string("Dropbox")])])
+        let recipe = testRecipe([RecipeNode(id: "a", stepType: "Source"), set], transitions: [("a", ["n"])])
+        let validation = RecipeValidator().validate(recipe)
+        #expect(validation.gateTypes == [.externalCommand, .networkAccess])
+        let lines = details(recipe)
+        #expect(lines.contains("Runs a command chosen when the recipe runs (the variable OverrideDestinations)"))
+        #expect(lines.contains("Uploads to a destination chosen when the recipe runs (the variable OverrideDestinations)"))
+        let actions = RecipeGates.actions(of: recipe, contracts: .builtIn, environment: .empty)
+        #expect(Set(actions) == Set(validation.gatedActions))
+        // A copy that adds the variable to a recipe approved without it doesn't run under that approval.
+        let approved = testRecipe([RecipeNode(id: "a", stepType: "Source")], transitions: [])
+        let changes = RecipeGates.unapprovedChanges(of: recipe, comparedWith: approved, contracts: .builtIn, environment: .empty)
+        #expect(changes.count == 2)
+        // A trigger argument that sets it counts too; a recipe that can't set it stays without permissions.
+        var fromArgument = testRecipe([RecipeNode(id: "a", stepType: "Source")], transitions: [])
+        #expect(RecipeValidator().validate(fromArgument).gateTypes.isEmpty)
+        fromArgument.triggers = [TriggerConfig(triggerType: "Commandline", parameters: [
+            "Command": .string("send"),
+            "Arguments": .array([.object(["name": .string("to"), "variable": .string("OverrideDestinations")])])
+        ])]
+        #expect(RecipeValidator().validate(fromArgument).gateTypes == [.externalCommand, .networkAccess])
+    }
+
     @Test func theLibraryAsksForTheseActions() async throws {
         let fixture = LibraryFixture(approver: StubApprover { request in
             RecipeApprovalDecision(approval: RecipeApproval(recipeId: "x", approvedTriggers: request.triggers.map(\.key)))

@@ -75,6 +75,9 @@ public struct RecipeValidator: Sendable {
             validateNode(node, index: index, seen: &seen, recipeVariables: recipeVariables, &result)
             if isExtension { validateExtensionNode(node, recipe, &result) }
         }
+        for action in RecipeGates.recipeActions(of: recipe, recipeSets: recipeVariables) where !result.gatedActions.contains(action) {
+            result.gatedActions.append(action)
+        }
         validateOptions(recipe, &result)
         validateFlow(recipe, ids: seen, allowOut: isExtension, &result)
         if isExtension { validateExtensionFlow(recipe, &result) }

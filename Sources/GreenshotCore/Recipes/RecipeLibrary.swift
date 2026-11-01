@@ -1014,7 +1014,7 @@ private let log = Log("Recipes")
 
 /// The preflight's comparison of a copy with its approved version (`RecipeLibrary.ensureApprovedAndCurrent`).
 extension RecipeGates {
-    /// Every gated action of the recipe's nodes, as the validator collects them.
+    /// Every gated action of the recipe's nodes and of the recipe itself (`recipeActions`), as the validator collects them.
     static func actions(of recipe: CaptureRecipe, contracts: StepContractCatalog, environment: GateEnvironment) -> [RecipeGatedAction] {
         let variables = variablesSet(by: recipe, contracts: contracts)
         var result: [RecipeGatedAction] = []
@@ -1024,6 +1024,9 @@ extension RecipeGates {
             where !result.contains(action) {
                 result.append(action)
             }
+        }
+        for action in recipeActions(of: recipe, recipeSets: variables) where !result.contains(action) {
+            result.append(action)
         }
         return result
     }
