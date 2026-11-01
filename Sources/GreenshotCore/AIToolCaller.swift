@@ -270,7 +270,8 @@ public enum AIToolCaller {
     }
 
     /// The name to show: the app the executable belongs to (its outermost `.app`) when `signature` vouches for that app's
-    /// Info.plist (`AIToolSignature.appPath`, second review R2-4: else anybody's Info.plist could name it), "App (helper)"
+    /// Info.plist (`AIToolSignature.appPath`, second review R2-4: else anybody's Info.plist could name it), named by the
+    /// Info.plist as the signature has it (`appInfo`, never the file read again: R3-1), "App (helper)"
     /// when it is a helper of the app rather than its main program (upstream names Antigravity's language_server "Antigravity
     /// (language_server)"), else the file name.
     public static func displayName(forExecutable path: String, signature: AIToolSignature = .unsigned) -> String {
@@ -291,11 +292,10 @@ public enum AIToolCaller {
         }
         let appPath = NSString.path(withComponents: Array(components[...appIndex]))
         let folderName = (components[appIndex] as NSString).deletingPathExtension
-        let info = Bundle(path: appPath)?.infoDictionary
-        guard let signedApp = signature.appPath, signedApp == IPCEndpoint.realPath(appPath),
-              let identifier = signature.appIdentifier, identifier == info?["CFBundleIdentifier"] as? String else { return file }
-        let name = (info?["CFBundleDisplayName"] as? String) ?? (info?["CFBundleName"] as? String) ?? folderName
-        let mainExecutable = info?["CFBundleExecutable"] as? String ?? folderName
+        guard let signedApp = signature.appPath, signedApp == IPCEndpoint.realPath(appPath), let info = signature.appInfo,
+              let identifier = signature.appIdentifier, identifier == info["CFBundleIdentifier"] else { return file }
+        let name = info["CFBundleDisplayName"] ?? info["CFBundleName"] ?? folderName
+        let mainExecutable = info["CFBundleExecutable"] ?? folderName
         let isMain = file == mainExecutable && components.count == appIndex + 4 && components[appIndex + 2] == "MacOS"
         return isMain ? name : "\(name) (\(file))"
     }

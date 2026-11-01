@@ -667,7 +667,9 @@ struct FakeProcessTable: AIToolProcessTable {
         let executable = app.appendingPathComponent("Contents/MacOS/tool").path
         #expect(AIToolCaller.displayName(forExecutable: executable) == "tool")
         let appPath = IPCEndpoint.realPath(app.path)
-        let vouched = AIToolSignature(signer: "Dev", teamID: "TEAM123456", appPath: appPath, appIdentifier: "com.example.tool")
+        let signedInfo = ["CFBundleDisplayName": "Claude", "CFBundleIdentifier": "com.example.tool", "CFBundleExecutable": "tool"]
+        let vouched = AIToolSignature(signer: "Dev", teamID: "TEAM123456", appPath: appPath, appIdentifier: "com.example.tool",
+                                      appInfo: signedInfo)
         #expect(AIToolCaller.displayName(forExecutable: executable, signature: vouched) == "Claude")
         #expect(AIToolCaller.displayName(forExecutable: app.appendingPathComponent("Contents/Helpers/helper").path, signature: vouched)
                 == "Claude (helper)")
@@ -679,6 +681,35 @@ struct FakeProcessTable: AIToolProcessTable {
         other.appPath = "/Applications/Claude.app"
         #expect(AIToolCaller.displayName(forExecutable: executable, signature: other) == "tool")
         #expect(AIToolCaller.displayName(forExecutable: executable, signature: AIToolSignature(signer: "Dev", teamID: "TEAM123456")) == "tool")
+    }
+
+    /// Third review R3-1: the app's name comes from the Info.plist its signature covers, never from the file read
+    /// again (`Bundle` keeps the first one it read per path, which an unsigned program in the same folder can choose).
+    @Test func anAppsNameComesFromItsSignature() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ai-name-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let app = folder.appendingPathComponent("Claude.app")
+        try FileManager.default.createDirectory(at: app.appendingPathComponent("Contents/MacOS"), withIntermediateDirectories: true)
+        func write(_ name: String) throws {
+            let plist: [String: Any] = ["CFBundleDisplayName": name, "CFBundleIdentifier": "com.example.tool", "CFBundleExecutable": "tool"]
+            try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+                .write(to: app.appendingPathComponent("Contents/Info.plist"))
+        }
+        let executable = app.appendingPathComponent("Contents/MacOS/tool").path
+        // An unsigned program asks first with a forged Info.plist, then the genuine one is put back
+        try write("Forged")
+        #expect(AIToolCaller.displayName(forExecutable: executable) == "tool")
+        try write("Claude")
+        let vouched = AIToolSignature(signer: "Dev", teamID: "TEAM123456", appPath: IPCEndpoint.realPath(app.path), appIdentifier: "com.example.tool")
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: vouched) != "Forged")
+        // The name is the one the signature covers, whatever the file says now
+        try write("Forged")
+        let signedInfo = ["CFBundleDisplayName": "Claude", "CFBundleIdentifier": "com.example.tool", "CFBundleExecutable": "tool"]
+        var covered = vouched
+        covered.appInfo = signedInfo
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: covered) == "Claude")
+        // A signature without the Info.plist names nothing
+        #expect(AIToolCaller.displayName(forExecutable: executable, signature: vouched) == "tool")
     }
 
     @Test func aProgramOutsideAnAppVouchesForNoApp() throws {
