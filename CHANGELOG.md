@@ -578,8 +578,8 @@ From a second security review (November 2026):
   ".." folder back into a path, and a folder pattern that starts with a folder variable such as `${MyPictures}` stays
   inside it.
 - Jira, Confluence, Box and Dropbox answers are read up to 10 MB. Jira issue type icons are loaded only from the
-  configured site and are size-checked before they are decoded (an icon on another server isn't shown). Confluence's
-  "Image link" clipboard option copies only a link on the configured site.
+  configured site, redirects included, and are size-checked before they are decoded (an icon on another server isn't
+  shown). Confluence's "Image link" clipboard option copies only a link on the configured site.
 - The instance and cold-start lock files are used only when they are the app's own regular file; a link in their place
   isn't followed.
 - JSON the app writes (also `greenshot-cli --json`) shows DEL and C1 control characters as `\u` escapes, so a terminal
