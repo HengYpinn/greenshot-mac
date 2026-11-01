@@ -108,8 +108,8 @@ public enum ElementSvg {
     }
 
     /// What reading or drawing the SVG of `data` came to: nothing when it took too long (and `data` is refused from
-    /// then on), or when an SVG before it that took too long is still being drawn (the element shows nothing until a
-    /// later redraw).
+    /// then on), when an SVG before it that took too long is still being drawn, or when SVGs used up the time all of
+    /// them get together (`SvgDeadline`); in the last two cases the element shows nothing until a later redraw.
     private static func finished<Value>(_ outcome: SvgDeadline.Outcome<Value?>, of data: Data) -> Value? {
         switch outcome {
         case .done(let value):
@@ -120,6 +120,9 @@ public enum ElementSvg {
             return nil
         case .busy:
             log.info("An SVG is not drawn while one that took too long is still being drawn")
+            return nil
+        case .outOfTime:
+            log.info("An SVG is not drawn now: SVGs took \(SvgDeadline.shared.budget) seconds in the last \(SvgDeadline.shared.window)")
             return nil
         }
     }
@@ -179,11 +182,12 @@ public enum ElementSvg {
         cache.totalCostLimit = Annotation.maxSvgElements
         return cache
     }()
-    /// The SVG of each element drawn at the sizes it was last shown, so redrawing the canvas doesn't draw it again. A
-    /// resize draws it at every step, so only the newest few sizes are kept.
+    /// The SVG of each element drawn at the sizes it was last shown, so redrawing the canvas doesn't draw it again (and
+    /// doesn't spend the time all SVGs get, `SvgDeadline`). A resize draws it at every step; each one costs its bytes,
+    /// and pictures of 256 MB in all are kept.
     private static let drawn: NSCache<NSString, Drawn> = {
         let cache = NSCache<NSString, Drawn>()
-        cache.countLimit = 32
+        cache.totalCostLimit = 256 * 1024 * 1024
         return cache
     }()
 
@@ -205,7 +209,7 @@ public enum ElementSvg {
             svg = image
         }
         guard let picture = render(svg, of: data, pixelSize: CGSize(width: width, height: height)) else { return nil }
-        drawn.setObject(Drawn(image: picture), forKey: key)
+        drawn.setObject(Drawn(image: picture), forKey: key, cost: picture.bytesPerRow * picture.height)
         return picture
     }
 }
