@@ -10,9 +10,10 @@ import SwiftUI
 /// files and quits. It needs no screen recording permission, so contributors and CI can look at UI changes.
 @MainActor
 enum Snapshots {
+    /// The folder of `--snapshot <folder>`; nil in a release build, which starts normally (`IPCCommandLine.isDebugBuild`).
     static var requestedFolder: URL? {
         let args = CommandLine.arguments
-        guard let index = args.firstIndex(of: "--snapshot"), index + 1 < args.count else { return nil }
+        guard IPCCommandLine.isDebugBuild, let index = args.firstIndex(of: "--snapshot"), index + 1 < args.count else { return nil }
         return URL(fileURLWithPath: args[index + 1], isDirectory: true)
     }
 

@@ -282,6 +282,7 @@ public enum IPCCommandLine {
         /// Started by greenshot-cli or a script: no "is running" message, and end silently when the app runs already
         /// (the Mac's counterpart of upstream's `--autostart`).
         public var background = false
+        /// `--snapshot <folder>` of debug builds (`Snapshots`): a development run that skips the single-instance guard.
         public var snapshot = false
         /// `--diagnostics-test <test> [path]` of debug builds (`CrashReporting.runDebugTest`): like `--snapshot`, a
         /// development run that skips the single-instance guard.
@@ -294,6 +295,15 @@ public enum IPCCommandLine {
         public init() {}
     }
 
+    /// Whether this is a debug build: only those run `--snapshot` and `--diagnostics-test`.
+    public static var isDebugBuild: Bool {
+        #if DEBUG
+        true
+        #else
+        false
+        #endif
+    }
+
     /// Startup options with a value.
     private static let optionsWithValue = ["--settings-dir", "--snapshot", "--language"]
     private static let flags = ["--background", "--help", "-h", "-?"]
@@ -301,23 +311,25 @@ public enum IPCCommandLine {
     /// Splits the arguments (without the program path) into startup options and the command. Also skipped: the process
     /// serial number LaunchServices added in old macOS versions (`-psn_…`) and user-defaults arguments like
     /// `-NSDocumentRevisionsDebugMode YES` or `-AppleLanguages (de)` (one dash, a capital letter, a value).
-    public static func scanStartup(_ arguments: [String]) -> StartupOptions {
+    /// Outside a debug build (`debugBuild`) `--snapshot` and `--diagnostics-test` are skipped like the other startup
+    /// options but not set: the app then starts normally, with its single-instance guard.
+    public static func scanStartup(_ arguments: [String], debugBuild: Bool = isDebugBuild) -> StartupOptions {
         var options = StartupOptions()
         var index = 0
         while index < arguments.count {
             let argument = arguments[index]
             let lowered = argument.lowercased()
             if optionsWithValue.contains(lowered) {
-                if lowered == "--snapshot" { options.snapshot = true }
+                if lowered == "--snapshot" { options.snapshot = debugBuild }
                 if lowered == "--language", index + 1 < arguments.count { options.language = arguments[index + 1] }
                 index = min(index + 2, arguments.count)
             } else if optionsWithValue.contains(where: { lowered.hasPrefix($0 + "=") }) {
-                if lowered.hasPrefix("--snapshot=") { options.snapshot = true }
+                if lowered.hasPrefix("--snapshot=") { options.snapshot = debugBuild }
                 if lowered.hasPrefix("--language=") { options.language = String(argument.dropFirst("--language=".count)) }
                 index += 1
             } else if lowered == "--diagnostics-test" {
                 // A test name, and for `signature` an optional path
-                options.diagnostics = true
+                options.diagnostics = debugBuild
                 let test = index + 1 < arguments.count ? arguments[index + 1].lowercased() : ""
                 index = min(index + 2, arguments.count)
                 if test == "signature", index < arguments.count, !arguments[index].hasPrefix("-") { index += 1 }
@@ -352,7 +364,7 @@ public enum IPCCommandLine {
           --settings-dir <folder>   Keep the settings in <folder>/settings.json instead of the user defaults
           --language <code>         Use this language for the texts and keep it (e.g. de-DE; system = as macOS)
           --background              Start without the "is running" message; end silently when the app runs already
-          --snapshot <folder>       Render the windows to PNG files and quit (for development)
+          --snapshot <folder>       Render the windows to PNG files and quit (debug builds only, for development)
           --help, -h, -?            Show this help text
 
         The command has the same syntax as for greenshot-cli (see greenshot-cli --help), e.g.
