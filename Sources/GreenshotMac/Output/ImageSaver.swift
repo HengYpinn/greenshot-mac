@@ -29,12 +29,13 @@ final class ImageSaver {
 
     /// The output folder with its pattern variables filled in (upstream `FillVariables(OutputFilePath)`).
     /// A folder that a value (a window or page title, a page's address) moved out of the pattern's fixed start, e.g.
-    /// `~/Shots/${title}` with the title "../../Library", is refused: the files go to the fixed start instead.
+    /// `~/Shots/${title}` or `${MyPictures}/Shots/${title}` with the title "../../Library", is refused: the files go
+    /// to the fixed start instead.
     func outputFolderURL(title: String, date: Date) -> URL {
         let pattern = settings.value.outputFolder
         let context = settings.patternContext(title: title, date: date, consumeNumber: false)
         let folder = DestinationSupport.outputFolder(pattern, context: context)
-        if let root = FilenamePattern.literalRoot(ofFolderPattern: pattern, home: context.homeDirectory),
+        if let root = FilenamePattern.literalRoot(ofFolderPattern: pattern, context: context),
            !FilenamePattern.isInside(folder, folder: root) {
             log.warn("[SECURITY] The output folder pattern filled in to a folder outside \(root.path); saving there instead.")
             return root

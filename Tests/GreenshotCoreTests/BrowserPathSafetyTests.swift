@@ -77,6 +77,59 @@ struct BrowserPathSafetyTests {
         #expect(FilenamePattern.literalRoot(ofFolderPattern: "", home: home) == nil)
     }
 
+    /// `s` and `r` work on the cleaned title, so they could put back what the cleaning took out ("..." → "..", "_" → "/"):
+    /// the result is cleaned once more.
+    @Test func substringAndReplaceCannotBringBackDotsOrSlashes() {
+        func folder(_ pattern: String, title: String) -> String {
+            DestinationSupport.outputFolder(pattern, context: FilenamePattern.Context(captureTime: Date(), title: title,
+                                                                                     homeDirectory: home)).path
+        }
+        let dots = folder("${MyPictures}/Shots/${title:s1}", title: "...")
+        #expect(dots == "/Users/me/Pictures/Shots/_")
+        let slashes = folder("/Users/me/Shots/${title:r_,/}", title: "_.._.._")
+        #expect(slashes == "/Users/me/Shots/_.._.._")
+        let padded = folder("/Users/me/Shots/${title:p-4,/}", title: "x")
+        #expect(padded == "/Users/me/Shots/___x")
+        let window = FilenamePattern.Context(captureTime: Date(), title: "x", homeDirectory: home, metadata: ["windowtitle": "x"])
+        let windowTitle = FilenamePattern.fill("${windowtitle:rx,..}", context: window, filenameSafe: false, cleanCapturedValues: true)
+        #expect(windowTitle == "_")
+        let page = FilenamePattern.Context(captureTime: Date(), title: "x", homeDirectory: home, metadata: ["url": "ab"])
+        let pageAddress = FilenamePattern.fill("${url:ra,/}", context: page, filenameSafe: false, cleanCapturedValues: true)
+        #expect(pageAddress == "_b")
+        // A file name pattern too.
+        let name = FilenamePattern.fileName("${title:rx,/}", context: FilenamePattern.Context(captureTime: Date(), title: "axb"))
+        #expect(name == "a_b")
+    }
+
+    @Test func aFolderVariableAtTheStartIsPartOfTheFixedStart() {
+        let context = FilenamePattern.Context(captureTime: Date(), title: "x", homeDirectory: home)
+        let pictures = FilenamePattern.literalRoot(ofFolderPattern: "${MyPictures}/Shots/${title}", context: context)
+        #expect(pictures?.path == "/Users/me/Pictures/Shots")
+        let desktop = FilenamePattern.literalRoot(ofFolderPattern: " ${Desktop}/${YYYY}", context: context)
+        #expect(desktop?.path == "/Users/me/Desktop")
+        // Nothing filled in after it: nothing to stay in.
+        #expect(FilenamePattern.literalRoot(ofFolderPattern: "${MyPictures}/..", context: context) == nil)
+        // With parameters, or another variable, there is no fixed start (as before).
+        #expect(FilenamePattern.literalRoot(ofFolderPattern: "${MyPictures:s1}/${title}", context: context) == nil)
+        #expect(FilenamePattern.literalRoot(ofFolderPattern: "${user}/${title}", context: context) == nil)
+        // A literal start as before.
+        #expect(FilenamePattern.literalRoot(ofFolderPattern: "~/Shots/${YYYY}", context: context)?.path == "/Users/me/Shots")
+        // The environment's value of the variable, like the folder itself.
+        var custom = context
+        custom.environment = ["MyPictures": "/Volumes/Pics"]
+        #expect(FilenamePattern.literalRoot(ofFolderPattern: "${MyPictures}/S/${title}", context: custom)?.path == "/Volumes/Pics/S")
+    }
+
+    @Test func aRecordingFolderStaysInTheFixedStartOfAFolderVariable() {
+        // Values other than the captured ones aren't cleaned: an environment variable can still climb.
+        let context = FilenamePattern.Context(captureTime: Date(), title: "x", environment: ["SUB": "../../Library"],
+                                              homeDirectory: home)
+        let url = RecordingOutputPath.url(folder: "${MyMusic}/Rec/${SUB}", pattern: "clip", context: context,
+                                          exists: { _ in false })
+        RecordingOutputPath.release(url)
+        #expect(url.path == "/Users/me/Music/Rec/clip.mp4")
+    }
+
     @Test func aTitleCannotLeaveTheFixedStart() {
         // The output folder fills ${title} cleaned (it used to keep "/" and ".."): one title is one folder level at most
         let pattern = "~/Shots/${title}"

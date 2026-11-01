@@ -157,11 +157,32 @@ public enum FilenamePattern {
         return URL(fileURLWithPath: root, isDirectory: true)
     }
 
+    /// The folder variables, filled in from the home folder (or the environment variable of the same name).
+    static let folderVariables = ["MyPictures", "MyMusic", "MyDocuments", "Personal", "Desktop", "ApplicationData",
+                                  "LocalApplicationData"]
+
+    /// The fixed start of an output folder pattern like `literalRoot(ofFolderPattern:home:)`, where a folder variable
+    /// at the start (without parameters) counts as fixed text: `${MyPictures}/Shots/${title}` stays in
+    /// ~/Pictures/Shots. Nil when no variable follows it (nothing filled in can move the folder then).
+    public static func literalRoot(ofFolderPattern pattern: String, context: Context) -> URL? {
+        let trimmed = pattern.trimmingCharacters(in: .whitespaces)
+        guard let variable = folderVariables.first(where: { trimmed.hasPrefix("${\($0)}") }) else {
+            return literalRoot(ofFolderPattern: trimmed, home: context.homeDirectory)
+        }
+        let rest = trimmed.dropFirst(variable.count + 3)
+        let folder = fill("${\(variable)}", context: context, filenameSafe: false)
+        guard rest.contains("${"), folder.hasPrefix("/") else { return nil }
+        return literalRoot(ofFolderPattern: folder + rest, home: context.homeDirectory)
+    }
+
     public static func makeFilenameSafe(_ value: String) -> String {
-        let safe = replacing(invalidFilenameCharacters, in: value)
-        // "." and ".." would be the folder itself or its parent once a pattern puts a "/" after them.
-        let dotsOnly = !safe.unicodeScalars.isEmpty && safe.unicodeScalars.allSatisfy { $0 == "." }
-        return dotsOnly && safe.unicodeScalars.count <= 2 ? unsafeReplacement : safe
+        withoutDotNames(replacing(invalidFilenameCharacters, in: value))
+    }
+
+    /// "." and ".." would be the folder itself or its parent once a pattern puts a "/" after them.
+    private static func withoutDotNames(_ value: String) -> String {
+        let dotsOnly = !value.unicodeScalars.isEmpty && value.unicodeScalars.allSatisfy { $0 == "." }
+        return dotsOnly && value.unicodeScalars.count <= 2 ? unsafeReplacement : value
     }
 
     public static func makePathSafe(_ value: String) -> String {
@@ -216,6 +237,8 @@ public enum FilenamePattern {
         }
 
         var value = ""
+        // A value the capture brought along (a window or page title, a page's address), cleaned when `cleanCaptured`.
+        var captured = false
         if let env = context.environment[variable] {
             value = filenameSafe ? makePathSafe(env) : env
         } else if variable != "windowtitle", let meta = context.metadata[variable] {
@@ -223,6 +246,7 @@ public enum FilenamePattern {
             // only path-safe as upstream does: the values come from what was captured (a web page's address and title),
             // and a "/" or ".." in them must not choose the folder a file is written to.
             value = cleanCaptured ? makeFilenameSafe(meta) : meta
+            captured = true
         } else if variable.allSatisfy({ $0 == "R" }) {
             let chars = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
             value = String((0..<variable.count).map { _ in chars[context.randomIndex(chars.count)] })
@@ -259,11 +283,13 @@ public enum FilenamePattern {
                 if padWidth == 0 { padWidth = -6; padChar = "0" }
             case "title":
                 value = cleanCaptured ? makeFilenameSafe(title) : title
+                captured = true
             case "windowtitle":
                 // The window's own title (upstream sets it as metadata); cleaned like ${title}, so a '/' in it doesn't
                 // make sub folders.
                 let windowTitle = context.metadata["windowtitle"] ?? context.title ?? "Greenshot"
                 value = cleanCaptured ? makeFilenameSafe(windowTitle) : windowTitle
+                captured = true
             case "MyPictures": value = home.appendingPathComponent("Pictures").path
             case "MyMusic": value = home.appendingPathComponent("Music").path
             case "MyDocuments", "Personal": value = home.appendingPathComponent("Documents").path
@@ -296,6 +322,10 @@ public enum FilenamePattern {
         for (old, new) in replacements where !old.isEmpty {
             value = value.replacingOccurrences(of: old, with: new)
         }
+        // The parameters work on the cleaned value, like upstream's (`r_, ` turns the "_" of a replaced character into a
+        // space), and their pad character and new text stay as written; but they must not give the captured text a
+        // folder level back: `s1` makes "..." "..", `r_,/` makes "_.._" "/../".
+        if captured && cleanCaptured { value = withoutDotNames(replacing(["/"], in: value)) }
         return value
     }
 
