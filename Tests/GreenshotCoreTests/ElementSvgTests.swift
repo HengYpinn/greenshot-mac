@@ -200,11 +200,31 @@ struct ElementSvgReferenceTests {
         let inner = Data(Self.useChain(4).utf8).base64EncodedString()
         let picture = Self.svgStart + "<defs><image id=\"i\" width=\"10\" height=\"10\" href=\"data:image/svg+xml;base64,\(inner)\"/></defs>"
             + String(repeating: "<use href=\"#i\"/>", count: 10) + "</svg>"
+        // macOS takes the last of `href` and `xlink:href`; the parser doesn't say which comes first.
+        let chain = Self.useChain(5)
+        let both = chain.replacingOccurrences(of: ##"<use href="#r5"/>"##, with: ##"<use href="#r5" xlink:href="#r0"/>"##)
+        let bothTurned = chain.replacingOccurrences(of: ##"<use href="#r5"/>"##, with: ##"<use href="#r0" xlink:href="#r5"/>"##)
         let bombs = ["attribute": attribute, "style attribute": styleAttribute, "style sheet": styleSheet, "masks": masks,
-                     "symbols": symbols, "inner picture": picture]
+                     "symbols": symbols, "inner picture": picture, "both links": both, "both links turned": bothTurned]
         for (name, svg) in bombs {
             #expect(ElementSvg.size(of: Data(svg.utf8)) == nil, "\(name)")
         }
+    }
+
+    @Test func bigStyleSheetsAreCountedQuickly() {
+        // A rule for each of 5,000 classes, 20,000 shapes: looking for the shapes of each rule in turn took minutes.
+        let shapes = (0..<20_000).map { "<rect class=\"c\($0 % 5000)\" width=\"1\" height=\"1\"/>" }.joined()
+        let gradients = (0..<5000).map { ".c\($0){fill:url(#g)}" }.joined()
+        let patterns = (0..<5000).map { ".c\($0){fill:url(#p)}" }.joined()
+        let defs = #"<linearGradient id="g"><stop offset="0"/></linearGradient><pattern id="p" width="2" height="2"><rect width="1" height="1"/><rect x="1" width="1" height="1"/></pattern>"#
+        let clock = ContinuousClock()
+        let start = clock.now
+        // Gradients add nothing; 20,000 shapes each drawing the pattern's content is more than the limit.
+        let gradientsFit = ElementSvg.hasLimitedReferences(Data((Self.svgStart + "<style>\(gradients)</style>\(defs)\(shapes)</svg>").utf8))
+        let patternsFit = ElementSvg.hasLimitedReferences(Data((Self.svgStart + "<style>\(patterns)</style>\(defs)\(shapes)</svg>").utf8))
+        #expect(gradientsFit)
+        #expect(!patternsFit)
+        #expect(clock.now - start < .seconds(1))
     }
 
     @Test func referencesInACircleAreRefused() {

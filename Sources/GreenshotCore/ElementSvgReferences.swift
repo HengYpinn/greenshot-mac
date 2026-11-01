@@ -31,8 +31,9 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         var id: String?
         var classes: [Substring]
         var children: [Int] = []
-        /// The element a `<use>` draws, or a pattern takes its content from (`href`, by id).
-        var draws: String?
+        /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href`, by id; macOS
+        /// takes the last of the two, the parser doesn't say which that is).
+        var draws: [String] = []
         /// The ids in the `url(#…)` of its attributes and of the style sheet rules for it.
         var paints: [String] = []
         /// The SVG pictures inside it, and the elements they draw (counted after the parse: `XMLParser` can't parse
@@ -51,6 +52,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         let counter = SvgReferenceCount()
         let parser = XMLParser(data: data)
         parser.shouldResolveExternalEntities = false
+        parser.externalEntityResolvingPolicy = .never
         parser.delegate = counter
         guard parser.parse(), !counter.elements.isEmpty else { return nil }
         for index in counter.elements.indices {
@@ -59,7 +61,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
                 counter.elements[index].nested += inner.drawn
             }
         }
-        counter.applyStyleSheet()
+        guard counter.applyStyleSheet() else { return nil }
         let limit = counter.elements.count + ElementSvg.maxReferencedElements
         guard let drawn = counter.drawnCount(limit: limit) else { return nil }
         return (counter.elements.count, drawn)
@@ -80,7 +82,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
             case "href":
                 let target = value.trimmingCharacters(in: .whitespacesAndNewlines)
                 if target.hasPrefix("#"), name == "use" || name == "pattern" {
-                    element.draws = String(target.dropFirst())
+                    element.draws.append(String(target.dropFirst()))
                 } else if let picture = Self.svgPicture(target) {
                     element.pictures.append(picture)
                 }
@@ -137,54 +139,84 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         return ids
     }
 
-    /// Adds the `url(#…)` of each style sheet rule to the elements it is for: by a class, an id or an element name,
-    /// all elements for any other selector.
-    private func applyStyleSheet() {
-        guard styleSheet.contains("url") else { return }
-        var text = styleSheet
-        while let start = text.range(of: "/*") {
-            let end = text.range(of: "*/", range: start.upperBound..<text.endIndex)?.upperBound ?? text.endIndex
-            text.removeSubrange(start.lowerBound..<end)
+    /// The element each id stands for: the last one with it, like macOS.
+    private var byID: [String: Int] {
+        var byID: [String: Int] = [:]
+        for (index, element) in elements.enumerated() {
+            if let id = element.id { byID[id] = index }
         }
+        return byID
+    }
+
+    /// Adds the patterns and masks in the `url(#…)` of each style sheet rule to the elements the rule is for: by a
+    /// class, an id or an element name, all elements for any other selector. False when that adds more references than
+    /// `maxReferencedElements` (each one draws at least one element more).
+    private func applyStyleSheet() -> Bool {
+        guard styleSheet.contains("url") else { return true }
+        let byID = byID
+        // Without the comments, in one pass.
+        var text = ""
+        var rest = styleSheet[...]
+        while let start = rest.range(of: "/*") {
+            text += rest[..<start.lowerBound]
+            rest = rest[start.upperBound...]
+            rest = rest.range(of: "*/").map { rest[$0.upperBound...] } ?? ""
+        }
+        text += rest
+        func isWord(_ text: Substring) -> Bool {
+            !text.isEmpty && text.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" || $0 == "_" }
+        }
+        // The ids of each selector, gathered first: every rule going over every element took minutes.
+        var everywhere = Set<String>()
+        var byClass: [Substring: Set<String>] = [:]
+        var byElementID: [Substring: Set<String>] = [:]
+        var byName: [Substring: Set<String>] = [:]
         for rule in text.split(separator: "}") {
             guard let brace = rule.firstIndex(of: "{") else { continue }
-            let ids = Self.urlReferences(in: String(rule[rule.index(after: brace)...]))
+            let ids = Self.urlReferences(in: String(rule[rule.index(after: brace)...])).filter { id in
+                byID[id].map { Self.expanding.contains(elements[$0].name) } ?? false
+            }
             guard !ids.isEmpty else { continue }
             for selector in rule[..<brace].split(separator: ",") {
-                let selector = selector.trimmingCharacters(in: .whitespacesAndNewlines)
-                let isName = selector.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" || $0 == "_" }
-                for index in elements.indices where Self.matches(selector, isName: isName, elements[index]) {
-                    elements[index].paints += ids
+                let selector = selector.trimmingCharacters(in: .whitespacesAndNewlines)[...]
+                let name = selector.dropFirst()
+                if selector.first == ".", isWord(name) {
+                    byClass[name, default: []].formUnion(ids)
+                } else if selector.first == "#", isWord(name) {
+                    byElementID[name, default: []].formUnion(ids)
+                } else if isWord(selector) {
+                    byName[selector, default: []].formUnion(ids)
+                } else {
+                    everywhere.formUnion(ids)
                 }
             }
         }
-    }
-
-    private static func matches(_ selector: String, isName: Bool, _ element: Element) -> Bool {
-        let name = selector.dropFirst()
-        let isSimple = !name.isEmpty && name.allSatisfy { $0.isLetter || $0.isNumber || $0 == "-" || $0 == "_" }
-        if selector.hasPrefix("."), isSimple { return element.classes.contains(name) }
-        if selector.hasPrefix("#"), isSimple { return element.id.map { $0[...] == name } ?? false }
-        if isName, !selector.isEmpty { return element.name == selector }
+        var added = 0
+        for index in elements.indices {
+            let element = elements[index]
+            var ids = everywhere.union(byName[element.name[...]] ?? [])
+            if let id = element.id { ids.formUnion(byElementID[id[...]] ?? []) }
+            for name in element.classes { ids.formUnion(byClass[name] ?? []) }
+            added += ids.count
+            guard added <= ElementSvg.maxReferencedElements else { return false }
+            elements[index].paints += ids
+        }
         return true
     }
+
+    /// The elements whose content is drawn again for each element that paints with them.
+    private static let expanding: Set<String> = ["pattern", "mask"]
 
     // MARK: Counting
 
     /// The elements drawn from the root with every reference followed (at least `limit` + 1 when that is more); nil
     /// for references in a circle.
     private func drawnCount(limit: Int) -> Int? {
-        var byID: [String: [Int]] = [:]
-        for (index, element) in elements.enumerated() {
-            if let id = element.id { byID[id, default: []].append(index) }
-        }
-        let expands: Set<String> = ["pattern", "mask"]
+        let byID = byID
         func references(of element: Element) -> [Int] {
             var targets = element.children
-            if let draws = element.draws { targets += byID[draws] ?? [] }
-            for id in element.paints {
-                targets += (byID[id] ?? []).filter { expands.contains(elements[$0].name) }
-            }
+            targets += element.draws.compactMap { byID[$0] }
+            targets += element.paints.compactMap { byID[$0] }.filter { Self.expanding.contains(elements[$0].name) }
             return targets
         }
         // Depth first without recursion (a chain of references can be as long as the file): an element is counted
