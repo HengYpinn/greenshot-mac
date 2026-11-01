@@ -13,7 +13,9 @@
  * that Greenshot refuses (the extension switched off in its settings) counts as offline, with Greenshot's reason, and
  * is tried again with the back-off; tab changes start no connection. The popup's status waits a moment for a
  * handshake under way. "Sent to Greenshot!" only when Greenshot answers IMPORT_CAPTURE with "ok" (upstream shows it
- * once the message is posted, also when Greenshot refused the capture).
+ * once the message is posted, also when Greenshot refused the capture). Of the "config" in Greenshot's HANDSHAKE answer only
+ * the options Greenshot sets are taken, checked ("full_page_delay_ms"; upstream merges all of it): the tab tracking and
+ * the capture format are set only on the extension's options page.
  * manifest.json asks for no host permissions (upstream: <all_urls>): "activeTab" lets captureVisibleTab take the tab the
  * user clicked the button in (Firefox 126 and later), "tabs" gives the tab's address and title for the tab tracking.
  */
@@ -44,6 +46,11 @@ let pendingCaptures = [];
 let extensionConfig = {
   track_tab_urls: true,
   capture_format: "png"
+};
+
+// Mac: the options Greenshot's handshake answer may set, each with the check of its value
+const HANDSHAKE_CONFIG_CHECKS = {
+  full_page_delay_ms: (value) => Number.isInteger(value) && value >= 0 && value <= 10000
 };
 
 // Initialize configuration from storage (Mac: a promise, so that nothing reports a tab before the user's choice to
@@ -97,6 +104,23 @@ function waitForHandshake(timeoutMs) {
     return Promise.resolve();
   }
   return Promise.race([handshake.promise, new Promise((resolve) => setTimeout(resolve, timeoutMs))]);
+}
+
+/**
+ * Mac: the options taken from the config of Greenshot's handshake answer: its own members in HANDSHAKE_CONFIG_CHECKS
+ * whose value passes the check; nothing else.
+ */
+function handshakeConfig(config) {
+  const accepted = {};
+  if (!config || typeof config !== "object" || Array.isArray(config)) {
+    return accepted;
+  }
+  for (const [key, isValid] of Object.entries(HANDSHAKE_CONFIG_CHECKS)) {
+    if (Object.prototype.hasOwnProperty.call(config, key) && isValid(config[key])) {
+      accepted[key] = config[key];
+    }
+  }
+  return accepted;
 }
 
 /**
@@ -235,10 +259,11 @@ function onNativeMessage(msg) {
     settleHandshake();
     updateBadge();
 
-    if (msg.config) {
+    const config = handshakeConfig(msg.config);
+    if (Object.keys(config).length > 0) {
       // Mac: after the stored options were read, or saving would overwrite them with the defaults
       configLoaded.then(() => {
-        extensionConfig = { ...extensionConfig, ...msg.config };
+        extensionConfig = { ...extensionConfig, ...config };
         chrome.storage.local.set({ extensionConfig });
       });
     }

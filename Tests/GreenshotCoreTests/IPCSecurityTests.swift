@@ -238,4 +238,20 @@ struct IPCEndpointTests {
         #expect(second != nil)
         second?.release()
     }
+
+    @Test func lockDoesNotFollowALinkOrWriteAnotherFile() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("gs-lock-\(UUID().uuidString.prefix(8))")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let other = folder.appendingPathComponent("other.txt")
+        try Data("keep me".utf8).write(to: other)
+        let linked = folder.appendingPathComponent("instance.lock")
+        try FileManager.default.createSymbolicLink(at: linked, withDestinationURL: other)
+        if case .failed = IPCFileLock.acquire(linked) {} else { Issue.record("A lock through a symbolic link was used") }
+        let hardLinked = folder.appendingPathComponent("cold-start.lock")
+        try FileManager.default.linkItem(at: other, to: hardLinked)
+        if case .failed = IPCFileLock.acquire(hardLinked) {} else { Issue.record("A lock with a second name was used") }
+        let content = try String(contentsOf: other, encoding: .utf8)
+        #expect(content == "keep me")
+    }
 }

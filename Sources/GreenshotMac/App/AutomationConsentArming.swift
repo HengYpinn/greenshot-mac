@@ -8,7 +8,8 @@ import GreenshotCore
 /// The arming of a consent question's buttons (the AI tools' consent panel, the command line capture question): they
 /// react only a second after the question was last shown unchanged. A click before that (the user was clicking somewhere
 /// else) starts the second again, and so does the question being covered or uncovered. A click on "Allow" counts only
-/// when no window of another program lies over the question (`ConsentClickGuard`, security review SM-M2).
+/// when no window of another program lies over the question, checked when the mouse button goes down in it and when the
+/// click ends (`ConsentClickGuard`, security review SM-M2).
 @MainActor
 final class ConsentArming: NSObject {
     static let delay: TimeInterval = 1
@@ -18,6 +19,9 @@ final class ConsentArming: NSObject {
     private var timer: Timer?
     private var monitor: Any?
     private var observer: NSObjectProtocol?
+    /// Whether the question was covered when the left mouse button last went down in it while armed; nil when it hasn't
+    /// since the last answer or disarming (an accessibility press has no mouse button going down).
+    private var coveredAtMouseDown: Bool?
     private(set) var isArmed = false
     private let log = Log("Automation")
 
@@ -27,12 +31,18 @@ final class ConsentArming: NSObject {
         super.init()
     }
 
-    /// Disarmed now, armed after the delay; clicks and occlusion changes start the delay again.
+    /// Disarmed now, armed after the delay; clicks and occlusion changes start the delay again. A left click on the
+    /// armed question notes whether it is covered as the button goes down (`confirmAllow`).
     func start() {
         disarm()
         monitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
             MainActor.assumeIsolated {
-                if let self, !self.isArmed, event.window === self.window { self.disarm() }
+                guard let self, let window = self.window, event.window === window else { return }
+                if !self.isArmed {
+                    self.disarm()
+                } else if event.type == .leftMouseDown {
+                    self.coveredAtMouseDown = Self.isCovered(window)
+                }
             }
             return event
         }
@@ -54,6 +64,7 @@ final class ConsentArming: NSObject {
     /// Buttons off, and on again after the delay.
     func disarm() {
         isArmed = false
+        coveredAtMouseDown = nil
         buttons.forEach { $0.isEnabled = false }
         timer?.invalidate()
         let timer = Timer(timeInterval: Self.delay, repeats: false) { [weak self] _ in
@@ -69,11 +80,14 @@ final class ConsentArming: NSObject {
         buttons.forEach { $0.isEnabled = true }
     }
 
-    /// The "Allow" click: true when it counts. A covered question disarms itself instead.
+    /// The "Allow" click: true when it counts. A question covered as the mouse button went down or now disarms itself
+    /// instead.
     func confirmAllow() -> Bool {
+        let coveredAtDown = coveredAtMouseDown
+        coveredAtMouseDown = nil
         guard isArmed, let window else { return false }
-        if Self.isCovered(window) {
-            log.warn("[SECURITY] A click on Allow was ignored: another program's window lies over the question.")
+        if !ConsentClickGuard.allowsClick(coveredAtDown: coveredAtDown, coveredAtUp: Self.isCovered(window)) {
+            log.warn("[SECURITY] A click on Allow was ignored: another program's window lay over the question when the button went down or lies over it now.")
             disarm()
             return false
         }

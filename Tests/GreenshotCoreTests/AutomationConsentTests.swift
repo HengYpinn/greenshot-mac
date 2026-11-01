@@ -154,6 +154,22 @@ struct AutomationConsentTests {
         #expect(!click)
     }
 
+    /// A click on "Allow" counts only when the question was uncovered when the button went down and when it came up:
+    /// a window over the button that goes away while the button is held doesn't make the click count.
+    @Test func aClickCountsOnlyWhenUncoveredAtDownAndUp() {
+        #expect(ConsentClickGuard.allowsClick(coveredAtDown: false, coveredAtUp: false))
+        #expect(!ConsentClickGuard.allowsClick(coveredAtDown: true, coveredAtUp: false))
+        #expect(!ConsentClickGuard.allowsClick(coveredAtDown: false, coveredAtUp: true))
+        #expect(!ConsentClickGuard.allowsClick(coveredAtDown: true, coveredAtUp: true))
+    }
+
+    /// An accessibility press (VoiceOver, Switch Control) has no mouse button going down: only the moment of the press
+    /// counts.
+    @Test func anAccessibilityPressIsCheckedWhenItHappens() {
+        #expect(ConsentClickGuard.allowsClick(coveredAtDown: nil, coveredAtUp: false))
+        #expect(!ConsentClickGuard.allowsClick(coveredAtDown: nil, coveredAtUp: true))
+    }
+
     @Test func callerIsNamedByItsProcessAndApp() {
         #expect(AutomationConsent.callerName(processNames: ["zsh", "login"], appName: "Terminal") == "zsh in Terminal")
         #expect(AutomationConsent.callerName(processNames: ["Raycast"], appName: "Raycast") == "Raycast")

@@ -156,6 +156,21 @@ struct AppStartupOptionsTests {
         #expect(IPCCommandLine.scanStartup(["--diagnostics-test", "crash", "a.png"]).command == ["a.png"])
     }
 
+    /// The development runs skip the single-instance guard; a release build reads the switches (they are no command)
+    /// but doesn't run them.
+    @Test func developmentSwitchesOnlyInDebugBuilds() {
+        let snapshot = IPCCommandLine.scanStartup(["--snapshot", "/tmp/snaps"], debugBuild: false)
+        #expect(!snapshot.snapshot)
+        #expect(snapshot.command.isEmpty)
+        let joined = IPCCommandLine.scanStartup(["--snapshot=/tmp/snaps"], debugBuild: false)
+        #expect(!joined.snapshot)
+        let diagnostics = IPCCommandLine.scanStartup(["--diagnostics-test", "crash", "a.png"], debugBuild: false)
+        #expect(!diagnostics.diagnostics)
+        #expect(diagnostics.command == ["a.png"])
+        #expect(IPCCommandLine.scanStartup(["--snapshot", "/tmp/snaps"], debugBuild: true).snapshot)
+        #expect(IPCCommandLine.scanStartup(["--diagnostics-test", "crash"], debugBuild: true).diagnostics)
+    }
+
     @Test func systemArgumentsAreSkipped() {
         let options = IPCCommandLine.scanStartup(["-psn_0_12345", "-NSDocumentRevisionsDebugMode", "YES",
                                                   "-AppleLanguages", "(de)", "--reload"])
