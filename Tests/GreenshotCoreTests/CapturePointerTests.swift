@@ -39,6 +39,23 @@ struct CapturePointerTests {
         #expect(origin == CGPoint(x: 138, y: 18))
     }
 
+    /// A rectangle that reaches past the displays is cut to them by the composer (security review 2026-11-01 MCP-2):
+    /// the pointer goes where the cut picture starts.
+    @Test func aRectanglePastTheDisplaysStartsWhereTheyDo() throws {
+        let display = screen(1, x: 0, scale: 2)
+        let rect = CGRect(x: -20, y: -20, width: 60, height: 60)
+        let picture = try #require(ScreenComposer.image(of: rect, from: [display]))
+        #expect(picture.image.width == 80)
+        let origin = CapturedPointer.origin(mouse: CGPoint(x: 30, y: 30), hotSpot: CGPoint(x: 6, y: 4), rect: rect,
+                                            screens: [display], scale: 2)
+        #expect(origin == CGPoint(x: 54, y: 56))
+        let left = screen(1, x: 0, scale: 1)
+        let right = screen(2, x: 100, scale: 2)
+        let across = CapturedPointer.origin(mouse: CGPoint(x: 120, y: 10), hotSpot: CGPoint(x: 2, y: 2),
+                                            rect: CGRect(x: 50, y: -40, width: 300, height: 200), screens: [left, right], scale: 2)
+        #expect(across == CGPoint(x: 138, y: 18))
+    }
+
     @Test func aPointerOutsideTheCaptureIsLeftOut() {
         let picture = TestImage.solid(width: 10, height: 10, .black)
         let inside = CapturedPointer(image: picture, scale: 1, hotSpot: .zero, origin: CGPoint(x: -5, y: -5))
