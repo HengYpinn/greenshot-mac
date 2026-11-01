@@ -191,23 +191,35 @@ enum AutomationCaptureConsent {
 
     /// The program behind the request: the processes above the requester (greenshot-cli or a second start of the
     /// app, identified by the connection's audit token; for the command the app was started with, the app itself) up to
-    /// the first app, e.g. "zsh in Terminal".
+    /// the first app, e.g. "zsh in Terminal"; a name of a program that no developer or Apple signed is marked
+    /// "(unsigned)" (`AutomationConsent.callerName`).
     static func callerName(peer: IPCPeer?) -> String {
         let requester = peer.map(processID(of:)) ?? getpid()
         var names: [String?] = []
+        var nearest: pid_t?
         var appName: String?
+        var appPID: pid_t?
         var current = parent(of: requester)
         for _ in 0..<6 {
             guard let pid = current, pid > 1 else { break }
+            if nearest == nil { nearest = pid }
             if let app = NSRunningApplication(processIdentifier: pid), let name = app.localizedName {
                 if names.isEmpty { names.append(name) }
                 appName = name
+                appPID = pid
                 break
             }
             names.append(executableName(of: pid))
             current = parent(of: pid)
         }
-        return AutomationConsent.callerName(processNames: names, appName: appName)
+        return AutomationConsent.callerName(processNames: names, appName: appName,
+                                            processSigned: nearest.map(isSigned) ?? false, appSigned: appPID.map(isSigned) ?? false)
+    }
+
+    /// The running program of `pid` is signed by a developer or Apple and intact (`AIToolsClientIdentity.runningSigner`).
+    private static func isSigned(_ pid: pid_t) -> Bool {
+        guard let path = executablePath(of: pid) else { return false }
+        return AIToolsClientIdentity.runningSigner(AIToolProcess(pid: pid, parentPID: 0, startTime: 0, path: path)).name != nil
     }
 
     /// The process id in the audit token (race-free), else the one of `LOCAL_PEERPID`.
@@ -225,8 +237,12 @@ enum AutomationCaptureConsent {
     }
 
     private static func executableName(of pid: pid_t) -> String? {
+        executablePath(of: pid).map { ($0 as NSString).lastPathComponent }
+    }
+
+    private static func executablePath(of pid: pid_t) -> String? {
         var buffer = [CChar](repeating: 0, count: 4 * Int(MAXPATHLEN))
         guard proc_pidpath(pid, &buffer, UInt32(buffer.count)) > 0 else { return nil }
-        return (String(cString: buffer) as NSString).lastPathComponent
+        return String(cString: buffer)
     }
 }

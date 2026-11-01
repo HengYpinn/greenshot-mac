@@ -104,17 +104,26 @@ public enum AutomationConsent {
     }
 
     /// The program that asked, from the names of the processes above the requesting one (nearest first; nil where a
-    /// name is unknown) and the first of them that is an app: "zsh in Terminal", "Raycast", or "A program".
-    public static func callerName(processNames: [String?], appName: String?) -> String {
-        let first = processNames.first.flatMap { $0 }.flatMap { $0.isEmpty ? nil : $0 }
-        switch (first, appName) {
+    /// name is unknown) and the first of them that is an app: "zsh in Terminal", "Raycast", or "A program". Each name
+    /// is cleaned, at most 40 characters, and marked "(unsigned)" unless its program is signed (`processSigned`: the
+    /// nearest process, `appSigned`: the app) (`AIToolText.headline`, security review 2026-11-01 IPC-6).
+    public static func callerName(processNames: [String?], appName: String?, processSigned: Bool, appSigned: Bool) -> String {
+        func cleaned(_ name: String?) -> String? {
+            name.map { AIToolText.displayed($0, limit: callerNameLimit) }.flatMap { $0.isEmpty ? nil : $0 }
+        }
+        switch (cleaned(processNames.first.flatMap { $0 }), cleaned(appName)) {
         case let (process?, app?) where process.caseInsensitiveCompare(app) != .orderedSame:
+            let process = AIToolText.headline(process, signed: processSigned, limit: callerNameLimit)
+            let app = AIToolText.headline(app, signed: appSigned, limit: callerNameLimit)
             return String(localized: "\(process) in \(app)", comment: "The program that asks for a capture and the app it runs in, e.g. zsh in Terminal")
-        case let (_, app?): return app
-        case let (process?, nil): return process
+        case let (_, app?): return AIToolText.headline(app, signed: appSigned, limit: callerNameLimit)
+        case let (process?, nil): return AIToolText.headline(process, signed: processSigned, limit: callerNameLimit)
         default: return String(localized: "A program", comment: "Starts the sentence of a capture question when the program that asks is unknown")
         }
     }
+
+    /// The most characters of one name in `callerName`.
+    static let callerNameLimit = 40
 }
 
 /// Clickjacking (security review SM-M2): a click on "Allow" of a consent question counts only when no window of another
