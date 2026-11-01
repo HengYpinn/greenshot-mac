@@ -78,7 +78,9 @@ Differences from upstream's extension (each marked in the source):
 - `IMPORT_CAPTURE` and `TAB_CHANGED` also send `browser` (upstream sends it only with `HANDSHAKE`, so its `${browser}`
   stays empty), and `IMPORT_CAPTURE` the tab's width, so the app knows a Retina capture's scale;
 - the app's `HANDSHAKE` answer leaves out `capture_format` and `track_tab_urls`: upstream always answers PNG and
-  tracking on, which overwrote the choices on the extension's options page at every reconnect;
+  tracking on, which overwrote the choices on the extension's options page at every reconnect. The extension takes
+  only `full_page_delay_ms` (0–10000) from that answer, so tab tracking and the format are set only on its options
+  page;
 - `TAB_CHANGED` and `IMPORT_CAPTURE` send `tracking` (`TAB_CHANGED` with `"tracking": false` and an empty address
   when tracking is turned off), and the app sends `{"event":"report_tab"}` to ask for the active tab again when the
   extension is switched back on in Settings; older apps and extensions ignore both.

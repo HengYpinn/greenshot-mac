@@ -261,7 +261,7 @@ of the box where the line starts (Greenshot for Windows ignores it and starts at
 Greenshot for Mac comes with greenshot-mcp, an MCP server for AI tools (Claude Code, Claude Desktop, VS Code, Cursor,
 …). They can list your windows, take screenshots (with OCR) and run or propose recipes, after you switch on Settings ›
 AI Tools and allow each program the first time. A program that runs in a runtime (node, Python, …) is allowed together
-with its script; a signed program with its Team ID. Password managers are never shared, every AI screenshot shows a
+with its script, which it must run by its full path; a signed program with its Team ID. Password managers are never shared, every AI screenshot shows a
 notification, and a recipe an AI tool proposes starts switched off. Settings › AI Tools has copyable setup for each AI
 tool; see [docs/mcp/README.md](docs/mcp/README.md).
 

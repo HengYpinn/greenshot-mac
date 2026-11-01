@@ -536,6 +536,52 @@ Greenshot's screen recording permission behind your back.
   permissions: it no longer shares Greenshot's Screen Recording, Accessibility or folder access, so macOS asks for its
   own (or refuses) when it needs one, for example to read a screenshot saved on the Desktop.
 
+From a second security review (November 2026):
+
+- AI tools: a program run by a script runtime (node, Python, Bun, Deno, a shell, …) is recognised only when it runs
+  its script by its full path, as a `#!` script or an installed command does; one started as `node cli.js`,
+  `python -m tool`, `bun run name` or `sh ./script` is refused. A program with a "|" in its path, script, options or variables
+  can't use AI tools. Excluded applications that an edit outside Greenshot removed are excluded again when a reload
+  resets the AI tools settings.
+- The AI tool question, the AI capture notice and the questions before a greenshot-cli or link capture or recipe show
+  the asking program's name without control or direction characters, shortened, and marked "(unsigned)" when no
+  developer signed it.
+- A click on Allow in a question counts only when no other program's window was over the question when the mouse
+  button went down and when it came up.
+- A region from an AI tool, a recipe or Capture Last Region that reaches past the displays it touches is cut to them,
+  and one far outside them is refused, instead of stopping Greenshot.
+- Recipes ask for more of what they do: saving to an absolute file name pattern asks for file system access and names
+  the place; a recipe without a destination step that can choose its destinations when it runs asks for the program
+  and upload permissions; an annotation that reads a picture file asks for file system access (such a step can't use a
+  text option: put the picture in a step of its own), and recording the microphone asks. The approval of an external
+  command shows the step's own arguments and working folder, and a step's line shows every parameter that decides a
+  permission. Recipes whose approval now covers more are asked about once more.
+- Recipes: error forwarding no longer passes the destination choice or saved file names between the two recipes. A
+  step's expressions stop at 1 MB of text. Approvals are signed with a new key at every change, so an older copy of
+  the approvals file no longer counts.
+- Image effects, resizing and Enlarge Canvas make no image larger than 200 megapixels. An SVG whose references would
+  draw a very large number of elements, or draw themselves, isn't drawn. Dropping or pasting a picture file with
+  thousands of pages no longer freezes the editor (icons and TIFF files compare at most 64 sizes, other files use
+  their first frame). Elements read from a file or the clipboard stop at 5,000 and at 400 megapixels of pictures; the
+  rest are reported as damaged. Greenshot for Windows files convert each picture once, stop converting after 400
+  megapixels and read quickly also with very large element data.
+- A picture copied as HTML with a large inline image (`data:`) is pasted again, and the HTML is read in one pass.
+- An editor restored after a crash or logout saves to a new file instead of the file its kept copy names.
+- Output folders: pad, substring and replace parameters of a captured title or address can no longer put a "/" or a
+  ".." folder back into a path, and a folder pattern that starts with a folder variable such as `${MyPictures}` stays
+  inside it.
+- Jira, Confluence, Box and Dropbox answers are read up to 10 MB. Jira issue type icons are loaded only from the
+  configured site and are size-checked before they are decoded (an icon on another server isn't shown). Confluence's
+  "Image link" clipboard option copies only a link on the configured site.
+- The instance and cold-start lock files are used only when they are the app's own regular file; a link in their place
+  isn't followed.
+- JSON the app writes (also `greenshot-cli --json`) shows DEL and C1 control characters as `\u` escapes, so a terminal
+  doesn't act on them.
+- `--snapshot` and `--diagnostics-test` work only in debug builds; a release build ignores them.
+- The browser extension takes only known, checked options from Greenshot's connection answer: tab tracking and the
+  format are set only on its options page.
+- The build workflow's GitHub Actions are pinned to a commit.
+
 ## [0.1.0] - 2026-10-16
 
 ### Added

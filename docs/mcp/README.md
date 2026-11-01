@@ -102,7 +102,9 @@ Review and Revoke.
   "node" and the script, e.g. Claude Code's `cli.js`, and allowing it doesn't allow any other script that node runs.
   Every option before the script (`--require`, `--import`, `--env-file`, `--inspect`, `-M`, `-I`, …) and the runtime's
   code-loading environment variables (`NODE_OPTIONS`, `NODE_PATH`, `PYTHONPATH`, `PYTHONSTARTUP`, `RUBYOPT`, `RUBYLIB`,
-  `PERL5OPT`, `PERL5LIB`, `PHPRC`, …) are part of what is allowed, so a changed option asks again. A runtime running inline code (`node -e`, `python -c`, a script from stdin) is refused, and so is
+  `PERL5OPT`, `PERL5LIB`, `PHPRC`, …) are part of what is allowed, so a changed option asks again. The script must be given by its full path (`node /path/to/cli.js`, as a
+  `#!` script or an installed command starts it): a runtime running a script by a relative path (`node cli.js`), a
+  module (`python -m tool`), inline code (`node -e`, `python -c`) or a script from stdin is refused, and so is
   every AI tool started with `DYLD_` variables. A signed program is allowed with its Team ID, and the app checks the
   running program's signature on every new greenshot-mcp session, so a copy of the program at the same path signed by
   someone else is asked about again.
