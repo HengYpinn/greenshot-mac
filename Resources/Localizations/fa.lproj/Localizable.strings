@@ -5836,6 +5836,9 @@
 "Use recipes" = "استفاده از دستورالعمل‌ها";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "گزینه‌های متنی را فقط در مرحله‌هایی به کار ببرید که به هیچ مجوزی نیاز ندارند، مثلاً فایل تصویر یا میکروفون را در یک مرحلهٔ جداگانه قرار دهید.";
+
+/* machine */
 "Used for:" = "کاربرد:";
 
 /* machine */
@@ -6127,10 +6130,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "برای این برنامه‌ها «اجازه نده» را زدید (یا پرسش را بستید)، بنابراین Greenshot بدون پرسیدن آن‌ها را رد می‌کند. یکی را اینجا مجاز کنید، یا بگذارید Greenshot دفعهٔ بعد که متصل شد دوباره بپرسد.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "شما این مرحلهٔ خودکار را قبلاً تأیید کرده‌اید، اما تا وقتی دوباره تصمیم نگیرید هیچ دستورالعملی را تغییر نمی‌دهد: %@ «بدون تغییر» یا بستن پنجره آن را به همین حال می‌گذارد.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "این مرحلهٔ خودکار را قبلاً تأیید کرده بودید، اما فایل آن از آن زمان بیرون از Greenshot تغییر کرده است. تا زمانی که تغییرات را تأیید نکنید، هیچ دستورالعملی را تغییر نمی‌دهد.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "این دستورالعمل نمونه‌برداری را قبلاً تأیید کرده بودید، اما فایل آن از آن زمان بیرون از Greenshot تغییر کرده است (توسط برنامهٔ دیگر یا دستی). پیش از تأیید، تغییرات زیر را بررسی کنید.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "شما این دستورالعمل را قبلاً تأیید کرده‌اید، اما تا وقتی دوباره تصمیم نگیرید استفاده نمی‌شود: %@ «بدون تغییر» یا بستن پنجره آن را بلااستفاده می‌گذارد.";
 
 /* machine */
 "You are using the latest version (%@)." = "شما از آخرین نسخه (%@) استفاده می‌کنید.";

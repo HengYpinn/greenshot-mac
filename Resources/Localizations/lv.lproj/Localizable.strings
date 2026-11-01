@@ -5839,6 +5839,9 @@
 "Use recipes" = "Izmantot receptes";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Teksta opcijas izmantojiet tikai soļos, kuriem nav vajadzīga atļauja, piemēram, attēla failu vai mikrofonu ievietojiet atsevišķā solī.";
+
+/* machine */
 "Used for:" = "Izmanto priekš:";
 
 /* machine */
@@ -6127,10 +6130,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Tu atbildēji „Neatļaut” (vai aizvēri jautājumu) šīm programmām, tāpēc Greenshot tās noraida bez jautāšanas. Atļauj kādu šeit vai ļauj Greenshot jautāt vēlreiz nākamajā savienošanās reizē.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Šo automātisko soli jūs jau apstiprinājāt, bet tas nemaina nevienu recepti, līdz jūs izlemsiet vēlreiz: %@ „Paturēt kā ir” vai loga aizvēršana to atstāj tādu, kāds tas ir.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Tu iepriekš apstiprināji šo automātisko soli, taču tā fails kopš tā laika ir mainīts ārpus Greenshot. Kamēr neesi apstiprinājis izmaiņas, tas nemaina nevienu recepti.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Tu iepriekš apstiprināji šo tveršanas recepti, taču tās fails kopš tā laika ir mainīts ārpus Greenshot (ar citu programmu vai ar roku). Pirms apstiprināšanas pārskati izmaiņas tālāk.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Šo recepti jūs jau apstiprinājāt, bet tā netiek izmantota, līdz jūs izlemsiet vēlreiz: %@ „Paturēt kā ir” vai loga aizvēršana to atstāj neizmantotu.";
 
 /* machine */
 "You are using the latest version (%@)." = "Tu izmanto jaunāko versiju (%@).";

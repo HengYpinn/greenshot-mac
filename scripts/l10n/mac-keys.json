@@ -12384,6 +12384,12 @@
    ]
   },
   {
+   "key": "Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/ApprovalSheet.swift"
+   ]
+  },
+  {
    "key": "Used for:",
    "files": [
     "Sources/GreenshotMac/RecipeManager/RecipeOptionsSections.swift"
@@ -12975,6 +12981,12 @@
    ]
   },
   {
+   "key": "You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/ApprovalSheet.swift"
+   ]
+  },
+  {
    "key": "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe.",
    "files": [
     "Sources/GreenshotCore/Recipes/ApprovalSheet.swift"
@@ -12982,6 +12994,12 @@
   },
   {
    "key": "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them.",
+   "files": [
+    "Sources/GreenshotCore/Recipes/ApprovalSheet.swift"
+   ]
+  },
+  {
+   "key": "You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused.",
    "files": [
     "Sources/GreenshotCore/Recipes/ApprovalSheet.swift"
    ]

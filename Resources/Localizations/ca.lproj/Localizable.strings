@@ -5776,6 +5776,9 @@
 "Use recipes" = "Utilitza receptes";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Feu servir les opcions de text només en els passos que no necessiten cap permís, p. ex. poseu un fitxer d'imatge o el micròfon en un pas a part.";
+
+/* machine */
 "Used for:" = "Utilitzat per a:";
 
 /* machine */
@@ -6067,10 +6070,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Heu respost \"No permetis\" (o heu tancat la pregunta) per a aquests programes, de manera que Greenshot els rebutja sense preguntar. Permeteu-ne un aquí, o deixeu que Greenshot ho torni a preguntar la propera vegada que es connecti.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Ja havíeu aprovat aquest pas automàtic, però no canvia cap recepta fins que torneu a decidir: %@ “Deixa-ho tal com està” o tancar la finestra el deixa així.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Havíeu aprovat aquest pas automàtic, però el seu fitxer s'ha canviat fora de Greenshot des de llavors. Fins que no n'aproveu els canvis, no canvia cap recepta.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Havíeu aprovat aquesta recepta de captura, però el seu fitxer s'ha canviat fora de Greenshot des de llavors (per un altre programa o a mà). Reviseu els canvis a continuació abans d'aprovar-los.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Ja havíeu aprovat aquesta recepta, però no s'utilitza fins que torneu a decidir: %@ “Deixa-ho tal com està” o tancar la finestra la deixa sense utilitzar.";
 
 /* machine */
 "You are using the latest version (%@)." = "Utilitzeu la versió més recent (%@).";

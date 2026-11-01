@@ -2033,3 +2033,6 @@ zoomer on or off	打开或关闭放大镜	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	该请求通过 greenshotmac:// 链接发来，任何程序或网页都能打开这种链接。仅当链接由你自己打开时才允许：配方的结果会发送到配方指定的位置。	claude-opus-5-5 2026-10-28
 This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	此版本的 macOS 无法以程序自身的隐私权限运行该程序，因此 Greenshot 不会运行它。	claude-opus-5-5 2026-10-28
 %@ (unsigned)	%@（未签名）	claude-opus-5-5 2026-11-01
+Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own.	仅在不需要权限的步骤中使用文字选项，例如将图片文件或麦克风放在单独的步骤中。	claude-opus-5-5 2026-11-01
+You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so.	您之前已批准此自动步骤，但在您再次决定之前，它不会更改任何配方：%@选择“保持原样”或关闭窗口会保持原样。	claude-opus-5-5 2026-11-01
+You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused.	您之前已批准此配方，但在您再次决定之前，它不会被使用：%@选择“保持原样”或关闭窗口会保持未使用状态。	claude-opus-5-5 2026-11-01

@@ -5839,6 +5839,9 @@
 "Use recipes" = "Uporabi recepte";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Besedilne možnosti uporabljajte samo v korakih, ki ne potrebujejo dovoljenja, npr. datoteko s sliko ali mikrofon dajte v poseben korak.";
+
+/* machine */
 "Used for:" = "Uporabljeno za:";
 
 /* machine */
@@ -6127,10 +6130,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Za te programe ste odgovorili »Ne dovoli« (ali zaprli vprašanje), zato jih Greenshot zavrača brez vprašanja. Tukaj enega dovolite ali pustite, da Greenshot vpraša znova ob naslednji povezavi.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Ta samodejni korak ste že odobrili, vendar ne spremeni nobenega recepta, dokler se ne odločite znova: %@ »Pusti, kot je« ali zaprtje okna ga pusti tako.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Ta samodejni korak ste že odobrili, vendar je bila njegova datoteka od takrat spremenjena zunaj Greenshota. Dokler ne odobrite sprememb, ne spreminja nobenega recepta.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Ta recept zajema ste že odobrili, vendar je bila njegova datoteka od takrat spremenjena zunaj Greenshota (z drugim programom ali ročno). Pred odobritvijo preglejte spremembe spodaj.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Ta recept ste že odobrili, vendar se ne uporablja, dokler se ne odločite znova: %@ »Pusti, kot je« ali zaprtje okna ga pusti neuporabljenega.";
 
 /* machine */
 "You are using the latest version (%@)." = "Uporabljate najnovejšo različico (%@).";

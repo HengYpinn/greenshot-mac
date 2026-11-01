@@ -5869,6 +5869,9 @@
 "Use recipes" = "レシピを使用";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "テキストオプションは、権限を必要としないステップでのみ使用してください。たとえば、画像ファイルやマイクは別のステップに分けてください。";
+
+/* machine */
 "Used for:" = "使用先：";
 
 /* machine */
@@ -6160,10 +6163,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "これらのプログラムについて「許可しない」と答えた（または質問を閉じた）ため、Greenshot は確認せずに拒否します。ここで許可するか、次回の接続時に Greenshot に再度確認させてください。";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "この自動ステップは以前に承認されましたが、もう一度決定するまで、どのレシピも変更しません：%@「そのままにする」を選ぶかウィンドウを閉じると、そのままになります。";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "この自動ステップは以前に承認しましたが、その後ファイルが Greenshot の外部で変更されました。変更を承認するまで、どのレシピも変更しません。";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "このキャプチャレシピは以前に承認しましたが、その後ファイルが Greenshot の外部（別のプログラムまたは手作業）で変更されました。承認する前に、以下の変更内容を確認してください。";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "このレシピは以前に承認されましたが、もう一度決定するまで使用されません：%@「そのままにする」を選ぶかウィンドウを閉じると、使用されないままになります。";
 
 /* machine */
 "You are using the latest version (%@)." = "最新バージョン（%@）をお使いです。";

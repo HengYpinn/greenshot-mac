@@ -5707,6 +5707,9 @@
 "Use recipes" = "Gunakan resep";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Gunakan opsi teks hanya pada langkah yang tidak memerlukan izin, mis. letakkan file gambar atau mikrofon di langkahnya sendiri.";
+
+/* machine */
 "Used for:" = "Digunakan untuk:";
 
 /* machine */
@@ -5989,10 +5992,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Anda menjawab \"Jangan Izinkan\" (atau menutup pertanyaan) untuk program ini, jadi Greenshot menolaknya tanpa bertanya. Izinkan satu di sini, atau biarkan Greenshot bertanya lagi saat berikutnya terhubung.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Anda sudah menyetujui langkah otomatis ini sebelumnya, tetapi langkah ini tidak mengubah resep apa pun sampai Anda memutuskan lagi: %@ “Biarkan Apa Adanya” atau menutup jendela membiarkannya seperti itu.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Anda pernah menyetujui langkah otomatis ini, tetapi berkasnya diubah di luar Greenshot sejak itu. Sampai Anda menyetujui perubahannya, langkah ini tidak mengubah resep apa pun.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Anda pernah menyetujui resep penangkapan ini, tetapi berkasnya diubah di luar Greenshot sejak itu (oleh program lain atau secara manual). Tinjau perubahan di bawah sebelum menyetujuinya.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Anda sudah menyetujui resep ini sebelumnya, tetapi resep ini tidak digunakan sampai Anda memutuskan lagi: %@ “Biarkan Apa Adanya” atau menutup jendela membiarkannya tidak digunakan.";
 
 /* machine */
 "You are using the latest version (%@)." = "Anda menggunakan versi terbaru (%@).";

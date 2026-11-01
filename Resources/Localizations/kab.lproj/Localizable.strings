@@ -5842,6 +5842,9 @@
 "Use recipes" = "Seqdec iserwasen";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Seqdec tixtiṛin n uḍris kan deg yisurifen ur yesra ara tasiregt, am umedya: err afaylu n tugna neɣ asawaḍ deg usurif s yiman-is.";
+
+/* machine */
 "Used for:" = "Yettuseqdac i:";
 
 /* machine */
@@ -6130,10 +6133,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Terriḍ \"Ur sirig ara\" (neɣ tmdeleḍ asteqsi) i yihilen-agi, ihi Greenshot yugi-ten war asteqsi. Sireg yiwen da, neɣ eǧǧ Greenshot ad isteqsi daɣen tikelt-nniḍen ara yeqqen.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Tesnetmeḍ usurif awurman-agi send, maca ur isnifel ula d yiwen n userwas alamma tferneḍ i tikkelt-nniḍen: %@ “Eǧǧ-it akken yella” neɣ imdel n usfaylu yeǧǧa-t akken yella.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Tsentmeḍ asurif awurman-agi send, maca afaylu-ines yettusnifel berra n Greenshot seld waya. Almed ara tsentmeḍ isnifal, ur isnifel ula d yiwen n userwas.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Tsentmeḍ aserwas n tuṭṭfa-agi send, maca afaylu-ines yettusnifel berra n Greenshot seld waya (sɣur ahil nniḍen neɣ s ufus). Wali isnifal ddaw send ad ten-tsentmeḍ.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Tesnetmeḍ aserwas-agi send, maca ur yettwaseqdac ara alamma tferneḍ i tikkelt-nniḍen: %@ “Eǧǧ-it akken yella” neɣ imdel n usfaylu yeǧǧa-t ur yettwaseqdac ara.";
 
 /* machine */
 "You are using the latest version (%@)." = "Tseqdaceḍ lqem aneggaru (%@).";

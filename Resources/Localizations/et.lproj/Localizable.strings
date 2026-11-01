@@ -5836,6 +5836,9 @@
 "Use recipes" = "Kasuta retsepte";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Kasutage tekstivalikuid ainult sammudes, mis ei vaja ühtegi luba, nt pange pildifail või mikrofon eraldi sammu.";
+
+/* machine */
 "Used for:" = "Kasutusel:";
 
 /* machine */
@@ -6124,10 +6127,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Vastasite nendele programmidele „Ära luba“ (või sulgesite küsimuse), seega Greenshot keeldub neist küsimata. Lubage siin üks või laske Greenshotil järgmisel ühendumisel uuesti küsida.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Kiitsite selle automaatse sammu varem heaks, kuid see ei muuda ühtegi retsepti enne, kui otsustate uuesti: %@ „Jäta muutmata“ või akna sulgemine jätab selle nii.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Kiitsite selle automaatse sammu varem heaks, kuid selle faili on pärast seda väljaspool Greenshoti muudetud. Kuni muudatused heaks ei kiida, ei muuda see ühtegi retsepti.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Kiitsite selle jäädvustusretsepti varem heaks, kuid selle faili on pärast seda väljaspool Greenshoti muudetud (teise programmi poolt või käsitsi). Vaadake allolevad muudatused enne heakskiitmist üle.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Kiitsite selle retsepti varem heaks, kuid seda ei kasutata enne, kui otsustate uuesti: %@ „Jäta muutmata“ või akna sulgemine jätab selle kasutamata.";
 
 /* machine */
 "You are using the latest version (%@)." = "Kasutate uusimat versiooni (%@).";

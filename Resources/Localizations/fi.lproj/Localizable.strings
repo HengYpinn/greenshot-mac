@@ -5839,6 +5839,9 @@
 "Use recipes" = "Käytä reseptejä";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Käytä tekstivalintoja vain vaiheissa, jotka eivät tarvitse käyttöoikeutta, esim. laita kuvatiedosto tai mikrofoni omaan vaiheeseensa.";
+
+/* machine */
 "Used for:" = "Käyttötarkoitus:";
 
 /* machine */
@@ -6127,10 +6130,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Vastasit ”Älä salli” (tai suljit kysymyksen) näille ohjelmille, joten Greenshot hylkää ne kysymättä. Salli jokin tässä tai anna Greenshotin kysyä uudelleen seuraavalla yhdistämiskerralla.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Hyväksyit tämän automaattisen vaiheen aiemmin, mutta se ei muuta mitään reseptiä, ennen kuin päätät uudelleen: %@ ”Pidä sellaisenaan” tai ikkunan sulkeminen jättää sen ennalleen.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Hyväksyit tämän automaattisen vaiheen aiemmin, mutta sen tiedostoa on sen jälkeen muutettu Greenshotin ulkopuolella. Ennen kuin hyväksyt muutokset, se ei muuta mitään reseptiä.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Hyväksyit tämän kaappausreseptin aiemmin, mutta sen tiedostoa on sen jälkeen muutettu Greenshotin ulkopuolella (toisella ohjelmalla tai käsin). Tarkista muutokset alla ennen niiden hyväksymistä.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Hyväksyit tämän reseptin aiemmin, mutta sitä ei käytetä, ennen kuin päätät uudelleen: %@ ”Pidä sellaisenaan” tai ikkunan sulkeminen jättää sen käyttämättä.";
 
 /* machine */
 "You are using the latest version (%@)." = "Käytössäsi on uusin versio (%@).";

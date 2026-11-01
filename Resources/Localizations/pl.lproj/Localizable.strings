@@ -5839,6 +5839,9 @@
 "Use recipes" = "Używaj przepisów";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Opcji tekstowych używaj tylko w krokach, które nie wymagają uprawnień, np. umieść plik obrazu lub mikrofon w osobnym kroku.";
+
+/* machine */
 "Used for:" = "Używane dla:";
 
 /* machine */
@@ -6130,10 +6133,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Odpowiedziano „Nie zezwalaj” (lub zamknięto pytanie) dla tych programów, więc Greenshot odrzuca je bez pytania. Zezwól tu na jeden lub pozwól Greenshotowi zapytać ponownie przy następnym połączeniu.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Ten krok automatyczny został wcześniej zatwierdzony, ale nie zmienia żadnego przepisu, dopóki nie zdecydujesz ponownie: %@ „Zachowaj bez zmian” lub zamknięcie okna zostawia go bez zmian.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Ten krok automatyczny był wcześniej przez Ciebie zatwierdzony, ale jego plik został od tego czasu zmieniony poza Greenshotem. Dopóki nie zatwierdzisz zmian, nie zmienia żadnego przepisu.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Ten przepis przechwytywania był wcześniej przez Ciebie zatwierdzony, ale jego plik został od tego czasu zmieniony poza Greenshotem (przez inny program lub ręcznie). Przejrzyj zmiany poniżej przed ich zatwierdzeniem.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Ten przepis został wcześniej zatwierdzony, ale nie jest używany, dopóki nie zdecydujesz ponownie: %@ „Zachowaj bez zmian” lub zamknięcie okna zostawia go nieużywanym.";
 
 /* machine */
 "You are using the latest version (%@)." = "Używasz najnowszej wersji (%@).";

@@ -5863,6 +5863,9 @@
 "Use recipes" = "Naudoti receptus";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Teksto parinktis naudokite tik žingsniuose, kuriems nereikia jokio leidimo, pvz., paveikslo failą ar mikrofoną įdėkite į atskirą žingsnį.";
+
+/* machine */
 "Used for:" = "Naudojama:";
 
 /* machine */
@@ -6154,10 +6157,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Šioms programoms atsakėte „Neleisti“ (arba uždarėte klausimą), todėl Greenshot jas atmeta nieko neklausdama. Leiskite vieną čia arba leiskite Greenshot paklausti dar kartą kitą kartą jai prisijungiant.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Šį automatinį žingsnį jau patvirtinote, bet jis nekeičia jokio recepto, kol vėl nuspręsite: %@ „Palikti kaip yra“ arba lango uždarymas palieka jį tokį.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Šį automatinį žingsnį anksčiau patvirtinote, bet jo failas nuo to laiko buvo pakeistas už Greenshot ribų. Kol nepatvirtinsite pakeitimų, jis nekeičia jokio recepto.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Šį nuotraukos receptą anksčiau patvirtinote, bet jo failas nuo to laiko buvo pakeistas už Greenshot ribų (kitos programos arba rankomis). Prieš patvirtindami peržiūrėkite pakeitimus žemiau.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Šį receptą jau patvirtinote, bet jis nenaudojamas, kol vėl nuspręsite: %@ „Palikti kaip yra“ arba lango uždarymas palieka jį nenaudojamą.";
 
 /* machine */
 "You are using the latest version (%@)." = "Naudojate naujausią versiją (%@).";

@@ -5836,6 +5836,9 @@
 "Use recipes" = "שימוש במתכונים";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "השתמשו באפשרויות טקסט רק בשלבים שאינם דורשים הרשאה, למשל הניחו קובץ תמונה או את המיקרופון בשלב נפרד.";
+
+/* machine */
 "Used for:" = "משמש עבור:";
 
 /* machine */
@@ -6127,10 +6130,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "ענית \"לא לאפשר\" (או סגרת את השאלה) עבור התוכניות האלה, ולכן Greenshot דוחה אותן בלי לשאול. אפשר לאשר אחת כאן, או לתת ל-Greenshot לשאול שוב בפעם הבאה שהיא תתחבר.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "אישרתם את השלב האוטומטי הזה בעבר, אך הוא לא ישנה אף מתכון עד שתחליטו שוב: %@ \"השארה כמות שהוא\" או סגירת החלון משאירים אותו כפי שהוא.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "אישרת את השלב האוטומטי הזה בעבר, אבל הקובץ שלו שונה מאז מחוץ ל-Greenshot. עד שתאשר את השינויים, הוא אינו משנה אף מתכון.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "אישרת את מתכון הלכידה הזה בעבר, אבל הקובץ שלו שונה מאז מחוץ ל-Greenshot (על ידי תוכנית אחרת או ביד). יש לעיין בשינויים להלן לפני אישורם.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "אישרתם את המתכון הזה בעבר, אך הוא לא בשימוש עד שתחליטו שוב: %@ \"השארה כמות שהוא\" או סגירת החלון משאירים אותו ללא שימוש.";
 
 /* machine */
 "You are using the latest version (%@)." = "אתה משתמש בגרסה האחרונה (%@).";

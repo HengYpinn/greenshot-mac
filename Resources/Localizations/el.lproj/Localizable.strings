@@ -5818,6 +5818,9 @@
 "Use recipes" = "Χρήση συνταγών";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Χρησιμοποιήστε επιλογές κειμένου μόνο σε βήματα που δεν χρειάζονται άδεια, π.χ. βάλτε ένα αρχείο εικόνας ή το μικρόφωνο σε ξεχωριστό βήμα.";
+
+/* machine */
 "Used for:" = "Χρησιμοποιείται για:";
 
 /* machine */
@@ -6109,10 +6112,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Απαντήσατε «Να μην επιτρέπεται» (ή κλείσατε την ερώτηση) για αυτά τα προγράμματα, οπότε το Greenshot τα απορρίπτει χωρίς να ρωτήσει. Επιτρέψτε ένα εδώ ή αφήστε το Greenshot να ρωτήσει ξανά την επόμενη φορά που θα συνδεθεί.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Έχετε εγκρίνει στο παρελθόν αυτό το αυτόματο βήμα, αλλά δεν αλλάζει καμία συνταγή μέχρι να αποφασίσετε ξανά: %@ Το «Διατήρηση ως έχει» ή το κλείσιμο του παραθύρου το αφήνει όπως είναι.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Εγκρίνατε αυτό το αυτόματο βήμα στο παρελθόν, αλλά το αρχείο του άλλαξε εκτός Greenshot από τότε. Μέχρι να εγκρίνετε τις αλλαγές, δεν αλλάζει καμία συνταγή.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Εγκρίνατε αυτή τη συνταγή καταγραφής στο παρελθόν, αλλά το αρχείο της άλλαξε εκτός Greenshot από τότε (από άλλο πρόγραμμα ή με το χέρι). Ελέγξτε τις αλλαγές παρακάτω πριν τις εγκρίνετε.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Έχετε εγκρίνει στο παρελθόν αυτή τη συνταγή, αλλά δεν χρησιμοποιείται μέχρι να αποφασίσετε ξανά: %@ Το «Διατήρηση ως έχει» ή το κλείσιμο του παραθύρου την αφήνει αχρησιμοποίητη.";
 
 /* machine */
 "You are using the latest version (%@)." = "Χρησιμοποιείτε την τελευταία έκδοση (%@).";

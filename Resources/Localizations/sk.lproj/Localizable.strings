@@ -5827,6 +5827,9 @@
 "Use recipes" = "Používať recepty";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Textové možnosti používajte len v krokoch, ktoré nepotrebujú žiadne oprávnenie, napr. súbor s obrázkom alebo mikrofón dajte do samostatného kroku.";
+
+/* machine */
 "Used for:" = "Použité pre:";
 
 /* machine */
@@ -6112,10 +6115,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Pre tieto programy ste odpovedali „Nepovoliť“ (alebo ste otázku zavreli), takže ich Greenshot odmieta bez opýtania. Tu jeden povoľte alebo nechajte Greenshot, aby sa opýtal znova pri ďalšom pripojení.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Tento automatický krok ste už schválili, ale nezmení žiadny recept, kým sa znova nerozhodnete: %@ „Ponechať tak, ako je“ alebo zatvorenie okna ho nechá tak.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Tento automatický krok ste už schválili, ale jeho súbor bol odvtedy zmenený mimo Greenshotu. Kým zmeny neschválite, nemení žiadny recept.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Tento recept na zachytávanie ste už schválili, ale jeho súbor bol odvtedy zmenený mimo Greenshotu (iným programom alebo ručne). Pred schválením skontrolujte zmeny nižšie.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Tento recept ste už schválili, ale nepoužije sa, kým sa znova nerozhodnete: %@ „Ponechať tak, ako je“ alebo zatvorenie okna ho nechá nepoužitý.";
 
 /* machine */
 "You are using the latest version (%@)." = "Používate najnovšiu verziu (%@).";

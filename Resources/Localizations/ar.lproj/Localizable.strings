@@ -5863,6 +5863,9 @@
 "Use recipes" = "استخدام الوصفات";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "استخدم خيارات النص فقط في الخطوات التي لا تحتاج إلى أي إذن، مثل وضع ملف صورة أو الميكروفون في خطوة منفصلة.";
+
+/* machine */
 "Used for:" = "يُستخدم لـ:";
 
 /* machine */
@@ -6154,10 +6157,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "أجبت \"عدم السماح\" (أو أغلقت السؤال) لهذه البرامج، لذا يرفضها Greenshot دون سؤال. اسمح بأحدها هنا، أو دع Greenshot يسأل مجددًا في المرة التالية التي يتصل فيها.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "سبق أن وافقت على هذه الخطوة التلقائية، لكنها لا تغيّر أي وصفة إلى أن تقرر من جديد: %@ \"الإبقاء كما هي\" أو إغلاق النافذة يتركها على حالها.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "وافقت على هذه الخطوة التلقائية من قبل، لكن ملفها تغيّر خارج Greenshot منذ ذلك الحين. إلى أن توافق على التغييرات، لا تغيّر أي وصفة.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "وافقت على وصفة الالتقاط هذه من قبل، لكن ملفها تغيّر خارج Greenshot منذ ذلك الحين (بواسطة برنامج آخر أو يدويًا). راجع التغييرات أدناه قبل الموافقة عليها.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "سبق أن وافقت على هذه الوصفة، لكنها غير مستخدمة إلى أن تقرر من جديد: %@ \"الإبقاء كما هي\" أو إغلاق النافذة يبقيها غير مستخدمة.";
 
 /* machine */
 "You are using the latest version (%@)." = "أنت تستخدم أحدث إصدار (%@).";

@@ -5824,6 +5824,9 @@
 "Use recipes" = "Dùng công thức";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Chỉ dùng tùy chọn văn bản trong các bước không cần quyền, ví dụ đặt tệp ảnh hoặc micrô vào một bước riêng.";
+
+/* machine */
 "Used for:" = "Dùng cho:";
 
 /* machine */
@@ -6112,10 +6115,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Bạn đã trả lời \"Không cho phép\" (hoặc đóng câu hỏi) cho các chương trình này, nên Greenshot từ chối chúng mà không hỏi. Hãy cho phép một chương trình tại đây, hoặc để Greenshot hỏi lại vào lần kết nối tiếp theo.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Bạn đã phê duyệt bước tự động này trước đây, nhưng nó không thay đổi công thức nào cho đến khi bạn quyết định lại: %@ “Giữ nguyên” hoặc đóng cửa sổ sẽ giữ nguyên như vậy.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Bạn đã phê duyệt bước tự động này trước đây, nhưng tệp của nó đã bị thay đổi bên ngoài Greenshot kể từ đó. Cho đến khi bạn phê duyệt các thay đổi, nó không thay đổi công thức nào.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Bạn đã phê duyệt công thức chụp này trước đây, nhưng tệp của nó đã bị thay đổi bên ngoài Greenshot kể từ đó (bởi chương trình khác hoặc thủ công). Hãy xem các thay đổi bên dưới trước khi phê duyệt.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Bạn đã phê duyệt công thức này trước đây, nhưng nó không được dùng cho đến khi bạn quyết định lại: %@ “Giữ nguyên” hoặc đóng cửa sổ sẽ để nó không được dùng.";
 
 /* machine */
 "You are using the latest version (%@)." = "Bạn đang dùng phiên bản mới nhất (%@).";

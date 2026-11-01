@@ -5716,6 +5716,9 @@
 "Use recipes" = "Recepten gebruiken";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Gebruik tekstopties alleen in stappen die geen rechten nodig hebben, bijv. zet een afbeeldingsbestand of de microfoon in een aparte stap.";
+
+/* machine */
 "Used for:" = "Gebruikt voor:";
 
 /* machine */
@@ -6004,10 +6007,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "U hebt “Niet toestaan” geantwoord (of de vraag gesloten) voor deze programma's, dus Greenshot weigert ze zonder te vragen. Sta er hier een toe, of laat Greenshot de volgende keer dat het verbinding maakt opnieuw vragen.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Je hebt deze automatische stap eerder goedgekeurd, maar hij wijzigt geen enkel recept totdat je opnieuw beslist: %@ “Ongewijzigd laten” of het venster sluiten laat hem zoals hij is.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "U hebt deze automatische stap eerder goedgekeurd, maar het bestand is sindsdien buiten Greenshot gewijzigd. Tot u de wijzigingen goedkeurt, wijzigt hij geen enkel recept.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "U hebt dit opnamerecept eerder goedgekeurd, maar het bestand is sindsdien buiten Greenshot gewijzigd (door een ander programma of met de hand). Bekijk de wijzigingen hieronder voordat u ze goedkeurt.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Je hebt dit recept eerder goedgekeurd, maar het wordt niet gebruikt totdat je opnieuw beslist: %@ “Ongewijzigd laten” of het venster sluiten laat het ongebruikt.";
 
 /* machine */
 "You are using the latest version (%@)." = "U gebruikt de nieuwste versie (%@).";

@@ -5791,6 +5791,9 @@
 "Use recipes" = "Använd recept";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Använd textalternativ bara i steg som inte behöver någon behörighet, t.ex. genom att lägga en bildfil eller mikrofonen i ett eget steg.";
+
+/* machine */
 "Used for:" = "Används för:";
 
 /* machine */
@@ -6070,10 +6073,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Du svarade ”Tillåt inte” (eller stängde frågan) för de här programmen, så Greenshot avvisar dem utan att fråga. Tillåt ett här, eller låt Greenshot fråga igen nästa gång det ansluter.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Du har godkänt det här automatiska steget tidigare, men det ändrar inget recept förrän du bestämmer dig igen: %@ ”Behåll som det är” eller att stänga fönstret lämnar det som det är.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Du godkände det här automatiska steget tidigare, men dess fil har ändrats utanför Greenshot sedan dess. Tills du godkänner ändringarna ändrar det inget recept.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Du godkände det här receptet tidigare, men dess fil har ändrats utanför Greenshot sedan dess (av ett annat program eller för hand). Granska ändringarna nedan innan du godkänner dem.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Du har godkänt det här receptet tidigare, men det används inte förrän du bestämmer dig igen: %@ ”Behåll som det är” eller att stänga fönstret lämnar det oanvänt.";
 
 /* machine */
 "You are using the latest version (%@)." = "Du använder den senaste versionen (%@).";

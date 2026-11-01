@@ -5866,6 +5866,9 @@
 "Use recipes" = "使用配方";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "僅在不需要權限的步驟中使用文字選項，例如將圖片檔案或麥克風放在單獨的步驟中。";
+
+/* machine */
 "Used for:" = "用於：";
 
 /* machine */
@@ -6157,10 +6160,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "您對這些程式回答了「不允許」（或關閉了詢問視窗），因此 Greenshot 會直接拒絕它們而不詢問。請在此允許其中一個，或讓 Greenshot 在下次連線時再次詢問。";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "您之前已核准此自動步驟，但在您再次決定之前，它不會更改任何配方：%@選擇「維持原狀」或關閉視窗都會保持原樣。";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "您先前核准過此自動步驟，但其檔案之後在 Greenshot 外部被更改。在您核准更動之前，它不會更改任何配方。";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "您先前核准過此擷取配方，但其檔案之後在 Greenshot 外部被更改（由其他程式或手動）。請先檢視下列更動，再決定是否核准。";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "您之前已核准此配方，但在您再次決定之前，不會被使用：%@選擇「維持原狀」或關閉視窗都會保持未使用狀態。";
 
 /* machine */
 "You are using the latest version (%@)." = "您使用的是最新版本 (%@)。";

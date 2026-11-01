@@ -5863,6 +5863,9 @@
 "Use recipes" = "Користи рецепте";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Користите опције текста само у корацима којима није потребна дозвола, нпр. ставите датотеку слике или микрофон у посебан корак.";
+
+/* machine */
 "Used for:" = "Користи се за:";
 
 /* machine */
@@ -6151,10 +6154,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Одговорили сте „Не дозволи“ (или сте затворили питање) за ове програме, па их Greenshot одбија без питања. Дозволите један овде или нека Greenshot пита поново следећи пут када се повежу.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Већ сте одобрили овај аутоматски корак, али он не мења ниједан рецепт док поново не одлучите: %@ „Остави како јесте“ или затварање прозора оставља га тако.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Раније сте одобрили овај аутоматски корак, али је његова датотека измењена ван Greenshot-а од тада. Док не одобрите измене, не мења ниједан рецепт.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Раније сте одобрили овај рецепт за снимање, али је његова датотека измењена ван Greenshot-а од тада (од стране другог програма или ручно). Прегледајте измене испод пре одобравања.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Већ сте одобрили овај рецепт, али се не користи док поново не одлучите: %@ „Остави како јесте“ или затварање прозора оставља га некоришћеним.";
 
 /* machine */
 "You are using the latest version (%@)." = "Користите најновију верзију (%@).";

@@ -5818,6 +5818,9 @@
 "Use recipes" = "Rezebde nudzn";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Nimm Textopdionen nur in Schridde, di kaane Berechdigung brauchn, z. B. leg a Bilddadei oder es Mikrofon in an aigenen Schridd.";
+
+/* machine */
 "Used for:" = "Verwendd für:";
 
 /* machine */
@@ -6106,10 +6109,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Du hasd bei diesen Brogrammen „Ned erlaubn“ gandwordd (oder die Frage zugmachd), deswegn lehnt Greenshot sie ohne Nachfrage ab. Erlaub aans do, oder lass Greenshot beim nächsdn Verbinden nochamal frong.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Du hasd den audomadischen Schridd scho amal freigebm, aber er ändert kaa Rezebd, bis du dich wieder endscheidesd: %@ „So lassn“ oder es Fensder zumachn lässd ihn so.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Du hasd den audomadischn Schridd früher freigebm, aber seine Dadei wurd seiddem außerhalb vo Greenshot gändert. Bis du die Änderunga freigibsd, ändert er kaa Rezebd.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Du hasd es Aufnahmrezebd früher freigebm, aber seine Dadei wurd seiddem außerhalb vo Greenshot gändert (vo am andern Brogramm oder von Hand). Schau dir die Änderunga undn an, bevorsd sie freigibsd.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Du hasd des Rezebd scho amal freigebm, aber es werd ned vawendet, bis du dich wieder endscheidesd: %@ „So lassn“ oder es Fensder zumachn lässd es ungenudzd.";
 
 /* machine */
 "You are using the latest version (%@)." = "Du hasd die neuesde Väsion (%@).";

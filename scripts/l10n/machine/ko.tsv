@@ -2030,3 +2030,6 @@ zoomer on or off	확대경 켜기/끄기	claude-sonnet-5-5 2026-10-18
 The request came through a greenshotmac:// link, which any program or web page can open. Allow it only if you opened it: the recipe's result goes where the recipe sends it.	요청이 greenshotmac:// 링크를 통해 들어왔습니다. 이 링크는 어떤 프로그램이나 웹 페이지에서도 열 수 있습니다. 직접 링크를 연 경우에만 허용하세요. 레시피 결과는 레시피가 보내는 곳으로 전달됩니다.	claude-opus-5-5 2026-10-28
 This version of macOS can't run the program with its own privacy permissions, so Greenshot doesn't run it.	이 버전의 macOS에서는 프로그램을 자체 개인정보 보호 권한으로 실행할 수 없으므로 Greenshot이 실행하지 않습니다.	claude-opus-5-5 2026-10-28
 %@ (unsigned)	%@ (서명되지 않음)	claude-opus-5-5 2026-11-01
+Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own.	텍스트 옵션은 권한이 필요하지 않은 단계에서만 사용하세요. 예를 들어 사진 파일이나 마이크는 별도의 단계에 넣으세요.	claude-opus-5-5 2026-11-01
+You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so.	이 자동 단계를 이전에 승인했지만, 다시 결정할 때까지 어떤 레시피도 변경하지 않습니다: %@ “그대로 유지”를 선택하거나 창을 닫으면 그대로 유지됩니다.	claude-opus-5-5 2026-11-01
+You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused.	이 레시피를 이전에 승인했지만, 다시 결정할 때까지 사용되지 않습니다: %@ “그대로 유지”를 선택하거나 창을 닫으면 사용되지 않은 상태로 유지됩니다.	claude-opus-5-5 2026-11-01

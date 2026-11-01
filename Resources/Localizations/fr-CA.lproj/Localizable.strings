@@ -5788,6 +5788,9 @@
 "Use recipes" = "Utiliser les recettes";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Utilisez les options de texte uniquement dans les étapes qui n’exigent aucune autorisation, par exemple en plaçant un fichier image ou le microphone dans une étape à part.";
+
+/* machine */
 "Used for:" = "Utilisé pour :";
 
 /* machine */
@@ -6070,10 +6073,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Vous avez répondu « Ne pas autoriser » (ou fermé la question) pour ces programmes; Greenshot les refuse donc sans demander. Autorisez-en un ici, ou laissez Greenshot redemander à la prochaine connexion.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Vous avez déjà approuvé cette étape automatique, mais elle ne modifie aucune recette tant que vous n’avez pas décidé à nouveau : %@ « Garder tel quel » ou fermer la fenêtre la laisse telle quelle.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Vous avez déjà approuvé cette étape automatique, mais son fichier a été modifié en dehors de Greenshot depuis. Tant que vous n’approuvez pas les modifications, elle ne modifie aucune recette.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Vous avez déjà approuvé cette recette de capture, mais son fichier a été modifié en dehors de Greenshot depuis (par un autre programme ou à la main). Examinez les modifications ci-dessous avant de les approuver.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Vous avez déjà approuvé cette recette, mais elle n’est pas utilisée tant que vous n’avez pas décidé à nouveau : %@ « Garder tel quel » ou fermer la fenêtre la laisse inutilisée.";
 
 /* machine */
 "You are using the latest version (%@)." = "Vous utilisez la dernière version (%@).";

@@ -5866,6 +5866,9 @@
 "Use recipes" = "Использовать рецепты";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Используйте текстовые параметры только в шагах, которым не нужны разрешения, например помещайте файл изображения или микрофон в отдельный шаг.";
+
+/* machine */
 "Used for:" = "Используется для:";
 
 /* machine */
@@ -6157,10 +6160,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Вы ответили «Не разрешать» (или закрыли вопрос) для этих программ, поэтому Greenshot отклоняет их без вопросов. Разрешите одну здесь или позвольте Greenshot спросить снова при следующем подключении.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Вы уже одобряли этот автоматический шаг, но он не изменяет ни один рецепт, пока вы не решите снова: %@ «Оставить как есть» или закрытие окна оставляет его как есть.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Вы ранее одобрили этот автоматический шаг, но его файл с тех пор был изменён вне Greenshot. Пока вы не одобрите изменения, он не изменяет ни один рецепт.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Вы ранее одобрили этот рецепт захвата, но его файл с тех пор был изменён вне Greenshot (другой программой или вручную). Проверьте изменения ниже, прежде чем одобрять их.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Вы уже одобряли этот рецепт, но он не используется, пока вы не решите снова: %@ «Оставить как есть» или закрытие окна оставляет его неиспользуемым.";
 
 /* machine */
 "You are using the latest version (%@)." = "Вы используете последнюю версию (%@).";

@@ -5770,6 +5770,9 @@
 "Use recipes" = "Brug opskrifter";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Brug kun tekstvalg i trin, der ikke kræver nogen rettighed, f.eks. ved at placere en billedfil eller mikrofonen i et trin for sig.";
+
+/* machine */
 "Used for:" = "Bruges til:";
 
 /* machine */
@@ -6049,10 +6052,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Du svarede \"Tillad ikke\" (eller lukkede spørgsmålet) for disse programmer, så Greenshot afviser dem uden at spørge. Tillad et her, eller lad Greenshot spørge igen, næste gang det forbinder.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Du har tidligere godkendt dette automatiske trin, men det ændrer ingen opskrift, før du beslutter dig igen: %@ “Behold som den er” eller at lukke vinduet lader det stå, som det er.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Du godkendte dette automatiske trin tidligere, men dets fil er siden blevet ændret uden for Greenshot. Indtil du godkender ændringerne, ændrer det ingen opskrift.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Du godkendte denne optagelsesopskrift tidligere, men dens fil er siden blevet ændret uden for Greenshot (af et andet program eller i hånden). Gennemgå ændringerne nedenfor, før du godkender dem.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Du har tidligere godkendt denne opskrift, men den bruges ikke, før du beslutter dig igen: %@ “Behold som den er” eller at lukke vinduet lader den være ubrugt.";
 
 /* machine */
 "You are using the latest version (%@)." = "Du bruger den nyeste version (%@).";

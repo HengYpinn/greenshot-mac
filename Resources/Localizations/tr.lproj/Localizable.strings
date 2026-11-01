@@ -5851,6 +5851,9 @@
 "Use recipes" = "Tarifleri kullan";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Metin seçeneklerini yalnızca izin gerektirmeyen adımlarda kullanın, örn. bir resim dosyasını veya mikrofonu ayrı bir adıma koyun.";
+
+/* machine */
 "Used for:" = "Kullanım:";
 
 /* machine */
@@ -6139,10 +6142,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Bu programlar için \"İzin Verme\"yi seçtiniz (veya soruyu kapattınız), bu yüzden Greenshot onları sormadan reddeder. Birine buradan izin verin veya Greenshot'un bir sonraki bağlanışında yeniden sormasını sağlayın.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Bu otomatik adımı daha önce onaylamıştınız, ancak siz yeniden karar verene kadar hiçbir tarifi değiştirmez: %@ “Olduğu Gibi Bırak” veya pencereyi kapatmak onu olduğu gibi bırakır.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Bu otomatik adımı daha önce onayladınız, ancak dosyası o zamandan beri Greenshot dışında değiştirildi. Değişiklikleri onaylayana kadar hiçbir tarifi değiştirmez.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Bu yakalama tarifini daha önce onayladınız, ancak dosyası o zamandan beri Greenshot dışında (başka bir program tarafından veya elle) değiştirildi. Onaylamadan önce aşağıdaki değişiklikleri inceleyin.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Bu tarifi daha önce onaylamıştınız, ancak siz yeniden karar verene kadar kullanılmaz: %@ “Olduğu Gibi Bırak” veya pencereyi kapatmak onu kullanılmamış bırakır.";
 
 /* machine */
 "You are using the latest version (%@)." = "En son sürümü (%@) kullanıyorsunuz.";

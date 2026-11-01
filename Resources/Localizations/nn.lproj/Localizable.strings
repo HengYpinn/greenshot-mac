@@ -5809,6 +5809,9 @@
 "Use recipes" = "Bruk oppskrifter";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Bruk tekstval berre i steg som ikkje treng løyve, t.d. ved å leggje ei biletfil eller mikrofonen i eit eige steg.";
+
+/* machine */
 "Used for:" = "Brukt til:";
 
 /* machine */
@@ -6097,10 +6100,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Du svarte «Ikkje tillat» (eller lukka spørsmålet) for desse programma, så Greenshot avviser dei utan å spørje. Tillat eitt her, eller la Greenshot spørje på nytt neste gong det koplar til.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Du godkjende dette automatiske steget tidlegare, men det endrar inga oppskrift før du bestemmer deg på nytt: %@ «Behald som det er» eller å lukke vindauget lèt det vere slik.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Du godkjende dette automatiske steget før, men fila er endra utanfor Greenshot sidan. Til du godkjenner endringane, endrar det ingen oppskrift.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Du godkjende denne opptaksoppskrifta før, men fila er endra utanfor Greenshot sidan (av eit anna program eller for hand). Sjå gjennom endringane nedanfor før du godkjenner dei.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Du godkjende denne oppskrifta tidlegare, men ho blir ikkje brukt før du bestemmer deg på nytt: %@ «Behald som det er» eller å lukke vindauget lèt ho vere ubrukt.";
 
 /* machine */
 "You are using the latest version (%@)." = "Du brukar den nyaste versjonen (%@).";

@@ -5770,6 +5770,9 @@
 "Use recipes" = "Folosește rețete";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "Folosiți opțiunile de text doar în pașii care nu au nevoie de permisiuni, de ex. puneți un fișier imagine sau microfonul într-un pas separat.";
+
+/* machine */
 "Used for:" = "Folosit pentru:";
 
 /* machine */
@@ -6058,10 +6061,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "Ați răspuns „Nu permite” (sau ați închis întrebarea) pentru aceste programe, deci Greenshot le refuză fără întrebare. Permiteți unul aici sau lăsați Greenshot să întrebe din nou la următoarea conectare.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Ați aprobat deja acest pas automat, dar nu modifică nicio rețetă până când nu decideți din nou: %@ „Păstrează ca atare” sau închiderea ferestrei îl lasă așa.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Ați aprobat acest pas automat înainte, dar fișierul său a fost modificat în afara Greenshot de atunci. Până când aprobați modificările, nu modifică nicio rețetă.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Ați aprobat această rețetă de captură înainte, dar fișierul ei a fost modificat în afara Greenshot de atunci (de alt program sau manual). Verificați modificările de mai jos înainte de a le aproba.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Ați aprobat deja această rețetă, dar nu este folosită până când nu decideți din nou: %@ „Păstrează ca atare” sau închiderea ferestrei o lasă nefolosită.";
 
 /* machine */
 "You are using the latest version (%@)." = "Folosiți cea mai recentă versiune (%@).";

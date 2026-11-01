@@ -5839,6 +5839,9 @@
 "Use recipes" = "Receptek használata";
 
 /* machine */
+"Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own." = "A szövegopciókat csak olyan lépésekben használja, amelyeknek nincs szükségük engedélyre, pl. a képfájlt vagy a mikrofont tegye külön lépésbe.";
+
+/* machine */
 "Used for:" = "Felhasználás:";
 
 /* machine */
@@ -6130,10 +6133,16 @@
 "You answered \"Don't Allow\" (or closed the question) for these programs, so Greenshot refuses them without asking. Allow one here, or let Greenshot ask again the next time it connects." = "A „Ne engedélyezze” választ adta (vagy bezárta a kérdést) ezekre a programokra, ezért a Greenshot kérdés nélkül elutasítja őket. Engedélyezzen egyet itt, vagy hagyja, hogy a Greenshot a következő csatlakozáskor újra rákérdezzen.";
 
 /* machine */
+"You approved this automatic step before, but it doesn't change any recipe until you decide again: %@ “Keep as Is” or closing the window leaves it so." = "Ezt az automatikus lépést korábban jóváhagyta, de nem módosít egyetlen receptet sem, amíg újra nem dönt: %@ A „Marad így” vagy az ablak bezárása így hagyja.";
+
+/* machine */
 "You approved this automatic step before, but its file was changed outside Greenshot since then. Until you approve the changes, it doesn't change any recipe." = "Korábban jóváhagyta ezt az automatikus lépést, de a fájlját azóta a Greenshoton kívül módosították. Amíg nem hagyja jóvá a módosításokat, nem módosít egyetlen receptet sem.";
 
 /* machine */
 "You approved this capture recipe before, but its file was changed outside Greenshot since then (by another program or by hand). Review the changes below before approving them." = "Korábban jóváhagyta ezt a rögzítési receptet, de a fájlját azóta a Greenshoton kívül módosították (másik program vagy kézzel). Jóváhagyás előtt nézze át a lenti módosításokat.";
+
+/* machine */
+"You approved this recipe before, but it isn't used until you decide again: %@ “Keep as Is” or closing the window leaves it unused." = "Ezt a receptet korábban jóváhagyta, de nem használatos, amíg újra nem dönt: %@ A „Marad így” vagy az ablak bezárása használaton kívül hagyja.";
 
 /* machine */
 "You are using the latest version (%@)." = "A legújabb verziót használja (%@).";
