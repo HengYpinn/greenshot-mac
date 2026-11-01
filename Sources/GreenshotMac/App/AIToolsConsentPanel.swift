@@ -85,6 +85,7 @@ enum AIToolsConsentPanel {
             button.isEnabled = armed
         }
         panel.buttons = [deny, allow]
+        panel.allowButton = allow
         let buttons = NSStackView(views: [NSView(), deny, allow])
         buttons.orientation = .horizontal
         buttons.spacing = 12
@@ -137,6 +138,7 @@ enum AIToolsConsentPanel {
 private final class ConsentPanel: NSPanel {
     var onAnswer: ((Bool?) -> Void)?
     var buttons: [NSButton] = []
+    weak var allowButton: NSButton?
     private var arming: ConsentArming?
 
     override var canBecomeKey: Bool { false }
@@ -147,7 +149,7 @@ private final class ConsentPanel: NSPanel {
     }
 
     func startArming() {
-        let arming = ConsentArming(window: self, buttons: buttons)
+        let arming = ConsentArming(window: self, buttons: buttons, allow: allowButton)
         self.arming = arming
         arming.start()
     }

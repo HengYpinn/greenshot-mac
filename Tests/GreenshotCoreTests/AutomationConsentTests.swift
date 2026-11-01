@@ -163,6 +163,39 @@ struct AutomationConsentTests {
         #expect(!ConsentClickGuard.allowsClick(coveredAtDown: true, coveredAtUp: true))
     }
 
+    /// Only a mouse button going down on "Allow" itself is remembered for the press, and only until it is answered.
+    @Test func theCoveredStateIsKeptOnlyForAPressOnAllow() {
+        var clicks = ConsentClickState()
+        clicks.mouseDown(onAllow: true, covered: true)
+        let coveredAtDown = clicks.confirm(coveredNow: false)
+        #expect(!coveredAtDown)
+        // Answered: the next press (an accessibility press) is checked when it happens
+        let pressAfterIt = clicks.confirm(coveredNow: false)
+        #expect(pressAfterIt)
+        clicks.mouseDown(onAllow: true, covered: false)
+        let uncovered = clicks.confirm(coveredNow: false)
+        #expect(uncovered)
+        clicks.mouseDown(onAllow: true, covered: false)
+        let coveredAtUp = clicks.confirm(coveredNow: true)
+        #expect(!coveredAtUp)
+    }
+
+    /// A click on the question's text while something lay over it doesn't refuse a later press on "Allow".
+    @Test func aCoveredClickElsewhereInTheQuestionIsForgotten() {
+        var clicks = ConsentClickState()
+        clicks.mouseDown(onAllow: false, covered: true)
+        let afterTextClick = clicks.confirm(coveredNow: false)
+        #expect(afterTextClick)
+        clicks.mouseDown(onAllow: true, covered: true)
+        clicks.mouseDown(onAllow: false, covered: false)
+        let afterClickElsewhere = clicks.confirm(coveredNow: false)
+        #expect(afterClickElsewhere)
+        clicks.mouseDown(onAllow: true, covered: true)
+        clicks.reset()
+        let afterDisarming = clicks.confirm(coveredNow: false)
+        #expect(afterDisarming)
+    }
+
     /// An accessibility press (VoiceOver, Switch Control) has no mouse button going down: only the moment of the press
     /// counts.
     @Test func anAccessibilityPressIsCheckedWhenItHappens() {
