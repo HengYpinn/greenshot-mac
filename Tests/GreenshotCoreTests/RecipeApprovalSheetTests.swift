@@ -277,9 +277,14 @@ struct RecipeApprovalSheetTests {
         #expect(reset.button == "Reset")
     }
 
-    @Test func hintsForTheMacsMessages() {
+    @MainActor @Test func hintsForTheMacsMessages() {
         #expect(RecipeValidationHints.hint(for: "Duplicate node id 'a' found in recipe.") == "Each node in the recipe must have a unique 'id'.")
         #expect(RecipeValidationHints.hint(for: "Cycle/loop detected in recipe flow: a -> b -> a") != nil)
         #expect(RecipeValidationHints.hint(for: "Something else entirely") == nil)
+        // The validator's message for a text option in a node that needs a permission; the same hint as the library's.
+        let textOption = "Node 'logo' needs an approval and can't use the text option(s) 'caption'."
+        let expected = "Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own."
+        #expect(RecipeValidationHints.hint(for: textOption) == expected)
+        #expect(RecipeLibrary.hint(for: textOption) == expected)
     }
 }

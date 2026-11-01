@@ -1015,6 +1015,9 @@ public final class RecipeLibrary {
         if message.contains("which is not available in this version") { return "Use a step type of this version of Greenshot, or update Greenshot." }
         if message.contains("invalid hotkey") { return "Write the hotkey like \"Ctrl + Shift + B\"; on the Mac Ctrl is ⌘ and Win is ⌃." }
         if message.contains("requires the extension") { return "The recipe needs a plug-in Greenshot for Mac doesn't have." }
+        if message.contains("can't use the text option") {
+            return "Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own."
+        }
         if message.contains("does not exist in 'nodes'") || message.contains("does not match any defined node id") {
             return "Check the node ids in 'flow': each must be the id of a node."
         }

@@ -479,6 +479,9 @@ public enum RecipeValidationHints {
             return String(localized: "Write the hotkey like \"Ctrl + Shift + B\"; on the Mac Ctrl is ⌘ and Win is ⌃.")
         }
         if has("in its Filter") { return String(localized: "Write the extensions with their dot, separated by ';', e.g. \".png;.jpg\".") }
+        if has("can't use the text option") {
+            return String(localized: "Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own.")
+        }
         if has("'ToolName'") { return String(localized: "Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.") }
         if has("Option key") || has("Option '") { return String(localized: "Check the recipe's 'options': keys, types, defaults and choices.") }
         return nil
