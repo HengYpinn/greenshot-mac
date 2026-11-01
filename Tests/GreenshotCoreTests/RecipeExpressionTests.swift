@@ -246,6 +246,28 @@ struct FixedRecipeEnvironment: RecipeEnvironment {
         #expect(result.warnings.contains { $0.contains("longer than 16 KB") })
     }
 
+    /// RECIPES-4: one step's expressions build at most 1 MB of text by interpolation or `+` (each `${a}` is its own
+    /// token, so the 16 KB limit of an expression doesn't bound what they make together); beyond it they give null.
+    @Test func interpolationStopsAtTheLimitOfAStep() {
+        let kilobyte = String(repeating: "x", count: 1024)
+        let shared = scope(["a": .string(kilobyte)])
+        let joined = String(repeating: "${a}", count: 2000)
+        #expect(evaluator.evaluate(joined, in: shared) == .null)
+        // The step's limit is used up: later expressions of the same step are null too, in the next step they work.
+        #expect(evaluator.evaluate("<${a}>", in: shared) == .null)
+        let next = evaluator.evaluate("<${a}>", in: scope(["a": .string(kilobyte)]))
+        #expect(next == .string("<\(kilobyte)>"))
+        // 2048 times `a`, joined as a balanced tree: within the parser's depth and length limits.
+        var sum = "a"
+        for _ in 0..<11 { sum = "(\(sum)+\(sum))" }
+        #expect(evaluator.evaluate("${\(sum)}", in: scope(["a": .string(kilobyte)])) == .null)
+        // A whole `${a}` is the value as it is, and text below the limit is unchanged.
+        #expect(evaluator.evaluate("${a}", in: shared) == .null)
+        #expect(evaluator.evaluate("${a}", in: scope(["a": .string(kilobyte)])) == .string(kilobyte))
+        let short = evaluator.evaluate(String(repeating: "${a}", count: 900), in: scope(["a": .string(kilobyte)]))
+        #expect(short.stringValue?.utf8.count == 900 * 1024)
+    }
+
     @Test func optionValueStore() {
         var width = RecipeOption(key: "width", type: .integer, defaultValue: .number(2))
         width.max = 50
