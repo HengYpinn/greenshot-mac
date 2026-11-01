@@ -331,3 +331,36 @@ struct ElementSvgReferenceTests {
         }
     }
 }
+
+/// SVGs that take long to draw: drawing waits for them for a while, then shows nothing.
+@Suite(.enabled(if: ElementSvg.isSupported))
+struct ElementSvgDeadlineTests {
+    /// 100 half-transparent rectangles of the full size: 6 KB that take seconds to draw at 4096 pixels.
+    static let slow = Data(("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\">"
+        + String(repeating: "<rect width=\"100\" height=\"100\" fill=\"red\" opacity=\"0.5\"/>", count: 100) + "</svg>").utf8)
+
+    @Test func anSvgThatTakesTooLongToDrawShowsNothing() async throws {
+        // A deadline of its own: the shared one would keep other tests' SVGs from drawing while this one goes on.
+        let deadline = SvgDeadline(timeout: 0.3)
+        let clock = ContinuousClock()
+        var start = clock.now
+        let picture = ElementSvg.render(Self.slow, pixelSize: CGSize(width: 4096, height: 4096), deadline: deadline)
+        #expect(picture == nil)
+        #expect(clock.now - start < .milliseconds(1200))
+        #expect(ElementSvg.knownVerdict(Self.slow) == false)
+        // While it is still being drawn, other SVGs show nothing at once instead of waiting behind it.
+        if deadline.isOverdue {
+            start = clock.now
+            #expect(ElementSvg.render(ElementSvgTests.svg, pixelSize: CGSize(width: 40, height: 20), deadline: deadline) == nil)
+            #expect(clock.now - start < .milliseconds(200))
+        }
+        start = clock.now
+        while deadline.isOverdue, clock.now - start < .seconds(20) {
+            try await Task.sleep(for: .milliseconds(50))
+        }
+        #expect(!deadline.isOverdue)
+        // Then they draw again; the slow one stays refused.
+        #expect(ElementSvg.render(ElementSvgTests.svg, pixelSize: CGSize(width: 40, height: 20), deadline: deadline) != nil)
+        #expect(ElementSvg.render(Self.slow, pixelSize: CGSize(width: 10, height: 10), deadline: deadline) == nil)
+    }
+}
