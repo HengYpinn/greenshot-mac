@@ -55,6 +55,9 @@
 "%@ (unknown)" = "%@ (tidak dikenal)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (tidak ditandatangani)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (halaman web: belum disetujui)";
 
 /* machine */

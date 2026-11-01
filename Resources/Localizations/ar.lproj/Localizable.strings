@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (غير معروف)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (غير موقّع)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (صفحات الويب: غير موافَق عليها)";
 
 /* machine */

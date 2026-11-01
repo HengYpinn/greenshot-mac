@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (알 수 없음)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (서명되지 않음)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (웹 페이지: 승인되지 않음)";
 
 /* machine */

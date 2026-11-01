@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (neznáme)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (nepodpísaný)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (webové stránky: neschválené)";
 
 /* machine */

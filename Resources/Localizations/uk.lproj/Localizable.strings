@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (невідомо)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (без підпису)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (вебсторінки: не підтверджено)";
 
 /* machine */

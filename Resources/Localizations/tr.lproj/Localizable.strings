@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (bilinmiyor)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (imzasız)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (web sayfaları: onaylanmadı)";
 
 /* machine */

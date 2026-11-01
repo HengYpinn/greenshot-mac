@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (άγνωστο)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (χωρίς υπογραφή)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (ιστοσελίδες: χωρίς έγκριση)";
 
 /* machine */

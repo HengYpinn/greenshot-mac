@@ -55,6 +55,9 @@
 "%@ (unknown)" = "%@ (okänd)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (osignerad)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (webbsidor: inte godkända)";
 
 /* machine */

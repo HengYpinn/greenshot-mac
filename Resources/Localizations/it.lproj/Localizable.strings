@@ -55,6 +55,9 @@
 "%@ (unknown)" = "%@ (sconosciuto)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (non firmato)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (pagine web: non approvate)";
 
 /* machine */

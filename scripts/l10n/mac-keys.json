@@ -148,6 +148,12 @@
    ]
   },
   {
+   "key": "%@ (unsigned)",
+   "files": [
+    "Sources/GreenshotCore/AIToolIdentity.swift"
+   ]
+  },
+  {
    "key": "%@ (web pages: not approved)",
    "files": [
     "Sources/GreenshotCore/Recipes/ManagerList.swift"

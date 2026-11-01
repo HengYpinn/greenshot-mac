@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (không rõ)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (chưa ký)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (trang web: chưa phê duyệt)";
 
 /* machine */

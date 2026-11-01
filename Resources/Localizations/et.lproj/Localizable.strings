@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (tundmatu)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (allkirjastamata)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (veebilehed: heaks kiitmata)";
 
 /* machine */

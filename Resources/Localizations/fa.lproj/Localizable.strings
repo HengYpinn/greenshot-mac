@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (ناشناخته)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (امضا نشده)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (صفحه‌های وب: تأیید نشده)";
 
 /* machine */

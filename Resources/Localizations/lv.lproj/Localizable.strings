@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (nezināms)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (nav parakstīts)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (tīmekļa lapas: nav apstiprinātas)";
 
 /* machine */

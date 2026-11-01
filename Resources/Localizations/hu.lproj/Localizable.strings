@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (ismeretlen)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (nincs aláírva)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (weboldalak: nincs jóváhagyva)";
 
 /* machine */

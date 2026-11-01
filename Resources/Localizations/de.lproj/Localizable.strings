@@ -58,6 +58,9 @@
 "%@ (unknown)" = "%@ (unbekannt)";
 
 /* machine */
+"%@ (unsigned)" = "%@ (nicht signiert)";
+
+/* machine */
 "%@ (web pages: not approved)" = "%@ (Webseiten: nicht freigegeben)";
 
 /* core:SelfService.logviewer_title, app name */
