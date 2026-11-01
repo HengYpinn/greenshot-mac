@@ -42,8 +42,9 @@ public struct AIToolIdentity: Equatable, Sendable {
 
 /// One line of `AIToolsSettings.allowedClients`: the identity key and, for a program signed by a developer, its Team ID
 /// ("… | Team ID: ABCDE12345"). A program whose identity matches but whose running code isn't signed by that team (an
-/// allowed executable replaced by another one) is asked about again. Plain paths (older settings, an administrator's
-/// list) match by the executable alone.
+/// allowed executable replaced by another one) is asked about again. An entry without a Team ID matches only a program
+/// no developer signed (second review R2-2: entries saved while signatures couldn't be read have none, and a program
+/// that is signed is asked once more), except in an administrator's list, whose plain paths match by the identity alone.
 public struct AIToolAllowedEntry: Equatable, Sendable {
     static let separator = " | "
     static let teamLabel = "Team ID: "
@@ -78,10 +79,11 @@ public struct AIToolAllowedEntry: Equatable, Sendable {
         key.components(separatedBy: Self.separator).dropFirst().first { $0.hasPrefix("script: ") }.map { String($0.dropFirst("script: ".count)) }
     }
 
-    /// The identity matches (any case) and, when the entry names a team, the running program is signed by it.
-    public func matches(_ client: AIToolClient) -> Bool {
+    /// The identity matches (any case) and the running program is signed by the entry's team, or, for an entry without
+    /// one, by no developer; in an administrator's list (`managed`) an entry without a team matches any signature.
+    public func matches(_ client: AIToolClient, managed: Bool = false) -> Bool {
         guard key.caseInsensitiveCompare(client.identity.key) == .orderedSame else { return false }
-        guard let teamID else { return true }
+        guard let teamID else { return managed || client.teamID == nil }
         return client.teamID == teamID
     }
 }

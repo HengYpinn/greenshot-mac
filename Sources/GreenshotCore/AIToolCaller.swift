@@ -91,9 +91,8 @@ public enum AIToolCaller {
     public static let maximumLauncherDepth = 5
     static let serverName = "greenshot-mcp"
 
-    /// Who signed a running program, checked on the running code (SM-H1): the certificate's name and the Team ID; nil
-    /// for an unsigned, ad hoc signed or modified program.
-    public typealias SignerCheck = (AIToolProcess) -> (name: String?, teamID: String?)
+    /// Who signed a running program, checked on the running code (SM-H1, `AIToolSignature.running`).
+    public typealias SignerCheck = (AIToolProcess) -> AIToolSignature
 
     /// The AI tool behind greenshot-mcp's process `serverPID`; else why it can't be identified or isn't allowed to ask.
     public static func identify(serverPID: Int32, table: any AIToolProcessTable, signer: SignerCheck) -> Result<AIToolClient, AIToolError> {
@@ -107,7 +106,7 @@ public enum AIToolCaller {
         case .failure(let error): return .failure(error)
         }
         let signature = signer(process)
-        let client = AIToolClient(path: path, displayName: displayName(forExecutable: path), signer: signature.name,
+        let client = AIToolClient(path: path, displayName: displayName(forExecutable: path), signer: signature.signer,
                                   teamID: signature.teamID, identity: identity, serverProcessID: server.pid, serverStartTime: server.startTime)
         return .success(client)
     }
