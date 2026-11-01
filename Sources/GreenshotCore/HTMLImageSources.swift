@@ -7,7 +7,7 @@ import Foundation
 
 /// The `src` values of the `<img>` tags of HTML, in one pass over the bytes. HTML on the clipboard comes from any web
 /// page; a regex that looks for the end of every `<img` again made a page of "<img " repeated take minutes (and the
-/// clipboard trigger reads it on the main thread), so this scanner never looks at a byte twice.
+/// clipboard trigger reads it on the main thread), so this scanner goes over each tag once, from its `<img` to its `>`.
 enum HTMLImageSources {
     /// What may come right before `src` in a tag.
     enum Boundary {
