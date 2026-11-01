@@ -149,10 +149,17 @@ public final class IPCFileLock: @unchecked Sendable {
         case failure(String)
     }
 
+    /// The lock file is truncated and written: a symbolic link in its place is not followed (`O_NOFOLLOW`), and only a
+    /// regular file of this user with no other name (a hard link) is used, so no other file is overwritten.
     private static func open(_ url: URL) -> Opened {
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        let fd = Darwin.open(url.path, O_RDWR | O_CREAT | O_CLOEXEC, 0o600)
+        let fd = Darwin.open(url.path, O_RDWR | O_CREAT | O_CLOEXEC | O_NOFOLLOW, 0o600)
         guard fd >= 0 else { return .failure("open \(url.lastPathComponent): \(String(cString: strerror(errno)))") }
+        var status = stat()
+        guard fstat(fd, &status) == 0, status.st_mode & S_IFMT == S_IFREG, status.st_uid == getuid(), status.st_nlink == 1 else {
+            close(fd)
+            return .failure("\(url.lastPathComponent) is not a regular file of this user")
+        }
         return .success(fd)
     }
 
