@@ -27,13 +27,15 @@ extension ElementSvg {
 /// One pass of `XMLParser` over an SVG (it never loads anything from outside the data), then the count.
 private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     struct Element {
+        /// The element name without its prefix, in lower case (macOS takes `<USE>` for `<use>`).
         var name: String
-        var id: String?
+        /// Its ids: `id` and `xml:id`, in any case.
+        var ids: [String] = []
         var classes: [Substring]
         var parent: Int?
         var children: [Int] = []
-        /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href`, by id; macOS
-        /// takes the last of the two, the parser doesn't say which that is).
+        /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href`, by id, with or
+        /// without "#"; macOS takes the last of the two, the parser doesn't say which that is).
         var draws: [String] = []
         /// The ids in the `url(#…)` of its attributes and of the style sheet rules for it.
         var paints: [String] = []
@@ -76,16 +78,17 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         var element = Element(name: name, classes: [], parent: open.last)
         for (key, value) in attributes {
             switch Self.localName(key) {
-            case "id" where key == "id":
-                element.id = value.trimmingCharacters(in: .whitespaces)
+            case "id":
+                element.ids.append(value.trimmingCharacters(in: .whitespacesAndNewlines))
             case "class":
                 element.classes = value.split(whereSeparator: \.isWhitespace)
             case "href":
                 let target = value.trimmingCharacters(in: .whitespacesAndNewlines)
-                if target.hasPrefix("#"), name == "use" || name == "pattern" {
-                    element.draws.append(String(target.dropFirst()))
-                } else if let picture = Self.svgPicture(target) {
+                if let picture = Self.svgPicture(target) {
                     element.pictures.append(picture)
+                } else if name == "use" || name == "pattern" {
+                    // "#id", "id" and "file.svg#id" all count as the element `id` of this file.
+                    element.draws.append(String(target.split(separator: "#", omittingEmptySubsequences: false).last ?? ""))
                 }
             default:
                 break
@@ -110,9 +113,10 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         if let current = open.last, elements[current].name == "style" { styleSheet += String(decoding: CDATABlock, as: UTF8.self) }
     }
 
+    /// The name without its prefix, in lower case.
     private static func localName(_ name: String) -> String {
-        guard let colon = name.lastIndex(of: ":") else { return name }
-        return String(name[name.index(after: colon)...])
+        guard let colon = name.lastIndex(of: ":") else { return name.lowercased() }
+        return name[name.index(after: colon)...].lowercased()
     }
 
     /// The SVG in a `data:` URL (base64 or percent-encoded) that says it is one or looks like one; nil for anything else.
@@ -144,7 +148,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     private var byID: [String: Int] {
         var byID: [String: Int] = [:]
         for (index, element) in elements.enumerated() {
-            if let id = element.id { byID[id] = index }
+            for id in element.ids { byID[id] = index }
         }
         return byID
     }
@@ -186,7 +190,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
                 } else if selector.first == "#", isWord(name) {
                     byElementID[name, default: []].formUnion(ids)
                 } else if isWord(selector) {
-                    byName[selector, default: []].formUnion(ids)
+                    byName[selector.lowercased()[...], default: []].formUnion(ids)
                 } else {
                     everywhere.formUnion(ids)
                 }
@@ -196,7 +200,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         for index in elements.indices {
             let element = elements[index]
             var ids = everywhere.union(byName[element.name[...]] ?? [])
-            if let id = element.id { ids.formUnion(byElementID[id[...]] ?? []) }
+            for id in element.ids { ids.formUnion(byElementID[id[...]] ?? []) }
             for name in element.classes { ids.formUnion(byClass[name] ?? []) }
             added += ids.count
             guard added <= ElementSvg.maxReferencedElements else { return false }

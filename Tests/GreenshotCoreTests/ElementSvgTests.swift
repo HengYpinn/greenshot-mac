@@ -155,24 +155,24 @@ struct ElementSvgReferenceTests {
 
     /// `levels` groups, each drawing the one before it ten times with `<use>`: 10^levels rectangles from a few hundred
     /// bytes per level.
-    static func useChain(_ levels: Int, link: String = "href") -> String {
-        var defs = #"<rect id="r0" width="10" height="10"/>"#
+    static func useChain(_ levels: Int, element: String = "use", link: String = "href", id: String = "id", hash: String = "#") -> String {
+        var defs = "<rect \(id)=\"r0\" width=\"10\" height=\"10\"/>"
         for level in 1...levels {
-            defs += "<g id=\"r\(level)\">" + String(repeating: "<use \(link)=\"#r\(level - 1)\"/>", count: 10) + "</g>"
+            defs += "<g \(id)=\"r\(level)\">" + String(repeating: "<\(element) \(link)=\"\(hash)r\(level - 1)\"/>", count: 10) + "</g>"
         }
-        return Self.svgStart + "<defs>\(defs)</defs><use \(link)=\"#r\(levels)\"/></svg>"
+        return Self.svgStart + "<defs>\(defs)</defs><\(element) \(link)=\"\(hash)r\(levels)\"/></svg>"
     }
 
     /// `levels` patterns (or masks), each with ten rectangles painted with the one before it by `paint`.
     static func paintChain(_ levels: Int, element: String = "pattern", style: String = "", paint: (Int) -> String) -> String {
-        let open = element == "pattern" ? #" width="10" height="10" patternUnits="userSpaceOnUse""# : ""
+        let open = element.lowercased() == "pattern" ? #" width="10" height="10" patternUnits="userSpaceOnUse""# : ""
         var defs = "<\(element) id=\"p0\"\(open)><rect width=\"1\" height=\"1\" fill=\"white\"/></\(element)>"
         for level in 1...levels {
             defs += "<\(element) id=\"p\(level)\"\(open)>"
                 + (0..<10).map { "<rect x=\"\($0)\" width=\"1\" height=\"10\" \(paint(level))/>" }.joined()
                 + "</\(element)>"
         }
-        let use = element == "pattern" ? "fill=\"url(#p\(levels))\"" : "mask=\"url(#p\(levels))\""
+        let use = element.lowercased() == "pattern" ? "fill=\"url(#p\(levels))\"" : "mask=\"url(#p\(levels))\""
         return Self.svgStart + "<style>\(style)</style><defs>\(defs)</defs><rect width=\"100\" height=\"100\" \(use)/></svg>"
     }
 
@@ -208,6 +208,21 @@ struct ElementSvgReferenceTests {
                      "symbols": symbols, "inner picture": picture, "both links": both, "both links turned": bothTurned]
         for (name, svg) in bombs {
             #expect(ElementSvg.size(of: Data(svg.utf8)) == nil, "\(name)")
+        }
+    }
+
+    @Test func namesAreComparedLikeMacOSDoes() {
+        // macOS takes element and attribute names in any case, `xml:id` for an id, and a link without its "#".
+        let bombs = ["Use": Self.useChain(6, element: "Use"), "USE": Self.useChain(6, element: "USE"),
+                     "HREF": Self.useChain(6, link: "HREF"), "XLINK:HREF": Self.useChain(6, link: "XLINK:HREF"),
+                     "ID": Self.useChain(6, id: "ID"), "xml:id": Self.useChain(6, id: "xml:id"),
+                     "no #": Self.useChain(6, hash: ""),
+                     "PATTERN": Self.paintChain(5, element: "PATTERN") { "fill=\"url(#p\($0 - 1))\"" },
+                     "MASK": Self.paintChain(5, element: "MASK") { "fill=\"white\" mask=\"url(#p\($0 - 1))\"" },
+                     "STYLE": Self.paintChain(5, style: (1...5).map { ".c\($0) { fill: url(#p\($0 - 1)) }" }.joined()) { "class=\"c\($0)\"" }
+                        .replacingOccurrences(of: "<style>", with: "<STYLE>").replacingOccurrences(of: "</style>", with: "</STYLE>")]
+        for (name, svg) in bombs {
+            #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)), "\(name)")
         }
     }
 
