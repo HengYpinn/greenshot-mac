@@ -167,6 +167,17 @@ struct RecipeApprovalSheetTests {
         #expect(sheet.changeLines == ["Adds: Uploads to Jira"])
     }
 
+    /// A review Greenshot starts itself (the approved recipe needs a new permission) says why.
+    @Test func aReviewWithAReasonSaysWhy() throws {
+        var request = try Self.request(.reVerify)
+        let plain = RecipeApprovalSheet(request: request)
+        #expect(plain.headerDescription.hasPrefix("Change which triggers"))
+        request.reviewReasons = ["It needs a new permission: custom actions."]
+        let sheet = RecipeApprovalSheet(request: request)
+        #expect(sheet.style == .review)
+        #expect(sheet.headerDescription.contains("It needs a new permission: custom actions."))
+    }
+
     @Test func detailsAreReadOnly() throws {
         var request = try Self.request(.reVerify)
         request.isReadOnly = true

@@ -351,6 +351,7 @@ public struct RecipeApprovalSheet: Sendable {
     static func texts(style: Style, request: RecipeApprovalRequest, isExtension: Bool) -> Texts {
         // The reasons are trigger labels and sentences: each one ends with a full stop here.
         let reasons = (request.ownEditReasons ?? []).map { $0.hasSuffix(".") ? $0 : $0 + "." }.joined(separator: " ")
+        let reviewReasons = (request.reviewReasons ?? []).map { $0.hasSuffix(".") ? $0 : $0 + "." }.joined(separator: " ")
         var texts: Texts
         switch style {
         case .validationError:
@@ -380,6 +381,9 @@ public struct RecipeApprovalSheet: Sendable {
             texts = Texts(subtitle: String(localized: "Recipe Security Review"), title: String(localized: "Capture Recipe Review"),
                           description: String(localized: "Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing."),
                           badge: String(localized: "ALREADY APPROVED"), tone: .neutral, icon: "checkmark.shield", approve: String(localized: "Save Changes"))
+            if !reviewReasons.isEmpty {
+                texts.description = String(localized: "You approved this recipe before, but it isn't used until you decide again: \(reviewReasons) “Keep as Is” or closing the window leaves it unused.")
+            }
         case .newRecipe:
             texts = Texts(subtitle: String(localized: "Recipe Security Approval"), title: String(localized: "External Capture Recipe Detected"),
                           description: String(localized: "A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving."),

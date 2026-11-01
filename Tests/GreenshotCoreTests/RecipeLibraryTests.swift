@@ -259,6 +259,45 @@ func libraryRecipe(id: String = "lib_recipe", extraNode: RecipeNode? = nil) -> C
         #expect(fixture.store.record(forFile: url.path) == nil)
     }
 
+    /// An approved file whose recipe now needs a permission its approval doesn't allow (this version of Greenshot asks
+    /// for more, e.g. the microphone): the next interactive load asks in a review instead of leaving it out silently.
+    /// "Keep as Is" leaves it out; allowing it loads it and is stored.
+    @Test func anApprovalThatLacksANewPermissionIsReviewed() async throws {
+        let fixture = LibraryFixture(approver: StubApprover { _ in nil })
+        defer { fixture.cleanUp() }
+        let video = RecipeNode(id: "video", stepType: "RecordVideo", parameters: ["AudioSource": .string("Microphone")])
+        let url = try fixture.write(libraryRecipe(extraNode: video))
+        let hash = RecipeHash.sha256Hex(try Data(contentsOf: url))
+        try fixture.store.recordApproval(RecipeApproval(recipeId: "lib_recipe", approvedTriggers: ["0:Hotkey"]), forFile: url.path,
+                                         sha256: hash, content: nil, origin: nil, recipeName: nil, recipeVersion: nil)
+        fixture.box.settings.files = [RecipeTrustStore.standardized(url.path)]
+
+        let kept = await fixture.library.reload()
+        #expect(fixture.approver.requests.count == 1)
+        let request = try #require(fixture.approver.requests.first)
+        #expect(request.mode == .reVerify)
+        #expect(request.gates.contains(.custom))
+        #expect(request.reviewReasons == ["It needs a new permission: custom actions."])
+        #expect(request.suggestedApproval?.approvedTriggers == ["0:Hotkey"])
+        #expect(fixture.library.recipes.isEmpty)
+        #expect(kept.errors == ["Recipe 'Library Recipe' needs custom actions, but that was not allowed."])
+
+        fixture.approver.answer = StubApprover.approveAll
+        _ = await fixture.library.reload()
+        #expect(fixture.approver.requests.count == 2)
+        #expect(fixture.library.recipes.count == 1)
+        #expect(fixture.store.approval(forFile: url.path, sha256: hash, recipeId: "lib_recipe")?.isGateAllowed(.custom) == true)
+        // Allowed and stored: no question the next time.
+        _ = await fixture.library.reload()
+        #expect(fixture.approver.requests.count == 2)
+        // A load that can't ask leaves it out as before.
+        try fixture.store.recordApproval(RecipeApproval(recipeId: "lib_recipe"), forFile: url.path, sha256: hash, content: nil, origin: nil,
+                                         recipeName: nil, recipeVersion: nil)
+        let quiet = await fixture.library.loadFile(url, interactive: false)
+        #expect(quiet.errors == ["Recipe 'Library Recipe' needs custom actions, but that was not allowed."])
+        #expect(fixture.approver.requests.count == 2)
+    }
+
     /// "Revoke" in a review while the Keychain can't read the trust store's key isn't saved: it says so, and the recipe
     /// stays as it was (like the manager's Revoke), instead of coming back at the next start after a "was revoked".
     @Test func aRevokeThatCantBeSavedSaysSo() async throws {
