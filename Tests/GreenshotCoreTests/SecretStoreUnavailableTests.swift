@@ -158,10 +158,11 @@ final class LockableSecretStore: SecretStore, @unchecked Sendable {
         let after = try Data(contentsOf: file)
         #expect(after == saved)
 
-        // Unlocked (the user typed the password at the next prompt): the approval is saved next to the earlier one.
+        // Unlocked (the user typed the password at the next prompt): the approval is saved next to the earlier one, signed
+        // with a new key like every save.
         secrets.isLocked = false
         try approve("two", second, "22", in: store)
-        #expect(secrets.value(RecipeTrustStore.keyName) == key)
+        #expect(secrets.value(RecipeTrustStore.keyName) != key)
         let reopened = RecipeTrustStore(fileURL: file, secrets: secrets)
         #expect(reopened.allRecords.map(\.filePath) == [first, second].map(RecipeTrustStore.standardized))
         #expect(reopened.approval(forFile: first, sha256: "11", recipeId: "one") != nil)

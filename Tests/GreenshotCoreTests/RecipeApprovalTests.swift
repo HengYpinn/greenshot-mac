@@ -67,6 +67,25 @@ func recipeTemporaryFolder() -> URL {
         #expect(keyless.wasTampered)
     }
 
+    /// RECIPES-7: every save signs with a new key, like the AI tools' consent seal: a copy of the store from before a
+    /// revocation, put back, doesn't verify, so the approval doesn't come back.
+    @Test func anOldCopyOfTheStoreDoesntBringARevokedApprovalBack() throws {
+        let folder = recipeTemporaryFolder()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appendingPathComponent("trust.json")
+        let secrets = InMemorySecretStore()
+        let path = "/tmp/recipes/p.gsrecipe.json"
+        let store = RecipeTrustStore(fileURL: file, secrets: secrets)
+        try store.recordApproval(RecipeApproval(recipeId: "p", allowedGates: [.externalCommand]), forFile: path, sha256: "11", content: nil,
+                                 origin: nil, recipeName: nil, recipeVersion: nil)
+        let approved = try Data(contentsOf: file)
+        try store.revokeApproval(recipeId: "p", forFile: path)
+        try approved.write(to: file)
+        let reopened = RecipeTrustStore(fileURL: file, secrets: secrets)
+        #expect(reopened.record(forFile: path) == nil)
+        #expect(reopened.wasTampered)
+    }
+
     /// The Keychain fails to read the key for a while (not "no key"): nothing is approved meanwhile, nothing is saved over
     /// the approvals, and once it reads again they are all back.
     @Test func aKeyThatCantBeReadForAWhileDoesntLoseTheApprovals() throws {
