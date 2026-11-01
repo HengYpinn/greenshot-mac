@@ -475,12 +475,19 @@ public struct JiraClient: Sendable {
     public static let maxIconSide = 1024
 
     /// An image of the site with the credentials (issue type icons need them), at most `maxIconBytes`. The server
-    /// names the URL: an image anywhere else (another server, a program on this Mac) isn't fetched.
+    /// names the URL: an image anywhere else (another server, a program on this Mac) isn't fetched, and a redirect
+    /// away from the site isn't followed.
     public func imageData(at url: URL) async throws -> Data {
+        let site = site
         guard site.isSameOrigin(url) else { throw UploadError.unexpectedResponse("the icon is not on the site") }
         var request = URLRequest(url: url, timeoutInterval: 30)
         request.setValue(site.authorizationHeader, forHTTPHeaderField: "Authorization")
-        return try await HTTPSupport.send(request, with: http, maxBytes: Self.maxIconBytes)
+        let (data, response) = try await http.data(for: request, followsRedirect: { site.isSameOrigin($0) })
+        // A client that followed a redirect anyway: the answer must come from the site too.
+        guard let answered = response.url, site.isSameOrigin(answered) else {
+            throw UploadError.unexpectedResponse("the icon is not on the site")
+        }
+        return try HTTPSupport.checked(data, response, maxBytes: Self.maxIconBytes)
     }
 
     /// The picture of an issue type icon's data: an SVG drawn into `svgPixels`, else the first image when its header

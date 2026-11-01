@@ -12,6 +12,18 @@ import Security
 /// The network: `URLSession` in the app, a stub in the tests.
 public protocol HTTPClient: Sendable {
     func data(for request: URLRequest) async throws -> (Data, URLResponse)
+    /// The same, following a redirect only to a URL `followsRedirect` accepts; another redirect's 3xx answer is the
+    /// answer.
+    func data(for request: URLRequest,
+              followsRedirect: @escaping @Sendable (URL) -> Bool) async throws -> (Data, URLResponse)
+}
+
+extension HTTPClient {
+    /// A client that can't refuse a redirect follows it: the caller checks where the answer came from (`response.url`).
+    public func data(for request: URLRequest,
+                     followsRedirect: @escaping @Sendable (URL) -> Bool) async throws -> (Data, URLResponse) {
+        try await data(for: request)
+    }
 }
 
 extension URLSession: HTTPClient {}
@@ -28,7 +40,17 @@ public struct LimitedHTTPClient: HTTPClient {
     }
 
     public func data(for request: URLRequest) async throws -> (Data, URLResponse) {
-        let (bytes, response) = try await session.bytes(for: request)
+        try await read(request, delegate: nil)
+    }
+
+    public func data(for request: URLRequest,
+                     followsRedirect: @escaping @Sendable (URL) -> Bool) async throws -> (Data, URLResponse) {
+        // A delegate of this request only: the session's (the certificate exceptions) still answers the rest.
+        try await read(request, delegate: RedirectFilter(follows: followsRedirect))
+    }
+
+    private func read(_ request: URLRequest, delegate: URLSessionTaskDelegate?) async throws -> (Data, URLResponse) {
+        let (bytes, response) = try await session.bytes(for: request, delegate: delegate)
         if response.expectedContentLength > Int64(maxBytes) { throw HTTPSupport.tooLarge(maxBytes) }
         var data = Data()
         if response.expectedContentLength > 0 { data.reserveCapacity(Int(response.expectedContentLength)) }
@@ -37,6 +59,20 @@ public struct LimitedHTTPClient: HTTPClient {
             if data.count > maxBytes { throw HTTPSupport.tooLarge(maxBytes) }
         }
         return (data, response)
+    }
+
+    private final class RedirectFilter: NSObject, URLSessionTaskDelegate, Sendable {
+        let follows: @Sendable (URL) -> Bool
+
+        init(follows: @escaping @Sendable (URL) -> Bool) {
+            self.follows = follows
+        }
+
+        func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse,
+                        newRequest request: URLRequest) async -> URLRequest? {
+            guard let url = request.url, follows(url) else { return nil }
+            return request
+        }
     }
 }
 
@@ -274,6 +310,11 @@ public enum HTTPSupport {
     /// reading it there).
     public static func send(_ request: URLRequest, with http: HTTPClient, maxBytes: Int = maxResponseBytes) async throws -> Data {
         let (data, response) = try await http.data(for: request)
+        return try checked(data, response, maxBytes: maxBytes)
+    }
+
+    /// The body of a 2xx answer at most `maxBytes` long, else the error `send` throws.
+    public static func checked(_ data: Data, _ response: URLResponse, maxBytes: Int = maxResponseBytes) throws -> Data {
         if data.count > maxBytes { throw tooLarge(maxBytes) }
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
         guard (200..<300).contains(status) else {

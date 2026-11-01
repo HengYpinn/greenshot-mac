@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import Foundation
+import os
 import Testing
 @testable import GreenshotCore
 
@@ -41,6 +42,28 @@ struct UploadSecurityTests {
             await #expect(throws: UploadError.self) { _ = try await client.imageData(at: url) }
             #expect(http.requests.isEmpty, "\(link)")
         }
+    }
+
+    /// A network that follows redirects by itself: the icon must still come from the site.
+    @Test func anIconAnsweredFromAnotherOriginIsRefused() async throws {
+        let client = JiraClient(site: site, http: AnswersFrom(url: "https://cdn.example.test/bug.png"))
+        let url = try #require(URL(string: "https://jira.example.test/images/icons/bug.png"))
+        await #expect(throws: UploadError.self) { _ = try await client.imageData(at: url) }
+    }
+
+    /// The network of the uploads follows an icon's redirect only on the site (real redirects through a URLProtocol).
+    @Test func anIconRedirectOffTheSiteIsNotFollowed() async throws {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [RedirectingSite.self]
+        let client = JiraClient(site: site, http: LimitedHTTPClient(session: URLSession(configuration: configuration)))
+        let away = try #require(URL(string: "https://jira.example.test/redirect/away"))
+        // A real server's 302 is the answer (an HTTP error); a URLProtocol's refused redirect ends in NSURLErrorUnknown.
+        await #expect(throws: (any Error).self) { _ = try await client.imageData(at: away) }
+        let hosts = RedirectingSite.requestedHosts.withLock { $0 }
+        #expect(!hosts.contains("cdn.example.test"))
+        let moved = try #require(URL(string: "https://jira.example.test/redirect/moved"))
+        let data = try await client.imageData(at: moved)
+        #expect(data == RedirectingSite.icon)
     }
 
     // MARK: How much of an answer is read
@@ -577,4 +600,47 @@ private final class RecordingSecretStore: SecretStore, @unchecked Sendable {
     }
 
     var keys: [String] { base.keys }
+}
+
+/// Answers every request with a small body whose response URL is `url`, like a network that followed a redirect there.
+private struct AnswersFrom: HTTPClient {
+    let url: String
+
+    func data(for request: URLRequest) async throws -> (Data, URLResponse) {
+        let response = HTTPURLResponse(url: URL(string: url)!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+        return (Data("PNG".utf8), response)
+    }
+}
+
+/// `/redirect/away` redirects to cdn.example.test, `/redirect/moved` to `/icon` on the same host; anything else
+/// answers `icon`. Records every host asked.
+final class RedirectingSite: URLProtocol {
+    static let icon = Data("icon".utf8)
+    static let requestedHosts = OSAllocatedUnfairLock<[String]>(initialState: [])
+
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+
+    override func startLoading() {
+        guard let url = request.url, let client else { return }
+        Self.requestedHosts.withLock { $0.append(url.host ?? "") }
+        let target: String? = switch url.path {
+        case "/redirect/away": "https://cdn.example.test/icon"
+        case "/redirect/moved": "https://jira.example.test/icon"
+        default: nil
+        }
+        if let target, let next = URL(string: target) {
+            let response = HTTPURLResponse(url: url, statusCode: 302, httpVersion: "HTTP/1.1",
+                                           headerFields: ["Location": target])!
+            client.urlProtocol(self, wasRedirectedTo: URLRequest(url: next), redirectResponse: response)
+            client.urlProtocolDidFinishLoading(self)
+            return
+        }
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: [:])!
+        client.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client.urlProtocol(self, didLoad: Self.icon)
+        client.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {}
 }
