@@ -49,6 +49,33 @@ struct ElementLimitsTests {
         #expect(transfer.elements.map(\.kind) == [.rectangle])
     }
 
+    @Test func atMostMaxElementsAreRead() throws {
+        let many = (0..<(Annotation.maxElements + 3)).map { _ in Self.rectangle }
+        let data = try GreenshotFile.Contents(image: TestImage.solid(width: 8, height: 8, .blue), scale: 1, elements: many).encoded()
+        let read = try #require(GreenshotFile.read(data))
+        #expect(read.elements.count == Annotation.maxElements)
+        #expect(read.unreadable == Array(repeating: Annotation.outOfLimitsName, count: 3))
+        // Some elements are missing: Save doesn't write over the file without them.
+        #expect(read.savesToNewFile)
+        let pasted = try #require(ElementTransfer.decode(try ElementTransfer(elements: many, scale: 1).encoded()))
+        #expect(pasted.elements.count == Annotation.maxElements)
+    }
+
+    @Test func picturesBeyondThePixelBudgetAreLeftOut() throws {
+        // 24 KB each, 200 megapixels each when they are drawn: a file of a few of them took seconds at every redraw.
+        let png = TestImage.hugePNG(side: 14142)
+        let picture = Annotation(kind: .image, start: .zero, end: CGPoint(x: 10, y: 10), imageData: png)
+        let count = Annotation.maxPicturePixels / (14142 * 14142)
+        let pictures = Array(repeating: picture, count: count + 2) + [Self.rectangle]
+        let data = try GreenshotFile.Contents(image: TestImage.solid(width: 8, height: 8, .blue), scale: 1, elements: pictures).encoded()
+        let read = try #require(GreenshotFile.read(data))
+        #expect(read.elements.count == count + 1)
+        #expect(read.elements.last?.kind == .rectangle)
+        #expect(read.unreadable == [Annotation.outOfLimitsName, Annotation.outOfLimitsName])
+        let pasted = try #require(ElementTransfer.decode(try ElementTransfer(elements: pictures, scale: 1).encoded()))
+        #expect(pasted.elements.count == count + 1)
+    }
+
     @Test func aTinyScaleCannotMakePastedElementsHuge() throws {
         // At 1e-300 pixels per point, pasting into a 2× image multiplied the positions by 2e300.
         let json = String(decoding: try ElementTransfer(elements: [Self.rectangle], scale: 1).encoded(), as: UTF8.self)
