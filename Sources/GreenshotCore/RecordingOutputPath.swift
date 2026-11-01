@@ -20,8 +20,8 @@ public enum RecordingOutputPath {
         let folderPattern = trimmed.isEmpty ? defaultFolder : trimmed
         var folderURL = DestinationSupport.outputFolder(folderPattern, context: previewing(context))
         // A window title is chosen by any app: whatever the pattern's variables bring in must not move the folder out
-        // of the pattern's fixed start (e.g. `~/Movies/${title}`).
-        if let root = FilenamePattern.literalRoot(ofFolderPattern: folderPattern, home: context.homeDirectory),
+        // of the pattern's fixed start (e.g. `~/Movies/${title}`, `${Desktop}/Recordings/${title}`).
+        if let root = FilenamePattern.literalRoot(ofFolderPattern: folderPattern, context: previewing(context)),
            !FilenamePattern.isInside(folderURL, folder: root) {
             folderURL = root
         }

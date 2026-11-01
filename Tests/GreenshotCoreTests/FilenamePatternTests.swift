@@ -87,6 +87,13 @@ struct FilenamePatternTests {
         #expect(fill("${title:rSafari,Web}") == "Web")
     }
 
+    /// `r` and `s` work on the cleaned title, as upstream's do: a pattern that turns the "_" of a replaced character
+    /// into a space keeps working.
+    @Test func replaceSeesTheCleanedTitle() {
+        #expect(fill("${title:r_, }", title: "a/b") == "a b")
+        #expect(fill("${title:r/,-}", title: "a/b") == "a_b")
+    }
+
     @Test func severalParameters() {
         #expect(fill("${capturetime:d\"yyyy\";p6,_}") == "2026__")
     }
