@@ -995,6 +995,51 @@ func allowedAfterRestart(_ file: URL, _ secrets: SplitLockSecretStore) -> [Strin
         #expect(allowedAfterRestart(file, secrets) == ["/Y"])
     }
 
+    /// Security review 2026-11-01 MCP-5: exclusions removed outside Greenshot and reloaded don't survive the reset:
+    /// the exclusions checked in this run stay, with the defaults and what the edit added.
+    @Test func exclusionsRemovedOutsideAndReloadedComeBack() throws {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/A")
+        var run = ConsentRun(file, secrets)
+        run.edit { $0.excludedApplications.append("Bank") }
+        let firstDefault = try #require(AIToolsSettings.defaultExcludedApplications.first)
+        var edited = SettingsStorage.load(fromFile: file)
+        edited.aiTools.excludedApplications.removeAll { $0 == "Bank" || $0 == firstDefault }
+        edited.aiTools.excludedApplications.append("Chat")
+        try SettingsStorage.save(edited, toFile: file)
+        run.reload()
+        let excluded = run.inEffect.excludedApplications
+        #expect(run.inEffect.allowedClients.isEmpty)
+        #expect(excluded.contains("Bank"))
+        #expect(excluded.contains("Chat"))
+        #expect(AIToolsSettings.defaultExcludedApplications.allSatisfy { excluded.contains($0) })
+        // Sealed and stored as reset: the next start keeps it
+        let restarted = ConsentRun(file, secrets).inEffect.excludedApplications
+        #expect(restarted.contains("Bank"))
+    }
+
+    /// MCP-5 while the Keychain is locked: the reloaded values aren't checked, and the reset values in effect keep the
+    /// exclusions from before too.
+    @Test func exclusionsRemovedOutsideStayInEffectWhileLocked() throws {
+        let file = consentSettingsFile()
+        defer { try? FileManager.default.removeItem(at: file.deletingLastPathComponent()) }
+        let secrets = SplitLockSecretStore()
+        allowedBefore(file, secrets, "/A")
+        var run = ConsentRun(file, secrets)
+        run.edit { $0.excludedApplications.append("Bank") }
+        var edited = SettingsStorage.load(fromFile: file)
+        edited.aiTools.excludedApplications.removeAll { $0 == "Bank" }
+        try SettingsStorage.save(edited, toFile: file)
+        secrets.isLocked = true
+        run.reload()
+        #expect(run.inEffect.excludedApplications.contains("Bank"))
+        secrets.isLocked = false
+        run.retry()
+        #expect(run.inEffect.excludedApplications.contains("Bank"))
+    }
+
     /// An administrator's locked list isn't the user's to change: an edit of it changes nothing stored.
     @Test func aLockedValueIsNoChangeOfTheUser() {
         let policy = ManagedPolicy(source: ManagedValues(forced: ["Greenshot.aiTools.allowedClients": ["/opt/approved"]]))
