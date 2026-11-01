@@ -247,6 +247,19 @@ struct FakeProcessTable: AIToolProcessTable {
         #expect(AIToolCaller.displayName(forExecutable: "/tmp/Claude\u{202E}gpj.exe\nSigned by Apple") == "Claudegpj.exeSigned by Apple")
     }
 
+    /// Security review 2026-11-01 MCP-4: the question's headline doesn't show an unsigned program's own bundle name as
+    /// if it said who made it, and no name breaks the sentence.
+    @Test func headlineNames() {
+        let fake = AIToolClient(path: "/tmp/Claude.app/Contents/MacOS/tool", displayName: "Claude")
+        #expect(fake.headlineName == "\(BidiText.isolatedLTR("Claude")) (unsigned)")
+        let signed = AIToolClient(path: "/Applications/Claude.app/Contents/MacOS/Claude", displayName: "Claude",
+                                  signer: "Developer ID Application: Anthropic PBC (Q6L2SF6YDW)", teamID: "Q6L2SF6YDW")
+        #expect(signed.headlineName == BidiText.isolatedLTR("Claude"))
+        let long = AIToolClient(path: "/tmp/x", displayName: "A\u{202E}B\n" + String(repeating: "x", count: 500), signer: "Dev")
+        #expect(long.headlineName.count < 60)
+        #expect(!long.headlineName.unicodeScalars.contains { $0.value == 0x202E || $0.value == 0x0A })
+    }
+
     @Test func realTableKnowsThisProcess() throws {
         let me = try #require(SystemProcessTable().process(getpid()))
         #expect(me.pid == getpid())

@@ -323,4 +323,14 @@ public enum AIToolText {
         guard cleaned.count > limit else { return cleaned }
         return String(cleaned.prefix(limit)) + "…"
     }
+
+    /// A program's name as the subject of a question or notice (security review 2026-11-01 MCP-4, IPC-6): `displayed`
+    /// with at most `limit` characters, isolated from the sentence's direction (`BidiText.isolatedLTR`), and marked
+    /// "(unsigned)" when neither a developer nor Apple signed the program: its name then comes from its own files (its
+    /// file name, an app's Info.plist) and says nothing about who made it.
+    public static func headline(_ name: String, signed: Bool, limit: Int = 50) -> String {
+        let isolated = BidiText.isolatedLTR(displayed(name, limit: limit))
+        guard !signed else { return isolated }
+        return String(localized: "\(isolated) (unsigned)", comment: "A program's name in a question when no developer signed it, e.g. Claude (unsigned)")
+    }
 }

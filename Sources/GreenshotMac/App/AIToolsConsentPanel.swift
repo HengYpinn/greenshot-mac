@@ -62,7 +62,7 @@ enum AIToolsConsentPanel {
         icon.widthAnchor.constraint(equalToConstant: 48).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 48).isActive = true
 
-        let name = AIToolText.displayed(client.displayName, limit: 80)
+        let name = client.headlineName
         let title = NSTextField(wrappingLabelWithString: String(localized: "\(name) wants to use \(AppInfo.name) to list your windows and take screenshots, and to run Greenshot recipes."))
         title.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
         // Each part on its own line, cut in the middle: a long or tricky path can't push the rest out of sight

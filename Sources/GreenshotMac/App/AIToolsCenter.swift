@@ -227,7 +227,7 @@ enum AIToolsCommands {
         let reply = AIToolCatalog.runReply(result, tool: tool, stdout: collected.stdout, stderr: collected.stderr, picture: picture)
         if picture != nil {
             let title = result.payload?.title.isEmpty == false ? result.payload?.title ?? tool.title : tool.title
-            center.notifyCapture(client: client.displayName, what: "'\(title)' (\(tool.title))")
+            center.notifyCapture(client: client.headlineName, what: "'\(title)' (\(tool.title))")
         }
         return reply
     }

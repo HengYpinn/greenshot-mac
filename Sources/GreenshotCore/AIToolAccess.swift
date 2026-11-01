@@ -47,6 +47,10 @@ public struct AIToolClient: Sendable, Equatable {
             ?? String(localized: "This program is not signed by a developer.")
     }
 
+    /// The name in the consent question and the capture notice: `displayName`, marked "(unsigned)" when no developer
+    /// signed the program (`AIToolText.headline`).
+    public var headlineName: String { AIToolText.headline(displayName, signed: signer != nil) }
+
     /// For the log: "Claude (/Applications/Claude.app/Contents/MacOS/Claude)".
     public var logText: String { "\(displayName) (\(key))" }
 }
