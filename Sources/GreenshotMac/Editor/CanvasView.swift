@@ -1158,7 +1158,7 @@ final class CanvasView: NSView, NSTextViewDelegate, NSMenuItemValidation, @preco
         if contents.isEmpty, let svg = svgElement(on: pasteboard, at: origin) {
             elements = [svg]
         } else {
-            if contents.isEmpty, let image = NSImage(pasteboard: pasteboard), let bitmap = ImageLoader.bitmap(of: image) {
+            if contents.isEmpty, let image = ImagePasteboard.fallbackImage(on: pasteboard), let bitmap = ImageLoader.bitmap(of: image) {
                 contents = [.picture(bitmap.image, scale: bitmap.scale)]
             }
             elements = contentElements(contents, at: origin)
