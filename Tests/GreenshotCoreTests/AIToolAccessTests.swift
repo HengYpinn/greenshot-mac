@@ -347,6 +347,28 @@ struct FakeProcessTable: AIToolProcessTable {
         #expect(allowed.key == "/a/node | script: /s/c.js")
     }
 
+    /// Second security review R2-3: the script is the path in the arguments as written, not where a symbolic link
+    /// points when the program asks (the file can be replaced by a link after the runtime loaded it).
+    @Test func theScriptIsThePathAsWritten() throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ai-script-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder.appendingPathComponent("b"), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: folder.appendingPathComponent("a"), withIntermediateDirectories: true)
+        let real = folder.appendingPathComponent("b/real.js").path
+        let link = folder.appendingPathComponent("a/link.js").path
+        try Data("1".utf8).write(to: URL(fileURLWithPath: real))
+        try FileManager.default.createSymbolicLink(atPath: link, withDestinationPath: real)
+        let linked = try AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", link], environment: [:]).get()
+        let direct = try AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", real], environment: [:]).get()
+        #expect(linked.script == link)
+        #expect(linked.key != direct.key)
+        // Only spelling is tidied; ".." would need the file system (a linked folder), so it is refused
+        let tidied = try AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", "/x//y/./cli.js"], environment: [:]).get()
+        #expect(tidied.script == "/x/y/cli.js")
+        let parent = AIToolCaller.identity(executable: "/usr/local/bin/node", arguments: ["node", "/x/y/../cli.js"], environment: [:])
+        #expect((try? parent.get()) == nil)
+    }
+
     @Test func theWorkingDirectoryIsNotPartOfTheIdentity() throws {
         let server = AIToolProcess(pid: 500, parentPID: 200, startTime: 1000, path: "/Applications/G.app/Contents/Helpers/greenshot-mcp")
         var node = AIToolProcess(pid: 200, parentPID: 1, startTime: 700, path: "/usr/local/bin/node",

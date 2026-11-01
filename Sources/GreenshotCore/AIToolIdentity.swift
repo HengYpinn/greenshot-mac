@@ -13,10 +13,11 @@ import Foundation
 /// PYTHONPATH, …) when set. So allowing "node running Claude Code's cli.js" doesn't allow every other node script, nor
 /// the same script with a preloaded module. A shell that runs a script file (`sh /path/configure`) is a runtime too. The
 /// script must be given by its full path (security review 2026-11-01 MCP-1): a relative one names another file once the
-/// working directory changes, and `python -m module` names none.
+/// working directory changes, and `python -m module` names none. It is the path as written (second review R2-3), not
+/// where symbolic links in it point when the program asks: the file can be replaced by a link after the runtime read it.
 public struct AIToolIdentity: Equatable, Sendable {
     public var executable: String
-    /// The script a runtime runs, by its full path, resolved; nil for a program.
+    /// The script a runtime runs, by its full path as written (`AIToolCaller.writtenPath`); nil for a program.
     public var script: String?
     /// The options before the script and the code-loading environment variables (security review M2: all of them, not
     /// a list of known ones, since every runtime has more ways to load code than a list can name).
@@ -161,11 +162,12 @@ extension AIToolCaller {
         case .failure(let error):
             return .failure(AIToolError("\(name) (\(runtime.rawValue)) \(error.message): it can't use Greenshot for Mac."))
         case .success(let parsed):
-            // A relative path is read against the working directory, which the program can change before it asks
-            guard parsed.script.hasPrefix("/") else {
-                return .failure(AIToolError("\(name) (\(runtime.rawValue)) runs a script that isn't given by its full path, so Greenshot for Mac can't tell which script asks: start it with the script's full path."))
+            // A relative path is read against the working directory, which the program can change before it asks; ".."
+            // goes up from where a linked folder points, which can change too
+            guard let script = writtenPath(parsed.script) else {
+                return .failure(AIToolError("\(name) (\(runtime.rawValue)) runs a script that isn't given by its full path (without \"..\"), so Greenshot for Mac can't tell which script asks: start it with the script's full path."))
             }
-            let identity = AIToolIdentity(executable: executable, script: resolve(parsed.script), notes: parsed.options + notes)
+            let identity = AIToolIdentity(executable: executable, script: script, notes: parsed.options + notes)
             if ([identity.script ?? ""] + identity.notes).contains(where: { $0.contains("|") }) { return .failure(separatorError(name)) }
             return .success(identity)
         }
@@ -249,11 +251,13 @@ extension AIToolCaller {
         return .failure(AIToolError("runs no script file"))
     }
 
-    /// The real path of a script given by its full path (symbolic links resolved); a path that can't be read stays as
-    /// written.
-    static func resolve(_ script: String) -> String {
-        guard script.hasPrefix("/"), FileManager.default.fileExists(atPath: script) else { return script }
-        return IPCEndpoint.realPath((script as NSString).standardizingPath)
+    /// A script's full path as written, without empty and "." parts; the file system isn't read (a symbolic link can
+    /// be changed after the runtime read the script). Nil for a relative path or one with "..".
+    static func writtenPath(_ script: String) -> String? {
+        guard script.hasPrefix("/") else { return nil }
+        let parts = script.split(separator: "/").filter { $0 != "." }
+        guard !parts.contains("..") else { return nil }
+        return "/" + parts.joined(separator: "/")
     }
 
     /// The arguments and environment in a `KERN_PROCARGS2` buffer: the argument count, the executable path, padding,
