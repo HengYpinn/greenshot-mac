@@ -14,7 +14,8 @@ public struct AIToolProcess: Equatable, Sendable {
     public var startTime: UInt64
     /// Its executable, nil when it can't be read.
     public var path: String?
-    /// Its arguments (the first is how it was started), environment and working directory; nil when they can't be read.
+    /// Its arguments (the first is how it was started), environment and working directory (not part of an AI tool's
+    /// identity: it can change after the start); nil when they can't be read.
     public var arguments: [String]?
     public var environment: [String: String]?
     public var workingDirectory: String?
@@ -101,8 +102,7 @@ public enum AIToolCaller {
             return .failure(AIToolError(AIToolAccess.unidentifiedMessage))
         }
         let identity: AIToolIdentity
-        switch self.identity(executable: path, arguments: process.arguments, environment: process.environment,
-                             workingDirectory: process.workingDirectory) {
+        switch self.identity(executable: path, arguments: process.arguments, environment: process.environment) {
         case .success(let found): identity = found
         case .failure(let error): return .failure(error)
         }

@@ -11,10 +11,12 @@ import Foundation
 /// osascript, and an Electron app or bun binary switched into such a runtime with ELECTRON_RUN_AS_NODE / BUN_BE_BUN) the
 /// runtime *and its script*, plus every option before the script and the environment variables that load code (NODE_OPTIONS,
 /// PYTHONPATH, …) when set. So allowing "node running Claude Code's cli.js" doesn't allow every other node script, nor
-/// the same script with a preloaded module. A shell that runs a script file (`sh ./configure`) is a runtime too.
+/// the same script with a preloaded module. A shell that runs a script file (`sh /path/configure`) is a runtime too. The
+/// script must be given by its full path (security review 2026-11-01 MCP-1): a relative one names another file once the
+/// working directory changes, and `python -m module` names none.
 public struct AIToolIdentity: Equatable, Sendable {
     public var executable: String
-    /// The script a runtime runs ("-m module" for python), resolved; nil for a program.
+    /// The script a runtime runs, by its full path, resolved; nil for a program.
     public var script: String?
     /// The options before the script and the code-loading environment variables (security review M2: all of them, not
     /// a list of known ones, since every runtime has more ways to load code than a list can name).
@@ -122,11 +124,11 @@ extension AIToolCaller {
         }
     }
 
-    /// The identity of the program behind greenshot-mcp from its executable, arguments, environment and working directory
-    /// (SM-H1); refused for code that can't be pinned down: DYLD_ variables (injected libraries), inline code (`node -e`,
-    /// `python -c`), a runtime without a script (stdin, a REPL), or arguments that can't be read.
-    public static func identity(executable: String, arguments: [String]?, environment: [String: String]?,
-                                workingDirectory: String? = nil) -> Result<AIToolIdentity, AIToolError> {
+    /// The identity of the program behind greenshot-mcp from its executable, arguments and environment (SM-H1); refused
+    /// for code that can't be pinned down: DYLD_ variables (injected libraries), inline code (`node -e`, `python -c`), a
+    /// runtime without a script (stdin, a REPL), a script without its full path or a module (`python -m`, MCP-1), or
+    /// arguments that can't be read. The working directory isn't used: it can change after the program started.
+    public static func identity(executable: String, arguments: [String]?, environment: [String: String]?) -> Result<AIToolIdentity, AIToolError> {
         let name = (executable as NSString).lastPathComponent
         let environment = environment ?? [:]
         if environment.keys.contains(where: { $0.hasPrefix("DYLD_") }) {
@@ -155,8 +157,11 @@ extension AIToolCaller {
         case .failure(let error):
             return .failure(AIToolError("\(name) (\(runtime.rawValue)) \(error.message): it can't use Greenshot for Mac."))
         case .success(let parsed):
-            let script = resolve(parsed.script, workingDirectory: workingDirectory)
-            return .success(AIToolIdentity(executable: executable, script: script, notes: parsed.options + notes))
+            // A relative path is read against the working directory, which the program can change before it asks
+            guard parsed.script.hasPrefix("/") else {
+                return .failure(AIToolError("\(name) (\(runtime.rawValue)) runs a script that isn't given by its full path, so Greenshot for Mac can't tell which script asks: start it with the script's full path."))
+            }
+            return .success(AIToolIdentity(executable: executable, script: resolve(parsed.script), notes: parsed.options + notes))
         }
     }
 
@@ -211,9 +216,9 @@ extension AIToolCaller {
             if runtime == .shell, argument.hasPrefix("-"), !argument.hasPrefix("--"), argument.dropFirst().contains(where: { $0 == "c" || $0 == "s" }) {
                 return .failure(AIToolError("runs code given on its command line or from standard input"))
             }
+            // The module is looked up in the working directory and the search path: no file of its own to allow
             if runtime == .python, argument == "-m" {
-                guard index + 1 < arguments.count else { return .failure(AIToolError("names no module to run")) }
-                return .success(("-m \(arguments[index + 1])", options))
+                return .failure(AIToolError("runs a module (-m) instead of a script given by its full path"))
             }
             if runtime == .php, argument == "-f" {
                 guard index + 1 < arguments.count else { return .failure(AIToolError("names no script")) }
@@ -234,16 +239,11 @@ extension AIToolCaller {
         return .failure(AIToolError("runs no script file"))
     }
 
-    /// The script's real path (symbolic links resolved, relative to the program's working directory); "-m module" and
-    /// unreadable paths stay as written.
-    static func resolve(_ script: String, workingDirectory: String?) -> String {
-        guard !script.hasPrefix("-m ") else { return script }
-        var path = script
-        if !path.hasPrefix("/"), let workingDirectory, workingDirectory.hasPrefix("/") {
-            path = (workingDirectory as NSString).appendingPathComponent(path)
-        }
-        guard path.hasPrefix("/"), FileManager.default.fileExists(atPath: path) else { return path }
-        return IPCEndpoint.realPath((path as NSString).standardizingPath)
+    /// The real path of a script given by its full path (symbolic links resolved); a path that can't be read stays as
+    /// written.
+    static func resolve(_ script: String) -> String {
+        guard script.hasPrefix("/"), FileManager.default.fileExists(atPath: script) else { return script }
+        return IPCEndpoint.realPath((script as NSString).standardizingPath)
     }
 
     /// The arguments and environment in a `KERN_PROCARGS2` buffer: the argument count, the executable path, padding,
