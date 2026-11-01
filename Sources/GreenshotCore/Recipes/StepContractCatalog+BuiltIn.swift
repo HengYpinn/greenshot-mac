@@ -401,7 +401,24 @@ enum BuiltInStepContracts {
             parameter("Type", default: .string("Rectangle"), "Type of the annotation (Text, Rectangle, Arrow, Icon, Blur, SpeechBubble, ...)")
         ],
         payload: PayloadContract(rawCapture: .required, surface: .required, visualMutation: .addsAnnotations),
-        acceptsUndeclaredParameters: true, evaluatesOwnParameters: true)
+        acceptsUndeclaredParameters: true, evaluatesOwnParameters: true, gates: { node, _ in annotationGates(node) })
+
+    /// The picture files the annotations read (`FilePath` of an Image, Icon, Cursor or Svg annotation, on the node or an
+    /// entry of `Annotations`), like the Source step's file. Any annotation with a `FilePath` counts: its type may be
+    /// decided when the recipe runs.
+    static func annotationGates(_ node: RecipeNode) -> [RecipeGatedAction] {
+        var actions: [RecipeGatedAction] = []
+        for entry in AnnotationExecutor.configurations(node.parameters) {
+            let action: RecipeGatedAction
+            switch RecipeGateValue(entry["FilePath"]) {
+            case .unset: continue
+            case .literal(let path): action = RecipeGatedAction(.fileSystemAccess, target: "Reads the image file \(path)")
+            case .runTime(let text): action = RecipeGatedAction(.fileSystemAccess, target: "Reads an image file named when the recipe runs (\(text))")
+            }
+            if !actions.contains(action) { actions.append(action) }
+        }
+        return actions
+    }
 
     static let setVariable = StepContract(
         stepType: WellKnownStepType.setVariable, displayName: "Set Variable",
@@ -474,14 +491,24 @@ enum BuiltInStepContracts {
             output("VideoRecordingResult", .object, "Details of the recording")
         ],
         gates: { node, _ in
+            var actions: [RecipeGatedAction] = []
             var target = RecipeGateValue(node, "OutputFilePath")
             if target == .unset { target = RecipeGateValue(node, "OutputDirectory") }
             switch target {
-            case .unset: return []
-            case .literal(let path): return [RecipeGatedAction(.fileSystemAccess, target: "Writes the video to \(path)")]
+            case .unset: break
+            case .literal(let path): actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes the video to \(path)"))
             case .runTime(let text):
-                return [RecipeGatedAction(.fileSystemAccess, target: "Writes the video to a place decided when the recipe runs (\(text))")]
+                actions.append(RecipeGatedAction(.fileSystemAccess, target: "Writes the video to a place decided when the recipe runs (\(text))"))
             }
+            // The microphone: Greenshot's permission for it, which the user gave for their own videos.
+            switch RecipeGateValue(node, "AudioSource") {
+            case .literal(let name) where AudioCaptureSource(upstreamName: name)?.includesMicrophone == true:
+                actions.append(RecipeGatedAction(.custom, target: "Records the microphone"))
+            case .runTime(let text):
+                actions.append(RecipeGatedAction(.custom, target: "May record the microphone (the audio source is decided when the recipe runs (\(text)))"))
+            default: break
+            }
+            return actions
         })
 
     static let stdout = StepContract(

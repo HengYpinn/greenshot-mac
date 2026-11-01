@@ -267,14 +267,24 @@ public struct RecipeDescriber: Sendable {
         return delay > 0 ? "\(what), after \(delay) ms" : what
     }
 
-    /// Upstream `SummarizeParameters`: up to four parameters that differ from their default, short values only.
+    /// The parameters of the steps summarized here that decide a gated action (a file, a program, the microphone): shown
+    /// whatever their length and however many others there are.
+    private static let gateParameters: Set<String> = ["audiosource", "outputfilepath", "outputdirectory", "filenamepattern", "filepath",
+                                                      "command", "commandline", "arguments", "workingdirectory"]
+
+    /// Upstream `SummarizeParameters`: up to four parameters that differ from their default, short values only; and
+    /// every `gateParameters` one (not upstream).
     private func summarizeParameters(_ node: RecipeNode, _ contract: StepContract?) -> String {
         var parts: [String] = []
+        var others = 0
         for member in node.parameters {
-            guard let value = Self.format(member.value), value.count <= 60 else { continue }
+            guard let value = Self.format(member.value) else { continue }
             if let defaultValue = contract?.parameter(member.key)?.defaultValue.flatMap(Self.format), recipeEquals(defaultValue, value) { continue }
+            if !Self.gateParameters.contains(member.key.lowercased()) {
+                guard value.count <= 60, others < 4 else { continue }
+                others += 1
+            }
             parts.append("\(member.key): \(value)")
-            if parts.count == 4 { break }
         }
         return parts.joined(separator: ", ")
     }

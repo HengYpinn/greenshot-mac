@@ -157,6 +157,31 @@ import Testing
         #expect(RecipeValidator().validate(fromArgument).gateTypes == [.externalCommand, .networkAccess])
     }
 
+    /// RECIPES-5: an annotation's picture file is read like the Source step's file; the microphone is asked for; and the
+    /// step line shows the parameters that decide a permission, also after four others.
+    @Test func annotationFilesAndTheMicrophoneNeedPermissions() {
+        let picture = node("Annotation", ["Type": .string("Image"), "FilePath": .string("/x.png")])
+        #expect(gates(picture) == [RecipeGatedAction(.fileSystemAccess, target: "Reads the image file /x.png")])
+        let listed = node("Annotation", ["Annotations": .array([.object(["Type": .string("Text"), "Text": .string("Hi")]),
+                                                                .object(["Type": .string("Icon"), "FilePath": .string("${Path}")])])])
+        #expect(gates(listed) == [RecipeGatedAction(.fileSystemAccess, target: "Reads an image file named when the recipe runs (${Path})")])
+        #expect(gates(node("Annotation", ["Type": .string("Text"), "Text": .string("Hi")])).isEmpty)
+
+        let microphone = RecipeGatedAction(.custom, target: "Records the microphone")
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("Microphone")])) == [microphone])
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("systemAudioAndMicrophone")])) == [microphone])
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("${Audio}")]))
+            == [RecipeGatedAction(.custom, target: "May record the microphone (the audio source is decided when the recipe runs (${Audio}))")])
+        #expect(gates(node("RecordVideo", ["AudioSource": .string("SystemAudio")])).isEmpty)
+        #expect(gates(node("RecordVideo", [:])).isEmpty)
+
+        let video = node("RecordVideo", ["FrameRate": .number(30), "Bitrate": .number(2_000_000), "Format": .string("mp4"),
+                                         "Preset": .string("Balanced"), "ColorMode": .string("Grayscale"), "AudioSource": .string("Microphone")])
+        let lines = details(testRecipe([RecipeNode(id: "a", stepType: "Source"), RecipeNode(id: "b", stepType: "RecordVideo", parameters: video.parameters)]))
+        #expect(lines.contains { $0.hasPrefix("Record Video (") && $0.contains("AudioSource: Microphone") })
+        #expect(lines.contains("Records the microphone"))
+    }
+
     @Test func theLibraryAsksForTheseActions() async throws {
         let fixture = LibraryFixture(approver: StubApprover { request in
             RecipeApprovalDecision(approval: RecipeApproval(recipeId: "x", approvedTriggers: request.triggers.map(\.key)))
