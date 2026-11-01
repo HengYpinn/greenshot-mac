@@ -152,6 +152,34 @@ final class OpenedInEditor {
         #expect(fileExtensions(fixture.library).isEmpty)
     }
 
+    /// An approved automatic step that now needs a permission its approval doesn't allow (an annotation's picture file)
+    /// is asked about in a review at the next interactive load instead of being left out unseen.
+    @Test func anApprovalThatLacksANewPermissionIsReviewed() async throws {
+        let fixture = LibraryFixture(approver: StubApprover { _ in nil })
+        defer { fixture.cleanUp() }
+        var ext = fileExtension()
+        ext.nodes[0] = RecipeNode(id: "a", stepType: "Annotation", parameters: ["Type": .string("Image"), "FilePath": .string("/tmp/logo.png")])
+        let url = try fixture.write(ext, name: "ext.gsrecipe.json")
+        let hash = RecipeHash.sha256Hex(try Data(contentsOf: url))
+        try fixture.store.recordApproval(RecipeApproval(recipeId: "lib_ext"), forFile: url.path, sha256: hash, content: nil, origin: nil,
+                                         recipeName: nil, recipeVersion: nil)
+        fixture.box.settings.files = [RecipeTrustStore.standardized(url.path)]
+
+        _ = await fixture.library.reload()
+        let request = try #require(fixture.approver.requests.first)
+        #expect(request.mode == .reVerify)
+        #expect(request.gates == [.fileSystemAccess])
+        #expect(request.reviewReasons == ["It needs a new permission: file system access."])
+        #expect(fileExtensions(fixture.library).isEmpty)
+
+        fixture.approver.answer = StubApprover.approveAll
+        _ = await fixture.library.reload()
+        #expect(fixture.approver.requests.count == 2)
+        #expect(fileExtensions(fixture.library).count == 1)
+        _ = await fixture.library.reload()
+        #expect(fixture.approver.requests.count == 2)
+    }
+
     /// "Revoke" in a review while the trust store's key can't be read isn't saved: it says so, the step stays in use.
     @Test func aRevokeThatCantBeSavedSaysSo() async throws {
         let secrets = FlakySecretStore()

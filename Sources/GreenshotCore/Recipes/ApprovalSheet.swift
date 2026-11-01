@@ -410,7 +410,9 @@ public struct RecipeApprovalSheet: Sendable {
         case .review:
             texts.subtitle = String(localized: "Automatic Step Review")
             texts.title = String(localized: "Automatic Step Review")
-            texts.description = String(localized: "Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.")
+            texts.description = reviewReasons.isEmpty
+                ? String(localized: "Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.")
+                : String(localized: "You approved this automatic step before, but it doesn't change any recipe until you decide again: \(reviewReasons) “Keep as Is” or closing the window leaves it so.")
         case .ownEdit:
             texts.description = String(localized: "You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: \(reasons)")
         case .newRecipe:

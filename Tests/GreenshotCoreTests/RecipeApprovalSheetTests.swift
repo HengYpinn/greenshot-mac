@@ -176,6 +176,10 @@ struct RecipeApprovalSheetTests {
         let sheet = RecipeApprovalSheet(request: request)
         #expect(sheet.style == .review)
         #expect(sheet.headerDescription.contains("It needs a new permission: custom actions."))
+        request.recipe?.kind = .extension
+        let step = RecipeApprovalSheet(request: request)
+        #expect(step.headerDescription.hasPrefix("You approved this automatic step before"))
+        #expect(step.headerDescription.contains("It needs a new permission: custom actions."))
     }
 
     @Test func detailsAreReadOnly() throws {
