@@ -161,3 +161,28 @@ public enum ConsentClickGuard {
         }
     }
 }
+
+/// A press on "Allow" from its mouse button going down to the answer (`ConsentArming`): whether the question was covered
+/// as the button went down on "Allow" itself. A mouse button going down anywhere else in the question forgets it, and so
+/// do the answer and the disarming, so a press without a mouse button (VoiceOver, Switch Control) is checked only when
+/// it happens (`ConsentClickGuard.allowsClick`).
+public struct ConsentClickState: Sendable {
+    private var coveredAtDown: Bool?
+
+    public init() {}
+
+    /// The left mouse button went down in the question; `covered` is evaluated only when it went down on "Allow".
+    public mutating func mouseDown(onAllow: Bool, covered: @autoclosure () -> Bool) {
+        coveredAtDown = onAllow ? covered() : nil
+    }
+
+    public mutating func reset() {
+        coveredAtDown = nil
+    }
+
+    /// The press on "Allow": whether it counts. What was kept for it is forgotten either way.
+    public mutating func confirm(coveredNow: Bool) -> Bool {
+        defer { coveredAtDown = nil }
+        return ConsentClickGuard.allowsClick(coveredAtDown: coveredAtDown, coveredAtUp: coveredNow)
+    }
+}

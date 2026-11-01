@@ -91,7 +91,7 @@ enum AutomationCaptureConsent {
         allow.refusesFirstResponder = true
         alert.layout()
         alert.window.initialFirstResponder = alert.buttons[0]
-        let arming = ConsentArming(window: alert.window, buttons: [allow])
+        let arming = ConsentArming(window: alert.window, buttons: [allow], allow: allow)
         let handler = AllowHandler(arming: arming, window: alert.window)
         allow.target = handler
         allow.action = #selector(AllowHandler.allow(_:))
