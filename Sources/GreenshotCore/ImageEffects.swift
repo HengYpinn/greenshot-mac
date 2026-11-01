@@ -338,9 +338,9 @@ public enum ImageEffects {
     }
 
     /// A bitmap of `size`; nil for a size no image can have (a border or shadow of 1e18 points from a recipe), where
-    /// `Int()` of it would stop the app.
+    /// `Int()` of it would stop the app, or one beyond `ImageOperations.maxPixels`.
     static func makeContext(_ size: CGSize) -> CGContext? {
-        guard ImageOperations.isDrawable(size.width), ImageOperations.isDrawable(size.height) else { return nil }
+        guard ImageOperations.isDrawable(width: size.width, height: size.height) else { return nil }
         return AnnotationRenderer.makeContext(width: Int(size.width), height: Int(size.height))
     }
 

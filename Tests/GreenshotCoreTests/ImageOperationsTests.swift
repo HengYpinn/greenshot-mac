@@ -175,6 +175,18 @@ extension ImageOperationsTests {
         #expect(widest.image.width == 65535)
     }
 
+    /// RECIPES-3: each side within `maxSide` still allows 65535 x 65535 pixels (17 GB). An image the operations and
+    /// effects make has at most `maxPixels` (the decoder's limit) in all; the sizes here are just beyond it.
+    @Test func imagesBeyondThePixelLimitAreNotMade() throws {
+        let image = TestImage.solid(width: 1, height: 1, .white)
+        #expect(ImageOperations.maxPixels == ImageFileLoader.maxPixels)
+        #expect(ImageOperations.resize(image, to: CGSize(width: 65535, height: 3100)) == nil)
+        #expect(ImageOperations.resizeCanvas(image, left: 32767, right: 32767, top: 1550, bottom: 1550) == nil)
+        #expect(ImageEffects.makeContext(CGSize(width: 65535, height: 3100)) == nil)
+        let wide = try #require(ImageOperations.resizeCanvas(image, left: 65534, right: 0, top: 0, bottom: 0))
+        #expect(wide.image.width == 65535)
+    }
+
     @Test func clearBackgroundMakesThePixelsTransparent() {
         let doc = document()
         let box = Annotation(kind: .rectangle, start: CGPoint(x: 4, y: 3), end: CGPoint(x: 20, y: 15))
