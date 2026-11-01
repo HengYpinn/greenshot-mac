@@ -77,6 +77,19 @@ struct ScreenComposerTests {
         #expect(TestImage.pixel(result.image, 2, 2).isClose(to: .red))
     }
 
+    /// Security review 2026-11-01 MCP-2: a region much bigger than the displays it touches gives at most their image
+    /// instead of a pixel size that doesn't fit an Int.
+    @Test func hugeRegionIsCutToTheDisplays() throws {
+        let result = try #require(ScreenComposer.image(of: CGRect(x: 0, y: 0, width: 1e300, height: 1e300), from: [retina]))
+        #expect(result.image.width == 200)
+        #expect(result.image.height == 100)
+        let negative = try #require(ScreenComposer.image(of: CGRect(x: -1e300, y: 10, width: 2e300, height: 20), from: [retina]))
+        #expect(negative.image.width == 200)
+        #expect(negative.image.height == 40)
+        #expect(ScreenComposer.image(of: CGRect(x: 0, y: 0, width: CGFloat.infinity, height: 10), from: [retina]) == nil)
+        #expect(ScreenComposer.image(of: CGRect(x: CGFloat.nan, y: 0, width: 10, height: 10), from: [retina]) == nil)
+    }
+
     @Test func regionOutsideAllDisplaysIsNil() {
         #expect(ScreenComposer.image(of: CGRect(x: 500, y: 500, width: 10, height: 10), from: [retina]) == nil)
     }

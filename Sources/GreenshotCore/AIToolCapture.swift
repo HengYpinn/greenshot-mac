@@ -16,18 +16,30 @@ public struct AIToolRegion: Equatable, Sendable {
 
     /// Mac: the numbers may have decimals (upstream: whole numbers only), as the recipe's own region parser
     /// (`RecipeSourceValues.region`) takes them; an AI tool computing from Retina pixels sends half points, also as an
-    /// array (`MCPTools.argumentValue`). Only finite numbers.
+    /// array (`MCPTools.argumentValue`). Only finite numbers within `isWithinLimits`.
     public init?(text: String) {
         let parts = text.split(separator: ",", omittingEmptySubsequences: false)
             .map { $0.trimmingCharacters(in: .whitespaces) }
         guard parts.count == 4 else { return nil }
         let numbers = parts.compactMap { Double($0) }.filter(\.isFinite)
-        guard numbers.count == 4, numbers[2] > 0, numbers[3] > 0 else { return nil }
-        let x = CGFloat(numbers[0])
-        let y = CGFloat(numbers[1])
-        let width = CGFloat(numbers[2])
-        let height = CGFloat(numbers[3])
-        rect = CGRect(x: x, y: y, width: width, height: height)
+        guard numbers.count == 4 else { return nil }
+        let rect = CGRect(x: CGFloat(numbers[0]), y: CGFloat(numbers[1]), width: CGFloat(numbers[2]), height: CGFloat(numbers[3]))
+        guard Self.isWithinLimits(rect) else { return nil }
+        self.rect = rect
+    }
+
+    /// The largest coordinate (either sign) and size of a region in points: far more than any arrangement of displays,
+    /// small enough that its size in pixels always fits an Int (security review 2026-11-01 MCP-2).
+    public static let maximumCoordinate: CGFloat = 1_000_000
+    public static let maximumSize: CGFloat = 100_000
+
+    /// `rect` has finite numbers, a size greater than zero and at most `maximumSize`, and its origin within
+    /// `maximumCoordinate`. Also for the recipe's own regions (`RecipeSourceValues.region`).
+    public static func isWithinLimits(_ rect: CGRect) -> Bool {
+        let origin = [rect.origin.x, rect.origin.y]
+        let size = [rect.size.width, rect.size.height]
+        return origin.allSatisfy { $0.isFinite && abs($0) <= maximumCoordinate }
+            && size.allSatisfy { $0.isFinite && $0 > 0 && $0 <= maximumSize }
     }
 
     /// The argument text of a region given as an array `[x, y, width, height]` of numbers (upstream

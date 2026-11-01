@@ -81,6 +81,17 @@ import Testing
         #expect(RecipeSourceValues.region(.null) == nil)
     }
 
+    /// Security review 2026-11-01 MCP-2: no infinite, not-a-number or impossibly big region reaches the capture.
+    @Test func regionsOutsideTheDisplaySpaceAreRefused() {
+        #expect(RecipeSourceValues.region(.string("nan,0,10,10")) == nil)
+        #expect(RecipeSourceValues.region(.string("0,0,inf,10")) == nil)
+        #expect(RecipeSourceValues.region(.string("0,0,1e300,1e300")) == nil)
+        #expect(RecipeSourceValues.region(.string("0,0,9223372036854775807,10")) == nil)
+        #expect(RecipeSourceValues.region(.string("-1e7,0,10,10")) == nil)
+        #expect(RecipeSourceValues.region(.object(["x": .number(0), "y": .number(0), "width": .number(1e300), "height": .number(10)])) == nil)
+        #expect(RecipeSourceValues.region(.string("-5000,-3000,12000,8000")) == CGRect(x: -5000, y: -3000, width: 12000, height: 8000))
+    }
+
     @Test func windowReferences() {
         #expect(RecipeSourceValues.windowReference(.string("4711")) == .id(4711))
         #expect(RecipeSourceValues.windowReference(.number(42)) == .id(42))

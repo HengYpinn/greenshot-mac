@@ -88,7 +88,8 @@ public enum RecipeSourceValues {
     }
 
     /// A region in Quartz global points (top-left origin, like `list_windows`): "x,y,width,height" (what a Region argument
-    /// binds) or an object `{x, y, width, height}` (also left/top). Nil when it isn't one or is empty.
+    /// binds) or an object `{x, y, width, height}` (also left/top). Nil when it isn't one, is empty or is outside
+    /// `AIToolRegion.isWithinLimits` (not a number, infinite, or far beyond any display).
     public static func region(_ value: JSONValue?) -> CGRect? {
         guard let value, !value.isNull else { return nil }
         var rect: CGRect?
@@ -108,7 +109,7 @@ public enum RecipeSourceValues {
         default:
             rect = nil
         }
-        guard let rect, rect.width > 0, rect.height > 0 else { return nil }
+        guard let rect, AIToolRegion.isWithinLimits(rect) else { return nil }
         return rect
     }
 

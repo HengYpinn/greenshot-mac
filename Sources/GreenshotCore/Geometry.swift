@@ -128,12 +128,16 @@ public struct FrozenScreen {
 
 /// Cuts a region out of the frozen displays, joining the parts when it spans several displays.
 public enum ScreenComposer {
-    /// The image of `rect` (Quartz global points) and its pixels per point, or nil when it misses every display.
-    /// Parts of `rect` outside every display stay transparent.
+    /// The image of `rect` (Quartz global points) and its pixels per point, or nil when it misses every display or
+    /// isn't finite. Only the part of `rect` within the bounding box of the displays it touches is taken, so the size in
+    /// pixels always fits (security review 2026-11-01 MCP-2); parts of that outside every display stay transparent.
     public static func image(of rect: CGRect, from screens: [FrozenScreen]) -> (image: CGImage, scale: CGFloat)? {
-        let rect = rect.standardized
-        let hits = screens.filter { $0.frame.intersects(rect) }
-        guard !hits.isEmpty, rect.width > 0, rect.height > 0 else { return nil }
+        let requested = rect.standardized
+        guard [requested.minX, requested.minY, requested.width, requested.height].allSatisfy(\.isFinite) else { return nil }
+        let hits = screens.filter { $0.frame.intersects(requested) }
+        guard !hits.isEmpty else { return nil }
+        let rect = requested.intersection(union(of: hits))
+        guard rect.width > 0, rect.height > 0 else { return nil }
 
         if hits.count == 1, let screen = hits.first, screen.frame.contains(rect) {
             let local = rect.offsetBy(dx: -screen.frame.minX, dy: -screen.frame.minY)
