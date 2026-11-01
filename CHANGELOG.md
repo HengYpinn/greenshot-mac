@@ -566,13 +566,17 @@ From a second security review (November 2026):
 - Recipes: error forwarding no longer passes the destination choice or saved file names between the two recipes. A
   step's expressions stop at 1 MB of text. Approvals are signed with a new key at every change, so an older copy of
   the approvals file no longer counts.
-- Image effects, resizing and Enlarge Canvas make no image larger than 200 megapixels. An SVG whose references would
-  draw a very large number of elements, or draw themselves, isn't drawn. Dropping or pasting a picture file with
-  thousands of pages no longer freezes the editor (icons and TIFF files compare at most 64 sizes, other files use
-  their first frame). Elements read from a file or the clipboard stop at 5,000 and at 400 megapixels of pictures; the
-  rest are reported as damaged. Greenshot for Windows files convert each picture once, stop converting after 400
-  megapixels and read quickly also with very large element data.
+- Image effects, resizing and Enlarge Canvas make no image larger than 200 megapixels. SVGs: one whose references
+  would draw a very large number of elements or draw themselves, or that declares XML entities, isn't opened
+  (references are counted whatever the case of their names, and pictures inside it whatever type they say they are);
+  one that takes longer than 2.5 seconds to read or draw shows as unreadable instead of freezing the app; the SVG
+  elements of one document draw at most 500,000 elements in all. Dropping or pasting a picture file with thousands of
+  pages no longer freezes the editor (icons and TIFF files compare at most 64 sizes, other files use their first
+  frame). Elements read from a file or the clipboard stop at 5,000 and at 400 megapixels of pictures; the rest are
+  reported as damaged. Greenshot for Windows files convert each picture once, stop converting after 400 megapixels and
+  read quickly also with very large element data.
 - A picture copied as HTML with a large inline image (`data:`) is pasted again, and the HTML is read in one pass.
+  Pasting or dropping a file that can't be read as an image no longer draws it another way.
 - An editor restored after a crash or logout saves to a new file instead of the file its kept copy names.
 - Output folders: pad, substring and replace parameters of a captured title or address can no longer put a "/" or a
   ".." folder back into a path, and a folder pattern that starts with a folder variable such as `${MyPictures}` stays
