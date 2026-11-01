@@ -48,9 +48,10 @@ public enum GreenshotFile {
         }
 
         public var reason: Reason
-        /// The file the editor showed (opened from or saved to), so Save goes there again.
+        /// The file the editor showed (opened from or saved to). Only recorded: a restored editor doesn't take it as
+        /// its file (see `EditorDocument(restoring:)`).
         public var originalFile: String?
-        /// Save must not write over `originalFile` (see `EditorDocument.savesToNewFile`).
+        /// Save must not write over `originalFile` (see `EditorDocument.savesToNewFile`); only recorded, like it.
         public var savesToNewFile: Bool
 
         public init(reason: Reason, originalFile: String? = nil, savesToNewFile: Bool = false) {

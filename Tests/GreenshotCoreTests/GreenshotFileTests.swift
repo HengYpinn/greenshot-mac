@@ -145,15 +145,23 @@ struct GreenshotFileTests {
         #expect(saved.elements.count == contents.elements.count + 1)
     }
 
-    @Test func restoredEditorStaysCareful() throws {
-        let session = GreenshotFile.Session(reason: .autosave, originalFile: "/tmp/Newer.greenshot", savesToNewFile: true)
+    @Test func aRestoredEditorSavesToANewFile() throws {
+        // The kept files can be written by any program: the file one names is not taken as the editor's own, so Save
+        // can't write over it.
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let named = folder.appendingPathComponent("Budget.png")
+        try Data("not changed".utf8).write(to: named)
+        let session = GreenshotFile.Session(reason: .autosave, originalFile: named.path, savesToNewFile: false)
         let contents = try #require(GreenshotFile.read(try Self.written(session: session)))
-        let document = EditorDocument(restoring: contents) { _ in true }
-        #expect(document.savesToNewFile)
+        let document = EditorDocument(restoring: contents)
         #expect(document.isModified)
-        #expect(document.fileURL?.path == "/tmp/Newer.greenshot")
-        let gone = EditorDocument(restoring: contents) { _ in false }
-        #expect(gone.fileURL == nil)
+        #expect(document.fileURL == nil)
+        let savedInPlace = try GreenshotFile.saveInPlace(document)
+        #expect(!savedInPlace)
+        let kept = try Data(contentsOf: named)
+        #expect(kept == Data("not changed".utf8))
     }
 
     @Test func sessionOfTheFirstFilesStillReads() throws {
