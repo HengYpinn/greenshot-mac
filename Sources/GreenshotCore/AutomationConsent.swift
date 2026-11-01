@@ -145,6 +145,13 @@ public enum ConsentClickGuard {
         isKeyEvent && inQuestionWindow && age < keyPressAge
     }
 
+    /// Whether a click on "Allow" counts: the question was uncovered (`isCovered`) when the mouse button went down in it
+    /// and when the click ended, so a window over the button that goes away while the button is held doesn't make it
+    /// count. `coveredAtDown` is nil without a mouse button going down (an accessibility press): only the end counts.
+    public static func allowsClick(coveredAtDown: Bool?, coveredAtUp: Bool) -> Bool {
+        coveredAtDown != true && !coveredAtUp
+    }
+
     /// True when a visible window of another process overlaps `frame`. The app's own windows don't count.
     public static func isCovered(_ frame: CGRect, by windowsAbove: [WindowAbove], ownPID: Int32) -> Bool {
         windowsAbove.contains { window in
