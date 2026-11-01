@@ -170,13 +170,42 @@ struct AutomationConsentTests {
         #expect(!ConsentClickGuard.allowsClick(coveredAtDown: nil, coveredAtUp: true))
     }
 
+    private func caller(_ names: [String?], _ app: String?, processSigned: Bool = true, appSigned: Bool = true) -> String {
+        AutomationConsent.callerName(processNames: names, appName: app, processSigned: processSigned, appSigned: appSigned)
+    }
+
+    /// Each name is isolated from the sentence's direction (`BidiText.isolatedLTR`).
+    private func isolated(_ name: String) -> String { BidiText.isolatedLTR(name) }
+
     @Test func callerIsNamedByItsProcessAndApp() {
-        #expect(AutomationConsent.callerName(processNames: ["zsh", "login"], appName: "Terminal") == "zsh in Terminal")
-        #expect(AutomationConsent.callerName(processNames: ["Raycast"], appName: "Raycast") == "Raycast")
-        #expect(AutomationConsent.callerName(processNames: ["python3", nil], appName: nil) == "python3")
-        #expect(AutomationConsent.callerName(processNames: [nil], appName: "iTerm2") == "iTerm2")
-        #expect(AutomationConsent.callerName(processNames: [], appName: nil) == "A program")
-        #expect(AutomationConsent.callerName(processNames: [""], appName: nil) == "A program")
+        #expect(caller(["zsh", "login"], "Terminal") == "\(isolated("zsh")) in \(isolated("Terminal"))")
+        #expect(caller(["Raycast"], "Raycast") == isolated("Raycast"))
+        #expect(caller(["python3", nil], nil) == isolated("python3"))
+        #expect(caller([nil], "iTerm2") == isolated("iTerm2"))
+        #expect(caller([], nil) == "A program")
+        #expect(caller([""], nil) == "A program")
+        #expect(caller(["\u{202E}\n"], nil) == "A program")
+    }
+
+    /// Security review 2026-11-01 IPC-6: a name from an unsigned program's own files is marked, not shown as if it said
+    /// who made it.
+    @Test func unsignedCallersAreMarked() {
+        #expect(caller(["Zoom"], nil, processSigned: false) == "\(isolated("Zoom")) (unsigned)")
+        #expect(caller(["zsh"], "System Settings", appSigned: false) == "\(isolated("zsh")) in \(isolated("System Settings")) (unsigned)")
+        #expect(caller(["tool"], "Terminal", processSigned: false) == "\(isolated("tool")) (unsigned) in \(isolated("Terminal"))")
+        #expect(caller(["Zoom"], "Zoom", processSigned: true, appSigned: false) == "\(isolated("Zoom")) (unsigned)")
+    }
+
+    /// Security review 2026-11-01 IPC-6: a process or app name can't break the question's line, turn its direction
+    /// around or push the buttons away.
+    @Test func callerNamesAreCleanedAndShort() {
+        let tricky = caller(["Zoom\u{202E}gpj.exe\nSigned by Apple" + String(repeating: "x", count: 1000)], nil)
+        let overrides = tricky.unicodeScalars.filter { (0x202A...0x202E).contains($0.value) || $0.value == 0x0A }
+        #expect(overrides.isEmpty)
+        #expect(tricky.count < 60)
+        #expect(tricky.contains("Zoomgpj.exeSigned by Apple"))
+        let app = caller(["sh"], "Terminal\u{2067}\u{0007}")
+        #expect(!app.unicodeScalars.contains { $0.value == 0x2067 || $0.value == 0x07 })
     }
 
     @Test func questionNamesWhatIsCaptured() {

@@ -156,6 +156,9 @@ public struct AIToolsConsentKeeper {
     private var loggedUnverifiable = false
     /// What the user was told since the last check that succeeded.
     private var told: Set<Notice> = []
+    /// The exclusions known before a reload whose values aren't checked yet: kept when those are reset, so an edit
+    /// outside Greenshot can't remove one (security review 2026-11-01 MCP-5). Empty once a check succeeds.
+    private var exclusionsBeforeReload: [String] = []
 
     /// The consent as loaded at the start, checked (`check`). `isStored`: the settings were read from what is stored
     /// (`isStored(json:)`), not defaults for settings that are missing or couldn't be read (moved aside).
@@ -188,7 +191,7 @@ public struct AIToolsConsentKeeper {
     }
 
     private var startOfEffect: AIToolsSettings {
-        isChecked ? base : AIToolsConsentSeal.reset(base)
+        isChecked ? base : AIToolsConsentSeal.reset(base, keeping: exclusionsBeforeReload)
     }
 
     public var status: Status {
@@ -254,11 +257,13 @@ public struct AIToolsConsentKeeper {
         }
         loggedUnverifiable = false
         isChecked = true
+        let keeping = exclusionsBeforeReload
+        exclusionsBeforeReload = []
         if sealed {
             isBaseSealed = true
             knownSeal = seal.storedSeal
         } else {
-            base = AIToolsConsentSeal.reset(base)
+            base = AIToolsConsentSeal.reset(base, keeping: keeping)
             isBaseSealed = false
             log.warn("The AI tools settings were changed outside Greenshot, or saved without their seal while the Keychain couldn't be used, and are not trusted. They were reset and AI tools will be asked again.")
         }
@@ -361,10 +366,11 @@ public struct AIToolsConsentKeeper {
     }
 
     /// The settings were read again (`greenshot-cli --reload`): the sealed values `stored` keep what is known about
-    /// them, others are checked like at the start (`isStored` as at `init`). This run's changes stay and are made to
-    /// them.
+    /// them, others are checked like at the start (`isStored` as at `init`); when their seal is wrong, the reset keeps
+    /// the exclusions stored before too. This run's changes stay and are made to them.
     public mutating func reload(_ settings: AIToolsSettings, isStored: Bool = true) {
         if !AIToolsConsentSeal.sealedValuesEqual(settings, stored) {
+            for entry in stored.excludedApplications where !exclusionsBeforeReload.contains(entry) { exclusionsBeforeReload.append(entry) }
             base = settings
             baseWasStored = isStored
             isChecked = false

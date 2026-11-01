@@ -14,8 +14,10 @@ import Foundation
 /// `SecretStore` (the Keychain in the app) under `keyName`, made on the first save that needs it. Only Greenshot saving
 /// writes the seal. When the settings are loaded, values that differ from the defaults and have no valid seal (missing,
 /// wrong, or no key) are reset (`reset`): nobody is allowed, the notification is on, the excluded list is the defaults
-/// plus what was stored (an edit can only have removed entries). What is stored, in effect and sealed while the key
-/// can't be read or written (a locked Keychain) is `AIToolsConsentKeeper`'s.
+/// plus what was stored. An edit may have removed entries the user added: after a reload `AIToolsConsentKeeper` puts
+/// back the ones it checked in this run; at a start nothing trusted knows them, and they stay removed (security review
+/// 2026-11-01 MCP-5, a documented limit). What is stored, in effect and sealed while the key can't be read or written
+/// (a locked Keychain) is `AIToolsConsentKeeper`'s.
 /// `enabled` and `allowRecipeProposals` stay unsealed: turning AI tools on still ends in a question per program.
 ///
 /// Limit: this stops a program that only edits the preferences. It can't stop one that deletes and replaces the
@@ -170,13 +172,14 @@ public struct AIToolsConsentSeal: @unchecked Sendable {
     }
 
     /// The values of `settings` that can't be trusted, reset: nobody allowed, the notification on, the default
-    /// exclusions plus the stored ones. Restricts only, so it never needs the stored values to be checked.
-    public static func reset(_ settings: AIToolsSettings) -> AIToolsSettings {
+    /// exclusions plus the stored ones and `keeping` (exclusions known from before, MCP-5). Restricts only, so it never
+    /// needs the stored values to be checked.
+    public static func reset(_ settings: AIToolsSettings, keeping exclusions: [String] = []) -> AIToolsSettings {
         var reset = settings
         reset.allowedClients = []
         reset.notifyOnCapture = true
         var merged = AIToolsSettings.defaultExcludedApplications
-        for entry in settings.excludedApplications
+        for entry in settings.excludedApplications + exclusions
         where !merged.contains(where: { $0.caseInsensitiveCompare(entry) == .orderedSame }) {
             merged.append(entry)
         }

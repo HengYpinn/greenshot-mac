@@ -43,10 +43,10 @@ extension CapturedPointer {
     }
 
     /// Where the pointer's picture goes in `ScreenComposer.image(of: rect, from: screens)`, which has `scale` pixels per
-    /// point. Follows the composer: inside one display it crops that display's picture on its pixel grid
-    /// (`Geometry.pixelRect`), across displays it draws them from the rectangle's corner.
+    /// point. Follows the composer: it takes `ScreenComposer.area` of the rectangle; inside one display it crops that
+    /// display's picture on its pixel grid (`Geometry.pixelRect`), across displays it draws them from the area's corner.
     public static func origin(mouse: CGPoint, hotSpot: CGPoint, rect: CGRect, screens: [FrozenScreen], scale: CGFloat) -> CGPoint {
-        let rect = rect.standardized
+        let rect = ScreenComposer.area(of: rect, in: screens) ?? rect.standardized
         let hits = screens.filter { $0.frame.intersects(rect) }
         guard hits.count == 1, let screen = hits.first, screen.frame.contains(rect) else {
             return origin(mouse: mouse, hotSpot: hotSpot, imageTopLeft: rect.origin, scale: scale)

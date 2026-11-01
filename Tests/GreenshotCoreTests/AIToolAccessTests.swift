@@ -247,6 +247,19 @@ struct FakeProcessTable: AIToolProcessTable {
         #expect(AIToolCaller.displayName(forExecutable: "/tmp/Claude\u{202E}gpj.exe\nSigned by Apple") == "Claudegpj.exeSigned by Apple")
     }
 
+    /// Security review 2026-11-01 MCP-4: the question's headline doesn't show an unsigned program's own bundle name as
+    /// if it said who made it, and no name breaks the sentence.
+    @Test func headlineNames() {
+        let fake = AIToolClient(path: "/tmp/Claude.app/Contents/MacOS/tool", displayName: "Claude")
+        #expect(fake.headlineName == "\(BidiText.isolatedLTR("Claude")) (unsigned)")
+        let signed = AIToolClient(path: "/Applications/Claude.app/Contents/MacOS/Claude", displayName: "Claude",
+                                  signer: "Developer ID Application: Anthropic PBC (Q6L2SF6YDW)", teamID: "Q6L2SF6YDW")
+        #expect(signed.headlineName == BidiText.isolatedLTR("Claude"))
+        let long = AIToolClient(path: "/tmp/x", displayName: "A\u{202E}B\n" + String(repeating: "x", count: 500), signer: "Dev")
+        #expect(long.headlineName.count < 60)
+        #expect(!long.headlineName.unicodeScalars.contains { $0.value == 0x202E || $0.value == 0x0A })
+    }
+
     @Test func realTableKnowsThisProcess() throws {
         let me = try #require(SystemProcessTable().process(getpid()))
         #expect(me.pid == getpid())
@@ -262,7 +275,7 @@ struct FakeProcessTable: AIToolProcessTable {
 /// SM-H1: what is allowed when the user allows a runtime.
 @Suite struct AIToolIdentityTests {
     private func identity(_ executable: String, _ arguments: [String], _ environment: [String: String] = [:]) -> Result<AIToolIdentity, AIToolError> {
-        AIToolCaller.identity(executable: executable, arguments: arguments, environment: environment, workingDirectory: "/Users/me/project")
+        AIToolCaller.identity(executable: executable, arguments: arguments, environment: environment)
     }
 
     @Test func programsAreTheirExecutable() throws {
@@ -275,14 +288,12 @@ struct FakeProcessTable: AIToolProcessTable {
     }
 
     @Test func runtimesAreTheirScript() throws {
-        let node = try identity("/opt/homebrew/bin/node", ["node", "--require", "/tmp/hook.js", "cli.js", "--resume"]).get()
+        let node = try identity("/opt/homebrew/bin/node", ["node", "--require", "/tmp/hook.js", "/Users/me/project/cli.js", "--resume"]).get()
         #expect(node.script == "/Users/me/project/cli.js")
         #expect(node.notes == ["--require /tmp/hook.js"])
-        let module = try identity("/usr/bin/python3", ["python3", "-u", "-m", "mcp_client"]).get()
-        #expect(module.script == "-m mcp_client")
-        let bun = try identity("/Users/me/.bun/bin/bun", ["bun", "run", "server.ts"]).get()
+        let bun = try identity("/Users/me/.bun/bin/bun", ["bun", "run", "/Users/me/project/server.ts"]).get()
         #expect(bun.script == "/Users/me/project/server.ts")
-        let deno = try identity("/opt/homebrew/bin/deno", ["deno", "run", "--allow-net", "main.ts"]).get()
+        let deno = try identity("/opt/homebrew/bin/deno", ["deno", "run", "--allow-net", "/Users/me/project/main.ts"]).get()
         #expect(deno.script == "/Users/me/project/main.ts")
         let options = try identity("/opt/homebrew/bin/node", ["node", "/x/cli.js"], ["NODE_OPTIONS": "--require /tmp/evil.js"]).get()
         #expect(options.key == "/opt/homebrew/bin/node | script: /x/cli.js | NODE_OPTIONS: --require /tmp/evil.js")
@@ -299,6 +310,54 @@ struct FakeProcessTable: AIToolProcessTable {
     ])
     func inlineCodeIsRefused(executable: String, arguments: [String]) {
         #expect((try? identity(executable, arguments).get()) == nil)
+    }
+
+    /// Security review 2026-11-01 MCP-1: a script given without its full path names a different file once the working
+    /// directory changes, and `-m module` names no file at all: neither can be allowed.
+    @Test(arguments: [
+        ("/usr/local/bin/node", ["node", "cli.js"]),
+        ("/usr/local/bin/node", ["node", "--require", "/tmp/hook.js", "app/cli.js"]),
+        ("/usr/bin/python3", ["python3", "-m", "agent"]),
+        ("/usr/bin/python3", ["python3", "-u", "-m", "mcp_client"]),
+        ("/opt/homebrew/bin/php", ["php", "-f", "a.php"]),
+        ("/Users/me/.bun/bin/bun", ["bun", "run", "server.ts"]),
+        ("/opt/homebrew/bin/deno", ["deno", "run", "--allow-net", "main.ts"]),
+        ("/opt/homebrew/bin/deno", ["deno", "run", "npm:tool"]),
+        ("/bin/sh", ["sh", "./configure"]),
+    ])
+    func scriptsWithoutTheirFullPathAreRefused(executable: String, arguments: [String]) {
+        let result = AIToolCaller.identity(executable: executable, arguments: arguments, environment: [:])
+        #expect((try? result.get()) == nil)
+    }
+
+    /// Security review 2026-11-01 MCP-3: the fields of the identity key are joined with " | ", so no field may hold a
+    /// "|": a program whose path reads like another identity's key can't be identified.
+    @Test func aPathWithTheSeparatorIsRefused() throws {
+        let allowed = try AIToolCaller.identity(executable: "/a/node", arguments: ["node", "/s/c.js"], environment: [:]).get()
+        let lookalike = AIToolCaller.identity(executable: "/a/node | script: /s/c.js", arguments: ["x"], environment: [:])
+        #expect((try? lookalike.get()) == nil)
+        let boundary = AIToolCaller.identity(executable: "/a/node |", arguments: ["x"], environment: [:])
+        #expect((try? boundary.get()) == nil)
+        let script = AIToolCaller.identity(executable: "/a/node", arguments: ["node", "/s/c.js | -r x"], environment: [:])
+        #expect((try? script.get()) == nil)
+        let option = AIToolCaller.identity(executable: "/a/node", arguments: ["node", "--require", "/a|b", "/s/c.js"], environment: [:])
+        #expect((try? option.get()) == nil)
+        let variable = AIToolCaller.identity(executable: "/a/node", arguments: ["node", "/s/c.js"], environment: ["NODE_OPTIONS": "-r a | b"])
+        #expect((try? variable.get()) == nil)
+        #expect(allowed.key == "/a/node | script: /s/c.js")
+    }
+
+    @Test func theWorkingDirectoryIsNotPartOfTheIdentity() throws {
+        let server = AIToolProcess(pid: 500, parentPID: 200, startTime: 1000, path: "/Applications/G.app/Contents/Helpers/greenshot-mcp")
+        var node = AIToolProcess(pid: 200, parentPID: 1, startTime: 700, path: "/usr/local/bin/node",
+                                 arguments: ["node", "/opt/tool/cli.js"], environment: [:], workingDirectory: "/x")
+        let here = try AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in (nil, nil) }).get()
+        node.workingDirectory = "/y"
+        let there = try AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in (nil, nil) }).get()
+        #expect(here.key == there.key)
+        #expect(here.identity.script == "/opt/tool/cli.js")
+        node.arguments = ["node", "cli.js"]
+        #expect((try? AIToolCaller.identify(serverPID: 500, table: FakeProcessTable([server, node]), signer: { _ in (nil, nil) }).get()) == nil)
     }
 
     @Test func runtimeSwitchesAndInjectionsChangeTheIdentity() throws {
@@ -371,23 +430,23 @@ struct FakeProcessTable: AIToolProcessTable {
 /// Security review M2: every option before the script, and every code-loading variable, is part of what the user allows.
 @Suite struct AIToolIdentityAllowlistTests {
     private func key(_ executable: String, _ arguments: [String], _ environment: [String: String] = [:]) throws -> String {
-        try AIToolCaller.identity(executable: executable, arguments: arguments, environment: environment, workingDirectory: "/w").get().key
+        try AIToolCaller.identity(executable: executable, arguments: arguments, environment: environment).get().key
     }
 
     @Test func plainFormsKeepTheirKey() throws {
-        #expect(try key("/opt/homebrew/bin/node", ["node", "cli.js"]) == "/opt/homebrew/bin/node | script: /w/cli.js")
-        #expect(try key("/opt/homebrew/bin/node", ["node", "cli.js", "--inspect=0", "-r", "x"]) == "/opt/homebrew/bin/node | script: /w/cli.js")
+        #expect(try key("/opt/homebrew/bin/node", ["node", "/w/cli.js"]) == "/opt/homebrew/bin/node | script: /w/cli.js")
+        #expect(try key("/opt/homebrew/bin/node", ["node", "/w/cli.js", "--inspect=0", "-r", "x"]) == "/opt/homebrew/bin/node | script: /w/cli.js")
     }
 
     @Test(arguments: [
-        ("/opt/homebrew/bin/node", ["node", "--env-file=/x", "cli.js"], "cli.js"),
-        ("/opt/homebrew/bin/node", ["node", "--inspect=0", "cli.js"], "cli.js"),
-        ("/opt/homebrew/bin/node", ["node", "--inspect-brk", "cli.js"], "cli.js"),
-        ("/usr/bin/perl", ["perl", "-MEvil", "a.pl"], "a.pl"),
-        ("/usr/bin/perl", ["perl", "-I/x", "a.pl"], "a.pl"),
-        ("/usr/bin/ruby", ["ruby", "-I/x", "a.rb"], "a.rb"),
-        ("/usr/bin/ruby", ["ruby", "-rEvil", "a.rb"], "a.rb"),
-        ("/usr/bin/python3", ["python3", "-u", "a.py"], "a.py"),
+        ("/opt/homebrew/bin/node", ["node", "--env-file=/x", "/w/cli.js"], "/w/cli.js"),
+        ("/opt/homebrew/bin/node", ["node", "--inspect=0", "/w/cli.js"], "/w/cli.js"),
+        ("/opt/homebrew/bin/node", ["node", "--inspect-brk", "/w/cli.js"], "/w/cli.js"),
+        ("/usr/bin/perl", ["perl", "-MEvil", "/w/a.pl"], "/w/a.pl"),
+        ("/usr/bin/perl", ["perl", "-I/x", "/w/a.pl"], "/w/a.pl"),
+        ("/usr/bin/ruby", ["ruby", "-I/x", "/w/a.rb"], "/w/a.rb"),
+        ("/usr/bin/ruby", ["ruby", "-rEvil", "/w/a.rb"], "/w/a.rb"),
+        ("/usr/bin/python3", ["python3", "-u", "/w/a.py"], "/w/a.py"),
     ])
     func optionsBeforeTheScriptChangeTheKey(executable: String, arguments: [String], script: String) throws {
         let plain = try key(executable, [arguments[0], script])
@@ -395,17 +454,17 @@ struct FakeProcessTable: AIToolProcessTable {
     }
 
     @Test(arguments: [
-        ("/opt/homebrew/bin/node", ["node", "cli.js"], "NODE_PATH"),
-        ("/usr/bin/python3", ["python3", "a.py"], "PYTHONPATH"),
-        ("/usr/bin/python3", ["python3", "a.py"], "PYTHONHOME"),
-        ("/usr/bin/python3", ["python3", "a.py"], "PYTHONSTARTUP"),
-        ("/usr/bin/ruby", ["ruby", "a.rb"], "RUBYOPT"),
-        ("/usr/bin/ruby", ["ruby", "a.rb"], "RUBYLIB"),
-        ("/usr/bin/perl", ["perl", "a.pl"], "PERL5OPT"),
-        ("/usr/bin/perl", ["perl", "a.pl"], "PERL5LIB"),
-        ("/usr/bin/perl", ["perl", "a.pl"], "PERLLIB"),
-        ("/opt/homebrew/bin/php", ["php", "a.php"], "PHPRC"),
-        ("/opt/homebrew/bin/php", ["php", "a.php"], "PHP_INI_SCAN_DIR"),
+        ("/opt/homebrew/bin/node", ["node", "/w/cli.js"], "NODE_PATH"),
+        ("/usr/bin/python3", ["python3", "/w/a.py"], "PYTHONPATH"),
+        ("/usr/bin/python3", ["python3", "/w/a.py"], "PYTHONHOME"),
+        ("/usr/bin/python3", ["python3", "/w/a.py"], "PYTHONSTARTUP"),
+        ("/usr/bin/ruby", ["ruby", "/w/a.rb"], "RUBYOPT"),
+        ("/usr/bin/ruby", ["ruby", "/w/a.rb"], "RUBYLIB"),
+        ("/usr/bin/perl", ["perl", "/w/a.pl"], "PERL5OPT"),
+        ("/usr/bin/perl", ["perl", "/w/a.pl"], "PERL5LIB"),
+        ("/usr/bin/perl", ["perl", "/w/a.pl"], "PERLLIB"),
+        ("/opt/homebrew/bin/php", ["php", "/w/a.php"], "PHPRC"),
+        ("/opt/homebrew/bin/php", ["php", "/w/a.php"], "PHP_INI_SCAN_DIR"),
     ])
     func codeLoadingVariablesChangeTheKey(executable: String, arguments: [String], variable: String) throws {
         let plain = try key(executable, arguments)
@@ -432,12 +491,10 @@ struct FakeProcessTable: AIToolProcessTable {
     }
 
     @Test func aScriptRunByAShellIsNotTheApprovedTool() throws {
-        // greenshot-mcp <- sh ./configure <- zsh -c ./configure <- Claude
-        let configure = shell(400, parent: 300, version: 400, path: "/bin/sh", ["/bin/sh", "configure"])
-        let bash = shell(300, parent: 100, version: 300, ["zsh", "-c", "./configure"])
-        var script = configure
-        script.workingDirectory = "/Users/me/repo"
-        let table = FakeProcessTable([server, script, bash, claude])
+        // greenshot-mcp <- sh /Users/me/repo/configure <- zsh -c /Users/me/repo/configure <- Claude
+        let configure = shell(400, parent: 300, version: 400, path: "/bin/sh", ["/bin/sh", "/Users/me/repo/configure"])
+        let bash = shell(300, parent: 100, version: 300, ["zsh", "-c", "/Users/me/repo/configure"])
+        let table = FakeProcessTable([server, configure, bash, claude])
         let client = try AIToolCaller.identify(serverPID: 500, table: table, signer: unsigned).get()
         #expect(client.path == "/bin/sh")
         #expect(client.identity.script == "/Users/me/repo/configure")
@@ -485,11 +542,11 @@ struct FakeProcessTable: AIToolProcessTable {
     }
 
     @Test func shellCommandLinesAndShellScriptsHaveOwnIdentities() throws {
-        let script = try AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "-e", "configure"], environment: [:], workingDirectory: "/w").get()
+        let script = try AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "-e", "/w/configure"], environment: [:]).get()
         #expect(script.key == "/bin/sh | script: /w/configure | -e")
         #expect((try? AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "-c", "evil"], environment: [:]).get()) == nil)
         #expect((try? AIToolCaller.identity(executable: "/bin/zsh", arguments: ["zsh", "-lc", "evil"], environment: [:]).get()) == nil)
-        let withEnv = try AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "a"], environment: ["BASH_ENV": "/tmp/x"], workingDirectory: "/w").get()
+        let withEnv = try AIToolCaller.identity(executable: "/bin/sh", arguments: ["sh", "/w/a"], environment: ["BASH_ENV": "/tmp/x"]).get()
         #expect(withEnv.notes == ["BASH_ENV: /tmp/x"])
     }
 

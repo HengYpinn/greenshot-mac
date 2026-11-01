@@ -111,6 +111,21 @@ import Testing
         #expect(AIToolRegion(text: "0,0,10,-0.5") == nil)
     }
 
+    /// Security review 2026-11-01 MCP-2: a region far outside any display space is refused before it reaches a capture.
+    @Test @MainActor func regionsAreBounded() throws {
+        #expect(AIToolRegion(text: "0,0,1e300,1e300") == nil)
+        #expect(AIToolRegion(text: "0,0,9223372036854775807,10") == nil)
+        #expect(AIToolRegion(text: "1e9,0,10,10") == nil)
+        #expect(AIToolRegion(text: "0,-1e9,10,10") == nil)
+        let huge = try #require(MCPTools.argumentValue(.array([.number(0), .number(0), .number(1e300), .number(1e300)])))
+        #expect(AIToolRegion(text: huge) == nil)
+        let declared = [CommandlineArgument(name: "area", type: .region)]
+        #expect(IPCRecipeCommands.argumentRefusal(declared: declared, supplied: ["area": "0,0,1e300,1e300"], aiTool: true) != nil)
+        // Several big displays side by side, left of and above the main one, still fit
+        let wide = try #require(AIToolRegion(text: "-7680,-2160,23040,6480"))
+        #expect(wide.rect.width == 23040)
+    }
+
     @Test func ocrLinesInPixels() {
         let lines = AIToolImage.ocrLines([RecognizedLine(text: "Hello", bounds: CGRect(x: 4, y: 8, width: 40, height: 12), words: [])])
         let first = lines.arrayValue?.first?.objectValue
