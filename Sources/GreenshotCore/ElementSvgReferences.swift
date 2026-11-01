@@ -65,13 +65,13 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     struct Element {
         /// The element name without its prefix, in lower case (macOS takes `<USE>` for `<use>`).
         var name: String
-        /// Its ids: `id` and `xml:id`, in any case.
+        /// Its ids as written: every attribute named `id` (`id`, `xml:id`, any prefix), in any case.
         var ids: [String] = []
         var classes: [Substring]
         var parent: Int?
         var children: [Int] = []
-        /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href`, by id, with or
-        /// without "#"; macOS takes the last of the two, the parser doesn't say which that is).
+        /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href` as written, see
+        /// `candidates(for:)`; macOS takes the last of the two, the parser doesn't say which that is).
         var draws: [String] = []
         /// The ids in the `url(#…)` of its attributes and of the style sheet rules for it.
         var paints: [String] = []
@@ -147,7 +147,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         for (key, value) in attributes {
             switch Self.localName(key) {
             case "id":
-                element.ids.append(value.trimmingCharacters(in: .whitespacesAndNewlines))
+                element.ids.append(value)
             case "class":
                 element.classes = value.split(whereSeparator: \.isWhitespace)
             case "href":
@@ -155,8 +155,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
                 if let picture = Self.svgPicture(target) {
                     element.pictures.append(picture)
                 } else if name == "use" || name == "pattern" {
-                    // "#id", "id" and "file.svg#id" all count as the element `id` of this file.
-                    element.draws.append(String(target.split(separator: "#", omittingEmptySubsequences: false).last ?? ""))
+                    element.draws.append(value)
                 }
             default:
                 break
@@ -224,13 +223,40 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         return ids
     }
 
-    /// The element each id stands for: the last one with it, like macOS.
-    private var byID: [String: Int] {
-        var byID: [String: Int] = [:]
+    /// The elements with each id, as written and without the white space around it.
+    private var byID: [String: [Int]] {
+        var byID: [String: [Int]] = [:]
         for (index, element) in elements.enumerated() {
-            for id in element.ids { byID[id] = index }
+            for id in element.ids {
+                byID[id, default: []].append(index)
+                let trimmed = id.trimmingCharacters(in: .whitespacesAndNewlines)
+                if trimmed != id { byID[trimmed, default: []].append(index) }
+            }
         }
         return byID
+    }
+
+    /// The most elements one reference may stand for (one id written for several elements, or spelled alike).
+    private static let maxCandidates = 16
+
+    /// The elements `reference` (an `href` or the id of a `url(#…)`) may stand for: macOS takes the text after the
+    /// first "#" and the id as written, this counter also the text after the last "#" and either without white space
+    /// around, and counts the biggest of them. Nil when they are more than `maxCandidates`.
+    private static func candidates(for reference: String, in byID: [String: [Int]]) -> [Int]? {
+        var spellings: Set<String> = []
+        for text in [reference, reference.trimmingCharacters(in: .whitespacesAndNewlines)] {
+            spellings.insert(text)
+            if let first = text.firstIndex(of: "#") { spellings.insert(String(text[text.index(after: first)...])) }
+            if let last = text.lastIndex(of: "#") { spellings.insert(String(text[text.index(after: last)...])) }
+        }
+        var found: [Int] = []
+        for spelling in spellings {
+            for index in byID[spelling] ?? [] where !found.contains(index) {
+                found.append(index)
+                if found.count > maxCandidates { return nil }
+            }
+        }
+        return found
     }
 
     /// Adds the patterns and masks in the `url(#…)` of each style sheet rule to the elements the rule is for: by a
@@ -259,7 +285,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         for rule in text.split(separator: "}") {
             guard let brace = rule.firstIndex(of: "{") else { continue }
             let ids = Self.urlReferences(in: String(rule[rule.index(after: brace)...])).filter { id in
-                byID[id].map { Self.expanding.contains(elements[$0].name) } ?? false
+                (Self.candidates(for: id, in: byID) ?? [0]).contains { Self.expanding.contains(elements[$0].name) }
             }
             guard !ids.isEmpty else { continue }
             for selector in rule[..<brace].split(separator: ",") {
@@ -280,7 +306,10 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         for index in elements.indices {
             let element = elements[index]
             var ids = everywhere.union(byName[element.name[...]] ?? [])
-            for id in element.ids { ids.formUnion(byElementID[id[...]] ?? []) }
+            for id in element.ids {
+                ids.formUnion(byElementID[id[...]] ?? [])
+                ids.formUnion(byElementID[id.trimmingCharacters(in: .whitespacesAndNewlines)[...]] ?? [])
+            }
             for name in element.classes { ids.formUnion(byClass[name] ?? []) }
             added += ids.count
             guard added <= ElementSvg.maxReferencedElements else { return false }
@@ -307,39 +336,54 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
             }
             return false
         }
-        func references(of index: Int) -> [Int] {
+        /// What element `index` draws: its children, and for each reference the elements it may stand for, of which
+        /// the biggest counts. Nil when a reference stands for too many.
+        func references(of index: Int) -> (children: [Int], choices: [[Int]])? {
             let element = elements[index]
-            var targets = element.children
-            targets += element.draws.compactMap { byID[$0] }
-            // Painting an element with itself or with a pattern or mask it is in is skipped when it is drawn (a style
-            // sheet rule for every element reaches the pattern's own content too); only other circles are refused.
-            targets += element.paints.compactMap { byID[$0] }
-                .filter { Self.expanding.contains(elements[$0].name) && !isWithin(index, $0) }
-            return targets
+            var choices: [[Int]] = []
+            for reference in element.draws {
+                guard let found = Self.candidates(for: reference, in: byID) else { return nil }
+                if !found.isEmpty { choices.append(found) }
+            }
+            for reference in element.paints {
+                // Painting an element with itself or with a pattern or mask it is in is skipped when it is drawn (a
+                // style sheet rule for every element reaches the pattern's own content too); only other circles are
+                // refused.
+                guard let found = Self.candidates(for: reference, in: byID) else { return nil }
+                let painting = found.filter { Self.expanding.contains(elements[$0].name) && !isWithin(index, $0) }
+                if !painting.isEmpty { choices.append(painting) }
+            }
+            return (element.children, choices)
         }
         // Depth first without recursion (a chain of references can be as long as the file): an element is counted
         // when everything it draws is.
         var drawn = [Int?](repeating: nil, count: elements.count)
         var visiting = [Bool](repeating: false, count: elements.count)
-        var stack: [(index: Int, targets: [Int], next: Int)] = []
+        var stack: [(index: Int, children: [Int], choices: [[Int]], targets: [Int], next: Int)] = []
+        func push(_ index: Int) -> Bool {
+            guard let found = references(of: index) else { return false }
+            visiting[index] = true
+            stack.append((index, found.children, found.choices, found.children + found.choices.flatMap { $0 }, 0))
+            return true
+        }
         for root in elements.indices where drawn[root] == nil {
-            visiting[root] = true
-            stack.append((root, references(of: root), 0))
+            guard push(root) else { return nil }
             while let top = stack.last {
                 if top.next < top.targets.count {
                     let target = top.targets[top.next]
                     stack[stack.count - 1].next += 1
                     guard drawn[target] == nil else { continue }
                     // Reached again before it was counted: it draws itself.
-                    guard !visiting[target] else { return nil }
-                    visiting[target] = true
-                    stack.append((target, references(of: target), 0))
+                    guard !visiting[target], push(target) else { return nil }
                     continue
                 }
                 stack.removeLast()
                 visiting[top.index] = false
                 var total = 1 + elements[top.index].nested
-                for target in top.targets { total = min(total + (drawn[target] ?? 0), limit + 1) }
+                for child in top.children { total = min(total + (drawn[child] ?? 0), limit + 1) }
+                for choice in top.choices {
+                    total = min(total + (choice.compactMap { drawn[$0] }.max() ?? 0), limit + 1)
+                }
                 drawn[top.index] = total
             }
         }

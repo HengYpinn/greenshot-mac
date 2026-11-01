@@ -226,6 +226,34 @@ struct ElementSvgReferenceTests {
         }
     }
 
+    /// `useChain(6)` with a small rectangle after each group whose id `decoy` spells like the group's.
+    static func decoyChain(heavy: (Int) -> String = { "r\($0)" }, decoy: (Int) -> String) -> String {
+        var defs = "<rect id=\"\(heavy(0))\" width=\"10\" height=\"10\"/>"
+        for level in 1...6 {
+            defs += "<g id=\"\(heavy(level))\">" + String(repeating: "<use href=\"#\(heavy(level - 1))\"/>", count: 10) + "</g>"
+                + "<rect \(decoy(level)) width=\"1\" height=\"1\"/>"
+        }
+        return #"<svg xmlns="http://www.w3.org/2000/svg" xmlns:foo="urn:x" width="100" height="100">"#
+            + "<defs>\(defs)</defs><use href=\"#\(heavy(6))\"/></svg>"
+    }
+
+    @Test func idsThatOnlyLookAlikeCountAsTheBiggest() {
+        // A small element whose id is spelled almost like a big one's: which of the two macOS takes is counted as the
+        // bigger one.
+        let bombs = ["spaces": Self.decoyChain { "id=\" r\($0) \"" }, "new line": Self.decoyChain { "id=\"r\($0)&#10;\"" },
+                     "ID": Self.decoyChain { "ID=\"r\($0)\"" }, "xml:id": Self.decoyChain { "xml:id=\"r\($0)\"" },
+                     "foo:id": Self.decoyChain { "foo:id=\"r\($0)\"" },
+                     "#": Self.decoyChain(heavy: { "a#r\($0)" }) { "id=\"r\($0)\"" }]
+        for (name, svg) in bombs {
+            #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)), "\(name)")
+        }
+        // One id for many elements, used: refused rather than looking at each of them for every use.
+        let shared = Self.svgStart + String(repeating: #"<rect id="x" width="1" height="1"/>"#, count: 20) + ##"<use href="#x"/></svg>"##
+        #expect(!ElementSvg.hasLimitedReferences(Data(shared.utf8)))
+        let few = Self.svgStart + String(repeating: #"<rect id="x" width="1" height="1"/>"#, count: 3) + ##"<use href="#x"/></svg>"##
+        #expect(ElementSvg.hasLimitedReferences(Data(few.utf8)))
+    }
+
     @Test func innerPicturesCountWhateverTypeTheySay() throws {
         // macOS looks at what an inner picture holds, not at the type its URL says.
         let inner = Self.useChain(4)
