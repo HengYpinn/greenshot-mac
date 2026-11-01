@@ -618,8 +618,19 @@ struct FakeProcessTable: AIToolProcessTable {
             process.terminate()
             process.waitUntilExit()
         }
-        let running = try #require(SystemProcessTable().process(process.processIdentifier))
-        return try body(running)
+        // The new process shows up under its own path only once its program has started (a freshly signed copy takes
+        // a moment to be checked by the system), so look until it does.
+        let program = IPCEndpoint.realPath(path)
+        let clock = ContinuousClock()
+        let start = clock.now
+        var running = SystemProcessTable().process(process.processIdentifier)
+        while running?.path != program, process.isRunning, clock.now - start < .seconds(10) {
+            Thread.sleep(forTimeInterval: 0.05)
+            running = SystemProcessTable().process(process.processIdentifier)
+        }
+        let found = try #require(running)
+        try #require(found.path == program)
+        return try body(found)
     }
 
     @Test func applesProgramsAreSigned() throws {
@@ -640,28 +651,8 @@ struct FakeProcessTable: AIToolProcessTable {
         try codesign.run()
         codesign.waitUntilExit()
         try #require(codesign.terminationStatus == 0)
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: copy)
-        process.arguments = ["30"]
-        try process.run()
-        defer {
-            process.terminate()
-            process.waitUntilExit()
-        }
-        guard let running = SystemProcessTable().process(process.processIdentifier) else {
-            // macOS 15 (CI) stops an ad hoc signed copy of a system program (arm64e) as it starts, so nothing runs to
-            // check there; newer macOS runs it. Any other reason for the copy not running is a failure.
-            process.waitUntilExit()
-            let stoppedBySystem = process.terminationReason == .uncaughtSignal
-            #expect(stoppedBySystem, "the copy isn't running, and the system didn't stop it")
-            if stoppedBySystem {
-                withKnownIssue("macOS 15 doesn't run an ad hoc signed copy of /bin/sleep") {
-                    Issue.record("signature of an ad hoc signed program not checked")
-                }
-            }
-            return
-        }
-        #expect(AIToolSignature.running(running) == .unsigned)
+        let signature = try whileRunning(copy) { AIToolSignature.running($0) }
+        #expect(signature == .unsigned)
     }
 
     /// The process id of a program that isn't the one the walk found (another path) gives no signature.
