@@ -317,6 +317,23 @@ struct FakeProcessTable: AIToolProcessTable {
         #expect((try? result.get()) == nil)
     }
 
+    /// Security review 2026-11-01 MCP-3: the fields of the identity key are joined with " | ", so no field may hold a
+    /// "|": a program whose path reads like another identity's key can't be identified.
+    @Test func aPathWithTheSeparatorIsRefused() throws {
+        let allowed = try AIToolCaller.identity(executable: "/a/node", arguments: ["node", "/s/c.js"], environment: [:]).get()
+        let lookalike = AIToolCaller.identity(executable: "/a/node | script: /s/c.js", arguments: ["x"], environment: [:])
+        #expect((try? lookalike.get()) == nil)
+        let boundary = AIToolCaller.identity(executable: "/a/node |", arguments: ["x"], environment: [:])
+        #expect((try? boundary.get()) == nil)
+        let script = AIToolCaller.identity(executable: "/a/node", arguments: ["node", "/s/c.js | -r x"], environment: [:])
+        #expect((try? script.get()) == nil)
+        let option = AIToolCaller.identity(executable: "/a/node", arguments: ["node", "--require", "/a|b", "/s/c.js"], environment: [:])
+        #expect((try? option.get()) == nil)
+        let variable = AIToolCaller.identity(executable: "/a/node", arguments: ["node", "/s/c.js"], environment: ["NODE_OPTIONS": "-r a | b"])
+        #expect((try? variable.get()) == nil)
+        #expect(allowed.key == "/a/node | script: /s/c.js")
+    }
+
     @Test func theWorkingDirectoryIsNotPartOfTheIdentity() throws {
         let server = AIToolProcess(pid: 500, parentPID: 200, startTime: 1000, path: "/Applications/G.app/Contents/Helpers/greenshot-mcp")
         var node = AIToolProcess(pid: 200, parentPID: 1, startTime: 700, path: "/usr/local/bin/node",

@@ -29,6 +29,8 @@ public struct AIToolIdentity: Equatable, Sendable {
     }
 
     /// The text kept in `AIToolsSettings.allowedClients` (without the Team ID): "<executable> | script: <script> | <note>".
+    /// `AIToolCaller.identity` refuses a field with a "|" (security review 2026-11-01 MCP-3), so no key reads like another
+    /// one: "/x/node | script: /s.js" can't be the path of a program.
     public var key: String {
         var parts = [executable]
         if let script { parts.append("script: \(script)") }
@@ -127,13 +129,15 @@ extension AIToolCaller {
     /// The identity of the program behind greenshot-mcp from its executable, arguments and environment (SM-H1); refused
     /// for code that can't be pinned down: DYLD_ variables (injected libraries), inline code (`node -e`, `python -c`), a
     /// runtime without a script (stdin, a REPL), a script without its full path or a module (`python -m`, MCP-1), or
-    /// arguments that can't be read. The working directory isn't used: it can change after the program started.
+    /// arguments that can't be read. The working directory isn't used: it can change after the program started. A "|" in
+    /// the executable, the script, an option or a variable is refused: the key joins them with " | " (MCP-3).
     public static func identity(executable: String, arguments: [String]?, environment: [String: String]?) -> Result<AIToolIdentity, AIToolError> {
         let name = (executable as NSString).lastPathComponent
         let environment = environment ?? [:]
         if environment.keys.contains(where: { $0.hasPrefix("DYLD_") }) {
             return .failure(AIToolError("\(name) was started with DYLD_ variables, which can change any program: it can't use Greenshot for Mac."))
         }
+        if executable.contains("|") { return .failure(separatorError(name)) }
         var notes: [String] = []
         var runtime = runtime(ofExecutable: executable)
         if let value = environment["ELECTRON_RUN_AS_NODE"], !value.isEmpty, value != "0" {
@@ -161,8 +165,14 @@ extension AIToolCaller {
             guard parsed.script.hasPrefix("/") else {
                 return .failure(AIToolError("\(name) (\(runtime.rawValue)) runs a script that isn't given by its full path, so Greenshot for Mac can't tell which script asks: start it with the script's full path."))
             }
-            return .success(AIToolIdentity(executable: executable, script: resolve(parsed.script), notes: parsed.options + notes))
+            let identity = AIToolIdentity(executable: executable, script: resolve(parsed.script), notes: parsed.options + notes)
+            if ([identity.script ?? ""] + identity.notes).contains(where: { $0.contains("|") }) { return .failure(separatorError(name)) }
+            return .success(identity)
         }
+    }
+
+    private static func separatorError(_ name: String) -> AIToolError {
+        AIToolError("\(name) has a \"|\" in its path, script, options or variables, which the list of allowed programs uses between their parts: it can't use Greenshot for Mac.")
     }
 
     /// The script and the options before it (`--require x`, `--env-file=f`, `-MEvil`, `--inspect`): all of them, because an
