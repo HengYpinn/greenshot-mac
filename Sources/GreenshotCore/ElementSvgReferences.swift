@@ -19,8 +19,8 @@ extension ElementSvg {
     /// Whether the references of `data` add at most `maxReferencedElements` elements and don't go round in a circle.
     /// False also when it isn't well-formed XML, which macOS doesn't draw either.
     static func hasLimitedReferences(_ data: Data) -> Bool {
-        guard let counts = SvgReferenceCount.count(data, depth: 0) else { return false }
-        return counts.drawn - counts.written <= maxReferencedElements
+        guard case .counted(let written, let drawn) = SvgReferenceCount.count(data, depth: 0) else { return false }
+        return drawn - written <= maxReferencedElements
     }
 }
 
@@ -39,8 +39,8 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         var draws: [String] = []
         /// The ids in the `url(#…)` of its attributes and of the style sheet rules for it.
         var paints: [String] = []
-        /// The SVG pictures inside it, and the elements they draw (counted after the parse: `XMLParser` can't parse
-        /// another document while it parses one).
+        /// The pictures inside it (`data:` URLs) and the elements they draw when they are SVG (counted after the
+        /// parse: `XMLParser` can't parse another document while it parses one).
         var pictures: [Data] = []
         var nested = 0
     }
@@ -49,25 +49,41 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     private var open: [Int] = []
     private var styleSheet = ""
 
-    /// The elements `data` has (`written`) and those drawn with its references (`drawn`); nil when the references go
-    /// round in a circle, an inner picture is too deep or too big, or `data` isn't well-formed XML.
-    static func count(_ data: Data, depth: Int) -> (written: Int, drawn: Int)? {
+    enum Count {
+        /// The elements the document has, and those drawn with its references.
+        case counted(written: Int, drawn: Int)
+        /// It isn't well-formed XML (an inner picture of another format; macOS doesn't draw such an SVG either).
+        case notXML
+        /// Its references go round in a circle, or an inner picture is too deep or refused.
+        case refused
+    }
+
+    static func count(_ data: Data, depth: Int) -> Count {
         let counter = SvgReferenceCount()
         let parser = XMLParser(data: data)
         parser.shouldResolveExternalEntities = false
         parser.externalEntityResolvingPolicy = .never
         parser.delegate = counter
-        guard parser.parse(), !counter.elements.isEmpty else { return nil }
+        guard parser.parse(), !counter.elements.isEmpty else { return .notXML }
+        // An SVG picture deeper than `maxNestedPictures` is refused, and nothing in it is looked at.
+        guard depth <= ElementSvg.maxNestedPictures else { return .refused }
         for index in counter.elements.indices {
+            // Whatever type a picture's URL says, macOS draws it as SVG when it is one: each one that is XML counts.
             for picture in counter.elements[index].pictures {
-                guard depth < ElementSvg.maxNestedPictures, let inner = count(picture, depth: depth + 1) else { return nil }
-                counter.elements[index].nested += inner.drawn
+                switch count(picture, depth: depth + 1) {
+                case .notXML:
+                    continue
+                case .counted(_, let drawn):
+                    counter.elements[index].nested += drawn
+                case .refused:
+                    return .refused
+                }
             }
         }
-        guard counter.applyStyleSheet() else { return nil }
+        guard counter.applyStyleSheet() else { return .refused }
         let limit = counter.elements.count + ElementSvg.maxReferencedElements
-        guard let drawn = counter.drawnCount(limit: limit) else { return nil }
-        return (counter.elements.count, drawn)
+        guard let drawn = counter.drawnCount(limit: limit) else { return .refused }
+        return .counted(written: counter.elements.count, drawn: drawn)
     }
 
     // MARK: Reading
@@ -119,15 +135,15 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         return name[name.index(after: colon)...].lowercased()
     }
 
-    /// The SVG in a `data:` URL (base64 or percent-encoded) that says it is one or looks like one; nil for anything else.
+    /// The bytes of a `data:` URL (base64 or percent-encoded), whatever type it says; nil for anything else.
     private static func svgPicture(_ url: String) -> Data? {
         guard url.prefix(5).lowercased() == "data:", let comma = url.firstIndex(of: ",") else { return nil }
         let header = url[..<comma].lowercased()
         let payload = String(url[url.index(after: comma)...])
-        let data = header.hasSuffix(";base64")
-            ? Data(base64Encoded: payload.removingPercentEncoding ?? payload, options: .ignoreUnknownCharacters)
-            : (payload.removingPercentEncoding ?? payload).data(using: .utf8)
-        return data.flatMap { header.contains("svg") || ElementSvg.isSVG($0) ? $0 : nil }
+        if header.hasSuffix(";base64") {
+            return Data(base64Encoded: payload.removingPercentEncoding ?? payload, options: .ignoreUnknownCharacters)
+        }
+        return (payload.removingPercentEncoding ?? payload).data(using: .utf8)
     }
 
     /// The ids of the `url(#id)` in `text` (an attribute or a style sheet rule).

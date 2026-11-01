@@ -226,6 +226,32 @@ struct ElementSvgReferenceTests {
         }
     }
 
+    @Test func innerPicturesCountWhateverTypeTheySay() throws {
+        // macOS looks at what an inner picture holds, not at the type its URL says.
+        let inner = Self.useChain(4)
+        let commented = Data(("<!--" + String(repeating: "x", count: 5000) + "-->" + inner).utf8)
+        let utf16 = try #require(inner.data(using: .utf16))
+        let urls = ["png type, comment first": "data:image/png;base64," + commented.base64EncodedString(),
+                    "png type, UTF-16": "data:image/png;base64," + utf16.base64EncodedString(),
+                    "no type, comment first": "data:," + (String(decoding: commented, as: UTF8.self)
+                        .addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "")]
+        for (name, url) in urls {
+            let svg = Self.svgStart + "<defs><image id=\"i\" width=\"10\" height=\"10\" href=\"\(url)\"/></defs>"
+                + String(repeating: "<use href=\"#i\"/>", count: 10) + "</svg>"
+            #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)), "\(name)")
+        }
+        // SVG pictures in SVG pictures, six deep.
+        var nested = Self.svgStart + "<rect width=\"1\" height=\"1\"/></svg>"
+        for _ in 1...6 {
+            nested = Self.svgStart + "<image href=\"data:image/svg+xml;base64,\(Data(nested.utf8).base64EncodedString())\"/></svg>"
+        }
+        #expect(!ElementSvg.hasLimitedReferences(Data(nested.utf8)))
+        // A real picture inside the SVG is fine.
+        let png = try ImageExporter.data(for: TestImage.solid(width: 2, height: 2, .red), format: .png, scale: 1)
+        let picture = Self.svgStart + "<image width=\"10\" height=\"10\" href=\"data:image/png;base64,\(png.base64EncodedString())\"/></svg>"
+        #expect(ElementSvg.hasLimitedReferences(Data(picture.utf8)))
+    }
+
     @Test func bigStyleSheetsAreCountedQuickly() {
         // A rule for each of 5,000 classes, 20,000 shapes: looking for the shapes of each rule in turn took minutes.
         let shapes = (0..<20_000).map { "<rect class=\"c\($0 % 5000)\" width=\"1\" height=\"1\"/>" }.joined()
