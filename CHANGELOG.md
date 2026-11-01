@@ -547,7 +547,7 @@ From a second security review (November 2026):
 - AI tools: an allowed program is bound to its developer's signature again (the check of the running program had
   stopped reading signatures, so every program counted as unsigned): a signed AI tool you allowed before is asked
   about once more, and the question shows who signed it. A program is named after its app only when the app's
-  signature covers that name; otherwise its file name is shown.
+  signature covers that name, taken from the Info.plist the signature covers; otherwise its file name is shown.
 - The AI tool question, the AI capture notice and the questions before a greenshot-cli or link capture or recipe show
   the asking program's name without control or direction characters, shortened, and marked "(unsigned)" when no
   developer signed it.
@@ -569,12 +569,13 @@ From a second security review (November 2026):
 - Image effects, resizing and Enlarge Canvas make no image larger than 200 megapixels. SVGs: one whose references
   would draw a very large number of elements or draw themselves, or that declares XML entities, isn't opened
   (references are counted whatever the case of their names, and pictures inside it whatever type they say they are);
-  one that takes longer than 2.5 seconds to read or draw shows as unreadable instead of freezing the app; the SVG
-  elements of one document draw at most 500,000 elements in all. Dropping or pasting a picture file with thousands of
-  pages no longer freezes the editor (icons and TIFF files compare at most 64 sizes, other files use their first
-  frame). Elements read from a file or the clipboard stop at 5,000 and at 400 megapixels of pictures; the rest are
-  reported as damaged. Greenshot for Windows files convert each picture once, stop converting after 400 megapixels and
-  read quickly also with very large element data.
+  one that takes longer than 2.5 seconds to read or draw shows as unreadable instead of freezing the app, and all SVGs
+  share at most 2.5 seconds of reading and drawing in any 10 seconds (the rest are drawn later); the SVG elements of
+  one document draw at most 500,000 elements in all. Dropping or pasting a picture file with thousands of pages no
+  longer freezes the editor (icons and TIFF files compare at most 64 sizes, other files use their first frame).
+  Elements read from a file or the clipboard stop at 5,000 and at 400 megapixels of pictures; the rest are reported as
+  damaged. Greenshot for Windows files convert each picture once, stop converting after 400 megapixels and read
+  quickly also with very large element data.
 - A picture copied as HTML with a large inline image (`data:`) is pasted again, and the HTML is read in one pass.
   Pasting or dropping a file that can't be read as an image no longer draws it another way.
 - An editor restored after a crash or logout saves to a new file instead of the file its kept copy names.
