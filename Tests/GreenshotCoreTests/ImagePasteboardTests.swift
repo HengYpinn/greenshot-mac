@@ -3,6 +3,7 @@
 import AppKit
 import Foundation
 import Testing
+import UniformTypeIdentifiers
 @testable import GreenshotCore
 
 /// The image on the clipboard (upstream `ClipboardHelper.GetFirstImage`, `GetHtmlImageUrls`). Each test uses its own
@@ -30,6 +31,29 @@ struct ImagePasteboardTests {
             let image = try #require(ImagePasteboard.image(from: pasteboard)).image
             #expect(image.width == 30 && image.height == 20)
             #expect(TestImage.pixel(image, 3, 3) == .blue)
+        }
+    }
+
+    @Test func anSvgThatIsRefusedIsNotDrawnAnotherWay() throws {
+        // 1.3 KB that macOS takes seconds to draw (`ElementSvg` refuses it): copied as a file or as SVG data, AppKit's
+        // own reading of the pasteboard drew it all the same.
+        guard ElementSvg.isSupported else { return }
+        let svg = ElementSvgReferenceTests.useChain(6)
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString + ".svg")
+        defer { try? FileManager.default.removeItem(at: url) }
+        try Data(svg.utf8).write(to: url)
+        let clock = ContinuousClock()
+        try withPasteboard { pasteboard in
+            pasteboard.writeObjects([url as NSURL])
+            let start = clock.now
+            #expect(ImagePasteboard.image(from: pasteboard) == nil)
+            #expect(clock.now - start < .seconds(1))
+        }
+        try withPasteboard { pasteboard in
+            pasteboard.setData(Data(svg.utf8), forType: NSPasteboard.PasteboardType(UTType.svg.identifier))
+            let start = clock.now
+            #expect(ImagePasteboard.image(from: pasteboard) == nil)
+            #expect(clock.now - start < .seconds(1))
         }
     }
 

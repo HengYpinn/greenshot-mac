@@ -57,17 +57,21 @@ public enum ElementSvg {
     }
 
     /// The SVG as an image that draws itself at any size; nil when it isn't SVG, this Mac can't draw SVG, it has no
-    /// size, or its references would make it far more than it is (`hasLimitedReferences`).
-    static func image(_ data: Data) -> NSImage? {
+    /// size, its references would make it far more than it is (`hasLimitedReferences`), or reading it takes longer
+    /// than `deadline` allows.
+    static func image(_ data: Data, deadline: SvgDeadline = .shared) -> NSImage? {
         guard isSupported, isSVG(data) else { return nil }
         guard hasLimitedReferences(data) else {
             log.info("An SVG whose references draw too much or draw themselves is not drawn")
             return nil
         }
-        guard let image = NSImage(data: data) else { return nil }
-        let size = image.size
-        guard size.width.isFinite, size.height.isFinite, size.width > 0, size.height > 0 else { return nil }
-        return image
+        let read = deadline.run { () -> NSImage? in
+            guard let image = NSImage(data: data) else { return nil }
+            let size = image.size
+            guard size.width.isFinite, size.height.isFinite, size.width > 0, size.height > 0 else { return nil }
+            return image
+        }
+        return finished(read, of: data)
     }
 
     /// The SVG's own size in points: its width and height, else its viewBox (upstream `SvgDocument.Width/Height`).
@@ -77,21 +81,47 @@ public enum ElementSvg {
 
     /// The SVG drawn into `pixelSize` (made smaller to stay within the limits), transparent where it draws nothing.
     public static func render(_ data: Data, pixelSize: CGSize) -> CGImage? {
-        render(image(data), pixelSize: pixelSize)
+        render(data, pixelSize: pixelSize, deadline: .shared)
     }
 
-    static func render(_ image: NSImage?, pixelSize: CGSize) -> CGImage? {
+    static func render(_ data: Data, pixelSize: CGSize, deadline: SvgDeadline) -> CGImage? {
+        render(image(data, deadline: deadline), of: data, pixelSize: pixelSize, deadline: deadline)
+    }
+
+    /// `image`, the SVG of `data`, drawn into `pixelSize` within the time `deadline` allows; an SVG that takes longer is
+    /// refused from then on (`refuse(_:)`).
+    static func render(_ image: NSImage?, of data: Data, pixelSize: CGSize, deadline: SvgDeadline = .shared) -> CGImage? {
         // `limited` keeps a size that isn't finite as it is, and `Int` traps on it.
-        guard let image, pixelSize.width.isFinite, pixelSize.height.isFinite else { return nil }
+        guard let image, pixelSize.width.isFinite, pixelSize.height.isFinite, knownVerdict(data) != false else { return nil }
         let size = limited(pixelSize)
         let width = Int(size.width.rounded())
         let height = Int(size.height.rounded())
-        guard width > 0, height > 0, let context = AnnotationRenderer.makeContext(width: width, height: height) else { return nil }
-        let previous = NSGraphicsContext.current
-        NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: false)
-        image.draw(in: NSRect(x: 0, y: 0, width: width, height: height), from: .zero, operation: .sourceOver, fraction: 1)
-        NSGraphicsContext.current = previous
-        return context.makeImage()
+        guard width > 0, height > 0 else { return nil }
+        let drawn = deadline.run { () -> CGImage? in
+            guard let context = AnnotationRenderer.makeContext(width: width, height: height) else { return nil }
+            NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: false)
+            image.draw(in: NSRect(x: 0, y: 0, width: width, height: height), from: .zero, operation: .sourceOver, fraction: 1)
+            NSGraphicsContext.current = nil
+            return context.makeImage()
+        }
+        return finished(drawn, of: data)
+    }
+
+    /// What reading or drawing the SVG of `data` came to: nothing when it took too long (and `data` is refused from
+    /// then on), or when an SVG before it that took too long is still being drawn (the element shows nothing until a
+    /// later redraw).
+    private static func finished<Value>(_ outcome: SvgDeadline.Outcome<Value?>, of data: Data) -> Value? {
+        switch outcome {
+        case .done(let value):
+            return value
+        case .timedOut:
+            log.info("An SVG that takes longer than \(SvgDeadline.shared.timeout) seconds to draw is not drawn")
+            refuse(data)
+            return nil
+        case .busy:
+            log.info("An SVG is not drawn while one that took too long is still being drawn")
+            return nil
+        }
     }
 
     /// `size` made smaller, keeping its aspect ratio, so it has at most `maxSide` pixels a side and `maxPixels` in all.
@@ -116,7 +146,7 @@ public enum ElementSvg {
         }
         let points = image.size
         let pixels = limited(CGSize(width: points.width * openScale, height: points.height * openScale))
-        guard let picture = render(image, pixelSize: pixels) else { return nil }
+        guard let picture = render(image, of: data, pixelSize: pixels) else { return nil }
         // An SVG of absurd size (1e300 points is drawn into a few pixels) gets no absurd pixels per point.
         let scale = min(max(CGFloat(picture.width) / points.width, minOpenScale), maxOpenScale)
         return (picture, scale)
@@ -142,8 +172,13 @@ public enum ElementSvg {
         }
     }
 
-    /// The SVG of each element, read once; an element's SVG never changes.
-    private static let decoded = NSCache<NSUUID, Decoded>()
+    /// The SVG of each element, read once; an element's SVG never changes. Each one costs the elements it draws: a read
+    /// SVG keeps all of them in memory.
+    private static let decoded: NSCache<NSUUID, Decoded> = {
+        let cache = NSCache<NSUUID, Decoded>()
+        cache.totalCostLimit = Annotation.maxSvgElements
+        return cache
+    }()
     /// The SVG of each element drawn at the sizes it was last shown, so redrawing the canvas doesn't draw it again. A
     /// resize draws it at every step, so only the newest few sizes are kept.
     private static let drawn: NSCache<NSString, Drawn> = {
@@ -166,10 +201,10 @@ public enum ElementSvg {
         let id = a.id as NSUUID
         var svg = decoded.object(forKey: id).flatMap { $0.byteCount == data.count ? $0.image : nil }
         if svg == nil, let image = image(data) {
-            decoded.setObject(Decoded(byteCount: data.count, image: image), forKey: id)
+            decoded.setObject(Decoded(byteCount: data.count, image: image), forKey: id, cost: drawnElements(data) ?? 0)
             svg = image
         }
-        guard let picture = render(svg, pixelSize: CGSize(width: width, height: height)) else { return nil }
+        guard let picture = render(svg, of: data, pixelSize: CGSize(width: width, height: height)) else { return nil }
         drawn.setObject(Drawn(image: picture), forKey: key)
         return picture
     }

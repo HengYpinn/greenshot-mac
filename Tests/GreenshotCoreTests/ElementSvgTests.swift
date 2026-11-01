@@ -155,24 +155,24 @@ struct ElementSvgReferenceTests {
 
     /// `levels` groups, each drawing the one before it ten times with `<use>`: 10^levels rectangles from a few hundred
     /// bytes per level.
-    static func useChain(_ levels: Int, link: String = "href") -> String {
-        var defs = #"<rect id="r0" width="10" height="10"/>"#
+    static func useChain(_ levels: Int, element: String = "use", link: String = "href", id: String = "id", hash: String = "#") -> String {
+        var defs = "<rect \(id)=\"r0\" width=\"10\" height=\"10\"/>"
         for level in 1...levels {
-            defs += "<g id=\"r\(level)\">" + String(repeating: "<use \(link)=\"#r\(level - 1)\"/>", count: 10) + "</g>"
+            defs += "<g \(id)=\"r\(level)\">" + String(repeating: "<\(element) \(link)=\"\(hash)r\(level - 1)\"/>", count: 10) + "</g>"
         }
-        return Self.svgStart + "<defs>\(defs)</defs><use \(link)=\"#r\(levels)\"/></svg>"
+        return Self.svgStart + "<defs>\(defs)</defs><\(element) \(link)=\"\(hash)r\(levels)\"/></svg>"
     }
 
     /// `levels` patterns (or masks), each with ten rectangles painted with the one before it by `paint`.
     static func paintChain(_ levels: Int, element: String = "pattern", style: String = "", paint: (Int) -> String) -> String {
-        let open = element == "pattern" ? #" width="10" height="10" patternUnits="userSpaceOnUse""# : ""
+        let open = element.lowercased() == "pattern" ? #" width="10" height="10" patternUnits="userSpaceOnUse""# : ""
         var defs = "<\(element) id=\"p0\"\(open)><rect width=\"1\" height=\"1\" fill=\"white\"/></\(element)>"
         for level in 1...levels {
             defs += "<\(element) id=\"p\(level)\"\(open)>"
                 + (0..<10).map { "<rect x=\"\($0)\" width=\"1\" height=\"10\" \(paint(level))/>" }.joined()
                 + "</\(element)>"
         }
-        let use = element == "pattern" ? "fill=\"url(#p\(levels))\"" : "mask=\"url(#p\(levels))\""
+        let use = element.lowercased() == "pattern" ? "fill=\"url(#p\(levels))\"" : "mask=\"url(#p\(levels))\""
         return Self.svgStart + "<style>\(style)</style><defs>\(defs)</defs><rect width=\"100\" height=\"100\" \(use)/></svg>"
     }
 
@@ -211,6 +211,69 @@ struct ElementSvgReferenceTests {
         }
     }
 
+    @Test func namesAreComparedLikeMacOSDoes() {
+        // macOS takes element and attribute names in any case, `xml:id` for an id, and a link without its "#".
+        let bombs = ["Use": Self.useChain(6, element: "Use"), "USE": Self.useChain(6, element: "USE"),
+                     "HREF": Self.useChain(6, link: "HREF"), "XLINK:HREF": Self.useChain(6, link: "XLINK:HREF"),
+                     "ID": Self.useChain(6, id: "ID"), "xml:id": Self.useChain(6, id: "xml:id"),
+                     "no #": Self.useChain(6, hash: ""),
+                     "PATTERN": Self.paintChain(5, element: "PATTERN") { "fill=\"url(#p\($0 - 1))\"" },
+                     "MASK": Self.paintChain(5, element: "MASK") { "fill=\"white\" mask=\"url(#p\($0 - 1))\"" },
+                     "STYLE": Self.paintChain(5, style: (1...5).map { ".c\($0) { fill: url(#p\($0 - 1)) }" }.joined()) { "class=\"c\($0)\"" }
+                        .replacingOccurrences(of: "<style>", with: "<STYLE>").replacingOccurrences(of: "</style>", with: "</STYLE>")]
+        for (name, svg) in bombs {
+            #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)), "\(name)")
+        }
+    }
+
+    @Test func innerPicturesCountWhateverTypeTheySay() throws {
+        // macOS looks at what an inner picture holds, not at the type its URL says.
+        let inner = Self.useChain(4)
+        let commented = Data(("<!--" + String(repeating: "x", count: 5000) + "-->" + inner).utf8)
+        let utf16 = try #require(inner.data(using: .utf16))
+        let urls = ["png type, comment first": "data:image/png;base64," + commented.base64EncodedString(),
+                    "png type, UTF-16": "data:image/png;base64," + utf16.base64EncodedString(),
+                    "no type, comment first": "data:," + (String(decoding: commented, as: UTF8.self)
+                        .addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? "")]
+        for (name, url) in urls {
+            let svg = Self.svgStart + "<defs><image id=\"i\" width=\"10\" height=\"10\" href=\"\(url)\"/></defs>"
+                + String(repeating: "<use href=\"#i\"/>", count: 10) + "</svg>"
+            #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)), "\(name)")
+        }
+        // SVG pictures in SVG pictures, six deep.
+        var nested = Self.svgStart + "<rect width=\"1\" height=\"1\"/></svg>"
+        for _ in 1...6 {
+            nested = Self.svgStart + "<image href=\"data:image/svg+xml;base64,\(Data(nested.utf8).base64EncodedString())\"/></svg>"
+        }
+        #expect(!ElementSvg.hasLimitedReferences(Data(nested.utf8)))
+        // A real picture inside the SVG is fine.
+        let png = try ImageExporter.data(for: TestImage.solid(width: 2, height: 2, .red), format: .png, scale: 1)
+        let picture = Self.svgStart + "<image width=\"10\" height=\"10\" href=\"data:image/png;base64,\(png.base64EncodedString())\"/></svg>"
+        #expect(ElementSvg.hasLimitedReferences(Data(picture.utf8)))
+    }
+
+    @Test func entitiesAreRefused() {
+        // An entity of 3.8 KB in 100,000 attributes made the count itself take seconds; drawing programs don't
+        // write entities.
+        let entity = String(repeating: "x", count: 3800)
+        let svg = "<?xml version=\"1.0\"?><!DOCTYPE svg [<!ENTITY b \"\(entity)\">]>" + Self.svgStart
+            + String(repeating: "<g class=\"&b;\"/>", count: 100_000) + "</svg>"
+        let clock = ContinuousClock()
+        let start = clock.now
+        #expect(!ElementSvg.hasLimitedReferences(Data(svg.utf8)))
+        #expect(clock.now - start < .seconds(1))
+        let small = #"<!DOCTYPE svg [<!ENTITY ns_svg "http://www.w3.org/2000/svg">]>"#
+            + #"<svg xmlns="&ns_svg;" width="100" height="100"><rect width="10" height="10"/></svg>"#
+        #expect(!ElementSvg.hasLimitedReferences(Data(small.utf8)))
+    }
+
+    @Test func theVerdictIsKept() {
+        let svg = Data(Self.useChain(3).utf8)
+        #expect(ElementSvg.knownVerdict(svg) == nil)
+        #expect(ElementSvg.drawnElements(svg) != nil)
+        #expect(ElementSvg.knownVerdict(svg) == true)
+    }
+
     @Test func bigStyleSheetsAreCountedQuickly() {
         // A rule for each of 5,000 classes, 20,000 shapes: looking for the shapes of each rule in turn took minutes.
         let shapes = (0..<20_000).map { "<rect class=\"c\($0 % 5000)\" width=\"1\" height=\"1\"/>" }.joined()
@@ -227,13 +290,28 @@ struct ElementSvgReferenceTests {
         #expect(clock.now - start < .seconds(1))
     }
 
+    @Test func aStyleSheetPaintingItsOwnMaskIsFine() {
+        // A rule for every `.icon path` reaches the mask and its content too: painting an element with itself or with
+        // a pattern or mask it is in is skipped when it is drawn, so it isn't a circle.
+        let svg = #"<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><style>.icon path{mask:url(#m)}</style>"#
+            + #"<mask id="m"><rect width="10" height="10" fill="white"/></mask><g class="icon"><path d="M0 0h10v10z"/></g></svg>"#
+        #expect(ElementSvg.size(of: Data(svg.utf8)) == CGSize(width: 10, height: 10))
+        let pattern = Self.svgStart + #"<pattern id="p" width="10" height="10"><rect width="5" height="5" fill="url(#p)"/></pattern>"#
+            + #"<rect width="100" height="100" fill="url(#p)"/></svg>"#
+        #expect(ElementSvg.size(of: Data(pattern.utf8)) == CGSize(width: 100, height: 100))
+    }
+
     @Test func referencesInACircleAreRefused() {
         // Two groups drawing each other made macOS crash.
         let pair = Self.svgStart + ##"<g id="a"><rect width="1" height="1"/><use href="#b"/></g><g id="b"><use href="#a"/></g></svg>"##
         #expect(ElementSvg.size(of: Data(pair.utf8)) == nil)
-        let pattern = Self.svgStart + #"<pattern id="p" width="10" height="10"><rect width="5" height="5" fill="url(#p)"/></pattern>"#
+        let itself = Self.svgStart + ##"<g id="a"><rect width="1" height="1"/><use href="#a"/></g></svg>"##
+        #expect(ElementSvg.size(of: Data(itself.utf8)) == nil)
+        // Two patterns painting each other's content.
+        let patterns = Self.svgStart + #"<pattern id="p" width="10" height="10"><rect width="5" height="5" fill="url(#q)"/></pattern>"#
+            + #"<pattern id="q" width="10" height="10"><rect width="5" height="5" fill="url(#p)"/></pattern>"#
             + #"<rect width="100" height="100" fill="url(#p)"/></svg>"#
-        #expect(ElementSvg.size(of: Data(pattern.utf8)) == nil)
+        #expect(ElementSvg.size(of: Data(patterns.utf8)) == nil)
     }
 
     @Test func ordinaryReferencesStayFine() throws {
@@ -246,12 +324,43 @@ struct ElementSvgReferenceTests {
             + #"<pattern id="p" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2"/></pattern>"#
             + String(repeating: #"<rect class="st0" width="1" height="1"/>"#, count: 3000)
             + String(repeating: #"<rect class="st1" width="1" height="1"/>"#, count: 3000) + "</svg>"
-        let entities = #"<!DOCTYPE svg [<!ENTITY ns_svg "http://www.w3.org/2000/svg">]>"#
-            + #"<svg xmlns="&ns_svg;" width="100" height="100"><rect width="10" height="10"/></svg>"#
         let doctype = #"<?xml version="1.0"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">"#
             + #"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="10" height="10"/></svg>"#
-        for svg in [sheet, styled, Self.useChain(4), entities, doctype] {
+        for svg in [sheet, styled, Self.useChain(4), doctype] {
             #expect(ElementSvg.size(of: Data(svg.utf8)) == CGSize(width: 100, height: 100))
         }
+    }
+}
+
+/// SVGs that take long to draw: drawing waits for them for a while, then shows nothing.
+@Suite(.enabled(if: ElementSvg.isSupported))
+struct ElementSvgDeadlineTests {
+    /// 100 half-transparent rectangles of the full size: 6 KB that take seconds to draw at 4096 pixels.
+    static let slow = Data(("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\">"
+        + String(repeating: "<rect width=\"100\" height=\"100\" fill=\"red\" opacity=\"0.5\"/>", count: 100) + "</svg>").utf8)
+
+    @Test func anSvgThatTakesTooLongToDrawShowsNothing() async throws {
+        // A deadline of its own: the shared one would keep other tests' SVGs from drawing while this one goes on.
+        let deadline = SvgDeadline(timeout: 0.3)
+        let clock = ContinuousClock()
+        var start = clock.now
+        let picture = ElementSvg.render(Self.slow, pixelSize: CGSize(width: 4096, height: 4096), deadline: deadline)
+        #expect(picture == nil)
+        #expect(clock.now - start < .milliseconds(1200))
+        #expect(ElementSvg.knownVerdict(Self.slow) == false)
+        // While it is still being drawn, other SVGs show nothing at once instead of waiting behind it.
+        if deadline.isOverdue {
+            start = clock.now
+            #expect(ElementSvg.render(ElementSvgTests.svg, pixelSize: CGSize(width: 40, height: 20), deadline: deadline) == nil)
+            #expect(clock.now - start < .milliseconds(200))
+        }
+        start = clock.now
+        while deadline.isOverdue, clock.now - start < .seconds(20) {
+            try await Task.sleep(for: .milliseconds(50))
+        }
+        #expect(!deadline.isOverdue)
+        // Then they draw again; the slow one stays refused.
+        #expect(ElementSvg.render(ElementSvgTests.svg, pixelSize: CGSize(width: 40, height: 20), deadline: deadline) != nil)
+        #expect(ElementSvg.render(Self.slow, pixelSize: CGSize(width: 10, height: 10), deadline: deadline) == nil)
     }
 }

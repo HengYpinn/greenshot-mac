@@ -37,8 +37,18 @@ public enum ImagePasteboard {
                 if let data = dataURLContents(url), let loaded = ImageFileLoader.load(data: data) { return loaded }
             }
         }
-        guard let image = NSImage(pasteboard: pasteboard) else { return nil }
+        guard let image = fallbackImage(on: pasteboard) else { return nil }
         return bitmap(of: image)
+    }
+
+    /// The pasteboard read by AppKit (`NSImage(pasteboard:)`), for what ImageIO doesn't read (a PDF); nil when it holds
+    /// files or SVG. Files were read as files before, and AppKit would draw an SVG without the checks of `ElementSvg`,
+    /// also one they refused.
+    public static func fallbackImage(on pasteboard: NSPasteboard) -> NSImage? {
+        let types = pasteboard.types ?? []
+        let hasSvg = types.contains { UTType($0.rawValue)?.conforms(to: .svg) == true }
+        guard !types.contains(.fileURL), !hasSvg else { return nil }
+        return NSImage(pasteboard: pasteboard)
     }
 
     /// The web images (http, https) of the HTML on the pasteboard, for a download.
@@ -93,8 +103,10 @@ public enum ImagePasteboard {
         return ImageFileLoader.load(data: data)
     }
 
-    /// The biggest bitmap of an image, with its pixels per point.
+    /// The biggest bitmap of an image, with its pixels per point; nil for an image that is neither bitmaps nor PDF (an
+    /// SVG is drawn only by `ElementSvg`, within its checks).
     public static func bitmap(of image: NSImage) -> (image: CGImage, scale: CGFloat)? {
+        guard image.representations.allSatisfy({ $0 is NSBitmapImageRep || $0 is NSPDFImageRep }) else { return nil }
         let best = image.representations
             .compactMap { $0 as? NSBitmapImageRep }
             .max { $0.pixelsWide < $1.pixelsWide }

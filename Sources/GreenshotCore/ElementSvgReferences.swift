@@ -3,6 +3,7 @@
 // Based on Greenshot, Copyright (C) 2007-2026 Thomas Braun, Jens Klingen, Robin Krom
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import CryptoKit
 import Foundation
 
 /// What the references of an SVG add to drawing it, counted before macOS draws it. `<use>` draws the element it
@@ -17,27 +18,65 @@ extension ElementSvg {
     static let maxNestedPictures = 4
 
     /// Whether the references of `data` add at most `maxReferencedElements` elements and don't go round in a circle.
-    /// False also when it isn't well-formed XML, which macOS doesn't draw either.
+    /// False also when it isn't well-formed XML, which macOS doesn't draw either, when it declares entities, and when
+    /// it was refused before (`refuse(_:)`).
     static func hasLimitedReferences(_ data: Data) -> Bool {
-        guard let counts = SvgReferenceCount.count(data, depth: 0) else { return false }
-        return counts.drawn - counts.written <= maxReferencedElements
+        drawnElements(data) != nil
+    }
+
+    /// The elements `data` draws with its references followed; nil when it is refused (see `hasLimitedReferences`).
+    static func drawnElements(_ data: Data) -> Int? {
+        let key = verdictKey(data)
+        if let known = verdicts.object(forKey: key) { return known.intValue >= 0 ? known.intValue : nil }
+        var drawn: Int?
+        if case .counted(let written, let total) = SvgReferenceCount.count(data, depth: 0, known: SvgReferenceCount.Known()),
+           total - written <= maxReferencedElements {
+            drawn = total
+        }
+        verdicts.setObject(NSNumber(value: drawn ?? -1), forKey: key)
+        return drawn
+    }
+
+    /// Refuses `data` from now on (an SVG that took too long to draw).
+    static func refuse(_ data: Data) {
+        verdicts.setObject(NSNumber(value: -1), forKey: verdictKey(data))
+    }
+
+    /// Whether `data` was counted or refused before and passed; nil when it wasn't.
+    static func knownVerdict(_ data: Data) -> Bool? {
+        verdicts.object(forKey: verdictKey(data)).map { $0.intValue >= 0 }
+    }
+
+    /// The count of each SVG, -1 for one refused, by the SHA-256 of its bytes: an element's SVG is looked at when it is
+    /// read, laid out and drawn.
+    private static let verdicts: NSCache<NSData, NSNumber> = {
+        let cache = NSCache<NSData, NSNumber>()
+        cache.countLimit = 512
+        return cache
+    }()
+
+    private static func verdictKey(_ data: Data) -> NSData {
+        Data(SHA256.hash(data: data)) as NSData
     }
 }
 
 /// One pass of `XMLParser` over an SVG (it never loads anything from outside the data), then the count.
 private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     struct Element {
+        /// The element name without its prefix, in lower case (macOS takes `<USE>` for `<use>`).
         var name: String
-        var id: String?
+        /// Its ids: `id` and `xml:id`, in any case.
+        var ids: [String] = []
         var classes: [Substring]
+        var parent: Int?
         var children: [Int] = []
-        /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href`, by id; macOS
-        /// takes the last of the two, the parser doesn't say which that is).
+        /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href`, by id, with or
+        /// without "#"; macOS takes the last of the two, the parser doesn't say which that is).
         var draws: [String] = []
         /// The ids in the `url(#…)` of its attributes and of the style sheet rules for it.
         var paints: [String] = []
-        /// The SVG pictures inside it, and the elements they draw (counted after the parse: `XMLParser` can't parse
-        /// another document while it parses one).
+        /// The pictures inside it (`data:` URLs) and the elements they draw when they are SVG (counted after the
+        /// parse: `XMLParser` can't parse another document while it parses one).
         var pictures: [Data] = []
         var nested = 0
     }
@@ -45,26 +84,58 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     private var elements: [Element] = []
     private var open: [Int] = []
     private var styleSheet = ""
+    /// The document declares an entity: refused.
+    private var hasEntities = false
 
-    /// The elements `data` has (`written`) and those drawn with its references (`drawn`); nil when the references go
-    /// round in a circle, an inner picture is too deep or too big, or `data` isn't well-formed XML.
-    static func count(_ data: Data, depth: Int) -> (written: Int, drawn: Int)? {
+    /// The counts of the inner pictures of one SVG by their bytes, so a picture that is there many times is counted
+    /// once.
+    final class Known {
+        var counts: [Data: Count] = [:]
+    }
+
+    enum Count {
+        /// The elements the document has, and those drawn with its references.
+        case counted(written: Int, drawn: Int)
+        /// It isn't well-formed XML (an inner picture of another format; macOS doesn't draw such an SVG either).
+        case notXML
+        /// Its references go round in a circle, or an inner picture is too deep or refused.
+        case refused
+    }
+
+    static func count(_ data: Data, depth: Int, known: Known) -> Count {
         let counter = SvgReferenceCount()
         let parser = XMLParser(data: data)
         parser.shouldResolveExternalEntities = false
         parser.externalEntityResolvingPolicy = .never
         parser.delegate = counter
-        guard parser.parse(), !counter.elements.isEmpty else { return nil }
+        let parsed = parser.parse()
+        guard !counter.hasEntities else { return .refused }
+        guard parsed, !counter.elements.isEmpty else { return .notXML }
+        // An SVG picture deeper than `maxNestedPictures` is refused, and nothing in it is looked at.
+        guard depth <= ElementSvg.maxNestedPictures else { return .refused }
+        var nested = 0
         for index in counter.elements.indices {
+            // Whatever type a picture's URL says, macOS draws it as SVG when it is one: each one that is XML counts.
             for picture in counter.elements[index].pictures {
-                guard depth < ElementSvg.maxNestedPictures, let inner = count(picture, depth: depth + 1) else { return nil }
-                counter.elements[index].nested += inner.drawn
+                let inner = known.counts[picture] ?? count(picture, depth: depth + 1, known: known)
+                known.counts[picture] = inner
+                switch inner {
+                case .notXML:
+                    continue
+                case .counted(_, let drawn):
+                    counter.elements[index].nested += drawn
+                    nested += drawn
+                    // Each one draws all of its elements more: past the limit already, the rest needn't be counted.
+                    guard nested <= ElementSvg.maxReferencedElements else { return .refused }
+                case .refused:
+                    return .refused
+                }
             }
         }
-        guard counter.applyStyleSheet() else { return nil }
+        guard counter.applyStyleSheet() else { return .refused }
         let limit = counter.elements.count + ElementSvg.maxReferencedElements
-        guard let drawn = counter.drawnCount(limit: limit) else { return nil }
-        return (counter.elements.count, drawn)
+        guard let drawn = counter.drawnCount(limit: limit) else { return .refused }
+        return .counted(written: counter.elements.count, drawn: drawn)
     }
 
     // MARK: Reading
@@ -72,19 +143,20 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName: String?,
                 attributes: [String: String] = [:]) {
         let name = Self.localName(elementName)
-        var element = Element(name: name, classes: [])
+        var element = Element(name: name, classes: [], parent: open.last)
         for (key, value) in attributes {
             switch Self.localName(key) {
-            case "id" where key == "id":
-                element.id = value.trimmingCharacters(in: .whitespaces)
+            case "id":
+                element.ids.append(value.trimmingCharacters(in: .whitespacesAndNewlines))
             case "class":
                 element.classes = value.split(whereSeparator: \.isWhitespace)
             case "href":
                 let target = value.trimmingCharacters(in: .whitespacesAndNewlines)
-                if target.hasPrefix("#"), name == "use" || name == "pattern" {
-                    element.draws.append(String(target.dropFirst()))
-                } else if let picture = Self.svgPicture(target) {
+                if let picture = Self.svgPicture(target) {
                     element.pictures.append(picture)
+                } else if name == "use" || name == "pattern" {
+                    // "#id", "id" and "file.svg#id" all count as the element `id` of this file.
+                    element.draws.append(String(target.split(separator: "#", omittingEmptySubsequences: false).last ?? ""))
                 }
             default:
                 break
@@ -95,6 +167,18 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         elements.append(element)
         if let parent = open.last { elements[parent].children.append(index) }
         open.append(index)
+    }
+
+    /// Entities make the parser repeat text (an entity of an inner picture in thousands of attributes made counting
+    /// take seconds); drawing programs don't write them.
+    func parser(_ parser: XMLParser, foundInternalEntityDeclarationWithName name: String, value: String?) {
+        hasEntities = true
+        parser.abortParsing()
+    }
+
+    func parser(_ parser: XMLParser, foundExternalEntityDeclarationWithName name: String, publicID: String?, systemID: String?) {
+        hasEntities = true
+        parser.abortParsing()
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName: String?) {
@@ -109,20 +193,21 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         if let current = open.last, elements[current].name == "style" { styleSheet += String(decoding: CDATABlock, as: UTF8.self) }
     }
 
+    /// The name without its prefix, in lower case.
     private static func localName(_ name: String) -> String {
-        guard let colon = name.lastIndex(of: ":") else { return name }
-        return String(name[name.index(after: colon)...])
+        guard let colon = name.lastIndex(of: ":") else { return name.lowercased() }
+        return name[name.index(after: colon)...].lowercased()
     }
 
-    /// The SVG in a `data:` URL (base64 or percent-encoded) that says it is one or looks like one; nil for anything else.
+    /// The bytes of a `data:` URL (base64 or percent-encoded), whatever type it says; nil for anything else.
     private static func svgPicture(_ url: String) -> Data? {
         guard url.prefix(5).lowercased() == "data:", let comma = url.firstIndex(of: ",") else { return nil }
         let header = url[..<comma].lowercased()
         let payload = String(url[url.index(after: comma)...])
-        let data = header.hasSuffix(";base64")
-            ? Data(base64Encoded: payload.removingPercentEncoding ?? payload, options: .ignoreUnknownCharacters)
-            : (payload.removingPercentEncoding ?? payload).data(using: .utf8)
-        return data.flatMap { header.contains("svg") || ElementSvg.isSVG($0) ? $0 : nil }
+        if header.hasSuffix(";base64") {
+            return Data(base64Encoded: payload.removingPercentEncoding ?? payload, options: .ignoreUnknownCharacters)
+        }
+        return (payload.removingPercentEncoding ?? payload).data(using: .utf8)
     }
 
     /// The ids of the `url(#id)` in `text` (an attribute or a style sheet rule).
@@ -143,7 +228,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     private var byID: [String: Int] {
         var byID: [String: Int] = [:]
         for (index, element) in elements.enumerated() {
-            if let id = element.id { byID[id] = index }
+            for id in element.ids { byID[id] = index }
         }
         return byID
     }
@@ -185,7 +270,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
                 } else if selector.first == "#", isWord(name) {
                     byElementID[name, default: []].formUnion(ids)
                 } else if isWord(selector) {
-                    byName[selector, default: []].formUnion(ids)
+                    byName[selector.lowercased()[...], default: []].formUnion(ids)
                 } else {
                     everywhere.formUnion(ids)
                 }
@@ -195,7 +280,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         for index in elements.indices {
             let element = elements[index]
             var ids = everywhere.union(byName[element.name[...]] ?? [])
-            if let id = element.id { ids.formUnion(byElementID[id[...]] ?? []) }
+            for id in element.ids { ids.formUnion(byElementID[id[...]] ?? []) }
             for name in element.classes { ids.formUnion(byClass[name] ?? []) }
             added += ids.count
             guard added <= ElementSvg.maxReferencedElements else { return false }
@@ -213,10 +298,23 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     /// for references in a circle.
     private func drawnCount(limit: Int) -> Int? {
         let byID = byID
-        func references(of element: Element) -> [Int] {
+        /// Whether `index` is `ancestor` or inside it.
+        func isWithin(_ index: Int, _ ancestor: Int) -> Bool {
+            var current: Int? = index
+            while let at = current {
+                if at == ancestor { return true }
+                current = elements[at].parent
+            }
+            return false
+        }
+        func references(of index: Int) -> [Int] {
+            let element = elements[index]
             var targets = element.children
             targets += element.draws.compactMap { byID[$0] }
-            targets += element.paints.compactMap { byID[$0] }.filter { Self.expanding.contains(elements[$0].name) }
+            // Painting an element with itself or with a pattern or mask it is in is skipped when it is drawn (a style
+            // sheet rule for every element reaches the pattern's own content too); only other circles are refused.
+            targets += element.paints.compactMap { byID[$0] }
+                .filter { Self.expanding.contains(elements[$0].name) && !isWithin(index, $0) }
             return targets
         }
         // Depth first without recursion (a chain of references can be as long as the file): an element is counted
@@ -226,7 +324,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         var stack: [(index: Int, targets: [Int], next: Int)] = []
         for root in elements.indices where drawn[root] == nil {
             visiting[root] = true
-            stack.append((root, references(of: elements[root]), 0))
+            stack.append((root, references(of: root), 0))
             while let top = stack.last {
                 if top.next < top.targets.count {
                     let target = top.targets[top.next]
@@ -235,7 +333,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
                     // Reached again before it was counted: it draws itself.
                     guard !visiting[target] else { return nil }
                     visiting[target] = true
-                    stack.append((target, references(of: elements[target]), 0))
+                    stack.append((target, references(of: target), 0))
                     continue
                 }
                 stack.removeLast()
