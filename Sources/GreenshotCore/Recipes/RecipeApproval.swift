@@ -62,6 +62,9 @@ public struct RecipeApprovalRequest: Sendable {
     public var startSwitchedOff: Bool = false
     /// Saved in Greenshot's recipe editor: why the change needs a decision.
     public var ownEditReasons: [String]?
+    /// A review (`reVerify`) Greenshot starts itself: why the approved recipe needs a decision again (it needs a
+    /// permission its approval doesn't allow).
+    public var reviewReasons: [String]?
     /// The switches as they start (own edit: unchanged triggers keep theirs, new harmless ones on).
     public var suggestedApproval: RecipeApproval?
     /// Details: nothing can be switched, only Close.

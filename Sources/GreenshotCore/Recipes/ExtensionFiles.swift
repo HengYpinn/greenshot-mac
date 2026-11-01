@@ -60,6 +60,15 @@ extension RecipeLibrary {
         let previousRecord = trustStore.record(forFile: path)
         var approval = forcePrompt ? nil : trustStore.approval(forFile: path, sha256: hash, recipeId: ext.id)
         var newlyApproved = false
+        // Approved content that now needs a permission its approval doesn't allow: asked in a review (see `load`).
+        var reviewReasons: [String]?
+        if let stored = approval, interactive, approver != nil {
+            let missing = RecipeApprovalPolicy.missingGates(validation, approval: stored)
+            if !missing.isEmpty {
+                reviewReasons = ["It needs a new permission: \(missing.map(\.displayName).joined(separator: ", "))."]
+                approval = nil
+            }
+        }
         if approval == nil {
             // A file an AI tool wrote, changed on disk: like a proposal it needs its switch, the sheet says it starts off (S-N3).
             if previousRecord?.isAICreated == true, let problem = RecipeExtensionNames.aiProposalProblem(ext) {
@@ -71,8 +80,11 @@ extension RecipeLibrary {
                 result.errors.append("Automatic step '\(ext.name)' from '\(path)' is not approved and interactive approval is disabled.")
                 return result
             }
-            let mode: RecipeApprovalMode = forcePrompt ? .reVerify : (previousRecord == nil ? .newRecipe : .modified)
-            let decision = await approver.requestApproval(extensionApprovalRequest(ext, fileURL, content, hash, validation, mode: mode))
+            let isReview = forcePrompt || reviewReasons != nil
+            let mode: RecipeApprovalMode = isReview ? .reVerify : (previousRecord == nil ? .newRecipe : .modified)
+            var request = extensionApprovalRequest(ext, fileURL, content, hash, validation, mode: mode)
+            request.reviewReasons = reviewReasons
+            let decision = await approver.requestApproval(request)
             if var approved = decision?.approval {
                 approved.recipeId = ext.id
                 approved.approvedTriggers = []
@@ -99,7 +111,7 @@ extension RecipeLibrary {
                 if removeFileExtension(ext.id) { notify() }
                 result.errors.append("The approval of automatic step '\(ext.name)' (\(ext.id)) was revoked.")
                 return result
-            } else if forcePrompt, let existing = trustStore.approval(forFile: path, sha256: hash, recipeId: ext.id) {
+            } else if isReview, let existing = trustStore.approval(forFile: path, sha256: hash, recipeId: ext.id) {
                 log.info("The review of automatic step '\(ext.id)' was closed, its approval stays as it was.")
                 approval = existing
             } else {

@@ -362,13 +362,25 @@ public final class RecipeLibrary {
                 continue
             }
             var approval = forcePrompt ? nil : trustStore.approval(forFile: path, sha256: hash, recipeId: recipe.id)
+            // Approved content that now needs a permission its approval doesn't allow (a newer Greenshot asks for more than
+            // the version that approved it): asked in a review, like a forced one, instead of being left out unseen.
+            var reviewReasons: [String]?
+            if let stored = approval, interactive, approver != nil {
+                let missing = RecipeApprovalPolicy.missingGates(validation, approval: stored)
+                if !missing.isEmpty {
+                    reviewReasons = ["It needs a new permission: \(missing.map(\.displayName).joined(separator: ", "))."]
+                    approval = nil
+                }
+            }
             if approval == nil {
                 guard interactive, let approver else {
                     result.errors.append("Recipe '\(recipe.name)' from '\(path)' is not approved and interactive approval is disabled.")
                     continue
                 }
-                let mode: RecipeApprovalMode = forcePrompt ? .reVerify : (previousRecord == nil ? .newRecipe : .modified)
-                let request = approvalRequest(recipe, fileURL, content, hash, validation, mode: mode, previousRecord: previousRecord)
+                let isReview = forcePrompt || reviewReasons != nil
+                let mode: RecipeApprovalMode = isReview ? .reVerify : (previousRecord == nil ? .newRecipe : .modified)
+                var request = approvalRequest(recipe, fileURL, content, hash, validation, mode: mode, previousRecord: previousRecord)
+                request.reviewReasons = reviewReasons
                 let decision = await approver.requestApproval(request)
                 if var approved = decision?.approval {
                     approved.recipeId = recipe.id
@@ -396,7 +408,7 @@ public final class RecipeLibrary {
                     anyChanged = true
                     result.errors.append("The approval of recipe '\(recipe.name)' (\(recipe.id)) was revoked.")
                     continue
-                } else if forcePrompt, let existing = trustStore.approval(forFile: path, sha256: hash, recipeId: recipe.id) {
+                } else if isReview, let existing = trustStore.approval(forFile: path, sha256: hash, recipeId: recipe.id) {
                     // A review that was closed or kept as it is changes nothing.
                     approval = existing
                 } else {
@@ -1003,6 +1015,9 @@ public final class RecipeLibrary {
         if message.contains("which is not available in this version") { return "Use a step type of this version of Greenshot, or update Greenshot." }
         if message.contains("invalid hotkey") { return "Write the hotkey like \"Ctrl + Shift + B\"; on the Mac Ctrl is ⌘ and Win is ⌃." }
         if message.contains("requires the extension") { return "The recipe needs a plug-in Greenshot for Mac doesn't have." }
+        if message.contains("can't use the text option") {
+            return "Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own."
+        }
         if message.contains("does not exist in 'nodes'") || message.contains("does not match any defined node id") {
             return "Check the node ids in 'flow': each must be the id of a node."
         }

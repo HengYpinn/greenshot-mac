@@ -351,6 +351,7 @@ public struct RecipeApprovalSheet: Sendable {
     static func texts(style: Style, request: RecipeApprovalRequest, isExtension: Bool) -> Texts {
         // The reasons are trigger labels and sentences: each one ends with a full stop here.
         let reasons = (request.ownEditReasons ?? []).map { $0.hasSuffix(".") ? $0 : $0 + "." }.joined(separator: " ")
+        let reviewReasons = (request.reviewReasons ?? []).map { $0.hasSuffix(".") ? $0 : $0 + "." }.joined(separator: " ")
         var texts: Texts
         switch style {
         case .validationError:
@@ -380,6 +381,9 @@ public struct RecipeApprovalSheet: Sendable {
             texts = Texts(subtitle: String(localized: "Recipe Security Review"), title: String(localized: "Capture Recipe Review"),
                           description: String(localized: "Change which triggers may start this recipe and what it may do. “Keep as Is” or closing the window changes nothing."),
                           badge: String(localized: "ALREADY APPROVED"), tone: .neutral, icon: "checkmark.shield", approve: String(localized: "Save Changes"))
+            if !reviewReasons.isEmpty {
+                texts.description = String(localized: "You approved this recipe before, but it isn't used until you decide again: \(reviewReasons) “Keep as Is” or closing the window leaves it unused.")
+            }
         case .newRecipe:
             texts = Texts(subtitle: String(localized: "Recipe Security Approval"), title: String(localized: "External Capture Recipe Detected"),
                           description: String(localized: "A new capture recipe file is requesting to be registered into Greenshot. Review its details, triggers, and execution steps before approving."),
@@ -406,7 +410,9 @@ public struct RecipeApprovalSheet: Sendable {
         case .review:
             texts.subtitle = String(localized: "Automatic Step Review")
             texts.title = String(localized: "Automatic Step Review")
-            texts.description = String(localized: "Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.")
+            texts.description = reviewReasons.isEmpty
+                ? String(localized: "Change what this automatic step may do. “Keep as Is” or closing the window changes nothing.")
+                : String(localized: "You approved this automatic step before, but it doesn't change any recipe until you decide again: \(reviewReasons) “Keep as Is” or closing the window leaves it so.")
         case .ownEdit:
             texts.description = String(localized: "You saved this automatic step in the recipe editor. Most changes are approved without asking, but this one needs your decision: \(reasons)")
         case .newRecipe:
@@ -473,6 +479,9 @@ public enum RecipeValidationHints {
             return String(localized: "Write the hotkey like \"Ctrl + Shift + B\"; on the Mac Ctrl is ⌘ and Win is ⌃.")
         }
         if has("in its Filter") { return String(localized: "Write the extensions with their dot, separated by ';', e.g. \".png;.jpg\".") }
+        if has("can't use the text option") {
+            return String(localized: "Use text options only in steps that need no permission, e.g. put a picture file or the microphone in a step of its own.")
+        }
         if has("'ToolName'") { return String(localized: "Give the AI tool trigger a 'ToolName' of letters, digits, '_' or '-'.") }
         if has("Option key") || has("Option '") { return String(localized: "Check the recipe's 'options': keys, types, defaults and choices.") }
         return nil

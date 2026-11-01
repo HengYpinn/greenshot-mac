@@ -195,6 +195,37 @@ import Testing
         #expect(folder.first?.target == "/bin/echo, in a folder decided when the recipe runs (${Dir})")
     }
 
+    /// A variable name with spaces around it is the trimmed name when the step sets it, and `Variables` that is no literal
+    /// object (a `${...}` that gives one) may set any variable: both count as setting `OverrideDestinations`.
+    @Test func overrideDestinationsUnderAnotherSpellingOrFromAnObject() {
+        let anyDestination: [RecipeGateType] = [.externalCommand, .networkAccess]
+        func recipe(_ nodes: [RecipeNode]) -> CaptureRecipe {
+            let all = [RecipeNode(id: "a", stepType: "Source")] + nodes
+            return testRecipe(all, transitions: zip(all.dropLast(), all.dropFirst()).map { ($0.id, [$1.id]) })
+        }
+        let trailing = RecipeNode(id: "s", stepType: "SetVariable", parameters: ["Variable": .string("OverrideDestinations "),
+                                                                                  "Value": .array([.string("Dropbox")])])
+        #expect(RecipeValidator().validate(recipe([trailing])).gateTypes == anyDestination)
+        let leading = RecipeNode(id: "s", stepType: "SetVariable", parameters: ["Variable": .string(" OverrideDestinations"),
+                                                                                 "Value": .array([.string("Dropbox")])])
+        let clipboard = RecipeNode(id: "d", stepType: "Destinations", parameters: ["DestinationDesignations": .array([.string("Clipboard")])])
+        #expect(RecipeValidator().validate(recipe([leading, clipboard])).gateTypes == anyDestination)
+        let object = RecipeNode(id: "s1", stepType: "SetVariable", parameters: ["Variable": .string("cfg"),
+                                                                                 "Value": .object(["OverrideDestinations": .array([.string("Dropbox")])])])
+        let fromObject = RecipeNode(id: "s2", stepType: "SetVariable", parameters: ["Variables": .string("${cfg}")])
+        #expect(RecipeValidator().validate(recipe([object, fromObject])).gateTypes == anyDestination)
+        // The other steps that set a variable named by a parameter.
+        let barcode = RecipeNode(id: "q", stepType: "BarcodeScan", parameters: ["SetVariable": .string("OverrideDestinations\t")])
+        #expect(RecipeValidator().validate(recipe([barcode])).gateTypes == anyDestination)
+        let command = RecipeNode(id: "c", stepType: "ExternalCommand", parameters: ["CommandLine": .string("/bin/echo"),
+                                                                                    "SetOutputVariable": .string(" OverrideDestinations\n")])
+        #expect(RecipeValidator().validate(recipe([command])).gateTypes == anyDestination)
+        // A literal object of other names and a plain name stay as they were.
+        let plain = RecipeNode(id: "s", stepType: "SetVariable", parameters: ["Variables": .object(["Title": .string("x")]),
+                                                                               "Variable": .string(" Note ")])
+        #expect(RecipeValidator().validate(recipe([plain])).gateTypes.isEmpty)
+    }
+
     @Test func theLibraryAsksForTheseActions() async throws {
         let fixture = LibraryFixture(approver: StubApprover { request in
             RecipeApprovalDecision(approval: RecipeApproval(recipeId: "x", approvedTriggers: request.triggers.map(\.key)))
