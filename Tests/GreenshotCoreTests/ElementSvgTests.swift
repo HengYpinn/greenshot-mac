@@ -227,13 +227,28 @@ struct ElementSvgReferenceTests {
         #expect(clock.now - start < .seconds(1))
     }
 
+    @Test func aStyleSheetPaintingItsOwnMaskIsFine() {
+        // A rule for every `.icon path` reaches the mask and its content too: painting an element with itself or with
+        // a pattern or mask it is in is skipped when it is drawn, so it isn't a circle.
+        let svg = #"<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><style>.icon path{mask:url(#m)}</style>"#
+            + #"<mask id="m"><rect width="10" height="10" fill="white"/></mask><g class="icon"><path d="M0 0h10v10z"/></g></svg>"#
+        #expect(ElementSvg.size(of: Data(svg.utf8)) == CGSize(width: 10, height: 10))
+        let pattern = Self.svgStart + #"<pattern id="p" width="10" height="10"><rect width="5" height="5" fill="url(#p)"/></pattern>"#
+            + #"<rect width="100" height="100" fill="url(#p)"/></svg>"#
+        #expect(ElementSvg.size(of: Data(pattern.utf8)) == CGSize(width: 100, height: 100))
+    }
+
     @Test func referencesInACircleAreRefused() {
         // Two groups drawing each other made macOS crash.
         let pair = Self.svgStart + ##"<g id="a"><rect width="1" height="1"/><use href="#b"/></g><g id="b"><use href="#a"/></g></svg>"##
         #expect(ElementSvg.size(of: Data(pair.utf8)) == nil)
-        let pattern = Self.svgStart + #"<pattern id="p" width="10" height="10"><rect width="5" height="5" fill="url(#p)"/></pattern>"#
+        let itself = Self.svgStart + ##"<g id="a"><rect width="1" height="1"/><use href="#a"/></g></svg>"##
+        #expect(ElementSvg.size(of: Data(itself.utf8)) == nil)
+        // Two patterns painting each other's content.
+        let patterns = Self.svgStart + #"<pattern id="p" width="10" height="10"><rect width="5" height="5" fill="url(#q)"/></pattern>"#
+            + #"<pattern id="q" width="10" height="10"><rect width="5" height="5" fill="url(#p)"/></pattern>"#
             + #"<rect width="100" height="100" fill="url(#p)"/></svg>"#
-        #expect(ElementSvg.size(of: Data(pattern.utf8)) == nil)
+        #expect(ElementSvg.size(of: Data(patterns.utf8)) == nil)
     }
 
     @Test func ordinaryReferencesStayFine() throws {

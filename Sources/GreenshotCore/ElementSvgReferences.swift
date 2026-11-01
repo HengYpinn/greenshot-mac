@@ -30,6 +30,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         var name: String
         var id: String?
         var classes: [Substring]
+        var parent: Int?
         var children: [Int] = []
         /// The element a `<use>` draws, or a pattern takes its content from (`href` or `xlink:href`, by id; macOS
         /// takes the last of the two, the parser doesn't say which that is).
@@ -72,7 +73,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName: String?,
                 attributes: [String: String] = [:]) {
         let name = Self.localName(elementName)
-        var element = Element(name: name, classes: [])
+        var element = Element(name: name, classes: [], parent: open.last)
         for (key, value) in attributes {
             switch Self.localName(key) {
             case "id" where key == "id":
@@ -213,10 +214,23 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
     /// for references in a circle.
     private func drawnCount(limit: Int) -> Int? {
         let byID = byID
-        func references(of element: Element) -> [Int] {
+        /// Whether `index` is `ancestor` or inside it.
+        func isWithin(_ index: Int, _ ancestor: Int) -> Bool {
+            var current: Int? = index
+            while let at = current {
+                if at == ancestor { return true }
+                current = elements[at].parent
+            }
+            return false
+        }
+        func references(of index: Int) -> [Int] {
+            let element = elements[index]
             var targets = element.children
             targets += element.draws.compactMap { byID[$0] }
-            targets += element.paints.compactMap { byID[$0] }.filter { Self.expanding.contains(elements[$0].name) }
+            // Painting an element with itself or with a pattern or mask it is in is skipped when it is drawn (a style
+            // sheet rule for every element reaches the pattern's own content too); only other circles are refused.
+            targets += element.paints.compactMap { byID[$0] }
+                .filter { Self.expanding.contains(elements[$0].name) && !isWithin(index, $0) }
             return targets
         }
         // Depth first without recursion (a chain of references can be as long as the file): an element is counted
@@ -226,7 +240,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
         var stack: [(index: Int, targets: [Int], next: Int)] = []
         for root in elements.indices where drawn[root] == nil {
             visiting[root] = true
-            stack.append((root, references(of: elements[root]), 0))
+            stack.append((root, references(of: root), 0))
             while let top = stack.last {
                 if top.next < top.targets.count {
                     let target = top.targets[top.next]
@@ -235,7 +249,7 @@ private final class SvgReferenceCount: NSObject, XMLParserDelegate {
                     // Reached again before it was counted: it draws itself.
                     guard !visiting[target] else { return nil }
                     visiting[target] = true
-                    stack.append((target, references(of: elements[target]), 0))
+                    stack.append((target, references(of: target), 0))
                     continue
                 }
                 stack.removeLast()
